@@ -100,9 +100,15 @@ if __name__ == '__main__':
 	box = gtk.HBox()
 	box.pack_start(terminal)
 	box.pack_start(scrollbar)
-	box.pack_start(terminal2)
-	box.pack_start(scrollbar2)
 
-	window.add(box)
+	box2 = gtk.HBox()
+	box2.pack_start(terminal2)
+	box2.pack_start(scrollbar2)
+
+        pane = gtk.HPaned()
+	pane.add1(box)
+	pane.add2(box2)
+
+	window.add(pane)
 	window.show_all()
 	gtk.main()
