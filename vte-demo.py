@@ -99,11 +99,11 @@ if __name__ == '__main__':
 
 	box = gtk.HBox()
 	box.pack_start(terminal)
-	box.pack_start(scrollbar)
+	box.pack_start(scrollbar, False)
 
 	box2 = gtk.HBox()
 	box2.pack_start(terminal2)
-	box2.pack_start(scrollbar2)
+	box2.pack_start(scrollbar2, False)
 
         pane = gtk.HPaned()
 	pane.add1(box)
