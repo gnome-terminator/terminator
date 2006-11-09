@@ -19,6 +19,29 @@ def restore_cb(terminal):
 def child_exited_cb(terminal):
 	gtk.main_quit()
 
+def maketerm():
+	terminal = vte.Terminal()
+	if (background):
+		terminal.set_background_image(background)
+	if (transparent):
+		terminal.set_background_transparent(gtk.TRUE)
+	terminal.set_cursor_blinks(blink)
+	terminal.set_emulation(emulation)
+	terminal.set_font_from_string(font)
+	terminal.set_scrollback_lines(scrollback)
+	terminal.set_audible_bell(audible)
+	terminal.set_visible_bell(visible)
+	terminal.connect("child-exited", child_exited_cb)
+	terminal.connect("restore-window", restore_cb)
+	if (command):
+		# Start up the specified command.
+		child_pid = terminal.fork_command(command)
+	else:
+		# Start up the default command, the user's shell.
+		child_pid = terminal.fork_command()
+	terminal.show()
+	return (terminal)
+
 if __name__ == '__main__':
 	child_pid = -1;
 	# Defaults.
@@ -65,26 +88,7 @@ if __name__ == '__main__':
 			print "Setting visible bell."
 			visible = not visible
 	window = gtk.Window()
-	terminal = vte.Terminal()
-	if (background):
-		terminal.set_background_image(background)
-	if (transparent):
-		terminal.set_background_transparent(gtk.TRUE)
-	terminal.set_cursor_blinks(blink)
-	terminal.set_emulation(emulation)
-	terminal.set_font_from_string(font)
-	terminal.set_scrollback_lines(scrollback)
-	terminal.set_audible_bell(audible)
-	terminal.set_visible_bell(visible)
-	terminal.connect("child-exited", child_exited_cb)
-	terminal.connect("restore-window", restore_cb)
-	if (command):
-		# Start up the specified command.
-		child_pid = terminal.fork_command(command)
-	else:
-		# Start up the default command, the user's shell.
-		child_pid = terminal.fork_command()
-	terminal.show()
+	terminal = maketerm()
 
 	scrollbar = gtk.VScrollbar()
 	scrollbar.set_adjustment(terminal.get_adjustment())
