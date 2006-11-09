@@ -50,7 +50,7 @@ if __name__ == '__main__':
 	blink = 0
 	command = None
 	emulation = "xterm"
-	font = "fixed 12"
+	font = "mono 9"
 	scrollback = 100
 	transparent = 0
 	visible = 0
