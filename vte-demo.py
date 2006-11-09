@@ -89,13 +89,19 @@ if __name__ == '__main__':
 			visible = not visible
 	window = gtk.Window()
 	terminal = maketerm()
+	terminal2 = maketerm()
 
 	scrollbar = gtk.VScrollbar()
 	scrollbar.set_adjustment(terminal.get_adjustment())
 
+	scrollbar2 = gtk.VScrollbar()
+	scrollbar2.set_adjustment(terminal.get_adjustment())
+
 	box = gtk.HBox()
 	box.pack_start(terminal)
 	box.pack_start(scrollbar)
+	box.pack_start(terminal2)
+	box.pack_start(scrollbar2)
 
 	window.add(box)
 	window.show_all()
