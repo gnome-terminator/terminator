@@ -51,8 +51,11 @@ class TerminatorTerm:
     self._vte.fork_command ()
 
   def reconfigure_vte (self):
+    # Set our emulation
+    # FIXME: This is hardcoded to xterm for now
     self._vte.set_emulation (self.defaults['emulation'])
 
+    # Set our font, preferably from gconf settings
     if self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/use_system_font"):
       font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
     else:
@@ -63,16 +66,41 @@ class TerminatorTerm:
     except:
       pass
 
+    # Set our boldness
+    self._vte.set_allow_bold (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/allow_bold") or self.defaults['allow_bold'])
+
+    # Set our color scheme, preferably from gconf settings
+    fg_color = (self.gconf_client.get_string (self.GCONF_PROFILE_DIR + "/foreground_color") or self.defaults['foreground_color'])
+    bg_color = (self.gconf_client.get_string (self.GCONF_PROFILE_DIR + "/background_color") or self.defaults['background_color'])
+
+    self._vte.set_colors (gtk.gdk.color_parse (fg_color),
+                          gtk.gdk.color_parse (bg_color),
+			  [])
+
+    # Set our cursor blinkiness
+    self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/cursor_blinks") or self.defaults['cursor_blinks'])
+
+    # Set our audible belliness
+    self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/silent_bell") or self.defaults['audible_bell'])
+    # FIXME: Why is this hardcoded? there seems to be no gconf key
+    self._vte.set_visible_bell (self.defaults['visible_bell'])
+
+    # Set our scrolliness
+    self._vte.set_scrollback_lines (self.gconf_client.get_int (self.GCONF_PROFILE_DIR + "/scrollback_lines") or self.defaults['scrollback_lines'])
+    self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
+    self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_output") or self.defaults['scroll_on_output'])
+
     # FIXME: Pull in the colors, cursor, bell, scrollback, bold, scroll, etc settings
 
   def on_gconf_notification (self, client, cnxn_id, entry, what):
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
+    # Left mouse button should transfer focus to this vte widget
     if event.button == 1:
-      print "Left mouse button"
       self._vte.grab_focus ()
       return True
+
     if event.button == 3:
       return True
 
