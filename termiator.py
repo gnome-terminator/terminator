@@ -110,6 +110,8 @@ class TerminatorTerm:
 class Terminator:
   def __init__ (self):
     self.window = gtk.Window ()
+    self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+    self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
 
