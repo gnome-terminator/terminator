@@ -27,7 +27,7 @@ class TerminatorTerm:
     'visible_bell'          : False
   }
 
-  def __init__ (self):
+  def __init__ (self, term):
     self.gconf_client = gconf.client_get_default ()
     self.gconf_client.add_dir (self.GCONF_PROFILE_DIR, gconf.CLIENT_PRELOAD_RECURSIVE)
 
@@ -43,10 +43,16 @@ class TerminatorTerm:
     self._box.pack_start (self._scrollbar, False)
 
     self.gconf_client.notify_add (self.GCONF_PROFILE_DIR, self.on_gconf_notification)
+    # FIXME: Register a handler for click/sloppy focus changes
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     #self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     self._vte.connect ("child-exited", lambda term: term.fork_command ())
+
+    if (term.focus == "sloppy" or term.focus == "mouse"):
+      print "Registering notify event"
+      self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
+      self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
     self._vte.fork_command ()
 
@@ -104,16 +110,26 @@ class TerminatorTerm:
     if event.button == 3:
       return True
 
+  def on_vte_notify_enter (self, term, event):
+    print "Grabbing focus"
+    term.grab_focus ()
+    # FIXME: Should we eat this event or let it propagate further?
+    return False
+
   def get_box (self):
     return self._box
 
 class Terminator:
   def __init__ (self):
+    self.gconf_client = gconf.client_get_default ()
+
     self.window = gtk.Window ()
     self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
+
+    self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode")
 
   def on_delete_event (self, widget, event, data=None):
     # FIXME: return True if we want to keep the window open (ie a "Do you want to quit" requester)
@@ -125,10 +141,10 @@ class Terminator:
 if __name__ == '__main__':
   term = Terminator ()
 
-  t1 = TerminatorTerm ()
-  t2 = TerminatorTerm ()
-  t3 = TerminatorTerm ()
-  t4 = TerminatorTerm ()
+  t1 = TerminatorTerm (term)
+  t2 = TerminatorTerm (term)
+  t3 = TerminatorTerm (term)
+  t4 = TerminatorTerm (term)
 
   pane1 = gtk.HPaned ()
   pane1.add1 (t1.get_box ())
