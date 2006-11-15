@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import sys
 import string
-import getopt
 import gtk
 import vte
 import gconf
