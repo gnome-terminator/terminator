@@ -94,8 +94,6 @@ class TerminatorTerm:
     self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
     self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_output") or self.defaults['scroll_on_output'])
 
-    # FIXME: Pull in the colors, cursor, bell, scrollback, bold, scroll, etc settings
-
   def on_gconf_notification (self, client, cnxn_id, entry, what):
     self.reconfigure_vte ()
 
