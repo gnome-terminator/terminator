@@ -49,7 +49,6 @@ class TerminatorTerm:
     self._vte.connect ("child-exited", lambda term: term.fork_command ())
 
     if (term.focus == "sloppy" or term.focus == "mouse"):
-      print "Registering notify event"
       self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
       self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
@@ -110,7 +109,6 @@ class TerminatorTerm:
       return True
 
   def on_vte_notify_enter (self, term, event):
-    print "Grabbing focus"
     term.grab_focus ()
     # FIXME: Should we eat this event or let it propagate further?
     return False
