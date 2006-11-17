@@ -45,7 +45,7 @@ class TerminatorTerm:
     # FIXME: Register a handler for click/sloppy focus changes
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
-    #self._vte.connect ("popup-menu", self.on_vte_popup_menu)
+    self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     self._vte.connect ("child-exited", lambda term: term.fork_command ())
 
     if (term.focus == "sloppy" or term.focus == "mouse"):
@@ -104,12 +104,35 @@ class TerminatorTerm:
       return False
 
     if event.button == 3:
+      self.do_popup (event)
       return True
 
   def on_vte_notify_enter (self, term, event):
     term.grab_focus ()
     # FIXME: Should we eat this event or let it propagate further?
     return False
+
+  def on_vte_popup_menu (self, term):
+    self.do_popup ()
+
+  def do_popup (self, event = None):
+    menu = self.create_popup_menu ()
+    menu.popup (None, None, None, event.button, event.time)
+
+  def create_popup_menu (self):
+    menu = gtk.Menu ()
+
+    item = gtk.ImageMenuItem (gtk.STOCK_COPY)
+    item.connect ("activate", lambda menu_item: self._vte.copy_clipboard ())
+    item.set_sensitive (self._vte.get_has_selection ())
+    menu.append (item)
+
+    item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
+    item.connect ("activate", lambda menu_item: self._vte.paste_clipboard ())
+    menu.append (item)
+
+    menu.show_all ()
+    return menu
 
   def get_box (self):
     return self._box
