@@ -101,7 +101,7 @@ class TerminatorTerm:
     # Left mouse button should transfer focus to this vte widget
     if event.button == 1:
       self._vte.grab_focus ()
-      return True
+      return False
 
     if event.button == 3:
       return True
