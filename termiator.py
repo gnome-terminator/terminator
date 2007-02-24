@@ -7,10 +7,11 @@ import gconf
 import pango
 
 class TerminatorTerm:
-  # FIXME: How do we get a list of profile keys to be dynamic about this?
-  GCONF_PROFILE_DIR = "/apps/gnome-terminal/profiles/Default"
-
+  # Our settings
   defaults = {
+    # FIXME: How do we get a list of profile keys to be dynamic about this?
+    'profile_dir'           : '/apps/gnome-terminal/profiles/',
+    'profile'               : 'Default',
     'allow_bold'            : True,
     'audible_bell'          : False,
     'background'            : None,
@@ -20,37 +21,58 @@ class TerminatorTerm:
     'emulation'             : 'xterm',
     'font_name'             : 'Serif 10',
     'foreground_color'      : '#AAAAAA',
+    'scrollbar'             : True,
     'scroll_on_keystroke'   : False,
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
-    'visible_bell'          : False
+    'visible_bell'          : False,
+    'child_restart'         : True,
+    'link_scheme'           : '(news|telnet|nttp|file|http|ftp|https)',
+    '_link_user'            : '[%s]+(:[%s]+)?',
+    'link_hostchars'        : '-A-Za-z0-9',
+    'link_userchars'        : '-A-Za-z0-9',
+    'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\''
   }
 
-  def __init__ (self, term):
+  def __init__ (self, term, settings = {}):
+    self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
+
+    # Set up any overridden settings
+    for key in settings.keys ():
+      defaults[key] = settings[key]
+
+    self.profile = self.defaults['profile_dir'] + self.defaults['profile']
+
     self.gconf_client = gconf.client_get_default ()
-    self.gconf_client.add_dir (self.GCONF_PROFILE_DIR, gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
 
     self._vte = vte.Terminal ()
     self.reconfigure_vte ()
-    self._vte.show()  
+    self._vte.show ()
 
     self._box = gtk.HBox ()
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
-    self._scrollbar.show ()
+    if self.defaults['scrollbar']:
+      self._scrollbar.show ()
 
     self._box.pack_start (self._vte)
     self._box.pack_start (self._scrollbar, False)
 
-    self.gconf_client.notify_add (self.GCONF_PROFILE_DIR, self.on_gconf_notification)
+    self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
     # FIXME: Register a handler for click/sloppy focus changes
+    # self.gconf_client_notify_add ('/apps/metacity/general/focus_mode', self.on_sloppy_notification)
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
-    self._vte.connect ("child-exited", lambda term: term.fork_command ())
+    if self.defaults['child_restart']:
+      self._vte.connect ("child-exited", lambda term: term.fork_command ())
 
     if (term.focus == "sloppy" or term.focus == "mouse"):
       self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
       self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
+
+    self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]*)?'%(self.defaults['link_scheme'], self.defaults['link_user'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
+    self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
 
     self._vte.fork_command ()
 
@@ -60,10 +82,10 @@ class TerminatorTerm:
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our font, preferably from gconf settings
-    if self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/use_system_font"):
+    if self.gconf_client.get_bool (self.profile + "/use_system_font"):
       font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
     else:
-      font_name = (self.gconf_client.get_string (self.GCONF_PROFILE_DIR + "/font") or self.defaults['font_name'])
+      font_name = (self.gconf_client.get_string (self.profile + "/font") or self.defaults['font_name'])
 
     try:
       self._vte.set_font (pango.FontDescription (font_name))
@@ -71,28 +93,26 @@ class TerminatorTerm:
       pass
 
     # Set our boldness
-    self._vte.set_allow_bold (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/allow_bold") or self.defaults['allow_bold'])
+    self._vte.set_allow_bold (self.gconf_client.get_bool (self.profile + "/allow_bold") or self.defaults['allow_bold'])
 
     # Set our color scheme, preferably from gconf settings
-    fg_color = (self.gconf_client.get_string (self.GCONF_PROFILE_DIR + "/foreground_color") or self.defaults['foreground_color'])
-    bg_color = (self.gconf_client.get_string (self.GCONF_PROFILE_DIR + "/background_color") or self.defaults['background_color'])
+    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
+    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
 
-    self._vte.set_colors (gtk.gdk.color_parse (fg_color),
-                          gtk.gdk.color_parse (bg_color),
-			  [])
+    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), [])
 
     # Set our cursor blinkiness
-    self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/cursor_blinks") or self.defaults['cursor_blinks'])
+    self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.profile + "/cursor_blinks") or self.defaults['cursor_blinks'])
 
     # Set our audible belliness
-    self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/silent_bell") or self.defaults['audible_bell'])
+    self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.profile + "/silent_bell") or self.defaults['audible_bell'])
     # FIXME: Why is this hardcoded? there seems to be no gconf key
     self._vte.set_visible_bell (self.defaults['visible_bell'])
 
     # Set our scrolliness
-    self._vte.set_scrollback_lines (self.gconf_client.get_int (self.GCONF_PROFILE_DIR + "/scrollback_lines") or self.defaults['scrollback_lines'])
-    self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
-    self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.GCONF_PROFILE_DIR + "/scroll_on_output") or self.defaults['scroll_on_output'])
+    self._vte.set_scrollback_lines (self.gconf_client.get_int (self.profile + "/scrollback_lines") or self.defaults['scrollback_lines'])
+    self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.profile + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
+    self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.profile + "/scroll_on_output") or self.defaults['scroll_on_output'])
 
   def on_gconf_notification (self, client, cnxn_id, entry, what):
     self.reconfigure_vte ()
@@ -112,14 +132,20 @@ class TerminatorTerm:
     # FIXME: Should we eat this event or let it propagate further?
     return False
 
+  def do_scrollbar_toggle (self):
+    if self._scrollbar.get_property ('visible'):
+      self._scrollbar.hide ()
+    else:
+      self._scrollbar.show ()
+
   def on_vte_popup_menu (self, term):
     self.do_popup ()
 
   def do_popup (self, event = None):
-    menu = self.create_popup_menu ()
+    menu = self.create_popup_menu (event)
     menu.popup (None, None, None, event.button, event.time)
 
-  def create_popup_menu (self):
+  def create_popup_menu (self, event):
     menu = gtk.Menu ()
 
     item = gtk.ImageMenuItem (gtk.STOCK_COPY)
@@ -130,6 +156,16 @@ class TerminatorTerm:
     item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
     item.connect ("activate", lambda menu_item: self._vte.paste_clipboard ())
     menu.append (item)
+
+    item = gtk.CheckMenuItem ("Show scrollbar")
+    item.set_active (self._scrollbar.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
+    menu.append (item)
+
+    print "Checking %d,%d"%(event.x, event.y)
+    url = self._vte.match_check (int(event.x / self._vte.get_char_width ()), int(event.y / self._vte.get_char_height()))
+    if url:
+      print "over a url: " + url[0]
 
     menu.show_all ()
     return menu
