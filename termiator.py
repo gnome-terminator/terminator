@@ -42,6 +42,7 @@ class TerminatorTerm:
     for key in settings.keys ():
       defaults[key] = settings[key]
 
+    self.term = term
     self.profile = self.defaults['profile_dir'] + self.defaults['profile']
 
     self.gconf_client = gconf.client_get_default ()
@@ -68,9 +69,9 @@ class TerminatorTerm:
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     if self.defaults['child_restart']:
-      self._vte.connect ("child-exited", lambda term: term.fork_command ())
+      self._vte.connect ("child-exited", lambda term: self.term.fork_command ())
 
-    if (term.focus == "sloppy" or term.focus == "mouse"):
+    if (self.term.focus == "sloppy" or self.term.focus == "mouse"):
       self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
       self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
@@ -153,24 +154,27 @@ class TerminatorTerm:
 
     url = self._vte.match_check (int(event.x / self._vte.get_char_width ()), int(event.y / self._vte.get_char_height()))
     if url:
-      item = gtk.ImageMenuItem (gtk.STOCK_OPEN)
+      item = gtk.MenuItem ("_Open Link")
       item.connect ("activate", lambda menu_item: gnome.url_show (url[0]))
       menu.append (item)
 
-      if not self._vte.get_has_selection():
-        item = gtk.ImageMenuItem (gtk.STOCK_COPY)
-        item.connect ("activate", lambda menu_item: self.clipboard.set_text (url[0]))
-        menu.append (item)
-        donecopy = 1
-
-    if donecopy != 1:
-      item = gtk.ImageMenuItem (gtk.STOCK_COPY)
-      item.connect ("activate", lambda menu_item: self._vte.copy_clipboard ())
-      item.set_sensitive (self._vte.get_has_selection ())
+      item = gtk.MenuItem ("_Copy Link Address")
+      item.connect ("activate", lambda menu_item: self.clipboard.set_text (url[0]))
       menu.append (item)
+
+      item = gtk.MenuItem ()
+      menu.append (item)
+
+    item = gtk.ImageMenuItem (gtk.STOCK_COPY)
+    item.connect ("activate", lambda menu_item: self._vte.copy_clipboard ())
+    item.set_sensitive (self._vte.get_has_selection ())
+    menu.append (item)
 
     item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
     item.connect ("activate", lambda menu_item: self._vte.paste_clipboard ())
+    menu.append (item)
+
+    item = gtk.MenuItem ()
     menu.append (item)
 
     item = gtk.CheckMenuItem ("Show scrollbar")
@@ -197,8 +201,16 @@ class Terminator:
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode")
 
   def on_delete_event (self, widget, event, data=None):
-    # FIXME: return True if we want to keep the window open (ie a "Do you want to quit" requester)
-    return False
+    dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
+    label = gtk.Label("Do you really want to quit?")
+    dialog.vbox.pack_start(label, True, True, 0)
+    label.show ()
+
+    res = dialog.run()
+    if res == gtk.RESPONSE_ACCEPT:
+      return False
+    dialog.destroy ()
+    return True
 
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
