@@ -5,6 +5,7 @@ import gtk
 import vte
 import gconf
 import pango
+import gnome
 
 class TerminatorTerm:
   # Our settings
@@ -45,6 +46,8 @@ class TerminatorTerm:
 
     self.gconf_client = gconf.client_get_default ()
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
+
+    self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
     self.reconfigure_vte ()
@@ -148,10 +151,23 @@ class TerminatorTerm:
   def create_popup_menu (self, event):
     menu = gtk.Menu ()
 
-    item = gtk.ImageMenuItem (gtk.STOCK_COPY)
-    item.connect ("activate", lambda menu_item: self._vte.copy_clipboard ())
-    item.set_sensitive (self._vte.get_has_selection ())
-    menu.append (item)
+    url = self._vte.match_check (int(event.x / self._vte.get_char_width ()), int(event.y / self._vte.get_char_height()))
+    if url:
+      item = gtk.ImageMenuItem (gtk.STOCK_OPEN)
+      item.connect ("activate", lambda menu_item: gnome.url_show (url[0]))
+      menu.append (item)
+
+      if not self._vte.get_has_selection():
+        item = gtk.ImageMenuItem (gtk.STOCK_COPY)
+        item.connect ("activate", lambda menu_item: self.clipboard.set_text (url[0]))
+        menu.append (item)
+        donecopy = 1
+
+    if donecopy != 1:
+      item = gtk.ImageMenuItem (gtk.STOCK_COPY)
+      item.connect ("activate", lambda menu_item: self._vte.copy_clipboard ())
+      item.set_sensitive (self._vte.get_has_selection ())
+      menu.append (item)
 
     item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
     item.connect ("activate", lambda menu_item: self._vte.paste_clipboard ())
@@ -161,11 +177,6 @@ class TerminatorTerm:
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
-
-    print "Checking %d,%d"%(event.x, event.y)
-    url = self._vte.match_check (int(event.x / self._vte.get_char_width ()), int(event.y / self._vte.get_char_height()))
-    if url:
-      print "over a url: " + url[0]
 
     menu.show_all ()
     return menu
