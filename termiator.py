@@ -82,7 +82,6 @@ class TerminatorTerm:
 
   def reconfigure_vte (self):
     # Set our emulation
-    # FIXME: This is hardcoded to xterm for now
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our font, preferably from gconf settings
@@ -110,7 +109,6 @@ class TerminatorTerm:
 
     # Set our audible belliness
     self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.profile + "/silent_bell") or self.defaults['audible_bell'])
-    # FIXME: Why is this hardcoded? there seems to be no gconf key
     self._vte.set_visible_bell (self.defaults['visible_bell'])
 
     # Set our scrolliness
@@ -127,6 +125,7 @@ class TerminatorTerm:
       self._vte.grab_focus ()
       return False
 
+    # Right mouse button should display a context menu
     if event.button == 3:
       self.do_popup (event)
       return True
