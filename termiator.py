@@ -6,11 +6,14 @@ import vte
 import gconf
 import pango
 import gnome
+import time
 
 class TerminatorTerm:
+  lastreconfigure = 0
+
   # Our settings
+  # FIXME: Add commandline and/or gconf options to change these
   defaults = {
-    # FIXME: How do we get a list of profile keys to be dynamic about this?
     'profile_dir'           : '/apps/gnome-terminal/profiles/',
     'profile'               : 'Default',
     'allow_bold'            : True,
@@ -26,6 +29,7 @@ class TerminatorTerm:
     'scroll_on_keystroke'   : False,
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
+    'focus'                 : 'sloppy',
     'visible_bell'          : False,
     'child_restart'         : True,
     'link_scheme'           : '(news|telnet|nttp|file|http|ftp|https)',
@@ -47,6 +51,7 @@ class TerminatorTerm:
 
     self.gconf_client = gconf.client_get_default ()
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
 
     self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 
@@ -63,17 +68,15 @@ class TerminatorTerm:
     self._box.pack_start (self._scrollbar, False)
 
     self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
-    # FIXME: Register a handler for click/sloppy focus changes
-    # self.gconf_client_notify_add ('/apps/metacity/general/focus_mode', self.on_sloppy_notification)
+    self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     if self.defaults['child_restart']:
       self._vte.connect ("child-exited", lambda term: self.term.fork_command ())
 
-    if (self.term.focus == "sloppy" or self.term.focus == "mouse"):
-      self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
-      self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
+    self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
+    self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
     self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]*)?'%(self.defaults['link_scheme'], self.defaults['link_user'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
     self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
@@ -81,6 +84,11 @@ class TerminatorTerm:
     self._vte.fork_command ()
 
   def reconfigure_vte (self):
+    if ((self.lastreconfigure != 0) and (time.time () - self.lastreconfigure) < 5):
+      # Rate limit
+      return
+    self.lastreconfigure = time.time ()
+
     # Set our emulation
     self._vte.set_emulation (self.defaults['emulation'])
 
@@ -116,6 +124,9 @@ class TerminatorTerm:
     self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.profile + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
     self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.profile + "/scroll_on_output") or self.defaults['scroll_on_output'])
 
+    # Set our sloppiness
+    self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
+
   def on_gconf_notification (self, client, cnxn_id, entry, what):
     self.reconfigure_vte ()
 
@@ -131,9 +142,10 @@ class TerminatorTerm:
       return True
 
   def on_vte_notify_enter (self, term, event):
-    term.grab_focus ()
-    # FIXME: Should we eat this event or let it propagate further?
-    return False
+    if (self.focus == "sloppy" or self.focus == "mouse"):
+      term.grab_focus ()
+ 	    # FIXME: Should we eat this event or let it propagate further?
+      return False
 
   def do_scrollbar_toggle (self):
     if self._scrollbar.get_property ('visible'):
@@ -196,8 +208,6 @@ class Terminator:
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
-
-    self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode")
 
   def on_delete_event (self, widget, event, data=None):
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
