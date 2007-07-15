@@ -13,6 +13,7 @@ class TerminatorTerm:
 
   # Our settings
   # FIXME: Add commandline and/or gconf options to change these
+  # FIXME: Track profile default command behaviour
   defaults = {
     'profile_dir'           : '/apps/gnome-terminal/profiles/',
     'profile'               : 'Default',
@@ -208,6 +209,7 @@ class Terminator:
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
+    self.window.maximize ()
 
   def on_delete_event (self, widget, event, data=None):
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
