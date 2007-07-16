@@ -93,6 +93,19 @@ class TerminatorTerm:
     # Set our emulation
     self._vte.set_emulation (self.defaults['emulation'])
 
+    # Set our wordchars
+    # FIXME: This shouldn't be hardcoded
+    self._vte.set_word_chars ('-A-Za-z0-9./?%&#_+')
+
+    # Set our mouselation
+    # FIXME: This shouldn't be hardcoded
+    self._vte.set_mouse_autohide (True)
+
+    # Set our compatibility
+    # FIXME: This shouldn't be hardcoded
+    self._vte.set_backspace_binding ("VTE_ERASE_AUTO")
+    self._vte.set_delete_binding ("VTE_ERASE_AUTO")
+
     # Set our font, preferably from gconf settings
     if self.gconf_client.get_bool (self.profile + "/use_system_font"):
       font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
@@ -108,10 +121,11 @@ class TerminatorTerm:
     self._vte.set_allow_bold (self.gconf_client.get_bool (self.profile + "/allow_bold") or self.defaults['allow_bold'])
 
     # Set our color scheme, preferably from gconf settings
-    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
-    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
+#    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
+#    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
 
-    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), [])
+#    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), [])
+    self._vte.set_default_colors()
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.profile + "/cursor_blinks") or self.defaults['cursor_blinks'])
