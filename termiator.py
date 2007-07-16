@@ -74,7 +74,7 @@ class TerminatorTerm:
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     if self.defaults['child_restart']:
-      self._vte.connect ("child-exited", lambda term: self.term.fork_command ())
+      self._vte.connect ("child-exited", lambda term: self._vte.fork_command ())
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
