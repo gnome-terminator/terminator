@@ -123,14 +123,18 @@ class TerminatorTerm:
 
     # Set our color scheme, preferably from gconf settings
     palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
-    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
-    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
+    if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
+      fg_color = self._vte.get_style().fg[gtk.STATE_NORMAL]
+      bg_color = self._vte.get_style().bg[gtk.STATE_NORMAL]
+    else:
+      fg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
+      bg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
 
     colors = palette.split (':')
     palette = []
     for color in colors:
       palette.append (gtk.gdk.color_parse (color))
-    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), palette)
+    self._vte.set_colors (fg_color, bg_color, palette)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.profile + "/cursor_blinks") or self.defaults['cursor_blinks'])
