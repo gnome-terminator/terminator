@@ -37,7 +37,8 @@ class TerminatorTerm:
     '_link_user'            : '[%s]+(:[%s]+)?',
     'link_hostchars'        : '-A-Za-z0-9',
     'link_userchars'        : '-A-Za-z0-9',
-    'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\''
+    'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
+    'palette'               : '/apps/gnome-terminal/profiles/Default/palette',
   }
 
   def __init__ (self, term, settings = {}):
@@ -121,11 +122,15 @@ class TerminatorTerm:
     self._vte.set_allow_bold (self.gconf_client.get_bool (self.profile + "/allow_bold") or self.defaults['allow_bold'])
 
     # Set our color scheme, preferably from gconf settings
-#    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
-#    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
+    palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
+    fg_color = (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
+    bg_color = (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
 
-#    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), [])
-    self._vte.set_default_colors()
+    colors = palette.split (':')
+    palette = []
+    for color in colors:
+      palette.append (gtk.gdk.color_parse (color))
+    self._vte.set_colors (gtk.gdk.color_parse (fg_color), gtk.gdk.color_parse (bg_color), palette)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.profile + "/cursor_blinks") or self.defaults['cursor_blinks'])
