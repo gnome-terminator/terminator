@@ -8,7 +8,7 @@ Right now it will just create four terminals in a single window and they will (t
 Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
 
-It's quite shamelessly based on code in the vte-demo.py (included) from the vte widget package, and on the gedit terminal plugin (which was fantastically useful).
+It's quite shamelessly based on code in the vte-demo.py from the vte widget package, and on the gedit terminal plugin (which was fantastically useful).
 
 vte-demo.py is not my code and is copyright its original author. While it does not contain any specific licensing information in it, the VTE package appears to be licenced under LGPL v2.
 

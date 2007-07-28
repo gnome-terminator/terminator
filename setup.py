@@ -7,7 +7,7 @@ setup(name='Terminator',
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',
-      url='http://www.tenshu.net',
+      url='http://www.tenshu.net/terminator/',
       scripts=['terminator.py'],
      )
 

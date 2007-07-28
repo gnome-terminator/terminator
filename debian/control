@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: terminator
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python, python-vte
+Depends: python, python-vte, python-gconf, gconf2
 Description: Terminator, multiple GNOME terminals in one window
  Terminator, multiple terminals in one window. This is a little
  project to produce an efficient way of filling a large area of
