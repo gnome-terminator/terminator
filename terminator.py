@@ -299,6 +299,7 @@ if __name__ == '__main__':
   t4 = TerminatorTerm (term)
 
   # FIXME: BUG: These panes allow resizing to 0 width, which confuses the hell out of vte
+  # FIXME: Resizing doesn't seem to trigger a proper SIGWNCH in the terminals
   pane1 = gtk.HPaned ()
   pane1.add1 (t1.get_box ())
   pane1.add2 (t2.get_box ())
