@@ -1,3 +1,9 @@
+terminator (0.1-2) gutsy; urgency=low
+
+  * Fix build-depends
+
+ -- Chris Jones <cmsj@waishou>  Sat, 28 Jul 2007 04:58:00 +0100
+
 terminator (0.1-1) unstable; urgency=low
 
   * Initial release 
