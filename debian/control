@@ -1,0 +1,14 @@
+Source: terminator
+Section: optional
+Priority: extra
+Maintainer: Chris Jones <cmsj@tenshu.net>
+Build-Depends: cdbs, debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: terminator
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-vte
+Description: Terminator, multiple GNOME terminals in one window
+ Terminator, multiple terminals in one window. This is a little
+ project to produce an efficient way of filling a large area of
+ screen space with terminals.
