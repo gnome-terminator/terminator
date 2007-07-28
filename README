@@ -5,11 +5,14 @@ This is a little python script to give me lots of terminals in a single window, 
 
 Right now it will just create four terminals in a single window and they will (to some degree) mirror the settings of your default gnome-terminal profile in gconf. Eventually this will be extended and improved to offer profile selection per-terminal, configuration thereof and the ability to alter the number of terminals and save meta-profiles.
 
+Ask questions at: https://answers.launchpad.net/terminator/
+Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
+
 It's quite shamelessly based on code in the vte-demo.py (included) from the vte widget package, and on the gedit terminal plugin (which was fantastically useful).
 
-vte-demo.py is not my code and is copyright its original author. While it does not contain any specific licensing information in it, the VTE package appears to be licenced under GPL v2.
+vte-demo.py is not my code and is copyright its original author. While it does not contain any specific licensing information in it, the VTE package appears to be licenced under LGPL v2.
 
 the gedit terminal plugin is part of the gedit-plugins package, which is licenced under GPL v2 or later.
 
-I am thus licensing Terminator as GPL v2, however, I am not including the "or later" clause as i do not wish to hand unlimited control in perpetuity to FSF. I respect their work to date, but do not wish to give them carte blanche control over my software in the future. If you require Terminator under a newer version of the GPL, please contact me.
+I am thus licensing Terminator as GPL v2 only.
 
