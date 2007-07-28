@@ -75,8 +75,9 @@ class TerminatorTerm:
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
-#    if self.defaults['child_restart']:
-#      self._vte.connect ("child-exited", lambda term: self._vte.fork_command ())
+
+    if self.gconf_client.get_string (self.profile + "/exit_action") == "restart":
+      self._vte.connect ("child-exited", self.spawn_child)
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
@@ -84,7 +85,13 @@ class TerminatorTerm:
     self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]*)?'%(self.defaults['link_scheme'], self.defaults['link_user'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
     self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
 
-    self._vte.fork_command ()
+    self.spawn_child ()
+
+  def spawn_child (self, event=None):
+    if self.gconf_client.get_bool(self.profile + "/use_custom_command") == True:
+      self._vte.fork_command (self.gconf_client.get_string (self.profile + "/custom_command"))
+    else:
+      self._vte.fork_command ()
 
   def reconfigure_vte (self):
     if ((self.lastreconfigure != 0) and (time.time () - self.lastreconfigure) < 5):
