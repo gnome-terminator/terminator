@@ -29,7 +29,6 @@ class TerminatorTerm:
 
   # Our settings
   # FIXME: Add commandline and/or gconf options to change these
-  # FIXME: Track profile default command behaviour
   defaults = {
     'profile_dir'           : '/apps/gnome-terminal/profiles/',
     'profile'               : 'Default',
@@ -72,7 +71,7 @@ class TerminatorTerm:
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
 
-    self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
+    self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
     self.reconfigure_vte ()
@@ -104,7 +103,7 @@ class TerminatorTerm:
     self.spawn_child ()
 
   def spawn_child (self, event=None):
-    if self.gconf_client.get_bool(self.profile + "/use_custom_command") == True:
+    if self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       self._vte.fork_command (self.gconf_client.get_string (self.profile + "/custom_command"))
     else:
       self._vte.fork_command ()
@@ -128,7 +127,7 @@ class TerminatorTerm:
 
     # Set our compatibility
     backspace = self.gconf_client.get_string (self.profile + "/backspace_binding") or self.defaults['backspace_binding']
-    delete = self.gconf_client.get_string (self.profile + "/delete_bindin") or self.defaults['delete_binding']
+    delete = self.gconf_client.get_string (self.profile + "/delete_binding") or self.defaults['delete_binding']
 
 # Note, each of the 4 following comments should replace the line beneath it, but the python-vte bindings don't appear to support this constant, so the magic values are being assumed from the C enum :/
     if backspace == "ascii-del":
@@ -165,7 +164,7 @@ class TerminatorTerm:
     # Set our color scheme, preferably from gconf settings
     palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
     if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
-      # FIXME: For some reason this isn't working properly, but it appears to be analogous to what gnome-terminal does in C
+      # FIXME: For some reason this isn't working properly, but the code appears to be analogous to what gnome-terminal does in C
       fg_color = self._vte.get_style().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style().base[gtk.STATE_NORMAL]
     else:
