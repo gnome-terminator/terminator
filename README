@@ -5,6 +5,8 @@ This is a little python script to give me lots of terminals in a single window, 
 
 Right now it will just create four terminals in a single window and they will (to some degree) mirror the settings of your default gnome-terminal profile in gconf. Eventually this will be extended and improved to offer profile selection per-terminal, configuration thereof and the ability to alter the number of terminals and save meta-profiles.
 
+One other obvious gotcha - I am experimenting a bit with the URL matching, so at the moment you can match just the domain or the full URL. Let me know if you love/hate this.
+
 Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
 
