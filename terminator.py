@@ -22,6 +22,7 @@ class TerminatorTerm:
     'background'            : None,
     'background_color'      : '#000000',
     'backspace_binding'     : 'ascii-del',
+    'delete_binding'        : 'delete-sequence',
     'cursor_blinks'         : False,
     'emulation'             : 'xterm',
     'font_name'             : 'Serif 10',
@@ -74,8 +75,8 @@ class TerminatorTerm:
 
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
-    if self.defaults['child_restart']:
-      self._vte.connect ("child-exited", lambda term: self._vte.fork_command ())
+#    if self.defaults['child_restart']:
+#      self._vte.connect ("child-exited", lambda term: self._vte.fork_command ())
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
@@ -103,9 +104,26 @@ class TerminatorTerm:
     self._vte.set_mouse_autohide (True)
 
     # Set our compatibility
-    # FIXME: This shouldn't be hardcoded
-    self._vte.set_backspace_binding ("VTE_ERASE_AUTO")
-    self._vte.set_delete_binding ("VTE_ERASE_AUTO")
+    backspace = self.gconf_client.get_string (self.profile + "/backspace_binding") or self.defaults['backspace_binding']
+    delete = self.gconf_client.get_string (self.profile + "/delete_bindin") or self.defaults['delete_binding']
+
+# Note, each of the 4 following comments should replace the line beneath it, but the python-vte bindings don't appear to support this constant, so the magic values are being assumed from the C enum :/
+    if backspace == "ascii-del":
+#      backbind = vte.ERASE_ASCII_BACKSPACE
+      backbind = 2
+    else:
+#      backbind = vte.ERASE_AUTO_BACKSPACE
+      backbind = 1
+
+    if delete == "escape-sequence":
+#      delbind = vte.ERASE_DELETE_SEQUENCE
+      delbind = 3
+    else:
+#      delbind = vte.ERASE_AUTO
+      delbind = 0
+
+    self._vte.set_backspace_binding (backbind)
+    self._vte.set_delete_binding (delbind)
 
     # Set our font, preferably from gconf settings
     if self.gconf_client.get_bool (self.profile + "/use_system_font"):
@@ -124,8 +142,9 @@ class TerminatorTerm:
     # Set our color scheme, preferably from gconf settings
     palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
     if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
-      fg_color = self._vte.get_style().fg[gtk.STATE_NORMAL]
-      bg_color = self._vte.get_style().bg[gtk.STATE_NORMAL]
+      # FIXME: For some reason this isn't working properly, but it appears to be analogous to what gnome-terminal does in C
+      fg_color = self._vte.get_style().text[gtk.STATE_NORMAL]
+      bg_color = self._vte.get_style().base[gtk.STATE_NORMAL]
     else:
       fg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
       bg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
@@ -257,6 +276,7 @@ if __name__ == '__main__':
   t3 = TerminatorTerm (term)
   t4 = TerminatorTerm (term)
 
+  # FIXME: BUG: These panes allow resizing to 0 width, which confuses the hell out of vte
   pane1 = gtk.HPaned ()
   pane1.add1 (t1.get_box ())
   pane1.add2 (t2.get_box ())
