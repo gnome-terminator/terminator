@@ -271,6 +271,13 @@ class TerminatorTerm:
     item.connect ("activate", lambda menu_item: self.term.splitvert (self))
     menu.append (item)
 
+    item = gtk.MenuItem ()
+    menu.append (item)
+
+    item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
+    item.connect ("activate", lambda menu_item: self.term.closeterm (self))
+    menu.append (item)
+
     menu.show_all ()
     return menu
 
@@ -393,6 +400,51 @@ class Terminator:
 
     parent.show_all ()
     return (term2)
+
+  def closeterm (self, widget):
+    parent = widget.get_box ().get_parent ()
+    sibling = None
+
+    if isinstance (parent, gtk.Window):
+      # We are the only term
+      if not self.on_delete_event (parent, gtk.gdk.Event (gtk.gdk.DELETE)):
+        self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
+      return
+    if isinstance (parent, gtk.Paned):
+      grandparent = parent.get_parent ()
+
+      # Discover sibling while all objects exist
+      if widget.get_box () == parent.get_child1 ():
+        sibling = parent.get_child2 ()
+      if widget.get_box () == parent.get_child2 ():
+        sibling = parent.get_child1 ()
+
+      if not sibling:
+        # something is wrong, give up
+        print "Error: %s is not a child of %s"%(widget, parent)
+        return
+
+      if not self.closetermreq ():
+        grandparent.remove (parent)
+        sibling.reparent (grandparent)
+        widget.get_box ().destroy ()
+        parent.destroy ()
+
+      self.window.show_all ()
+
+    return
+  
+  def closetermreq (self):
+    dialog = gtk.Dialog ("Close?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
+    label = gtk.Label("Do you really want to close the active terminal?")
+    dialog.vbox.pack_start(label, True, True, 0)
+    label.show ()
+
+    res = dialog.run()
+    dialog.destroy ()
+    if res == gtk.RESPONSE_ACCEPT:
+      return False
+    return True
 
 if __name__ == '__main__':
   term = Terminator ()
