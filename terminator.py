@@ -74,6 +74,7 @@ class TerminatorTerm:
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
+    self._vte.set_size (5, 5)
     self.reconfigure_vte ()
     self._vte.show ()
 
@@ -258,6 +259,17 @@ class TerminatorTerm:
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
 
+    item = gtk.MenuItem ()
+    menu.append (item)
+
+    item = gtk.MenuItem ("Split _Horizontally")
+    item.connect ("activate", lambda menu_item: self.term.splithoriz (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ("Split _Vertically")
+    item.connect ("activate", lambda menu_item: self.term.splitvert (self))
+    menu.append (item)
+
     menu.show_all ()
     return menu
 
@@ -265,6 +277,7 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
+
   def __init__ (self):
     self.gconf_client = gconf.client_get_default ()
 
@@ -274,6 +287,13 @@ class Terminator:
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
     self.window.maximize ()
+
+    # Start out with just one terminal
+    # FIXME: This should be really be decided from some kind of profile
+    term = (TerminatorTerm (self))
+
+    self.window.add (term.get_box ())
+    self.window.show_all ()
 
   def on_delete_event (self, widget, event, data=None):
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
@@ -290,30 +310,47 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
 
+  def splithoriz (self, widget):
+    term2 = TerminatorTerm (self)
+
+    parent = widget.get_box ().get_parent()
+    pane = gtk.HPaned ()
+
+    if isinstance (parent, gtk.Window):
+      # We just have one term
+      termwidth = parent.allocation.width / 2
+      widget.get_box ().reparent (pane)
+
+      pane.pack1 (widget.get_box (), True, False)
+      pane.pack2 (term2.get_box (), True, False)
+
+      parent.add (pane)
+      pane.set_position (termwidth)
+
+    if isinstance (parent, gtk.Paned):
+      # We are inside a split term
+      cols = widget._vte.get_column_count ()
+      rows = widget._vte.get_row_count ()
+
+      widget._vte.set_size (cols / 2, rows)
+      term2._vte.set_size (cols / 2, rows)
+
+      if (widget.get_box () == parent.get_child1 ()):
+        widget.get_box ().reparent (pane)
+        parent.pack1 (pane,  True, False)
+      else:
+        widget.get_box ().reparent (pane)
+        parent.pack2(pane, True, False)
+
+      pane.pack1 (widget.get_box (), True, False)
+      pane.pack2 (term2.get_box (), True, False)
+
+    parent.show_all ()
+
+  def splitvert (self, widget):
+    pass
+
 if __name__ == '__main__':
   term = Terminator ()
-
-  t1 = TerminatorTerm (term)
-  t2 = TerminatorTerm (term)
-  t3 = TerminatorTerm (term)
-  t4 = TerminatorTerm (term)
-
-  # FIXME: BUG: These panes allow resizing to 0 width, which confuses the hell out of vte
-  # FIXME: Resizing doesn't seem to trigger a proper SIGWNCH in the terminals
-  pane1 = gtk.HPaned ()
-  pane1.add1 (t1.get_box ())
-  pane1.add2 (t2.get_box ())
-
-  pane2 = gtk.HPaned ()
-  pane2.add1 (t3.get_box ())
-  pane2.add2 (t4.get_box ())
-
-  vpane = gtk.VPaned ()
-  vpane.add1 (pane1)
-  vpane.add2 (pane2)
-
-  term.window.add (vpane)
-  term.window.show_all ()
-
   gtk.main ()
 
