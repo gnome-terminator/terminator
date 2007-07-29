@@ -346,9 +346,45 @@ class Terminator:
       pane.pack2 (term2.get_box (), True, False)
 
     parent.show_all ()
+    return (term2)
 
   def splitvert (self, widget):
-    pass
+    term2 = TerminatorTerm (self)
+
+    parent = widget.get_box ().get_parent()
+    pane = gtk.VPaned ()
+
+    if isinstance (parent, gtk.Window):
+      # We just have one term
+      termheight = parent.allocation.height / 2
+      widget.get_box ().reparent (pane)
+
+      pane.pack1 (widget.get_box (), True, False)
+      pane.pack2 (term2.get_box (), True, False)
+
+      parent.add (pane)
+      pane.set_position (termheight)
+
+    if isinstance (parent, gtk.Paned):
+      # We are inside a split term
+      cols = widget._vte.get_column_count ()
+      rows = widget._vte.get_row_count ()
+
+      widget._vte.set_size (cols, rows / 2)
+      term2._vte.set_size (cols, rows / 2)
+
+      if (widget.get_box () == parent.get_child1 ()):
+        widget.get_box ().reparent (pane)
+        parent.pack1 (pane,  True, False)
+      else:
+        widget.get_box ().reparent (pane)
+        parent.pack2(pane, True, False)
+
+      pane.pack1 (widget.get_box (), True, False)
+      pane.pack2 (term2.get_box (), True, False)
+
+    parent.show_all ()
+    return (term2)
 
 if __name__ == '__main__':
   term = Terminator ()
