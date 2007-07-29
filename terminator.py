@@ -436,7 +436,7 @@ class Terminator:
   
   def closetermreq (self):
     dialog = gtk.Dialog ("Close?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
-    label = gtk.Label("Do you really want to close the active terminal?")
+    label = gtk.Label("Do you really want to close this terminal?")
     dialog.vbox.pack_start(label, True, True, 0)
     label.show ()
 
