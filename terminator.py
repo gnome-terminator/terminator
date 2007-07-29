@@ -19,7 +19,11 @@ import sys
 import string
 import gobject
 import gtk
-import vte
+try:
+  import vte
+except:
+  print '''You need to install python bindings for libvte ("python-vte" in debian/ubuntu)'''
+  sys.exit (1)
 import gconf
 import pango
 import gnome
