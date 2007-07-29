@@ -17,6 +17,7 @@
 
 import sys
 import string
+import gobject
 import gtk
 import vte
 import gconf
@@ -294,6 +295,14 @@ class Terminator:
     self.window.add (term.get_box ())
     self.window.show_all ()
 
+    gobject.timeout_add (1000, self.do_initial_setup, term)
+
+  def do_initial_setup (self, term):
+    term2 = self.splitvert (term)
+    self.splithoriz (term)
+    self.splithoriz (term2)
+    return (False)
+
   def on_delete_event (self, widget, event, data=None):
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
     label = gtk.Label("Do you really want to quit?")
@@ -325,8 +334,8 @@ class Terminator:
       termwidth = parent.allocation.width / 2
       widget.get_box ().reparent (pane)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.add1 (widget.get_box ())
+      pane.add2 (term2.get_box ())
 
       parent.add (pane)
       pane.set_position (termwidth)
@@ -335,13 +344,13 @@ class Terminator:
       # We are inside a split term
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
-        parent.pack1 (pane,  True, True)
+        parent.add1 (pane)
       else:
         widget.get_box ().reparent (pane)
-        parent.pack2(pane, True, True)
+        parent.add2 (pane)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.add1 (widget.get_box ())
+      pane.add2 (term2.get_box ())
 
     parent.show_all ()
     return (term2)
@@ -362,8 +371,8 @@ class Terminator:
       termheight = parent.allocation.height / 2
       widget.get_box ().reparent (pane)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.add1 (widget.get_box ())
+      pane.add2 (term2.get_box ())
 
       parent.add (pane)
       pane.set_position (termheight)
@@ -374,13 +383,13 @@ class Terminator:
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
-        parent.pack1 (pane,  True, True)
+        parent.add1 (pane)
       else:
         widget.get_box ().reparent (pane)
-        parent.pack2(pane, True, True)
+        parent.add2 (pane)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.add1 (widget.get_box ())
+      pane.add2 (term2.get_box ())
 
     parent.show_all ()
     return (term2)
