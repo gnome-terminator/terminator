@@ -277,7 +277,6 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-
   def __init__ (self):
     self.gconf_client = gconf.client_get_default ()
 
@@ -315,6 +314,11 @@ class Terminator:
 
     parent = widget.get_box ().get_parent()
     pane = gtk.HPaned ()
+    cols = widget._vte.get_column_count ()
+    rows = widget._vte.get_row_count ()
+    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
+    widget._vte.set_size ((cols / 2) - (allowance / widget._vte.get_char_width ()), rows)
+    term2._vte.set_size ((cols / 2) - (allowance / widget._vte.get_char_width ()), rows)
 
     if isinstance (parent, gtk.Window):
       # We just have one term
@@ -329,12 +333,6 @@ class Terminator:
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      cols = widget._vte.get_column_count ()
-      rows = widget._vte.get_row_count ()
-
-      widget._vte.set_size (cols / 2, rows)
-      term2._vte.set_size (cols / 2, rows)
-
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
         parent.pack1 (pane,  True, True)
@@ -353,6 +351,11 @@ class Terminator:
 
     parent = widget.get_box ().get_parent()
     pane = gtk.VPaned ()
+    cols = widget._vte.get_column_count ()
+    rows = widget._vte.get_row_count ()
+    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
+    widget._vte.set_size (cols, (rows / 2) - (allowance / widget._vte.get_char_height ()))
+    term2._vte.set_size (cols, (rows / 2) - (allowance / widget._vte.get_char_height ()))
 
     if isinstance (parent, gtk.Window):
       # We just have one term
@@ -367,11 +370,7 @@ class Terminator:
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      cols = widget._vte.get_column_count ()
-      rows = widget._vte.get_row_count ()
-
-      widget._vte.set_size (cols, rows / 2)
-      term2._vte.set_size (cols, rows / 2)
+      term2._vte.set_size (cols, (rows / 2) - 1)
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
