@@ -1,3 +1,10 @@
+terminator (0.3-1) gutsy; urgency=low
+
+  * Implemented terminal closing, which correctly reparents its sibling (if
+    any)
+
+ -- Chris Jones <cmsj@tenshu.net>  Sun, 29 Jul 2007 17:48:13 +0100
+
 terminator (0.2-1) gutsy; urgency=low
 
   * Support dynamically splitting terminals
