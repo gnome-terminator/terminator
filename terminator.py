@@ -321,8 +321,8 @@ class Terminator:
       termwidth = parent.allocation.width / 2
       widget.get_box ().reparent (pane)
 
-      pane.pack1 (widget.get_box (), True, False)
-      pane.pack2 (term2.get_box (), True, False)
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
       parent.add (pane)
       pane.set_position (termwidth)
@@ -337,13 +337,13 @@ class Terminator:
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
-        parent.pack1 (pane,  True, False)
+        parent.pack1 (pane,  True, True)
       else:
         widget.get_box ().reparent (pane)
-        parent.pack2(pane, True, False)
+        parent.pack2(pane, True, True)
 
-      pane.pack1 (widget.get_box (), True, False)
-      pane.pack2 (term2.get_box (), True, False)
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
     parent.show_all ()
     return (term2)
@@ -359,8 +359,8 @@ class Terminator:
       termheight = parent.allocation.height / 2
       widget.get_box ().reparent (pane)
 
-      pane.pack1 (widget.get_box (), True, False)
-      pane.pack2 (term2.get_box (), True, False)
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
       parent.add (pane)
       pane.set_position (termheight)
@@ -375,13 +375,13 @@ class Terminator:
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
-        parent.pack1 (pane,  True, False)
+        parent.pack1 (pane,  True, True)
       else:
         widget.get_box ().reparent (pane)
-        parent.pack2(pane, True, False)
+        parent.pack2(pane, True, True)
 
-      pane.pack1 (widget.get_box (), True, False)
-      pane.pack2 (term2.get_box (), True, False)
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
     parent.show_all ()
     return (term2)
