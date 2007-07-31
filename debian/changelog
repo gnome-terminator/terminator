@@ -2,6 +2,8 @@ terminator (0.3-1) gutsy; urgency=low
 
   * Implemented terminal closing, which correctly reparents its sibling (if
     any)
+  * Updated documentation to reflect a serious bug with shells that aren't
+    bash (or at least zsh)
 
  -- Chris Jones <cmsj@tenshu.net>  Sun, 29 Jul 2007 17:48:13 +0100
 

@@ -2,7 +2,7 @@ Source: terminator
 Section: optional
 Priority: extra
 Maintainer: Chris Jones <cmsj@tenshu.net>
-Build-Depends: cdbs, debhelper (>= 5), python
+Build-Depends: cdbs, debhelper (>= 5), python, python-vte
 Standards-Version: 3.7.2
 
 Package: terminator
