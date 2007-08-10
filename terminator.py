@@ -370,9 +370,6 @@ class Terminator:
       # We are inside a split term
       if vert:
         term2._vte.set_size (cols, (rows / 2) - 1)
-      else:
-        # TESTING: Is this necessary?
-        term2._vte.set_size (rows, (cols / 2) - 1)
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
