@@ -334,6 +334,7 @@ class Terminator:
     term2 = TerminatorTerm (self)
 
     parent = widget.get_box ().get_parent ()
+
     if vert:
       pane = gtk.VPaned ()
     else:
@@ -364,7 +365,10 @@ class Terminator:
       widget.get_box ().reparent (pane)
 
       pane.add1 (widget.get_box ())
-      pane.add2 (widget.get_box ())
+      pane.add2 (term2.get_box ())
+
+      parent.add (pane)
+      pane.set_position (newpos)
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
