@@ -306,6 +306,7 @@ class Terminator:
     self.window.add (term.get_box ())
     self.window.show_all ()
 
+    # For some unknown reason, spawning 4 terminals at the speed python executes on my laptop causes them all to hang, so we will make one, wait a second and then split ourselves, which works fine. Weird.
     gobject.timeout_add (1000, self.do_initial_setup, term)
 
   def do_initial_setup (self, term):
@@ -329,11 +330,70 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
 
+  def splitaxis (self, vert=True, widget):
+    term2 = TerminatorTerm (self)
+
+    parent = widget.get_box ().get_parent ()
+    if vert:
+      pane = gtk.VPaned ()
+    else:
+      pane = gtk.HPaned ()
+
+    # VTE doesn't seem to cope well with being resized by the window manager. I expect I am supposed to send some kind of WINCH, or just generally connect window resizing events to a callback that will often tell vte about the new size. For now, cheat. Badly.
+    cols = widget._vte.get_column_count ()
+    rows = widget._vte.get_row_count ()
+    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
+
+    if vert:
+      width = cols
+      height = (rows / 2) - (allowance / widget._vte.get_char_height ())
+    else:
+      width = (cols / 2) - (allowance / widget._vte.get_char_width ())
+      height = rows
+
+    widget._vte.set_size (width, height)
+    term2._vte.set_size (width, height)
+
+    if isinstance (parent, gtk.Window):
+      # We have just one term
+      if vert:
+        newpos = parent.allocation.height / 2
+      else:
+        newpos = parent.allocation.width / 2
+
+      widget.get_box ().reparent (pane)
+
+      pane.add1 (widget.get_box ())
+      pane.add2 (widget.get_box ())
+
+    if isinstance (parent, gtk.Paned):
+      # We are inside a split term
+      if vert:
+        term2._vte.set_size (cols, (rows / 2) - 1)
+      else:
+        # TESTING: Is this necessary?
+        term2._vte.set_size (rows, (cols / 2) - 1)
+
+      if (widget.get_box () == parent.get_child1 ()):
+        widget.get_box ().reparent (pane)
+        parent.add1 (pane)
+      else:
+        widget.get_box ().reparent (pane)
+        parent.add2 (pane)
+
+      pane.add1 (widget.get_box ())
+      pane.add2 (term2.get_box ())
+
+    parent.show_all ()
+    return (term2)
+
   def splithoriz (self, widget):
     term2 = TerminatorTerm (self)
 
     parent = widget.get_box ().get_parent()
     pane = gtk.HPaned ()
+
+    # VTE doesn't seem to cope well with being resized by the window manager. I expect I am supposed to send some kind of WINCH, or just generally connect window resizing events to a callback that will often tell vte about the new size. For now, cheat. Badly.
     cols = widget._vte.get_column_count ()
     rows = widget._vte.get_row_count ()
     allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
