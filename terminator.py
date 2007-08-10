@@ -171,8 +171,8 @@ class TerminatorTerm:
     palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
     if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
       # FIXME: For some reason this isn't working properly, but the code appears to be analogous to what gnome-terminal does in C
-      fg_color = self._vte.get_style().text[gtk.STATE_NORMAL]
-      bg_color = self._vte.get_style().base[gtk.STATE_NORMAL]
+      fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
+      bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
       fg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
       bg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
@@ -234,7 +234,7 @@ class TerminatorTerm:
   def create_popup_menu (self, event):
     menu = gtk.Menu ()
 
-    url = self._vte.match_check (int(event.x / self._vte.get_char_width ()), int(event.y / self._vte.get_char_height()))
+    url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
     if url:
       item = gtk.MenuItem ("_Open Link")
       item.connect ("activate", lambda menu_item: gnome.url_show (url[0]))
@@ -310,18 +310,18 @@ class Terminator:
     gobject.timeout_add (1000, self.do_initial_setup, term)
 
   def do_initial_setup (self, term):
-    term2 = self.splitvert (term)
-    self.splithoriz (term)
-    self.splithoriz (term2)
+    term2 = self.splitaxis (term, True)
+    self.splitaxis (term, False)
+    self.splitaxis (term2, False)
     return (False)
 
   def on_delete_event (self, widget, event, data=None):
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
-    label = gtk.Label("Do you really want to quit?")
-    dialog.vbox.pack_start(label, True, True, 0)
+    label = gtk.Label ("Do you really want to quit?")
+    dialog.vbox.pack_start (label, True, True, 0)
     label.show ()
 
-    res = dialog.run()
+    res = dialog.run ()
     if res == gtk.RESPONSE_ACCEPT:
       return False
     dialog.destroy ()
@@ -384,84 +384,6 @@ class Terminator:
     parent.show_all ()
     return (term2)
 
-  def splithoriz (self, widget):
-    term2 = TerminatorTerm (self)
-
-    parent = widget.get_box ().get_parent()
-    pane = gtk.HPaned ()
-
-    # VTE doesn't seem to cope well with being resized by the window manager. I expect I am supposed to send some kind of WINCH, or just generally connect window resizing events to a callback that will often tell vte about the new size. For now, cheat. Badly.
-    cols = widget._vte.get_column_count ()
-    rows = widget._vte.get_row_count ()
-    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
-    widget._vte.set_size ((cols / 2) - (allowance / widget._vte.get_char_width ()), rows)
-    term2._vte.set_size ((cols / 2) - (allowance / widget._vte.get_char_width ()), rows)
-
-    if isinstance (parent, gtk.Window):
-      # We just have one term
-      termwidth = parent.allocation.width / 2
-      widget.get_box ().reparent (pane)
-
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
-
-      parent.add (pane)
-      pane.set_position (termwidth)
-
-    if isinstance (parent, gtk.Paned):
-      # We are inside a split term
-      if (widget.get_box () == parent.get_child1 ()):
-        widget.get_box ().reparent (pane)
-        parent.add1 (pane)
-      else:
-        widget.get_box ().reparent (pane)
-        parent.add2 (pane)
-
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
-
-    parent.show_all ()
-    return (term2)
-
-  def splitvert (self, widget):
-    term2 = TerminatorTerm (self)
-
-    parent = widget.get_box ().get_parent()
-    pane = gtk.VPaned ()
-    cols = widget._vte.get_column_count ()
-    rows = widget._vte.get_row_count ()
-    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
-    widget._vte.set_size (cols, (rows / 2) - (allowance / widget._vte.get_char_height ()))
-    term2._vte.set_size (cols, (rows / 2) - (allowance / widget._vte.get_char_height ()))
-
-    if isinstance (parent, gtk.Window):
-      # We just have one term
-      termheight = parent.allocation.height / 2
-      widget.get_box ().reparent (pane)
-
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
-
-      parent.add (pane)
-      pane.set_position (termheight)
-
-    if isinstance (parent, gtk.Paned):
-      # We are inside a split term
-      term2._vte.set_size (cols, (rows / 2) - 1)
-
-      if (widget.get_box () == parent.get_child1 ()):
-        widget.get_box ().reparent (pane)
-        parent.add1 (pane)
-      else:
-        widget.get_box ().reparent (pane)
-        parent.add2 (pane)
-
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
-
-    parent.show_all ()
-    return (term2)
-
   def closeterm (self, widget):
     parent = widget.get_box ().get_parent ()
     sibling = None
@@ -497,11 +419,11 @@ class Terminator:
   
   def closetermreq (self):
     dialog = gtk.Dialog ("Close?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
-    label = gtk.Label("Do you really want to close this terminal?")
-    dialog.vbox.pack_start(label, True, True, 0)
+    label = gtk.Label ("Do you really want to close this terminal?")
+    dialog.vbox.pack_start (label, True, True, 0)
     label.show ()
 
-    res = dialog.run()
+    res = dialog.run ()
     dialog.destroy ()
     if res == gtk.RESPONSE_ACCEPT:
       return False
