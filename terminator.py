@@ -268,11 +268,11 @@ class TerminatorTerm:
     menu.append (item)
 
     item = gtk.MenuItem ("Split _Horizontally")
-    item.connect ("activate", lambda menu_item: self.term.splithoriz (self))
+    item.connect ("activate", lambda menu_item: self.term.splitaxis (self, False))
     menu.append (item)
 
     item = gtk.MenuItem ("Split _Vertically")
-    item.connect ("activate", lambda menu_item: self.term.splitvert (self))
+    item.connect ("activate", lambda menu_item: self.term.splitaxis (self, True))
     menu.append (item)
 
     item = gtk.MenuItem ()
@@ -330,7 +330,7 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
 
-  def splitaxis (self, vert=True, widget):
+  def splitaxis (self, widget, vert=True):
     term2 = TerminatorTerm (self)
 
     parent = widget.get_box ().get_parent ()
