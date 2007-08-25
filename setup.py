@@ -9,7 +9,7 @@ setup(name='Terminator',
       author_email='cmsj@tenshu.net',
       url='http://www.tenshu.net/terminator/',
       licence='GPL v2',
-      scripts=['terminator.py'],
+      scripts=['terminator'],
      )
 
 
