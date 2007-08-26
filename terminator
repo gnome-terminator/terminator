@@ -81,7 +81,7 @@ class TerminatorTerm:
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
-    self._vte.set_size (5, 5)
+    self._vte.set_size (25, 5)
     self.reconfigure_vte ()
     self._vte.show ()
 
@@ -111,11 +111,17 @@ class TerminatorTerm:
     self.spawn_child ()
 
   def spawn_child (self, event=None):
+    update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
+    login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
+
     if self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
-      self._vte.fork_command (self.gconf_client.get_string (self.profile + "/custom_command"))
+      args = self.gconf_client.get_string (self.profile + "/custom_command").split ()
+      shell = argv[0]
     else:
       shell = pwd.getpwuid (os.getuid ())[6]
-      self._vte.fork_command (command=shell, argv=[os.path.basename (shell)], envv=[])
+      args = [os.path.basename (shell)]
+
+    self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
   def reconfigure_vte (self):
     if ((self.lastreconfigure != 0) and (time.time () - self.lastreconfigure) < 5):
