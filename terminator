@@ -15,6 +15,8 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+import os
+import pwd
 import sys
 import string
 import gobject
@@ -112,7 +114,8 @@ class TerminatorTerm:
     if self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       self._vte.fork_command (self.gconf_client.get_string (self.profile + "/custom_command"))
     else:
-      self._vte.fork_command ()
+      shell = pwd.getpwuid (os.getuid ())[6]
+      self._vte.fork_command (command=shell, argv=[os.path.basename (shell)], envv=[])
 
   def reconfigure_vte (self):
     if ((self.lastreconfigure != 0) and (time.time () - self.lastreconfigure) < 5):
