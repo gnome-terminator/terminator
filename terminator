@@ -30,6 +30,7 @@ import gconf
 import pango
 import gnome
 import time
+import getopt
 
 class TerminatorTerm:
   lastreconfigure = 0
@@ -38,7 +39,6 @@ class TerminatorTerm:
   # FIXME: Add commandline and/or gconf options to change these
   defaults = {
     'profile_dir'           : '/apps/gnome-terminal/profiles/',
-    'profile'               : 'Default',
     'allow_bold'            : True,
     'audible_bell'          : False,
     'background'            : None,
@@ -64,7 +64,7 @@ class TerminatorTerm:
     'palette'               : '/apps/gnome-terminal/profiles/Default/palette',
   }
 
-  def __init__ (self, term, settings = {}):
+  def __init__ (self, term, profile, settings = {}):
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
     # Set up any overridden settings
@@ -72,7 +72,7 @@ class TerminatorTerm:
       defaults[key] = settings[key]
 
     self.term = term
-    self.profile = self.defaults['profile_dir'] + self.defaults['profile']
+    self.profile = self.defaults['profile_dir'] + profile
 
     self.gconf_client = gconf.client_get_default ()
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
@@ -116,7 +116,7 @@ class TerminatorTerm:
 
     if self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       args = self.gconf_client.get_string (self.profile + "/custom_command").split ()
-      shell = argv[0]
+      shell = args[0]
     else:
       shell = pwd.getpwuid (os.getuid ())[6]
       args = [os.path.basename (shell)]
@@ -298,7 +298,8 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self):
+  def __init__ (self, profile):
+    self.profile = profile
     self.gconf_client = gconf.client_get_default ()
 
     self.window = gtk.Window ()
@@ -310,7 +311,7 @@ class Terminator:
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
-    term = (TerminatorTerm (self))
+    term = (TerminatorTerm (self, self.profile))
 
     self.window.add (term.get_box ())
     self.window.show_all ()
@@ -340,7 +341,7 @@ class Terminator:
     gtk.main_quit ()
 
   def splitaxis (self, widget, vert=True):
-    term2 = TerminatorTerm (self)
+    term2 = TerminatorTerm (self, self.profile)
 
     parent = widget.get_box ().get_parent ()
 
@@ -442,7 +443,28 @@ class Terminator:
       return False
     return True
 
+def usage ():
+  print "Read a manual or something"
+
 if __name__ == '__main__':
-  term = Terminator ()
+  debug = 0
+  profile = "Default"
+
+  try:
+    opts, args = getopt.getopt (sys.argv[1:], "hdp:", ["help", "debug", "profile="])
+  except getopt.GetoptError:
+    usage ()
+    sys.exit (2)
+
+  for opt, arg in opts:
+    if opt in ("-h", "--help"):
+      usage ()
+      sys.exit (0)
+    if opt in ("-d", "--debug"):
+      debug = 1
+    if opt in ("-p", "--profile"):
+      profile = arg
+    
+  term = Terminator (profile)
   gtk.main ()
 
