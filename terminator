@@ -31,6 +31,7 @@ import pango
 import gnome
 import time
 import getopt
+import math
 
 class TerminatorTerm:
   lastreconfigure = 0
@@ -236,6 +237,8 @@ class TerminatorTerm:
     if self._scrollbar.get_property ('visible'):
       self._scrollbar.hide ()
     else:
+      # We need to make the terminal narrower by the width of the scrollbar
+      self._vte.set_size (self._vte.get_column_count () - int(math.ceil(self._scrollbar.allocation.width / self._vte.get_char_width ())), self._vte.get_row_count ())
       self._scrollbar.show ()
 
   def on_vte_popup_menu (self, term):
