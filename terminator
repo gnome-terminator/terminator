@@ -75,6 +75,11 @@ class TerminatorTerm:
     self.profile = self.defaults['profile_dir'] + profile
 
     self.gconf_client = gconf.client_get_default ()
+
+    if not self.gconf_client.dir_exists (self.profile):
+      print "Error, unable to find profile " + profile
+      sys.exit (2)
+
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
 
@@ -444,7 +449,13 @@ class Terminator:
     return True
 
 def usage ():
-  print "Read a manual or something"
+  print """Terminator by Chris Jones <cmsj@tenshu.net
+
+Usage: terminator [OPTION]...
+  -h, --help              Show this usage information
+  -d, --debug             Enable debugging
+  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
+"""
 
 if __name__ == '__main__':
   debug = 0
