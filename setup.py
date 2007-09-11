@@ -8,7 +8,7 @@ setup(name='Terminator',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',
       url='http://www.tenshu.net/terminator/',
-      licence='GPL v2',
+      license='GPL v2',
       scripts=['terminator'],
      )
 

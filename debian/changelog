@@ -1,3 +1,16 @@
+terminator (0.4-1) gutsy; urgency=low
+
+  * Add AUTHORS file
+  * Rename script to drop the .py
+  * Handle the gnome-terminal profile better by offering command options
+  * Fudge around some resizing issues
+  * Fix child spawning to avoid segfaulting zsh
+  * Misc. code formatting/style improvements
+  * Refactor terminal splitting into one axis agnostic function
+  * Flesh out setup.py a tiny bit more
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 11 Sep 2007 22:42:00 +0100
+
 terminator (0.3-1) gutsy; urgency=low
 
   * Implemented terminal closing, which correctly reparents its sibling (if
