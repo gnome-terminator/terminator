@@ -79,6 +79,7 @@ class TerminatorTerm:
 
     if not self.gconf_client.dir_exists (self.profile):
       print "Error, unable to find profile " + profile
+      # FIXME: This absolutely should not be an exit, the terminal should fail to spawn. If they all fail, it should exit from the mainloop or something.
       sys.exit (2)
 
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
