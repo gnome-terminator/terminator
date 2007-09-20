@@ -34,7 +34,6 @@ import getopt
 import math
 
 class TerminatorTerm:
-  lastreconfigure = 0
 
   # Our settings
   # FIXME: Add commandline and/or gconf options to change these
@@ -131,11 +130,6 @@ class TerminatorTerm:
     self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
   def reconfigure_vte (self):
-    if ((self.lastreconfigure != 0) and (time.time () - self.lastreconfigure) < 5):
-      # Rate limit
-      return
-    self.lastreconfigure = time.time ()
-
     # Set our emulation
     self._vte.set_emulation (self.defaults['emulation'])
 
