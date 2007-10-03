@@ -326,6 +326,7 @@ class Terminator:
     term2 = self.splitaxis (term, True)
     self.splitaxis (term, False)
     self.splitaxis (term2, False)
+    term._vte.grab_focus ()
     return (False)
 
   def on_delete_event (self, widget, event, data=None):
