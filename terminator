@@ -326,6 +326,7 @@ class Terminator:
     term2 = self.splitaxis (term, True)
     self.splitaxis (term, False)
     self.splitaxis (term2, False)
+    # Give focus to the first terminal
     term._vte.grab_focus ()
     return (False)
 
