@@ -506,7 +506,7 @@ class Terminator:
     self.term_list[previous]._vte.grab_focus ()
 
 def usage ():
-  print """Terminator by Chris Jones <cmsj@tenshu.net
+  print """Terminator by Chris Jones <cmsj@tenshu.net>
 
 Usage: terminator [OPTION]...
   -h, --help              Show this usage information
