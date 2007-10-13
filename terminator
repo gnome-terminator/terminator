@@ -102,6 +102,7 @@ class TerminatorTerm:
     self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
     self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
 
+    self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
 
@@ -236,6 +237,28 @@ class TerminatorTerm:
       self._vte.set_size (self._vte.get_column_count () - int(math.ceil(self._scrollbar.allocation.width / self._vte.get_char_width ())), self._vte.get_row_count ())
       self._scrollbar.show ()
 
+  def on_vte_key_press (self, term, event):
+    keyname = gtk.gdk.keyval_name (event.keyval)
+
+    if event.state & (gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK):
+      if keyname == 'N':
+        self.term.go_next (self)
+        return (True)
+      elif keyname == "P":
+        self.term.go_prev (self)
+        return (True)
+      elif keyname == 'H':
+        self.term.splitaxis (self, False)
+        return (True)
+      elif keyname == 'V':
+        self.term.splitaxis (self, True)
+        return (True)
+      elif keyname == 'Q':
+        self.term.closeterm (self)
+        return (True)
+
+    return (False)
+
   def on_vte_popup_menu (self, term):
     self.do_popup ()
 
@@ -315,6 +338,7 @@ class Terminator:
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile))
+    self.term_list = [term]
 
     self.window.add (term.get_box ())
     self.window.show_all ()
@@ -401,6 +425,11 @@ class Terminator:
       pane.add2 (term2.get_box ())
 
     parent.show_all ()
+    # insert the term reference into the list
+    index = self.term_list.index (widget)
+    self.term_list.insert (index + 1, term2)
+    widget._vte.grab_focus ()
+
     return (term2)
 
   def closeterm (self, widget):
@@ -427,10 +456,16 @@ class Terminator:
         return
 
       if not self.closetermreq ():
+        self.term_list.remove (widget)
         grandparent.remove (parent)
         sibling.reparent (grandparent)
         widget.get_box ().destroy ()
         parent.destroy ()
+
+        for term in self.term_list:
+          if term.get_box () == sibling:
+            term._vte.grab_focus ()
+            break
 
       self.window.show_all ()
 
@@ -447,6 +482,28 @@ class Terminator:
     if res == gtk.RESPONSE_ACCEPT:
       return False
     return True
+
+  def go_next (self, term):
+    current = self.term_list.index (term)
+    next = current
+
+    if current == len (self.term_list) - 1:
+      next = 0
+    else:
+      next += 1
+
+    self.term_list[next]._vte.grab_focus ()
+
+  def go_prev (self, term):
+    current = self.term_list.index (term)
+    previous = current
+
+    if current == 0:
+      previous = len (self.term_list) - 1
+    else:
+      previous -= 1
+
+    self.term_list[previous]._vte.grab_focus ()
 
 def usage ():
   print """Terminator by Chris Jones <cmsj@tenshu.net
