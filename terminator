@@ -239,8 +239,9 @@ class TerminatorTerm:
 
   def on_vte_key_press (self, term, event):
     keyname = gtk.gdk.keyval_name (event.keyval)
+    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
-    if event.state & (gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK):
+    if (event.state & mask) == mask:
       if keyname == 'N':
         self.term.go_next (self)
         return (True)
