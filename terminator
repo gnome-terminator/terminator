@@ -356,6 +356,9 @@ class Terminator:
     return (False)
 
   def on_delete_event (self, widget, event, data=None):
+    if len (self.term_list) == 1:
+      return False
+
     dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
     label = gtk.Label ("Do you really want to quit?")
     dialog.vbox.pack_start (label, True, True, 0)
