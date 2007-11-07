@@ -334,7 +334,9 @@ class Terminator:
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
-#    self.window.maximize ()
+    self.window.maximize ()
+
+    self.window.set_property ('allow-shrink', True)
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
@@ -345,7 +347,7 @@ class Terminator:
     self.window.show_all ()
 
     # For some unknown reason, spawning 4 terminals at the speed python executes on my laptop causes them all to hang, so we will make one, wait a second and then split ourselves, which works fine. Weird.
-#    gobject.timeout_add (1000, self.do_initial_setup, term)
+    gobject.timeout_add (1000, self.do_initial_setup, term)
 
   def do_initial_setup (self, term):
     term2 = self.splitaxis (term, True)
