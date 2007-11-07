@@ -333,7 +333,7 @@ class Terminator:
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
-    self.window.maximize ()
+#    self.window.maximize ()
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
@@ -344,7 +344,7 @@ class Terminator:
     self.window.show_all ()
 
     # For some unknown reason, spawning 4 terminals at the speed python executes on my laptop causes them all to hang, so we will make one, wait a second and then split ourselves, which works fine. Weird.
-    gobject.timeout_add (1000, self.do_initial_setup, term)
+#    gobject.timeout_add (1000, self.do_initial_setup, term)
 
   def do_initial_setup (self, term):
     term2 = self.splitaxis (term, True)
@@ -403,8 +403,8 @@ class Terminator:
 
       widget.get_box ().reparent (pane)
 
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
       parent.add (pane)
       pane.set_position (newpos)
@@ -416,13 +416,13 @@ class Terminator:
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
-        parent.add1 (pane)
+        parent.pack1 (pane, True, True)
       else:
         widget.get_box ().reparent (pane)
-        parent.add2 (pane)
+        parent.pack2 (pane, True, True)
 
-      pane.add1 (widget.get_box ())
-      pane.add2 (term2.get_box ())
+      pane.pack1 (widget.get_box (), True, True)
+      pane.pack2 (term2.get_box (), True, True)
 
     parent.show_all ()
     # insert the term reference into the list
