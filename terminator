@@ -139,7 +139,7 @@ class TerminatorTerm:
 
     # Set our wordchars
     # FIXME: This shouldn't be hardcoded
-    self._vte.set_word_chars ('-A-Za-z0-9./?%&#_+')
+    self._vte.set_word_chars ('-A-Za-z0-9,./?%&#:_')
 
     # Set our mouselation
     # FIXME: This shouldn't be hardcoded
