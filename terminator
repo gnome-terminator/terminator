@@ -108,8 +108,11 @@ class TerminatorTerm:
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
 
-    if self.gconf_client.get_string (self.profile + "/exit_action") == "restart":
+    exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
+    if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
+    if exit_action == "close":
+      self._vte.connect ("child-exited", lambda close_term: self.term.closeterm (self))
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
