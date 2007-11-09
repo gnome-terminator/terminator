@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='Terminator',
-      version='0.3',
+      version='0.5',
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',

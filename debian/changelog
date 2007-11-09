@@ -1,3 +1,19 @@
+terminator (0.5-1) gutsy; urgency=low
+
+  * The terminator window is now able to resize smaller, thanks to Kees Cook
+    for the fix.
+  * Email addresses are now matched and opened correctly. Closes LP #139015
+  * Double clicking a URL now selects the whole URL. Closes LP #129533
+  * The default behaviour is now to open a single 80x24 terminal rather than
+    four terminals in a maximised window. Closes LP #126219 and should force
+    me to fix LP #87720
+  * There are now hotkeys for switching between terminals, splitting terminals
+    and closing them. Closes LP #149931 and #148622(thanks to Huanghe for 
+    patches for this)
+  * If there is only one terminal, closing it will not produce a quit message
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 09 Nov 2007 00:03:05 -0500
+
 terminator (0.4-1) gutsy; urgency=low
 
   * Add AUTHORS file
