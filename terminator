@@ -64,6 +64,8 @@ class TerminatorTerm:
     'palette'               : '/apps/gnome-terminal/profiles/Default/palette',
   }
 
+  matches = {}
+
   def __init__ (self, term, profile, settings = {}):
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
@@ -112,8 +114,9 @@ class TerminatorTerm:
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
-    self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]*)?'%(self.defaults['link_scheme'], self.defaults['link_user'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
-    self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
+    self.matches['domain'] = self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]*)?'%(self.defaults['link_scheme'], self.defaults['link_user'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
+    self.matches['path'] = self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
+    self.matches['email'] = self._vte.match_add ('(mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+')
 
     self.spawn_child ()
 
@@ -272,11 +275,23 @@ class TerminatorTerm:
 
     url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
     if url:
-      item = gtk.MenuItem ("_Open Link")
-      item.connect ("activate", lambda menu_item: gnome.url_show (url[0]))
+      if url[1] != self.matches['email']:
+        address = url[0]
+        nameopen = "_Open Link"
+        namecopy = "_Copy Link Address"
+      else:
+        if url[0][0:6] != "mailto:":
+          address = "mailto:" + url[0]
+        else:
+          address = url[0]
+        nameopen = "_Send Mail To..."
+        namecopy = "_Copy Email Address"
+
+      item = gtk.MenuItem (nameopen)
+      item.connect ("activate", lambda menu_item: gnome.url_show (address))
       menu.append (item)
 
-      item = gtk.MenuItem ("_Copy Link Address")
+      item = gtk.MenuItem (namecopy)
       item.connect ("activate", lambda menu_item: self.clipboard.set_text (url[0]))
       menu.append (item)
 
