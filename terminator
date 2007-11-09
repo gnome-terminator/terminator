@@ -325,7 +325,7 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self, profile):
+  def __init__ (self, profile, maximise):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
 
@@ -334,7 +334,9 @@ class Terminator:
     self.window.set_icon (self.icon)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
-    self.window.maximize ()
+
+    if maximise:
+      self.window.maximize ()
 
     self.window.set_property ('allow-shrink', True)
 
@@ -518,11 +520,13 @@ Usage: terminator [OPTION]...
   -h, --help              Show this usage information
   -d, --debug             Enable debugging
   -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
+  -m, --maximise          Maximise the terminator window when it starts
 """
 
 if __name__ == '__main__':
   debug = 0
   profile = "Default"
+  maximise = False
 
   try:
     opts, args = getopt.getopt (sys.argv[1:], "hdp:", ["help", "debug", "profile="])
@@ -538,7 +542,9 @@ if __name__ == '__main__':
       debug = 1
     if opt in ("-p", "--profile"):
       profile = arg
+    if opt in ("-m", "--maximise"):
+      maximise = True
     
-  term = Terminator (profile)
+  term = Terminator (profile, maximise)
   gtk.main ()
 
