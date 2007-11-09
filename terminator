@@ -89,7 +89,7 @@ class TerminatorTerm:
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
-    self._vte.set_size (25, 5)
+    self._vte.set_size (80, 24)
     self.reconfigure_vte ()
     self._vte.show ()
 
@@ -364,7 +364,8 @@ class Terminator:
     self.window.show_all ()
 
     # For some unknown reason, spawning 4 terminals at the speed python executes on my laptop causes them all to hang, so we will make one, wait a second and then split ourselves, which works fine. Weird.
-    gobject.timeout_add (1000, self.do_initial_setup, term)
+    # FIXME: Until we have proper configs I'm going to disable this default splitting
+    #gobject.timeout_add (1000, self.do_initial_setup, term)
 
   def do_initial_setup (self, term):
     term2 = self.splitaxis (term, True)
