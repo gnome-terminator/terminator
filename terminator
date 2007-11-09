@@ -280,7 +280,7 @@ class TerminatorTerm:
         nameopen = "_Open Link"
         namecopy = "_Copy Link Address"
       else:
-        if url[0][0:6] != "mailto:":
+        if url[0][0:7] != "mailto:":
           address = "mailto:" + url[0]
         else:
           address = url[0]
