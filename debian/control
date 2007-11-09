@@ -1,5 +1,5 @@
 Source: terminator
-Section: optional
+Section: misc
 Priority: extra
 Maintainer: Chris Jones <cmsj@tenshu.net>
 Build-Depends: cdbs, debhelper (>= 5), python, python-vte
