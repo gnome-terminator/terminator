@@ -535,8 +535,8 @@ def usage ():
 Usage: terminator [OPTION]...
   -h, --help              Show this usage information
   -d, --debug             Enable debugging
-  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
   -m, --maximise          Maximise the terminator window when it starts
+  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
 """
 
 if __name__ == '__main__':
@@ -545,7 +545,7 @@ if __name__ == '__main__':
   maximise = False
 
   try:
-    opts, args = getopt.getopt (sys.argv[1:], "hdp:", ["help", "debug", "profile="])
+    opts, args = getopt.getopt (sys.argv[1:], "hdmp:", ["help", "debug", "maximise", "profile="])
   except getopt.GetoptError:
     usage ()
     sys.exit (2)
@@ -556,10 +556,10 @@ if __name__ == '__main__':
       sys.exit (0)
     if opt in ("-d", "--debug"):
       debug = 1
-    if opt in ("-p", "--profile"):
-      profile = arg
     if opt in ("-m", "--maximise"):
       maximise = True
+    if opt in ("-p", "--profile"):
+      profile = arg
     
   term = Terminator (profile, maximise)
   gtk.main ()
