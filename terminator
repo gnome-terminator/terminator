@@ -38,7 +38,7 @@ class TerminatorTerm:
   # Our settings
   # FIXME: Add commandline and/or gconf options to change these
   defaults = {
-    'profile_dir'           : '/apps/gnome-terminal/profiles/',
+    'profile_dir'           : '/apps/gnome-terminal/profiles',
     'allow_bold'            : True,
     'audible_bell'          : False,
     'background'            : None,
@@ -74,11 +74,15 @@ class TerminatorTerm:
       defaults[key] = settings[key]
 
     self.term = term
-    self.profile = self.defaults['profile_dir'] + profile
-
     self.gconf_client = gconf.client_get_default ()
 
-    if not self.gconf_client.dir_exists (self.profile):
+    self.profile = None
+    for dir in self.gconf_client.all_dirs(self.defaults['profile_dir']):
+        if self.gconf_client.get_string (dir + "/title") == profile:
+            self.profile = dir
+            break
+
+    if self.profile == None:
       print "Error, unable to find profile " + profile
       # FIXME: This absolutely should not be an exit, the terminal should fail to spawn. If they all fail, it should exit from the mainloop or something.
       sys.exit (2)
@@ -263,6 +267,14 @@ class TerminatorTerm:
       elif keyname == 'Q':
         self.term.closeterm (self)
         return (True)
+
+    if keyname == 'Tab' or keyname.endswith('_Tab'):
+        if event.state == gtk.gdk.CONTROL_MASK:
+            self.term.go_next (self)
+            return (True)
+        if (event.state & mask) == mask:
+            self.term.go_prev (self)
+            return (True)
 
     return (False)
 
