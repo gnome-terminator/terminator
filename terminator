@@ -78,7 +78,7 @@ class TerminatorTerm:
 
     self.profile = None
     for dir in self.gconf_client.all_dirs(self.defaults['profile_dir']):
-        if self.gconf_client.get_string (dir + "/title") == profile:
+        if self.gconf_client.get_string (dir + "/visible_name") == profile:
             self.profile = dir
             break
 
