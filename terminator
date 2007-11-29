@@ -270,7 +270,7 @@ class TerminatorTerm:
         self.term.closeterm (self)
         return (True)
 
-    if keyname == 'Tab' or keyname.endswith('_Tab'):
+    if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
             self.term.go_next (self)
             return (True)
