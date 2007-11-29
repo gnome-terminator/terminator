@@ -378,18 +378,6 @@ class Terminator:
     self.window.add (term.get_box ())
     self.window.show_all ()
 
-    # For some unknown reason, spawning 4 terminals at the speed python executes on my laptop causes them all to hang, so we will make one, wait a second and then split ourselves, which works fine. Weird.
-    # FIXME: Until we have proper configs I'm going to disable this default splitting
-    #gobject.timeout_add (1000, self.do_initial_setup, term)
-
-  def do_initial_setup (self, term):
-    term2 = self.splitaxis (term, True)
-    self.splitaxis (term, False)
-    self.splitaxis (term2, False)
-    # Give focus to the first terminal
-    term._vte.grab_focus ()
-    return (False)
-
   def on_delete_event (self, widget, event, data=None):
     if len (self.term_list) == 1:
       return False
