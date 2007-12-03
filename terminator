@@ -61,17 +61,13 @@ class TerminatorTerm:
     'link_hostchars'        : '-A-Za-z0-9',
     'link_userchars'        : '-A-Za-z0-9',
     'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
-    'palette'               : '/apps/gnome-terminal/profiles/Default/palette',
+    '_palette'               : '%s/palette',
   }
 
   matches = {}
 
-  def __init__ (self, term, profile, settings = {}):
+  def __init__ (self, term, profile):
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
-
-    # Set up any overridden settings
-    for key in settings.keys ():
-      defaults[key] = settings[key]
 
     self.term = term
     self.gconf_client = gconf.client_get_default ()
@@ -86,6 +82,8 @@ class TerminatorTerm:
       print "Error, unable to find profile " + profile
       # FIXME: This absolutely should not be an exit, the terminal should fail to spawn. If they all fail, it should exit from the mainloop or something.
       sys.exit (2)
+
+    self.defaults['palette'] = self.defaults['_palette']%(self.profile)
 
     self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
