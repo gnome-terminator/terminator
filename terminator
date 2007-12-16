@@ -451,7 +451,8 @@ class Terminator:
       pane.pack1 (widget.get_box (), True, True)
       pane.pack2 (term2.get_box (), True, True)
 
-    parent.show_all ()
+    pane.show ()
+    term2.get_box ().show ()
     # insert the term reference into the list
     index = self.term_list.index (widget)
     self.term_list.insert (index + 1, term2)
@@ -468,6 +469,7 @@ class Terminator:
       if not self.on_delete_event (parent, gtk.gdk.Event (gtk.gdk.DELETE)):
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
       return
+
     if isinstance (parent, gtk.Paned):
       grandparent = parent.get_parent ()
 
@@ -493,8 +495,6 @@ class Terminator:
           if term.get_box () == sibling:
             term._vte.grab_focus ()
             break
-
-      self.window.show_all ()
 
     return
   
