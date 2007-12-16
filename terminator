@@ -62,6 +62,8 @@ class TerminatorTerm:
     'link_userchars'        : '-A-Za-z0-9',
     'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
     '_palette'               : '%s/palette',
+    'word_chars'            : '-A-Za-z0-9,./?%&#:_',
+    'mouse_autohide'        : True,
   }
 
   matches = {}
@@ -143,12 +145,11 @@ class TerminatorTerm:
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our wordchars
-    # FIXME: This shouldn't be hardcoded
-    self._vte.set_word_chars ('-A-Za-z0-9,./?%&#:_')
+    word_chars = self.gconf_client.get_string (self.profile + "/word_chars" or self.defaults['word_chars'])
+    self._vte.set_word_chars (word_chars)
 
     # Set our mouselation
-    # FIXME: This shouldn't be hardcoded
-    self._vte.set_mouse_autohide (True)
+    self._vte.set_mouse_autohide (self.defaults['mouse_autohide'])
 
     # Set our compatibility
     backspace = self.gconf_client.get_string (self.profile + "/backspace_binding") or self.defaults['backspace_binding']
