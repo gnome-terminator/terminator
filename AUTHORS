@@ -1,3 +1,7 @@
 Chris Jones <cmsj@tenshu.net>
 
-Draws heavily from the example python-vte code and the gedit terminal plugin
+Draws heavily from the example python-vte code and the gedit terminal plugin.
+
+Most excellent patches have been gratefully received from:
+ o Huang He
+ o Kees Cook
