@@ -38,7 +38,8 @@ class TerminatorTerm:
   # Our settings
   # FIXME: Add commandline and/or gconf options to change these
   defaults = {
-    'profile_dir'           : '/apps/gnome-terminal/profiles',
+    'gt_dir'                : '/apps/gnome-terminal',
+    '_profile_dir'           : '%s/profiles',
     'allow_bold'            : True,
     'audible_bell'          : False,
     'background'            : None,
@@ -69,16 +70,19 @@ class TerminatorTerm:
   matches = {}
 
   def __init__ (self, term, profile):
+    self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
     self.term = term
     self.gconf_client = gconf.client_get_default ()
 
     self.profile = None
-    for dir in self.gconf_client.all_dirs(self.defaults['profile_dir']):
-        if self.gconf_client.get_string (dir + "/visible_name") == profile:
-            self.profile = dir
-            break
+    profiles = self.gconf_client.get_list (self.defaults['gt_dir'] + '/global/profile_list', 'string')
+
+    for item in profiles:
+      if item == profile:
+        self.profile = '%s/%s'%(self.defaults['profile_dir'], item)
+        break
 
     if self.profile == None:
       print "Error, unable to find profile " + profile
