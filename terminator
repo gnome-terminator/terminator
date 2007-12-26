@@ -194,7 +194,6 @@ class TerminatorTerm:
     # Set our color scheme, preferably from gconf settings
     palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
     if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
-      # FIXME: For some reason this isn't working properly, but the code appears to be analogous to what gnome-terminal does in C
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
@@ -239,7 +238,6 @@ class TerminatorTerm:
   def on_vte_notify_enter (self, term, event):
     if (self.focus == "sloppy" or self.focus == "mouse"):
       term.grab_focus ()
- 	    # FIXME: Should we eat this event or let it propagate further?
       return False
 
   def do_scrollbar_toggle (self):
