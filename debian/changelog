@@ -1,4 +1,4 @@
-terminator (0.6-1) gutsy; urgency=low
+terminator (0.6) gutsy; urgency=low
 
   * Use new gnome-terminal gconf key to find available profiles
   * Move a few more hardcoded items to our settings array (not that it can be
