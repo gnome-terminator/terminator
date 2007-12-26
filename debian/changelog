@@ -1,3 +1,18 @@
+terminator (0.6-1) gutsy; urgency=low
+
+  * Use new gnome-terminal gconf key to find available profiles
+  * Move a few more hardcoded items to our settings array (not that it can be
+    overridden yet)
+  * Fix handling of exiting child processes to properly track gnome-terminal
+    settings
+  * Add Ctrl-Tab and Ctrl-Shift-Tab as options for switching terminals (patch
+    from Kees Cook)
+  * Stop using parent.show_all() when removing/adding a terminal and instead
+    show the actual widgets that have been created. This prevents scrollbars
+    from re-appearing after they have been hidden
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 26 Dec 2007 19:54:47 +0000
+
 terminator (0.5-1) gutsy; urgency=low
 
   * The terminator window is now able to resize smaller, thanks to Kees Cook

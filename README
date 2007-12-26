@@ -1,4 +1,4 @@
-Terminator 0.3
+Terminator 0.6
 by Chris Jones <cmsj@tenshu.net>
 
 This is a little python script to give me lots of terminals in a single window, saving me valuable laptop screen space otherwise wasted on window decorations and not quite being able to fill the screen with terminals.
