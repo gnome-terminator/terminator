@@ -15,6 +15,16 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
+"""Terminator by Chris Jones <cmsj@tenshu.net>
+
+Usage: terminator [OPTION] ...
+  -h, --help              Show this usage information
+  -d, --debug             Enable debugging
+  -m, --maximise          Maximise the terminator window when it starts
+  -f, --fullscreen        Place the window in its fullscreen state when it starts
+  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
+"""
+
 import os
 import pwd
 import sys
@@ -356,18 +366,19 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self, profile, maximise):
+  def __init__ (self, profile):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
+
+    self._fullscreen = False
 
     self.window = gtk.Window ()
     self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
     self.window.set_icon (self.icon)
+
+    self.window.connect ("key-press-event", self.on_key_press)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
-
-    if maximise:
-      self.window.maximize ()
 
     self.window.set_property ('allow-shrink', True)
 
@@ -378,6 +389,21 @@ class Terminator:
 
     self.window.add (term.get_box ())
     self.window.show_all ()
+
+  def maximize (self):
+    """ Maximize the Terminator."""
+    self.window.maximize ()
+
+  def toggle_fullscreen (self):
+    """ Toggle the fullscreen state of the window. If it is in
+        fullscreen state, it will be unfullscreened. If it is not, it
+        will be set to fullscreen state.
+    """
+    if self._fullscreen:
+      self.window.unfullscreen ()
+    else:
+      self.window.fullscreen ()
+    self._fullscreen = not self._fullscreen
 
   def on_delete_event (self, widget, event, data=None):
     if len (self.term_list) == 1:
@@ -396,6 +422,19 @@ class Terminator:
 
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
+
+  def on_key_press (self, window, event):
+    """ Callback for the window to determine what to do with special
+        keys. Currently handled key-combo's:
+          * CTRL - SHIFT - F : toggle fullscreen state of the window.
+    """
+    keyname = gtk.gdk.keyval_name (event.keyval)
+    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
+
+    if (event.state & mask) == mask:
+      if keyname == 'F':
+        self.toggle_fullscreen ()
+        return (True)
 
   def splitaxis (self, widget, vert=True):
     term2 = TerminatorTerm (self, self.profile)
@@ -534,26 +573,29 @@ class Terminator:
     self.term_list[previous]._vte.grab_focus ()
 
 def usage ():
-  print """Terminator by Chris Jones <cmsj@tenshu.net>
-
-Usage: terminator [OPTION]...
-  -h, --help              Show this usage information
-  -d, --debug             Enable debugging
-  -m, --maximise          Maximise the terminator window when it starts
-  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
-"""
+  """ Print information on how to use this program. """
+  print __doc__
 
 if __name__ == '__main__':
-  debug = 0
-  profile = "Default"
-  maximise = False
 
+  # define the options
+  short_opts = "hdmfp:"
+  long_opts  = ["help", "debug", "maximise", "fullscreen", "profile="]
+
+  # parse the options
   try:
-    opts, args = getopt.getopt (sys.argv[1:], "hdmp:", ["help", "debug", "maximise", "profile="])
+    opts, args = getopt.getopt (sys.argv[1:], short_opts, long_opts)
   except getopt.GetoptError:
     usage ()
     sys.exit (2)
 
+  # set some default values
+  debug = 0
+  profile = "Default"
+  maximise = False
+  fullscreen = False
+
+  # check the options
   for opt, arg in opts:
     if opt in ("-h", "--help"):
       usage ()
@@ -562,9 +604,20 @@ if __name__ == '__main__':
       debug = 1
     if opt in ("-m", "--maximise"):
       maximise = True
+    if opt in ("-f", "--fullscreen"):
+      fullscreen = True
     if opt in ("-p", "--profile"):
       profile = arg
-    
-  term = Terminator (profile, maximise)
+  
+  term = Terminator (profile)
+
+  # Set the Terminator in fullscreen state or maximize it.
+  # Fullscreen and maximise are mutually exclusive, with
+  # fullscreen taking precedence over maximise.
+  if fullscreen:
+    term.toggle_fullscreen ()
+  elif maximise:
+    term.maximize ()
+
   gtk.main ()
 
