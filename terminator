@@ -275,7 +275,7 @@ class TerminatorTerm:
       elif keyname == 'V':
         self.term.splitaxis (self, True)
         return (True)
-      elif keyname == 'Q':
+      elif keyname == 'W':
         self.term.closeterm (self)
         return (True)
 
@@ -405,20 +405,40 @@ class Terminator:
       self.window.fullscreen ()
     self._fullscreen = not self._fullscreen
 
-  def on_delete_event (self, widget, event, data=None):
+  def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
       return False
 
-    dialog = gtk.Dialog ("Quit?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_QUIT, gtk.RESPONSE_ACCEPT))
-    label = gtk.Label ("Do you really want to quit?")
-    dialog.vbox.pack_start (label, True, True, 0)
-    label.show ()
+    # show dialog
+    dialog = gtk.Dialog ("Close?", window, gtk.DIALOG_MODAL,
+      (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
+    dialog.set_has_separator (False)
+    dialog.set_resizable (False)
 
-    res = dialog.run ()
-    if res == gtk.RESPONSE_ACCEPT:
-      return False
+    primairy = gtk.Label ('<big><b>Close all terminals?</b></big>')
+    primairy.set_use_markup (True)
+    primairy.set_alignment (0, 0.5)
+    secundairy = gtk.Label (("This window has %s terminals open. " % len(self.term_list)) +
+      "Closing the window will also close all terminals.")
+    secundairy.set_line_wrap(True)
+    primairy.set_alignment (0, 0.5)
+
+    labels = gtk.VBox ()
+    labels.pack_start (primairy, False, False, 6)
+    labels.pack_start (secundairy, False, False, 6)
+
+    image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_DIALOG)
+    image.set_alignment (0.5, 0)
+
+    box = gtk.HBox()
+    box.pack_start (image, False, False, 6)
+    box.pack_start (labels, False, False, 6)
+    dialog.vbox.pack_start (box, False, False, 12)
+
+    dialog.show_all ()
+    result = dialog.run ()
     dialog.destroy ()
-    return True
+    return not (result == gtk.RESPONSE_ACCEPT)
 
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
@@ -524,31 +544,18 @@ class Terminator:
         print "Error: %s is not a child of %s"%(widget, parent)
         return
 
-      if not self.closetermreq ():
-        self.term_list.remove (widget)
-        grandparent.remove (parent)
-        sibling.reparent (grandparent)
-        widget.get_box ().destroy ()
-        parent.destroy ()
+      self.term_list.remove (widget)
+      grandparent.remove (parent)
+      sibling.reparent (grandparent)
+      widget.get_box ().destroy ()
+      parent.destroy ()
 
-        for term in self.term_list:
-          if term.get_box () == sibling:
-            term._vte.grab_focus ()
-            break
+      for term in self.term_list:
+        if term.get_box () == sibling:
+          term._vte.grab_focus ()
+          break
 
     return
-  
-  def closetermreq (self):
-    dialog = gtk.Dialog ("Close?", self.window, gtk.DIALOG_MODAL, (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
-    label = gtk.Label ("Do you really want to close this terminal?")
-    dialog.vbox.pack_start (label, True, True, 0)
-    label.show ()
-
-    res = dialog.run ()
-    dialog.destroy ()
-    if res == gtk.RESPONSE_ACCEPT:
-      return False
-    return True
 
   def go_next (self, term):
     current = self.term_list.index (term)
