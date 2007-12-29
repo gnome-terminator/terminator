@@ -10,6 +10,8 @@ setup(name='Terminator',
       url='http://www.tenshu.net/terminator/',
       license='GPL v2',
       scripts=['terminator'],
-      data_files=[('share/applications', ['terminator.desktop']),
+      data_files=[
+                  ('share/applications', ['terminator.desktop']),
+                 ],
      )
 
