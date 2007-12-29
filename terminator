@@ -455,6 +455,10 @@ class Terminator:
       if keyname == 'F':
         self.toggle_fullscreen ()
         return (True)
+      if keyname == 'Q':
+        if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
+          self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
+        
 
   def splitaxis (self, widget, vert=True):
     term2 = TerminatorTerm (self, self.profile)
