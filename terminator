@@ -535,6 +535,7 @@ class Terminator:
       return
 
     if isinstance (parent, gtk.Paned):
+      index = self.term_list.index (widget)
       grandparent = parent.get_parent ()
 
       # Discover sibling while all objects exist
@@ -554,10 +555,14 @@ class Terminator:
       widget.get_box ().destroy ()
       parent.destroy ()
 
-      for term in self.term_list:
-        if term.get_box () == sibling:
-          term._vte.grab_focus ()
-          break
+      if not isinstance (sibling, gtk.Paned):
+        for term in self.term_list:
+          if term.get_box () == sibling:
+            term._vte.grab_focus ()
+            break
+      else:
+        if index == 0: index = 1
+        self.term_list[index - 1]._vte.grab_focus ()
 
     return
 
