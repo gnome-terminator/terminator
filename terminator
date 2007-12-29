@@ -42,6 +42,7 @@ import gnome
 import time
 import getopt
 import math
+import gettext
 
 class TerminatorTerm:
 
@@ -303,15 +304,15 @@ class TerminatorTerm:
     if url:
       if url[1] != self.matches['email']:
         address = url[0]
-        nameopen = "_Open Link"
-        namecopy = "_Copy Link Address"
+        nameopen = _("_Open Link")
+        namecopy = _("_Copy Link Address")
       else:
         if url[0][0:7] != "mailto:":
           address = "mailto:" + url[0]
         else:
           address = url[0]
-        nameopen = "_Send Mail To..."
-        namecopy = "_Copy Email Address"
+        nameopen = _("_Send Mail To...")
+        namecopy = _("_Copy Email Address")
 
       item = gtk.MenuItem (nameopen)
       item.connect ("activate", lambda menu_item: gnome.url_show (address))
@@ -336,7 +337,7 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.CheckMenuItem ("Show scrollbar")
+    item = gtk.CheckMenuItem (_("Show scrollbar"))
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
@@ -344,11 +345,11 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem ("Split _Horizontally")
+    item = gtk.MenuItem (_("Split _Horizontally"))
     item.connect ("activate", lambda menu_item: self.term.splitaxis (self, False))
     menu.append (item)
 
-    item = gtk.MenuItem ("Split _Vertically")
+    item = gtk.MenuItem (_("Split _Vertically"))
     item.connect ("activate", lambda menu_item: self.term.splitaxis (self, True))
     menu.append (item)
 
@@ -410,16 +411,15 @@ class Terminator:
       return False
 
     # show dialog
-    dialog = gtk.Dialog ("Close?", window, gtk.DIALOG_MODAL,
+    dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL,
       (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
     dialog.set_has_separator (False)
     dialog.set_resizable (False)
 
-    primairy = gtk.Label ('<big><b>Close all terminals?</b></big>')
+    primairy = gtk.Label (_('<big><b>Close all terminals?</b></big>'))
     primairy.set_use_markup (True)
     primairy.set_alignment (0, 0.5)
-    secundairy = gtk.Label (("This window has %s terminals open. " % len(self.term_list)) +
-      "Closing the window will also close all terminals.")
+    secundairy = gtk.Label (_("This window has %s terminals open.  Closing the window will also close all terminals.") % len(self.term_list))
     secundairy.set_line_wrap(True)
     primairy.set_alignment (0, 0.5)
 
@@ -619,7 +619,8 @@ if __name__ == '__main__':
       fullscreen = True
     if opt in ("-p", "--profile"):
       profile = arg
-  
+
+  gettext.install ('terminator')
   term = Terminator (profile)
 
   # Set the Terminator in fullscreen state or maximize it.

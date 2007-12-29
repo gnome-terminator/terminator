@@ -1,0 +1,60 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-12-29 02:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: terminator:307
+msgid "_Open Link"
+msgstr ""
+
+#: terminator:308
+msgid "_Copy Link Address"
+msgstr ""
+
+#: terminator:314
+msgid "_Send Mail To..."
+msgstr ""
+
+#: terminator:315
+msgid "_Copy Email Address"
+msgstr ""
+
+#: terminator:340
+msgid "Show scrollbar"
+msgstr ""
+
+#: terminator:348
+msgid "Split _Horizontally"
+msgstr ""
+
+#: terminator:352
+msgid "Split _Vertically"
+msgstr ""
+
+#: terminator:414
+msgid "Close?"
+msgstr ""
+
+#: terminator:419
+msgid "<big><b>Close all terminals?</b></big>"
+msgstr ""
+
+#: terminator:422
+#, python-format
+msgid ""
+"This window has %s terminals open.  Closing the window will also close all "
+"terminals."
+msgstr ""
