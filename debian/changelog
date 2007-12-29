@@ -1,3 +1,9 @@
+terminator (0.7) gutsy; urgency=low
+
+  * Fullscreen support, via a patch from Thomas Meire. Closes LP #178914
+
+ -- Chris Jones <cmsj@tenshu.net>  Thu, 27 Dec 2007 19:50:14 +0000
+
 terminator (0.6) gutsy; urgency=low
 
   * Use new gnome-terminal gconf key to find available profiles
