@@ -1,41 +1,19 @@
-terminator (0.7) gutsy; urgency=low
+terminator (0.7-1) hardy; urgency=low
 
-  * Fullscreen support, via a patch from Thomas Meire. Closes LP #178914
-  * Improved behaviour when closing terminals/window. Result of work by Thomas
-    Meire. Closes LP #161121
-  * Freedesktop .desktop file and appropriate setup.py entry for installing
-    it. Closes LP #178943
+  * Switch from cdbs to python-central
+  * Move change log details to ChangeLog and no longer be a native package
 
  -- Chris Jones <cmsj@tenshu.net>  Sat, 29 Dec 2007 02:34:29 +0000
 
 terminator (0.6) gutsy; urgency=low
 
-  * Use new gnome-terminal gconf key to find available profiles
-  * Move a few more hardcoded items to our settings array (not that it can be
-    overridden yet)
-  * Fix handling of exiting child processes to properly track gnome-terminal
-    settings
-  * Add Ctrl-Tab and Ctrl-Shift-Tab as options for switching terminals (patch
-    from Kees Cook)
-  * Stop using parent.show_all() when removing/adding a terminal and instead
-    show the actual widgets that have been created. This prevents scrollbars
-    from re-appearing after they have been hidden
+  * New upstream release
 
  -- Chris Jones <cmsj@tenshu.net>  Wed, 26 Dec 2007 19:54:47 +0000
 
 terminator (0.5-1) gutsy; urgency=low
 
-  * The terminator window is now able to resize smaller, thanks to Kees Cook
-    for the fix.
-  * Email addresses are now matched and opened correctly. Closes LP #139015
-  * Double clicking a URL now selects the whole URL. Closes LP #129533
-  * The default behaviour is now to open a single 80x24 terminal rather than
-    four terminals in a maximised window. Closes LP #126219 and should force
-    me to fix LP #87720
-  * There are now hotkeys for switching between terminals, splitting terminals
-    and closing them. Closes LP #149931 and #148622(thanks to Huanghe for 
-    patches for this)
-  * If there is only one terminal, closing it will not produce a quit message
+  * New upstream release
 
  -- Chris Jones <cmsj@tenshu.net>  Fri, 09 Nov 2007 00:03:05 -0500
 
@@ -53,29 +31,20 @@ terminator (0.4-2) gutsy; urgency=low
 
 terminator (0.4-1) gutsy; urgency=low
 
-  * Add AUTHORS file
-  * Rename script to drop the .py
-  * Handle the gnome-terminal profile better by offering command options
-  * Fudge around some resizing issues
-  * Fix child spawning to avoid segfaulting zsh
-  * Misc. code formatting/style improvements
-  * Refactor terminal splitting into one axis agnostic function
+  * New upstream release
   * Flesh out setup.py a tiny bit more
 
  -- Chris Jones <cmsj@tenshu.net>  Tue, 11 Sep 2007 22:42:00 +0100
 
 terminator (0.3-1) gutsy; urgency=low
 
-  * Implemented terminal closing, which correctly reparents its sibling (if
-    any)
-  * Updated documentation to reflect a serious bug with shells that aren't
-    bash (or at least zsh)
+  * New upstream release
 
  -- Chris Jones <cmsj@tenshu.net>  Sun, 29 Jul 2007 17:48:13 +0100
 
 terminator (0.2-1) gutsy; urgency=low
 
-  * Support dynamically splitting terminals
+  * New upstream release
 
  -- Chris Jones <cmsj@tenshu.net>  Sun, 29 Jul 2007 05:02:13 +0100
 
