@@ -1,7 +1,13 @@
-terminator (0.7-1) hardy; urgency=low
+terminator (0.7-2) hardy; urgency=low
 
   * Switch from cdbs to python-central
   * Move change log details to ChangeLog and no longer be a native package
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 02 Jan 2008 22:50:18 +0000
+
+terminator (0.7-1) hardy; urgency=low
+
+  * New upstream release
 
  -- Chris Jones <cmsj@tenshu.net>  Sat, 29 Dec 2007 02:34:29 +0000
 
