@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-29 02:52+0000\n"
+"POT-Creation-Date: 2008-01-02 23:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,43 +16,55 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: terminator:307
-msgid "_Open Link"
+#: terminator:42
+msgid ""
+"You need to install the python bindings for gobject, gnome, gtk, gcond and "
+"pango."
 msgstr ""
 
-#: terminator:308
-msgid "_Copy Link Address"
-msgstr ""
-
-#: terminator:314
-msgid "_Send Mail To..."
+#: terminator:51
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in debian/"
+"ubuntu)"
 msgstr ""
 
 #: terminator:315
+msgid "_Open Link"
+msgstr ""
+
+#: terminator:316
+msgid "_Copy Link Address"
+msgstr ""
+
+#: terminator:322
+msgid "_Send Mail To..."
+msgstr ""
+
+#: terminator:323
 msgid "_Copy Email Address"
 msgstr ""
 
-#: terminator:340
+#: terminator:348
 msgid "Show scrollbar"
 msgstr ""
 
-#: terminator:348
+#: terminator:356
 msgid "Split _Horizontally"
 msgstr ""
 
-#: terminator:352
+#: terminator:360
 msgid "Split _Vertically"
 msgstr ""
 
-#: terminator:414
+#: terminator:422
 msgid "Close?"
 msgstr ""
 
-#: terminator:419
+#: terminator:427
 msgid "<big><b>Close all terminals?</b></big>"
 msgstr ""
 
-#: terminator:422
+#: terminator:430
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
