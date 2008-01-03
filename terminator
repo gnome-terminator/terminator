@@ -40,7 +40,7 @@ try:
   import gobject, gtk, gnome, gconf, pango
 except:
   print >> sys.stderr, _("You need to install the python bindings for " \
-    "gobject, gnome, gtk, gcond and pango.")
+    "gobject, gnome, gtk, gconf and pango to run Terminator.")
   sys.exit(1)
 
 # import vte-bindings
