@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Terminator Spanish Translation.
+# Copyright (C) 2007
+# This file is distributed under the same license as the Terminator package.
+# Nicolas Valcárcel <nvalcarcel@ubuntu-pe.org>, 2007.
 #
 msgid ""
 msgstr ""
