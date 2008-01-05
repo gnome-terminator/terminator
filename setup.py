@@ -53,6 +53,7 @@ setup(name='Terminator',
       scripts=['terminator'],
       data_files=[
                   ('share/applications', ['terminator.desktop']),
+                  ('share/man/man1', ['doc/terminator.1']),
                  ],
       cmdclass={'install_data': InstallData}
      )
