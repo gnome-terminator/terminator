@@ -25,24 +25,32 @@ Usage: terminator [OPTION] ...
   -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
 """
 
-import os
+# import standard python libs
+import os, sys, string, time, getopt, math
+
+import gettext
+gettext.install ('terminator')
+
+# import unix-lib
 import pwd
-import sys
-import string
-import gobject
-import gtk
+
+# import gtk/gnome libs
+# check just in case anyone runs it on a non-gnome system.
+try:
+  import gobject, gtk, gnome, gconf, pango
+except:
+  print >> sys.stderr, _("You need to install the python bindings for " \
+    "gobject, gnome, gtk, gconf and pango to run Terminator.")
+  sys.exit(1)
+
+# import vte-bindings
 try:
   import vte
 except:
-  print '''You need to install python bindings for libvte ("python-vte" in debian/ubuntu)'''
+  error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
+    _('You need to install python bindings for libvte ("python-vte" in debian/ubuntu)'))
+  error.run()
   sys.exit (1)
-import gconf
-import pango
-import gnome
-import time
-import getopt
-import math
-import gettext
 
 class TerminatorTerm:
 
@@ -631,7 +639,6 @@ if __name__ == '__main__':
     if opt in ("-p", "--profile"):
       profile = arg
 
-  gettext.install ('terminator')
   term = Terminator (profile)
 
   # Set the Terminator in fullscreen state or maximize it.
