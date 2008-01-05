@@ -1,11 +1,14 @@
 This package was debianized by Chris Jones <cmsj@tenshu.net> on
 Sat, 28 Jul 2007 04:12:30 +0100.
 
-It was downloaded from https://launchpad.net/terminator/trunk/0.1/+download/terminator-0.1.tar.bzr2
+It was downloaded from https://launchpad.net/terminator/+download
 
-Upstream Author(s): 
+Upstream Authors: 
 
     Chris Jones <cmsj@tenshu.net>
+    Huang He
+    Kees Cook
+    Thomas Meire
 
 Copyright: 
 

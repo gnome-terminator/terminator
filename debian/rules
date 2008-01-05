@@ -1,70 +1,9 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
+DEB_PYTHON_SYSTEM = pycentral
 
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/python-distutils.mk
 
-PYTHON	:= /usr/bin/python
-PYVER   := $(shell $(PYTHON) -c 'import sys; print sys.version[:3]')
+DEB_COMPRESS_EXCLUDE := .py
 
-build: build-stamp
-
-build-stamp:
-	dh_testdir
-	python setup.py build
-	touch build-stamp
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-	rm -rf build
-	-find . -name '*.py[co]' | xargs rm -f
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k 
-	dh_installdirs
-	python setup.py install \
-		--root=$(CURDIR)/debian/terminator
-
-# Build architecture-independent files here.
-binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs README
-#	dh_installexamples examples/*
-	dh_installman
-	: # Replace all '#!' calls to python with $(PYTHON)
-	: # and make them executable
-	for i in `find debian -mindepth 3 -type f`; do \
-	  sed '1s,#!.*python[^ ]*\(.*\),#! $(PYTHON)\1,' \
-	        $$i > $$i.temp; \
-	  if cmp --quiet $$i $$i.temp; then \
-	    rm -f $$i.temp; \
-	  else \
-	    mv -f $$i.temp $$i; \
-	    chmod 755 $$i; \
-	    echo "fixed interpreter: $$i"; \
-	  fi; \
-	done
-	dh_pycentral
-	dh_python
-	dh_compress -X.py
-	dh_fixperms
-	dh_installdeb
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-# Build architecture-dependent files here.
-binary-arch: build install
-# We have nothing to do by default.
-
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install configure
