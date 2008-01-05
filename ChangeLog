@@ -7,6 +7,10 @@ terminator 0.7:
     it. Closes LP #178943
   * Translation support, with Spanish and Dutch translations. Closes LP
 	  #161120
+  * Stop clashing with gnome-terminal's paste shortcut key, move horizontal
+	  splitting shortcut too, and add support for gnome-terminal's copy/paste 
+		shortcuts. Closes LP #179310
+  * Borderless support (tell your window manager not to decorate Terminator)
 
 terminator 0.6:
 
