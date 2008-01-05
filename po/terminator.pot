@@ -37,11 +37,11 @@ msgid "Show scrollbar"
 msgstr ""
 
 #: terminator:348
-msgid "Split _Horizontally"
+msgid "Split H_orizontally"
 msgstr ""
 
 #: terminator:352
-msgid "Split _Vertically"
+msgid "Split V_ertically"
 msgstr ""
 
 #: terminator:414

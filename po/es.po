@@ -36,12 +36,12 @@ msgid "Show scrollbar"
 msgstr "Mostrar barra de desplazamiento"
 
 #: terminator:348
-msgid "Split _Horizontally"
-msgstr "Dividir _Horizontalmente"
+msgid "Split H_orizontally"
+msgstr "Dividir H_orizontalmente"
 
 #: terminator:352
-msgid "Split _Vertically"
-msgstr "Dividir _Verticalmente"
+msgid "Split V_ertically"
+msgstr "Dividir V_erticalmente"
 
 #: terminator:414
 msgid "Close?"

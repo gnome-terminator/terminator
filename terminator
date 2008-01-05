@@ -270,10 +270,10 @@ class TerminatorTerm:
       elif keyname == "P":
         self.term.go_prev (self)
         return (True)
-      elif keyname == 'H':
+      elif keyname == 'O':
         self.term.splitaxis (self, False)
         return (True)
-      elif keyname == 'V':
+      elif keyname == 'E':
         self.term.splitaxis (self, True)
         return (True)
       elif keyname == 'W':
@@ -345,11 +345,11 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("Split _Horizontally"))
+    item = gtk.MenuItem (_("Split H_orizontally"))
     item.connect ("activate", lambda menu_item: self.term.splitaxis (self, False))
     menu.append (item)
 
-    item = gtk.MenuItem (_("Split _Vertically"))
+    item = gtk.MenuItem (_("Split V_ertically"))
     item.connect ("activate", lambda menu_item: self.term.splitaxis (self, True))
     menu.append (item)
 
