@@ -279,6 +279,12 @@ class TerminatorTerm:
       elif keyname == 'W':
         self.term.closeterm (self)
         return (True)
+      elif keyname == 'C':
+        self._vte.copy_clipboard ()
+        return (True)
+      elif keyname == 'V':
+        self._vte.paste_clipboard ()
+        return (True)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
