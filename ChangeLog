@@ -5,6 +5,8 @@ terminator 0.7:
     Meire. Closes LP #161121
   * Freedesktop .desktop file and appropriate setup.py entry for installing
     it. Closes LP #178943
+  * Translation support, with Spanish and Dutch translations. Closes LP
+	  #161120
 
 terminator 0.6:
 
