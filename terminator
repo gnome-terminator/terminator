@@ -78,7 +78,7 @@ class TerminatorTerm:
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
     'visible_bell'          : False,
-    'child_restart'         : True,
+    'child_restart'         : False,
     'link_scheme'           : '(news|telnet|nttp|file|http|ftp|https)',
     '_link_user'            : '[%s]+(:[%s]+)?',
     'link_hostchars'        : '-A-Za-z0-9',
@@ -138,6 +138,11 @@ class TerminatorTerm:
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
+    if not exit_action:
+      if self.defaults['child_restart']:
+        exit_action = "restart"
+      else:
+        exit_action = "close"
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
     if exit_action == "close":
