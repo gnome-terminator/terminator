@@ -315,8 +315,9 @@ class TerminatorTerm:
         self.zoom (True)
         return (True)
 
+    mask = gtk.gdk.CONTROL_MASK
     if keyname and (keyname == 'minus'):
-      if event.state == gtk.gdk.CONTROL_MASK:
+      if (event.state & mask) == mask:
         self.zoom (False)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
