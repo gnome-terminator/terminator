@@ -104,6 +104,9 @@ class TerminatorTerm:
 
     if profile in profiles:
       self.profile = '%s/%s'%(self.defaults['profile_dir'], profile)
+    else:
+      if profile != "Default" and "Default" in profiles:
+        self.profile = '%s/Default'%(self.defaults['profile_dir'])
 
     if not self.profile:
       print >> sys.stderr,  _("Warning: unable to find profile %s. Continue with default values...") % profile

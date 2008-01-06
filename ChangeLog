@@ -15,6 +15,8 @@ terminator 0.7:
 	* Set the VTE widget to have a tooltip of its window title. This may be
 	  reverted if it is annoying
   * Support GNOME Terminal profile settings for backgrounds. Closes LP #180717
+	* Use our own default values if there is no gnome-terminal profile. Closes
+		LP #179315
 
 terminator 0.6:
 
