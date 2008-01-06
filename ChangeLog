@@ -14,6 +14,7 @@ terminator 0.7:
 	* Font zooming support. Closes LP #178792
 	* Set the VTE widget to have a tooltip of its window title. This may be
 	  reverted if it is annoying
+  * Support GNOME Terminal profile settings for backgrounds. Closes LP #180717
 
 terminator 0.6:
 

@@ -62,8 +62,9 @@ class TerminatorTerm:
     '_profile_dir'           : '%s/profiles',
     'allow_bold'            : True,
     'audible_bell'          : False,
-    'background'            : None,
     'background_color'      : '#000000',
+    'background_darkness'   : 0.5,
+    'background_type'       : 'solid',
     'backspace_binding'     : 'ascii-del',
     'delete_binding'        : 'delete-sequence',
     'cursor_blinks'         : False,
@@ -220,6 +221,19 @@ class TerminatorTerm:
     else:
       fg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
       bg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
+
+    # Set our background image, transparency and type
+    background_type = self.gconf_client.get_string (self.profile + "/background_type") or self.defaults['background_type']
+
+    if background_type == "solid":
+      self._vte.set_background_image_file ('')
+      self._vte.set_background_transparent (False)
+    if background_type == "image":
+      self._vte.set_background_image_file (self.gconf_client.get_string (self.profile + "/background_image") or self.defaults['background_image'])
+      self._vte.set_background_transparent (False)
+    if background_type == "transparent":
+      self._vte.set_background_transparent (True)
+      self._vte.set_background_saturation (self.gconf_client.get_float (self.profile + "/background_darkness") or self.defaults['background_darkness'])
 
     colors = palette.split (':')
     palette = []
