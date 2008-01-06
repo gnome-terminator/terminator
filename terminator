@@ -85,6 +85,7 @@ class TerminatorTerm:
     'link_userchars'        : '-A-Za-z0-9',
     'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
     '_palette'               : '%s/palette',
+    'default_palette'       : '',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
   }
@@ -98,24 +99,24 @@ class TerminatorTerm:
     self.term = term
     self.gconf_client = gconf.client_get_default ()
 
-    self.profile = None
+    self.profile = ""
     profiles = self.gconf_client.get_list (self.defaults['gt_dir'] + '/global/profile_list', 'string')
 
-    for item in profiles:
-      if item == profile:
-        self.profile = '%s/%s'%(self.defaults['profile_dir'], item)
-        break
+    if profile in profiles:
+      self.profile = '%s/%s'%(self.defaults['profile_dir'], profile)
 
-    if self.profile == None:
-      print "Error, unable to find profile " + profile
-      # FIXME: This absolutely should not be an exit, the terminal should fail to spawn. If they all fail, it should exit from the mainloop or something.
-      sys.exit (2)
+    if not self.profile:
+      print >> sys.stderr,  _("Warning: unable to find profile %s. Continue with default values...") % profile
 
     self.defaults['palette'] = self.defaults['_palette']%(self.profile)
 
-    self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
+    if self.profile:
+      self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
+      self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
+ 
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
-
+    self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
+ 
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
     self._vte = vte.Terminal ()
@@ -130,9 +131,6 @@ class TerminatorTerm:
 
     self._box.pack_start (self._vte)
     self._box.pack_start (self._scrollbar, False)
-
-    self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
-    self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
 
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
@@ -172,7 +170,7 @@ class TerminatorTerm:
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our wordchars
-    word_chars = self.gconf_client.get_string (self.profile + "/word_chars" or self.defaults['word_chars'])
+    word_chars = self.gconf_client.get_string (self.profile + "/word_chars") or self.defaults['word_chars']
     self._vte.set_word_chars (word_chars)
 
     # Set our mouselation
@@ -215,8 +213,8 @@ class TerminatorTerm:
     self._vte.set_allow_bold (self.gconf_client.get_bool (self.profile + "/allow_bold") or self.defaults['allow_bold'])
 
     # Set our color scheme, preferably from gconf settings
-    palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['palette']
-    if self.gconf_client.get_bool (self.profile + "/use_theme_colors") == True:
+    palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['default_palette']
+    if (not self.profile) or self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
@@ -240,7 +238,8 @@ class TerminatorTerm:
     colors = palette.split (':')
     palette = []
     for color in colors:
-      palette.append (gtk.gdk.color_parse (color))
+      if color:
+        palette.append (gtk.gdk.color_parse (color))
     self._vte.set_colors (fg_color, bg_color, palette)
 
     # Set our cursor blinkiness
