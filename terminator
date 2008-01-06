@@ -294,6 +294,13 @@ class TerminatorTerm:
       elif keyname == 'V':
         self._vte.paste_clipboard ()
         return (True)
+      elif keyname == 'plus':
+        self.zoom (True)
+        return (True)
+
+    if keyname and (keyname == 'minus'):
+      if event.state == gtk.gdk.CONTROL_MASK:
+        self.zoom (False)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -304,6 +311,18 @@ class TerminatorTerm:
             return (True)
 
     return (False)
+
+  def zoom (self, zoom_in):
+    pangodesc = self._vte.get_font ()
+    fontsize = pango.PIXELS (pangodesc.get_size ())
+
+    if fontsize > 1 and not zoom_in:
+      fontsize -= 1
+    elif zoom_in:
+      fontsize += 1
+
+    pangodesc.set_size (fontsize * pango.SCALE)
+    self._vte.set_font (pangodesc)
 
   def on_vte_popup_menu (self, term):
     self.do_popup ()
