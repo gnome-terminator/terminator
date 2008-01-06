@@ -11,6 +11,7 @@ terminator 0.7:
 	  splitting shortcut too, and add support for gnome-terminal's copy/paste 
 		shortcuts. Closes LP #179310
   * Borderless support (tell your window manager not to decorate Terminator)
+	* Font zooming support. Closes LP #178792
 
 terminator 0.6:
 
