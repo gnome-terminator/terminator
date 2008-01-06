@@ -12,6 +12,8 @@ terminator 0.7:
 		shortcuts. Closes LP #179310
   * Borderless support (tell your window manager not to decorate Terminator)
 	* Font zooming support. Closes LP #178792
+	* Set the VTE widget to have a tooltip of its window title. This may be
+	  reverted if it is annoying
 
 terminator 0.6:
 
