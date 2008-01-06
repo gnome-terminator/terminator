@@ -72,6 +72,7 @@ class TerminatorTerm:
     'font_name'             : 'Serif 10',
     'foreground_color'      : '#AAAAAA',
     'scrollbar'             : True,
+    'scroll_background'     : True,
     'scroll_on_keystroke'   : False,
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
@@ -230,6 +231,7 @@ class TerminatorTerm:
       self._vte.set_background_transparent (False)
     if background_type == "image":
       self._vte.set_background_image_file (self.gconf_client.get_string (self.profile + "/background_image") or self.defaults['background_image'])
+      self._vte.set_scroll_background (self.gconf_client.get_bool (self.profile + "/scroll_background") or self.defaults['scroll_background'])
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
       self._vte.set_background_transparent (True)
