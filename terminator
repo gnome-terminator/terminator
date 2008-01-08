@@ -244,8 +244,8 @@ class TerminatorTerm:
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
       self._vte.set_background_transparent (True)
-      self._vte.set_background_saturation (self.gconf_client.get_float (self.profile + "/background_darkness") or self.defaults['background_darkness'])
-
+      self._vte.set_background_saturation (1 - (self.gconf_client.get_float (self.profile + "/background_darkness") or self.defaults['background_darkness']))
+      
     colors = palette.split (':')
     palette = []
     for color in colors:
