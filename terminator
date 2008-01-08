@@ -99,6 +99,9 @@ class TerminatorTerm:
     self.term = term
     self.gconf_client = gconf.client_get_default ()
 
+    if profile == None:
+      profile = self.gconf_client.get_string (self.defaults['gt_dir'] + '/global/default_profile')
+
     self.profile = ""
     profiles = self.gconf_client.get_list (self.defaults['gt_dir'] + '/global/profile_list', 'string')
 
@@ -650,6 +653,7 @@ class Terminator:
     else:
       previous -= 1
 
+    #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     self.term_list[previous]._vte.grab_focus ()
 
 def usage ():
@@ -671,7 +675,7 @@ if __name__ == '__main__':
 
   # set some default values
   debug = 0
-  profile = "Default"
+  profile = None
   maximise = False
   fullscreen = False
   borderless = False
