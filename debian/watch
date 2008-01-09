@@ -1,2 +1,2 @@
 version=3
-https://launchpad.net/terminator/+download https://launchpad.net/terminator/.*/terminator_(.+)\.tar\.gz
+https://launchpad.net/terminator/+download .*/terminator_(.+)\.tar\.gz
