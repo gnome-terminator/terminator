@@ -1,6 +1,6 @@
 terminator (0.7-0ubuntu1) hardy; urgency=low
 
-  * Packaging work for initial inclusion in Ubuntu. Closes #180692
+  * Packaging work for initial inclusion in Ubuntu. (Closes LP: #180692)
 
  -- Chris Jones <cmsj@tenshu.net>  Wed, 02 Jan 2008 22:50:18 +0000
 
