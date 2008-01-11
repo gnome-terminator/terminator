@@ -6,7 +6,7 @@ Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Chris Jones <cmsj@tenshu.net>
 Build-Depends: debhelper (>= 5.0.38), python, cdbs (>=0.4.49)
 Build-Depends-Indep: python-central (>= 0.5.6), python-vte
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
