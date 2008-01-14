@@ -92,7 +92,7 @@ class TerminatorTerm:
 
   matches = {}
 
-  def __init__ (self, term, profile):
+  def __init__ (self, term, profile, pwd=None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
@@ -161,9 +161,9 @@ class TerminatorTerm:
     self.matches['path'] = self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
     self.matches['email'] = self._vte.match_add ('(mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+')
 
-    self.spawn_child ()
+    self.spawn_child (pwd)
 
-  def spawn_child (self, event=None):
+  def spawn_child (self, dir=None, event=None):
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
     login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
 
@@ -173,6 +173,8 @@ class TerminatorTerm:
     else:
       shell = pwd.getpwuid (os.getuid ())[6]
       args = [os.path.basename (shell)]
+      if dir:
+        args.append(dir)
 
     self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
@@ -518,6 +520,10 @@ class Terminator:
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
+    if (keyname == 'F11'):
+      self.toggle_fullscreen ()
+      return (True)
+
     if (event.state & mask) == mask:
       if keyname == 'F':
         self.toggle_fullscreen ()
@@ -587,7 +593,7 @@ class Terminator:
     # insert the term reference into the list
     index = self.term_list.index (widget)
     self.term_list.insert (index + 1, term2)
-    widget._vte.grab_focus ()
+    term2._vte.grab_focus ()
 
     return (term2)
 
