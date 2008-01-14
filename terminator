@@ -141,7 +141,7 @@ class TerminatorTerm:
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
-    self._vte.connect ("window-title-changed", self.on_vte_title_change)
+#    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
     if not exit_action:
