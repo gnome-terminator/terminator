@@ -295,6 +295,8 @@ class TerminatorTerm:
       self._vte.set_size (self._vte.get_column_count () - int(math.ceil(self._scrollbar.allocation.width / self._vte.get_char_width ())), self._vte.get_row_count ())
       self._scrollbar.show ()
 
+#keybindings for the individual splited terminals (affects only the
+#the selected terminal)
   def on_vte_key_press (self, term, event):
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
@@ -324,10 +326,7 @@ class TerminatorTerm:
       elif keyname == 'plus':
         self.zoom (True)
         return (True)
-
-    mask = gtk.gdk.CONTROL_MASK
-    if keyname and (keyname == 'minus'):
-      if (event.state & mask) == mask:
+      elif keyname == 'minus':
         self.zoom (False)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
@@ -510,6 +509,8 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
 
+#keybindingd for the whole terminal window (affects the main
+#windows containing the splited terminals)
   def on_key_press (self, window, event):
     """ Callback for the window to determine what to do with special
         keys. Currently handled key-combo's:
