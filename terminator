@@ -291,16 +291,28 @@ class TerminatorTerm:
     if self._scrollbar.get_property ('visible'):
       self._scrollbar.hide ()
     else:
-      # We need to make the terminal narrower by the width of the scrollbar
-      self._vte.set_size (self._vte.get_column_count () - int(math.ceil(self._scrollbar.allocation.width / self._vte.get_char_width ())), self._vte.get_row_count ())
       self._scrollbar.show ()
 
-#keybindings for the individual splited terminals (affects only the
-#the selected terminal)
+  #keybindings for the individual splited terminals (affects only the
+  #the selected terminal)
   def on_vte_key_press (self, term, event):
     keyname = gtk.gdk.keyval_name (event.keyval)
-    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
+    mask = gtk.gdk.CONTROL_MASK
+    if (event.state & mask) == mask:
+      if keyname == 'plus':
+        self.zoom (True)
+        return (True)
+      elif keyname == 'minus':
+        self.zoom (False)
+        return (True)
+
+    # bindings that should be moved to Terminator as they all just call
+    # a function of Terminator. It would be cleaner is TerminatorTerm
+    # has absolutely no reference to Terminator.
+    # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+
+    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
     if (event.state & mask) == mask:
       if keyname == 'N':
         self.term.go_next (self)
@@ -323,11 +335,6 @@ class TerminatorTerm:
       elif keyname == 'V':
         self._vte.paste_clipboard ()
         return (True)
-      elif keyname == 'plus':
-        self.zoom (True)
-        return (True)
-      elif keyname == 'minus':
-        self.zoom (False)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -509,12 +516,13 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     gtk.main_quit ()
 
-#keybindingd for the whole terminal window (affects the main
-#windows containing the splited terminals)
+  # keybindings for the whole terminal window (affects the main
+  # windows containing the splited terminals)
   def on_key_press (self, window, event):
     """ Callback for the window to determine what to do with special
         keys. Currently handled key-combo's:
-          * CTRL - SHIFT - F : toggle fullscreen state of the window.
+          * F11:              toggle fullscreen state of the window.
+          * CTRL - SHIFT - Q: close all terminals
     """
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
@@ -524,58 +532,35 @@ class Terminator:
       return (True)
 
     if (event.state & mask) == mask:
-      if keyname == 'F':
-        self.toggle_fullscreen ()
-        return (True)
       if keyname == 'Q':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
         
 
-  def splitaxis (self, widget, vert=True):
-    term2 = TerminatorTerm (self, self.profile)
+  def splitaxis (self, widget, vertical=True):
+    """ Split the provided widget on the horizontal or vertical axis. """
 
-    parent = widget.get_box ().get_parent ()
+    # create a new terminal and parent pane.
+    terminal = TerminatorTerm (self, self.profile)
+    pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
-    if vert:
-      pane = gtk.VPaned ()
-    else:
-      pane = gtk.HPaned ()
-
-    # VTE doesn't seem to cope well with being resized by the window manager. I expect I am supposed to send some kind of WINCH, or just generally connect window resizing events to a callback that will often tell vte about the new size. For now, cheat. Badly.
-    cols = widget._vte.get_column_count ()
-    rows = widget._vte.get_row_count ()
-    allowance = widget._scrollbar.allocation.width + pane.style_get_property ('handle-size')
-
-    if vert:
-      width = cols
-      height = (rows / 2) - (allowance / widget._vte.get_char_height ())
-    else:
-      width = (cols / 2) - (allowance / widget._vte.get_char_width ())
-      height = rows
-
-    widget._vte.set_size (width, height)
-    term2._vte.set_size (width, height)
+    # get the parent of the provided terminal
+    parent   = widget.get_box ().get_parent ()
 
     if isinstance (parent, gtk.Window):
       # We have just one term
-      if vert:
-        newpos = parent.allocation.height / 2
-      else:
-        newpos = parent.allocation.width / 2
-
       widget.get_box ().reparent (pane)
 
       pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.pack2 (terminal.get_box (), True, True)
 
       parent.add (pane)
-      pane.set_position (newpos)
+
+      position = (vertical) and parent.allocation.height or parent.allocation.width
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      if vert:
-        term2._vte.set_size (cols, (rows / 2) - 1)
+      position = (vertical) and widget.get_box().allocation.height or widget.get_box().allocation.width
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
@@ -585,16 +570,21 @@ class Terminator:
         parent.pack2 (pane, True, True)
 
       pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (term2.get_box (), True, True)
+      pane.pack2 (terminal.get_box (), True, True)
 
+    # show all, set position of the divider
     pane.show ()
-    term2.get_box ().show ()
+    pane.set_position (position / 2)
+    terminal.get_box ().show ()
+
     # insert the term reference into the list
     index = self.term_list.index (widget)
-    self.term_list.insert (index + 1, term2)
-    term2._vte.grab_focus ()
+    self.term_list.insert (index + 1, terminal)
+    
+    # make the new terminal grab the focus
+    terminal._vte.grab_focus ()
 
-    return (term2)
+    return (terminal)
 
   def closeterm (self, widget):
     parent = widget.get_box ().get_parent ()
