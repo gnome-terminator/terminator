@@ -5,8 +5,8 @@ Priority: optional
 Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Chris Jones <cmsj@tenshu.net>
 Build-Depends: debhelper (>= 5.0.38), python, cdbs (>=0.4.49)
-Build-Depends-Indep: python-central (>= 0.5.6), python-vte
-Standards-Version: 3.7.2
+Build-Depends-Indep: python-central (>= 0.5.6)
+Standards-Version: 3.7.3
 Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
@@ -14,6 +14,8 @@ Architecture: all
 Depends: ${python:Depends}, python-vte, python-gconf, gconf2
 XB-Python-Version: ${python:Versions}
 Description: Multiple GNOME terminals in one window
- Terminator, multiple terminals in one window. This is a little
- project to produce an efficient way of filling a large area of
- screen space with terminals.
+ This is a project to produce an efficient way of filling a 
+ large area of screen space with terminals. This is done by 
+ splitting the window into a resizeable grid of terminals. As 
+ such, you can  produce a very flexible arrangements of terminals 
+ for different tasks.
