@@ -5,8 +5,8 @@ terminator 0.7:
     Meire. Closes LP #161121
   * Freedesktop .desktop file and appropriate setup.py entry for installing
     it. Closes LP #178943
-  * Translation support, with Spanish and Dutch translations. Closes LP
-	  #161120
+  * Translation support, with Spanish, Dutch, Italian and Romanian translations. 
+		Closes LP #161120
   * Stop clashing with gnome-terminal's paste shortcut key, move horizontal
 	  splitting shortcut too, and add support for gnome-terminal's copy/paste 
 		shortcuts. Closes LP #179310
