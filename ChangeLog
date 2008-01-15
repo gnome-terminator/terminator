@@ -5,18 +5,18 @@ terminator 0.7:
     Meire. Closes LP #161121
   * Freedesktop .desktop file and appropriate setup.py entry for installing
     it. Closes LP #178943
-  * Translation support, with Spanish, Dutch, Italian and Romanian translations. 
-		Closes LP #161120
+  * Translation support, with Spanish, Dutch, Italian and Romanian 
+    translations. Closes LP #161120
   * Stop clashing with gnome-terminal's paste shortcut key, move horizontal
-	  splitting shortcut too, and add support for gnome-terminal's copy/paste 
-		shortcuts. Closes LP #179310
+    splitting shortcut too, and add support for gnome-terminal's copy/paste 
+    shortcuts. Closes LP #179310
   * Borderless support (tell your window manager not to decorate Terminator)
-	* Font zooming support. Closes LP #178792
-	* Set the VTE widget to have a tooltip of its window title. This may be
-	  reverted if it is annoying
+  * Font zooming support. Closes LP #178792
+  * Set the VTE widget to have a tooltip of its window title. This may be
+    reverted if it is annoying
   * Support GNOME Terminal profile settings for backgrounds. Closes LP #180717
-	* Use our own default values if there is no gnome-terminal profile. Closes
-		LP #179315
+  * Use our own default values if there is no gnome-terminal profile. Closes
+    LP #179315
 
 terminator 0.6:
 
