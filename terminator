@@ -24,6 +24,7 @@ Usage: terminator [OPTION] ...
   -f, --fullscreen        Place the window in its fullscreen state when it starts
   -b, --borderless        Draw the terminator window without a window border (useful with -m)
   -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
+  -e, --execute=COMMAND   Executes the command on the opened terminal window
 """
 
 # import standard python libs
@@ -92,12 +93,13 @@ class TerminatorTerm:
 
   matches = {}
 
-  def __init__ (self, term, profile):
+  def __init__ (self, term, profile, command):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
     self.term = term
     self.gconf_client = gconf.client_get_default ()
+    self.command = command
 
     if profile == None:
       profile = self.gconf_client.get_string (self.defaults['gt_dir'] + '/global/default_profile')
@@ -167,7 +169,10 @@ class TerminatorTerm:
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
     login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
 
-    if self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
+    if self.command:
+      args = self.command
+      shell = self.command
+    elif self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       args = self.gconf_client.get_string (self.profile + "/custom_command").split ()
       shell = args[0]
     else:
@@ -439,9 +444,10 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self, profile):
+  def __init__ (self, profile, command):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
+    self.command = command
 
     self._fullscreen = False
 
@@ -458,7 +464,7 @@ class Terminator:
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
-    term = (TerminatorTerm (self, self.profile))
+    term = (TerminatorTerm (self, self.profile, self.command))
     self.term_list = [term]
 
     self.window.add (term.get_box ())
@@ -541,7 +547,7 @@ class Terminator:
     """ Split the provided widget on the horizontal or vertical axis. """
 
     # create a new terminal and parent pane.
-    terminal = TerminatorTerm (self, self.profile)
+    terminal = TerminatorTerm (self, self.profile, None)
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal
@@ -658,8 +664,8 @@ def usage ():
 if __name__ == '__main__':
 
   # define the options
-  short_opts = "hdmfbp:"
-  long_opts  = ["help", "debug", "maximise", "fullscreen", "borderless", "profile="]
+  short_opts = "hdmfbp:e:"
+  long_opts  = ["help", "debug", "maximise", "fullscreen", "borderless", "profile=", "execute="]
 
   # parse the options
   try:
@@ -674,6 +680,7 @@ if __name__ == '__main__':
   maximise = False
   fullscreen = False
   borderless = False
+  command = None
 
   # check the options
   for opt, arg in opts:
@@ -690,8 +697,10 @@ if __name__ == '__main__':
       borderless = True
     if opt in ("-p", "--profile"):
       profile = arg
+    if opt in ("-e", "--execute"):
+      command = arg
 
-  term = Terminator (profile)
+  term = Terminator (profile, command)
 
   # Set the Terminator in fullscreen state or maximize it.
   # Fullscreen and maximise are mutually exclusive, with
