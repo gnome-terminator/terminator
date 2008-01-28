@@ -170,7 +170,7 @@ class TerminatorTerm:
     login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
 
     if self.command:
-      args = self.command
+      args = [self.command]
       shell = self.command
     elif self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       args = self.gconf_client.get_string (self.profile + "/custom_command").split ()
