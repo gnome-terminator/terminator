@@ -44,7 +44,7 @@ class InstallData(install_data):
 
 
 setup(name='Terminator',
-      version='0.7',
+      version='0.8',
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',

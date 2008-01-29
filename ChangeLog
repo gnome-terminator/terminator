@@ -1,3 +1,9 @@
+terminator 0.8:
+	* Make dependency on python-gnome optional. Non-gnome users can now reap
+	  the glorious benefits of Terminator and will only lose the ability to
+		open email URLs (assuming their browser won't handle this for them).
+		Closes LP #184809
+
 terminator 0.7:
 
   * Fullscreen support, via a patch from Thomas Meire. Closes LP #178914

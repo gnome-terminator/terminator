@@ -36,14 +36,24 @@ gettext.install ('terminator')
 # import unix-lib
 import pwd
 
-# import gtk/gnome libs
+# import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
-  import gobject, gtk, gnome, gconf, pango
+  import gobject, gtk, gconf, pango
 except:
   print >> sys.stderr, _("You need to install the python bindings for " \
-    "gobject, gnome, gtk, gconf and pango to run Terminator.")
+    "gobject, gtk, gconf and pango to run Terminator.")
   sys.exit(1)
+
+# import a library for viewing URLs
+try:
+  # gnome.url_show() is really useful
+  import gnome
+  url_show = gnome.url_show
+except:
+  # webbrowser.open() is not really useful, but will do as a fallback
+  import webbrowser
+  url_show = webbrowser.open
 
 # import vte-bindings
 try:
@@ -412,7 +422,7 @@ class TerminatorTerm:
         namecopy = _("_Copy Email Address")
 
       item = gtk.MenuItem (nameopen)
-      item.connect ("activate", lambda menu_item: gnome.url_show (address))
+      item.connect ("activate", lambda menu_item: url_show (address))
       menu.append (item)
 
       item = gtk.MenuItem (namecopy)
