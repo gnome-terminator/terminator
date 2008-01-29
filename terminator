@@ -181,20 +181,31 @@ class TerminatorTerm:
 
     self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
+  def reconf_s (self, property):
+    return self.gconf_client.get_string (self.profile + "/" + property) or self.defaults[property]
+
+  def reconf_b (self, property):
+    return self.gconf_client.get_bool (self.profile + "/" + property) or self.defaults[property]
+
+  def reconf_i (self, property):
+    return self.gconf_client.get_int (self.profile + "/" + property) or self.defaults[property]
+
+  def reconf_f (self, property):
+    return self.gconf_client.get_float (self.profile + "/" + property) or self.defaults[property]
+
   def reconfigure_vte (self):
     # Set our emulation
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our wordchars
-    word_chars = self.gconf_client.get_string (self.profile + "/word_chars") or self.defaults['word_chars']
-    self._vte.set_word_chars (word_chars)
+    self._vte.set_word_chars (self.reconf_s ('word_chars'))
 
     # Set our mouselation
     self._vte.set_mouse_autohide (self.defaults['mouse_autohide'])
 
     # Set our compatibility
-    backspace = self.gconf_client.get_string (self.profile + "/backspace_binding") or self.defaults['backspace_binding']
-    delete = self.gconf_client.get_string (self.profile + "/delete_binding") or self.defaults['delete_binding']
+    backspace = self.reconf_s ('backspace_binding')
+    delete = self.reconf_s ('delete_binding')
 
 # Note, each of the 4 following comments should replace the line beneath it, but the python-vte bindings don't appear to support this constant, so the magic values are being assumed from the C enum :/
     if backspace == "ascii-del":
@@ -218,7 +229,7 @@ class TerminatorTerm:
     if self.gconf_client.get_bool (self.profile + "/use_system_font"):
       font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
     else:
-      font_name = (self.gconf_client.get_string (self.profile + "/font") or self.defaults['font_name'])
+      font_name = self.reconf_s ('font_name')
 
     try:
       self._vte.set_font (pango.FontDescription (font_name))
@@ -226,30 +237,30 @@ class TerminatorTerm:
       pass
 
     # Set our boldness
-    self._vte.set_allow_bold (self.gconf_client.get_bool (self.profile + "/allow_bold") or self.defaults['allow_bold'])
+    self._vte.set_allow_bold (self.reconf_b ('allow_bold'))
 
     # Set our color scheme, preferably from gconf settings
-    palette = self.gconf_client.get_string (self.profile + "/palette") or self.defaults['default_palette']
+    palette = self.reconf_s ('default_palette')
     if (not self.profile) or self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
-      fg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/foreground_color") or self.defaults['foreground_color'])
-      bg_color = gtk.gdk.color_parse (self.gconf_client.get_string (self.profile + "/background_color") or self.defaults['background_color'])
+      fg_color = gtk.gdk.color_parse (self.reconf_s ('foreground_color'))
+      bg_color = gtk.gdk.color_parse (self.reconf_s ('background_color'))
 
     # Set our background image, transparency and type
-    background_type = self.gconf_client.get_string (self.profile + "/background_type") or self.defaults['background_type']
+    background_type = self.reconf_s ('background_type')
 
     if background_type == "solid":
       self._vte.set_background_image_file ('')
       self._vte.set_background_transparent (False)
     if background_type == "image":
-      self._vte.set_background_image_file (self.gconf_client.get_string (self.profile + "/background_image") or self.defaults['background_image'])
-      self._vte.set_scroll_background (self.gconf_client.get_bool (self.profile + "/scroll_background") or self.defaults['scroll_background'])
+      self._vte.set_background_image_file (self.reconf_s ('background_image'))
+      self._vte.set_scroll_background (self.reconf_b ('scroll_background'))
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
       self._vte.set_background_transparent (True)
-      self._vte.set_background_saturation (1 - (self.gconf_client.get_float (self.profile + "/background_darkness") or self.defaults['background_darkness']))
+      self._vte.set_background_saturation (1 - (self.reconf_f ('background_darkness')))
       
     colors = palette.split (':')
     palette = []
@@ -259,16 +270,17 @@ class TerminatorTerm:
     self._vte.set_colors (fg_color, bg_color, palette)
 
     # Set our cursor blinkiness
-    self._vte.set_cursor_blinks = (self.gconf_client.get_bool (self.profile + "/cursor_blinks") or self.defaults['cursor_blinks'])
+    self._vte.set_cursor_blinks = (self.reconf_b ('cursor_blinks'))
 
     # Set our audible belliness
+    # FIXME: What on earth are we doing here. We should match the profile setting name and try not to set things this way
     self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.profile + "/silent_bell") or self.defaults['audible_bell'])
     self._vte.set_visible_bell (self.defaults['visible_bell'])
 
     # Set our scrolliness
-    self._vte.set_scrollback_lines (self.gconf_client.get_int (self.profile + "/scrollback_lines") or self.defaults['scrollback_lines'])
-    self._vte.set_scroll_on_keystroke (self.gconf_client.get_bool (self.profile + "/scroll_on_keystroke") or self.defaults['scroll_on_keystroke'])
-    self._vte.set_scroll_on_output (self.gconf_client.get_bool (self.profile + "/scroll_on_output") or self.defaults['scroll_on_output'])
+    self._vte.set_scrollback_lines (self.reconf_i ('scrollback_lines'))
+    self._vte.set_scroll_on_keystroke (self.reconf_b ('scroll_on_keystroke'))
+    self._vte.set_scroll_on_output (self.reconf_b ('scroll_on_output'))
 
     # Set our sloppiness
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
