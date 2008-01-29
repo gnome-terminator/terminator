@@ -60,7 +60,7 @@ class TerminatorTerm:
   # FIXME: Add commandline and/or gconf options to change these
   defaults = {
     'gt_dir'                : '/apps/gnome-terminal',
-    '_profile_dir'           : '%s/profiles',
+    '_profile_dir'          : '%s/profiles',
     'allow_bold'            : True,
     'audible_bell'          : False,
     'background_color'      : '#000000',
@@ -85,7 +85,7 @@ class TerminatorTerm:
     'link_hostchars'        : '-A-Za-z0-9',
     'link_userchars'        : '-A-Za-z0-9',
     'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
-    '_palette'               : '%s/palette',
+    '_palette'              : '%s/palette',
     'default_palette'       : '',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
