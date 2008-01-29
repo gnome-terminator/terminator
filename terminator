@@ -93,11 +93,11 @@ class TerminatorTerm:
 
   matches = {}
 
-  def __init__ (self, term, profile, command):
+  def __init__ (self, terminator, profile, command):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
-    self.term = term
+    self.terminator = terminator
     self.gconf_client = gconf.client_get_default ()
     self.command = command
 
@@ -154,7 +154,7 @@ class TerminatorTerm:
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
     if exit_action == "close":
-      self._vte.connect ("child-exited", lambda close_term: self.term.closeterm (self))
+      self._vte.connect ("child-exited", lambda close_term: self.terminator.closeterm (self))
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
@@ -320,19 +320,19 @@ class TerminatorTerm:
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
     if (event.state & mask) == mask:
       if keyname == 'N':
-        self.term.go_next (self)
+        self.terminator.go_next (self)
         return (True)
       elif keyname == "P":
-        self.term.go_prev (self)
+        self.terminator.go_prev (self)
         return (True)
       elif keyname == 'O':
-        self.term.splitaxis (self, False)
+        self.terminator.splitaxis (self, False)
         return (True)
       elif keyname == 'E':
-        self.term.splitaxis (self, True)
+        self.terminator.splitaxis (self, True)
         return (True)
       elif keyname == 'W':
-        self.term.closeterm (self)
+        self.terminator.closeterm (self)
         return (True)
       elif keyname == 'C':
         self._vte.copy_clipboard ()
@@ -343,10 +343,10 @@ class TerminatorTerm:
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
-            self.term.go_next (self)
+            self.terminator.go_next (self)
             return (True)
         if (event.state & mask) == mask:
-            self.term.go_prev (self)
+            self.terminator.go_prev (self)
             return (True)
 
     return (False)
@@ -419,18 +419,18 @@ class TerminatorTerm:
     menu.append (item)
 
     item = gtk.MenuItem (_("Split H_orizontally"))
-    item.connect ("activate", lambda menu_item: self.term.splitaxis (self, False))
+    item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
     menu.append (item)
 
     item = gtk.MenuItem (_("Split V_ertically"))
-    item.connect ("activate", lambda menu_item: self.term.splitaxis (self, True))
+    item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
     menu.append (item)
 
     item = gtk.MenuItem ()
     menu.append (item)
 
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
-    item.connect ("activate", lambda menu_item: self.term.closeterm (self))
+    item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
 
     menu.show_all ()
