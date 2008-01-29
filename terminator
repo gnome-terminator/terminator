@@ -191,16 +191,12 @@ class TerminatorTerm:
         pass
     else:
       if value.type == gconf.VALUE_STRING:
-        print "string"
         ret = value.get_string ()
       elif value.type == gconf.VALUE_INT:
-        print "int"
         ret = value.get_int ()
       elif value.type == gconf.VALUE_FLOAT:
-        print "float"
         ret = value.get_float ()
       elif value.type == gconf.VALUE_BOOL:
-        print "bool"
         ret = value.get_bool ()
 
     if ret == None:
@@ -208,31 +204,19 @@ class TerminatorTerm:
       sys.exit (1)
     return ret
 
-  def reconf_s (self, property):
-    return self.reconf (property)
-
-  def reconf_b (self, property):
-    return self.reconf (property)
-
-  def reconf_i (self, property):
-    return self.reconf (property)
-
-  def reconf_f (self, property):
-    return self.reconf (property)
-
   def reconfigure_vte (self):
     # Set our emulation
     self._vte.set_emulation (self.defaults['emulation'])
 
     # Set our wordchars
-    self._vte.set_word_chars (self.reconf_s ('word_chars'))
+    self._vte.set_word_chars (self.reconf ('word_chars'))
 
     # Set our mouselation
     self._vte.set_mouse_autohide (self.defaults['mouse_autohide'])
 
     # Set our compatibility
-    backspace = self.reconf_s ('backspace_binding')
-    delete = self.reconf_s ('delete_binding')
+    backspace = self.reconf ('backspace_binding')
+    delete = self.reconf ('delete_binding')
 
 # Note, each of the 4 following comments should replace the line beneath it, but the python-vte bindings don't appear to support this constant, so the magic values are being assumed from the C enum :/
     if backspace == "ascii-del":
@@ -256,7 +240,7 @@ class TerminatorTerm:
     if self.gconf_client.get_bool (self.profile + "/use_system_font"):
       font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
     else:
-      font_name = self.reconf_s ('font_name')
+      font_name = self.reconf ('font_name')
 
     try:
       self._vte.set_font (pango.FontDescription (font_name))
@@ -264,31 +248,31 @@ class TerminatorTerm:
       pass
 
     # Set our boldness
-    self._vte.set_allow_bold (self.reconf_b ('allow_bold'))
+    self._vte.set_allow_bold (self.reconf ('allow_bold'))
 
     # Set our color scheme, preferably from gconf settings
     # FIXME: This is wrong, we should be pulling 'palette' out of gconf, but reverting to self.defaults['default_palette'] which means we need to reorganise self.defaults to make this available under the same name as gconf
-    palette = self.reconf_s ('default_palette')
+    palette = self.reconf ('default_palette')
     if (not self.profile) or self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
-      fg_color = gtk.gdk.color_parse (self.reconf_s ('foreground_color'))
-      bg_color = gtk.gdk.color_parse (self.reconf_s ('background_color'))
+      fg_color = gtk.gdk.color_parse (self.reconf ('foreground_color'))
+      bg_color = gtk.gdk.color_parse (self.reconf ('background_color'))
 
     # Set our background image, transparency and type
-    background_type = self.reconf_s ('background_type')
+    background_type = self.reconf ('background_type')
 
     if background_type == "solid":
       self._vte.set_background_image_file ('')
       self._vte.set_background_transparent (False)
     if background_type == "image":
-      self._vte.set_background_image_file (self.reconf_s ('background_image'))
-      self._vte.set_scroll_background (self.reconf_b ('scroll_background'))
+      self._vte.set_background_image_file (self.reconf ('background_image'))
+      self._vte.set_scroll_background (self.reconf ('scroll_background'))
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
       self._vte.set_background_transparent (True)
-      self._vte.set_background_saturation (1 - (self.reconf_f ('background_darkness')))
+      self._vte.set_background_saturation (1 - (self.reconf ('background_darkness')))
       
     colors = palette.split (':')
     palette = []
@@ -298,7 +282,7 @@ class TerminatorTerm:
     self._vte.set_colors (fg_color, bg_color, palette)
 
     # Set our cursor blinkiness
-    self._vte.set_cursor_blinks = (self.reconf_b ('cursor_blink'))
+    self._vte.set_cursor_blinks = (self.reconf ('cursor_blink'))
 
     # Set our audible belliness
     # FIXME: What on earth are we doing here. We should match the profile setting name and try not to set things this way
@@ -306,9 +290,9 @@ class TerminatorTerm:
     self._vte.set_visible_bell (self.defaults['visible_bell'])
 
     # Set our scrolliness
-    self._vte.set_scrollback_lines (self.reconf_i ('scrollback_lines'))
-    self._vte.set_scroll_on_keystroke (self.reconf_b ('scroll_on_keystroke'))
-    self._vte.set_scroll_on_output (self.reconf_b ('scroll_on_output'))
+    self._vte.set_scrollback_lines (self.reconf ('scrollback_lines'))
+    self._vte.set_scroll_on_keystroke (self.reconf ('scroll_on_keystroke'))
+    self._vte.set_scroll_on_output (self.reconf ('scroll_on_output'))
 
     # Set our sloppiness
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
