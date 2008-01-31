@@ -80,7 +80,7 @@ class TerminatorTerm:
     'delete_binding'        : 'delete-sequence',
     'cursor_blink'          : False,
     'emulation'             : 'xterm',
-    'font_name'             : 'Serif 10',
+    'font'                  : 'Serif 10',
     'foreground_color'      : '#AAAAAA',
     'scrollbar'             : True,
     'scroll_background'     : True,
@@ -248,9 +248,9 @@ class TerminatorTerm:
 
     # Set our font, preferably from gconf settings
     if self.gconf_client.get_bool (self.profile + "/use_system_font"):
-      font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font_name'])
+      font_name = (self.gconf_client.get_string ("/desktop/gnome/interface/monospace_font_name") or self.defaults['font'])
     else:
-      font_name = self.reconf ('font_name')
+      font_name = self.reconf ('font')
 
     try:
       self._vte.set_font (pango.FontDescription (font_name))
