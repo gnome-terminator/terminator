@@ -82,7 +82,7 @@ class TerminatorTerm:
     'emulation'             : 'xterm',
     'font'                  : 'Serif 10',
     'foreground_color'      : '#AAAAAA',
-    'scrollbar'             : True,
+    'scrollbar_position'    : "right",
     'scroll_background'     : True,
     'scroll_on_keystroke'   : False,
     'scroll_on_output'      : False,
@@ -137,18 +137,27 @@ class TerminatorTerm:
  
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
 
+    self.scrollbar_position = self.reconf ('scrollbar_position')
+
     self._vte = vte.Terminal ()
     self._vte.set_size (80, 24)
     self.reconfigure_vte ()
     self._vte.show ()
 
     self._box = gtk.HBox ()
+    self._box.show ()
+
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
-    if self.defaults['scrollbar']:
+    if self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
-    self._box.pack_start (self._vte)
-    self._box.pack_start (self._scrollbar, False)
+    if self.scrollbar_position == 'right':
+      packfunc = self._box.pack_start
+    else:
+      packfunc = self._box.pack_end
+
+    packfunc (self._vte)
+    packfunc (self._scrollbar, False)
 
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
@@ -303,6 +312,27 @@ class TerminatorTerm:
     self._vte.set_scrollback_lines (self.reconf ('scrollback_lines'))
     self._vte.set_scroll_on_keystroke (self.reconf ('scroll_on_keystroke'))
     self._vte.set_scroll_on_output (self.reconf ('scroll_on_output'))
+
+    scrollbar_position = self.reconf ('scrollbar_position')
+
+    if scrollbar_position != self.scrollbar_position:
+      if scrollbar_position == 'disabled':
+        self._scrollbar.hide ()
+      if scrollbar_position == 'right':
+        self._box.remove (self._scrollbar)
+        self._box.remove (self._vte)
+        self._box.pack_start (self._vte)
+        self._box.pack_start (self._scrollbar)
+        self._scrollbar.show ()
+      elif scrollbar_position == 'left':
+        self._box.remove (self._vte)
+        self._box.remove (self._scrollbar)
+        self._box.pack_start(self._scrollbar)
+        self._box.pack_start(self._vte)
+        self._scrollbar.show ()
+        self._vte.show ()
+
+      self.scrollbar_position = scrollbar_position
 
     # Set our sloppiness
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
@@ -502,7 +532,7 @@ class Terminator:
     self.term_list = [term]
 
     self.window.add (term.get_box ())
-    self.window.show_all ()
+    self.window.show ()
 
   def maximize (self):
     """ Maximize the Terminator."""
