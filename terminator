@@ -318,19 +318,18 @@ class TerminatorTerm:
     if scrollbar_position != self.scrollbar_position:
       if scrollbar_position == 'hidden':
         self._scrollbar.hide ()
+      else:
+        self._scrollbar.show ()
       if scrollbar_position == 'right':
         self._box.remove (self._scrollbar)
         self._box.remove (self._vte)
         self._box.pack_start (self._vte)
         self._box.pack_start (self._scrollbar)
-        self._scrollbar.show ()
       elif scrollbar_position == 'left':
         self._box.remove (self._vte)
         self._box.remove (self._scrollbar)
         self._box.pack_start(self._scrollbar)
         self._box.pack_start(self._vte)
-        self._scrollbar.show ()
-        self._vte.show ()
 
       self.scrollbar_position = scrollbar_position
 
