@@ -54,12 +54,12 @@ setup(name='Terminator',
       data_files=[
                   ('share/applications', ['terminator.desktop']),
                   ('share/man/man1', ['doc/terminator.1']),
+                  ('share/pixmaps', 'data/icons/48x48/apps/terminator.png'),
                   ('share/icons/hicolor/scalable/apps', glob.glob('data/icons/scalable/apps/*.svg')),
                   ('share/icons/hicolor/16x16/apps', glob.glob('data/icons/16x16/apps/*.png')),
                   ('share/icons/hicolor/22x22/apps', glob.glob('data/icons/22x22/apps/*.png')),
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
-                  ('share/pixmaps', 'data/icons/48x48/apps/terminator.png'),
                  ],
       cmdclass={'install_data': InstallData}
      )
