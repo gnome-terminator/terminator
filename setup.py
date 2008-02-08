@@ -58,6 +58,8 @@ setup(name='Terminator',
                   ('share/icons/hicolor/16x16/apps', glob.glob('data/icons/16x16/apps/*.png')),
                   ('share/icons/hicolor/22x22/apps', glob.glob('data/icons/22x22/apps/*.png')),
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
+                  ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
+                  ('share/pixmaps', 'data/icons/48x48/apps/terminator.png),
                  ],
       cmdclass={'install_data': InstallData}
      )
