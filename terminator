@@ -516,8 +516,13 @@ class Terminator:
 
     self.window = gtk.Window ()
     self.window.set_title ("Terminator")
-    self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
-    self.window.set_icon (self.icon)
+
+    # FIXME: This really shouldn't be a hardcoded path
+    try:
+      self.window.set_icon_from_file ("/usr/share/icons/hicolor/48x48/apps/terminator.png")
+    except:
+      self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+      self.window.set_icon (self.icon)
 
     self.window.connect ("key-press-event", self.on_key_press)
     self.window.connect ("delete_event", self.on_delete_event)
