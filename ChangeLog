@@ -1,8 +1,11 @@
-terminator 0.8:
+terminator 0.7.1:
 	* Make dependency on python-gnome optional. Non-gnome users can now reap
 	  the glorious benefits of Terminator and will only lose the ability to
 		open email URLs (assuming their browser won't handle this for them).
 		Closes LP #184809
+  * Remove blank translations from .desktop file to fix empty menu entries.
+		Closes LP #187187
+  * Add application icon at various sizes
 
 terminator 0.7:
 
