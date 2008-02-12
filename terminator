@@ -28,7 +28,8 @@ Usage: terminator [OPTION] ...
 """
 
 # import standard python libs
-import os, sys, string, time, getopt, math
+import os, sys, string, time, math
+from optparse import OptionParser
 
 import gettext
 gettext.install ('terminator')
@@ -729,56 +730,42 @@ def usage ():
   """ Print information on how to use this program. """
   print __doc__
 
+def execute_cb (option, opt, value, parser):
+  assert value is None
+  value = []
+  while parser.rargs:
+    arg = parser.rargs[0]
+    value.append (arg)
+    del (parser.rargs[0])
+  setattr(parser.values, option.dest, value)
+
 if __name__ == '__main__':
 
-  # define the options
-  short_opts = "hdmfbp:e:"
-  long_opts  = ["help", "debug", "maximise", "fullscreen", "borderless", "profile=", "execute="]
+  usage = "usage: %prog [options]"
+  parser = OptionParser (usage)
+  parser.add_option ("-d", "--debug", action="store_true", dest="debug", help="Enable debugging information")
+  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the Terminator window maximised")
+  parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
+  parser.add_option ("-b", "--borderless", action="store_true", dest="borderless", help="Turn off the window's borders")
+  parser.add_option ("-p", "--profile", dest="profile", help="Specify a GNOME Terminal profile to emulate")
+  parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
+  parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
 
-  # parse the options
-  try:
-    opts, args = getopt.getopt (sys.argv[1:], short_opts, long_opts)
-  except getopt.GetoptError:
-    usage ()
-    sys.exit (2)
+  (options, args) = parser.parse_args ()
+  if len (args) != 0:
+    parser.error("Expecting zero additional arguments, found: %d"%len (args))
 
-  # set some default values
-  debug = 0
-  profile = None
-  maximise = False
-  fullscreen = False
-  borderless = False
-  command = None
-
-  # check the options
-  for opt, arg in opts:
-    if opt in ("-h", "--help"):
-      usage ()
-      sys.exit (0)
-    if opt in ("-d", "--debug"):
-      debug = 1
-    if opt in ("-m", "--maximise"):
-      maximise = True
-    if opt in ("-f", "--fullscreen"):
-      fullscreen = True
-    if opt in ("-b", "--borderless"):
-      borderless = True
-    if opt in ("-p", "--profile"):
-      profile = arg
-    if opt in ("-e", "--execute"):
-      command = arg
-
-  term = Terminator (profile, command)
+  term = Terminator (options.profile, options.command)
 
   # Set the Terminator in fullscreen state or maximize it.
   # Fullscreen and maximise are mutually exclusive, with
   # fullscreen taking precedence over maximise.
-  if fullscreen:
+  if options.fullscreen:
     term.toggle_fullscreen ()
-  elif maximise:
+  elif options.maximise:
     term.maximize ()
 
-  if borderless:
+  if options.borderless:
     term.window.set_decorated (False)
 
   gtk.main ()
