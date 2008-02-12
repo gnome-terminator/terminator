@@ -5,7 +5,8 @@ terminator 0.7.1:
 		Closes LP #184809
   * Remove blank translations from .desktop file to fix empty menu entries.
 		Closes LP #187187
-  * Add application icon at various sizes
+  * Add application icon at various sizes including a window icon
+	* New options parser allowing -x support. Closes LP191124
 
 terminator 0.7:
 
