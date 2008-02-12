@@ -15,17 +15,7 @@
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-"""Terminator by Chris Jones <cmsj@tenshu.net>
-
-Usage: terminator [OPTION] ...
-  -h, --help              Show this usage information
-  -d, --debug             Enable debugging
-  -m, --maximise          Maximise the terminator window when it starts
-  -f, --fullscreen        Place the window in its fullscreen state when it starts
-  -b, --borderless        Draw the terminator window without a window border (useful with -m)
-  -p, --profile=PROFILE   Take settings from gnome-terminal profile PROFILE
-  -e, --execute=COMMAND   Executes the command on the opened terminal window
-"""
+"""Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
 import os, sys, string, time, math
@@ -104,7 +94,7 @@ class TerminatorTerm:
 
   matches = {}
 
-  def __init__ (self, terminator, profile, command):
+  def __init__ (self, terminator, profile, command = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
@@ -190,8 +180,8 @@ class TerminatorTerm:
     login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
 
     if self.command:
-      args = [self.command]
-      shell = self.command
+      args = self.command
+      shell = self.command[0]
     elif self.gconf_client.get_bool (self.profile + "/use_custom_command") == True:
       args = self.gconf_client.get_string (self.profile + "/custom_command").split ()
       shell = args[0]
@@ -508,7 +498,7 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self, profile, command):
+  def __init__ (self, profile, command = None):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
     self.command = command
@@ -726,10 +716,6 @@ class Terminator:
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     self.term_list[previous]._vte.grab_focus ()
 
-def usage ():
-  """ Print information on how to use this program. """
-  print __doc__
-
 def execute_cb (option, opt, value, parser):
   assert value is None
   value = []
@@ -755,7 +741,13 @@ if __name__ == '__main__':
   if len (args) != 0:
     parser.error("Expecting zero additional arguments, found: %d"%len (args))
 
-  term = Terminator (options.profile, options.command)
+  command = []
+  if (options.command):
+    command.append (options.command)
+  if (options.execute):
+    command = options.execute
+
+  term = Terminator (options.profile, command)
 
   # Set the Terminator in fullscreen state or maximize it.
   # Fullscreen and maximise are mutually exclusive, with
