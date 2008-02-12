@@ -425,8 +425,11 @@ class TerminatorTerm:
 
   def create_popup_menu (self, event):
     menu = gtk.Menu ()
+    url = None
 
-    url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+    if event:
+      url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+
     if url:
       if url[1] != self.matches['email']:
         address = url[0]
