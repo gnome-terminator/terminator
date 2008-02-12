@@ -63,7 +63,7 @@ class TerminatorTerm:
     'gt_dir'                : '/apps/gnome-terminal',
     '_profile_dir'          : '%s/profiles',
     'allow_bold'            : True,
-    'audible_bell'          : False,
+    'silent_bell'           : True,
     'background_color'      : '#000000',
     'background_darkness'   : 0.5,
     'background_type'       : 'solid',
@@ -79,7 +79,6 @@ class TerminatorTerm:
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
-    'visible_bell'          : False,
     'child_restart'         : False,
     'link_scheme'           : '(news|telnet|nttp|file|http|ftp|https)',
     '_link_user'            : '[%s]+(:[%s]+)?',
@@ -94,7 +93,7 @@ class TerminatorTerm:
 
   matches = {}
 
-  def __init__ (self, terminator, profile, command = None):
+  def __init__ (self, terminator, profile = None, command = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
     self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
@@ -210,7 +209,7 @@ class TerminatorTerm:
         ret = value.get_bool ()
 
     if ret == None:
-      print _('Unknown value requested. Unable to find in gconf profile or default settings: ') + property
+      print >> sys.stderr, _('Unknown value requested. Unable to find in gconf profile or default settings: ') + property
       sys.exit (1)
     return ret
 
@@ -295,9 +294,9 @@ class TerminatorTerm:
     self._vte.set_cursor_blinks = (self.reconf ('cursor_blink'))
 
     # Set our audible belliness
-    # FIXME: What on earth are we doing here. We should match the profile setting name and try not to set things this way
-    self._vte.set_audible_bell = not (self.gconf_client.get_bool (self.profile + "/silent_bell") or self.defaults['audible_bell'])
-    self._vte.set_visible_bell (self.defaults['visible_bell'])
+    silent_bell = self.reconf ('silent_bell')
+    self._vte.set_audible_bell = not silent_bell
+    self._vte.set_visible_bell = silent_bell
 
     # Set our scrolliness
     self._vte.set_scrollback_lines (self.reconf ('scrollback_lines'))
@@ -673,7 +672,7 @@ class Terminator:
 
       if not sibling:
         # something is wrong, give up
-        print "Error: %s is not a child of %s"%(widget, parent)
+        print >> sys.stderr, "Error: %s is not a child of %s"%(widget, parent)
         return
 
       self.term_list.remove (widget)
