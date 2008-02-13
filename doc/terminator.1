@@ -1,48 +1,67 @@
-.TH TERMINATOR 1 "Jan 5, 2008"
-.SH NAME
+.TH "TERMINATOR" "1" "Jan 5, 2008" "" ""
+.SH "NAME"
 Terminator \- Multiple GNOME terminals in one window
-.SH SYNOPSIS
+.SH "SYNOPSIS"
 .B terminator
 .RI [ options ] 
-.br
-.SH DESCRIPTION
+.br 
+.SH "DESCRIPTION"
 This manual page documents briefly the
 .B Terminator
 command.
-.PP
+.PP 
 \fBTerminator\fP is a program that allows users to set up flexible
 arrangements of GNOME terminals. It is aimed at those who normally 
 arrange lots of terminals near each other, but don't want to use a 
 frame based window manager.
-.SH OPTIONS
+.SH "OPTIONS"
 These programs follow the usual GNU command line syntax, with long
 options starting with two dashes (`\-').
 A summary of options is included below.
 For a complete description, see the Info files.
-.TP
+.TP 
 .B \-h, \-\-help
 Show summary of options.
-.TP
+.TP 
 .B \-d, \-\-debug
 Enable debugging output
-.TP
+.TP 
 .B \-m, \-\-maximise
 Maximise the Terminator window when it starts
-.TP
+.TP 
 .B \-f, \-\-fullscreen
 Place the Terminator window in its fullscreen state when it starts
-.TP
+.TP 
 .B \-b, \-\-borderless
 Instruct the window manager not to render borders/decoration on the 
 Terminator window (good with \-m)
-.TP
+.TP 
 .B \-p \-\-profile=PROFILE
 Loads the GNOME Terminal profile named PROFILE
-.TP
-.SH SEE ALSO
+.SH "KEYBINDINGS"
+\fBTerminator\fR allows you to manage windows using the keybindings described here:
+.TP 
+.B Cntrl+Shift+O
+Split terminals H\fBo\fRrizontally.
+.TP 
+.B Cntrl+Shift+E
+Split terminals V\fBe\fRrtically.
+.TP 
+.B Cntrl+Shift+N
+Move to \fBn\fRext terminal.
+.TP 
+.B Cntrl+Shift+P
+Move to \fBp\fRrevious terminal.
+.TP 
+.B Cntrl+Shift+W
+Close the current terminal.
+.TP 
+.B Cntrl+Shift+Q
+Close the current window.
+.SH "SEE ALSO"
 .BR gnome\-terminal(1),
-.SH AUTHOR
+.SH "AUTHOR"
 Terminator was written by Chris Jones <cmsj@tenshu.net>
-.PP
+.PP 
 This manual page was written by Chris Jones <cmsj@tenshu.net>
 for the Ubuntu project (but may be used by others).
