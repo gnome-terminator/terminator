@@ -5,15 +5,30 @@ It was downloaded from https://launchpad.net/terminator/+download
 
 Upstream Authors: 
 
-    Chris Jones <cmsj@tenshu.net>
+    Chris Jones
     Huang He
     Kees Cook
     Thomas Meire
-    crisG (Cristian Grada) - Drew our icon and licenced it to us under this licence
+
+Artwork:
+    Cristian Grada - Drew our icon and licenced it to us under this licence
+
+Translations:
+    Thomas Meire
+    Maxim Derkach
+    Nicolas Valcárcel
+    Mats Henrikson
+    Nizar Kerkeni
+    "Data"
+    Cristian Grada
+    "zhuqin"
+
+    Seriously, thank you very much to the translators. A few minutes of 
+    their dedication opens up userbases like nothing else.
 
 Copyright: 
 
-    <Copyright (C) 2006,2007 Chris Jones>
+    <Copyright (C) 2006-2008 Chris Jones and other contributors>
 
 License:
 
