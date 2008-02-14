@@ -52,7 +52,7 @@ setup(name='Terminator',
       license='GPL v2',
       scripts=['terminator'],
       data_files=[
-                  ('share/applications', ['terminator.desktop']),
+                  ('share/applications', ['data/terminator.desktop']),
                   ('share/man/man1', ['doc/terminator.1']),
                   ('share/pixmaps', ['data/icons/48x48/apps/terminator.png']),
                   ('share/icons/hicolor/scalable/apps', glob.glob('data/icons/scalable/apps/*.svg')),
