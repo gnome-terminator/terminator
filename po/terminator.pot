@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-29 23:57+0000\n"
+"POT-Creation-Date: 2008-02-14 00:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,66 +16,66 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: terminator:44
+#: terminator:35
 msgid ""
 "You need to install the python bindings for gobject, gtk, gconf and pango to "
 "run Terminator."
 msgstr ""
 
-#: terminator:63
+#: terminator:54
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in debian/"
 "ubuntu)"
 msgstr ""
 
-#: terminator:127
+#: terminator:117
 #, python-format
 msgid "Warning: unable to find profile %s. Continue with default values..."
 msgstr ""
 
-#: terminator:213
+#: terminator:211
 msgid ""
 "Unknown value requested. Unable to find in gconf profile or default "
 "settings: "
 msgstr ""
 
-#: terminator:414
+#: terminator:435
 msgid "_Open Link"
 msgstr ""
 
-#: terminator:415
+#: terminator:436
 msgid "_Copy Link Address"
 msgstr ""
 
-#: terminator:421
+#: terminator:442
 msgid "_Send Mail To..."
 msgstr ""
 
-#: terminator:422
+#: terminator:443
 msgid "_Copy Email Address"
 msgstr ""
 
-#: terminator:447
+#: terminator:468
 msgid "Show scrollbar"
 msgstr ""
 
-#: terminator:455
+#: terminator:476
 msgid "Split H_orizontally"
 msgstr ""
 
-#: terminator:459
+#: terminator:480
 msgid "Split V_ertically"
 msgstr ""
 
-#: terminator:527
+#: terminator:553
 msgid "Close?"
 msgstr ""
 
-#: terminator:532
+#: terminator:558
 msgid "<big><b>Close all terminals?</b></big>"
 msgstr ""
 
-#: terminator:535
+#: terminator:561
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
