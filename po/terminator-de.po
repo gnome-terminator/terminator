@@ -1,0 +1,86 @@
+# German translation for terminator
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the terminator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: terminator\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-01-29 23:57+0000\n"
+"PO-Revision-Date: 2008-01-24 12:06+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: terminator:44
+msgid ""
+"You need to install the python bindings for gobject, gtk, gconf and pango to "
+"run Terminator."
+msgstr ""
+
+#: terminator:63
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr ""
+
+#: terminator:127
+#, python-format
+msgid "Warning: unable to find profile %s. Continue with default values..."
+msgstr ""
+
+#: terminator:213
+msgid ""
+"Unknown value requested. Unable to find in gconf profile or default "
+"settings: "
+msgstr ""
+
+#: terminator:414
+msgid "_Open Link"
+msgstr "Link ö_ffnen"
+
+#: terminator:415
+msgid "_Copy Link Address"
+msgstr "Link-Adresse _kopieren"
+
+#: terminator:421
+msgid "_Send Mail To..."
+msgstr "E-Mail _senden an …"
+
+#: terminator:422
+msgid "_Copy Email Address"
+msgstr "E-Mail-Adresse _kopieren"
+
+#: terminator:447
+msgid "Show scrollbar"
+msgstr "Bildlaufleiste anzeigen"
+
+#: terminator:455
+msgid "Split H_orizontally"
+msgstr ""
+
+#: terminator:459
+msgid "Split V_ertically"
+msgstr ""
+
+#: terminator:527
+msgid "Close?"
+msgstr "Wirklich schließen?"
+
+#: terminator:532
+msgid "<big><b>Close all terminals?</b></big>"
+msgstr "<big><b>Alle Terminals schließen?</b></big>"
+
+#: terminator:535
+#, python-format
+msgid ""
+"This window has %s terminals open.  Closing the window will also close all "
+"terminals."
+msgstr ""
+"Dieses Fenster hat %s geöffnete Terminals. Beim Schließen des Fensters "
+"werden auch alle Terminals geschlossen."

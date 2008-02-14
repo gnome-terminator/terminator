@@ -1,0 +1,93 @@
+# Swedish translation for terminator
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the terminator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: terminator\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-01-29 23:57+0000\n"
+"PO-Revision-Date: 2008-02-14 02:07+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Swedish <sv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: terminator:44
+msgid ""
+"You need to install the python bindings for gobject, gtk, gconf and pango to "
+"run Terminator."
+msgstr ""
+"Du måste installera python-bindningarna för gobject, gtk, gconf och pango "
+"för att kunna starta Terminator."
+
+#: terminator:63
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr ""
+"Du måste installera python-bindningarna för libvte (\"python-vte\" i "
+"debian/ubuntu)"
+
+#: terminator:127
+#, python-format
+msgid "Warning: unable to find profile %s. Continue with default values..."
+msgstr ""
+"Varning: kunde inte hitta profil %s. Fortsätt med standardinställningar..."
+
+#: terminator:213
+msgid ""
+"Unknown value requested. Unable to find in gconf profile or default "
+"settings: "
+msgstr ""
+"Okänt värde begärt. Kunde inte hitta det i gconf profilen eller "
+"standardinställningarna: "
+
+#: terminator:414
+msgid "_Open Link"
+msgstr "_Öppna länk"
+
+#: terminator:415
+msgid "_Copy Link Address"
+msgstr "_Kopiera länkadress"
+
+#: terminator:421
+msgid "_Send Mail To..."
+msgstr "_Skicka mail till..."
+
+#: terminator:422
+msgid "_Copy Email Address"
+msgstr "_Kopiera e-postadress"
+
+#: terminator:447
+msgid "Show scrollbar"
+msgstr "Visa rullningslist"
+
+#: terminator:455
+msgid "Split H_orizontally"
+msgstr "Splitta H_orisontellt"
+
+#: terminator:459
+msgid "Split V_ertically"
+msgstr "Splitta V_ertikalt"
+
+#: terminator:527
+msgid "Close?"
+msgstr "Stäng?"
+
+#: terminator:532
+msgid "<big><b>Close all terminals?</b></big>"
+msgstr "<big><b>Stäng alla terminaler?</b></big>"
+
+#: terminator:535
+#, python-format
+msgid ""
+"This window has %s terminals open.  Closing the window will also close all "
+"terminals."
+msgstr ""
+"Det här fönstret har %s terminaler öppna. Om fönstret stängs stängs också "
+"alla terminaler."
