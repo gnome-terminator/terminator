@@ -1,4 +1,4 @@
-Terminator 0.6
+Terminator 0.8
 by Chris Jones <cmsj@tenshu.net>
 
 This is a little python script to give me lots of terminals in a single window, saving me valuable laptop screen space otherwise wasted on window decorations and not quite being able to fill the screen with terminals.
@@ -8,8 +8,6 @@ Right now it will open a single window with one terminal and it will (to some de
 You can create more terminals by right clicking on one and choosing to split it vertically or horizontally. You can get rid of a terminal by right clicking on it and choosing Close. ctrl-shift-o and ctrl-shift-e will also effect the splitting.
 
 ctrl-shift-n and ctrl-shift-p will shift focus to the next/previous terminal respectively, and ctrl-shift-w will close the current terminal and ctrl-shift-q the current window
-
-One other obvious gotcha - I am experimenting a bit with the URL matching, so at the moment you can match just the domain or the full URL. Let me know if you love/hate this.
 
 Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
@@ -22,3 +20,4 @@ the gedit terminal plugin is part of the gedit-plugins package, which is licence
 
 I am thus licensing Terminator as GPL v2 only.
 
+Cristian Grada provided the icon under the same licence.
