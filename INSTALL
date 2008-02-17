@@ -2,4 +2,4 @@ install python vte bindings ("python-vte" on Debian/ubuntu) and run:
 
     ./setup.py install
 
-Note that this is not as complete as a package install at the moment - e.g. GNOME menu integration will not happen.
+Note that this is not as complete as a package install at the moment - e.g. GNOME menu integration will not happen and there is no uninstall option.
