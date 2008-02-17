@@ -55,6 +55,12 @@ except:
   error.run()
   sys.exit (1)
 
+def openurl (url):
+  try:
+    url_show (url)
+  except:
+    pass
+
 class TerminatorTerm:
 
   # Our settings
@@ -80,11 +86,6 @@ class TerminatorTerm:
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
     'child_restart'         : False,
-    'link_scheme'           : '(news|telnet|nttp|file|http|ftp|https)',
-    '_link_user'            : '[%s]+(:[%s]+)?',
-    'link_hostchars'        : '-A-Za-z0-9',
-    'link_userchars'        : '-A-Za-z0-9',
-    'link_passchars'        : '-A-Za-z0-9,?;.:/!%$^*&~"#\'',
     '_palette'              : '%s/palette',
     'default_palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
@@ -95,7 +96,6 @@ class TerminatorTerm:
 
   def __init__ (self, terminator, profile = None, command = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
-    self.defaults['link_user'] = self.defaults['_link_user']%(self.defaults['link_userchars'], self.defaults['link_passchars'])
 
     self.terminator = terminator
     self.gconf_client = gconf.client_get_default ()
@@ -168,8 +168,12 @@ class TerminatorTerm:
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
-    self.matches['path'] = self._vte.match_add ('((%s://(%s@)?)|(www|ftp)[%s]*\\.)[%s.]+(:[0-9]+)?/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%%]*[^]\'.}>) \t\r\n,\\\]'%(self.defaults['link_scheme'], self.defaults['link_userchars'], self.defaults['link_hostchars'], self.defaults['link_hostchars']))
-    self.matches['email'] = self._vte.match_add ('(mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\\.[a-z0-9][a-z0-9-]*)+')
+    self.matches['full_uri'] = self._vte.match_add ('''\<(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)//([-A-Za-z0-9]+(:[-A-Za-z0-9,?;.:/!%$^*&~"#']+)?@)?[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?\>/?''')
+    self.matches['addr_only'] = self._vte.match_add ('''\<(www|ftp)[-A-Za-z0-9]*\.[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?\>/?''')
+
+    self.matches['email'] = self._vte.match_add ('''\<(mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)+\>''')
+
+    self.matches['nntp'] = self._vte.match_add ('''\<news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?\>''')
 
     self.spawn_child ()
 
@@ -443,7 +447,7 @@ class TerminatorTerm:
         namecopy = _("_Copy Email Address")
 
       item = gtk.MenuItem (nameopen)
-      item.connect ("activate", lambda menu_item: url_show (address))
+      item.connect ("activate", lambda menu_item: openurl (address))
       menu.append (item)
 
       item = gtk.MenuItem (namecopy)
