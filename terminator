@@ -265,7 +265,7 @@ class TerminatorTerm:
     # Set our color scheme, preferably from gconf settings
     # FIXME: This is wrong, we should be pulling 'palette' out of gconf, but reverting to self.defaults['default_palette'] which means we need to reorganise self.defaults to make this available under the same name as gconf
     palette = self.reconf ('default_palette')
-    if (not self.profile) or self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
+    if self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
     else:
