@@ -1,3 +1,9 @@
+terminator (0.8.1-0ubuntu1) hardy; urgency=low
+
+  * New upstream release
+
+ -- Chris Jones <cmsj@tenshu.net>  Sun, 17 Feb 2008 01:45:37 +0000
+
 terminator (0.8-0ubuntu1) hardy; urgency=low
 
   * New upstream release

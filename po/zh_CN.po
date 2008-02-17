@@ -1,99 +1,84 @@
-# Romanian translation for terminator
+# Simplified Chinese translation for terminator
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the terminator package.
-# Cris Grada <krig@tiscali.it>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-01-29 23:57+0000\n"
-"PO-Revision-Date: 2008-02-08 19:52+0000\n"
-"Last-Translator: Cris Grada <krig@tiscali.it>\n"
-"Language-Team: Romanian <ro@li.org>\n"
+"PO-Revision-Date: 2008-02-10 02:17+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#~ msgid "Split _Horizontally"
-#~ msgstr "Imparte _orizontal"
-
-#~ msgid "Split _Vertically"
-#~ msgstr "Imparte _vertical"
-
 #: terminator:44
 msgid ""
 "You need to install the python bindings for gobject, gtk, gconf and pango to "
 "run Terminator."
-msgstr ""
-"Per poter lanciare Terminator devi aver installato le dipendenze di "
-"\"python\" per \"gobject\", \"gtk\", \"gconf\" e \"pango\" ."
+msgstr "你需要安装gobject，gtk，gconf以及pango的python依赖来运行Terminator。"
 
 #: terminator:63
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
-msgstr ""
-"Devi installare le dipendenze \"python\" per \"libvte\" (\"python-vte\" in "
-"debian/ubuntu)"
+msgstr "你需要安装libvte的python依赖（在debian/ubuntu中包名为“python-vte”）"
 
 #: terminator:127
 #, python-format
 msgid "Warning: unable to find profile %s. Continue with default values..."
-msgstr ""
-"Avviso: profilo %s non trovato. Proseguo usando i valori predefiniti..."
+msgstr "警告：无法找到配置文件%s。将以默认值继续..."
 
 #: terminator:213
 msgid ""
 "Unknown value requested. Unable to find in gconf profile or default "
 "settings: "
-msgstr ""
-"Valore richiesto sconosciuto. Profilo o valori predefiniti non trovati in "
-"gconf: "
+msgstr "输入了未知值。无法在gconf配置文件或默认设置中找到： "
 
 #: terminator:414
 msgid "_Open Link"
-msgstr "_Apri collegamento"
+msgstr "打开链接(_O)"
 
 #: terminator:415
 msgid "_Copy Link Address"
-msgstr "_Copia l'indirizzo del collegamento"
+msgstr "复制链接地址(_C)"
 
 #: terminator:421
 msgid "_Send Mail To..."
-msgstr "In_via un'E-mail a..."
+msgstr "发送邮件给(_S)..."
 
 #: terminator:422
 msgid "_Copy Email Address"
-msgstr "_Copia l'indirizzo E-mail"
+msgstr "复制电子邮件地址(_C)"
 
 #: terminator:447
 msgid "Show scrollbar"
-msgstr "Mostra la barra di scorrimento"
+msgstr "显示滚动条"
 
 #: terminator:455
 msgid "Split H_orizontally"
-msgstr "Dividi _orizzontalmente"
+msgstr "水平分割(_H)"
 
 #: terminator:459
 msgid "Split V_ertically"
-msgstr "Dividi v_erticalmente"
+msgstr "垂直分割(_V)"
 
 #: terminator:527
 msgid "Close?"
-msgstr "Chiudo?"
+msgstr "确定关闭？"
 
 #: terminator:532
 msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Chiudo tutti i terminali?</b></big>"
+msgstr "<big><b>关闭所有的终端？</b></big>"
 
 #: terminator:535
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
-msgstr ""
-"Questa finestra ha %s terminali aperti. Chiudendola, tutti i terminali già "
-"aperti verranno chiusi."
+msgstr "该窗口开启了%s个终端。关闭窗口将会关闭所有终端。"
