@@ -1,3 +1,7 @@
+terminator 0.8.1:
+	* Fixed ChangeLog
+	* Revert URI matching behaviour to the same as gnome-terminal
+
 terminator 0.8:
 	* Make dependency on python-gnome optional. Non-gnome users can now reap
 	  the glorious benefits of Terminator and will only lose the ability to
