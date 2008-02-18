@@ -86,8 +86,7 @@ class TerminatorTerm:
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
     'child_restart'         : False,
-    '_palette'              : '%s/palette',
-    'default_palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
+    'palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
   }
@@ -115,8 +114,6 @@ class TerminatorTerm:
 
     if not self.profile:
       print >> sys.stderr,  _("Warning: unable to find profile %s. Continue with default values...") % profile
-
-    self.defaults['palette'] = self.defaults['_palette']%(self.profile)
 
     if self.profile:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
@@ -263,8 +260,7 @@ class TerminatorTerm:
     self._vte.set_allow_bold (self.reconf ('allow_bold'))
 
     # Set our color scheme, preferably from gconf settings
-    # FIXME: This is wrong, we should be pulling 'palette' out of gconf, but reverting to self.defaults['default_palette'] which means we need to reorganise self.defaults to make this available under the same name as gconf
-    palette = self.reconf ('default_palette')
+    palette = self.reconf ('palette')
     if self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
       fg_color = self._vte.get_style ().text[gtk.STATE_NORMAL]
       bg_color = self._vte.get_style ().base[gtk.STATE_NORMAL]
