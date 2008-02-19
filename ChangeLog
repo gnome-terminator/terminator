@@ -1,6 +1,7 @@
 terminator 0.8.1:
 	* Fixed ChangeLog
 	* Revert URI matching behaviour to the same as gnome-terminal
+	* Close LP #179315 with a fuller fix that provides proper colour support
 
 terminator 0.8:
 	* Make dependency on python-gnome optional. Non-gnome users can now reap
