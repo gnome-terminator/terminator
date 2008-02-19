@@ -135,7 +135,7 @@ class TerminatorTerm:
     self._box.show ()
 
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
-    if self.scrollbar_position != "hidden":
+    if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
     if self.scrollbar_position == 'right':
@@ -305,7 +305,7 @@ class TerminatorTerm:
     scrollbar_position = self.reconf ('scrollbar_position')
 
     if scrollbar_position != self.scrollbar_position:
-      if scrollbar_position == 'hidden':
+      if scrollbar_position == 'hidden' or scrollbar_position == 'disabled':
         self._scrollbar.hide ()
       else:
         self._scrollbar.show ()
