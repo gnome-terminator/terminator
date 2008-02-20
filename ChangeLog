@@ -1,18 +1,18 @@
 terminator 0.8.1:
-	* Fixed ChangeLog
-	* Revert URI matching behaviour to the same as gnome-terminal
-	* Close LP #179315 with a fuller fix that provides proper colour support
+  * Fixed ChangeLog
+  * Revert URI matching behaviour to the same as gnome-terminal
+  * Close LP #179315 with a fuller fix that provides proper colour support
 
 terminator 0.8:
-	* Make dependency on python-gnome optional. Non-gnome users can now reap
-	  the glorious benefits of Terminator and will only lose the ability to
-		open email URLs (assuming their browser won't handle this for them).
-		Closes LP #184809
+  * Make dependency on python-gnome optional. Non-gnome users can now reap
+    the glorious benefits of Terminator and will only lose the ability to
+    open email URLs (assuming their browser won't handle this for them).
+    Closes LP #184809
   * Remove blank translations from .desktop file to fix empty menu entries.
-		Closes LP #187187
+    Closes LP #187187
   * Add application icon at various sizes including a window icon
-	* New options parser allowing -x support. Closes LP191124
-	* More translations (thanks!)
+  * New options parser allowing -x support. Closes LP191124
+  * More translations (thanks!)
 
 terminator 0.7:
 
