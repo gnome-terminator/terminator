@@ -1,3 +1,6 @@
+terminator 0.9:
+	* Added support for ~/.terminatorrc 
+
 terminator 0.8.1:
 	* Fixed ChangeLog
 	* Revert URI matching behaviour to the same as gnome-terminal
