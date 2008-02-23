@@ -746,7 +746,7 @@ class Terminator:
       vertical = False
     else:
       return
-    parent = self.get_parent_pane(widget.get_box (),vertical)
+    parent = self.get_first_parent_paned(widget.get_box (),vertical)
     if parent == None:
       return
     
@@ -770,15 +770,21 @@ class Terminator:
     parent.set_position(move)
     
   
-  def get_parent_pane (self, widget, vertical):
+  def get_first_parent_paned (self, widget, vertical = None):
+    """This method returns the first parent pane of a widget.
+    if vertical is True returns the first VPaned
+    if vertical is False return the first Hpaned
+    if is None return the First Paned"""
     if isinstance (widget, gtk.Window):
       return None
     parent = widget.get_parent()
+    if isinstance (parent, gtk.Paned) and vertical is None:
+        return parent
     if isinstance (parent, gtk.VPaned) and vertical:
       return parent
     elif isinstance (parent, gtk.HPaned) and not vertical:
       return parent
-    return self.get_parent_pane(parent, vertical)
+    return self.get_first_parent_paned(parent, vertical)
          
          
      
