@@ -404,6 +404,12 @@ class TerminatorTerm:
       elif keyname == 'V':
         self._vte.paste_clipboard ()
         return (True)
+      elif keyname == 'S':
+        self.do_scrollbar_toggle ()
+        return (True)
+      elif keyname in ('Up', 'Down', 'Left', 'Right'):
+          self.terminator.resizeterm (self, keyname)
+          return (True)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -477,7 +483,7 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.CheckMenuItem (_("Show scrollbar"))
+    item = gtk.CheckMenuItem (_("Show _scrollbar"))
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
@@ -728,7 +734,60 @@ class Terminator:
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     self.term_list[previous]._vte.grab_focus ()
+    
+    
+     
 
+  def resizeterm (self, widget, keyname):
+    vertical = False
+    if keyname in ('Up', 'Down'):
+      vertical = True
+    elif keyname in ('Left', 'Right'):
+      vertical = False
+    else:
+      return
+    parent = self.get_first_parent_paned(widget.get_box (),vertical)
+    if parent == None:
+      return
+    
+    #We have a corresponding parent pane
+    #
+    #allocation = parent.get_allocation()
+  
+    if keyname in ('Up', 'Down'):
+      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
+      
+    else:
+      maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
+    move = 10
+    if keyname in ('Up', 'Left'):
+      move = -10
+    
+  
+    move = max(2, parent.get_position() + move)
+    move = min(maxi, move)
+    
+    parent.set_position(move)
+    
+  
+  def get_first_parent_paned (self, widget, vertical = None):
+    """This method returns the first parent pane of a widget.
+    if vertical is True returns the first VPaned
+    if vertical is False return the first Hpaned
+    if is None return the First Paned"""
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Paned) and vertical is None:
+        return parent
+    if isinstance (parent, gtk.VPaned) and vertical:
+      return parent
+    elif isinstance (parent, gtk.HPaned) and not vertical:
+      return parent
+    return self.get_first_parent_paned(parent, vertical)
+         
+         
+     
 def execute_cb (option, opt, value, parser):
   assert value is None
   value = []
