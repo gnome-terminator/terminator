@@ -161,6 +161,7 @@ class TerminatorTerm:
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
+    self._vte.connect ("composited-changed", self.on_composited_changed)
 #    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
@@ -293,6 +294,7 @@ class TerminatorTerm:
     if background_type == "transparent":
       darkness = self.reconf ('background_darkness')
       if self._vte.is_composited():
+        self._vte.set_background_transparent (False)
         self._vte.set_opacity(int(darkness * 65535))
       else:
         self._vte.set_background_transparent (True)
@@ -342,6 +344,9 @@ class TerminatorTerm:
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
 
   def on_gconf_notification (self, client, cnxn_id, entry, what):
+    self.reconfigure_vte ()
+
+  def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
@@ -548,7 +553,7 @@ class Terminator:
     # channels for transparency.
     screen = self.window.get_screen()
     colormap = screen.get_rgba_colormap()
-    if colormap and self.window.is_composited():
+    if colormap:
       self.window.set_colormap(colormap)
 
     # Start out with just one terminal
