@@ -1,0 +1,82 @@
+.TH "TERMINATORRC" "5" "Feb 22, 2008" "Nicolas Valcarcel <nvalcarcel@ubuntu.com>" ""
+.SH "NAME"
+~/.terminatorrc \- the config file for terminator terminal emulator.
+.SH "DESCRIPTION"
+This manual page documents briefly the
+.B termiatorrc config file.
+.PP 
+\fBterminatorrc\fP is an optional file for configure the terminator termial emulator. It is used if there is no gconf PROFILE on the system for configuring the options of the terminal(s).
+.SH "OPTIONS"
+The options are defined one per line as \fB'OPTION = VALUE'\fR. The options are described below:
+
+.TP 
+.B gt_dir
+Default value: \fB/apps/gnome\-terminal\fR
+.TP 
+.B _profile_dir
+Default value: \fB%s/profiles\fR
+.TP 
+.B allow_bold
+Boolean value. Default value: \fBTrue\fR
+.TP 
+.B silent_bell
+Boolean value. Default value: \fBTrue\fR
+.TP 
+.B background_color
+Heximal RGB value for the background color. Default value: \fB#000000\fR
+.TP 
+.B background_darkness 
+Number for the background darkness. Default value: \fB0.5\fR
+.TP 
+.B background_type
+Default value: \fBsolid\fR
+.TP 
+.B backspace_binding
+Default value: \fBascii\-del\fR
+.TP 
+.B delete_binding
+Default value: \fBdelete\-sequence\fR
+.TP 
+.B cursor_blink
+Boolean value. Default value: \fBFalse\fR
+.TP 
+.B emulation
+Default value: \fBxterm\fR
+.TP 
+.B font
+Value for the font time and size in the format \fBFONTNAME SIZENUMBER\fR. Default value: \fBSerif 10\fR
+.TP 
+.B foreground_color
+Hexadecimal RGB value for the font color. Default value: \fB#AAAAAA\fR
+.TP 
+.B scrollbar_position
+Scrollbar position. Options available: right, left and hidden. Default value: \fBright\fR
+.TP 
+.B scroll_background
+Boolean value. Default value: \fBTrue\fR
+.TP 
+.B scroll_on_keystroke
+Boolean value. Default value: \fBFalse\fR
+.TP 
+.B scroll_on_output
+Boolean value. Default value: \fBFalse\fR
+.TP 
+.B scrollback_lines
+Number of lines stored for the scrollbar. Default value: \fB100\fR
+.TP 
+.B focus
+Default value: \fBsloppy\fR
+.TP 
+.B child_restart
+Default value: \fBFalse\fR
+.TP 
+.B palette
+Default value: \fB#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF\fR
+.TP 
+.B word_chars
+Default value: \fB\-A\-Za\-z0\-9,./?%&#:_\fR
+.TP 
+.B mouse_autohide
+Boolean value. Default value: \fBTrue\fR
+.SH "SEE ALSO"
+.BR gnome\-terminal(1),

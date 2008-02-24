@@ -38,10 +38,10 @@ Terminator window (good with \-m)
 .TP 
 .B \-p, \-\-profile=PROFILE
 Loads the GNOME Terminal profile named PROFILE
-.TP
+.TP 
 .B \-e, \-\-command=COMMAND
 Runs the specified command instead of your default shell or profile specified command
-.TP
+.TP 
 .B \-x, \-\-execute=COMMAND [ARGS]
 Runs \fBthe rest of the command line\fR instead of your default shell or profile specified command.
 .SH "KEYBINDINGS"
@@ -52,6 +52,21 @@ Split terminals H\fBo\fRrizontally.
 .TP 
 .B Ctrl+Shift+E
 Split terminals V\fBe\fRrtically.
+.TP 
+.B Ctrl+Shift+Right
+Move first parent HPaned handle \fBRight\fR.
+.TP 
+.B Ctrl+Shift+Left
+Move first parent HPaned handle \fBLeft\fR.
+.TP 
+.B Ctrl+Shift+Up
+Move first VPaned handle \fBUp\fR.
+.TP 
+.B Ctrl+Shift+Down
+Move first VPaned handle \fBDown\fR.
+.TP 
+.B Ctrl+Shift+S
+Hide/Show \fBS\fRcrollbar.
 .TP 
 .B Ctrl+Shift+N
 Move to \fBn\fRext terminal.
@@ -64,11 +79,11 @@ Close the current terminal.
 .TP 
 .B Ctrl+Shift+Q
 Close the current window.
-.TP
+.TP 
 .B F11
 Toggle fullscreen
 .SH "SEE ALSO"
-.BR gnome\-terminal(1),
+.BR gnome\-terminal(1),terminatorrc(5)
 .SH "AUTHOR"
 Terminator was written by Chris Jones <cmsj@tenshu.net>
 .PP 

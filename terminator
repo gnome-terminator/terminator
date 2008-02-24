@@ -161,6 +161,7 @@ class TerminatorTerm:
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
+    self._vte.connect ("composited-changed", self.on_composited_changed)
 #    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
@@ -291,8 +292,13 @@ class TerminatorTerm:
       self._vte.set_scroll_background (self.reconf ('scroll_background'))
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
-      self._vte.set_background_transparent (True)
-      self._vte.set_background_saturation (1 - (self.reconf ('background_darkness')))
+      darkness = self.reconf ('background_darkness')
+      if self._vte.is_composited():
+        self._vte.set_background_transparent (False)
+        self._vte.set_opacity(int(darkness * 65535))
+      else:
+        self._vte.set_background_transparent (True)
+        self._vte.set_background_saturation (1 - darkness)
       
     colors = palette.split (':')
     palette = []
@@ -338,6 +344,9 @@ class TerminatorTerm:
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
 
   def on_gconf_notification (self, client, cnxn_id, entry, what):
+    self.reconfigure_vte ()
+
+  def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
@@ -404,6 +413,12 @@ class TerminatorTerm:
       elif keyname == 'V':
         self._vte.paste_clipboard ()
         return (True)
+      elif keyname == 'S':
+        self.do_scrollbar_toggle ()
+        return (True)
+      elif keyname in ('Up', 'Down', 'Left', 'Right'):
+          self.terminator.resizeterm (self, keyname)
+          return (True)
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -477,7 +492,7 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.CheckMenuItem (_("Show scrollbar"))
+    item = gtk.CheckMenuItem (_("Show _scrollbar"))
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
@@ -533,6 +548,13 @@ class Terminator:
     self.window.connect ("destroy", self.on_destroy_event)
 
     self.window.set_property ('allow-shrink', True)
+
+    # Set RGBA colormap if possible so VTE can use real alpha
+    # channels for transparency.
+    screen = self.window.get_screen()
+    colormap = screen.get_rgba_colormap()
+    if colormap:
+      self.window.set_colormap(colormap)
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
@@ -728,7 +750,60 @@ class Terminator:
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     self.term_list[previous]._vte.grab_focus ()
+    
+    
+     
 
+  def resizeterm (self, widget, keyname):
+    vertical = False
+    if keyname in ('Up', 'Down'):
+      vertical = True
+    elif keyname in ('Left', 'Right'):
+      vertical = False
+    else:
+      return
+    parent = self.get_first_parent_paned(widget.get_box (),vertical)
+    if parent == None:
+      return
+    
+    #We have a corresponding parent pane
+    #
+    #allocation = parent.get_allocation()
+  
+    if keyname in ('Up', 'Down'):
+      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
+      
+    else:
+      maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
+    move = 10
+    if keyname in ('Up', 'Left'):
+      move = -10
+    
+  
+    move = max(2, parent.get_position() + move)
+    move = min(maxi, move)
+    
+    parent.set_position(move)
+    
+  
+  def get_first_parent_paned (self, widget, vertical = None):
+    """This method returns the first parent pane of a widget.
+    if vertical is True returns the first VPaned
+    if vertical is False return the first Hpaned
+    if is None return the First Paned"""
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Paned) and vertical is None:
+        return parent
+    if isinstance (parent, gtk.VPaned) and vertical:
+      return parent
+    elif isinstance (parent, gtk.HPaned) and not vertical:
+      return parent
+    return self.get_first_parent_paned(parent, vertical)
+         
+         
+     
 def execute_cb (option, opt, value, parser):
   assert value is None
   value = []
