@@ -104,13 +104,16 @@ class TerminatorTerm:
 
   matches = {}
 
-
-  def __init__ (self, terminator, profile = None, command = None):
+  def __init__ (self, terminator, profile = None, command = None, cwd = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
 
     self.terminator = terminator
     self.gconf_client = gconf.client_get_default ()
     self.command = command
+
+    # Open first tab in ~ or in cwd from parent?
+    #self.cwd = cwd or os.path.expanduser ("~");
+    self.cwd = cwd or os.getcwd();
 
     if profile == None:
       profile = self.gconf_client.get_string (self.defaults['gt_dir'] + '/global/default_profile')
@@ -201,7 +204,14 @@ class TerminatorTerm:
       shell = pwd.getpwuid (os.getuid ())[6]
       args = [os.path.basename (shell)]
 
-    self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
+    self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
+
+  def get_cwd (self):
+    """ Return the current working directory of the subprocess.
+        This function is NOT portable, as it relies on a *nix-specific
+        path. This won't work on Windows.
+    """
+    return os.path.realpath("/proc/%s/cwd" % self._pid)
 
   def reconf (self, property):
     value = self.gconf_client.get ('%s/%s'%(self.profile, property))
@@ -641,7 +651,7 @@ class Terminator:
     """ Split the provided widget on the horizontal or vertical axis. """
 
     # create a new terminal and parent pane.
-    terminal = TerminatorTerm (self, self.profile, None)
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal
