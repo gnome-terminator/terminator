@@ -85,7 +85,7 @@ class TerminatorTerm:
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
-    'child_restart'         : False,
+    'exit_action'           : 'close',
     'palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
@@ -168,14 +168,12 @@ class TerminatorTerm:
 #    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
-    if not exit_action:
-      if self.defaults['child_restart']:
-        exit_action = "restart"
-      else:
-        exit_action = "close"
+    exit_action = self.reconf ("exit_action")
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
-    if exit_action == "close":
+    # We need to support "left" because some buggy versions of gnome-terminal
+    #  set it in some situations
+    if exit_action in ("close", "left"):
       self._vte.connect ("child-exited", lambda close_term: self.terminator.closeterm (self))
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
