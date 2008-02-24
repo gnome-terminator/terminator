@@ -91,7 +91,19 @@ class TerminatorTerm:
     'mouse_autohide'        : True,
   }
 
+  if os.path.exists(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc"):
+    f = open(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc")
+    config = f.readlines()
+    f.close()
+
+    for line in config:
+       line = line.strip()
+       if line:
+         (key,value) = line.split("=")
+         defaults[key.strip()]=value.strip()
+
   matches = {}
+
 
   def __init__ (self, terminator, profile = None, command = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
