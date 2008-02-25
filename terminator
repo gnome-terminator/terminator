@@ -292,25 +292,6 @@ class TerminatorTerm:
     else:
       fg_color = gtk.gdk.color_parse (self.reconf ('foreground_color'))
       bg_color = gtk.gdk.color_parse (self.reconf ('background_color'))
-
-    # Set our background image, transparency and type
-    background_type = self.reconf ('background_type')
-
-    if background_type == "solid":
-      self._vte.set_background_image_file ('')
-      self._vte.set_background_transparent (False)
-    if background_type == "image":
-      self._vte.set_background_image_file (self.reconf ('background_image'))
-      self._vte.set_scroll_background (self.reconf ('scroll_background'))
-      self._vte.set_background_transparent (False)
-    if background_type == "transparent":
-      darkness = self.reconf ('background_darkness')
-      if self._vte.is_composited():
-        self._vte.set_background_transparent (False)
-        self._vte.set_opacity(int(darkness * 65535))
-      else:
-        self._vte.set_background_transparent (True)
-        self._vte.set_background_saturation (1 - darkness)
       
     colors = palette.split (':')
     palette = []
@@ -318,6 +299,32 @@ class TerminatorTerm:
       if color:
         palette.append (gtk.gdk.color_parse (color))
     self._vte.set_colors (fg_color, bg_color, palette)
+
+    # Set our background image, transparency and type
+    # Many thanks to the authors of gnome-terminal, on which this code is based.
+    background_type = self.reconf ('background_type')
+
+    # set background image settings
+    if background_type == "image":
+      self._vte.set_background_image_file (self.reconf ('background_image'))
+      self._vte.set_scroll_background (self.reconf('scroll_background'))
+    else:
+      self._vte.set_background_image_file('')
+      self._vte.set_scroll_background(False)
+
+    # set transparency for the background (image)
+    if background_type in ("image", "transparent"):
+      self._vte.set_background_tint_color (bg_color)
+      self._vte.set_background_saturation(1 - (self.reconf ('background_darkness')))
+      self._vte.set_opacity(int(self.reconf('background_darkness') * 65535))
+    else:
+      self._vte.set_background_saturation(1)
+      self._vte.set_opacity(65535)
+
+    if not self._vte.is_composited():
+      self._vte.set_background_transparent (background_type == "transparent")
+    else:
+      self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks = (self.reconf ('cursor_blink'))
