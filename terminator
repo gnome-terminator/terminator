@@ -163,13 +163,12 @@ class TerminatorTerm:
     
     """drag and drop"""
     target = [ ( "vte", 0, 81 ) ]
-    self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, target, gtk.gdk.ACTION_MOVE)
-    self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,target, gtk.gdk.ACTION_MOVE)
-    
+    self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, target, gtk.gdk.ACTION_COPY)
+    self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,target, gtk.gdk.ACTION_COPY)
     self._vte.connect("drag-data-get", self.on_drag_data_get, self)
     
     #for testing purpose: drag-motion
-    self._vte.connect("drag-motion", self.on_drag_motion)
+    #self._vte.connect("drag-motion", self.on_drag_motion, self)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
     self._vte.connect ("composited-changed", self.on_composited_changed)
 
@@ -200,18 +199,20 @@ class TerminatorTerm:
     
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     print "Drag data get"
-    selection_data.set("vte",81, str(data.terminator.term_list.index (self)))
+    selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
 
-  def on_drag_motion(self, widget, drag_context, x, y, time):
-    #return 
+  def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     print "Drag Motion on ",
     parent = widget.get_parent()
+    
+
     print "%dx%d -> %dx%d" % (parent.allocation.width, parent.allocation.height , x, y) 
     
     coef1 = float(parent.allocation.height)/float(parent.allocation.width)
     coef2 = -float(parent.allocation.height)/float(parent.allocation.width)
     b1 = 0
     b2 = parent.allocation.height
+    
     print "%f %f %d %d" %(coef1, coef2, b1,b2)
     if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
       print "right"
@@ -221,6 +222,7 @@ class TerminatorTerm:
       print "left"
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       print "bottom"
+
       
   def on_drag_drop(self, widget, drag_context, x, y, time):
     print "Drag Drop on",
@@ -531,7 +533,7 @@ class TerminatorTerm:
     # Left mouse button should transfer focus to this vte widget
     if event.button == 1:
       self._vte.grab_focus ()
-      return False
+      return False    
     # Right mouse button should display a context menu if ctrl not pressed
     if event.button == 3 and event.state & gtk.gdk.CONTROL_MASK == 0:
       self.do_popup (event)
