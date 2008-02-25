@@ -64,7 +64,6 @@ def openurl (url):
 class TerminatorTerm:
 
   # Our settings
-  # FIXME: Add commandline and/or gconf options to change these
   defaults = {
     'gt_dir'                : '/apps/gnome-terminal',
     '_profile_dir'          : '%s/profiles',
@@ -236,8 +235,8 @@ class TerminatorTerm:
 
     if ret == None:
       print >> sys.stderr, _('Unknown value requested. Unable to find in gconf profile or default settings: ') + property
-      sys.exit (1)
-    return ret
+
+    return (ret)
 
   def reconfigure_vte (self):
     # Set our emulation
@@ -669,11 +668,13 @@ class Terminator:
 
       parent.add (pane)
 
-      position = (vertical) and parent.allocation.height or parent.allocation.width
+      position = (vertical) and parent.allocation.height \
+                             or parent.allocation.width
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      position = (vertical) and widget.get_box().allocation.height or widget.get_box().allocation.width
+      position = (vertical) and widget.get_box().allocation.height \
+                             or widget.get_box().allocation.width
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
@@ -814,19 +815,17 @@ class Terminator:
     elif isinstance (parent, gtk.HPaned) and not vertical:
       return parent
     return self.get_first_parent_paned(parent, vertical)
-         
-         
      
-def execute_cb (option, opt, value, parser):
-  assert value is None
-  value = []
-  while parser.rargs:
-    arg = parser.rargs[0]
-    value.append (arg)
-    del (parser.rargs[0])
-  setattr(parser.values, option.dest, value)
-
 if __name__ == '__main__':
+
+  def execute_cb (option, opt, value, parser):
+    assert value is None
+    value = []
+    while parser.rargs:
+      arg = parser.rargs[0]
+      value.append (arg)
+      del (parser.rargs[0])
+    setattr(parser.values, option.dest, value)
 
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
