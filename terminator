@@ -203,7 +203,7 @@ class TerminatorTerm:
     selection_data.set("vte",81, str(data.terminator.term_list.index (self)))
 
   def on_drag_motion(self, widget, drag_context, x, y, time):
-    return 
+    #return 
     print "Drag Motion on ",
     parent = widget.get_parent()
     print "%dx%d -> %dx%d" % (parent.allocation.width, parent.allocation.height , x, y) 
@@ -299,10 +299,15 @@ class TerminatorTerm:
       #dst parent is a window      
       # We have just one term
       pane = (pos in ("top", "bottom")) and gtk.VPaned() or gtk.HPaned()
-      dsthbox.reparent (pane)
+      dstpaned.remove(dsthbox)
+      #dsthbox.reparent (pane)
       #srchbox.reparent(pane)
-      pane.pack1 (dsthbox, True, True)
-      pane.pack2 (srchbox, True, True)
+      if pos in ("top", "left"):
+        pane.pack1 (srchbox, True, True)
+        pane.pack2 (dsthbox, True, True)
+      else:
+        pane.pack1 (dsthbox, True, True)
+        pane.pack2 (srchbox, True, True)
       dstpaned.add(pane)
       position = (pos in ("top", "bottom")) and  dstpaned.allocation.height or dstpaned.allocation.width
       
