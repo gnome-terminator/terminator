@@ -166,13 +166,10 @@ class TerminatorTerm:
     self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, target, gtk.gdk.ACTION_MOVE)
     self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,target, gtk.gdk.ACTION_MOVE)
     
-    self._vte.connect("drag-begin", self.on_drag_begin)
     self._vte.connect("drag-data-get", self.on_drag_data_get, self)
-    self._vte.connect("drag-end", self.on_drag_end)
-    self._vte.connect("drag-data-delete", self.on_drag_data_delete)
     
+    #for testing purpose: drag-motion
     self._vte.connect("drag-motion", self.on_drag_motion)
-    self._vte.connect("drag-drop", self.on_drag_drop)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
 #    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
@@ -204,23 +201,11 @@ class TerminatorTerm:
     self.matches['nntp'] = self._vte.match_add ('''\<news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?\>''')
 
     self.spawn_child ()
-
-  def on_drag_begin(self,widget, drag_context):
-    #parent is hbox
-    print "Drag begin on ",
-    parent = widget.get_parent()
-    print parent
     
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     print "Drag data get"
     selection_data.set("vte",81, str(data.terminator.term_list.index (self)))
-    
-  def on_drag_data_delete(self, widget, drag_context):
-    print "Drag data delete"
-    
-  def on_drag_end(self, widget, drag_context):
-    print "Drag end"
-    
+
   def on_drag_motion(self, widget, drag_context, x, y, time):
     return 
     print "Drag Motion on ",
@@ -252,21 +237,7 @@ class TerminatorTerm:
     srchbox = widgetsrc.get_box()    
     dsthbox = widget.get_parent()
     
-    coef1 = float(widget.allocation.height)/float(widget.allocation.width)
-    coef2 = -float(widget.allocation.height)/float(widget.allocation.width)
-    b1 = 0
-    b2 = dsthbox.allocation.height
-    
-    if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
-      pos =  "right"
-    if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
-      pos = "top"
-    if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
-      pos = "left"
-    if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
-      pos = "bottom"
-    
-    
+    #check if computation requireds
     if dsthbox == srchbox:
       print "on itself"
       return
@@ -276,8 +247,32 @@ class TerminatorTerm:
     if isinstance(dstpaned, gtk.Window) and isinstance(srcpaned, gtk.Window):
       print "Only one terminal"
       return
+    #get the diagonales function for the receiving widget
+    coef1 = float(widget.allocation.height)/float(widget.allocation.width)
+    coef2 = -float(widget.allocation.height)/float(widget.allocation.width)
+    b1 = 0
+    b2 = dsthbox.allocation.height
+    #determine mouse position in rectangle
+    """
+    --------
+    |\    /|
+    | \  / |
+    |  \/  |
+    |  /\  |
+    | /  \ |
+    |/    \|
+    --------
+    """
+    if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
+      pos =  "right"
+    if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
+      pos = "top"
+    if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
+      pos = "left"
+    if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
+      pos = "bottom"
     
-    """remove src pane"""
+    #remove src pane
     
     if srcpaned.get_child1() == srchbox:
       srcsibling = srcpaned.get_child2()
@@ -287,7 +282,7 @@ class TerminatorTerm:
     srcgdparent = srcpaned.get_parent()
    
     if isinstance (srcgdparent, gtk.Window):
-      print "SRC = window"
+      #src gd parent is a window
       srcpaned.remove(srchbox)
       srcpaned.remove(srcsibling)
       srcgdparent.remove(srcpaned)
@@ -295,17 +290,17 @@ class TerminatorTerm:
       srcgdparent.add(srcsibling)
       srcsibling.reparent(srcgdparent)
     if isinstance (srcgdparent, gtk.Paned):
-      print "SRC = paned"
+      #src gd parent is a paned
       srcpaned.remove(srchbox)
       srcgdparent.remove(srcpaned)
       srcsibling.reparent(srcgdparent)
       srcpaned.destroy()
-      
 
-   
+
+    #dst paned
     dstpaned = dsthbox.get_parent()
     if isinstance (dstpaned, gtk.Window):
-      print "DST = window"
+      #dst parent is a window      
       # We have just one term
       pane = (pos in ("top", "bottom")) and gtk.VPaned() or gtk.HPaned()
       dsthbox.reparent (pane)
@@ -317,9 +312,14 @@ class TerminatorTerm:
       
     
     if isinstance (dstpaned, gtk.Paned):
-      print "DST = paned"
+      #dst parent is a paned
       pane = (pos in ("top", "bottom")) and gtk.VPaned() or gtk.HPaned()
-      position = (pos in ("top", "bottom")) and dstpaned.allocation.height or dstpaned.allocation.width
+      
+      if pos in ("top", "bottom"):
+        position = isinstance(dstpaned, gtk.VPaned) and dstpaned.allocation.height/2 or dstpaned.allocation.height
+      if pos in ("left", "right"):
+        position = isinstance(dstpaned, gtk.HPaned) and dstpaned.allocation.width/2 or dstpaned.allocation.width
+
       print "%s %d" % (pos, position)
       if (dsthbox == dstpaned.get_child1 ()):
         dsthbox.reparent (pane)
@@ -327,9 +327,13 @@ class TerminatorTerm:
       else:
         dsthbox.reparent (pane)
         dstpaned.pack2 (pane, True, True)
-  
-      pane.pack1 (dsthbox, True, True)
-      pane.pack2 (srchbox, True, True)
+      if pos in ("top", "left"):
+        pane.remove(dsthbox)
+        pane.pack1 (srchbox, True, True)
+        pane.pack2 (dsthbox, True, True)
+      else:
+        pane.pack1 (dsthbox, True, True)
+        pane.pack2 (srchbox, True, True)
       
     pane.show_all()
     pane.set_position (position / 2)
