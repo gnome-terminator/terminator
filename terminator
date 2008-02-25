@@ -18,7 +18,7 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
-import os, sys, string, time, math
+import os, platform, sys, string, time, math
 from optparse import OptionParser
 
 import gettext
@@ -111,8 +111,6 @@ class TerminatorTerm:
     self.gconf_client = gconf.client_get_default ()
     self.command = command
 
-    # Open first tab in ~ or in cwd from parent?
-    #self.cwd = cwd or os.path.expanduser ("~");
     self.cwd = cwd or os.getcwd();
 
     if profile == None:
@@ -206,10 +204,17 @@ class TerminatorTerm:
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
-        This function is NOT portable, as it relies on a *nix-specific
-        path. This won't work on Windows.
+        This function requires OS specific behaviours
     """
-    return os.path.realpath("/proc/%s/cwd" % self._pid)
+    system = platform.system ()
+
+    if system == 'Linux':
+      cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
+    else:
+      # We don't have a child cwd getter for this platform, so let
+      # TerminatorTerm use its default
+      cwd = None
+    return (cwd)
 
   def reconf (self, property):
     value = self.gconf_client.get ('%s/%s'%(self.profile, property))
