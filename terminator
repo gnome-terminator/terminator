@@ -18,7 +18,7 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
-import os, sys, string, time, math
+import os, platform, sys, string, time, math
 from optparse import OptionParser
 
 import gettext
@@ -85,7 +85,7 @@ class TerminatorTerm:
     'scroll_on_output'      : False,
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
-    'child_restart'         : False,
+    'exit_action'           : 'close',
     'palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
@@ -104,13 +104,14 @@ class TerminatorTerm:
 
   matches = {}
 
-
-  def __init__ (self, terminator, profile = None, command = None):
+  def __init__ (self, terminator, profile = None, command = None, cwd = None):
     self.defaults['profile_dir'] = self.defaults['_profile_dir']%(self.defaults['gt_dir'])
 
     self.terminator = terminator
     self.gconf_client = gconf.client_get_default ()
     self.command = command
+
+    self.cwd = cwd or os.getcwd();
 
     if profile == None:
       profile = self.gconf_client.get_string (self.defaults['gt_dir'] + '/global/default_profile')
@@ -147,7 +148,7 @@ class TerminatorTerm:
     self._box.show ()
 
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
-    if self.scrollbar_position != "hidden":
+    if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
     if self.scrollbar_position == 'right':
@@ -171,22 +172,18 @@ class TerminatorTerm:
     #for testing purpose: drag-motion
     self._vte.connect("drag-motion", self.on_drag_motion)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
+    self._vte.connect ("composited-changed", self.on_composited_changed)
+
 #    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
   
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
-    if not exit_action:
-      if self.defaults['child_restart']:
-        exit_action = "restart"
-      else:
-        exit_action = "close"
+    exit_action = self.reconf ("exit_action")
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
-    #gnome-terminal Bug: http://bugzilla.gnome.org/show_bug.cgi?id=518184
-    #/apps/gnome-terminal/profiles/<profile name>/exit_action might be 
-    #set to "left" instead of close
-    # LP#194771
+    # We need to support "left" because some buggy versions of gnome-terminal
+    #  set it in some situations
     if exit_action in ("close", "left"):
       self._vte.connect ("child-exited", lambda close_term: self.terminator.closeterm (self))
 
@@ -357,7 +354,21 @@ class TerminatorTerm:
       shell = pwd.getpwuid (os.getuid ())[6]
       args = [os.path.basename (shell)]
 
-    self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records)
+    self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
+
+  def get_cwd (self):
+    """ Return the current working directory of the subprocess.
+        This function requires OS specific behaviours
+    """
+    system = platform.system ()
+
+    if system == 'Linux':
+      cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
+    else:
+      # We don't have a child cwd getter for this platform, so let
+      # TerminatorTerm use its default
+      cwd = None
+    return (cwd)
 
   def reconf (self, property):
     value = self.gconf_client.get ('%s/%s'%(self.profile, property))
@@ -448,8 +459,13 @@ class TerminatorTerm:
       self._vte.set_scroll_background (self.reconf ('scroll_background'))
       self._vte.set_background_transparent (False)
     if background_type == "transparent":
-      self._vte.set_background_transparent (True)
-      self._vte.set_background_saturation (1 - (self.reconf ('background_darkness')))
+      darkness = self.reconf ('background_darkness')
+      if self._vte.is_composited():
+        self._vte.set_background_transparent (False)
+        self._vte.set_opacity(int(darkness * 65535))
+      else:
+        self._vte.set_background_transparent (True)
+        self._vte.set_background_saturation (1 - darkness)
       
     colors = palette.split (':')
     palette = []
@@ -474,7 +490,7 @@ class TerminatorTerm:
     scrollbar_position = self.reconf ('scrollbar_position')
 
     if scrollbar_position != self.scrollbar_position:
-      if scrollbar_position == 'hidden':
+      if scrollbar_position == 'hidden' or scrollbar_position == 'disabled':
         self._scrollbar.hide ()
       else:
         self._scrollbar.show ()
@@ -495,6 +511,9 @@ class TerminatorTerm:
     self.focus = self.gconf_client.get_string ("/apps/metacity/general/focus_mode") or self.defaults['focus']
 
   def on_gconf_notification (self, client, cnxn_id, entry, what):
+    self.reconfigure_vte ()
+
+  def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
@@ -696,6 +715,13 @@ class Terminator:
 
     self.window.set_property ('allow-shrink', True)
 
+    # Set RGBA colormap if possible so VTE can use real alpha
+    # channels for transparency.
+    screen = self.window.get_screen()
+    colormap = screen.get_rgba_colormap()
+    if colormap:
+      self.window.set_colormap(colormap)
+
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile, self.command))
@@ -781,7 +807,7 @@ class Terminator:
     """ Split the provided widget on the horizontal or vertical axis. """
 
     # create a new terminal and parent pane.
-    terminal = TerminatorTerm (self, self.profile, None)
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal

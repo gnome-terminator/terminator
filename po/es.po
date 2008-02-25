@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-29 23:57+0000\n"
-"PO-Revision-Date: 2008-01-15 00:09+0000\n"
+"PO-Revision-Date: 2008-02-15 14:25+0000\n"
 "Last-Translator: Nicolas Valcárcel <nvalcarcel@ubuntu-pe.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
+"X-Launchpad-Export-Date: 2008-02-19 23:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:44
@@ -22,23 +22,30 @@ msgid ""
 "You need to install the python bindings for gobject, gtk, gconf and pango to "
 "run Terminator."
 msgstr ""
+"Necesitas instalar los lazos python para gobject, gtk, gconf y pango para "
+"ejecutar Terminator"
 
 #: terminator:63
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 msgstr ""
+"Necesitas instalar lazos python para libvte (\"python-vte\" en debian/ubuntu)"
 
 #: terminator:127
 #, python-format
 msgid "Warning: unable to find profile %s. Continue with default values..."
 msgstr ""
+"Advertencia: No es posible encontrar perfil %s. Continuar con valores por "
+"defecto..."
 
 #: terminator:213
 msgid ""
 "Unknown value requested. Unable to find in gconf profile or default "
 "settings: "
 msgstr ""
+"Valor desconocido requerido. No se pudo encontrar en perfil gconf o valores "
+"por defecto "
 
 #: terminator:414
 msgid "_Open Link"

@@ -1,102 +1,103 @@
 terminator 0.9:
-	* Added support for ~/.terminatorrc 
-	* Added kwybindings for terms size and scrollbar manipulation. Thanks 
-	  Emmanuel Bretelle.
+  * Added support for ~/.terminatorrc 
+  * Added kwybindings for terms size and scrollbar manipulation. Thanks 
+    Emmanuel Bretelle.
 
 
 terminator 0.8.1:
-	* Fixed ChangeLog
-	* Revert URI matching behaviour to the same as gnome-terminal
+  * Fixed ChangeLog
+  * Revert URI matching behaviour to the same as gnome-terminal
+  * Close LP #179315 with a fuller fix that provides proper colour support
 
 terminator 0.8:
-	* Make dependency on python-gnome optional. Non-gnome users can now reap
-	  the glorious benefits of Terminator and will only lose the ability to
-	  open email URLs (assuming their browser won't handle this for them).
-	  Closes LP #184809
-	* Remove blank translations from .desktop file to fix empty menu entries
-	  Closes LP #187187
-	* Add application icon at various sizes including a window icon
-	* New options parser allowing -x support. Closes LP191124
-	* More translations (thanks!)
+  * Make dependency on python-gnome optional. Non-gnome users can now reap
+    the glorious benefits of Terminator and will only lose the ability to
+    open email URLs (assuming their browser won't handle this for them).
+    Closes LP #184809
+  * Remove blank translations from .desktop file to fix empty menu entries.
+    Closes LP #187187
+  * Add application icon at various sizes including a window icon
+  * New options parser allowing -x support. Closes LP191124
+  * More translations (thanks!)
 
 terminator 0.7:
 
-	* Fullscreen support, via a patch from Thomas Meire. Closes LP #178914
-	* Improved behaviour when closing terminals/window. Result of work by 
-	  Thomas Meire. Closes LP #161121
-	* Freedesktop .desktop file and appropriate setup.py entry for 
-	  installing it. Closes LP #178943
-	* Translation support, with Spanish, Dutch, Italian and Romanian 
-	  translations. Closes LP #161120
-	* Stop clashing with gnome-terminal's paste shortcut key, move 
-	  horizontal splitting shortcut too, and add support for 
-	  gnome-terminal's copy/paste shortcuts. Closes LP #179310
-	* Borderless support (tell your window manager not to decorate 
-	  Terminator)
-	* Font zooming support. Closes LP #178792
-	* Set the VTE widget to have a tooltip of its window title. This may be
-	  reverted if it is annoying
-	* Support GNOME Terminal profile settings for backgrounds. 
-	  Closes LP #180717
-	* Use our own default values if there is no gnome-terminal profile. 
-	  Closes LP #179315
+  * Fullscreen support, via a patch from Thomas Meire. Closes LP #178914
+  * Improved behaviour when closing terminals/window. Result of work by 
+    Thomas Meire. Closes LP #161121
+  * Freedesktop .desktop file and appropriate setup.py entry for 
+    installing it. Closes LP #178943
+  * Translation support, with Spanish, Dutch, Italian and Romanian 
+    translations. Closes LP #161120
+  * Stop clashing with gnome-terminal's paste shortcut key, move 
+    horizontal splitting shortcut too, and add support for 
+    gnome-terminal's copy/paste shortcuts. Closes LP #179310
+  * Borderless support (tell your window manager not to decorate 
+    Terminator)
+  * Font zooming support. Closes LP #178792
+  * Set the VTE widget to have a tooltip of its window title. This may be
+    reverted if it is annoying
+  * Support GNOME Terminal profile settings for backgrounds. 
+    Closes LP #180717
+  * Use our own default values if there is no gnome-terminal profile. 
+    Closes LP #179315
 
 terminator 0.6:
 
-	* Use new gnome-terminal gconf key to find available profiles
-	* Move a few more hardcoded items to our settings array (not that 
-	  it can be overridden yet)
-	* Fix handling of exiting child processes to properly track 
-	  gnome-terminal settings
-	* Add Ctrl-Tab and Ctrl-Shift-Tab as options for switching terminals 
-	  (patch from Kees Cook)
-	* Stop using parent.show_all() when removing/adding a terminal and 
-	  instead show the actual widgets that have been created. This 
-	  prevents scrollbars from re-appearing after they have been hidden
+  * Use new gnome-terminal gconf key to find available profiles
+  * Move a few more hardcoded items to our settings array (not that 
+    it can be overridden yet)
+  * Fix handling of exiting child processes to properly track 
+    gnome-terminal settings
+  * Add Ctrl-Tab and Ctrl-Shift-Tab as options for switching terminals 
+    (patch from Kees Cook)
+  * Stop using parent.show_all() when removing/adding a terminal and 
+    instead show the actual widgets that have been created. This 
+    prevents scrollbars from re-appearing after they have been hidden
 
 terminator 0.5:
 
-	* The terminator window is now able to resize smaller, 
-	  thanks to Kees Cook for the fix.
-	* Email addresses are now matched and opened correctly. 
-	  Closes LP #139015
-	* Double clicking a URL now selects the whole URL. Closes LP #129533
-	* The default behaviour is now to open a single 80x24 terminal rather
-	  than four terminals in a maximised window. Closes LP #126219 and
-	  should force me to fix LP #87720
-	* There are now hotkeys for switching between terminals, splitting 
-	  terminals and closing them. Closes LP #149931 and #148622(thanks 
-	  to Huanghe for patches for this)
-	* If there is only one terminal, closing it will not produce a quit 
-	  message
+  * The terminator window is now able to resize smaller, 
+    thanks to Kees Cook for the fix.
+  * Email addresses are now matched and opened correctly. 
+    Closes LP #139015
+  * Double clicking a URL now selects the whole URL. Closes LP #129533
+  * The default behaviour is now to open a single 80x24 terminal rather
+    than four terminals in a maximised window. Closes LP #126219 and
+    should force me to fix LP #87720
+  * There are now hotkeys for switching between terminals, splitting 
+    terminals and closing them. Closes LP #149931 and #148622(thanks 
+    to Huanghe for patches for this)
+  * If there is only one terminal, closing it will not produce a quit 
+    message
 
 terminator 0.4:
 
-	* Architecture should be all, not any
-	* Fix section
-	* Add AUTHORS file
-	* Rename script to drop the .py
-	* Handle the gnome-terminal profile better by offering command options
-	* Fudge around some resizing issues
-	* Fix child spawning to avoid segfaulting zsh
-	* Misc. code formatting/style improvements
-	* Refactor terminal splitting into one axis agnostic function
-	* Flesh out setup.py a tiny bit more
+  * Architecture should be all, not any
+  * Fix section
+  * Add AUTHORS file
+  * Rename script to drop the .py
+  * Handle the gnome-terminal profile better by offering command options
+  * Fudge around some resizing issues
+  * Fix child spawning to avoid segfaulting zsh
+  * Misc. code formatting/style improvements
+  * Refactor terminal splitting into one axis agnostic function
+  * Flesh out setup.py a tiny bit more
 
 terminator 0.3:
 
-	* Implemented terminal closing, which correctly reparents its sibling
-	  (if any)
-	* Updated documentation to reflect a serious bug with shells that aren't
-	  bash (or at least zsh)
+  * Implemented terminal closing, which correctly reparents its sibling
+    (if any)
+  * Updated documentation to reflect a serious bug with shells that aren't
+    bash (or at least zsh)
 
 terminator 0.2:
 
-	* Support dynamically splitting terminals
+  * Support dynamically splitting terminals
 
 terminator 0.1:
 
-	* Fixed some distribution wording
-	* Fix build-depends
-	* Initial release 
+  * Fixed some distribution wording
+  * Fix build-depends
+  * Initial release 
 
