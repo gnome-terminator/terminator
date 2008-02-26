@@ -27,13 +27,42 @@ gettext.install ('terminator')
 # import unix-lib
 import pwd
 
+# import gconf if possible, if not construct a fake replacement
+class fakegconfclient:
+  def get_string (self, key):
+    return ("")
+  def get_list (self, key, type):
+    return ([])
+  def add_dir (self, profile, path):
+    return (True)
+  def notify_add (self, profile, callback):
+    return (True)
+  def get_bool (self, key):
+    return (False)
+  def get (self, key):
+    return (0)
+class fakegconf:
+  CLIENT_PRELOAD_RECURSIVE = False
+  VALUE_STRING = ""
+  VALUE_INT = 0
+  VALUE_FLOAT = 0.0
+  VALUE_BOOL = False
+  def client_get_default (self):
+    foo = fakegconfclient ()
+    return (foo)
+   
+try:
+  import gconf
+except:
+  pass
+
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
-  import gobject, gtk, gconf, pango
+  import gobject, gtk, pango
 except:
   print >> sys.stderr, _("You need to install the python bindings for " \
-    "gobject, gtk, gconf and pango to run Terminator.")
+    "gobject, gtk and pango to run Terminator.")
   sys.exit(1)
 
 # import a library for viewing URLs
@@ -64,7 +93,6 @@ def openurl (url):
 class TerminatorTerm:
 
   # Our settings
-  # FIXME: Add commandline and/or gconf options to change these
   defaults = {
     'gt_dir'                : '/apps/gnome-terminal',
     '_profile_dir'          : '%s/profiles',
@@ -91,17 +119,6 @@ class TerminatorTerm:
     'mouse_autohide'        : True,
   }
 
-  if os.path.exists(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc"):
-    f = open(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc")
-    config = f.readlines()
-    f.close()
-
-    for line in config:
-       line = line.strip()
-       if line:
-         (key,value) = line.split("=")
-         defaults[key.strip()]=value.strip()
-
   matches = {}
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
@@ -125,12 +142,25 @@ class TerminatorTerm:
       if profile != "Default" and "Default" in profiles:
         self.profile = '%s/Default'%(self.defaults['profile_dir'])
 
-    if not self.profile:
-      print >> sys.stderr,  _("Warning: unable to find profile %s. Continue with default values...") % profile
-
     if self.profile:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
       self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
+    else:
+      if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
+        f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
+        config = f.readlines ()
+        f.close ()
+
+        for line in config:
+          try:
+	    line = line.split("#")[0]
+            line = line.strip ()
+            if line:
+              (key,value) = line.split ("=")
+              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
+              self.defaults[key.strip ()] = value.strip ()
+          except:
+            pass
  
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
@@ -390,8 +420,8 @@ class TerminatorTerm:
 
     if ret == None:
       print >> sys.stderr, _('Unknown value requested. Unable to find in gconf profile or default settings: ') + property
-      sys.exit (1)
-    return ret
+
+    return (ret)
 
   def reconfigure_vte (self):
     # Set our emulation
@@ -447,25 +477,6 @@ class TerminatorTerm:
     else:
       fg_color = gtk.gdk.color_parse (self.reconf ('foreground_color'))
       bg_color = gtk.gdk.color_parse (self.reconf ('background_color'))
-
-    # Set our background image, transparency and type
-    background_type = self.reconf ('background_type')
-
-    if background_type == "solid":
-      self._vte.set_background_image_file ('')
-      self._vte.set_background_transparent (False)
-    if background_type == "image":
-      self._vte.set_background_image_file (self.reconf ('background_image'))
-      self._vte.set_scroll_background (self.reconf ('scroll_background'))
-      self._vte.set_background_transparent (False)
-    if background_type == "transparent":
-      darkness = self.reconf ('background_darkness')
-      if self._vte.is_composited():
-        self._vte.set_background_transparent (False)
-        self._vte.set_opacity(int(darkness * 65535))
-      else:
-        self._vte.set_background_transparent (True)
-        self._vte.set_background_saturation (1 - darkness)
       
     colors = palette.split (':')
     palette = []
@@ -473,6 +484,32 @@ class TerminatorTerm:
       if color:
         palette.append (gtk.gdk.color_parse (color))
     self._vte.set_colors (fg_color, bg_color, palette)
+
+    # Set our background image, transparency and type
+    # Many thanks to the authors of gnome-terminal, on which this code is based.
+    background_type = self.reconf ('background_type')
+
+    # set background image settings
+    if background_type == "image":
+      self._vte.set_background_image_file (self.reconf ('background_image'))
+      self._vte.set_scroll_background (self.reconf('scroll_background'))
+    else:
+      self._vte.set_background_image_file('')
+      self._vte.set_scroll_background(False)
+
+    # set transparency for the background (image)
+    if background_type in ("image", "transparent"):
+      self._vte.set_background_tint_color (bg_color)
+      self._vte.set_background_saturation(1 - (self.reconf ('background_darkness')))
+      self._vte.set_opacity(int(self.reconf('background_darkness') * 65535))
+    else:
+      self._vte.set_background_saturation(1)
+      self._vte.set_opacity(65535)
+
+    if not self._vte.is_composited():
+      self._vte.set_background_transparent (background_type == "transparent")
+    else:
+      self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks = (self.reconf ('cursor_blink'))
@@ -822,11 +859,13 @@ class Terminator:
 
       parent.add (pane)
 
-      position = (vertical) and parent.allocation.height or parent.allocation.width
+      position = (vertical) and parent.allocation.height \
+                             or parent.allocation.width
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      position = (vertical) and widget.get_box().allocation.height or widget.get_box().allocation.width
+      position = (vertical) and widget.get_box().allocation.height \
+                             or widget.get_box().allocation.width
 
       if (widget.get_box () == parent.get_child1 ()):
         widget.get_box ().reparent (pane)
@@ -967,19 +1006,23 @@ class Terminator:
     elif isinstance (parent, gtk.HPaned) and not vertical:
       return parent
     return self.get_first_parent_paned(parent, vertical)
-         
-         
      
-def execute_cb (option, opt, value, parser):
-  assert value is None
-  value = []
-  while parser.rargs:
-    arg = parser.rargs[0]
-    value.append (arg)
-    del (parser.rargs[0])
-  setattr(parser.values, option.dest, value)
-
 if __name__ == '__main__':
+  try:
+    if (gconf):
+      pass
+  except:
+    # Install a fake gconf setup
+    gconf = fakegconf ()
+
+  def execute_cb (option, opt, value, parser):
+    assert value is None
+    value = []
+    while parser.rargs:
+      arg = parser.rargs[0]
+      value.append (arg)
+      del (parser.rargs[0])
+    setattr(parser.values, option.dest, value)
 
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
@@ -990,6 +1033,7 @@ if __name__ == '__main__':
   parser.add_option ("-p", "--profile", dest="profile", help="Specify a GNOME Terminal profile to emulate")
   parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
+  parser.add_option ("-g", "--no-gconf", dest="nogconf", action="store_true", help="Disable gconf usage, falling back on ~/.terminatorrc and defaults")
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
@@ -1000,6 +1044,9 @@ if __name__ == '__main__':
     command.append (options.command)
   if (options.execute):
     command = options.execute
+  if (options.nogconf):
+    del (gconf)
+    gconf = fakegconf ()
 
   term = Terminator (options.profile, command)
 
