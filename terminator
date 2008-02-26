@@ -27,13 +27,42 @@ gettext.install ('terminator')
 # import unix-lib
 import pwd
 
+# import gconf if possible, if not construct a fake replacement
+class fakegconfclient:
+  def get_string (self, key):
+    return ("")
+  def get_list (self, key, type):
+    return ([])
+  def add_dir (self, profile, path):
+    return (True)
+  def notify_add (self, profile, callback):
+    return (True)
+  def get_bool (self, key):
+    return (False)
+  def get (self, key):
+    return (0)
+class fakegconf:
+  CLIENT_PRELOAD_RECURSIVE = False
+  VALUE_STRING = ""
+  VALUE_INT = 0
+  VALUE_FLOAT = 0.0
+  VALUE_BOOL = False
+  def client_get_default (self):
+    foo = fakegconfclient ()
+    return (foo)
+   
+try:
+  import gconf
+except:
+  pass
+
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
-  import gobject, gtk, gconf, pango
+  import gobject, gtk, pango
 except:
   print >> sys.stderr, _("You need to install the python bindings for " \
-    "gobject, gtk, gconf and pango to run Terminator.")
+    "gobject, gtk and pango to run Terminator.")
   sys.exit(1)
 
 # import a library for viewing URLs
@@ -90,17 +119,6 @@ class TerminatorTerm:
     'mouse_autohide'        : True,
   }
 
-  if os.path.exists(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc"):
-    f = open(pwd.getpwuid(os.getuid())[5] + "/.terminatorrc")
-    config = f.readlines()
-    f.close()
-
-    for line in config:
-       line = line.strip()
-       if line:
-         (key,value) = line.split("=")
-         defaults[key.strip()]=value.strip()
-
   matches = {}
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
@@ -124,12 +142,24 @@ class TerminatorTerm:
       if profile != "Default" and "Default" in profiles:
         self.profile = '%s/Default'%(self.defaults['profile_dir'])
 
-    if not self.profile:
-      print >> sys.stderr,  _("Warning: unable to find profile %s. Continue with default values...") % profile
-
     if self.profile:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
       self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
+    else:
+      if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
+        f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
+        config = f.readlines ()
+        f.close ()
+
+        for line in config:
+          try:
+            line = line.strip ()
+            if line:
+              (key,value) = line.split ("=")
+              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
+              self.defaults[key.strip ()] = value.strip ()
+          except:
+            pass
  
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
@@ -824,6 +854,12 @@ class Terminator:
     return self.get_first_parent_paned(parent, vertical)
      
 if __name__ == '__main__':
+  try:
+    if (gconf):
+      pass
+  except:
+    # Install a fake gconf setup
+    gconf = fakegconf ()
 
   def execute_cb (option, opt, value, parser):
     assert value is None
@@ -843,6 +879,7 @@ if __name__ == '__main__':
   parser.add_option ("-p", "--profile", dest="profile", help="Specify a GNOME Terminal profile to emulate")
   parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
+  parser.add_option ("-g", "--no-gconf", dest="nogconf", action="store_true", help="Disable gconf usage, falling back on ~/.terminatorrc and defaults")
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
@@ -853,6 +890,9 @@ if __name__ == '__main__':
     command.append (options.command)
   if (options.execute):
     command = options.execute
+  if (options.nogconf):
+    del (gconf)
+    gconf = fakegconf ()
 
   term = Terminator (options.profile, command)
 
