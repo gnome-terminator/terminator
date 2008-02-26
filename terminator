@@ -157,7 +157,7 @@ class TerminatorTerm:
             line = line.strip ()
             if line:
               (key,value) = line.split ("=")
-              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
+              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''') % (key.strip (), self.defaults[key.strip ()], value.strip ())
               self.defaults[key.strip ()] = value.strip ()
           except:
             pass
@@ -370,9 +370,9 @@ class TerminatorTerm:
         pane.pack1 (dsthbox, True, True)
         pane.pack2 (srchbox, True, True)
       
-    pane.show_all()
+    pane.show()
     pane.set_position (position / 2)
-   
+    self.reconfigure_vte()
 
   def spawn_child (self, event=None):
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
@@ -421,7 +421,7 @@ class TerminatorTerm:
         ret = value.get_float ()
       elif value.type == gconf.VALUE_BOOL:
         ret = value.get_bool ()
-
+        
     if ret == None:
       print >> sys.stderr, _('Unknown value requested. Unable to find in gconf profile or default settings: ') + property
 
