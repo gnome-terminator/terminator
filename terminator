@@ -372,7 +372,6 @@ class TerminatorTerm:
       
     pane.show()
     pane.set_position (position / 2)
-    self.reconfigure_vte()
 
   def spawn_child (self, event=None):
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
