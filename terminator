@@ -153,6 +153,7 @@ class TerminatorTerm:
 
         for line in config:
           try:
+	    line = line.split("#")[0]
             line = line.strip ()
             if line:
               (key,value) = line.split ("=")
