@@ -302,76 +302,9 @@ class TerminatorTerm:
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       pos = "bottom"
     
-    #remove src pane
-    
-    if srcpaned.get_child1() == srchbox:
-      srcsibling = srcpaned.get_child2()
-    else:
-      srcsibling = srcpaned.get_child1()
-    
-    srcgdparent = srcpaned.get_parent()
-   
-    if isinstance (srcgdparent, gtk.Window):
-      #src gd parent is a window
-      srcpaned.remove(srchbox)
-      srcpaned.remove(srcsibling)
-      srcgdparent.remove(srcpaned)
-      srcpaned.destroy()
-      srcgdparent.add(srcsibling)
-      srcsibling.reparent(srcgdparent)
-    if isinstance (srcgdparent, gtk.Paned):
-      #src gd parent is a paned
-      srcpaned.remove(srchbox)
-      srcgdparent.remove(srcpaned)
-      srcsibling.reparent(srcgdparent)
-      srcpaned.destroy()
-
-
-    #dst paned
-    dstpaned = dsthbox.get_parent()
-    if isinstance (dstpaned, gtk.Window):
-      #dst parent is a window      
-      # We have just one term
-      pane = (pos in ("top", "bottom")) and gtk.VPaned() or gtk.HPaned()
-      dstpaned.remove(dsthbox)
-      #dsthbox.reparent (pane)
-      #srchbox.reparent(pane)
-      if pos in ("top", "left"):
-        pane.pack1 (srchbox, True, True)
-        pane.pack2 (dsthbox, True, True)
-      else:
-        pane.pack1 (dsthbox, True, True)
-        pane.pack2 (srchbox, True, True)
-      dstpaned.add(pane)
-      position = (pos in ("top", "bottom")) and  dstpaned.allocation.height or dstpaned.allocation.width
-      
-    
-    if isinstance (dstpaned, gtk.Paned):
-      #dst parent is a paned
-      pane = (pos in ("top", "bottom")) and gtk.VPaned() or gtk.HPaned()
-      
-      if pos in ("top", "bottom"):
-        position = isinstance(dstpaned, gtk.VPaned) and dstpaned.allocation.height/2 or dstpaned.allocation.height
-      if pos in ("left", "right"):
-        position = isinstance(dstpaned, gtk.HPaned) and dstpaned.allocation.width/2 or dstpaned.allocation.width
-
-      print "%s %d" % (pos, position)
-      if (dsthbox == dstpaned.get_child1 ()):
-        dsthbox.reparent (pane)
-        dstpaned.pack1 (pane, True, True)
-      else:
-        dsthbox.reparent (pane)
-        dstpaned.pack2 (pane, True, True)
-      if pos in ("top", "left"):
-        pane.remove(dsthbox)
-        pane.pack1 (srchbox, True, True)
-        pane.pack2 (dsthbox, True, True)
-      else:
-        pane.pack1 (dsthbox, True, True)
-        pane.pack2 (srchbox, True, True)
-      
-    pane.show()
-    pane.set_position (position / 2)
+    data.terminator.remove(widgetsrc)
+    data.terminator.add(self, widgetsrc,pos)
+    return
 
   def spawn_child (self, event=None):
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
@@ -731,6 +664,10 @@ class TerminatorTerm:
   def get_box (self):
     return self._box
 
+  def destroy(self):
+    self.get_box().destroy()
+    self._vte.destroy()
+    
 class Terminator:
   def __init__ (self, profile, command = None):
     self.profile = profile
@@ -843,23 +780,22 @@ class Terminator:
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
         
 
-  def splitaxis (self, widget, vertical=True):
-    """ Split the provided widget on the horizontal or vertical axis. """
-
-    # create a new terminal and parent pane.
-    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+  def add(self, widget, terminal, pos):
+    vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
-
     # get the parent of the provided terminal
     parent   = widget.get_box ().get_parent ()
 
     if isinstance (parent, gtk.Window):
       # We have just one term
       widget.get_box ().reparent (pane)
-
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (terminal.get_box (), True, True)
-
+      if pos in ("top", "left"):
+        pane.remove(widget.get_box ())
+        pane.pack1 (terminal.get_box (), True, True)
+        pane.pack2 (widget.get_box (), True, True)
+      else:
+        pane.pack1 (widget.get_box (), True, True)
+        pane.pack2 (terminal.get_box (), True, True)
       parent.add (pane)
 
       position = (vertical) and parent.allocation.height \
@@ -876,7 +812,14 @@ class Terminator:
       else:
         widget.get_box ().reparent (pane)
         parent.pack2 (pane, True, True)
-
+      if pos in ("top", "left"):
+        pane.remove(widget.get_box ())
+        pane.pack1 (terminal.get_box (), True, True)
+        pane.pack2 (widget.get_box (), True, True)
+      else:
+        pane.pack1 (widget.get_box (), True, True)
+        pane.pack2 (terminal.get_box (), True, True)
+        
       pane.pack1 (widget.get_box (), True, True)
       pane.pack2 (terminal.get_box (), True, True)
 
@@ -893,8 +836,17 @@ class Terminator:
     terminal._vte.grab_focus ()
 
     return (terminal)
-
-  def closeterm (self, widget):
+      
+  def splitaxis (self, widget, vertical=True):
+    """ Split the provided widget on the horizontal or vertical axis. """
+    # create a new terminal and parent pane.
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    pos = vertical and "bottom" or "right"
+    self.add(widget, terminal, pos)
+    terminal.get_box ().show ()
+    return terminal
+  
+  def remove(self, widget):
     parent = widget.get_box ().get_parent ()
     sibling = None
 
@@ -917,14 +869,14 @@ class Terminator:
       if not sibling:
         # something is wrong, give up
         print >> sys.stderr, "Error: %s is not a child of %s"%(widget, parent)
-        return
+        return False
 
-      self.term_list.remove (widget)
+      parent.remove(widget.get_box())
       grandparent.remove (parent)
       sibling.reparent (grandparent)
-      widget.get_box ().destroy ()
       parent.destroy ()
-
+      self.term_list.remove (widget)
+      
       if not isinstance (sibling, gtk.Paned):
         for term in self.term_list:
           if term.get_box () == sibling:
@@ -934,7 +886,13 @@ class Terminator:
         if index == 0: index = 1
         self.term_list[index - 1]._vte.grab_focus ()
 
-    return
+    return True
+    
+  def closeterm (self, widget):
+    if self.remove(widget):
+      widget.destroy ()
+      return True
+    return False
 
   def go_next (self, term):
     current = self.term_list.index (term)
