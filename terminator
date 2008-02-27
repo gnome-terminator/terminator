@@ -780,7 +780,10 @@ class Terminator:
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
         
 
-  def add(self, widget, terminal, pos):
+  def add(self, widget, terminal, pos = "bottom"):
+    """
+    Add a term to another at position pos
+    """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
     # get the parent of the provided terminal
@@ -847,6 +850,8 @@ class Terminator:
     return terminal
   
   def remove(self, widget):
+    """Remove a TerminatorTerm from the Terminator view and terms list
+       Returns True on success, False on failure"""
     parent = widget.get_box ().get_parent ()
     sibling = None
 
