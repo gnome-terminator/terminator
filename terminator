@@ -879,6 +879,7 @@ class Terminator:
       parent.remove(widget.get_box())
       grandparent.remove (parent)
       sibling.reparent (grandparent)
+      grandparent.resize_children()
       parent.destroy ()
       self.term_list.remove (widget)
       
