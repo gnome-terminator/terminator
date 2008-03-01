@@ -96,6 +96,8 @@ class TerminatorTerm:
   defaults = {
     'gt_dir'                : '/apps/gnome-terminal',
     '_profile_dir'          : '%s/profiles',
+    'titlebars'             : True,
+    'titletips'             : False,
     'allow_bold'            : True,
     'silent_bell'           : True,
     'background_color'      : '#000000',
@@ -175,26 +177,39 @@ class TerminatorTerm:
     self.reconfigure_vte ()
     self._vte.show ()
 
-    self._box = gtk.HBox ()
-    self._box.show ()
+    #self._box = gtk.HBox ()
+    #self._box.show ()
 
+    self._termbox = gtk.HBox ()
+    self._termbox.show()
+
+    if self.defaults['titlebars']:
+      self._title = gtk.Label()
+      self._title.show()
+      self._box = gtk.VBox ()
+      self._box.show()
+      self._box.pack_start(self._title, False)
+      self._box.pack_start(self._termbox)
+    else:
+      self._box = self._termbox
+    
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
     if self.scrollbar_position == 'right':
-      packfunc = self._box.pack_start
+      packfunc = self._termbox.pack_start
     else:
-      packfunc = self._box.pack_end
+      packfunc = self._termbox.pack_end
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
-
+    
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     self._vte.connect ("composited-changed", self.on_composited_changed)
-#    self._vte.connect ("window-title-changed", self.on_vte_title_change)
+    self._vte.connect ("window-title-changed", self.on_vte_title_change)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
     exit_action = self.reconf ("exit_action")
@@ -422,6 +437,11 @@ class TerminatorTerm:
     else:
       self._scrollbar.show ()
 
+  def do_title_toggle (self):
+    if self._title.get_property ('visible'):
+      self._title.hide ()
+    else:
+      self._title.show ()
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   def on_vte_key_press (self, term, event):
@@ -547,6 +567,11 @@ class TerminatorTerm:
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
+    
+    item = gtk.CheckMenuItem (_("Show Title"))
+    item.set_active (self._title.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
+    menu.append (item)
 
     item = gtk.MenuItem ()
     menu.append (item)
@@ -570,8 +595,11 @@ class TerminatorTerm:
     return menu
 
   def on_vte_title_change(self, vte):
-    vte.set_property ("has-tooltip", True)
-    vte.set_property ("tooltip-text", vte.get_window_title ())
+    if self.reconf ('titletips'):
+      vte.set_property ("has-tooltip", True)
+      vte.set_property ("tooltip-text", vte.get_window_title ())
+    if self.reconf ('titlebars'):
+      self._title.set_text(vte.get_window_title ())
 
   def get_box (self):
     return self._box
