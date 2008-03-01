@@ -183,7 +183,7 @@ class TerminatorTerm:
     self._termbox = gtk.HBox ()
     self._termbox.show()
 
-    if self.defaults['titlebars']:
+    if self.reconf('titlebars'):
       self._title = gtk.Label()
       self._title.show()
       self._box = gtk.VBox ()
