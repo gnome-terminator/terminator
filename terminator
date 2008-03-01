@@ -145,22 +145,23 @@ class TerminatorTerm:
     if self.profile:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
       self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
-    else:
-      if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
-        f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
-        config = f.readlines ()
-        f.close ()
 
-        for line in config:
-          try:
-	    line = line.split("#")[0]
-            line = line.strip ()
-            if line:
-              (key,value) = line.split ("=")
-              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
-              self.defaults[key.strip ()] = value.strip ()
-          except:
+    if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
+      f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
+      config = f.readlines ()
+      f.close ()
+
+      for line in config:
+        try:
+          line = line.strip ()
+          if line[0] == '#':
             pass
+          elif line:
+            (key,value) = line.split ("=")
+            print >> sys.stderr, _('''Overriding setting '%s' from value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
+            self.defaults[key.strip ()] = value.strip ()
+        except:
+          pass
  
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
