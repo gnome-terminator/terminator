@@ -576,7 +576,7 @@ class TerminatorTerm:
     return self._box
 
 class Terminator:
-  def __init__ (self, profile, command = None):
+  def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
     self.command = command
@@ -598,6 +598,15 @@ class Terminator:
     self.window.connect ("destroy", self.on_destroy_event)
 
     self.window.set_property ('allow-shrink', True)
+
+    if fullscreen:
+      self.fullscreen_toggle ()
+
+    if maximise:
+      self.maximize ()
+
+    if borderless:
+      self.window.set_decorated (False)
 
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
@@ -895,18 +904,7 @@ if __name__ == '__main__':
     del (gconf)
     gconf = fakegconf ()
 
-  term = Terminator (options.profile, command)
-
-  # Set the Terminator in fullscreen state or maximize it.
-  # Fullscreen and maximise are mutually exclusive, with
-  # fullscreen taking precedence over maximise.
-  if options.fullscreen:
-    term.toggle_fullscreen ()
-  elif options.maximise:
-    term.maximize ()
-
-  if options.borderless:
-    term.window.set_decorated (False)
+  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
 
