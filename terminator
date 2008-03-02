@@ -96,6 +96,8 @@ class TerminatorTerm:
   defaults = {
     'gt_dir'                : '/apps/gnome-terminal',
     '_profile_dir'          : '%s/profiles',
+    'titlebars'             : True,
+    'titletips'             : False,
     'allow_bold'            : True,
     'silent_bell'           : True,
     'background_color'      : '#000000',
@@ -145,22 +147,28 @@ class TerminatorTerm:
     if self.profile:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
       self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
-    else:
-      if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
-        f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
-        config = f.readlines ()
-        f.close ()
 
-        for line in config:
-          try:
-	    line = line.split("#")[0]
-            line = line.strip ()
-            if line:
-              (key,value) = line.split ("=")
-              print >> sys.stderr, _('''Overriding setting '%s' from default value '%s' to: '%s' ''') % (key.strip (), self.defaults[key.strip ()], value.strip ())
-              self.defaults[key.strip ()] = value.strip ()
-          except:
+    if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
+      f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
+      config = f.readlines ()
+      f.close ()
+
+      for line in config:
+        try:
+          line = line.strip ()
+          if line[0] == '#':
             pass
+          elif line:
+            (key,value) = line.split ("=")
+            print >> sys.stderr, _('''Overriding setting '%s' from value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
+            if value.strip() == "True":
+              self.defaults[key.strip ()] = True
+            elif value.strip() == "False":
+              self.defaults[key.strip ()] = False
+            else:
+              self.defaults[key.strip ()] = value.strip ()
+        except:
+          pass
  
     self.gconf_client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.gconf_client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notification)
@@ -174,20 +182,33 @@ class TerminatorTerm:
     self.reconfigure_vte ()
     self._vte.show ()
 
-    self._box = gtk.HBox ()
-    self._box.show ()
-
+    self._termbox = gtk.HBox ()
+    self._termbox.show()
+    self._title = gtk.Label()
+    self._title.show()
+    self._titlebox =  gtk.EventBox()
+    self._titlebox.add(self._title)
+    self._box = gtk.VBox ()
+    self._box.show()
+    self._box.pack_start(self._titlebox, False)
+    self._box.pack_start(self._termbox)
+    if self.reconf('titlebars'):
+      self._titlebox.show()
+    else:
+      self._titlebox.hide()
+    
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
     if self.scrollbar_position == 'right':
-      packfunc = self._box.pack_start
+      packfunc = self._termbox.pack_start
     else:
-      packfunc = self._box.pack_end
+      packfunc = self._termbox.pack_end
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
+
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
@@ -204,7 +225,10 @@ class TerminatorTerm:
     
     self._vte.connect ("composited-changed", self.on_composited_changed)
 
-#    self._vte.connect ("window-title-changed", self.on_vte_title_change)
+    self._vte.connect ("window-title-changed", self.on_vte_title_change)
+    self._vte.connect ("grab-focus", self.on_vte_focus)
+    self._vte.connect ("focus-out-event", self.on_vte_focus_out)
+    self._vte.connect ("focus-in-event", self.on_vte_focus_in)
 
   
 
@@ -510,6 +534,11 @@ class TerminatorTerm:
     else:
       self._scrollbar.show ()
 
+  def do_title_toggle (self):
+    if self._title.get_property ('visible'):
+      self._title.hide ()
+    else:
+      self._title.show ()
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   def on_vte_key_press (self, term, event):
@@ -635,6 +664,11 @@ class TerminatorTerm:
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
+    
+    item = gtk.CheckMenuItem (_("Show Title"))
+    item.set_active (self._title.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
+    menu.append (item)
 
     item = gtk.MenuItem ()
     menu.append (item)
@@ -658,9 +692,27 @@ class TerminatorTerm:
     return menu
 
   def on_vte_title_change(self, vte):
-    vte.set_property ("has-tooltip", True)
-    vte.set_property ("tooltip-text", vte.get_window_title ())
+    if self.reconf ('titletips'):
+      vte.set_property ("has-tooltip", True)
+      vte.set_property ("tooltip-text", vte.get_window_title ())
+    #set the title anyhow, titlebars setting only show/hide the label
+    self._title.set_text(vte.get_window_title ())
+    self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
 
+  def on_vte_focus_in(self, vte, event):
+    self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
+    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_SELECTED])
+    return
+    
+  def on_vte_focus_out(self, vte, event):
+    self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
+    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_NORMAL])
+    return
+
+  def on_vte_focus(self, vte):
+    if vte.get_window_title ():
+      self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+  
   def get_box (self):
     return self._box
 
@@ -669,7 +721,7 @@ class TerminatorTerm:
     self._vte.destroy()
     
 class Terminator:
-  def __init__ (self, profile, command = None):
+  def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
     self.gconf_client = gconf.client_get_default ()
     self.command = command
@@ -691,6 +743,15 @@ class Terminator:
     self.window.connect ("destroy", self.on_destroy_event)
 
     self.window.set_property ('allow-shrink', True)
+
+    if fullscreen:
+      self.fullscreen_toggle ()
+
+    if maximise:
+      self.maximize ()
+
+    if borderless:
+      self.window.set_decorated (False)
 
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
@@ -778,8 +839,13 @@ class Terminator:
       if keyname == 'Q':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
-        
 
+  def set_window_title(self, title):
+    """
+    Modifies Terminator window title
+    """
+    self.window.set_title(title)
+    
   def add(self, widget, terminal, pos = "bottom"):
     """
     Add a term to another at position pos
@@ -1024,18 +1090,7 @@ if __name__ == '__main__':
     del (gconf)
     gconf = fakegconf ()
 
-  term = Terminator (options.profile, command)
-
-  # Set the Terminator in fullscreen state or maximize it.
-  # Fullscreen and maximise are mutually exclusive, with
-  # fullscreen taking precedence over maximise.
-  if options.fullscreen:
-    term.toggle_fullscreen ()
-  elif options.maximise:
-    term.maximize ()
-
-  if options.borderless:
-    term.window.set_decorated (False)
+  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
 
