@@ -177,21 +177,19 @@ class TerminatorTerm:
     self.reconfigure_vte ()
     self._vte.show ()
 
-    #self._box = gtk.HBox ()
-    #self._box.show ()
-
     self._termbox = gtk.HBox ()
     self._termbox.show()
-
-    if self.reconf('titlebars'):
-      self._title = gtk.Label()
-      self._title.show()
-      self._box = gtk.VBox ()
-      self._box.show()
-      self._box.pack_start(self._title, False)
-      self._box.pack_start(self._termbox)
+    self._title = gtk.Label()
+    self._title.show()
+    self._box = gtk.VBox ()
+    self._box.show()
+    self._box.pack_start(self._title, False)
+    self._box.pack_start(self._termbox)
+    
+    if bool(self.reconf('titlebars')):
+      self._title.hide()
     else:
-      self._box = self._termbox
+      self._title.show()
     
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
@@ -210,6 +208,7 @@ class TerminatorTerm:
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     self._vte.connect ("composited-changed", self.on_composited_changed)
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
+    self._vte.connect ("grab-focus", self.on_vte_focus)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
     exit_action = self.reconf ("exit_action")
@@ -595,14 +594,19 @@ class TerminatorTerm:
     return menu
 
   def on_vte_title_change(self, vte):
-    if self.reconf ('titletips'):
+    if bool(self.reconf ('titletips')):
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", vte.get_window_title ())
-    if self.reconf ('titlebars'):
-      self._title.set_text(vte.get_window_title ())
+    #set the title anyhow, titlebars setting only show/hide the label
+    self._title.set_text(vte.get_window_title ())
+    self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
 
   def get_box (self):
     return self._box
+  
+  def on_vte_focus(self, vte):
+    if vte.get_window_title ():
+      self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
 
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
@@ -724,7 +728,9 @@ class Terminator:
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
         
-
+  def set_window_title(self, title):
+    self.window.set_title(title)
+    
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
 
