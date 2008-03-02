@@ -161,7 +161,12 @@ class TerminatorTerm:
           elif line:
             (key,value) = line.split ("=")
             print >> sys.stderr, _('''Overriding setting '%s' from value '%s' to: '%s' ''')%(key.strip (), self.defaults[key.strip ()], value.strip ())
-            self.defaults[key.strip ()] = value.strip ()
+            if value.strip() == "True":
+              self.defaults[key.strip ()] = True
+            elif value.strip() == "False":
+              self.defaults[key.strip ()] = False
+            else:
+              self.defaults[key.strip ()] = value.strip ()
         except:
           pass
  
@@ -180,16 +185,14 @@ class TerminatorTerm:
     self._termbox = gtk.HBox ()
     self._termbox.show()
     self._title = gtk.Label()
-    self._title.show()
     self._box = gtk.VBox ()
     self._box.show()
     self._box.pack_start(self._title, False)
     self._box.pack_start(self._termbox)
-    
-    if bool(self.reconf('titlebars')):
-      self._title.hide()
-    else:
+    if self.reconf('titlebars'):
       self._title.show()
+    else:
+      self._title.hide()
     
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
@@ -594,19 +597,19 @@ class TerminatorTerm:
     return menu
 
   def on_vte_title_change(self, vte):
-    if bool(self.reconf ('titletips')):
+    if self.reconf ('titletips'):
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", vte.get_window_title ())
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
     self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
 
-  def get_box (self):
-    return self._box
-  
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
       self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+  
+  def get_box (self):
+    return self._box
 
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
