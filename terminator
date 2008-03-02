@@ -185,14 +185,17 @@ class TerminatorTerm:
     self._termbox = gtk.HBox ()
     self._termbox.show()
     self._title = gtk.Label()
+    self._title.show()
+    self._titlebox =  gtk.EventBox()
+    self._titlebox.add(self._title)
     self._box = gtk.VBox ()
     self._box.show()
-    self._box.pack_start(self._title, False)
+    self._box.pack_start(self._titlebox, False)
     self._box.pack_start(self._termbox)
     if self.reconf('titlebars'):
-      self._title.show()
+      self._titlebox.show()
     else:
-      self._title.hide()
+      self._titlebox.hide()
     
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
@@ -212,6 +215,8 @@ class TerminatorTerm:
     self._vte.connect ("composited-changed", self.on_composited_changed)
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
     self._vte.connect ("grab-focus", self.on_vte_focus)
+    self._vte.connect ("focus-out-event", self.on_vte_focus_out)
+    self._vte.connect ("focus-in-event", self.on_vte_focus_in)
 
     exit_action = self.gconf_client.get_string (self.profile + "/exit_action")
     exit_action = self.reconf ("exit_action")
@@ -603,6 +608,16 @@ class TerminatorTerm:
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
     self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+
+  def on_vte_focus_in(self, vte, event):
+    self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
+    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_SELECTED])
+    return
+    
+  def on_vte_focus_out(self, vte, event):
+    self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
+    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_NORMAL])
+    return
 
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
