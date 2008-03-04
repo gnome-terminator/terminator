@@ -220,7 +220,7 @@ class TerminatorTerm:
     self._vte.connect("drag-data-get", self.on_drag_data_get, self)
     
     #for testing purpose: drag-motion
-    #self._vte.connect("drag-motion", self.on_drag_motion, self)
+    self._vte.connect("drag-motion", self.on_drag_motion, self)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
     
     self._vte.connect ("composited-changed", self.on_composited_changed)
@@ -258,26 +258,49 @@ class TerminatorTerm:
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
 
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
-    print "Drag Motion on ",
+    #print "Drag Motion on ",
     parent = widget.get_parent()
+    rect = gtk.gdk.Rectangle(0, 0, parent.allocation.width, parent.allocation.height)
+    allocation = widget.allocation
+    widget.window.invalidate_rect(rect, True)
+    widget.window.process_updates(True)
+    context = widget.window.cairo_create()
+    context.set_source_rgba(1, 0, 0, 0.5) #red
     
-
-    print "%dx%d -> %dx%d" % (parent.allocation.width, parent.allocation.height , x, y) 
+    #print "%dx%d -> %dx%d" % (parent.allocation.width, parent.allocation.height , x, y) 
     
     coef1 = float(parent.allocation.height)/float(parent.allocation.width)
     coef2 = -float(parent.allocation.height)/float(parent.allocation.width)
     b1 = 0
     b2 = parent.allocation.height
     
-    print "%f %f %d %d" %(coef1, coef2, b1,b2)
+    #print "%f %f %d %d" %(coef1, coef2, b1,b2)
     if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
-      print "right"
+      #print "right"
+      pos1 = (allocation.width,0)
+      pos2 = (allocation.width/2, allocation.height/2)
+      pos3 = (allocation.width,allocation.height)
     if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
-      print "top"
+      #print "top"
+      pos1 = (0,0)
+      pos2 = (allocation.width/2, allocation.height/2)
+      pos3 = (allocation.width,0)
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
-      print "left"
+      #print "left"
+      pos1 = (0,0)
+      pos2 = (allocation.width/2, allocation.height/2)
+      pos3 = (0,allocation.height)
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
-      print "bottom"
+      #print "bottom"
+      pos1 = (0,allocation.height)
+      pos2 = (allocation.width/2, allocation.height/2)
+      pos3 = (allocation.width,allocation.height)
+      
+    context.move_to(pos1[0],pos1[1])
+    context.line_to(pos2[0],pos2[1])
+    context.line_to(pos3[0],pos3[1])
+    context.line_to(pos1[0],pos1[1])
+    context.fill()
 
       
   def on_drag_drop(self, widget, drag_context, x, y, time):
@@ -289,7 +312,7 @@ class TerminatorTerm:
     print "Drag Data Received on "
     widgetsrc = data.terminator.term_list[int(selection_data.data)]
     srchbox = widgetsrc.get_box()    
-    dsthbox = widget.get_parent()
+    dsthbox = widget.get_parent().get_parent()
     
     #check if computation requireds
     if dsthbox == srchbox:
