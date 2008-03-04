@@ -259,48 +259,58 @@ class TerminatorTerm:
 
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     #print "Drag Motion on ",
-    parent = widget.get_parent()
-    rect = gtk.gdk.Rectangle(0, 0, parent.allocation.width, parent.allocation.height)
-    allocation = widget.allocation
+    srcwidget = drag_context.get_source_widget()
+    if widget == srcwidget:
+      #on self
+      return
+
+    alloc = widget.allocation
+    rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
     widget.window.invalidate_rect(rect, True)
     widget.window.process_updates(True)
+    
     context = widget.window.cairo_create()
-    context.set_source_rgba(1, 0, 0, 0.5) #red
+    if self.gconf_client.get_bool (self.profile + "/use_theme_colors"):
+      color = self._vte.get_style ().text[gtk.STATE_NORMAL]
+    else:
+      color = gtk.gdk.color_parse (self.reconf ('foreground_color'))
+    #color = gtk.gdk.color_parse(self.reconf ('foreground_color'))
     
-    #print "%dx%d -> %dx%d" % (parent.allocation.width, parent.allocation.height , x, y) 
+
+
+    context.set_source_rgba(color.red, color.green, color.blue, 0.5) #red
     
-    coef1 = float(parent.allocation.height)/float(parent.allocation.width)
-    coef2 = -float(parent.allocation.height)/float(parent.allocation.width)
+    
+    coef1 = float(alloc.height)/float(alloc.width)
+    coef2 = -float(alloc.height)/float(alloc.width)
     b1 = 0
-    b2 = parent.allocation.height
-    
+    b2 = alloc.height
+    topleft = (0,0)
+    topright = (alloc.width,0)
+    bottomleft = (0, alloc.height)
+    bottomright = (alloc.width,alloc.height)
+    middle = (alloc.width/2, alloc.height/2)
     #print "%f %f %d %d" %(coef1, coef2, b1,b2)
+    coord = ()
     if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
       #print "right"
-      pos1 = (allocation.width,0)
-      pos2 = (allocation.width/2, allocation.height/2)
-      pos3 = (allocation.width,allocation.height)
+      coord = (topright, middle, bottomright)
     if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
       #print "top"
-      pos1 = (0,0)
-      pos2 = (allocation.width/2, allocation.height/2)
-      pos3 = (allocation.width,0)
+      coord = (topleft, middle, topright)
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
       #print "left"
-      pos1 = (0,0)
-      pos2 = (allocation.width/2, allocation.height/2)
-      pos3 = (0,allocation.height)
+      coord = (topleft, middle, bottomleft)
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       #print "bottom"
-      pos1 = (0,allocation.height)
-      pos2 = (allocation.width/2, allocation.height/2)
-      pos3 = (allocation.width,allocation.height)
+      coord = (bottomleft, middle, bottomright)
+     
+    if len(coord) > 0 :
+      context.move_to(coord[2][0],coord[2][1])
+      for i in coord:
+        context.line_to(i[0],i[1])
       
-    context.move_to(pos1[0],pos1[1])
-    context.line_to(pos2[0],pos2[1])
-    context.line_to(pos3[0],pos3[1])
-    context.line_to(pos1[0],pos1[1])
-    context.fill()
+      context.fill()
 
       
   def on_drag_drop(self, widget, drag_context, x, y, time):
@@ -311,13 +321,14 @@ class TerminatorTerm:
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     print "Drag Data Received on "
     widgetsrc = data.terminator.term_list[int(selection_data.data)]
-    srchbox = widgetsrc.get_box()    
-    dsthbox = widget.get_parent().get_parent()
-    
+    srcvte = drag_context.get_source_widget()
     #check if computation requireds
-    if dsthbox == srchbox:
+    if srcvte == widget:
       print "on itself"
       return
+    
+    srchbox = widgetsrc.get_box()    
+    dsthbox = widget.get_parent().get_parent()
     
     dstpaned = dsthbox.get_parent()
     srcpaned = srchbox.get_parent()
