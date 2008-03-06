@@ -27,6 +27,9 @@ gettext.install ('terminator')
 # import unix-lib
 import pwd
 
+
+TARGET_TYPE_VTE = 8
+
 # import gconf if possible, if not construct a fake replacement
 class fakegconfclient:
   def get_string (self, key):
@@ -215,12 +218,14 @@ class TerminatorTerm:
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     
     """drag and drop"""
-    srcvtetargets = [ ( "vte", 0, 81 ) ]
-    dsttargets = [ ( "vte", 0, 81 ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
+    srcvtetargets = [ ( "vte", 0, TARGET_TYPE_VTE ) ]
+    dsttargets = [ ( "vte", 0, TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
     self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     self._titlebox.drag_source_set( gtk.gdk.BUTTON1_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     #self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
     self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
+    self._vte.connect("drag-begin", self.on_drag_begin, self)
+    self._titlebox.connect("drag-begin", self.on_drag_begin, self)
     self._vte.connect("drag-data-get", self.on_drag_data_get, self)
     self._titlebox.connect("drag-data-get", self.on_drag_data_get, self)
     #for testing purpose: drag-motion
@@ -257,10 +262,15 @@ class TerminatorTerm:
 
     self.spawn_child ()
     
+  def on_drag_begin(self, widget, drag_context, data):
+    if os.path.exists("/usr/share/icons/hicolor/48x48/apps/terminator.png"):
+      widget.drag_source_set_icon_pixbuf( gtk.gdk.pixbuf_new_from_file("/usr/share/icons/hicolor/48x48/apps/terminator.png"))
+    
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     print "Drag data get"
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
-
+  
+    
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     #print "Drag Motion on ",
     """
@@ -360,11 +370,13 @@ text/plain
     print "Drag Data Received on "
     if selection_data.type == 'text/plain':
       #copy text to destination
+      #print "%s %s" % (selection_data.type, selection_data.target)
       txt = selection_data.data.strip()
       if txt[0:7] == "file://":
-        txt = txt[7:]
-      self._vte.feed_child("'%s'" % txt)
+        txt = "'%s'" % txt[7:]
+      self._vte.feed_child(txt)
       return
+      
     widgetsrc = data.terminator.term_list[int(selection_data.data)]
     srcvte = drag_context.get_source_widget()
     #check if computation requireds
