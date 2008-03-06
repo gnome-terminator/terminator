@@ -215,13 +215,14 @@ class TerminatorTerm:
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     
     """drag and drop"""
-    srctargets = [ ( "vte", 0, 81 ) ]
+    srcvtetargets = [ ( "vte", 0, 81 ) ]
     dsttargets = [ ( "vte", 0, 81 ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
-    self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srctargets, gtk.gdk.ACTION_MOVE)
+    self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
+    self._titlebox.drag_source_set( gtk.gdk.BUTTON1_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     #self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
     self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
     self._vte.connect("drag-data-get", self.on_drag_data_get, self)
-    
+    self._titlebox.connect("drag-data-get", self.on_drag_data_get, self)
     #for testing purpose: drag-motion
     self._vte.connect("drag-motion", self.on_drag_motion, self)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
@@ -279,7 +280,7 @@ text/plain
       #copy text from another widget
       return
     srcwidget = drag_context.get_source_widget()
-    if widget == srcwidget:
+    if (isinstance(srcwidget, gtk.EventBox) and srcwidget == self._titlebox) or widget == srcwidget:
       #on self
       return
 
