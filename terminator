@@ -368,7 +368,7 @@ text/plain
     widgetsrc = data.terminator.term_list[int(selection_data.data)]
     srcvte = drag_context.get_source_widget()
     #check if computation requireds
-    if srcvte == widget:
+    if (isinstance(srcvte, gtk.EventBox) and srcvte == self._titlebox) or srcvte == widget:
       print "on itself"
       return
     
