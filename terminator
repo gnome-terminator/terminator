@@ -116,7 +116,7 @@ class TerminatorTerm:
     'scrollback_lines'      : 100,
     'focus'                 : 'sloppy',
     'exit_action'           : 'close',
-    'overlay_type'          : "triangle",
+    'overlay_type'          : "rectangle",
     'palette'       : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
     'word_chars'            : '-A-Za-z0-9,./?%&#:_',
     'mouse_autohide'        : True,
