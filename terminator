@@ -218,8 +218,8 @@ class TerminatorTerm:
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     
     """drag and drop"""
-    srcvtetargets = [ ( "vte", 0, TARGET_TYPE_VTE ) ]
-    dsttargets = [ ( "vte", 0, TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
+    srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ) ]
+    dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
     self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     self._titlebox.drag_source_set( gtk.gdk.BUTTON1_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     #self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
@@ -305,17 +305,11 @@ text/plain
       color = self._vte.get_style ().text[gtk.STATE_NORMAL]
     else:
       color = gtk.gdk.color_parse (self.reconf ('foreground_color'))
-    #color = gtk.gdk.color_parse(self.reconf ('foreground_color'))
-    
-
-
-    context.set_source_rgba(color.red, color.green, color.blue, 0.5) #red
     
     
-    coef1 = float(alloc.height)/float(alloc.width)
-    coef2 = -float(alloc.height)/float(alloc.width)
-    b1 = 0
-    b2 = alloc.height
+    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
+     
+    pos = self.get_location(widget, x, y)
     topleft = (0,0)
     topright = (alloc.width,0)
     topmiddle = (alloc.width/2,0)
@@ -328,25 +322,25 @@ text/plain
     overlay_type = self.reconf ('overlay_type')
     #print "%f %f %d %d" %(coef1, coef2, b1,b2)
     coord = ()
-    if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
+    if pos == "right":
       #print "right"
       if overlay_type == "triangle":
         coord = (topright, middle, bottomright)
       else:
         coord = (topright, topmiddle, bottommiddle, bottomright)
-    if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
+    if pos == "top":
       #print "top"
       if overlay_type == "triangle":
         coord = (topleft, middle, topright)
       else:
         coord = (topleft, topright, middleright , middleleft) 
-    if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
+    if pos == "left":
       #print "left"
       if overlay_type == "triangle":
         coord = (topleft, middle, bottomleft)
       else:
         coord = (topleft, topmiddle, bottommiddle, bottomleft)
-    if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
+    if pos == "bottom":
       #print "bottom"
       if overlay_type == "triangle":
         coord = (bottomleft, middle, bottomright)
@@ -392,12 +386,20 @@ text/plain
     if isinstance(dstpaned, gtk.Window) and isinstance(srcpaned, gtk.Window):
       print "Only one terminal"
       return
+    pos = self.get_location(widget, x, y)
+    
+    data.terminator.remove(widgetsrc)
+    data.terminator.add(self, widgetsrc,pos)
+    return
+    
+  def get_location(self, vte, x, y):
+    pos = ""
     #get the diagonales function for the receiving widget
-    coef1 = float(widget.allocation.height)/float(widget.allocation.width)
-    coef2 = -float(widget.allocation.height)/float(widget.allocation.width)
+    coef1 = float(vte.allocation.height)/float(vte.allocation.width)
+    coef2 = -float(vte.allocation.height)/float(vte.allocation.width)
     b1 = 0
-    b2 = dsthbox.allocation.height
-    #determine mouse position in rectangle
+    b2 = vte.allocation.height
+     #determine position in rectangle
     """
     --------
     |\    /|
@@ -416,11 +418,9 @@ text/plain
       pos = "left"
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       pos = "bottom"
+    return pos
     
-    data.terminator.remove(widgetsrc)
-    data.terminator.add(self, widgetsrc,pos)
-    return
-
+    
   def spawn_child (self, event=None):
     update_records = self.gconf_client.get_bool (self.profile + "/update_records") or True
     login = self.gconf_client.get_bool (self.profile + "/login_shell") or False
