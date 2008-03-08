@@ -32,7 +32,7 @@ AttributeError. This is by design. If you want to look something
 up, set a default for it first."""
 
 # import standard python libs
-import os
+import os, sys
 
 # import unix-lib
 import pwd
@@ -70,14 +70,15 @@ class TerminatorConfig:
     dbg ("Config: Out of sources")
     raise (AttributeError)
 
-  # FIXME: Figure out exactly what we're going to do here
   def set_reconfigure_callback (self, function):
-    self.callback = function
+    self.reconfigure_callback = function
     return (True)
 
 class TerminatorConfValuestore:
   type = "Base"
   values = {}
+  reconfigure_callback = None
+
   # Our settings
   # FIXME: Is it acceptable to not explicitly store the type, but
   #         instead infer it from defaults[key].__class__.__name__
@@ -155,15 +156,39 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self._gt_dir = self.defaults['gt_dir'][1]
     self._profile_dir = self.defaults['profile_dir'][1]
 
-    if profile:
-      self.profile = profile
-    else:
-      self.profile = self.client.get_string (self._gt_dir + '/global/default_profile')
+    if not profile:
+      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
+    profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
-  def __getattr__ (self, key):
+    if profile in profiles:
+      dbg ("VSGConf: Found profile '%s' in profile_list"%profile)
+      self.profile = '%s/%s'%(self._profile_dir, profile)
+    elif "Default" in profiles:
+      dbg ("VSGConf: profile '%s' not found, but 'Default' exists"%profile)
+      self.profile = '%s/%s'%(self._profile_dir, "Default")
+    else:
+      # We're a bit stuck, there is no profile in the list
+      # FIXME: Find a better way to handle this than setting a non-profile
+      dbg ("No profile found, deleting __getattr__")
+      del (self.__getattr__)
+
+    self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
+    if self.on_gconf_notify:
+      self.client.notify_add (self.profile, self.on_gconf_notify)
+
+    self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
+
+  def on_gconf_notify (self, client, cnxn_id, entry, what):
+    if self.reconfigure_callback:
+      self.reconfigure_callback ()
+
+  def __getattr__ (self, key = ""):
     ret = None
 
-    value = self.client.get ('%s/%s/%s'%(self._profile_dir, self.profile, key))
+    dbg ('VSGConf: preparing: %s/%s'%(self.profile, key))
+    value = self.client.get ('%s/%s'%(self.profile, key))
+    dbg ('VSGConf: getting: %s'%value)
     if value:
       funcname = "get_" + self.defaults[key][0].__name__
       # Special case for str
