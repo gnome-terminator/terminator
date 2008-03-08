@@ -675,6 +675,9 @@ text/plain
       elif keyname == 'S':
         self.do_scrollbar_toggle ()
         return (True)
+      elif keyname == 'T':
+        self.terminator.newtab(self)
+        return (True)
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
@@ -771,6 +774,10 @@ text/plain
     item = gtk.MenuItem (_("Split V_ertically"))
     item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
     menu.append (item)
+    
+    item = gtk.MenuItem (_("Open _Tab"))
+    item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
+    menu.append (item)
 
     item = gtk.MenuItem ()
     menu.append (item)
@@ -788,7 +795,11 @@ text/plain
       vte.set_property ("tooltip-text", vte.get_window_title ())
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
-    self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+    self.terminator.set_window_title("Terminator: %s" % vte.get_window_title ())
+    notebookpage = self.terminator.get_first_notebook_page(vte)
+    while notebookpage != None:
+      notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+      notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
@@ -802,7 +813,11 @@ text/plain
 
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
-      self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+      self.terminator.set_window_title("Terminator: %s" % vte.get_window_title ())
+      notebookpage = self.terminator.get_first_notebook_page(vte)
+      while notebookpage != None:
+        notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+        notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
   
   def get_box (self):
     return self._box
@@ -961,6 +976,30 @@ class Terminator:
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
+    if isinstance (parent, gtk.Notebook):
+      page = -1
+      for i in range(0, parent.get_n_pages()):
+        if parent.get_nth_page(i) == widget.get_box():
+          page = i
+          break
+      widget.get_box ().reparent (pane)
+      if pos in ("top", "left"):
+        pane.remove(widget.get_box ())
+        pane.pack1 (terminal.get_box (), True, True)
+        pane.pack2 (widget.get_box (), True, True)
+      else:
+        pane.pack1 (widget.get_box (), True, True)
+        pane.pack2 (terminal.get_box (), True, True)
+      #parent.remove_page(page)
+      pane.show()
+      parent.insert_page(pane, None, page)
+      parent.set_tab_label_text(pane, widget._vte.get_window_title())
+      parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_current_page(page)
+      
+
+      position = (vertical) and parent.allocation.height \
+                             or parent.allocation.width
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
       position = (vertical) and widget.get_box().allocation.height \
@@ -996,7 +1035,54 @@ class Terminator:
     terminal._vte.grab_focus ()
 
     return (terminal)
+   
+  def newtab(self,widget):
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    widgetbox = widget.get_box ()
+    parent   = widgetbox.get_parent ()
+    
+    if isinstance(parent, gtk.Paned):
+      #no notebook yet.
+      notebook = gtk.Notebook()
+      notebook.set_property('homogeneous', True)
       
+      if parent.get_child1() == widgetbox:
+        widgetbox.reparent(notebook)
+        parent.pack1(notebook)
+        notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title())
+        notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+      else:
+        widgetbox.reparent(notebook)
+        notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title()) 
+        notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+        parent.pack2(notebook)
+    elif isinstance(parent, gtk.Window):
+      notebook = gtk.Notebook()
+      notebook.set_property('homogeneous', True)
+      
+      widgetbox.reparent(notebook)
+      notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title())
+      notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+      parent.add(notebook)      
+    elif isinstance(parent, gtk.Notebook):
+      notebook = parent
+    else:
+      return (False)
+    
+    notebook.show()
+    #notebook.set_property('homogeneous', True)
+    notebook.append_page(terminal.get_box(),terminal._vte.get_window_title())
+    notebook. set_tab_label_packing(terminal.get_box(), True, True, gtk.PACK_START)
+    notebook.set_current_page(-1)
+    index = self.term_list.index(widget)
+    self.term_list.insert (index + 1, terminal)
+    terminal.get_box ().show ()
+    terminal._vte.grab_focus ()
+    return (True)
+      
+      
+    return terminal
+  
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
     # create a new terminal and parent pane.
@@ -1034,9 +1120,21 @@ class Terminator:
         return False
 
       parent.remove(widget.get_box())
-      grandparent.remove (parent)
-      sibling.reparent (grandparent)
-      grandparent.resize_children()
+      if isinstance(grandparent, gtk.Notebook):
+        page = -1
+        for i in range(0, grandparent.get_n_pages()):
+          if grandparent.get_nth_page(i) == parent:
+            page = i
+            break
+        parent.remove(sibling)
+        grandparent.remove_page(page)
+        grandparent.insert_page(sibling, None,page)
+        grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        
+      else:
+        grandparent.remove (parent)
+        sibling.reparent (grandparent)
+        grandparent.resize_children()
       parent.destroy ()
       self.term_list.remove (widget)
       
@@ -1048,6 +1146,28 @@ class Terminator:
       else:
         if index == 0: index = 1
         self.term_list[index - 1]._vte.grab_focus ()
+    elif isinstance (parent, gtk.Notebook):
+      parent.remove(widget.get_box())
+      nbpages = parent.get_n_pages()
+      index = self.term_list.index (widget)
+      self.term_list.remove (widget)
+      if nbpages == 1:
+        sibling = parent.get_nth_page(0)
+        parent.remove(sibling)
+        gdparent = parent.get_parent()
+        if isinstance(gdparent, gtk.Window):
+          gdparent.remove(parent)
+          gdparent.add(sibling)
+        elif isinstance(gdparent, gtk.Paned):
+          if gdparent.get_child1() == parent:
+            gdparent.remove(parent)
+            gdparent.pack1(sibling)
+          else:
+            gdparent.remove(parent)
+            gdparent.pack2(sibling)
+        parent.destroy()
+      if index == 0: index = 1
+      self.term_list[index - 1]._vte.grab_focus ()
 
     return True
     
@@ -1066,7 +1186,24 @@ class Terminator:
     else:
       next += 1
 
-    self.term_list[next]._vte.grab_focus ()
+    
+    nextterm = self.term_list[next]
+    if isinstance(nextterm.get_box().get_parent(), gtk.Notebook):
+      box = nextterm.get_box()
+      parent = box.get_parent()
+      for i in range(0, parent.get_n_pages()):
+        if box == parent.get_nth_page(i):
+          parent.set_current_page(i)
+          break
+    notebookpage = self.get_first_notebook_page(nextterm.get_box())
+    if notebookpage:
+      child = None
+      for i in range(0, notebookpage[0].get_n_pages()):
+        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
+          notebookpage[0].set_current_page(i)
+          break
+    nextterm._vte.grab_focus ()
+      
 
   def go_prev (self, term):
     current = self.term_list.index (term)
@@ -1078,7 +1215,22 @@ class Terminator:
       previous -= 1
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
-    self.term_list[previous]._vte.grab_focus ()
+    previousterm = self.term_list[previous]
+    if isinstance(previousterm.get_box().get_parent(), gtk.Notebook):
+      box = previousterm.get_box()
+      parent = box.get_parent()
+      for i in range(0, parent.get_n_pages()):
+        if box == parent.get_nth_page(i):
+          parent.set_current_page(i)
+          break
+    notebookpage = self.get_first_notebook_page(previousterm.get_box())
+    if notebookpage:
+      child = None
+      for i in range(0, notebookpage[0].get_n_pages()):
+        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
+          notebookpage[0].set_current_page(i)
+          break
+    previousterm._vte.grab_focus ()
     
     
      
@@ -1130,6 +1282,17 @@ class Terminator:
     elif isinstance (parent, gtk.HPaned) and not vertical:
       return parent
     return self.get_first_parent_paned(parent, vertical)
+    
+  def get_first_notebook_page(self, widget):
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Notebook):
+      page = -1
+      for i in range(0, parent.get_n_pages()):
+        if parent.get_nth_page(i) == widget:
+          return (parent, widget)
+    return self.get_first_notebook_page(parent)
      
 if __name__ == '__main__':
   try:
