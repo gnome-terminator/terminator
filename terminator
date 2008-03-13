@@ -681,7 +681,17 @@ text/plain
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
-
+    
+    mask = gtk.gdk.CONTROL_MASK
+    if (event.state & mask) == mask:
+      if keyname  == 'Page_Down':
+          self.terminator.next_tab(self)
+          return (True)
+      elif keyname == 'Page_Up':
+          self.terminator.previous_tab(self)
+          return (True)
+      
+    
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
             self.terminator.go_next (self)
@@ -1035,44 +1045,45 @@ class Terminator:
     terminal._vte.grab_focus ()
 
     return (terminal)
-   
+  def on_page_reordered(self, notebook, child, page_num):
+    print page_num
+      
+    
+    
   def newtab(self,widget):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     widgetbox = widget.get_box ()
     parent   = widgetbox.get_parent ()
     
-    if isinstance(parent, gtk.Paned):
+    if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
       #no notebook yet.
       notebook = gtk.Notebook()
+      notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
       
-      if parent.get_child1() == widgetbox:
-        widgetbox.reparent(notebook)
-        parent.pack1(notebook)
-        notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title())
-        notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
-      else:
-        widgetbox.reparent(notebook)
-        notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title()) 
-        notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
-        parent.pack2(notebook)
-    elif isinstance(parent, gtk.Window):
-      notebook = gtk.Notebook()
-      notebook.set_property('homogeneous', True)
-      
-      widgetbox.reparent(notebook)
-      notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title())
+      notebook.set_tab_reorderable(widgetbox, True)
+      if isinstance(parent, gtk.Paned):
+        if parent.get_child1() == widgetbox:
+          widgetbox.reparent(notebook)
+          parent.pack1(notebook)
+        else:
+          widgetbox.reparent(notebook)
+          parent.pack2(notebook)
+      elif isinstance(parent, gtk.Window):
+         widgetbox.reparent(notebook)
+         parent.add(notebook)
+      notebook.set_tab_reorderable(widgetbox,True)
+      notebook.set_tab_label_text(widgetbox, widget._vte.get_window_title())    
       notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
-      parent.add(notebook)      
+      notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
     else:
       return (False)
     
-    notebook.show()
-    #notebook.set_property('homogeneous', True)
     notebook.append_page(terminal.get_box(),terminal._vte.get_window_title())
     notebook. set_tab_label_packing(terminal.get_box(), True, True, gtk.PACK_START)
+    notebook.set_tab_reorderable(terminal.get_box(),True)
     notebook.set_current_page(-1)
     index = self.term_list.index(widget)
     self.term_list.insert (index + 1, terminal)
@@ -1266,6 +1277,23 @@ class Terminator:
     
     parent.set_position(move)
     
+  def previous_tab(self, term):
+    notebook = self.get_first_parent_notebook(term.get_box())
+    notebook.prev_page()
+    return
+    
+  def next_tab(self, term):
+    notebook = self.get_first_parent_notebook(term.get_box())
+    notebook.next_page()
+    return
+  
+  def get_first_parent_notebook(self, widget):
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Notebook):
+        return parent
+    return self.get_first_parent_notebook(parent)
   
   def get_first_parent_paned (self, widget, vertical = None):
     """This method returns the first parent pane of a widget.
