@@ -131,6 +131,8 @@ class TerminatorTerm:
     self.command = command
 
     self.cwd = cwd or os.getcwd();
+    if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
+      self.cwd = os.path.expanduser("~")
 
     if profile == None:
       profile = self.gconf_client.get_string (self.defaults['gt_dir'] + '/global/default_profile')
