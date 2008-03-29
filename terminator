@@ -441,16 +441,20 @@ class TerminatorTerm:
       return False
 
   def do_scrollbar_toggle (self):
-    if self._scrollbar.get_property ('visible'):
-      self._scrollbar.hide ()
-    else:
-      self._scrollbar.show ()
+    self.toggle_widget_visibility (self._scrollbar)
 
   def do_title_toggle (self):
-    if self._title.get_property ('visible'):
-      self._title.hide ()
+    self.toggle_widget_visibility (self._titlebox)
+
+  def toggle_widget_visibility (self, widget):
+    if not isinstance (widget, gtk.Widget):
+      raise TypeError
+
+    if widget.get_property ('visible'):
+      widget.hide ()
     else:
-      self._title.show ()
+      widget.show ()
+
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   def on_vte_key_press (self, term, event):
@@ -577,8 +581,8 @@ class TerminatorTerm:
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
     menu.append (item)
     
-    item = gtk.CheckMenuItem (_("Show Title"))
-    item.set_active (self._title.get_property ('visible'))
+    item = gtk.CheckMenuItem (_("Show _titlebar"))
+    item.set_active (self._titlebox.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     menu.append (item)
 
