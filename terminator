@@ -945,6 +945,7 @@ if __name__ == '__main__':
 
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
+  parser.add_option ("-v", "--version", action="store_true", dest="version", help="Display program version")
   parser.add_option ("-d", "--debug", action="store_true", dest="debug", help="Enable debugging information")
   parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the %s window maximised"%APP_NAME.capitalize())
   parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
@@ -957,6 +958,10 @@ if __name__ == '__main__':
   (options, args) = parser.parse_args ()
   if len (args) != 0:
     parser.error("Expecting zero additional arguments, found: %d"%len (args))
+
+  if options.version:
+    print "%s %s"%(APP_NAME, APP_VERSION)
+    sys.exit (0)
 
   command = []
   if (options.command):
