@@ -4,6 +4,7 @@ from distutils.core import setup
 from distutils.command.install_data import install_data
 from distutils.dep_util import newer
 from distutils.log import info
+from terminator import APP_VERSION
 import glob
 import os
 import sys
@@ -44,12 +45,12 @@ class InstallData(install_data):
 
 
 setup(name='Terminator',
-      version='0.9',
+      version=APP_VERSION,
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',
       url='http://www.tenshu.net/terminator/',
-      license='GPL v2',
+      license='GNU GPL v2',
       scripts=['terminator'],
       data_files=[
                   ('share/applications', ['data/terminator.desktop']),
