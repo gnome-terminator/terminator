@@ -17,12 +17,16 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
+# Global defines
+APP_NAME = 'terminator'
+APP_VERSION = '0.9'
+
 # import standard python libs
 import os, platform, sys, string, time, math
 from optparse import OptionParser
 
 import gettext
-gettext.install ('terminator')
+gettext.install (APP_NAME)
 
 # import unix-lib
 import pwd
@@ -150,8 +154,8 @@ class TerminatorTerm:
       self.gconf_client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
       self.gconf_client.notify_add (self.profile, self.on_gconf_notification)
 
-    if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/.terminatorrc"):
-      f = open (pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc")
+    if os.path.exists (pwd.getpwuid(os.getuid ())[5] + "/." + APP_NAME + "rc"):
+      f = open (pwd.getpwuid (os.getuid ())[5] + "/." + APP_NAME + "rc")
       config = f.readlines ()
       f.close ()
 
@@ -613,7 +617,7 @@ class TerminatorTerm:
       vte.set_property ("tooltip-text", vte.get_window_title ())
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
-    self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+    self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
 
   def on_vte_focus_in(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
@@ -627,7 +631,7 @@ class TerminatorTerm:
 
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
-      self.terminator.set_window_title("Terminator: %s" %vte.get_window_title ())
+      self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
   
   def get_box (self):
     return self._box
@@ -641,11 +645,11 @@ class Terminator:
     self._fullscreen = False
 
     self.window = gtk.Window ()
-    self.window.set_title ("Terminator")
+    self.window.set_title (APP_NAME.capitalize())
 
     # FIXME: This really shouldn't be a hardcoded path
     try:
-      self.window.set_icon_from_file ("/usr/share/icons/hicolor/48x48/apps/terminator.png")
+      self.window.set_icon_from_file ("/usr/share/icons/hicolor/48x48/apps/" + APP_NAME + ".png")
     except:
       self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
       self.window.set_icon (self.icon)
@@ -681,7 +685,7 @@ class Terminator:
     self.window.show ()
 
   def maximize (self):
-    """ Maximize the Terminator."""
+    """ Maximize the Terminator window."""
     self.window.maximize ()
 
   def toggle_fullscreen (self):
@@ -942,13 +946,13 @@ if __name__ == '__main__':
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
   parser.add_option ("-d", "--debug", action="store_true", dest="debug", help="Enable debugging information")
-  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the Terminator window maximised")
+  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the %s window maximised"%APP_NAME.capitalize())
   parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", dest="borderless", help="Turn off the window's borders")
   parser.add_option ("-p", "--profile", dest="profile", help="Specify a GNOME Terminal profile to emulate")
   parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
-  parser.add_option ("-g", "--no-gconf", dest="nogconf", action="store_true", help="Disable gconf usage, falling back on ~/.terminatorrc and defaults")
+  parser.add_option ("-g", "--no-gconf", dest="nogconf", action="store_true", help="Disable gconf usage, falling back on ~/." + APP_NAME.capitalize() + "rc and defaults")
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
