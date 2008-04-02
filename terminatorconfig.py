@@ -70,10 +70,6 @@ class TerminatorConfig:
     dbg ("Config: Out of sources")
     raise (AttributeError)
 
-  def set_reconfigure_callback (self, function):
-    self.reconfigure_callback = function
-    return (True)
-
 class TerminatorConfValuestore:
   type = "Base"
   values = {}
@@ -108,6 +104,12 @@ class TerminatorConfValuestore:
     'palette'               : [str, '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF'],
     'word_chars'            : [str, '-A-Za-z0-9,./?%&#:_'],
     'mouse_autohide'        : [bool, True],
+    'update_records'        : [bool, True],
+    'login_shell'           : [bool, False],
+    'use_custom_command'    : [bool, False],
+    'custom_command'        : [str, ''],
+    'use_system_font'       : [bool, True],
+    'use_theme_colors'      : [bool, True],
   }
 
   def __getattr__ (self, keyname):
@@ -150,6 +152,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   def __init__ (self, profile = None):
     self.type = "GConf"
 
+    import gconf
+
     self.client = gconf.client_get_default ()
 
     # Grab a couple of values from base class to avoid recursing with our __getattr__
@@ -178,8 +182,15 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
     self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
+    # FIXME: Do we need to watch more non-profile stuff here?
+
+  def set_reconfigure_callback (self, function):
+    dbg ("Config: setting callback to: %s"%function)
+    self.reconfigure_callback = function
+    return (True)
 
   def on_gconf_notify (self, client, cnxn_id, entry, what):
+    dbg ("VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
@@ -187,7 +198,12 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     ret = None
 
     dbg ('VSGConf: preparing: %s/%s'%(self.profile, key))
-    value = self.client.get ('%s/%s'%(self.profile, key))
+    
+    if key == 'font':
+      if self.use_system_font:
+        value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
+    else:
+      value = self.client.get ('%s/%s'%(self.profile, key))
     dbg ('VSGConf: getting: %s'%value)
     if value:
       funcname = "get_" + self.defaults[key][0].__name__
