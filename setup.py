@@ -4,10 +4,18 @@ from distutils.core import setup
 from distutils.command.install_data import install_data
 from distutils.dep_util import newer
 from distutils.log import info
-from terminator import APP_VERSION
 import glob
 import os
 import sys
+
+def import_terminator():
+  from types import ModuleType
+  module = ModuleType('terminator')
+  module_file = open('terminator', 'r')
+  exec module_file in module.__dict__
+  return module
+
+APP_VERSION = import_terminator().APP_VERSION
 
 class InstallData(install_data):
   def run (self):
