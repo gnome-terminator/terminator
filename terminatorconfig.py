@@ -65,8 +65,8 @@ class TerminatorConfig:
         dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
         return (val)
       except:
-        dbg (" TConfig: no value found in '%s'."%source.type)
         pass
+
     dbg (" TConfig: Out of sources")
     raise (AttributeError)
 
@@ -205,6 +205,9 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
         value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
+
+    if key == 'focus':
+      value = self.client.get ('/apps/metacity/general/focus_mode')
 
     if value:
       funcname = "get_" + self.defaults[key][0].__name__
