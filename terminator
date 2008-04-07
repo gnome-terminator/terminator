@@ -137,11 +137,20 @@ class TerminatorTerm:
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
     self.matches['full_uri'] = self._vte.match_add ('''[[:<:]](news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)//([-A-Za-z0-9]+(:[-A-Za-z0-9,?;.:/!%$^*&~"#']+)?@)?[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?[[:>:]]/?''')
+    if self.matches['full_uri'] == -1:
+      self.matches['full_uri'] = self._vte.match_add ('''\<(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)//([-A-Za-z0-9]+(:[-A-Za-z0-9,?;.:/!%$^*&~"#']+)?@)?[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?\>/?''')
+
     self.matches['addr_only'] = self._vte.match_add ('''[[:<:]](www|ftp)[-A-Za-z0-9]*\.[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?[[:>:]]/?''')
+    if self.matches['addr_only'] == -1:
+      self.matches['addr_only'] = self._vte.match_add ('''\<(www|ftp)[-A-Za-z0-9]*\.[-A-Za-z0-9.]+(:[0-9]+)?(/[-A-Za-z0-9_$.+!*(),;:@&=?/~#%]*[^]'.}>) \t\r\n,\"])?\>/?''')
 
     self.matches['email'] = self._vte.match_add ('''[[:<:]](mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)+[[:>:]]''')
+    if self.matches['email'] == -1:
+      self.matches['email'] = self._vte.match_add ('''\<(mailto:)?[a-z0-9][a-z0-9.-]*@[a-z0-9][a-z0-9-]*(\.[a-z0-9][a-z0-9-]*)+\>''')
 
     self.matches['nntp'] = self._vte.match_add ('''[[:<:]]news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?[[:>:]]''')
+    if self.matches['nntp'] == -1:
+      self.matches['nntp'] = self._vte.match_add ('''\<news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?\>''')
 
     self.spawn_child ()
 
@@ -381,7 +390,7 @@ class TerminatorTerm:
 
   def zoom (self, zoom_in):
     pangodesc = self._vte.get_font ()
-    fontsize = pangodesc.get_size () 
+    fontsize = pangodesc.get_size ()
 
     if fontsize > pango.SCALE and not zoom_in:
       fontsize -= pango.SCALE
