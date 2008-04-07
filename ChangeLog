@@ -2,7 +2,9 @@ terminator 0.9:
   * Added support for ~/.terminatorrc 
   * Added kwybindings for terms size and scrollbar manipulation. Thanks 
     Emmanuel Bretelle.
-
+  * Completely revamped config system which now transparently makes use
+	  of gconf settings if they are available, falls back to sensible
+		defaults if not, and can be overridden entirely by ~/.terminatorrc
 
 terminator 0.8.1:
   * Fixed ChangeLog

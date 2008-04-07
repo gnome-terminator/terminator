@@ -58,21 +58,17 @@ class TerminatorConfig:
     self.sources.append (source)
     
   def __getattr__ (self, keyname):
-    dbg ("Config: Looking for: %s"%keyname)
+    dbg ("TConfig: Looking for: '%s'"%keyname)
     for source in self.sources:
       try:
         val = getattr (source, keyname)
-        dbg ("Config: got: %s from a %s"%(val, source.type))
+        dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
         return (val)
       except:
-        dbg ("Config: no value found in %s."%source.type)
         pass
-    dbg ("Config: Out of sources")
-    raise (AttributeError)
 
-  def set_reconfigure_callback (self, function):
-    self.reconfigure_callback = function
-    return (True)
+    dbg (" TConfig: Out of sources")
+    raise (AttributeError)
 
 class TerminatorConfValuestore:
   type = "Base"
@@ -108,6 +104,12 @@ class TerminatorConfValuestore:
     'palette'               : [str, '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF'],
     'word_chars'            : [str, '-A-Za-z0-9,./?%&#:_'],
     'mouse_autohide'        : [bool, True],
+    'update_records'        : [bool, True],
+    'login_shell'           : [bool, False],
+    'use_custom_command'    : [bool, False],
+    'custom_command'        : [str, ''],
+    'use_system_font'       : [bool, True],
+    'use_theme_colors'      : [bool, True],
   }
 
   def __getattr__ (self, keyname):
@@ -138,7 +140,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            dbg ("VS_RCFile: Setting value %s to %s"%(key, value))
+            dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
             self.values[key] = [self.defaults[key][0], self.defaults[key][0](value)]
         except:
           pass
@@ -149,6 +151,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
   def __init__ (self, profile = None):
     self.type = "GConf"
+
+    import gconf
 
     self.client = gconf.client_get_default ()
 
@@ -161,10 +165,10 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
     if profile in profiles:
-      dbg ("VSGConf: Found profile '%s' in profile_list"%profile)
+      dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)
     elif "Default" in profiles:
-      dbg ("VSGConf: profile '%s' not found, but 'Default' exists"%profile)
+      dbg (" VSGConf: profile '%s' not found, but 'Default' exists"%profile)
       self.profile = '%s/%s'%(self._profile_dir, "Default")
     else:
       # We're a bit stuck, there is no profile in the list
@@ -178,17 +182,33 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
     self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
+    # FIXME: Do we need to watch more non-profile stuff here?
+
+  def set_reconfigure_callback (self, function):
+    dbg (" VSConf: setting callback to: %s"%function)
+    self.reconfigure_callback = function
+    return (True)
 
   def on_gconf_notify (self, client, cnxn_id, entry, what):
+    dbg (" VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
   def __getattr__ (self, key = ""):
     ret = None
+    value = None
 
-    dbg ('VSGConf: preparing: %s/%s'%(self.profile, key))
-    value = self.client.get ('%s/%s'%(self.profile, key))
-    dbg ('VSGConf: getting: %s'%value)
+    dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
+    
+    if key == 'font':
+      if self.use_system_font:
+        value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
+    else:
+      value = self.client.get ('%s/%s'%(self.profile, key))
+
+    if key == 'focus':
+      value = self.client.get ('/apps/metacity/general/focus_mode')
+
     if value:
       funcname = "get_" + self.defaults[key][0].__name__
       # Special case for str
