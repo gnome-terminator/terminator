@@ -182,6 +182,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
     self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
+    self.client.add_dir ('/desktop/gnome/interface', gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.client.notify_add ('/desktop/gnome/interface/monospace_font_name', self.on_gconf_notify)
     # FIXME: Do we need to watch more non-profile stuff here?
 
   def set_reconfigure_callback (self, function):
