@@ -58,16 +58,16 @@ class TerminatorConfig:
     self.sources.append (source)
     
   def __getattr__ (self, keyname):
-    dbg ("Config: Looking for: %s"%keyname)
+    dbg ("TConfig: Looking for: '%s'"%keyname)
     for source in self.sources:
       try:
         val = getattr (source, keyname)
-        dbg ("Config: got: %s from a %s"%(val, source.type))
+        dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
         return (val)
       except:
-        dbg ("Config: no value found in %s."%source.type)
+        dbg (" TConfig: no value found in '%s'."%source.type)
         pass
-    dbg ("Config: Out of sources")
+    dbg (" TConfig: Out of sources")
     raise (AttributeError)
 
 class TerminatorConfValuestore:
@@ -140,7 +140,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            dbg ("VS_RCFile: Setting value %s to %s"%(key, value))
+            dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
             self.values[key] = [self.defaults[key][0], self.defaults[key][0](value)]
         except:
           pass
@@ -165,10 +165,10 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
     if profile in profiles:
-      dbg ("VSGConf: Found profile '%s' in profile_list"%profile)
+      dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)
     elif "Default" in profiles:
-      dbg ("VSGConf: profile '%s' not found, but 'Default' exists"%profile)
+      dbg (" VSGConf: profile '%s' not found, but 'Default' exists"%profile)
       self.profile = '%s/%s'%(self._profile_dir, "Default")
     else:
       # We're a bit stuck, there is no profile in the list
@@ -185,26 +185,27 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     # FIXME: Do we need to watch more non-profile stuff here?
 
   def set_reconfigure_callback (self, function):
-    dbg ("Config: setting callback to: %s"%function)
+    dbg (" VSConf: setting callback to: %s"%function)
     self.reconfigure_callback = function
     return (True)
 
   def on_gconf_notify (self, client, cnxn_id, entry, what):
-    dbg ("VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
+    dbg (" VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
   def __getattr__ (self, key = ""):
     ret = None
+    value = None
 
-    dbg ('VSGConf: preparing: %s/%s'%(self.profile, key))
+    dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
     
     if key == 'font':
       if self.use_system_font:
         value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
-    dbg ('VSGConf: getting: %s'%value)
+
     if value:
       funcname = "get_" + self.defaults[key][0].__name__
       # Special case for str
