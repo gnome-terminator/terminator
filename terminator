@@ -278,17 +278,10 @@ class TerminatorTerm:
         self._scrollbar.hide ()
       else:
         self._scrollbar.show ()
-      if self.scrollbar_position == 'right':
-        self._box.remove (self._scrollbar)
-        self._box.remove (self._vte)
-        self._box.pack_start (self._vte)
-        self._box.pack_start (self._scrollbar)
-      elif self.scrollbar_position == 'left':
-        self._box.remove (self._vte)
-        self._box.remove (self._scrollbar)
-        self._box.pack_start(self._scrollbar)
-        self._box.pack_start(self._vte)
-
+        if self.scrollbar_position == 'right':
+          self._termbox.reorder_child (self._vte, 0)
+        elif self.scrollbar_position == 'left':
+          self._termbox.reorder_child (self._scrollbar, 0)
 
     # Set our sloppiness
     self.focus = self.conf.focus
