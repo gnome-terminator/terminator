@@ -201,7 +201,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
    
     # FIXME: Ugly special cases we should look to fix in some other way.
-    if key == 'font' and self.use_system_font::
+    if key == 'font' and self.use_system_font:
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     elif key == 'focus':
       value = self.client.get ('/apps/metacity/general/focus_mode')
