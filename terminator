@@ -516,14 +516,13 @@ class Terminator:
     stores = []
     stores.append (terminatorconfig.TerminatorConfValuestoreRC ())
 
-# FIXME: enable this again, we should trap and discard broken gconf stuff
-#    try:
-    import gconf
-    store = terminatorconfig.TerminatorConfValuestoreGConf ()
-    store.set_reconfigure_callback (self.reconfigure_vtes)
-    stores.append (store)
-#    except:
-#      pass
+    try:
+      import gconf
+      store = terminatorconfig.TerminatorConfValuestoreGConf ()
+      store.set_reconfigure_callback (self.reconfigure_vtes)
+      stores.append (store)
+    except:
+      pass
 
     self.conf = terminatorconfig.TerminatorConfig (stores)
 
