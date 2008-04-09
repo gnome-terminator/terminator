@@ -76,45 +76,50 @@ class TerminatorConfValuestore:
   reconfigure_callback = None
 
   # Our settings
-  # FIXME: Is it acceptable to not explicitly store the type, but
-  #         instead infer it from defaults[key].__class__.__name__
   defaults = {
-    'gt_dir'                : [str, '/apps/gnome-terminal'],
-    'profile_dir'           : [str, '/apps/gnome-terminal/profiles'],
-    'titlebars'             : [bool, True],
-    'titletips'             : [bool, False],
-    'allow_bold'            : [bool, False],
-    'silent_bell'           : [bool, True],
-    'background_color'      : [str, '#000000'],
-    'background_darkness'   : [float, 0.5],
-    'background_type'       : [str, 'solid'],
-    'backspace_binding'     : [str, 'ascii-del'],
-    'delete_binding'        : [str, 'delete-sequence'],
-    'cursor_blink'          : [bool, False],
-    'emulation'             : [str, 'xterm'],
-    'font'                  : [str, 'Serif 10'],
-    'foreground_color'      : [str, '#AAAAAA'],
-    'scrollbar_position'    : [str, "right"],
-    'scroll_background'     : [bool, True],
-    'scroll_on_keystroke'   : [bool, False],
-    'scroll_on_output'      : [bool, False],
-    'scrollback_lines'      : [int, 100],
-    'focus'                 : [str, 'sloppy'],
-    'exit_action'           : [str, 'close'],
-    'palette'               : [str, '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF'],
-    'word_chars'            : [str, '-A-Za-z0-9,./?%&#:_'],
-    'mouse_autohide'        : [bool, True],
-    'update_records'        : [bool, True],
-    'login_shell'           : [bool, False],
-    'use_custom_command'    : [bool, False],
-    'custom_command'        : [str, ''],
-    'use_system_font'       : [bool, True],
-    'use_theme_colors'      : [bool, True],
+    'gt_dir'                : '/apps/gnome-terminal',
+    'profile_dir'           : '/apps/gnome-terminal/profiles',
+    'titlebars'             : True,
+    'titletips'             : False,
+    'allow_bold'            : False,
+    'silent_bell'           : True,
+    'background_color'      : '#000000',
+    'background_darkness'   : 0.5,
+    'background_type'       : 'solid',
+    'backspace_binding'     : 'ascii-del',
+    'delete_binding'        : 'delete-sequence',
+    'cursor_blink'          : False,
+    'emulation'             : 'xterm',
+    'font'                  : 'Serif 10',
+    'foreground_color'      : '#AAAAAA',
+    'scrollbar_position'    : "right",
+    'scroll_background'     : True,
+    'scroll_on_keystroke'   : False,
+    'scroll_on_output'      : False,
+    'scrollback_lines'      : 100,
+    'focus'                 : 'sloppy',
+    'exit_action'           : 'close',
+    'palette'               : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
+    'word_chars'            : '-A-Za-z0-9,./?%&#:_',
+    'mouse_autohide'        : True,
+    'update_records'        : True,
+    'login_shell'           : False,
+    'use_custom_command'    : False,
+    'custom_command'        : '',
+    'use_system_font'       : True,
+    'use_theme_colors'      : True,
+    'use_http_proxy'        : False,
+    'use_authentication'    : False,
+    'host'                  : '',
+    'port'                  : 0,
+    'authentication_user'   : '',
+    'authentication_password': '',
+    'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
   }
 
   def __getattr__ (self, keyname):
     if self.values.has_key (keyname):
-      return self.values[keyname][1]
+      return self.values[keyname]
     else:
       raise (AttributeError)
 
@@ -141,8 +146,12 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           if item and item[0] != '#':
             (key, value) = item.split ("=")
             dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
-            self.values[key] = [self.defaults[key][0], self.defaults[key][0](value)]
+            if value == 'True':
+              self.values[key] = True
+            else:
+              self.values[key] = False
         except:
+          dbg (" VS_RCFile: Exception handling: %s"%item)
           pass
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
@@ -157,8 +166,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self.client = gconf.client_get_default ()
 
     # Grab a couple of values from base class to avoid recursing with our __getattr__
-    self._gt_dir = self.defaults['gt_dir'][1]
-    self._profile_dir = self.defaults['profile_dir'][1]
+    self._gt_dir = self.defaults['gt_dir']
+    self._profile_dir = self.defaults['profile_dir']
 
     if not profile:
       profile = self.client.get_string (self._gt_dir + '/global/default_profile')
@@ -184,6 +193,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
     self.client.add_dir ('/desktop/gnome/interface', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/desktop/gnome/interface/monospace_font_name', self.on_gconf_notify)
+    self.client.add_dir ('/system/http_proxy', gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.client.notify_add ('/system/http_proxy', self.on_gconf_notify)
     # FIXME: Do we need to watch more non-profile stuff here?
 
   def set_reconfigure_callback (self, function):
@@ -207,14 +218,31 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     elif key == 'focus':
       value = self.client.get ('/apps/metacity/general/focus_mode')
+    elif key == 'use_http_proxy':
+      value = self.client.get ('/system/http_proxy/use_http_proxy')
+    elif key == 'use_authentication':
+      value = self.client.get ('/system/http_proxy/use_authentication')
+    elif key == 'host':
+      value = self.client.get ('/system/http_proxy/host')
+    elif key == 'port':
+      value = self.client.get ('/system/http_proxy/port')
+    elif key == 'authentication_user':
+      value = self.client.get ('/system/http_proxy/authentication_user')
+    elif key == 'authentication_password':
+      value = self.client.get ('/system/http_proxy/authentication_password')
+    elif key == 'ignore_hosts':
+      value = self.client.get ('/system/http_proxy/ignore_hosts')
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
 
     if value:
-      funcname = "get_" + self.defaults[key][0].__name__
+      funcname = "get_" + self.defaults[key].__class__.__name__
       # Special case for str
       if funcname == "get_str":
         funcname = "get_string"
+      # Special case for strlist
+      if funcname == "get_strlist":
+        funcname = "get_list"
       typefunc = getattr (value, funcname)
       ret = typefunc ()
 
@@ -251,4 +279,14 @@ if __name__ == '__main__':
   print foo.titletips
 
   # This should raise AttributeError
-  print foo.blimnle
+  #print foo.blimnle
+
+  debug = False
+  print "use proxy: %d"%foo.use_http_proxy
+  print "use proxy auth: %d"%foo.use_authentication
+  print "proxy host: %s"%foo.host
+  print "proxy port: %d"%foo.port
+  print "proxy user: %s"%foo.authentication_user
+  print "proxy pass: %s"%foo.authentication_password
+  for host in foo.ignore_hosts:
+    print "proxy ignore: %s"%host
