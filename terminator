@@ -155,6 +155,7 @@ class TerminatorTerm:
     env_proxy = os.getenv ('http_proxy')
     if not env_proxy:
       os.putenv ('http_proxy', self.conf.http_proxy)
+
     self.spawn_child ()
 
   def spawn_child (self, event=None):
