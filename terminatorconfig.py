@@ -108,12 +108,7 @@ class TerminatorConfValuestore:
     'custom_command'        : '',
     'use_system_font'       : True,
     'use_theme_colors'      : True,
-    'use_http_proxy'        : False,
-    'use_authentication'    : False,
-    'host'                  : '',
-    'port'                  : 0,
-    'authentication_user'   : '',
-    'authentication_password': '',
+    'http_proxy'            : '',
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
   }
 
@@ -193,8 +188,6 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
     self.client.add_dir ('/desktop/gnome/interface', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/desktop/gnome/interface/monospace_font_name', self.on_gconf_notify)
-    self.client.add_dir ('/system/http_proxy', gconf.CLIENT_PRELOAD_RECURSIVE)
-    self.client.notify_add ('/system/http_proxy', self.on_gconf_notify)
     # FIXME: Do we need to watch more non-profile stuff here?
 
   def set_reconfigure_callback (self, function):
@@ -218,25 +211,28 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     elif key == 'focus':
       value = self.client.get ('/apps/metacity/general/focus_mode')
-    elif key == 'use_http_proxy':
-      value = self.client.get ('/system/http_proxy/use_http_proxy')
-    elif key == 'use_authentication':
-      value = self.client.get ('/system/http_proxy/use_authentication')
-    elif key == 'host':
-      value = self.client.get ('/system/http_proxy/host')
-    elif key == 'port':
-      value = self.client.get ('/system/http_proxy/port')
-    elif key == 'authentication_user':
-      value = self.client.get ('/system/http_proxy/authentication_user')
-    elif key == 'authentication_password':
-      value = self.client.get ('/system/http_proxy/authentication_password')
-    elif key == 'ignore_hosts':
-      value = self.client.get ('/system/http_proxy/ignore_hosts')
+    elif key == 'http_proxy':
+      if self.client.get_bool ('/system/http_proxy/use_http_proxy'):
+        dbg ('HACK: Mangling http_proxy')
+
+        if self.client.get_bool ('use_authentication'):
+          dbg ('HACK: Using proxy authentication')
+          value = 'http://%s:%s@%s:%s/'%(
+            self.client.get_string ('/system/http_proxy/authentication_user'), 
+            self.client.get_string ('/system/http_proxy/authentication_password'), 
+            self.client.get_string ('/system/http_proxy/host'), 
+            self.client.get_int ('/system/http_proxy/port'))
+        else:
+          dbg ('HACK: Not using proxy authentication')
+          value = 'http://%s:%s/'%(
+            self.client.get_string ('/system/http_proxy/host'),
+            self.client.get_int ('/system/http_proxy/port'))
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
 
     if value:
       funcname = "get_" + self.defaults[key].__class__.__name__
+      dbg ('  GConf: picked function: %s'%funcname)
       # Special case for str
       if funcname == "get_str":
         funcname = "get_string"
@@ -281,12 +277,5 @@ if __name__ == '__main__':
   # This should raise AttributeError
   #print foo.blimnle
 
-  debug = False
-  print "use proxy: %d"%foo.use_http_proxy
-  print "use proxy auth: %d"%foo.use_authentication
-  print "proxy host: %s"%foo.host
-  print "proxy port: %d"%foo.port
-  print "proxy user: %s"%foo.authentication_user
-  print "proxy pass: %s"%foo.authentication_password
-  for host in foo.ignore_hosts:
-    print "proxy ignore: %s"%host
+  # http_proxy is a value that is allowed to not exist
+  print "final proxy: %s"%foo.http_proxy

@@ -130,7 +130,7 @@ class TerminatorTerm:
       self._vte.connect ("child-exited", self.spawn_child)
     # We need to support "left" because some buggy versions of gnome-terminal
     #  set it in some situations
-    if exit_action in ("close", "left"):
+    elif exit_action in ("close", "left"):
       self._vte.connect ("child-exited", lambda close_term: self.terminator.closeterm (self))
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
@@ -152,6 +152,9 @@ class TerminatorTerm:
     if self.matches['nntp'] == -1:
       self.matches['nntp'] = self._vte.match_add ('''\<news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?\>''')
 
+    env_proxy = os.getenv ('http_proxy')
+    if not env_proxy:
+      os.putenv ('http_proxy', self.conf.http_proxy)
     self.spawn_child ()
 
   def spawn_child (self, event=None):
