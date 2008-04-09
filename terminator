@@ -25,8 +25,12 @@ APP_VERSION = '0.9'
 import os, platform, sys, string, time, math
 from optparse import OptionParser
 
-import gettext
-gettext.install (APP_NAME)
+try:
+  import gettext
+  gettext.install (APP_NAME)
+except:
+  def _ (text):
+    return text
 
 # import unix-lib
 import pwd
