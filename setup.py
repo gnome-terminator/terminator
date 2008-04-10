@@ -2,6 +2,7 @@
 
 from distutils.core import setup
 from distutils.command.install_data import install_data
+from distutils.command.build import build
 from distutils.dep_util import newer
 from distutils.log import info
 import glob
@@ -17,6 +18,32 @@ def import_terminator():
 
 APP_VERSION = import_terminator().APP_VERSION
 
+PO_DIR = 'po'
+MO_DIR = os.path.join('build', 'mo')
+
+class BuildData(build):
+  def run (self):
+    build.run (self)
+
+    if sys.platform == 'win32':
+      return
+
+    for po in glob.glob (os.path.join (PO_DIR, '*.po')):
+      lang = os.path.basename(po[:-3])
+      mo = os.path.join(MO_DIR, lang + '.mo')
+
+      directory = os.path.dirname(mo)
+      if not os.path.exists(directory):
+        info('creating %s' % directory)
+        os.makedirs(directory)
+
+      if newer(po, mo):
+        cmd = 'msgfmt -o %s %s' % (mo, po)
+        info('compiling %s -> %s' % (po, mo))
+        if os.system(cmd) != 0:
+          raise SystemExit('Error while running msgfmt')
+
+
 class InstallData(install_data):
   def run (self):
     self.data_files.extend (self._compile_po_files ())
@@ -29,25 +56,10 @@ class InstallData(install_data):
     if sys.platform == 'win32':
       return data_files
 
-    PO_DIR = 'po'
-    for po in glob.glob (os.path.join (PO_DIR,'*.po')):
-      lang = os.path.basename(po[:-3])
-      mo = os.path.join('build', 'mo', lang, 'terminator.mo')
-
-      directory = os.path.dirname(mo)
-      if not os.path.exists(directory):
-        info('creating %s' % directory)
-        os.makedirs(directory)
-
-      if newer(po, mo):
-        # True if mo doesn't exist
-        cmd = 'msgfmt -o %s %s' % (mo, po)
-        info('compiling %s -> %s' % (po, mo))
-        if os.system(cmd) != 0:
-          raise SystemExit('Error while running msgfmt')
-
-        dest = os.path.dirname(os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo'))
-        data_files.append((dest, [mo]))
+    for mo in glob.glob (os.path.join (MO_DIR, '*.mo')):
+      lang = os.path.basename(mo[:-3])
+      dest = os.path.dirname(os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo'))
+      data_files.append((dest, [mo]))
 
     return data_files
 
@@ -72,6 +84,6 @@ setup(name='Terminator',
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
                  ],
       py_modules=['terminatorconfig'],
-      cmdclass={'install_data': InstallData}
+      cmdclass={'build': BuildData, 'install_data': InstallData}
      )
 
