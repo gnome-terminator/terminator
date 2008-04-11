@@ -152,6 +152,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
   client = None
+  cache = {}
 
   def __init__ (self, profile = None):
     self.type = "GConf"
@@ -196,11 +197,17 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     return (True)
 
   def on_gconf_notify (self, client, cnxn_id, entry, what):
+    dbg (" VSGConf: invalidating cache")
+    self.cache = {}
     dbg (" VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
   def __getattr__ (self, key = ""):
+    if self.cache.has_key (key):
+      dbg (" VSGConf: returning cached value: %s"%self.cache[key])
+      return (self.cache[key])
+
     ret = None
     value = None
 
@@ -242,6 +249,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       typefunc = getattr (value, funcname)
       ret = typefunc ()
 
+      self.cache[key] = ret
       return (ret)
     else:
       raise (AttributeError)
