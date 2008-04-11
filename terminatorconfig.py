@@ -143,7 +143,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
             dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
             if value == 'True':
               self.values[key] = True
-            else:
+            elif value == 'False':
               self.values[key] = False
         except:
           dbg (" VS_RCFile: Exception handling: %s"%item)
