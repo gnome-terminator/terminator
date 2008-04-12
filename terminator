@@ -196,10 +196,10 @@ class TerminatorTerm:
     self._box.show()
     self._box.pack_start(self._titlebox, False)
     self._box.pack_start(self._termbox)
-    if self.reconf('titlebars'):
-      self._titlebox.show()
-    else:
-      self._titlebox.hide()
+    self._titlebox.show()
+      
+    if not self.reconf('titlebars'): 
+        self._title.set_property ('visible', False)
     
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
