@@ -1074,7 +1074,6 @@ class Terminator:
          parent.add(notebook)
       notebook.set_tab_reorderable(widgetbox,True)
       notebooklabel = ""
-      print widget._vte.get_window_title()
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
       notebook.set_tab_label_text(widgetbox, notebooklabel)    
