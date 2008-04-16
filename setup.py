@@ -20,12 +20,13 @@ APP_VERSION = import_terminator().APP_VERSION
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
+WITHOUT_NLS = sys.platform == 'win32' or os.environ.has_key("WITHOUT_NLS")
 
 class BuildData(build):
   def run (self):
     build.run (self)
 
-    if sys.platform == 'win32':
+    if WITHOUT_NLS:
       return
 
     for po in glob.glob (os.path.join (PO_DIR, '*.po')):
@@ -53,7 +54,7 @@ class InstallData(install_data):
     data_files = []
 
     # Don't install language files on win32
-    if sys.platform == 'win32':
+    if WITHOUT_NLS:
       return data_files
 
     for mo in glob.glob (os.path.join (MO_DIR, '*.mo')):
