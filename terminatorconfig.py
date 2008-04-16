@@ -129,7 +129,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   #       that can be re-used when rc changes.
   def __init__ (self):
     self.type = "RCFile"
-    self.rcfilename = pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc"
+    self.rcfilename = os.path.join(os.path.expanduser("~"), ".terminatorrc")
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
       rc = rcfile.readlines ()
