@@ -103,7 +103,9 @@ class TerminatorTerm:
     self._box.show()
     self._box.pack_start(self._titlebox, False)
     self._box.pack_start(self._termbox)
-    if self.conf.titlebars:
+    if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
+      if len(self.terminator.term_list) == 1:
+        self.terminator.term_list[0]._titlebox.show()
       self._titlebox.show()
     else:
       self._titlebox.hide()
@@ -526,7 +528,7 @@ class Terminator:
     self.command = command
 
     self._fullscreen = False
-
+    self.term_list = []
     stores = []
     stores.append (terminatorconfig.TerminatorConfValuestoreRC ())
 
@@ -745,6 +747,8 @@ class Terminator:
       else:
         if index == 0: index = 1
         self.term_list[index - 1]._vte.grab_focus ()
+      if len(self.term_list) == 1:
+        self.term_list[0]._titlebox.hide()
 
     return
 
