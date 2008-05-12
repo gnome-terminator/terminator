@@ -196,11 +196,16 @@ class TerminatorTerm:
     self._box.show()
     self._box.pack_start(self._titlebox, False)
     self._box.pack_start(self._termbox)
-    self._titlebox.show()
-      
-    if not self.reconf('titlebars'): 
-        self._title.set_property ('visible', False)
     
+    if self.reconf('titlebars'):
+      if len(self.terminator.term_list) > 0 and self.reconf('titlebars'):
+        if len(self.terminator.term_list) == 1:
+          self.terminator.term_list[0]._titlebox.show()
+        self._titlebox.show()
+    else:
+      self._titlebox.hide()
+      self._titlebox.set_property ('visible', False)
+  
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
@@ -626,10 +631,11 @@ text/plain
       self._scrollbar.show ()
 
   def do_title_toggle (self):
-    if self._title.get_property ('visible'):
-      self._title.hide ()
+    if self._titlebox.get_property ('visible'):
+      self._titlebox.hide ()
     else:
-      self._title.show ()
+      self._titlebox.show ()
+      #self._title.show ()
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   def on_vte_key_press (self, term, event):
@@ -770,7 +776,7 @@ text/plain
     menu.append (item)
     
     item = gtk.CheckMenuItem (_("Show Title"))
-    item.set_active (self._title.get_property ('visible'))
+    item.set_active (self._titlebox.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     menu.append (item)
 
@@ -846,6 +852,7 @@ class Terminator:
 
     self.window = gtk.Window ()
     self.window.set_title ("Terminator")
+    self.term_list = []
 
     # FIXME: This really shouldn't be a hardcoded path
     try:
@@ -1182,6 +1189,9 @@ class Terminator:
         parent.destroy()
       if index == 0: index = 1
       self.term_list[index - 1]._vte.grab_focus ()
+    
+    if len(self.term_list) == 1:
+      self.term_list[0]._titlebox.hide()
 
     return True
     
