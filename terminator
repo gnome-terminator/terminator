@@ -84,6 +84,9 @@ class TerminatorTerm:
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
       self.cwd = pwd.getpwuid(os.getuid ())[5]
+      # EDO: could be:
+      # os.environ['PWD']
+
 
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
     self.scrollbar_position = self.conf.scrollbar_position
@@ -393,6 +396,27 @@ class TerminatorTerm:
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
+      elif keyname == 'K':
+        print "KEY K pressed"
+        self.terminator.vertical_full(self, keyname)
+        return(True)
+      elif keyname == 'J':
+        print "KEY J pressed"
+        self.terminator.vertical_full_up(self, keyname)
+        return(True)
+      elif keyname == 'H':
+        print "KEY H pressed"
+        self.terminator.horizontal_full(self, keyname)
+        return(True)
+      elif keyname == 'L':
+        print "KEY L pressed"
+        self.terminator.horizontal_full_dx (self, keyname)
+        return(True)
+      elif keyname == 'G':
+        print "KEY G pressed"
+        self.terminator.restore_full (self, keyname)
+        return(True)
+
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -524,6 +548,8 @@ class TerminatorTerm:
 
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
+    self.restore = []
+
     self.profile = profile
     self.command = command
 
@@ -776,6 +802,10 @@ class Terminator:
     self.term_list[previous]._vte.grab_focus ()
 
   def resizeterm (self, widget, keyname):
+
+    print widget
+    print keyname
+
     vertical = False
     if keyname in ('Up', 'Down'):
       vertical = True
@@ -783,7 +813,10 @@ class Terminator:
       vertical = False
     else:
       return
+    
     parent = self.get_first_parent_paned(widget.get_box (),vertical)
+    print parent
+
     if parent == None:
       return
     
@@ -793,17 +826,72 @@ class Terminator:
 
     if keyname in ('Up', 'Down'):
       maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
-
+      print maxi
     else:
       maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
+      print maxi
+
     move = 10
+    print move
     if keyname in ('Up', 'Left'):
       move = -10
+      print move
 
-    move = max(2, parent.get_position() + move)
+    parent_position = parent.get_position()
+    print parent_position
+    move = max(2, parent_position + move)
+    print move
     move = min(maxi, move)
-
+    print move
     parent.set_position(move)
+
+  def vertical_full (self, widget, keyname):
+    parent = self.get_first_parent_paned (widget.get_box (), True)
+
+    if parent != None:
+      parent_position = parent.get_position()
+
+      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().width - 1
+      parent.set_position(maxi)
+      self.restore.append ((parent, parent_position))
+    else:
+      return
+
+  def horizontal_full (self, widget, keyname):
+    parent = self.get_first_parent_paned (widget.get_box (), False)
+
+    if parent != None:
+      parent_position = parent.get_position()
+      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().width - 1
+      parent.set_position(maxi)
+      self.restore.append ((parent, parent_position))
+    else:
+      return
+
+  def vertical_full_up (self, widget, keyname):
+    parent = self.get_first_parent_paned (widget.get_box (), True)
+
+    if parent != None:
+      parent_position = parent.get_position()
+      parent.set_position(0)
+      self.restore.append ((parent, parent_position))
+    else:
+      return
+
+  def horizontal_full_dx (self, widget, keyname):
+    parent = self.get_first_parent_paned (widget.get_box (), False)
+
+    if parent != None:
+      parent_position = parent.get_position()
+      parent.set_position(0)
+      self.restore.append ((parent, parent_position))
+    else:
+      return
+
+  def restore_full(self, widget, keyname):
+    move = self.restore.pop()
+    move[0].set_position(move[1])
+
 
   def get_first_parent_paned (self, widget, vertical = None):
     """This method returns the first parent pane of a widget.
