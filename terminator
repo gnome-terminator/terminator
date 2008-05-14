@@ -396,27 +396,6 @@ class TerminatorTerm:
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
-      elif keyname == 'K':
-        print "KEY K pressed"
-        self.terminator.vertical_full(self, keyname)
-        return(True)
-      elif keyname == 'J':
-        print "KEY J pressed"
-        self.terminator.vertical_full_up(self, keyname)
-        return(True)
-      elif keyname == 'H':
-        print "KEY H pressed"
-        self.terminator.horizontal_full(self, keyname)
-        return(True)
-      elif keyname == 'L':
-        print "KEY L pressed"
-        self.terminator.horizontal_full_dx (self, keyname)
-        return(True)
-      elif keyname == 'G':
-        print "KEY G pressed"
-        self.terminator.restore_full (self, keyname)
-        return(True)
-
 
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
@@ -514,6 +493,20 @@ class TerminatorTerm:
     item = gtk.MenuItem ()
     menu.append (item)
 
+    item = gtk.MenuItem (_("Maximize T_erminal"))
+    item.connect ("activate", lambda menu_item: self.terminator.hide_all_but_me (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
+    item = gtk.MenuItem (_("Go B_ack"))
+    item.connect ("activate", lambda menu_item: self.terminator.show_back_others (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -604,7 +597,7 @@ class Terminator:
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile, self.command))
     self.term_list = [term]
-
+    self.widget_history=[self.window, term]
     self.window.add (term.get_box ())
     self.window.show ()
 
@@ -704,6 +697,17 @@ class Terminator:
 
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
+      
+      # Code needed to store application widget structure.
+      #
+      # get widget index, add pane before her in widget_history
+      # and a terminal after her
+
+      for n in range(len(self.widget_history)):
+        if self.widget_history[n] == widget:
+          self.widget_history.insert(n, pane)
+          self.widget_history.insert(n+2, terminal)
+          print self.widget_history
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
@@ -803,9 +807,6 @@ class Terminator:
 
   def resizeterm (self, widget, keyname):
 
-    print widget
-    print keyname
-
     vertical = False
     if keyname in ('Up', 'Down'):
       vertical = True
@@ -815,7 +816,6 @@ class Terminator:
       return
     
     parent = self.get_first_parent_paned(widget.get_box (),vertical)
-    print parent
 
     if parent == None:
       return
@@ -826,72 +826,65 @@ class Terminator:
 
     if keyname in ('Up', 'Down'):
       maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
-      print maxi
     else:
       maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
-      print maxi
 
     move = 10
-    print move
     if keyname in ('Up', 'Left'):
       move = -10
-      print move
+
 
     parent_position = parent.get_position()
-    print parent_position
+
     move = max(2, parent_position + move)
-    print move
+
     move = min(maxi, move)
-    print move
+
     parent.set_position(move)
 
-  def vertical_full (self, widget, keyname):
-    parent = self.get_first_parent_paned (widget.get_box (), True)
-
-    if parent != None:
-      parent_position = parent.get_position()
-
-      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().width - 1
-      parent.set_position(maxi)
-      self.restore.append ((parent, parent_position))
-    else:
+  def hide_all_but_me (self, widget):
+    """Proof of concept: Maximize an instance of TerminatorTerm
+    Only first split is kept in memory...
+    """
+    parent   = widget.get_box ().get_parent ()    
+    ##TRY TO SHOW ONLY ONE AND KEEP PREVIOUS LAYOUT
+    if isinstance (parent, gtk.Window):
+      # We have just one term
       return
-
-  def horizontal_full (self, widget, keyname):
-    parent = self.get_first_parent_paned (widget.get_box (), False)
-
-    if parent != None:
-      parent_position = parent.get_position()
-      maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().width - 1
-      parent.set_position(maxi)
-      self.restore.append ((parent, parent_position))
     else:
-      return
+      me = None
+      for n in self.widget_history:
+        if n == widget:
+          me = n
+        else:
+          try:
+            self.window.remove(n)
+          except:
+            self.window.remove(n.get_box())
+      if me:
+        me.get_box ().reparent(self.window)
 
-  def vertical_full_up (self, widget, keyname):
-    parent = self.get_first_parent_paned (widget.get_box (), True)
-
-    if parent != None:
-      parent_position = parent.get_position()
-      parent.set_position(0)
-      self.restore.append ((parent, parent_position))
+  def show_back_others (self, widget):
+    """Proof of concept: Go back to previous application 
+    widget structure.
+    Still positions are not stored in 'widget_history' list.
+    Maximizing first terminal in and restoring 
+    previous layout works perfectly; maximizing second
+    terminal doesn't restore properly, yet!
+    """
+    ## HERE TERMINALS AND PANES SHOULD POP BACK!
+    number_of_widgets = len(self.widget_history)
+    if number_of_widgets == 2: # just a gtk.Window and a TerminatorTerm
+      return 
     else:
+      # Clean Window
+      for n in self.window.get_children():
+        self.window.remove(n)
+      self.widget_history[1].pack1(self.widget_history[2].get_box())
+      self.widget_history[1].pack1(self.widget_history[3].get_box())
+      self.window.add(self.widget_history[1])
+      self.window.show_all()
       return
-
-  def horizontal_full_dx (self, widget, keyname):
-    parent = self.get_first_parent_paned (widget.get_box (), False)
-
-    if parent != None:
-      parent_position = parent.get_position()
-      parent.set_position(0)
-      self.restore.append ((parent, parent_position))
-    else:
-      return
-
-  def restore_full(self, widget, keyname):
-    move = self.restore.pop()
-    move[0].set_position(move[1])
-
 
   def get_first_parent_paned (self, widget, vertical = None):
     """This method returns the first parent pane of a widget.
