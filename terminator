@@ -173,6 +173,8 @@ class TerminatorTerm:
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
     login = self.conf.login_shell
+    args = []
+    shell = ''
 
     if self.command:
       args = self.command
@@ -180,9 +182,30 @@ class TerminatorTerm:
     elif self.conf.use_custom_command:
       args = self.conf.custom_command.split ()
       shell = args[0]
-    else:
-      shell = pwd.getpwuid (os.getuid ())[6]
-      args = [os.path.basename (shell)]
+
+    if not os.path.exists (shell):
+      shell = os.getenv ('SHELL') or ''
+      if not os.path.exists (shell):
+        shell = pwd.getpwuid (os.getuid ())[6] or ''
+        if not os.path.exists (shell):
+          for i in ['bash','zsh','tcsh','ksh','csh','sh']:
+            shell = '/usr/bin/%s'%i
+            if not os.path.exists (shell):
+              shell = '/bin/%s'%i
+              if not os.path.exists (shell):
+                continue
+              else:
+                break
+            else:
+              break;
+    
+    if not os.path.exists (shell):
+      # Give up, we're completely stuck
+      print >> sys.stderr, _('Unable to find a shell')
+      exit (1)
+    
+    if not args:
+      args.append (shell)
 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
