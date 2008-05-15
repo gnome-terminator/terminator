@@ -446,8 +446,8 @@ class TerminatorTerm:
     pangodesc.set_size (fontsize)
     self._vte.set_font (pangodesc)
 
-  def on_vte_popup_menu (self, term):
-    self.do_popup ()
+  def on_vte_popup_menu (self, term, event):
+    self.do_popup (event)
 
   def do_popup (self, event = None):
     menu = self.create_popup_menu (event)
