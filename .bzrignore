@@ -11,3 +11,6 @@
 .git/refs
 .git
 .gitignore
+build
+build/bzr
+status
