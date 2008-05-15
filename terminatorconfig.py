@@ -111,7 +111,7 @@ class TerminatorConfValuestore:
     'http_proxy'            : '',
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
     'encoding'              : 'UTF-8',
-    'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
+    'active_encodings'      : ['UTF-8', 'ISO-8859-1', 'UTF-16'],
   }
 
   def __getattr__ (self, keyname):
@@ -171,6 +171,10 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       profile = self.client.get_string (self._gt_dir + '/global/default_profile')
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
+    #set up the active encoding list
+    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+    
+      #need to handle the list of Gconf.value
     if profile in profiles:
       dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)
@@ -236,8 +240,6 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
           value = 'http://%s:%s/'%(
             self.client.get_string ('/system/http_proxy/host'),
             self.client.get_int ('/system/http_proxy/port'))
-    elif key == 'active_encodings':
-      value = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string') 
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
       
