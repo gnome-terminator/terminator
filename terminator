@@ -209,6 +209,10 @@ class TerminatorTerm:
 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
+    if self._pid == -1:
+      print >>sys.stderr, _('Unable to start shell: ') + shell
+      exit (1)
+
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
