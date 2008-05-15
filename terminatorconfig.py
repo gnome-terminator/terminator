@@ -111,7 +111,7 @@ class TerminatorConfValuestore:
     'http_proxy'            : '',
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
     'encoding'              : 'UTF-8',
-    'active_encodings'      : ['UTF-8', 'ISO-8859-1', 'UTF-16'],
+    'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
   }
 
   def __getattr__ (self, keyname):
