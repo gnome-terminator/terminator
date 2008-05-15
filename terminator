@@ -148,7 +148,9 @@ class TerminatorTerm:
     if not env_proxy:
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    self.spawn_child ()
+    if self.spawn_child () == -1:
+      # We failed to usefully create a child shell, we need to kill ourself
+      gobject.timeout_add (100, self.terminator.closeterm, self)
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -202,7 +204,7 @@ class TerminatorTerm:
     if not os.path.exists (shell):
       # Give up, we're completely stuck
       print >> sys.stderr, _('Unable to find a shell')
-      exit (1)
+      return (-1)
     
     if not args:
       args.append (shell)
@@ -211,20 +213,21 @@ class TerminatorTerm:
 
     if self._pid == -1:
       print >>sys.stderr, _('Unable to start shell: ') + shell
-      exit (1)
+      return (-1)
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
+    cwd = None
     system = platform.system ()
 
     if system == 'Linux':
-      cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
-    else:
-      # We don't have a child cwd getter for this platform, so let
-      # TerminatorTerm use its default
-      cwd = None
+      try:
+        cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
+      except:
+        pass
+
     return (cwd)
 
   def reconfigure_vte (self):
