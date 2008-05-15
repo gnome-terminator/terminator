@@ -617,7 +617,7 @@ class Terminator:
     """ Maximize the Terminator window."""
     self.window.maximize ()
 
-  def toggle_fullscreen (self):
+  def fullscreen_toggle (self):
     """ Toggle the fullscreen state of the window. If it is in
         fullscreen state, it will be unfullscreened. If it is not, it
         will be set to fullscreen state.
@@ -677,7 +677,7 @@ class Terminator:
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
     if (keyname == 'F11'):
-      self.toggle_fullscreen ()
+      self.fullscreen_toggle ()
       return (True)
 
     if (event.state & mask) == mask:
