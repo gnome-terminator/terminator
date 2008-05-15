@@ -1,2 +1,6 @@
 * Edit doc/terminatorrc.5 manpage to contain the information about the options
 * Write a Tab feature for terminator
+
+* handling encoding
+print self._vte.get_encoding ()
+actually defaults to UTF-8

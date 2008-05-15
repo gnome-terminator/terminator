@@ -103,6 +103,7 @@ class TerminatorTerm:
     self._box.show()
     self._box.pack_start(self._titlebox, False)
     self._box.pack_start(self._termbox)
+    
     if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
       if len(self.terminator.term_list) == 1:
         self.terminator.term_list[0]._titlebox.show()
@@ -310,7 +311,13 @@ class TerminatorTerm:
 
     # Set our sloppiness
     self.focus = self.conf.focus
-
+  
+  def on_encoding_change (self, widget, encoding):
+    current = self._vte.get_encoding()
+    if current != encoding:
+      print ('Setting Encoding to ' + encoding)
+      self._vte.set_encoding(encoding)
+    
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
@@ -487,16 +494,40 @@ class TerminatorTerm:
     item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
     menu.append (item)
 
+    self._do_encoding_items(menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
-
+    
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
 
     menu.show_all ()
     return menu
-
+  
+  def _do_encoding_items(self, menu):
+    
+    
+    item = gtk.MenuItem (_("Encoding"))
+    menu.append(item)
+    submenu = gtk.Menu()
+    item.set_submenu(submenu)
+    
+    
+    current_encoding = self._vte.get_encoding ()
+    group = None
+    for encoding in self.conf.active_encodings:
+      radioitem = gtk.RadioMenuItem(group, _(encoding))
+      if group is None:
+        group = radioitem
+        
+      if encoding == current_encoding:
+        radioitem.set_active(True)
+      
+      radioitem.connect('activate', self.on_encoding_change, encoding)
+      submenu.append(radioitem)
+   
   def on_vte_title_change(self, vte):
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
