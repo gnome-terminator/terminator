@@ -345,6 +345,19 @@ class TerminatorTerm:
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
+    # Left mouse button + Ctrl while over a link should open it
+    mask = gtk.gdk.CONTROL_MASK
+    if (event.state & mask) == mask:
+      if event.button == 1:
+        url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+        if url:
+          if (url[0][0:7] != "mailto:") & (url[1] == self.matches['email']):
+            address = "mailto:" + url[0]
+          else:
+            address = url[0]
+          openurl ( address )
+      return False
+
     # Left mouse button should transfer focus to this vte widget
     if event.button == 1:
       self._vte.grab_focus ()
