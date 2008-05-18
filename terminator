@@ -100,7 +100,7 @@ class TerminatorTerm (gtk.VBox):
     self._title.show()
     self._titlebox =  gtk.EventBox()
     self._titlebox.add(self._title)
-    self..show()
+    self.show()
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
     if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
@@ -562,9 +562,6 @@ class TerminatorTerm (gtk.VBox):
     if vte.get_window_title ():
       self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
   
-  def get_box (self):
-    return self
-
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
@@ -622,7 +619,7 @@ class Terminator:
     term = (TerminatorTerm (self, self.profile, self.command))
     self.term_list = [term]
 
-    self.window.add (term.get_box ())
+    self.window.add (term)
     self.window.show ()
 
   def maximize (self):
@@ -708,14 +705,14 @@ class Terminator:
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal
-    parent   = widget.get_box ().get_parent ()
+    parent   = widget.get_parent ()
 
     if isinstance (parent, gtk.Window):
       # We have just one term
-      widget.get_box ().reparent (pane)
+      widget.reparent (pane)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (terminal.get_box (), True, True)
+      pane.pack1 (widget, True, True)
+      pane.pack2 (terminal, True, True)
 
       parent.add (pane)
 
@@ -724,23 +721,23 @@ class Terminator:
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      position = (vertical) and widget.get_box().allocation.height \
-                             or widget.get_box().allocation.width
+      position = (vertical) and widget.allocation.height \
+                             or widget.allocation.width
 
-      if (widget.get_box () == parent.get_child1 ()):
-        widget.get_box ().reparent (pane)
+      if (widget == parent.get_child1 ()):
+        widget.reparent (pane)
         parent.pack1 (pane, True, True)
       else:
-        widget.get_box ().reparent (pane)
+        widget.reparent (pane)
         parent.pack2 (pane, True, True)
 
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (terminal.get_box (), True, True)
+      pane.pack1 (widget, True, True)
+      pane.pack2 (terminal, True, True)
 
     # show all, set position of the divider
     pane.show ()
     pane.set_position (position / 2)
-    terminal.get_box ().show ()
+    terminal.show ()
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
@@ -752,7 +749,7 @@ class Terminator:
     return (terminal)
 
   def closeterm (self, widget):
-    parent = widget.get_box ().get_parent ()
+    parent = widget.get_parent ()
     sibling = None
 
     if isinstance (parent, gtk.Window):
@@ -766,9 +763,9 @@ class Terminator:
       grandparent = parent.get_parent ()
 
       # Discover sibling while all objects exist
-      if widget.get_box () == parent.get_child1 ():
+      if widget == parent.get_child1 ():
         sibling = parent.get_child2 ()
-      if widget.get_box () == parent.get_child2 ():
+      if widget == parent.get_child2 ():
         sibling = parent.get_child1 ()
 
       if not sibling:
@@ -779,12 +776,12 @@ class Terminator:
       self.term_list.remove (widget)
       grandparent.remove (parent)
       sibling.reparent (grandparent)
-      widget.get_box ().destroy ()
+      widget.destroy ()
       parent.destroy ()
 
       if not isinstance (sibling, gtk.Paned):
         for term in self.term_list:
-          if term.get_box () == sibling:
+          if term == sibling:
             term._vte.grab_focus ()
             break
       else:
@@ -826,7 +823,7 @@ class Terminator:
       vertical = False
     else:
       return
-    parent = self.get_first_parent_paned(widget.get_box (),vertical)
+    parent = self.get_first_parent_paned(widget,vertical)
     if parent == None:
       return
     
