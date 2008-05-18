@@ -72,11 +72,12 @@ def openurl (url):
   except:
     pass
 
-class TerminatorTerm:
+class TerminatorTerm (gtk.VBox):
 
   matches = {}
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
+    gtk.VBox.__init__ (self)
     self.terminator = terminator
     self.conf = terminator.conf
     self.command = command
@@ -99,10 +100,9 @@ class TerminatorTerm:
     self._title.show()
     self._titlebox =  gtk.EventBox()
     self._titlebox.add(self._title)
-    self._box = gtk.VBox ()
-    self._box.show()
-    self._box.pack_start(self._titlebox, False)
-    self._box.pack_start(self._termbox)
+    self..show()
+    self.pack_start(self._titlebox, False)
+    self.pack_start(self._termbox)
     if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
       if len(self.terminator.term_list) == 1:
         self.terminator.term_list[0]._titlebox.show()
@@ -563,7 +563,7 @@ class TerminatorTerm:
       self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
   
   def get_box (self):
-    return self._box
+    return self
 
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
