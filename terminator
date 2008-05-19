@@ -148,9 +148,7 @@ class TerminatorTerm (gtk.VBox):
     if not env_proxy and self.conf.http_proxy:
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    if self.spawn_child () == -1:
-      # We failed to usefully create a child shell, we need to kill ourself
-      gobject.timeout_add (100, self.terminator.closeterm, self)
+    os.putenv ('COLORTERM', 'gnome-terminal')
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -204,10 +202,13 @@ class TerminatorTerm (gtk.VBox):
     if not os.path.exists (shell):
       # Give up, we're completely stuck
       print >> sys.stderr, _('Unable to find a shell')
+      gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
     
     if not args:
       args.append (shell)
+
+    os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
@@ -621,6 +622,7 @@ class Terminator:
 
     self.window.add (term)
     self.window.show ()
+    term.spawn_child ()
 
   def maximize (self):
     """ Maximize the Terminator window."""
@@ -738,6 +740,7 @@ class Terminator:
     pane.show ()
     pane.set_position (position / 2)
     terminal.show ()
+    terminal.spawn_child ()
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
