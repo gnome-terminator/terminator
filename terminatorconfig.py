@@ -212,7 +212,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     value = None
 
     dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
-   
+
     # FIXME: Ugly special cases we should look to fix in some other way.
     if key == 'font' and self.use_system_font:
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
