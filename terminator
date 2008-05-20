@@ -590,7 +590,7 @@ class Terminator:
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile, self.command))
     self.term_list = [term]
-    
+    self.widgets = [term]
     self.window.add (term.get_box ())
     self.window.show ()
 
@@ -736,6 +736,7 @@ class Terminator:
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
       return
 
+    ## Deletes terminal and pane from self.widgets list
     i = self.widgets.index(widget)
     if isinstance(self.widgets[i-1], gtk.Paned):
       del(self.widgets[i])
@@ -835,31 +836,44 @@ class Terminator:
   def hide_all_but_me (self, widget):
     """Proof of concept: Maximize an instance of TerminatorTerm
     """
-    parent = widget.get_box ().get_parent ()
-    if isinstance (parent, gtk.Window):
-      # We have just one term
-      return
-    else:
-      self.window.remove(self.window.get_children()[0])
-      widget.get_box().reparent(self.window)
-        
+    self.window_child = self.window.get_children()[0]
+    self.old_parent = widget.get_box().get_parent()
+    self.foo = widget
+    self.bar = self.window_child
+    self.window.remove(self.window_child)
+    self.old_parent.remove(widget.get_box())
+    self.window.add(widget.get_box())
+    
+#    self.full_win.add(widget.get_box())
+    self.window.show_all()
+
   def show_back_others(self, widget):
     """Proof of concept: Go back to previous application 
     widget structure.
     """
-    for n in self.window.get_children():
-      self.window.remove(n)
-    self.restore()
+    self.foo = widget
+    
+    self.window.remove(widget.get_box())
+    self.window.add(self.window_child)
+
+    self.old_parent.add(widget.get_box())
+    self.window.show_all()
 
   def restore(self):
-    if isinstance(self.widgets[0], TerminatorTerm):
-      self.window.add (self.widgets[0].get_box ())
-    else:
-      self.window.add (self.restore_tree (self.widgets[0]))
+    num_of_widgets = len(self.widgets)
+    if num_of_widgets % 2 == 0:
+      print "Error numer of widgets must be "
+    print
+    print "###################################################"
+    for element in self.widgets:
+      print element
+    print "###################################################"
+    self.window.add (self.restore_tree (self.widgets[0]))
     self.window.show_all()
 
   def restore_tree(self, widget):
     if isinstance(widget, TerminatorTerm):
+      print """RESTORING %s which is child of %s.""" % (widget, widget.get_box().get_parent())
       return widget.get_box()
     else:
       i = self.widgets.index(widget)
