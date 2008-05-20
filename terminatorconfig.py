@@ -110,6 +110,8 @@ class TerminatorConfValuestore:
     'use_theme_colors'      : True,
     'http_proxy'            : '',
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
+    'encoding'              : 'UTF-8',
+    'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
   }
 
   def __getattr__ (self, keyname):
@@ -169,6 +171,10 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       profile = self.client.get_string (self._gt_dir + '/global/default_profile')
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
+    #set up the active encoding list
+    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+    
+    #need to handle the list of Gconf.value
     if profile in profiles:
       dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)

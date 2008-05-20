@@ -38,6 +38,9 @@ import pwd
 # import our configuration loader
 import terminatorconfig
 
+#import encoding list
+from terminatorencoding import TerminatorEncoding
+
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
@@ -520,6 +523,8 @@ class TerminatorTerm (gtk.VBox):
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     menu.append (item)
 
+    self._do_encoding_items (menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -541,6 +546,61 @@ class TerminatorTerm (gtk.VBox):
     menu.show_all ()
     return menu
 
+  def on_encoding_change (self, widget, encoding):
+    current = self._vte.get_encoding ()
+    if current != encoding:
+      dbg ('Setting Encoding to: %s'%encoding)
+      self._vte.set_encoding (encoding)
+      
+  def _do_encoding_items (self, menu):
+    active_encodings = self.conf.active_encodings
+    item = gtk.MenuItem (_("Encodings"))
+    menu.append (item)
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    
+    current_encoding = self._vte.get_encoding ()
+    group = None
+    for encoding in active_encodings:
+      radioitem = gtk.RadioMenuItem (group, _(encoding))
+      if group is None:
+        group = radioitem
+        
+      if encoding == current_encoding:
+        radioitem.set_active (True)
+      
+      radioitem.connect ('activate', self.on_encoding_change, encoding)
+      submenu.append (radioitem)
+      
+    item = gtk.MenuItem (_("Other Encodings"))
+    submenu.append (item)
+    #second level
+
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    encodings = TerminatorEncoding ().get_list ()
+    encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
+    group = None
+
+    for encoding in encodings:
+      if encoding[1] in active_encodings:
+        continue
+
+      if encoding[1] is None:
+        label = "%s %s"%(encoding[2], self._vte.get_encoding ())
+      else:
+        label = "%s %s"%(encoding[2], encoding[1])
+        
+      radioitem = gtk.RadioMenuItem (group, label)
+      if group is None:
+        group = radioitem
+        
+      if encoding[1] == current_encoding:
+        radioitem.set_active (True)
+      
+      radioitem.connect ('activate', self.on_encoding_change, encoding[1])
+      submenu.append (radioitem)
+   
   def on_vte_title_change(self, vte):
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
