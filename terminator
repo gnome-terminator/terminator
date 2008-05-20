@@ -576,9 +576,11 @@ class TerminatorTerm (gtk.VBox):
   
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
+
     self.profile = profile
     self.command = command
-
+    
+    self._fullwindow = False
     self._fullscreen = False
     self.term_list = []
     stores = []
@@ -763,6 +765,9 @@ class Terminator:
     return (terminal)
 
   def closeterm (self, widget):
+    if self._fullwindow:
+      self.show_back_others(widget)
+
     parent = widget.get_parent ()
     sibling = None
 
@@ -889,6 +894,7 @@ class Terminator:
     self.old_parent.remove(widget)
     self.window.add(widget)
     self.window.show_all()
+    self._fullwindow = True
 
   def show_back_others(self, widget):
     """Proof of concept: Go back to previous application                                 
@@ -898,6 +904,7 @@ class Terminator:
     self.window.add(self.window_child)
     self.old_parent.add(widget)
     self.window.show_all()
+    self._fullwindow = False
 
 if __name__ == '__main__':
 
