@@ -72,11 +72,12 @@ def openurl (url):
   except:
     pass
 
-class TerminatorTerm:
+class TerminatorTerm (gtk.VBox):
 
   matches = {}
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
+    gtk.VBox.__init__ (self)
     self.terminator = terminator
     self.conf = terminator.conf
     self.command = command
@@ -99,10 +100,9 @@ class TerminatorTerm:
     self._title.show()
     self._titlebox =  gtk.EventBox()
     self._titlebox.add(self._title)
-    self._box = gtk.VBox ()
-    self._box.show()
-    self._box.pack_start(self._titlebox, False)
-    self._box.pack_start(self._termbox)
+    self.show()
+    self.pack_start(self._titlebox, False)
+    self.pack_start(self._termbox)
     if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
       if len(self.terminator.term_list) == 1:
         self.terminator.term_list[0]._titlebox.show()
@@ -145,10 +145,10 @@ class TerminatorTerm:
     self.add_matches()
 
     env_proxy = os.getenv ('http_proxy')
-    if not env_proxy:
+    if not env_proxy and self.conf.http_proxy:
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    self.spawn_child ()
+    os.putenv ('COLORTERM', 'gnome-terminal')
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -173,6 +173,8 @@ class TerminatorTerm:
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
     login = self.conf.login_shell
+    args = []
+    shell = ''
 
     if self.command:
       args = self.command
@@ -180,24 +182,53 @@ class TerminatorTerm:
     elif self.conf.use_custom_command:
       args = self.conf.custom_command.split ()
       shell = args[0]
-    else:
-      shell = pwd.getpwuid (os.getuid ())[6]
-      args = [os.path.basename (shell)]
+
+    if not os.path.exists (shell):
+      shell = os.getenv ('SHELL') or ''
+      if not os.path.exists (shell):
+        shell = pwd.getpwuid (os.getuid ())[6] or ''
+        if not os.path.exists (shell):
+          for i in ['bash','zsh','tcsh','ksh','csh','sh']:
+            shell = '/usr/bin/%s'%i
+            if not os.path.exists (shell):
+              shell = '/bin/%s'%i
+              if not os.path.exists (shell):
+                continue
+              else:
+                break
+            else:
+              break;
+    
+    if not os.path.exists (shell):
+      # Give up, we're completely stuck
+      print >> sys.stderr, _('Unable to find a shell')
+      gobject.timeout_add (100, self.terminator.closeterm, self)
+      return (-1)
+    
+    if not args:
+      args.append (shell)
+
+    os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
+
+    if self._pid == -1:
+      print >>sys.stderr, _('Unable to start shell: ') + shell
+      return (-1)
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
+    cwd = None
     system = platform.system ()
 
     if system == 'Linux':
-      cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
-    else:
-      # We don't have a child cwd getter for this platform, so let
-      # TerminatorTerm use its default
-      cwd = None
+      try:
+        cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
+      except:
+        pass
+
     return (cwd)
 
   def reconfigure_vte (self):
@@ -315,6 +346,19 @@ class TerminatorTerm:
     self.reconfigure_vte ()
 
   def on_vte_button_press (self, term, event):
+    # Left mouse button + Ctrl while over a link should open it
+    mask = gtk.gdk.CONTROL_MASK
+    if (event.state & mask) == mask:
+      if event.button == 1:
+        url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+        if url:
+          if (url[0][0:7] != "mailto:") & (url[1] == self.matches['email']):
+            address = "mailto:" + url[0]
+          else:
+            address = url[0]
+          openurl ( address )
+      return False
+
     # Left mouse button should transfer focus to this vte widget
     if event.button == 1:
       self._vte.grab_focus ()
@@ -416,8 +460,8 @@ class TerminatorTerm:
     pangodesc.set_size (fontsize)
     self._vte.set_font (pangodesc)
 
-  def on_vte_popup_menu (self, term):
-    self.do_popup ()
+  def on_vte_popup_menu (self, term, event):
+    self.do_popup (event)
 
   def do_popup (self, event = None):
     menu = self.create_popup_menu (event)
@@ -530,12 +574,8 @@ class TerminatorTerm:
     if vte.get_window_title ():
       self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
   
-  def get_box (self):
-    return self._box
-
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
-
     self.profile = profile
     self.command = command
 
@@ -590,9 +630,10 @@ class Terminator:
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile, self.command))
     self.term_list = [term]
-    self.widgets = [term]
-    self.window.add (term.get_box ())
+
+    self.window.add (term)
     self.window.show ()
+    term.spawn_child ()
 
   def maximize (self):
     """ Maximize the Terminator window."""
@@ -671,63 +712,58 @@ class Terminator:
     
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
+
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
+
     # get the parent of the provided terminal
-    parent = widget.get_box ().get_parent ()
+    parent   = widget.get_parent ()
 
     if isinstance (parent, gtk.Window):
       # We have just one term
-      # [Window, Terminal]
-      widget.get_box ().reparent (pane)
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (terminal.get_box (), True, True)
+      widget.reparent (pane)
+
+      pane.pack1 (widget, True, True)
+      pane.pack2 (terminal, True, True)
+
       parent.add (pane)
+
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
-      # After:
-      # [Window, Pane, OldTerminal, NewTerminal]
-      self.widgets.insert(0, pane)
-      self.widgets.append(terminal)
 
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
-      position = (vertical) and widget.get_box().allocation.height \
-                             or widget.get_box().allocation.width
-      ## ... Pane, ClickedTerminal, Terminal ...
-      ## becomes
-      ## ... Pane, Pane, ClickedTerminal, NewTerminal, Terminal]
-      if (widget.get_box () == parent.get_child1 ()):
-        widget.get_box ().reparent (pane)
-        parent.pack1 (pane, True, True)
-      ## ... Pane, Terminal, ClickedTerminal ...
-      ## becomes
-      ## ... Pane, Terminal, Pane, ClickedTerminal, NewTerminal]
-      else:
-        widget.get_box ().reparent (pane)
-        parent.pack2 (pane, True, True)
-      pane.pack1 (widget.get_box (), True, True)
-      pane.pack2 (terminal.get_box (), True, True)
+      position = (vertical) and widget.allocation.height \
+                             or widget.allocation.width
 
-      i = self.widgets.index(widget)
-      self.widgets.insert(i, pane)
-      self.widgets.insert(i+2, terminal)
+      if (widget == parent.get_child1 ()):
+        widget.reparent (pane)
+        parent.pack1 (pane, True, True)
+      else:
+        widget.reparent (pane)
+        parent.pack2 (pane, True, True)
+
+      pane.pack1 (widget, True, True)
+      pane.pack2 (terminal, True, True)
 
     # show all, set position of the divider
     pane.show ()
     pane.set_position (position / 2)
-    terminal.get_box ().show ()
+    terminal.show ()
+    terminal.spawn_child ()
+
     # insert the term reference into the list
     index = self.term_list.index (widget)
     self.term_list.insert (index + 1, terminal)
+    
     # make the new terminal grab the focus
     terminal._vte.grab_focus ()
+
     return (terminal)
 
   def closeterm (self, widget):
-      
-    parent = widget.get_box ().get_parent ()
+    parent = widget.get_parent ()
     sibling = None
 
     if isinstance (parent, gtk.Window):
@@ -736,23 +772,14 @@ class Terminator:
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
       return
 
-    ## Deletes terminal and pane from self.widgets list
-    i = self.widgets.index(widget)
-    if isinstance(self.widgets[i-1], gtk.Paned):
-      del(self.widgets[i])
-      del(self.widgets[i-1])
-    else:
-      del(self.widgets[i])
-      del(self.widgets[i-2])
-
     if isinstance (parent, gtk.Paned):
       index = self.term_list.index (widget)
       grandparent = parent.get_parent ()
 
       # Discover sibling while all objects exist
-      if widget.get_box () == parent.get_child1 ():
+      if widget == parent.get_child1 ():
         sibling = parent.get_child2 ()
-      if widget.get_box () == parent.get_child2 ():
+      if widget == parent.get_child2 ():
         sibling = parent.get_child1 ()
 
       if not sibling:
@@ -763,12 +790,12 @@ class Terminator:
       self.term_list.remove (widget)
       grandparent.remove (parent)
       sibling.reparent (grandparent)
-      widget.get_box ().destroy ()
+      widget.destroy ()
       parent.destroy ()
 
       if not isinstance (sibling, gtk.Paned):
         for term in self.term_list:
-          if term.get_box () == sibling:
+          if term == sibling:
             term._vte.grab_focus ()
             break
       else:
@@ -810,8 +837,7 @@ class Terminator:
       vertical = False
     else:
       return
-    
-    parent = self.get_first_parent_paned(widget.get_box (),vertical)
+    parent = self.get_first_parent_paned(widget,vertical)
     if parent == None:
       return
     
@@ -821,66 +847,17 @@ class Terminator:
 
     if keyname in ('Up', 'Down'):
       maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
+
     else:
       maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
-
     move = 10
     if keyname in ('Up', 'Left'):
       move = -10
 
-    move = max(2, parent_position + move)
+    move = max(2, parent.get_position() + move)
     move = min(maxi, move)
 
     parent.set_position(move)
-
-  def hide_all_but_me (self, widget):
-    """Proof of concept: Maximize an instance of TerminatorTerm
-    """
-    self.window_child = self.window.get_children()[0]
-    self.old_parent = widget.get_box().get_parent()
-    self.foo = widget
-    self.bar = self.window_child
-    self.window.remove(self.window_child)
-    self.old_parent.remove(widget.get_box())
-    self.window.add(widget.get_box())
-    
-#    self.full_win.add(widget.get_box())
-    self.window.show_all()
-
-  def show_back_others(self, widget):
-    """Proof of concept: Go back to previous application 
-    widget structure.
-    """
-    self.foo = widget
-    
-    self.window.remove(widget.get_box())
-    self.window.add(self.window_child)
-
-    self.old_parent.add(widget.get_box())
-    self.window.show_all()
-
-  def restore(self):
-    num_of_widgets = len(self.widgets)
-    if num_of_widgets % 2 == 0:
-      print "Error numer of widgets must be "
-    print
-    print "###################################################"
-    for element in self.widgets:
-      print element
-    print "###################################################"
-    self.window.add (self.restore_tree (self.widgets[0]))
-    self.window.show_all()
-
-  def restore_tree(self, widget):
-    if isinstance(widget, TerminatorTerm):
-      print """RESTORING %s which is child of %s.""" % (widget, widget.get_box().get_parent())
-      return widget.get_box()
-    else:
-      i = self.widgets.index(widget)
-      widget.add1 (self.restore_tree (self.widgets[i+1]))
-      widget.add2 (self.restore_tree (self.widgets[i+2]))
-      widget.show()
-      return widget
 
   def get_first_parent_paned (self, widget, vertical = None):
     """This method returns the first parent pane of a widget.
@@ -901,6 +878,26 @@ class Terminator:
   def reconfigure_vtes (self):
     for term in self.term_list:
       term.reconfigure_vte ()
+
+  def hide_all_but_me (self, widget):
+    """Proof of concept: Maximize to full window                                         
+    an instance of TerminatorTerm.           
+    """
+    self.window_child = self.window.get_children()[0]
+    self.old_parent = widget.get_parent()
+    self.window.remove(self.window_child)
+    self.old_parent.remove(widget)
+    self.window.add(widget)
+    self.window.show_all()
+
+  def show_back_others(self, widget):
+    """Proof of concept: Go back to previous application                                 
+    widget structure.                        
+    """
+    self.window.remove(widget)
+    self.window.add(self.window_child)
+    self.old_parent.add(widget)
+    self.window.show_all()
 
 if __name__ == '__main__':
 
