@@ -534,12 +534,8 @@ class TerminatorTerm (gtk.VBox):
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("Maximize T_erminal"))
-    item.connect ("activate", lambda menu_item: self.terminator.hide_all_but_me (self))
-    menu.append (item)
-
-    item = gtk.MenuItem (_("Go B_ack"))
-    item.connect ("activate", lambda menu_item: self.terminator.show_back_others (self))
+    item = gtk.MenuItem (_("M_aximize/Unmaximize"))
+    item.connect ("activate", lambda menu_item: self.terminator.fullwindow (self))
     menu.append (item)
 
     item = gtk.MenuItem ()
@@ -884,12 +880,20 @@ class Terminator:
     for term in self.term_list:
       term.reconfigure_vte ()
 
+  def fullwindow(self, widget):
+    if not self._fullwindow:
+      self.hide_all_but_me(widget)
+    else:
+      self.show_back_others(widget)
+
   def hide_all_but_me (self, widget):
     """Proof of concept: Maximize to full window                                         
     an instance of TerminatorTerm.           
     """
-    self.window_child = self.window.get_children()[0]
     self.old_parent = widget.get_parent()
+    if isinstance(self.old_parent, gtk.Window):
+      return
+    self.window_child = self.window.get_children()[0]
     self.window.remove(self.window_child)
     self.old_parent.remove(widget)
     self.window.add(widget)
@@ -900,12 +904,15 @@ class Terminator:
     """Proof of concept: Go back to previous application                                 
     widget structure.                        
     """
-    self.window.remove(widget)
-    self.window.add(self.window_child)
-    self.old_parent.add(widget)
-    self.window.show_all()
-    self._fullwindow = False
-
+    if self._fullwindow:
+      self.window.remove(widget)
+      self.window.add(self.window_child)
+      self.old_parent.add(widget)
+      self.window.show_all()
+      self._fullwindow = False
+      return
+    else:
+      return
 if __name__ == '__main__':
 
   def execute_cb (option, opt, value, parser):
