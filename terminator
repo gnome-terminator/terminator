@@ -103,11 +103,9 @@ class TerminatorTerm (gtk.VBox):
     self._title.show()
     self._titlebox =  gtk.EventBox()
     self._titlebox.add(self._title)
-    
     self.show()
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
-    
     if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
       if len(self.terminator.term_list) == 1:
         self.terminator.term_list[0]._titlebox.show()
@@ -150,12 +148,10 @@ class TerminatorTerm (gtk.VBox):
     self.add_matches()
 
     env_proxy = os.getenv ('http_proxy')
-    if not env_proxy:
+    if not env_proxy and self.conf.http_proxy:
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    if self.spawn_child () == -1:
-      # We failed to usefully create a child shell, we need to kill ourself
-      gobject.timeout_add (100, self.terminator.closeterm, self)
+    os.putenv ('COLORTERM', 'gnome-terminal')
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -209,10 +205,13 @@ class TerminatorTerm (gtk.VBox):
     if not os.path.exists (shell):
       # Give up, we're completely stuck
       print >> sys.stderr, _('Unable to find a shell')
+      gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
     
     if not args:
       args.append (shell)
+
+    os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
@@ -345,7 +344,7 @@ class TerminatorTerm (gtk.VBox):
 
     # Set our sloppiness
     self.focus = self.conf.focus
-  
+
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
@@ -524,6 +523,8 @@ class TerminatorTerm (gtk.VBox):
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     menu.append (item)
 
+    self._do_encoding_items (menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -535,11 +536,9 @@ class TerminatorTerm (gtk.VBox):
     item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
     menu.append (item)
 
-    self._do_encoding_items(menu)
-        
     item = gtk.MenuItem ()
     menu.append (item)
-    
+
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -547,65 +546,61 @@ class TerminatorTerm (gtk.VBox):
     menu.show_all ()
     return menu
 
-
   def on_encoding_change (self, widget, encoding):
-    current = self._vte.get_encoding()
+    current = self._vte.get_encoding ()
     if current != encoding:
-      print ('Setting Encoding to ' + encoding)
-      self._vte.set_encoding(encoding)
+      dbg ('Setting Encoding to: %s'%encoding)
+      self._vte.set_encoding (encoding)
       
-  def _do_encoding_items(self, menu):
-    
-    
+  def _do_encoding_items (self, menu):
+    active_encodings = self.conf.active_encodings
     item = gtk.MenuItem (_("Encodings"))
-    menu.append(item)
-    submenu = gtk.Menu()
-    item.set_submenu(submenu)
-    
+    menu.append (item)
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
     
     current_encoding = self._vte.get_encoding ()
     group = None
-    for encoding in self.conf.active_encodings:
-      radioitem = gtk.RadioMenuItem(group, _(encoding))
+    for encoding in active_encodings:
+      radioitem = gtk.RadioMenuItem (group, _(encoding))
       if group is None:
         group = radioitem
         
       if encoding == current_encoding:
-        radioitem.set_active(True)
+        radioitem.set_active (True)
       
-      radioitem.connect('activate', self.on_encoding_change, encoding)
-      submenu.append(radioitem)
+      radioitem.connect ('activate', self.on_encoding_change, encoding)
+      submenu.append (radioitem)
       
     item = gtk.MenuItem (_("Other Encodings"))
-    submenu.append(item)
+    submenu.append (item)
     #second level
 
-    submenu = gtk.Menu()
-    item.set_submenu(submenu)
-    encodings = TerminatorEncoding().get_list()
-    encodings.sort(lambda x, y: cmp(x[2].lower(), y[2].lower()))
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    encodings = TerminatorEncoding ().get_list ()
+    encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
     group = None
+
     for encoding in encodings:
-      if encoding[1] in self.conf.active_encodings:
+      if encoding[1] in active_encodings:
         #already in active_encodings
         continue
       label = ""
       if encoding[1] is None:
-        label = encoding[2]+" "+self._vte.get_encoding()
+        label = "%s %s"%(encoding[2], self._vte.get_encoding ())
       else:
-        label = encoding[2]+" "+encoding[1]
+        label = "%s %s"%(encoding[2], encoding[1])
         
-      radioitem = gtk.RadioMenuItem(group, label)
+      radioitem = gtk.RadioMenuItem (group, label)
       if group is None:
         group = radioitem
         
       if encoding[1] == current_encoding:
-        radioitem.set_active(True)
+        radioitem.set_active (True)
       
-      radioitem.connect('activate', self.on_encoding_change, encoding[1])
-      submenu.append(radioitem)
-      
-      
+      radioitem.connect ('activate', self.on_encoding_change, encoding[1])
+      submenu.append (radioitem)
    
   def on_vte_title_change(self, vte):
     if self.conf.titletips:
@@ -688,6 +683,7 @@ class Terminator:
 
     self.window.add (term)
     self.window.show ()
+    term.spawn_child ()
 
   def maximize (self):
     """ Maximize the Terminator window."""
@@ -805,6 +801,7 @@ class Terminator:
     pane.show ()
     pane.set_position (position / 2)
     terminal.show ()
+    terminal.spawn_child ()
 
     # insert the term reference into the list
     index = self.term_list.index (widget)

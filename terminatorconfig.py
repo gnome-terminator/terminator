@@ -174,7 +174,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     #set up the active encoding list
     self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
     
-      #need to handle the list of Gconf.value
+    #need to handle the list of Gconf.value
     if profile in profiles:
       dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)
@@ -218,7 +218,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     value = None
 
     dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
-    
+
     # FIXME: Ugly special cases we should look to fix in some other way.
     if key == 'font' and self.use_system_font:
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
@@ -242,8 +242,6 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
             self.client.get_int ('/system/http_proxy/port'))
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
-      
-    
 
     if value:
       funcname = "get_" + self.defaults[key].__class__.__name__
