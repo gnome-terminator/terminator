@@ -584,9 +584,8 @@ class TerminatorTerm (gtk.VBox):
 
     for encoding in encodings:
       if encoding[1] in active_encodings:
-        #already in active_encodings
         continue
-      label = ""
+
       if encoding[1] is None:
         label = "%s %s"%(encoding[2], self._vte.get_encoding ())
       else:
