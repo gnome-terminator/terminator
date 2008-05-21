@@ -42,6 +42,17 @@ from terminatorlib.config import dbg
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
 
+# Sort out cwd detection code, if available
+pid_get_cwd = lambda pid: None
+if platform.system() == 'FreeBSD':
+  try:
+    from terminatorlib import freebsd
+    pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
+  except:
+    pass
+elif platform.system == 'Linux':
+  pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
@@ -224,16 +235,7 @@ class TerminatorTerm (gtk.VBox):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    cwd = None
-    system = platform.system ()
-
-    if system == 'Linux':
-      try:
-        cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
-      except:
-        pass
-
-    return (cwd)
+    return (pid_get_cwd(self._pid))
 
   def reconfigure_vte (self):
     # Set our emulation
