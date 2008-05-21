@@ -84,7 +84,7 @@ setup(name='Terminator',
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
                  ],
-      py_modules=['terminatorconfig', 'terminatorencoding'],
+      packages=['terminatorlib'],
       cmdclass={'build': BuildData, 'install_data': InstallData}
      )
 

@@ -36,11 +36,11 @@ except:
 import pwd
 
 # import our configuration loader
-import terminatorconfig
-from terminatorconfig import dbg
+from terminatorlib import config
+from terminatorlib.config import dbg
 
 #import encoding list
-from terminatorencoding import TerminatorEncoding
+from terminatorlib.encoding import TerminatorEncoding
 
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
@@ -632,17 +632,17 @@ class Terminator:
     self._fullscreen = False
     self.term_list = []
     stores = []
-    stores.append (terminatorconfig.TerminatorConfValuestoreRC ())
+    stores.append (config.TerminatorConfValuestoreRC ())
 
     try:
       import gconf
-      store = terminatorconfig.TerminatorConfValuestoreGConf ()
+      store = config.TerminatorConfValuestoreGConf ()
       store.set_reconfigure_callback (self.reconfigure_vtes)
       stores.append (store)
     except:
       pass
 
-    self.conf = terminatorconfig.TerminatorConfig (stores)
+    self.conf = config.TerminatorConfig (stores)
 
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
