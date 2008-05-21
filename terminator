@@ -37,6 +37,7 @@ import pwd
 
 # import our configuration loader
 import terminatorconfig
+from terminatorconfig import dbg
 
 #import encoding list
 from terminatorencoding import TerminatorEncoding
