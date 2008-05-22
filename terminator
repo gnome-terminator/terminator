@@ -612,7 +612,13 @@ text/plain
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
-
+      elif keyname  == 'Page_Down':
+          self.terminator.move_tab(self, 'right')
+          return (True)
+      elif keyname == 'Page_Up':
+          self.terminator.move_tab(self, 'left')
+          return (True)
+      
     mask = gtk.gdk.CONTROL_MASK
     if (event.state & mask) == mask:
       if keyname  == 'Page_Down':
@@ -1002,6 +1008,7 @@ class Terminator:
       parent.insert_page(pane, None, page)
       parent.set_tab_label_text(pane, widget._vte.get_window_title())
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
       
 
@@ -1046,10 +1053,70 @@ class Terminator:
     return (terminal)
 
   def on_page_reordered(self, notebook, child, page_num):
+    #page has been reordered, we need to get the
+    # first term and last term
     dbg ("Reordered: %d"%page_num)
+    nbpages = notebook.get_n_pages()
+    if nbpages == 1:
+      dbg("[ERROR] only one page in on_page_reordered")
       
+    first = self._notebook_first_term(notebook.get_nth_page(page_num))
+    last = self._notebook_last_term(notebook.get_nth_page(page_num))
+    firstidx = self.term_list.index(first)
+    lastidx = self.term_list.index(last)
+    termslice = self.term_list[firstidx:lastidx+1]
+    #remove them from the list
+    for term in termslice:
+      self.term_list.remove(term)
+      
+    if page_num == 0:
+      #first page, we insert before the first term of next page
+      nexttab = notebook.get_nth_page(1)
+      sibling = self._notebook_first_term(nexttab)
+      siblingindex = self.term_list.index(sibling)
+      for term in  termslice:
+        self.term_list.insert(siblingindex, term)
+        siblingindex += 1
+    else:
+      #other pages, we insert after the last term of previous page
+      previoustab = notebook.get_nth_page(page_num - 1)
+      sibling = self._notebook_last_term(previoustab)
+      print sibling
+      siblingindex = self.term_list.index(sibling)
+      for term in  termslice:
+        siblingindex += 1
+        self.term_list.insert(siblingindex, term)
+      
+  #for page reorder, we need to get the first term of a notebook
+  def notebook_first_term(self, notebook):
+    return self._notebook_first_term(notebook.get_nth_page(0))
+  
+  def _notebook_first_term(self, child):
+    if isinstance(child, TerminatorTerm):
+      return child
+    elif isinstance(child, gtk.Paned):
+      return self._notebook_first_term(child.get_child1())
+    elif isinstance(child, gtk.Notebook):
+      return self._notebook_first_term(child.get_nth_page(0))
     
+    dbg("[ERROR] unsupported class %s in _notebook_first_term" % child.__class__.__name__)
+    return None
+  
+  #for page reorder, we need to get the last term of a notebook
+  def notebook_last_term(self, notebook):
+    return self._notebook_last_term(notebook.get_nth_page(notebook.get_n_pages()-1))
+  
+  def _notebook_last_term(self, child):
+    if isinstance(child, TerminatorTerm):
+      return child
+    elif isinstance(child, gtk.Paned):
+      return self._notebook_first_term(child.get_child2())
+    elif isinstance(child, gtk.Notebook):
+      return self._notebook_first_term(child.get_nth_page(child.get_n_pages()-1))
     
+    dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
+    return None
+  
   def newtab(self,widget):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     parent   = widget.get_parent ()
@@ -1057,6 +1124,7 @@ class Terminator:
     if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
       #no notebook yet.
       notebook = gtk.Notebook()
+      notebook.set_tab_pos(gtk.POS_TOP)
       notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
       notebook.set_tab_reorderable(widget, True)
@@ -1159,6 +1227,8 @@ class Terminator:
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        grandparent.set_tab_reorderable(sibling, True)
+        
         
       else:
         grandparent.remove (parent)
@@ -1307,6 +1377,26 @@ class Terminator:
     notebook.next_page()
     return
   
+  def move_tab(self, term, direction):
+    dbg("moving to direction %s" % direction)
+    (notebook, page) = self.get_first_notebook_page(term)
+    page_num = notebook.page_num(page)
+    nbpages = notebook.get_n_pages()
+    #dbg ("%s %s %s %s" % (page_num, nbpages,notebook, page))
+    if page_num == 0 and direction == 'left':
+      new_page_num = nbpages  
+    elif page_num == nbpages - 1 and direction == 'right':
+      new_page_num = 0
+    elif direction == 'left':
+      new_page_num = page_num - 1
+    elif direction == 'right':
+      new_page_num = page_num + 1
+    else:
+      dbg("[ERROR] unhandled combination in move_tab: direction = %s page_num = %d" % (direction, page_num))
+      return False
+    notebook.reorder_child(page, new_page_num)
+    return True
+    
   def get_first_parent_notebook(self, widget):
     if isinstance (widget, gtk.Window):
       return None
