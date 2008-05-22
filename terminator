@@ -1045,47 +1045,60 @@ class Terminator:
     
   def newtab(self,widget):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    widgetbox = widget
-    parent   = widgetbox.get_parent ()
+    parent   = widget.get_parent ()
     
     if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
       #no notebook yet.
       notebook = gtk.Notebook()
       notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
-      notebook.set_tab_reorderable(widgetbox, True)
+      notebook.set_tab_reorderable(widget, True)
       
       if isinstance(parent, gtk.Paned):
-        if parent.get_child1() == widgetbox:
-          widgetbox.reparent(notebook)
+        if parent.get_child1() == widget:
+          widget.reparent(notebook)
           parent.pack1(notebook)
         else:
-          widgetbox.reparent(notebook)
+          widget.reparent(notebook)
           parent.pack2(notebook)
       elif isinstance(parent, gtk.Window):
-         widgetbox.reparent(notebook)
+         widget.reparent(notebook)
          parent.add(notebook)
-      notebook.set_tab_reorderable(widgetbox,True)
+      notebook.set_tab_reorderable(widget,True)
       notebooklabel = ""
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
-      notebook.set_tab_label_text(widgetbox, notebooklabel)    
-      notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+      notebook.set_tab_label_text(widget, notebooklabel)    
+      notebook. set_tab_label_packing(widget, True, True, gtk.PACK_START)
       notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
     else:
       return (False)
     
-    notebook.append_page(terminal,terminal._vte.get_window_title())
-    notebook. set_tab_label_packing(terminal, True, True, gtk.PACK_START)
-    notebook.set_tab_reorderable(terminal,True)
-    notebook.set_current_page(-1)
-    index = self.term_list.index(widget)
-    self.term_list.insert (index + 1, terminal)
+    ## NOTE
+    ## Here we need to append to the notebook before we can 
+    ## spawn the terminal (WINDOW_ID needs to be set)
+    
+    notebook.append_page(terminal,None)
     terminal.show ()
     terminal.spawn_child ()
+    ## Some gtk/vte weirdness
+    ## If we don't use this silly test,
+    ## terminal._vte.get_window_title() might return
+    ## bogus values
+    notebooklabel = ""
+    if terminal._vte.get_window_title() is not None:
+      notebooklabel = terminal._vte.get_window_title()
+    notebook.set_tab_label_text(terminal, notebooklabel)
+    notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
+    notebook.set_tab_reorderable(terminal,True)
+    ## Now, we set focus on the new term
+    notebook.set_current_page(-1)
     terminal._vte.grab_focus ()
+
+    index = self.term_list.index(widget)
+    self.term_list.insert (index + 1, terminal)
     return (True)
       
       
