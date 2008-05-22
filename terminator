@@ -184,16 +184,17 @@ class TerminatorTerm (gtk.VBox):
     os.putenv ('COLORTERM', 'gnome-terminal')
 
   def on_drag_begin(self, widget, drag_context, data):
+    dbg ('Drag begins')
     if os.path.exists("/usr/share/icons/hicolor/48x48/apps/terminator.png"):
       widget.drag_source_set_icon_pixbuf( gtk.gdk.pixbuf_new_from_file("/usr/share/icons/hicolor/48x48/apps/terminator.png"))
     
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
-    print "Drag data get"
+    dbg ("Drag data get")
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
   
     
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
-    #print "Drag Motion on ",
+    dbg ("Drag Motion on ")
     """
 x-special/gnome-icon-list
 text/uri-list
@@ -205,7 +206,6 @@ text/plain;charset=utf-8
 text/plain;charset=UTF-8
 text/plain
     """
-    #print "motion"
       
     if 'text/plain' in drag_context.targets:
       #copy text from another widget
@@ -260,12 +260,11 @@ text/plain
 
       
   def on_drag_drop(self, widget, drag_context, x, y, time):
-    print "Drag Drop on",
     parent = widget.get_parent()
-    print parent,
+    dbg ('Drag drop on %s'%parent)
     
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
-    print "Drag Data Received on "
+    dbg ("Drag Data Received")
     if selection_data.type == 'text/plain':
       #copy text to destination
       #print "%s %s" % (selection_data.type, selection_data.target)
@@ -279,7 +278,7 @@ text/plain
     srcvte = drag_context.get_source_widget()
     #check if computation requireds
     if (isinstance(srcvte, gtk.EventBox) and srcvte == self._titlebox) or srcvte == widget:
-      print "on itself"
+      dbg ("  on itself")
       return
     
     srchbox = widgetsrc
@@ -288,7 +287,7 @@ text/plain
     dstpaned = dsthbox.get_parent()
     srcpaned = srchbox.get_parent()
     if isinstance(dstpaned, gtk.Window) and isinstance(srcpaned, gtk.Window):
-      print "Only one terminal"
+      dbg ("  Only one terminal")
       return
     pos = self.get_location(widget, x, y)
     
@@ -1040,7 +1039,7 @@ class Terminator:
     return (terminal)
 
   def on_page_reordered(self, notebook, child, page_num):
-    print page_num
+    dbg ("Reordered: %d"%page_num)
       
     
     
