@@ -1012,6 +1012,7 @@ class Terminator:
       else:
         widget.reparent (pane)
         parent.pack2 (pane, True, True)
+
       if pos in ("top", "left"):
         pane.remove(widget)
         pane.pack1 (terminal, True, True)
@@ -1327,15 +1328,6 @@ class Terminator:
       term.reconfigure_vte ()
 
 if __name__ == '__main__':
-
-  def execute_cb (option, opt, value, parser):
-    assert value is None
-    value = []
-    while parser.rargs:
-      arg = parser.rargs[0]
-      value.append (arg)
-      del (parser.rargs[0])
-    setattr(parser.values, option.dest, value)
 
   def execute_cb (option, opt, value, parser):
     assert value is None
