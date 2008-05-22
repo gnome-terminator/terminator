@@ -35,8 +35,25 @@ except:
 # import unix-lib
 import pwd
 
+TARGET_TYPE_VTE = 8
+
 # import our configuration loader
-import terminatorconfig
+from terminatorlib import config
+from terminatorlib.config import dbg
+
+#import encoding list
+from terminatorlib.encoding import TerminatorEncoding
+
+# Sort out cwd detection code, if available
+pid_get_cwd = lambda pid: None
+if platform.system() == 'FreeBSD':
+  try:
+    from terminatorlib import freebsd
+    pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
+  except:
+    pass
+elif platform.system == 'Linux':
+  pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
 
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
@@ -121,10 +138,26 @@ class TerminatorTerm (gtk.VBox):
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
-    
+
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
+    
+    """drag and drop"""
+    srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ) ]
+    dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
+    self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
+    self._titlebox.drag_source_set( gtk.gdk.BUTTON1_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
+    #self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
+    self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
+    self._vte.connect("drag-begin", self.on_drag_begin, self)
+    self._titlebox.connect("drag-begin", self.on_drag_begin, self)
+    self._vte.connect("drag-data-get", self.on_drag_data_get, self)
+    self._titlebox.connect("drag-data-get", self.on_drag_data_get, self)
+    #for testing purpose: drag-motion
+    self._vte.connect("drag-motion", self.on_drag_motion, self)
+    self._vte.connect("drag-data-received", self.on_drag_data_received, self)
+    
     self._vte.connect ("composited-changed", self.on_composited_changed)
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
     self._vte.connect ("grab-focus", self.on_vte_focus)
@@ -149,6 +182,146 @@ class TerminatorTerm (gtk.VBox):
       os.putenv ('http_proxy', self.conf.http_proxy)
 
     os.putenv ('COLORTERM', 'gnome-terminal')
+
+  def on_drag_begin(self, widget, drag_context, data):
+    dbg ('Drag begins')
+    if os.path.exists("/usr/share/icons/hicolor/48x48/apps/terminator.png"):
+      widget.drag_source_set_icon_pixbuf( gtk.gdk.pixbuf_new_from_file("/usr/share/icons/hicolor/48x48/apps/terminator.png"))
+    
+  def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
+    dbg ("Drag data get")
+    selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
+  
+    
+  def on_drag_motion(self, widget, drag_context, x, y, time, data): 
+    dbg ("Drag Motion on ")
+    """
+x-special/gnome-icon-list
+text/uri-list
+UTF8_STRING
+COMPOUND_TEXT
+TEXT
+STRING
+text/plain;charset=utf-8
+text/plain;charset=UTF-8
+text/plain
+    """
+      
+    if 'text/plain' in drag_context.targets:
+      #copy text from another widget
+      return
+    srcwidget = drag_context.get_source_widget()
+    if (isinstance(srcwidget, gtk.EventBox) and srcwidget == self._titlebox) or widget == srcwidget:
+      #on self
+      return
+
+    
+    alloc = widget.allocation
+    rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
+    widget.window.invalidate_rect(rect, True)
+    widget.window.process_updates(True)
+    
+    context = widget.window.cairo_create()
+    if self.conf.use_theme_colors:
+      color = self._vte.get_style ().text[gtk.STATE_NORMAL]
+    else:
+      color = gtk.gdk.color_parse (self.conf.foreground_color)
+    
+    
+    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
+     
+    pos = self.get_location(widget, x, y)
+    topleft = (0,0)
+    topright = (alloc.width,0)
+    topmiddle = (alloc.width/2,0)
+    bottomleft = (0, alloc.height)
+    bottomright = (alloc.width,alloc.height)
+    bottommiddle = (alloc.width/2, alloc.height)
+    middle = (alloc.width/2, alloc.height/2)
+    middleleft = (0, alloc.height/2)
+    middleright = (alloc.width, alloc.height/2)
+    #print "%f %f %d %d" %(coef1, coef2, b1,b2)
+    coord = ()
+    if pos == "right":
+      coord = (topright, topmiddle, bottommiddle, bottomright)
+    if pos == "top":
+      coord = (topleft, topright, middleright , middleleft) 
+    if pos == "left":
+      coord = (topleft, topmiddle, bottommiddle, bottomleft)
+    if pos == "bottom":
+      coord = (bottomleft, bottomright, middleright , middleleft) 
+     
+    if len(coord) > 0 :
+      context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
+      for i in coord:
+        context.line_to(i[0],i[1])
+      
+      context.fill()
+
+      
+  def on_drag_drop(self, widget, drag_context, x, y, time):
+    parent = widget.get_parent()
+    dbg ('Drag drop on %s'%parent)
+    
+  def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
+    dbg ("Drag Data Received")
+    if selection_data.type == 'text/plain':
+      #copy text to destination
+      #print "%s %s" % (selection_data.type, selection_data.target)
+      txt = selection_data.data.strip()
+      if txt[0:7] == "file://":
+        txt = "'%s'" % txt[7:]
+      self._vte.feed_child(txt)
+      return
+      
+    widgetsrc = data.terminator.term_list[int(selection_data.data)]
+    srcvte = drag_context.get_source_widget()
+    #check if computation requireds
+    if (isinstance(srcvte, gtk.EventBox) and srcvte == self._titlebox) or srcvte == widget:
+      dbg ("  on itself")
+      return
+    
+    srchbox = widgetsrc
+    dsthbox = widget.get_parent().get_parent()
+    
+    dstpaned = dsthbox.get_parent()
+    srcpaned = srchbox.get_parent()
+    if isinstance(dstpaned, gtk.Window) and isinstance(srcpaned, gtk.Window):
+      dbg ("  Only one terminal")
+      return
+    pos = self.get_location(widget, x, y)
+    
+    data.terminator.remove(widgetsrc)
+    data.terminator.add(self, widgetsrc,pos)
+    return
+    
+  def get_location(self, vte, x, y):
+    pos = ""
+    #get the diagonales function for the receiving widget
+    coef1 = float(vte.allocation.height)/float(vte.allocation.width)
+    coef2 = -float(vte.allocation.height)/float(vte.allocation.width)
+    b1 = 0
+    b2 = vte.allocation.height
+     #determine position in rectangle
+    """
+    --------
+    |\    /|
+    | \  / |
+    |  \/  |
+    |  /\  |
+    | /  \ |
+    |/    \|
+    --------
+    """
+    if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
+      pos =  "right"
+    if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
+      pos = "top"
+    if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
+      pos = "left"
+    if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
+      pos = "bottom"
+    return pos
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -220,16 +393,8 @@ class TerminatorTerm (gtk.VBox):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    cwd = None
-    system = platform.system ()
 
-    if system == 'Linux':
-      try:
-        cwd = os.path.realpath ('/proc/%s/cwd' % self._pid)
-      except:
-        pass
-
-    return (cwd)
+    return (pid_get_cwd(self._pid))
 
   def reconfigure_vte (self):
     # Set our emulation
@@ -364,8 +529,8 @@ class TerminatorTerm (gtk.VBox):
       self._vte.grab_focus ()
       return False
 
-    # Right mouse button should display a context menu
-    if event.button == 3:
+    # Right mouse button should display a context menu if ctrl not pressed
+    if event.button == 3 and event.state & gtk.gdk.CONTROL_MASK == 0:
       self.do_popup (event)
       return True
 
@@ -434,10 +599,22 @@ class TerminatorTerm (gtk.VBox):
       elif keyname == 'S':
         self.do_scrollbar_toggle ()
         return (True)
+      elif keyname == 'T':
+        self.terminator.newtab(self)
+        return (True)
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
 
+    mask = gtk.gdk.CONTROL_MASK
+    if (event.state & mask) == mask:
+      if keyname  == 'Page_Down':
+          self.terminator.next_tab(self)
+          return (True)
+      elif keyname == 'Page_Up':
+          self.terminator.previous_tab(self)
+          return (True)
+    
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
         if event.state == gtk.gdk.CONTROL_MASK:
             self.terminator.go_next (self)
@@ -520,6 +697,8 @@ class TerminatorTerm (gtk.VBox):
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     menu.append (item)
 
+    self._do_encoding_items (menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -529,6 +708,10 @@ class TerminatorTerm (gtk.VBox):
 
     item = gtk.MenuItem (_("Split V_ertically"))
     item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
+    menu.append (item)
+    
+    item = gtk.MenuItem (_("Open _Tab"))
+    item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
     menu.append (item)
 
     item = gtk.MenuItem ()
@@ -548,6 +731,61 @@ class TerminatorTerm (gtk.VBox):
     menu.show_all ()
     return menu
 
+  def on_encoding_change (self, widget, encoding):
+    current = self._vte.get_encoding ()
+    if current != encoding:
+      dbg ('Setting Encoding to: %s'%encoding)
+      self._vte.set_encoding (encoding)
+      
+  def _do_encoding_items (self, menu):
+    active_encodings = self.conf.active_encodings
+    item = gtk.MenuItem (_("Encodings"))
+    menu.append (item)
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    
+    current_encoding = self._vte.get_encoding ()
+    group = None
+    for encoding in active_encodings:
+      radioitem = gtk.RadioMenuItem (group, _(encoding))
+      if group is None:
+        group = radioitem
+        
+      if encoding == current_encoding:
+        radioitem.set_active (True)
+      
+      radioitem.connect ('activate', self.on_encoding_change, encoding)
+      submenu.append (radioitem)
+      
+    item = gtk.MenuItem (_("Other Encodings"))
+    submenu.append (item)
+    #second level
+
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    encodings = TerminatorEncoding ().get_list ()
+    encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
+    group = None
+
+    for encoding in encodings:
+      if encoding[1] in active_encodings:
+        continue
+
+      if encoding[1] is None:
+        label = "%s %s"%(encoding[2], self._vte.get_encoding ())
+      else:
+        label = "%s %s"%(encoding[2], encoding[1])
+        
+      radioitem = gtk.RadioMenuItem (group, label)
+      if group is None:
+        group = radioitem
+        
+      if encoding[1] == current_encoding:
+        radioitem.set_active (True)
+      
+      radioitem.connect ('activate', self.on_encoding_change, encoding[1])
+      submenu.append (radioitem)
+   
   def on_vte_title_change(self, vte):
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
@@ -555,6 +793,10 @@ class TerminatorTerm (gtk.VBox):
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
     self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
+    notebookpage = self.terminator.get_first_notebook_page(vte)
+    while notebookpage != None:
+      notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+      notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
@@ -569,7 +811,14 @@ class TerminatorTerm (gtk.VBox):
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
       self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
-  
+      notebookpage = self.terminator.get_first_notebook_page(vte)
+      while notebookpage != None:
+        notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+        notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
+
+  def destroy(self):
+    self._vte.destroy()
+ 
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
 
@@ -580,17 +829,17 @@ class Terminator:
     self._fullscreen = False
     self.term_list = []
     stores = []
-    stores.append (terminatorconfig.TerminatorConfValuestoreRC ())
+    stores.append (config.TerminatorConfValuestoreRC ())
 
     try:
       import gconf
-      store = terminatorconfig.TerminatorConfValuestoreGConf ()
+      store = config.TerminatorConfValuestoreGConf ()
       store.set_reconfigure_callback (self.reconfigure_vtes)
       stores.append (store)
     except:
       pass
 
-    self.conf = terminatorconfig.TerminatorConfig (stores)
+    self.conf = config.TerminatorConfig (stores)
 
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
@@ -704,17 +953,20 @@ class Terminator:
       if keyname == 'Q':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
-        
+
   def set_window_title(self, title):
+    """
+    Modifies Terminator window title
+    """
     self.window.set_title(title)
     
-  def splitaxis (self, widget, vertical=True):
-    """ Split the provided widget on the horizontal or vertical axis. """
-    #should disable splitaxis menu instead?
-    if self._fullwindow:
-      return
+  def add(self, widget, terminal, pos = "bottom"):
+    """
+    Add a term to another at position pos
+    """
+    vertical = pos in ("top", "bottom")
+
     # create a new terminal and parent pane.
-    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal
@@ -723,15 +975,42 @@ class Terminator:
     if isinstance (parent, gtk.Window):
       # We have just one term
       widget.reparent (pane)
-
-      pane.pack1 (widget, True, True)
-      pane.pack2 (terminal, True, True)
-
+      if pos in ("top", "left"):
+        pane.remove(widget)
+        pane.pack1 (terminal, True, True)
+        pane.pack2 (widget, True, True)
+      else:
+        pane.pack1 (widget, True, True)
+        pane.pack2 (terminal, True, True)
       parent.add (pane)
 
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
+    if isinstance (parent, gtk.Notebook):
+      page = -1
+      for i in range(0, parent.get_n_pages()):
+        if parent.get_nth_page(i) == widget:
+          page = i
+          break
+      widget.reparent (pane)
+      if pos in ("top", "left"):
+        pane.remove(widget)
+        pane.pack1 (terminal, True, True)
+        pane.pack2 (widget, True, True)
+      else:
+        pane.pack1 (widget, True, True)
+        pane.pack2 (terminal, True, True)
+      #parent.remove_page(page)
+      pane.show()
+      parent.insert_page(pane, None, page)
+      parent.set_tab_label_text(pane, widget._vte.get_window_title())
+      parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_current_page(page)
+      
+
+      position = (vertical) and parent.allocation.height \
+                             or parent.allocation.width
     if isinstance (parent, gtk.Paned):
       # We are inside a split term
       position = (vertical) and widget.allocation.height \
@@ -744,6 +1023,14 @@ class Terminator:
         widget.reparent (pane)
         parent.pack2 (pane, True, True)
 
+      if pos in ("top", "left"):
+        pane.remove(widget)
+        pane.pack1 (terminal, True, True)
+        pane.pack2 (widget, True, True)
+      else:
+        pane.pack1 (widget, True, True)
+        pane.pack2 (terminal, True, True)
+        
       pane.pack1 (widget, True, True)
       pane.pack2 (terminal, True, True)
 
@@ -762,7 +1049,75 @@ class Terminator:
 
     return (terminal)
 
-  def closeterm (self, widget):
+  def on_page_reordered(self, notebook, child, page_num):
+    dbg ("Reordered: %d"%page_num)
+      
+  def newtab(self,widget):
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    widgetbox = widget
+    parent   = widgetbox.get_parent ()
+    
+    if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
+      #no notebook yet.
+      notebook = gtk.Notebook()
+      notebook.connect('page-reordered',self.on_page_reordered)
+      notebook.set_property('homogeneous', True)
+      notebook.set_tab_reorderable(widgetbox, True)
+      
+      if isinstance(parent, gtk.Paned):
+        if parent.get_child1() == widgetbox:
+          widgetbox.reparent(notebook)
+          parent.pack1(notebook)
+        else:
+          widgetbox.reparent(notebook)
+          parent.pack2(notebook)
+      elif isinstance(parent, gtk.Window):
+         widgetbox.reparent(notebook)
+         parent.add(notebook)
+      notebook.set_tab_reorderable(widgetbox,True)
+      notebooklabel = ""
+      if widget._vte.get_window_title() is not None:
+        notebooklabel = widget._vte.get_window_title()
+      notebook.set_tab_label_text(widgetbox, notebooklabel)    
+      notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+      notebook.show()  
+    elif isinstance(parent, gtk.Notebook):
+      notebook = parent
+    else:
+      return (False)
+    
+    notebook.append_page(terminal,terminal._vte.get_window_title())
+    notebook. set_tab_label_packing(terminal, True, True, gtk.PACK_START)
+    notebook.set_tab_reorderable(terminal,True)
+    notebook.set_current_page(-1)
+    index = self.term_list.index(widget)
+    self.term_list.insert (index + 1, terminal)
+    terminal.show ()
+    terminal.spawn_child ()
+    terminal._vte.grab_focus ()
+    return (True)
+      
+      
+    return terminal
+  
+  def splitaxis (self, widget, vertical=True):
+    """ Split the provided widget on the horizontal or vertical axis. """
+
+    #should disable splitaxis menu instead?
+    if self._fullwindow:
+      return
+
+    # create a new terminal and parent pane.
+    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    pos = vertical and "bottom" or "right"
+    self.add(widget, terminal, pos)
+    terminal.show ()
+    terminal.spawn_child ()
+    return terminal
+  
+  def remove(self, widget):
+    """Remove a TerminatorTerm from the Terminator view and terms list
+       Returns True on success, False on failure"""
     if self._fullwindow:
       self.show_back_others(widget)
 
@@ -788,14 +1143,27 @@ class Terminator:
       if not sibling:
         # something is wrong, give up
         print >> sys.stderr, "Error: %s is not a child of %s"%(widget, parent)
-        return
+        return False
 
-      self.term_list.remove (widget)
-      grandparent.remove (parent)
-      sibling.reparent (grandparent)
-      widget.destroy ()
+      parent.remove(widget)
+      if isinstance(grandparent, gtk.Notebook):
+        page = -1
+        for i in range(0, grandparent.get_n_pages()):
+          if grandparent.get_nth_page(i) == parent:
+            page = i
+            break
+        parent.remove(sibling)
+        grandparent.remove_page(page)
+        grandparent.insert_page(sibling, None,page)
+        grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        
+      else:
+        grandparent.remove (parent)
+        sibling.reparent (grandparent)
+        grandparent.resize_children()
       parent.destroy ()
-
+      self.term_list.remove (widget)
+ 
       if not isinstance (sibling, gtk.Paned):
         for term in self.term_list:
           if term == sibling:
@@ -804,10 +1172,39 @@ class Terminator:
       else:
         if index == 0: index = 1
         self.term_list[index - 1]._vte.grab_focus ()
-      if len(self.term_list) == 1:
-        self.term_list[0]._titlebox.hide()
+    elif isinstance (parent, gtk.Notebook):
+      parent.remove(widget)
+      nbpages = parent.get_n_pages()
+      index = self.term_list.index (widget)
+      self.term_list.remove (widget)
+      if nbpages == 1:
+        sibling = parent.get_nth_page(0)
+        parent.remove(sibling)
+        gdparent = parent.get_parent()
+        if isinstance(gdparent, gtk.Window):
+          gdparent.remove(parent)
+          gdparent.add(sibling)
+        elif isinstance(gdparent, gtk.Paned):
+          if gdparent.get_child1() == parent:
+            gdparent.remove(parent)
+            gdparent.pack1(sibling)
+          else:
+            gdparent.remove(parent)
+            gdparent.pack2(sibling)
+        parent.destroy()
+      if index == 0: index = 1
+      self.term_list[index - 1]._vte.grab_focus ()
+    
+    if len(self.term_list) == 1:
+      self.term_list[0]._titlebox.hide()
 
-    return
+    return True
+    
+  def closeterm (self, widget):
+    if self.remove(widget):
+      widget.destroy ()
+      return True
+    return False
 
   def go_next (self, term):
     current = self.term_list.index (term)
@@ -818,7 +1215,24 @@ class Terminator:
     else:
       next += 1
 
-    self.term_list[next]._vte.grab_focus ()
+    
+    nextterm = self.term_list[next]
+    if isinstance(nextterm.get_parent(), gtk.Notebook):
+      box = nextterm
+      parent = box.get_parent()
+      for i in range(0, parent.get_n_pages()):
+        if box == parent.get_nth_page(i):
+          parent.set_current_page(i)
+          break
+    notebookpage = self.get_first_notebook_page(nextterm)
+    if notebookpage:
+      child = None
+      for i in range(0, notebookpage[0].get_n_pages()):
+        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
+          notebookpage[0].set_current_page(i)
+          break
+    nextterm._vte.grab_focus ()
+      
 
   def go_prev (self, term):
     current = self.term_list.index (term)
@@ -830,7 +1244,23 @@ class Terminator:
       previous -= 1
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
-    self.term_list[previous]._vte.grab_focus ()
+    previousterm = self.term_list[previous]
+    if isinstance(previousterm.get_parent(), gtk.Notebook):
+      box = previousterm
+      parent = box.get_parent()
+      for i in range(0, parent.get_n_pages()):
+        if box == parent.get_nth_page(i):
+          parent.set_current_page(i)
+          break
+    notebookpage = self.get_first_notebook_page(previousterm)
+    if notebookpage:
+      child = None
+      for i in range(0, notebookpage[0].get_n_pages()):
+        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
+          notebookpage[0].set_current_page(i)
+          break
+    previousterm._vte.grab_focus ()
+    
 
   def resizeterm (self, widget, keyname):
     vertical = False
@@ -862,6 +1292,24 @@ class Terminator:
 
     parent.set_position(move)
 
+  def previous_tab(self, term):
+    notebook = self.get_first_parent_notebook(term)
+    notebook.prev_page()
+    return
+    
+  def next_tab(self, term):
+    notebook = self.get_first_parent_notebook(term)
+    notebook.next_page()
+    return
+  
+  def get_first_parent_notebook(self, widget):
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Notebook):
+        return parent
+    return self.get_first_parent_notebook(parent)
+  
   def get_first_parent_paned (self, widget, vertical = None):
     """This method returns the first parent pane of a widget.
     if vertical is True returns the first VPaned
@@ -877,6 +1325,17 @@ class Terminator:
     elif isinstance (parent, gtk.HPaned) and not vertical:
       return parent
     return self.get_first_parent_paned(parent, vertical)
+
+  def get_first_notebook_page(self, widget):
+    if isinstance (widget, gtk.Window):
+      return None
+    parent = widget.get_parent()
+    if isinstance (parent, gtk.Notebook):
+      page = -1
+      for i in range(0, parent.get_n_pages()):
+        if parent.get_nth_page(i) == widget:
+          return (parent, widget)
+    return self.get_first_notebook_page(parent)
 
   def reconfigure_vtes (self):
     for term in self.term_list:
@@ -915,6 +1374,7 @@ class Terminator:
       return
     else:
       return
+
 if __name__ == '__main__':
 
   def execute_cb (option, opt, value, parser):
