@@ -50,10 +50,15 @@ if platform.system() == 'FreeBSD':
   try:
     from terminatorlib import freebsd
     pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
+    dbg ('Using FreeBSD pid_get_cwd')
   except:
+    dbg ('FreeBSD version too old for pid_get_cwd')
     pass
-elif platform.system == 'Linux':
+elif platform.system() == 'Linux':
+  dbg ('Using Linux pid_get_cwd')
   pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+else:
+  dbg ('Unable to set a pid_get_cwd, unknown system: %s'%platform.system)
 
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
@@ -394,7 +399,9 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    return (pid_get_cwd(self._pid))
+    cwd = pid_get_cwd (self._pid)
+    dbg ('get_cwd found: %s'%cwd)
+    return (cwd)
 
   def reconfigure_vte (self):
     # Set our emulation
