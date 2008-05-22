@@ -136,7 +136,7 @@ class TerminatorTerm (gtk.VBox):
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
-    
+
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
@@ -758,7 +758,7 @@ class Terminator:
       if keyname == 'Q':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
-        
+
   def set_window_title(self, title):
     self.window.set_title(title)
     
