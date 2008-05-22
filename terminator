@@ -394,7 +394,9 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    return (pid_get_cwd(self._pid))
+    cwd = pid_get_cwd (self._pid)
+    dbg ('get_cwd found: %s'%cwd)
+    return (cwd)
 
   def reconfigure_vte (self):
     # Set our emulation
