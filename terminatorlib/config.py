@@ -58,21 +58,17 @@ class TerminatorConfig:
     self.sources.append (source)
     
   def __getattr__ (self, keyname):
-    dbg ("Config: Looking for: %s"%keyname)
+    dbg ("TConfig: Looking for: '%s'"%keyname)
     for source in self.sources:
       try:
         val = getattr (source, keyname)
-        dbg ("Config: got: %s from a %s"%(val, source.type))
+        dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
         return (val)
       except:
-        dbg ("Config: no value found in %s."%source.type)
         pass
-    dbg ("Config: Out of sources")
-    raise (AttributeError)
 
-  def set_reconfigure_callback (self, function):
-    self.reconfigure_callback = function
-    return (True)
+    dbg (" TConfig: Out of sources")
+    raise (AttributeError)
 
 class TerminatorConfValuestore:
   type = "Base"
@@ -80,39 +76,48 @@ class TerminatorConfValuestore:
   reconfigure_callback = None
 
   # Our settings
-  # FIXME: Is it acceptable to not explicitly store the type, but
-  #         instead infer it from defaults[key].__class__.__name__
   defaults = {
-    'gt_dir'                : [str, '/apps/gnome-terminal'],
-    'profile_dir'           : [str, '/apps/gnome-terminal/profiles'],
-    'titlebars'             : [bool, True],
-    'titletips'             : [bool, False],
-    'allow_bold'            : [bool, False],
-    'silent_bell'           : [bool, True],
-    'background_color'      : [str, '#000000'],
-    'background_darkness'   : [float, 0.5],
-    'background_type'       : [str, 'solid'],
-    'backspace_binding'     : [str, 'ascii-del'],
-    'delete_binding'        : [str, 'delete-sequence'],
-    'cursor_blink'          : [bool, False],
-    'emulation'             : [str, 'xterm'],
-    'font'                  : [str, 'Serif 10'],
-    'foreground_color'      : [str, '#AAAAAA'],
-    'scrollbar_position'    : [str, "right"],
-    'scroll_background'     : [bool, True],
-    'scroll_on_keystroke'   : [bool, False],
-    'scroll_on_output'      : [bool, False],
-    'scrollback_lines'      : [int, 100],
-    'focus'                 : [str, 'sloppy'],
-    'exit_action'           : [str, 'close'],
-    'palette'               : [str, '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF'],
-    'word_chars'            : [str, '-A-Za-z0-9,./?%&#:_'],
-    'mouse_autohide'        : [bool, True],
+    'gt_dir'                : '/apps/gnome-terminal',
+    'profile_dir'           : '/apps/gnome-terminal/profiles',
+    'titlebars'             : True,
+    'titletips'             : False,
+    'allow_bold'            : False,
+    'silent_bell'           : True,
+    'background_color'      : '#000000',
+    'background_darkness'   : 0.5,
+    'background_type'       : 'solid',
+    'backspace_binding'     : 'ascii-del',
+    'delete_binding'        : 'delete-sequence',
+    'cursor_blink'          : False,
+    'emulation'             : 'xterm',
+    'font'                  : 'Serif 10',
+    'foreground_color'      : '#AAAAAA',
+    'scrollbar_position'    : "right",
+    'scroll_background'     : True,
+    'scroll_on_keystroke'   : False,
+    'scroll_on_output'      : False,
+    'scrollback_lines'      : 100,
+    'focus'                 : 'sloppy',
+    'exit_action'           : 'close',
+    'palette'               : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
+    'word_chars'            : '-A-Za-z0-9,./?%&#:_',
+    'mouse_autohide'        : True,
+    'update_records'        : True,
+    'login_shell'           : False,
+    'use_custom_command'    : False,
+    'custom_command'        : '',
+    'use_system_font'       : True,
+    'use_theme_colors'      : True,
+    'http_proxy'            : '',
+    'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
+    'encoding'              : 'UTF-8',
+    'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
+    'overlay_type'          : 'rectangle',
   }
 
   def __getattr__ (self, keyname):
     if self.values.has_key (keyname):
-      return self.values[keyname][1]
+      return self.values[keyname]
     else:
       raise (AttributeError)
 
@@ -127,7 +132,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   #       that can be re-used when rc changes.
   def __init__ (self):
     self.type = "RCFile"
-    self.rcfilename = pwd.getpwuid (os.getuid ())[5] + "/.terminatorrc"
+    self.rcfilename = os.path.join(os.path.expanduser("~"), ".terminatorrc")
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
       rc = rcfile.readlines ()
@@ -138,33 +143,44 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            dbg ("VS_RCFile: Setting value %s to %s"%(key, value))
-            self.values[key] = [self.defaults[key][0], self.defaults[key][0](value)]
+            dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
+            if value == 'True':
+              self.values[key] = True
+            elif value == 'False':
+              self.values[key] = False
         except:
+          dbg (" VS_RCFile: Exception handling: %s"%item)
           pass
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
   client = None
+  cache = {}
 
   def __init__ (self, profile = None):
     self.type = "GConf"
 
+    import gconf
+
     self.client = gconf.client_get_default ()
 
     # Grab a couple of values from base class to avoid recursing with our __getattr__
-    self._gt_dir = self.defaults['gt_dir'][1]
-    self._profile_dir = self.defaults['profile_dir'][1]
+    self._gt_dir = self.defaults['gt_dir']
+    self._profile_dir = self.defaults['profile_dir']
 
     if not profile:
       profile = self.client.get_string (self._gt_dir + '/global/default_profile')
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
 
+    #set up the active encoding list
+    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+    
+    #need to handle the list of Gconf.value
     if profile in profiles:
-      dbg ("VSGConf: Found profile '%s' in profile_list"%profile)
+      dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
       self.profile = '%s/%s'%(self._profile_dir, profile)
     elif "Default" in profiles:
-      dbg ("VSGConf: profile '%s' not found, but 'Default' exists"%profile)
+      dbg (" VSGConf: profile '%s' not found, but 'Default' exists"%profile)
       self.profile = '%s/%s'%(self._profile_dir, "Default")
     else:
       # We're a bit stuck, there is no profile in the list
@@ -178,25 +194,69 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
     self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
     self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
+    self.client.add_dir ('/desktop/gnome/interface', gconf.CLIENT_PRELOAD_RECURSIVE)
+    self.client.notify_add ('/desktop/gnome/interface/monospace_font_name', self.on_gconf_notify)
+    # FIXME: Do we need to watch more non-profile stuff here?
+
+  def set_reconfigure_callback (self, function):
+    dbg (" VSConf: setting callback to: %s"%function)
+    self.reconfigure_callback = function
+    return (True)
 
   def on_gconf_notify (self, client, cnxn_id, entry, what):
+    dbg (" VSGConf: invalidating cache")
+    self.cache = {}
+    dbg (" VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
   def __getattr__ (self, key = ""):
-    ret = None
+    if self.cache.has_key (key):
+      dbg (" VSGConf: returning cached value: %s"%self.cache[key])
+      return (self.cache[key])
 
-    dbg ('VSGConf: preparing: %s/%s'%(self.profile, key))
-    value = self.client.get ('%s/%s'%(self.profile, key))
-    dbg ('VSGConf: getting: %s'%value)
+    ret = None
+    value = None
+
+    dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
+
+    # FIXME: Ugly special cases we should look to fix in some other way.
+    if key == 'font' and self.use_system_font:
+      value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
+    elif key == 'focus':
+      value = self.client.get ('/apps/metacity/general/focus_mode')
+    elif key == 'http_proxy':
+      if self.client.get_bool ('/system/http_proxy/use_http_proxy'):
+        dbg ('HACK: Mangling http_proxy')
+
+        if self.client.get_bool ('use_authentication'):
+          dbg ('HACK: Using proxy authentication')
+          value = 'http://%s:%s@%s:%s/'%(
+            self.client.get_string ('/system/http_proxy/authentication_user'), 
+            self.client.get_string ('/system/http_proxy/authentication_password'), 
+            self.client.get_string ('/system/http_proxy/host'), 
+            self.client.get_int ('/system/http_proxy/port'))
+        else:
+          dbg ('HACK: Not using proxy authentication')
+          value = 'http://%s:%s/'%(
+            self.client.get_string ('/system/http_proxy/host'),
+            self.client.get_int ('/system/http_proxy/port'))
+    else:
+      value = self.client.get ('%s/%s'%(self.profile, key))
+
     if value:
-      funcname = "get_" + self.defaults[key][0].__name__
+      funcname = "get_" + self.defaults[key].__class__.__name__
+      dbg ('  GConf: picked function: %s'%funcname)
       # Special case for str
       if funcname == "get_str":
         funcname = "get_string"
+      # Special case for strlist
+      if funcname == "get_strlist":
+        funcname = "get_list"
       typefunc = getattr (value, funcname)
       ret = typefunc ()
 
+      self.cache[key] = ret
       return (ret)
     else:
       raise (AttributeError)
@@ -230,4 +290,7 @@ if __name__ == '__main__':
   print foo.titletips
 
   # This should raise AttributeError
-  print foo.blimnle
+  #print foo.blimnle
+
+  # http_proxy is a value that is allowed to not exist
+  print "final proxy: %s"%foo.http_proxy

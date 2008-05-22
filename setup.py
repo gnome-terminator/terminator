@@ -2,11 +2,48 @@
 
 from distutils.core import setup
 from distutils.command.install_data import install_data
+from distutils.command.build import build
 from distutils.dep_util import newer
 from distutils.log import info
 import glob
 import os
 import sys
+
+def import_terminator():
+  from types import ModuleType
+  module = ModuleType('terminator')
+  module_file = open('terminator', 'r')
+  exec module_file in module.__dict__
+  return module
+
+APP_VERSION = import_terminator().APP_VERSION
+
+PO_DIR = 'po'
+MO_DIR = os.path.join('build', 'mo')
+WITHOUT_NLS = sys.platform == 'win32' or os.environ.has_key("WITHOUT_NLS")
+
+class BuildData(build):
+  def run (self):
+    build.run (self)
+
+    if WITHOUT_NLS:
+      return
+
+    for po in glob.glob (os.path.join (PO_DIR, '*.po')):
+      lang = os.path.basename(po[:-3])
+      mo = os.path.join(MO_DIR, lang + '.mo')
+
+      directory = os.path.dirname(mo)
+      if not os.path.exists(directory):
+        info('creating %s' % directory)
+        os.makedirs(directory)
+
+      if newer(po, mo):
+        cmd = 'msgfmt -o %s %s' % (mo, po)
+        info('compiling %s -> %s' % (po, mo))
+        if os.system(cmd) != 0:
+          raise SystemExit('Error while running msgfmt')
+
 
 class InstallData(install_data):
   def run (self):
@@ -17,39 +54,24 @@ class InstallData(install_data):
     data_files = []
 
     # Don't install language files on win32
-    if sys.platform == 'win32':
+    if WITHOUT_NLS:
       return data_files
 
-    PO_DIR = 'po'
-    for po in glob.glob (os.path.join (PO_DIR,'*.po')):
-      lang = os.path.basename(po[:-3])
-      mo = os.path.join('build', 'mo', lang, 'terminator.mo')
-
-      directory = os.path.dirname(mo)
-      if not os.path.exists(directory):
-        info('creating %s' % directory)
-        os.makedirs(directory)
-
-      if newer(po, mo):
-        # True if mo doesn't exist
-        cmd = 'msgfmt -o %s %s' % (mo, po)
-        info('compiling %s -> %s' % (po, mo))
-        if os.system(cmd) != 0:
-          raise SystemExit('Error while running msgfmt')
-
-        dest = os.path.dirname(os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo'))
-        data_files.append((dest, [mo]))
+    for mo in glob.glob (os.path.join (MO_DIR, '*.mo')):
+      lang = os.path.basename(mo[:-3])
+      dest = os.path.dirname(os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo'))
+      data_files.append((dest, [mo]))
 
     return data_files
 
 
 setup(name='Terminator',
-      version='0.8.1',
+      version=APP_VERSION,
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
       author_email='cmsj@tenshu.net',
       url='http://www.tenshu.net/terminator/',
-      license='GPL v2',
+      license='GNU GPL v2',
       scripts=['terminator'],
       data_files=[
                   ('share/applications', ['data/terminator.desktop']),
@@ -62,6 +84,7 @@ setup(name='Terminator',
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
                  ],
-      cmdclass={'install_data': InstallData}
+      packages=['terminatorlib'],
+      cmdclass={'build': BuildData, 'install_data': InstallData}
      )
 
