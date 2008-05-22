@@ -498,6 +498,9 @@ text/plain
       if self.scrollbar_position == 'hidden' or self.scrollbar_position == 'disabled':
         self._scrollbar.hide ()
       else:
+        print
+        print self.scrollbar_position
+        print
         self._scrollbar.show ()
         if self.scrollbar_position == 'right':
           self._termbox.reorder_child (self._vte, 0)
@@ -1354,11 +1357,12 @@ class Terminator:
     self.old_parent = widget.get_parent()
     if isinstance(self.old_parent, gtk.Window):
       return
+    if isinstance(self.old_parent, gtk.Notebook):
+      self.old_page = self.old_parent.get_current_page()
     self.window_child = self.window.get_children()[0]
     self.window.remove(self.window_child)
     self.old_parent.remove(widget)
     self.window.add(widget)
-    self.window.show_all()
     self._fullwindow = True
 
   def show_back_others(self, widget):
@@ -1369,7 +1373,9 @@ class Terminator:
       self.window.remove(widget)
       self.window.add(self.window_child)
       self.old_parent.add(widget)
-      self.window.show_all()
+      if isinstance(self.old_parent, gtk.Notebook):
+        self.old_parent.set_current_page(self.old_page)
+        print "\nPARENT IS A NOTEBOOK\n"
       self._fullwindow = False
       return
     else:
