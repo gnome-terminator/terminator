@@ -240,33 +240,16 @@ text/plain
     middle = (alloc.width/2, alloc.height/2)
     middleleft = (0, alloc.height/2)
     middleright = (alloc.width, alloc.height/2)
-    overlay_type = self.conf.overlay_type
     #print "%f %f %d %d" %(coef1, coef2, b1,b2)
     coord = ()
     if pos == "right":
-      #print "right"
-      if overlay_type == "triangle":
-        coord = (topright, middle, bottomright)
-      else:
-        coord = (topright, topmiddle, bottommiddle, bottomright)
+      coord = (topright, topmiddle, bottommiddle, bottomright)
     if pos == "top":
-      #print "top"
-      if overlay_type == "triangle":
-        coord = (topleft, middle, topright)
-      else:
-        coord = (topleft, topright, middleright , middleleft) 
+      coord = (topleft, topright, middleright , middleleft) 
     if pos == "left":
-      #print "left"
-      if overlay_type == "triangle":
-        coord = (topleft, middle, bottomleft)
-      else:
-        coord = (topleft, topmiddle, bottommiddle, bottomleft)
+      coord = (topleft, topmiddle, bottommiddle, bottomleft)
     if pos == "bottom":
-      #print "bottom"
-      if overlay_type == "triangle":
-        coord = (bottomleft, middle, bottomright)
-      else:
-        coord = (bottomleft, bottomright, middleright , middleleft) 
+      coord = (bottomleft, bottomright, middleright , middleleft) 
      
     if len(coord) > 0 :
       context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
