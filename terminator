@@ -710,7 +710,9 @@ class Terminator:
     
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
-
+    #should disable splitaxis menu instead?
+    if self._fullwindow:
+      return
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
