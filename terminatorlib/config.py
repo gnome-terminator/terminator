@@ -32,7 +32,7 @@ AttributeError. This is by design. If you want to look something
 up, set a default for it first."""
 
 # import standard python libs
-import os, sys
+import os, sys, re
 
 # import unix-lib
 import pwd
@@ -129,6 +129,7 @@ class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
 
 class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
+  splitter = re.compile("\s*=\s*")
   #FIXME: use inotify to watch the rc, split __init__ into a parsing function
   #       that can be re-used when rc changes.
   def __init__ (self):
@@ -143,7 +144,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
         try:
           item = item.strip ()
           if item and item[0] != '#':
-            (key, value) = item.split ("=")
+            (key, value) = self.splitter.split (item)
             if value.lower () == 'true':
               self.values[key] = True
             elif value.lower () == 'false':
@@ -151,8 +152,8 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
             else:
               self.values[key] = value
             dbg (" VS_RCFile: Set value '%s' to '%s'"%(key, self.values[key]))
-        except:
-          dbg (" VS_RCFile: Exception handling: %s"%item)
+        except Exception, e:
+          dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), item))
           pass
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
