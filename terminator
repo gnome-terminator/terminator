@@ -1045,7 +1045,9 @@ class Terminator:
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
-    self.term_list.insert (index + 1, terminal)
+    if pos in ('bottom', 'right'):
+      index = index + 1
+    self.term_list.insert (index, terminal)
     
     # make the new terminal grab the focus
     terminal._vte.grab_focus ()
@@ -1081,7 +1083,6 @@ class Terminator:
       #other pages, we insert after the last term of previous page
       previoustab = notebook.get_nth_page(page_num - 1)
       sibling = self._notebook_last_term(previoustab)
-      print sibling
       siblingindex = self.term_list.index(sibling)
       for term in  termslice:
         siblingindex += 1
@@ -1110,9 +1111,9 @@ class Terminator:
     if isinstance(child, TerminatorTerm):
       return child
     elif isinstance(child, gtk.Paned):
-      return self._notebook_first_term(child.get_child2())
+      return self._notebook_last_term(child.get_child2())
     elif isinstance(child, gtk.Notebook):
-      return self._notebook_first_term(child.get_nth_page(child.get_n_pages()-1))
+      return self._notebook_last_term(child.get_nth_page(child.get_n_pages()-1))
     
     dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
     return None
@@ -1232,6 +1233,7 @@ class Terminator:
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
         grandparent.set_tab_reorderable(sibling, True)
+        grandparent.set_current_page(page)
         
         
       else:
@@ -1269,9 +1271,9 @@ class Terminator:
             gdparent.remove(parent)
             gdparent.pack2(sibling)
         parent.destroy()
-      if index == 0: index = 1
-      self.term_list[index - 1]._vte.grab_focus ()
-    
+    if index == 0: index = 1
+    self.term_list[index - 1]._vte.grab_focus ()
+    self._set_current_notebook_page_recursive(self.term_list[index - 1])
     if len(self.term_list) == 1:
       self.term_list[0]._titlebox.hide()
 
@@ -1294,20 +1296,9 @@ class Terminator:
 
     
     nextterm = self.term_list[next]
-    if isinstance(nextterm.get_parent(), gtk.Notebook):
-      box = nextterm
-      parent = box.get_parent()
-      for i in range(0, parent.get_n_pages()):
-        if box == parent.get_nth_page(i):
-          parent.set_current_page(i)
-          break
-    notebookpage = self.get_first_notebook_page(nextterm)
-    if notebookpage:
-      child = None
-      for i in range(0, notebookpage[0].get_n_pages()):
-        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
-          notebookpage[0].set_current_page(i)
-          break
+    ##we need to set the current page of each notebook
+    self._set_current_notebook_page_recursive(nextterm)
+    
     nextterm._vte.grab_focus ()
       
 
@@ -1322,24 +1313,19 @@ class Terminator:
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     previousterm = self.term_list[previous]
-    if isinstance(previousterm.get_parent(), gtk.Notebook):
-      box = previousterm
-      parent = box.get_parent()
-      for i in range(0, parent.get_n_pages()):
-        if box == parent.get_nth_page(i):
-          parent.set_current_page(i)
-          break
-    notebookpage = self.get_first_notebook_page(previousterm)
-    if notebookpage:
-      child = None
-      for i in range(0, notebookpage[0].get_n_pages()):
-        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
-          notebookpage[0].set_current_page(i)
-          break
+    ##we need to set the current page of each notebook
+    self._set_current_notebook_page_recursive(previousterm)
     previousterm._vte.grab_focus ()
     
     
-     
+  def _set_current_notebook_page_recursive(self, widget):
+    page = self.get_first_notebook_page(widget)
+    while page:
+      child = None
+      page_num = page[0].page_num(page[1])
+      page[0].set_current_page(page_num)
+      page = self.get_first_notebook_page(page[0])
+      
 
   def resizeterm (self, widget, keyname):
     vertical = False
