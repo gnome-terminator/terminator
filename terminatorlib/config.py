@@ -144,13 +144,13 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            dbg (" VS_RCFile: Setting value '%s' to '%s'"%(key, value))
             if value == 'True':
               self.values[key] = True
             elif value == 'False':
               self.values[key] = False
             else:
               self.values[key] = value
+            dbg (" VS_RCFile: Set value '%s' to '%s'"%(key, self.values[key]))
         except:
           dbg (" VS_RCFile: Exception handling: %s"%item)
           pass
