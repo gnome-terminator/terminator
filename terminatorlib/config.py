@@ -86,6 +86,7 @@ class TerminatorConfValuestore:
     'background_color'      : '#000000',
     'background_darkness'   : 0.5,
     'background_type'       : 'solid',
+    'background_image'      : '',
     'backspace_binding'     : 'ascii-del',
     'delete_binding'        : 'delete-sequence',
     'cursor_blink'          : False,
