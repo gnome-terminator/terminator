@@ -868,7 +868,7 @@ class Terminator:
     self.window.connect ("destroy", self.on_destroy_event)
 
     self.window.set_property ('allow-shrink', True)
-
+    
     if fullscreen:
       self.fullscreen_toggle ()
 
@@ -971,6 +971,11 @@ class Terminator:
     Modifies Terminator window title
     """
     self.window.set_title(title)
+
+  def handle_moved(self, *args):
+    print "Handle-Move called"
+    for arg in args:
+      print arg
     
   def add(self, widget, terminal, pos = "bottom"):
     """
@@ -978,6 +983,10 @@ class Terminator:
     """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
+
+    #Store pane's handle position in percentage in pane itself
+    setattr(pane, "ratio", 50)
+    pane.connect("accept-position", self.handle_moved)
 
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
@@ -1047,7 +1056,7 @@ class Terminator:
 
     # show all, set position of the divider
     pane.show ()
-    pane.set_position (position / 2)
+    pane.set_position (position * pane.ratio / 100)
     terminal.show ()
     terminal.spawn_child ()
 
@@ -1201,6 +1210,7 @@ class Terminator:
     if self._fullwindow:
       dbg ("splitaxis function called, but Terminator was in full-window mode.")      
       return
+
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pos = vertical and "bottom" or "right"
     self.add(widget, terminal, pos)
@@ -1252,7 +1262,7 @@ class Terminator:
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
-        grandparent.resize_children()
+#        grandparent.resize_children()
       parent.destroy ()
       self.term_list.remove (widget)
  
@@ -1294,8 +1304,8 @@ class Terminator:
     
   def closeterm (self, widget):
     if self._fullwindow:
-      self.show_back_others(widget)
       dbg ("closeterm function called while Terminator was in full-window mode.")    
+      self.show_back_others(widget)
       
     if self.remove(widget):
       widget.destroy ()
@@ -1357,9 +1367,6 @@ class Terminator:
           break
     previousterm._vte.grab_focus ()
     
-    
-     
-
   def resizeterm (self, widget, keyname):
     vertical = False
     if keyname in ('Up', 'Down'):
@@ -1378,9 +1385,9 @@ class Terminator:
 
     if keyname in ('Up', 'Down'):
       maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
-
     else:
       maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
+
     move = 10
     if keyname in ('Up', 'Left'):
       move = -10
@@ -1389,6 +1396,13 @@ class Terminator:
     move = min(maxi, move)
 
     parent.set_position(move)
+    if keyname in ('Up', 'Down'):
+      ratio = 100 * parent.get_child1().get_allocation().height / maxi
+    else:
+      ratio = 100 * parent.get_child1().get_allocation().width / maxi
+    setattr(parent, "ratio", ratio)
+    print parent.get_position()
+    print ratio
 
   def previous_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
@@ -1490,12 +1504,10 @@ class Terminator:
       self.old_parent.add(widget)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.set_current_page(self.old_page)
-        print "\nPARENT IS A NOTEBOOK\n"
       self._fullwindow = False
       return
     else:
       return
-
 
 if __name__ == '__main__':
 
