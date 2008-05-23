@@ -1171,8 +1171,12 @@ class Terminator:
     ## Now, we set focus on the new term
     notebook.set_current_page(-1)
     terminal._vte.grab_focus ()
-
-    index = self.term_list.index(widget)
+    
+    #adding a new tab, thus we need to get the 
+    # last term of the previous tab and add
+    # the new term just after
+    sibling = self._notebook_last_term(notebook.get_nth_page(notebook.page_num(terminal)-1))
+    index = self.term_list.index(sibling)
     self.term_list.insert (index + 1, terminal)
     return (True)
       

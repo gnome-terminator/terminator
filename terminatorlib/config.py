@@ -113,6 +113,7 @@ class TerminatorConfValuestore:
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
     'encoding'              : 'UTF-8',
     'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
+    'background_image'      : '',
   }
 
   def __getattr__ (self, keyname):
