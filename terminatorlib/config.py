@@ -81,7 +81,7 @@ class TerminatorConfValuestore:
     'profile_dir'           : '/apps/gnome-terminal/profiles',
     'titlebars'             : True,
     'titletips'             : False,
-    'allow_bold'            : False,
+    'allow_bold'            : True,
     'silent_bell'           : True,
     'background_color'      : '#000000',
     'background_darkness'   : 0.5,
