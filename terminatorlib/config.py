@@ -58,8 +58,8 @@ class TerminatorConfig:
     self.sources.append (source)
     
   def __getattr__ (self, keyname):
-    dbg ("TConfig: Looking for: '%s'"%keyname)
     for source in self.sources:
+      dbg ("TConfig: Looking for: '%s' in '%s'"%(keyname, source.type))
       try:
         val = getattr (source, keyname)
         dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
@@ -116,8 +116,10 @@ class TerminatorConfValuestore:
 
   def __getattr__ (self, keyname):
     if self.values.has_key (keyname):
+      dbg ("Returning '%s'"%keyname)
       return self.values[keyname]
     else:
+      dbg ("Failed to find '%s'"%keyname)
       raise (AttributeError)
 
 class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
@@ -142,11 +144,13 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
+            dbg (" VS_RCFile: Setting value '%s' to '%s'"%(key, value))
             if value == 'True':
               self.values[key] = True
             elif value == 'False':
               self.values[key] = False
+            else:
+              self.values[key] = value
         except:
           dbg (" VS_RCFile: Exception handling: %s"%item)
           pass
