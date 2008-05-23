@@ -145,12 +145,29 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = self.splitter.split (item)
-            if value.lower () == 'true':
-              self.values[key] = True
-            elif value.lower () == 'false':
-              self.values[key] = False
+
+            # Check if this is actually a key we care about
+            if not self.defaults.has_key (key):
+              raise AttributeError;
+
+            deftype = self.defaults[key].__class__.__name__
+            if deftype == 'bool':
+              if value.lower () == 'true':
+                self.values[key] = True
+              elif value.lower () == 'false':
+                self.values[key] = False
+              else:
+                raise AttributeError
+            elif deftype == 'int':
+              self.values[key] = int (value)
+            elif deftype == 'float':
+              self.values[key] = float (value)
+            elif deftype == 'list':
+              print >> sys.stderr, _("Reading list values from .terminatorrc is not currently supported")
+              raise ValueError
             else:
               self.values[key] = value
+
             dbg (" VS_RCFile: Set value '%s' to '%s'"%(key, self.values[key]))
         except Exception, e:
           dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), item))
