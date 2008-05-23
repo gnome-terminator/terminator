@@ -50,10 +50,15 @@ if platform.system() == 'FreeBSD':
   try:
     from terminatorlib import freebsd
     pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
+    dbg ('Using FreeBSD pid_get_cwd')
   except:
+    dbg ('FreeBSD version too old for pid_get_cwd')
     pass
-elif platform.system == 'Linux':
+elif platform.system() == 'Linux':
+  dbg ('Using Linux pid_get_cwd')
   pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+else:
+  dbg ('Unable to set a pid_get_cwd, unknown system: %s'%platform.system)
 
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
@@ -323,6 +328,7 @@ text/plain
       pos = "bottom"
     return pos
 
+
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
     passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
@@ -393,8 +399,9 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-
-    return (pid_get_cwd(self._pid))
+    cwd = pid_get_cwd (self._pid)
+    dbg ('get_cwd found: %s'%cwd)
+    return (cwd)
 
   def reconfigure_vte (self):
     # Set our emulation
@@ -498,9 +505,6 @@ text/plain
       if self.scrollbar_position == 'hidden' or self.scrollbar_position == 'disabled':
         self._scrollbar.hide ()
       else:
-        print
-        print self.scrollbar_position
-        print
         self._scrollbar.show ()
         if self.scrollbar_position == 'right':
           self._termbox.reorder_child (self._vte, 0)
@@ -608,7 +612,13 @@ text/plain
       elif keyname in ('Up', 'Down', 'Left', 'Right'):
           self.terminator.resizeterm (self, keyname)
           return (True)
-
+      elif keyname  == 'Page_Down':
+          self.terminator.move_tab(self, 'right')
+          return (True)
+      elif keyname == 'Page_Up':
+          self.terminator.move_tab(self, 'left')
+          return (True)
+      
     mask = gtk.gdk.CONTROL_MASK
     if (event.state & mask) == mask:
       if keyname  == 'Page_Down':
@@ -720,13 +730,6 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("M_aximize/Unmaximize"))
-    item.connect ("activate", lambda menu_item: self.terminator.fullwindow (self))
-    menu.append (item)
-
-    item = gtk.MenuItem ()
-    menu.append (item)
-
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -824,11 +827,9 @@ text/plain
  
 class Terminator:
   def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
-
     self.profile = profile
     self.command = command
-    
-    self._fullwindow = False
+
     self._fullscreen = False
     self.term_list = []
     stores = []
@@ -968,8 +969,6 @@ class Terminator:
     Add a term to another at position pos
     """
     vertical = pos in ("top", "bottom")
-
-    # create a new terminal and parent pane.
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
 
     # get the parent of the provided terminal
@@ -1009,6 +1008,7 @@ class Terminator:
       parent.insert_page(pane, None, page)
       parent.set_tab_label_text(pane, widget._vte.get_window_title())
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
       
 
@@ -1053,51 +1053,131 @@ class Terminator:
     return (terminal)
 
   def on_page_reordered(self, notebook, child, page_num):
+    #page has been reordered, we need to get the
+    # first term and last term
     dbg ("Reordered: %d"%page_num)
+    nbpages = notebook.get_n_pages()
+    if nbpages == 1:
+      dbg("[ERROR] only one page in on_page_reordered")
       
+    first = self._notebook_first_term(notebook.get_nth_page(page_num))
+    last = self._notebook_last_term(notebook.get_nth_page(page_num))
+    firstidx = self.term_list.index(first)
+    lastidx = self.term_list.index(last)
+    termslice = self.term_list[firstidx:lastidx+1]
+    #remove them from the list
+    for term in termslice:
+      self.term_list.remove(term)
+      
+    if page_num == 0:
+      #first page, we insert before the first term of next page
+      nexttab = notebook.get_nth_page(1)
+      sibling = self._notebook_first_term(nexttab)
+      siblingindex = self.term_list.index(sibling)
+      for term in  termslice:
+        self.term_list.insert(siblingindex, term)
+        siblingindex += 1
+    else:
+      #other pages, we insert after the last term of previous page
+      previoustab = notebook.get_nth_page(page_num - 1)
+      sibling = self._notebook_last_term(previoustab)
+      print sibling
+      siblingindex = self.term_list.index(sibling)
+      for term in  termslice:
+        siblingindex += 1
+        self.term_list.insert(siblingindex, term)
+      
+  #for page reorder, we need to get the first term of a notebook
+  def notebook_first_term(self, notebook):
+    return self._notebook_first_term(notebook.get_nth_page(0))
+  
+  def _notebook_first_term(self, child):
+    if isinstance(child, TerminatorTerm):
+      return child
+    elif isinstance(child, gtk.Paned):
+      return self._notebook_first_term(child.get_child1())
+    elif isinstance(child, gtk.Notebook):
+      return self._notebook_first_term(child.get_nth_page(0))
+    
+    dbg("[ERROR] unsupported class %s in _notebook_first_term" % child.__class__.__name__)
+    return None
+  
+  #for page reorder, we need to get the last term of a notebook
+  def notebook_last_term(self, notebook):
+    return self._notebook_last_term(notebook.get_nth_page(notebook.get_n_pages()-1))
+  
+  def _notebook_last_term(self, child):
+    if isinstance(child, TerminatorTerm):
+      return child
+    elif isinstance(child, gtk.Paned):
+      return self._notebook_first_term(child.get_child2())
+    elif isinstance(child, gtk.Notebook):
+      return self._notebook_first_term(child.get_nth_page(child.get_n_pages()-1))
+    
+    dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
+    return None
+  
   def newtab(self,widget):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    widgetbox = widget
-    parent   = widgetbox.get_parent ()
+    parent   = widget.get_parent ()
     
     if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
       #no notebook yet.
       notebook = gtk.Notebook()
+      notebook.set_tab_pos(gtk.POS_TOP)
       notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
-      notebook.set_tab_reorderable(widgetbox, True)
+      notebook.set_tab_reorderable(widget, True)
       
       if isinstance(parent, gtk.Paned):
-        if parent.get_child1() == widgetbox:
-          widgetbox.reparent(notebook)
+        if parent.get_child1() == widget:
+          widget.reparent(notebook)
           parent.pack1(notebook)
         else:
-          widgetbox.reparent(notebook)
+          widget.reparent(notebook)
           parent.pack2(notebook)
       elif isinstance(parent, gtk.Window):
-         widgetbox.reparent(notebook)
+         widget.reparent(notebook)
          parent.add(notebook)
-      notebook.set_tab_reorderable(widgetbox,True)
+      notebook.set_tab_reorderable(widget,True)
       notebooklabel = ""
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
-      notebook.set_tab_label_text(widgetbox, notebooklabel)    
-      notebook. set_tab_label_packing(widgetbox, True, True, gtk.PACK_START)
+      notebook.set_tab_label_text(widget, notebooklabel)    
+      notebook. set_tab_label_packing(widget, True, True, gtk.PACK_START)
       notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
     else:
       return (False)
     
-    notebook.append_page(terminal,terminal._vte.get_window_title())
-    notebook. set_tab_label_packing(terminal, True, True, gtk.PACK_START)
-    notebook.set_tab_reorderable(terminal,True)
-    notebook.set_current_page(-1)
-    index = self.term_list.index(widget)
-    self.term_list.insert (index + 1, terminal)
+    ## NOTE
+    ## Here we need to append to the notebook before we can 
+    ## spawn the terminal (WINDOW_ID needs to be set)
+    
+    notebook.append_page(terminal,None)
     terminal.show ()
     terminal.spawn_child ()
+    ## Some gtk/vte weirdness
+    ## If we don't use this silly test,
+    ## terminal._vte.get_window_title() might return
+    ## bogus values
+    notebooklabel = ""
+    if terminal._vte.get_window_title() is not None:
+      notebooklabel = terminal._vte.get_window_title()
+    notebook.set_tab_label_text(terminal, notebooklabel)
+    notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
+    notebook.set_tab_reorderable(terminal,True)
+    ## Now, we set focus on the new term
+    notebook.set_current_page(-1)
     terminal._vte.grab_focus ()
+    
+    #adding a new tab, thus we need to get the 
+    # last term of the previous tab and add
+    # the new term just after
+    sibling = self._notebook_last_term(notebook.get_nth_page(notebook.page_num(terminal)-1))
+    index = self.term_list.index(sibling)
+    self.term_list.insert (index + 1, terminal)
     return (True)
       
       
@@ -1105,11 +1185,6 @@ class Terminator:
   
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
-
-    #should disable splitaxis menu instead?
-    if self._fullwindow:
-      return
-
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pos = vertical and "bottom" or "right"
@@ -1121,9 +1196,6 @@ class Terminator:
   def remove(self, widget):
     """Remove a TerminatorTerm from the Terminator view and terms list
        Returns True on success, False on failure"""
-    if self._fullwindow:
-      self.show_back_others(widget)
-
     parent = widget.get_parent ()
     sibling = None
 
@@ -1159,6 +1231,8 @@ class Terminator:
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        grandparent.set_tab_reorderable(sibling, True)
+        
         
       else:
         grandparent.remove (parent)
@@ -1264,6 +1338,8 @@ class Terminator:
           break
     previousterm._vte.grab_focus ()
     
+    
+     
 
   def resizeterm (self, widget, keyname):
     vertical = False
@@ -1305,6 +1381,26 @@ class Terminator:
     notebook.next_page()
     return
   
+  def move_tab(self, term, direction):
+    dbg("moving to direction %s" % direction)
+    (notebook, page) = self.get_first_notebook_page(term)
+    page_num = notebook.page_num(page)
+    nbpages = notebook.get_n_pages()
+    #dbg ("%s %s %s %s" % (page_num, nbpages,notebook, page))
+    if page_num == 0 and direction == 'left':
+      new_page_num = nbpages  
+    elif page_num == nbpages - 1 and direction == 'right':
+      new_page_num = 0
+    elif direction == 'left':
+      new_page_num = page_num - 1
+    elif direction == 'right':
+      new_page_num = page_num + 1
+    else:
+      dbg("[ERROR] unhandled combination in move_tab: direction = %s page_num = %d" % (direction, page_num))
+      return False
+    notebook.reorder_child(page, new_page_num)
+    return True
+    
   def get_first_parent_notebook(self, widget):
     if isinstance (widget, gtk.Window):
       return None
@@ -1343,43 +1439,6 @@ class Terminator:
   def reconfigure_vtes (self):
     for term in self.term_list:
       term.reconfigure_vte ()
-
-  def fullwindow(self, widget):
-    if not self._fullwindow:
-      self.hide_all_but_me(widget)
-    else:
-      self.show_back_others(widget)
-
-  def hide_all_but_me (self, widget):
-    """Proof of concept: Maximize to full window                                         
-    an instance of TerminatorTerm.           
-    """
-    self.old_parent = widget.get_parent()
-    if isinstance(self.old_parent, gtk.Window):
-      return
-    if isinstance(self.old_parent, gtk.Notebook):
-      self.old_page = self.old_parent.get_current_page()
-    self.window_child = self.window.get_children()[0]
-    self.window.remove(self.window_child)
-    self.old_parent.remove(widget)
-    self.window.add(widget)
-    self._fullwindow = True
-
-  def show_back_others(self, widget):
-    """Proof of concept: Go back to previous application                                 
-    widget structure.                        
-    """
-    if self._fullwindow:
-      self.window.remove(widget)
-      self.window.add(self.window_child)
-      self.old_parent.add(widget)
-      if isinstance(self.old_parent, gtk.Notebook):
-        self.old_parent.set_current_page(self.old_page)
-        print "\nPARENT IS A NOTEBOOK\n"
-      self._fullwindow = False
-      return
-    else:
-      return
 
 if __name__ == '__main__':
 

@@ -32,7 +32,7 @@ AttributeError. This is by design. If you want to look something
 up, set a default for it first."""
 
 # import standard python libs
-import os, sys
+import os, sys, re
 
 # import unix-lib
 import pwd
@@ -58,8 +58,8 @@ class TerminatorConfig:
     self.sources.append (source)
     
   def __getattr__ (self, keyname):
-    dbg ("TConfig: Looking for: '%s'"%keyname)
     for source in self.sources:
+      dbg ("TConfig: Looking for: '%s' in '%s'"%(keyname, source.type))
       try:
         val = getattr (source, keyname)
         dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
@@ -81,11 +81,12 @@ class TerminatorConfValuestore:
     'profile_dir'           : '/apps/gnome-terminal/profiles',
     'titlebars'             : True,
     'titletips'             : False,
-    'allow_bold'            : False,
+    'allow_bold'            : True,
     'silent_bell'           : True,
     'background_color'      : '#000000',
     'background_darkness'   : 0.5,
     'background_type'       : 'solid',
+    'background_image'      : '',
     'backspace_binding'     : 'ascii-del',
     'delete_binding'        : 'delete-sequence',
     'cursor_blink'          : False,
@@ -112,12 +113,15 @@ class TerminatorConfValuestore:
     'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
     'encoding'              : 'UTF-8',
     'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
+    'background_image'      : '',
   }
 
   def __getattr__ (self, keyname):
     if self.values.has_key (keyname):
+      dbg ("Returning '%s'"%keyname)
       return self.values[keyname]
     else:
+      dbg ("Failed to find '%s'"%keyname)
       raise (AttributeError)
 
 class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
@@ -127,6 +131,7 @@ class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
 
 class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
+  splitter = re.compile("\s*=\s*")
   #FIXME: use inotify to watch the rc, split __init__ into a parsing function
   #       that can be re-used when rc changes.
   def __init__ (self):
@@ -141,14 +146,33 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
         try:
           item = item.strip ()
           if item and item[0] != '#':
-            (key, value) = item.split ("=")
-            dbg (" VS_RCFile: Setting value %s to %s"%(key, value))
-            if value == 'True':
-              self.values[key] = True
-            elif value == 'False':
-              self.values[key] = False
-        except:
-          dbg (" VS_RCFile: Exception handling: %s"%item)
+            (key, value) = self.splitter.split (item)
+
+            # Check if this is actually a key we care about
+            if not self.defaults.has_key (key):
+              raise AttributeError;
+
+            deftype = self.defaults[key].__class__.__name__
+            if deftype == 'bool':
+              if value.lower () == 'true':
+                self.values[key] = True
+              elif value.lower () == 'false':
+                self.values[key] = False
+              else:
+                raise AttributeError
+            elif deftype == 'int':
+              self.values[key] = int (value)
+            elif deftype == 'float':
+              self.values[key] = float (value)
+            elif deftype == 'list':
+              print >> sys.stderr, _("Reading list values from .terminatorrc is not currently supported")
+              raise ValueError
+            else:
+              self.values[key] = value
+
+            dbg (" VS_RCFile: Set value '%s' to '%s'"%(key, self.values[key]))
+        except Exception, e:
+          dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), item))
           pass
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
