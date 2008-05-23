@@ -144,9 +144,9 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
           item = item.strip ()
           if item and item[0] != '#':
             (key, value) = item.split ("=")
-            if value == 'True':
+            if value.lower () == 'true':
               self.values[key] = True
-            elif value == 'False':
+            elif value.lower () == 'false':
               self.values[key] = False
             else:
               self.values[key] = value
