@@ -1041,7 +1041,6 @@ class Terminator:
     pane.show ()
     pane.set_position (position / 2)
     terminal.show ()
-    terminal.spawn_child ()
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
