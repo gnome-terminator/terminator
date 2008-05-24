@@ -844,7 +844,6 @@ class Terminator:
       pass
 
     self.conf = config.TerminatorConfig (stores)
-
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
 
@@ -1426,7 +1425,6 @@ class Terminator:
       term.reconfigure_vte ()
 
 if __name__ == '__main__':
-
   def execute_cb (option, opt, value, parser):
     assert value is None
     value = []
@@ -1460,7 +1458,12 @@ if __name__ == '__main__':
     command.append (options.command)
   if (options.execute):
     command = options.execute
-
+  
+  if gtk.gdk.display_get_default() == None:
+    print >> sys.stderr, _("You need to run terminator in an X environment. " \
+    "Make sure DISPLAY is properly set")
+    sys.exit(1)
+  
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
