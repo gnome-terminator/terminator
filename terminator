@@ -1124,9 +1124,14 @@ class Terminator:
   
   def newtab(self,widget):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    parent   = widget.get_parent ()
-    
-    if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
+    if(self.conf.extreme_tabs):
+      parent = widget.get_parent ()
+      child = widget
+    else:
+      child = self.window.get_children()[0]
+      parent = child.get_parent()
+      
+    if isinstance(parent, gtk.Paned) or (isinstance(parent, gtk.Window) and (self.conf.extreme_tabs or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
       notebook.set_tab_pos(gtk.POS_TOP)
@@ -1135,24 +1140,26 @@ class Terminator:
       notebook.set_tab_reorderable(widget, True)
       
       if isinstance(parent, gtk.Paned):
-        if parent.get_child1() == widget:
-          widget.reparent(notebook)
+        if parent.get_child1() == child:
+          child.reparent(notebook)
           parent.pack1(notebook)
         else:
-          widget.reparent(notebook)
+          child.reparent(notebook)
           parent.pack2(notebook)
       elif isinstance(parent, gtk.Window):
-         widget.reparent(notebook)
+         child.reparent(notebook)
          parent.add(notebook)
-      notebook.set_tab_reorderable(widget,True)
+      notebook.set_tab_reorderable(child,True)
       notebooklabel = ""
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
-      notebook.set_tab_label_text(widget, notebooklabel)    
-      notebook. set_tab_label_packing(widget, True, True, gtk.PACK_START)
+      notebook.set_tab_label_text(child, notebooklabel)    
+      notebook. set_tab_label_packing(child, True, True, gtk.PACK_START)
       notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
+    elif isinstance(parent, gtk.Window) and isinstance(child, gtk.Notebook):
+      notebook = child
     else:
       return (False)
     
