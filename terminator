@@ -858,6 +858,7 @@ class Terminator:
     self.window.connect ("key-press-event", self.on_key_press)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
+    self.window.connect ("window-state-event", self.on_window_state_changed)
 
     self.window.set_property ('allow-shrink', True)
 
@@ -899,7 +900,12 @@ class Terminator:
       self.window.unfullscreen ()
     else:
       self.window.fullscreen ()
-    self._fullscreen = not self._fullscreen
+
+  def on_window_state_changed (self, window, event):
+    state = event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN
+    self._fullscreen = bool (state)
+
+    return (False)
 
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
