@@ -575,6 +575,12 @@ text/plain
         self.zoom (False)
         return (True)
 
+    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK | gtk.gdk.MOD1_MASK
+    if (event.state & mask) == mask:
+      #Top level tab
+      if keyname == 'T':
+        self.terminator.newtab (self, True)
+        return (True)
     # bindings that should be moved to Terminator as they all just call
     # a function of Terminator. It would be cleaner is TerminatorTerm
     # has absolutely no reference to Terminator.
@@ -727,6 +733,11 @@ text/plain
     item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
     menu.append (item)
 
+    if self.conf.extreme_tabs:
+      item = gtk.MenuItem (_("Open Top Level Tab"))
+      item.connect ("activate", lambda menu_item: self.terminator.newtab (self, True))
+      menu.append (item)
+      
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -1122,16 +1133,18 @@ class Terminator:
     dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
     return None
   
-  def newtab(self,widget):
+  def newtab(self,widget, toplevel = False):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    if(self.conf.extreme_tabs):
+    if self.conf.extreme_tabs and not toplevel:
       parent = widget.get_parent ()
       child = widget
     else:
       child = self.window.get_children()[0]
       parent = child.get_parent()
       
-    if isinstance(parent, gtk.Paned) or (isinstance(parent, gtk.Window) and (self.conf.extreme_tabs or not isinstance(child, gtk.Notebook))):
+    if isinstance(parent, gtk.Paned) or (isinstance(parent, gtk.Window) 
+       and
+       ((self.conf.extreme_tabs and not toplevel) or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
       notebook.set_tab_pos(gtk.POS_TOP)
