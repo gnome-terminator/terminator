@@ -126,7 +126,7 @@ class TerminatorTerm (gtk.VBox):
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
 
-    if self.conf.titlebars and len(self.terminator.term_list)>0:
+    if self.conf.titlebars:
       self._titlebox.show()
     else:
       self._titlebox.hide()
@@ -896,6 +896,7 @@ class Terminator:
     self.term_list = [term]
 
     self.window.add (term)
+    term._titlebox.hide()
     self.window.show ()
     term.spawn_child ()
 
@@ -1006,11 +1007,15 @@ class Terminator:
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
+    if (isinstance (parent, gtk.Notebook) or isinstance (parent, gtk.Window)) \
+      and \
+      widget.conf.titlebars:
+      #not the only term in the notebook/window anymore, need to reshow the title
+      widget._titlebox.show()
+      
     if isinstance (parent, gtk.Notebook):
       page = -1
-      #not the only term in the notebook anymore, need to reshow the title
-      if widget.conf.titlebars:
-        widget._titlebox.show()
+      
       for i in range(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           page = i
@@ -1061,13 +1066,13 @@ class Terminator:
     pane.show ()
     pane.set_position (position / 2)
     terminal.show ()
+    
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
     if pos in ('bottom', 'right'):
       index = index + 1
     self.term_list.insert (index, terminal)
-    
     # make the new terminal grab the focus
     terminal._vte.grab_focus ()
 
