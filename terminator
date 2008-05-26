@@ -490,8 +490,8 @@ text/plain
 
     # Set our audible belliness
     silent_bell = self.conf.silent_bell
-    self._vte.set_audible_bell = not silent_bell
-    self._vte.set_visible_bell = silent_bell
+    self._vte.set_audible_bell (not silent_bell)
+    self._vte.set_visible_bell (silent_bell)
 
     # Set our scrolliness
     self._vte.set_scrollback_lines (self.conf.scrollback_lines)
