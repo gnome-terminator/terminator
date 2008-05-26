@@ -125,9 +125,8 @@ class TerminatorTerm (gtk.VBox):
     self.show()
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
-    if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
-      if len(self.terminator.term_list) == 1:
-        self.terminator.term_list[0]._titlebox.show()
+
+    if self.conf.titlebars and len(self.terminator.term_list)>0:
       self._titlebox.show()
     else:
       self._titlebox.hide()
@@ -992,7 +991,6 @@ class Terminator:
     
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
-
     if isinstance (parent, gtk.Window):
       # We have just one term
       widget.reparent (pane)
@@ -1010,6 +1008,9 @@ class Terminator:
 
     if isinstance (parent, gtk.Notebook):
       page = -1
+      #not the only term in the notebook anymore, need to reshow the title
+      if widget.conf.titlebars:
+        widget._titlebox.show()
       for i in range(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           page = i
@@ -1138,6 +1139,8 @@ class Terminator:
   
   def newtab(self,widget, toplevel = False):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    #only one term, we don't show the title
+    terminal._titlebox.hide()
     if self.conf.extreme_tabs and not toplevel:
       parent = widget.get_parent ()
       child = widget
@@ -1268,6 +1271,9 @@ class Terminator:
         sibling.reparent (grandparent)
         grandparent.resize_children()
       parent.destroy ()
+      if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
+        sibling._titlebox.hide()
+        
       self.term_list.remove (widget)
  
       if not isinstance (sibling, gtk.Paned):
