@@ -1175,6 +1175,8 @@ class Terminator:
          parent.add(notebook)
       notebook.set_tab_reorderable(child,True)
       notebooklabel = ""
+      if isinstance(child, TerminatorTerm):
+        child._titlebox.hide()
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
       notebook.set_tab_label_text(child, notebooklabel)    
@@ -1308,6 +1310,8 @@ class Terminator:
           else:
             gdparent.remove(parent)
             gdparent.pack2(sibling)
+        if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
+          sibling._titlebox.show()
         parent.destroy()
     if index == 0: index = 1
     self.term_list[index - 1]._vte.grab_focus ()
