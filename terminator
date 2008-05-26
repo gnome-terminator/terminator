@@ -635,13 +635,16 @@ text/plain
           return (True)
     
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
-        if event.state == gtk.gdk.CONTROL_MASK:
-            self.terminator.go_next (self)
-            return (True)
+        mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
         if (event.state & mask) == mask:
             self.terminator.go_prev (self)
             return (True)
-
+        mask = gtk.gdk.CONTROL_MASK
+        if (event.state & mask) == mask:
+            self.terminator.go_next (self)
+            return (True)
+    # Warning, mask value is either gtk.gdk.CONTROL_MASK or gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
+    # if you intend to use it, reinit it
     return (False)
 
   def zoom (self, zoom_in):
@@ -986,7 +989,7 @@ class Terminator:
     """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
-
+    
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
 
