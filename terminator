@@ -135,10 +135,10 @@ class TerminatorTerm (gtk.VBox):
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
-    if self.scrollbar_position == 'right':
-      packfunc = self._termbox.pack_start
-    else:
+    if self.scrollbar_position == 'left':
       packfunc = self._termbox.pack_end
+    else:
+      packfunc = self._termbox.pack_start
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
