@@ -857,6 +857,17 @@ class Terminator:
       pass
 
     self.conf = config.TerminatorConfig (stores)
+    #changes to the Paned's handle_size can only be done
+    # once we loaded the configuration
+    
+    if self.conf.handle_size in range (0,6):
+      gtk.rc_parse_string("""
+        style "terminator-paned-style" {
+            GtkPaned::handle_size = %s 
+        }
+        
+        class "GtkPaned" style "terminator-paned-style"
+        """ % self.conf.handle_size)
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
 

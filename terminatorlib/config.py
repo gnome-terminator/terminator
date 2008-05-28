@@ -118,6 +118,7 @@ class TerminatorConfValuestore:
     'fullscreen'            : False,
     'borderless'            : False,
     'maximise'              : False,
+    'handle_size'           : -1,
   }
 
   def __getattr__ (self, keyname):
