@@ -743,6 +743,13 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
+    item = gtk.MenuItem (_("M_aximize/Unmaximize"))
+    item.connect ("activate", lambda menu_item: self.terminator.fullwindow (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -843,6 +850,7 @@ class Terminator:
     self.profile = profile
     self.command = command
 
+    self._fullwindow = False
     self._fullscreen = False
     self.term_list = []
     stores = []
@@ -1155,6 +1163,13 @@ class Terminator:
     return None
   
   def newtab(self,widget, toplevel = False):
+    ## Lines added for fullwidow (not fullscreen) support.
+    ## Disables adding new tab when a terminal is
+    ## maximized
+    if self._fullwindow:
+      dbg ("newtab function called, but Terminator was in full-window mode.")
+      return
+
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     #only one term, we don't show the title
     terminal._titlebox.hide()
@@ -1235,6 +1250,12 @@ class Terminator:
   
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
+    ## Lines added for fullwidow (not fullscreen) support.
+    ## Disables splitaxis when a terminal is maximized
+    if self._fullwindow:
+      dbg ("splitaxis function called, but Terminator was in full-window mode.")
+      return
+
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pos = vertical and "bottom" or "right"
@@ -1288,7 +1309,8 @@ class Terminator:
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
-        grandparent.resize_children()
+        if not self._fullwindow:
+          grandparent.resize_children()
       parent.destroy ()
       if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
         sibling._titlebox.hide()
@@ -1334,6 +1356,13 @@ class Terminator:
     return True
     
   def closeterm (self, widget):
+    ## Lines added for fullwidow (not fullscreen) support.
+    ## Disables adding new tab when a terminal is
+    ## maximized
+    if self._fullwindow:
+      dbg ("closeterm function called while in full-window mode. Restoring previous layout before closing.")
+      self.show_back_others(widget)
+
     if self.remove(widget):
       widget.destroy ()
       return True
@@ -1479,6 +1508,46 @@ class Terminator:
   def reconfigure_vtes (self):
     for term in self.term_list:
       term.reconfigure_vte ()
+
+  ## Full window mode functions
+
+  def fullwindow(self, widget):
+    if not self._fullwindow:
+      self.hide_all_but_me(widget)
+    else:
+      self.show_back_others(widget)
+
+  def hide_all_but_me (self, widget):
+    """Proof of concept: Maximize to full window                                         
+    an instance of TerminatorTerm.           
+    """
+    self.old_parent = widget.get_parent()
+    if isinstance(self.old_parent, gtk.Window):
+      return
+    if isinstance(self.old_parent, gtk.Notebook):
+      self.old_page = self.old_parent.get_current_page()
+    self.window_child = self.window.get_children()[0]
+    self.window.remove(self.window_child)
+    self.old_parent.remove(widget)
+    self.window.add(widget)
+    self._fullwindow = True
+
+  def show_back_others(self, widget):
+    """Proof of concept: Go back to previous application                                 
+    widget structure.                        
+    """
+    if self._fullwindow:
+      self.window.remove(widget)
+      self.window.add(self.window_child)
+      self.old_parent.add(widget)
+      if isinstance(self.old_parent, gtk.Notebook):
+        self.old_parent.set_current_page(self.old_page)
+        print "\nPARENT IS A NOTEBOOK\n"
+      self._fullwindow = False
+      return
+    else:
+      return
+
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
