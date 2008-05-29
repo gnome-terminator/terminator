@@ -182,7 +182,7 @@ class TerminatorTerm (gtk.VBox):
     self.add_matches()
 
     env_proxy = os.getenv ('http_proxy')
-    if not env_proxy and self.conf.http_proxy:
+    if not env_proxy and self.conf.http_proxy and self.conf.http_proxy != '':
       os.putenv ('http_proxy', self.conf.http_proxy)
 
     os.putenv ('COLORTERM', 'gnome-terminal')
