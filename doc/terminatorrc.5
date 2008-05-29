@@ -5,7 +5,7 @@
 This manual page documents briefly the
 .B termiatorrc config file.
 .PP 
-\fBterminatorrc\fP is an optional file for configure the terminator termial emulator. It is used if there is no gconf PROFILE on the system for configuring the options of the terminal(s).
+\fBterminatorrc\fP is an optional file to configure the terminator terminal emulator. It is used if there is no gconf PROFILE on the system for configuring the options of the terminal(s).
 .SH "OPTIONS"
 The options are defined one per line as \fB'OPTION = VALUE'\fR. The options are described below:
 
@@ -93,5 +93,21 @@ Default value: \fB\-A\-Za\-z0\-9,./?%&#:_\fR
 .B mouse_autohide \fR(boolean)
 Controls whether the mouse cursor should be hidden while typing. 
 Default value: \fBTrue\fR
+.TP 
+.B fullscreen \fR(boolean)
+Controls whether the Terminator window will be started in fullscreen mode
+Default value: \fBFalse\fR
+.TP 
+.B maximise \fR(boolean)
+Controls whether the Terminator window will be started maximised
+Default value: \fBFalse\fR
+.TP 
+.B borderless \fR(boolean)
+Controls whether the Terminator window will be started without window borders
+Default value: \fBFalse\fR
+.TP 
+.B handle_size
+Controls the width of the separator between terminals. Anything outside the range 0-5 (inclusive) will be ignored and use your default theme value.
+Default value: \fB-1\fR
 .SH "SEE ALSO"
 .BR gnome\-terminal(1)

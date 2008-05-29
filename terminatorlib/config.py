@@ -114,6 +114,11 @@ class TerminatorConfValuestore:
     'encoding'              : 'UTF-8',
     'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
     'background_image'      : '',
+    'extreme_tabs'          : False,
+    'fullscreen'            : False,
+    'borderless'            : False,
+    'maximise'              : False,
+    'handle_size'           : -1,
   }
 
   def __getattr__ (self, keyname):

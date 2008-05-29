@@ -125,9 +125,8 @@ class TerminatorTerm (gtk.VBox):
     self.show()
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
-    if  len(self.terminator.term_list) > 0 and self.conf.titlebars:
-      if len(self.terminator.term_list) == 1:
-        self.terminator.term_list[0]._titlebox.show()
+
+    if self.conf.titlebars:
       self._titlebox.show()
     else:
       self._titlebox.hide()
@@ -136,10 +135,10 @@ class TerminatorTerm (gtk.VBox):
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
       self._scrollbar.show ()
 
-    if self.scrollbar_position == 'right':
-      packfunc = self._termbox.pack_start
-    else:
+    if self.scrollbar_position == 'left':
       packfunc = self._termbox.pack_end
+    else:
+      packfunc = self._termbox.pack_start
 
     packfunc (self._vte)
     packfunc (self._scrollbar, False)
@@ -183,7 +182,7 @@ class TerminatorTerm (gtk.VBox):
     self.add_matches()
 
     env_proxy = os.getenv ('http_proxy')
-    if not env_proxy and self.conf.http_proxy:
+    if not env_proxy and self.conf.http_proxy and self.conf.http_proxy != '':
       os.putenv ('http_proxy', self.conf.http_proxy)
 
     os.putenv ('COLORTERM', 'gnome-terminal')
@@ -491,8 +490,8 @@ text/plain
 
     # Set our audible belliness
     silent_bell = self.conf.silent_bell
-    self._vte.set_audible_bell = not silent_bell
-    self._vte.set_visible_bell = silent_bell
+    self._vte.set_audible_bell (not silent_bell)
+    self._vte.set_visible_bell (silent_bell)
 
     # Set our scrolliness
     self._vte.set_scrollback_lines (self.conf.scrollback_lines)
@@ -575,6 +574,12 @@ text/plain
         self.zoom (False)
         return (True)
 
+    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK | gtk.gdk.MOD1_MASK
+    if (event.state & mask) == mask:
+      #Top level tab
+      if keyname == 'T':
+        self.terminator.newtab (self, True)
+        return (True)
     # bindings that should be moved to Terminator as they all just call
     # a function of Terminator. It would be cleaner is TerminatorTerm
     # has absolutely no reference to Terminator.
@@ -629,13 +634,16 @@ text/plain
           return (True)
     
     if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
-        if event.state == gtk.gdk.CONTROL_MASK:
-            self.terminator.go_next (self)
-            return (True)
+        mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
         if (event.state & mask) == mask:
             self.terminator.go_prev (self)
             return (True)
-
+        mask = gtk.gdk.CONTROL_MASK
+        if (event.state & mask) == mask:
+            self.terminator.go_next (self)
+            return (True)
+    # Warning, mask value is either gtk.gdk.CONTROL_MASK or gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
+    # if you intend to use it, reinit it
     return (False)
 
   def zoom (self, zoom_in):
@@ -727,13 +735,11 @@ text/plain
     item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
     menu.append (item)
 
-    item = gtk.MenuItem ()
-    menu.append (item)
-
-    item = gtk.MenuItem (_("M_aximize/Unmaximize"))
-    item.connect ("activate", lambda menu_item: self.terminator.fullwindow (self))
-    menu.append (item)
-
+    if self.conf.extreme_tabs:
+      item = gtk.MenuItem (_("Open Top Level Tab"))
+      item.connect ("activate", lambda menu_item: self.terminator.newtab (self, True))
+      menu.append (item)
+      
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -837,7 +843,6 @@ class Terminator:
     self.profile = profile
     self.command = command
 
-    self._fullwindow = False
     self._fullscreen = False
     self.term_list = []
     stores = []
@@ -852,7 +857,17 @@ class Terminator:
       pass
 
     self.conf = config.TerminatorConfig (stores)
-
+    #changes to the Paned's handle_size can only be done
+    # once we loaded the configuration
+    
+    if self.conf.handle_size in range (0,6):
+      gtk.rc_parse_string("""
+        style "terminator-paned-style" {
+            GtkPaned::handle_size = %s 
+        }
+        
+        class "GtkPaned" style "terminator-paned-style"
+        """ % self.conf.handle_size)
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
 
@@ -866,16 +881,17 @@ class Terminator:
     self.window.connect ("key-press-event", self.on_key_press)
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
+    self.window.connect ("window-state-event", self.on_window_state_changed)
 
     self.window.set_property ('allow-shrink', True)
-    
-    if fullscreen:
+
+    if fullscreen or self.conf.fullscreen:
       self.fullscreen_toggle ()
 
-    if maximise:
+    if maximise or self.conf.maximise:
       self.maximize ()
 
-    if borderless:
+    if borderless or self.conf.borderless:
       self.window.set_decorated (False)
 
     # Set RGBA colormap if possible so VTE can use real alpha
@@ -891,6 +907,7 @@ class Terminator:
     self.term_list = [term]
 
     self.window.add (term)
+    term._titlebox.hide()
     self.window.show ()
     term.spawn_child ()
 
@@ -907,7 +924,12 @@ class Terminator:
       self.window.unfullscreen ()
     else:
       self.window.fullscreen ()
-    self._fullscreen = not self._fullscreen
+
+  def on_window_state_changed (self, window, event):
+    state = event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN
+    self._fullscreen = bool (state)
+
+    return (False)
 
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
@@ -971,11 +993,6 @@ class Terminator:
     Modifies Terminator window title
     """
     self.window.set_title(title)
-
-  def handle_moved(self, *args):
-    print "Handle-Move called"
-    for arg in args:
-      print arg
     
   def add(self, widget, terminal, pos = "bottom"):
     """
@@ -983,14 +1000,10 @@ class Terminator:
     """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
-
-    #Store pane's handle position in percentage in pane itself
-    setattr(pane, "ratio", 50)
-    pane.connect("accept-position", self.handle_moved)
-
+    pane.handle_size = 1
+    
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
-
     if isinstance (parent, gtk.Window):
       # We have just one term
       widget.reparent (pane)
@@ -1006,8 +1019,15 @@ class Terminator:
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
+    if (isinstance (parent, gtk.Notebook) or isinstance (parent, gtk.Window)) \
+      and \
+      widget.conf.titlebars:
+      #not the only term in the notebook/window anymore, need to reshow the title
+      widget._titlebox.show()
+      
     if isinstance (parent, gtk.Notebook):
       page = -1
+      
       for i in range(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           page = i
@@ -1056,14 +1076,15 @@ class Terminator:
 
     # show all, set position of the divider
     pane.show ()
-    pane.set_position (position * pane.ratio / 100)
+    pane.set_position (position / 2)
     terminal.show ()
-    terminal.spawn_child ()
+    
 
     # insert the term reference into the list
     index = self.term_list.index (widget)
-    self.term_list.insert (index + 1, terminal)
-    
+    if pos in ('bottom', 'right'):
+      index = index + 1
+    self.term_list.insert (index, terminal)
     # make the new terminal grab the focus
     terminal._vte.grab_focus ()
 
@@ -1098,7 +1119,6 @@ class Terminator:
       #other pages, we insert after the last term of previous page
       previoustab = notebook.get_nth_page(page_num - 1)
       sibling = self._notebook_last_term(previoustab)
-      print sibling
       siblingindex = self.term_list.index(sibling)
       for term in  termslice:
         siblingindex += 1
@@ -1127,22 +1147,27 @@ class Terminator:
     if isinstance(child, TerminatorTerm):
       return child
     elif isinstance(child, gtk.Paned):
-      return self._notebook_first_term(child.get_child2())
+      return self._notebook_last_term(child.get_child2())
     elif isinstance(child, gtk.Notebook):
-      return self._notebook_first_term(child.get_nth_page(child.get_n_pages()-1))
+      return self._notebook_last_term(child.get_nth_page(child.get_n_pages()-1))
     
     dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
     return None
   
-  def newtab(self,widget):
-    if self._fullwindow:
-      dbg ("newtab function called, but Terminator was in full-window mode.")
-      return
-
+  def newtab(self,widget, toplevel = False):
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    parent   = widget.get_parent ()
-    
-    if isinstance(parent, gtk.Paned) or isinstance(parent, gtk.Window):
+    #only one term, we don't show the title
+    terminal._titlebox.hide()
+    if self.conf.extreme_tabs and not toplevel:
+      parent = widget.get_parent ()
+      child = widget
+    else:
+      child = self.window.get_children()[0]
+      parent = child.get_parent()
+      
+    if isinstance(parent, gtk.Paned) or (isinstance(parent, gtk.Window) 
+       and
+       ((self.conf.extreme_tabs and not toplevel) or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
       notebook.set_tab_pos(gtk.POS_TOP)
@@ -1151,24 +1176,28 @@ class Terminator:
       notebook.set_tab_reorderable(widget, True)
       
       if isinstance(parent, gtk.Paned):
-        if parent.get_child1() == widget:
-          widget.reparent(notebook)
+        if parent.get_child1() == child:
+          child.reparent(notebook)
           parent.pack1(notebook)
         else:
-          widget.reparent(notebook)
+          child.reparent(notebook)
           parent.pack2(notebook)
       elif isinstance(parent, gtk.Window):
-         widget.reparent(notebook)
+         child.reparent(notebook)
          parent.add(notebook)
-      notebook.set_tab_reorderable(widget,True)
+      notebook.set_tab_reorderable(child,True)
       notebooklabel = ""
+      if isinstance(child, TerminatorTerm):
+        child._titlebox.hide()
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
-      notebook.set_tab_label_text(widget, notebooklabel)    
-      notebook. set_tab_label_packing(widget, True, True, gtk.PACK_START)
+      notebook.set_tab_label_text(child, notebooklabel)    
+      notebook. set_tab_label_packing(child, True, True, gtk.PACK_START)
       notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
+    elif isinstance(parent, gtk.Window) and isinstance(child, gtk.Notebook):
+      notebook = child
     else:
       return (False)
     
@@ -1207,10 +1236,6 @@ class Terminator:
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
     # create a new terminal and parent pane.
-    if self._fullwindow:
-      dbg ("splitaxis function called, but Terminator was in full-window mode.")      
-      return
-
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
     pos = vertical and "bottom" or "right"
     self.add(widget, terminal, pos)
@@ -1257,13 +1282,17 @@ class Terminator:
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
         grandparent.set_tab_reorderable(sibling, True)
+        grandparent.set_current_page(page)
         
         
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
-#        grandparent.resize_children()
+        grandparent.resize_children()
       parent.destroy ()
+      if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
+        sibling._titlebox.hide()
+        
       self.term_list.remove (widget)
  
       if not isinstance (sibling, gtk.Paned):
@@ -1293,20 +1322,18 @@ class Terminator:
           else:
             gdparent.remove(parent)
             gdparent.pack2(sibling)
+        if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
+          sibling._titlebox.show()
         parent.destroy()
-      if index == 0: index = 1
-      self.term_list[index - 1]._vte.grab_focus ()
-    
+    if index == 0: index = 1
+    self.term_list[index - 1]._vte.grab_focus ()
+    self._set_current_notebook_page_recursive(self.term_list[index - 1])
     if len(self.term_list) == 1:
       self.term_list[0]._titlebox.hide()
 
     return True
     
   def closeterm (self, widget):
-    if self._fullwindow:
-      dbg ("closeterm function called while Terminator was in full-window mode.")    
-      self.show_back_others(widget)
-      
     if self.remove(widget):
       widget.destroy ()
       return True
@@ -1323,20 +1350,9 @@ class Terminator:
 
     
     nextterm = self.term_list[next]
-    if isinstance(nextterm.get_parent(), gtk.Notebook):
-      box = nextterm
-      parent = box.get_parent()
-      for i in range(0, parent.get_n_pages()):
-        if box == parent.get_nth_page(i):
-          parent.set_current_page(i)
-          break
-    notebookpage = self.get_first_notebook_page(nextterm)
-    if notebookpage:
-      child = None
-      for i in range(0, notebookpage[0].get_n_pages()):
-        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
-          notebookpage[0].set_current_page(i)
-          break
+    ##we need to set the current page of each notebook
+    self._set_current_notebook_page_recursive(nextterm)
+    
     nextterm._vte.grab_focus ()
       
 
@@ -1351,22 +1367,20 @@ class Terminator:
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     previousterm = self.term_list[previous]
-    if isinstance(previousterm.get_parent(), gtk.Notebook):
-      box = previousterm
-      parent = box.get_parent()
-      for i in range(0, parent.get_n_pages()):
-        if box == parent.get_nth_page(i):
-          parent.set_current_page(i)
-          break
-    notebookpage = self.get_first_notebook_page(previousterm)
-    if notebookpage:
-      child = None
-      for i in range(0, notebookpage[0].get_n_pages()):
-        if notebookpage[0].get_nth_page(i) == notebookpage[1]:
-          notebookpage[0].set_current_page(i)
-          break
+    ##we need to set the current page of each notebook
+    self._set_current_notebook_page_recursive(previousterm)
     previousterm._vte.grab_focus ()
     
+    
+  def _set_current_notebook_page_recursive(self, widget):
+    page = self.get_first_notebook_page(widget)
+    while page:
+      child = None
+      page_num = page[0].page_num(page[1])
+      page[0].set_current_page(page_num)
+      page = self.get_first_notebook_page(page[0])
+      
+
   def resizeterm (self, widget, keyname):
     vertical = False
     if keyname in ('Up', 'Down'):
@@ -1385,9 +1399,9 @@ class Terminator:
 
     if keyname in ('Up', 'Down'):
       maxi = parent.get_child1().get_allocation().height + parent.get_child2().get_allocation().height - 1
+
     else:
       maxi = parent.get_child1().get_allocation().width + parent.get_child2().get_allocation().width - 1
-
     move = 10
     if keyname in ('Up', 'Left'):
       move = -10
@@ -1396,13 +1410,6 @@ class Terminator:
     move = min(maxi, move)
 
     parent.set_position(move)
-    if keyname in ('Up', 'Down'):
-      ratio = 100 * parent.get_child1().get_allocation().height / maxi
-    else:
-      ratio = 100 * parent.get_child1().get_allocation().width / maxi
-    setattr(parent, "ratio", ratio)
-    print parent.get_position()
-    print ratio
 
   def previous_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
@@ -1473,44 +1480,7 @@ class Terminator:
     for term in self.term_list:
       term.reconfigure_vte ()
 
-  def fullwindow(self, widget):
-    if not self._fullwindow:
-      self.hide_all_but_me(widget)
-    else:
-      self.show_back_others(widget)
-
-  def hide_all_but_me (self, widget):
-    """Proof of concept: Maximize to full window                                         
-    an instance of TerminatorTerm.           
-    """
-    self.old_parent = widget.get_parent()
-    if isinstance(self.old_parent, gtk.Window):
-      return
-    if isinstance(self.old_parent, gtk.Notebook):
-      self.old_page = self.old_parent.get_current_page()
-    self.window_child = self.window.get_children()[0]
-    self.window.remove(self.window_child)
-    self.old_parent.remove(widget)
-    self.window.add(widget)
-    self._fullwindow = True
-
-  def show_back_others(self, widget):
-    """Proof of concept: Go back to previous application                                 
-    widget structure.                        
-    """
-    if self._fullwindow:
-      self.window.remove(widget)
-      self.window.add(self.window_child)
-      self.old_parent.add(widget)
-      if isinstance(self.old_parent, gtk.Notebook):
-        self.old_parent.set_current_page(self.old_page)
-      self._fullwindow = False
-      return
-    else:
-      return
-
 if __name__ == '__main__':
-
   def execute_cb (option, opt, value, parser):
     assert value is None
     value = []
@@ -1544,7 +1514,12 @@ if __name__ == '__main__':
     command.append (options.command)
   if (options.execute):
     command = options.execute
-
+  
+  if gtk.gdk.display_get_default() == None:
+    print >> sys.stderr, _("You need to run terminator in an X environment. " \
+    "Make sure DISPLAY is properly set")
+    sys.exit(1)
+  
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
