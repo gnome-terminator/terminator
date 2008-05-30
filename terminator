@@ -623,6 +623,9 @@ text/plain
       elif keyname == 'Page_Up':
           self.terminator.move_tab(self, 'left')
           return (True)
+      elif keyname == 'Z':
+        self.terminator.toggle_zoom (self)
+        return (True)
       
     mask = gtk.gdk.CONTROL_MASK
     if (event.state & mask) == mask:
