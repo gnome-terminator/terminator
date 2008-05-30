@@ -723,32 +723,38 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("Split H_orizontally"))
-    item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
-    menu.append (item)
-
-    item = gtk.MenuItem (_("Split V_ertically"))
-    item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
-    menu.append (item)
-    
-    item = gtk.MenuItem (_("Open _Tab"))
-    item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
-    menu.append (item)
-
-    if self.conf.extreme_tabs:
-      item = gtk.MenuItem (_("Open Top Level Tab"))
-      item.connect ("activate", lambda menu_item: self.terminator.newtab (self, True))
+    if not self.terminator._zoomed:
+      item = gtk.MenuItem (_("Split H_orizontally"))
+      item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
+
+      item = gtk.MenuItem (_("Split V_ertically"))
+      item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
+      menu.append (item)
+    
+      item = gtk.MenuItem (_("Open _Tab"))
+      item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
+      menu.append (item)
+
+      if self.conf.extreme_tabs:
+        item = gtk.MenuItem (_("Open Top Level Tab"))
+        item.connect ("activate", lambda menu_item: self.terminator.newtab (self, True))
+        menu.append (item)
       
-    item = gtk.MenuItem ()
-    menu.append (item)
+      item = gtk.MenuItem ()
+      menu.append (item)
 
-    item = gtk.MenuItem (_("M_aximize/Unmaximize"))
-    item.connect ("activate", lambda menu_item: self.terminator.fullwindow (self))
-    menu.append (item)
+    if len (self.terminator.term_list) > 1:
+      if not self.terminator._zoomed:
+        item = gtk.MenuItem (_("_Zoom terminal"))
+        item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
+      else:
+        item = gtk.MenuItem (_("_Unzoom terminal"))
+        item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
+      menu.append (item)
 
-    item = gtk.MenuItem ()
-    menu.append (item)
+      item = gtk.MenuItem ()
+      menu.append (item)
 
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
@@ -850,7 +856,7 @@ class Terminator:
     self.profile = profile
     self.command = command
 
-    self._fullwindow = False
+    self._zoomed = False
     self._fullscreen = False
     self.term_list = []
     stores = []
@@ -1163,11 +1169,9 @@ class Terminator:
     return None
   
   def newtab(self,widget, toplevel = False):
-    ## Lines added for fullwidow (not fullscreen) support.
-    ## Disables adding new tab when a terminal is
-    ## maximized
-    if self._fullwindow:
-      dbg ("newtab function called, but Terminator was in full-window mode.")
+    if self._zoomed:
+      # We don't want to add a new tab while we are zoomed in on a terminal
+      dbg ("newtab function called, but Terminator was in zoomed terminal mode.")
       return
 
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
@@ -1250,10 +1254,9 @@ class Terminator:
   
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
-    ## Lines added for fullwidow (not fullscreen) support.
-    ## Disables splitaxis when a terminal is maximized
-    if self._fullwindow:
-      dbg ("splitaxis function called, but Terminator was in full-window mode.")
+    if self._zoomed:
+      # We don't want to split the terminal while we are in zoomed mode
+      dbg ("splitaxis function called, but Terminator was in zoomed mode.")
       return
 
     # create a new terminal and parent pane.
@@ -1309,7 +1312,7 @@ class Terminator:
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
-        if not self._fullwindow:
+        if not self._zoomed:
           grandparent.resize_children()
       parent.destroy ()
       if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
@@ -1356,12 +1359,10 @@ class Terminator:
     return True
     
   def closeterm (self, widget):
-    ## Lines added for fullwidow (not fullscreen) support.
-    ## Disables adding new tab when a terminal is
-    ## maximized
-    if self._fullwindow:
-      dbg ("closeterm function called while in full-window mode. Restoring previous layout before closing.")
-      self.show_back_others(widget)
+    if self._zoomed:
+      # We are zoomed, pop back out to normal layout before closing
+      dbg ("closeterm function called while in zoomed mode. Restoring previous layout before closing.")
+      self.unzoom_term (widget)
 
     if self.remove(widget):
       widget.destroy ()
@@ -1509,15 +1510,13 @@ class Terminator:
     for term in self.term_list:
       term.reconfigure_vte ()
 
-  ## Full window mode functions
-
-  def fullwindow(self, widget):
-    if not self._fullwindow:
-      self.hide_all_but_me(widget)
+  def toggle_zoom(self, widget):
+    if not self._zoomed:
+      self.zoom_term (widget)
     else:
-      self.show_back_others(widget)
+      self.unzoom_term (widget)
 
-  def hide_all_but_me (self, widget):
+  def zoom_term (self, widget):
     """Proof of concept: Maximize to full window                                         
     an instance of TerminatorTerm.           
     """
@@ -1530,20 +1529,20 @@ class Terminator:
     self.window.remove(self.window_child)
     self.old_parent.remove(widget)
     self.window.add(widget)
-    self._fullwindow = True
+    self._zoomed = True
 
-  def show_back_others(self, widget):
+  def unzoom_term (self, widget):
     """Proof of concept: Go back to previous application                                 
     widget structure.                        
     """
-    if self._fullwindow:
+    if self._zoomed:
       self.window.remove(widget)
       self.window.add(self.window_child)
       self.old_parent.add(widget)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.set_current_page(self.old_page)
         print "\nPARENT IS A NOTEBOOK\n"
-      self._fullwindow = False
+      self._zoomed = False
       return
     else:
       return
