@@ -1,6 +1,6 @@
 terminator 0.9:
   * Added support for ~/.terminatorrc 
-  * Added kwybindings for terms size and scrollbar manipulation. Thanks 
+  * Added keybindings for terms size and scrollbar manipulation. Thanks 
     Emmanuel Bretelle.
   * Completely revamped config system which now transparently makes use
     of gconf settings if they are available, falls back to sensible
@@ -15,7 +15,9 @@ terminator 0.9:
   * Support encodings a-la GNOME Terminal
   * Move python support code to a terminatorlib module
   * Tab support
-	* Drag & Drop support
+  * Drag & Drop support
+  * Many bug fixes and wider compatibility with GNOME Terminal
+  * Alpha transparency support when running in a composited window manager
 
 terminator 0.8.1:
   * Fixed ChangeLog
