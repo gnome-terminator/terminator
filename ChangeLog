@@ -18,6 +18,8 @@ terminator 0.9:
   * Drag & Drop support
   * Many bug fixes and wider compatibility with GNOME Terminal
   * Alpha transparency support when running in a composited window manager
+  * Support terminal zooming - now you can quickly hide all terminals apart
+    from one
 
 terminator 0.8.1:
   * Fixed ChangeLog
