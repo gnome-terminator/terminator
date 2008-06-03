@@ -189,8 +189,7 @@ class TerminatorTerm (gtk.VBox):
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
-    if os.path.exists("/usr/share/icons/hicolor/48x48/apps/terminator.png"):
-      widget.drag_source_set_icon_pixbuf( gtk.gdk.pixbuf_new_from_file("/usr/share/icons/hicolor/48x48/apps/terminator.png"))
+    widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
     
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
@@ -876,8 +875,8 @@ class Terminator:
       pass
 
     self.conf = config.TerminatorConfig (stores)
-    #changes to the Paned's handle_size can only be done
-    # once we loaded the configuration
+
+    self.icon_theme = gtk.IconTheme ()
     
     if self.conf.handle_size in range (0,6):
       gtk.rc_parse_string("""
@@ -890,9 +889,8 @@ class Terminator:
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
 
-    # FIXME: This really shouldn't be a hardcoded path
     try:
-      self.window.set_icon_from_file ("/usr/share/icons/hicolor/48x48/apps/" + APP_NAME + ".png")
+      self.window.set_icon (self.icon_theme.load_icon (APP_NAME, 48, 0))
     except:
       self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
       self.window.set_icon (self.icon)
