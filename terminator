@@ -681,6 +681,10 @@ text/plain
         address = url[0]
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
+        iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
+
+        item = gtk.ImageMenuItem (nameopen)
+        item.set_property('image', iconopen)
       else:
         if url[0][0:7] != "mailto:":
           address = "mailto:" + url[0]
@@ -689,7 +693,8 @@ text/plain
         nameopen = _("_Send Mail To...")
         namecopy = _("_Copy Email Address")
 
-      item = gtk.MenuItem (nameopen)
+        item = gtk.MenuItem (nameopen)
+
       item.connect ("activate", lambda menu_item: openurl (address))
       menu.append (item)
 
