@@ -41,8 +41,7 @@ class BuildData(build):
       if newer(po, mo):
         cmd = 'msgfmt -o %s %s' % (mo, po)
         info('compiling %s -> %s' % (po, mo))
-        if os.system(cmd) != 0:
-          raise SystemExit('Error while running msgfmt')
+        os.system(cmd)
 
 
 class InstallData(install_data):
