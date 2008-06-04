@@ -735,19 +735,20 @@ text/plain
     if not self.terminator._zoomed:
       str_horiz = _("Split H_orizontally")
       str_vert = _("Split V_ertically")
-      try:
-        item = gtk.ImageMenuItem (str_horiz)
-        item.set_property('image', self.terminator.icon_theme.load_icon (APP_NAME + '_horiz', 16, 0))
-      except:
-        item = gtk.MenuItem (str_horiz)
+
+      item = gtk.ImageMenuItem (str_horiz)
+      item_image = gtk.Image ()
+      item_image.set_from_icon_name (APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
+      item.set_image (item_image)
+
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
 
-      try:
-        item = gtk.ImageMenuItem (str_vert)
-        item.set_property('image', self.terminator.icon_theme.load_icon (APP_NAME + '_vert', 16, 0))
-      except:
-        item = gtk.MenuItem (str_vert)
+      item = gtk.ImageMenuItem (str_vert)
+      item_image = gtk.Image ()
+      item_image.set_from_icon_name (APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
+      item.set_image (item_image)
+
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
       menu.append (item)
     
@@ -1279,7 +1280,7 @@ class Terminator:
 
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    pos = vertical and "bottom" or "right"
+    pos = vertical and "right" or "bottom"
     self.add(widget, terminal, pos)
     terminal.show ()
     terminal.spawn_child ()
