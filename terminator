@@ -733,11 +733,13 @@ text/plain
     menu.append (item)
 
     if not self.terminator._zoomed:
-      item = gtk.MenuItem (_("Split H_orizontally"))
+      item = gtk.ImageMenuItem (_("Split H_orizontally"))
+      item.set_property('image', self.terminator.icon_theme.load_icon (APP_NAME + '_horiz', 16, 0))
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
 
-      item = gtk.MenuItem (_("Split V_ertically"))
+      item = gtk.ImageMenuItem (_("Split V_ertically"))
+      item.set_property('image', self.terminator.icon_theme.load_icon (APP_NAME + '_vert', 16, 0))
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
       menu.append (item)
     
