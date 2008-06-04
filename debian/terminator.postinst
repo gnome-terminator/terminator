@@ -1,4 +1,4 @@
 #!/bin/sh
 
-gtk-update-icon-cache /usr/share/icons/hicolor/
+gtk-update-icon-cache -q -f /usr/share/icons/hicolor/
 
