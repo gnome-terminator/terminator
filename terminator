@@ -181,11 +181,14 @@ class TerminatorTerm (gtk.VBox):
 
     self.add_matches()
 
+    dbg ('SEGBUG: Setting http_proxy')
     env_proxy = os.getenv ('http_proxy')
     if not env_proxy and self.conf.http_proxy and self.conf.http_proxy != '':
       os.putenv ('http_proxy', self.conf.http_proxy)
 
+    dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
+    dbg ('SEGBUG: TerminatorTerm __init__ complete')
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
@@ -385,10 +388,13 @@ text/plain
     if not args:
       args.append (shell)
 
+    dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
+    dbg ('SEGBUG: Forking command') 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
+    dbg ('SEGBUG: Forked command') 
     if self._pid == -1:
       print >>sys.stderr, _('Unable to start shell: ') + shell
       return (-1)
@@ -1279,11 +1285,16 @@ class Terminator:
       return
 
     # create a new terminal and parent pane.
+    dbg ('SEGBUG: Creating TerminatorTerm')
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    dbg ('SEGBUG: Created TerminatorTerm')
     pos = vertical and "right" or "bottom"
     self.add(widget, terminal, pos)
+    dbg ('SEGBUG: added TerminatorTerm to container')
     terminal.show ()
+    dbg ('SEGBUG: showed TerminatorTerm')
     terminal.spawn_child ()
+    dbg ('SEGBUG: spawned child')
     return terminal
   
   def remove(self, widget):
