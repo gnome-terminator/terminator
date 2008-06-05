@@ -189,8 +189,7 @@ class TerminatorTerm (gtk.VBox):
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
-    if os.path.exists("/usr/share/icons/hicolor/48x48/apps/terminator.png"):
-      widget.drag_source_set_icon_pixbuf( gtk.gdk.pixbuf_new_from_file("/usr/share/icons/hicolor/48x48/apps/terminator.png"))
+    widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
     
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
@@ -513,6 +512,8 @@ text/plain
     # Set our sloppiness
     self.focus = self.conf.focus
 
+    self._vte.queue_draw ()
+
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
@@ -680,6 +681,10 @@ text/plain
         address = url[0]
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
+        iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
+
+        item = gtk.ImageMenuItem (nameopen)
+        item.set_property('image', iconopen)
       else:
         if url[0][0:7] != "mailto:":
           address = "mailto:" + url[0]
@@ -688,7 +693,8 @@ text/plain
         nameopen = _("_Send Mail To...")
         namecopy = _("_Copy Email Address")
 
-      item = gtk.MenuItem (nameopen)
+        item = gtk.MenuItem (nameopen)
+
       item.connect ("activate", lambda menu_item: openurl (address))
       menu.append (item)
 
@@ -727,11 +733,22 @@ text/plain
     menu.append (item)
 
     if not self.terminator._zoomed:
-      item = gtk.MenuItem (_("Split H_orizontally"))
+      str_horiz = _("Split H_orizontally")
+      str_vert = _("Split V_ertically")
+
+      item = gtk.ImageMenuItem (str_horiz)
+      item_image = gtk.Image ()
+      item_image.set_from_icon_name (APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
+      item.set_image (item_image)
+
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
 
-      item = gtk.MenuItem (_("Split V_ertically"))
+      item = gtk.ImageMenuItem (str_vert)
+      item_image = gtk.Image ()
+      item_image.set_from_icon_name (APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
+      item.set_image (item_image)
+
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
       menu.append (item)
     
@@ -874,8 +891,8 @@ class Terminator:
       pass
 
     self.conf = config.TerminatorConfig (stores)
-    #changes to the Paned's handle_size can only be done
-    # once we loaded the configuration
+
+    self.icon_theme = gtk.IconTheme ()
     
     if self.conf.handle_size in range (0,6):
       gtk.rc_parse_string("""
@@ -888,9 +905,8 @@ class Terminator:
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
 
-    # FIXME: This really shouldn't be a hardcoded path
     try:
-      self.window.set_icon_from_file ("/usr/share/icons/hicolor/48x48/apps/" + APP_NAME + ".png")
+      self.window.set_icon (self.icon_theme.load_icon (APP_NAME, 48, 0))
     except:
       self.icon = self.window.render_icon (gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
       self.window.set_icon (self.icon)
@@ -1264,7 +1280,7 @@ class Terminator:
 
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
-    pos = vertical and "bottom" or "right"
+    pos = vertical and "right" or "bottom"
     self.add(widget, terminal, pos)
     terminal.show ()
     terminal.spawn_child ()

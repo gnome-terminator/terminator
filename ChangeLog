@@ -1,10 +1,18 @@
 terminator 0.9:
+  * Tab support
+  * Drag & Drop support
   * Added support for ~/.terminatorrc 
+  * Switch the meanings of "horizontal" and "vertical" wrt splitting,
+    after extensive user feedback. Added context menu icons to try and
+    make the meaning clearer.
   * Added keybindings for terms size and scrollbar manipulation. Thanks 
     Emmanuel Bretelle.
+  * Alpha transparency support when running in a composited window manager
   * Completely revamped config system which now transparently makes use
     of gconf settings if they are available, falls back to sensible
     defaults if not, and can be overridden entirely by ~/.terminatorrc
+  * Support terminal zooming - now you can quickly hide all terminals apart
+    from one
   * New application icon from Cory Kontros
   * FreeBSD support (thanks to Thomas Hurst)
   * Watch the system monospace font setting. Closes LP #197960
@@ -14,12 +22,7 @@ terminator 0.9:
   * Try much harder to find a usable shell
   * Support encodings a-la GNOME Terminal
   * Move python support code to a terminatorlib module
-  * Tab support
-  * Drag & Drop support
-  * Many bug fixes and wider compatibility with GNOME Terminal
-  * Alpha transparency support when running in a composited window manager
-  * Support terminal zooming - now you can quickly hide all terminals apart
-    from one
+  * Many other bug fixes and wider compatibility with GNOME Terminal
 
 terminator 0.8.1:
   * Fixed ChangeLog

@@ -41,8 +41,7 @@ class BuildData(build):
       if newer(po, mo):
         cmd = 'msgfmt -o %s %s' % (mo, po)
         info('compiling %s -> %s' % (po, mo))
-        if os.system(cmd) != 0:
-          raise SystemExit('Error while running msgfmt')
+        os.system(cmd)
 
 
 class InstallData(install_data):
@@ -83,6 +82,7 @@ setup(name='Terminator',
                   ('share/icons/hicolor/22x22/apps', glob.glob('data/icons/22x22/apps/*.png')),
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
+                  ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/16x16/actions/*.png')),
                  ],
       packages=['terminatorlib'],
       cmdclass={'build': BuildData, 'install_data': InstallData}
