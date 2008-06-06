@@ -119,6 +119,7 @@ class TerminatorConfValuestore:
     'borderless'            : False,
     'maximise'              : False,
     'handle_size'           : -1,
+    'focus_on_close'        : 'auto',
   }
 
   def __getattr__ (self, keyname):

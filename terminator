@@ -1302,7 +1302,7 @@ class Terminator:
        Returns True on success, False on failure"""
     parent = widget.get_parent ()
     sibling = None
-
+    focus_on_close = 'prev'
     if isinstance (parent, gtk.Window):
       # We are the only term
       if not self.on_delete_event (parent, gtk.gdk.Event (gtk.gdk.DELETE)):
@@ -1316,6 +1316,7 @@ class Terminator:
       # Discover sibling while all objects exist
       if widget == parent.get_child1 ():
         sibling = parent.get_child2 ()
+        focus_on_close = 'next'
       if widget == parent.get_child2 ():
         sibling = parent.get_child1 ()
 
@@ -1349,15 +1350,7 @@ class Terminator:
         sibling._titlebox.hide()
         
       self.term_list.remove (widget)
- 
-      if not isinstance (sibling, gtk.Paned):
-        for term in self.term_list:
-          if term == sibling:
-            term._vte.grab_focus ()
-            break
-      else:
-        if index == 0: index = 1
-        self.term_list[index - 1]._vte.grab_focus ()
+
     elif isinstance (parent, gtk.Notebook):
       parent.remove(widget)
       nbpages = parent.get_n_pages()
@@ -1380,9 +1373,15 @@ class Terminator:
         if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
           sibling._titlebox.show()
         parent.destroy()
-    if index == 0: index = 1
-    self.term_list[index - 1]._vte.grab_focus ()
-    self._set_current_notebook_page_recursive(self.term_list[index - 1])
+    if self.conf.focus_on_close == 'prev' or ( self.conf.focus_on_close == 'auto' and focus_on_close == 'prev'):
+      if index == 0: index = 1
+      self.term_list[index - 1]._vte.grab_focus ()
+      self._set_current_notebook_page_recursive(self.term_list[index - 1])
+    elif self.conf.focus_on_close == 'next' or ( self.conf.focus_on_close == 'auto' and focus_on_close == 'next'):
+      if index == len(self.term_list): index = index - 1
+      self.term_list[index]._vte.grab_focus ()
+      self._set_current_notebook_page_recursive(self.term_list[index])
+      
     if len(self.term_list) == 1:
       self.term_list[0]._titlebox.hide()
 
