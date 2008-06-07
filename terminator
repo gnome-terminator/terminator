@@ -1559,6 +1559,8 @@ class Terminator:
     self.old_parent.remove(widget)
     self.window.add(widget)
     self._zoomed = True
+    index = self.term_list.index (widget)
+    self.term_list[index]._vte.grab_focus ()
 
   def unzoom_term (self, widget):
     """Proof of concept: Go back to previous application                                 
@@ -1572,6 +1574,9 @@ class Terminator:
         self.old_parent.set_current_page(self.old_page)
         print "\nPARENT IS A NOTEBOOK\n"
       self._zoomed = False
+      index = self.term_list.index (widget)
+      self.term_list[index]._vte.grab_focus ()
+
       return
     else:
       return
