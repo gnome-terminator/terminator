@@ -1548,11 +1548,10 @@ class Terminator:
     else:
       self.unzoom_term (widget)
       if self.conf.titlebars and \
-        (\
-            len(self.term_list) > 1 \
-              or \
-            (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Notebook))\
-        ):
+          len(self.term_list) > 1 \
+          and \
+          (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Paned))\
+          :
         widget._titlebox.show()
     widget._vte.grab_focus()
 
