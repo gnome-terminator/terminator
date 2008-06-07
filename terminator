@@ -1545,7 +1545,6 @@ class Terminator:
       self.zoom_term (widget)
       if self.conf.titlebars:
         widget._titlebox.hide()
-      widget._vte.grab_focus()
     else:
       self.unzoom_term (widget)
       if self.conf.titlebars and \
@@ -1555,7 +1554,7 @@ class Terminator:
             (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Notebook))\
         ):
         widget._titlebox.show()
-      widget._vte.grab_focus()
+    widget._vte.grab_focus()
 
   def zoom_term (self, widget):
     """Proof of concept: Maximize to full window                                         
@@ -1584,6 +1583,7 @@ class Terminator:
         self.old_parent.set_current_page(self.old_page)
         print "\nPARENT IS A NOTEBOOK\n"
       self._zoomed = False
+
       return
     else:
       return
