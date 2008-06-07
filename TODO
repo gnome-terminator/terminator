@@ -1,1 +1,8 @@
 * Edit doc/terminatorrc.5 manpage to contain the information about the options
+
+* menu entry/keybinding to hightlight a term upon:
+    * command ending
+    * new text in window
+    * when a command exits, "window-title-changed" is emitted 
+      even though the actual title string do not change
+    * text-modified could be used to spy on outputs from the command

@@ -1039,7 +1039,8 @@ class Terminator:
     """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
-    pane.handle_size = 1
+    #pane.handle_size = 1
+    
     
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
@@ -1542,8 +1543,19 @@ class Terminator:
   def toggle_zoom(self, widget):
     if not self._zoomed:
       self.zoom_term (widget)
+      if self.conf.titlebars:
+        widget._titlebox.hide()
+      widget._vte.grab_focus()
     else:
       self.unzoom_term (widget)
+      if self.conf.titlebars and \
+        (\
+            len(self.term_list) > 1 \
+              or \
+            (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Notebook))\
+        ):
+        widget._titlebox.show()
+      widget._vte.grab_focus()
 
   def zoom_term (self, widget):
     """Proof of concept: Maximize to full window                                         
