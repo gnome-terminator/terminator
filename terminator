@@ -518,7 +518,7 @@ text/plain
     # Set our sloppiness
     self.focus = self.conf.focus
 
-    self._vte.queue_draw ()
+    #self._vte.queue_draw ()
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
