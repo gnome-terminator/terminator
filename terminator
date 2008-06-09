@@ -368,28 +368,30 @@ text/plain
       args = self.conf.custom_command.split ()
       shell = args[0]
 
+    try:
+      paths = os.environ['PATH'].split(':')
+    except:
+      paths = ['/usr/local', '/usr', '/']
+
     if not os.path.exists (shell):
       shell = os.getenv ('SHELL') or ''
       if not os.path.exists (shell):
         shell = pwd.getpwuid (os.getuid ())[6] or ''
         if not os.path.exists (shell):
           for i in ['bash','zsh','tcsh','ksh','csh','sh']:
-            shell = '/usr/bin/%s'%i
-            if not os.path.exists (shell):
-              shell = '/bin/%s'%i
+            for p in paths:
+              shell = os.path.join(p, 'bin', i)
               if not os.path.exists (shell):
                 continue
               else:
                 break
-            else:
-              break;
-    
+
     if not os.path.exists (shell):
       # Give up, we're completely stuck
       print >> sys.stderr, _('Unable to find a shell')
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
-    
+
     if not args:
       args.append (shell)
 
@@ -1023,9 +1025,9 @@ class Terminator:
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
-    #if (keyname == 'F11'):
-    #  self.fullscreen_toggle ()
-    #  return (True)
+    if (keyname == 'F11'):
+      self.fullscreen_toggle ()
+      return (True)
 
     if (event.state & mask) == mask:
       if keyname == 'Q':
