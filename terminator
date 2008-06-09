@@ -891,6 +891,7 @@ class Terminator:
 
     self._zoomed = False
     self._fullscreen = False
+    self._f11_modifier = False
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
@@ -906,7 +907,10 @@ class Terminator:
     self.conf = config.TerminatorConfig (stores)
 
     self.icon_theme = gtk.IconTheme ()
-    
+
+    if self.conf.f11_modifier:
+      self._f11_modifier = True
+
     if self.conf.handle_size in range (0,6):
       gtk.rc_parse_string("""
         style "terminator-paned-style" {
@@ -1025,7 +1029,7 @@ class Terminator:
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
-    if (keyname == 'F11'):
+    if (keyname == 'F11' and (self._f11_modifier == False or event.state & mask)):
       self.fullscreen_toggle ()
       return (True)
 
