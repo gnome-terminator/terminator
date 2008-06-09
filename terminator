@@ -1039,8 +1039,6 @@ class Terminator:
     """
     vertical = pos in ("top", "bottom")
     pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
-    #pane.handle_size = 1
-    
     
     # get the parent of the provided terminal
     parent   = widget.get_parent ()
