@@ -22,7 +22,7 @@ APP_NAME = 'terminator'
 APP_VERSION = '0.9'
 
 # import standard python libs
-import os, platform, sys, string, time, math
+import os, platform, sys, string, time, math, subprocess
 from optparse import OptionParser
 
 try:
@@ -89,14 +89,10 @@ except:
   error.run()
   sys.exit (1)
 
-def exec_command(executable, *parameters):
-    command = [executable] 
-    command.extend(parameters) 
-    
-    return os.system(command[0] + " \"%s\"" %command[1])
-
 def openurl (url):
-  if exec_command("xdg-open", url):
+  try:
+    subprocess.call(["xdg-open", url])
+  except:
     try:
       url_show (url)
     except:
@@ -1026,9 +1022,9 @@ class Terminator:
     keyname = gtk.gdk.keyval_name (event.keyval)
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
 
-    if (keyname == 'F11'):
-      self.fullscreen_toggle ()
-      return (True)
+    #if (keyname == 'F11'):
+    #  self.fullscreen_toggle ()
+    #  return (True)
 
     if (event.state & mask) == mask:
       if keyname == 'Q':
