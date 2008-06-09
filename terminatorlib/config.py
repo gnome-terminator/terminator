@@ -37,6 +37,12 @@ import os, sys, re
 # import unix-lib
 import pwd
 
+HAS_XDG = True
+try:
+  import xdg.BaseDirectory
+except:
+  HAS_XDG = False
+  
 # set this to true to enable debugging output
 debug = True
 
@@ -142,7 +148,11 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   #       that can be re-used when rc changes.
   def __init__ (self):
     self.type = "RCFile"
-    self.rcfilename = os.path.join(os.path.expanduser("~"), ".terminatorrc")
+    if HAS_XDG and xdg.BaseDirectory.load_first_config('terminator'):
+      self.rcfilename = os.path.join(xdg.BaseDirectory.load_first_config('terminator'), "terminatorrc")
+    else:
+      self.rcfilename = os.path.join(os.path.expanduser("~"), ".terminatorrc")
+
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
       rc = rcfile.readlines ()

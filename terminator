@@ -69,6 +69,7 @@ except:
     "gobject, gtk and pango to run Terminator.")
   sys.exit(1)
 
+
 # import a library for viewing URLs
 try:
   # gnome.url_show() is really useful
@@ -88,11 +89,18 @@ except:
   error.run()
   sys.exit (1)
 
+def exec_command(executable, *parameters):
+    command = [executable] 
+    command.extend(parameters) 
+    
+    return os.system(command[0] + " \"%s\"" %command[1])
+
 def openurl (url):
-  try:
-    url_show (url)
-  except:
-    pass
+  if exec_command("xdg-open", url):
+    try:
+      url_show (url)
+    except:
+      pass
 
 class TerminatorTerm (gtk.VBox):
 

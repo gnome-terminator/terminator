@@ -13,6 +13,7 @@ Package: terminator
 Architecture: all
 Depends: ${python:Depends}, python-vte, python-gconf, gconf2
 XB-Python-Version: ${python:Versions}
+Recommends: xdg-utils, python-xdg  
 Description: Multiple GNOME terminals in one window
  This is a project to produce an efficient way of filling a 
  large area of screen space with terminals. This is done by 
