@@ -41,10 +41,8 @@ class BuildData(build):
       if newer(po, mo):
         cmd = 'msgfmt -o %s %s' % (mo, po)
         info('compiling %s -> %s' % (po, mo))
-        try:
-          os.system(cmd)
-        except:
-          pass
+        os.system(cmd)
+
 
 class InstallData(install_data):
   def run (self):
