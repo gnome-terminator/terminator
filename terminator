@@ -885,7 +885,7 @@ text/plain
     self._vte.destroy()
  
 class Terminator:
-  def __init__ (self, profile, command = None, fullscreen = False, maximise = False, borderless = False):
+  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
     self.command = command
 
@@ -900,7 +900,13 @@ class Terminator:
       import gconf
       store = config.TerminatorConfValuestoreGConf ()
       store.set_reconfigure_callback (self.reconfigure_vtes)
-      stores.append (store)
+      dbg ('Terminator__init__: comparing %s and %s'%(profile, store.profile.split ('/').pop ()))
+      if profile == store.profile.split ('/').pop ():
+        # If we have been given a profile, and we loaded it, we should be higher priority than RC
+        dbg ('Terminator__init__: placing GConf before RC')
+        stores.insert (0, store)
+      else:
+        stores.append (store)
     except:
       pass
 
