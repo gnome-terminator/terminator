@@ -362,9 +362,11 @@ text/plain
     shell = ''
 
     if self.command:
+      dbg ('spawn_child: using self.command: %s'%self.command)
       args = self.command
       shell = self.command[0]
     elif self.conf.use_custom_command:
+      dbg ('spawn_child: using custom command: %s'%self.conf.custom_commanD)
       args = self.conf.custom_command.split ()
       shell = args[0]
 
@@ -373,7 +375,8 @@ text/plain
     except:
       paths = ['/usr/local', '/usr', '/']
 
-    if not os.path.exists (shell):
+    if not self.command and not os.path.exists (shell):
+      dbg ('spawn_child: hunting for a command')
       shell = os.getenv ('SHELL') or ''
       if not os.path.exists (shell):
         shell = pwd.getpwuid (os.getuid ())[6] or ''
@@ -386,9 +389,9 @@ text/plain
               else:
                 break
 
-    if not os.path.exists (shell):
+    if not self.command and not os.path.exists (shell):
       # Give up, we're completely stuck
-      print >> sys.stderr, _('Unable to find a shell')
+      print >> sys.stderr, _('unable to find a shell')
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
 
@@ -398,7 +401,7 @@ text/plain
     dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
-    dbg ('SEGBUG: Forking command') 
+    dbg ('SEGBUG: Forking command: %s'%command) 
     self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
 
     dbg ('SEGBUG: Forked command') 
@@ -1642,7 +1645,7 @@ if __name__ == '__main__':
     print >> sys.stderr, _("You need to run terminator in an X environment. " \
     "Make sure DISPLAY is properly set")
     sys.exit(1)
-  
+
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
