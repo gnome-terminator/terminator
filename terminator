@@ -1058,9 +1058,8 @@ class Terminator:
     parent = widget.get_parent ()
     if isinstance (parent, gtk.Window):
       # We have just one term
-      widget.reparent (pane)
+      parent.remove(widget)
       if pos in ("top", "left"):
-        pane.remove(widget)
         pane.pack1 (terminal, True, True)
         pane.pack2 (widget, True, True)
       else:
