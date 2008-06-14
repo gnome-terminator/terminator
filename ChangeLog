@@ -12,7 +12,7 @@ terminator 0.9:
     of gconf settings if they are available, falls back to sensible
     defaults if not, and can be overridden entirely by ~/.terminatorrc
   * Support terminal zooming - now you can quickly hide all terminals apart
-    from one
+    from one and either scale the fontsize or not.
   * New application icon from Cory Kontros
   * FreeBSD support (thanks to Thomas Hurst)
   * Watch the system monospace font setting. Closes LP #197960

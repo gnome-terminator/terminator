@@ -641,6 +641,9 @@ text/plain
           self.terminator.move_tab(self, 'left')
           return (True)
       elif keyname == 'Z':
+        self.terminator.toggle_zoom (self, True)
+        return (True)
+      elif keyname == 'X':
         self.terminator.toggle_zoom (self)
         return (True)
       
@@ -783,11 +786,22 @@ text/plain
     if len (self.terminator.term_list) > 1:
       if not self.terminator._zoomed:
         item = gtk.MenuItem (_("_Zoom terminal"))
+        item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self, True))
+        menu.append (item)
+
+        item = gtk.MenuItem (_("_Maximise terminal"))
         item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
+        menu.append (item)
       else:
-        item = gtk.MenuItem (_("_Unzoom terminal"))
-        item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
-      menu.append (item)
+        if self.terminator._zoomed and not self.terminator._maximised:
+          item = gtk.MenuItem (_("_Unzoom terminal"))
+          item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self, True))
+          menu.append (item)
+
+        if self.terminator._zoomed and self.terminator._maximised:
+          item = gtk.MenuItem (_("U_naximise terminal"))
+          item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
+          menu.append (item)
 
       item = gtk.MenuItem ()
       menu.append (item)
@@ -893,6 +907,7 @@ class Terminator:
     self.command = command
 
     self._zoomed = False
+    self._maximised = False
     self._fullscreen = False
     self._f11_modifier = False
     self.term_list = []
@@ -1576,13 +1591,13 @@ class Terminator:
     for term in self.term_list:
       term.reconfigure_vte ()
 
-  def toggle_zoom(self, widget):
+  def toggle_zoom(self, widget, fontscale = False):
     if not self._zoomed:
-      self.zoom_term (widget)
+      self.zoom_term (widget, fontscale)
       if self.conf.titlebars:
         widget._titlebox.hide()
     else:
-      self.unzoom_term (widget)
+      self.unzoom_term (widget, fontscale)
       if self.conf.titlebars and \
           len(self.term_list) > 1 \
           and \
@@ -1591,38 +1606,64 @@ class Terminator:
         widget._titlebox.show()
     widget._vte.grab_focus()
 
-  def zoom_term (self, widget):
+  def zoom_term (self, widget, fontscale = False):
     """Proof of concept: Maximize to full window                                         
     an instance of TerminatorTerm.           
     """
+    self.old_font = widget._vte.get_font ()
+    self.old_columns = widget._vte.get_column_count ()
+    self.old_rows = widget._vte.get_row_count ()
     self.old_parent = widget.get_parent()
+
     if isinstance(self.old_parent, gtk.Window):
       return
     if isinstance(self.old_parent, gtk.Notebook):
       self.old_page = self.old_parent.get_current_page()
+
     self.window_child = self.window.get_children()[0]
     self.window.remove(self.window_child)
     self.old_parent.remove(widget)
     self.window.add(widget)
     self._zoomed = True
 
-  def unzoom_term (self, widget):
+    if fontscale:
+      self.cnid = widget.connect ("size-allocate", self.zoom_scale_font)
+    else:
+      self._maximised = True
+
+  def zoom_scale_font (self, widget, allocation):
+    new_columns = widget._vte.get_column_count ()
+    new_rows = widget._vte.get_row_count ()
+    new_font = widget._vte.get_font ()
+
+    dbg ('zoom_term: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
+
+    old_area = self.old_columns * self.old_rows
+    new_area = new_columns * new_rows
+    area_factor = new_area / old_area
+
+    dbg ('zoom_term: My area changed from %d characters to %d characters, a factor of %f.'%(old_area, new_area, area_factor))
+
+    new_font.set_size (self.old_font.get_size() * (area_factor / 2))
+    dbg ('zoom_term: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
+    widget._vte.set_font (new_font)
+    widget.disconnect (self.cnid)
+
+  def unzoom_term (self, widget, fontscale = False):
     """Proof of concept: Go back to previous application                                 
     widget structure.                        
     """
     if self._zoomed:
+      if fontscale:
+        widget._vte.set_font (self.old_font)
+      self._zoomed = False
+      self._maximised = False
+
       self.window.remove(widget)
       self.window.add(self.window_child)
       self.old_parent.add(widget)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.set_current_page(self.old_page)
-        print "\nPARENT IS A NOTEBOOK\n"
-      self._zoomed = False
-
-      return
-    else:
-      return
-
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
