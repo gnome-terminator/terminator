@@ -1443,7 +1443,7 @@ class Terminator:
     if self._zoomed:
       # We are zoomed, pop back out to normal layout before closing
       dbg ("closeterm function called while in zoomed mode. Restoring previous layout before closing.")
-      self.unzoom_term (widget)
+      self.toggle_zoom(widget, not self._maximised)
 
     if self.remove(widget):
       widget.destroy ()
