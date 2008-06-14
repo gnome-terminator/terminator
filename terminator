@@ -799,7 +799,7 @@ text/plain
           menu.append (item)
 
         if self.terminator._zoomed and self.terminator._maximised:
-          item = gtk.MenuItem (_("U_naximise terminal"))
+          item = gtk.MenuItem (_("U_nmaximise terminal"))
           item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
           menu.append (item)
 
