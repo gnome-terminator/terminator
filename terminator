@@ -380,7 +380,7 @@ text/plain
 
     if self.conf.use_custom_command and shell[0] != '/':
      for path in paths:
-       print ('spawn_child: looking for "%s"'%os.path.join (path, shell))
+       dbg ('spawn_child: looking for "%s"'%os.path.join (path, shell))
        if os.path.exists (os.path.join (path, shell)):
          shell = os.path.join (path, shell)
          break
@@ -1693,9 +1693,7 @@ if __name__ == '__main__':
     value = ''
     while parser.rargs:
       arg = parser.rargs[0]
-      print 'profile_cb: %s (%s)'%(arg, arg[0])
       if arg[0] != '-':
-        print 'profile_cb: Adding argument'
         if len (value) > 0:
           value = '%s %s'%(value, arg)
         else:
