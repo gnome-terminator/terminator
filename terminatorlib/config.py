@@ -208,9 +208,12 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self._gt_dir = self.defaults['gt_dir']
     self._profile_dir = self.defaults['profile_dir']
 
+    dbg ('VSGConf: Profile requested is: "%s"'%profile)
     if not profile:
       profile = self.client.get_string (self._gt_dir + '/global/default_profile')
+    dbg ('VSGConf: Profile bet on is: "%s"'%profile)
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
+    dbg ('VSGConf: Found profiles: "%s"'%profiles)
 
     #set up the active encoding list
     self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
@@ -225,7 +228,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     else:
       # We're a bit stuck, there is no profile in the list
       # FIXME: Find a better way to handle this than setting a non-profile
-      dbg ("No profile found, deleting __getattr__")
+      dbg ("VSGConf: No profile found, deleting __getattr__")
       del (self.__getattr__)
 
     self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)

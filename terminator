@@ -366,18 +366,29 @@ text/plain
       args = self.command
       shell = self.command[0]
     elif self.conf.use_custom_command:
-      dbg ('spawn_child: using custom command: %s'%self.conf.custom_commanD)
+      dbg ('spawn_child: using custom command: %s'%self.conf.custom_command)
       args = self.conf.custom_command.split ()
       shell = args[0]
 
     try:
+      if os.environ['PATH'] == "":
+        raise (ValueError)
       paths = os.environ['PATH'].split(':')
     except:
-      paths = ['/usr/local', '/usr', '/']
+      paths = ['/usr/local/bin', '/usr/bin', '/bin']
+    dbg ('spawn_child: found paths: "%s"'%paths)
+
+    if self.conf.use_custom_command and shell[0] != '/':
+     for path in paths:
+       print ('spawn_child: looking for "%s"'%os.path.join (path, shell))
+       if os.path.exists (os.path.join (path, shell)):
+         shell = os.path.join (path, shell)
+         break
 
     if not self.command and not os.path.exists (shell):
       dbg ('spawn_child: hunting for a command')
       shell = os.getenv ('SHELL') or ''
+      args = []
       if not os.path.exists (shell):
         shell = pwd.getpwuid (os.getuid ())[6] or ''
         if not os.path.exists (shell):
@@ -916,10 +927,12 @@ class Terminator:
 
     try:
       import gconf
-      store = config.TerminatorConfValuestoreGConf ()
+      if self.profile:
+        self.profile = gconf.escape_key (self.profile, -1)
+      store = config.TerminatorConfValuestoreGConf (self.profile)
       store.set_reconfigure_callback (self.reconfigure_vtes)
-      dbg ('Terminator__init__: comparing %s and %s'%(profile, store.profile.split ('/').pop ()))
-      if profile == store.profile.split ('/').pop ():
+      dbg ('Terminator__init__: comparing %s and %s'%(self.profile, store.profile.split ('/').pop ()))
+      if self.profile == store.profile.split ('/').pop ():
         # If we have been given a profile, and we loaded it, we should be higher priority than RC
         dbg ('Terminator__init__: placing GConf before RC')
         stores.insert (0, store)
@@ -1675,6 +1688,23 @@ if __name__ == '__main__':
       del (parser.rargs[0])
     setattr(parser.values, option.dest, value)
 
+  def profile_cb (option, opt, value, parser):
+    assert value is None
+    value = ''
+    while parser.rargs:
+      arg = parser.rargs[0]
+      print 'profile_cb: %s (%s)'%(arg, arg[0])
+      if arg[0] != '-':
+        print 'profile_cb: Adding argument'
+        if len (value) > 0:
+          value = '%s %s'%(value, arg)
+        else:
+          value = '%s'%arg
+        del (parser.rargs[0])
+      else:
+        break
+    setattr (parser.values, option.dest, value)
+
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
   parser.add_option ("-v", "--version", action="store_true", dest="version", help="Display program version")
@@ -1682,7 +1712,7 @@ if __name__ == '__main__':
   parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the %s window maximised"%APP_NAME.capitalize())
   parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", dest="borderless", help="Turn off the window's borders")
-  parser.add_option ("-p", "--profile", dest="profile", help="Specify a GNOME Terminal profile to emulate")
+  parser.add_option ("-p", "--profile", dest="profile", action="callback", callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
   parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
 
@@ -1705,6 +1735,7 @@ if __name__ == '__main__':
     "Make sure DISPLAY is properly set")
     sys.exit(1)
 
+  print 'profile_cb: settled on profile: "%s"'%options.profile
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
