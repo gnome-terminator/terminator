@@ -49,6 +49,8 @@ debug = True
 def dbg (log = ""):
   if debug:
     print >> sys.stderr, log
+def err (log = ""):
+  print >> sys.stderr, log
 
 class TerminatorConfig:
   callback = None
@@ -182,7 +184,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
             elif deftype == 'float':
               self.values[key] = float (value)
             elif deftype == 'list':
-              print >> sys.stderr, _("Reading list values from .terminatorrc is not currently supported")
+              err (_("Reading list values from .terminatorrc is not currently supported"))
               raise ValueError
             else:
               self.values[key] = value
