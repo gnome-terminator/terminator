@@ -65,8 +65,8 @@ else:
 try:
   import gobject, gtk, pango
 except:
-  print >> sys.stderr, _("You need to install the python bindings for " \
-    "gobject, gtk and pango to run Terminator.")
+  err (_("You need to install the python bindings for " \
+    "gobject, gtk and pango to run Terminator."))
   sys.exit(1)
 
 
@@ -402,7 +402,7 @@ text/plain
 
     if not self.command and not os.path.exists (shell):
       # Give up, we're completely stuck
-      print >> sys.stderr, _('unable to find a shell')
+      err (_('Unable to find a shell'))
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
 
@@ -412,12 +412,12 @@ text/plain
     dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
-    dbg ('SEGBUG: Forking command: %s'%command) 
-    self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], directory=self.cwd, loglastlog = login, logwtmp = update_records, logutmp = update_records)
+    dbg ('SEGBUG: Forking command: "%s" with args "%s", loglastlog = "%s", logwtmp = "%s", logutmp = "%s" and cwd "%s"'%(shell, args, login, update_records, update_records, self.cwd))
+    self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records, directory=self.cwd)
 
     dbg ('SEGBUG: Forked command') 
     if self._pid == -1:
-      print >>sys.stderr, _('Unable to start shell: ') + shell
+      err (_('Unable to start shell: ') + shell)
       return (-1)
 
   def get_cwd (self):
@@ -1387,7 +1387,7 @@ class Terminator:
 
       if not sibling:
         # something is wrong, give up
-        print >> sys.stderr, "Error: %s is not a child of %s"%(widget, parent)
+        err ("Error: %s is not a child of %s"%(widget, parent))
         return False
 
       parent.remove(widget)
@@ -1729,8 +1729,8 @@ if __name__ == '__main__':
     command = options.execute
   
   if gtk.gdk.display_get_default() == None:
-    print >> sys.stderr, _("You need to run terminator in an X environment. " \
-    "Make sure DISPLAY is properly set")
+    err (_("You need to run terminator in an X environment. " \
+    "Make sure DISPLAY is properly set"))
     sys.exit(1)
 
   print 'profile_cb: settled on profile: "%s"'%options.profile
