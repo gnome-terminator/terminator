@@ -129,6 +129,7 @@ class TerminatorConfValuestore:
     'handle_size'           : -1,
     'focus_on_close'        : 'auto',
     'f11_modifier'          : False,
+    'force_no_bell'         : False,
   }
 
   def __getattr__ (self, keyname):
