@@ -409,6 +409,9 @@ text/plain
     if not args:
       args.append (shell)
 
+    if self.conf.login_shell:
+      args[0] = "-%s"%args[0]
+
     dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
 
