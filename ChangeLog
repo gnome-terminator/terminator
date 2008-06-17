@@ -23,6 +23,9 @@ terminator 0.9:
   * Support encodings a-la GNOME Terminal
   * Move python support code to a terminatorlib module
   * Many other bug fixes and wider compatibility with GNOME Terminal
+  * Add support to cycle term within the same tab. Closes LP#238205.
+    This can be disabled by setting cycle_term_tab to False in 
+    ~/.config/terminator/config
 
 terminator 0.8.1:
   * Fixed ChangeLog

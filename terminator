@@ -1472,14 +1472,23 @@ class Terminator:
       return True
     return False
 
+  
   def go_next (self, term):
     current = self.term_list.index (term)
-    next = current
-
-    if current == len (self.term_list) - 1:
-      next = 0
-    else:
-      next += 1
+    next = None
+    if self.conf.cycle_term_tab:
+      notebookpage = self.get_first_notebook_page(term)
+      if notebookpage:
+        last = self._notebook_last_term(notebookpage[1])
+        first = self._notebook_first_term(notebookpage[1])
+        if term == last:
+          next = self.term_list.index(first)
+        
+    if next is None:
+      if current == len (self.term_list) - 1:
+        next = 0
+      else:
+        next = current + 1
 
     
     nextterm = self.term_list[next]
@@ -1491,12 +1500,21 @@ class Terminator:
 
   def go_prev (self, term):
     current = self.term_list.index (term)
-    previous = current
+    previous = None
+   
+    if self.conf.cycle_term_tab:
+      notebookpage = self.get_first_notebook_page(term)
+      if notebookpage:
+        last = self._notebook_last_term(notebookpage[1])
+        first = self._notebook_first_term(notebookpage[1])
+        if term == first:
+          previous = self.term_list.index(last)
 
-    if current == 0:
-      previous = len (self.term_list) - 1
-    else:
-      previous -= 1
+    if previous is None:
+      if current == 0:
+        previous = len (self.term_list) - 1
+      else:
+        previous = current - 1
 
     #self.window.set_title(self.term_list[previous]._vte.get_window_title())
     previousterm = self.term_list[previous]
