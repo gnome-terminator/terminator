@@ -1413,8 +1413,7 @@ class Terminator:
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
         grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)
-        
-        
+
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
@@ -1742,6 +1741,29 @@ if __name__ == '__main__':
     err (_("You need to run terminator in an X environment. " \
     "Make sure DISPLAY is properly set"))
     sys.exit(1)
+
+  try:
+    open (os.path.expanduser ('~/.config/terminator/config'))
+  except:
+    try:
+      open (os.path.expanduser ('~/.terminatorrc'))
+      error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
+      ('''You have a configuration file:
+
+      ~/.terminatorrc.
+
+Please be aware that this file needs to be moved to:
+
+      ~/.config/terminator/config.
+
+See the following bug report for more details:
+
+      https://bugs.launchpad.net/bugs/238070'''))
+      error.run ()
+      error.destroy ()
+
+    except:
+      pass
 
   print 'profile_cb: settled on profile: "%s"'%options.profile
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
