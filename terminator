@@ -1629,9 +1629,7 @@ class Terminator:
     widget._vte.grab_focus()
 
   def zoom_term (self, widget, fontscale = False):
-    """Proof of concept: Maximize to full window                                         
-    an instance of TerminatorTerm.           
-    """
+    """Maximize to full window an instance of TerminatorTerm."""
     self.old_font = widget._vte.get_font ()
     self.old_columns = widget._vte.get_column_count ()
     self.old_rows = widget._vte.get_row_count ()
@@ -1652,6 +1650,8 @@ class Terminator:
       self.cnid = widget.connect ("size-allocate", self.zoom_scale_font)
     else:
       self._maximised = True
+
+    widget._vte.grab_focus ()
 
   def zoom_scale_font (self, widget, allocation):
     new_columns = widget._vte.get_column_count ()
@@ -1686,6 +1686,8 @@ class Terminator:
       self.old_parent.add(widget)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.set_current_page(self.old_page)
+
+      widget._vte.grab_focus ()
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
