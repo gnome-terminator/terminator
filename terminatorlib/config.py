@@ -37,12 +37,6 @@ import os, sys, re
 # import unix-lib
 import pwd
 
-HAS_XDG = True
-try:
-  import xdg.BaseDirectory
-except:
-  HAS_XDG = False
-  
 # set this to true to enable debugging output
 debug = True
 
@@ -152,10 +146,12 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   #       that can be re-used when rc changes.
   def __init__ (self):
     self.type = "RCFile"
-    if HAS_XDG and xdg.BaseDirectory.load_first_config('terminator'):
-      self.rcfilename = os.path.join(xdg.BaseDirectory.load_first_config('terminator'), "terminatorrc")
-    else:
-      self.rcfilename = os.path.join(os.path.expanduser("~"), ".terminatorrc")
+    try:
+      directory = os.environ['XDG_CONFIG_HOME']
+    except:
+      directory = os.path.join (os.path.expanduser("~"), ".config/terminator/")
+
+    self.rcfilename = os.path.join(directory, "config")
 
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
@@ -185,7 +181,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
             elif deftype == 'float':
               self.values[key] = float (value)
             elif deftype == 'list':
-              err (_("Reading list values from .terminatorrc is not currently supported"))
+              err (_("Reading list values from .config/terminator/config is not currently supported"))
               raise ValueError
             else:
               self.values[key] = value
