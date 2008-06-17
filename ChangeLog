@@ -1,7 +1,7 @@
 terminator 0.9:
   * Tab support
   * Drag & Drop support
-  * Added support for ~/.terminatorrc 
+  * Added support for ~/.config/terminator/config
   * Switch the meanings of "horizontal" and "vertical" wrt splitting,
     after extensive user feedback. Added context menu icons to try and
     make the meaning clearer.
@@ -10,7 +10,7 @@ terminator 0.9:
   * Alpha transparency support when running in a composited window manager
   * Completely revamped config system which now transparently makes use
     of gconf settings if they are available, falls back to sensible
-    defaults if not, and can be overridden entirely by ~/.terminatorrc
+    defaults if not, and can be overridden entirely by ~/.config/terminator/config
   * Support terminal zooming - now you can quickly hide all terminals apart
     from one and either scale the fontsize or not.
   * New application icon from Cory Kontros
