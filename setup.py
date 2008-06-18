@@ -9,15 +9,7 @@ import glob
 import os
 import sys
 
-def import_terminator():
-  from types import ModuleType
-  module = ModuleType('terminator')
-  module_file = open('terminator', 'r')
-  exec module_file in module.__dict__
-  return module
-
-TERMINATOR_BUILD = True
-APP_VERSION = import_terminator().APP_VERSION
+from terminatorlib.version import *
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')

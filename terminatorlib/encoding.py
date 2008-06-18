@@ -105,4 +105,4 @@ class TerminatorEncoding:
   def get_list():
     return TerminatorEncoding.encodings
   get_list = staticmethod(get_list)
-  
+

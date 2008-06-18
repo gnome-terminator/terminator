@@ -17,20 +17,21 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-# Global defines
-APP_NAME = 'terminator'
-APP_VERSION = '0.9'
-
 # import standard python libs
 import os, platform, sys, string, time, math, subprocess
 from optparse import OptionParser
+
+#import version details
+from terminatorlib.version import *
 
 try:
   import gettext
   gettext.install (APP_NAME)
 except:
-  def _ (text):
+  import __builtin__
+  def _t (text):
     return text
+  __builtin__.__dict__['_'] = _t
 
 # import unix-lib
 import pwd
@@ -65,10 +66,9 @@ else:
 try:
   import gobject, gtk, pango
 except:
-  if not TERMINATOR_BUILD:
-    err (_("You need to install the python bindings for " \
-      "gobject, gtk and pango to run Terminator."))
-    sys.exit(1)
+  err (_("You need to install the python bindings for " \
+    "gobject, gtk and pango to run Terminator."))
+  sys.exit(1)
 
 # import a library for viewing URLs
 try:
