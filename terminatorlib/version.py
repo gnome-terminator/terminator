@@ -17,7 +17,7 @@
 
 """TerminatorVersion by Chris Jones <cmsj@tenshu.net>
 
-TerminatorEncoding supplies our version number.
+TerminatorVersion supplies our version number.
 """
 
 APP_NAME='Terminator'
