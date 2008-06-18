@@ -1791,7 +1791,7 @@ See the following bug report for more details:
     except:
       pass
 
-  print 'profile_cb: settled on profile: "%s"'%options.profile
+  dbg ('profile_cb: settled on profile: "%s"'%options.profile)
   term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
 
   gtk.main ()
