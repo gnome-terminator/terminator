@@ -8,6 +8,7 @@ from distutils.log import info
 import glob
 import os
 import sys
+import platform
 
 from terminatorlib.version import *
 
@@ -45,7 +46,6 @@ class InstallData(install_data):
   def _compile_po_files (self):
     data_files = []
 
-    # Don't install language files on win32
     if WITHOUT_NLS:
       return data_files
 
@@ -57,6 +57,11 @@ class InstallData(install_data):
     return data_files
 
 
+if platform.system() == 'FreeBSD':
+  man_dir = 'man'
+else:
+  man_dir = 'share/man'
+
 setup(name='Terminator',
       version=APP_VERSION,
       description='Terminator, the robot future of terminals',
@@ -67,8 +72,8 @@ setup(name='Terminator',
       scripts=['terminator'],
       data_files=[
                   ('share/applications', ['data/terminator.desktop']),
-                  ('share/man/man1', ['doc/terminator.1']),
-                  ('share/man/man5', ['doc/terminator_config.5']),
+                  (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),
+                  (os.path.join(man_dir, 'man5'), ['doc/terminator_config.5']),
                   ('share/pixmaps', ['data/icons/48x48/apps/terminator.png']),
                   ('share/icons/hicolor/scalable/apps', glob.glob('data/icons/scalable/apps/*.svg')),
                   ('share/icons/hicolor/16x16/apps', glob.glob('data/icons/16x16/apps/*.png')),
