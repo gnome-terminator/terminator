@@ -16,6 +16,7 @@ def import_terminator():
   exec module_file in module.__dict__
   return module
 
+TERMINATOR_BUILD = True
 APP_VERSION = import_terminator().APP_VERSION
 
 PO_DIR = 'po'

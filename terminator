@@ -65,10 +65,10 @@ else:
 try:
   import gobject, gtk, pango
 except:
-  err (_("You need to install the python bindings for " \
-    "gobject, gtk and pango to run Terminator."))
-  sys.exit(1)
-
+  if not TERMINATOR_BUILD:
+    err (_("You need to install the python bindings for " \
+      "gobject, gtk and pango to run Terminator."))
+    sys.exit(1)
 
 # import a library for viewing URLs
 try:
