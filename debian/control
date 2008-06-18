@@ -2,21 +2,23 @@ Source: terminator
 Section: misc
 XS-Python-Version: all
 Priority: optional
-Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
-XSBC-Original-Maintainer: Chris Jones <cmsj@tenshu.net>
-Build-Depends: debhelper (>= 5.0.38), python, cdbs (>=0.4.49)
+Maintainer: Terminator Developers <gnome-terminator@lists.launchpad.net>
+Build-Depends: debhelper (>= 5.0.62), python, cdbs (>=0.4.49)
 Build-Depends-Indep: python-central (>= 0.5.6)
 Standards-Version: 3.7.3
+Vcs-Bzr: http://bazaar.launchpad.net/~gnome-terminator/terminator/trunk
+Vcs-Browser: http://code.launchpad.net/~gnome-terminator/terminator/trunk
 Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
 Architecture: all
-Depends: ${python:Depends}, python-vte, python-gconf, gconf2
+Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gconf, gconf2
 XB-Python-Version: ${python:Versions}
-Recommends: xdg-utils, python-xdg  
+Recommends: xdg-utils, python-xdg
 Description: Multiple GNOME terminals in one window
- This is a project to produce an efficient way of filling a 
- large area of screen space with terminals. This is done by 
- splitting the window into a resizeable grid of terminals. As 
- such, you can  produce a very flexible arrangements of terminals 
- for different tasks.
+ Terminator is a little project to produce an efficient way of 
+ filling a large area of screen space with terminals.
+ .
+ The user can have multiple terminals in one window and use
+ keybindings to switch between them. See the manpage for
+ details.
