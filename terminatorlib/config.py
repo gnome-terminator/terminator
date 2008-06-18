@@ -167,7 +167,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
 
             # Check if this is actually a key we care about
             if not self.defaults.has_key (key):
-              raise AttributeError;
+              continue
 
             deftype = self.defaults[key].__class__.__name__
             if deftype == 'bool':
@@ -183,7 +183,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
               self.values[key] = float (value)
             elif deftype == 'list':
               err (_("Reading list values from .config/terminator/config is not currently supported"))
-              raise ValueError
+              continue
             else:
               self.values[key] = value
 
