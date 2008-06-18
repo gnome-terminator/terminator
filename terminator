@@ -39,7 +39,7 @@ TARGET_TYPE_VTE = 8
 
 # import our configuration loader
 from terminatorlib import config
-from terminatorlib.config import dbg
+from terminatorlib.config import dbg, err
 
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
@@ -611,6 +611,9 @@ text/plain
       elif keyname == 'minus':
         self.zoom (False)
         return (True)
+      elif keyname == 'equal':
+        self.zoom_orig ()
+        return (True)
 
     mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK | gtk.gdk.MOD1_MASK
     if (event.state & mask) == mask:
@@ -689,6 +692,9 @@ text/plain
     # Warning, mask value is either gtk.gdk.CONTROL_MASK or gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
     # if you intend to use it, reinit it
     return (False)
+
+  def zoom_orig (self):
+    self._vte.set_font (pango.FontDescription (self.conf.font))
 
   def zoom (self, zoom_in):
     pangodesc = self._vte.get_font ()
