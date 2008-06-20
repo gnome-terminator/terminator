@@ -166,7 +166,10 @@ class TerminatorTerm (gtk.VBox):
     #for testing purpose: drag-motion
     self._vte.connect("drag-motion", self.on_drag_motion, self)
     self._vte.connect("drag-data-received", self.on_drag_data_received, self)
-    
+
+    if self.conf.copy_on_selection:
+      self._vte.connect ("selection-changed", lambda widget: self._vte.copy_clipboard ())
+
     self._vte.connect ("composited-changed", self.on_composited_changed)
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
     self._vte.connect ("grab-focus", self.on_vte_focus)
@@ -305,7 +308,8 @@ text/plain
     data.terminator.remove(widgetsrc)
     data.terminator.add(self, widgetsrc,pos)
     return
-    
+
+
   def get_location(self, vte, x, y):
     pos = ""
     #get the diagonales function for the receiving widget
