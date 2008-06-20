@@ -398,9 +398,13 @@ text/plain
               shell = os.path.join(p, i)
               dbg ('spawn_child: Checking if "%s" exists'%shell)
               if not os.path.exists (shell):
+                dbg ('spawn_child: %s does not exist'%shell)
                 continue
               else:
+                dbg ('spawn_child: %s does exist'%shell)
                 break
+            if os.path.exists (shell):
+              break
 
     if not self.command and not os.path.exists (shell):
       # Give up, we're completely stuck
