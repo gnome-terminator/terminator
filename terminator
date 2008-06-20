@@ -395,7 +395,7 @@ text/plain
         if not os.path.exists (shell):
           for i in ['bash','zsh','tcsh','ksh','csh','sh']:
             for p in paths:
-              shell = os.path.join(p, 'bin', i)
+              shell = os.path.join(p, i)
               dbg ('spawn_child: Checking if "%s" exists'%shell)
               if not os.path.exists (shell):
                 continue
