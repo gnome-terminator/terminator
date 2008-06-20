@@ -380,7 +380,7 @@ text/plain
 
     if self.conf.use_custom_command and shell[0] != '/':
      for path in paths:
-       dbg ('spawn_child: looking for "%s"'%os.path.join (path, shell))
+       dbg ('spawn_child: looking for pathless custom command "%s"'%os.path.join (path, shell))
        if os.path.exists (os.path.join (path, shell)):
          shell = os.path.join (path, shell)
          break
@@ -390,11 +390,13 @@ text/plain
       shell = os.getenv ('SHELL') or ''
       args = []
       if not os.path.exists (shell):
+        dbg ('spawn_child: No usable shell in $SHELL (%s)'%os.getenv('SHELL'))
         shell = pwd.getpwuid (os.getuid ())[6] or ''
         if not os.path.exists (shell):
           for i in ['bash','zsh','tcsh','ksh','csh','sh']:
             for p in paths:
               shell = os.path.join(p, 'bin', i)
+              dbg ('spawn_child: Checking if "%s" exists'%shell)
               if not os.path.exists (shell):
                 continue
               else:
