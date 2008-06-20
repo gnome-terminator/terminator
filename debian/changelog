@@ -1,3 +1,9 @@
+terminator (0.9~beta4-0) hardy; urgency=low
+
+  *  Improve the previous fix
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 20 Jun 2008 11:28:44 +0100
+
 terminator (0.9~beta3-0) hardy; urgency=low
 
   * New beta build to fix LP #241563
