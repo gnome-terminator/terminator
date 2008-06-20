@@ -1,3 +1,9 @@
+terminator (0.9~beta2-0.1) hardy; urgency=low
+
+  * New beta build to fix LP #241563
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 20 Jun 2008 11:03:25 +0100
+
 terminator (0.9~beta2-0) hardy; urgency=low
 
   * Add some more debugging to spawn_child to track down bug 241563
