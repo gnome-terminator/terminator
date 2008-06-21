@@ -125,6 +125,7 @@ class TerminatorConfValuestore:
     'f11_modifier'          : False,
     'force_no_bell'         : False,
     'cycle_term_tab'        : True,
+    'copy_on_selection'     : False,
   }
 
   def __getattr__ (self, keyname):
