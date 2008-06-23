@@ -1662,7 +1662,7 @@ class Terminator:
       if self.conf.titlebars:
         widget._titlebox.hide()
     else:
-      self.unzoom_term (widget, fontscale)
+      self.unzoom_term (widget, True)
       if self.conf.titlebars and \
           len(self.term_list) > 1 \
           and \
