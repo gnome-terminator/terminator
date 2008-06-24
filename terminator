@@ -175,7 +175,8 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
-
+    self._vte.connect ("button-release-event", self.on_button_release)
+    
     exit_action = self.conf.exit_action
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
@@ -198,6 +199,11 @@ class TerminatorTerm (gtk.VBox):
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
 
+  def on_button_release(self, widget, event):
+    #LP#242612 we need to give focus on the widget where the paste occured
+    if event.button == 2:
+      widget.grab_focus()
+      
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
     widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
