@@ -175,7 +175,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
-    self._vte.connect ("button-release-event", self.on_button_release)
+    
     
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -198,11 +198,6 @@ class TerminatorTerm (gtk.VBox):
     dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
-
-  def on_button_release(self, widget, event):
-    #LP#242612 we need to give focus on the widget where the paste occured
-    if event.button == 2:
-      widget.grab_focus()
       
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
@@ -585,7 +580,9 @@ text/plain
       return False
 
     # Left mouse button should transfer focus to this vte widget
-    if event.button == 1:
+    #LP#242612:
+    # we also need to give focus on the widget where the paste occured
+    if event.button in (1 ,2):
       self._vte.grab_focus ()
       return False
 
