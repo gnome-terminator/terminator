@@ -608,6 +608,12 @@ text/plain
     else:
       widget.show ()
 
+  
+  def paste_clipboard(self):
+    self._vte.paste_clipboard()
+    self._vte.grab_focus()
+
+
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   def on_vte_key_press (self, term, event):
@@ -657,7 +663,7 @@ text/plain
         self._vte.copy_clipboard ()
         return (True)
       elif keyname == 'V':
-        self._vte.paste_clipboard ()
+        self.paste_clipboard ()
         return (True)
       elif keyname == 'S':
         self.do_scrollbar_toggle ()
@@ -767,7 +773,7 @@ text/plain
     menu.append (item)
 
     item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
-    item.connect ("activate", lambda menu_item: self._vte.paste_clipboard ())
+    item.connect ("activate", lambda menu_item: self.paste_clipboard ())
     menu.append (item)
 
     item = gtk.MenuItem ()
