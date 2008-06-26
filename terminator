@@ -1704,16 +1704,31 @@ class Terminator:
     new_rows = widget._vte.get_row_count ()
     new_font = widget._vte.get_font ()
 
-    dbg ('zoom_term: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
+    dbg ('zoom_scale_font: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
+
+    if new_rows != self.old_rows:
+      titleheight = widget._titlebox.get_allocation().height
+      vtecharheight =  widget._vte.get_char_height()
+      rowdiff = new_rows - self.old_rows + 2
+      dbg ('zoom_scale_font: titlebox height is %d, char_height is %d'%(titleheight, vtecharheight))
+      dbg ('zoom_scale_font: lhs: %d, rhs: %f'%((titleheight / vtecharheight), rowdiff))
+      care_height = (rowdiff <= vtecharheight / rowdiff)
+      dbg ('zoom_scale_font: caring about height difference: %s'%care_height)
+    else:
+      care_height = False
+    
+    if new_rows <= self.old_rows or care_height:
+      dbg ('zoom_scale_font: Which means I didnt scale on one axis (col: %s, row: %s). Bailing'%((new_columns <= self.old_columns), (new_rows <= self.old_rows)))
+      return
 
     old_area = self.old_columns * self.old_rows
     new_area = new_columns * new_rows
     area_factor = new_area / old_area
 
-    dbg ('zoom_term: My area changed from %d characters to %d characters, a factor of %f.'%(old_area, new_area, area_factor))
+    dbg ('zoom_scale_font: My area changed from %d characters to %d characters, a factor of %f.'%(old_area, new_area, area_factor))
 
     new_font.set_size (self.old_font.get_size() * (area_factor / 2))
-    dbg ('zoom_term: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
+    dbg ('zoom_scale_font: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
     widget._vte.set_font (new_font)
     widget.disconnect (self.cnid)
 
