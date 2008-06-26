@@ -1717,7 +1717,7 @@ class Terminator:
     else:
       care_height = False
     
-    if new_rows <= self.old_rows or care_height:
+    if (new_rows <= self.old_rows) or care_height or (new_columns <= self.old_columns):
       dbg ('zoom_scale_font: Which means I didnt scale on one axis (col: %s, row: %s). Bailing'%((new_columns <= self.old_columns), (new_rows <= self.old_rows)))
       return
 
