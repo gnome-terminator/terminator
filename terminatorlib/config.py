@@ -38,7 +38,7 @@ import os, sys, re
 import pwd
 
 # set this to true to enable debugging output
-debug = True
+debug = False
 
 def dbg (log = ""):
   if debug:
