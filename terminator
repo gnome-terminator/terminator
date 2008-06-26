@@ -1658,12 +1658,15 @@ class Terminator:
 
   def toggle_zoom(self, widget, fontscale = False):
     if not self._zoomed:
-      self.zoom_term (widget, fontscale)
-      if self.conf.titlebars:
+      widget._titlebars = widget._titlebox.get_property ('visible')
+      dbg ('toggle_zoom: not zoomed. remembered titlebar setting of %s'%widget._titlebars)
+      if widget._titlebars:
         widget._titlebox.hide()
+      self.zoom_term (widget, fontscale)
     else:
+      dbg ('toggle_zoom: zoomed. restoring titlebar setting of %s'%widget._titlebars)
       self.unzoom_term (widget, True)
-      if self.conf.titlebars and \
+      if widget._titlebars and \
           len(self.term_list) > 1 \
           and \
           (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Paned))\
