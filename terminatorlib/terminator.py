@@ -28,6 +28,48 @@ from terminatorlib.config import dbg, err
 #import TerminatorTerm
 from terminatorlib.terminatorterm import TerminatorTerm
 
+class TerminatorNotebookTabLabel(gtk.HBox):
+
+  def __init__(self, title, notebook, terminator):
+    gtk.HBox.__init__(self)
+    self._notebook = notebook
+    self.terminator = terminator
+    self._label = gtk.Label(title)
+    
+    icon = gtk.Image()
+    icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+    
+    self._button = gtk.Button()
+    self._button.set_relief(gtk.RELIEF_NONE)
+    self._button.set_image(icon)
+    self._button.connect('clicked', self.on_close)
+
+    self.pack_start(self._label, True, True)
+    self.pack_start(self._button, False, False)
+
+    self.show_all()
+
+  def on_close(self, widget):
+    nbpages = self._notebook.get_n_pages()
+    for i in range(0,nbpages):
+      if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
+        #dbg("[Close from tab] Found tab at position [%d]" % i)
+        term = self.terminator._notebook_first_term(self._notebook.get_nth_page(i))
+        while term:
+          if term == self._notebook.get_nth_page(i):
+            self.terminator.closeterm(term)
+            break
+          self.terminator.closeterm(term)
+          term = self.terminator._notebook_first_term(self._notebook.get_nth_page(i))
+        break
+
+  def set_title(self, title):
+    self._label.set_text(title)
+
+  def get_title(self):
+    return self._label.get_text()
+
+
 class Terminator:
   def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
@@ -254,7 +296,8 @@ class Terminator:
       #parent.remove_page(page)
       pane.show()
       parent.insert_page(pane, None, page)
-      parent.set_tab_label_text(pane, widget._vte.get_window_title())
+      notebooktablabel = TerminatorNotebookTabLabel(widget._vte.get_window_title(), parent, self)
+      parent.set_tab_label(pane,notebooktablabel)
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
       parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
@@ -394,7 +437,7 @@ class Terminator:
        ((self.conf.extreme_tabs and not toplevel) or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
-      notebook.set_tab_pos(gtk.POS_TOP)
+      #notebook.set_tab_pos(gtk.POS_TOP)
       notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
       notebook.set_tab_reorderable(widget, True)
@@ -415,8 +458,9 @@ class Terminator:
         child._titlebox.hide()
       if widget._vte.get_window_title() is not None:
         notebooklabel = widget._vte.get_window_title()
-      notebook.set_tab_label_text(child, notebooklabel)    
-      notebook. set_tab_label_packing(child, True, True, gtk.PACK_START)
+      notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
+      notebook.set_tab_label(child, notebooktablabel)
+      notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
       notebook.show()  
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
@@ -439,7 +483,8 @@ class Terminator:
     notebooklabel = ""
     if terminal._vte.get_window_title() is not None:
       notebooklabel = terminal._vte.get_window_title()
-    notebook.set_tab_label_text(terminal, notebooklabel)
+    notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
+    notebook.set_tab_label(terminal, notebooktablabel)
     notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
     notebook.set_tab_reorderable(terminal,True)
     ## Now, we set focus on the new term
@@ -516,6 +561,7 @@ class Terminator:
         parent.remove(sibling)
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
+        grandparent.set_tab_label(sibling, TerminatorNotebookTabLabel("",grandparent, self))
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
         grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)

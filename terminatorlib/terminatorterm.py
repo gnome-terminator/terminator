@@ -900,7 +900,10 @@ text/plain
     self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
-      notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+      if notebookpage[0].get_tab_label(notebookpage[1]):
+        label = notebookpage[0].get_tab_label(notebookpage[1])
+        label.set_title(vte.get_window_title ())
+        notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
@@ -918,7 +921,10 @@ text/plain
       self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
       notebookpage = self.terminator.get_first_notebook_page(vte)
       while notebookpage != None:
-        notebookpage[0].set_tab_label_text(notebookpage[1], vte.get_window_title ())
+        if notebookpage[0].get_tab_label(notebookpage[1]):
+          label = notebookpage[0].get_tab_label(notebookpage[1])
+          label.set_title(vte.get_window_title ())
+          notebookpage[0].set_tab_label(notebookpage[1], label)
         notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def destroy(self):
