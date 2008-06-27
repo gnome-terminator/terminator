@@ -126,6 +126,7 @@ class TerminatorConfValuestore:
     'force_no_bell'         : False,
     'cycle_term_tab'        : True,
     'copy_on_selection'     : False,
+    'close_button_on_tab'   : True,
   }
 
   def __getattr__ (self, keyname):

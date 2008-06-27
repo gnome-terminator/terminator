@@ -39,13 +39,14 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     icon = gtk.Image()
     icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     
-    self._button = gtk.Button()
-    self._button.set_relief(gtk.RELIEF_NONE)
-    self._button.set_image(icon)
-    self._button.connect('clicked', self.on_close)
-
     self.pack_start(self._label, True, True)
-    self.pack_start(self._button, False, False)
+
+    if terminator.conf.close_button_on_tab:
+      self._button = gtk.Button()
+      self._button.set_relief(gtk.RELIEF_NONE)
+      self._button.set_image(icon)
+      self._button.connect('clicked', self.on_close)
+      self.pack_start(self._button, False, False)
 
     self.show_all()
 
