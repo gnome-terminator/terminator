@@ -37,7 +37,8 @@ except:
 import pwd
 
 # import some useful functions
-from terminatorlib.config import dbg, err
+from terminatorlib.config import dbg, err, debug
+import terminatorlib.config
 
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
@@ -94,6 +95,9 @@ if __name__ == '__main__':
   if options.version:
     print "%s %s"%(APP_NAME, APP_VERSION)
     sys.exit (0)
+  
+  if options.debug:
+    terminatorlib.config.debug = True
 
   command = []
   if (options.command):

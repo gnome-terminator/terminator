@@ -43,6 +43,7 @@ debug = False
 def dbg (log = ""):
   if debug:
     print >> sys.stderr, log
+
 def err (log = ""):
   print >> sys.stderr, log
 
