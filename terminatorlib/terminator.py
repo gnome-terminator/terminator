@@ -31,27 +31,32 @@ from terminatorlib.terminatorterm import TerminatorTerm
 class TerminatorNotebookTabLabel(gtk.HBox):
 
   def __init__(self, title, notebook, terminator):
-    gtk.HBox.__init__(self)
+    gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self.terminator = terminator
-    self._label = gtk.Label(title)
-    
+    self._label = gtk.Label(title) 
     icon = gtk.Image()
     icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
-    
     self.pack_start(self._label, True, True)
 
     if terminator.conf.close_button_on_tab:
       self._button = gtk.Button()
       self._button.set_relief(gtk.RELIEF_NONE)
-      self._button.set_image(icon)
+      self._button.set_focus_on_click(False)
+      self._button.set_relief(gtk.RELIEF_NONE)
+      self._button.add(icon)
       self._button.connect('clicked', self.on_close)
+      self.connect("style-set", self.on_style_set)
       self.pack_start(self._button, False, False)
-
     self.show_all()
+
+  def on_style_set(self, widget, prevstyle):
+    x, y = gtk.icon_size_lookup_for_settings( self._button.get_settings(), gtk.ICON_SIZE_MENU)
+    self._button.set_size_request(x + 5,y + 5)
 
   def on_close(self, widget):
     nbpages = self._notebook.get_n_pages()
+    print self._button.allocation.width, self._button.allocation.height
     for i in range(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
