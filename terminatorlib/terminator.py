@@ -183,7 +183,7 @@ class Terminator:
 
     return (False)
 
-  def on_focus (self, direction):
+  def on_focus (self, direction, data=None):
     self.window.queue_draw ()
 
   def on_delete_event (self, window, event, data=None):
