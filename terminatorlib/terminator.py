@@ -133,6 +133,7 @@ class Terminator:
     self.window.connect ("delete_event", self.on_delete_event)
     self.window.connect ("destroy", self.on_destroy_event)
     self.window.connect ("window-state-event", self.on_window_state_changed)
+    self.window.connect ("focus", self.on_focus)
 
     self.window.set_property ('allow-shrink', True)
 
@@ -181,6 +182,9 @@ class Terminator:
     self._fullscreen = bool (state)
 
     return (False)
+
+  def on_focus (self, direction):
+    self.window.queue_draw ()
 
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
