@@ -23,6 +23,10 @@ Default value: \fBTrue\fR
 If true, don't make a noise or flash. All terminal bells will be ignored.
 Default value: \fBFalse\fR
 .TP
+.B use_theme_colors
+If true, ignore the configured colours and use values from the theme instead.
+Default value: \fBFalse\fR
+.TP
 .B background_color
 Default colour of terminal background, as a colour specification (can be HTML-style hex digits, or a colour name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
 Default value: \fB#000000\fR
@@ -35,6 +39,10 @@ Default value: \fB0.5\fR
 Type of terminal background. May be "solid" for a solid colour, "image" for an image, or "transparent" for full transparency in compositing window managers, otherwise pseudo transparency.
 Default value: \fBsolid\fR
 .TP
+.B background_image
+Path to an image file to be used for the background of terminals.
+Default value: Nothing
+.TP
 .B backspace_binding
 Sets what code the backspace key generates. Possible values are "ascii-del" for the ASCII DEL character, "control-h" for Control-H (AKA the ASCII BS character), "escape-sequence" for the escape sequence typically bound to backspace or delete. "ascii-del" is normally considered the correct setting for the Backspace key.
 Default value: \fBascii\-del\fR
@@ -45,7 +53,7 @@ Default value: \fBdelete\-sequence\fR
 .TP
 .B cursor_blink \fR(boolean)
 Controls if the cursor blinks.
-Default value: \fBFalse\fR
+Default value: \fBTrue\fR
 .TP
 .B emulation
 Sets what type of terminal should be emulated.
@@ -53,7 +61,7 @@ Default value: \fBxterm\fR
 .TP
 .B font
 An Pango font name. Examples are "Sans 12" or "Monospace Bold 14".
-Default value: \fBSerif 10\fR
+Default value: \fBMono 8\fR
 .TP
 .B foreground_color
 Default colour of text in the terminal, as a colour specification (can be HTML-style hex digits, or a colour name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
@@ -67,31 +75,33 @@ Default value: \fBright\fR
 If true, a titlebar will be drawn for each terminal which shows the current title of that terminal.
 Default value: \fBTrue\fR
 .TP
+.B titletips
+If true, a tooltip will be available for each terminal which shows the current title of that terminal.
+Default value: \fBFalse\fR
+.TP
 .B scroll_background \fR(boolean)
 If true, scroll the background image with the foreground text; if false, keep the image in a fixed position and scroll the text above it.
 Default value: \fBTrue\fR
 .TP
 .B scroll_on_keystroke \fR(boolean)
 If true, pressing a key jumps the scrollbar to the bottom.
-Default value: \fBFalse\fR
+Default value: \fBTrue\fR
 .TP
 .B scroll_on_output \fR(boolean)
 If true, whenever there's new output the terminal will scroll to the bottom.
-Default value: \fBFalse\fR
+Default value: \fBFTrue\fR
 .TP
 .B scrollback_lines
 Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Be careful with this setting; it's the primary factor in determining how much memory the terminal will use.
-Default value: \fB100\fR
+Default value: \fB500\fR
 .TP
 .B focus
 Sets what type of mouse events should determine terminal focus. Can be "sloppy" or "click". "mouse" is also interpreted as "sloppy".
-Default value: \fBsloppy\fR
+Default value: \fBclick\fR
 .TP
 .B focus_on_close
-Sets which terminal should get the focus when another terminal is closed.
-Values can be "prev", "next" or "auto".
-Using "auto", if the closed terminal is within a splitted window, the focus will be on the sibling terminal
-rather than another tab.
+Sets which terminal should get the focus when another terminal is closed. Values can be "prev", "next" or "auto".
+Using "auto", if the closed terminal is within a splitted window, the focus will be on the sibling terminal rather than another tab.
 Default value: \fBauto\fR
 .TP
 .B exit_action
@@ -110,6 +120,22 @@ Default value: \fB\-A\-Za\-z0\-9,./?%&#:_\fR
 Controls whether the mouse cursor should be hidden while typing.
 Default value: \fBTrue\fR
 .TP
+.B use_custom_command \fR(boolean)
+If True, the value of \fBcustom_command\fR will be used instead of the default shell.
+Default value: \fBFalse\fR
+.TP
+.B custom_command
+Command to execute instead of the default shell, if \fBuse_custom_command\fR is set to True.
+Default value: Nothing
+.TP
+.B http_proxy
+URL of an HTTP proxy to use, e.g. http://proxy.lan:3128/
+Default value: Nothing
+.TP
+.B encoding
+Character set to use for the terminal.
+Default value: \fBUTF-8\fR
+.TP
 .B fullscreen \fR(boolean)
 Controls whether the Terminator window will be started in fullscreen mode
 Default value: \fBFalse\fR
@@ -126,20 +152,24 @@ Default value: \fBFalse\fR
 Controls the width of the separator between terminals. Anything outside the range 0-5 (inclusive) will be ignored and use your default theme value.
 Default value: \fB-1\fR
 .TP
-.B f11_modifier
-If this is set to true, the fullscreen keyboard shortcut changes from F11 (like many GNOME apps) to Ctrl-Shift-F11 (useful if you use terminal applications which expect to receive F11.
+.B f11_modifier \fR(boolean)
+If this is set to True, the fullscreen keyboard shortcut changes from F11 (like many GNOME apps) to Ctrl-Shift-F11 (useful if you use terminal applications which expect to receive F11.
 Default value: \fBFalse\fR
 .TP
-.B cycle_term_tab
-If this is set to true, when switching to the next/previous term, Terminator will cycle within the same tab. Ctrl-PageUp/PageDown can then be used to move from one tab to the other one.
+.B cycle_term_tab \fR(boolean)
+If this is set to True, when switching to the next/previous term, Terminator will cycle within the same tab. Ctrl-PageUp/PageDown can then be used to move from one tab to the other one.
 Default value: \fBTrue\fR
 .TP
-.B close_button_on_tab
-If set to true, tabs will have a close button on them.
+.B close_button_on_tab \fR(boolean)
+If set to True, tabs will have a close button on them.
 Default value: \fBTrue\fR
 .TP
-.B copy_on_selection
+.B copy_on_selection \fR(boolean)
 If set to True, text selections will be automatically copied to the clipboard, in addition to being made the Primary selection.
+Default value: \fBFalse\fR
+.TP
+.B extreme_tabs \fB(boolean)\fR
+If set to True, tabs can be created within other tabs. Be warned that this can be very confusing and hard to use.
 Default value: \fBFalse\fR
 .SH "SEE ALSO"
 .BR gnome\-terminal(1)
