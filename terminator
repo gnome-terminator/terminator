@@ -43,6 +43,9 @@ import terminatorlib.config
 # import gtk libs
 # check just in case anyone runs it on a non-gnome system.
 try:
+  import pygtk
+  pygtk.require ("2.0")
+
   import gobject, gtk, pango
 except:
   err (_("You need to install the python bindings for " \
