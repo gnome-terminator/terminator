@@ -61,21 +61,27 @@ else:
 # import a library for viewing URLs
 try:
   # gnome.url_show() is really useful
+  dbg ('url_show: importing gnome module')
   import gnome
   url_show = gnome.url_show
 except:
   # webbrowser.open() is not really useful, but will do as a fallback
+  dbg ('url_show: gnome module failed, using webbrowser')
   import webbrowser
   url_show = webbrowser.open
 
 def openurl (url):
+  dbg ('openurl: viewing %s'%url)
   try:
     if subprocess.call(["xdg-open", url]) != 0:
+      dbg ('openurl: xdg-open failed')
       raise
   except:
     try:
+      dbg ('openurl: calling url_show')
       url_show (url)
     except:
+      dbg ('openurl: url_show failed. No URL for you')
       pass
 
 class TerminatorTerm (gtk.VBox):
