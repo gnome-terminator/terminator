@@ -7,7 +7,6 @@ terminator 0.9:
     make the meaning clearer.
   * Added keybindings for terms size and scrollbar manipulation. Thanks 
     Emmanuel Bretelle.
-  * Alpha transparency support when running in a composited window manager
   * Completely revamped config system which now transparently makes use
     of gconf settings if they are available, falls back to sensible
     defaults if not, and can be overridden entirely by ~/.config/terminator/config

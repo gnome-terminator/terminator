@@ -1,3 +1,9 @@
+terminator (0.9~rc1-0) hardy; urgency=low
+
+  * First release candidate for 0.9
+
+ -- Chris Jones <cmsj@tenshu.net>  Thu, 03 Jul 2008 23:19:09 +0100
+
 terminator (0.9~beta4-0) hardy; urgency=low
 
   *  Improve the previous fix

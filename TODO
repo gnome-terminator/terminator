@@ -1,5 +1,3 @@
-* Edit doc/terminator_config.5 manpage to contain the information about the options
-
 * menu entry/keybinding to hightlight a term upon:
     * command ending
     * new text in window

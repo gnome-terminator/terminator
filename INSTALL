@@ -1,5 +1,12 @@
-install python vte bindings ("python-vte" on Debian/ubuntu) and run:
+If at all possible I would encourage you to use a distribution 
+package of Terminator rather than the source tarball (ie I hope
+that most users never read this file).
+
+If you must install from source, install python vte bindings 
+("python-vte" on Debian/ubuntu) and run:
 
     ./setup.py install
 
-Note that this is not as complete as a package install at the moment - e.g. GNOME menu integration will not happen and there is no uninstall option.
+Note that this is not as complete as a package install at the moment 
+e.g. GNOME menu integration will not happen and there is no 
+uninstall option.

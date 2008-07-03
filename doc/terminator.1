@@ -6,25 +6,22 @@ Terminator \- Multiple GNOME terminals in one window
 .RI [ options ] 
 .br 
 .SH "DESCRIPTION"
-This manual page documents briefly the
-.B Terminator
-command.
+This manual page documents \fBTerminator\fP, a terminal emulator application.
 .PP 
 \fBTerminator\fP is a program that allows users to set up flexible
 arrangements of GNOME terminals. It is aimed at those who normally 
 arrange lots of terminals near each other, but don't want to use a 
 frame based window manager.
 .SH "OPTIONS"
-These programs follow the usual GNU command line syntax, with long
+This program follow the usual GNU command line syntax, with long
 options starting with two dashes (`\-').
 A summary of options is included below.
-For a complete description, see the Info files.
 .TP 
 .B \-h, \-\-help
-Show summary of options.
+Show summary of options
 .TP 
 .B \-d, \-\-debug
-Enable debugging output
+Enable debugging output (please use this when reporting bugs)
 .TP 
 .B \-m, \-\-maximise
 Maximise the Terminator window when it starts
@@ -45,7 +42,7 @@ Runs the specified command instead of your default shell or profile specified co
 .B \-x, \-\-execute=COMMAND [ARGS]
 Runs \fBthe rest of the command line\fR instead of your default shell or profile specified command.
 .SH "KEYBINDINGS"
-\fBTerminator\fR allows you to manage windows using the keybindings described here:
+The following keybindings can be used to control Terminator:
 .TP 
 .B Ctrl+Shift+O
 Split terminals H\fBo\fRrizontally.
@@ -54,16 +51,16 @@ Split terminals H\fBo\fRrizontally.
 Split terminals V\fBe\fRrtically.
 .TP 
 .B Ctrl+Shift+Right
-Move first parent HPaned handle \fBRight\fR.
+Move parent handle \fBRight\fR.
 .TP 
 .B Ctrl+Shift+Left
-Move first parent HPaned handle \fBLeft\fR.
+Move parent handle \fBLeft\fR.
 .TP 
 .B Ctrl+Shift+Up
-Move first VPaned handle \fBUp\fR.
+Move parent handle \fBUp\fR.
 .TP 
 .B Ctrl+Shift+Down
-Move first VPaned handle \fBDown\fR.
+Move parent handle \fBDown\fR.
 .TP 
 .B Ctrl+Shift+S
 Hide/Show \fBS\fRcrollbar.
@@ -79,14 +76,14 @@ If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabl
 .B Ctrl+Shift+W
 Close the current terminal.
 .TP 
+.B Ctrl+Shift+Q
+Quits Terminator
+.TP 
 .B Ctrl+Shift+X
 Toggle between showing all terminals and only showing the current one.
 .TP 
 .B Ctrl+Shift+Z
 Toggle between showing all terminals and only showing a scaled version of the current one.
-.TP 
-.B Ctrl+Shift+Q
-Close the current window.
 .TP 
 .B Ctrl+Shift+T
 Open new \fBt\fRab
@@ -104,30 +101,25 @@ Swap tab position with next Tab
 Swap tab position with previous Tab
 .TP
 .B Ctrl+Plus (+)
-Increase font size
+Increase font size. \fBNote:\fP this may require you to press shift, depending on your keyboard
 .TP
 .B Ctrl+Minus (-)
-Decrease font size
+Decrease font size. \fBNote:\fP this may require you to press shift, depending on your keyboard
 .TP
 .B Ctrl+Equals (=)
-Restore font size to original setting
+Restore font size to original setting. \fBNote:\fP this may require you to press shift, depending on your keyboard
 .TP
 .B F11
 Toggle fullscreen
 .SH "Drag and Drop"
-Terminals layout can be modified by moving them using 
-.B Drag and Drop
-To start dragging a terminal, press 
-.B Ctrl
-and 
-.B right click
- on the terminal
-Move the terminal over the landing terminal.
-The zone where the terminal will be inserted will be highlighted.
+The layout can be modified by moving terminals with Drag and Drop.
+To start dragging a terminal, hold down \fBCtrl\fP, click and hold the \fBright\fP mouse button. You can
+now drag the terminal do the point in the layout you would like it to be.
+The zone where the terminal would be inserted will be highlighted.
 .SH "SEE ALSO"
 .BR gnome\-terminal(1),terminator_config(5)
 .SH "AUTHOR"
 Terminator was written by Chris Jones <cmsj@tenshu.net> and others.
 .PP 
 This manual page was written by Chris Jones <cmsj@tenshu.net>
-for the Ubuntu project (but may be used by others).
+and others.

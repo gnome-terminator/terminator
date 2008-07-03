@@ -1,24 +1,47 @@
 Terminator 0.9
-by Chris Jones <cmsj@tenshu.net>
+by Chris Jones <cmsj@tenshu.net> and several others.
 
-This is a little python script to give me lots of terminals in a single window, saving me valuable laptop screen space otherwise wasted on window decorations and not quite being able to fill the screen with terminals.
+The goal of this project is to produce a useful tool for arranging terminals. 
+It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that
+the main focus is arranging terminals in grids (tabs is the most common default
+method).
 
-Right now it will open a single window with one terminal and it will (to some degree) mirror the settings of your default gnome-terminal profile in gconf. Eventually this will be extended and improved to offer profile selection per-terminal, configuration thereof and the ability to alter the number of terminals and save meta-profiles.
+When you run Terminator, you will get a terminal in a window, just like almost 
+every other terminal emulator available. There is no other GUI apart from the 
+context menu on each terminal, but there is a configuration file which can be
+used to control the behaviours and settings of Terminator (see the manpage
+"terminator_config"). If you use GNOME then the settings for your default
+gnome-terminal profile will be used (you can specify an alternate profile on
+the command line).
 
-You can create more terminals by right clicking on one and choosing to split it vertically or horizontally. You can get rid of a terminal by right clicking on it and choosing Close. ctrl-shift-o and ctrl-shift-e will also effect the splitting.
+You can create more terminals by right clicking on one and choosing to split 
+it vertically or horizontally. You can get rid of a terminal by right 
+clicking on it and choosing Close. Ctrl-Shift-o and Ctrl-Shift-e will also 
+effect the splitting.
 
-ctrl-shift-n and ctrl-shift-p will shift focus to the next/previous terminal respectively, and ctrl-shift-w will close the current terminal and ctrl-shift-q the current window
+Ctrl-Shift-n and Ctrl-Shift-p will Shift focus to the next/previous terminal 
+respectively, and Ctrl-Shift-w will close the current terminal and 
+Ctrl-Shift-q the current window
+
+For more keyboard shortcuts and also the command line options, please see the
+manpage "terminator"
 
 Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
 
-It's quite shamelessly based on code in the vte-demo.py from the vte widget package, and on the gedit terminal plugin (which was fantastically useful).
+Terminator began by shamelessly copying code from the vte-demo.py in the vte 
+widget package, and on the gedit terminal plugin (which was fantastically 
+useful at figuring out vte's API).
 
-vte-demo.py is not my code and is copyright its original author. While it does not contain any specific licensing information in it, the VTE package appears to be licenced under LGPL v2.
+vte-demo.py was not my code and is copyright its original author. While it 
+does not contain any specific licensing information in it, the VTE package 
+appears to be licenced under LGPL v2.
 
-the gedit terminal plugin is part of the gedit-plugins package, which is licenced under GPL v2 or later.
+The gedit terminal plugin is part of the gedit-plugins package, which is 
+licenced under GPL v2 or later.
 
 I am thus licensing Terminator as GPL v2 only.
 
 Cristian Grada provided the old icon under the same licence.
 Cory Kontros provided the new icon under the CC-by-SA licence.
+
