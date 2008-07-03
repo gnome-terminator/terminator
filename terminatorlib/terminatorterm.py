@@ -40,60 +40,44 @@ except:
   error.run()
   sys.exit (1)
 
-TARGET_TYPE_VTE = 8
-
-# Sort out cwd detection code, if available
-pid_get_cwd = lambda pid: None
-if platform.system() == 'FreeBSD':
-  try:
-    from terminatorlib import freebsd
-    pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
-    dbg ('Using FreeBSD pid_get_cwd')
-  except:
-    dbg ('FreeBSD version too old for pid_get_cwd')
-    pass
-elif platform.system() == 'Linux':
-  dbg ('Using Linux pid_get_cwd')
-  pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
-else:
-  dbg ('Unable to set a pid_get_cwd, unknown system: %s'%platform.system)
-
-# import a library for viewing URLs
-try:
-  # gnome.url_show() is really useful
-  dbg ('url_show: importing gnome module')
-  import gnome
-  url_show = gnome.url_show
-except:
-  # webbrowser.open() is not really useful, but will do as a fallback
-  dbg ('url_show: gnome module failed, using webbrowser')
-  import webbrowser
-  url_show = webbrowser.open
-dbg ('url_show: is set to: %s'%url_show)
-
-def openurl (url):
-  dbg ('openurl: viewing %s'%url)
-  try:
-    if subprocess.call(["xdg-open", url]) != 0:
-      dbg ('openurl: xdg-open failed')
-      raise
-  except:
-    try:
-      dbg ('openurl: calling url_show')
-      url_show (url)
-    except:
-      dbg ('openurl: url_show failed. No URL for you')
-      pass
-
 class TerminatorTerm (gtk.VBox):
 
   matches = {}
+  TARGET_TYPE_VTE = 8
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
     self.terminator = terminator
     self.conf = terminator.conf
     self.command = command
+
+    # Sort out cwd detection code, if available
+    self.pid_get_cwd = lambda pid: None
+    if platform.system() == 'FreeBSD':
+      try:
+        from terminatorlib import freebsd
+        self.pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
+        dbg ('Using FreeBSD self.pid_get_cwd')
+      except:
+        dbg ('FreeBSD version too old for self.pid_get_cwd')
+        pass
+    elif platform.system() == 'Linux':
+      dbg ('Using Linux self.pid_get_cwd')
+      self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+    else:
+      dbg ('Unable to set a self.pid_get_cwd, unknown system: %s'%platform.system)
+
+    # import a library for viewing URLs
+    try:
+      # gnome.url_show() is really useful
+      dbg ('url_show: importing gnome module')
+      import gnome
+      url_show = gnome.url_show
+    except:
+      # webbrowser.open() is not really useful, but will do as a fallback
+      dbg ('url_show: gnome module failed, using webbrowser')
+      import webbrowser
+      url_show = webbrowser.open
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
@@ -139,8 +123,8 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
     
     """drag and drop"""
-    srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ) ]
-    dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
+    srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ) ]
+    dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
     self._vte.drag_source_set( gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     self._titlebox.drag_source_set( gtk.gdk.BUTTON1_MASK, srcvtetargets, gtk.gdk.ACTION_MOVE)
     #self._vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION | gtk.DEST_DEFAULT_HIGHLIGHT |gtk.DEST_DEFAULT_DROP ,dsttargets, gtk.gdk.ACTION_MOVE)
@@ -161,8 +145,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
-    
-    
+
     exit_action = self.conf.exit_action
     if exit_action == "restart":
       self._vte.connect ("child-exited", self.spawn_child)
@@ -184,7 +167,21 @@ class TerminatorTerm (gtk.VBox):
     dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
-      
+
+  def openurl (url):
+    dbg ('openurl: viewing %s'%url)
+    try:
+      if subprocess.call(["xdg-open", url]) != 0:
+        dbg ('openurl: xdg-open failed')
+        raise
+    except:
+      try:
+        dbg ('openurl: calling url_show')
+        url_show (url)
+      except:
+        dbg ('openurl: url_show failed. No URL for you')
+        pass
+ 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
     widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
@@ -192,8 +189,7 @@ class TerminatorTerm (gtk.VBox):
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
-  
-    
+
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     dbg ("Drag Motion on ")
     """
@@ -216,7 +212,6 @@ text/plain
       #on self
       return
 
-    
     alloc = widget.allocation
     rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
     widget.window.invalidate_rect(rect, True)
@@ -227,8 +222,7 @@ text/plain
       color = self._vte.get_style ().text[gtk.STATE_NORMAL]
     else:
       color = gtk.gdk.color_parse (self.conf.foreground_color)
-    
-    
+
     context.set_source_rgba(color.red, color.green, color.blue, 0.5)
      
     pos = self.get_location(widget, x, y)
@@ -258,8 +252,7 @@ text/plain
         context.line_to(i[0],i[1])
       
       context.fill()
-
-      
+ 
   def on_drag_drop(self, widget, drag_context, x, y, time):
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
@@ -296,7 +289,6 @@ text/plain
     data.terminator.add(self, widgetsrc,pos)
     return
 
-
   def get_location(self, vte, x, y):
     pos = ""
     #get the diagonales function for the receiving widget
@@ -304,7 +296,7 @@ text/plain
     coef2 = -float(vte.allocation.height)/float(vte.allocation.width)
     b1 = 0
     b2 = vte.allocation.height
-     #determine position in rectangle
+    #determine position in rectangle
     """
     --------
     |\    /|
@@ -324,7 +316,6 @@ text/plain
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       pos = "bottom"
     return pos
-
 
   def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
     userchars = "-A-Za-z0-9"
@@ -424,7 +415,7 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    cwd = pid_get_cwd (self._pid)
+    cwd = self.pid_get_cwd (self._pid)
     dbg ('get_cwd found: %s'%cwd)
     return (cwd)
 
@@ -597,11 +588,9 @@ text/plain
     else:
       widget.show ()
 
-  
   def paste_clipboard(self):
     self._vte.paste_clipboard()
     self._vte.grab_focus()
-
 
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)

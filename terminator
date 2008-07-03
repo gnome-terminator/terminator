@@ -132,7 +132,6 @@ See the following bug report for more details:
       https://bugs.launchpad.net/bugs/238070'''))
       error.run ()
       error.destroy ()
-
     except:
       pass
 

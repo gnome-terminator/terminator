@@ -80,7 +80,6 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   def get_title(self):
     return self._label.get_text()
 
-
 class Terminator:
   def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False):
     self.profile = profile
@@ -513,9 +512,6 @@ class Terminator:
     index = self.term_list.index(sibling)
     self.term_list.insert (index + 1, terminal)
     return (True)
-      
-      
-    return terminal
   
   def splitaxis (self, widget, vertical=True):
     """ Split the provided widget on the horizontal or vertical axis. """
@@ -580,7 +576,6 @@ class Terminator:
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
         grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)
-
       else:
         grandparent.remove (parent)
         sibling.reparent (grandparent)
@@ -639,7 +634,6 @@ class Terminator:
       return True
     return False
 
-  
   def go_next (self, term):
     current = self.term_list.index (term)
     next = None
@@ -657,13 +651,11 @@ class Terminator:
       else:
         next = current + 1
 
-    
     nextterm = self.term_list[next]
     ##we need to set the current page of each notebook
     self._set_current_notebook_page_recursive(nextterm)
     
     nextterm._vte.grab_focus ()
-      
 
   def go_prev (self, term):
     current = self.term_list.index (term)
@@ -688,8 +680,7 @@ class Terminator:
     ##we need to set the current page of each notebook
     self._set_current_notebook_page_recursive(previousterm)
     previousterm._vte.grab_focus ()
-    
-    
+
   def _set_current_notebook_page_recursive(self, widget):
     page = self.get_first_notebook_page(widget)
     while page:
@@ -697,7 +688,6 @@ class Terminator:
       page_num = page[0].page_num(page[1])
       page[0].set_current_page(page_num)
       page = self.get_first_notebook_page(page[0])
-      
 
   def resizeterm (self, widget, keyname):
     vertical = False
