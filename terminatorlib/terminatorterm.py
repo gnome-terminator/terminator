@@ -69,6 +69,7 @@ except:
   dbg ('url_show: gnome module failed, using webbrowser')
   import webbrowser
   url_show = webbrowser.open
+dbg ('url_show: is set to: %s'%url_show)
 
 def openurl (url):
   dbg ('openurl: viewing %s'%url)
