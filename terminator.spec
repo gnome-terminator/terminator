@@ -41,8 +41,7 @@ grep -v man/man1 FILELIST.tmp > FILELIST
 %{_mandir}/man1/terminator.*
 
 %changelog
-* Fri Jul 04 2008 - chantra AatT rpm-based DdOoTt org 0.9.fc9.rb 
+* Fri Jul 04 2008 - chantra AatT rpm-based DdOoTt org 0.9.fc9.rb
 - New upstream release
-
 * Sat May 17 2008 - chantra AatT rpm-based DdOoTt org 0.8.1.fc9.rb
 - Initial release for Fedora 9.
