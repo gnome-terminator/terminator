@@ -72,12 +72,12 @@ class TerminatorTerm (gtk.VBox):
       # gnome.url_show() is really useful
       dbg ('url_show: importing gnome module')
       import gnome
-      url_show = gnome.url_show
+      self.url_show = gnome.url_show
     except:
       # webbrowser.open() is not really useful, but will do as a fallback
       dbg ('url_show: gnome module failed, using webbrowser')
       import webbrowser
-      url_show = webbrowser.open
+      self.url_show = webbrowser.open
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
@@ -168,7 +168,7 @@ class TerminatorTerm (gtk.VBox):
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
 
-  def openurl (url):
+  def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
     try:
       if subprocess.call(["xdg-open", url]) != 0:
@@ -177,7 +177,7 @@ class TerminatorTerm (gtk.VBox):
     except:
       try:
         dbg ('openurl: calling url_show')
-        url_show (url)
+        self.url_show (url)
       except:
         dbg ('openurl: url_show failed. No URL for you')
         pass
@@ -553,7 +553,7 @@ text/plain
             address = "mailto:" + url[0]
           else:
             address = url[0]
-          openurl ( address )
+          self.openurl ( address )
       return False
 
     # Left mouse button should transfer focus to this vte widget
@@ -735,7 +735,7 @@ text/plain
 
         item = gtk.MenuItem (nameopen)
 
-      item.connect ("activate", lambda menu_item: openurl (address))
+      item.connect ("activate", lambda menu_item: self.openurl (address))
       menu.append (item)
 
       item = gtk.MenuItem (namecopy)
