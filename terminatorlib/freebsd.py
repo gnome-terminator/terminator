@@ -64,7 +64,7 @@ def get_process_cwd(pid):
     return None
 
   kifs = cast(buf, POINTER(kinfo_file))
-  for i in range(0, len.value / sizeof(kinfo_file)):
+  for i in xrange(0, len.value / sizeof(kinfo_file)):
     kif = kifs[i]
     if kif.kf_fd == -1: # KF_FD_TYPE_CWD
       return kif.kf_path

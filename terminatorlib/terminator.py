@@ -62,7 +62,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   def on_close(self, widget):
     nbpages = self._notebook.get_n_pages()
     print self._button.allocation.width, self._button.allocation.height
-    for i in range(0,nbpages):
+    for i in xrange(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
         term = self.terminator._notebook_first_term(self._notebook.get_nth_page(i))
@@ -116,7 +116,7 @@ class Terminator:
     if self.conf.f11_modifier:
       self._f11_modifier = True
 
-    if self.conf.handle_size in range (0,6):
+    if self.conf.handle_size in xrange (0,6):
       gtk.rc_parse_string("""
         style "terminator-paned-style" {
             GtkPaned::handle_size = %s 
@@ -295,7 +295,7 @@ class Terminator:
       dbg ('SEGBUG: Parent is a notebook')
       page = -1
       
-      for i in range(0, parent.get_n_pages()):
+      for i in xrange(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           page = i
           break
@@ -565,7 +565,7 @@ class Terminator:
       parent.remove(widget)
       if isinstance(grandparent, gtk.Notebook):
         page = -1
-        for i in range(0, grandparent.get_n_pages()):
+        for i in xrange(0, grandparent.get_n_pages()):
           if grandparent.get_nth_page(i) == parent:
             page = i
             break
@@ -779,7 +779,7 @@ class Terminator:
     parent = widget.get_parent()
     if isinstance (parent, gtk.Notebook):
       page = -1
-      for i in range(0, parent.get_n_pages()):
+      for i in xrange(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           return (parent, widget)
     return self.get_first_notebook_page(parent)
