@@ -826,6 +826,7 @@ class Terminator:
 
     if fontscale:
       self.cnid = widget.connect ("size-allocate", self.zoom_scale_font)
+      dbg ('zoom_term: registered font zoom handler to %s with cnid: %s'%(widget, self.cnid))
     else:
       self._maximised = True
 
@@ -835,6 +836,9 @@ class Terminator:
     new_columns = widget._vte.get_column_count ()
     new_rows = widget._vte.get_row_count ()
     new_font = widget._vte.get_font ()
+
+    dbg ('zoom_scale_font: Disconnecting %s from %s'%(self.cnid, widget))
+    widget.disconnect (self.cnid)
 
     dbg ('zoom_scale_font: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
 
@@ -862,7 +866,6 @@ class Terminator:
     new_font.set_size (self.old_font.get_size() * (area_factor / 2))
     dbg ('zoom_scale_font: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
     widget._vte.set_font (new_font)
-    widget.disconnect (self.cnid)
 
   def unzoom_term (self, widget, fontscale = False):
     """Proof of concept: Go back to previous application                                 
