@@ -195,8 +195,10 @@ class Terminator:
       return False
 
     # show dialog
-    dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL,
-      (gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT))
+    dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL)
+    cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
+    close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
+    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close _All Terminals"))
     dialog.set_has_separator (False)
     dialog.set_resizable (False)
 
