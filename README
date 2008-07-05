@@ -4,7 +4,7 @@ by Chris Jones <cmsj@tenshu.net> and several others.
 The goal of this project is to produce a useful tool for arranging terminals. 
 It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that
 the main focus is arranging terminals in grids (tabs is the most common default
-method).
+method, which Terminator also supports).
 
 When you run Terminator, you will get a terminal in a window, just like almost 
 every other terminal emulator available. There is no other GUI apart from the 
