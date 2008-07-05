@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-03 22:46+0100\n"
+"POT-Creation-Date: 2008-07-05 17:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -178,15 +178,19 @@ msgstr ""
 msgid "Close Tab"
 msgstr ""
 
-#: terminatorlib/terminator.py:199
+#: terminatorlib/terminator.py:198
 msgid "Close?"
 msgstr ""
 
-#: terminatorlib/terminator.py:204
+#: terminatorlib/terminator.py:201
+msgid "Close _All Terminals"
+msgstr ""
+
+#: terminatorlib/terminator.py:205
 msgid "<big><b>Close all terminals?</b></big>"
 msgstr ""
 
-#: terminatorlib/terminator.py:207
+#: terminatorlib/terminator.py:208
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
@@ -199,74 +203,74 @@ msgid ""
 "ubuntu)"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:402
+#: terminatorlib/terminatorterm.py:393
 msgid "Unable to find a shell"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:420
+#: terminatorlib/terminatorterm.py:411
 msgid "Unable to start shell: "
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:733
+#: terminatorlib/terminatorterm.py:722
 msgid "_Open Link"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:734
+#: terminatorlib/terminatorterm.py:723
 msgid "_Copy Link Address"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:744
+#: terminatorlib/terminatorterm.py:733
 msgid "_Send Mail To..."
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:745
+#: terminatorlib/terminatorterm.py:734
 msgid "_Copy Email Address"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:771
+#: terminatorlib/terminatorterm.py:760
 msgid "Show _scrollbar"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:776
+#: terminatorlib/terminatorterm.py:765
 msgid "Show _titlebar"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:787
+#: terminatorlib/terminatorterm.py:776
 msgid "Split H_orizontally"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:788
+#: terminatorlib/terminatorterm.py:777
 msgid "Split V_ertically"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:806
+#: terminatorlib/terminatorterm.py:795
 msgid "Open _Tab"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:811
+#: terminatorlib/terminatorterm.py:800
 msgid "Open Top Level Tab"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:820
+#: terminatorlib/terminatorterm.py:809
 msgid "_Zoom terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:824
+#: terminatorlib/terminatorterm.py:813
 msgid "_Maximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:829
+#: terminatorlib/terminatorterm.py:818
 msgid "_Unzoom terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:834
+#: terminatorlib/terminatorterm.py:823
 msgid "U_nmaximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:856
+#: terminatorlib/terminatorterm.py:845
 msgid "Encodings"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:874
+#: terminatorlib/terminatorterm.py:863
 msgid "Other Encodings"
 msgstr ""
