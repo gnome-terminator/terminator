@@ -72,7 +72,7 @@ class TerminatorTerm (gtk.VBox):
       # gnome.url_show() is really useful
       dbg ('url_show: importing gnome module')
       import gnome
-      gnome.init ('terminator', 'terminator)
+      gnome.init ('terminator', 'terminator')
       self.url_show = gnome.url_show
     except:
       # webbrowser.open() is not really useful, but will do as a fallback
