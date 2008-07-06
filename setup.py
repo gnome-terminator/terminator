@@ -49,7 +49,7 @@ class BuildData(build):
           if rc != 0:
             raise Warning, "msgfmt returned %d" % rc
         except Exception, e:
-          print "Building gettext files failed.  Try --without-gettext."
+          print "Building gettext files failed.  Try setup.py --without-gettext [build|install]"
           print "%s: %s" % (type(e), e)
           sys.exit(1)
 
