@@ -2,6 +2,7 @@
 
 from distutils.core import setup
 from distutils.command.install_data import install_data
+from distutils.command.install import install
 from distutils.command.build import build
 from distutils.dep_util import newer
 from distutils.log import info
@@ -15,7 +16,9 @@ from terminatorlib.version import *
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
+WITHOUT_GETTEXT = False
 
+# Someone with more distutils clue needs to sort out our --without-gettext nonsense
 class BuildData(build):
   user_options = build.user_options
   user_options.append(("without-gettext", None, "Don't build gettext .mo files"))
@@ -28,7 +31,7 @@ class BuildData(build):
   def run (self):
     build.run (self)
 
-    if self.without_gettext:
+    if self.without_gettext or WITHOUT_GETTEXT:
       return
 
     for po in glob.glob (os.path.join (PO_DIR, '*.po')):
@@ -52,14 +55,28 @@ class BuildData(build):
           sys.exit(1)
 
 
+class Install(install):
+  user_options = install.user_options
+  user_options.append(("without-gettext", None, "Don't install gettext .mo files"))
+
+  def initialize_options(self):
+    install.initialize_options(self)
+    self.without_gettext = False
+
+  def run(self):
+    global WITHOUT_GETTEXT
+    if self.without_gettext:
+      WITHOUT_GETTEXT = True
+    install.run(self)
+
+
 class InstallData(install_data):
   user_options = install_data.user_options
-  user_options.append(("without-gettext", None, "Don't install gettext .mo files"))
+  user_options.append(("without-gettext", None, "Don't build gettext .mo files"))
 
   def initialize_options(self):
     install_data.initialize_options(self)
     self.without_gettext = False
-
 
   def run (self):
     self.data_files.extend (self._find_mo_files ())
@@ -69,13 +86,11 @@ class InstallData(install_data):
   def _find_mo_files (self):
     data_files = []
 
-    if self.without_gettext:
-      return data_files
-
-    for mo in glob.glob (os.path.join (MO_DIR, '*', 'terminator.mo')):
-      lang = os.path.basename(os.path.dirname(mo))
-      dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
-      data_files.append((dest, [mo]))
+    if not (self.without_gettext or WITHOUT_GETTEXT):
+      for mo in glob.glob (os.path.join (MO_DIR, '*', 'terminator.mo')):
+       lang = os.path.basename(os.path.dirname(mo))
+       dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
+       data_files.append((dest, [mo]))
 
     return data_files
 
@@ -106,6 +121,6 @@ setup(name='Terminator',
                   ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/16x16/actions/*.png')),
                  ],
       packages=['terminatorlib'],
-      cmdclass={'build': BuildData, 'install_data': InstallData}
+      cmdclass={'build': BuildData, 'install_data': InstallData, 'install': Install}
      )
 
