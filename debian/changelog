@@ -1,3 +1,9 @@
+terminator (0.9~rc3) hardy; urgency=low
+
+  * Soyuz hates me.
+
+ -- Chris Jones <cmsj@tenshu.net>  Sun, 06 Jul 2008 17:13:10 +0100
+
 terminator (0.9~rc2) hardy; urgency=low
 
   * Second and hopefully last release candidate for Terminator 0.9
