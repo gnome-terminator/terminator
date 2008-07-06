@@ -1,12 +1,15 @@
 #!/usr/local/bin/python
+# ------------------------------------------------------------------
+# Copyright (c) 2008, Thomas Hurst <tom@hur.st>
 #
-# Use sysctl() to retrieve the cwd of an arbitrary process on FreeBSD.
-# Tested on FreeBSD 7-STABLE/amd64 from April 11 2008.
+# Use of this file is unrestricted provided this notice is retained.
+# If you use it, it'd be nice if you dropped me a note.  Also beer.
+# ------------------------------------------------------------------
 #
-# Be prepared for excitement if the structs are changed.
-#
-# Blame: Thomas Hurst <tom@hur.st>
-#
+# freebsd.get_process_cwd(pid):
+#  Use sysctl() to retrieve the cwd of an arbitrary process on FreeBSD
+#  using kern.proc.filedesc, as used by procstat(1).
+#  Tested on FreeBSD 7-STABLE/amd64 from April 11 2008.
 
 from ctypes import *
 
