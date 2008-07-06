@@ -51,7 +51,7 @@ class InstallData(install_data):
 
     for mo in glob.glob (os.path.join (MO_DIR, '*.mo')):
       lang = os.path.basename(mo[:-3])
-      dest = os.path.dirname(os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo'))
+      dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo')
       data_files.append((dest, [mo]))
 
     return data_files
