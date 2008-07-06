@@ -8,19 +8,27 @@ from distutils.log import info
 import glob
 import os
 import sys
+import subprocess
 import platform
 
 from terminatorlib.version import *
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
-WITHOUT_NLS = sys.platform == 'win32' or os.environ.has_key("WITHOUT_NLS")
 
 class BuildData(build):
+  user_options = build.user_options
+  user_options.append(("without-gettext", None, "Don't build gettext .mo files"))
+
+  def initialize_options(self):
+    build.initialize_options(self)
+    self.without_gettext = False
+
+
   def run (self):
     build.run (self)
 
-    if WITHOUT_NLS:
+    if self.without_gettext:
       return
 
     for po in glob.glob (os.path.join (PO_DIR, '*.po')):
@@ -33,20 +41,35 @@ class BuildData(build):
         os.makedirs(directory)
 
       if newer(po, mo):
-        cmd = 'msgfmt -o %s %s' % (mo, po)
         info('compiling %s -> %s' % (po, mo))
-        os.system(cmd)
+        try:
+          rc = subprocess.call(['msgfmt', '-o', mo, po])
+          if rc != 0:
+            raise Warning, "msgfmt returned %d" % rc
+        except Exception, e:
+          print "Building gettext files failed.  Try --without-gettext."
+          print "%s: %s" % (type(e), e)
+          sys.exit(1)
 
 
 class InstallData(install_data):
+  user_options = install_data.user_options
+  user_options.append(("without-gettext", None, "Don't install gettext .mo files"))
+
+  def initialize_options(self):
+    install_data.initialize_options(self)
+    self.without_gettext = False
+
+
   def run (self):
     self.data_files.extend (self._find_mo_files ())
     install_data.run (self)
 
+
   def _find_mo_files (self):
     data_files = []
 
-    if WITHOUT_NLS:
+    if self.without_gettext:
       return data_files
 
     for mo in glob.glob (os.path.join (MO_DIR, '*', 'terminator.mo')):
