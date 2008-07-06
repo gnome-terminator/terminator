@@ -128,6 +128,7 @@ class TerminatorConfValuestore:
     'cycle_term_tab'        : True,
     'copy_on_selection'     : False,
     'close_button_on_tab'   : True,
+    'enable_real_transparency'  : True,
   }
 
   def __getattr__ (self, keyname):

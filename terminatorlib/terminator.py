@@ -160,6 +160,17 @@ class Terminator:
     if borderless or self.conf.borderless:
       self.window.set_decorated (False)
 
+    # Set RGBA colormap if possible so VTE can use real alpha
+    # channels for transparency.
+    #TODO maybe it work in every case
+    # LP#242852 real transparency causes graphical glitches,
+    # real transparency can be disabled in ~/.config/terminator/config
+    if self.conf.enable_real_transparency:
+      screen = self.window.get_screen()
+      colormap = screen.get_rgba_colormap()
+      if colormap:
+        self.window.set_colormap(colormap)
+
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
     term = (TerminatorTerm (self, self.profile, self.command))
