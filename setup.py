@@ -25,7 +25,7 @@ class BuildData(build):
 
     for po in glob.glob (os.path.join (PO_DIR, '*.po')):
       lang = os.path.basename(po[:-3])
-      mo = os.path.join(MO_DIR, lang + '.mo')
+      mo = os.path.join(MO_DIR, lang, 'terminator.mo')
 
       directory = os.path.dirname(mo)
       if not os.path.exists(directory):
@@ -40,18 +40,18 @@ class BuildData(build):
 
 class InstallData(install_data):
   def run (self):
-    self.data_files.extend (self._compile_po_files ())
+    self.data_files.extend (self._find_mo_files ())
     install_data.run (self)
 
-  def _compile_po_files (self):
+  def _find_mo_files (self):
     data_files = []
 
     if WITHOUT_NLS:
       return data_files
 
-    for mo in glob.glob (os.path.join (MO_DIR, '*.mo')):
-      lang = os.path.basename(mo[:-3])
-      dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES', 'terminator.mo')
+    for mo in glob.glob (os.path.join (MO_DIR, '*', 'terminator.mo')):
+      lang = os.path.basename(os.path.dirname(mo))
+      dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
       data_files.append((dest, [mo]))
 
     return data_files
