@@ -1,4 +1,4 @@
-# Swedish translation for terminator
+# Arabic translation for terminator
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the terminator package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-05 17:27+0100\n"
-"PO-Revision-Date: 2008-03-10 18:42+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2008-07-05 13:01+0000\n"
+"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,152 +36,152 @@ msgstr ""
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr ""
+msgstr "اللغة الحالية"
 
 #: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
 #: terminatorlib/encoding.py:96
 msgid "Western"
-msgstr ""
+msgstr "غربي"
 
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr ""
+msgstr "وسط أوروبي"
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
-msgstr ""
+msgstr "جنوب اوروبي"
 
 #: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
 #: terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr ""
+msgstr "بلطيقي"
 
 #: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
 #: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
 #: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr ""
+msgstr "سيريلي"
 
 #: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
 #: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr ""
+msgstr "عربي"
 
 #: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
 #: terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr ""
+msgstr "يوناني"
 
 #: terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "عبري مرئي"
 
 #: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
 #: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr ""
+msgstr "عبري"
 
 #: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
 #: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr ""
+msgstr "تركي"
 
 #: terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr ""
+msgstr "شمالي"
 
 #: terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr ""
+msgstr "كلتي"
 
 #: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr ""
+msgstr "روماني"
 
 #: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
 #: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
 #: terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr ""
+msgstr "يونيكود"
 
 #: terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr ""
+msgstr "أرمني"
 
 #: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
 #: terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "صيني تقليدي"
 
 #: terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "سيريلي/روسي"
 
 #: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
 #: terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr ""
+msgstr "ياباني"
 
 #: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
 #: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr ""
+msgstr "كوري"
 
 #: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
 #: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "صيني مبسّط"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "جورجي"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "سيريلي/أكراني"
 
 #: terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "كرواتي"
 
 #: terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "هندي"
 
 #: terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "فارسي"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "كوجراتي"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr ""
+msgstr "غورموخي"
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "آيسلاندي"
 
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "فيتنامي"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr ""
+msgstr "تايلندي"
 
 #: terminatorlib/terminator.py:54
 msgid "Close Tab"
-msgstr ""
+msgstr "اغلق اللسان"
 
 #: terminatorlib/terminator.py:198
 msgid "Close?"
-msgstr "Stäng?"
+msgstr "أأغلق؟"
 
 #: terminatorlib/terminator.py:201
 msgid "Close _All Terminals"
@@ -189,24 +189,21 @@ msgstr ""
 
 #: terminatorlib/terminator.py:205
 msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Stäng alla terminaler?</b></big>"
+msgstr "<big><b>أأغلق كل الطرفيات؟</b></big>"
 
 #: terminatorlib/terminator.py:208
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
-msgstr ""
-"Det här fönstret har %s terminaler öppna. Om fönstret stängs så stängs alla "
-"terminaler."
+msgstr "للنافذة %s طرفية مفتوحة. إغلاق النافذة سيتسبب بغلق كل الطرفيات."
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 msgstr ""
-"Du måste installera python-bindningarna för libvte (\"python-vte\" i "
-"debian/ubuntu)"
+"يجب عليك تثبيت حزمات python لـlibvte (\"python-vte\" في debian/ubuntu)"
 
 #: terminatorlib/terminatorterm.py:393
 msgid "Unable to find a shell"
@@ -218,19 +215,19 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:722
 msgid "_Open Link"
-msgstr "_Öppna länk"
+msgstr "ا_فتح الوصلة"
 
 #: terminatorlib/terminatorterm.py:723
 msgid "_Copy Link Address"
-msgstr "_Kopiera länkadress"
+msgstr "ا_نسخ عنوان الوصلة"
 
 #: terminatorlib/terminatorterm.py:733
 msgid "_Send Mail To..."
-msgstr "_Skicka e-post till..."
+msgstr "أر_سل رسالة إلى..."
 
 #: terminatorlib/terminatorterm.py:734
 msgid "_Copy Email Address"
-msgstr "_Kopiera e-postadress"
+msgstr "ا_نسخ عنوان البريد الإلكتروني"
 
 #: terminatorlib/terminatorterm.py:760
 msgid "Show _scrollbar"
@@ -242,15 +239,15 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:776
 msgid "Split H_orizontally"
-msgstr "Dela h_orisontellt"
+msgstr "اقسم أف_قيا"
 
 #: terminatorlib/terminatorterm.py:777
 msgid "Split V_ertically"
-msgstr "Dela v_ertikalt"
+msgstr "اقسم ع_موديا"
 
 #: terminatorlib/terminatorterm.py:795
 msgid "Open _Tab"
-msgstr ""
+msgstr "افتح _لسان"
 
 #: terminatorlib/terminatorterm.py:800
 msgid "Open Top Level Tab"
@@ -274,7 +271,7 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:845
 msgid "Encodings"
-msgstr ""
+msgstr "الترميزات"
 
 #: terminatorlib/terminatorterm.py:863
 msgid "Other Encodings"

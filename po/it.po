@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-01-29 23:57+0000\n"
-"PO-Revision-Date: 2008-02-08 19:52+0000\n"
-"Last-Translator: Cris Grada <krig@tiscali.it>\n"
+"POT-Creation-Date: 2008-07-05 17:27+0100\n"
+"PO-Revision-Date: 2008-07-06 18:41+0000\n"
+"Last-Translator: Andrea Corbellini <andrea.corbellini@beeseek.org>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
+"X-Launchpad-Export-Date: 2008-07-07 21:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Split _Horizontally"
@@ -23,77 +23,269 @@ msgstr ""
 #~ msgid "Split _Vertically"
 #~ msgstr "Imparte _vertical"
 
-#: terminator:44
+#: terminator:51
 msgid ""
-"You need to install the python bindings for gobject, gtk, gconf and pango to "
-"run Terminator."
+"You need to install the python bindings for gobject, gtk and pango to run "
+"Terminator."
 msgstr ""
-"Per poter lanciare Terminator devi aver installato le dipendenze di "
-"\"python\" per \"gobject\", \"gtk\", \"gconf\" e \"pango\" ."
+"Devi installare le librerie python di gobject, gtk e pango per usare "
+"Terminator."
 
-#: terminator:63
+#: terminator:112
 msgid ""
-"You need to install python bindings for libvte (\"python-vte\" in "
-"debian/ubuntu)"
+"You need to run terminator in an X environment. Make sure DISPLAY is "
+"properly set"
 msgstr ""
-"Devi installare le dipendenze \"python\" per \"libvte\" (\"python-vte\" in "
-"debian/ubuntu)"
+"Devi usare terminator in un ambiente X. Assicurati che DISPLAY sia impostato "
+"correttamente"
 
-#: terminator:127
-#, python-format
-msgid "Warning: unable to find profile %s. Continue with default values..."
-msgstr ""
-"Avviso: profilo %s non trovato. Proseguo usando i valori predefiniti..."
-
-#: terminator:213
+#: terminatorlib/config.py:188
 msgid ""
-"Unknown value requested. Unable to find in gconf profile or default "
-"settings: "
+"Reading list values from .config/terminator/config is not currently supported"
 msgstr ""
-"Valore richiesto sconosciuto. Profilo o valori predefiniti non trovati in "
-"gconf: "
 
-#: terminator:414
-msgid "_Open Link"
-msgstr "_Apri collegamento"
+#: terminatorlib/encoding.py:29
+msgid "Current Locale"
+msgstr ""
 
-#: terminator:415
-msgid "_Copy Link Address"
-msgstr "_Copia l'indirizzo del collegamento"
+#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
+#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
+#: terminatorlib/encoding.py:96
+msgid "Western"
+msgstr ""
 
-#: terminator:421
-msgid "_Send Mail To..."
-msgstr "In_via un'E-mail a..."
+#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
+#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+msgid "Central European"
+msgstr ""
 
-#: terminator:422
-msgid "_Copy Email Address"
-msgstr "_Copia l'indirizzo E-mail"
+#: terminatorlib/encoding.py:32
+msgid "South European"
+msgstr ""
 
-#: terminator:447
-msgid "Show scrollbar"
-msgstr "Mostra la barra di scorrimento"
+#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
+#: terminatorlib/encoding.py:101
+msgid "Baltic"
+msgstr ""
 
-#: terminator:455
-msgid "Split H_orizontally"
-msgstr "Dividi _orizzontalmente"
+#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
+#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
+#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+msgid "Cyrillic"
+msgstr ""
 
-#: terminator:459
-msgid "Split V_ertically"
-msgstr "Dividi v_erticalmente"
+#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
+#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+msgid "Arabic"
+msgstr ""
 
-#: terminator:527
+#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
+#: terminatorlib/encoding.py:97
+msgid "Greek"
+msgstr "Greco"
+
+#: terminatorlib/encoding.py:37
+msgid "Hebrew Visual"
+msgstr ""
+
+#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
+#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+msgid "Hebrew"
+msgstr ""
+
+#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
+#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+msgid "Turkish"
+msgstr ""
+
+#: terminatorlib/encoding.py:40
+msgid "Nordic"
+msgstr ""
+
+#: terminatorlib/encoding.py:42
+msgid "Celtic"
+msgstr ""
+
+#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+msgid "Romanian"
+msgstr ""
+
+#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
+#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
+#: terminatorlib/encoding.py:49
+msgid "Unicode"
+msgstr ""
+
+#: terminatorlib/encoding.py:50
+msgid "Armenian"
+msgstr ""
+
+#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
+#: terminatorlib/encoding.py:56
+msgid "Chinese Traditional"
+msgstr ""
+
+#: terminatorlib/encoding.py:53
+msgid "Cyrillic/Russian"
+msgstr ""
+
+#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
+#: terminatorlib/encoding.py:89
+msgid "Japanese"
+msgstr ""
+
+#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
+#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+msgid "Korean"
+msgstr ""
+
+#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
+#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+msgid "Chinese Simplified"
+msgstr ""
+
+#: terminatorlib/encoding.py:60
+msgid "Georgian"
+msgstr ""
+
+#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+msgid "Cyrillic/Ukrainian"
+msgstr ""
+
+#: terminatorlib/encoding.py:76
+msgid "Croatian"
+msgstr ""
+
+#: terminatorlib/encoding.py:78
+msgid "Hindi"
+msgstr ""
+
+#: terminatorlib/encoding.py:79
+msgid "Persian"
+msgstr ""
+
+#: terminatorlib/encoding.py:81
+msgid "Gujarati"
+msgstr ""
+
+#: terminatorlib/encoding.py:82
+msgid "Gurmukhi"
+msgstr ""
+
+#: terminatorlib/encoding.py:84
+msgid "Icelandic"
+msgstr ""
+
+#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
+#: terminatorlib/encoding.py:102
+msgid "Vietnamese"
+msgstr ""
+
+#: terminatorlib/encoding.py:91
+msgid "Thai"
+msgstr ""
+
+#: terminatorlib/terminator.py:54
+msgid "Close Tab"
+msgstr ""
+
+#: terminatorlib/terminator.py:198
 msgid "Close?"
-msgstr "Chiudo?"
+msgstr "Chiudere?"
 
-#: terminator:532
+#: terminatorlib/terminator.py:201
+msgid "Close _All Terminals"
+msgstr ""
+
+#: terminatorlib/terminator.py:205
 msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Chiudo tutti i terminali?</b></big>"
+msgstr "<big><b>Chiudere tutti i terminali?</b></big>"
 
-#: terminator:535
+#: terminatorlib/terminator.py:208
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
 msgstr ""
-"Questa finestra ha %s terminali aperti. Chiudendola, tutti i terminali già "
-"aperti verranno chiusi."
+"Questa finestra ha %s terminali aperti. Chiudendola, anche i terminali "
+"verranno chiusi."
+
+#: terminatorlib/terminatorterm.py:39
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr ""
+"È necessario installare i binding python per libvte («python-vte» in "
+"debian/ubuntu)"
+
+#: terminatorlib/terminatorterm.py:393
+msgid "Unable to find a shell"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:411
+msgid "Unable to start shell: "
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:722
+msgid "_Open Link"
+msgstr "_Apri collegamento"
+
+#: terminatorlib/terminatorterm.py:723
+msgid "_Copy Link Address"
+msgstr "Copia indirizzo co_llegamento"
+
+#: terminatorlib/terminatorterm.py:733
+msgid "_Send Mail To..."
+msgstr "In_via un'email a..."
+
+#: terminatorlib/terminatorterm.py:734
+msgid "_Copy Email Address"
+msgstr "_Copia indirizzo email"
+
+#: terminatorlib/terminatorterm.py:760
+msgid "Show _scrollbar"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:765
+msgid "Show _titlebar"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:776
+msgid "Split H_orizontally"
+msgstr "Dividi _orizzontalmente"
+
+#: terminatorlib/terminatorterm.py:777
+msgid "Split V_ertically"
+msgstr "Dividi v_erticalmente"
+
+#: terminatorlib/terminatorterm.py:795
+msgid "Open _Tab"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:800
+msgid "Open Top Level Tab"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:809
+msgid "_Zoom terminal"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:813
+msgid "_Maximise terminal"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:818
+msgid "_Unzoom terminal"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:823
+msgid "U_nmaximise terminal"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:845
+msgid "Encodings"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:863
+msgid "Other Encodings"
+msgstr ""

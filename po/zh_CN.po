@@ -7,78 +7,271 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-01-29 23:57+0000\n"
-"PO-Revision-Date: 2008-02-10 02:17+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-07-05 17:27+0100\n"
+"PO-Revision-Date: 2008-07-06 18:04+0000\n"
+"Last-Translator: zhuqin <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-14 23:16+0000\n"
+"X-Launchpad-Export-Date: 2008-07-07 21:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:44
+#: terminator:51
 msgid ""
-"You need to install the python bindings for gobject, gtk, gconf and pango to "
-"run Terminator."
-msgstr "你需要安装gobject，gtk，gconf以及pango的python依赖来运行Terminator。"
+"You need to install the python bindings for gobject, gtk and pango to run "
+"Terminator."
+msgstr "你需要安装gobject，gtk以及pango的python绑定来运行Terminator。"
 
-#: terminator:63
+#: terminator:112
 msgid ""
-"You need to install python bindings for libvte (\"python-vte\" in "
-"debian/ubuntu)"
-msgstr "你需要安装libvte的python依赖（在debian/ubuntu中包名为“python-vte”）"
+"You need to run terminator in an X environment. Make sure DISPLAY is "
+"properly set"
+msgstr "你需要在一个X环境中运行terminator。请确保显示器已正确设置"
 
-#: terminator:127
-#, python-format
-msgid "Warning: unable to find profile %s. Continue with default values..."
-msgstr "警告：无法找到配置文件%s。将以默认值继续..."
-
-#: terminator:213
+#: terminatorlib/config.py:188
 msgid ""
-"Unknown value requested. Unable to find in gconf profile or default "
-"settings: "
-msgstr "输入了未知值。无法在gconf配置文件或默认设置中找到： "
+"Reading list values from .config/terminator/config is not currently supported"
+msgstr "暂不支持从.config/terminator/config中读取列表值"
 
-#: terminator:414
-msgid "_Open Link"
-msgstr "打开链接(_O)"
+#: terminatorlib/encoding.py:29
+msgid "Current Locale"
+msgstr "当前语系"
 
-#: terminator:415
-msgid "_Copy Link Address"
-msgstr "复制链接地址(_C)"
+#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
+#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
+#: terminatorlib/encoding.py:96
+msgid "Western"
+msgstr "西方"
 
-#: terminator:421
-msgid "_Send Mail To..."
-msgstr "发送邮件给(_S)..."
+#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
+#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+msgid "Central European"
+msgstr "中欧"
 
-#: terminator:422
-msgid "_Copy Email Address"
-msgstr "复制电子邮件地址(_C)"
+#: terminatorlib/encoding.py:32
+msgid "South European"
+msgstr "南欧"
 
-#: terminator:447
-msgid "Show scrollbar"
-msgstr "显示滚动条"
+#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
+#: terminatorlib/encoding.py:101
+msgid "Baltic"
+msgstr "波罗的语"
 
-#: terminator:455
-msgid "Split H_orizontally"
-msgstr "水平分割(_H)"
+#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
+#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
+#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+msgid "Cyrillic"
+msgstr "斯拉夫语字母的"
 
-#: terminator:459
-msgid "Split V_ertically"
-msgstr "垂直分割(_V)"
+#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
+#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+msgid "Arabic"
+msgstr "阿拉伯语"
 
-#: terminator:527
+#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
+#: terminatorlib/encoding.py:97
+msgid "Greek"
+msgstr "希腊语"
+
+#: terminatorlib/encoding.py:37
+msgid "Hebrew Visual"
+msgstr "希伯来语视觉"
+
+#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
+#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+msgid "Hebrew"
+msgstr "希伯莱语"
+
+#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
+#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+msgid "Turkish"
+msgstr "土耳其语"
+
+#: terminatorlib/encoding.py:40
+msgid "Nordic"
+msgstr "日耳曼语"
+
+#: terminatorlib/encoding.py:42
+msgid "Celtic"
+msgstr "凯尔特语"
+
+#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+msgid "Romanian"
+msgstr "罗马尼亚语"
+
+#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
+#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
+#: terminatorlib/encoding.py:49
+msgid "Unicode"
+msgstr "Unicode"
+
+#: terminatorlib/encoding.py:50
+msgid "Armenian"
+msgstr "亚美尼亚语"
+
+#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
+#: terminatorlib/encoding.py:56
+msgid "Chinese Traditional"
+msgstr "繁体中文"
+
+#: terminatorlib/encoding.py:53
+msgid "Cyrillic/Russian"
+msgstr "西里尔语/俄语"
+
+#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
+#: terminatorlib/encoding.py:89
+msgid "Japanese"
+msgstr "日语"
+
+#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
+#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+msgid "Korean"
+msgstr "韩语"
+
+#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
+#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+msgid "Chinese Simplified"
+msgstr "简体中文"
+
+#: terminatorlib/encoding.py:60
+msgid "Georgian"
+msgstr "乔治亚语"
+
+#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+msgid "Cyrillic/Ukrainian"
+msgstr "西里尔语/乌克兰语"
+
+#: terminatorlib/encoding.py:76
+msgid "Croatian"
+msgstr "克罗地亚语"
+
+#: terminatorlib/encoding.py:78
+msgid "Hindi"
+msgstr "印地语"
+
+#: terminatorlib/encoding.py:79
+msgid "Persian"
+msgstr "波斯语"
+
+#: terminatorlib/encoding.py:81
+msgid "Gujarati"
+msgstr "古吉拉特语"
+
+#: terminatorlib/encoding.py:82
+msgid "Gurmukhi"
+msgstr "旁遮普语"
+
+#: terminatorlib/encoding.py:84
+msgid "Icelandic"
+msgstr "冰岛语"
+
+#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
+#: terminatorlib/encoding.py:102
+msgid "Vietnamese"
+msgstr "越南语"
+
+#: terminatorlib/encoding.py:91
+msgid "Thai"
+msgstr "泰语"
+
+#: terminatorlib/terminator.py:54
+msgid "Close Tab"
+msgstr "关闭标签"
+
+#: terminatorlib/terminator.py:198
 msgid "Close?"
 msgstr "确定关闭？"
 
-#: terminator:532
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>关闭所有的终端？</b></big>"
+#: terminatorlib/terminator.py:201
+msgid "Close _All Terminals"
+msgstr "关闭所有终端"
 
-#: terminator:535
+#: terminatorlib/terminator.py:205
+msgid "<big><b>Close all terminals?</b></big>"
+msgstr "<big><b>关闭所有终端？</b></big>"
+
+#: terminatorlib/terminator.py:208
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
 msgstr "该窗口开启了%s个终端。关闭窗口将会关闭所有终端。"
+
+#: terminatorlib/terminatorterm.py:39
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr "你需要安装libvte的python绑定（debian/ubuntu中的包名为“python-vte”）"
+
+#: terminatorlib/terminatorterm.py:393
+msgid "Unable to find a shell"
+msgstr "无法找到shell"
+
+#: terminatorlib/terminatorterm.py:411
+msgid "Unable to start shell: "
+msgstr "无法开启shell： "
+
+#: terminatorlib/terminatorterm.py:722
+msgid "_Open Link"
+msgstr "打开链接(_O)"
+
+#: terminatorlib/terminatorterm.py:723
+msgid "_Copy Link Address"
+msgstr "复制链接地址(_C)"
+
+#: terminatorlib/terminatorterm.py:733
+msgid "_Send Mail To..."
+msgstr "发送邮件给(_S)..."
+
+#: terminatorlib/terminatorterm.py:734
+msgid "_Copy Email Address"
+msgstr "复制Email地址(_C)"
+
+#: terminatorlib/terminatorterm.py:760
+msgid "Show _scrollbar"
+msgstr "显示滚动条"
+
+#: terminatorlib/terminatorterm.py:765
+msgid "Show _titlebar"
+msgstr "显示标题栏"
+
+#: terminatorlib/terminatorterm.py:776
+msgid "Split H_orizontally"
+msgstr "水平分割(_H)"
+
+#: terminatorlib/terminatorterm.py:777
+msgid "Split V_ertically"
+msgstr "垂直分割(_V)"
+
+#: terminatorlib/terminatorterm.py:795
+msgid "Open _Tab"
+msgstr "打开标签(_T)"
+
+#: terminatorlib/terminatorterm.py:800
+msgid "Open Top Level Tab"
+msgstr "打开顶层标签"
+
+#: terminatorlib/terminatorterm.py:809
+msgid "_Zoom terminal"
+msgstr "放大终端(_Z)"
+
+#: terminatorlib/terminatorterm.py:813
+msgid "_Maximise terminal"
+msgstr "最大化终端(_M)"
+
+#: terminatorlib/terminatorterm.py:818
+msgid "_Unzoom terminal"
+msgstr "缩小终端(_U)"
+
+#: terminatorlib/terminatorterm.py:823
+msgid "U_nmaximise terminal"
+msgstr "还原终端大小(_U)"
+
+#: terminatorlib/terminatorterm.py:845
+msgid "Encodings"
+msgstr "编码"
+
+#: terminatorlib/terminatorterm.py:863
+msgid "Other Encodings"
+msgstr "其他编码"
