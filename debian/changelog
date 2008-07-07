@@ -1,3 +1,9 @@
+terminator (0.9) hardy; urgency=low
+
+  * New upstream release
+
+ -- Chris Jones <cmsj@tenshu.net>  Mon, 07 Jul 2008 22:56:35 +0100
+
 terminator (0.9~rc3) hardy; urgency=low
 
   * Soyuz hates me.
