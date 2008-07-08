@@ -81,7 +81,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     return self._label.get_text()
 
 class Terminator:
-  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False):
+  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False, no_gconf=False):
     self.profile = profile
     self.command = command
 
@@ -93,21 +93,22 @@ class Terminator:
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
 
-    try:
-      import gconf
-      if self.profile:
-        self.profile = gconf.escape_key (self.profile, -1)
-      store = config.TerminatorConfValuestoreGConf (self.profile)
-      store.set_reconfigure_callback (self.reconfigure_vtes)
-      dbg ('Terminator__init__: comparing %s and %s'%(self.profile, store.profile.split ('/').pop ()))
-      if self.profile == store.profile.split ('/').pop ():
-        # If we have been given a profile, and we loaded it, we should be higher priority than RC
-        dbg ('Terminator__init__: placing GConf before RC')
-        stores.insert (0, store)
-      else:
-        stores.append (store)
-    except:
-      pass
+    if not no_gconf:
+      try:
+        import gconf
+        if self.profile:
+          self.profile = gconf.escape_key (self.profile, -1)
+        store = config.TerminatorConfValuestoreGConf (self.profile)
+        store.set_reconfigure_callback (self.reconfigure_vtes)
+        dbg ('Terminator__init__: comparing %s and %s'%(self.profile, store.profile.split ('/').pop ()))
+        if self.profile == store.profile.split ('/').pop ():
+          # If we have been given a profile, and we loaded it, we should be higher priority than RC
+          dbg ('Terminator__init__: placing GConf before RC')
+          stores.insert (0, store)
+        else:
+          stores.append (store)
+      except:
+        pass
 
     self.conf = config.TerminatorConfig (stores)
 

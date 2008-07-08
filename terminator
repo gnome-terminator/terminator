@@ -87,6 +87,7 @@ if __name__ == '__main__':
   parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the %s window maximised"%APP_NAME.capitalize())
   parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", dest="borderless", help="Turn off the window's borders")
+  parser.add_option ("--no-gconf", dest="no_gconf", action="store_true", help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback", callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
   parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
@@ -94,6 +95,9 @@ if __name__ == '__main__':
   (options, args) = parser.parse_args ()
   if len (args) != 0:
     parser.error("Expecting zero additional arguments, found: %d"%len (args))
+    
+  if options.no_gconf and options.profile:
+      parser.error("using --no-gconf and defining a profile at the same time does not make sense")
 
   if options.version:
     print "%s %s"%(APP_NAME, APP_VERSION)
@@ -136,7 +140,7 @@ See the following bug report for more details:
       pass
 
   dbg ('profile_cb: settled on profile: "%s"'%options.profile)
-  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless)
+  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless, options.no_gconf)
 
   gtk.main ()
 
