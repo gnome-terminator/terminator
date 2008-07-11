@@ -811,7 +811,7 @@ text/plain
         item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self, True))
         menu.append (item)
 
-        item = gtk.MenuItem (_("_Maximise terminal"))
+        item = gtk.MenuItem (_("Ma_ximise terminal"))
         item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
         menu.append (item)
       else:
@@ -821,7 +821,7 @@ text/plain
           menu.append (item)
 
         if self.terminator._zoomed and self.terminator._maximised:
-          item = gtk.MenuItem (_("U_nmaximise terminal"))
+          item = gtk.MenuItem (_("Unma_ximise terminal"))
           item.connect ("activate", lambda menu_item: self.terminator.toggle_zoom (self))
           menu.append (item)
 
