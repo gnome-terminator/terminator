@@ -12,7 +12,7 @@ Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gconf, gconf2
+Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gconf, gconf2, libgtk2.0-bin
 XB-Python-Version: ${python:Versions}
 Recommends: xdg-utils, python-xdg
 Description: Multiple GNOME terminals in one window
