@@ -504,7 +504,7 @@ text/plain
       self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
-    self._vte.set_cursor_blinks = (self.conf.cursor_blink)
+    self._vte.set_cursor_blinks (self.conf.cursor_blink)
 
     # Set our audible belliness
     silent_bell = self.conf.silent_bell
