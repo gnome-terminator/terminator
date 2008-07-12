@@ -153,11 +153,11 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     self.type = "RCFile"
     try:
       directory = os.environ['XDG_CONFIG_HOME']
-    except:
-      directory = os.path.join (os.path.expanduser("~"), ".config/terminator/")
-
-    self.rcfilename = os.path.join(directory, "config")
-
+    except KeyError, e:
+      dbg("Environment variable %s not found. defaulting to ~/.config" % e.message)
+      directory = os.path.join (os.path.expanduser("~"), ".config")
+    self.rcfilename = os.path.join(directory, "terminator/config")
+    dbg("[RCFile] located at %s" % self.rcfilename)
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
       rc = rcfile.readlines ()
