@@ -168,9 +168,6 @@ class Terminator:
 
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
-    #TODO maybe it work in every case
-    # LP#242852 real transparency causes graphical glitches,
-    # real transparency can be disabled in ~/.config/terminator/config
     if self.conf.enable_real_transparency:
       screen = self.window.get_screen()
       colormap = screen.get_rgba_colormap()
@@ -494,7 +491,6 @@ class Terminator:
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
       notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
-      # LP#247457 keep VTEs real estate
       self.window.resize(self.window.allocation.width, min(self.window.allocation.height + notebooktablabel.height_request(), gtk.gdk.screen_height()))
       notebook.show()
     elif isinstance(parent, gtk.Notebook):
@@ -614,7 +610,6 @@ class Terminator:
       index = self.term_list.index (widget)
       self.term_list.remove (widget)
       if nbpages == 1:
-        # LP#247457 keep VTEs real estate
         if self.window.allocation.height != gtk.gdk.screen_height():
           self.window.resize(self.window.allocation.width, min(self.window.allocation.height - parent.get_tab_label(parent.get_nth_page(0)).height_request(), gtk.gdk.screen_height()))
         sibling = parent.get_nth_page(0)
