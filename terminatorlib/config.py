@@ -154,10 +154,10 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     try:
       directory = os.environ['XDG_CONFIG_HOME']
     except KeyError, e:
-      dbg("Environment variable %s not found. defaulting to ~/.config" % e.message)
+      dbg(" VS_RCFile: Environment variable %s not found. defaulting to ~/.config" % e.message)
       directory = os.path.join (os.path.expanduser("~"), ".config")
     self.rcfilename = os.path.join(directory, "terminator/config")
-    dbg("[RCFile] located at %s" % self.rcfilename)
+    dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
     if os.path.exists (self.rcfilename):
       rcfile = open (self.rcfilename)
       rc = rcfile.readlines ()
@@ -186,7 +186,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
             elif deftype == 'float':
               self.values[key] = float (value)
             elif deftype == 'list':
-              err (_("Reading list values from .config/terminator/config is not currently supported"))
+              err (_(" VS_RCFile: Reading list values from .config/terminator/config is not currently supported"))
               continue
             else:
               self.values[key] = value
