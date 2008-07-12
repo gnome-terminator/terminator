@@ -79,6 +79,12 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
   def get_title(self):
     return self._label.get_text()
+  
+  def height_request(self):
+    return self.size_request()[1]
+
+  def width_request(self):
+    return self.size_request()[0]
 
 class Terminator:
   def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False):
@@ -488,7 +494,9 @@ class Terminator:
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
       notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
-      notebook.show()  
+      # LP#247457 keep VTEs real estate
+      self.window.resize(self.window.allocation.width, min(self.window.allocation.height + notebooktablabel.height_request(), gtk.gdk.screen_height()))
+      notebook.show()
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
     elif isinstance(parent, gtk.Window) and isinstance(child, gtk.Notebook):
@@ -606,6 +614,9 @@ class Terminator:
       index = self.term_list.index (widget)
       self.term_list.remove (widget)
       if nbpages == 1:
+        # LP#247457 keep VTEs real estate
+        if self.window.allocation.height != gtk.gdk.screen_height():
+          self.window.resize(self.window.allocation.width, min(self.window.allocation.height - parent.get_tab_label(parent.get_nth_page(0)).height_request(), gtk.gdk.screen_height()))
         sibling = parent.get_nth_page(0)
         parent.remove(sibling)
         gdparent = parent.get_parent()
