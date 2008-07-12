@@ -36,7 +36,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self.terminator = terminator
-    self._label = gtk.Label('tab test') 
+    self._label = gtk.Label(title) 
     icon = gtk.Image()
     icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     self.pack_start(self._label, True, True)
