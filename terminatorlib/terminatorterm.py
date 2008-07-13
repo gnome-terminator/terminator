@@ -318,7 +318,7 @@ text/plain
       pos = "bottom"
     return pos
 
-  def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
+  def add_matches (self):
     userchars = "-A-Za-z0-9"
     passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
     hostchars = "-A-Za-z0-9"
@@ -326,17 +326,18 @@ text/plain
     schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
     user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
     urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
+
+    if platform.system() == 'FreeBSD':
+      lboundary = "\\<"
+      rboundary = "\\>"
+    else:
+       lboundry = "[[:<:]]"
+       rboundry = "[[:>:]]"
     
     self.matches['full_uri'] = self._vte.match_add(lboundry + schemes + "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-
-    # FreeBSD works with [[:<:]], Linux works with \<
-    if self.matches['full_uri'] == -1:
-      if lboundry != "\\<":
-        self.add_matches(lboundry = "\\<", rboundry = "\\>")
-    else:
-      self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-      self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
-      self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+    self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
+    self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
+    self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
 
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
