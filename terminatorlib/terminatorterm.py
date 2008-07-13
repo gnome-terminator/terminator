@@ -327,17 +327,17 @@ text/plain
     user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
     urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
-    if platform.system() == 'FreeBSD':
+    if platform.system() != 'FreeBSD':
       lboundary = "\\<"
       rboundary = "\\>"
     else:
-       lboundry = "[[:<:]]"
-       rboundry = "[[:>:]]"
+       lboundary = "[[:<:]]"
+       rboundary = "[[:>:]]"
     
-    self.matches['full_uri'] = self._vte.match_add(lboundry + schemes + "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-    self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-    self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
-    self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+    self.matches['full_uri'] = self._vte.match_add(lboundary + schemes + "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + urlpath + ")?" + rboundary + "/?")
+    self.matches['addr_only'] = self._vte.match_add (lboundary + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundary + "/?")
+    self.matches['email'] = self._vte.match_add (lboundary + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundary)
+    self.matches['nntp'] = self._vte.match_add (lboundary + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundary)
 
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
