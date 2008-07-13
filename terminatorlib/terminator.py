@@ -211,11 +211,12 @@ class Terminator:
 
     # show dialog
     dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL)
-    cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
-    close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close _All Terminals"))
     dialog.set_has_separator (False)
     dialog.set_resizable (False)
+
+    cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
+    close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
+    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close All _Terminals"))
 
     primairy = gtk.Label (_('<big><b>Close all terminals?</b></big>'))
     primairy.set_use_markup (True)
