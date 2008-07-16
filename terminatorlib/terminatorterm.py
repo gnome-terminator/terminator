@@ -88,6 +88,7 @@ class TerminatorTerm (gtk.VBox):
     self.scrollbar_position = self.conf.scrollbar_position
 
     self._vte = vte.Terminal ()
+    #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
     self.reconfigure_vte ()
     self._vte.show ()
@@ -146,7 +147,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
-    self._vte.set_double_buffered(True)
+    
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -216,7 +217,8 @@ text/plain
 
     alloc = widget.allocation
     rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
-
+    widget.window.invalidate_rect(rect, True)
+    widget.window.process_updates(True) 
     if self.conf.use_theme_colors:
       color = self._vte.get_style ().text[gtk.STATE_NORMAL]
     else:
@@ -245,8 +247,7 @@ text/plain
     
     
     
-    widget.window.invalidate_rect(rect, True)
-    widget.window.process_updates(True) 
+
     context = widget.window.cairo_create()
     context.push_group()
     context.set_source_rgba(color.red, color.green, color.blue, 0.5)
@@ -258,7 +259,6 @@ text/plain
     context.fill()
     context.pop_group_to_source()
     context.paint()
-    gtk.gdk.flush()
 
     
   def on_drag_drop(self, widget, drag_context, x, y, time):
