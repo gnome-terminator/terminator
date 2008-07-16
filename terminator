@@ -21,7 +21,6 @@
 import os, sys
 from optparse import OptionParser
 
-#import version details
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 try:
@@ -29,31 +28,29 @@ try:
   gettext.install (APP_NAME)
 except ImportError:
   import __builtin__
-  def _t (text):
+  def dummytrans (text):
+    """A _ function for systems without gettext. Effectively a NOOP"""
     return text
-  __builtin__.__dict__['_'] = _t
+  __builtin__.__dict__['_'] = dummytrans
 
-# import some useful functions
 from terminatorlib.config import dbg, err, debug
 import terminatorlib.config
 
-# import gtk libs
-# check just in case anyone runs it on a non-gnome system.
 try:
   import pygtk
   pygtk.require ("2.0")
 
   import gobject, gtk, pango
-except:
+except ImportError:
   err (_("You need to install the python bindings for " \
     "gobject, gtk and pango to run Terminator."))
   sys.exit(1)
 
-#import Terminator
 from terminatorlib.terminator import Terminator
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
+    """Callback for use in parsing Terminator command line options"""
     assert value is None
     value = []
     while parser.rargs:
@@ -63,6 +60,7 @@ if __name__ == '__main__':
     setattr(parser.values, option.dest, value)
 
   def profile_cb (option, opt, value, parser):
+    """Callback for handling the profile name"""
     assert value is None
     value = ''
     while parser.rargs:
