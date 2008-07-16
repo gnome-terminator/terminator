@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 from distutils.core import setup
-from distutils.command.install_data import install_data
 from distutils.dist import Distribution
+from distutils.command.install_data import install_data
 from distutils.command.build import build
 from distutils.dep_util import newer
 from distutils.log import info
