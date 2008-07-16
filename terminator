@@ -18,23 +18,20 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
-import os, sys, string, time, math
+import os, sys
 from optparse import OptionParser
 
 #import version details
-from terminatorlib.version import *
+from terminatorlib.version import APP_NAME, APP_VERSION
 
 try:
   import gettext
   gettext.install (APP_NAME)
-except:
+except ImportError:
   import __builtin__
   def _t (text):
     return text
   __builtin__.__dict__['_'] = _t
-
-# import unix-lib
-import pwd
 
 # import some useful functions
 from terminatorlib.config import dbg, err, debug
@@ -72,9 +69,9 @@ if __name__ == '__main__':
       arg = parser.rargs[0]
       if arg[0] != '-':
         if len (value) > 0:
-          value = '%s %s'%(value, arg)
+          value = '%s %s' % (value, arg)
         else:
-          value = '%s'%arg
+          value = '%s' % arg
         del (parser.rargs[0])
       else:
         break
@@ -82,27 +79,36 @@ if __name__ == '__main__':
 
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
-  parser.add_option ("-v", "--version", action="store_true", dest="version", help="Display program version")
-  parser.add_option ("-d", "--debug", action="store_true", dest="debug", help="Enable debugging information")
-  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise", help="Open the %s window maximised"%APP_NAME.capitalize())
-  parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen", help="Set the window into fullscreen mode")
-  parser.add_option ("-b", "--borderless", action="store_true", dest="borderless", help="Turn off the window's borders")
-  parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true", help="ignore gnome-terminal gconf settings")
-  parser.add_option ("-p", "--profile", dest="profile", action="callback", callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
-  parser.add_option ("-e", "--command", dest="command", help="Execute the argument to this option inside the terminal")
-  parser.add_option ("-x", "--execute", dest="execute", action="callback", callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
+  parser.add_option ("-v", "--version", action="store_true", dest="version",
+      help="Display program version")
+  parser.add_option ("-d", "--debug", action="store_true", dest="debug",
+      help="Enable debugging information")
+  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise",
+      help="Open the %s window maximised" % APP_NAME.capitalize())
+  parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen",
+      help="Set the window into fullscreen mode")
+  parser.add_option ("-b", "--borderless", action="store_true", dest="borderless",
+      help="Turn off the window's borders")
+  parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
+      help="ignore gnome-terminal gconf settings")
+  parser.add_option ("-p", "--profile", dest="profile", action="callback",
+      callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
+  parser.add_option ("-e", "--command", dest="command",
+      help="Execute the argument to this option inside the terminal")
+  parser.add_option ("-x", "--execute", dest="execute", action="callback",
+      callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
     parser.error("Expecting zero additional arguments, found: %d"%len (args))
-    
+
   if options.no_gconf and options.profile:
-      parser.error("using --no-gconf and defining a profile at the same time does not make sense")
+    parser.error("using --no-gconf and defining a profile at the same time does not make sense")
 
   if options.version:
-    print "%s %s"%(APP_NAME, APP_VERSION)
+    print "%s %s" % (APP_NAME, APP_VERSION)
     sys.exit (0)
-  
+
   if options.debug:
     terminatorlib.config.debug = True
 
@@ -111,7 +117,7 @@ if __name__ == '__main__':
     command.append (options.command)
   if (options.execute):
     command = options.execute
-  
+
   if gtk.gdk.display_get_default() == None:
     err (_("You need to run terminator in an X environment. " \
     "Make sure DISPLAY is properly set"))
@@ -119,7 +125,7 @@ if __name__ == '__main__':
 
   try:
     open (os.path.expanduser ('~/.config/terminator/config'))
-  except:
+  except IOError:
     try:
       open (os.path.expanduser ('~/.terminatorrc'))
       error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
@@ -136,11 +142,12 @@ See the following bug report for more details:
       https://bugs.launchpad.net/bugs/238070'''))
       error.run ()
       error.destroy ()
-    except:
+    except IOError:
       pass
 
   dbg ('profile_cb: settled on profile: "%s"'%options.profile)
-  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless, options.no_gconf)
+  term = Terminator (options.profile, command, options.fullscreen, options.maximise,
+                     options.borderless, options.no_gconf)
 
   gtk.main ()
 
