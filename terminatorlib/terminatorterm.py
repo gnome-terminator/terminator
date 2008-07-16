@@ -371,12 +371,10 @@ text/plain
 
     if self.command:
       dbg ('spawn_child: using self.command: %s'%self.command)
-      args = self.command
-      shell = self.command[0]
+      args = ['-c'] + self.command
     elif self.conf.use_custom_command:
       dbg ('spawn_child: using custom command: %s'%self.conf.custom_command)
-      args = self.conf.custom_command.split ()
-      shell = args[0]
+      args = ['-c'] + self.conf.custom_command
 
     try:
       if os.environ['PATH'] == "":
@@ -386,17 +384,9 @@ text/plain
       paths = ['/usr/local/bin', '/usr/bin', '/bin']
     dbg ('spawn_child: found paths: "%s"'%paths)
 
-    if self.conf.use_custom_command and shell[0] != '/':
-     for path in paths:
-       dbg ('spawn_child: looking for pathless custom command "%s"'%os.path.join (path, shell))
-       if os.path.exists (os.path.join (path, shell)):
-         shell = os.path.join (path, shell)
-         break
-
-    if not self.command and not os.path.exists (shell):
+    if True or not self.command and not os.path.exists (shell):
       dbg ('spawn_child: hunting for a command')
       shell = os.getenv ('SHELL') or ''
-      args = []
       if not os.path.exists (shell):
         dbg ('spawn_child: No usable shell in $SHELL (%s)'%os.getenv('SHELL'))
         shell = pwd.getpwuid (os.getuid ())[6] or ''
@@ -420,11 +410,10 @@ text/plain
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
 
-    if not args:
-      args.append (shell)
-
     if self.conf.login_shell:
-      args[0] = "-%s"%args[0]
+      args.insert(0, "-" + shell)
+    else:
+      args.insert(0, shell)
 
     dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
