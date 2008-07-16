@@ -146,6 +146,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
+    self._vte.set_double_buffered(True)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -215,16 +216,11 @@ text/plain
 
     alloc = widget.allocation
     rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
-    widget.window.invalidate_rect(rect, True)
-    widget.window.process_updates(True)
-    
-    context = widget.window.cairo_create()
+
     if self.conf.use_theme_colors:
       color = self._vte.get_style ().text[gtk.STATE_NORMAL]
     else:
       color = gtk.gdk.color_parse (self.conf.foreground_color)
-
-    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
      
     pos = self.get_location(widget, x, y)
     topleft = (0,0)
@@ -246,14 +242,25 @@ text/plain
       coord = (topleft, topmiddle, bottommiddle, bottomleft)
     if pos == "bottom":
       coord = (bottomleft, bottomright, middleright , middleleft) 
-     
+    
+    
+    
+    widget.window.invalidate_rect(rect, True)
+    widget.window.process_updates(True) 
+    context = widget.window.cairo_create()
+    context.push_group()
+    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
     if len(coord) > 0 :
       context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
       for i in coord:
         context.line_to(i[0],i[1])
-      
-      context.fill()
- 
+    
+    context.fill()
+    context.pop_group_to_source()
+    context.paint()
+    gtk.gdk.flush()
+
+    
   def on_drag_drop(self, widget, drag_context, x, y, time):
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
