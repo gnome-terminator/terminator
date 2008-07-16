@@ -123,7 +123,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
     self._vte.connect ("popup-menu", self.on_vte_popup_menu)
-    
+    self._vte._expose_data = None
     """drag and drop"""
     srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ) ]
     dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
@@ -147,6 +147,8 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
+    
+    self._vte.connect('expose-event', self.on_expose_event)
     
 
     exit_action = self.conf.exit_action
@@ -193,6 +195,29 @@ class TerminatorTerm (gtk.VBox):
     dbg ("Drag data get")
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
 
+
+  def on_expose_event(self, widget, event):
+    if widget._expose_data is None:
+      return False
+
+    color = widget._expose_data['color']
+    coord = widget._expose_data['coord']
+    
+    context = widget.window.cairo_create()
+    #leaving those xxx_group as they could be usefull
+    ##http://macslow.thepimp.net/?p=153
+    #context.push_group()
+    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
+    if len(coord) > 0 :
+      context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
+      for i in coord:
+        context.line_to(i[0],i[1])
+    
+    context.fill()
+    #context.pop_group_to_source()
+    #context.paint()
+    return False
+    
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     dbg ("Drag Motion on ")
     """
@@ -217,8 +242,7 @@ text/plain
 
     alloc = widget.allocation
     rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
-    widget.window.invalidate_rect(rect, True)
-    widget.window.process_updates(True) 
+    
     if self.conf.use_theme_colors:
       color = self._vte.get_style ().text[gtk.STATE_NORMAL]
     else:
@@ -246,19 +270,13 @@ text/plain
       coord = (bottomleft, bottomright, middleright , middleleft) 
     
     
-    
-
-    context = widget.window.cairo_create()
-    context.push_group()
-    context.set_source_rgba(color.red, color.green, color.blue, 0.5)
-    if len(coord) > 0 :
-      context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
-      for i in coord:
-        context.line_to(i[0],i[1])
-    
-    context.fill()
-    context.pop_group_to_source()
-    context.paint()
+    #here, we define some widget internal values
+    widget._expose_data = { 'color': color, 'coord' : coord }
+    #redraw by forcing an event
+    widget.window.invalidate_rect(rect, True)
+    widget.window.process_updates(True)
+    #finaly reset the values
+    widget._expose_data = None
 
     
   def on_drag_drop(self, widget, drag_context, x, y, time):
