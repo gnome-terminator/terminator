@@ -18,7 +18,7 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
-import os, sys, string, time, math, subprocess
+import os, sys, string, time, math
 from optparse import OptionParser
 
 #import version details

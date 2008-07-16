@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, platform, sys
+import os, platform, sys, subprocess
 
 #import version details
 from terminatorlib.version import *
@@ -176,6 +176,7 @@ class TerminatorTerm (gtk.VBox):
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
     try:
+      dbg ('openurl: calling xdg-open')
       if subprocess.call(["xdg-open", url]) != 0:
         dbg ('openurl: xdg-open failed')
         raise
