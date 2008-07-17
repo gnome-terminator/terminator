@@ -34,7 +34,7 @@ from terminatorlib.encoding import TerminatorEncoding
 # import vte-bindings
 try:
   import vte
-except:
+except ImportError:
   error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
     _('You need to install python bindings for libvte ("python-vte" in debian/ubuntu)'))
   error.run()
@@ -58,7 +58,7 @@ class TerminatorTerm (gtk.VBox):
         from terminatorlib import freebsd
         self.pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
         dbg ('Using FreeBSD self.pid_get_cwd')
-      except:
+      except (OSError, NotImplementedError, ImportError):
         dbg ('FreeBSD version too old for self.pid_get_cwd')
         pass
     elif platform.system() == 'Linux':
@@ -74,7 +74,7 @@ class TerminatorTerm (gtk.VBox):
       import gnome
       gnome.init ('terminator', 'terminator')
       self.url_show = gnome.url_show
-    except:
+    except ImportError:
       # webbrowser.open() is not really useful, but will do as a fallback
       dbg ('url_show: gnome module failed, using webbrowser')
       import webbrowser
