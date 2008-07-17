@@ -364,6 +364,7 @@ text/plain
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
 
+
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
     login = self.conf.login_shell
@@ -371,10 +372,10 @@ text/plain
     shell = ''
 
     if self.command:
-      dbg ('spawn_child: using self.command: %s'%self.command)
+      dbg ('spawn_child: using self.command: %s' % self.command)
       args = ['-c'] + self.command
     elif self.conf.use_custom_command:
-      dbg ('spawn_child: using custom command: %s'%self.conf.custom_command)
+      dbg ('spawn_child: using custom command: %s' % self.conf.custom_command)
       args = ['-c'] + self.conf.custom_command
 
     try:
@@ -383,24 +384,24 @@ text/plain
       paths = os.environ['PATH'].split(':')
     except:
       paths = ['/usr/local/bin', '/usr/bin', '/bin']
-    dbg ('spawn_child: found paths: "%s"'%paths)
+    dbg ('spawn_child: found paths: "%s"' % paths)
 
     if True or not self.command and not os.path.exists (shell):
       dbg ('spawn_child: hunting for a command')
       shell = os.getenv ('SHELL') or ''
       if not os.path.exists (shell):
-        dbg ('spawn_child: No usable shell in $SHELL (%s)'%os.getenv('SHELL'))
+        dbg ('spawn_child: No usable shell in $SHELL (%s)' % os.getenv('SHELL'))
         shell = pwd.getpwuid (os.getuid ())[6] or ''
         if not os.path.exists (shell):
           for i in ['bash','zsh','tcsh','ksh','csh','sh']:
             for p in paths:
               shell = os.path.join(p, i)
-              dbg ('spawn_child: Checking if "%s" exists'%shell)
+              dbg ('spawn_child: Checking if "%s" exists' % shell)
               if not os.path.exists (shell):
-                dbg ('spawn_child: %s does not exist'%shell)
+                dbg ('spawn_child: %s does not exist' % shell)
                 continue
               else:
-                dbg ('spawn_child: %s does exist'%shell)
+                dbg ('spawn_child: %s does exist' % shell)
                 break
             if os.path.exists (shell):
               break
@@ -417,15 +418,20 @@ text/plain
       args.insert(0, shell)
 
     dbg ('SEGBUG: Setting WINDOWID')
-    os.putenv ('WINDOWID', '%s'%self._vte.get_parent_window().xid)
+    os.putenv ('WINDOWID', '%s' % self._vte.get_parent_window().xid)
 
-    dbg ('SEGBUG: Forking command: "%s" with args "%s", loglastlog = "%s", logwtmp = "%s", logutmp = "%s" and cwd "%s"'%(shell, args, login, update_records, update_records, self.cwd))
-    self._pid = self._vte.fork_command (command = shell, argv = args, envv = [], loglastlog = login, logwtmp = update_records, logutmp = update_records, directory=self.cwd)
+    dbg ('SEGBUG: Forking command: "%s" with args "%s", loglastlog = "%s", ' \
+        'logwtmp = "%s", logutmp = "%s" and cwd "%s"' % (shell, args, login,
+            update_records, update_records, self.cwd))
+    self._pid = self._vte.fork_command (command = shell, argv = args,
+        envv = [], loglastlog = login, logwtmp = update_records,
+        logutmp = update_records, directory=self.cwd)
 
     dbg ('SEGBUG: Forked command') 
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
       return (-1)
+
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
