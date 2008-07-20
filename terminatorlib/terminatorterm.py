@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, platform, sys, subprocess
+import os, platform, sys, subprocess, pwd
 
 #import version details
 from terminatorlib.version import *
@@ -366,57 +366,86 @@ text/plain
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
 
 
+  def _path_lookup(self, command):
+    if os.path.isabs (command):
+      if os.path.isfile (command):
+        return command
+      else:
+        return None
+    elif command[:2] == './' and os.path.isfile(command):
+      dbg('path_lookup: Relative filename "%s" found in cwd' % command)
+      return command
+
+    try:
+      paths = os.environ['PATH'].split(':')
+      if len(paths[0]) == 0: raise (ValueError)
+    except (ValueError, NameError):
+      dbg('path_lookup: PATH not set in environment, using fallbacks')
+      paths = ['/usr/local/bin', '/usr/bin', '/bin']
+
+    dbg('path_lookup: Using %d paths: %s' % (len(paths), paths))
+
+    for path in paths:
+      target = os.path.join (path, command)
+      if os.path.isfile (target):
+        dbg('path_lookup: found "%s"' % target)
+        return target
+
+    dbg('path_lookup: Unable to locate "%s"' % command)
+
+
+  def _shell_lookup(self):
+    shells = [os.getenv('SHELL'), pwd.getpwuid(os.getuid())[6],
+              'bash', 'zsh', 'tcsh', 'ksh', 'csh', 'sh']
+
+    for shell in shells:
+      if shell is None: continue
+      elif os.path.isfile (shell):
+        return shell
+      else:
+        rshell = self._path_lookup(shell)
+        if rshell is not None:
+          dbg('shell_lookup: Found "%s" at "%s"' % (shell, rshell))
+          return rshell
+
+    dbg('shell_lookup: Unable to locate a shell')
+
+
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
     login = self.conf.login_shell
     args = []
-    shell = ''
+    shell = None
+    command = None
 
     if self.command:
       dbg ('spawn_child: using self.command: %s' % self.command)
-      args = ['-c'] + self.command
+      command = self.command
     elif self.conf.use_custom_command:
       dbg ('spawn_child: using custom command: %s' % self.conf.custom_command)
-      args = ['-c'] + self.conf.custom_command
+      command = self.conf.custom_command
 
-    try:
-      if os.environ['PATH'] == "":
-        raise (ValueError)
-      paths = os.environ['PATH'].split(':')
-    except:
-      paths = ['/usr/local/bin', '/usr/bin', '/bin']
-    dbg ('spawn_child: found paths: "%s"' % paths)
+    if type(command) is list:
+      # List of arguments from -x
+      dbg('spawn_child: Bypassing shell and trying to run "%s" directly' % command[0])
+      shell = self._path_lookup(command[0])
+      args = command
+    else:
+      shell = self._shell_lookup()
 
-    if True or not self.command and not os.path.exists (shell):
-      dbg ('spawn_child: hunting for a command')
-      shell = os.getenv ('SHELL') or ''
-      if not os.path.exists (shell):
-        dbg ('spawn_child: No usable shell in $SHELL (%s)' % os.getenv('SHELL'))
-        shell = pwd.getpwuid (os.getuid ())[6] or ''
-        if not os.path.exists (shell):
-          for i in ['bash','zsh','tcsh','ksh','csh','sh']:
-            for p in paths:
-              shell = os.path.join(p, i)
-              dbg ('spawn_child: Checking if "%s" exists' % shell)
-              if not os.path.exists (shell):
-                dbg ('spawn_child: %s does not exist' % shell)
-                continue
-              else:
-                dbg ('spawn_child: %s does exist' % shell)
-                break
-            if os.path.exists (shell):
-              break
+      if self.conf.login_shell:
+        args.insert(0, "-%s" % shell)
+      else:
+        args.insert(0, shell)
 
-    if not self.command and not os.path.exists (shell):
+      if command is not None:
+        args += ['-c', command]
+
+    if shell is None:
       # Give up, we're completely stuck
       err (_('Unable to find a shell'))
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
-
-    if self.conf.login_shell:
-      args.insert(0, "-" + shell)
-    else:
-      args.insert(0, shell)
 
     dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s' % self._vte.get_parent_window().xid)

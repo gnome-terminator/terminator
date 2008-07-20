@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
-    parser.error("Expecting zero additional arguments, found: %d"%len (args))
+    parser.error("Expecting zero additional arguments, found: %d" % len (args))
 
   if options.no_gconf and options.profile:
     parser.error("using --no-gconf and defining a profile at the same time does not make sense")
@@ -110,9 +110,9 @@ if __name__ == '__main__':
   if options.debug:
     terminatorlib.config.debug = True
 
-  command = []
+  command = None
   if (options.command):
-    command.append (options.command)
+    command = options.command
   if (options.execute):
     command = options.execute
 
@@ -143,7 +143,7 @@ See the following bug report for more details:
     except IOError:
       pass
 
-  dbg ('profile_cb: settled on profile: "%s"'%options.profile)
+  dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, options.maximise,
                      options.borderless, options.no_gconf)
 
