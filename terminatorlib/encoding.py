@@ -24,7 +24,7 @@ This list is taken from gnome-terminal's src/encoding.h
 """
 
 class TerminatorEncoding:
-  
+  """Class to store encoding details"""
   encodings = [
     [True, None, _("Current Locale")],
     [False, "ISO-8859-1", _("Western")],
@@ -103,6 +103,7 @@ class TerminatorEncoding:
   ]
 
   def get_list():
+    """Return a list of supported encodings"""
     return TerminatorEncoding.encodings
   get_list = staticmethod(get_list)
 

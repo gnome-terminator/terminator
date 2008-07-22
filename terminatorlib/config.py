@@ -41,17 +41,20 @@ import pwd
 debug = False
 
 def dbg (log = ""):
+  """Print a message if debugging is enabled"""
   if debug:
     print >> sys.stderr, log
 
 def err (log = ""):
+  """Print an error message"""
   print >> sys.stderr, log
 
 class TerminatorConfig:
+  """This class is used as the base point of the config system"""
   callback = None
   sources = []
 
-  def __init__ (self, sources = []):
+  def __init__ (self, sources):
     for source in sources:
       if isinstance(source, TerminatorConfValuestore):
         self.sources.append (source)
