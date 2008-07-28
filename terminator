@@ -21,9 +21,6 @@
 import os, sys
 from optparse import OptionParser
 
-# import keybinder for quake mode
-import deskbar.core.keybinder as bindkey
-
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 try:
@@ -51,6 +48,8 @@ except ImportError:
 
 from terminatorlib.terminator import Terminator
 
+# import keybinder for quake mode
+import deskbar.core.keybinder as bindkey
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
@@ -154,7 +153,7 @@ See the following bug report for more details:
   # binding for quake mode
   def cbkeyCloak(term):
     term.cbkeyCloak()
-  bindkey.tomboy_keybinder_bind("<Ctrl><Shift>a",cbkeyCloak,term)
+  bindkey.tomboy_keybinder_bind("<Ctrl><Shift><Alt>a",cbkeyCloak,term)
 
   gtk.main ()
 
