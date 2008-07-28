@@ -95,8 +95,7 @@ class Terminator:
     self._maximised = False
     self._fullscreen = False
     self._f11_modifier = False
-    self.hidden = False
-  
+
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
@@ -169,8 +168,6 @@ class Terminator:
     if borderless or self.conf.borderless:
       self.window.set_decorated (False)
 
-    if hidden or self.conf.hidden:
-      self.hide()
 
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
@@ -189,6 +186,9 @@ class Terminator:
     term._titlebox.hide()
     self.window.show ()
     term.spawn_child ()
+
+    if hidden or self.conf.hidden:
+      self.hide()
 
   # jgc: show/hide functions for quake mode
   def show(self):
