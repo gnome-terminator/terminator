@@ -21,6 +21,9 @@
 import os, sys
 from optparse import OptionParser
 
+# import keybinder for quake mode
+import deskbar.core.keybinder as bindkey
+
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 try:
@@ -47,6 +50,7 @@ except ImportError:
   sys.exit(1)
 
 from terminatorlib.terminator import Terminator
+
 
 if __name__ == '__main__':
   def execute_cb (option, opt, value, parser):
@@ -87,6 +91,7 @@ if __name__ == '__main__':
       help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", dest="borderless",
       help="Turn off the window's borders")
+  parser.add_option("-H", "--hidden", action="store_true", dest="hidden", help="Open the %s window hidden"%APP_NAME.capitalize())
   parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
       help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback",
@@ -144,8 +149,13 @@ See the following bug report for more details:
       pass
 
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
-  term = Terminator (options.profile, command, options.fullscreen, options.maximise,
-                     options.borderless, options.no_gconf)
+  term = Terminator (options.profile, command, options.fullscreen, options.maximise, options.borderless, options.no_gconf, options.hidden)
+
+  # binding for quake mode
+  def cbkeyCloak(term):
+    term.cbkeyCloak()
+  bindkey.tomboy_keybinder_bind("<Ctrl><Shift>a",cbkeyCloak,term)
 
   gtk.main ()
+
 

@@ -87,7 +87,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     return self.size_request()[0]
 
 class Terminator:
-  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False, no_gconf=False):
+  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False, no_gconf=False, hidden=False):
     self.profile = profile
     self.command = command
 
@@ -95,6 +95,8 @@ class Terminator:
     self._maximised = False
     self._fullscreen = False
     self._f11_modifier = False
+    self.hidden = False
+  
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
@@ -167,6 +169,9 @@ class Terminator:
     if borderless or self.conf.borderless:
       self.window.set_decorated (False)
 
+    if hidden or self.conf.hidden:
+      self.hide()
+
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
     if self.conf.enable_real_transparency:
@@ -184,6 +189,28 @@ class Terminator:
     term._titlebox.hide()
     self.window.show ()
     term.spawn_child ()
+
+  # jgc: show/hide functions for quake mode
+  def show(self):
+    """Show the terminator window"""
+    # restore window position
+    self.window.move(self.pos[0],self.pos[1])
+    self.window.present()
+    self.hidden = False   
+
+  def hide(self):
+    """Hide the terminator window"""
+    # save window position
+    self.pos = self.window.get_position()
+    self.window.hide()
+    self.hidden = True
+
+  def cbkeyCloak(self):
+    """Callback event for show/hide keypress"""
+    if self.hidden:
+      self.show()
+    else:
+      self.hide()
 
   def maximize (self):
     """ Maximize the Terminator window."""

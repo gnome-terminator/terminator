@@ -120,6 +120,7 @@ class TerminatorConfValuestore:
     'extreme_tabs'          : False,
     'fullscreen'            : False,
     'borderless'            : False,
+    'hidden'                : False,
     'maximise'              : False,
     'handle_size'           : -1,
     'focus_on_close'        : 'auto',
