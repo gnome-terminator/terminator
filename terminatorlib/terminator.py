@@ -95,6 +95,7 @@ class Terminator:
     self._maximised = False
     self._fullscreen = False
     self._f11_modifier = False
+    self._hidden = False
 
     self.term_list = []
     stores = []
@@ -195,19 +196,20 @@ class Terminator:
     """Show the terminator window"""
     # restore window position
     self.window.move(self.pos[0],self.pos[1])
-    self.window.present()
-    self.hidden = False   
+    #self.window.present()
+    self.window.show_now()
+    self._hidden = False   
 
   def hide(self):
     """Hide the terminator window"""
     # save window position
     self.pos = self.window.get_position()
     self.window.hide()
-    self.hidden = True
+    self._hidden = True
 
   def cbkeyCloak(self):
     """Callback event for show/hide keypress"""
-    if self.hidden:
+    if self._hidden:
       self.show()
     else:
       self.hide()
