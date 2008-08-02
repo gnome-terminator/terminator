@@ -345,7 +345,7 @@ text/plain
       pos = "bottom"
     return pos
 
-  def add_matches (self, lboundry="[[:<:]]", rboundry="[[:>:]]"):
+  def add_matches (self, lboundry="\\<", rboundry="\\>"):
     userchars = "-A-Za-z0-9"
     passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
     hostchars = "-A-Za-z0-9"
@@ -353,13 +353,15 @@ text/plain
     schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
     user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
     urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
-    
+
+    dbg ('add_matches: trying a Linux-friendly match')
     self.matches['full_uri'] = self._vte.match_add(lboundry + schemes + "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
 
     # FreeBSD works with [[:<:]], Linux works with \<
     if self.matches['full_uri'] == -1:
-      if lboundry != "\\<":
-        self.add_matches(lboundry = "\\<", rboundry = "\\>")
+      if lboundry != "[[:<:]]":
+        err ('add_matches: Linux match failed, trying alternative')
+        self.add_matches(lboundry = "[[:<:]]", rboundry = "[[:<:]]")
     else:
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
