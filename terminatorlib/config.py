@@ -32,7 +32,7 @@ AttributeError. This is by design. If you want to look something
 up, set a default for it first."""
 
 # import standard python libs
-import os, sys, re
+import os, platform, sys, re
 
 # import unix-lib
 import pwd
@@ -132,6 +132,7 @@ class TerminatorConfValuestore:
     'copy_on_selection'     : False,
     'close_button_on_tab'   : True,
     'enable_real_transparency'  : False,
+    'try_posix_regexp'      : platform.system() != 'Linux',
   }
 
   def __getattr__ (self, keyname):

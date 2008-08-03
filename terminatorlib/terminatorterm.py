@@ -147,8 +147,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
-    
-    
+    self._vte.connect ("resize-window", self.on_resize_window)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -161,7 +160,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
-    self.add_matches()
+    self.add_matches(posix = self.conf.try_posix_regexp)
 
     dbg ('SEGBUG: Setting http_proxy')
     env_proxy = os.getenv ('http_proxy')
@@ -186,11 +185,17 @@ class TerminatorTerm (gtk.VBox):
       except:
         dbg ('openurl: url_show failed. No URL for you')
         pass
- 
+
+
+  def on_resize_window(self, widget, width, height):
+    dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
+
+
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
     widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
-    
+
+
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
@@ -217,7 +222,8 @@ class TerminatorTerm (gtk.VBox):
     #context.pop_group_to_source()
     #context.paint()
     return False
-    
+
+
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     dbg ("Drag Motion on ")
     """
@@ -280,11 +286,12 @@ text/plain
     widget.disconnect(connec)
     widget._expose_data = None
 
-    
+
   def on_drag_drop(self, widget, drag_context, x, y, time):
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
-    
+
+
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     dbg ("Drag Data Received")
     if selection_data.type == 'text/plain':
@@ -317,6 +324,7 @@ text/plain
     data.terminator.add(self, widgetsrc,pos)
     return
 
+
   def get_location(self, vte, x, y):
     pos = ""
     #get the diagonales function for the receiving widget
@@ -345,7 +353,8 @@ text/plain
       pos = "bottom"
     return pos
 
-  def add_matches (self, lboundry="\\<", rboundry="\\>"):
+
+  def add_matches (self, posix = True):
     userchars = "-A-Za-z0-9"
     passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
     hostchars = "-A-Za-z0-9"
@@ -354,14 +363,23 @@ text/plain
     user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
     urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
-    dbg ('add_matches: trying a Linux-friendly match')
+    if posix:
+      dbg ('add_matches: Trying POSIX URL regexps.  Set try_posix_regexp = False in config to only try GNU if you get (harmless) VTE warnings.')
+      lboundry = "[[:<:]]"
+      rboundry = "[[:>:]]"
+    else: # GNU
+      dbg ('add_matches: Trying GNU URL regexps.  Set try_posix_regexp = True in config if URLs are not detected.')
+      lboundry = "\\<"
+      rboundry = "\\>"
+
     self.matches['full_uri'] = self._vte.match_add(lboundry + schemes + "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
 
-    # FreeBSD works with [[:<:]], Linux works with \<
     if self.matches['full_uri'] == -1:
-      if lboundry != "[[:<:]]":
-        err ('add_matches: Linux match failed, trying alternative')
-        self.add_matches(lboundry = "[[:<:]]", rboundry = "[[:<:]]")
+      if posix:
+        err ('add_matches: POSIX match failed, trying GNU')
+        self.add_matches(posix = False)
+      else:
+        err ('add_matches: Failed adding URL match patterns')
     else:
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)

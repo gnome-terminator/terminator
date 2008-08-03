@@ -175,5 +175,9 @@ Default value: \fBFalse\fR
 .B extreme_tabs \fB(boolean)\fR
 If set to True, tabs can be created within other tabs. Be warned that this can be very confusing and hard to use.
 Default value: \fBFalse\fR
+.TP
+.B try_posix_regexp \fB(boolean)\fR
+If set to True, URL matching regexps will try to use POSIX style first, and fall back on GNU style on failure.  If you are on Linux but URL matches don't work, try setting this to True.  If you are not on Linux, but you get VTE warnings on startup saying "Error compiling regular expression", set this to False to silence them (they are otherwise harmless).
+Default value: \fBFalse\fR on Linux, \fBTrue\fR otherwise.
 .SH "SEE ALSO"
 .BR gnome\-terminal(1)
