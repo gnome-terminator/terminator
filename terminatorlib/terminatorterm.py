@@ -960,14 +960,14 @@ text/plain
       
       radioitem.connect ('activate', self.on_encoding_change, encoding[1])
       submenu.append (radioitem)
-   
+
   def on_vte_title_change(self, vte):
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", vte.get_window_title ())
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(vte.get_window_title ())
-    self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
+    self.terminator.set_window_title("%s - %s" % (vte.get_window_title(), APP_NAME.capitalize()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
@@ -980,7 +980,7 @@ text/plain
     self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
     self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_SELECTED])
     return
-    
+
   def on_vte_focus_out(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
     self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_NORMAL])
@@ -988,7 +988,7 @@ text/plain
 
   def on_vte_focus(self, vte):
     if vte.get_window_title ():
-      self.terminator.set_window_title("%s: %s" %(APP_NAME.capitalize(), vte.get_window_title ()))
+      self.terminator.set_window_title("%s - %s" % (vte.get_window_title(), APP_NAME.capitalize()))
       notebookpage = self.terminator.get_first_notebook_page(vte)
       while notebookpage != None:
         if notebookpage[0].get_tab_label(notebookpage[1]):
