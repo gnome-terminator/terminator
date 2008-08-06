@@ -123,7 +123,7 @@ class TerminatorTerm (gtk.VBox):
 
     self._vte.connect ("key-press-event", self.on_vte_key_press)
     self._vte.connect ("button-press-event", self.on_vte_button_press)
-    self._vte.connect ("popup-menu", self.on_vte_popup_menu)
+    self._vte.connect ("popup-menu", self.create_popup_menu)
     """drag and drop"""
     srcvtetargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ) ]
     dsttargets = [ ( "vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE ), ('text/plain', 0, 0) , ("STRING", 0, 0), ("COMPOUND_TEXT", 0, 0)]
@@ -629,7 +629,6 @@ text/plain
       return False
 
     # Left mouse button should transfer focus to this vte widget
-    #LP#242612:
     # we also need to give focus on the widget where the paste occured
     if event.button in (1 ,2):
       self._vte.grab_focus ()
@@ -637,7 +636,7 @@ text/plain
 
     # Right mouse button should display a context menu if ctrl not pressed
     if event.button == 3 and event.state & gtk.gdk.CONTROL_MASK == 0:
-      self.do_popup (event)
+      self.create_popup_menu (self._vte, event)
       return True
 
   def on_vte_notify_enter (self, term, event):
@@ -774,19 +773,17 @@ text/plain
     pangodesc.set_size (fontsize)
     self._vte.set_font (pangodesc)
 
-  def on_vte_popup_menu (self, term, event):
-    self.do_popup (event)
-
-  def do_popup (self, event = None):
-    menu = self.create_popup_menu (event)
-    menu.popup (None, None, None, event.button, event.time)
-
-  def create_popup_menu (self, event):
+  def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
     url = None
 
     if event:
       url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+      button = event.button
+      time = event.time
+    else:
+      button = 0
+      time = 0
 
     if url:
       if url[1] != self.matches['email']:
@@ -904,7 +901,9 @@ text/plain
     menu.append (item)
 
     menu.show_all ()
-    return menu
+    menu.popup (None, None, None, button, time)
+
+    return True
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
