@@ -968,14 +968,16 @@ text/plain
       radioitem.connect ('activate', self.on_encoding_change, encoding[1])
       submenu.append (radioitem)
 
-  def get_vte_window_title(self, vte):
+  def get_window_title(self, vte = None):
+    if vte is None:
+      vte = self._vte
     title = vte.get_window_title ()
     if title is None:
       title = str(self.command)
     return title
 
   def on_vte_title_change(self, vte):
-    title = self.get_vte_window_title(vte)
+    title = self.get_window_title(vte)
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", title)
@@ -1001,7 +1003,7 @@ text/plain
     return
 
   def on_vte_focus(self, vte):
-    title = self.get_vte_window_title(vte)
+    title = self.get_window_title(vte)
     self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:

@@ -329,7 +329,7 @@ class Terminator:
       #parent.remove_page(page)
       pane.show()
       parent.insert_page(pane, None, page)
-      notebooktablabel = TerminatorNotebookTabLabel(widget._vte.get_window_title(), parent, self)
+      notebooktablabel = TerminatorNotebookTabLabel(widget.get_window_title(), parent, self)
       parent.set_tab_label(pane,notebooktablabel)
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
       parent.set_tab_reorderable(pane, True)
@@ -489,8 +489,8 @@ class Terminator:
       notebooklabel = ""
       if isinstance(child, TerminatorTerm):
         child._titlebox.hide()
-      if widget._vte.get_window_title() is not None:
-        notebooklabel = widget._vte.get_window_title()
+      if widget.get_window_title() is not None:
+        notebooklabel = widget.get_window_title()
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
       notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
@@ -515,13 +515,7 @@ class Terminator:
     notebook.append_page(terminal,None)
     terminal.show ()
     terminal.spawn_child ()
-    ## Some gtk/vte weirdness
-    ## If we don't use this silly test,
-    ## terminal._vte.get_window_title() might return
-    ## bogus values
-    notebooklabel = ""
-    if terminal._vte.get_window_title() is not None:
-      notebooklabel = terminal._vte.get_window_title()
+    notebooklabel = terminal.get_window_title()
     notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
     notebook.set_tab_label(terminal, notebooktablabel)
     notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
