@@ -18,13 +18,14 @@ import rlcompleter
 import re
 
 def ddbg(msg):
+  # uncomment this to get lots of spam from debugserver
   return
-  ddbg(msg)
+  dbg(msg)
 
 class PythonConsoleServer(SocketServer.BaseRequestHandler):
   env = None
   def setup(self):
-    ddbg('debugserver: connect from %s' % str(self.client_address))
+    dbg('debugserver: connect from %s' % str(self.client_address))
     ddbg('debugserver: env=%s' % repr(PythonConsoleServer.env))
     self.console = TerminatorConsole(PythonConsoleServer.env)
 
