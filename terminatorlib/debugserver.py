@@ -18,9 +18,11 @@ import rlcompleter
 import re
 
 class PythonConsoleServer(SocketServer.BaseRequestHandler):
+  env = None
   def setup(self):
     dbg('debugserver: connect from %s' % str(self.client_address))
-    self.console = TerminatorConsole()
+    dbg('debugserver: env=%s' % repr(PythonConsoleServer.env))
+    self.console = TerminatorConsole(PythonConsoleServer.env)
 
   def handle(self):
     dbg("debugserver: handling")
@@ -138,8 +140,9 @@ def server():
   print "Serving on %s" % str(tcpserver.server_address)
   tcpserver.serve_forever()
 
-def spawn():
+def spawn(env):
 #  server()
+  PythonConsoleServer.env = env
   # tcpserver = SocketServer.ThreadingTCPServer(('', 0), PythonConsoleServer)
   tcpserver = SocketServer.TCPServer(('', 0), PythonConsoleServer)
   print("debugserver: listening on %s" % str(tcpserver.server_address))

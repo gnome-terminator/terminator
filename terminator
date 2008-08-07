@@ -144,7 +144,6 @@ See the following bug report for more details:
       pass
 
   import terminatorlib.debugserver as debugserver
-  (serverthread, server) = debugserver.spawn()
   import threading
 
   gtk.gdk.threads_init()
@@ -153,6 +152,7 @@ See the following bug report for more details:
   term = Terminator (options.profile, command, options.fullscreen, options.maximise,
                      options.borderless, options.no_gconf)
 
+  (serverthread, server) = debugserver.spawn(locals())
   gtk.main()
 
 #  guithread = threading.Thread(target=gtk.main, name="Main GUI thread")
