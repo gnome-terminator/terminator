@@ -95,6 +95,7 @@ class Terminator:
     self._maximised = False
     self._fullscreen = False
     self._f11_modifier = False
+    self.debugaddress = None
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
@@ -448,13 +449,13 @@ class Terminator:
     dbg("[ERROR] unsupported class %s in _notebook_last_term" % child.__class__.__name__)
     return None
   
-  def newtab(self,widget, toplevel = False):
+  def newtab(self,widget, toplevel = False, command = None):
     if self._zoomed:
       # We don't want to add a new tab while we are zoomed in on a terminal
       dbg ("newtab function called, but Terminator was in zoomed terminal mode.")
       return
 
-    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
     #only one term, we don't show the title
     terminal._titlebox.hide()
     if self.conf.extreme_tabs and not toplevel:
@@ -537,7 +538,7 @@ class Terminator:
     self.term_list.insert (index + 1, terminal)
     return (True)
   
-  def splitaxis (self, widget, vertical=True):
+  def splitaxis (self, widget, vertical=True, command=None):
     """ Split the provided widget on the horizontal or vertical axis. """
     if self._zoomed:
       # We don't want to split the terminal while we are in zoomed mode
@@ -546,7 +547,7 @@ class Terminator:
 
     # create a new terminal and parent pane.
     dbg ('SEGBUG: Creating TerminatorTerm')
-    terminal = TerminatorTerm (self, self.profile, None, widget.get_cwd())
+    terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
     dbg ('SEGBUG: Created TerminatorTerm')
     pos = vertical and "right" or "bottom"
     dbg ('SEGBUG: Position is: %s'%pos)

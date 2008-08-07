@@ -477,7 +477,10 @@ text/plain
         envv = [], loglastlog = login, logwtmp = update_records,
         logutmp = update_records, directory=self.cwd)
 
-    dbg ('SEGBUG: Forked command') 
+    dbg ('SEGBUG: Forked command')
+
+    self.on_vte_title_change(self._vte) # Force an initial update of our titles
+
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
       return (-1)
@@ -852,7 +855,6 @@ text/plain
 
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
-
       item = gtk.ImageMenuItem (str_vert)
       item_image = gtk.Image ()
       item_image.set_from_icon_name (APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
@@ -860,10 +862,16 @@ text/plain
 
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
       menu.append (item)
-    
+
       item = gtk.MenuItem (_("Open _Tab"))
       item.connect ("activate", lambda menu_item: self.terminator.newtab (self))
       menu.append (item)
+
+      if self.terminator.debugaddress:
+        item = gtk.MenuItem (_("Open _Debug Tab"))
+        item.connect ("activate", lambda menu_item: self.terminator.newtab (self, command = "telnet %s" % ' '.join([str(x) for x in self.terminator.debugaddress])))
+        menu.append (item)
+
 
       if self.conf.extreme_tabs:
         item = gtk.MenuItem (_("Open Top Level Tab"))
@@ -960,18 +968,25 @@ text/plain
       radioitem.connect ('activate', self.on_encoding_change, encoding[1])
       submenu.append (radioitem)
 
+  def get_vte_window_title(self, vte):
+    title = vte.get_window_title ()
+    if title is None:
+      title = str(self.command)
+    return title
+
   def on_vte_title_change(self, vte):
+    title = self.get_vte_window_title(vte)
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
-      vte.set_property ("tooltip-text", vte.get_window_title ())
+      vte.set_property ("tooltip-text", title)
     #set the title anyhow, titlebars setting only show/hide the label
-    self._title.set_text(vte.get_window_title ())
-    self.terminator.set_window_title("%s - %s" % (vte.get_window_title(), APP_NAME.capitalize()))
+    self._title.set_text(title)
+    self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
         label = notebookpage[0].get_tab_label(notebookpage[1])
-        label.set_title(vte.get_window_title ())
+        label.set_title(title)
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
@@ -986,15 +1001,15 @@ text/plain
     return
 
   def on_vte_focus(self, vte):
-    if vte.get_window_title ():
-      self.terminator.set_window_title("%s - %s" % (vte.get_window_title(), APP_NAME.capitalize()))
-      notebookpage = self.terminator.get_first_notebook_page(vte)
-      while notebookpage != None:
-        if notebookpage[0].get_tab_label(notebookpage[1]):
-          label = notebookpage[0].get_tab_label(notebookpage[1])
-          label.set_title(vte.get_window_title ())
-          notebookpage[0].set_tab_label(notebookpage[1], label)
-        notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
+    title = self.get_vte_window_title(vte)
+    self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
+    notebookpage = self.terminator.get_first_notebook_page(vte)
+    while notebookpage != None:
+      if notebookpage[0].get_tab_label(notebookpage[1]):
+        label = notebookpage[0].get_tab_label(notebookpage[1])
+        label.set_title(title)
+        notebookpage[0].set_tab_label(notebookpage[1], label)
+      notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def destroy(self):
     self._vte.destroy()

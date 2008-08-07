@@ -152,7 +152,8 @@ See the following bug report for more details:
     import threading
 
     gtk.gdk.threads_init()
-    debugserver.spawn(locals())
+    (debugthread, debugsvr) = debugserver.spawn(locals())
+    term.debugaddress = debugsvr.server_address
 
   gtk.main()
 

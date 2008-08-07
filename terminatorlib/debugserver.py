@@ -139,7 +139,7 @@ class TerminatorConsole(code.InteractiveConsole):
       data = self.server.socketio.read(1)
       ddbg('raw_input: char=%s' % repr(data))
       if data == LF or data == '\006':
-        buf = self.parse_telnet(buf + data).lstrip()
+        buf = self.parse_telnet(buf + data)
         if buf != '':
           return buf
       elif data == '\004' or data == '': # ^D
