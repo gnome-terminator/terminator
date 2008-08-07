@@ -143,9 +143,20 @@ See the following bug report for more details:
     except IOError:
       pass
 
+  import terminatorlib.debugserver as debugserver
+  (serverthread, server) = debugserver.spawn()
+  import threading
+
+  gtk.gdk.threads_init()
+
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, options.maximise,
                      options.borderless, options.no_gconf)
 
-  gtk.main ()
+  gtk.main()
+
+#  guithread = threading.Thread(target=gtk.main, name="Main GUI thread")
+#  guithread.start()
+#  guithread.join()
+  server.socket.close()
 

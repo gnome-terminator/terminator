@@ -200,9 +200,9 @@ class Terminator:
       self.window.fullscreen ()
 
   def on_window_state_changed (self, window, event):
-    state = event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN
-    self._fullscreen = bool (state)
-
+    self._fullscreen = bool (event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN)
+    self._maximised = bool (event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED)
+    dbg("window state changed: fullscreen: %s, maximised: %s" % (self._fullscreen, self._maximised))
     return (False)
 
   def on_delete_event (self, window, event, data=None):
@@ -493,7 +493,12 @@ class Terminator:
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
       notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
-      self.window.resize(self.window.allocation.width, min(self.window.allocation.height + notebooktablabel.height_request(), gtk.gdk.screen_height()))
+
+      wal = self.window.allocation
+      if not (self._maximised or self._fullscreen):
+        self.window.resize(wal.width,
+            min(wal.height + notebooktablabel.height_request(), gtk.gdk.screen_height()))
+
       notebook.show()
     elif isinstance(parent, gtk.Notebook):
       notebook = parent
