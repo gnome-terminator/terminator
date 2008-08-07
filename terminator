@@ -79,8 +79,8 @@ if __name__ == '__main__':
   parser = OptionParser (usage)
   parser.add_option ("-v", "--version", action="store_true", dest="version",
       help="Display program version")
-  parser.add_option ("-d", "--debug", action="store_true", dest="debug",
-      help="Enable debugging information")
+  parser.add_option ("-d", "--debug", action="count", dest="debug",
+      help="Enable debugging information (twice for debug server)")
   parser.add_option ("-m", "--maximise", action="store_true", dest="maximise",
       help="Open the %s window maximised" % APP_NAME.capitalize())
   parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen",
@@ -143,20 +143,16 @@ See the following bug report for more details:
     except IOError:
       pass
 
-  import terminatorlib.debugserver as debugserver
-  import threading
-
-  gtk.gdk.threads_init()
-
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, options.maximise,
                      options.borderless, options.no_gconf)
 
-  (serverthread, server) = debugserver.spawn(locals())
-  gtk.main()
+  if options.debug > 1:
+    import terminatorlib.debugserver as debugserver
+    import threading
 
-#  guithread = threading.Thread(target=gtk.main, name="Main GUI thread")
-#  guithread.start()
-#  guithread.join()
-  server.socket.close()
+    gtk.gdk.threads_init()
+    debugserver.spawn(locals())
+
+  gtk.main()
 
