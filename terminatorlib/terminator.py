@@ -59,7 +59,6 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
   def on_close(self, widget):
     nbpages = self._notebook.get_n_pages()
-    print self._button.allocation.width, self._button.allocation.height
     for i in xrange(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
@@ -92,7 +91,6 @@ class Terminator:
     self._zoomed = False
     self._maximised = False
     self._fullscreen = False
-    self._f11_modifier = False
     self.debugaddress = None
     self.term_list = []
     stores = []
