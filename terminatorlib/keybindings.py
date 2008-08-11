@@ -90,6 +90,5 @@ class TerminatorKeybindings:
 
   def lookup(self, event):
     mask = event.state & self._masks
-    keyval = gtk.gdk.keyval_name(event.keyval)
     return self._lookup.get(mask, self.empty).get(event.keyval, None)
 
