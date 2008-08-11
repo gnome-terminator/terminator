@@ -680,17 +680,23 @@ text/plain
     return False
 
   # Key events
-  def key_zoom_in(self): self.zoom (True)
+  def key_zoom_in(self):
+    self.zoom (True)
 
-  def key_zoom_out(self): self.zoom (False)
+  def key_zoom_out(self):
+    self.zoom (False)
 
-  def key_copy(self): self._vte.copy_clipboard ()
+  def key_copy(self):
+    self._vte.copy_clipboard ()
 
-  def key_paste(self): self.paste_clipboard ()
+  def key_paste(self):
+    self.paste_clipboard ()
 
-  def key_toggle_scrollbar(self): self.do_scrollbar_toggle ()
+  def key_toggle_scrollbar(self):
+    self.do_scrollbar_toggle ()
 
-  def key_zoom_normal(self): self.zoom_orig ()
+  def key_zoom_normal(self):
+    self.zoom_orig ()
 
   # bindings that should be moved to Terminator as they all just call
   # a function of Terminator. It would be cleaner if TerminatorTerm
