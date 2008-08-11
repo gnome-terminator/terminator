@@ -20,15 +20,12 @@ import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
 
-#import version details
-from terminatorlib.version import *
+from terminatorlib.version import APP_NAME, APP_VERSION
 
-# import our configuration loader
 from terminatorlib import config
-from terminatorlib.config import dbg, err, debug
-from terminatorlib.keybindings import TerminatorKeybindings
+from config import dbg, err, debug
 
-#import TerminatorTerm
+from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 
 class TerminatorNotebookTabLabel(gtk.HBox):
