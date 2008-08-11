@@ -738,7 +738,7 @@ text/plain
   def key_move_tab_right(self):
     self.terminator.move_tab (self, 'right')
 
-  def key_move_tab_right(self):
+  def key_move_tab_left(self):
     self.terminator.move_tab (self, 'left')
 
   def key_toggle_zoom(self):
@@ -747,11 +747,11 @@ text/plain
   def key_scaled_zoom(self):
     self.terminator.toggle_zoom (self, True)
 
-  def key_go_prev(self):
-    self.terminator.go_prev (self)
+  def key_next_tab(self):
+    self.terminator.next_tab (self)
 
-  def key_go_next(self):
-    self.terminator.go_next (self)
+  def key_prev_tab(self):
+    self.terminator.previous_tab (self)
   # End key events
 
   def zoom_orig (self):
