@@ -668,98 +668,85 @@ text/plain
 
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
+  UnhandledKeybindings = ('close_window', 'full_screen')
   def on_vte_key_press (self, term, event):
-    keyname = gtk.gdk.keyval_name (event.keyval)
+    mapping = self.terminator.keybindings.lookup(event)
 
-    mask = gtk.gdk.CONTROL_MASK
-    if (event.state & mask) == mask:
-      if keyname == 'plus':
-        self.zoom (True)
-        return (True)
-      elif keyname == 'minus':
-        self.zoom (False)
-        return (True)
-      elif keyname == 'equal':
-        self.zoom_orig ()
-        return (True)
+    if mapping and mapping not in self.UnhandledKeybindings:
+      dbg("on_vte_key_press: lookup found %s" % repr(mapping))
+      getattr(self, "key_" + mapping)()
+      return True
 
-    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK | gtk.gdk.MOD1_MASK
-    if (event.state & mask) == mask:
-      #Top level tab
-      if keyname == 'T':
-        self.terminator.newtab (self, True)
-        return (True)
-    # bindings that should be moved to Terminator as they all just call
-    # a function of Terminator. It would be cleaner is TerminatorTerm
-    # has absolutely no reference to Terminator.
-    # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+    return False
 
-    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
-    if (event.state & mask) == mask:
-      if keyname == 'N':
-        self.terminator.go_next (self)
-        return (True)
-      elif keyname == "P":
-        self.terminator.go_prev (self)
-        return (True)
-      elif keyname == 'O':
-        self.terminator.splitaxis (self, False)
-        return (True)
-      elif keyname == 'E':
-        self.terminator.splitaxis (self, True)
-        return (True)
-      elif keyname == 'W':
-        self.terminator.closeterm (self)
-        return (True)
-      elif keyname == 'C':
-        self._vte.copy_clipboard ()
-        return (True)
-      elif keyname == 'V':
-        self.paste_clipboard ()
-        return (True)
-      elif keyname == 'S':
-        self.do_scrollbar_toggle ()
-        return (True)
-      elif keyname == 'T':
-        self.terminator.newtab(self)
-        return (True)
-      elif keyname in ('Up', 'Down', 'Left', 'Right'):
-          self.terminator.resizeterm (self, keyname)
-          return (True)
-      elif keyname  == 'Page_Down':
-          self.terminator.move_tab(self, 'right')
-          return (True)
-      elif keyname == 'Page_Up':
-          self.terminator.move_tab(self, 'left')
-          return (True)
-      elif keyname == 'Z':
-        self.terminator.toggle_zoom (self, True)
-        return (True)
-      elif keyname == 'X':
-        self.terminator.toggle_zoom (self)
-        return (True)
-      
-    mask = gtk.gdk.CONTROL_MASK
-    if (event.state & mask) == mask:
-      if keyname  == 'Page_Down':
-          self.terminator.next_tab(self)
-          return (True)
-      elif keyname == 'Page_Up':
-          self.terminator.previous_tab(self)
-          return (True)
-    
-    if keyname and (keyname == 'Tab' or keyname.endswith('_Tab')):
-        mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
-        if (event.state & mask) == mask:
-            self.terminator.go_prev (self)
-            return (True)
-        mask = gtk.gdk.CONTROL_MASK
-        if (event.state & mask) == mask:
-            self.terminator.go_next (self)
-            return (True)
-    # Warning, mask value is either gtk.gdk.CONTROL_MASK or gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
-    # if you intend to use it, reinit it
-    return (False)
+  # Key events
+  def key_zoom_in(self): self.zoom (True)
+
+  def key_zoom_out(self): self.zoom (False)
+
+  def key_copy(self): self._vte.copy_clipboard ()
+
+  def key_paste(self): self.paste_clipboard ()
+
+  def key_toggle_scrollbar(self): self.do_scrollbar_toggle ()
+
+  def key_zoom_normal(self): self.zoom_orig ()
+
+  # bindings that should be moved to Terminator as they all just call
+  # a function of Terminator. It would be cleaner if TerminatorTerm
+  # has absolutely no reference to Terminator.
+  # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+  def key_new_root_tab(self):
+    self.terminator.newtab (self, True)
+
+  def key_go_next(self):
+    self.terminator.go_next (self)
+
+  def key_go_prev(self):
+    self.terminator.go_prev (self)
+
+  def key_split_horiz(self):
+    self.terminator.splitaxis (self, False)
+
+  def key_split_vert(self):
+    self.terminator.splitaxis (self, True)
+
+  def key_close_term(self):
+    self.terminator.closeterm (self)
+
+  def key_new_tab(self):
+    self.terminator.newtab(self)
+
+  def key_resize_up(self):
+    self.terminator.resizeterm (self, 'Up')
+
+  def key_resize_down(self):
+    self.terminator.resizeterm (self, 'Down')
+
+  def key_resize_left(self):
+    self.terminator.resizeterm (self, 'Left')
+
+  def key_resize_right(self):
+    self.terminator.resizeterm (self, 'Right')
+
+  def key_move_tab_right(self):
+    self.terminator.move_tab (self, 'right')
+
+  def key_move_tab_right(self):
+    self.terminator.move_tab (self, 'left')
+
+  def key_toggle_zoom(self):
+    self.terminator.toggle_zoom (self)
+
+  def key_scaled_zoom(self):
+    self.terminator.toggle_zoom (self, True)
+
+  def key_go_prev(self):
+    self.terminator.go_prev (self)
+
+  def key_go_next(self):
+    self.terminator.go_next (self)
+  # End key events
 
   def zoom_orig (self):
     self._vte.set_font (pango.FontDescription (self.conf.font))

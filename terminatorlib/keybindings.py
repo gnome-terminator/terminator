@@ -30,9 +30,10 @@ class TerminatorKeybindings:
     'resize_down':      '<Ctrl><Shift>Down',
     'resize_left':      '<Ctrl><Shift>Left',
     'resize_right':     '<Ctrl><Shift>Right',
-    'move_tab_right':   '<Ctrl><Shift>Page_Up',
-    'move_tab_left':    '<Ctrl><Shift>Page_Down',
+    'move_tab_right':   '<Ctrl><Shift>Page_Down',
+    'move_tab_left':    '<Ctrl><Shift>Page_Up',
     'toggle_zoom':      '<Ctrl><Shift>X',
+    'scaled_zoom':      '<Ctrl><Shift>Z',
     'next_tab':         '<Ctrl>Page_Down',
     'prev_tab':         '<Ctrl>Page_Up',
     'go_prev':          '<Ctrl><Shift>Tab',
@@ -49,9 +50,9 @@ class TerminatorKeybindings:
   empty = {}
 
   def __init__(self):
-    self._parse()
+    self.reload()
 
-  def _parse(self):
+  def reload(self):
     self._lookup = {}
     self._masks = 0
     for action, binding in self.keys.items():
@@ -65,7 +66,9 @@ class TerminatorKeybindings:
         raise e
       else:
         self._lookup.setdefault(mask, {})
-        self._lookup[mask][key] = action
+        self._lookup[mask][keyval] = action
+        if key == 'Tab':
+          self._lookup[mask][gtk.gdk.keyval_from_name('ISO_Left_Tab')] = action
         self._masks |= mask
 
   def _parsebinding(self, binding):
@@ -88,5 +91,5 @@ class TerminatorKeybindings:
   def lookup(self, event):
     mask = event.state & self._masks
     keyval = gtk.gdk.keyval_name(event.keyval)
-    return self._lookup.get(mask, self.empty).get(keyval, None)
+    return self._lookup.get(mask, self.empty).get(event.keyval, None)
 

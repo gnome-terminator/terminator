@@ -26,6 +26,7 @@ from terminatorlib.version import *
 # import our configuration loader
 from terminatorlib import config
 from terminatorlib.config import dbg, err, debug
+from terminatorlib.keybindings import TerminatorKeybindings
 
 #import TerminatorTerm
 from terminatorlib.terminatorterm import TerminatorTerm
@@ -121,8 +122,10 @@ class Terminator:
 
     self.icon_theme = gtk.IconTheme ()
 
+    self.keybindings = TerminatorKeybindings()
     if self.conf.f11_modifier:
-      self._f11_modifier = True
+      self.keybindings.keys['full_screen'] = '<Ctrl><Shift>F11'
+      self.keybindings.reload()
 
     if self.conf.handle_size in xrange (0,6):
       gtk.rc_parse_string("""
@@ -254,15 +257,14 @@ class Terminator:
           * F11:              toggle fullscreen state of the window.
           * CTRL - SHIFT - Q: close all terminals
     """
-    keyname = gtk.gdk.keyval_name (event.keyval)
-    mask = gtk.gdk.CONTROL_MASK | gtk.gdk.SHIFT_MASK
+    mapping = self.keybindings.lookup(event)
 
-    if (keyname == 'F11' and (self._f11_modifier == False or event.state & mask)):
-      self.fullscreen_toggle ()
-      return (True)
-
-    if (event.state & mask) == mask:
-      if keyname == 'Q':
+    if mapping:
+      dbg("on_key_press: lookup found %s" % repr(mapping))
+      if mapping == 'full_screen':
+        self.fullscreen_toggle ()
+        return (True)
+      elif mapping == 'close_window':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
 
