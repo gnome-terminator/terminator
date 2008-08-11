@@ -186,20 +186,16 @@ class TerminatorTerm (gtk.VBox):
         dbg ('openurl: url_show failed. No URL for you')
         pass
 
-
   def on_resize_window(self, widget, width, height):
     dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
-
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
     widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
 
-
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
     selection_data.set("vte",info, str(data.terminator.term_list.index (self)))
-
 
   def on_expose_event(self, widget, event):
     if widget._expose_data is None:
@@ -222,7 +218,6 @@ class TerminatorTerm (gtk.VBox):
     #context.pop_group_to_source()
     #context.paint()
     return False
-
 
   def on_drag_motion(self, widget, drag_context, x, y, time, data): 
     dbg ("Drag Motion on ")
@@ -286,11 +281,9 @@ text/plain
     widget.disconnect(connec)
     widget._expose_data = None
 
-
   def on_drag_drop(self, widget, drag_context, x, y, time):
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
-
 
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     dbg ("Drag Data Received")
@@ -324,7 +317,6 @@ text/plain
     data.terminator.add(self, widgetsrc,pos)
     return
 
-
   def get_location(self, vte, x, y):
     pos = ""
     #get the diagonales function for the receiving widget
@@ -352,7 +344,6 @@ text/plain
     if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
       pos = "bottom"
     return pos
-
 
   def add_matches (self, posix = True):
     userchars = "-A-Za-z0-9"
@@ -385,7 +376,6 @@ text/plain
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
 
-
   def _path_lookup(self, command):
     if os.path.isabs (command):
       if os.path.isfile (command):
@@ -413,7 +403,6 @@ text/plain
 
     dbg('path_lookup: Unable to locate "%s"' % command)
 
-
   def _shell_lookup(self):
     shells = [os.getenv('SHELL'), pwd.getpwuid(os.getuid())[6],
               'bash', 'zsh', 'tcsh', 'ksh', 'csh', 'sh']
@@ -429,7 +418,6 @@ text/plain
           return rshell
 
     dbg('shell_lookup: Unable to locate a shell')
-
 
   def spawn_child (self, event=None):
     update_records = self.conf.update_records
@@ -484,7 +472,6 @@ text/plain
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
       return (-1)
-
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
