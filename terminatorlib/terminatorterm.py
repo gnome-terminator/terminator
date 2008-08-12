@@ -100,9 +100,30 @@ class TerminatorTerm (gtk.VBox):
     self._title.show()
     self._titlebox =  gtk.EventBox()
     self._titlebox.add(self._title)
+
+    self._search_string = None
+    self._searchbox = gtk.HBox()
+    self._searchinput = gtk.Entry()
+    self._searchinput.set_activates_default(True)
+    self._searchinput.show()
+
+    self._searchinput.connect('activate', self.do_search)
+    self._searchinput.connect('key-press-event', self.search_keypress)
+
+    slabel = gtk.Label()
+    slabel.set_text("Finding text:")
+    slabel.show()
+    self._searchbox.pack_start(slabel, False)
+    self._search_result_label = gtk.Label()
+    self._search_result_label.set_text("")
+    self._search_result_label.show()
+    self._searchbox.pack_end(self._search_result_label, False)
+    self._searchbox.pack_start(self._searchinput)
+
     self.show()
     self.pack_start(self._titlebox, False)
     self.pack_start(self._termbox)
+    self.pack_end(self._searchbox)
 
     if self.conf.titlebars:
       self._titlebox.show()
@@ -685,6 +706,9 @@ text/plain
   def key_zoom_normal(self):
     self.zoom_orig ()
 
+  def key_search(self):
+    self.start_search()
+
   # bindings that should be moved to Terminator as they all just call
   # a function of Terminator. It would be cleaner if TerminatorTerm
   # has absolutely no reference to Terminator.
@@ -755,6 +779,58 @@ text/plain
 
     pangodesc.set_size (fontsize)
     self._vte.set_font (pangodesc)
+
+  def start_search(self):
+    self._searchbox.show()
+    self._searchinput.grab_focus()
+
+  def search_keypress(self, widget, event):
+    key = gtk.gdk.keyval_name(event.keyval)
+    if key == 'Escape':
+      self.end_search()
+
+  def end_search(self):
+    self._search_row = 0
+    self._search_string = None
+    self._search_result_label.set_text("")
+    self._searchbox.hide()
+    self._vte.grab_focus()
+
+  def do_search(self, widget):
+    string = widget.get_text()
+    dbg("do_search: Looking for %s" % repr(string))
+    if string == '':
+      return
+
+    if string != self._search_string:
+      self._search_row = 0
+      self._search_string = string
+
+    self._search_result_label.set_text("Searching scrollback")
+    self.next_search()
+
+  # Called by get_text_range, once per character.  Argh.
+  def _search_character(self, widget, col, row, junk):
+    return True
+
+  def next_search(self):
+    column, row = self._vte.get_cursor_position()
+    while True:
+      if self._search_row == row:
+        self._search_row = 0
+        self._search_result_label.set_text("Finished Search")
+        return
+      buffer = self._vte.get_text_range(self._search_row, 0, self._search_row + 1, -1, self._search_character)
+
+      #dbg("Row %d buffer: %s" % (self._search_row, repr(buffer)))
+      index = buffer.find(self._search_string)
+      if index != -1:
+        self._search_result_label.set_text("Found at row %d" % self._search_row)
+        self._scrollbar.set_value(self._search_row + 1)
+        self._search_row += 1
+        return
+      self._search_row += 1
+
 
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()

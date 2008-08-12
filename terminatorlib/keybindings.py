@@ -25,6 +25,7 @@ class TerminatorKeybindings:
     'copy':             '<Ctrl><Shift>C',
     'paste':            '<Ctrl><Shift>V',
     'toggle_scrollbar': '<Ctrl><Shift>S',
+    'search':           '<Ctrl><Shift>F',
     'close_window':     '<Ctrl><Shift>Q',
     'resize_up':        '<Ctrl><Shift>Up',
     'resize_down':      '<Ctrl><Shift>Down',
