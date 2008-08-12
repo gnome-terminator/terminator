@@ -794,6 +794,7 @@ text/plain
     self._search_string = None
     self._search_result_label.set_text("")
     self._searchbox.hide()
+    self._scrollbar.set_value(self._vte.get_cursor_position()[1])
     self._vte.grab_focus()
 
   def do_search(self, widget):
@@ -803,7 +804,7 @@ text/plain
       return
 
     if string != self._search_string:
-      self._search_row = 0
+      self._search_row = self._get_vte_buffer_range()[0]
       self._search_string = string
 
     self._search_result_label.set_text("Searching scrollback")
@@ -814,23 +815,27 @@ text/plain
     return True
 
   def next_search(self):
-    column, row = self._vte.get_cursor_position()
+    startrow,endrow = self._get_vte_buffer_range()
     while True:
-      if self._search_row == row:
-        self._search_row = 0
+      if self._search_row == endrow:
+        self._search_row = startrow
         self._search_result_label.set_text("Finished Search")
         return
-      buffer = self._vte.get_text_range(self._search_row, 0, self._search_row + 1, -1, self._search_character)
+      buffer = self._vte.get_text_range(self._search_row, 0, self._search_row, -1, self._search_character)
 
-      #dbg("Row %d buffer: %s" % (self._search_row, repr(buffer)))
+      # dbg("Row %d buffer: %s" % (self._search_row, repr(buffer)))
       index = buffer.find(self._search_string)
       if index != -1:
         self._search_result_label.set_text("Found at row %d" % self._search_row)
-        self._scrollbar.set_value(self._search_row + 1)
+        self._scrollbar.set_value(self._search_row)
         self._search_row += 1
         return
       self._search_row += 1
 
+  def _get_vte_buffer_range(self):
+    column, endrow = self._vte.get_cursor_position()
+    startrow = max(0, endrow - self.conf.scrollback_lines)
+    return(startrow, endrow)
 
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
