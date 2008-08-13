@@ -69,7 +69,7 @@ class TerminatorKeybindings:
         self._lookup.setdefault(mask, {})
         self._lookup[mask][keyval] = action
         if key == 'Tab':
-          self._lookup[mask][gtk.gdk.keyval_from_name('ISO_Left_Tab')] = action
+          self._lookup[mask][gtk.keysyms.ISO_Left_Tab] = action
         self._masks |= mask
 
   def _parsebinding(self, binding):
