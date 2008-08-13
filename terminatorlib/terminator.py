@@ -306,6 +306,7 @@ class Terminator:
       #not the only term in the notebook/window anymore, need to reshow the title
       dbg ('SEGBUG: Showing _titlebox')
       widget._titlebox.show()
+      terminal._titlebox.show()
       
     if isinstance (parent, gtk.Notebook):
       dbg ('SEGBUG: Parent is a notebook')
