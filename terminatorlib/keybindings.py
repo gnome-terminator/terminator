@@ -22,6 +22,7 @@ class TerminatorKeybindings:
   empty = {}
 
   def __init__(self):
+    self.keymap = gtk.gdk.keymap_get_default()
     self.configure({})
 
   def configure(self, bindings):
@@ -33,18 +34,18 @@ class TerminatorKeybindings:
     self._masks = 0
     for action, binding in self.keys.items():
       try:
-        mask, key = self._parsebinding(binding)
-        keyval = gtk.gdk.keyval_from_name(key)
-        if keyval == 0:
-          raise KeymapError("Key '%s' is unrecognised" % key)
+        keyval, mask = self._parsebinding(binding)
+        #keyval, mask = gtk.accelerator_parse(binding)
+        #mask = int(mask)
       except KeymapError, e:
         e.action = action
         raise e
       else:
+        if keyval == gtk.keysyms.Tab and mask & gtk.gdk.SHIFT_MASK:
+          keyval = gtk.keysyms.ISO_Left_Tab
+          mask &= ~gtk.gdk.SHIFT_MASK
         self._lookup.setdefault(mask, {})
         self._lookup[mask][keyval] = action
-        if key == 'Tab':
-          self._lookup[mask][gtk.keysyms.ISO_Left_Tab] = action
         self._masks |= mask
 
   def _parsebinding(self, binding):
@@ -56,7 +57,10 @@ class TerminatorKeybindings:
     key = re.sub(Modifier, '', binding)
     if key == '':
       raise KeymapError('No key found')
-    return (mask, re.sub(Modifier, '', binding))
+    keyval = gtk.gdk.keyval_from_name(key)
+    if keyval == 0:
+      raise KeymapError("Key '%s' is unrecognised" % key)
+    return (keyval, mask)
 
   def _lookup_modifier(self, modifier):
     try:
@@ -65,6 +69,7 @@ class TerminatorKeybindings:
       raise KeymapError("Unhandled modifier '<%s>'" % modifier)
 
   def lookup(self, event):
-    mask = event.state & self._masks
+    keyval, egroup, level, consumed = self.keymap.translate_keyboard_state(event.hardware_keycode, event.state, event.group)
+    mask = (event.state & ~consumed) & self._masks
     return self._lookup.get(mask, self.empty).get(event.keyval, None)
 
