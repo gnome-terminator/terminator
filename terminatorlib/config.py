@@ -266,8 +266,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self.client = gconf.client_get_default ()
 
     # Grab a couple of values from base class to avoid recursing with our __getattr__
-    self._gt_dir = self.defaults['gt_dir']
-    self._profile_dir = self.defaults['profile_dir']
+    self._gt_dir = Defaults['gt_dir']
+    self._profile_dir = Defaults['profile_dir']
 
     dbg ('VSGConf: Profile requested is: "%s"'%profile)
     if not profile:
