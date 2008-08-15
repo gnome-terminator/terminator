@@ -349,7 +349,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       value = self.client.get ('%s/%s'%(self.profile, key))
 
     if value:
-      funcname = "get_" + self.defaults[key].__class__.__name__
+      funcname = "get_" + Defaults[key].__class__.__name__
       dbg ('  GConf: picked function: %s'%funcname)
       # Special case for str
       if funcname == "get_str":
