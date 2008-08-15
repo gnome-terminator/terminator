@@ -118,11 +118,11 @@ class ConfigFile:
 
   def _section(self, section):
     dbg("Section %s" % repr(section))
-    self._currsection = section
+    self._currsection = section.lower()
 
   def _setting(self, setting):
     dbg("Setting %s" % repr(setting))
-    self._currsetting = setting
+    self._currsetting = setting.lower()
 
   def _value(self, value):
     dbg("Value %s" % repr(value))
