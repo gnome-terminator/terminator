@@ -41,9 +41,17 @@ class TerminatorKeybindings:
         e.action = action
         raise e
       else:
-        if keyval == gtk.keysyms.Tab and mask & gtk.gdk.SHIFT_MASK:
-          keyval = gtk.keysyms.ISO_Left_Tab
-          mask &= ~gtk.gdk.SHIFT_MASK
+        if mask & gtk.gdk.SHIFT_MASK:
+          if keyval == gtk.keysyms.Tab:
+            keyval = gtk.keysyms.ISO_Left_Tab
+            mask &= ~gtk.gdk.SHIFT_MASK
+          else:
+            keyvals = gtk.gdk.keyval_convert_case(keyval)
+            if keyvals[0] != keyvals[1]:
+              keyval = keyvals[1]
+              mask &= ~gtk.gdk.SHIFT_MASK
+        else:
+          keyval = gtk.gdk.keyval_to_lower(keyval)
         self._lookup.setdefault(mask, {})
         self._lookup[mask][keyval] = action
         self._masks |= mask
