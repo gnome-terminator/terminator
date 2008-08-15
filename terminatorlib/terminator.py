@@ -110,8 +110,9 @@ class Terminator:
           stores.insert (0, store)
         else:
           stores.append (store)
-      except:
-        pass
+      except Exception, e:
+        # This should probably be ImportError; what else might it throw?
+        dbg("GConf setup threw exception %s" % str(e))
 
     self.conf = config.TerminatorConfig (stores)
 
