@@ -118,12 +118,13 @@ class Terminator:
     self.icon_theme = gtk.IconTheme ()
 
     self.keybindings = TerminatorKeybindings()
-    self.keybindings.configure(self.conf.keybindings)
     if self.conf.f11_modifier:
-      print "Warning: f11_modifier is no longer supported"
-      print "Add the following to the end of your terminator config:"
+      config.Defaults['keybindings']['full_screen'] = '<Ctrl><Shift>F11'
+      print "Warning: Config setting f11_modifier is deprecated and will be removed in version 1.0"
+      print "Please add the following to the end of your terminator config:"
       print "[keybindings]"
       print "full_screen = <Ctrl><Shift>F11"
+    self.keybindings.configure(self.conf.keybindings)
 
     if self.conf.handle_size in xrange (0,6):
       gtk.rc_parse_string("""
