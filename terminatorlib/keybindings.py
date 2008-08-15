@@ -1,5 +1,6 @@
 
 import re, gtk
+import terminatorlib.config
 
 class KeymapError(Exception):
   def __init__(self, value):
@@ -9,38 +10,8 @@ class KeymapError(Exception):
   def __str__(self):
     return "Keybinding '%s' invalid: %s" % (self.action, self.value)
 
+Modifier = re.compile('<([^<]+)>')
 class TerminatorKeybindings:
-  Modifier = re.compile('<([^<]+)>')
-  keys = {
-    'zoom_in':          '<Ctrl>plus',
-    'zoom_out':         '<Ctrl>minus',
-    'zoom_normal':      '<Ctrl>0',
-    'new_root_tab':     '<Ctrl><Shift><Alt>T',
-    'new_tab':          '<Ctrl><Shift>T',
-    'go_next':          '<Ctrl><Shift>N',
-    'go_prev':          '<Ctrl><Shift>P',
-    'split_horiz':      '<Ctrl><Shift>O',
-    'split_vert':       '<Ctrl><Shift>E',
-    'close_term':       '<Ctrl><Shift>W',
-    'copy':             '<Ctrl><Shift>C',
-    'paste':            '<Ctrl><Shift>V',
-    'toggle_scrollbar': '<Ctrl><Shift>S',
-    'search':           '<Ctrl><Shift>F',
-    'close_window':     '<Ctrl><Shift>Q',
-    'resize_up':        '<Ctrl><Shift>Up',
-    'resize_down':      '<Ctrl><Shift>Down',
-    'resize_left':      '<Ctrl><Shift>Left',
-    'resize_right':     '<Ctrl><Shift>Right',
-    'move_tab_right':   '<Ctrl><Shift>Page_Down',
-    'move_tab_left':    '<Ctrl><Shift>Page_Up',
-    'toggle_zoom':      '<Ctrl><Shift>X',
-    'scaled_zoom':      '<Ctrl><Shift>Z',
-    'next_tab':         '<Ctrl>Page_Down',
-    'prev_tab':         '<Ctrl>Page_Up',
-    'go_prev':          '<Ctrl><Shift>Tab',
-    'go_next':          '<Ctrl>Tab',
-    'full_screen':      'F11',
-  }
 
   modifiers = {
     'ctrl':  gtk.gdk.CONTROL_MASK,
@@ -51,6 +22,10 @@ class TerminatorKeybindings:
   empty = {}
 
   def __init__(self):
+    self.configure({})
+
+  def configure(self, bindings):
+    self.keys = bindings
     self.reload()
 
   def reload(self):
@@ -74,14 +49,14 @@ class TerminatorKeybindings:
 
   def _parsebinding(self, binding):
     mask = 0
-    modifiers = re.findall(self.Modifier, binding)
+    modifiers = re.findall(Modifier, binding)
     if modifiers:
       for modifier in modifiers:
         mask |= self._lookup_modifier(modifier)
-    key = re.sub(self.Modifier, '', binding)
+    key = re.sub(Modifier, '', binding)
     if key == '':
       raise KeymapError('No key found')
-    return (mask, re.sub(self.Modifier, '', binding))
+    return (mask, re.sub(Modifier, '', binding))
 
   def _lookup_modifier(self, modifier):
     try:

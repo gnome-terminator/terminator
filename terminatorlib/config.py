@@ -31,13 +31,11 @@ Trying to read a value that doesn't exist will raise an
 AttributeError. This is by design. If you want to look something 
 up, set a default for it first."""
 
-# import standard python libs
 import os, platform, sys, re
-
-# import unix-lib
 import pwd
 
 # set this to true to enable debugging output
+# These should be moved somewhere better.
 debug = False
 
 def dbg (log = ""):
@@ -49,12 +47,15 @@ def err (log = ""):
   """Print an error message"""
   print >> sys.stderr, log
 
+from configfile import ConfigFile, ConfigSyntaxError
+
 class TerminatorConfig:
   """This class is used as the base point of the config system"""
   callback = None
   sources = []
 
   def __init__ (self, sources):
+    self._keys = None
     for source in sources:
       if isinstance(source, TerminatorConfValuestore):
         self.sources.append (source)
@@ -62,7 +63,22 @@ class TerminatorConfig:
     # We always add a default valuestore last so no valid config item ever goes unset
     source = TerminatorConfValuestoreDefault ()
     self.sources.append (source)
-    
+
+  def _merge_keybindings(self):
+    if self._keys:
+      return self._keys
+
+    self._keys = {}
+    for source in reversed(self.sources):
+      try:
+        val = source.keybindings
+        self._keys.update(val)
+      except:
+        pass
+    return self._keys
+
+  keybindings = property(_merge_keybindings)
+
   def __getattr__ (self, keyname):
     for source in self.sources:
       dbg ("TConfig: Looking for: '%s' in '%s'"%(keyname, source.type))
@@ -133,6 +149,36 @@ class TerminatorConfValuestore:
     'close_button_on_tab'   : True,
     'enable_real_transparency'  : False,
     'try_posix_regexp'      : platform.system() != 'Linux',
+    'keybindings'                  : {
+      'zoom_in':          '<Ctrl>plus',
+      'zoom_out':         '<Ctrl>minus',
+      'zoom_normal':      '<Ctrl>0',
+      'new_root_tab':     '<Ctrl><Shift><Alt>T',
+      'new_tab':          '<Ctrl><Shift>T',
+      'go_next':          '<Ctrl><Shift>N',
+      'go_prev':          '<Ctrl><Shift>P',
+      'split_horiz':      '<Ctrl><Shift>O',
+      'split_vert':       '<Ctrl><Shift>E',
+      'close_term':       '<Ctrl><Shift>W',
+      'copy':             '<Ctrl><Shift>C',
+      'paste':            '<Ctrl><Shift>V',
+      'toggle_scrollbar': '<Ctrl><Shift>S',
+      'search':           '<Ctrl><Shift>F',
+      'close_window':     '<Ctrl><Shift>Q',
+      'resize_up':        '<Ctrl><Shift>Up',
+      'resize_down':      '<Ctrl><Shift>Down',
+      'resize_left':      '<Ctrl><Shift>Left',
+      'resize_right':     '<Ctrl><Shift>Right',
+      'move_tab_right':   '<Ctrl><Shift>Page_Down',
+      'move_tab_left':    '<Ctrl><Shift>Page_Up',
+      'toggle_zoom':      '<Ctrl><Shift>X',
+      'scaled_zoom':      '<Ctrl><Shift>Z',
+      'next_tab':         '<Ctrl>Page_Down',
+      'prev_tab':         '<Ctrl>Page_Up',
+      'go_prev':          '<Ctrl><Shift>Tab',
+      'go_next':          '<Ctrl>Tab',
+      'full_screen':      'F11',
+    }
   }
 
   def __getattr__ (self, keyname):
@@ -150,11 +196,10 @@ class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
 
 class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
-  splitter = re.compile("\s*=\s*")
+  type = "RCFile"
   #FIXME: use inotify to watch the rc, split __init__ into a parsing function
   #       that can be re-used when rc changes.
   def __init__ (self):
-    self.type = "RCFile"
     try:
       directory = os.environ['XDG_CONFIG_HOME']
     except KeyError, e:
@@ -163,39 +208,45 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     self.rcfilename = os.path.join(directory, "terminator/config")
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
     if os.path.exists (self.rcfilename):
-      rcfile = open (self.rcfilename)
-      rc = rcfile.readlines ()
-      rcfile.close ()
+      ini = ConfigFile(self.rcfilename)
+      try:
+        ini.parse()
+      except ConfigSyntaxError, e:
+        print "There was an error parsing your configuration"
+        print str(e)
+        sys.exit()
 
-      for item in rc:
+      for key in ini.settings:
         try:
-          item = item.strip ()
-          if item and item[0] != '#':
-            (key, value) = self.splitter.split (item)
+          value = ini.settings[key]
+          # Check if this is actually a key we care about
+          if not self.defaults.has_key (key):
+            # We should really mention this to the user
+            continue
 
-            # Check if this is actually a key we care about
-            if not self.defaults.has_key (key):
-              continue
-
-            deftype = self.defaults[key].__class__.__name__
-            if deftype == 'bool':
-              if value.lower () == 'true':
-                self.values[key] = True
-              elif value.lower () == 'false':
-                self.values[key] = False
-              else:
-                raise AttributeError
-            elif deftype == 'int':
-              self.values[key] = int (value)
-            elif deftype == 'float':
-              self.values[key] = float (value)
-            elif deftype == 'list':
-              err (_(" VS_RCFile: Reading list values from .config/terminator/config is not currently supported"))
-              continue
+          deftype = self.defaults[key].__class__.__name__
+          if deftype == 'bool':
+            if value.lower () in ('true', 'yes', 'on'):
+              self.values[key] = True
+            elif value.lower () in ('false', 'no', 'off'):
+              self.values[key] = False
             else:
-              self.values[key] = value
+              raise AttributeError
+          elif deftype == 'int':
+            self.values[key] = int (value)
+          elif deftype == 'float':
+            self.values[key] = float (value)
+          elif deftype == 'list':
+            err (_(" VS_RCFile: Reading list values from .config/terminator/config is not currently supported"))
+            continue
+          elif deftype == 'dict':
+            if type(value) != dict:
+              raise AttributeError
+            self.values[key] = value
+          else:
+            self.values[key] = value
 
-            dbg (" VS_RCFile: Set value '%s' to '%s'"%(key, self.values[key]))
+            dbg (" VS_RCFile: Set value '%s' to '%s'" % (key, self.values[key]))
         except Exception, e:
           dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), item))
           pass
