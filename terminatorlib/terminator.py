@@ -801,6 +801,8 @@ class Terminator:
     if isinstance (widget, gtk.Window):
       return None
     parent = widget.get_parent()
+    if parent is None:
+      return None
     if isinstance (parent, gtk.Notebook):
       page = -1
       for i in xrange(0, parent.get_n_pages()):
@@ -828,6 +830,7 @@ class Terminator:
           (isinstance(widget, TerminatorTerm) and isinstance(widget.get_parent(),gtk.Paned))\
           :
         widget._titlebox.show()
+
     widget._vte.grab_focus()
 
   def zoom_term (self, widget, fontscale = False):
@@ -903,9 +906,15 @@ class Terminator:
 
       self.window.remove(widget)
       self.window.add(self.window_child)
-      self.old_parent.add(widget)
       if isinstance(self.old_parent, gtk.Notebook):
+        self.old_parent.insert_page(widget, None, self.old_page)
+        self.old_parent.set_tab_label(widget, TerminatorNotebookTabLabel("", self.old_parent, self))
+        self.old_parent.set_tab_label_packing(widget, True, True, gtk.PACK_START)
+        self.old_parent.set_tab_reorderable(widget, True)
         self.old_parent.set_current_page(self.old_page)
+
+      else:
+        self.old_parent.add(widget)
 
       widget._vte.grab_focus ()
 
