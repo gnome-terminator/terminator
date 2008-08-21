@@ -91,6 +91,8 @@ if __name__ == '__main__':
       help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback",
       callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
+  parser.add_option ("--geometry", dest="geometry", type="string",
+      help="Set the preferred size and position of the window (see X man page)")
   parser.add_option ("-e", "--command", dest="command",
       help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback",
@@ -145,7 +147,7 @@ See the following bug report for more details:
 
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, options.maximise,
-                     options.borderless, options.no_gconf)
+                     options.borderless, options.no_gconf, options.geometry)
 
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver

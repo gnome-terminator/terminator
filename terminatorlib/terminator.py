@@ -84,13 +84,16 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     return self.size_request()[0]
 
 class Terminator:
-  def __init__ (self, profile = None, command = None, fullscreen = False, maximise = False, borderless = False, no_gconf=False):
+  def __init__ (self, profile = None, command = None, fullscreen = False,
+                maximise = False, borderless = False, no_gconf = False,
+                geometry = None):
     self.profile = profile
     self.command = command
 
     self._zoomed = False
     self._maximised = False
     self._fullscreen = False
+    self._geometry = geometry
     self.debugaddress = None
     self.term_list = []
     stores = []
@@ -148,6 +151,10 @@ class Terminator:
 
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
+
+    if self._geometry is not None:
+      if not self.window.parse_geometry(self._geometry):
+        err(_("Invalid geometry string %s") % repr(self._geometry))
 
     try:
       self.window.set_icon (self.icon_theme.load_icon (APP_NAME, 48, 0))
