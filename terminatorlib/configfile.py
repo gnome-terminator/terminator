@@ -10,7 +10,7 @@ def maybe(*choices): return group(*choices) + '?'
 Newline = re.compile(r'[\r\n]+')
 Whitespace = r'[ \f\t]*'
 Comment = r'#[^\r\n]*'
-Ignore  = re.compile(Whitespace + maybe(Comment) + maybe(r'[\r\n]+'))
+Ignore  = re.compile(Whitespace + maybe(Comment) + maybe(r'[\r\n]+') + '$')
 
 WhitespaceRE = re.compile(Whitespace)
 CommentRE = re.compile(Comment)
@@ -20,8 +20,11 @@ QuotedStrings = {"'": re.compile(r"'([^'\r\n]*)'"), '"': re.compile(r'"([^"\r\n]
 Section = re.compile(r"\[([^\r\n\]]+)\][ \f\t]*")
 Setting = re.compile(r"(\w+)\s*=\s*")
 
-Colorvalue = re.compile(r'(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})' + Whitespace + maybe(Comment))
-Barevalue = re.compile(r'([^\r\n#]+)' + Whitespace + maybe(Comment))
+PaletteColours = '(?:#[0-9a-fA-F]{12}:){15}#[0-9a-fA-F]{12}'
+SingleColour   = '#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}'
+
+Colourvalue = re.compile(group(PaletteColours, SingleColour))
+Barevalue = re.compile(r'((?:[^\r\n# \f\t]+|[^\r\n#]+(?!' + Ignore.pattern +'))+)')
 
 Tabsize = 8
 
@@ -106,12 +109,12 @@ class ConfigFile:
         # "quoted value"
         if not self._call_if_quoted_string(self._value):
           # #000000 # colour that would otherwise be a comment
-          if not self._call_if_match(Colorvalue, self._value, 1):
+          if not self._call_if_match(Colourvalue, self._value, 1):
             # bare value
             if not self._call_if_match(Barevalue, self._value, 1):
               raise ConfigSyntaxError("Setting without a value", self)
 
-      self._call_if_match(Ignore, None)
+      self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
 
       if self._line[self._pos:] != '':
         raise ConfigSyntaxError("Unexpected token", self)
