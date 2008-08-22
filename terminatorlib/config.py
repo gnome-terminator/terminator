@@ -154,7 +154,7 @@ class TerminatorConfig:
     self._keys = {}
     for source in reversed(self.sources):
       try:
-        val = source.keybindings
+        val = source['keybindings']
         self._keys.update(val)
       except:
         pass
