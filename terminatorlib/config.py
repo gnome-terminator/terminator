@@ -166,10 +166,10 @@ class TerminatorConfig:
     for source in self.sources:
       dbg ("TConfig: Looking for: '%s' in '%s'"%(keyname, source.type))
       try:
-        val = getattr (source, keyname)
+        val = source[keyname]
         dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
         return (val)
-      except:
+      except KeyError:
         pass
 
     dbg (" TConfig: Out of sources")
@@ -181,13 +181,13 @@ class TerminatorConfValuestore:
   reconfigure_callback = None
 
   # Our settings
-  def __getattr__ (self, keyname):
+  def __getitem__ (self, keyname):
     if self.values.has_key (keyname):
       dbg ("Returning '%s'"%keyname)
       return self.values[keyname]
     else:
       dbg ("Failed to find '%s'"%keyname)
-      raise (AttributeError)
+      raise (KeyError)
 
 class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
   def __init__ (self):
@@ -313,7 +313,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     if self.reconfigure_callback:
       self.reconfigure_callback ()
 
-  def __getattr__ (self, key = ""):
+  def __getitem__ (self, key = ""):
     if self.cache.has_key (key):
       dbg (" VSGConf: returning cached value: %s"%self.cache[key])
       return (self.cache[key])
@@ -362,7 +362,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       self.cache[key] = ret
       return (ret)
     else:
-      raise (AttributeError)
+      raise (KeyError)
 
 if __name__ == '__main__':
 
