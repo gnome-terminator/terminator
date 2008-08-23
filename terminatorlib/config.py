@@ -125,8 +125,6 @@ Defaults = {
     'scaled_zoom'      : '<Ctrl><Shift>Z',
     'next_tab'         : '<Ctrl>Page_Down',
     'prev_tab'         : '<Ctrl>Page_Up',
-    'go_prev'          : '<Ctrl><Shift>Tab',
-    'go_next'          : '<Ctrl>Tab',
     'full_screen'      : 'F11',
   }
 }
