@@ -32,29 +32,33 @@ class TerminatorKeybindings:
   def reload(self):
     self._lookup = {}
     self._masks = 0
-    for action, binding in self.keys.items():
-      try:
-        keyval, mask = self._parsebinding(binding)
-        #keyval, mask = gtk.accelerator_parse(binding)
-        #mask = int(mask)
-      except KeymapError, e:
-        e.action = action
-        raise e
-      else:
-        if mask & gtk.gdk.SHIFT_MASK:
-          if keyval == gtk.keysyms.Tab:
-            keyval = gtk.keysyms.ISO_Left_Tab
-            mask &= ~gtk.gdk.SHIFT_MASK
-          else:
-            keyvals = gtk.gdk.keyval_convert_case(keyval)
-            if keyvals[0] != keyvals[1]:
-              keyval = keyvals[1]
-              mask &= ~gtk.gdk.SHIFT_MASK
+    for action, bindings in self.keys.items():
+      if not isinstance(bindings, tuple):
+        bindings = (bindings,)
+
+      for binding in bindings:
+        try:
+          keyval, mask = self._parsebinding(binding)
+          # Does much the same, but with poorer error handling.
+          #keyval, mask = gtk.accelerator_parse(binding)
+        except KeymapError, e:
+          e.action = action
+          raise e
         else:
-          keyval = gtk.gdk.keyval_to_lower(keyval)
-        self._lookup.setdefault(mask, {})
-        self._lookup[mask][keyval] = action
-        self._masks |= mask
+          if mask & gtk.gdk.SHIFT_MASK:
+            if keyval == gtk.keysyms.Tab:
+              keyval = gtk.keysyms.ISO_Left_Tab
+              mask &= ~gtk.gdk.SHIFT_MASK
+            else:
+              keyvals = gtk.gdk.keyval_convert_case(keyval)
+              if keyvals[0] != keyvals[1]:
+                keyval = keyvals[1]
+                mask &= ~gtk.gdk.SHIFT_MASK
+          else:
+            keyval = gtk.gdk.keyval_to_lower(keyval)
+          self._lookup.setdefault(mask, {})
+          self._lookup[mask][keyval] = action
+          self._masks |= mask
 
   def _parsebinding(self, binding):
     mask = 0
