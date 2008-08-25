@@ -29,18 +29,32 @@ class ProfileEditor:
       value = Defaults[key]
       widget = None
 
-      if type == "bool":
-        widget = gtk.CheckButton ()
-        widget.set_active (value)
-      elif type in ["str", "int", "float"]:
-        widget = gtk.Entry ()
-        widget.set_text (str(value))
-      elif type == "list":
-        continue
+      if key == 'font':
+        #widget = gtk.FontSelection()
+        #widget.set_preview_text("Terminator: The robot future of terminals")
+        #widget.set_font_name(value)
+        widget = gtk.FontButton(value)
+      elif key == 'scrollback_lines':
+        # estimated byte size per line according to g-t:
+        # sizeof(void *) + sizeof(char *) + sizeof(int) + (80 * (sizeof(int32) + 4)
+        widget = gtk.SpinButton()
+        widget.set_digits(0)
+        widget.set_increments(100, 1000)
+        widget.set_range(0, 100000)
+        widget.set_value(value)
       else:
-        print "Unknown type: " + type
-        continue
- 
+        if type == "bool":
+          widget = gtk.CheckButton ()
+          widget.set_active (value)
+        elif type in ["str", "int", "float"]:
+          widget = gtk.Entry ()
+          widget.set_text (str(value))
+        elif type == "list":
+          continue
+        else:
+          print "Unknown type: " + type
+          continue
+   
       table.attach (label, 0, 1, row, row + 1)
       table.attach (widget, 1, 2, row, row + 1)
       row += 1
