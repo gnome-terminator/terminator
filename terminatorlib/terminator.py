@@ -805,11 +805,9 @@ class Terminator:
     return self.get_first_parent_paned(parent, vertical)
 
   def get_first_notebook_page(self, widget):
-    if isinstance (widget, gtk.Window):
+    if isinstance (widget, gtk.Window) or widget is None:
       return None
     parent = widget.get_parent()
-    if parent is None:
-      return None
     if isinstance (parent, gtk.Notebook):
       page = -1
       for i in xrange(0, parent.get_n_pages()):
