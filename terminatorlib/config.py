@@ -33,6 +33,7 @@ up, set a default for it first."""
 
 import os, platform, sys, re
 import pwd
+import gtk
 
 # set this to true to enable debugging output
 # These should be moved somewhere better.
@@ -210,7 +211,6 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
       try:
         ini.parse()
       except ParsedWithErrors, e:
-        import gtk
         from cgi import escape
         msg = _("""Errors were encountered while parsing terminator_config(5) file:
 
@@ -235,13 +235,20 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
             continue
 
           deftype = Defaults[key].__class__.__name__
-          if deftype == 'bool':
+          if key.endswith('_color'):
+            try:
+              gtk.gdk.color_parse(value)
+            except ValueError:
+              err(_("Setting %s value %s not a valid colour; ignoring") % (key,repr(value)))
+              continue
+          elif deftype == 'bool':
             if value.lower () in ('true', 'yes', 'on'):
               self.values[key] = True
             elif value.lower () in ('false', 'no', 'off'):
               self.values[key] = False
             else:
-              raise AttributeError
+              err(_("Boolean setting %s expecting one of: yes, no, true, false, on, off") % key)
+              continue
           elif deftype == 'int':
             self.values[key] = int (value)
           elif deftype == 'float':
@@ -251,15 +258,15 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
             continue
           elif deftype == 'dict':
             if type(value) != dict:
-              raise AttributeError
+              err(_("Value %s should be a section name, not a setting") % key)
+              continue
             self.values[key] = value
           else:
             self.values[key] = value
 
-            dbg (" VS_RCFile: Set value '%s' to '%s'" % (key, self.values[key]))
+            dbg (" VS_RCFile: Set value '%s' to %s" % (key, repr(self.values[key])))
         except Exception, e:
           dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), key))
-          raise e
           pass
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
