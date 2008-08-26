@@ -226,7 +226,7 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
         dialog.run()
         dialog.destroy()
 
-    print repr(self.values)
+    dbg("ConfigFile settings are: %s" % repr(self.values))
 
   def _rc_set_callback(self):
     def callback(section, key, value):
