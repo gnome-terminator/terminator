@@ -20,8 +20,8 @@ QuotedStrings = {"'": re.compile(r"'([^'\r\n]*)'"), '"': re.compile(r'"([^"\r\n]
 Section = re.compile(r"\[([^\r\n\]]+)\][ \f\t]*")
 Setting = re.compile(r"(\w+)\s*=\s*")
 
-PaletteColours = '(?:#[0-9a-fA-F]{12}:){15}#[0-9a-fA-F]{12}'
-SingleColour   = '#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}'
+PaletteColours = '(?:(?:#[0-9a-fA-F]{12}:){15}#[0-9a-fA-F]{12})'
+SingleColour   = '(?:#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})'
 
 Colourvalue = re.compile(group(PaletteColours, SingleColour))
 Barevalue = re.compile(r'((?:[^\r\n# \f\t]+|[^\r\n#]+(?!' + Ignore.pattern +'))+)')
@@ -114,7 +114,7 @@ class ConfigFile:
     self._line = ''
 
     self._currsection = None
-    self._cursetting = None
+    self._currsetting = None
     self._currvalue = None
     self.errors = []
 
@@ -164,8 +164,16 @@ class ConfigFile:
 
   def _value(self, value):
     dbg("Value %s" % repr(value))
-    try:
-      self.callback(self._currsection, self._currsetting, value)
-    except ValueError, e:
-      raise ConfigSyntaxError(str(e), self)
+    self._currvalue = value
+
+  def _line_ok(self):
+    section, setting, value = self._currsection, self._currsetting, self._currvalue
+    if value is None: return
+    else:
+      try:
+        self.callback(self._currsection, self._currsetting, self._currvalue)
+      except ValueError, e:
+        raise ConfigSyntaxError(str(e), self)
+      finally:
+        self._currvalue = None
 
