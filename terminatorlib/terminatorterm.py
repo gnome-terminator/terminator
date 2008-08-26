@@ -44,6 +44,7 @@ class TerminatorTerm (gtk.VBox):
 
   matches = {}
   TARGET_TYPE_VTE = 8
+  _custom_font_size = None
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
@@ -535,10 +536,11 @@ text/plain
     self._vte.set_delete_binding (delbind)
 
     # Set our font
-    try:
-      self._vte.set_font (pango.FontDescription (self.conf.font))
-    except:
-      pass
+    if not self._custom_font_size:
+      try:
+        self._vte.set_font (pango.FontDescription (self.conf.font))
+      except:
+        pass
 
     # Set our boldness
     self._vte.set_allow_bold (self.conf.allow_bold)
@@ -766,6 +768,7 @@ text/plain
   # End key events
 
   def zoom_orig (self):
+    self._custom_font_size = None
     self._vte.set_font (pango.FontDescription (self.conf.font))
 
   def zoom (self, zoom_in):
@@ -778,6 +781,7 @@ text/plain
       fontsize += pango.SCALE
 
     pangodesc.set_size (fontsize)
+    self._custom_font_size = fontsize
     self._vte.set_font (pangodesc)
 
   def start_search(self):
