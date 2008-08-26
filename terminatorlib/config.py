@@ -207,7 +207,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     self.rcfilename = os.path.join(directory, "terminator/config")
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
     if os.path.exists (self.rcfilename):
-      ini = ConfigFile(self.rcfilename)
+      ini = ConfigFile(self.rcfilename, self._rc_set_callback())
       try:
         ini.parse()
       except ParsedWithErrors, e:
@@ -226,50 +226,48 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
         dialog.run()
         dialog.destroy()
 
-      for key in ini.settings:
-        try:
-          value = ini.settings[key]
-          # Check if this is actually a key we care about
-          if not Defaults.has_key (key):
-            # We should really mention this to the user
-            continue
-
-          deftype = Defaults[key].__class__.__name__
-          if key.endswith('_color'):
-            try:
-              gtk.gdk.color_parse(value)
-              self.values[key] = value
-            except ValueError:
-              err(_("Setting %s value %s not a valid colour; ignoring") % (key,repr(value)))
-              continue
-          elif deftype == 'bool':
-            if value.lower () in ('true', 'yes', 'on'):
-              self.values[key] = True
-            elif value.lower () in ('false', 'no', 'off'):
-              self.values[key] = False
-            else:
-              err(_("Boolean setting %s expecting one of: yes, no, true, false, on, off") % key)
-              continue
-          elif deftype == 'int':
-            self.values[key] = int (value)
-          elif deftype == 'float':
-            self.values[key] = float (value)
-          elif deftype == 'list':
-            err (_(" VS_RCFile: Reading list values from .config/terminator/config is not currently supported"))
-            continue
-          elif deftype == 'dict':
-            if type(value) != dict:
-              err(_("Value %s should be a section name, not a setting") % key)
-              continue
+  def _rc_set_callback(self):
+    def callback(section, key, value):
+      if section is None:
+        if not Defaults.has_key (key):
+          raise ValueError("Unknown configuration option %s" % repr(key))
+        deftype = Defaults[key].__class__.__name__
+        if key.endswith('_color'):
+          try:
+            gtk.gdk.color_parse(value)
             self.values[key] = value
+          except ValueError:
+            raise ValueError(_("Setting %s value %s not a valid colour; ignoring") % (key,repr(value)))
+        elif deftype == 'bool':
+          if value.lower () in ('true', 'yes', 'on'):
+            self.values[key] = True
+          elif value.lower () in ('false', 'no', 'off'):
+            self.values[key] = False
           else:
-            self.values[key] = value
+            raise ValueError(_("Boolean setting %s expecting one of: yes, no, true, false, on, off") % key)
+        elif deftype == 'int':
+          self.values[key] = int (value)
+        elif deftype == 'float':
+          self.values[key] = float (value)
+        elif deftype == 'list':
+          raise ValueError(_("Reading list values from terminator_config(5) is not currently supported"))
+        elif deftype == 'dict':
+          if type(value) != dict:
+            raise ValueError(_("Setting %s should be a section name") % repr(key))
+          self.values[key] = value
+        else:
+          self.values[key] = value
 
-            dbg (" VS_RCFile: Set value '%s' to %s" % (key, repr(self.values[key])))
-        except Exception, e:
-          dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), key))
-          pass
-    dbg("Config parsed as: %s" % repr(self.values))
+        dbg (" VS_RCFile: Set value '%s' to %s" % (key, repr(self.values[key])))
+      elif section == 'keybindings':
+        self.values.setdefault(section, {})
+        if not Defaults[section].has_key(key):
+          raise ValueError("Keybinding name %s is unknown" % repr(key))
+        else:
+          self.values[section][key] = value
+      else:
+        raise ValueError("Section name %s is unknown" % repr(section))
+    return callback
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""

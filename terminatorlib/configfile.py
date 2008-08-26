@@ -62,10 +62,10 @@ Some lines have been ignored.
 
 
 class ConfigFile:
-  def __init__(self, filename = None, errors_are_fatal = False):
+  def __init__(self, filename = None, callback = None, errors_are_fatal = False):
+    self.callback = callback
     self.errors_are_fatal = errors_are_fatal
     self.filename = filename
-    self.settings = {}
     self.errors = []
 
   def _call_if_match(self, re, callable, group = 0):
@@ -164,18 +164,8 @@ class ConfigFile:
 
   def _value(self, value):
     dbg("Value %s" % repr(value))
-    self._currvalue = value
-
-  def _line_ok(self):
-    if self._currvalue is None: return
     try:
-      if self._currsection is not None:
-        try:
-          self.settings.setdefault(self._currsection, {})[self._currsetting] = self._currvalue
-        except TypeError, e:
-          raise ConfigSyntaxError(_("Section %s is being used as a setting name" % repr(self._currsection)), self)
-      else:
-        self.settings[self._currsetting] = self._currvalue
-    finally:
-      self._currvalue = None
+      self.callback(self._currsection, self._currsetting, value)
+    except ValueError, e:
+      raise ConfigSyntaxError(str(e), self)
 
