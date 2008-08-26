@@ -30,6 +30,7 @@ Tabsize = 8
 
 class ConfigSyntaxError(Exception):
   def __init__(self, message, cf):
+    self.single_error = cf.errors_are_fatal
     self.message = message
     self.file = cf.filename
     self.lnum = cf._lnum
@@ -37,14 +38,35 @@ class ConfigSyntaxError(Exception):
     self.line = cf._line
 
   def __str__(self):
-    return "File %s line %d:\n    %s\n   %s^\n%s" % (repr(self.file), self.lnum,
-                                                     self.line.rstrip(),
-                                                     ' ' * self.pos, self.message)
+    if self.single_error:
+      fmt = "File %(file)s line %(lnum)d:\n    %(line)s\n    %(pad)s^\n%(message)s"
+    else:
+      fmt = " * %(message)s, line %(lnum)d:\n    %(line)s\n    %(pad)s^\n"
+    return fmt % {'message': self.message, 'file': self.file, 'lnum': self.lnum,
+                  'line': self.line.rstrip(), 'pad': '-' * self.pos}
+
+class ParsedWithErrors(Exception):
+  def __init__(self, filename, errors):
+    self.file = filename
+    self.errors = errors
+
+  def __str__(self):
+    return """Errors were encountered while parsing configuration file:
+
+  %s
+
+Some lines have been ignored.
+
+%s
+""" % (repr(self.file), "\n".join(map(lambda error: str(error), self.errors)))
+
 
 class ConfigFile:
-  def __init__(self, filename = None):
+  def __init__(self, filename = None, errors_are_fatal = False):
+    self.errors_are_fatal = errors_are_fatal
     self.filename = filename
     self.settings = {}
+    self.errors = []
 
   def _call_if_match(self, re, callable, group = 0):
     if self._pos == self._max:
@@ -80,6 +102,13 @@ class ConfigFile:
     else:
       return False
 
+  def parse_error(self, error):
+    e = ConfigSyntaxError(error, self)
+    if self.errors_are_fatal:
+      raise e
+    else:
+      self.errors.append(e)
+
   def parse(self):
     file = open(self.filename)
     rc = file.readlines()
@@ -93,6 +122,7 @@ class ConfigFile:
 
     self._currsection = None
     self._cursetting = None
+    self.errors = []
 
     for self._line in rc:
       self._lnum += 1
@@ -112,12 +142,16 @@ class ConfigFile:
           if not self._call_if_match(Colourvalue, self._value, 1):
             # bare value
             if not self._call_if_match(Barevalue, self._value, 1):
-              raise ConfigSyntaxError("Setting without a value", self)
+              self.parse_error("Setting without a value")
+              continue
 
       self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
 
       if self._line[self._pos:] != '':
-        raise ConfigSyntaxError("Unexpected token", self)
+        self.parse_error("Unexpected token")
+
+    if self.errors:
+      raise ParsedWithErrors(self.filename, self.errors)
 
   def _section(self, section):
     dbg("Section %s" % repr(section))

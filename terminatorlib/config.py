@@ -47,7 +47,7 @@ def err (log = ""):
   """Print an error message"""
   print >> sys.stderr, log
 
-from configfile import ConfigFile, ConfigSyntaxError
+from configfile import ConfigFile, ParsedWithErrors
 
 Defaults = {
   'gt_dir'                : '/apps/gnome-terminal',
@@ -209,10 +209,8 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
       ini = ConfigFile(self.rcfilename)
       try:
         ini.parse()
-      except ConfigSyntaxError, e:
-        print "There was an error parsing your configuration"
-        print str(e)
-        sys.exit()
+      except ParsedWithErrors, e:
+        sys.stderr.write(str(e))
 
       for key in ini.settings:
         try:
