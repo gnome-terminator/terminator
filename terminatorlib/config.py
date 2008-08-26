@@ -269,6 +269,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
   def __init__ (self, profile = None):
     self.type = "GConf"
+    self.inactive = False
 
     import gconf
 
@@ -298,8 +299,8 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     else:
       # We're a bit stuck, there is no profile in the list
       # FIXME: Find a better way to handle this than setting a non-profile
-      dbg ("VSGConf: No profile found, deleting __getattr__")
-      del (self.__getattr__)
+      dbg ("VSGConf: No profile found, marking inactive")
+      self.inactive = True
 
     self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     if self.on_gconf_notify:
@@ -324,6 +325,9 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       self.reconfigure_callback ()
 
   def __getitem__ (self, key = ""):
+    if self.inactive:
+      return None
+
     if self.cache.has_key (key):
       dbg (" VSGConf: returning cached value: %s"%self.cache[key])
       return (self.cache[key])
@@ -334,7 +338,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
 
     # FIXME: Ugly special cases we should look to fix in some other way.
-    if key == 'font' and self.use_system_font:
+    if key == 'font' and self['use_system_font']:
       value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
     elif key == 'focus':
       value = self.client.get ('/apps/metacity/general/focus_mode')
