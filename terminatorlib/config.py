@@ -210,7 +210,21 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
       try:
         ini.parse()
       except ParsedWithErrors, e:
-        sys.stderr.write(str(e))
+        import gtk
+        from cgi import escape
+        msg = _("""Errors were encountered while parsing terminator_config(5) file:
+
+  <b>%s</b>
+
+Some lines have been ignored.""") % escape(repr(self.rcfilename))
+        errs = "\n\n".join(map(lambda error:
+              _(" * %(message)s, line %(lnum)d:\n    <tt>%(line)s</tt>\n    <tt>%(pad)s^</tt>") % {
+              'message': error.message, 'file': escape(error.file), 'lnum': error.lnum,
+              'line': escape(error.line.rstrip()), 'pad': '-' * error.pos}, e.errors))
+        dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK)
+        dialog.set_markup(msg + "\n\n" + errs)
+        dialog.run()
+        dialog.destroy()
 
       for key in ini.settings:
         try:

@@ -89,7 +89,8 @@ class ConfigFile:
       while True:
         mo = QuotedStrings[chr].match(self._line, self._pos)
         if mo is None:
-          raise ConfigSyntaxError("Unterminated quoted string", self)
+          self.parse_error(_("Unterminated quoted string"))
+          return False
         self._pos = mo.end()
         if self._line[self._pos - 2] == '\\':
           string += mo.group(1)[0:-1] + chr
@@ -142,13 +143,13 @@ class ConfigFile:
           if not self._call_if_match(Colourvalue, self._value, 1):
             # bare value
             if not self._call_if_match(Barevalue, self._value, 1):
-              self.parse_error("Setting without a value")
+              self.parse_error(_("Setting without a value"))
               continue
 
       self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
 
       if self._line[self._pos:] != '':
-        self.parse_error("Unexpected token")
+        self.parse_error(_("Unexpected token"))
 
     if self.errors:
       raise ParsedWithErrors(self.filename, self.errors)
