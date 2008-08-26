@@ -89,8 +89,7 @@ class ConfigFile:
       while True:
         mo = QuotedStrings[chr].match(self._line, self._pos)
         if mo is None:
-          self.parse_error(_("Unterminated quoted string"))
-          return False
+          raise ConfigSyntaxError(_("Unterminated quoted string"), self)
         self._pos = mo.end()
         if self._line[self._pos - 2] == '\\':
           string += mo.group(1)[0:-1] + chr
@@ -102,13 +101,6 @@ class ConfigFile:
       return True
     else:
       return False
-
-  def parse_error(self, error):
-    e = ConfigSyntaxError(error, self)
-    if self.errors_are_fatal:
-      raise e
-    else:
-      self.errors.append(e)
 
   def parse(self):
     file = open(self.filename)
@@ -126,30 +118,35 @@ class ConfigFile:
     self.errors = []
 
     for self._line in rc:
-      self._lnum += 1
-      self._pos = 0
-      self._max = len(self._line)
-      dbg("Line %d: %s" % (self._lnum, repr(self._line)))
+      try:
+        self._lnum += 1
+        self._pos = 0
+        self._max = len(self._line)
+        dbg("Line %d: %s" % (self._lnum, repr(self._line)))
 
-      self._call_if_match(WhitespaceRE, None)
+        self._call_if_match(WhitespaceRE, None)
 
-      # [Section]
-      self._call_if_match(Section, self._section, 1)
-      # setting =
-      if self._call_if_match(Setting, self._setting, 1):
-        # "quoted value"
-        if not self._call_if_quoted_string(self._value):
-          # #000000 # colour that would otherwise be a comment
-          if not self._call_if_match(Colourvalue, self._value, 1):
-            # bare value
-            if not self._call_if_match(Barevalue, self._value, 1):
-              self.parse_error(_("Setting without a value"))
-              continue
+        # [Section]
+        self._call_if_match(Section, self._section, 1)
+        # setting =
+        if self._call_if_match(Setting, self._setting, 1):
+          # "quoted value"
+          if not self._call_if_quoted_string(self._value):
+            # #000000 # colour that would otherwise be a comment
+            if not self._call_if_match(Colourvalue, self._value, 1):
+              # bare value
+              if not self._call_if_match(Barevalue, self._value, 1):
+                raise ConfigSyntaxError(_("Setting without a value"), self)
 
-      self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
+        self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
 
-      if self._line[self._pos:] != '':
-        self.parse_error(_("Unexpected token"))
+        if self._line[self._pos:] != '':
+          raise ConfigSyntaxError(_("Unexpected token"), self)
+      except ConfigSyntaxError, e:
+        if self.errors_are_fatal:
+          raise e
+        else:
+          self.errors.append(e)
 
     if self.errors:
       raise ParsedWithErrors(self.filename, self.errors)
