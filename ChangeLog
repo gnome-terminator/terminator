@@ -1,3 +1,11 @@
+terminator 0.10:
+  * Various bug fixes.
+	* Improved spawning of more complex terminal commands
+	* Debug server (not useful for most people)
+	* Configurable keyboard shortcuts
+	* Scrollback searching
+	* Support --geometry
+
 terminator 0.9:
   * Tab support
   * Drag & Drop support

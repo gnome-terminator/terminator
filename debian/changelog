@@ -1,3 +1,9 @@
+terminator (0.10) hardy; urgency=low
+
+  *  New upstream release.
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 27 Aug 2008 01:34:27 +0100
+
 terminator (0.9) hardy; urgency=low
 
   * New upstream release
