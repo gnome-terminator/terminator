@@ -57,28 +57,37 @@ Split terminals H\fBo\fRrizontally.
 Split terminals V\fBe\fRrtically.
 .TP 
 .B Ctrl+Shift+Right
-Move parent handle \fBRight\fR.
+Move parent dragbar \fBRight\fR.
 .TP 
 .B Ctrl+Shift+Left
-Move parent handle \fBLeft\fR.
+Move parent dragbar \fBLeft\fR.
 .TP 
 .B Ctrl+Shift+Up
-Move parent handle \fBUp\fR.
+Move parent dragbar \fBUp\fR.
 .TP 
 .B Ctrl+Shift+Down
-Move parent handle \fBDown\fR.
+Move parent dragbar \fBDown\fR.
 .TP 
 .B Ctrl+Shift+S
 Hide/Show \fBS\fRcrollbar.
 .TP 
-.B Ctrl+Shift+N
+.B Ctrl+Shift+F
+Search within terminal scrollback
+.TP
+.B Ctrl+Shift+N or Ctrl+Tab
 Move to \fBn\fRext terminal within the same tab, use Ctrl+PageDown to move to the next tab.
 If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled
 .TP 
-.B Ctrl+Shift+P
+.B Ctrl+Shift+P or Ctrl+Shift+Tab
 Move to \fBp\fRrevious terminal within the same tab, use Ctrl+PageUp to move to the previous tab.
 If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled
 .TP 
+.B Ctrl+Shift+C
+Copy selected text to clipboard
+.TP
+.B Ctrl+Shift+V
+Paste clipboard text
+.TP
 .B Ctrl+Shift+W
 Close the current terminal.
 .TP 
@@ -93,6 +102,9 @@ Toggle between showing all terminals and only showing a scaled version of the cu
 .TP 
 .B Ctrl+Shift+T
 Open new \fBt\fRab
+.TP
+.B Ctrl+Shift+Alt+T
+Open new \fBt\fRab at root level, if using \fBextreme_tabs\fR.
 .TP
 .B Ctrl+PageDown
 Move to next Tab
@@ -115,8 +127,8 @@ Increase font size. \fBNote:\fP this may require you to press shift, depending o
 .B Ctrl+Minus (-)
 Decrease font size. \fBNote:\fP this may require you to press shift, depending on your keyboard
 .TP
-.B Ctrl+Equals (=)
-Restore font size to original setting. \fBNote:\fP this may require you to press shift, depending on your keyboard
+.B Ctrl+Zero (0)
+Restore font size to original setting.
 .TP
 .B F11
 Toggle fullscreen

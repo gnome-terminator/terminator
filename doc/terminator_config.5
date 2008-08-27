@@ -7,9 +7,20 @@ This manual page documents briefly the
 .B Terminator config file.
 .PP
 \fBterminator/config\fP is an optional file to configure the terminator terminal emulator. It is used to control options not in gnome-terminal gconf profiles, or override gconf settings.
+.SH "FILE FORMAT"
+This is what a Terminator config file should look like:
 
-The options can be defined one per line in the form: \fBOPTION = VALUE\fR.
+  font = Fixed 10
+  background_color = #000000
+  foreground_color = #FFFFFF
+  scrollback_lines = 500
+  cursor_blink = True
+  
+  [keybindings]
+  full_screen = <Ctrl><Shift>F11
+
 .SH "OPTIONS"
+These are the options Terminator currently supports:
 .TP
 .B allow_bold\fR (boolean)
 If true, allow applications in the terminal to make text boldface.
@@ -179,5 +190,111 @@ Default value: \fBFalse\fR
 .B try_posix_regexp \fB(boolean)\fR
 If set to True, URL matching regexps will try to use POSIX style first, and fall back on GNU style on failure.  If you are on Linux but URL matches don't work, try setting this to True.  If you are not on Linux, but you get VTE warnings on startup saying "Error compiling regular expression", set this to False to silence them (they are otherwise harmless).
 Default value: \fBFalse\fR on Linux, \fBTrue\fR otherwise.
+.SH "KEYBINDINGS"
+The following actions can have their keyboard shortcut configured in the config file in a section labelled \fB[keybindings]\fR:
+.TP
+.B zoom_in
+Make font one unit larger.
+Default value: \fB<Ctrl>plus\fR
+.TP
+.B zoom_out
+Make font one unit smaller.
+Default value: \fB<Ctrl>minue\fR
+.TP
+.B zoom_normal
+Return font to pre-configured size.
+Default value: \fB<Ctrl>0\fR
+.TP
+.B new_tab
+Open a new tab.
+Default value: \fB<Ctrl><Shift>T\fR
+.TP
+.B new_root_tab
+Open a new tab at the root of the window (only useful if you use the \fBextreme_tabs\fR option).
+Default value: \fB<Ctrl><Shift><Alt>T\fR
+.TP
+.B go_next
+Move cursor focus to the next tab.
+Default values: \fB<Ctrl><Shift>N\fR and \fB<Ctrl>Tab\fR
+.TP
+.B go_prev
+Move cursor focus to the previous tab.
+Default values: \fB<Ctrl><Shift>P\fR and \fB<Ctrl><Shift>Tab\fR
+.TP
+.B split_horiz
+Split the current terminal horizontally.
+Default value: \fB<Ctrl><Shift>O\fR
+.TP
+.B split_vert
+Split the current terminal vertically.
+Default value: \fB<Ctrl><Shift>E\fR
+.TP
+.B close_term
+Close the current terminal.
+Default value: \fB<Ctrl><Shift>W\fR
+.TP
+.B copy
+Copy the currently selected text to the clipboard.
+Default value: \fB<Ctrl><Shift>C\fR
+.TP
+.B paste
+Paste the current contents of the clipboard.
+Default value: \fB<Ctrl><Shift>V\fR
+.TP
+.B toggle_scrollbar
+Show/Hide the scrollbar.
+Default value: \fB<Ctrl><Shift>S\fR
+.TP
+.B search
+Search for text in the terminal scrollback history.
+Default value: \fB<Ctrl><Shift>F\fR
+.TP
+.B close_window
+Quit Terminator.
+Default value: \fB<Ctrl><Shift>Q\fR
+.TP
+.B resize_up
+Move the parent dragbar upwards.
+Default value: \fB<Ctrl><Shift>Up\fR
+.TP
+.B resize_down
+Move the parent dragbar downwards.
+Default value: \fB<Ctrl><Shift>Down\fR
+.TP
+.B resize_left
+Move the parent dragbar left.
+Default value: \fB<Ctrl><Shift>Left\fR
+.TP
+.B resize_right
+Move the parent dragbar right.
+Default value: \fB<Ctrl><Shift>Right\fR
+.TP
+.B move_tab_right
+Swap the current tab with the one to its right.
+Default value: \fB<Ctrl><Shift>Page_Down\fR
+.TP
+.B move_tab_left
+Swap the current tab with the one to its left.
+Default value: \fB<Ctrl><Shift>Page_Up\fR
+.TP
+.B toggle_zoom
+Zoom/Unzoom the current terminal to fill the window.
+Default value: \fB<Ctrl><Shift>X\fR
+.TP
+.B scaled_zoom
+Zoom/Unzoom the current terminal to fill the window, and scale its font.
+Default value: \fB<Ctrl><Shift>Z\fR
+.TP
+.B next_tab
+Move to the next tab.
+Default value: \fB<Ctrl>Page_Down\fR
+.TP
+.B prev_tab
+Move to the previous tab.
+Default value: \fB<Ctrl>Page_Up\fR
+.TP
+.B full_screen
+Toggle the window to a fullscreen window.
+Default value: \fBF11\fR
 .SH "SEE ALSO"
 .BR gnome\-terminal(1)
