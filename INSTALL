@@ -1,6 +1,9 @@
 If at all possible I would encourage you to use a distribution 
 package of Terminator rather than the source tarball (ie I hope
 that most users never read this file).
+You can find instructions for many distributions at:
+
+  http://www.tenshu.net/terminator/
 
 If you must install from source, install python vte bindings 
 ("python-vte" on Debian/ubuntu) and run:
@@ -8,5 +11,5 @@ If you must install from source, install python vte bindings
     ./setup.py install
 
 Note that this is not as complete as a package install at the moment 
-e.g. GNOME menu integration will not happen and there is no 
+e.g. GNOME menu/icon integration will not happen and there is no 
 uninstall option.
