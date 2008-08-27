@@ -142,6 +142,8 @@ class ConfigFile:
 
         if self._line[self._pos:] != '':
           raise ConfigSyntaxError(_("Unexpected token"), self)
+
+        self._line_ok()
       except ConfigSyntaxError, e:
         if self.errors_are_fatal:
           raise e
@@ -161,8 +163,18 @@ class ConfigFile:
 
   def _value(self, value):
     dbg("Value %s" % repr(value))
-    if self._currsection is not None:
-      self.settings.setdefault(self._currsection, {})[self._currsetting] = value
-    else:
-      self.settings[self._currsetting] = value
+    self._currvalue = value
+
+  def _line_ok(self):
+    if self._currvalue is None: return
+    try:
+      if self._currsection is not None:
+        try:
+          self.settings.setdefault(self._currsection, {})[self._currsetting] = self._currvalue
+        except TypeError, e:
+          raise ConfigSyntaxError(_("Section %s is being used as a setting name" % repr(self._currsection)), self)
+      else:
+        self.settings[self._currsetting] = self._currvalue
+    finally:
+      self._currvalue = None
 

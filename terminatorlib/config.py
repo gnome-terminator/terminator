@@ -238,6 +238,7 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
           if key.endswith('_color'):
             try:
               gtk.gdk.color_parse(value)
+              self.values[key] = value
             except ValueError:
               err(_("Setting %s value %s not a valid colour; ignoring") % (key,repr(value)))
               continue
@@ -268,6 +269,7 @@ Some lines have been ignored.""") % escape(repr(self.rcfilename))
         except Exception, e:
           dbg (" VS_RCFile: %s Exception handling: %s" % (type(e), key))
           pass
+    dbg("Config parsed as: %s" % repr(self.values))
 
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
