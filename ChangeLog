@@ -1,5 +1,6 @@
 terminator 0.10:
   * Various bug fixes.
+	* New, improved config file parsing
 	* Improved spawning of more complex terminal commands
 	* Debug server (not useful for most people)
 	* Configurable keyboard shortcuts
