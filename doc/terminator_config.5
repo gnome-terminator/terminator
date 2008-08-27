@@ -10,9 +10,10 @@ This manual page documents briefly the
 .SH "FILE FORMAT"
 This is what a Terminator config file should look like:
 
+  # This is a comment
   font = Fixed 10
   background_color = #000000
-  foreground_color = #FFFFFF
+  foreground_color = "#FFFFFF" #Another comment. Quotes can be used for any value
   scrollback_lines = 500
   cursor_blink = True
   
@@ -168,6 +169,7 @@ Controls the width of the separator between terminals. Anything outside the rang
 Default value: \fB-1\fR
 .TP
 .B f11_modifier \fR(boolean)
+DEPRECATED. This option will disappear by 1.0. See \fB[keybindings]\fR instead.
 If this is set to True, the fullscreen keyboard shortcut changes from F11 (like many GNOME apps) to Ctrl-Shift-F11 (useful if you use terminal applications which expect to receive F11.
 Default value: \fBFalse\fR
 .TP
