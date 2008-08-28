@@ -335,7 +335,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
   def __getitem__ (self, key = ""):
     if self.inactive:
-      return None
+      raise KeyError
 
     if self.cache.has_key (key):
       dbg (" VSGConf: returning cached value: %s"%self.cache[key])
