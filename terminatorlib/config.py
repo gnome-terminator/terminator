@@ -33,7 +33,7 @@ up, set a default for it first."""
 
 import os, platform, sys, re
 import pwd
-import gtk
+import gtk, pango
 
 # set this to true to enable debugging output
 # These should be moved somewhere better.
@@ -65,7 +65,7 @@ Defaults = {
   'delete_binding'        : 'delete-sequence',
   'cursor_blink'          : True,
   'emulation'             : 'xterm',
-  'font'                  : 'Mono 8',
+  'font'                  : 'Mono',
   'foreground_color'      : '#AAAAAA',
   'scrollbar_position'    : "right",
   'scroll_background'     : True,
@@ -211,18 +211,47 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
       try:
         ini.parse()
       except ParsedWithErrors, e:
-        from cgi import escape
-        msg = _("""Errors were encountered while parsing terminator_config(5) file:
+        msg = _("""<big><b>Configuration error</b></big>
+
+Errors were encountered while parsing terminator_config(5) file:
 
   <b>%s</b>
 
-Some lines have been ignored.""") % escape(repr(self.rcfilename))
-        errs = "\n\n".join(map(lambda error:
-              _(" * %(message)s, line %(lnum)d:\n    <tt>%(line)s</tt>\n    <tt>%(pad)s^</tt>") % {
-              'message': error.message, 'file': escape(error.file), 'lnum': error.lnum,
-              'line': escape(error.line.rstrip()), 'pad': '-' * error.pos}, e.errors))
-        dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK)
-        dialog.set_markup(msg + "\n\n" + errs)
+%d line(s) have been ignored.""") % (self.rcfilename, len(e.errors))
+
+        dialog = gtk.Dialog(_("Configuration error"), None, gtk.DIALOG_MODAL,
+                            (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        dialog.set_has_separator(False)
+        dialog.set_resizable(False)
+
+        image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_DIALOG)
+        image.set_alignment (0.5, 0)
+        dmsg = gtk.Label(msg)
+        dmsg.set_use_markup(True)
+        dmsg.set_alignment(0, 0.5)
+
+        textbuff = gtk.TextBuffer()
+        textbuff.set_text("\n".join(map(lambda e: str(e), e.errors)))
+        textview = gtk.TextView(textbuff)
+        textview.set_editable(False)
+
+        textview.modify_font(pango.FontDescription(Defaults['font']))
+        textscroll = gtk.ScrolledWindow()
+        textscroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        textscroll.add(textview)
+        # This should be scaled with the size of the text and font
+        textscroll.set_size_request(600, 200)
+
+        root = gtk.VBox()
+        root.pack_start(dmsg, padding = 6)
+        root.pack_start(textscroll, padding = 6)
+
+        box = gtk.HBox()
+        box.pack_start (image, False, False, 6)
+        box.pack_start (root, False, False, 6)
+        dialog.vbox.pack_start (box, False, False, 12)
+        dialog.show_all()
+
         dialog.run()
         dialog.destroy()
 
