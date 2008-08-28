@@ -7,25 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-07-05 17:27+0100\n"
-"PO-Revision-Date: 2008-07-06 18:09+0000\n"
-"Last-Translator: Romain Fluttaz <r.fluttaz@gmail.com>\n"
+"POT-Creation-Date: 2008-08-27 23:41+0100\n"
+"PO-Revision-Date: 2008-07-13 20:24+0000\n"
+"Last-Translator: TuniX12 <sedra12@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-07 21:36+0000\n"
+"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:51
+#: terminator:45
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
 "Vous devez installer les modules python pour gobject, gtk et pango pour "
-"lancer Terminator"
+"lancer Terminator."
 
-#: terminator:112
+#: terminator:122
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -33,11 +33,61 @@ msgstr ""
 "Vous devez lancer Terminator dans un environement graphique. Assurez-vous "
 "que DISPLAY est bien configuré."
 
-#: terminatorlib/config.py:188
+#: terminatorlib/config.py:215
+#, python-format
 msgid ""
-"Reading list values from .config/terminator/config is not currently supported"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"Some lines have been ignored."
 msgstr ""
-"Les listes ne sont actuellement pas supportées dans .config/terminator/config"
+
+#: terminatorlib/config.py:221
+#, python-format
+msgid ""
+" * %(message)s, line %(lnum)d:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
+msgstr ""
+
+#: terminatorlib/config.py:243
+#, python-format
+msgid "Setting %s value %s not a valid colour; ignoring"
+msgstr ""
+
+#: terminatorlib/config.py:251
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+
+#: terminatorlib/config.py:258
+msgid ""
+" VS_RCFile: Reading list values from .config/terminator/config is not "
+"currently supported"
+msgstr ""
+
+#: terminatorlib/config.py:262
+#, python-format
+msgid "Value %s should be a section name, not a setting"
+msgstr ""
+
+#: terminatorlib/configfile.py:92
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: terminatorlib/configfile.py:139
+msgid "Setting without a value"
+msgstr ""
+
+#: terminatorlib/configfile.py:144
+msgid "Unexpected token"
+msgstr ""
+
+#: terminatorlib/configfile.py:175
+#, python-format
+msgid "Section %s is being used as a setting name"
+msgstr ""
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -52,7 +102,7 @@ msgstr "Occidental"
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "Européen central"
+msgstr "Europe Centrale"
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
@@ -180,23 +230,28 @@ msgstr "Vietnamien"
 msgid "Thai"
 msgstr "Thaï"
 
-#: terminatorlib/terminator.py:54
+#: terminatorlib/terminator.py:52
 msgid "Close Tab"
 msgstr "Fermer l'onglet"
 
-#: terminatorlib/terminator.py:198
+#: terminatorlib/terminator.py:157
+#, python-format
+msgid "Invalid geometry string %s"
+msgstr ""
+
+#: terminatorlib/terminator.py:224
 msgid "Close?"
 msgstr "Fermer ?"
 
-#: terminatorlib/terminator.py:201
-msgid "Close _All Terminals"
-msgstr "Fermer tous les termin_aux"
+#: terminatorlib/terminator.py:230
+msgid "Close All _Terminals"
+msgstr ""
 
-#: terminatorlib/terminator.py:205
+#: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
 msgstr "<big><b>Fermer tous les terminaux ?</b></big>"
 
-#: terminatorlib/terminator.py:208
+#: terminatorlib/terminator.py:235
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
@@ -213,74 +268,78 @@ msgstr ""
 "Vous devez installer python bindings pour libvte (\"python-vte\" dans "
 "debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:393
+#: terminatorlib/terminatorterm.py:476
 msgid "Unable to find a shell"
 msgstr "Impossible de trouver un shell"
 
-#: terminatorlib/terminatorterm.py:411
+#: terminatorlib/terminatorterm.py:495
 msgid "Unable to start shell: "
 msgstr "Impossible de démarrer le shell "
 
-#: terminatorlib/terminatorterm.py:722
+#: terminatorlib/terminatorterm.py:859
 msgid "_Open Link"
 msgstr "_Ouvrir le lien"
 
-#: terminatorlib/terminatorterm.py:723
+#: terminatorlib/terminatorterm.py:860
 msgid "_Copy Link Address"
 msgstr "_Copier l'adresse du lien"
 
-#: terminatorlib/terminatorterm.py:733
+#: terminatorlib/terminatorterm.py:870
 msgid "_Send Mail To..."
 msgstr "_Envoyer un courriel à ..."
 
-#: terminatorlib/terminatorterm.py:734
+#: terminatorlib/terminatorterm.py:871
 msgid "_Copy Email Address"
 msgstr "_Copier l'adresse électronique"
 
-#: terminatorlib/terminatorterm.py:760
+#: terminatorlib/terminatorterm.py:897
 msgid "Show _scrollbar"
 msgstr "Montrer la barre de défilement"
 
-#: terminatorlib/terminatorterm.py:765
+#: terminatorlib/terminatorterm.py:902
 msgid "Show _titlebar"
 msgstr "Montrer la barre de _titre"
 
-#: terminatorlib/terminatorterm.py:776
+#: terminatorlib/terminatorterm.py:913
 msgid "Split H_orizontally"
 msgstr "Diviser H_orizontalement"
 
-#: terminatorlib/terminatorterm.py:777
+#: terminatorlib/terminatorterm.py:914
 msgid "Split V_ertically"
 msgstr "Diviser V_erticalement"
 
-#: terminatorlib/terminatorterm.py:795
+#: terminatorlib/terminatorterm.py:931
 msgid "Open _Tab"
 msgstr "Ouvrir un ongle_t"
 
-#: terminatorlib/terminatorterm.py:800
+#: terminatorlib/terminatorterm.py:936
+msgid "Open _Debug Tab"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:942
 msgid "Open Top Level Tab"
 msgstr "Ouvrir un onglet de niveau haut"
 
-#: terminatorlib/terminatorterm.py:809
+#: terminatorlib/terminatorterm.py:951
 msgid "_Zoom terminal"
 msgstr "_Zoomer le terminal"
 
-#: terminatorlib/terminatorterm.py:813
-msgid "_Maximise terminal"
-msgstr "_Maximiser le termiinal"
+#: terminatorlib/terminatorterm.py:955
+msgid "Ma_ximise terminal"
+msgstr ""
 
-#: terminatorlib/terminatorterm.py:818
+#: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
 msgstr "Dezoomer le Terminal"
 
-#: terminatorlib/terminatorterm.py:823
-msgid "U_nmaximise terminal"
-msgstr "Demaximiser le termi_nal"
+#: terminatorlib/terminatorterm.py:965
+msgid "Unma_ximise terminal"
+msgstr ""
 
-#: terminatorlib/terminatorterm.py:845
+#: terminatorlib/terminatorterm.py:989
 msgid "Encodings"
 msgstr "Encodages"
 
-#: terminatorlib/terminatorterm.py:863
+#: terminatorlib/terminatorterm.py:1007
 msgid "Other Encodings"
-msgstr "Autre Encodages"
+msgstr "Autres  Encodages"

@@ -1,4 +1,4 @@
-# Traditional Chinese translation for terminator
+# Chinese (Hong Kong) translation for terminator
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the terminator package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-12 11:10+0000\n"
+"PO-Revision-Date: 2008-07-12 11:07+0000\n"
 "Last-Translator: Lin Wai Man <Unknown>\n"
-"Language-Team: Traditional Chinese <zh_TW@li.org>\n"
+"Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -93,16 +93,16 @@ msgstr "目前的地區語言"
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
 #: terminatorlib/encoding.py:96
 msgid "Western"
-msgstr "西歐語系"
+msgstr "西歐地區"
 
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "中歐語系"
+msgstr "中歐地區"
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
-msgstr "南歐"
+msgstr "南歐地區"
 
 #: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
 #: terminatorlib/encoding.py:101
@@ -113,7 +113,7 @@ msgstr "波羅的海語系"
 #: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
 #: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr ""
+msgstr "斯拉夫語系"
 
 #: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
 #: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
@@ -168,7 +168,7 @@ msgstr "中文（繁體）"
 
 #: terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "斯拉夫文字/俄文"
 
 #: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
 #: terminatorlib/encoding.py:89
@@ -187,44 +187,44 @@ msgstr "中文（簡體）"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "格魯吉亞文"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "斯拉夫文/烏克蘭文"
 
 #: terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "克羅地亞文"
 
 #: terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "印地語"
 
 #: terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "波斯語"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "古吉拉特語"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr ""
+msgstr "古爾穆奇文"
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "冰島語"
 
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "越南語"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr ""
+msgstr "泰文"
 
 #: terminatorlib/terminator.py:52
 msgid "Close Tab"
@@ -245,7 +245,7 @@ msgstr ""
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>關閉所有終端機？</b></big>"
+msgstr "<big><b>關閉所有終端機?</b></big>"
 
 #: terminatorlib/terminator.py:235
 #, python-format
@@ -258,19 +258,21 @@ msgstr "這視窗開啟了%s個終端機。關閉這視窗會令所有終端機�
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
-msgstr ""
+msgstr "你需要安裝 python bindings for libvte (在debian/ubuntu 是\"python-vte\")"
 
 #: terminatorlib/terminatorterm.py:476
+#, fuzzy
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "無法找到 Shell"
 
 #: terminatorlib/terminatorterm.py:495
+#, fuzzy
 msgid "Unable to start shell: "
-msgstr ""
+msgstr "無法開始Shell "
 
 #: terminatorlib/terminatorterm.py:859
 msgid "_Open Link"
-msgstr "開啟鏈結(_O)"
+msgstr "開啟連結(_O)"
 
 #: terminatorlib/terminatorterm.py:860
 msgid "_Copy Link Address"
@@ -282,39 +284,40 @@ msgstr "傳送郵件給(_S)..."
 
 #: terminatorlib/terminatorterm.py:871
 msgid "_Copy Email Address"
-msgstr "複製郵件地址(_C)"
+msgstr "複製電郵地址(_C)"
 
 #: terminatorlib/terminatorterm.py:897
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "顯示捲軸(_s)"
 
 #: terminatorlib/terminatorterm.py:902
 msgid "Show _titlebar"
-msgstr ""
+msgstr "顯示標題欄(_t)"
 
 #: terminatorlib/terminatorterm.py:913
 msgid "Split H_orizontally"
-msgstr "橫向分裂(_o)"
+msgstr "橫向分隔(_o)"
 
 #: terminatorlib/terminatorterm.py:914
 msgid "Split V_ertically"
-msgstr "垂直分裂(_e)"
+msgstr "垂直分隔(_e)"
 
 #: terminatorlib/terminatorterm.py:931
 msgid "Open _Tab"
-msgstr ""
+msgstr "開啟分頁(_T)"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
 msgstr ""
 
 #: terminatorlib/terminatorterm.py:942
+#, fuzzy
 msgid "Open Top Level Tab"
-msgstr ""
+msgstr "開啟上層分頁"
 
 #: terminatorlib/terminatorterm.py:951
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "放大終端機(_Z)"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
@@ -322,7 +325,7 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
-msgstr ""
+msgstr "取消放大終端機(&U)"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
@@ -334,4 +337,4 @@ msgstr "編碼"
 
 #: terminatorlib/terminatorterm.py:1007
 msgid "Other Encodings"
-msgstr ""
+msgstr "其他編碼"

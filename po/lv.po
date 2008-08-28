@@ -1,4 +1,4 @@
-# Traditional Chinese translation for terminator
+# Latvian translation for terminator
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the terminator package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-12 11:10+0000\n"
-"Last-Translator: Lin Wai Man <Unknown>\n"
-"Language-Team: Traditional Chinese <zh_TW@li.org>\n"
+"PO-Revision-Date: 2008-07-09 22:42+0000\n"
+"Last-Translator: Kristaps <retail@inbox.lv>\n"
+"Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,13 +21,13 @@ msgstr ""
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
-msgstr "你需要安裝python bindings for gobject，gtk和pango才可執行Terminator"
+msgstr ""
 
 #: terminator:122
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
-msgstr "你要在 X 環境下執行 terminator。請確定你的顯示正確設置"
+msgstr ""
 
 #: terminatorlib/config.py:215
 #, python-format
@@ -87,127 +87,127 @@ msgstr ""
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr "目前的地區語言"
+msgstr "Pašreizējā lokāle"
 
 #: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
 #: terminatorlib/encoding.py:96
 msgid "Western"
-msgstr "西歐語系"
+msgstr "Rietumu"
 
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "中歐語系"
+msgstr "Centrāleiropiešu"
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
-msgstr "南歐"
+msgstr "Dienvideiropiešu"
 
 #: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
 #: terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr "波羅的海語系"
+msgstr "Baltijas"
 
 #: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
 #: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
 #: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr ""
+msgstr "Kirilicas"
 
 #: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
 #: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr "阿拉伯文"
+msgstr "Arābu"
 
 #: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
 #: terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr "希臘文"
+msgstr ""
 
 #: terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr "希伯來文（左至右）"
+msgstr ""
 
 #: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
 #: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr "希伯來文"
+msgstr "Ebreju"
 
 #: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
 #: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr "土耳其語"
+msgstr "Turku"
 
 #: terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr "北歐語系"
+msgstr "Skandināvu"
 
 #: terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr "塞爾特語系"
+msgstr "Ķeltu"
 
 #: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr "羅馬尼亞語"
+msgstr "Rumāņu"
 
 #: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
 #: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
 #: terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr "萬國碼"
+msgstr ""
 
 #: terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr "亞美尼亞文"
+msgstr ""
 
 #: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
 #: terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr "中文（繁體）"
+msgstr ""
 
 #: terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "Kirilica/Krievu"
 
 #: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
 #: terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr "日文"
+msgstr "Japāņu"
 
 #: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
 #: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr "韓文"
+msgstr "Korejiešu"
 
 #: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
 #: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr "中文（簡體）"
+msgstr "Ķīniešu Vienkāršotā"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "Gruzīnu"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "Kirilica/Ukraiņu"
 
 #: terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "Horvātu"
 
 #: terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "Hindu"
 
 #: terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "Persiešu"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "Gujaratu"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
@@ -215,20 +215,20 @@ msgstr ""
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "Īslandiešu"
 
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vjetnamiešu"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr ""
+msgstr "Taizemiešu"
 
 #: terminatorlib/terminator.py:52
 msgid "Close Tab"
-msgstr "關閉分頁"
+msgstr "Aizvērt Cilni"
 
 #: terminatorlib/terminator.py:157
 #, python-format
@@ -237,7 +237,7 @@ msgstr ""
 
 #: terminatorlib/terminator.py:224
 msgid "Close?"
-msgstr "關閉?"
+msgstr "Aizvērt?"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
@@ -245,14 +245,14 @@ msgstr ""
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>關閉所有終端機？</b></big>"
+msgstr "<big><b>Aizvērt visus termināļus?</b></big>"
 
 #: terminatorlib/terminator.py:235
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
-msgstr "這視窗開啟了%s個終端機。關閉這視窗會令所有終端機也同時關閉。"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -270,19 +270,19 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:859
 msgid "_Open Link"
-msgstr "開啟鏈結(_O)"
+msgstr "_Atvērt saiti"
 
 #: terminatorlib/terminatorterm.py:860
 msgid "_Copy Link Address"
-msgstr "複製鏈結位址(_C)"
+msgstr "_Kopēt saites adresi"
 
 #: terminatorlib/terminatorterm.py:870
 msgid "_Send Mail To..."
-msgstr "傳送郵件給(_S)..."
+msgstr "_Sūtīt e-pastu..."
 
 #: terminatorlib/terminatorterm.py:871
 msgid "_Copy Email Address"
-msgstr "複製郵件地址(_C)"
+msgstr "_Kopēt e-pasta adresi"
 
 #: terminatorlib/terminatorterm.py:897
 msgid "Show _scrollbar"
@@ -294,15 +294,15 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:913
 msgid "Split H_orizontally"
-msgstr "橫向分裂(_o)"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:914
 msgid "Split V_ertically"
-msgstr "垂直分裂(_e)"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:931
 msgid "Open _Tab"
-msgstr ""
+msgstr "Atvērt _Cilni"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
@@ -330,8 +330,8 @@ msgstr ""
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"
-msgstr "編碼"
+msgstr "Kodējumi"
 
 #: terminatorlib/terminatorterm.py:1007
 msgid "Other Encodings"
-msgstr ""
+msgstr "Citi kodējumi"
