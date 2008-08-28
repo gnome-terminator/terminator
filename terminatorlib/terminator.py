@@ -34,7 +34,12 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self.terminator = terminator
-    self._label = gtk.Label(title) 
+    self._label = gtk.Label(title)
+    tab_pos = notebook.get_tab_pos()
+    if tab_pos == gtk.POS_LEFT:
+      self._label.set_angle(90)
+    elif tab_pos == gtk.POS_RIGHT:
+      self._label.set_angle(270)
     icon = gtk.Image()
     icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     self.pack_start(self._label, True, True)
@@ -344,7 +349,7 @@ class Terminator:
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
       parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
-      
+
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
@@ -480,10 +485,12 @@ class Terminator:
        ((self.conf.extreme_tabs and not toplevel) or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
-      #notebook.set_tab_pos(gtk.POS_TOP)
       notebook.connect('page-reordered',self.on_page_reordered)
       notebook.set_property('homogeneous', True)
       notebook.set_tab_reorderable(widget, True)
+      # Config validates this.
+      pos = getattr(gtk, "POS_%s" % self.conf.tab_position.upper())
+      notebook.set_tab_pos(pos)
       
       if isinstance(parent, gtk.Paned):
         if parent.get_child1() == child:

@@ -98,6 +98,7 @@ Defaults = {
   'cycle_term_tab'        : True,
   'copy_on_selection'     : False,
   'close_button_on_tab'   : True,
+  'tab_position'          : 'top',
   'enable_real_transparency'  : False,
   'try_posix_regexp'      : platform.system() != 'Linux',
   'keybindings'           : {
@@ -269,6 +270,11 @@ Errors were encountered while parsing terminator_config(5) file:
             self.values[key] = value
           except ValueError:
             raise ValueError(_("Setting %s value %s not a valid colour; ignoring") % (key,repr(value)))
+        elif key == 'tab_position':
+          if value.lower() in ('top', 'left', 'bottom', 'right'):
+            self.values[key] = value.lower()
+          else:
+            raise ValueError(_("%s must be one of: top, left, right, bottom") % key)
         elif deftype == 'bool':
           if value.lower () in ('true', 'yes', 'on'):
             self.values[key] = True
