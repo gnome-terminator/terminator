@@ -115,6 +115,7 @@ class ConfigFile:
 
     self._currsection = None
     self._cursetting = None
+    self._currvalue = None
     self.errors = []
 
     for self._line in rc:
