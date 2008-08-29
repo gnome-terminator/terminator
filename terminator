@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #    Terminator - multiple gnome terminals in one window
 #    Copyright (C) 2006-2008  cmsj@tenshu.net
 #
@@ -19,7 +19,7 @@
 
 # import standard python libs
 import os, sys
-from optparse import OptionParser
+from optparse import OptionParser, SUPPRESS_HELP
 
 from terminatorlib.version import APP_NAME, APP_VERSION
 
@@ -97,6 +97,8 @@ if __name__ == '__main__':
       help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback",
       callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
+  for opt in ['--sm-client-id', '--sm-config-prefix', '--screen']:
+    parser.add_option (opt, dest="dummy", action="store", help=SUPPRESS_HELP)
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:

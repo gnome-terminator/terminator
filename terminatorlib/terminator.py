@@ -197,6 +197,7 @@ class Terminator:
     self.window.set_title (APP_NAME.capitalize())
 
     if self._geometry is not None:
+      dbg("Geometry=%s" % self._geometry)
       if not self.window.parse_geometry(self._geometry):
         err(_("Invalid geometry string %s") % repr(self._geometry))
 
@@ -241,13 +242,14 @@ class Terminator:
     term.spawn_child ()
     self.save_yourself ()
 
-  def die(self):
+  def die(self, *args):
     gtk.main_quit ()
 
-  def save_yourself (self):
+  def save_yourself (self, *args):
     """ Save as much of our state as possible for the X session manager """
     dbg("Saving session for xsm")
-    args = []
+    args = [sys.argv[0],
+        ("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position())]
     drop_next_arg = False
     geompatt = re.compile(r'^--geometry(=.+)?')
     for arg in sys.argv[1:]:
@@ -259,22 +261,25 @@ class Terminator:
         args.append(arg)
         drop_next_arg = False
 
-    cmd = [sys.executable, sys.argv[0]]
-    # pygtk docs suggest the session manager protocol handles this for us.
-    cmd.append(("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position()))
-    cmd += args
-    dbg("Session restart command: %s in %s" % (repr(cmd), self.start_cwd))
-
+    # We can't set an interpreter because Gnome unconditionally spams it with
+    # --sm-foo-bar arguments before our own argument list. *mutter*
+    # So, hopefully your #! line is correct.  If not, we could write out
+    # a shell script with the interpreter name etc.
     c = self.gnome_client
+    c.set_program(sys.argv[0])
+    dbg("Session restart command: %s with args %s in %s" % (sys.argv[0], repr(args), self.start_cwd))
+
     c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
     c.set_current_directory(self.start_cwd)
     try:
-      c.set_restart_command(cmd)
-    except TypeError:
+      c.set_restart_command(args)
+      c.set_clone_command(args)
+    except (TypeError,AttributeError):
       # Apparantly needed for some Fedora systems
       # see http://trac.nicfit.net/mesk/ticket/137
-      # 
-      c.set_restart_command(len(cmd), cmd)
+      dbg("Gnome bindings have weird set_clone/restart_command")
+      c.set_restart_command(len(args), args)
+      c.set_clone_command(len(args), args)
     return True
 
   def maximize (self):
