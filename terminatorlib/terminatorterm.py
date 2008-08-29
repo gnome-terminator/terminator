@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, platform, sys, subprocess, pwd
+import os, sys, subprocess, pwd
 
 #import version details
 from terminatorlib.version import *
@@ -51,35 +51,6 @@ class TerminatorTerm (gtk.VBox):
     self.terminator = terminator
     self.conf = terminator.conf
     self.command = command
-
-    # Sort out cwd detection code, if available
-    self.pid_get_cwd = lambda pid: None
-    if platform.system() == 'FreeBSD':
-      try:
-        from terminatorlib import freebsd
-        self.pid_get_cwd = lambda pid: freebsd.get_process_cwd(pid)
-        dbg ('Using FreeBSD self.pid_get_cwd')
-      except (OSError, NotImplementedError, ImportError):
-        dbg ('FreeBSD version too old for self.pid_get_cwd')
-        pass
-    elif platform.system() == 'Linux':
-      dbg ('Using Linux self.pid_get_cwd')
-      self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
-    else:
-      dbg ('Unable to set a self.pid_get_cwd, unknown system: %s'%platform.system)
-
-    # import a library for viewing URLs
-    try:
-      # gnome.url_show() is really useful
-      dbg ('url_show: importing gnome module')
-      import gnome
-      gnome.init ('terminator', 'terminator')
-      self.url_show = gnome.url_show
-    except ImportError:
-      # webbrowser.open() is not really useful, but will do as a fallback
-      dbg ('url_show: gnome module failed, using webbrowser')
-      import webbrowser
-      self.url_show = webbrowser.open
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
@@ -203,7 +174,7 @@ class TerminatorTerm (gtk.VBox):
     except:
       try:
         dbg ('openurl: calling url_show')
-        self.url_show (url)
+        self.terminator.url_show (url)
       except:
         dbg ('openurl: url_show failed. No URL for you')
         pass
@@ -499,7 +470,7 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    cwd = self.pid_get_cwd (self._pid)
+    cwd = self.terminator.pid_get_cwd (self._pid)
     dbg ('get_cwd found: %s'%cwd)
     return (cwd)
 

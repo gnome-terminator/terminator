@@ -16,6 +16,8 @@
 #    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
+import time, re, sys, os, platform
+
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
@@ -29,7 +31,6 @@ from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 
 class TerminatorNotebookTabLabel(gtk.HBox):
-
   def __init__(self, title, notebook, terminator):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
@@ -88,6 +89,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   def width_request(self):
     return self.size_request()[0]
 
+
 class Terminator:
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
@@ -100,6 +102,7 @@ class Terminator:
     self._fullscreen = False
     self._geometry = geometry
     self.debugaddress = None
+    self.start_cwd = os.getcwd()
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
@@ -123,6 +126,42 @@ class Terminator:
         dbg("GConf setup threw exception %s" % str(e))
 
     self.conf = config.TerminatorConfig (stores)
+
+    # Sort out cwd detection code, if available
+    self.pid_get_cwd = lambda pid: None
+    if platform.system() == 'FreeBSD':
+      try:
+        from terminatorlib import freebsd
+        self.pid_get_cwd = freebsd.get_process_cwd
+        dbg ('Using FreeBSD self.pid_get_cwd')
+      except (OSError, NotImplementedError, ImportError):
+        dbg ('FreeBSD version too old for self.pid_get_cwd')
+        pass
+    elif platform.system() == 'Linux':
+      dbg ('Using Linux self.pid_get_cwd')
+      self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+    else:
+      dbg ('Unable to set a self.pid_get_cwd, unknown system: %s' % platform.system)
+
+    # import a library for viewing URLs
+    try:
+      dbg ('Trying to import gnome for X session and backup URL handling support')
+      global gnome
+      import gnome, gnome.ui
+      self.gnome_program = gnome.init(APP_NAME, APP_VERSION)
+      self.url_show = gnome.url_show
+      
+      # X session saving support
+      self.gnome_client = gnome.ui.master_client()
+      self.gnome_client.connect_to_session_manager()
+      self.gnome_client.connect('save-yourself', self.save_yourself)
+      self.gnome_client.connect('die', self.die)
+    except ImportError:
+      # webbrowser.open() is not really useful, but will do as a fallback
+      dbg ('gnome not available, no X session support, backup URL handling via webbrowser module')
+      import webbrowser
+      self.url_show = webbrowser.open
+
 
     self.icon_theme = gtk.IconTheme ()
 
@@ -201,6 +240,39 @@ class Terminator:
     self.window.show ()
     term.spawn_child ()
 
+  def die(self):
+    self.save_yourself ()
+    gtk.main_quit ()
+
+  def save_yourself (self):
+    """ Save as much of our state as possible for the X session manager """
+    dbg("Saving session for xsm")
+    args = []
+    drop_next_arg = False
+    geompatt = re.compile(r'^--geometry(=.+)?')
+    for arg in sys.argv[1:]:
+      mo = geompatt.match(arg)
+      if mo:
+        if not mo.group(1):
+          drop_next_arg = True
+      elif not drop_next_arg:
+        args.append(arg)
+        drop_next_arg = False
+
+    cmd = [sys.executable, sys.argv[0]]
+    # pygtk docs suggest the session manager protocol handles this for us.
+    #cmd.append(("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position()))
+    cmd += args
+    dbg("Session restart command: %s" % repr(cmd))
+
+    c = self.gnome_client
+    c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
+    c.set_current_directory(self.start_cwd)
+    # I hear rumors that some Fedora systems need (len(cmd), cmd)
+    c.set_clone_command(cmd)
+    c.set_restart_command(cmd)
+    return True
+
   def maximize (self):
     """ Maximize the Terminator window."""
     self.window.maximize ()
@@ -259,7 +331,7 @@ class Terminator:
     return not (result == gtk.RESPONSE_ACCEPT)
 
   def on_destroy_event (self, widget, data=None):
-    gtk.main_quit ()
+    self.die()
 
   # keybindings for the whole terminal window (affects the main
   # windows containing the splited terminals)
