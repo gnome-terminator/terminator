@@ -139,7 +139,7 @@ class ConfigFile:
               if not self._call_if_match(Barevalue, self._value, 1):
                 raise ConfigSyntaxError(_("Setting without a value"), self)
 
-        self._call_if_match(Ignore, lambda junk: dbg("Ignoring: %s" % junk))
+        self._call_if_match(Ignore, lambda junk: dbg("Skipping: %s" % repr(junk)))
 
         if self._line[self._pos:] != '':
           raise ConfigSyntaxError(_("Unexpected token"), self)
