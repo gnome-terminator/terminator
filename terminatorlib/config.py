@@ -203,7 +203,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     try:
       directory = os.environ['XDG_CONFIG_HOME']
     except KeyError, e:
-      dbg(" VS_RCFile: Environment variable %s not found. defaulting to ~/.config" % e.message)
+      dbg(" VS_RCFile: Environment variable XDG_CONFIG_HOME not found. defaulting to ~/.config")
       directory = os.path.join (os.path.expanduser("~"), ".config")
     self.rcfilename = os.path.join(directory, "terminator/config")
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
