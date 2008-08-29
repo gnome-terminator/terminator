@@ -250,6 +250,8 @@ class Terminator:
     dbg("Saving session for xsm")
     args = [sys.argv[0],
         ("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position())]
+
+    # OptionParser should really help us out here
     drop_next_arg = False
     geompatt = re.compile(r'^--geometry(=.+)?')
     for arg in sys.argv[1:]:
@@ -257,9 +259,15 @@ class Terminator:
       if mo:
         if not mo.group(1):
           drop_next_arg = True
-      elif not drop_next_arg:
+      elif not drop_next_arg and arg not in ('--maximise', '-m', '--fullscreen', '-f'):
         args.append(arg)
         drop_next_arg = False
+
+    if self._maximised:
+      args.append('--maximise')
+
+    if self._fullscreen:
+      args.append('--fullscreen')
 
     # We can't set an interpreter because Gnome unconditionally spams it with
     # --sm-foo-bar arguments before our own argument list. *mutter*
