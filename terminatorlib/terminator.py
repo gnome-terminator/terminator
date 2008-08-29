@@ -239,9 +239,9 @@ class Terminator:
     term._titlebox.hide()
     self.window.show ()
     term.spawn_child ()
+    self.save_yourself ()
 
   def die(self):
-    self.save_yourself ()
     gtk.main_quit ()
 
   def save_yourself (self):
@@ -261,16 +261,20 @@ class Terminator:
 
     cmd = [sys.executable, sys.argv[0]]
     # pygtk docs suggest the session manager protocol handles this for us.
-    #cmd.append(("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position()))
+    cmd.append(("--geometry=%dx%d" % self.window.get_size()) + ("+%d+%d" % self.window.get_position()))
     cmd += args
-    dbg("Session restart command: %s" % repr(cmd))
+    dbg("Session restart command: %s in %s" % (repr(cmd), self.start_cwd))
 
     c = self.gnome_client
     c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
     c.set_current_directory(self.start_cwd)
-    # I hear rumors that some Fedora systems need (len(cmd), cmd)
-    c.set_clone_command(cmd)
-    c.set_restart_command(cmd)
+    try:
+      c.set_restart_command(cmd)
+    except TypeError:
+      # Apparantly needed for some Fedora systems
+      # see http://trac.nicfit.net/mesk/ticket/137
+      # 
+      c.set_restart_command(len(cmd), cmd)
     return True
 
   def maximize (self):
