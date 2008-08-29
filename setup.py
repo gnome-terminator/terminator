@@ -2,10 +2,11 @@
 
 from distutils.core import setup
 from distutils.dist import Distribution
+from distutils.cmd import Command
 from distutils.command.install_data import install_data
 from distutils.command.build import build
 from distutils.dep_util import newer
-from distutils.log import info
+from distutils.log import warn, info, error, fatal
 import glob
 import os
 import sys
@@ -19,10 +20,12 @@ MO_DIR = os.path.join('build', 'mo')
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
-    ("without-gettext", None, "Don't build/install gettext .mo files")]
+    ("without-gettext", None, "Don't build/install gettext .mo files"),
+    ("without-icon-cache", None, "Don't attempt to run gtk-update-icon-cache")]
 
   def __init__ (self, *args):
     self.without_gettext = False
+    self.without_icon_cache = False
     Distribution.__init__(self, *args)
 
 
@@ -49,16 +52,78 @@ class BuildData(build):
           if rc != 0:
             raise Warning, "msgfmt returned %d" % rc
         except Exception, e:
-          print "Building gettext files failed.  Try setup.py --without-gettext [build|install]"
-          print "%s: %s" % (type(e), e)
+          error("Building gettext files failed.  Try setup.py --without-gettext [build|install]")
+          error("Error: %s" % str(e))
           sys.exit(1)
+
+
+class Uninstall(Command):
+  description = "Attempt an uninstall from an install --record file"
+
+  user_options = [('manifest=', None, 'Installation record filename')]
+
+  def initialize_options(self):
+    self.manifest = None
+
+  def finalize_options(self):
+    pass
+
+  def get_command_name(self):
+    return 'uninstall'
+
+  def run(self):
+    self.ensure_filename('manifest')
+    try:
+      f = open(self.manifest)
+      files = [file.strip() for file in f]
+    except IOError, e:
+      raise DistutilsFileError("unable to open install manifest: %s", str(e))
+    finally:
+      f.close()
+
+    for file in files:
+      if os.path.isfile(file) or os.path.islink(file):
+        info("removing %s" % repr(file))
+        if not self.dry_run:
+          try:
+            os.unlink(file)
+          except OSError, e:
+            warn("could not delete: %s" % repr(file))
+      elif not os.path.isdir(file):
+        info("skipping %s" % repr(file))
+
+    dirs = set()
+    for file in reversed(sorted(files)):
+      dir = os.path.dirname(file)
+      if dir not in dirs and os.path.isdir(dir) and len(os.listdir(dir)) == 0:
+        dirs.add(dir)
+        # Only nuke empty Python library directories, else we could destroy
+        # e.g. locale directories we're the only app with a .mo installed for.
+        if dir.find("site-packages/") > 0:
+          info("removing %s" % repr(dir))
+          if not self.dry_run:
+            try:
+              os.rmdir(dir)
+            except OSError, e:
+              warn("could not remove directory: %s" % str(e))
+        else:
+          info("skipping empty directory %s" % repr(dir))
 
 
 class InstallData(install_data):
   def run (self):
     self.data_files.extend (self._find_mo_files ())
     install_data.run (self)
+    if not self.distribution.without_icon_cache:
+      self._update_icon_cache ()
 
+  # We should do this on uninstall too
+  def _update_icon_cache(self):
+    info("running gtk-update-icon-cache")
+    try:
+      subprocess.call(["gtk-update-icon-cache", "-q", "-f", "-t", os.path.join(self.install_dir, "share/icons/hicolor")])
+    except Exception, e:
+      warn("updating the GTK icon cache failed: %s" % str(e))
 
   def _find_mo_files (self):
     data_files = []
@@ -98,7 +163,7 @@ setup(name='Terminator',
                   ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/16x16/actions/*.png')),
                  ],
       packages=['terminatorlib'],
-      cmdclass={'build': BuildData, 'install_data': InstallData},
+      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
       distclass=TerminatorDist
      )
 
