@@ -144,12 +144,10 @@ class ConfigFile:
         if self._line[self._pos:] != '':
           raise ConfigSyntaxError(_("Unexpected token"), self)
 
-        self._line_ok()
       except ConfigSyntaxError, e:
-        if self.errors_are_fatal:
-          raise e
-        else:
-          self.errors.append(e)
+        self._line_error(e)
+      else:
+        self._line_ok()
 
     if self.errors:
       raise ParsedWithErrors(self.filename, self.errors)
@@ -175,4 +173,12 @@ class ConfigFile:
         raise ConfigSyntaxError(str(e), self)
       finally:
         self._currvalue = None
+
+  def _line_error(self, e):
+    self._currvalue = None
+    if self.errors_are_fatal:
+      raise e
+    else:
+      self.errors.append(e)
+
 
