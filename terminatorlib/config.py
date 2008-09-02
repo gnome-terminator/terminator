@@ -390,7 +390,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       if self.client.get_bool ('/system/http_proxy/use_http_proxy'):
         dbg ('HACK: Mangling http_proxy')
 
-        if self.client.get_bool ('use_authentication'):
+        if self.client.get_bool ('/system/http_proxy/use_authentication'):
           dbg ('HACK: Using proxy authentication')
           value = 'http://%s:%s@%s:%s/'%(
             self.client.get_string ('/system/http_proxy/authentication_user'), 
