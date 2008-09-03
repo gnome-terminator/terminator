@@ -13,7 +13,8 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  
+#    USA
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
@@ -22,6 +23,10 @@ import os, sys
 from optparse import OptionParser, SUPPRESS_HELP
 
 from terminatorlib.version import APP_NAME, APP_VERSION
+
+def _(**kwargs):
+  '''Dummy function'''
+  return (kwargs)
 
 try:
   import gettext
@@ -49,31 +54,31 @@ except ImportError:
 from terminatorlib.terminator import Terminator
 
 if __name__ == '__main__':
-  def execute_cb (option, opt, value, parser):
+  def execute_cb (option, opt, value, lparser):
     """Callback for use in parsing Terminator command line options"""
     assert value is None
     value = []
-    while parser.rargs:
-      arg = parser.rargs[0]
+    while lparser.rargs:
+      arg = lparser.rargs[0]
       value.append (arg)
-      del (parser.rargs[0])
-    setattr(parser.values, option.dest, value)
+      del (lparser.rargs[0])
+    setattr(lparser.values, option.dest, value)
 
-  def profile_cb (option, opt, value, parser):
+  def profile_cb (option, opt, value, lparser):
     """Callback for handling the profile name"""
     assert value is None
     value = ''
-    while parser.rargs:
-      arg = parser.rargs[0]
+    while lparser.rargs:
+      arg = lparser.rargs[0]
       if arg[0] != '-':
         if len (value) > 0:
           value = '%s %s' % (value, arg)
         else:
           value = '%s' % arg
-        del (parser.rargs[0])
+        del (lparser.rargs[0])
       else:
         break
-    setattr (parser.values, option.dest, value)
+    setattr (lparser.values, option.dest, value)
 
   usage = "usage: %prog [options]"
   parser = OptionParser (usage)
@@ -83,10 +88,10 @@ if __name__ == '__main__':
       help="Enable debugging information (twice for debug server)")
   parser.add_option ("-m", "--maximise", action="store_true", dest="maximise",
       help="Open the %s window maximised" % APP_NAME.capitalize())
-  parser.add_option ("-f", "--fullscreen", action="store_true", dest="fullscreen",
-      help="Set the window into fullscreen mode")
-  parser.add_option ("-b", "--borderless", action="store_true", dest="borderless",
-      help="Turn off the window's borders")
+  parser.add_option ("-f", "--fullscreen", action="store_true", 
+      dest="fullscreen", help="Set the window into fullscreen mode")
+  parser.add_option ("-b", "--borderless", action="store_true", 
+      dest="borderless",       help="Turn off the window's borders")
   parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
       help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback",
@@ -96,16 +101,18 @@ if __name__ == '__main__':
   parser.add_option ("-e", "--command", dest="command",
       help="Execute the argument to this option inside the terminal")
   parser.add_option ("-x", "--execute", dest="execute", action="callback",
-      callback=execute_cb, help="Execute the remainder of the command line inside the terminal")
-  for opt in ['--sm-client-id', '--sm-config-prefix', '--screen']:
-    parser.add_option (opt, dest="dummy", action="store", help=SUPPRESS_HELP)
+      callback=execute_cb, help="Execute the remainder of the command line \
+inside the terminal")
+  for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
+    parser.add_option (item, dest="dummy", action="store", help=SUPPRESS_HELP)
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
     parser.error("Expecting zero additional arguments, found: %d" % len (args))
 
   if options.no_gconf and options.profile:
-    parser.error("using --no-gconf and defining a profile at the same time does not make sense")
+    parser.error("using --no-gconf and defining a profile at the same time \
+does not make sense")
 
   if options.version:
     print "%s %s" % (APP_NAME, APP_VERSION)
@@ -130,8 +137,8 @@ if __name__ == '__main__':
   except IOError:
     try:
       open (os.path.expanduser ('~/.terminatorrc'))
-      error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, gtk.BUTTONS_OK,
-      ('''You have a configuration file:
+      error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, 
+                              gtk.BUTTONS_OK, ('''You have a configuration file:
 
       ~/.terminatorrc.
 
@@ -148,8 +155,9 @@ See the following bug report for more details:
       pass
 
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
-  term = Terminator (options.profile, command, options.fullscreen, options.maximise,
-                     options.borderless, options.no_gconf, options.geometry)
+  term = Terminator (options.profile, command, options.fullscreen, 
+                     options.maximise, options.borderless, options.no_gconf, 
+                     options.geometry)
 
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver
