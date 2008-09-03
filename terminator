@@ -24,10 +24,6 @@ from optparse import OptionParser, SUPPRESS_HELP
 
 from terminatorlib.version import APP_NAME, APP_VERSION
 
-def _(**kwargs):
-  '''Dummy function'''
-  return (kwargs)
-
 try:
   import gettext
   gettext.install (APP_NAME)
