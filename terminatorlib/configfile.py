@@ -167,10 +167,11 @@ class ConfigFile:
   def _line_ok(self):
     if self._currvalue is None: return
     else:
-      try:
-        self.callback(self._currsection, self._currsetting, self._currvalue)
-      except ValueError, e:
-        raise ConfigSyntaxError(str(e), self)
+      try: # *glares at 2.4 users*
+        try:
+          self.callback(self._currsection, self._currsetting, self._currvalue)
+        except ValueError, e:
+          raise ConfigSyntaxError(str(e), self)
       finally:
         self._currvalue = None
 

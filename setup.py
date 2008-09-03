@@ -74,10 +74,11 @@ class Uninstall(Command):
   def run(self):
     self.ensure_filename('manifest')
     try:
-      f = open(self.manifest)
-      files = [file.strip() for file in f]
-    except IOError, e:
-      raise DistutilsFileError("unable to open install manifest: %s", str(e))
+      try:
+        f = open(self.manifest)
+        files = [file.strip() for file in f]
+      except IOError, e:
+        raise DistutilsFileError("unable to open install manifest: %s", str(e))
     finally:
       f.close()
 
