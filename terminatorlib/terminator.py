@@ -136,7 +136,6 @@ class Terminator:
         dbg ('Using FreeBSD self.pid_get_cwd')
       except (OSError, NotImplementedError, ImportError):
         dbg ('FreeBSD version too old for self.pid_get_cwd')
-        pass
     elif platform.system() == 'Linux':
       dbg ('Using Linux self.pid_get_cwd')
       self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
