@@ -406,16 +406,20 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       value = self.client.get ('%s/%s'%(self.profile, key))
 
     if value:
-      funcname = "get_" + Defaults[key].__class__.__name__
-      dbg ('  GConf: picked function: %s'%funcname)
-      # Special case for str
-      if funcname == "get_str":
-        funcname = "get_string"
-      # Special case for strlist
-      if funcname == "get_strlist":
-        funcname = "get_list"
-      typefunc = getattr (value, funcname)
-      ret = typefunc ()
+      from types import StringType
+      if type(value) is StringType:
+         ret = value
+      else:
+        funcname = "get_" + Defaults[key].__class__.__name__
+        dbg ('  GConf: picked function: %s'%funcname)
+        # Special case for str
+        if funcname == "get_str":
+          funcname = "get_string"
+        # Special case for strlist
+        if funcname == "get_strlist":
+          funcname = "get_list"
+        typefunc = getattr (value, funcname)
+        ret = typefunc ()
 
       self.cache[key] = ret
       return (ret)
