@@ -23,7 +23,7 @@ class ProfileEditor:
     row = 0
     for key in list:
       table.resize (row + 1, 2)
-      label = gtk.Label (key)
+      label = gtk.Label (key.replace ('_', ' ').capitalize ())
     
       type = Defaults[key].__class__.__name__
       value = Defaults[key]
@@ -42,6 +42,17 @@ class ProfileEditor:
         widget.set_increments(100, 1000)
         widget.set_range(0, 100000)
         widget.set_value(value)
+      elif key == 'scrollbar_position':
+        widget = gtk.combo_box_new_text()
+        widget.append_text ('left')
+        widget.append_text ('right')
+        widget.append_text ('disabled')
+        widget.set_active (0)
+      elif key == 'focus':
+        widget = gtk.combo_box_new_text()
+        widget.append_text ('click')
+        widget.append_text ('sloppy')
+        widget.set_active (0)
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
