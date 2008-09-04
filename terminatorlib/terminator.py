@@ -54,8 +54,8 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       self._button.connect('clicked', self.on_close)
       self._button.set_name("terminator-tab-close-button")
       self.connect("style-set", self.on_style_set)
-      
-      self._button.set_tooltip_text(_("Close Tab"))
+      if hasattr(self._button, "set_tooltip_text"): 
+        self._button.set_tooltip_text(_("Close Tab"))
       self.pack_start(self._button, False, False)
     self.show_all()
 
@@ -106,6 +106,10 @@ class Terminator:
     self.term_list = []
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
+    
+    self._tab_reorderable = True
+    if not hasattr(gtk.Notebook, "set_tab_reorderable") or not hasattr(gtk.Notebook, "get_tab_reorderable"):
+      self._tab_reorderable = False
 
     if not no_gconf:
       try:
@@ -435,7 +439,8 @@ class Terminator:
       notebooktablabel = TerminatorNotebookTabLabel(widget.get_window_title(), parent, self)
       parent.set_tab_label(pane,notebooktablabel)
       parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
-      parent.set_tab_reorderable(pane, True)
+      if self._tab_reorderable:
+        parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
 
       position = (vertical) and parent.allocation.height \
@@ -573,9 +578,10 @@ class Terminator:
        ((self.conf.extreme_tabs and not toplevel) or not isinstance(child, gtk.Notebook))):
       #no notebook yet.
       notebook = gtk.Notebook()
-      notebook.connect('page-reordered',self.on_page_reordered)
+      if self._tab_reorderable:
+        notebook.connect('page-reordered',self.on_page_reordered)
+        notebook.set_tab_reorderable(widget, True)
       notebook.set_property('homogeneous', True)
-      notebook.set_tab_reorderable(widget, True)
       # Config validates this.
       pos = getattr(gtk, "POS_%s" % self.conf.tab_position.upper())
       notebook.set_tab_pos(pos)
@@ -590,7 +596,8 @@ class Terminator:
       elif isinstance(parent, gtk.Window):
          child.reparent(notebook)
          parent.add(notebook)
-      notebook.set_tab_reorderable(child,True)
+      if self._tab_reorderable:
+        notebook.set_tab_reorderable(child,True)
       notebooklabel = ""
       if isinstance(child, TerminatorTerm):
         child._titlebox.hide()
@@ -624,7 +631,8 @@ class Terminator:
     notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
     notebook.set_tab_label(terminal, notebooktablabel)
     notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
-    notebook.set_tab_reorderable(terminal,True)
+    if self._tab_reorderable:
+      notebook.set_tab_reorderable(terminal,True)
     ## Now, we set focus on the new term
     notebook.set_current_page(-1)
     terminal._vte.grab_focus ()
@@ -698,7 +706,8 @@ class Terminator:
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label(sibling, TerminatorNotebookTabLabel("",grandparent, self))
         grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
-        grandparent.set_tab_reorderable(sibling, True)
+        if self._tab_reorderable:
+          grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)
       else:
         grandparent.remove (parent)
@@ -1010,7 +1019,8 @@ class Terminator:
         self.old_parent.insert_page(widget, None, self.old_page)
         self.old_parent.set_tab_label(widget, TerminatorNotebookTabLabel("", self.old_parent, self))
         self.old_parent.set_tab_label_packing(widget, True, True, gtk.PACK_START)
-        self.old_parent.set_tab_reorderable(widget, True)
+        if self._tab_reorderable:
+          self.old_parent.set_tab_reorderable(widget, True)
         self.old_parent.set_current_page(self.old_page)
 
       else:

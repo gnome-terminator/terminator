@@ -59,7 +59,10 @@ class TerminatorTerm (gtk.VBox):
     self.clipboard = gtk.clipboard_get (gtk.gdk.SELECTION_CLIPBOARD)
     self.scrollbar_position = self.conf.scrollbar_position
 
+    self._composited_support = True
     self._vte = vte.Terminal ()
+    if not hasattr(self._vte, "set_opacity") or not hasattr(self._vte, "is_composited"):
+      self._composited_support = False
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
     self.reconfigure_vte ()
@@ -134,8 +137,8 @@ class TerminatorTerm (gtk.VBox):
 
     if self.conf.copy_on_selection:
       self._vte.connect ("selection-changed", lambda widget: self._vte.copy_clipboard ())
-
-    self._vte.connect ("composited-changed", self.on_composited_changed)
+    if self._composited_support :
+      self._vte.connect ("composited-changed", self.on_composited_changed)
     self._vte.connect ("window-title-changed", self.on_vte_title_change)
     self._vte.connect ("grab-focus", self.on_vte_focus)
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
@@ -545,15 +548,18 @@ text/plain
       self._vte.set_scroll_background(False)
 
     # set transparency for the background (image)
+    opacity = 65535
     if background_type in ("image", "transparent"):
       self._vte.set_background_tint_color (bg_color)
       self._vte.set_background_saturation(1 - (self.conf.background_darkness))
-      self._vte.set_opacity(int(self.conf.background_darkness * 65535))
+      opacity = int(self.conf.background_darkness * 65535)
     else:
       self._vte.set_background_saturation(1)
-      self._vte.set_opacity(65535)
+      
+    if self._composited_support:
+      self._vte.set_opacity(opacity)
 
-    if not self._vte.is_composited():
+    if self._composited_support and not self._vte.is_composited():
       self._vte.set_background_transparent (background_type == "transparent")
     else:
       self._vte.set_background_transparent (False)
