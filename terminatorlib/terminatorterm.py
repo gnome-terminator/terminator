@@ -832,7 +832,10 @@ text/plain
 
     if url:
       if url[1] != self.matches['email']:
-        address = url[0]
+        if url[1]: # Assume HTTP if we launch a URL with no protocol, otherwise xdg-open won't open it
+          address = "http://" + url[0]
+        else:
+          address = url[0]
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
         iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
