@@ -5,7 +5,7 @@ Priority: optional
 Maintainer: Terminator Developers <gnome-terminator@lists.launchpad.net>
 Build-Depends: debhelper (>= 5.0.62), python, cdbs (>=0.4.49)
 Build-Depends-Indep: python-central (>= 0.5.6)
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 Vcs-Bzr: http://bazaar.launchpad.net/~gnome-terminator/terminator/trunk
 Vcs-Browser: http://code.launchpad.net/~gnome-terminator/terminator/trunk
 Homepage: http://www.tenshu.net/terminator/
