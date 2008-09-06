@@ -8,6 +8,11 @@ import gtk
 class ProfileEditor:
   appearance = ['titlebars', 'titletips', 'allow_bold', 'silent_bell', 'background_color', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'foreground_color', 'scrollbar_position', 'scroll_background', 'palette', 'use_system_font', 'use_theme_colors', 'force_no_bell', 'enable_real_transparency']
   behaviour = ['delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'scrollback_lines', 'focus']
+  data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
+          'titletips': ['Show title tooltips', 'This adds a tooltip to each terminal which contains its title'],
+          'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
+
+         }
 
   def __init__ (self):
     self.window = gtk.Window ()
@@ -23,7 +28,11 @@ class ProfileEditor:
     row = 0
     for key in list:
       table.resize (row + 1, 2)
-      label = gtk.Label (key.replace ('_', ' ').capitalize ())
+      if self.data.has_key (key):
+        label_text = self.data[key][0]
+      else:
+        label_text = key.replace ('_', ' ').capitalize ()
+      label = gtk.Label (label_text)
     
       type = Defaults[key].__class__.__name__
       value = Defaults[key]
