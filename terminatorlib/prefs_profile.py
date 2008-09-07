@@ -75,6 +75,18 @@ class ProfileEditor:
         widget.append_text ('right')
         widget.append_text ('disabled')
         widget.set_active (0)
+      elif key == 'backspace_binding':
+        widget = gtk.combo_box_new_text()
+        widget.append_text ('ascii-del')
+        widget.append_text ('control-h')
+        widget.append_text ('escape-sequence')
+        widget.set_active (0)
+      elif key == 'delete_binding':
+        widget = gtk.combo_box_new_text()
+        widget.append_text ('ascii-del')
+        widget.append_text ('control-h')
+        widget.append_text ('escape-sequence')
+        widget.set_active (2)
       elif key == 'focus':
         widget = gtk.combo_box_new_text()
         widget.append_text ('click')
