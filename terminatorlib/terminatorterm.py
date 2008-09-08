@@ -832,8 +832,14 @@ text/plain
 
     if url:
       if url[1] != self.matches['email']:
-        if url[1]: # Assume HTTP if we launch a URL with no protocol, otherwise xdg-open won't open it
-          address = "http://" + url[0]
+        # Add protocol if we launch a URL without it, otherwise xdg-open won't open it
+        if url[1] == self.matches['addr_only']:
+          if url[0][0:3] == "ftp":
+              # "ftp.foo.bar" -> "ftp://ftp.foo.bar"
+              address = "ftp://" + url[0]
+          else:
+              # Assume http
+              address = "http://" + url[0]
         else:
           address = url[0]
         nameopen = _("_Open Link")
