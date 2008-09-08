@@ -170,10 +170,12 @@ class TerminatorTerm (gtk.VBox):
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
     try:
-      dbg ('openurl: calling xdg-open')
-      if subprocess.call(["xdg-open", url]) != 0:
-        dbg ('openurl: xdg-open failed')
-        raise
+      try:
+       dbg ('openurl: calling xdg-open')
+       subprocess.Popen(["xdg-open", url])
+      except:
+       dbg ('openurl: xdg-open failed')
+       raise
     except:
       try:
         dbg ('openurl: calling url_show')
