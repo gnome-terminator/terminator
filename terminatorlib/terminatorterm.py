@@ -171,10 +171,9 @@ class TerminatorTerm (gtk.VBox):
     dbg ('openurl: viewing %s'%url)
     try:
       dbg ('openurl: calling xdg-open')
-      if subprocess.call(["xdg-open", url]) != 0:
-        dbg ('openurl: xdg-open failed')
-        raise
+      subprocess.Popen(["xdg-open", url])
     except:
+      dbg ('openurl: xdg-open failed')
       try:
         dbg ('openurl: calling url_show')
         self.terminator.url_show (url)
@@ -832,7 +831,16 @@ text/plain
 
     if url:
       if url[1] != self.matches['email']:
-        address = url[0]
+        # Add protocol if we launch a URL without it, otherwise xdg-open won't open it
+        if url[1] == self.matches['addr_only']:
+          if url[0][0:3] == "ftp":
+              # "ftp.foo.bar" -> "ftp://ftp.foo.bar"
+              address = "ftp://" + url[0]
+          else:
+              # Assume http
+              address = "http://" + url[0]
+        else:
+          address = url[0]
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
         iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
