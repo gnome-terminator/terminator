@@ -345,6 +345,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       # FIXME: Find a better way to handle this than setting a non-profile
       dbg ("VSGConf: No profile found, marking inactive")
       self.inactive = True
+      return
 
     self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     if self.on_gconf_notify:
