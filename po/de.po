@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-08-01 05:49+0000\n"
-"Last-Translator: Huber Florian <itshorty@gmail.com>\n"
+"PO-Revision-Date: 2008-09-17 17:57+0000\n"
+"Last-Translator: mogli <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:45
@@ -50,6 +50,9 @@ msgid ""
 "    <tt>%(line)s</tt>\n"
 "    <tt>%(pad)s^</tt>"
 msgstr ""
+" * %(message)s, Zeile %(lnum)d:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
 
 #: terminatorlib/config.py:243
 #, python-format
@@ -245,7 +248,7 @@ msgstr "Schließen?"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "Schließe alle _Terminals"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"

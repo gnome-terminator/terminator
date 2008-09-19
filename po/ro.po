@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-08 21:54+0000\n"
+"PO-Revision-Date: 2008-09-04 20:29+0000\n"
 "Last-Translator: Cris G <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Split _Horizontally"
@@ -48,6 +48,10 @@ msgid ""
 "\n"
 "Some lines have been ignored."
 msgstr ""
+"S-au verificat erori la analiza fişierului terminator_config(5):\n"
+"  <b>%s</b>\n"
+"\n"
+"Unele linii au fost ignorate."
 
 #: terminatorlib/config.py:221
 #, python-format
@@ -56,44 +60,49 @@ msgid ""
 "    <tt>%(line)s</tt>\n"
 "    <tt>%(pad)s^</tt>"
 msgstr ""
+" * %(message)s, line %(lnum)d:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
 
 #: terminatorlib/config.py:243
 #, python-format
 msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgstr "Setarea %s valoare %s nu este o culoare valabilă; ignor"
 
 #: terminatorlib/config.py:251
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
+msgstr "Setare boleană %s aşteptată precum: yes, no, true, false, on, off"
 
 #: terminatorlib/config.py:258
 msgid ""
 " VS_RCFile: Reading list values from .config/terminator/config is not "
 "currently supported"
 msgstr ""
+" VS_RCFile: Citirea valorilor listei din .config/terminator/config nu e "
+"suportată momentan"
 
 #: terminatorlib/config.py:262
 #, python-format
 msgid "Value %s should be a section name, not a setting"
-msgstr ""
+msgstr "Valoarea %s ar trebui să fie un nume de secţiune, nu o setare"
 
 #: terminatorlib/configfile.py:92
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "Linie cu ghilimele deschise"
 
 #: terminatorlib/configfile.py:139
 msgid "Setting without a value"
-msgstr ""
+msgstr "Setare cu valoare lipsă"
 
 #: terminatorlib/configfile.py:144
 msgid "Unexpected token"
-msgstr ""
+msgstr "Element neașteptat"
 
 #: terminatorlib/configfile.py:175
 #, python-format
 msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "Secţiunea %s se va folosi ca nume setare"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -243,7 +252,7 @@ msgstr "Închide Tab"
 #: terminatorlib/terminator.py:157
 #, python-format
 msgid "Invalid geometry string %s"
-msgstr ""
+msgstr "Linie cu geometrie necorespunzătoare %s"
 
 #: terminatorlib/terminator.py:224
 msgid "Close?"
@@ -251,7 +260,7 @@ msgstr "Închid?"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "Închid toate _terminalele"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
@@ -320,7 +329,7 @@ msgstr "Deschide _Tab"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Deschide Tab _Depanare"
 
 #: terminatorlib/terminatorterm.py:942
 msgid "Open Top Level Tab"
@@ -332,7 +341,7 @@ msgstr "_Zoom-ează terminalul"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Măreşte terminalul"
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
@@ -340,7 +349,7 @@ msgstr "_De-zoom-ează terminalul"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "De-măreşte terminalul"
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"

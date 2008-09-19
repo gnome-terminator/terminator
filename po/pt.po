@@ -14,17 +14,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:45
-#, fuzzy
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
-"Você necessita de instalar as bibliotecas em python para o gobject, gtk e "
-"pango para correr com o Terminator."
 
 #: terminator:122
 msgid ""
@@ -322,18 +319,16 @@ msgid "Open Top Level Tab"
 msgstr "Abrir Aba de Topo Nível"
 
 #: terminatorlib/terminatorterm.py:951
-#, fuzzy
 msgid "_Zoom terminal"
-msgstr "_Zoom terminal"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
 msgstr ""
 
 #: terminatorlib/terminatorterm.py:960
-#, fuzzy
 msgid "_Unzoom terminal"
-msgstr "_Unzoom terminal"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"

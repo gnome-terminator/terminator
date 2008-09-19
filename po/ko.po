@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-05-15 13:30+0000\n"
+"PO-Revision-Date: 2008-08-30 01:45+0000\n"
 "Last-Translator: wariua <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:45
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
-msgstr ""
+msgstr "터미네이터를 실행하기 위해선 gobject, gtk, pango의 파이썬 바인딩을 설치해야 합니다."
 
 #: terminator:122
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
-msgstr ""
+msgstr "터미네이터는 X 환경에서 실행해야 합니다. DISPLAY 변수가 올바로 설정돼 있는지 확인해 주십시오."
 
 #: terminatorlib/config.py:215
 #, python-format
@@ -38,6 +38,11 @@ msgid ""
 "\n"
 "Some lines have been ignored."
 msgstr ""
+"terminator_config(5) 파일을 읽는 중 오류가 발생했습니다:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"일부 항목을 무시하였습니다."
 
 #: terminatorlib/config.py:221
 #, python-format
@@ -46,194 +51,197 @@ msgid ""
 "    <tt>%(line)s</tt>\n"
 "    <tt>%(pad)s^</tt>"
 msgstr ""
+" * %(message)s, %(lnum)d행:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
 
 #: terminatorlib/config.py:243
 #, python-format
 msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgstr "%s 항목의 %s 값은 올바른 색상이 아니므로 무시"
 
 #: terminatorlib/config.py:251
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
+msgstr "%s 항목은 불리언이므로 yes, no, true, false, on, off 중 하나여야 함"
 
 #: terminatorlib/config.py:258
 msgid ""
 " VS_RCFile: Reading list values from .config/terminator/config is not "
 "currently supported"
-msgstr ""
+msgstr " VS_RCFile: .config/terminator/config에서의 목록값 지정은 현재 지원하지 않음"
 
 #: terminatorlib/config.py:262
 #, python-format
 msgid "Value %s should be a section name, not a setting"
-msgstr ""
+msgstr "%s의 값은 설정이 아니라 섹션 이름이어야 함"
 
 #: terminatorlib/configfile.py:92
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "끝나지 않은 문자열"
 
 #: terminatorlib/configfile.py:139
 msgid "Setting without a value"
-msgstr ""
+msgstr "설정값 없음"
 
 #: terminatorlib/configfile.py:144
 msgid "Unexpected token"
-msgstr ""
+msgstr "알 수 없는 추가 문자열"
 
 #: terminatorlib/configfile.py:175
 #, python-format
 msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "섹션 %s의 이름을 설정 이름으로 사용하려고 함"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr ""
+msgstr "현재 로캘"
 
 #: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
 #: terminatorlib/encoding.py:96
 msgid "Western"
-msgstr ""
+msgstr "서유럽어"
 
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr ""
+msgstr "중앙 유럽어"
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
-msgstr ""
+msgstr "남부 유럽어"
 
 #: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
 #: terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr ""
+msgstr "발트어"
 
 #: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
 #: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
 #: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr ""
+msgstr "키릴어"
 
 #: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
 #: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr ""
+msgstr "아랍어"
 
 #: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
 #: terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr ""
+msgstr "그리스어"
 
 #: terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "히브리어 비주얼"
 
 #: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
 #: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr ""
+msgstr "히브리어"
 
 #: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
 #: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr ""
+msgstr "터키어"
 
 #: terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr ""
+msgstr "북유럽어"
 
 #: terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr ""
+msgstr "켈트어"
 
 #: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr ""
+msgstr "루마니아어"
 
 #: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
 #: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
 #: terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr ""
+msgstr "유니코드"
 
 #: terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr ""
+msgstr "아르메니아어"
 
 #: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
 #: terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "중국어 번체"
 
 #: terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "키릴어/러시아어"
 
 #: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
 #: terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr ""
+msgstr "일본어"
 
 #: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
 #: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr ""
+msgstr "한국어"
 
 #: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
 #: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "중국어 간체"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "그루지야어"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "키릴/우크라이나어"
 
 #: terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "크로아티아어"
 
 #: terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "힌디어"
 
 #: terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "페르시아어"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "구자라트어"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr ""
+msgstr "굴묵키어"
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "아이슬란드어"
 
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "베트남어"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr ""
+msgstr "타이어"
 
 #: terminatorlib/terminator.py:52
 msgid "Close Tab"
-msgstr ""
+msgstr "탭 닫기"
 
 #: terminatorlib/terminator.py:157
 #, python-format
 msgid "Invalid geometry string %s"
-msgstr ""
+msgstr "잘못된 위치 문자열 %s"
 
 #: terminatorlib/terminator.py:224
 msgid "Close?"
@@ -241,7 +249,7 @@ msgstr "닫기 확인"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "모든 터미널 닫기(_T)"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
@@ -252,7 +260,7 @@ msgstr "<big><b>터미널을 모두 닫을까요?</b></big>"
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
 "terminals."
-msgstr "이 창에는 %s개의 터미널이 열려 있습니다. 창을 닫으면 모든 터미널이 닫히게 됩니다."
+msgstr "이 창에는 %s개의 터미널이 열려 있습니다. 창을 닫으면 모든 터미널이 닫힙니다."
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -262,11 +270,11 @@ msgstr "libvte의 파이썬 바인딩(데비안/우분투에서는 \"python-vte\
 
 #: terminatorlib/terminatorterm.py:476
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "셸을 찾을 수 없음"
 
 #: terminatorlib/terminatorterm.py:495
 msgid "Unable to start shell: "
-msgstr ""
+msgstr "셸을 시작할 수 없음: "
 
 #: terminatorlib/terminatorterm.py:859
 msgid "_Open Link"
@@ -286,52 +294,52 @@ msgstr "메일 주소 복사(_C)"
 
 #: terminatorlib/terminatorterm.py:897
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "스크롤 막대 표시(_s)"
 
 #: terminatorlib/terminatorterm.py:902
 msgid "Show _titlebar"
-msgstr ""
+msgstr "제목 막대 표시(_t)"
 
 #: terminatorlib/terminatorterm.py:913
 msgid "Split H_orizontally"
-msgstr "좌우로 나누기(_o)"
+msgstr "상하로 나누기(_o)"
 
 #: terminatorlib/terminatorterm.py:914
 msgid "Split V_ertically"
-msgstr "위아래로 나누기(_e)"
+msgstr "좌우로 나누기(_e)"
 
 #: terminatorlib/terminatorterm.py:931
 msgid "Open _Tab"
-msgstr ""
+msgstr "탭 열기(_T)"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "디버깅 탭 열기(_D)"
 
 #: terminatorlib/terminatorterm.py:942
 msgid "Open Top Level Tab"
-msgstr ""
+msgstr "최상위 탭 열기"
 
 #: terminatorlib/terminatorterm.py:951
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "터미널 확대(_Z)"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "터미널 최대화(_x)"
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
-msgstr ""
+msgstr "확대 취소(_U)"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "최대화 취소(_x)"
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"
-msgstr ""
+msgstr "인코딩"
 
 #: terminatorlib/terminatorterm.py:1007
 msgid "Other Encodings"
-msgstr ""
+msgstr "다른 인코딩"

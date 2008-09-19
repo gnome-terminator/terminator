@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-11 07:09+0000\n"
-"Last-Translator: Milo Casagrande <milo_casagrande@yahoo.it>\n"
+"PO-Revision-Date: 2008-09-04 17:04+0000\n"
+"Last-Translator: Andrea Micheloni <tankmiche@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Split _Horizontally"
@@ -48,6 +48,11 @@ msgid ""
 "\n"
 "Some lines have been ignored."
 msgstr ""
+"Riscontrati errori processando il file terminator_config(5):\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"Alcune righe sono state ignorate."
 
 #: terminatorlib/config.py:221
 #, python-format
@@ -56,44 +61,50 @@ msgid ""
 "    <tt>%(line)s</tt>\n"
 "    <tt>%(pad)s^</tt>"
 msgstr ""
+" * %(message)s, line %(lnum)d:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
 
 #: terminatorlib/config.py:243
 #, python-format
 msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgstr "Impostazione %s con valore %s non è un colore valido; ignoro"
 
 #: terminatorlib/config.py:251
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
+msgstr "Booleano %s richiede un valore tra: yes, no, true, false, on, off"
 
 #: terminatorlib/config.py:258
 msgid ""
 " VS_RCFile: Reading list values from .config/terminator/config is not "
 "currently supported"
 msgstr ""
+" VS_RCFile: Lettura dei valori della lista .config/terminator/config non "
+"ancora implementata"
 
 #: terminatorlib/config.py:262
 #, python-format
 msgid "Value %s should be a section name, not a setting"
 msgstr ""
+"Il valore %s dovrebbe essere il nome di una sezione, non un'impostazione"
 
 #: terminatorlib/configfile.py:92
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "Stringa tra virgolette non chiuse"
 
 #: terminatorlib/configfile.py:139
 msgid "Setting without a value"
-msgstr ""
+msgstr "Impostazione senza valore"
 
 #: terminatorlib/configfile.py:144
 msgid "Unexpected token"
-msgstr ""
+msgstr "Token inatteso"
 
 #: terminatorlib/configfile.py:175
 #, python-format
 msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "La sezione %s è usata come un nome di impostazione"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -243,7 +254,7 @@ msgstr "Chiudi scheda"
 #: terminatorlib/terminator.py:157
 #, python-format
 msgid "Invalid geometry string %s"
-msgstr ""
+msgstr "Stringa di geometria non valida %s"
 
 #: terminatorlib/terminator.py:224
 msgid "Close?"
@@ -251,7 +262,7 @@ msgstr "Chiudere?"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "Chiudi tutti i _Terminali"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
@@ -320,12 +331,11 @@ msgstr "Apri _scheda"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Apri la tab _Debug"
 
 #: terminatorlib/terminatorterm.py:942
-#, fuzzy
 msgid "Open Top Level Tab"
-msgstr "Apri scheda livello superiore"
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:951
 msgid "_Zoom terminal"
@@ -333,7 +343,7 @@ msgstr "_Ingrandisci terminale"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "_Massimizza il terminale"
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
@@ -341,7 +351,7 @@ msgstr "_Rimpicciolisci terminale"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "Dema_ssimizza il terminale"
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"

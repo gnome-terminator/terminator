@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-08 04:14+0000\n"
-"Last-Translator: Miia Ranta <myrtti+launchpad@gmail.com>\n"
+"PO-Revision-Date: 2008-09-15 16:22+0000\n"
+"Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:45
@@ -41,6 +41,9 @@ msgid ""
 "\n"
 "Some lines have been ignored."
 msgstr ""
+"Virheitä jäsennettäessä terminator_config(5) -tiedostoa:\n"
+"  <b>%s</b>\n"
+"Joitakin rivejä on jätetty huomioimatta."
 
 #: terminatorlib/config.py:221
 #, python-format
@@ -49,44 +52,50 @@ msgid ""
 "    <tt>%(line)s</tt>\n"
 "    <tt>%(pad)s^</tt>"
 msgstr ""
+" * %(message)s, rivi %(lnum)d:\n"
+"    <tt>%(line)s</tt>\n"
+"    <tt>%(pad)s^</tt>"
 
 #: terminatorlib/config.py:243
 #, python-format
 msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgstr "Asetuksen %s arvo %s ei kelpaa, jätetään huomioimatta"
 
 #: terminatorlib/config.py:251
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
+"Boolean-asetus %s odottaa arvoa joukosta: yes, no, true, false, on, off"
 
 #: terminatorlib/config.py:258
 msgid ""
 " VS_RCFile: Reading list values from .config/terminator/config is not "
 "currently supported"
 msgstr ""
+" VS_RCFile: Listan arvojen lukeminen tiedostosta .config/terminator/config "
+"ei ole tällä hetkellä tuettu"
 
 #: terminatorlib/config.py:262
 #, python-format
 msgid "Value %s should be a section name, not a setting"
-msgstr ""
+msgstr "Arvon %s pitäisi olla osa-alueen nimi, ei asetuksen"
 
 #: terminatorlib/configfile.py:92
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "Päättämätön lainausmerkillinen merkkijono"
 
 #: terminatorlib/configfile.py:139
 msgid "Setting without a value"
-msgstr ""
+msgstr "Asetetaan ilman arvoa"
 
 #: terminatorlib/configfile.py:144
 msgid "Unexpected token"
-msgstr ""
+msgstr "Odottamaton merkki"
 
 #: terminatorlib/configfile.py:175
 #, python-format
 msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "Osaa %s käytetään asetuksen nimenä"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -236,7 +245,7 @@ msgstr "Sulje välilehti"
 #: terminatorlib/terminator.py:157
 #, python-format
 msgid "Invalid geometry string %s"
-msgstr ""
+msgstr "Kelpaamaton geometriamerkkijono %s"
 
 #: terminatorlib/terminator.py:224
 msgid "Close?"
@@ -244,7 +253,7 @@ msgstr "Sulje?"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "Sulje kaikki _päätteet"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
@@ -313,7 +322,7 @@ msgstr "Avaa v_älilehti"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Avaa _vianjäljitysvälilehti"
 
 #: terminatorlib/terminatorterm.py:942
 msgid "Open Top Level Tab"
@@ -325,7 +334,7 @@ msgstr "_Kasvata pääte-näkymää"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "S_uurenna pääte"
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
@@ -333,7 +342,7 @@ msgstr "_Palauta pääte-näkymä"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "Pala_uta pääte"
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"

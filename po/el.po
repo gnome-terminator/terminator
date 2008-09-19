@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-08-05 21:17+0000\n"
-"Last-Translator: Τάσος Παπανικολάου <paptas@gmail.com>\n"
+"PO-Revision-Date: 2008-08-30 17:41+0000\n"
+"Last-Translator: Yannis Kaskamanidis <ttnfy17@yahoo.gr>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-28 11:52+0000\n"
+"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: terminator:45
@@ -22,6 +22,8 @@ msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
+"Πρέπει να εγκαταστήσετε τους συνδέσμους της python για το gobject, το gtk "
+"και το pango για να εκτελέσετε τον Terminator."
 
 #: terminator:122
 msgid ""
@@ -40,6 +42,12 @@ msgid ""
 "\n"
 "Some lines have been ignored."
 msgstr ""
+"Εντοπίστηκαν σφάλματα κατά τη διάρκεια ανάλυσης του αρχείου "
+"terminator_config(5):\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+"Μερικές γραμμές έχουν αγνοηθεί."
 
 #: terminatorlib/config.py:221
 #, python-format
@@ -52,12 +60,14 @@ msgstr ""
 #: terminatorlib/config.py:243
 #, python-format
 msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgstr "Η ρύθμιση %s της τιμής %s δεν είναι έγκυρο χρώμα. Θα αγνοηθεί"
 
 #: terminatorlib/config.py:251
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
+"Η ρύθμιση %s του τελεστή αναμένει ένα από τα παρακάτω: ναι, όχι, αληθές, "
+"ψευδές, ανοιχτό, κλειστό"
 
 #: terminatorlib/config.py:258
 msgid ""
@@ -209,7 +219,7 @@ msgstr "Περσικά"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "Γκουτζαράτι"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
@@ -243,7 +253,7 @@ msgstr "Κλείσιμο;"
 
 #: terminatorlib/terminator.py:230
 msgid "Close All _Terminals"
-msgstr ""
+msgstr "Κλείσιμο όλων των τερματικών"
 
 #: terminatorlib/terminator.py:232
 msgid "<big><b>Close all terminals?</b></big>"
@@ -312,11 +322,11 @@ msgstr "Άνοιγμα _Καρτέλας"
 
 #: terminatorlib/terminatorterm.py:936
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Άνοιγμα καρτέλας αποσφαλμάτωσης"
 
 #: terminatorlib/terminatorterm.py:942
 msgid "Open Top Level Tab"
-msgstr ""
+msgstr "Άνοιγμα καρτέλας Ανώτερου Επιπέδου"
 
 #: terminatorlib/terminatorterm.py:951
 msgid "_Zoom terminal"
@@ -324,7 +334,7 @@ msgstr "_Προσέγγιση τερματικού"
 
 #: terminatorlib/terminatorterm.py:955
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Με_γέθυνση τερματικού"
 
 #: terminatorlib/terminatorterm.py:960
 msgid "_Unzoom terminal"
@@ -332,7 +342,7 @@ msgstr "_Απομάκρυνση τερματικού"
 
 #: terminatorlib/terminatorterm.py:965
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "Σμί_κρυνση τερματικού"
 
 #: terminatorlib/terminatorterm.py:989
 msgid "Encodings"
