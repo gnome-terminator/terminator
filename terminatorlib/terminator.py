@@ -857,13 +857,16 @@ class Terminator:
   def previous_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
     notebook.prev_page()
-    return
-    
+    # This seems to be required in some versions of (py)gtk.
+    # Without it, the selection changes, but the displayed page doesn't change
+    # Seen in gtk-2.12.11 and pygtk-2.12.1 at least.
+    notebook.set_current_page(notebook.get_current_page())
+
   def next_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
     notebook.next_page()
-    return
-  
+    notebook.set_current_page(notebook.get_current_page())
+
   def move_tab(self, term, direction):
     dbg("moving to direction %s" % direction)
     (notebook, page) = self.get_first_notebook_page(term)
