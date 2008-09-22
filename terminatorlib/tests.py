@@ -37,3 +37,11 @@ class test_config():
     assert store.type == "Base"
     store.values['test_key'] = 'test_value'
     assert store['test_key'] == 'test_value'
+
+  def test_TerminatorConfValuestoreDefault (self):
+    store = self.config.TerminatorConfValuestoreDefault ()
+    assert store.type == "Default"
+    assert store['extreme_tabs'] == False
+    assert store['titletips'] == False
+    assert store['enable_real_transparency'] == False # until the bug is fixed
+

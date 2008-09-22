@@ -427,36 +427,3 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     else:
       raise (KeyError)
 
-if __name__ == '__main__':
-
-  stores = []
-  stores.append (TerminatorConfValuestoreRC ())
-
-  try:
-    import gconf
-    stores.append (TerminatorConfValuestoreGConf ())
-  except:
-    pass
-
-  foo = TerminatorConfig (stores)
-
-  ## cmsj: this is my testing ground
-  ##       ensure that font is set in the Default gconf profile
-  ##       set titlebars in the RC file
-  ##       remove titletips from gconf/RC
-  ##       do not define blimnle in any way
-
-  # This should come from gconf (it's set by gnome-terminal)
-  print foo.font
-
-  # This should come from RC
-  print foo.titlebars
-
-  # This should come from defaults
-  print foo.titletips
-
-  # This should raise AttributeError
-  #print foo.blimnle
-
-  # http_proxy is a value that is allowed to not exist
-  print "final proxy: %s"%foo.http_proxy
