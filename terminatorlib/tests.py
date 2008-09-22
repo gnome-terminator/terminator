@@ -6,6 +6,11 @@ def test_version():
 
   assert version.APP_NAME == 'terminator'
 
+def test_debug ():
+  from config import debug
+
+  assert debug == False
+
 class test_encodings():
   encoding = None
 
