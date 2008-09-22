@@ -50,3 +50,25 @@ class test_config():
     assert store['titletips'] == False
     assert store['enable_real_transparency'] == False # until the bug is fixed
 
+class test_configfile():
+  configfile = None
+
+  def setup (self):
+    import configfile
+    self.configfile = configfile
+
+  def test_ConfigSyntaxError (self):
+    class _testcf ():
+      errors_are_fatal = False
+      filename = 'test_filename'
+      _lnum = 123456789
+      _pos = 5
+      _line = ' test line '
+
+    testcf = _testcf ()
+    testobject = self.configfile.ConfigSyntaxError ('test_message', testcf)
+    assert str(testobject) == ''' * test_message, line 123456789:
+     test line
+    -----^
+'''
+
