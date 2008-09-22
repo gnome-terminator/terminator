@@ -143,11 +143,9 @@ class ConfigFile:
 
         if self._line[self._pos:] != '':
           raise ConfigSyntaxError(_("Unexpected token"), self)
-
+        self._line_ok()
       except ConfigSyntaxError, e:
         self._line_error(e)
-      else:
-        self._line_ok()
 
     if self.errors:
       raise ParsedWithErrors(self.filename, self.errors)
