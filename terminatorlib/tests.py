@@ -58,7 +58,7 @@ class test_configfile(object):
     self.configfile = configfile
 
   def test_ConfigSyntaxError (self):
-    class _testcf ():
+    class _testcf (object):
       errors_are_fatal = False
       filename = 'test_filename'
       _lnum = 123456789
