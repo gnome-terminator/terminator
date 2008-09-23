@@ -11,7 +11,7 @@ def test_debug ():
 
   assert debug == False
 
-class test_encodings():
+class test_encodings(object):
   encoding = None
 
   def setup (self):
@@ -26,7 +26,7 @@ class test_encodings():
   def test_get_list (self):
     assert self.encoding.get_list () == self.encoding.encodings
 
-class test_config():
+class test_config(object):
   config = None
 
   def setup (self):
@@ -50,7 +50,7 @@ class test_config():
     assert store['titletips'] == False
     assert store['enable_real_transparency'] == False # until the bug is fixed
 
-class test_configfile():
+class test_configfile(object):
   configfile = None
 
   def setup (self):
