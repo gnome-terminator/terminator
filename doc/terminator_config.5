@@ -1,12 +1,13 @@
 .TH "TERMINATOR_CONFIG" "5" "Feb 22, 2008" "Nicolas Valcarcel <nvalcarcel@ubuntu.com>" ""
 .SH "NAME"
-${XDG_CONFIG_HOME}/terminator/config (usually ~/.config/terminator/config)
-\- the config file for Terminator terminal emulator.
+~/.config/terminator/config \- the config file for Terminator terminal emulator.
 .SH "DESCRIPTION"
 This manual page documents briefly the
 .B Terminator config file.
 .PP
 \fBterminator/config\fP is an optional file to configure the terminator terminal emulator. It is used to control options not in gnome-terminal gconf profiles, or override gconf settings.
+.SH "FILE LOCATION"
+Normally the config file will be ~/.config/terminator/config, but it may be overridden with $XDG_CONFIG_HOME (in which case it will be $XDG_CONFIG_HOME/terminator/config)
 .SH "FILE FORMAT"
 This is what a Terminator config file should look like:
 
