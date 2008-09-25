@@ -102,12 +102,17 @@ class TerminatorTerm (gtk.VBox):
     sclose.connect('clicked', self.end_search)
     sclose.show_all()
 
+    # Button for the next result. Explicitly not show()n by default.
+    self._search_next = gtk.Button(_("Next"))
+    self._search_next.connect('clicked', self.next_search)
+
     self._searchbox.pack_start(slabel, False)
     self._search_result_label = gtk.Label()
     self._search_result_label.set_text("")
     self._search_result_label.show()
     self._searchbox.pack_start(self._searchinput)
     self._searchbox.pack_start(self._search_result_label, False)
+    self._searchbox.pack_start(self._search_next, False, False)
     self._searchbox.pack_end(sclose, False, False)
 
     self.show()
@@ -809,12 +814,13 @@ text/plain
   def _search_character(self, widget, col, row, junk):
     return True
 
-  def next_search(self):
+  def next_search(self, widget=None):
     startrow,endrow = self._get_vte_buffer_range()
     while True:
       if self._search_row == endrow:
         self._search_row = startrow
         self._search_result_label.set_text("Finished Search")
+        self._search_next.hide()
         return
       buffer = self._vte.get_text_range(self._search_row, 0, self._search_row, -1, self._search_character)
 
@@ -824,6 +830,7 @@ text/plain
         self._search_result_label.set_text("Found at row %d" % self._search_row)
         self._scrollbar.set_value(self._search_row)
         self._search_row += 1
+        self._search_next.show()
         return
       self._search_row += 1
 
