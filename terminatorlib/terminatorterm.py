@@ -88,12 +88,27 @@ class TerminatorTerm (gtk.VBox):
     slabel = gtk.Label()
     slabel.set_text("Finding text:")
     slabel.show()
+
+    sclose = gtk.Button()
+    sclose.set_relief(gtk.RELIEF_NONE)
+    sclose.set_focus_on_click(False)
+    sclose.set_relief(gtk.RELIEF_NONE)
+    sclose_icon = gtk.Image()
+    sclose_icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+    sclose.add(sclose_icon)
+    sclose.set_name("terminator-search-close-button")
+    if hasattr(sclose, "set_tooltip_text"):
+      sclose.set_tooltip_text("Close Search Bar")
+    sclose.connect('clicked', self.end_search)
+    sclose.show_all()
+
     self._searchbox.pack_start(slabel, False)
     self._search_result_label = gtk.Label()
     self._search_result_label.set_text("")
     self._search_result_label.show()
-    self._searchbox.pack_end(self._search_result_label, False)
     self._searchbox.pack_start(self._searchinput)
+    self._searchbox.pack_start(self._search_result_label, False)
+    self._searchbox.pack_end(sclose, False, False)
 
     self.show()
     self.pack_start(self._titlebox, False)
@@ -769,7 +784,7 @@ text/plain
     if key == 'Escape':
       self.end_search()
 
-  def end_search(self):
+  def end_search(self, widget = None):
     self._search_row = 0
     self._search_string = None
     self._search_result_label.set_text("")
