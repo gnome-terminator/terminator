@@ -81,6 +81,8 @@ class TerminatorKeybindings:
       raise KeymapError("Unhandled modifier '<%s>'" % modifier)
 
   def lookup(self, event):
+    if not event:
+      raise KeymapError("lookup called with no event")
     keyval, egroup, level, consumed = self.keymap.translate_keyboard_state(event.hardware_keycode, event.state, event.group)
     mask = (event.state & ~consumed) & self._masks
     return self._lookup.get(mask, self.empty).get(event.keyval, None)

@@ -676,6 +676,9 @@ text/plain
   #the selected terminal)
   UnhandledKeybindings = ('close_window', 'full_screen')
   def on_vte_key_press (self, term, event):
+    if not event:
+      dbg ('on_vte_key_press: Called on %s with no event'%term)
+      return False
     mapping = self.terminator.keybindings.lookup(event)
 
     if mapping and mapping not in self.UnhandledKeybindings:
