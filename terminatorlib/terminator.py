@@ -104,6 +104,7 @@ class Terminator:
     self.debugaddress = None
     self.start_cwd = os.getcwd()
     self.term_list = []
+    self.gnome_client = None
     stores = []
     stores.append (config.TerminatorConfValuestoreRC ())
     
@@ -272,26 +273,27 @@ class Terminator:
     if self._fullscreen:
       args.append('--fullscreen')
 
-    # We can't set an interpreter because Gnome unconditionally spams it with
-    # --sm-foo-bar arguments before our own argument list. *mutter*
-    # So, hopefully your #! line is correct.  If not, we could write out
-    # a shell script with the interpreter name etc.
-    c = self.gnome_client
-    c.set_program(sys.argv[0])
-    dbg("Session restart command: %s with args %s in %s" % (sys.argv[0], repr(args), self.start_cwd))
+    if self.gnome_client:
+      # We can't set an interpreter because Gnome unconditionally spams it with
+      # --sm-foo-bar arguments before our own argument list. *mutter*
+      # So, hopefully your #! line is correct.  If not, we could write out
+      # a shell script with the interpreter name etc.
+      c = self.gnome_client
+      c.set_program(sys.argv[0])
+      dbg("Session restart command: %s with args %s in %s" % (sys.argv[0], repr(args), self.start_cwd))
 
-    c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
-    c.set_current_directory(self.start_cwd)
-    try:
-      c.set_restart_command(args)
-      c.set_clone_command(args)
-    except (TypeError,AttributeError):
-      # Apparantly needed for some Fedora systems
-      # see http://trac.nicfit.net/mesk/ticket/137
-      dbg("Gnome bindings have weird set_clone/restart_command")
-      c.set_restart_command(len(args), args)
-      c.set_clone_command(len(args), args)
-    return True
+      c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
+      c.set_current_directory(self.start_cwd)
+      try:
+        c.set_restart_command(args)
+        c.set_clone_command(args)
+      except (TypeError,AttributeError):
+        # Apparantly needed for some Fedora systems
+        # see http://trac.nicfit.net/mesk/ticket/137
+        dbg("Gnome bindings have weird set_clone/restart_command")
+        c.set_restart_command(len(args), args)
+        c.set_clone_command(len(args), args)
+      return True
 
   def maximize (self):
     """ Maximize the Terminator window."""
