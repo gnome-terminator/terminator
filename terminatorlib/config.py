@@ -365,8 +365,12 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   def on_gconf_notify (self, client, cnxn_id, entry, what):
     dbg (" VSGConf: invalidating cache")
     self.cache = {}
-    dbg (" VSGConf: gconf changed, callback is: %s"%self.reconfigure_callback)
+    dbg (" VSGConf: gconf changed, may run a callback. %s, %s"%(entry.key, entry.value))
+    if entry.key[-12:] == 'visible_name':
+      dbg (" VSGConf: only a visible_name change, ignoring")
+      return False
     if self.reconfigure_callback:
+      dbg (" VSGConf: callback is: %s"%self.reconfigure_callback)
       self.reconfigure_callback ()
 
   def __getitem__ (self, key = ""):
