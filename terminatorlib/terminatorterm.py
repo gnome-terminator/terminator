@@ -51,6 +51,7 @@ class TerminatorTerm (gtk.VBox):
     self.terminator = terminator
     self.conf = terminator.conf
     self.command = command
+    self._oldtitle = ""
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
@@ -1053,6 +1054,11 @@ text/plain
 
   def on_vte_title_change(self, vte):
     title = self.get_window_title(vte)
+    if title == self._oldtitle:
+      # Title hasn't changed, don't bother doing anything
+      return
+    self._oldtitle = title
+
     if self.conf.titletips:
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", title)
