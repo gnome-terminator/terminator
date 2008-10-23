@@ -34,6 +34,7 @@ up, set a default for it first."""
 import os, platform, sys, re
 import pwd
 import gtk, pango
+import gio
 
 # set this to true to enable debugging output
 # These should be moved somewhere better.
@@ -183,8 +184,9 @@ class TerminatorConfValuestore:
   # Our settings
   def __getitem__ (self, keyname):
     if self.values.has_key (keyname):
-      dbg ("Returning '%s'"%keyname)
-      return self.values[keyname]
+      value = self.values[keyname]
+      dbg ("Returning '%s':'%s'"%(keyname, value))
+      return value
     else:
       dbg ("Failed to find '%s'"%keyname)
       raise (KeyError)
@@ -197,8 +199,6 @@ class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
 class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
   type = "RCFile"
-  #FIXME: use inotify to watch the rc, split __init__ into a parsing function
-  #       that can be re-used when rc changes.
   def __init__ (self):
     try:
       directory = os.environ['XDG_CONFIG_HOME']
@@ -207,12 +207,36 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
       directory = os.path.join (os.path.expanduser("~"), ".config")
     self.rcfilename = os.path.join(directory, "terminator/config")
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
-    if os.path.exists (self.rcfilename):
-      ini = ConfigFile(self.rcfilename, self._rc_set_callback())
-      try:
-        ini.parse()
-      except ParsedWithErrors, e:
-        msg = _("""<big><b>Configuration error</b></big>
+    self.call_parser(True)
+
+    monfile = gio.File(self.rcfilename)
+    monmon = monfile.monitor_file()
+    monmon.connect("changed", self.file_changed)
+
+  def set_reconfigure_callback (self, function):
+    dbg (" VS_RCFile: setting callback to: %s"%function)
+    self.reconfigure_callback = function
+    return (True)
+
+  def file_changed (self, monitor, file, unknown, event):
+    if event == gio.FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
+      print "VS_RCFile: config file changed, reload"
+      self.values = {}
+      self.call_parser()
+      self.reconfigure_callback()
+
+  def call_parser (self, is_init = False):
+    dbg (" VS_RCFile: parsing config file")
+    if not os.path.exists (self.rcfilename):
+      err (" VS_RCFile: %s does not exist" % self.rcfilename)
+    ini = ConfigFile(self.rcfilename, self._rc_set_callback())
+    try:
+      ini.parse()
+    except ParsedWithErrors, e:
+      # We don't really want to produce an error dialog every run
+      if not is_init:
+        pass
+      msg = _("""<big><b>Configuration error</b></big>
 
 Errors were encountered while parsing terminator_config(5) file:
 
@@ -220,41 +244,41 @@ Errors were encountered while parsing terminator_config(5) file:
 
 %d line(s) have been ignored.""") % (self.rcfilename, len(e.errors))
 
-        dialog = gtk.Dialog(_("Configuration error"), None, gtk.DIALOG_MODAL,
-                            (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.set_has_separator(False)
-        dialog.set_resizable(False)
+      dialog = gtk.Dialog(_("Configuration error"), None, gtk.DIALOG_MODAL,
+                          (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+      dialog.set_has_separator(False)
+      dialog.set_resizable(False)
 
-        image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_DIALOG)
-        image.set_alignment (0.5, 0)
-        dmsg = gtk.Label(msg)
-        dmsg.set_use_markup(True)
-        dmsg.set_alignment(0, 0.5)
+      image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_DIALOG)
+      image.set_alignment (0.5, 0)
+      dmsg = gtk.Label(msg)
+      dmsg.set_use_markup(True)
+      dmsg.set_alignment(0, 0.5)
 
-        textbuff = gtk.TextBuffer()
-        textbuff.set_text("\n".join(map(lambda e: str(e), e.errors)))
-        textview = gtk.TextView(textbuff)
-        textview.set_editable(False)
+      textbuff = gtk.TextBuffer()
+      textbuff.set_text("\n".join(map(lambda e: str(e), e.errors)))
+      textview = gtk.TextView(textbuff)
+      textview.set_editable(False)
 
-        textview.modify_font(pango.FontDescription(Defaults['font']))
-        textscroll = gtk.ScrolledWindow()
-        textscroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        textscroll.add(textview)
-        # This should be scaled with the size of the text and font
-        textscroll.set_size_request(600, 200)
+      textview.modify_font(pango.FontDescription(Defaults['font']))
+      textscroll = gtk.ScrolledWindow()
+      textscroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+      textscroll.add(textview)
+      # This should be scaled with the size of the text and font
+      textscroll.set_size_request(600, 200)
 
-        root = gtk.VBox()
-        root.pack_start(dmsg, padding = 6)
-        root.pack_start(textscroll, padding = 6)
+      root = gtk.VBox()
+      root.pack_start(dmsg, padding = 6)
+      root.pack_start(textscroll, padding = 6)
 
-        box = gtk.HBox()
-        box.pack_start (image, False, False, 6)
-        box.pack_start (root, False, False, 6)
-        dialog.vbox.pack_start (box, False, False, 12)
-        dialog.show_all()
+      box = gtk.HBox()
+      box.pack_start (image, False, False, 6)
+      box.pack_start (root, False, False, 6)
+      dialog.vbox.pack_start (box, False, False, 12)
+      dialog.show_all()
 
-        dialog.run()
-        dialog.destroy()
+      dialog.run()
+      dialog.destroy()
 
     dbg("ConfigFile settings are: %s" % repr(self.values))
 

@@ -106,7 +106,10 @@ class Terminator:
     self.term_list = []
     self.gnome_client = None
     stores = []
-    stores.append (config.TerminatorConfValuestoreRC ())
+
+    store = config.TerminatorConfValuestoreRC ()
+    store.set_reconfigure_callback (self.reconfigure_vtes)
+    stores.append (store)
     
     self._tab_reorderable = True
     if not hasattr(gtk.Notebook, "set_tab_reorderable") or not hasattr(gtk.Notebook, "get_tab_reorderable"):
