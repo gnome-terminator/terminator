@@ -493,8 +493,13 @@ text/plain
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
     """
-    cwd = self.terminator.pid_get_cwd (self._pid)
-    dbg ('get_cwd found: %s'%cwd)
+    try:
+      cwd = self.terminator.pid_get_cwd (self._pid)
+    except OSError:
+      err ('get_cwd: unable to get cwd of %d' % self._pid)
+      cwd = '~'
+      pass
+    err ('get_cwd found: %s'%cwd)
     return (cwd)
 
   def reconfigure_vte (self):
