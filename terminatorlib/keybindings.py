@@ -1,6 +1,7 @@
 
 import re, gtk
 import terminatorlib.config
+from terminatorlib.config import err
 
 class KeymapError(Exception):
   def __init__(self, value):
