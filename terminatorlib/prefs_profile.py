@@ -6,20 +6,34 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 import gtk
 
 class ProfileEditor:
-  appearance = ['titlebars', 'titletips', 'allow_bold', 'silent_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'force_no_bell', 'enable_real_transparency']
+  # lists of which settings to put in which tabs
+  appearance = ['titlebars', 'titletips', 'allow_bold', 'silent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
   colours = ['foreground_color','background_color', 'palette']
   behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
-  globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
+  globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
+
+  # metadata about the settings
   data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
           'titletips': ['Show title tooltips', 'This adds a tooltip to each terminal which contains its title'],
           'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
-
+          'silent_bell': ['', 'When enabled, bell events will generate a flash. When disabled, they will generate a beep'],
+          'background_darkness': ['', 'Controls how much the background will be tinted'],
+          'scroll_background': ['', 'When enabled the background image will scroll with the text'],
+          'force_no_bell': ['', 'Disable both the visual and audible bells'],
+          'tab_position': ['', 'Controls the placement of the tab bar'],
+          'use_theme_colors': ['', 'Take the foreground and background colours from the current GTK theme'],
+          'enable_real_transparency': ['', 'If you are running a composited desktop (e.g. compiz), enabling this option will enable "true" transpraency'],
+          'handle_size': ['', 'This controls the size of the border between terminals. Values 0 to 5 are in pixels, while -1 means the value will be decided by your normal GTK theme.'],
          }
 
   def __init__ (self):
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
-    self.window.add (self.notebook)
+    self.box = gtk.VBox()
+    self.closebut = gtk.Button(stock=gtk.STOCK_CLOSE)
+    self.box.pack_start(self.notebook, False, False)
+    self.box.pack_end(self.closebut, False, False)
+    self.window.add (self.box)
 
     self.notebook.append_page (self.auto_add (gtk.Table (), self.globals), gtk.Label ("Global Settings"))
     self.notebook.append_page (self.auto_add (gtk.Table (), Defaults['keybindings']), gtk.Label ("Keybindings"))
@@ -49,7 +63,7 @@ class ProfileEditor:
     row = 0
     for key in list:
       table.resize (row + 1, 2)
-      if self.data.has_key (key):
+      if self.data.has_key (key) and self.data[key][0] != '':
         label_text = self.data[key][0]
       else:
         label_text = key.replace ('_', ' ').capitalize ()
@@ -133,6 +147,13 @@ class ProfileEditor:
         filter = gtk.FileFilter()
         filter.add_mime_type ('image/*')
         widget.add_filter (filter)
+      elif key == 'tab_position':
+        widget = gtk.combo_box_new_text()
+        widget.append_text ('top')
+        widget.append_text ('bottom')
+        widget.append_text ('left')
+        widget.append_text ('right')
+        widget.set_active (0)
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
@@ -145,6 +166,9 @@ class ProfileEditor:
         else:
           print "Unknown type: " + type
           continue
+
+      if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
+        widget.set_tooltip_text (self.data[key][1])
    
       table.attach (label, 0, 1, row, row + 1)
       table.attach (widget, 1, 2, row, row + 1)
