@@ -985,6 +985,13 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
+    item = gtk.MenuItem (_("Ed_it profile"))
+    item.connect ("activate", lambda menu_item: self.terminator.edit_profile (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)

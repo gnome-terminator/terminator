@@ -29,6 +29,7 @@ from config import dbg, err, debug
 
 from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
+from terminatorlib.prefs_profile import ProfileEditor
 
 class TerminatorNotebookTabLabel(gtk.HBox):
   def __init__(self, title, notebook, terminator):
@@ -1038,3 +1039,7 @@ class Terminator:
 
       widget._vte.grab_focus ()
 
+  def edit_profile (self, widget):
+    options = ProfileEditor()
+    options.go()
+    print "done"

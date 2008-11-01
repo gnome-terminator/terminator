@@ -163,7 +163,5 @@ See the following bug report for more details:
     (debugthread, debugsvr) = debugserver.spawn(locals())
     term.debugaddress = debugsvr.server_address
 
-#  from terminatorlib.prefs_profile import ProfileEditor
-#  prefs = ProfileEditor ()
   gtk.main()
 

@@ -30,9 +30,14 @@ class ProfileEditor:
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
     self.box = gtk.VBox()
-    self.closebut = gtk.Button(stock=gtk.STOCK_CLOSE)
+    self.butbox = gtk.HButtonBox()
+    self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
+    self.cancelbut = gtk.Button(stock=gtk.STOCK_CANCEL)
     self.box.pack_start(self.notebook, False, False)
-    self.box.pack_end(self.closebut, False, False)
+    self.box.pack_end(self.butbox, False, False)
+    self.butbox.set_layout(gtk.BUTTONBOX_END)
+    self.butbox.pack_start(self.applybut, False, False)
+    self.butbox.pack_start(self.cancelbut, False, False)
     self.window.add (self.box)
 
     self.notebook.append_page (self.auto_add (gtk.Table (), self.globals), gtk.Label ("Global Settings"))
@@ -41,6 +46,7 @@ class ProfileEditor:
     self.notebook.append_page (self.auto_add (gtk.Table (), self.colours), gtk.Label ("Colours"))
     self.notebook.append_page (self.auto_add (gtk.Table (), self.behaviour), gtk.Label ("Behaviour"))
 
+  def go (self):
     self.window.show_all ()
 
   def source_get_type (self, key):
