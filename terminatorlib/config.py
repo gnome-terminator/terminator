@@ -234,11 +234,11 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
 
   def call_parser (self, is_init = False):
     dbg (" VS_RCFile: parsing config file")
-    if not os.path.exists (self.rcfilename):
-      err (" VS_RCFile: %s does not exist" % self.rcfilename)
-    ini = ConfigFile(self.rcfilename, self._rc_set_callback())
     try:
+      ini = ConfigFile(self.rcfilename, self._rc_set_callback())
       ini.parse()
+    except IOError, e:
+      dbg (" VS_RCFile: unable to open %s (%s)" % (self.rcfilename, repr(e)))
     except ParsedWithErrors, e:
       # We don't really want to produce an error dialog every run
       if not is_init:
