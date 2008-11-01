@@ -27,6 +27,7 @@ Colourvalue = re.compile(group(PaletteColours, SingleColour))
 Barevalue = re.compile(r'((?:[^\r\n# \f\t]+|[^\r\n#]+(?!' + Ignore.pattern +'))+)')
 
 Tabsize = 8
+HandleIndents = False
 
 class ConfigSyntaxError(Exception):
   def __init__(self, message, cf):
@@ -44,6 +45,9 @@ class ConfigSyntaxError(Exception):
       fmt = " * %(message)s, line %(lnum)d:\n    %(line)s\n    %(pad)s^\n"
     return fmt % {'message': self.message, 'file': self.file, 'lnum': self.lnum,
                   'line': self.line.rstrip(), 'pad': '-' * self.pos}
+
+class ConfigIndentError(ConfigSyntaxError):
+  pass
 
 class ParsedWithErrors(Exception):
   def __init__(self, filename, errors):
@@ -113,7 +117,7 @@ class ConfigFile:
     self._lnum = 0
     self._line = ''
 
-    self._currsection = None
+    self._sections = {}
     self._currsetting = None
     self._currvalue = None
     self.errors = []
@@ -125,7 +129,10 @@ class ConfigFile:
         self._max = len(self._line)
         dbg("Line %d: %s" % (self._lnum, repr(self._line)))
 
-        self._call_if_match(WhitespaceRE, None)
+        if HandleIndents:
+          self._find_indent()
+        else:
+          self._call_if_match(WhitespaceRE, None)
 
         # [Section]
         self._call_if_match(Section, self._section, 1)
@@ -146,13 +153,55 @@ class ConfigFile:
         self._line_ok()
       except ConfigSyntaxError, e:
         self._line_error(e)
+      except ConfigIndentError, e:
+        self.errors.append(e)
+        break
 
     if self.errors:
       raise ParsedWithErrors(self.filename, self.errors)
 
+  def _find_indent(self):
+    # Based on tokenizer.py in the base Python standard library
+    column = 0
+    while self._pos < self._max:
+      chr = self._line[self._pos]
+      if chr == ' ': column += 1
+      elif chr == '\t': column = (column / Tabsize + 1) * Tabsize
+      elif chr == '\f': column = 0
+      else: break
+      self._pos += 1
+    if self._pos == self._max: return
+
+    if column > self._indents[-1]:
+      self._indents.append(column)
+      self._indent() # self._line[:self._pos])
+
+    while column < self._indents[-1]:
+      if column not in self._indents:
+        raise ConfigSyntaxError("Unindent does not match a previous indent, config parsing aborted", self)
+      self._indents.pop()
+      self._deindent()
+
+  def _indent(self):
+    dbg(" -> Indent %d" % len(self._indents))
+
+  def _deindent(self):
+    dbg(" -> Deindent %d" % len(self._indents))
+
+  def _get_section(self):
+    i = 1
+    sections = []
+    while i <= len(self._indents):
+      sname = self._sections.get(i, None)
+      if not sname:
+        break
+      sections.append(str(sname))
+      i += 1
+    return tuple(sections)
+
   def _section(self, section):
     dbg("Section %s" % repr(section))
-    self._currsection = section.lower()
+    self._sections[len(self._indents)] = section.lower()
 
   def _setting(self, setting):
     dbg("Setting %s" % repr(setting))
@@ -167,7 +216,7 @@ class ConfigFile:
     else:
       try: # *glares at 2.4 users*
         try:
-          self.callback(self._currsection, self._currsetting, self._currvalue)
+          self.callback(self._get_section(), self._currsetting, self._currvalue)
         except ValueError, e:
           raise ConfigSyntaxError(str(e), self)
       finally:

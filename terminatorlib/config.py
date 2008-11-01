@@ -290,7 +290,11 @@ Errors were encountered while parsing terminator_config(5) file:
     dbg("ConfigFile settings are: %s" % repr(self.values))
 
   def _rc_set_callback(self):
-    def callback(section, key, value):
+    def callback(sections, key, value):
+      dbg("Setting: section=%s with %s => %s" % (repr(sections), repr(key), repr(value)))
+      section = None
+      if len(sections) > 0:
+        section = sections[0]
       if section is None:
         if not Defaults.has_key (key):
           raise ValueError("Unknown configuration option %s" % repr(key))
