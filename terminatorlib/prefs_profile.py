@@ -176,8 +176,8 @@ class ProfileEditor:
       if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
         widget.set_tooltip_text (self.data[key][1])
    
-      table.attach (label, 0, 1, row, row + 1)
-      table.attach (widget, 1, 2, row, row + 1)
+      table.attach (label, 0, 1, row, row + 1, gtk.EXPAND|gtk.FILL, gtk.FILL)
+      table.attach (widget, 1, 2, row, row + 1,  gtk.EXPAND|gtk.FILL, gtk.FILL)
       row += 1
 
     return (table)
