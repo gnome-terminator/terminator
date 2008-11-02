@@ -74,7 +74,9 @@ class ProfileEditor:
       else:
         label_text = key.replace ('_', ' ').capitalize ()
       label = gtk.Label (label_text)
-    
+      wrapperbox = gtk.HBox()
+      wrapperbox.pack_start(label, False, True)  
+
       type = self.source_get_type (key)
       value = self.source_get_value (key)
       widget = None
@@ -176,7 +178,7 @@ class ProfileEditor:
       if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
         widget.set_tooltip_text (self.data[key][1])
    
-      table.attach (label, 0, 1, row, row + 1, gtk.EXPAND|gtk.FILL, gtk.FILL)
+      table.attach (wrapperbox, 0, 1, row, row + 1, gtk.EXPAND|gtk.FILL, gtk.FILL)
       table.attach (widget, 1, 2, row, row + 1,  gtk.EXPAND|gtk.FILL, gtk.FILL)
       row += 1
 
