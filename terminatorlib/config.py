@@ -70,7 +70,7 @@ Defaults = {
   'delete_binding'        : 'delete-sequence',
   'cursor_blink'          : True,
   'emulation'             : 'xterm',
-  'font'                  : 'Mono',
+  'font'                  : 'Mono 10',
   'foreground_color'      : '#AAAAAA',
   'scrollbar_position'    : "right",
   'scroll_background'     : True,
