@@ -26,15 +26,31 @@ class ProfileEditor:
           'handle_size': ['', 'This controls the size of the border between terminals. Values 0 to 5 are in pixels, while -1 means the value will be decided by your normal GTK theme.'],
          }
 
-  def __init__ (self):
+  # dictionary for results after setting
+  widgets = {}
+
+  # combobox settings
+  scrollbar_position = ['left', 'right', 'disabled']
+  backspace_del_binding = ['ascii-del', 'control-h', 'escape-sequence']
+  focus = ['click', 'sloppy']
+  background_type = ['solid', 'image', 'transparent']
+  tab_position = ['top', 'bottom', 'left', 'right']
+
+  def __init__ (self, term):
+    self.term = term
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
     self.box = gtk.VBox()
+
     self.butbox = gtk.HButtonBox()
     self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
+    self.applybut.connect ("clicked", self.apply)
     self.cancelbut = gtk.Button(stock=gtk.STOCK_CANCEL)
+    self.cancelbut.connect ("clicked", self.cancel)
+
     self.box.pack_start(self.notebook, False, False)
     self.box.pack_end(self.butbox, False, False)
+
     self.butbox.set_layout(gtk.BUTTONBOX_END)
     self.butbox.pack_start(self.applybut, False, False)
     self.butbox.pack_start(self.cancelbut, False, False)
@@ -93,32 +109,28 @@ class ProfileEditor:
         widget.set_value(value)
       elif key == 'scrollbar_position':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('left')
-        widget.append_text ('right')
-        widget.append_text ('disabled')
+        for item in self.scrollbar_position:
+          widget.append_text (item)
         widget.set_active (0)
       elif key == 'backspace_binding':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('ascii-del')
-        widget.append_text ('control-h')
-        widget.append_text ('escape-sequence')
+        for item in self.backspace_del_binding:
+          widget.append_text (item)
         widget.set_active (0)
       elif key == 'delete_binding':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('ascii-del')
-        widget.append_text ('control-h')
-        widget.append_text ('escape-sequence')
+        for item in self.backspace_del_binding:
+          widget.append_text (item)
         widget.set_active (2)
       elif key == 'focus':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('click')
-        widget.append_text ('sloppy')
+        for item in self.focus:
+          widget.append_text (item)
         widget.set_active (0)
       elif key == 'background_type':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('solid')
-        widget.append_text ('image')
-        widget.append_text ('transparent')
+        for item in self.background_type:
+          widget.append_text (item)
         widget.set_active (0)
       elif key == 'background_darkness':
         widget = gtk.HScale ()
@@ -157,10 +169,8 @@ class ProfileEditor:
         widget.add_filter (filter)
       elif key == 'tab_position':
         widget = gtk.combo_box_new_text()
-        widget.append_text ('top')
-        widget.append_text ('bottom')
-        widget.append_text ('left')
-        widget.append_text ('right')
+        for item in self.tab_position:
+          widget.append_text (item)
         widget.set_active (0)
       else:
         if type == "bool":
@@ -177,10 +187,66 @@ class ProfileEditor:
 
       if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
         widget.set_tooltip_text (self.data[key][1])
-   
+  
+      widget.set_name(key)
+      self.widgets[key] = widget
       table.attach (wrapperbox, 0, 1, row, row + 1, gtk.EXPAND|gtk.FILL, gtk.FILL)
       table.attach (widget, 1, 2, row, row + 1,  gtk.EXPAND|gtk.FILL, gtk.FILL)
       row += 1
 
     return (table)
+
+  def apply (self, data):
+    for page in [self.appearance, self.behaviour, self.globals, self.colours]:
+      for property in page:
+        widget = self.widgets[property]
+
+        if isinstance (widget, gtk.Entry):
+          value = widget.get_text()
+        elif isinstance (widget, gtk.CheckButton):
+          value = widget.get_active()
+        elif isinstance (widget, gtk.ComboBox):
+          if widget.name == 'scrollbar_position':
+            bucket = self.scrollbar_position
+          elif widget.name == 'backspace_binding' or widget.name == 'delete_binding':
+            bucket = self.backspace_del_binding
+          elif widget.name == 'focus':
+            bucket = self.focus
+          elif widget.name == 'background_type':
+            bucket = self.background_type
+          elif widget.name == 'tab_position':
+            bucket = self.tab_position
+          else:
+            print "Unknown bucket type for %s" % widget.name
+            continue
+  
+          value = bucket[widget.get_active()]
+        elif isinstance (widget, gtk.SpinButton):
+          value = widget.get_value ()
+        elif isinstance (widget, gtk.FontButton):
+          value = widget.get_font_name()
+        elif isinstance (widget, gtk.HScale):
+          value = widget.get_value()
+        elif isinstance (widget, gtk.ColorButton):
+          value = widget.get_color().to_string()
+        elif isinstance (widget, gtk.FileChooserButton):
+          value = widget.get_filename()
+        elif widget.get_name() == 'palette':
+          value = ''
+          children = widget.get_children()
+          children.reverse()
+          for child in children:
+            print child
+            if value != '':
+              value = value  + ':'
+            value = value + child.get_color().to_string()
+        else:
+          value = None
+          print "skipping unknown thingy %s" % property
+        print "%s = %s" % (property, value)
+  
+  def cancel (self, data):
+    self.window.destroy()
+    self.term.options = None
+    del(self)
 

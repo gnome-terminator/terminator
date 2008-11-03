@@ -92,6 +92,8 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
 
 class Terminator:
+  options = None
+
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
                 geometry = None):
@@ -1040,6 +1042,6 @@ class Terminator:
       widget._vte.grab_focus ()
 
   def edit_profile (self, widget):
-    options = ProfileEditor()
-    options.go()
-    print "done"
+    if not self.options:
+      self.options = ProfileEditor(self)
+      self.options.go()
