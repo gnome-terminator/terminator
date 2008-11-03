@@ -227,6 +227,9 @@ class ProfileEditor:
           value = widget.get_font_name()
         elif isinstance (widget, gtk.HScale):
           value = widget.get_value()
+          digits = widget.get_digits()
+          if digits == 0:
+            value = int(value)
         elif isinstance (widget, gtk.ColorButton):
           value = widget.get_color().to_string()
         elif isinstance (widget, gtk.FileChooserButton):
@@ -236,7 +239,6 @@ class ProfileEditor:
           children = widget.get_children()
           children.reverse()
           for child in children:
-            print child
             if value != '':
               value = value  + ':'
             value = value + child.get_color().to_string()
