@@ -209,7 +209,7 @@ class Terminator:
     if self._geometry is not None:
       dbg("Geometry=%s" % self._geometry)
       if not self.window.parse_geometry(self._geometry):
-        err(_("Invalid geometry string %s") % repr(self._geometry))
+        err(_("Invalid geometry string %r") % self._geometry)
 
     try:
       self.window.set_icon (self.icon_theme.load_icon (APP_NAME, 48, 0))
@@ -286,7 +286,7 @@ class Terminator:
       # a shell script with the interpreter name etc.
       c = self.gnome_client
       c.set_program(sys.argv[0])
-      dbg("Session restart command: %s with args %s in %s" % (sys.argv[0], repr(args), self.start_cwd))
+      dbg("Session restart command: %s with args %r in %s" % (sys.argv[0], args, self.start_cwd))
 
       c.set_restart_style(gnome.ui.RESTART_IF_RUNNING)
       c.set_current_directory(self.start_cwd)
@@ -372,7 +372,7 @@ class Terminator:
     mapping = self.keybindings.lookup(event)
 
     if mapping:
-      dbg("on_key_press: lookup found %s" % repr(mapping))
+      dbg("on_key_press: lookup found %r" % mapping)
       if mapping == 'full_screen':
         self.fullscreen_toggle ()
         return (True)

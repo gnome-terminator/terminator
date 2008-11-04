@@ -26,7 +26,7 @@ class PythonConsoleServer(SocketServer.BaseRequestHandler):
   env = None
   def setup(self):
     dbg('debugserver: connect from %s' % str(self.client_address))
-    ddbg('debugserver: env=%s' % repr(PythonConsoleServer.env))
+    ddbg('debugserver: env=%r' % PythonConsoleServer.env)
     self.console = TerminatorConsole(PythonConsoleServer.env)
 
   def handle(self):
@@ -92,7 +92,7 @@ class TerminatorConsole(code.InteractiveConsole):
     data = data.replace(NULL, '')
 
     bits = re.findall(DoDont, data)
-    ddbg("bits = %s" % repr(bits))
+    ddbg("bits = %r" % bits)
     if bits:
       data = re.sub(DoDont, '\\1', data)
       ddbg("telnet: DO/DON'T answer")
@@ -124,12 +124,12 @@ class TerminatorConsole(code.InteractiveConsole):
     data = data.replace(IAC + IAC, IAC) # and handle escapes
 
     if data != odata:
-      ddbg("debugserver: Replaced %s with %s" % (repr(odata), repr(data)))
+      ddbg("debugserver: Replaced %r with %r" % (odata, data))
 
     return data
 
   def raw_input(self, prompt = None):
-    ddbg("debugserver: raw_input prompt = %s" % repr(prompt))
+    ddbg("debugserver: raw_input prompt = %r" % prompt)
     if prompt:
       self.write(prompt)
 
@@ -137,7 +137,7 @@ class TerminatorConsole(code.InteractiveConsole):
     compstate = 0
     while True:
       data = self.server.socketio.read(1)
-      ddbg('raw_input: char=%s' % repr(data))
+      ddbg('raw_input: char=%r' % data)
       if data == LF or data == '\006':
         buf = self.parse_telnet(buf + data)
         if buf != '':
@@ -148,7 +148,7 @@ class TerminatorConsole(code.InteractiveConsole):
         buf += data
 
   def write(self, data):
-    ddbg("debugserver: write %s" % repr(data))
+    ddbg("debugserver: write %r" % data)
     self.server.socketio.write(data)
     self.server.socketio.flush()
 

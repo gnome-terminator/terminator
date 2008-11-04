@@ -57,12 +57,12 @@ class ParsedWithErrors(Exception):
   def __str__(self):
     return """Errors were encountered while parsing configuration file:
 
-  %s
+  %r
 
 Some lines have been ignored.
 
 %s
-""" % (repr(self.file), "\n".join(map(lambda error: str(error), self.errors)))
+""" % (self.file, "\n".join(map(lambda error: str(error), self.errors)))
 
 
 class ConfigFile:
@@ -127,7 +127,7 @@ class ConfigFile:
         self._lnum += 1
         self._pos = 0
         self._max = len(self._line)
-        dbg("Line %d: %s" % (self._lnum, repr(self._line)))
+        dbg("Line %d: %r" % (self._lnum, self._line))
 
         if HandleIndents:
           self._find_indent()
@@ -146,7 +146,7 @@ class ConfigFile:
               if not self._call_if_match(Barevalue, self._value, 1):
                 raise ConfigSyntaxError(_("Setting without a value"), self)
 
-        self._call_if_match(Ignore, lambda junk: dbg("Skipping: %s" % repr(junk)))
+        self._call_if_match(Ignore, lambda junk: dbg("Skipping: %r" % junk))
 
         if self._line[self._pos:] != '':
           raise ConfigSyntaxError(_("Unexpected token"), self)
@@ -200,15 +200,15 @@ class ConfigFile:
     return tuple(sections)
 
   def _section(self, section):
-    dbg("Section %s" % repr(section))
+    dbg("Section %r" % section)
     self._sections[len(self._indents)] = section.lower()
 
   def _setting(self, setting):
-    dbg("Setting %s" % repr(setting))
+    dbg("Setting %r" % setting)
     self._currsetting = setting.lower()
 
   def _value(self, value):
-    dbg("Value %s" % repr(value))
+    dbg("Value %r" % value)
     self._currvalue = value
 
   def _line_ok(self):

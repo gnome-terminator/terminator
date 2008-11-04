@@ -683,12 +683,12 @@ text/plain
   UnhandledKeybindings = ('close_window', 'full_screen')
   def on_vte_key_press (self, term, event):
     if not event:
-      dbg ('on_vte_key_press: Called on %s with no event'%term)
+      dbg ('on_vte_key_press: Called on %s with no event' % term)
       return False
     mapping = self.terminator.keybindings.lookup(event)
 
     if mapping and mapping not in self.UnhandledKeybindings:
-      dbg("on_vte_key_press: lookup found %s" % repr(mapping))
+      dbg("on_vte_key_press: lookup found %r" % mapping)
       getattr(self, "key_" + mapping)()
       return True
 
@@ -808,7 +808,7 @@ text/plain
 
   def do_search(self, widget):
     string = widget.get_text()
-    dbg("do_search: Looking for %s" % repr(string))
+    dbg("do_search: Looking for %r" % string)
     if string == '':
       return
 
@@ -833,7 +833,7 @@ text/plain
         return
       buffer = self._vte.get_text_range(self._search_row, 0, self._search_row, -1, self._search_character)
 
-      # dbg("Row %d buffer: %s" % (self._search_row, repr(buffer)))
+      # dbg("Row %d buffer: %r" % (self._search_row, buffer))
       index = buffer.find(self._search_string)
       if index != -1:
         self._search_result_label.set_text("Found at row %d" % self._search_row)
