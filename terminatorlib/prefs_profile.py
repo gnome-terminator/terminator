@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from terminatorlib.config import dbg,err,Defaults
+from terminatorlib.config import dbg,err,Defaults,TerminatorConfValuestoreRC
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 import gtk
@@ -74,12 +74,13 @@ class ProfileEditor:
       raise KeyError
 
   def source_get_value (self, key):
-    if Defaults.has_key (key):
-      return Defaults[key]
-    elif Defaults['keybindings'].has_key (key):
-      return Defaults['keybindings'][key]
-    else:
-      raise KeyError
+    try:
+      return self.term.conf.__getattr__(key)
+    except AttributeError:
+      try:
+        return self.term.conf.keybindings.__getattr(key)
+      except AttributeError:
+        pass
 
   def auto_add (self, table, list):
     row = 0
@@ -182,7 +183,7 @@ class ProfileEditor:
         elif type == "list":
           continue
         else:
-          print "Unknown type: " + type
+          err("Unknown type: %s for key: %s" % (type, key))
           continue
 
       if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
@@ -197,6 +198,7 @@ class ProfileEditor:
     return (table)
 
   def apply (self, data):
+    values = {}
     for page in [self.appearance, self.behaviour, self.globals, self.colours]:
       for property in page:
         widget = self.widgets[property]
@@ -217,7 +219,7 @@ class ProfileEditor:
           elif widget.name == 'tab_position':
             bucket = self.tab_position
           else:
-            print "Unknown bucket type for %s" % widget.name
+            err("Unknown bucket type for %s" % widget.name)
             continue
   
           value = bucket[widget.get_active()]
@@ -227,8 +229,7 @@ class ProfileEditor:
           value = widget.get_font_name()
         elif isinstance (widget, gtk.HScale):
           value = widget.get_value()
-          digits = widget.get_digits()
-          if digits == 0:
+          if widget.get_digits() == 0:
             value = int(value)
         elif isinstance (widget, gtk.ColorButton):
           value = widget.get_color().to_string()
@@ -236,16 +237,32 @@ class ProfileEditor:
           value = widget.get_filename()
         elif widget.get_name() == 'palette':
           value = ''
+          valuebits = []
           children = widget.get_children()
           children.reverse()
           for child in children:
-            if value != '':
-              value = value  + ':'
-            value = value + child.get_color().to_string()
+            valuebits.append (child.get_color().to_string())
+          value = ':'.join (valuebits)
         else:
           value = None
-          print "skipping unknown thingy %s" % property
-        print "%s = %s" % (property, value)
+          err("skipping unknown thingy: %s" % property)
+
+        values[property] = value
+        #print "%s = %s" % (property, value)
+
+    has_changed = False
+    for source in self.term.conf.sources:
+      if isinstance (source, TerminatorConfValuestoreRC):
+        for property in values:
+          try:
+            if source.values[property] != values[property]:
+              print "%s changed from %s to %s" % (property, source.values[property], values[property])
+              source.values[property] = values[property]
+              has_changed = True
+          except KeyError:
+            pass
+    if has_changed:
+      self.term.reconfigure_vtes()
   
   def cancel (self, data):
     self.window.destroy()
