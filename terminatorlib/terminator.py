@@ -315,6 +315,12 @@ class Terminator:
     else:
       self.window.fullscreen ()
 
+  def fullscreen_absolute (self, fullscreen):
+    """ Explicitly set the fullscreen state of the window.
+    """
+    if self._fullscreen != fullscreen:
+      self.fullscreen_toggle ()
+
   def on_window_state_changed (self, window, event):
     self._fullscreen = bool (event.new_window_state & gtk.gdk.WINDOW_STATE_FULLSCREEN)
     self._maximised = bool (event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED)

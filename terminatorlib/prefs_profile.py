@@ -245,11 +245,12 @@ class ProfileEditor:
           value = ':'.join (valuebits)
         else:
           value = None
-          err("skipping unknown thingy: %s" % property)
+          err("skipping unknown property: %s" % property)
 
         values[property] = value
 
     has_changed = False
+    changed = []
     for source in self.term.conf.sources:
       if isinstance (source, TerminatorConfValuestoreRC):
         for property in values:
@@ -258,9 +259,14 @@ class ProfileEditor:
               print "%s changed from %s to %s" % (property, self.source_get_value(property), values[property])
               source.values[property] = values[property]
               has_changed = True
+              changed.append(property)
           except KeyError:
             pass
     if has_changed:
+      for changer in changed:
+        if changer == "fullscreen":
+          self.term.fullscreen_absolute(values[changer])
+          
       self.term.reconfigure_vtes()
   
   def cancel (self, data):
