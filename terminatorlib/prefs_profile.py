@@ -112,27 +112,27 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.scrollbar_position:
           widget.append_text (item)
-        widget.set_active (0)
+        widget.set_active (self.scrollbar_position.index(value))
       elif key == 'backspace_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (0)
+        widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'delete_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (2)
+        widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'focus':
         widget = gtk.combo_box_new_text()
         for item in self.focus:
           widget.append_text (item)
-        widget.set_active (0)
+        widget.set_active (self.focus.index(value))
       elif key == 'background_type':
         widget = gtk.combo_box_new_text()
         for item in self.background_type:
           widget.append_text (item)
-        widget.set_active (0)
+        widget.set_active (self.background_type.index(value))
       elif key == 'background_darkness':
         widget = gtk.HScale ()
         widget.set_digits (1)
@@ -172,7 +172,7 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.tab_position:
           widget.append_text (item)
-        widget.set_active (0)
+        widget.set_active (self.tab_position.index(value))
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
@@ -203,7 +203,9 @@ class ProfileEditor:
       for property in page:
         widget = self.widgets[property]
 
-        if isinstance (widget, gtk.Entry):
+        if isinstance (widget, gtk.SpinButton):
+          value = widget.get_value ()
+        elif isinstance (widget, gtk.Entry):
           value = widget.get_text()
         elif isinstance (widget, gtk.CheckButton):
           value = widget.get_active()
@@ -223,8 +225,6 @@ class ProfileEditor:
             continue
   
           value = bucket[widget.get_active()]
-        elif isinstance (widget, gtk.SpinButton):
-          value = widget.get_value ()
         elif isinstance (widget, gtk.FontButton):
           value = widget.get_font_name()
         elif isinstance (widget, gtk.HScale):
@@ -248,15 +248,14 @@ class ProfileEditor:
           err("skipping unknown thingy: %s" % property)
 
         values[property] = value
-        #print "%s = %s" % (property, value)
 
     has_changed = False
     for source in self.term.conf.sources:
       if isinstance (source, TerminatorConfValuestoreRC):
         for property in values:
           try:
-            if source.values[property] != values[property]:
-              print "%s changed from %s to %s" % (property, source.values[property], values[property])
+            if self.source_get_value(property) != values[property]:
+              print "%s changed from %s to %s" % (property, self.source_get_value(property), values[property])
               source.values[property] = values[property]
               has_changed = True
           except KeyError:
