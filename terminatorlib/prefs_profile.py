@@ -168,6 +168,8 @@ class ProfileEditor:
         filter = gtk.FileFilter()
         filter.add_mime_type ('image/*')
         widget.add_filter (filter)
+        widget.set_local_only (True)
+        widget.set_filename (value)
       elif key == 'tab_position':
         widget = gtk.combo_box_new_text()
         for item in self.tab_position:
@@ -268,6 +270,9 @@ class ProfileEditor:
           self.term.fullscreen_absolute(values[changer])
           
       self.term.reconfigure_vtes()
+
+    # We're not actually cancelling, but since all it does is close the window, we might as well use it
+    self.cancel(None)
   
   def cancel (self, data):
     self.window.destroy()
