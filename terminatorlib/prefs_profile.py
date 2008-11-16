@@ -274,10 +274,6 @@ class ProfileEditor:
             self.term.maximize()
           else:
             self.term.unmaximize()
-        elif changer == "enable_real_transparency":
-          #self.term.enable_rgba(values[changer])
-          # FIXME: This breaks if the window is realised
-          pass
         elif changer == "borderless":
           self.term.window.set_decorated (not values[changer])
         elif changer == "handle_size":
