@@ -236,10 +236,7 @@ class Terminator:
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
     if self.conf.enable_real_transparency:
-      screen = self.window.get_screen()
-      colormap = screen.get_rgba_colormap()
-      if colormap:
-        self.window.set_colormap(colormap)
+      self.rgba_control(True)
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
@@ -251,6 +248,15 @@ class Terminator:
     self.window.show ()
     term.spawn_child ()
     self.save_yourself ()
+ 
+  def enable_rgba (self, rgba = False):
+    screen = self.window.get_screen()
+    if rgba:
+      colormap = screen.get_rgba_colormap()
+    else:
+      colormap = screen.get_rgb_colormap()
+    if colormap:
+      self.window.set_colormap(colormap)
 
   def die(self, *args):
     gtk.main_quit ()
@@ -304,6 +310,10 @@ class Terminator:
   def maximize (self):
     """ Maximize the Terminator window."""
     self.window.maximize ()
+
+  def unmaximize (self):
+    """ Unmaximize the Terminator window."""
+    self.window.unmaximize ()
 
   def fullscreen_toggle (self):
     """ Toggle the fullscreen state of the window. If it is in

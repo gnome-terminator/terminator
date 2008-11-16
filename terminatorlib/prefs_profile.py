@@ -169,7 +169,8 @@ class ProfileEditor:
         filter.add_mime_type ('image/*')
         widget.add_filter (filter)
         widget.set_local_only (True)
-        widget.set_filename (value)
+        if value:
+          widget.set_filename (value)
       elif key == 'tab_position':
         widget = gtk.combo_box_new_text()
         for item in self.tab_position:
@@ -268,6 +269,24 @@ class ProfileEditor:
       for changer in changed:
         if changer == "fullscreen":
           self.term.fullscreen_absolute(values[changer])
+        elif changer == "maximise":
+          if values[changer]:
+            self.term.maximize()
+          else:
+            self.term.unmaximize()
+        elif changer == "enable_real_transparency":
+          #self.term.enable_rgba(values[changer])
+          # FIXME: This breaks if the window is realised
+          pass
+        elif changer == "borderless":
+          self.term.window.set_decorated (not values[changer])
+        elif changer == "handle_size":
+          # FIXME: How maek work?
+          pass
+        elif changer == "tab_position":
+          # FIXME: maek work
+          pass
+        # FIXME: which others? cycle_term_tab, close_button_on_tab, copy_on_selection, extreme_tabs, try_posix_regexp
           
       self.term.reconfigure_vtes()
 
