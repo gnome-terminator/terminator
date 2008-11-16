@@ -78,7 +78,7 @@ class ProfileEditor:
       return self.term.conf.__getattr__(key)
     except AttributeError:
       try:
-        return self.term.conf.keybindings.__getattr(key)
+        return self.term.conf.keybindings[key]
       except AttributeError:
         pass
 
