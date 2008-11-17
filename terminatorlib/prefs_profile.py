@@ -302,13 +302,17 @@ class ProfileEditor:
       self.term.reconfigure_vtes()
 
     # Check for changed keybindings
+    changed_keybindings = []
     for row in self.liststore:
       accel = gtk.accelerator_name (row[2], row[3])
       value = self.term.conf.keybindings[row[0]]
       if isinstance (value, tuple):
         value = value[0]
       if (row[2], row[3]) != self.tkbobj._parsebinding(value):
-        print "%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel)
+        changed_keybindings.append (row[0], accel)
+        print("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
+
+    # FIXME: Do something with "changed" and "changed_keybindings"
 
     # We're not actually cancelling, but since all it does is close the window, we might as well use it
     self.cancel(None)
@@ -357,7 +361,12 @@ class ProfileEditor:
     col.pack_start(cell, True)
     col.set_attributes(cell, accel_key=2, accel_mods=3, editable=4)
 
+    cell.connect ('accel-edited', self.edited)
+
     self.treeview.append_column(col)
 
     return (self.treeview)
 
+  def edited (self, obj, path, key, mods, code):
+    iter = self.liststore.get_iter_from_string(path)
+    self.liststore.set(iter, 2, key, 3, mods)
