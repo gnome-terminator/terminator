@@ -311,10 +311,13 @@ class ProfileEditor:
       if isinstance (value, tuple):
         value = value[0]
       if (row[2], row[3]) != self.tkbobj._parsebinding(value):
-        changed_keybindings.append (row[0], accel)
-        print("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
+        changed_keybindings.append ((row[0], accel))
+        dbg("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
 
-    # FIXME: Do something with "changed" and "changed_keybindings"
+    newbindings = self.term.conf.keybindings
+    for binding in changed_keybindings:
+      newbindings[binding[0]] = binding[1]
+    self.term.keybindings.configure (newbindings)
 
     # We're not actually cancelling, but since all it does is close the window, we might as well use it
     self.cancel(None)
