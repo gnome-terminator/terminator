@@ -260,7 +260,7 @@ class ProfileEditor:
         for property in values:
           try:
             if self.source_get_value(property) != values[property]:
-              print "%s changed from %s to %s" % (property, self.source_get_value(property), values[property])
+              dbg("%s changed from %s to %s" % (property, self.source_get_value(property), values[property]))
               source.values[property] = values[property]
               has_changed = True
               changed.append(property)
@@ -308,7 +308,7 @@ class ProfileEditor:
         continue
       (keyval, mask) = tkbobj._parsebinding (value)
       liststore.append ([binding, keyval, mask, True])
-      print "Appended row: %s, %s, %s" % (binding, keyval, mask)
+      dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
 
     treeview = gtk.TreeView(liststore)
     cell = gtk.CellRendererText()
