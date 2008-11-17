@@ -770,6 +770,12 @@ text/plain
 
   def key_prev_tab(self):
     self.terminator.previous_tab (self)
+
+  def key_reset(self):
+    self._vte.reset (True, False)
+
+  def key_reset_clear(self):
+    self._vte.reset (True, True)
   # End key events
 
   def zoom_orig (self):

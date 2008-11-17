@@ -133,6 +133,8 @@ Defaults = {
     'next_tab'         : '<Ctrl>Page_Down',
     'prev_tab'         : '<Ctrl>Page_Up',
     'full_screen'      : 'F11',
+    'reset'            : '<Ctrl><Shift>R',
+    'reset_clear'      : '<Ctrl><Shift>G',
   }
 }
 
