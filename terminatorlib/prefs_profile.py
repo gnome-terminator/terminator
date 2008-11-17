@@ -36,6 +36,8 @@ class ProfileEditor:
           'close_term': ['Close terminal', ''],
           'new_root_tab': ['New root tab', ''],
           'zoom_normal': ['Zoom reset', ''],
+          'reset': ['Reset terminal state', ''],
+          'reset_clear': ['Reset and clear terminal', ''],
          }
 
   # dictionary for results after setting
