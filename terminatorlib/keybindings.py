@@ -16,6 +16,7 @@ class TerminatorKeybindings:
 
   modifiers = {
     'ctrl':  gtk.gdk.CONTROL_MASK,
+    'control':  gtk.gdk.CONTROL_MASK,
     'shift': gtk.gdk.SHIFT_MASK,
     'alt':   gtk.gdk.MOD1_MASK
   }

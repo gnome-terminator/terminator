@@ -25,6 +25,17 @@ class ProfileEditor:
           'use_theme_colors': ['', 'Take the foreground and background colours from the current GTK theme'],
           'enable_real_transparency': ['', 'If you are running a composited desktop (e.g. compiz), enabling this option will enable "true" transpraency'],
           'handle_size': ['', 'This controls the size of the border between terminals. Values 0 to 5 are in pixels, while -1 means the value will be decided by your normal GTK theme.'],
+          'close_window': ['Quit Terminator', ''],
+          'toggle_zoom': ['Toggle maximise terminal', ''],
+          'scaled_zoom': ['Toggle zoomed terminal', ''],
+          'prev_tab': ['Previous tab', ''],
+          'split_vert': ['Split vertically', ''],
+          'split_horiz': ['Split horizontally', ''],
+          'go_prev': ['Focus previous terminal', ''],
+          'go_next': ['Focus next terminal', ''],
+          'close_term': ['Close terminal', ''],
+          'new_root_tab': ['New root tab', ''],
+          'zoom_normal': ['Zoom reset', ''],
          }
 
   # dictionary for results after setting
@@ -83,15 +94,18 @@ class ProfileEditor:
       except AttributeError:
         pass
 
+  def source_get_keyname (self, key):
+    if self.data.has_key (key) and self.data[key][0] != '':
+      label_text = self.data[key][0]
+    else:
+      label_text = key.replace ('_', ' ').capitalize ()
+    return label_text
+
   def auto_add (self, table, list):
     row = 0
     for key in list:
       table.resize (row + 1, 2)
-      if self.data.has_key (key) and self.data[key][0] != '':
-        label_text = self.data[key][0]
-      else:
-        label_text = key.replace ('_', ' ').capitalize ()
-      label = gtk.Label (label_text)
+      label = gtk.Label (self.source_get_keyname (key))
       wrapperbox = gtk.HBox()
       wrapperbox.pack_start(label, False, True)  
 
@@ -287,6 +301,15 @@ class ProfileEditor:
           
       self.term.reconfigure_vtes()
 
+    # Check for changed keybindings
+    for row in self.liststore:
+      accel = gtk.accelerator_name (row[2], row[3])
+      value = self.term.conf.keybindings[row[0]]
+      if isinstance (value, tuple):
+        value = value[0]
+      if (row[2], row[3]) != self.tkbobj._parsebinding(value):
+        print "%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel)
+
     # We're not actually cancelling, but since all it does is close the window, we might as well use it
     self.cancel(None)
   
@@ -296,36 +319,45 @@ class ProfileEditor:
     del(self)
 
   def prepare_keybindings (self):
-    liststore = gtk.ListStore (gobject.TYPE_STRING, gobject.TYPE_UINT, gobject.TYPE_UINT, gobject.TYPE_BOOLEAN)
-    tkbobj = TerminatorKeybindings()
+    self.liststore = gtk.ListStore (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT, gobject.TYPE_UINT, gobject.TYPE_BOOLEAN)
+    self.liststore.set_sort_column_id (0, gtk.SORT_ASCENDING)
+    self.tkbobj = TerminatorKeybindings()
     keyval = None
     mask = None
 
     for binding in Defaults['keybindings']:
-      value = Defaults['keybindings'][binding]
+      value = self.term.conf.keybindings[binding]
       if (value.__class__.__name__ != 'str'):
-        # FIXME: Stop skipping tuples
-        continue
-      (keyval, mask) = tkbobj._parsebinding (value)
-      liststore.append ([binding, keyval, mask, True])
+        if isinstance (value, tuple):
+          value = value[0]
+        else:
+          continue
+      (keyval, mask) = self.tkbobj._parsebinding (value)
+      self.liststore.append ([binding, self.source_get_keyname (binding), keyval, mask, True])
       dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
 
-    treeview = gtk.TreeView(liststore)
+    self.treeview = gtk.TreeView(self.liststore)
+
     cell = gtk.CellRendererText()
-    col = gtk.TreeViewColumn(_("Action"))
+    col = gtk.TreeViewColumn(_("Name"))
     col.pack_start(cell, True)
     col.add_attribute(cell, "text", 0)
 
-    treeview.append_column(col)
+    self.treeview.append_column(col)
+
+    cell = gtk.CellRendererText()
+    col = gtk.TreeViewColumn(_("Action"))
+    col.pack_start(cell, True)
+    col.add_attribute(cell, "text", 1)
+
+    self.treeview.append_column(col)
 
     cell = gtk.CellRendererAccel()
     col = gtk.TreeViewColumn(_("Keyboard shortcut"))
     col.pack_start(cell, True)
-    col.set_attributes(cell, accel_key=1, accel_mods=2, editable=3)
+    col.set_attributes(cell, accel_key=2, accel_mods=3, editable=4)
 
-    treeview.append_column(col)
+    self.treeview.append_column(col)
 
-    treeview.show_all()
-
-    return (treeview)
+    return (self.treeview)
 
