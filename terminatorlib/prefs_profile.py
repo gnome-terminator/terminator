@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
 from terminatorlib.config import dbg,err,Defaults,TerminatorConfValuestoreRC
+from terminatorlib.keybindings import TerminatorKeybindings,Modifier
 from terminatorlib.version import APP_NAME, APP_VERSION
 
-import gtk
+import gtk, gobject
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
@@ -57,7 +58,7 @@ class ProfileEditor:
     self.window.add (self.box)
 
     self.notebook.append_page (self.auto_add (gtk.Table (), self.globals), gtk.Label ("Global Settings"))
-    self.notebook.append_page (self.auto_add (gtk.Table (), Defaults['keybindings']), gtk.Label ("Keybindings"))
+    self.notebook.append_page (self.prepare_keybindings (), gtk.Label ("Keybindings"))
     self.notebook.append_page (self.auto_add (gtk.Table (), self.appearance), gtk.Label ("Appearance"))
     self.notebook.append_page (self.auto_add (gtk.Table (), self.colours), gtk.Label ("Colours"))
     self.notebook.append_page (self.auto_add (gtk.Table (), self.behaviour), gtk.Label ("Behaviour"))
@@ -294,3 +295,42 @@ class ProfileEditor:
     self.term.options = None
     del(self)
 
+  def prepare_keybindings (self):
+    liststore = gtk.ListStore (gobject.TYPE_STRING, gobject.TYPE_UINT, gobject.TYPE_UINT, gobject.TYPE_BOOLEAN)
+    tkbobj = TerminatorKeybindings()
+    keyval = None
+    mask = None
+
+    for binding in Defaults['keybindings']:
+      value = Defaults['keybindings'][binding]
+      if (value.__class__.__name__ != 'str'):
+        # FIXME: Stop skipping tuples
+        continue
+      (keyval, mask) = tkbobj._parsebinding (value)
+      liststore.append ([binding, keyval, mask, True])
+      print "Appended row: %s, %s, %s" % (binding, keyval, mask)
+
+    treeview = gtk.TreeView(liststore)
+    cell = gtk.CellRendererText()
+    col = gtk.TreeViewColumn(_("Action"))
+    col.pack_start(cell, True)
+    col.add_attribute(cell, "text", 0)
+
+    treeview.append_column(col)
+
+    cell = gtk.CellRendererAccel()
+    col = gtk.TreeViewColumn(_("Keyboard shortcut"))
+    col.pack_start(cell, True)
+    col.set_attributes(cell, accel_key=1)
+    col.set_attributes(cell, accel_mods=2)
+    col.set_attributes(cell, editable=3)
+    cell.connect('accel-edited', self.accel_edited)
+
+    treeview.append_column(col)
+
+    treeview.show_all()
+
+    return (treeview)
+
+  def accel_edited (self, obj, path, key, mods, code):
+    print "Edited %s, %s, %s, %s" % (path, key, mods, code)
