@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, sys, subprocess, pwd
+import os, sys, subprocess, pwd, re
 
 #import version details
 from terminatorlib.version import *
@@ -1082,7 +1082,7 @@ text/plain
       vte.set_property ("tooltip-text", title)
     #set the title anyhow, titlebars setting only show/hide the label
     self._title.set_text(title)
-    self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
+    self.terminator.set_window_title("%s - %s" % (re.sub(' - %s' % APP_NAME.capitalize(), '', title), APP_NAME.capitalize()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
