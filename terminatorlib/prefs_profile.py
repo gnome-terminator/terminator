@@ -321,10 +321,7 @@ class ProfileEditor:
     cell = gtk.CellRendererAccel()
     col = gtk.TreeViewColumn(_("Keyboard shortcut"))
     col.pack_start(cell, True)
-    col.set_attributes(cell, accel_key=1)
-    col.set_attributes(cell, accel_mods=2)
-    col.set_attributes(cell, editable=3)
-    cell.connect('accel-edited', self.accel_edited)
+    col.set_attributes(cell, accel_key=1, accel_mods=2, editable=3)
 
     treeview.append_column(col)
 
@@ -332,5 +329,3 @@ class ProfileEditor:
 
     return (treeview)
 
-  def accel_edited (self, obj, path, key, mods, code):
-    print "Edited %s, %s, %s, %s" % (path, key, mods, code)
