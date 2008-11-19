@@ -32,33 +32,58 @@ from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
 
 class TerminatorNotebookTabLabel(gtk.HBox):
+  _terminator = None
+  _notebook = None
+  _label = None
+  _icon = None
+  _button = None
+    
   def __init__(self, title, notebook, terminator):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
-    self.terminator = terminator
+    self._terminator = terminator
+    
     self._label = gtk.Label(title)
-    tab_pos = notebook.get_tab_pos()
-    if tab_pos == gtk.POS_LEFT:
-      self._label.set_angle(90)
-    elif tab_pos == gtk.POS_RIGHT:
-      self._label.set_angle(270)
-    icon = gtk.Image()
-    icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+    self.update_angle()
     self.pack_start(self._label, True, True)
 
-    if terminator.conf.close_button_on_tab:
-      self._button = gtk.Button()
+    self._icon = gtk.Image()
+    self._icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+    
+    self.update_closebut()
+
+    self.show_all()
+
+  def update_closebut(self):
+    if self._terminator.conf.close_button_on_tab:
+      if not self._button:
+        self._button = gtk.Button()
       self._button.set_relief(gtk.RELIEF_NONE)
       self._button.set_focus_on_click(False)
       self._button.set_relief(gtk.RELIEF_NONE)
-      self._button.add(icon)
+      self._button.add(self._icon)
       self._button.connect('clicked', self.on_close)
       self._button.set_name("terminator-tab-close-button")
       self.connect("style-set", self.on_style_set)
       if hasattr(self._button, "set_tooltip_text"): 
         self._button.set_tooltip_text(_("Close Tab"))
-      self.pack_start(self._button, False, False)
-    self.show_all()
+        self.pack_start(self._button, False, False)
+        self.show_all()
+    else:
+      if self._button:
+        self._button.remove(self._icon)
+        self.remove(self._button)
+        del(self._button)
+        self._button = None
+
+  def update_angle(self):
+      tab_pos = self._notebook.get_tab_pos()
+      if tab_pos == gtk.POS_LEFT:
+        self._label.set_angle(90)
+      elif tab_pos == gtk.POS_RIGHT:
+        self._label.set_angle(270)
+      else:
+        self._label.set_angle(0)
 
   def on_style_set(self, widget, prevstyle):
     x, y = gtk.icon_size_lookup_for_settings( self._button.get_settings(), gtk.ICON_SIZE_MENU)
@@ -69,13 +94,13 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     for i in xrange(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
-        term = self.terminator._notebook_first_term(self._notebook.get_nth_page(i))
+        term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         while term:
           if term == self._notebook.get_nth_page(i):
-            self.terminator.closeterm(term)
+            self._terminator.closeterm(term)
             break
-          self.terminator.closeterm(term)
-          term = self.terminator._notebook_first_term(self._notebook.get_nth_page(i))
+          self._terminator.closeterm(term)
+          term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         break
 
   def set_title(self, title):
@@ -89,7 +114,6 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
   def width_request(self):
     return self.size_request()[0]
-
 
 class Terminator:
   options = None

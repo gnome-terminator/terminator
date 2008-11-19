@@ -303,17 +303,15 @@ class ProfileEditor:
           angle = 0
           if isinstance (notebook, gtk.Notebook):
             notebook.set_tab_pos(new_pos)
-            if new_pos == gtk.POS_LEFT:
-              angle = 90
-            elif new_pos == gtk.POS_RIGHT:
-              angle = 270
-            num_pages = notebook.get_n_pages()
-            for i in xrange(0,num_pages):
-              tab = notebook.get_tab_label(notebook.get_nth_page(i))
-              label = tab.get_children()[0]
-              label.set_angle(angle)
+            for i in xrange(0,notebook.get_n_pages()):
+              notebook.get_tab_label(notebook.get_nth_page(i)).update_angle()
           pass
-        # FIXME: which others? cycle_term_tab, close_button_on_tab, copy_on_selection, extreme_tabs, try_posix_regexp
+        elif changer == "close_button_on_tab":
+          notebook = self.term.window.get_child()
+          if isinstance (notebook, gtk.Notebook):
+            for i in xrange(0,notebook.get_n_pages()):
+              notebook.get_tab_label(notebook.get_nth_page(i)).update_closebut()
+        # FIXME: which others? cycle_term_tab, copy_on_selection, extreme_tabs, try_posix_regexp
           
       self.term.reconfigure_vtes()
 
