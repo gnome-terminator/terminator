@@ -184,24 +184,7 @@ class Terminator:
       print "full_screen = <Ctrl><Shift>F11"
     self.keybindings.configure(self.conf.keybindings)
 
-    if self.conf.handle_size in xrange (0,6):
-      gtk.rc_parse_string("""
-        style "terminator-paned-style" {
-            GtkPaned::handle_size = %s 
-        }
-        
-        class "GtkPaned" style "terminator-paned-style"
-        """ % self.conf.handle_size)
-        
-    gtk.rc_parse_string("""
-      style "terminator-tab-close-button-style" {
-            GtkWidget::focus-padding = 0
-            GtkWidget::focus-line-width = 0
-            xthickness = 0
-            ythickness = 0
-         }
-         widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
-         """)
+    self.set_handle_size (self.conf.handle_size)
 
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
@@ -248,7 +231,27 @@ class Terminator:
     self.window.show ()
     term.spawn_child ()
     self.save_yourself ()
- 
+
+  def set_handle_size (self, size):
+    if size in xrange (0,6):
+      gtk.rc_parse_string("""
+        style "terminator-paned-style" {
+            GtkPaned::handle_size = %s 
+        }
+        
+        class "GtkPaned" style "terminator-paned-style"
+        """ % self.conf.handle_size)
+        
+      gtk.rc_parse_string("""
+      style "terminator-tab-close-button-style" {
+            GtkWidget::focus-padding = 0
+            GtkWidget::focus-line-width = 0
+            xthickness = 0
+            ythickness = 0
+         }
+         widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
+         """)
+
   def enable_rgba (self, rgba = False):
     screen = self.window.get_screen()
     if rgba:

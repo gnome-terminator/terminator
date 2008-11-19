@@ -49,6 +49,7 @@ class ProfileEditor:
   focus = ['click', 'sloppy', 'mouse']
   background_type = ['solid', 'image', 'transparent']
   tab_position = ['top', 'bottom', 'left', 'right']
+  tab_position_gtk = {'top' : gtk.POS_TOP, 'bottom' : gtk.POS_BOTTOM, 'left' : gtk.POS_LEFT, 'right' : gtk.POS_RIGHT}
 
   def __init__ (self, term):
     self.term = term
@@ -294,10 +295,23 @@ class ProfileEditor:
         elif changer == "borderless":
           self.term.window.set_decorated (not values[changer])
         elif changer == "handle_size":
-          # FIXME: How maek work?
-          pass
+          self.term.set_handle_size(values[changer])
+          gtk.rc_reset_styles(gtk.settings_get_default())
         elif changer == "tab_position":
-          # FIXME: maek work
+          notebook = self.term.window.get_child()
+          new_pos = self.tab_position_gtk[values[changer]]
+          angle = 0
+          if isinstance (notebook, gtk.Notebook):
+            notebook.set_tab_pos(new_pos)
+            if new_pos == gtk.POS_LEFT:
+              angle = 90
+            elif new_pos == gtk.POS_RIGHT:
+              angle = 270
+            num_pages = notebook.get_n_pages()
+            for i in xrange(0,num_pages):
+              tab = notebook.get_tab_label(notebook.get_nth_page(i))
+              label = tab.get_children()[0]
+              label.set_angle(angle)
           pass
         # FIXME: which others? cycle_term_tab, close_button_on_tab, copy_on_selection, extreme_tabs, try_posix_regexp
           
