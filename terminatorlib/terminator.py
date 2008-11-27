@@ -243,7 +243,7 @@ class Terminator:
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
     if self.conf.enable_real_transparency:
-      self.rgba_control(True)
+      self.enable_rgba(True)
 
     # Start out with just one terminal
     # FIXME: This should be really be decided from some kind of profile
