@@ -87,7 +87,7 @@ class TerminatorTerm (gtk.VBox):
     self._searchinput.connect('key-press-event', self.search_keypress)
 
     slabel = gtk.Label()
-    slabel.set_text("Finding text:")
+    slabel.set_text(_("Search:"))
     slabel.show()
 
     sclose = gtk.Button()
