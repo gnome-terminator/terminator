@@ -418,10 +418,12 @@ class Terminator:
       dbg("on_key_press: lookup found %r" % mapping)
       if mapping == 'full_screen':
         self.fullscreen_toggle ()
-        return (True)
       elif mapping == 'close_window':
         if not self.on_delete_event (window, gtk.gdk.Event (gtk.gdk.DELETE)):
           self.on_destroy_event (window, gtk.gdk.Event (gtk.gdk.DESTROY))
+      else:
+        return (False)
+      return (True)
 
   def set_window_title(self, title):
     """
