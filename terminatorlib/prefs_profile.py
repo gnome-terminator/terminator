@@ -45,7 +45,7 @@ class ProfileEditor:
 
   # combobox settings
   scrollbar_position = ['left', 'right', 'disabled']
-  backspace_del_binding = ['ascii-del', 'control-h', 'escape-sequence', 'delete-dequence']
+  backspace_del_binding = ['ascii-del', 'control-h', 'escape-sequence', 'delete-sequence']
   focus = ['click', 'sloppy', 'mouse']
   background_type = ['solid', 'image', 'transparent']
   tab_position = ['top', 'bottom', 'left', 'right']
