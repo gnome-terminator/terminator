@@ -117,6 +117,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
 class Terminator:
   options = None
+  groupings = ["test 1", "test 2"]
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
