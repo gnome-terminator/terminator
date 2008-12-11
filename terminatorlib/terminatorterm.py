@@ -506,7 +506,7 @@ text/plain
       err ('get_cwd: unable to get cwd of %d' % self._pid)
       cwd = '~'
       pass
-    err ('get_cwd found: %s'%cwd)
+    dbg ('get_cwd found: %s'%cwd)
     return (cwd)
 
   def reconfigure_vte (self):
