@@ -45,6 +45,8 @@ class TerminatorTerm (gtk.VBox):
   matches = {}
   TARGET_TYPE_VTE = 8
   _custom_font_size = None
+  _group = None
+  _want_titlebar = False
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
@@ -74,8 +76,12 @@ class TerminatorTerm (gtk.VBox):
     self._termbox.show()
     self._title = gtk.Label()
     self._title.show()
-    self._titlebox =  gtk.EventBox()
-    self._titlebox.add(self._title)
+    self._titlegroup = gtk.Label()
+    self._titlesep = gtk.VSeparator ()
+    self._titlebox = gtk.HBox()
+    self._titlebox.pack_start (self._titlegroup, False, True)
+    self._titlebox.pack_start (self._titlesep, False, True, 2)
+    self._titlebox.pack_start (self._title, True, True)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -123,6 +129,7 @@ class TerminatorTerm (gtk.VBox):
 
     if self.conf.titlebars:
       self._titlebox.show()
+      self._want_titlebar = True
     else:
       self._titlebox.hide()
 
@@ -663,6 +670,7 @@ text/plain
     self.toggle_widget_visibility (self._scrollbar)
 
   def do_title_toggle (self):
+    self._want_titlebar = not self._titlebox.get_property ('visible')
     self.toggle_widget_visibility (self._titlebox)
 
   def toggle_widget_visibility (self, widget):
@@ -692,6 +700,8 @@ text/plain
       getattr(self, "key_" + mapping)()
       return True
 
+    if self._group and self._vte.is_focus ():
+      self.terminator.group_emit (self, self._group, 'key-press-event', event)
     return False
 
   # Key events
@@ -924,6 +934,8 @@ text/plain
     item = gtk.CheckMenuItem (_("Show _titlebar"))
     item.set_active (self._titlebox.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
+    if self._group:
+      item.set_sensitive (False)
     menu.append (item)
 
     self._do_encoding_items (menu)
@@ -998,6 +1010,17 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
+    item = gtk.MenuItem (_("_Group"))
+    menu.append (item)
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    self.populate_grouping_menu (submenu)
+    if len (self.terminator.term_list) == 1:
+      item.set_sensitive (False)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -1006,6 +1029,101 @@ text/plain
     menu.popup (None, None, None, button, time)
 
     return True
+
+  def populate_grouping_menu (self, widget):
+    groupitem = None
+
+    if len (self.terminator.groupings) > 0:
+      groupitem = gtk.RadioMenuItem (groupitem, _("None"))
+      groupitem.set_active (self._group == None)
+      groupitem.connect ("activate", self.set_group, None)
+      widget.append (groupitem)
+
+      for group in self.terminator.groupings:
+        item = gtk.RadioMenuItem (groupitem, group)
+        item.set_active (self._group == group)
+        item.connect ("toggled", self.set_group, group)
+        widget.append (item)
+        groupitem = item
+
+      item = gtk.MenuItem ()
+      widget.append (item)
+    
+    item = gtk.MenuItem (_("_New group"))
+    item.connect ("activate", self.create_group)
+    widget.append (item)
+
+    item = gtk.MenuItem ()
+    widget.append (item)
+
+    item = gtk.MenuItem (_("_Group all"))
+    item.connect ("activate", self.group_all)
+    widget.append (item)
+
+  def create_group (self, item):
+    win = gtk.Window ()
+    vbox = gtk.VBox ()
+    hbox = gtk.HBox ()
+    entrybox = gtk.HBox ()
+    win.add (vbox)
+    label = gtk.Label (_("Group name:"))
+    entry = gtk.Entry ()
+    okbut = gtk.Button (stock=gtk.STOCK_OK)
+    canbut = gtk.Button (stock=gtk.STOCK_CANCEL)
+
+    entrybox.pack_start (label, False, True)
+    entrybox.pack_start (entry, True, True)
+    hbox.pack_end (okbut, False, False)
+    hbox.pack_end (canbut, False, False)
+    vbox.pack_start (entrybox, False, True)
+    vbox.pack_start (hbox, False, True)
+
+    canbut.connect ("clicked", lambda kill: win.destroy())
+    okbut.connect ("clicked", self.do_create_group, win, entry)
+    entry.connect ("activate", self.do_create_group, win, entry)
+
+    win.show_all ()
+
+  def do_create_group (self, widget, window, entry):
+    name = entry.get_text ()
+    self.terminator.groupings.append (name)
+    self.set_group (None, name)
+
+    window.destroy ()
+
+  def set_group (self, item, data):
+    if self._group == data:
+      # No action needed
+      return
+      
+    if data:
+      self._titlegroup.set_text (data)
+      self._titlegroup.show()
+      self._titlesep.show ()
+    else:
+      self._titlegroup.hide()
+      self._titlesep.hide ()
+
+    if not self._group:
+      # We were not previously in a group
+      self._titlebox.show ()
+      self._group = data
+    else:
+      # We were previously in a group
+      self._group = data
+      if data == None:
+        # We have been removed from a group
+        if not self.conf.titlebars and not self._want_titlebar:
+          self._titlebox.hide ()
+        self.terminator.group_hoover ()
+
+  def group_all (self, widget):
+    allname = _("All")
+    if not allname in self.terminator.groupings:
+      self.terminator.groupings.append (allname)
+    for term in self.terminator.term_list:
+      term.set_group (None, allname)
+    self.terminator.group_hoover ()
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()

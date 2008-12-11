@@ -117,6 +117,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
 class Terminator:
   options = None
+  groupings = []
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
@@ -1090,3 +1091,22 @@ class Terminator:
     if not self.options:
       self.options = ProfileEditor(self)
       self.options.go()
+ 
+  def group_emit (self, terminatorterm, group, type, event):
+    for term in self.term_list:
+      if term != terminatorterm and term._group == group:
+        term._vte.emit (type, event)
+
+  def group_hoover (self):
+    destroy = []
+    for group in self.groupings:
+      save = False
+      for term in self.term_list:
+        if term._group == group:
+          save = True
+
+      if not save:
+        destroy.append (group)
+
+    for group in destroy:
+      self.groupings.remove (group)
