@@ -77,8 +77,10 @@ class TerminatorTerm (gtk.VBox):
     self._title = gtk.Label()
     self._title.show()
     self._titlegroup = gtk.Label()
+    self._titlesep = gtk.VSeparator ()
     self._titlebox = gtk.HBox()
     self._titlebox.pack_start (self._titlegroup, False, True)
+    self._titlebox.pack_start (self._titlesep, False, True, 2)
     self._titlebox.pack_start (self._title, True, True)
 
     self._search_string = None
@@ -698,6 +700,8 @@ text/plain
       getattr(self, "key_" + mapping)()
       return True
 
+    if self._group and self._vte.is_focus ():
+      self.terminator.group_emit (self, self._group, 'key-press-event', event)
     return False
 
   # Key events
@@ -1043,12 +1047,40 @@ text/plain
       item = gtk.MenuItem ()
       widget.append (item)
     
-    item = gtk.MenuItem (_("_Create new group"))
+    item = gtk.MenuItem (_("_New group"))
     item.connect ("activate", self.create_group)
     widget.append (item)
 
   def create_group (self, item):
-    print "Create grouping"
+    win = gtk.Window ()
+    vbox = gtk.VBox ()
+    hbox = gtk.HBox ()
+    entrybox = gtk.HBox ()
+    win.add (vbox)
+    label = gtk.Label (_("Group name:"))
+    entry = gtk.Entry ()
+    okbut = gtk.Button (stock=gtk.STOCK_OK)
+    canbut = gtk.Button (stock=gtk.STOCK_CANCEL)
+
+    entrybox.pack_start (label, False, True)
+    entrybox.pack_start (entry, True, True)
+    hbox.pack_end (okbut, False, False)
+    hbox.pack_end (canbut, False, False)
+    vbox.pack_start (entrybox, False, True)
+    vbox.pack_start (hbox, False, True)
+
+    canbut.connect ("clicked", lambda kill: win.destroy())
+    okbut.connect ("clicked", self.do_create_group, win, entry)
+    entry.connect ("activate", self.do_create_group, win, entry)
+
+    win.show_all ()
+
+  def do_create_group (self, widget, window, entry):
+    name = entry.get_text ()
+    self.terminator.groupings.append (name)
+    self.set_group (None, name)
+
+    window.destroy ()
 
   def set_group (self, item, data):
     if self._group == data:
@@ -1058,19 +1090,23 @@ text/plain
     if data:
       self._titlegroup.set_text (data)
       self._titlegroup.show()
+      self._titlesep.show ()
     else:
       self._titlegroup.hide()
+      self._titlesep.hide ()
 
     if not self._group:
       # We were not previously in a group
       self._titlebox.show ()
+      self._group = data
     else:
       # We were previously in a group
       if data == None:
         # We have been removed from a group
+        self._group = data
         if not self.conf.titlebars and not self._want_titlebar:
           self._titlebox.hide ()
-    self._group = data
+        self.terminator.group_hoover ()
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
