@@ -1015,6 +1015,8 @@ text/plain
     submenu = gtk.Menu ()
     item.set_submenu (submenu)
     self.populate_grouping_menu (submenu)
+    if len (self.terminator.term_list) == 1:
+      item.set_sensitive (False)
 
     item = gtk.MenuItem ()
     menu.append (item)
@@ -1049,6 +1051,13 @@ text/plain
     
     item = gtk.MenuItem (_("_New group"))
     item.connect ("activate", self.create_group)
+    widget.append (item)
+
+    item = gtk.MenuItem ()
+    widget.append (item)
+
+    item = gtk.MenuItem (_("_Group all"))
+    item.connect ("activate", self.group_all)
     widget.append (item)
 
   def create_group (self, item):
@@ -1101,12 +1110,20 @@ text/plain
       self._group = data
     else:
       # We were previously in a group
+      self._group = data
       if data == None:
         # We have been removed from a group
-        self._group = data
         if not self.conf.titlebars and not self._want_titlebar:
           self._titlebox.hide ()
         self.terminator.group_hoover ()
+
+  def group_all (self, widget):
+    allname = _("All")
+    if not allname in self.terminator.groupings:
+      self.terminator.groupings.append (allname)
+    for term in self.terminator.term_list:
+      term.set_group (None, allname)
+    self.terminator.group_hoover ()
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
