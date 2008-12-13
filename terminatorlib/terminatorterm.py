@@ -398,6 +398,7 @@ text/plain
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+      self.matches['launchpad'] = self._vte.match_add ('\\bLP #[0-9]+\\b')
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
@@ -645,6 +646,8 @@ text/plain
         if url:
           if (url[0][0:7] != "mailto:") & (url[1] == self.matches['email']):
             address = "mailto:" + url[0]
+          elif url[1] == self.matches['launchpad']:
+            address = "https://bugs.launchpad.net/bugs/%s" % url[0][4:]
           else:
             address = url[0]
           self.openurl ( address )
@@ -886,6 +889,8 @@ text/plain
           else:
               # Assume http
               address = "http://" + url[0]
+        elif url[1] == self.matches['launchpad']:
+          address = "https://bugs.launchpad.net/bugs/%s" % url[0][4:]
         else:
           address = url[0]
         nameopen = _("_Open Link")
