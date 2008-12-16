@@ -78,10 +78,13 @@ class TerminatorTerm (gtk.VBox):
     self._title.show()
     self._titlegroup = gtk.Label()
     self._titlesep = gtk.VSeparator ()
-    self._titlebox = gtk.HBox()
-    self._titlebox.pack_start (self._titlegroup, False, True)
-    self._titlebox.pack_start (self._titlesep, False, True, 2)
-    self._titlebox.pack_start (self._title, True, True)
+    self._titlebox = gtk.EventBox ()
+    self._titlehbox = gtk.HBox()
+    self._titlehbox.pack_start (self._titlegroup, False, True)
+    self._titlehbox.pack_start (self._titlesep, False, True, 2)
+    self._titlehbox.pack_start (self._title, True, True)
+    self._titlehbox.show ()
+    self._titlebox.add (self._titlehbox)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -1219,12 +1222,10 @@ text/plain
 
   def on_vte_focus_in(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
-    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_SELECTED])
     return
 
   def on_vte_focus_out(self, vte, event):
     self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
-    self._title.modify_fg(gtk.STATE_NORMAL, self.terminator.window.get_style().fg[gtk.STATE_NORMAL])
     return
 
   def on_vte_focus(self, vte):
