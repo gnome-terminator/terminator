@@ -834,102 +834,157 @@ class Terminator:
 
   def _select_direction (self, term, matcher):
     current = self.term_list.index (term)
-    current_x, current_y = term.get_cursor_xy ()
+    current_geo = term.get_geometry ()
     best_index = None
-    best_x = None
-    best_y = None
+    best_geo = None
 
     for i in range(0,len(self.term_list)):
         if i == current:
             continue
         possible = self.term_list[i]
-        possible_x, possible_y = possible.get_cursor_xy()
-        print "I am %d %d:%d, saw %d %d:%d" % (current, current_x, current_y, i, possible_x, possible_y)
-        if matcher (current_x, current_y, possible_x, possible_y, \
-                    best_x, best_y):
+        possible_geo = possible.get_geometry ()
+
+        #import pprint
+        #print "I am %d" % (current)
+        #pprint.pprint(current_geo)
+        #print "I saw %d" % (i)
+        #pprint.pprint(possible_geo)
+
+        if matcher (current_geo, possible_geo, best_geo):
             best_index = i
-            best_x = possible_x
-            best_y = possible_y
-    if best_index is None:
-        print "nothing best"
-    else:
-        print "sending %d" % (best_index)
+            best_geo = possible_geo
+    #if best_index is None:
+    #    print "nothing best"
+    #else:
+    #    print "sending %d" % (best_index)
     return best_index
 
-  def _match_up (self, current_x, current_y, possible_x, possible_y, \
-                       best_x, best_y):
-    print "matching up..."
-    if possible_y < current_y:
-        print "possible_y < current_y"
-        if best_x is None or best_y is None:
-            print "first thing up"
+  def _match_up (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully above the top
+       border, but closest in the y direction, breaking ties via
+       the closest cursor x position.'''
+    #print "matching up..."
+    # top edge of the current terminal
+    edge = current_geo['origin_y']
+    # botoom edge of the possible target
+    new_edge = possible_geo['origin_y']+possible_geo['span_y']
+    if new_edge < edge:
+        #print "new_edge < edge"
+        if best_geo is None:
+            #print "first thing left"
             return True
-        if possible_y < best_y:
-            print "closer y"
+        best_edge = best_geo['origin_y']+best_geo['span_y']
+        if new_edge > best_edge:
+            #print "closer y"
             return True
-        if possible_y == best_y:
-            print "same y"
-            if abs(possible_x) < abs(best_x - current_x):
-                print "closer x"
+        if new_edge == best_edge:
+            #print "same y"
+
+            cursor      = current_geo['origin_x']  + current_geo['cursor_x']
+            new_cursor  = possible_geo['origin_x'] + possible_geo['cursor_x']
+            best_cursor = best_geo['origin_x']     + best_geo['cursor_x']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer x"
                 return True
-    print "fail"
+    #print "fail"
     return False
 
-  def _match_down (self, current_x, current_y, possible_x, possible_y, \
-                         best_x, best_y):
-    print "matching down..."
-    if possible_y > current_y:
-        print "possible_y > current_y"
-        if best_x is None or best_y is None:
-            print "first thing down"
+  def _match_down (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully below the bottom
+       border, but closest in the y direction, breaking ties via
+       the closest cursor x position.'''
+    #print "matching down..."
+    # bottom edge of the current terminal
+    edge = current_geo['origin_y']+current_geo['span_y']
+    # top edge of the possible target
+    new_edge = possible_geo['origin_y']
+    #print "edge: %d new_edge: %d" % (edge, new_edge)
+    if new_edge > edge:
+        #print "new_edge > edge"
+        if best_geo is None:
+            #print "first thing right"
             return True
-        if possible_y > best_y:
-            print "closer y"
+        best_edge = best_geo['origin_y']
+        #print "best_edge: %d" % (best_edge)
+        if new_edge < best_edge:
+            #print "closer y"
             return True
-        if possible_y == best_y:
-            print "same y"
-            if abs(possible_x) < abs(best_x - current_x):
-                print "closer x"
+        if new_edge == best_edge:
+            #print "same y"
+
+            cursor      = current_geo['origin_x']  + current_geo['cursor_x']
+            new_cursor  = possible_geo['origin_x'] + possible_geo['cursor_x']
+            best_cursor = best_geo['origin_x']     + best_geo['cursor_x']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer x"
                 return True
-    print "fail"
+    #print "fail"
     return False
 
-  def _match_left (self, current_x, current_y, possible_x, possible_y, \
-                         best_x, best_y):
-    print "matching left..."
-    if possible_x < current_x:
-        print "possible_x < current_x"
-        if best_x is None or best_y is None:
-            print "first thing left"
+  def _match_left (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully to the left of
+       the left-side border, but closest in the x direction, breaking
+       ties via the closest cursor y position.'''
+    #print "matching left..."
+    # left-side edge of the current terminal
+    edge = current_geo['origin_x']
+    # right-side edge of the possible target
+    new_edge = possible_geo['origin_x']+possible_geo['span_x']
+    if new_edge < edge:
+        #print "new_edge(%d) < edge(%d)" % (new_edge, edge)
+        if best_geo is None:
+            #print "first thing left"
             return True
-        if possible_x > best_x:
-            print "closer x"
+        best_edge = best_geo['origin_x']+best_geo['span_x']
+        if new_edge > best_edge:
+            #print "closer x (new_edge(%d) > best_edge(%d))" % (new_edge, best_edge)
             return True
-        if possible_x == best_x:
-            print "same x"
-            if abs(possible_y) < abs(best_y - current_y):
-                print "closer y"
+        if new_edge == best_edge:
+            #print "same x"
+
+            cursor      = current_geo['origin_y']  + current_geo['cursor_y']
+            new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
+            best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer y"
                 return True
-    print "fail"
+    #print "fail"
     return False
 
-  def _match_right (self, current_x, current_y, possible_x, possible_y, \
-                         best_x, best_y):
-    print "matching right..."
-    if possible_x > current_x:
-        print "possible_x > current_x"
-        if best_x is None or best_y is None:
-            print "first thing right"
+  def _match_right (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully to the right of
+       the right-side border, but closest in the x direction, breaking
+       ties via the closest cursor y position.'''
+    #print "matching right..."
+    # right-side edge of the current terminal
+    edge = current_geo['origin_x']+current_geo['span_x']
+    # left-side edge of the possible target
+    new_edge = possible_geo['origin_x']
+    #print "edge: %d new_edge: %d" % (edge, new_edge)
+    if new_edge > edge:
+        #print "new_edge > edge"
+        if best_geo is None:
+            #print "first thing right"
             return True
-        if possible_x < best_x:
-            print "closer x"
+        best_edge = best_geo['origin_x']
+        #print "best_edge: %d" % (best_edge)
+        if new_edge < best_edge:
+            #print "closer x"
             return True
-        if possible_x == best_x:
-            print "same x"
-            if abs(possible_y) < abs(best_y - current_y):
-                print "closer y"
+        if new_edge == best_edge:
+            #print "same x"
+
+            cursor      = current_geo['origin_y']  + current_geo['cursor_y']
+            new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
+            best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer y"
                 return True
-    print "fail"
+    #print "fail"
     return False
 
   def _select_up (self, term):
