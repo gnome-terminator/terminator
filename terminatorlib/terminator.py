@@ -823,7 +823,146 @@ class Terminator:
       return True
     return False
 
+  def go_to (self, term, selector):
+    current = self.term_list.index (term)
+    target = selector (term)
+    if not target is None:
+        term = self.term_list[target]
+        ##we need to set the current page of each notebook
+        self._set_current_notebook_page_recursive(term)
+        term._vte.grab_focus ()
+
+  def _select_direction (self, term, matcher):
+    current = self.term_list.index (term)
+    current_x, current_y = term.get_cursor_xy ()
+    best_index = None
+    best_x = None
+    best_y = None
+
+    for i in range(0,len(self.term_list)):
+        if i == current:
+            continue
+        possible = self.term_list[i]
+        possible_x, possible_y = possible.get_cursor_xy()
+        print "I am %d %d:%d, saw %d %d:%d" % (current, current_x, current_y, i, possible_x, possible_y)
+        if matcher (current_x, current_y, possible_x, possible_y, \
+                    best_x, best_y):
+            best_index = i
+            best_x = possible_x
+            best_y = possible_y
+    if best_index is None:
+        print "nothing best"
+    else:
+        print "sending %d" % (best_index)
+    return best_index
+
+  def _match_up (self, current_x, current_y, possible_x, possible_y, \
+                       best_x, best_y):
+    print "matching up..."
+    if possible_y < current_y:
+        print "possible_y < current_y"
+        if best_x is None or best_y is None:
+            print "first thing up"
+            return True
+        if possible_y < best_y:
+            print "closer y"
+            return True
+        if possible_y == best_y:
+            print "same y"
+            if abs(possible_x) < abs(best_x - current_x):
+                print "closer x"
+                return True
+    print "fail"
+    return False
+
+  def _match_down (self, current_x, current_y, possible_x, possible_y, \
+                         best_x, best_y):
+    print "matching down..."
+    if possible_y > current_y:
+        print "possible_y > current_y"
+        if best_x is None or best_y is None:
+            print "first thing down"
+            return True
+        if possible_y > best_y:
+            print "closer y"
+            return True
+        if possible_y == best_y:
+            print "same y"
+            if abs(possible_x) < abs(best_x - current_x):
+                print "closer x"
+                return True
+    print "fail"
+    return False
+
+  def _match_left (self, current_x, current_y, possible_x, possible_y, \
+                         best_x, best_y):
+    print "matching left..."
+    if possible_x < current_x:
+        print "possible_x < current_x"
+        if best_x is None or best_y is None:
+            print "first thing left"
+            return True
+        if possible_x > best_x:
+            print "closer x"
+            return True
+        if possible_x == best_x:
+            print "same x"
+            if abs(possible_y) < abs(best_y - current_y):
+                print "closer y"
+                return True
+    print "fail"
+    return False
+
+  def _match_right (self, current_x, current_y, possible_x, possible_y, \
+                         best_x, best_y):
+    print "matching right..."
+    if possible_x > current_x:
+        print "possible_x > current_x"
+        if best_x is None or best_y is None:
+            print "first thing right"
+            return True
+        if possible_x < best_x:
+            print "closer x"
+            return True
+        if possible_x == best_x:
+            print "same x"
+            if abs(possible_y) < abs(best_y - current_y):
+                print "closer y"
+                return True
+    print "fail"
+    return False
+
+  def _select_up (self, term):
+    return self._select_direction (term, self._match_up)
+
+  def _select_down (self, term):
+    return self._select_direction (term, self._match_down)
+
+  def _select_left (self, term):
+    return self._select_direction (term, self._match_left)
+
+  def _select_right (self, term):
+    return self._select_direction (term, self._match_right)
+
   def go_next (self, term):
+    self.go_to (term, self._select_next)
+
+  def go_prev (self, term):
+    self.go_to (term, self._select_prev)
+
+  def go_up (self, term):
+    self.go_to (term, self._select_up)
+
+  def go_down (self, term):
+    self.go_to (term, self._select_down)
+
+  def go_left (self, term):
+    self.go_to (term, self._select_left)
+
+  def go_right (self, term):
+    self.go_to (term, self._select_right)
+
+  def _select_next (self, term):
     current = self.term_list.index (term)
     next = None
     if self.conf.cycle_term_tab:
@@ -833,23 +972,17 @@ class Terminator:
         first = self._notebook_first_term(notebookpage[1])
         if term == last:
           next = self.term_list.index(first)
-        
+
     if next is None:
       if current == len (self.term_list) - 1:
         next = 0
       else:
         next = current + 1
+    return next
 
-    nextterm = self.term_list[next]
-    ##we need to set the current page of each notebook
-    self._set_current_notebook_page_recursive(nextterm)
-    
-    nextterm._vte.grab_focus ()
-
-  def go_prev (self, term):
+  def _select_prev (self, term):
     current = self.term_list.index (term)
     previous = None
-   
     if self.conf.cycle_term_tab:
       notebookpage = self.get_first_notebook_page(term)
       if notebookpage:
@@ -863,12 +996,7 @@ class Terminator:
         previous = len (self.term_list) - 1
       else:
         previous = current - 1
-
-    #self.window.set_title(self.term_list[previous]._vte.get_window_title())
-    previousterm = self.term_list[previous]
-    ##we need to set the current page of each notebook
-    self._set_current_notebook_page_recursive(previousterm)
-    previousterm._vte.grab_focus ()
+    return previous
 
   def _set_current_notebook_page_recursive(self, widget):
     page = self.get_first_notebook_page(widget)

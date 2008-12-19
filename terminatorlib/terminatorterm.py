@@ -747,6 +747,18 @@ text/plain
   def key_go_prev(self):
     self.terminator.go_prev (self)
 
+  def key_go_up(self):
+    self.terminator.go_up (self)
+
+  def key_go_down(self):
+    self.terminator.go_down (self)
+
+  def key_go_left(self):
+    self.terminator.go_left (self)
+
+  def key_go_right(self):
+    self.terminator.go_right (self)
+
   def key_split_horiz(self):
     self.terminator.splitaxis (self, False)
 
@@ -871,6 +883,16 @@ text/plain
     column, endrow = self._vte.get_cursor_position()
     startrow = max(0, endrow - self.conf.scrollback_lines)
     return(startrow, endrow)
+
+  def get_cursor_xy (self):
+    column, row = self._vte.get_cursor_position ()
+    cursor_x = column * self._vte.get_char_width ()
+    cursor_y = row * self._vte.get_char_height ()
+    x, y = self._vte.window.get_position ()
+    #dbg("origin at %d:%d, cursor at %d:%d (%d:%d)" % (x, y, column, row, cursor_x, cursor_y))
+    x = x + cursor_x
+    y = y + cursor_y
+    return (x, y)
 
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
