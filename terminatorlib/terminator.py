@@ -823,7 +823,201 @@ class Terminator:
       return True
     return False
 
+  def go_to (self, term, selector):
+    current = self.term_list.index (term)
+    target = selector (term)
+    if not target is None:
+        term = self.term_list[target]
+        ##we need to set the current page of each notebook
+        self._set_current_notebook_page_recursive(term)
+        term._vte.grab_focus ()
+
+  def _select_direction (self, term, matcher):
+    current = self.term_list.index (term)
+    current_geo = term.get_geometry ()
+    best_index = None
+    best_geo = None
+
+    for i in range(0,len(self.term_list)):
+        if i == current:
+            continue
+        possible = self.term_list[i]
+        possible_geo = possible.get_geometry ()
+
+        #import pprint
+        #print "I am %d" % (current)
+        #pprint.pprint(current_geo)
+        #print "I saw %d" % (i)
+        #pprint.pprint(possible_geo)
+
+        if matcher (current_geo, possible_geo, best_geo):
+            best_index = i
+            best_geo = possible_geo
+    #if best_index is None:
+    #    print "nothing best"
+    #else:
+    #    print "sending %d" % (best_index)
+    return best_index
+
+  def _match_up (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully above the top
+       border, but closest in the y direction, breaking ties via
+       the closest cursor x position.'''
+    #print "matching up..."
+    # top edge of the current terminal
+    edge = current_geo['origin_y']
+    # botoom edge of the possible target
+    new_edge = possible_geo['origin_y']+possible_geo['span_y']
+    if new_edge < edge:
+        #print "new_edge < edge"
+        if best_geo is None:
+            #print "first thing left"
+            return True
+        best_edge = best_geo['origin_y']+best_geo['span_y']
+        if new_edge > best_edge:
+            #print "closer y"
+            return True
+        if new_edge == best_edge:
+            #print "same y"
+
+            cursor      = current_geo['origin_x']  + current_geo['cursor_x']
+            new_cursor  = possible_geo['origin_x'] + possible_geo['cursor_x']
+            best_cursor = best_geo['origin_x']     + best_geo['cursor_x']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer x"
+                return True
+    #print "fail"
+    return False
+
+  def _match_down (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully below the bottom
+       border, but closest in the y direction, breaking ties via
+       the closest cursor x position.'''
+    #print "matching down..."
+    # bottom edge of the current terminal
+    edge = current_geo['origin_y']+current_geo['span_y']
+    # top edge of the possible target
+    new_edge = possible_geo['origin_y']
+    #print "edge: %d new_edge: %d" % (edge, new_edge)
+    if new_edge > edge:
+        #print "new_edge > edge"
+        if best_geo is None:
+            #print "first thing right"
+            return True
+        best_edge = best_geo['origin_y']
+        #print "best_edge: %d" % (best_edge)
+        if new_edge < best_edge:
+            #print "closer y"
+            return True
+        if new_edge == best_edge:
+            #print "same y"
+
+            cursor      = current_geo['origin_x']  + current_geo['cursor_x']
+            new_cursor  = possible_geo['origin_x'] + possible_geo['cursor_x']
+            best_cursor = best_geo['origin_x']     + best_geo['cursor_x']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer x"
+                return True
+    #print "fail"
+    return False
+
+  def _match_left (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully to the left of
+       the left-side border, but closest in the x direction, breaking
+       ties via the closest cursor y position.'''
+    #print "matching left..."
+    # left-side edge of the current terminal
+    edge = current_geo['origin_x']
+    # right-side edge of the possible target
+    new_edge = possible_geo['origin_x']+possible_geo['span_x']
+    if new_edge < edge:
+        #print "new_edge(%d) < edge(%d)" % (new_edge, edge)
+        if best_geo is None:
+            #print "first thing left"
+            return True
+        best_edge = best_geo['origin_x']+best_geo['span_x']
+        if new_edge > best_edge:
+            #print "closer x (new_edge(%d) > best_edge(%d))" % (new_edge, best_edge)
+            return True
+        if new_edge == best_edge:
+            #print "same x"
+
+            cursor      = current_geo['origin_y']  + current_geo['cursor_y']
+            new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
+            best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer y"
+                return True
+    #print "fail"
+    return False
+
+  def _match_right (self, current_geo, possible_geo, best_geo):
+    '''We want to find terminals that are fully to the right of
+       the right-side border, but closest in the x direction, breaking
+       ties via the closest cursor y position.'''
+    #print "matching right..."
+    # right-side edge of the current terminal
+    edge = current_geo['origin_x']+current_geo['span_x']
+    # left-side edge of the possible target
+    new_edge = possible_geo['origin_x']
+    #print "edge: %d new_edge: %d" % (edge, new_edge)
+    if new_edge > edge:
+        #print "new_edge > edge"
+        if best_geo is None:
+            #print "first thing right"
+            return True
+        best_edge = best_geo['origin_x']
+        #print "best_edge: %d" % (best_edge)
+        if new_edge < best_edge:
+            #print "closer x"
+            return True
+        if new_edge == best_edge:
+            #print "same x"
+
+            cursor      = current_geo['origin_y']  + current_geo['cursor_y']
+            new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
+            best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
+
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+                #print "closer y"
+                return True
+    #print "fail"
+    return False
+
+  def _select_up (self, term):
+    return self._select_direction (term, self._match_up)
+
+  def _select_down (self, term):
+    return self._select_direction (term, self._match_down)
+
+  def _select_left (self, term):
+    return self._select_direction (term, self._match_left)
+
+  def _select_right (self, term):
+    return self._select_direction (term, self._match_right)
+
   def go_next (self, term):
+    self.go_to (term, self._select_next)
+
+  def go_prev (self, term):
+    self.go_to (term, self._select_prev)
+
+  def go_up (self, term):
+    self.go_to (term, self._select_up)
+
+  def go_down (self, term):
+    self.go_to (term, self._select_down)
+
+  def go_left (self, term):
+    self.go_to (term, self._select_left)
+
+  def go_right (self, term):
+    self.go_to (term, self._select_right)
+
+  def _select_next (self, term):
     current = self.term_list.index (term)
     next = None
     if self.conf.cycle_term_tab:
@@ -833,23 +1027,17 @@ class Terminator:
         first = self._notebook_first_term(notebookpage[1])
         if term == last:
           next = self.term_list.index(first)
-        
+
     if next is None:
       if current == len (self.term_list) - 1:
         next = 0
       else:
         next = current + 1
+    return next
 
-    nextterm = self.term_list[next]
-    ##we need to set the current page of each notebook
-    self._set_current_notebook_page_recursive(nextterm)
-    
-    nextterm._vte.grab_focus ()
-
-  def go_prev (self, term):
+  def _select_prev (self, term):
     current = self.term_list.index (term)
     previous = None
-   
     if self.conf.cycle_term_tab:
       notebookpage = self.get_first_notebook_page(term)
       if notebookpage:
@@ -863,12 +1051,7 @@ class Terminator:
         previous = len (self.term_list) - 1
       else:
         previous = current - 1
-
-    #self.window.set_title(self.term_list[previous]._vte.get_window_title())
-    previousterm = self.term_list[previous]
-    ##we need to set the current page of each notebook
-    self._set_current_notebook_page_recursive(previousterm)
-    previousterm._vte.grab_focus ()
+    return previous
 
   def _set_current_notebook_page_recursive(self, widget):
     page = self.get_first_notebook_page(widget)

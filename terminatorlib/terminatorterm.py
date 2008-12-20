@@ -747,6 +747,18 @@ text/plain
   def key_go_prev(self):
     self.terminator.go_prev (self)
 
+  def key_go_up(self):
+    self.terminator.go_up (self)
+
+  def key_go_down(self):
+    self.terminator.go_down (self)
+
+  def key_go_left(self):
+    self.terminator.go_left (self)
+
+  def key_go_right(self):
+    self.terminator.go_right (self)
+
   def key_split_horiz(self):
     self.terminator.splitaxis (self, False)
 
@@ -871,6 +883,29 @@ text/plain
     column, endrow = self._vte.get_cursor_position()
     startrow = max(0, endrow - self.conf.scrollback_lines)
     return(startrow, endrow)
+
+  def get_geometry (self):
+    '''Returns Gdk.Window.get_position(), pixel-based cursor position,
+       and Gdk.Window.get_geometry()'''
+    reply = dict()
+    x, y = self._vte.window.get_origin ()
+    reply.setdefault('origin_x',x)
+    reply.setdefault('origin_y',y)
+
+    column, row = self._vte.get_cursor_position ()
+    cursor_x = column * self._vte.get_char_width ()
+    cursor_y = row    * self._vte.get_char_height ()
+    reply.setdefault('cursor_x', cursor_x)
+    reply.setdefault('cursor_y', cursor_y)
+
+    geometry = self._vte.window.get_geometry()
+    reply.setdefault('offset_x', geometry[0])
+    reply.setdefault('offset_y', geometry[1])
+    reply.setdefault('span_x', geometry[2])
+    reply.setdefault('span_y', geometry[3])
+    reply.setdefault('depth', geometry[4])
+
+    return reply
 
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
