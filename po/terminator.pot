@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-19 18:24+0100\n"
+"POT-Creation-Date: 2008-12-22 00:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgid ""
 "properly set"
 msgstr ""
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:252
 #, python-format
 msgid ""
 "<big><b>Configuration error</b></big>\n"
@@ -40,44 +40,44 @@ msgid ""
 "%d line(s) have been ignored."
 msgstr ""
 
-#: terminatorlib/config.py:223
+#: terminatorlib/config.py:260
 msgid "Configuration error"
 msgstr ""
 
-#: terminatorlib/config.py:272
+#: terminatorlib/config.py:313
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
+msgid "Setting %r value %r not a valid colour; ignoring"
 msgstr ""
 
-#: terminatorlib/config.py:277
+#: terminatorlib/config.py:318
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
 msgstr ""
 
-#: terminatorlib/config.py:284
+#: terminatorlib/config.py:325
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 
-#: terminatorlib/config.py:290
+#: terminatorlib/config.py:331
 msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
 
-#: terminatorlib/config.py:293
+#: terminatorlib/config.py:334
 #, python-format
-msgid "Setting %s should be a section name"
+msgid "Setting %r should be a section name"
 msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
 msgstr ""
 
-#: terminatorlib/configfile.py:140
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr ""
 
-#: terminatorlib/configfile.py:145
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
 msgstr ""
 
@@ -222,28 +222,40 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: terminatorlib/terminator.py:58
+#: terminatorlib/prefs_profile.py:363
+msgid "Name"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:370
+msgid "Action"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:377
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
 msgstr ""
 
-#: terminatorlib/terminator.py:205
+#: terminatorlib/terminator.py:220
 #, python-format
-msgid "Invalid geometry string %s"
+msgid "Invalid geometry string %r"
 msgstr ""
 
-#: terminatorlib/terminator.py:321
+#: terminatorlib/terminator.py:373
 msgid "Close?"
 msgstr ""
 
-#: terminatorlib/terminator.py:327
+#: terminatorlib/terminator.py:379
 msgid "Close All _Terminals"
 msgstr ""
 
-#: terminatorlib/terminator.py:329
+#: terminatorlib/terminator.py:381
 msgid "<big><b>Close all terminals?</b></big>"
 msgstr ""
 
-#: terminatorlib/terminator.py:332
+#: terminatorlib/terminator.py:384
 #, python-format
 msgid ""
 "This window has %s terminals open.  Closing the window will also close all "
@@ -256,78 +268,114 @@ msgid ""
 "ubuntu)"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:449
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:482
 msgid "Unable to find a shell"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:468
+#: terminatorlib/terminatorterm.py:501
 msgid "Unable to start shell: "
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:844
+#: terminatorlib/terminatorterm.py:937
 msgid "_Open Link"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:845
+#: terminatorlib/terminatorterm.py:938
 msgid "_Copy Link Address"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:855
+#: terminatorlib/terminatorterm.py:948
 msgid "_Send Mail To..."
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:856
+#: terminatorlib/terminatorterm.py:949
 msgid "_Copy Email Address"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:882
+#: terminatorlib/terminatorterm.py:975
 msgid "Show _scrollbar"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:887
+#: terminatorlib/terminatorterm.py:980
 msgid "Show _titlebar"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:898
+#: terminatorlib/terminatorterm.py:993
 msgid "Split H_orizontally"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:899
+#: terminatorlib/terminatorterm.py:994
 msgid "Split V_ertically"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:916
+#: terminatorlib/terminatorterm.py:1011
 msgid "Open _Tab"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:921
+#: terminatorlib/terminatorterm.py:1016
 msgid "Open _Debug Tab"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:927
+#: terminatorlib/terminatorterm.py:1022
 msgid "Open Top Level Tab"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1031
 msgid "_Zoom terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:940
+#: terminatorlib/terminatorterm.py:1035
 msgid "Ma_ximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:945
+#: terminatorlib/terminatorterm.py:1040
 msgid "_Unzoom terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:950
+#: terminatorlib/terminatorterm.py:1045
 msgid "Unma_ximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:974
+#: terminatorlib/terminatorterm.py:1052
+msgid "Ed_it profile"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1059
+msgid "_Group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1083
+msgid "None"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1098
+msgid "_New group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1105
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "Group name:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1167
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1182
 msgid "Encodings"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:992
+#: terminatorlib/terminatorterm.py:1200
 msgid "Other Encodings"
 msgstr ""
