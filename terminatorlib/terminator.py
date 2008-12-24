@@ -818,6 +818,7 @@ class Terminator:
       dbg ("closeterm function called while in zoomed mode. Restoring previous layout before closing.")
       self.toggle_zoom(widget, not self._maximised)
 
+    widget.sighup()
     if self.remove(widget):
       widget.destroy ()
       return True

@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, sys, subprocess, pwd, re
+import os, signal, sys, subprocess, pwd, re
 
 #import version details
 from terminatorlib.version import *
@@ -500,6 +500,12 @@ text/plain
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
       return (-1)
+
+  def sighup (self):
+    try:
+      os.kill(self._pid, signal.SIGHUP)
+    except OSError:
+      dbg('Unable to send SIGHUP to %d' % self._pid)
 
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
