@@ -382,7 +382,10 @@ class ProfileEditor:
 
     self.treeview.append_column(col)
 
-    return (self.treeview)
+    scrollwin = gtk.ScrolledWindow ()
+    scrollwin.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
+    scrollwin.add (self.treeview)
+    return (scrollwin)
 
   def edited (self, obj, path, key, mods, code):
     iter = self.liststore.get_iter_from_string(path)
