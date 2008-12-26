@@ -501,12 +501,6 @@ text/plain
       err (_('Unable to start shell: ') + shell)
       return (-1)
 
-  def sighup (self):
-    try:
-      os.kill(self._pid, signal.SIGHUP)
-    except OSError:
-      dbg('Unable to send SIGHUP to %d' % self._pid)
-
   def get_cwd (self):
     """ Return the current working directory of the subprocess.
         This function requires OS specific behaviours
@@ -1294,6 +1288,3 @@ text/plain
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
-  def destroy(self):
-    self._vte.destroy()
- 

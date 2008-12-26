@@ -718,7 +718,7 @@ class Terminator:
     dbg ('SEGBUG: showed TerminatorTerm')
     terminal.spawn_child ()
     dbg ('SEGBUG: spawned child')
-    return terminal
+    return
   
   def remove(self, widget):
     """Remove a TerminatorTerm from the Terminator view and terms list
@@ -730,7 +730,7 @@ class Terminator:
       # We are the only term
       if not self.on_delete_event (parent, gtk.gdk.Event (gtk.gdk.DELETE)):
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
-      return
+      return True
 
     if isinstance (parent, gtk.Paned):
       index = self.term_list.index (widget)
@@ -768,7 +768,6 @@ class Terminator:
         sibling.reparent (grandparent)
         if not self._zoomed:
           grandparent.resize_children()
-      parent.destroy ()
       if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
         sibling._titlebox.hide()
         
@@ -797,7 +796,6 @@ class Terminator:
             gdparent.pack2(sibling)
         if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
           sibling._titlebox.show()
-        parent.destroy()
     if self.conf.focus_on_close == 'prev' or ( self.conf.focus_on_close == 'auto' and focus_on_close == 'prev'):
       if index == 0: index = 1
       self.term_list[index - 1]._vte.grab_focus ()
@@ -818,9 +816,8 @@ class Terminator:
       dbg ("closeterm function called while in zoomed mode. Restoring previous layout before closing.")
       self.toggle_zoom(widget, not self._maximised)
 
-    widget.sighup()
+    #widget.sighup()
     if self.remove(widget):
-      widget.destroy ()
       return True
     return False
 
