@@ -35,11 +35,6 @@ import os, platform, sys, re
 import pwd
 import gtk, pango
 
-try:
-  import gio
-except ImportError:
-  pass
-
 # set this to true to enable debugging output
 # These should be moved somewhere better.
 debug = False
@@ -219,24 +214,10 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
     self.call_parser(True)
 
-    #try:
-    #  monfile = gio.File(self.rcfilename)
-    #  monmon = monfile.monitor_file()
-    #  monmon.connect("changed", self.file_changed)
-    #except NameError:
-    #  dbg ("gio module not found, config file monitoring disabled")
-
   def set_reconfigure_callback (self, function):
     dbg (" VS_RCFile: setting callback to: %s"%function)
     self.reconfigure_callback = function
     return (True)
-
-  def file_changed (self, monitor, file, unknown, event):
-    if event == gio.FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
-      dbg (" VS_RCFile: config file changed, reload")
-      self.values = {}
-      self.call_parser()
-      self.reconfigure_callback()
 
   def call_parser (self, is_init = False):
     dbg (" VS_RCFile: parsing config file")
