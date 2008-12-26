@@ -770,13 +770,18 @@ class Terminator:
           grandparent.resize_children()
       if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
         sibling._titlebox.hide()
-        
+
+      widget._vte.get_parent().remove(widget._vte)
+      widget._vte = None
       self.term_list.remove (widget)
 
     elif isinstance (parent, gtk.Notebook):
       parent.remove(widget)
       nbpages = parent.get_n_pages()
       index = self.term_list.index (widget)
+
+      widget._vte.get_parent().remove(widget._vte)
+      widget._vte = None
       self.term_list.remove (widget)
       if nbpages == 1:
         if self.window.allocation.height != gtk.gdk.screen_height():
