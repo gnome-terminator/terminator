@@ -667,6 +667,9 @@ text/plain
     # Left mouse button should transfer focus to this vte widget
     # we also need to give focus on the widget where the paste occured
     if event.button in (1 ,2):
+      if event.button == 2 and self._group:
+        self.paste_clipboard (True)
+        return True
       self._vte.grab_focus ()
       return False
 
@@ -696,8 +699,19 @@ text/plain
     else:
       widget.show ()
 
-  def paste_clipboard(self):
-    self._vte.paste_clipboard()
+  def paste_clipboard(self, primary = False):
+    if self._group:
+      for term in self.terminator.term_list:
+        if term._group == self._group:
+          if primary:
+            term._vte.paste_primary ()
+          else:
+            term._vte.paste_clipboard ()
+    else:
+      if primary:
+        self._vte.paste_primary ()
+      else:
+        self._vte.paste_clipboard ()
     self._vte.grab_focus()
 
   #keybindings for the individual splited terminals (affects only the
