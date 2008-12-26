@@ -219,12 +219,12 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
     self.call_parser(True)
 
-    try:
-      monfile = gio.File(self.rcfilename)
-      monmon = monfile.monitor_file()
-      monmon.connect("changed", self.file_changed)
-    except NameError:
-      dbg ("gio module not found, config file monitoring disabled")
+    #try:
+    #  monfile = gio.File(self.rcfilename)
+    #  monmon = monfile.monitor_file()
+    #  monmon.connect("changed", self.file_changed)
+    #except NameError:
+    #  dbg ("gio module not found, config file monitoring disabled")
 
   def set_reconfigure_callback (self, function):
     dbg (" VS_RCFile: setting callback to: %s"%function)
@@ -233,7 +233,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
 
   def file_changed (self, monitor, file, unknown, event):
     if event == gio.FILE_MONITOR_EVENT_CHANGES_DONE_HINT:
-      print "VS_RCFile: config file changed, reload"
+      dbg (" VS_RCFile: config file changed, reload")
       self.values = {}
       self.call_parser()
       self.reconfigure_callback()
