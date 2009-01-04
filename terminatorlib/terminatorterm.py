@@ -339,7 +339,7 @@ text/plain
       return
     pos = self.get_location(widget, x, y)
     
-    data.terminator.remove(widgetsrc)
+    data.terminator.remove(widgetsrc, True)
     data.terminator.add(self, widgetsrc,pos)
     return
 

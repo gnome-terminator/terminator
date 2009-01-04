@@ -720,7 +720,7 @@ class Terminator:
     dbg ('SEGBUG: spawned child')
     return
   
-  def remove(self, widget):
+  def remove(self, widget, keep = False):
     """Remove a TerminatorTerm from the Terminator view and terms list
        Returns True on success, False on failure"""
     parent = widget.get_parent ()
@@ -771,18 +771,20 @@ class Terminator:
       if isinstance(sibling, TerminatorTerm) and isinstance(sibling.get_parent(), gtk.Notebook):
         sibling._titlebox.hide()
 
-      widget._vte.get_parent().remove(widget._vte)
-      widget._vte = None
       self.term_list.remove (widget)
+      if not keep:
+        widget._vte.get_parent().remove(widget._vte)
+        widget._vte = None
 
     elif isinstance (parent, gtk.Notebook):
       parent.remove(widget)
       nbpages = parent.get_n_pages()
       index = self.term_list.index (widget)
 
-      widget._vte.get_parent().remove(widget._vte)
-      widget._vte = None
       self.term_list.remove (widget)
+      if not keep:
+        widget._vte.get_parent().remove(widget._vte)
+        widget._vte = None
       if nbpages == 1:
         if self.window.allocation.height != gtk.gdk.screen_height():
           self.window.resize(self.window.allocation.width, min(self.window.allocation.height - parent.get_tab_label(parent.get_nth_page(0)).height_request(), gtk.gdk.screen_height()))
