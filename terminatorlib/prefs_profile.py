@@ -127,6 +127,8 @@ class ProfileEditor:
         widget.set_range(0, 100000)
         widget.set_value(value)
       elif key == 'scrollbar_position':
+        if value == 'hidden':
+          value = 'disabled'
         widget = gtk.combo_box_new_text()
         for item in self.scrollbar_position:
           widget.append_text (item)
