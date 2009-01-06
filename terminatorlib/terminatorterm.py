@@ -1120,6 +1120,11 @@ text/plain
     item.connect ("activate", self.group_all)
     widget.append (item)
 
+    if len (self.terminator.groupings) > 0:
+      item = gtk.MenuItem (_("_Ungroup all"))
+      item.connect ("activate", self.ungroup_all)
+      widget.append (item)
+
   def create_group (self, item):
     win = gtk.Window ()
     vbox = gtk.VBox ()
@@ -1183,6 +1188,11 @@ text/plain
       self.terminator.groupings.append (allname)
     for term in self.terminator.term_list:
       term.set_group (None, allname)
+    self.terminator.group_hoover ()
+
+  def ungroup_all (self, widget):
+    for term in self.terminator.term_list:
+      term.set_group (None, None)
     self.terminator.group_hoover ()
 
   def on_encoding_change (self, widget, encoding):
