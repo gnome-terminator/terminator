@@ -710,6 +710,16 @@ text/plain
         self._vte.paste_clipboard ()
     self._vte.grab_focus()
 
+  def do_enumerate(self, pad=False):
+    for idx in range(len(self.terminator.term_list)):
+      term = self.terminator.term_list[idx]
+      if term == self or term._group != None and term._group == self._group:
+        if pad == True:
+          numstr = '%0'+str(len(str(len(self.terminator.term_list))))+'d'
+        else:
+          numstr = '%d'
+        term._vte.feed_child(numstr % (idx+1))
+
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
   UnhandledKeybindings = ('close_window', 'full_screen')
@@ -983,6 +993,14 @@ text/plain
 
     item = gtk.ImageMenuItem (gtk.STOCK_PASTE)
     item.connect ("activate", lambda menu_item: self.paste_clipboard ())
+    menu.append (item)
+
+    item = gtk.MenuItem (_("Enumerate"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate ())
+    menu.append (item)
+
+    item = gtk.MenuItem (_("Enumerate with pad"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate (pad=True))
     menu.append (item)
 
     item = gtk.MenuItem ()
