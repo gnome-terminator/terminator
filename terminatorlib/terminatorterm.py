@@ -1282,11 +1282,25 @@ text/plain
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
-    self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
+    for term in self.terminator.term_list:
+      if term != self and term._group != None and term._group == self._group:
+        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+        # set text to white
+      elif term != self and term._group == None or term._group != self._group:
+        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+        # set text to black
+      else:
+        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
+        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
+        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
+        # set text to white
     return
 
   def on_vte_focus_out(self, vte, event):
-    self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
     return
 
   def on_vte_focus(self, vte):
