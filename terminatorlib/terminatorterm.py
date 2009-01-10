@@ -1171,7 +1171,8 @@ text/plain
 
   def do_create_group (self, widget, window, entry):
     name = entry.get_text ()
-    self.terminator.groupings.append (name)
+    if name not in self.terminator.groupings:
+      self.terminator.groupings.append (name)
     self.set_group (None, name)
 
     window.destroy ()
