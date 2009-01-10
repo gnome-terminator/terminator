@@ -1098,7 +1098,12 @@ class Terminator:
   def previous_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
     if notebook:
-      notebook.prev_page()
+      cur = notebook.get_current_page()
+      pages = notebook.get_n_pages()
+      if cur == 0:
+        notebook.set_current_page(pages - 1)
+      else:
+        notebook.prev_page()
       # This seems to be required in some versions of (py)gtk.
       # Without it, the selection changes, but the displayed page doesn't change
       # Seen in gtk-2.12.11 and pygtk-2.12.1 at least.
@@ -1107,7 +1112,12 @@ class Terminator:
   def next_tab(self, term):
     notebook = self.get_first_parent_notebook(term)
     if notebook:
-      notebook.next_page()
+      cur = notebook.get_current_page()
+      pages = notebook.get_n_pages()
+      if cur == pages - 1:
+        notebook.set_current_page(0)
+      else:
+        notebook.next_page()
       notebook.set_current_page(notebook.get_current_page())
 
   def move_tab(self, term, direction):
