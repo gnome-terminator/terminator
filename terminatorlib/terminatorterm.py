@@ -320,7 +320,7 @@ text/plain
       if txt[0:7] == "file://":
         txt = "'%s'" % txt[7:]
       for term in self.terminator.term_list:
-        if term == self or (self.group != None and term._group == self._group):
+        if term == self or (term._group != None and term._group == self._group):
           term._vte.feed_child(txt)
       return
       
