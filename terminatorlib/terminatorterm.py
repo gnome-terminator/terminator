@@ -1201,7 +1201,7 @@ text/plain
         # We have been removed from a group
         if not self.conf.titlebars and not self._want_titlebar:
           self._titlebox.hide ()
-        self.terminator.group_hoover ()
+      self.terminator.group_hoover ()
 
   def group_all (self, widget):
     allname = _("All")

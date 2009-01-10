@@ -824,6 +824,7 @@ class Terminator:
       self.toggle_zoom(widget, not self._maximised)
 
     if self.remove(widget):
+      self.group_hoover()
       return True
     return False
 
