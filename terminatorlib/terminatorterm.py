@@ -311,6 +311,19 @@ text/plain
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
 
+  def get_target_terms(self):
+    if self.terminator.groupsend == 0:
+      return [self]
+    if self.terminator.groupsend == 2:
+      return self.terminator.term_list
+    if self.terminator.groupsend == 1:
+      term_subset = []
+      for term in self.terminator.term_list:
+        if term == self or (term._group != None and term._group == self._group):
+          term_subset.append(term)
+      return term_subset
+    return None
+
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     dbg ("Drag Data Received")
     if selection_data.type == 'text/plain':
@@ -319,8 +332,7 @@ text/plain
       txt = selection_data.data.strip()
       if txt[0:7] == "file://":
         txt = "'%s'" % txt[7:]
-      for term in self.terminator.term_list:
-        if term == self or term._group != None and term._group == self._group:
+      for term in self.get_target_terms():
           term._vte.feed_child(txt)
       return
       
@@ -679,9 +691,15 @@ text/plain
       term.grab_focus ()
       return False
 
+  def do_autocleangroups_toggle (self):
+    self.terminator.autocleangroups = not self.terminator.autocleangroups
+    
   def do_scrollbar_toggle (self):
     self.toggle_widget_visibility (self._scrollbar)
 
+  def do_splittogroup_toggle (self):
+    self.terminator.splittogroup = not self.terminator.splittogroup
+    
   def do_title_toggle (self):
     self._want_titlebar = not self._titlebox.get_property ('visible')
     self.toggle_widget_visibility (self._titlebox)
@@ -696,29 +714,21 @@ text/plain
       widget.show ()
 
   def paste_clipboard(self, primary = False):
-    if self._group:
-      for term in self.terminator.term_list:
-        if term._group == self._group:
-          if primary:
-            term._vte.paste_primary ()
-          else:
-            term._vte.paste_clipboard ()
-    else:
+    for term in self.get_target_terms():
       if primary:
-        self._vte.paste_primary ()
+        term._vte.paste_primary ()
       else:
-        self._vte.paste_clipboard ()
+        term._vte.paste_clipboard ()
     self._vte.grab_focus()
 
   def do_enumerate(self, pad=False):
-    for idx in range(len(self.terminator.term_list)):
-      term = self.terminator.term_list[idx]
-      if term == self or term._group != None and term._group == self._group:
-        if pad == True:
-          numstr = '%0'+str(len(str(len(self.terminator.term_list))))+'d'
-        else:
-          numstr = '%d'
-        term._vte.feed_child(numstr % (idx+1))
+    if pad:
+      numstr='%0'+str(len(str(len(self.terminator.term_list))))+'d'
+    else:
+      numstr='%d'
+    for term in self.get_target_terms():
+      idx=self.terminator.term_list.index(term)
+      term._vte.feed_child(numstr % (idx+1))
 
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
@@ -734,8 +744,11 @@ text/plain
       getattr(self, "key_" + mapping)()
       return True
 
-    if self._group and self._vte.is_focus ():
-      self.terminator.group_emit (self, self._group, 'key-press-event', event)
+    if self.terminator.groupsend != 0 and self._vte.is_focus ():
+      if self._group and self.terminator.groupsend == 1:
+        self.terminator.group_emit (self, self._group, 'key-press-event', event)
+      if self.terminator.groupsend == 2:
+        self.terminator.all_emit (self, 'key-press-event', event)
     return False
 
   # Key events
@@ -1113,6 +1126,10 @@ text/plain
   def populate_grouping_menu (self, widget):
     groupitem = None
 
+    item = gtk.MenuItem (_("Assign to..."))
+    item.connect ("activate", self.create_group)
+    widget.append (item)
+
     if len (self.terminator.groupings) > 0:
       groupitem = gtk.RadioMenuItem (groupitem, _("None"))
       groupitem.set_active (self._group == None)
@@ -1126,24 +1143,63 @@ text/plain
         widget.append (item)
         groupitem = item
 
+    if self._group != None or len (self.terminator.groupings) > 0:
       item = gtk.MenuItem ()
       widget.append (item)
-    
-    item = gtk.MenuItem (_("_New group"))
-    item.connect ("activate", self.create_group)
-    widget.append (item)
 
-    item = gtk.MenuItem ()
-    widget.append (item)
-
-    item = gtk.MenuItem (_("_Group all"))
-    item.connect ("activate", self.group_all)
-    widget.append (item)
+    if self._group != None:
+      item = gtk.MenuItem (_("Ungroup ") + self._group)
+      item.connect ("activate", self.ungroup,  self._group)
+      widget.append (item)
 
     if len (self.terminator.groupings) > 0:
       item = gtk.MenuItem (_("_Ungroup all"))
       item.connect ("activate", self.ungroup_all)
       widget.append (item)
+      
+    if self._group != None:
+      item = gtk.MenuItem ()
+      widget.append (item)
+
+      item = gtk.ImageMenuItem (_("Close Group"))
+      grp_close_img = gtk.Image()
+      grp_close_img.set_from_stock(gtk.STOCK_CLOSE, 1)
+      item.set_image (grp_close_img)
+      item.connect ("activate", lambda menu_item: self.terminator.closegroupedterms (self))
+      widget.append (item)
+
+    item = gtk.MenuItem ()
+    widget.append (item)    
+
+    groupitem = None
+    
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast off"))
+    groupitem.set_active (self.terminator.groupsend == 0)
+    groupitem.connect ("activate", self.set_groupsend, 0)
+    widget.append (groupitem)
+
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast to group"))
+    groupitem.set_active (self.terminator.groupsend == 1)
+    groupitem.connect ("activate", self.set_groupsend, 1)
+    widget.append (groupitem)
+    
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast to all"))
+    groupitem.set_active (self.terminator.groupsend == 2)
+    groupitem.connect ("activate", self.set_groupsend, 2)
+    widget.append (groupitem)
+    
+    item = gtk.MenuItem ()
+    widget.append (item)
+    
+    item = gtk.CheckMenuItem (_("Split to this group"))
+    item.set_active (self.terminator.splittogroup)
+    item.connect ("toggled", lambda menu_item: self.do_splittogroup_toggle ())
+    widget.append (item)
+    
+    item = gtk.CheckMenuItem (_("Autoclean groups"))
+    item.set_active (self.terminator.autocleangroups)
+    item.connect ("toggled", lambda menu_item: self.do_autocleangroups_toggle ())
+    widget.append (item)
 
   def create_group (self, item):
     win = gtk.Window ()
@@ -1203,12 +1259,13 @@ text/plain
           self._titlebox.hide ()
       self.terminator.group_hoover ()
 
-  def group_all (self, widget):
-    allname = _("All")
-    if not allname in self.terminator.groupings:
-      self.terminator.groupings.append (allname)
+  def set_groupsend (self, item, data):
+    self.terminator.groupsend = data
+
+  def ungroup (self, widget, data):
     for term in self.terminator.term_list:
-      term.set_group (None, allname)
+      if term._group == data:
+        term.set_group (None, None)
     self.terminator.group_hoover ()
 
   def ungroup_all (self, widget):
