@@ -134,7 +134,7 @@ class Terminator:
     self.term_list = []
     self.gnome_client = None
     self.groupsend = 1          # 0 off, 1 group (d), 2 all
-    self.splittogroup = 1       # 0 no group, 1 new takes orginators group (d)
+    self.splittogroup = 0       # 0 no group (d), 1 new takes orginators group
     self.autocleangroups = 1    # 0 off, 1 on (d)
     stores = []
 
@@ -840,11 +840,12 @@ class Terminator:
       self.toggle_zoom(widget, not self._maximised)
 
     widget_group = widget._group
-    for term in self.term_list:
+    all_closed = True
+    for term in self.term_list[:]:
       if term._group == widget_group and not self.remove(term):
-        return False
+        all_closed = False
     self.group_hoover()
-    return True
+    return all_closed
 
   def go_to (self, term, selector):
     current = self.term_list.index (term)

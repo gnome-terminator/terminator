@@ -79,7 +79,6 @@ class TerminatorTerm (gtk.VBox):
     self._title = gtk.Label()
     self._title.show()
     self._titlegroup = gtk.Label()
-    self._titlegroup.show()
     self._titlegroupbox = gtk.EventBox ()
     self._titlegroupbox.set_visible_window(True)
     self._titlegrouphbox = gtk.HBox()
@@ -88,6 +87,7 @@ class TerminatorTerm (gtk.VBox):
     self._titlegrouphbox.show ()
     self._titlegroupbox.add (self._titlegrouphbox)
     self._titlegroupbox.show_all()
+    self._titlegroup.hide()
     self._titlesep = gtk.VSeparator ()
     self._titlesep.show()
     self._titlebox = gtk.EventBox ()
@@ -1042,7 +1042,7 @@ text/plain
     item.set_active (self._titlebox.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
     if self._group:
-      item.set_sensitive (False)
+      item.set_sensitive (True)
     menu.append (item)
 
     self._do_encoding_items (menu)
@@ -1181,12 +1181,12 @@ text/plain
       widget.append (item)
 
     if self._group != None:
-      item = gtk.MenuItem (_("Ungroup ") + self._group)
+      item = gtk.MenuItem (_("Remove %s group ") % (self._group))
       item.connect ("activate", self.ungroup,  self._group)
       widget.append (item)
 
     if len (self.terminator.groupings) > 0:
-      item = gtk.MenuItem (_("_Ungroup all"))
+      item = gtk.MenuItem (_("Remove all groups"))
       item.connect ("activate", self.ungroup_all)
       widget.append (item)
       
@@ -1227,6 +1227,8 @@ text/plain
     item = gtk.CheckMenuItem (_("Split to this group"))
     item.set_active (self.terminator.splittogroup)
     item.connect ("toggled", lambda menu_item: self.do_splittogroup_toggle ())
+    if self._group == None:
+      item.set_sensitive(False)
     widget.append (item)
     
     item = gtk.CheckMenuItem (_("Autoclean groups"))
