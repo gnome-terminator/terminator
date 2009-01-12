@@ -74,15 +74,27 @@ class TerminatorTerm (gtk.VBox):
 
     self._termbox = gtk.HBox ()
     self._termbox.show()
+    self._titlegroupimg = gtk.Image()
+    self._titlegroupimg.set_from_icon_name (APP_NAME + '_groups', gtk.ICON_SIZE_MENU)
     self._title = gtk.Label()
     self._title.show()
     self._titlegroup = gtk.Label()
+    self._titlegroup.show()
+    self._titlegroupbox = gtk.EventBox ()
+    self._titlegroupbox.set_visible_window(True)
+    self._titlegrouphbox = gtk.HBox()
+    self._titlegrouphbox.pack_start (self._titlegroupimg, False, True, 2)
+    self._titlegrouphbox.pack_start (self._titlegroup, True, True, 2)
+    self._titlegrouphbox.show ()
+    self._titlegroupbox.add (self._titlegrouphbox)
+    self._titlegroupbox.show_all()
     self._titlesep = gtk.VSeparator ()
+    self._titlesep.show()
     self._titlebox = gtk.EventBox ()
     self._titlehbox = gtk.HBox()
-    self._titlehbox.pack_start (self._titlegroup, False, True)
-    self._titlehbox.pack_start (self._titlesep, False, True, 2)
-    self._titlehbox.pack_start (self._title, True, True)
+    self._titlehbox.pack_start (self._titlegroupbox, False, True)
+    self._titlehbox.pack_start (self._titlesep, False, True)
+    self._titlehbox.pack_start (self._title, True, True, 2)
     self._titlehbox.show ()
     self._titlebox.add (self._titlehbox)
 
@@ -175,6 +187,8 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
     self._vte.connect ("resize-window", self.on_resize_window)
+
+    self._titlegroupbox.connect ("button-release-event", self.on_group_button_press)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -1123,6 +1137,25 @@ text/plain
 
     return True
 
+  def create_popup_group_menu (self, widget, event = None):
+    menu = gtk.Menu ()
+    url = None
+
+    if event:
+      url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+      button = event.button
+      time = event.time
+    else:
+      button = 0
+      time = 0
+
+    self.populate_grouping_menu (menu)
+
+    menu.show_all ()
+    menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    
+    return True
+
   def populate_grouping_menu (self, widget):
     groupitem = None
 
@@ -1161,7 +1194,7 @@ text/plain
       item = gtk.MenuItem ()
       widget.append (item)
 
-      item = gtk.ImageMenuItem (_("Close Group"))
+      item = gtk.ImageMenuItem (_("Close %s group") % (self._group))
       grp_close_img = gtk.Image()
       grp_close_img.set_from_stock(gtk.STOCK_CLOSE, 1)
       item.set_image (grp_close_img)
@@ -1200,6 +1233,23 @@ text/plain
     item.set_active (self.terminator.autocleangroups)
     item.connect ("toggled", lambda menu_item: self.do_autocleangroups_toggle ())
     widget.append (item)
+
+  def position_popup_group_menu(self, menu, widget):
+    screen_w = gtk.gdk.screen_width()
+    screen_h = gtk.gdk.screen_height()
+
+    widget_win = widget.get_window()
+    widget_x, widget_y = widget_win.get_origin()
+    widget_w, widget_h = widget_win.get_size()
+    
+    menu_w, menu_h = menu.size_request()
+    
+    if widget_y + widget_h + menu_h > screen_h:
+      menu_y = max(widget_y - menu_h, 0)
+    else:
+      menu_y = widget_y + widget_h
+    
+    return (widget_x, menu_y, 1) 
 
   def create_group (self, item):
     win = gtk.Window ()
@@ -1241,10 +1291,8 @@ text/plain
     if data:
       self._titlegroup.set_text (data)
       self._titlegroup.show()
-      self._titlesep.show ()
     else:
       self._titlegroup.hide()
-      self._titlesep.hide ()
 
     if not self._group:
       # We were not previously in a group
@@ -1360,19 +1408,30 @@ text/plain
   def on_vte_focus_in(self, vte, event):
     for term in self.terminator.term_list:
       if term != self and term._group != None and term._group == self._group:
-        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+        if self.terminator.groupsend == 0:
+          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+        else:
+          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
         # set text to white
       elif term != self and term._group == None or term._group != self._group:
-        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+        if self.terminator.groupsend == 2:
+          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+        else:
+          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
         # set text to black
       else:
         term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
         term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
+        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
         # set text to white
     return
 
@@ -1390,3 +1449,7 @@ text/plain
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
+  def on_group_button_press(self, term, event):
+    if event.button == 1:
+      self.create_popup_group_menu(term, event)
+    return False
