@@ -1117,17 +1117,6 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("_Group"))
-    menu.append (item)
-    submenu = gtk.Menu ()
-    item.set_submenu (submenu)
-    self.populate_grouping_menu (submenu)
-    if len (self.terminator.term_list) == 1:
-      item.set_sensitive (False)
-
-    item = gtk.MenuItem ()
-    menu.append (item)
-
     item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
     item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
     menu.append (item)
@@ -1409,32 +1398,42 @@ text/plain
 
   def on_vte_focus_in(self, vte, event):
     for term in self.terminator.term_list:
+      idx = self.terminator.term_list.index(term)
       if term != self and term._group != None and term._group == self._group:
+        # Not active, group is not none, and in active's group
         if self.terminator.groupsend == 0:
           term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
           term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
         else:
           term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
           term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
         term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
-        # set text to white
       elif term != self and term._group == None or term._group != self._group:
+        # Not active, group is not none, not in active's group
         if self.terminator.groupsend == 2:
           term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
           term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
         else:
           term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
           term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
         term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
-        # set text to black
       else:
         term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
         term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
         term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
         term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
-        # set text to white
+        if self.terminator.groupsend == 2:
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
+        elif self.terminator.groupsend == 1:
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_group', gtk.ICON_SIZE_MENU)
+        else:
+          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_off', gtk.ICON_SIZE_MENU)
     return
 
   def on_vte_focus_out(self, vte, event):
