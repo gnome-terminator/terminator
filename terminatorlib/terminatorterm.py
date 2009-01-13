@@ -708,6 +708,8 @@ text/plain
 
   def do_autocleangroups_toggle (self):
     self.terminator.autocleangroups = not self.terminator.autocleangroups
+    if self.terminator.autocleangroups:
+      self.terminator.group_hoover()
     
   def do_scrollbar_toggle (self):
     self.toggle_widget_visibility (self._scrollbar)
