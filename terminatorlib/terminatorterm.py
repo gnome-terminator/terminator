@@ -1244,35 +1244,125 @@ text/plain
     return (widget_x, menu_y, 1) 
 
   def create_group (self, item):
+    self.groupingscope = 0
+    grplist=self.terminator.groupings[:]
+    grplist.sort()
+    
     win = gtk.Window ()
-    vbox = gtk.VBox ()
-    hbox = gtk.HBox ()
-    entrybox = gtk.HBox ()
+    vbox = gtk.VBox (False, 6)
+    vbox.set_border_width(5)
     win.add (vbox)
-    label = gtk.Label (_("Group name:"))
-    entry = gtk.Entry ()
+    
+    # Populate the "Assign..." Section
+    contentvbox = gtk.VBox (False, 6)
+    selframe = gtk.Frame()
+    selframe_label = gtk.Label()
+    selframe_label.set_markup(_("<b>Assign...</b>"))
+    selframe.set_shadow_type(gtk.SHADOW_NONE)
+    selframe.set_label_widget(selframe_label)
+    selframe_align = gtk.Alignment(0, 0, 1, 1)
+    selframe_align.set_padding(0, 0, 12, 0)
+    selframevbox = gtk.VBox ()
+    selframehbox = gtk.HBox ()
+    
+    # Populate the Combo with existing group names (None at the top)
+    sel_combo = gtk.combo_box_new_text()
+    sel_combo.append_text("*No Group*")
+    for grp in grplist:
+      sel_combo.append_text(grp)
+    sel_combo.set_sensitive(False)
+    
+    # Here are the radio buttons
+    groupitem = None
+    
+    groupitem = gtk.RadioButton (groupitem, _("Terminal"))
+    groupitem.set_active (True)
+    groupitem.connect ("toggled", self.set_groupingscope, 0, sel_combo)
+    selframehbox.pack_start (groupitem)
+
+    groupitem = gtk.RadioButton (groupitem, _("Group"))
+    groupitem.connect ("toggled", self.set_groupingscope, 1, sel_combo)
+    selframehbox.pack_start (groupitem)
+    
+    groupitem = gtk.RadioButton (groupitem, _("All"))
+    groupitem.connect ("toggled", self.set_groupingscope, 2, sel_combo)
+    selframehbox.pack_start (groupitem)
+    
+    selframevbox.pack_start(selframehbox, True, True)
+    selframevbox.pack_start(sel_combo, True, True)
+    selframe_align.add(selframevbox)
+    selframe.add(selframe_align)
+    contentvbox.pack_start(selframe)
+    
+    # Populate the "To..." Section
+    tgtframe = gtk.Frame()
+    tgtframe_label = gtk.Label()
+    tgtframe_label.set_markup(_("<b>To...</b>"))
+    tgtframe.set_shadow_type(gtk.SHADOW_NONE)
+    tgtframe.set_label_widget(tgtframe_label)
+    tgtframe_align = gtk.Alignment(0, 0, 1, 1)
+    tgtframe_align.set_padding(0, 0, 12, 0)
+    tgtframevbox = gtk.VBox ()
+    
+    # Populate the Combo with existing group names (None not needed)
+    tgt_comboentry = gtk.combo_box_entry_new_text()
+    for grp in grplist:
+      tgt_comboentry.append_text(grp)
+    
+    tgtframevbox.pack_start(tgt_comboentry, True, True)
+    
+    tgtframe_align.add(tgtframevbox)
+    tgtframe.add(tgtframe_align)
+    contentvbox.pack_start(tgtframe)
+    
     okbut = gtk.Button (stock=gtk.STOCK_OK)
     canbut = gtk.Button (stock=gtk.STOCK_CANCEL)
-
-    entrybox.pack_start (label, False, True)
-    entrybox.pack_start (entry, True, True)
-    hbox.pack_end (okbut, False, False)
-    hbox.pack_end (canbut, False, False)
-    vbox.pack_start (entrybox, False, True)
-    vbox.pack_start (hbox, False, True)
-
+    hbuttonbox = gtk.HButtonBox()
+    hbuttonbox.set_layout(gtk.BUTTONBOX_END)
+    hbuttonbox.pack_start (canbut, True, True)
+    hbuttonbox.pack_start (okbut, True, True)
+    
+    vbox.pack_start (contentvbox, False, True)
+    vbox.pack_end (hbuttonbox, False,  True)
+    
     canbut.connect ("clicked", lambda kill: win.destroy())
-    okbut.connect ("clicked", self.do_create_group, win, entry)
-    entry.connect ("activate", self.do_create_group, win, entry)
-
+    okbut.connect ("clicked", self.do_create_group, win, sel_combo, tgt_comboentry)
+    tgt_comboentry.child.connect ("activate", self.do_create_group, win, sel_combo, tgt_comboentry)
+    
+    tgt_comboentry.grab_focus()
     win.show_all ()
 
-  def do_create_group (self, widget, window, entry):
-    name = entry.get_text ()
-    if name not in self.terminator.groupings:
-      self.terminator.groupings.append (name)
-    self.set_group (None, name)
+  def set_groupingscope(self, widget, scope=None, sel_combo=None):
+    if widget.get_active():
+      self.groupingscope = scope
+      if self.groupingscope == 1:
+        sel_combo.set_sensitive(True)
+      else:
+        sel_combo.set_sensitive(False)
 
+  def do_create_group (self, widget, window, src, tgt):
+    tgt_name = tgt.child.get_text()
+    try:
+      src_name = src.get_active_text()
+    except:
+      src_name = None
+    
+    if tgt_name == "" or (self.groupingscope == 1 and src_name == None):
+      return False
+      
+    if tgt_name not in self.terminator.groupings:
+      self.terminator.groupings.append (tgt_name)
+    
+    if self.groupingscope == 2:
+      for term in self.terminator.term_list:
+        term.set_group (None, tgt_name)
+    elif self.groupingscope == 1:
+      for term in self.terminator.term_list:
+        if term._group == src_name  or (src_name == "*No Group*" and term._group == None):
+          term.set_group (None, tgt_name)
+    else:
+      self.set_group (None, tgt_name)
+      
     window.destroy ()
 
   def set_group (self, item, data):
