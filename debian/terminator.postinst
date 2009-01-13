@@ -2,6 +2,7 @@
 
 gtk-update-icon-cache -q -f /usr/share/icons/hicolor/
 pycentral pkginstall terminator
+update-menus
 
 #DEBHELPER#
 
