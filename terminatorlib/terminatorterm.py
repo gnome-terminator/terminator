@@ -1280,15 +1280,15 @@ text/plain
     groupitem = gtk.RadioButton (groupitem, _("Terminal"))
     groupitem.set_active (True)
     groupitem.connect ("toggled", self.set_groupingscope, 0, sel_combo)
-    selframehbox.pack_start (groupitem)
+    selframehbox.pack_start (groupitem, False)
 
     groupitem = gtk.RadioButton (groupitem, _("Group"))
     groupitem.connect ("toggled", self.set_groupingscope, 1, sel_combo)
-    selframehbox.pack_start (groupitem)
+    selframehbox.pack_start (groupitem, False)
     
     groupitem = gtk.RadioButton (groupitem, _("All"))
     groupitem.connect ("toggled", self.set_groupingscope, 2, sel_combo)
-    selframehbox.pack_start (groupitem)
+    selframehbox.pack_start (groupitem, False)
     
     selframevbox.pack_start(selframehbox, True, True)
     selframevbox.pack_start(sel_combo, True, True)
