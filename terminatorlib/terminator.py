@@ -94,6 +94,9 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     for i in xrange(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
+        if not isinstance (self._notebook.get_nth_page(i), TerminatorTerm):
+          if self._terminator.confirm_close_multiple (self._terminator.window, 'tab'):
+            return False
         term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         while term:
           if term == self._notebook.get_nth_page(i):
@@ -368,7 +371,9 @@ class Terminator:
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
       return False
+    return self.confirm_close_multiple (window, 'window')
 
+  def confirm_close_multiple (self, window, type):
     # show dialog
     dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL)
     dialog.set_has_separator (False)
@@ -376,12 +381,12 @@ class Terminator:
 
     cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
     close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close All _Terminals"))
+    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close _Terminals"))
 
-    primairy = gtk.Label (_('<big><b>Close all terminals?</b></big>'))
+    primairy = gtk.Label (_('<big><b>Close multiple terminals?</b></big>'))
     primairy.set_use_markup (True)
     primairy.set_alignment (0, 0.5)
-    secundairy = gtk.Label (_("This window has %s terminals open.  Closing the window will also close all terminals.") % len(self.term_list))
+    secundairy = gtk.Label (_("This %s has several terminals open.  Closing the %s will also close all terminals within it.") % (type, type))
     secundairy.set_line_wrap(True)
     primairy.set_alignment (0, 0.5)
 
