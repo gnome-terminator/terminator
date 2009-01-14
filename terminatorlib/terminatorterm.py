@@ -75,7 +75,12 @@ class TerminatorTerm (gtk.VBox):
     self._termbox = gtk.HBox ()
     self._termbox.show()
     self._titlegroupimg = gtk.Image()
-    self._titlegroupimg.set_from_icon_name (APP_NAME + '_groups', gtk.ICON_SIZE_MENU)
+    if self.terminator.groupsend == 2:
+      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
+    elif self.terminator.groupsend == 1:
+      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_group', gtk.ICON_SIZE_MENU)
+    else:
+      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_off', gtk.ICON_SIZE_MENU)
     self._title = gtk.Label()
     self._title.show()
     self._titlegroup = gtk.Label()
