@@ -1332,6 +1332,22 @@ text/plain
     tgt_comboentry.child.connect ("activate", self.do_create_group, win, sel_combo, tgt_comboentry)
     
     tgt_comboentry.grab_focus()
+    
+    # Center it over the current terminal (not perfect?!?)
+    # This could be replaced by a less bothersome dialog, but then that would
+    # center over the window, not the terminal
+    screen_w = gtk.gdk.screen_width()
+    screen_h = gtk.gdk.screen_height()
+    local_x, local_y = self.allocation.x, self.allocation.y
+    local_w, local_h = self.allocation.width, self.allocation.height
+    window_x, window_y = self.get_window().get_origin()
+    x = window_x + local_x
+    y = window_y + local_y
+    win.realize()
+    new_x = min(max(0, x+(local_w/2)-(win.allocation.width/2)), screen_w-win.allocation.width)
+    new_y = min(max(0, y+(local_h/2)-(win.allocation.height/2)), screen_h-win.allocation.height)
+    win.move(new_x, new_y)
+    
     win.show_all ()
 
   def set_groupingscope(self, widget, scope=None, sel_combo=None):
