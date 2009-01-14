@@ -333,7 +333,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   client = None
   cache = {}
 
-  def __init__ (self, profile = None):
+  def __init__ (self, profileName = None):
     self.type = "GConf"
     self.inactive = False
 
@@ -345,16 +345,23 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
     self._gt_dir = Defaults['gt_dir']
     self._profile_dir = Defaults['profile_dir']
 
-    dbg ('VSGConf: Profile requested is: "%s"'%profile)
-    if not profile:
-      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
-    dbg ('VSGConf: Profile bet on is: "%s"'%profile)
+    dbg ('VSGConf: Profile bet on is: "%s"'%profileName)
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
     dbg ('VSGConf: Found profiles: "%s"'%profiles)
 
-    #set up the active encoding list
-    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
-    
+    dbg ('VSGConf: Profile requested is: "%s"'%profileName)
+    if not profileName:
+      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
+    else:
+      profile = profileName
+      # In newer gnome-terminal, the profile keys are named Profile0/1 etc.
+      # We have to match using visible_name instead
+      for p in profiles:
+        profileName2 = self.client.get_string (
+          self._profile_dir + '/' + p + '/visible_name')
+        if profileName == profileName2:
+          profile = p
+
     #need to handle the list of Gconf.value
     if profile in profiles:
       dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
@@ -369,6 +376,9 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       self.inactive = True
       return
 
+    #set up the active encoding list
+    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+    
     self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     if self.on_gconf_notify:
       self.client.notify_add (self.profile, self.on_gconf_notify)
