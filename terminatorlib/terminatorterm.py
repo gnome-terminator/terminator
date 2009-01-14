@@ -326,17 +326,16 @@ text/plain
     dbg ('Drag drop on %s'%parent)
 
   def get_target_terms(self):
-    if self.terminator.groupsend == 0:
-      return [self]
     if self.terminator.groupsend == 2:
       return self.terminator.term_list
-    if self.terminator.groupsend == 1:
+    elif self.terminator.groupsend == 1:
       term_subset = []
       for term in self.terminator.term_list:
         if term == self or (term._group != None and term._group == self._group):
           term_subset.append(term)
       return term_subset
-    return None
+    else:
+      return [self]
 
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     dbg ("Drag Data Received")
@@ -690,7 +689,7 @@ text/plain
     # Left mouse button should transfer focus to this vte widget
     # we also need to give focus on the widget where the paste occured
     if event.button in (1 ,2):
-      if event.button == 2 and self._group:
+      if event.button == 2:
         self.paste_clipboard (True)
         return True
       self._vte.grab_focus ()
