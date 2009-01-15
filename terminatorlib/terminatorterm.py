@@ -498,6 +498,7 @@ text/plain
     dbg ('SEGBUG: Forked command')
 
     self.on_vte_title_change(self._vte) # Force an initial update of our titles
+    self._title.show()
 
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
