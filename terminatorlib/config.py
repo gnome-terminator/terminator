@@ -35,6 +35,11 @@ import os, platform, sys, re
 import pwd
 import gtk, pango
 
+try:
+  import gconf
+except:
+  pass
+
 # set this to true to enable debugging output
 # These should be moved somewhere better.
 debug = False
@@ -332,6 +337,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
   client = None
   cache = {}
+  notifies = {}
 
   def __init__ (self, profileName = None):
     self.type = "GConf"
@@ -439,12 +445,26 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
           value = 'http://%s:%s/'%(
             self.client.get_string ('/system/http_proxy/host'),
             self.client.get_int ('/system/http_proxy/port'))
+    elif key == 'cursor_blink':
+      tmp = self.client.get_string('%s/cursor_blink_mode' % self.profile)
+      if tmp in ['on', 'off'] and self.notifies.has_key ('cursor_blink'):
+        self.client.notify_remove (self.notifies['cursor_blink'])
+        del (self.notifies['cursor_blink'])
+      if tmp == 'on':
+        value = True
+      elif tmp == 'off':
+        value = False
+      elif tmp == 'system':
+        value = self.client.get_bool ('/desktop/gnome/interface/cursor_blink')
+        self.notifies['cursor_blink'] = self.client.notify_add ('/desktop/gnome/interface/cursor_blink', self.on_gconf_notify)
+      else:
+        value = self.client.get ('%s/%s'%(self.profile, key))
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
 
-    if value:
-      from types import StringType
-      if type(value) is StringType:
+    if value != None:
+      from types import StringType,BooleanType
+      if type(value) in [StringType, BooleanType]:
          ret = value
       else:
         funcname = "get_" + Defaults[key].__class__.__name__
