@@ -95,7 +95,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
         if not isinstance (self._notebook.get_nth_page(i), TerminatorTerm):
-          if self._terminator.confirm_close_multiple (self._terminator.window, 'tab'):
+          if self._terminator.confirm_close_multiple (self._terminator.window, _("tab")):
             return False
         term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         while term:
@@ -371,7 +371,7 @@ class Terminator:
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
       return False
-    return self.confirm_close_multiple (window, 'window')
+    return self.confirm_close_multiple (window, _("window"))
 
   def confirm_close_multiple (self, window, type):
     # show dialog

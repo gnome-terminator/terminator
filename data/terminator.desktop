@@ -6,6 +6,7 @@ Comment[be@latin]=Meerdere terminals in een venster
 Comment[en_CA]=Multiple terminals in one window
 Comment[en_GB]=Multiple terminals in one window
 Comment[es]=Multiples terminales en una ventana
+Comment[fr]=Plusieurs terminaux dans une fenêtre
 TryExec=terminator
 Exec=terminator
 Icon=terminator
