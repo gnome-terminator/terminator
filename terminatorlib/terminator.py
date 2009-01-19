@@ -247,6 +247,7 @@ class Terminator:
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
     if self.conf.enable_real_transparency:
+      dbg ('H9TRANS: Enabling real transparency')
       self.enable_rgba(True)
 
     # Start out with just one terminal

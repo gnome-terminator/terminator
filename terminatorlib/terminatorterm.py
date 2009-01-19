@@ -578,13 +578,18 @@ text/plain
     # Set our background image, transparency and type
     # Many thanks to the authors of gnome-terminal, on which this code is based.
     background_type = self.conf.background_type
+    dbg ('H9TRANS: Configuring background type as: %s' % background_type)
 
     # set background image settings
     if background_type == "image":
+      dbg ('H9TRANS: Setting background image to: %s' % self.conf.background_image)
       self._vte.set_background_image_file (self.conf.background_image)
+      dbg ('H9TRANS: Setting background image scroll to: %s' % self.conf.scroll_background)
       self._vte.set_scroll_background (self.conf.scroll_background)
     else:
+      dbg ('H9TRANS: Unsetting background image')
       self._vte.set_background_image_file('')
+      dbg ('H9TRANS: Unsetting background image scrolling')
       self._vte.set_scroll_background(False)
 
     # set transparency for the background (image)
@@ -593,15 +598,21 @@ text/plain
       self._vte.set_background_tint_color (bg_color)
       self._vte.set_background_saturation(1 - (self.conf.background_darkness))
       opacity = int(self.conf.background_darkness * 65535)
+      dbg ('H9TRANS: Set background tint color to: %s' % bg_color)
+      dbg ('H9TRANS: Set background saturation to: %s' % (1 - (self.conf.background_darkness)))
     else:
+      dbg ('H9TRANS: Set background saturation to: 1')
       self._vte.set_background_saturation(1)
       
     if self._composited_support:
+      dbg ('H9TRANS: Set opacity to: %s' % opacity)
       self._vte.set_opacity(opacity)
 
     if self._composited_support and not self._vte.is_composited():
+      dbg ('H9TRANS: Set background transparency to: %s' % (background_type == "transparent"))
       self._vte.set_background_transparent (background_type == "transparent")
     else:
+      dbg ('H9TRANS: Set background transparency to: False, hard')
       self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
