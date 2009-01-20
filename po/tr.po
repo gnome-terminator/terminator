@@ -7,90 +7,96 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-09-17 03:20+0000\n"
-"Last-Translator: seqizz (gurkanGur) <seqizz@gmail.com>\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2008-12-19 23:33+0000\n"
+"Last-Translator: theemoth <sorsakanonin@yahoo.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
+"Terminator 'ü çalıştırmak için gobject, gtk ve pango'nun python eklerini "
+"yüklemelisiniz."
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr ""
+"Terminator'u bir X ortamında çalıştırmanız gerekmektedir. DISPLAY "
+"değişkeninin uygun şekilde ayarlandığına emin olunuz."
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
+"<big><b>Yapılandırma hatası</b></big>\n"
+"\n"
+"terminator_config(5) dosyası ayıklanırken hata(lar) ile karşılaşıldı:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d satır-ı/(ları) gözardı edildi."
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "Yapılandırma hatası"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
 msgstr ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s şunlardan biri olmalı: üst, sol, sağ, alt"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
+msgstr "%s boolean ayarı bir değer bekliyor:yes,no,true,false,on,off"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
+"terminator_config(5)'ten liste değerleri okuması şu anda desteklenmiyor"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
+msgid "Setting %r should be a section name"
 msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
 msgstr ""
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr ""
+msgstr "değer atanmamış"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
-msgstr ""
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "beklenmedik değer"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr "Geçerli Yerel"
+msgstr ""
 
 #: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
@@ -101,7 +107,7 @@ msgstr "Batı"
 #: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
 #: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "Merkezi Avrupa"
+msgstr ""
 
 #: terminatorlib/encoding.py:32
 msgid "South European"
@@ -126,7 +132,7 @@ msgstr "Arapça"
 #: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
 #: terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr "Yunan"
+msgstr ""
 
 #: terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
@@ -186,7 +192,7 @@ msgstr "Korece"
 #: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
 #: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr "Basitleştirilmiş Çince"
+msgstr "Basit Çince"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
@@ -223,41 +229,51 @@ msgstr "İzlandaca"
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamca"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
+msgstr "Tayvan Dili"
+
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
 msgstr ""
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
-msgstr ""
+msgstr "Sekmeyi Kapat"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
+msgid "Invalid geometry string %r"
 msgstr ""
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "Kapat?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "Bütün _Terminalleri Kapat"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
+msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Tüm terminalleri kapat?</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
-"Bu pencerede %s terminal açık. Bu pencere kapatıldığında diğer tüm "
-"terminaller de kapanacaktır."
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -267,78 +283,118 @@ msgstr ""
 "libvte için python bağlayıcılarını yüklemeniz gerekmektedir (debian/ubuntu "
 "için \"python-vte\")"
 
-#: terminatorlib/terminatorterm.py:476
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:484
 msgid "Unable to find a shell"
 msgstr "kabuk bulunması olanaksız"
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
-msgstr "kabuk başlatılması olanaksız "
+msgstr ""
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "_Bağlantıyı aç"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
 msgstr "Bağlantı Adresini _Kopyala"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "Postayı _Gönder..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "E-posta Adresini _Kopyala"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
 msgstr "kaydırma çubuğunu göster"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
 msgstr "başlık çubuğunu göster"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
 msgstr "Y_atay olarak Böl"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
 msgstr "D_ikey olarak Böl"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
-msgstr ""
+msgstr "Sekme Aç"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "hata ayıkla"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "üst seviye sekmesini aç"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "Terminali büyüt"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
-msgstr ""
+msgstr "Terminali küçült"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
 msgstr "Kodlamalar"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
 msgstr "Diğer Kodlamalar"

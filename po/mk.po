@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-09-05 23:33+0000\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2008-09-21 22:48+0000\n"
 "Last-Translator: Мартин Спасовски <shorteysk@gmail.com>\n"
 "Language-Team: Macedonian <mk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
@@ -25,7 +25,7 @@ msgstr ""
 "Вие мора да ги инсталирате python поврзувањата за gobject, gtk и pango за "
 "Терминатор да се изврши."
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -33,73 +33,69 @@ msgstr ""
 "Мора да го извршите Терминатор во X околина. Осигурајте се дека ДИСПЛЕЈ е "
 "правилно конфигуриран."
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
-"При парсирањето на terminator_config(5) датотеката наидено е на грешки:\n"
+"<big><b>Конфигурациска грешка</b></big>\n"
+"\n"
+"Беше наидено на грешки при парсирањето на terminator_config(5) датотеката:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Некои линии се игнорирани."
+"%d линија(и) беа игнорирани."
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "Конфигурациска грешка"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
 msgstr ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr "Поставување %s вредност %s не е валидна боја; игнорирање"
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s мора да е едно од: горе, лево, десно, долу"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Булеан поставување %s очекува едно од следните: да, не, точно, грешно, "
 "уклучено, исклучено"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
-" VS_RCFile: Читање на листата на вредности од .config/terminator/config не е "
-"возможно во моментот."
+"Читање на листа на вредности од terminator_config(5) не е поддржано во "
+"моментот"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
-msgstr "Вредноста %s треба да е име на секција, не поставка"
+msgid "Setting %r should be a section name"
+msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
 msgstr "Непрекинат цитиран стринг"
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr "Поставување без вредност"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
 msgstr "Неочекуван знак"
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr "Секцијата %s се употребува како име за поставка"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -242,35 +238,45 @@ msgstr "Виетнамско"
 msgid "Thai"
 msgstr "Таи"
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
 msgstr "Затвори јазиче"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
-msgstr "Неважечки геометриски стринг %s"
+msgid "Invalid geometry string %r"
+msgstr ""
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "Затворање?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "Затвори ги сите _терминали"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
+msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Да ги затворам сите терминали?</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
-"Овој прозорец има %s терминали отворени. Затворање на прозорецот ги затвора "
-"сите обвивки истотака."
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -280,78 +286,118 @@ msgstr ""
 "Вие мора да ги инсталирате python поврзувањата за libvte (\"python-vte\" во "
 "debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:476
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:484
 msgid "Unable to find a shell"
 msgstr "Неспособен да најде обвивка"
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
 msgstr "Неспособен да започне обвивка: "
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "_Отвори врска"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
 msgstr "_Копирај ја адресата на врската"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "_Испрати порака на..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "_Копирај адреса за е-пошта"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
 msgstr "Покажи _лизгач"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
 msgstr "Покажи _наслов"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
 msgstr "Подели хо_ризонтално"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
 msgstr "Подели вер_тикално"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
 msgstr "Отвори _јазиче"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
 msgstr "Отвори _јазиче за отстранување грешки"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "Отвори јазиче на најгорно место"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
 msgstr "_зумирај терминал"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
 msgstr "Зго_леми терминал"
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
 msgstr "_Одзумирај терминал"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
 msgstr "На_мали терминал"
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
 msgstr "Шифрирања"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
 msgstr "Други шифрирања"

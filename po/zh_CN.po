@@ -7,87 +7,90 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-07-06 18:04+0000\n"
-"Last-Translator: zhuqin <Unknown>\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2009-01-08 12:23+0000\n"
+"Last-Translator: luojie-dune <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
-msgstr "你需要安装gobject，gtk以及pango的python绑定来运行Terminator。"
+msgstr "你需要安装gobject，gtk和pango的python绑定来运行Terminator。"
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr "你需要在一个X环境中运行terminator。请确保显示器已正确设置"
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
+"<big><b>配置错误</b></big>\n"
+"当解析 terminator_config(5) 文件时遇到错误: \n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d 行被略过。"
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "配置错误"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
 msgstr ""
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s 属于其一: 顶部, 左部, 右部, 底部"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
+msgstr "布尔设置 %s 期望是 yes, no, true, false, on, off 中的一个"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
-msgstr ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr "从 terminator_config(5) 读取列表值现在还不支持"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
+msgid "Setting %r should be a section name"
 msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "未结束的引用字符串"
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr ""
+msgstr "设定缺失一个数值"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
-msgstr ""
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "无法识别的分隔符"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr "当前语系"
+msgstr "当前区域"
 
 #: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
 #: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
@@ -107,13 +110,13 @@ msgstr "南欧"
 #: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
 #: terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr "波罗的语"
+msgstr "波罗的海语系"
 
 #: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
 #: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
 #: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr "斯拉夫语字母的"
+msgstr "西里尔文"
 
 #: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
 #: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
@@ -127,12 +130,12 @@ msgstr "希腊语"
 
 #: terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr "希伯来语视觉"
+msgstr "可视希伯来语"
 
 #: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
 #: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr "希伯莱语"
+msgstr "希伯来语"
 
 #: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
 #: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
@@ -187,7 +190,7 @@ msgstr "简体中文"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr "乔治亚语"
+msgstr "格鲁吉亚语"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
@@ -211,7 +214,7 @@ msgstr "古吉拉特语"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr "旁遮普语"
+msgstr "果鲁穆奇语"
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
@@ -226,33 +229,45 @@ msgstr "越南语"
 msgid "Thai"
 msgstr "泰语"
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
+msgstr "名称"
+
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr "行为"
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr "键盘快捷键"
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
 msgstr "关闭标签"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
+msgid "Invalid geometry string %r"
 msgstr ""
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "确定关闭？"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
 msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>关闭所有终端？</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
-msgstr "该窗口开启了%s个终端。关闭窗口将会关闭所有终端。"
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -260,78 +275,118 @@ msgid ""
 "debian/ubuntu)"
 msgstr "你需要安装libvte的python绑定（debian/ubuntu中的包名为“python-vte”）"
 
-#: terminatorlib/terminatorterm.py:476
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr "搜索："
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr "下一个"
+
+#: terminatorlib/terminatorterm.py:484
 msgid "Unable to find a shell"
 msgstr "无法找到shell"
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
 msgstr "无法开启shell： "
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "打开链接(_O)"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
 msgstr "复制链接地址(_C)"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "发送邮件给(_S)..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "复制Email地址(_C)"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
 msgstr "显示滚动条"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
 msgstr "显示标题栏"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
 msgstr "水平分割(_H)"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
 msgstr "垂直分割(_V)"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
 msgstr "打开标签(_T)"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "打开Debug标签(_D)"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "打开顶层标签"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
 msgstr "放大终端(_Z)"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "最大化(_x) 选中的页面"
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
 msgstr "缩小终端(_U)"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
+msgstr "取消最大化(_x) 选中的页面"
+
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
+msgstr "修改档案(_d)"
+
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr "编组(_G)"
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
 msgstr "编码"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
 msgstr "其他编码"

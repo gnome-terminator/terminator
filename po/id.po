@@ -7,23 +7,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-08-27 06:08+0000\n"
-"Last-Translator: Muhammad Zulfikar <muhzulfikar@gmail.com>\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2008-09-29 20:31+0000\n"
+"Last-Translator: Iwan Setiawan <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
+"Anda harus memasang perekat python untuk gobject, gtk dan pango untuk "
+"menjalankan Terminator."
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -31,61 +33,69 @@ msgstr ""
 "Anda harus menjalankan terminator di lingkungan X. Pastikan DISPLAY diatur "
 "dengan benar."
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
+"<big><b>Kesalahan konfigurasi</b></big>\n"
+"\n"
+"Beberapa kesalahan telah ditemukan ketika memparsing terminator_config(5) "
+"berkas:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d baris telah diabaikan"
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "Kesalahan Konfigurasi"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
 msgstr ""
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr ""
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s harus salah satu dari: atas, kiri, kanan, bawah"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
+"Pengaturan Boolan %s membutuhkan salah satu dari: ya, tidak, benar, salah, "
+"on, off"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
+"Membaca daftar nilai dari terminator_config(5) yang saat ini belum didukung"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
+msgid "Setting %r should be a section name"
 msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "Kalimat yang dikutip belum selesai"
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr ""
+msgstr "Pengaturan tanpa sebuah nilai"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
-msgstr ""
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr ""
+msgstr "Token yang tidak diharapkan"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -134,7 +144,7 @@ msgstr "Tampilan Ibrani"
 #: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
 #: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr ""
+msgstr "Bahasa Ibrani"
 
 #: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
 #: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
@@ -143,25 +153,25 @@ msgstr "Turki"
 
 #: terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr ""
+msgstr "Nordic/Eropa Utara"
 
 #: terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr ""
+msgstr "Celtik"
 
 #: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr ""
+msgstr "Bahasa Rumania"
 
 #: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
 #: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
 #: terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr ""
+msgstr "Bahasa Armenia"
 
 #: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
 #: terminatorlib/encoding.py:56
@@ -170,90 +180,102 @@ msgstr "Cina Tradisional"
 
 #: terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "Cyrillic/Rusia"
 
 #: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
 #: terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr ""
+msgstr "Bahasa Jepang"
 
 #: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
 #: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr ""
+msgstr "Bahasa Korea"
 
 #: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
 #: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Bahasa China Sederhana"
 
 #: terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "Bahasa Georgia"
 
 #: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "Cyrillic/Ukrainia"
 
 #: terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "Bahasa Kroasia"
 
 #: terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "Bahasa India"
 
 #: terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "Bahasa Persia"
 
 #: terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "Bahasa Gujarat"
 
 #: terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr ""
+msgstr "Bahasa Gurmukhi"
 
 #: terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "Bahasa Islandia"
 
 #: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
 #: terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "Bahasa Vietnam"
 
 #: terminatorlib/encoding.py:91
 msgid "Thai"
 msgstr "Bahasa Thailand"
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr ""
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
-msgstr ""
+msgstr "Tutup Tab"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
+msgid "Invalid geometry string %r"
 msgstr ""
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "Tutup?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
 msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Tutup semua terminal?</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
 
 #: terminatorlib/terminatorterm.py:39
@@ -264,78 +286,118 @@ msgstr ""
 "Anda butuh untuk menginstal python bindings untuk libvte (\"python-vte\" di "
 "debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:476
-msgid "Unable to find a shell"
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:484
+msgid "Unable to find a shell"
+msgstr "Tidak dapat menemukan sebuah shell."
+
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
 msgstr "Tidak dapat memulai shell: "
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "_Buka Tautan"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
-msgstr ""
+msgstr "_Salin Alamat Tautan"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "_Kirim Surat ke..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "_Salin Alamat Surat"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Tunjukkan _scrollbar"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
 msgstr "Tunjukkan _titlebar"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
 msgstr "Pecah secara H_orisontal"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
 msgstr "Pecah secara V_ertikal"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
-msgstr ""
+msgstr "Buka _Tab"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Buka tab _Debug"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "Buka Tab Paling Atas"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
 msgstr "_Perbesar terminal"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Ma_ksimalkan terminal"
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
-msgstr ""
+msgstr "P_erkecil terminal"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
+msgstr "Mini_malkan terminal"
+
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
 msgstr ""
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
-msgstr ""
+msgstr "Pengodean"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
-msgstr ""
+msgstr "Pengkodean Lainnya"

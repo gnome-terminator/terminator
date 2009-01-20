@@ -7,91 +7,87 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-08-30 01:45+0000\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2008-12-30 02:11+0000\n"
 "Last-Translator: wariua <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
-msgstr "터미네이터를 실행하기 위해선 gobject, gtk, pango의 파이썬 바인딩을 설치해야 합니다."
+msgstr "Terminator를 실행하기 위해선 gobject, gtk, pango의 파이썬 바인딩을 설치해야 합니다."
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
-msgstr "터미네이터는 X 환경에서 실행해야 합니다. DISPLAY 변수가 올바로 설정돼 있는지 확인해 주십시오."
+msgstr "Terminator는 X 환경에서 실행해야 합니다. DISPLAY 변수가 올바로 설정돼 있는지 확인해 주십시오."
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
-"terminator_config(5) 파일을 읽는 중 오류가 발생했습니다:\n"
+"<big><b>설정 오류</b></big>\n"
+"\n"
+"terminator_config(5) 파일을 파싱하는 중 오류가 발생했습니다:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"일부 항목을 무시하였습니다."
+"%d행을 무시하였습니다."
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "설정 오류"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
-msgstr ""
-" * %(message)s, %(lnum)d행:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr "%r 항목의 %r 값은 올바른 색상이 아니므로 무시"
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr "%s 항목의 %s 값은 올바른 색상이 아니므로 무시"
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s 항목은 top, left, right, bottom 중 하나여야 함"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr "%s 항목은 불리언이므로 yes, no, true, false, on, off 중 하나여야 함"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
-msgstr " VS_RCFile: .config/terminator/config에서의 목록값 지정은 현재 지원하지 않음"
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr "terminator_config(5)에서 목록값을 읽는 기능은 아직 지원하지 않음"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
-msgstr "%s의 값은 설정이 아니라 섹션 이름이어야 함"
+msgid "Setting %r should be a section name"
+msgstr "설정 %r 항목은 섹션 이름이어야 함"
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
 msgstr "끝나지 않은 문자열"
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr "설정값 없음"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
 msgstr "알 수 없는 추가 문자열"
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr "섹션 %s의 이름을 설정 이름으로 사용하려고 함"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -234,33 +230,45 @@ msgstr "베트남어"
 msgid "Thai"
 msgstr "타이어"
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
+msgstr "이름"
+
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr "동작"
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr "키보드 바로 가기"
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
 msgstr "탭 닫기"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
-msgstr "잘못된 위치 문자열 %s"
+msgid "Invalid geometry string %r"
+msgstr "잘못된 위치 문자열 %r"
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "닫기 확인"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "모든 터미널 닫기(_T)"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
+msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>터미널을 모두 닫을까요?</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
-msgstr "이 창에는 %s개의 터미널이 열려 있습니다. 창을 닫으면 모든 터미널이 닫힙니다."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -268,78 +276,118 @@ msgid ""
 "debian/ubuntu)"
 msgstr "libvte의 파이썬 바인딩(데비안/우분투에서는 \"python-vte\")을 설치해야 합니다."
 
-#: terminatorlib/terminatorterm.py:476
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr "찾기:"
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr "다음"
+
+#: terminatorlib/terminatorterm.py:484
 msgid "Unable to find a shell"
 msgstr "셸을 찾을 수 없음"
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
 msgstr "셸을 시작할 수 없음: "
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "링크 열기(_O)"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
 msgstr "링크 주소 복사(_C)"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "메일 보내기(_S)..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "메일 주소 복사(_C)"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
-msgstr "스크롤 막대 표시(_s)"
+msgstr "스크롤 막대 표시(_S)"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
-msgstr "제목 막대 표시(_t)"
+msgstr "제목 막대 표시(_T)"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
-msgstr "상하로 나누기(_o)"
+msgstr "상하로 나누기(_O)"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
-msgstr "좌우로 나누기(_e)"
+msgstr "좌우로 나누기(_E)"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
 msgstr "탭 열기(_T)"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
 msgstr "디버깅 탭 열기(_D)"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "최상위 탭 열기"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
 msgstr "터미널 확대(_Z)"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
-msgstr "터미널 최대화(_x)"
+msgstr "터미널 최대화(_X)"
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
 msgstr "확대 취소(_U)"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
-msgstr "최대화 취소(_x)"
+msgstr "최대화 취소(_X)"
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
+msgstr "프로파일 편집(_I)"
+
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr "새 그룹(_N)"
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr "그룹 이름:"
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
 msgstr "인코딩"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
-msgstr "다른 인코딩"
+msgstr "기타 인코딩"

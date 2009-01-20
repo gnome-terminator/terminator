@@ -7,23 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-09-04 20:29+0000\n"
+"POT-Creation-Date: 2009-01-15 00:37+0000\n"
+"PO-Revision-Date: 2008-12-23 18:06+0000\n"
 "Last-Translator: Cris G <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#~ msgid "Split _Horizontally"
-#~ msgstr "Imparte _orizontal"
-
-#~ msgid "Split _Vertically"
-#~ msgstr "Imparte _vertical"
-
-#: terminator:45
+#: terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
@@ -31,7 +25,7 @@ msgstr ""
 "Pentru a putea rula Terminator este nevoie de dependinţele python pentru "
 "gobject, gtk şi pango."
 
-#: terminator:122
+#: terminator:127
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -39,70 +33,65 @@ msgstr ""
 "Terminator trebuie rulat în serverul grafic. Asiguraţi-vă ca MONITORUL să "
 "fie setat corect"
 
-#: terminatorlib/config.py:215
+#: terminatorlib/config.py:238
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
-"S-au verificat erori la analiza fişierului terminator_config(5):\n"
+"<big><b>Eroare setare</b></big>\n"
+"S-au ivit erori la analiza fişierului terminator_config(5):\n"
+"\n"
 "  <b>%s</b>\n"
 "\n"
-"Unele linii au fost ignorate."
+"linia(iile) %d au fost ignorate."
 
-#: terminatorlib/config.py:221
+#: terminatorlib/config.py:246
+msgid "Configuration error"
+msgstr "Eroare setare"
+
+#: terminatorlib/config.py:299
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
-msgstr ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr "Setarea %r valorii %r nu e o culoare valabilă; se ignoră"
 
-#: terminatorlib/config.py:243
+#: terminatorlib/config.py:304
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr "Setarea %s valoare %s nu este o culoare valabilă; ignor"
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s trebuie să fie una dintre: sus, stânga, dreapta, jos"
 
-#: terminatorlib/config.py:251
+#: terminatorlib/config.py:311
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr "Setare boleană %s aşteptată precum: yes, no, true, false, on, off"
 
-#: terminatorlib/config.py:258
+#: terminatorlib/config.py:317
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
-" VS_RCFile: Citirea valorilor listei din .config/terminator/config nu e "
-"suportată momentan"
+"Citirea valorilor listei din terminator-config(5) momentan nu e disponibilă"
 
-#: terminatorlib/config.py:262
+#: terminatorlib/config.py:320
 #, python-format
-msgid "Value %s should be a section name, not a setting"
-msgstr "Valoarea %s ar trebui să fie un nume de secţiune, nu o setare"
+msgid "Setting %r should be a section name"
+msgstr ""
 
-#: terminatorlib/configfile.py:92
+#: terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
 msgstr "Linie cu ghilimele deschise"
 
-#: terminatorlib/configfile.py:139
+#: terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr "Setare cu valoare lipsă"
 
-#: terminatorlib/configfile.py:144
+#: terminatorlib/configfile.py:152
 msgid "Unexpected token"
 msgstr "Element neașteptat"
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr "Secţiunea %s se va folosi ca nume setare"
 
 #: terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -245,35 +234,45 @@ msgstr "Vietnameză"
 msgid "Thai"
 msgstr "Thailandeză"
 
-#: terminatorlib/terminator.py:52
+#: terminatorlib/prefs_profile.py:365
+msgid "Name"
+msgstr "Nume"
+
+#: terminatorlib/prefs_profile.py:372
+msgid "Action"
+msgstr "Acţiune"
+
+#: terminatorlib/prefs_profile.py:379
+msgid "Keyboard shortcut"
+msgstr "Scurtături tastatură"
+
+#: terminatorlib/terminator.py:69
 msgid "Close Tab"
 msgstr "Închide Tab"
 
-#: terminatorlib/terminator.py:157
+#: terminatorlib/terminator.py:223
 #, python-format
-msgid "Invalid geometry string %s"
-msgstr "Linie cu geometrie necorespunzătoare %s"
+msgid "Invalid geometry string %r"
+msgstr ""
 
-#: terminatorlib/terminator.py:224
+#: terminatorlib/terminator.py:378
 msgid "Close?"
 msgstr "Închid?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "Închid toate _terminalele"
+#: terminatorlib/terminator.py:384
+msgid "Close _Terminals"
+msgstr ""
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Închid toate terminalele?</b></big>"
+#: terminatorlib/terminator.py:386
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
 
-#: terminatorlib/terminator.py:235
+#: terminatorlib/terminator.py:389
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
-"Fereastra aceasta are %s terminale deschise. Închizând-o, toate terminalele "
-"deja deschise vor fi închise."
 
 #: terminatorlib/terminatorterm.py:39
 msgid ""
@@ -283,78 +282,124 @@ msgstr ""
 "Trebuie instalată  dependinţa \"python\" pentru \"libvte\" (\"python-vte\" "
 "în debian/ubuntu)."
 
-#: terminatorlib/terminatorterm.py:476
+#: terminatorlib/terminatorterm.py:99
+msgid "Search:"
+msgstr "Căutare:"
+
+#: terminatorlib/terminatorterm.py:116
+msgid "Next"
+msgstr "Următor"
+
+#: terminatorlib/terminatorterm.py:484
 msgid "Unable to find a shell"
 msgstr "Niciun interpretor de comenzi găsit"
 
-#: terminatorlib/terminatorterm.py:495
+#: terminatorlib/terminatorterm.py:504
 msgid "Unable to start shell: "
 msgstr "Imposibilitatea pornirii interpretorului de comenzi: "
 
-#: terminatorlib/terminatorterm.py:859
+#: terminatorlib/terminatorterm.py:954
 msgid "_Open Link"
 msgstr "_Deschide link"
 
-#: terminatorlib/terminatorterm.py:860
+#: terminatorlib/terminatorterm.py:955
 msgid "_Copy Link Address"
 msgstr "_Copiază adresa"
 
-#: terminatorlib/terminatorterm.py:870
+#: terminatorlib/terminatorterm.py:965
 msgid "_Send Mail To..."
 msgstr "_Trimite E-mail la..."
 
-#: terminatorlib/terminatorterm.py:871
+#: terminatorlib/terminatorterm.py:966
 msgid "_Copy Email Address"
 msgstr "_Copiază adresa E-mail"
 
-#: terminatorlib/terminatorterm.py:897
+#: terminatorlib/terminatorterm.py:992
 msgid "Show _scrollbar"
 msgstr "Arată _scrollbar"
 
-#: terminatorlib/terminatorterm.py:902
+#: terminatorlib/terminatorterm.py:997
 msgid "Show _titlebar"
 msgstr "Arată bara _titlu"
 
-#: terminatorlib/terminatorterm.py:913
+#: terminatorlib/terminatorterm.py:1010
 msgid "Split H_orizontally"
 msgstr "Împarte _Orizontal"
 
-#: terminatorlib/terminatorterm.py:914
+#: terminatorlib/terminatorterm.py:1011
 msgid "Split V_ertically"
 msgstr "Împarte V_ertical"
 
-#: terminatorlib/terminatorterm.py:931
+#: terminatorlib/terminatorterm.py:1028
 msgid "Open _Tab"
 msgstr "Deschide _Tab"
 
-#: terminatorlib/terminatorterm.py:936
+#: terminatorlib/terminatorterm.py:1033
 msgid "Open _Debug Tab"
 msgstr "Deschide Tab _Depanare"
 
-#: terminatorlib/terminatorterm.py:942
+#: terminatorlib/terminatorterm.py:1039
 msgid "Open Top Level Tab"
 msgstr "Deschide Tab primul nivel"
 
-#: terminatorlib/terminatorterm.py:951
+#: terminatorlib/terminatorterm.py:1048
 msgid "_Zoom terminal"
 msgstr "_Zoom-ează terminalul"
 
-#: terminatorlib/terminatorterm.py:955
+#: terminatorlib/terminatorterm.py:1052
 msgid "Ma_ximise terminal"
 msgstr "Măreşte terminalul"
 
-#: terminatorlib/terminatorterm.py:960
+#: terminatorlib/terminatorterm.py:1057
 msgid "_Unzoom terminal"
 msgstr "_De-zoom-ează terminalul"
 
-#: terminatorlib/terminatorterm.py:965
+#: terminatorlib/terminatorterm.py:1062
 msgid "Unma_ximise terminal"
 msgstr "De-măreşte terminalul"
 
-#: terminatorlib/terminatorterm.py:989
+#: terminatorlib/terminatorterm.py:1069
+msgid "Ed_it profile"
+msgstr "Ed_itează profilul"
+
+#: terminatorlib/terminatorterm.py:1076
+msgid "_Group"
+msgstr "_Grup"
+
+#: terminatorlib/terminatorterm.py:1100
+msgid "None"
+msgstr "Nimic"
+
+#: terminatorlib/terminatorterm.py:1115
+msgid "_New group"
+msgstr "_Nou grup"
+
+#: terminatorlib/terminatorterm.py:1122
+msgid "_Group all"
+msgstr "_Grupează tot"
+
+#: terminatorlib/terminatorterm.py:1127
+msgid "_Ungroup all"
+msgstr ""
+
+#: terminatorlib/terminatorterm.py:1137
+msgid "Group name:"
+msgstr "Nume grup:"
+
+#: terminatorlib/terminatorterm.py:1189
+msgid "All"
+msgstr "Tot"
+
+#: terminatorlib/terminatorterm.py:1209
 msgid "Encodings"
 msgstr "Codificări"
 
-#: terminatorlib/terminatorterm.py:1007
+#: terminatorlib/terminatorterm.py:1227
 msgid "Other Encodings"
 msgstr "Alte codificări"
+
+#~ msgid "Split _Horizontally"
+#~ msgstr "Imparte _orizontal"
+
+#~ msgid "Split _Vertically"
+#~ msgstr "Imparte _vertical"
