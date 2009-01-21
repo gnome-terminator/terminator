@@ -1,16 +1,13 @@
-#!/bin/sh
-
-gtk-update-icon-cache -q -f /usr/share/icons/hicolor/
-pycentral pkginstall terminator
-
-update-menus >/dev/null 2>&1 || true
-
-#DEBHELPER#
+#!/bin/sh -e
 
 if [ "$1" = "configure" ]; then
-	update-alternatives --install /usr/bin/x-terminal-emulator \
-	   x-terminal-emulator /usr/bin/terminator 50 \
-	   --slave /usr/share/man/man1/x-terminal-emulator.1.gz \
-	   x-terminal-emulator.1.gz /usr/share/man/man1/terminator.1.gz
+        # Add an alternative for aterm
+        update-alternatives --install /usr/bin/terminator terminator /usr/bin/terminator 30
+        # Add an alternative for x-terminal-emulator
+        update-alternatives --install /usr/bin/x-terminal-emulator \
+                x-terminal-emulator /usr/bin/terminator 50 \
+                --slave /usr/share/man/man1/x-terminal-emulator.1.gz \
+                x-terminal-emulator.1.gz /usr/share/man/man1/terminator.1.gz
 fi
 
+#DEBHELPER#

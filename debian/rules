@@ -8,5 +8,8 @@ include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
 
+binary-install/terminator::
+	dh_icons -pterminator
+
 clean::
 	rm -rf build/
