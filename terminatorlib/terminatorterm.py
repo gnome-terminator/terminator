@@ -829,6 +829,36 @@ text/plain
   def key_prev_tab(self):
     self.terminator.previous_tab (self)
 
+  def key_first_tab(self):
+    self.terminator.switch_to_tab (self, 0)
+
+  def key_second_tab(self):
+    self.terminator.switch_to_tab (self, 1)
+
+  def key_third_tab(self):
+    self.terminator.switch_to_tab (self, 2)
+
+  def key_fourth_tab(self):
+    self.terminator.switch_to_tab (self, 3)
+
+  def key_fifth_tab(self):
+    self.terminator.switch_to_tab (self, 4)
+
+  def key_sixth_tab(self):
+    self.terminator.switch_to_tab (self, 5)
+
+  def key_seventh_tab(self):
+    self.terminator.switch_to_tab (self, 6)
+
+  def key_eighth_tab(self):
+    self.terminator.switch_to_tab (self, 7)
+
+  def key_ninth_tab(self):
+    self.terminator.switch_to_tab (self, 8)
+
+  def key_tenth_tab(self):
+    self.terminator.switch_to_tab (self, 9)
+
   def key_reset(self):
     self._vte.reset (True, False)
 

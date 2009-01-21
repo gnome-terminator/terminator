@@ -1127,6 +1127,12 @@ class Terminator:
         notebook.next_page()
       notebook.set_current_page(notebook.get_current_page())
 
+  def switch_to_tab(self, term, index):
+    notebook = self.get_first_parent_notebook(term)
+    if notebook:
+      notebook.set_current_page(index)
+      notebook.set_current_page(notebook.get_current_page())
+
   def move_tab(self, term, direction):
     dbg("moving to direction %s" % direction)
     (notebook, page) = self.get_first_notebook_page(term)
