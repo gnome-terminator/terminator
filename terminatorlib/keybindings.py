@@ -39,6 +39,9 @@ class TerminatorKeybindings:
         bindings = (bindings,)
 
       for binding in bindings:
+        if binding is None:
+          continue
+
         try:
           keyval, mask = self._parsebinding(binding)
           # Does much the same, but with poorer error handling.
