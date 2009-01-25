@@ -730,6 +730,9 @@ text/plain
       dbg ('on_vte_key_press: Called on %s with no event' % term)
       return False
     mapping = self.terminator.keybindings.lookup(event)
+    
+    if mapping == "quake":
+      return False
 
     if mapping and mapping not in self.UnhandledKeybindings:
       dbg("on_vte_key_press: lookup found %r" % mapping)

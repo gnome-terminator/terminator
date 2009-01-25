@@ -88,6 +88,8 @@ if __name__ == '__main__':
       dest="fullscreen", help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", 
       dest="borderless",       help="Turn off the window's borders")
+  parser.add_option("-H", "--hidden", action="store_true", dest="hidden", 
+      help="Open the %s window hidden"%APP_NAME.capitalize())
   parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
       help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback",
@@ -153,7 +155,7 @@ See the following bug report for more details:
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, 
                      options.maximise, options.borderless, options.no_gconf, 
-                     options.geometry)
+                     options.geometry, options.hidden)
 
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver

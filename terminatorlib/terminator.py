@@ -31,6 +31,14 @@ from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
 
+# import keybinder for quake mode
+try:
+  import deskbar.core.keybinder as bindkey
+except:
+  print (_("Unable to find python bindings for deskbar, "\
+           "QUAKE mode is not available."))
+  pass
+
 class TerminatorNotebookTabLabel(gtk.HBox):
   _terminator = None
   _notebook = None
@@ -124,7 +132,7 @@ class Terminator:
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
-                geometry = None):
+                geometry = None, hidden = False):
     self.profile = profile
     self.command = command
 
@@ -134,6 +142,7 @@ class Terminator:
     self._geometry = geometry
     self.debugaddress = None
     self.start_cwd = os.getcwd()
+    self._hidden = False
     self.term_list = []
     self.gnome_client = None
     stores = []
@@ -200,7 +209,6 @@ class Terminator:
       import webbrowser
       self.url_show = webbrowser.open
 
-
     self.icon_theme = gtk.IconTheme ()
 
     self.keybindings = TerminatorKeybindings()
@@ -260,6 +268,14 @@ class Terminator:
     self.window.show ()
     term.spawn_child ()
     self.save_yourself ()
+
+    if hidden or self.conf.hidden:
+      self.hide()
+
+    try:
+      bindkey.tomboy_keybinder_bind(self.conf.keybindings['quake'],self.cbkeyCloak,term)
+    except:
+      pass
 
   def set_handle_size (self, size):
     if size in xrange (0,6):
@@ -338,6 +354,28 @@ class Terminator:
         c.set_restart_command(len(args), args)
         c.set_clone_command(len(args), args)
       return True
+
+  def show(self):
+    """Show the terminator window"""
+    # restore window position
+    self.window.move(self.pos[0],self.pos[1])
+    #self.window.present()
+    self.window.show_now()
+    self._hidden = False   
+
+  def hide(self):
+    """Hide the terminator window"""
+    # save window position
+    self.pos = self.window.get_position()
+    self.window.hide()
+    self._hidden = True
+
+  def cbkeyCloak(self, data):
+    """Callback event for show/hide keypress"""
+    if self._hidden:
+      self.show()
+    else:
+      self.hide()
 
   def maximize (self):
     """ Maximize the Terminator window."""

@@ -96,6 +96,7 @@ Defaults = {
   'fullscreen'            : False,
   'borderless'            : False,
   'maximise'              : False,
+  'hidden'                : False,
   'handle_size'           : -1,
   'focus_on_close'        : 'auto',
   'f11_modifier'          : False,
@@ -139,6 +140,7 @@ Defaults = {
     'full_screen'      : 'F11',
     'reset'            : '<Ctrl><Shift>R',
     'reset_clear'      : '<Ctrl><Shift>G',
+    'quake'            : '<Ctrl><Shift><Alt>a',
   }
 }
 
