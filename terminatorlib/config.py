@@ -150,7 +150,7 @@ Defaults = {
     'full_screen'      : 'F11',
     'reset'            : '<Ctrl><Shift>R',
     'reset_clear'      : '<Ctrl><Shift>G',
-    'quake'            : '<Ctrl><Shift><Alt>a',
+    'hide_window'      : '<Ctrl><Shift><Alt>a',
   }
 }
 

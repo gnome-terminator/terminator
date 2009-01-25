@@ -731,7 +731,7 @@ text/plain
       return False
     mapping = self.terminator.keybindings.lookup(event)
     
-    if mapping == "quake":
+    if mapping == "hide_window":
       return False
 
     if mapping and mapping not in self.UnhandledKeybindings:

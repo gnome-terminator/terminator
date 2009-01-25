@@ -38,7 +38,7 @@ class ProfileEditor:
           'zoom_normal': ['Zoom reset', ''],
           'reset': ['Reset terminal state', ''],
           'reset_clear': ['Reset and clear terminal', ''],
-          'quake': ['Toggle visibility of the window', ''],
+          'hide_window': ['Toggle visibility of the window', ''],
          }
 
   # dictionary for results after setting

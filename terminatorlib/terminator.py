@@ -31,12 +31,11 @@ from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
 
-# import keybinder for quake mode
 try:
   import deskbar.core.keybinder as bindkey
 except:
   dbg (_("Unable to find python bindings for deskbar, "\
-           "QUAKE mode is not available."))
+           "hide_window is not available."))
   pass
 
 class TerminatorNotebookTabLabel(gtk.HBox):
@@ -273,9 +272,9 @@ class Terminator:
       self.hide()
 
     try:
-      bindkey.tomboy_keybinder_bind(self.conf.keybindings['quake'],self.cbkeyCloak,term)
+      bindkey.tomboy_keybinder_bind(self.conf.keybindings['hide_window'],self.cbkeyCloak,term)
     except:
-      dbg (_("Unable to bind quake key"))
+      dbg (_("Unable to bind hide_window key"))
       pass
 
   def set_handle_size (self, size):
