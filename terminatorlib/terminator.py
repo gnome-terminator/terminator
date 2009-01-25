@@ -35,7 +35,7 @@ from terminatorlib.prefs_profile import ProfileEditor
 try:
   import deskbar.core.keybinder as bindkey
 except:
-  print (_("Unable to find python bindings for deskbar, "\
+  dbg (_("Unable to find python bindings for deskbar, "\
            "QUAKE mode is not available."))
   pass
 
@@ -275,6 +275,7 @@ class Terminator:
     try:
       bindkey.tomboy_keybinder_bind(self.conf.keybindings['quake'],self.cbkeyCloak,term)
     except:
+      dbg (_("Unable to bind quake key"))
       pass
 
   def set_handle_size (self, size):
