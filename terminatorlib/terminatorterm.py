@@ -40,6 +40,45 @@ except ImportError:
   error.run()
   sys.exit (1)
 
+class TerminatorTermTitle (gtk.EventBox):
+  _title = None
+  _group = None
+  _separator = None
+  _hbox = None
+
+  def __init__ (self):
+    gtk.EventBox.__init__ (self)
+    self._title = gtk.Label ()
+    self._group = gtk.Label ()
+    self._separator = gtk.VSeparator ()
+    self._hbox = gtk.HBox ()
+
+    self._hbox.pack_start (self._group, False, True)
+    self._hbox.pack_start (self._separator, False, True, 2)
+    self._hbox.pack_start (self._title, True, True)
+    self.add (self._hbox)
+
+    self._title.show ()
+    self._hbox.show ()
+
+  def set_group_label (self, name):
+    """If 'name' is None, hide the group name object, otherwise set it as the group label"""
+    if name:
+      self._group.set_text (name)
+      self._group.show ()
+      self._separator.show ()
+    else:
+      self._group.hide ()
+      self._separator.hide ()
+
+  def set_terminal_title (self, name):
+    """Set the text shown in the titlebar"""
+    self._title.set_text (name)
+
+  def set_background_color (self, color):
+    """Set the background color of the titlebar"""
+    self.modify_bg (gtk.STATE_NORMAL, color)
+
 class TerminatorTerm (gtk.VBox):
 
   matches = {}
@@ -74,17 +113,8 @@ class TerminatorTerm (gtk.VBox):
 
     self._termbox = gtk.HBox ()
     self._termbox.show()
-    self._title = gtk.Label()
-    self._title.show()
-    self._titlegroup = gtk.Label()
-    self._titlesep = gtk.VSeparator ()
-    self._titlebox = gtk.EventBox ()
-    self._titlehbox = gtk.HBox()
-    self._titlehbox.pack_start (self._titlegroup, False, True)
-    self._titlehbox.pack_start (self._titlesep, False, True, 2)
-    self._titlehbox.pack_start (self._title, True, True)
-    self._titlehbox.show ()
-    self._titlebox.add (self._titlehbox)
+    
+    self._titlebox = TerminatorTermTitle ()
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -498,7 +528,8 @@ text/plain
     dbg ('SEGBUG: Forked command')
 
     self.on_vte_title_change(self._vte) # Force an initial update of our titles
-    self._title.show()
+    if self.conf.titlebars:
+      self._titlebox.show ()
 
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
@@ -1207,14 +1238,8 @@ text/plain
     if self._group == data:
       # No action needed
       return
-      
-    if data:
-      self._titlegroup.set_text (data)
-      self._titlegroup.show()
-      self._titlesep.show ()
-    else:
-      self._titlegroup.hide()
-      self._titlesep.hide ()
+    
+    self._titlebox.set_group_label (data)
 
     if not self._group:
       # We were not previously in a group
@@ -1316,7 +1341,7 @@ text/plain
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", title)
     #set the title anyhow, titlebars setting only show/hide the label
-    self._title.set_text(title)
+    self._titlebox.set_terminal_title (title)
     self.terminator.set_window_title("%s - %s" % (re.sub(' - %s' % APP_NAME.capitalize(), '', title), APP_NAME.capitalize()))
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
