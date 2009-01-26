@@ -2,6 +2,7 @@
 # Please keep this file sorted alphabetically.
 #
 [encoding: UTF-8]
+terminator
 terminatorlib/configfile.py
 terminatorlib/config.py
 terminatorlib/encoding.py
