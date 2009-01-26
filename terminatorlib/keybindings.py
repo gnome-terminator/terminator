@@ -87,10 +87,10 @@ class TerminatorKeybindings:
 
   def lookup(self, event):
     try:
-      keyval, egroup, level, consumed = self.keymap.translate_keyboard_state(event.hardware_keycode, event.state, event.group)
+      keyval, egroup, level, consumed = self.keymap.translate_keyboard_state(event.hardware_keycode, event.state & ~gtk.gdk.LOCK_MASK, event.group)
     except TypeError:
       err ("keybindings.lookup failed to translate keyboard event: %s"%dir(event))
       return None
     mask = (event.state & ~consumed) & self._masks
-    return self._lookup.get(mask, self.empty).get(event.keyval, None)
+    return self._lookup.get(mask, self.empty).get(keyval, None)
 
