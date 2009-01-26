@@ -79,6 +79,10 @@ class TerminatorTermTitle (gtk.EventBox):
     """Set the background color of the titlebar"""
     self.modify_bg (gtk.STATE_NORMAL, color)
 
+  def set_foreground_color (self, color):
+    """Set the foreground color of the titlebar"""
+    self._title.modify_fg (color)
+
 class TerminatorTerm (gtk.VBox):
 
   matches = {}
