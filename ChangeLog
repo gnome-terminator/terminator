@@ -1,3 +1,10 @@
+terminator 0.13:
+  * Bug fixes
+  * Added a shortcut key to make the window appear/disappear
+	   (somewhat like a "Quake console" mode. Needs the deskbar
+		  python bindings to work)
+  * Update pot generation to use intltool-update
+
 terminator 0.12:
   * Bug fixes
   * Simultaneous typing support
