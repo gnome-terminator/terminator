@@ -3,7 +3,9 @@
 #
 [encoding: UTF-8]
 build/lib/terminatorlib/config.py
+build/lib/terminatorlib/config_file.py
 build/lib/terminatorlib/encoding.py
+build/lib/terminatorlib/prefs_profile.py
 build/lib/terminatorlib/terminator.py
 build/lib/terminatorlib/terminatorterm.py
 data/terminator.desktop.in
