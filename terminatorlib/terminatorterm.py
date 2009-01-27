@@ -248,6 +248,7 @@ class TerminatorTerm (gtk.VBox):
     dbg ('WEIRD: Flags before calling reconfigure_vte: %s' % self._vte.flags ())
     self.reconfigure_vte ()
     dbg ('WEIRD: Flags after calling reconfigure_vte: %s' % self._vte.flags ())
+    gobject.timeout_add (1000, self.reconfigure_vte)
 
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
@@ -703,6 +704,8 @@ text/plain
     self.focus = self.conf.focus
 
     self._vte.queue_draw ()
+
+    return (False)
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
