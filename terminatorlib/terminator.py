@@ -752,6 +752,7 @@ class Terminator:
 
     # Make sure we are actually ready to do this
     while gtk.events_pending ():
+      dbg ('WEIRD: Running a main loop iteration. 2')
       gtk.main_iteration ()
 
     # create a new terminal and parent pane.
@@ -769,6 +770,7 @@ class Terminator:
 
     # Make sure we are actually ready to return
     while gtk.events_pending ():
+      dbg ('WEIRD: Running a main loop iteration. 3')
       gtk.main_iteration ()
 
     return

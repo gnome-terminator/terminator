@@ -243,6 +243,7 @@ class TerminatorTerm (gtk.VBox):
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
     while gtk.events_pending ():
+      dbg ('WEIRD: Running a main loop iteration. 1')
       gtk.main_iteration ()
     self.reconfigure_vte ()
 
