@@ -45,15 +45,18 @@ class TerminatorTermTitle (gtk.EventBox):
   _group = None
   _separator = None
   _hbox = None
+  _icon = None
 
   def __init__ (self):
     gtk.EventBox.__init__ (self)
     self._title = gtk.Label ()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
+    self._icon = gtk.Image ()
     self._hbox = gtk.HBox ()
 
-    self._hbox.pack_start (self._group, False, True)
+    self._hbox.pack_start (self._icon, False, True, 2)
+    self._hbox.pack_start (self._group, False, True, 2)
     self._hbox.pack_start (self._separator, False, True, 2)
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
@@ -82,6 +85,15 @@ class TerminatorTermTitle (gtk.EventBox):
   def set_foreground_color (self, color):
     """Set the foreground color of the titlebar"""
     self._title.modify_fg (color)
+
+  def set_from_icon_name (self, name, size = gtk.ICON_SIZE_MENU):
+    """Set an icon for the group label"""
+    if not name:
+      self._icon.hide ()
+      return
+
+    self._icon.set_from_icon_name (APP_NAME + name, size)
+    self._icon.show ()
 
 class TerminatorTerm (gtk.VBox):
 
