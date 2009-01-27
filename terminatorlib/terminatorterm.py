@@ -123,6 +123,7 @@ class TerminatorTerm (gtk.VBox):
       self._composited_support = False
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
+    self.reconfigure_vte ()
     self._vte._expose_data = None
     self._vte.show ()
 
@@ -242,13 +243,6 @@ class TerminatorTerm (gtk.VBox):
     dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
-    while gtk.events_pending ():
-      dbg ('WEIRD: Running a main loop iteration. 1')
-      gtk.main_iteration ()
-    dbg ('WEIRD: Flags before calling reconfigure_vte: %s' % self._vte.flags ())
-    self.reconfigure_vte ()
-    dbg ('WEIRD: Flags after calling reconfigure_vte: %s' % self._vte.flags ())
-    gobject.timeout_add (1000, self.reconfigure_vte)
 
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
@@ -704,8 +698,6 @@ text/plain
     self.focus = self.conf.focus
 
     self._vte.queue_draw ()
-
-    return (False)
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
