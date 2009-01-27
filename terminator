@@ -101,6 +101,8 @@ if __name__ == '__main__':
   parser.add_option ("-x", "--execute", dest="execute", action="callback",
       callback=execute_cb, help="Execute the remainder of the command line \
 inside the terminal")
+  parser.add_option ("--working-directory", dest="working_directory",
+      help="Set the terminal's working directory")
   for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
     parser.add_option (item, dest="dummy", action="store", help=SUPPRESS_HELP)
 
@@ -129,6 +131,13 @@ does not make sense")
     err (_("You need to run terminator in an X environment. " \
     "Make sure DISPLAY is properly set"))
     sys.exit(1)
+
+  if options.working_directory:
+      if os.path.exists (os.path.expanduser (options.working_directory)):
+        os.chdir (os.path.expanduser (options.working_directory))
+      else:
+        err (_("The working directory you specified does not exist."))
+        sys.exit (1)
 
   try:
     open (os.path.expanduser ('~/.config/terminator/config'))
