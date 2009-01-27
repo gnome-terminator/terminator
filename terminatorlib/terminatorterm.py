@@ -245,7 +245,9 @@ class TerminatorTerm (gtk.VBox):
     while gtk.events_pending ():
       dbg ('WEIRD: Running a main loop iteration. 1')
       gtk.main_iteration ()
+    dbg ('WEIRD: Flags before calling reconfigure_vte: %s' % self._vte.flags ())
     self.reconfigure_vte ()
+    dbg ('WEIRD: Flags after calling reconfigure_vte: %s' % self._vte.flags ())
 
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
