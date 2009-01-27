@@ -750,6 +750,10 @@ class Terminator:
       dbg ("splitaxis function called, but Terminator was in zoomed mode.")
       return
 
+    # Make sure we are actually ready to do this
+    while gtk.events_pending ():
+      gtk.main_iteration ()
+
     # create a new terminal and parent pane.
     dbg ('SEGBUG: Creating TerminatorTerm')
     terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
@@ -762,6 +766,11 @@ class Terminator:
     dbg ('SEGBUG: showed TerminatorTerm')
     terminal.spawn_child ()
     dbg ('SEGBUG: spawned child')
+
+    # Make sure we are actually ready to return
+    while gtk.events_pending ():
+      gtk.main_iteration ()
+
     return
   
   def remove(self, widget, keep = False):

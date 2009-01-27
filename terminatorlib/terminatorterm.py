@@ -123,7 +123,6 @@ class TerminatorTerm (gtk.VBox):
       self._composited_support = False
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
-    self.reconfigure_vte ()
     self._vte._expose_data = None
     self._vte.show ()
 
@@ -243,6 +242,9 @@ class TerminatorTerm (gtk.VBox):
     dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
+    while gtk.events_pending ():
+      gtk.main_iteration ()
+    self.reconfigure_vte ()
 
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
