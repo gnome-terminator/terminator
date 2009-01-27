@@ -657,10 +657,12 @@ text/plain
 
     if self._composited_support and not self._vte.is_composited():
       dbg ('H9TRANS: Set background transparency to: %s' % (background_type == "transparent"))
-      self._vte.set_background_transparent (background_type == "transparent")
+      background_transparent = (background_type == "transparent")
     else:
       dbg ('H9TRANS: Set background transparency to: False, hard')
-      self._vte.set_background_transparent (False)
+      background_transparent = False
+
+    self._vte.connect_after ("realize", self.set_background_transparent, background_transparent)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
@@ -698,6 +700,10 @@ text/plain
     self.focus = self.conf.focus
 
     self._vte.queue_draw ()
+
+  def set_background_transparent (self, widget, background_transparent):
+    dbg ("Setting VTE transparency to: %s" % background_transparent)
+    self._vte.set_background_transparent (background_transparent)
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
