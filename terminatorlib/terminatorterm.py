@@ -102,6 +102,7 @@ class TerminatorTerm (gtk.VBox):
   _custom_font_size = None
   _group = None
   _want_titlebar = False
+  focus = None
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
@@ -123,7 +124,6 @@ class TerminatorTerm (gtk.VBox):
       self._composited_support = False
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
-    self.reconfigure_vte ()
     self._vte._expose_data = None
     self._vte.show ()
 
@@ -232,6 +232,8 @@ class TerminatorTerm (gtk.VBox):
 
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
+
+    self._vte.connect_after ("realize", self.reconfigure_vte)
 
     self.add_matches(posix = self.conf.try_posix_regexp)
 
@@ -564,7 +566,7 @@ text/plain
     dbg ('get_cwd found: %s'%cwd)
     return (cwd)
 
-  def reconfigure_vte (self):
+  def reconfigure_vte (self, widget = None):
     # Set our emulation
     self._vte.set_emulation (self.conf.emulation)
 
@@ -662,7 +664,8 @@ text/plain
       dbg ('H9TRANS: Set background transparency to: False, hard')
       background_transparent = False
 
-    self._vte.connect_after ("realize", self.set_background_transparent, background_transparent)
+    dbg ("Setting VTE transparency to: %s" % background_transparent)
+    self._vte.set_background_transparent (background_transparent)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
@@ -700,10 +703,6 @@ text/plain
     self.focus = self.conf.focus
 
     self._vte.queue_draw ()
-
-  def set_background_transparent (self, widget, background_transparent):
-    dbg ("Setting VTE transparency to: %s" % background_transparent)
-    self._vte.set_background_transparent (background_transparent)
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
