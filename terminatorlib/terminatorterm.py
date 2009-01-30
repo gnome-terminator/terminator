@@ -41,6 +41,7 @@ except ImportError:
   sys.exit (1)
 
 class TerminatorTermTitle (gtk.EventBox):
+  wanted = None
   _title = None
   _group = None
   _separator = None
@@ -95,13 +96,20 @@ class TerminatorTermTitle (gtk.EventBox):
     self._icon.set_from_icon_name (APP_NAME + name, size)
     self._icon.show ()
 
+  def update (self):
+    """Update our state"""
+    parent = self.get_parent ()
+    if parent._group:
+      self.set_group_label (parent._group)
+    else:
+      self.set_group_label (None)
+
 class TerminatorTerm (gtk.VBox):
 
   matches = {}
   TARGET_TYPE_VTE = 8
   _custom_font_size = None
   _group = None
-  _want_titlebar = False
   focus = None
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
@@ -178,7 +186,7 @@ class TerminatorTerm (gtk.VBox):
 
     if self.conf.titlebars:
       self._titlebox.show()
-      self._want_titlebar = True
+      self._titlebox.wanted = True
     else:
       self._titlebox.hide()
 
@@ -747,7 +755,7 @@ text/plain
     self.toggle_widget_visibility (self._scrollbar)
 
   def do_title_toggle (self):
-    self._want_titlebar = not self._titlebox.get_property ('visible')
+    self._titlebox.wanted = not self._titlebox.get_property ('visible')
     self.toggle_widget_visibility (self._titlebox)
 
   def toggle_widget_visibility (self, widget):
@@ -1271,7 +1279,7 @@ text/plain
       self._group = data
       if data == None:
         # We have been removed from a group
-        if not self.conf.titlebars and not self._want_titlebar:
+        if not self.conf.titlebars and not self._titlebox.wanted:
           self._titlebox.hide ()
       self.terminator.group_hoover ()
 
