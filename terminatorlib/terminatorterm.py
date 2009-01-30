@@ -41,15 +41,17 @@ except ImportError:
   sys.exit (1)
 
 class TerminatorTermTitle (gtk.EventBox):
-  wanted = False
+  wanted = None
   _title = None
   _group = None
   _separator = None
   _hbox = None
   _icon = None
+  _parent = None
 
-  def __init__ (self):
+  def __init__ (self, configwanted = False):
     gtk.EventBox.__init__ (self)
+
     self._title = gtk.Label ()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
@@ -64,6 +66,8 @@ class TerminatorTermTitle (gtk.EventBox):
 
     self._title.show ()
     self._hbox.show ()
+
+    self.wanted = configwanted
 
   def set_group_label (self, name):
     """If 'name' is None, hide the group name object, otherwise set it as the group label"""
@@ -98,9 +102,16 @@ class TerminatorTermTitle (gtk.EventBox):
 
   def update (self):
     """Update our state"""
-    parent = self.get_parent ()
-    if parent._group:
-      self.set_group_label (parent._group)
+    if not self._parent:
+      self._parent = self.get_parent ()
+
+    if (self._parent.conf.titlebars and self.wanted) or self._parent._group:
+      self.show ()
+    else:
+      self.hide ()
+
+    if self._parent._group:
+      self.set_group_label (self._parent._group)
     else:
       self.set_group_label (None)
 
@@ -138,7 +149,7 @@ class TerminatorTerm (gtk.VBox):
     self._termbox = gtk.HBox ()
     self._termbox.show()
     
-    self._titlebox = TerminatorTermTitle ()
+    self._titlebox = TerminatorTermTitle (self.conf.titlebars)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -184,11 +195,7 @@ class TerminatorTerm (gtk.VBox):
     self.pack_start(self._termbox)
     self.pack_end(self._searchbox)
 
-    if self.conf.titlebars:
-      self._titlebox.show()
-      self._titlebox.wanted = True
-    else:
-      self._titlebox.hide()
+    self._titlebox.update ()
 
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
@@ -554,8 +561,7 @@ text/plain
     dbg ('SEGBUG: Forked command')
 
     self.on_vte_title_change(self._vte) # Force an initial update of our titles
-    if self.conf.titlebars:
-      self._titlebox.show ()
+    self._titlebox.update ()
 
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
@@ -1267,21 +1273,13 @@ text/plain
     if self._group == data:
       # No action needed
       return
+    else:
+       self._group = data
     
     self._titlebox.set_group_label (data)
+    self._titlebox.update ()
 
-    if not self._group:
-      # We were not previously in a group
-      self._titlebox.show ()
-      self._group = data
-    else:
-      # We were previously in a group
-      self._group = data
-      if data == None:
-        # We have been removed from a group
-        if not self.conf.titlebars and not self._titlebox.wanted:
-          self._titlebox.hide ()
-      self.terminator.group_hoover ()
+    self.terminator.group_hoover ()
 
   def group_all (self, widget):
     allname = _("All")
@@ -1381,11 +1379,11 @@ text/plain
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
-    self._titlebox.modify_bg(gtk.STATE_NORMAL,self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
+    self._titlebox.set_background_color (self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
     return
 
   def on_vte_focus_out(self, vte, event):
-    self._titlebox.modify_bg(gtk.STATE_NORMAL, self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
+    self._titlebox.set_background_color (self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
     return
 
   def on_vte_focus(self, vte):

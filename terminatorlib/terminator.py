@@ -512,8 +512,8 @@ class Terminator:
     if (isinstance (parent, gtk.Notebook) or isinstance (parent, gtk.Window)) and widget.conf.titlebars:
       #not the only term in the notebook/window anymore, need to reshow the title
       dbg ('SEGBUG: Showing _titlebox')
-      widget._titlebox.show()
-      terminal._titlebox.show()
+      widget._titlebox.update()
+      terminal._titlebox.update()
       
     if isinstance (parent, gtk.Notebook):
       dbg ('SEGBUG: Parent is a notebook')
