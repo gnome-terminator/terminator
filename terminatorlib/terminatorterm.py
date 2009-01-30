@@ -105,6 +105,10 @@ class TerminatorTermTitle (gtk.EventBox):
     if not self._parent:
       self._parent = self.get_parent ()
 
+    if isinstance (self._parent.get_parent (), gtk.Window):
+      self.hide()
+      return
+
     if (self._parent.conf.titlebars and self.wanted) or self._parent._group:
       self.show ()
     else:
