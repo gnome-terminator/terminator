@@ -41,7 +41,7 @@ except ImportError:
   sys.exit (1)
 
 class TerminatorTermTitle (gtk.EventBox):
-  wanted = None
+  wanted = False
   _title = None
   _group = None
   _separator = None
