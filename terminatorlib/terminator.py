@@ -683,6 +683,7 @@ class Terminator:
       # Config validates this.
       pos = getattr(gtk, "POS_%s" % self.conf.tab_position.upper())
       notebook.set_tab_pos(pos)
+      notebook.set_show_tabs (not self.conf.hide_tabbar)
       
       if isinstance(parent, gtk.Paned):
         if parent.get_child1() == child:
