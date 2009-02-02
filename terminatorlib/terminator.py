@@ -1248,6 +1248,7 @@ class Terminator:
         widget._titlebox.show()
 
     widget._vte.grab_focus()
+    widget._titlebox.update()
 
   def zoom_term (self, widget, fontscale = False):
     """Maximize to full window an instance of TerminatorTerm."""

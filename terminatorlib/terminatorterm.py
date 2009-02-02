@@ -48,6 +48,7 @@ class TerminatorTermTitle (gtk.EventBox):
   _hbox = None
   _icon = None
   _parent = None
+  _unzoomed_title = None
 
   def __init__ (self, configwanted = False):
     gtk.EventBox.__init__ (self)
@@ -83,6 +84,10 @@ class TerminatorTermTitle (gtk.EventBox):
     """Set the text shown in the titlebar"""
     self._title.set_text (name)
 
+  def get_terminal_title (self):
+    """Return the text showin in the titlebar"""
+    return (self._title.get_text ())
+
   def set_background_color (self, color):
     """Set the background color of the titlebar"""
     self.modify_bg (gtk.STATE_NORMAL, color)
@@ -104,6 +109,16 @@ class TerminatorTermTitle (gtk.EventBox):
     """Update our state"""
     if not self._parent:
       self._parent = self.get_parent ()
+
+    if self._parent.terminator._zoomed and len (self._parent.terminator.term_list):
+      self._unzoomed_title = self.get_terminal_title ()
+      self.set_terminal_title ("Zoomed terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
+      self.show()
+      return
+    else:
+      if self._unzoomed_title:
+        self.set_terminal_title (self._unzoomed_title)
+        self._unzoomed_title = None
 
     if isinstance (self._parent.get_parent (), gtk.Window):
       self.hide()
