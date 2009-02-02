@@ -112,7 +112,7 @@ class TerminatorTermTitle (gtk.EventBox):
 
     if self._parent.terminator._zoomed and len (self._parent.terminator.term_list):
       self._unzoomed_title = self.get_terminal_title ()
-      self.set_terminal_title ("Zoomed terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
+      self.set_terminal_title ("Zoomed/Maximised terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
       self.show()
       return
     else:
