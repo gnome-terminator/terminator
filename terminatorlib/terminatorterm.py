@@ -160,6 +160,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte = vte.Terminal ()
     if not hasattr(self._vte, "set_opacity") or not hasattr(self._vte, "is_composited"):
       self._composited_support = False
+    dbg ('H9TRANS: composited_support: %s' % self._composited_support)
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
     self._vte._expose_data = None
@@ -690,15 +691,9 @@ text/plain
       dbg ('H9TRANS: Set opacity to: %s' % opacity)
       self._vte.set_opacity(opacity)
 
-    if self._composited_support and not self._vte.is_composited():
-      dbg ('H9TRANS: Set background transparency to: %s' % (background_type == "transparent"))
-      background_transparent = (background_type == "transparent")
-    else:
-      dbg ('H9TRANS: Set background transparency to: False, hard')
-      background_transparent = False
-
-    dbg ("Setting VTE transparency to: %s" % background_transparent)
-    self._vte.set_background_transparent (background_transparent)
+    if background_type == "transparent":
+      if not self.conf.enable_real_transparency:
+        self._vte.set_background_transparent (True)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
