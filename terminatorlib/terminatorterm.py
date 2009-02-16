@@ -1410,4 +1410,7 @@ text/plain
         label.set_title(title)
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
+ 
+  def is_scrollbar_present(self):
+	  return self._scrollbar.get_property('visible')
 
