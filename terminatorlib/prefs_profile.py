@@ -61,7 +61,7 @@ class ProfileEditor:
     self.butbox = gtk.HButtonBox()
     self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
     self.applybut.connect ("clicked", self.apply)
-    self.cancelbut = gtk.Button(stock=gtk.STOCK_CANCEL)
+    self.cancelbut = gtk.Button(stock=gtk.STOCK_CLOSE)
     self.cancelbut.connect ("clicked", self.cancel)
 
     self.box.pack_start(self.notebook, False, False)
@@ -338,9 +338,6 @@ class ProfileEditor:
       newbindings[binding[0]] = binding[1]
     self.term.keybindings.configure (newbindings)
 
-    # We're not actually cancelling, but since all it does is close the window, we might as well use it
-    self.cancel(None)
-  
   def cancel (self, data):
     self.window.destroy()
     self.term.options = None
