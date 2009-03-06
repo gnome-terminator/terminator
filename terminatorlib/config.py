@@ -207,7 +207,7 @@ class TerminatorConfValuestore:
   reconfigure_callback = None
 
   def __init__ (self):
-    self._values = {}
+    self.values = {}
 
   # Our settings
   def __getitem__ (self, keyname):
@@ -221,6 +221,7 @@ class TerminatorConfValuestore:
 
 class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
   def __init__ (self):
+    TerminatorConfValuestore.__init__ (self)
     self.type = "Default"
     self.values = Defaults
 
@@ -228,6 +229,7 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
   type = "RCFile"
   def __init__ (self):
+    TerminatorConfValuestore.__init__ (self)
     try:
       directory = os.environ['XDG_CONFIG_HOME']
     except KeyError, e:
@@ -358,6 +360,7 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   notifies = None
 
   def __init__ (self, profileName = None):
+    TerminatorConfValuestore.__init__ (self)
     self.type = "GConf"
     self.inactive = False
     self.cache = {}
