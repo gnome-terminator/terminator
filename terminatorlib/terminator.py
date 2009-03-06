@@ -127,7 +127,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
 class Terminator:
   options = None
-  groupings = []
+  groupings = None
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
@@ -145,6 +145,7 @@ class Terminator:
     self.term_list = []
     self.gnome_client = None
     stores = []
+    self.groupings = []
 
     store = config.TerminatorConfValuestoreRC ()
     store.set_reconfigure_callback (self.reconfigure_vtes)

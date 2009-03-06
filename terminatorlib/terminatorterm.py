@@ -136,7 +136,7 @@ class TerminatorTermTitle (gtk.EventBox):
 
 class TerminatorTerm (gtk.VBox):
 
-  matches = {}
+  matches = None
   TARGET_TYPE_VTE = 8
   _custom_font_size = None
   _group = None
@@ -148,6 +148,7 @@ class TerminatorTerm (gtk.VBox):
     self.conf = terminator.conf
     self.command = command
     self._oldtitle = ""
+    self.matches = {}
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):

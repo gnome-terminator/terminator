@@ -159,10 +159,12 @@ Defaults = {
 class TerminatorConfig:
   """This class is used as the base point of the config system"""
   callback = None
-  sources = []
+  sources = None
+  _keys = None
 
   def __init__ (self, sources):
-    self._keys = None
+    self.sources = []
+
     for source in sources:
       if isinstance(source, TerminatorConfValuestore):
         self.sources.append (source)
@@ -201,8 +203,11 @@ class TerminatorConfig:
 
 class TerminatorConfValuestore:
   type = "Base"
-  values = {}
+  values = None
   reconfigure_callback = None
+
+  def __init__ (self):
+    self._values = {}
 
   # Our settings
   def __getitem__ (self, keyname):
@@ -349,12 +354,14 @@ Errors were encountered while parsing terminator_config(5) file:
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
   client = None
-  cache = {}
-  notifies = {}
+  cache = None
+  notifies = None
 
   def __init__ (self, profileName = None):
     self.type = "GConf"
     self.inactive = False
+    self.cache = {}
+    self.notifies = {}
 
     import gconf
 
