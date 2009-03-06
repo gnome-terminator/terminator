@@ -918,13 +918,18 @@ class Terminator:
     edge = current_geo['origin_y']
     # botoom edge of the possible target
     new_edge = possible_geo['origin_y']+possible_geo['span_y']
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Vertical distance between two terminals
+    distance = current_geo['offset_y'] - (possible_geo['offset_y'] + possible_geo['span_y'])
     if new_edge < edge:
         #print "new_edge < edge"
         if best_geo is None:
             #print "first thing left"
             return True
         best_edge = best_geo['origin_y']+best_geo['span_y']
-        if new_edge > best_edge:
+        if new_edge > best_edge and distance == horizontalBar:
             #print "closer y"
             return True
         if new_edge == best_edge:
@@ -937,6 +942,9 @@ class Terminator:
             if abs(new_cursor - cursor) < abs(best_cursor - cursor):
                 #print "closer x"
                 return True
+	else:
+		if distance == horizontalBar:
+			return True
     #print "fail"
     return False
 
@@ -950,6 +958,11 @@ class Terminator:
     # top edge of the possible target
     new_edge = possible_geo['origin_y']
     #print "edge: %d new_edge: %d" % (edge, new_edge)
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Vertical distance between two terminals
+    distance = possible_geo['offset_y'] - (current_geo['offset_y'] + current_geo['span_y'])
     if new_edge > edge:
         #print "new_edge > edge"
         if best_geo is None:
@@ -957,7 +970,7 @@ class Terminator:
             return True
         best_edge = best_geo['origin_y']
         #print "best_edge: %d" % (best_edge)
-        if new_edge < best_edge:
+        if new_edge < best_edge and distance == horizontalBar:
             #print "closer y"
             return True
         if new_edge == best_edge:
@@ -970,6 +983,9 @@ class Terminator:
             if abs(new_cursor - cursor) < abs(best_cursor - cursor):
                 #print "closer x"
                 return True
+	else:
+		if distance == horizontalBar:
+			return True
     #print "fail"
     return False
 
@@ -982,13 +998,23 @@ class Terminator:
     edge = current_geo['origin_x']
     # right-side edge of the possible target
     new_edge = possible_geo['origin_x']+possible_geo['span_x']
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Width of the vertical bar that splits terminals
+    if self.term_list[0].is_scrollbar_present():
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+    else:
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+    # Horizontal distance between two terminals
+    distance = current_geo['offset_x'] - (possible_geo['offset_x'] + possible_geo['span_x'])
     if new_edge < edge:
         #print "new_edge(%d) < edge(%d)" % (new_edge, edge)
         if best_geo is None:
             #print "first thing left"
             return True
         best_edge = best_geo['origin_x']+best_geo['span_x']
-        if new_edge > best_edge:
+        if new_edge > best_edge and distance == verticalBar:
             #print "closer x (new_edge(%d) > best_edge(%d))" % (new_edge, best_edge)
             return True
         if new_edge == best_edge:
@@ -998,7 +1024,7 @@ class Terminator:
             new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
             best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
 
-            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor) and distance <> horizontalBar:
                 #print "closer y"
                 return True
     #print "fail"
@@ -1014,6 +1040,16 @@ class Terminator:
     # left-side edge of the possible target
     new_edge = possible_geo['origin_x']
     #print "edge: %d new_edge: %d" % (edge, new_edge)
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Width of the vertical bar that splits terminals
+    if self.term_list[0].is_scrollbar_present():
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+    else:
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+    # Horizontal distance between two terminals
+    distance = possible_geo['offset_x'] - (current_geo['offset_x'] + current_geo['span_x'])
     if new_edge > edge:
         #print "new_edge > edge"
         if best_geo is None:
@@ -1021,7 +1057,7 @@ class Terminator:
             return True
         best_edge = best_geo['origin_x']
         #print "best_edge: %d" % (best_edge)
-        if new_edge < best_edge:
+        if new_edge < best_edge and distance == verticalBar:
             #print "closer x"
             return True
         if new_edge == best_edge:
@@ -1031,7 +1067,7 @@ class Terminator:
             new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
             best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
 
-            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor) and distance <> horizontalBar:
                 #print "closer y"
                 return True
     #print "fail"
