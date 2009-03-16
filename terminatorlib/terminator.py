@@ -71,7 +71,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       self._button.add(self._icon)
       self._button.connect('clicked', self.on_close)
       self._button.set_name("terminator-tab-close-button")
-      self.connect("style-set", self.on_style_set)
+      self._button.connect("style-set", self.on_style_set)
       if hasattr(self._button, "set_tooltip_text"): 
         self._button.set_tooltip_text(_("Close Tab"))
       self.pack_start(self._button, False, False)
@@ -221,6 +221,7 @@ class Terminator:
     self.keybindings.configure(self.conf.keybindings)
 
     self.set_handle_size (self.conf.handle_size)
+    self.set_closebutton_style ()
 
     self.window = gtk.Window ()
     self.window.set_title (APP_NAME.capitalize())
@@ -288,15 +289,16 @@ class Terminator:
         class "GtkPaned" style "terminator-paned-style"
         """ % self.conf.handle_size)
         
-      gtk.rc_parse_string("""
+  def set_closebutton_style (self):
+    gtk.rc_parse_string("""
       style "terminator-tab-close-button-style" {
             GtkWidget::focus-padding = 0
             GtkWidget::focus-line-width = 0
             xthickness = 0
             ythickness = 0
-         }
-         widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
-         """)
+      }
+      widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
+      """)
 
   def enable_rgba (self, rgba = False):
     screen = self.window.get_screen()
