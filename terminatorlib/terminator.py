@@ -74,8 +74,8 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       self.connect("style-set", self.on_style_set)
       if hasattr(self._button, "set_tooltip_text"): 
         self._button.set_tooltip_text(_("Close Tab"))
-        self.pack_start(self._button, False, False)
-        self.show_all()
+      self.pack_start(self._button, False, False)
+      self.show_all()
     else:
       if self._button:
         self._button.remove(self._icon)
