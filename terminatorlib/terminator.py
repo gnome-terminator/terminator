@@ -1293,6 +1293,10 @@ class Terminator:
   def zoom_term (self, widget, fontscale = False):
     """Maximize to full window an instance of TerminatorTerm."""
     self.old_font = widget._vte.get_font ()
+    self.old_char_height = widget._vte.get_char_height ()
+    self.old_char_width = widget._vte.get_char_width ()
+    self.old_allocation = widget._vte.get_allocation ()
+    self.old_padding = widget._vte.get_padding ()
     self.old_columns = widget._vte.get_column_count ()
     self.old_rows = widget._vte.get_row_count ()
     self.old_parent = widget.get_parent()
@@ -1310,47 +1314,52 @@ class Terminator:
 
     if fontscale:
       self.cnid = widget.connect ("size-allocate", self.zoom_scale_font)
-      dbg ('zoom_term: registered font zoom handler to %s with cnid: %s'%(widget, self.cnid))
     else:
       self._maximised = True
 
     widget._vte.grab_focus ()
 
   def zoom_scale_font (self, widget, allocation):
+    # Disconnect ourself so we don't get called again
+    widget.disconnect (self.cnid)
+
     new_columns = widget._vte.get_column_count ()
     new_rows = widget._vte.get_row_count ()
     new_font = widget._vte.get_font ()
-
-    dbg ('zoom_scale_font: Disconnecting %s from %s'%(self.cnid, widget))
-    widget.disconnect (self.cnid)
-
-    dbg ('zoom_scale_font: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
-
-    if new_rows != self.old_rows:
-      titleheight = widget._titlebox.get_allocation().height
-      vtecharheight =  widget._vte.get_char_height()
-      rowdiff = new_rows - self.old_rows + 2
-      dbg ('zoom_scale_font: titlebox height is %d, char_height is %d'%(titleheight, vtecharheight))
-      dbg ('zoom_scale_font: lhs: %d, rhs: %f'%((titleheight / vtecharheight), rowdiff))
-      care_height = (rowdiff <= vtecharheight / rowdiff)
-      dbg ('zoom_scale_font: caring about height difference: %s'%care_height)
-    else:
-      care_height = False
+    new_allocation = widget._vte.get_allocation ()
     
-    if (new_rows <= self.old_rows) or care_height or (new_columns <= self.old_columns):
-      dbg ('zoom_scale_font: Which means I didnt scale on one axis (col: %s, row: %s). Bailing'%((new_columns <= self.old_columns), (new_rows <= self.old_rows)))
+    old_alloc = { 'x': self.old_allocation.width - self.old_padding[0], 
+                  'y': self.old_allocation.height - self.old_padding[1] };
+
+    dbg ('zoom_scale_font: I just went from %dx%d to %dx%d.'%(self.old_columns, self.old_rows, new_columns, new_rows))
+
+    if (new_rows == self.old_rows) or (new_columns == self.old_columns):
+      dbg ('zoom_scale_font: At least one of my axes didn not change size. Refusing to zoom')
       return
+
+    old_char_spacing = old_alloc['x'] - (self.old_columns * self.old_char_width)
+    old_line_spacing = old_alloc['y'] - (self.old_rows * self.old_char_height)
+    dbg ('zoom_scale_font: char. %d = %d - (%d * %d)' % (old_char_spacing, old_alloc['x'], self.old_columns, self.old_char_width))
+    dbg ('zoom_scale_font: lines. %d = %d - (%d * %d)' % (old_line_spacing, old_alloc['y'], self.old_rows, self.old_char_height))
+    dbg ('zoom_scale_font: Previously my char spacing was %d and my row spacing was %d' % (old_char_spacing, old_line_spacing))
 
     old_area = self.old_columns * self.old_rows
     new_area = new_columns * new_rows
     area_factor = new_area / old_area
-
     dbg ('zoom_scale_font: My area changed from %d characters to %d characters, a factor of %f.'%(old_area, new_area, area_factor))
 
-    new_font.set_size (self.old_font.get_size() * (area_factor / 2))
+    dbg ('zoom_scale_font: Post-scale-factor, char spacing should be %d and row spacing %d' % (old_char_spacing * (area_factor/2), old_line_spacing * (area_factor/2)))
+    dbg ('zoom_scale_font: char width should be %d, it was %d' % ((new_allocation.width - (old_char_spacing * (area_factor / 2)))/self.old_columns, self.old_char_width))
+    dbg ('zoom_scale_font: char height should be %d, it was %d' % ((new_allocation.height - (old_line_spacing * (area_factor / 2)))/self.old_rows, self.old_char_height))
+
+    new_char_width = (new_allocation.width - (old_char_spacing * (area_factor / 2)))/self.old_columns
+    new_char_height = (new_allocation.height - (old_line_spacing * (area_factor / 2)))/self.old_rows
+    font_scaling_factor = min (new_char_width / self.old_char_width, new_char_height / self.old_char_height)
+
+    new_font.set_size (self.old_font.get_size() * font_scaling_factor * 0.9)
     dbg ('zoom_scale_font: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
     widget._vte.set_font (new_font)
-
+    
   def unzoom_term (self, widget, fontscale = False):
     """Proof of concept: Go back to previous application                                 
     widget structure.                        
