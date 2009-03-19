@@ -282,6 +282,19 @@ class TerminatorTerm (gtk.VBox):
     os.putenv ('COLORTERM', 'gnome-terminal')
     dbg ('SEGBUG: TerminatorTerm __init__ complete')
 
+  def prepareurl (self, url, match):
+    dbg ("prepareurl: Checking '%s' with a match of '%s'" % (url, match))
+    if match == self.matches['email'] and url[0:7] != 'mailto:':
+      url = 'mailto:' + url
+    elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+      url = 'ftp://' + url
+    elif match == self.matches['addr_only']:
+      url = 'http://' + url
+    elif match == self.matches['launchpad']:
+      url = 'https://bugs.launchpad.net/bugs/%s' % re.sub (r'[^0-9]+', '', url)
+    
+    return url
+
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
     try:
@@ -743,14 +756,7 @@ text/plain
       if event.button == 1:
         url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
         if url:
-          if (url[0][0:7] != "mailto:") & (url[1] == self.matches['email']):
-            address = "mailto:" + url[0]
-          elif url[1] == self.matches['launchpad']:
-            # the only part of 'launchpad' we need are the actual numbers for the bug
-            address = "https://bugs.launchpad.net/bugs/%s" % re.sub(r'[^0-9]+', '', url[0])
-          else:
-            address = url[0]
-          self.openurl ( address )
+          self.openurl (self.prepareurl (url[0], url[1]))
       return False
 
     # Left mouse button should transfer focus to this vte widget
@@ -1052,6 +1058,7 @@ text/plain
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
     url = None
+    address = None
 
     if event:
       url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
@@ -1062,35 +1069,19 @@ text/plain
       time = 0
 
     if url:
-      if url[1] != self.matches['email']:
-        # Add protocol if we launch a URL without it, otherwise xdg-open won't open it
-        if url[1] == self.matches['addr_only']:
-          if url[0][0:3] == "ftp":
-              # "ftp.foo.bar" -> "ftp://ftp.foo.bar"
-              address = "ftp://" + url[0]
-          else:
-              # Assume http
-              address = "http://" + url[0]
-        elif url[1] == self.matches['launchpad']:
-          # the only part of 'launchpad' we need are the actual numbers for the bug 
-          address = "https://bugs.launchpad.net/bugs/%s" % re.sub(r'[^0-9]+', '', url[0])
-        else:
-          address = url[0]
+      address = self.prepareurl (url[0], url[1])
+
+      if url[1] == self.matches['email']:
+        nameopen = _("_Send Mail To...")
+        namecopy = _("_Copy Email Address")
+        item = gtk.MenuItem (nameopen)
+      else:
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
         iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
 
         item = gtk.ImageMenuItem (nameopen)
         item.set_property('image', iconopen)
-      else:
-        if url[0][0:7] != "mailto:":
-          address = "mailto:" + url[0]
-        else:
-          address = url[0]
-        nameopen = _("_Send Mail To...")
-        namecopy = _("_Copy Email Address")
-
-        item = gtk.MenuItem (nameopen)
 
       item.connect ("activate", lambda menu_item: self.openurl (address))
       menu.append (item)
