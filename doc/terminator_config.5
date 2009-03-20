@@ -35,9 +35,17 @@ Default value: \fBFalse\fR
 .TP
 \fBNOTE:\fR To enable transparency you should also see the \fBbackground_type\fR and \fBbackground_darkness\fR settings below.
 .TP
-.B silent_bell\fR (boolean)
-If true, don't make a noise when applications send the escape sequence for the terminal bell. Flash the terminal instead.
+.B audible_bell\fR (boolean)
+If true, make a noise when applications send the escape sequence for the terminal bell.
 Default value: \fBTrue\fR
+.TP
+.B visible_bell\fR (boolean)
+If true, flash the terminal when applications send the escape sequence for the terminal bell.
+Default value: \fBFalse\fR
+.TP
+.B urgent_bell\fR (boolean)
+If true, set the window manager "urgent" hint when applications send the escale sequence for the terminal bell. Any keypress will cancel the urgent status.
+Default value: \fBFalse\fR
 .TP
 .B force_no_bell\fR (boolean)
 If true, don't make a noise or flash. All terminal bells will be ignored.

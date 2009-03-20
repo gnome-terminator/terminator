@@ -141,6 +141,7 @@ class TerminatorTerm (gtk.VBox):
   _custom_font_size = None
   _group = None
   focus = None
+  _urgent_bell_cnid = None
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
@@ -714,17 +715,25 @@ text/plain
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
 
-    # Set our audible belliness
-    silent_bell = self.conf.silent_bell
-    self._vte.set_audible_bell (not silent_bell)
-
-    # Set our visual flashiness
-    self._vte.set_visible_bell (silent_bell)
-
-    # Override our flashybelliness
     if self.conf.force_no_bell:
-      self._vte.set_visible_bell (False)
       self._vte.set_audible_bell (False)
+      self._vte.set_visible_bell (False)
+      if self._urgent_bell_cnid:
+        self._vte.disconnect (self._urgent_bell_cnid)
+        self._urgent_bell_cnid = None
+    else:
+      # Set our audible belliness
+      self._vte.set_audible_bell (self.conf.audible_bell)
+
+      # Set our visual flashiness
+      self._vte.set_visible_bell (self.conf.visible_bell)
+
+      # Set our urgent belliness
+      if self.conf.urgent_bell:
+        self._urgent_bell_cnid = self._vte.connect ("beep", self.terminator.on_beep)
+      elif self._urgent_bell_cnid:
+        self._vte.disconnect (self._urgent_bell_cnid)
+        self._urgent_bell_cnid = None
 
     # Set our scrolliness
     self._vte.set_scrollback_lines (self.conf.scrollback_lines)

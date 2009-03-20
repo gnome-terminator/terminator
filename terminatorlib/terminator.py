@@ -128,6 +128,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 class Terminator:
   options = None
   groupings = None
+  _urgency = False
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
@@ -452,6 +453,16 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     self.die()
 
+  def on_beep (self, terminal):
+    self.set_urgency (True)
+
+  def set_urgency (self, on):
+    if on == self._urgency:
+      return
+
+    self._urgency = on
+    self.window.set_urgency_hint (on)
+
   # keybindings for the whole terminal window (affects the main
   # windows containing the splited terminals)
   def on_key_press (self, window, event):
@@ -460,6 +471,7 @@ class Terminator:
           * F11:              toggle fullscreen state of the window.
           * CTRL - SHIFT - Q: close all terminals
     """
+    self.set_urgency (False)
     mapping = self.keybindings.lookup(event)
 
     if mapping:

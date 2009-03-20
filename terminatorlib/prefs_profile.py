@@ -8,7 +8,7 @@ import gtk, gobject
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
-  appearance = ['titlebars', 'titletips', 'allow_bold', 'silent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
+  appearance = ['titlebars', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
   colours = ['foreground_color','background_color', 'palette']
   behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
   globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']

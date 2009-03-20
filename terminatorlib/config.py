@@ -61,7 +61,9 @@ Defaults = {
   'titlebars'             : True,
   'titletips'             : False,
   'allow_bold'            : True,
-  'silent_bell'           : True,
+  'audible_bell'          : False,
+  'visible_bell'          : True,
+  'urgent_bell'           : False,
   'background_color'      : '#000000',
   'background_darkness'   : 0.5,
   'background_type'       : 'solid',
@@ -309,6 +311,15 @@ Errors were encountered while parsing terminator_config(5) file:
       if len(sections) > 0:
         section = sections[0]
       if section is None:
+        # handle some deprecated configs
+        if key == 'silent_bell':
+          err ("silent_bell config option is deprecated, for the new bell related config options, see: man terminator_config")
+          if value:
+            self.values['audible_bell'] = False
+          else:
+            self.values['audible_bell'] = True
+          key = 'visible_bell'
+            
         if not Defaults.has_key (key):
           raise ValueError("Unknown configuration option %r" % key)
         deftype = Defaults[key].__class__.__name__
