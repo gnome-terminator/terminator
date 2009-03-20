@@ -539,7 +539,7 @@ class Terminator:
       parent.insert_page(pane, None, page)
       notebooktablabel = TerminatorNotebookTabLabel(widget.get_window_title(), parent, self)
       parent.set_tab_label(pane,notebooktablabel)
-      parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_tab_label_packing(pane, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
       if self._tab_reorderable:
         parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
@@ -682,7 +682,8 @@ class Terminator:
       if self._tab_reorderable:
         notebook.connect('page-reordered',self.on_page_reordered)
         notebook.set_tab_reorderable(widget, True)
-      notebook.set_property('homogeneous', True)
+      notebook.set_property('homogeneous', not self.conf.scroll_tabbar)
+      notebook.set_scrollable (self.conf.scroll_tabbar)
       # Config validates this.
       pos = getattr(gtk, "POS_%s" % self.conf.tab_position.upper())
       notebook.set_tab_pos(pos)
@@ -707,7 +708,7 @@ class Terminator:
         notebooklabel = widget.get_window_title()
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
-      notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
+      notebook.set_tab_label_packing(child, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
 
       wal = self.window.allocation
       if not (self._maximised or self._fullscreen):
@@ -732,7 +733,7 @@ class Terminator:
     notebooklabel = terminal.get_window_title()
     notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
     notebook.set_tab_label(terminal, notebooktablabel)
-    notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
+    notebook.set_tab_label_packing(terminal, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
     if self._tab_reorderable:
       notebook.set_tab_reorderable(terminal,True)
     ## Now, we set focus on the new term
@@ -807,7 +808,7 @@ class Terminator:
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
         grandparent.set_tab_label(sibling, TerminatorNotebookTabLabel("",grandparent, self))
-        grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        grandparent.set_tab_label_packing(sibling, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)
@@ -1375,7 +1376,7 @@ class Terminator:
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.insert_page(widget, None, self.old_page)
         self.old_parent.set_tab_label(widget, TerminatorNotebookTabLabel("", self.old_parent, self))
-        self.old_parent.set_tab_label_packing(widget, True, True, gtk.PACK_START)
+        self.old_parent.set_tab_label_packing(widget, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           self.old_parent.set_tab_reorderable(widget, True)
         self.old_parent.set_current_page(self.old_page)
