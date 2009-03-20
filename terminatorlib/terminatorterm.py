@@ -708,6 +708,8 @@ text/plain
     if background_type == "transparent":
       if not self.conf.enable_real_transparency:
         self._vte.set_background_transparent (True)
+      else:
+        self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
