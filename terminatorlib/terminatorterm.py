@@ -398,7 +398,7 @@ text/plain
     #here, we define some widget internal values
     widget._expose_data = { 'color': color, 'coord' : coord }
     #redraw by forcing an event
-    connec = widget.connect('expose-event', self.on_expose_event)
+    connec = widget.connect_after('expose-event', self.on_expose_event)
     widget.window.invalidate_rect(rect, True)
     widget.window.process_updates(True)
     #finaly reset the values
