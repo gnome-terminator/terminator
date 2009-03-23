@@ -44,20 +44,29 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   _label = None
   _icon = None
   _button = None
+  _ebox = None
+  _autotitle = None
+  custom = None
     
   def __init__(self, title, notebook, terminator):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self._terminator = terminator
+    self.custom = False
     
     self._label = gtk.Label(title)
     self.update_angle()
-    self.pack_start(self._label, True, True)
+
+    self._ebox = gtk.EventBox ()
+    self._ebox.set_visible_window (False)
+    self._ebox.add (self._label)
+    self.pack_start(self._ebox, True, True)
 
     self._icon = gtk.Image()
     self._icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     
     self.update_closebut()
+    self._ebox.connect ("button-press-event", self.on_click_title)
 
     self.show_all()
 
@@ -113,8 +122,10 @@ class TerminatorNotebookTabLabel(gtk.HBox):
           term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         break
 
-  def set_title(self, title):
-    self._label.set_text(title)
+  def set_title(self, title, force=False):
+    self._autotitle = title
+    if not self.custom or force:
+      self._label.set_text(title)
 
   def get_title(self):
     return self._label.get_text()
@@ -124,6 +135,43 @@ class TerminatorNotebookTabLabel(gtk.HBox):
 
   def width_request(self):
     return self.size_request()[0]
+
+  def on_click_title(self, widget, event):
+    if event.type == gtk.gdk._2BUTTON_PRESS and self._ebox in self.get_children ():
+      self.remove (self._ebox)
+      self._entry = gtk.Entry ()
+      self._entry.set_text (self._label.get_text ())
+      self._entry.show ()
+      self.pack_start (self._entry)
+      self.reorder_child (self._entry, 0)
+      self._notebook.connect ("switch-page", self.entry_to_label)
+      self._entry.connect ("activate", self.on_entry_activated)
+      self._entry.connect ("key-press-event", self.on_entry_keypress)
+
+  def entry_to_label (self, widget, page, page_num):
+    if (self._entry):
+      self.remove (self._entry)
+      self.add (self._ebox)
+      self._entry = None
+      self.reorder_child (self._ebox, 0)
+      self._ebox.show_all ()
+
+  def on_entry_activated (self, widget):
+    entry = self._entry.get_text ()
+    label = self._label.get_text ()
+
+    if entry == '':
+      self.custom = False
+      self.set_title (self._autotitle)
+    elif entry != label:
+      self.custom = True
+      self.set_title (self._entry.get_text (), True)
+    self.entry_to_label (None, None, None)
+
+  def on_entry_keypress (self, widget, event):
+    key = gtk.gdk.keyval_name (event.keyval)
+    if key == 'Escape':
+      self.entry_to_label (None, None, None)
 
 class Terminator:
   options = None
@@ -538,6 +586,8 @@ class Terminator:
         if parent.get_nth_page(i) == widget:
           page = i
           break
+
+      label = parent.get_tab_label (widget)
       widget.reparent (pane)
       if pos in ("top", "left"):
         pane.remove(widget)
@@ -549,8 +599,7 @@ class Terminator:
       #parent.remove_page(page)
       pane.show()
       parent.insert_page(pane, None, page)
-      notebooktablabel = TerminatorNotebookTabLabel(widget.get_window_title(), parent, self)
-      parent.set_tab_label(pane,notebooktablabel)
+      parent.set_tab_label(pane,label)
       parent.set_tab_label_packing(pane, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
       if self._tab_reorderable:
         parent.set_tab_reorderable(pane, True)
@@ -816,10 +865,11 @@ class Terminator:
           if grandparent.get_nth_page(i) == parent:
             page = i
             break
+        label = grandparent.get_tab_label (parent)
         parent.remove(sibling)
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
-        grandparent.set_tab_label(sibling, TerminatorNotebookTabLabel("",grandparent, self))
+        grandparent.set_tab_label(sibling, label)
         grandparent.set_tab_label_packing(sibling, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           grandparent.set_tab_reorderable(sibling, True)
@@ -1318,6 +1368,7 @@ class Terminator:
       return
     if isinstance(self.old_parent, gtk.Notebook):
       self.old_page = self.old_parent.get_current_page()
+      self.old_label = self.old_parent.get_tab_label (self.old_parent.get_nth_page (self.old_page))
 
     self.window_child = self.window.get_children()[0]
     self.window.remove(self.window_child)
@@ -1387,7 +1438,7 @@ class Terminator:
       self.window.add(self.window_child)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.insert_page(widget, None, self.old_page)
-        self.old_parent.set_tab_label(widget, TerminatorNotebookTabLabel("", self.old_parent, self))
+        self.old_parent.set_tab_label(widget, self.old_label)
         self.old_parent.set_tab_label_packing(widget, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           self.old_parent.set_tab_reorderable(widget, True)
