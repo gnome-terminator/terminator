@@ -4,6 +4,10 @@ terminator 0.13:
 	   (somewhat like a "Quake console" mode. Needs the deskbar
 		  python bindings to work)
   * Update pot generation to use intltool-update
+  * Allow users to permanently fix the title of a tab
+  * Added command line option to specify working directory
+  * Improve transparency support in composited desktops.
+  * The tab bar can now be hidden and/or scrolled.
 
 terminator 0.12:
   * Bug fixes
