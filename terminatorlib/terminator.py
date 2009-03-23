@@ -147,6 +147,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       self._notebook.connect ("switch-page", self.entry_to_label)
       self._entry.connect ("activate", self.on_entry_activated)
       self._entry.connect ("key-press-event", self.on_entry_keypress)
+      self._entry.grab_focus ()
 
   def entry_to_label (self, widget, page, page_num):
     if (self._entry):
