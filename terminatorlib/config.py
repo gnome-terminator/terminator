@@ -71,6 +71,7 @@ Defaults = {
   'backspace_binding'     : 'ascii-del',
   'delete_binding'        : 'delete-sequence',
   'cursor_blink'          : True,
+  'cursor_shape'          : 'block',
   'cursor_color'          : '',
   'emulation'             : 'xterm',
   'font'                  : 'Mono 10',

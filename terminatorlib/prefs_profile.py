@@ -8,7 +8,7 @@ import gtk, gobject
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
-  appearance = ['titlebars', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
+  appearance = ['titlebars', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
   colours = ['foreground_color','background_color', 'cursor_color', 'palette']
   behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
   globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
@@ -51,6 +51,7 @@ class ProfileEditor:
   background_type = ['solid', 'image', 'transparent']
   tab_position = ['top', 'bottom', 'left', 'right']
   tab_position_gtk = {'top' : gtk.POS_TOP, 'bottom' : gtk.POS_BOTTOM, 'left' : gtk.POS_LEFT, 'right' : gtk.POS_RIGHT}
+  cursor_shape = ['block', 'ibeam', 'underline']
 
   def __init__ (self, term):
     self.term = term
@@ -201,6 +202,11 @@ class ProfileEditor:
         for item in self.tab_position:
           widget.append_text (item)
         widget.set_active (self.tab_position.index(value))
+      elif key == 'cursor_shape':
+        widget = gtk.combo_box_new_text()
+        for item in self.cursor_shape:
+          widget.append_text (item)
+        widget.set_active (self.cursor_shape.index (value))
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
@@ -248,6 +254,8 @@ class ProfileEditor:
             bucket = self.background_type
           elif widget.name == 'tab_position':
             bucket = self.tab_position
+          elif widget.name == 'cursor_shape':
+            bucket = self.cursor_shape
           else:
             err("Unknown bucket type for %s" % widget.name)
             continue
