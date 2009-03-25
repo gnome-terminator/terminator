@@ -8,6 +8,8 @@ terminator 0.13:
   * Added command line option to specify working directory
   * Improve transparency support in composited desktops.
   * The tab bar can now be hidden and/or scrolled.
+  * Add configurability of cursor colour and shape
+  * Support various VoIP URIs
 
 terminator 0.12:
   * Bug fixes

@@ -498,6 +498,7 @@ text/plain
       else:
         err ('add_matches: Failed adding URL match patterns')
     else:
+      self.matches['voip'] = self._vte.match_add(lboundry + '(callto:|h323:|sip:)' + "[" + userchars + "+][" + userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" + rboundry)
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
@@ -1092,6 +1093,10 @@ text/plain
       if url[1] == self.matches['email']:
         nameopen = _("_Send Mail To...")
         namecopy = _("_Copy Email Address")
+        item = gtk.MenuItem (nameopen)
+      elif url[1] == self.matches['voip']:
+        nameopen = _("Ca_ll To...")
+        namecopy = _("_Copy Call Address")
         item = gtk.MenuItem (nameopen)
       else:
         nameopen = _("_Open Link")
