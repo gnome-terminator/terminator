@@ -673,6 +673,10 @@ text/plain
         palette.append (gtk.gdk.color_parse (color))
     self._vte.set_colors (fg_color, bg_color, palette)
 
+    cursor_color = self.conf.cursor_color
+    if cursor_color != '':
+      self._vte.set_color_cursor (gtk.gdk.color_parse (cursor_color))
+
     # Set our background image, transparency and type
     # Many thanks to the authors of gnome-terminal, on which this code is based.
     background_type = self.conf.background_type
