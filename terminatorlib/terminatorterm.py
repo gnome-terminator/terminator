@@ -761,6 +761,9 @@ text/plain
         elif self.scrollbar_position == 'left':
           self._termbox.reorder_child (self._scrollbar, 0)
 
+    if hasattr (self._vte, "set_alternate_screen_scroll"):
+      self._vte.set_alternate_screen_scroll (self.conf.alternate_screen_scroll)
+
     # Set our sloppiness
     self.focus = self.conf.focus
 

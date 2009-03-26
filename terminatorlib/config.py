@@ -113,6 +113,7 @@ Defaults = {
   'try_posix_regexp'      : platform.system() != 'Linux',
   'hide_tabbar'           : False,
   'scroll_tabbar'         : False,
+  'alternate_screen_scroll': True,
   'keybindings'           : {
     'zoom_in'          : '<Ctrl>plus',
     'zoom_out'         : '<Ctrl>minus',

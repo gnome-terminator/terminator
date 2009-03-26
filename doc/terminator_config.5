@@ -127,6 +127,10 @@ Default value: \fBTrue\fR
 If true, whenever there's new output the terminal will scroll to the bottom.
 Default value: \fBTrue\fR
 .TP
+.B alternate_screen_scroll \fR(boolean)
+Whether or not the mouse wheel scrolls alternate screen buffers (man, vim, mutt, etc). This is the default behavior of VTE, however Ubuntu and possbly other distributions feature patched versions of VTE where this functionality is optional. The option only effects the patched versions of VTE, otherwise it is ignored.
+Default value: \fBTrue\fR
+.TP
 .B scrollback_lines
 Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Be careful with this setting; it's the primary factor in determining how much memory the terminal will use.
 Default value: \fB500\fR
