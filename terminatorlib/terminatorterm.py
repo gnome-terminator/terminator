@@ -739,7 +739,10 @@ text/plain
 
       # Set our urgent belliness
       if self.conf.urgent_bell:
-        self._urgent_bell_cnid = self._vte.connect ("beep", self.terminator.on_beep)
+        try:
+          self._urgent_bell_cnid = self._vte.connect ("beep", self.terminator.on_beep)
+        except TypeError:
+          err ("beep signal not supported by your VTE, urgent handler not available")
       elif self._urgent_bell_cnid:
         self._vte.disconnect (self._urgent_bell_cnid)
         self._urgent_bell_cnid = None
