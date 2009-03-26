@@ -679,7 +679,8 @@ text/plain
       self._vte.set_color_cursor (gtk.gdk.color_parse (cursor_color))
 
     # Set cursor shape
-    self._vte.set_cursor_shape (vte.__dict__["CURSOR_SHAPE_" + self.conf.cursor_shape.upper ()])
+    if hasattr (self._vte, "set_cursor_shape"):
+      self._vte.set_cursor_shape (getattr (vte, "CURSOR_SHAPE_" + self.conf.cursor_shape.upper ()))
 
     # Set our background image, transparency and type
     # Many thanks to the authors of gnome-terminal, on which this code is based.
