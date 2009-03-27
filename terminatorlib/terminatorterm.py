@@ -848,9 +848,16 @@ text/plain
       return False
 
     if mapping and mapping not in self.UnhandledKeybindings:
-      dbg("on_vte_key_press: lookup found %r" % mapping)
-      getattr(self, "key_" + mapping)()
-      return True
+      dbg("on_vte_key_press: lookup found %r" % mapping) 
+      # handle the case where user has re-bound copy to ctrl+<key>
+      # we only copy if there is a selection otherwise let it fall through to ^<key>
+      if (mapping == "copy" and event.state & gtk.gdk.CONTROL_MASK):
+        if self._vte.get_has_selection ():
+          getattr(self, "key_" + mapping)()
+          return True
+      else:
+        getattr(self, "key_" + mapping)()
+        return True
 
     if self._group and self._vte.is_focus ():
       self.terminator.group_emit (self, self._group, 'key-press-event', event)
