@@ -1419,9 +1419,14 @@ class Terminator:
 
     new_char_width = (new_allocation.width - (old_char_spacing * (area_factor / 2)))/self.old_columns
     new_char_height = (new_allocation.height - (old_line_spacing * (area_factor / 2)))/self.old_rows
-    font_scaling_factor = min (new_char_width / self.old_char_width, new_char_height / self.old_char_height)
+    font_scaling_factor = min (float(new_char_width) / float(self.old_char_width), float(new_char_height) / float(self.old_char_height))
 
-    new_font.set_size (self.old_font.get_size() * font_scaling_factor * 0.9)
+    new_font_size = self.old_font.get_size () * font_scaling_factor * 0.9
+    if new_font_size < self.old_font.get_size ():
+      dbg ('zoom_scale_font: new font size would have been smaller. bailing.')
+      return
+
+    new_font.set_size (new_font_size)
     dbg ('zoom_scale_font: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
     widget._vte.set_font (new_font)
     
