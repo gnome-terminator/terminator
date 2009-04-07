@@ -121,6 +121,8 @@ does not make sense")
   if options.debug:
     terminatorlib.config.debug = True
 
+  dbg ("Terminator starting up, version %s" % APP_VERSION)
+
   command = None
   if (options.command):
     command = options.command
