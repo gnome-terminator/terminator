@@ -8,13 +8,14 @@ import gtk, gobject
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
-  appearance = ['titlebars', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
+  appearance = ['titlebars', 'zoomedtitlebar', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
   colours = ['foreground_color','background_color', 'cursor_color', 'palette']
   behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'alternate_screen_scroll', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
   globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
 
   # metadata about the settings
   data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
+          'zoomedtitlebar': ['Show titlebar when zoomed', 'This places an informative bar above a zoomed terminal to indicate there are hidden terminals.'],
           'titletips': ['Show title tooltips', 'This adds a tooltip to each terminal which contains its title'],
           'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
           'silent_bell': ['', 'When enabled, bell events will generate a flash. When disabled, they will generate a beep'],

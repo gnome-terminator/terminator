@@ -59,6 +59,7 @@ Defaults = {
   'gt_dir'                : '/apps/gnome-terminal',
   'profile_dir'           : '/apps/gnome-terminal/profiles',
   'titlebars'             : True,
+  'zoomedtitlebar'        : True,
   'titletips'             : False,
   'allow_bold'            : True,
   'audible_bell'          : False,

@@ -111,9 +111,13 @@ class TerminatorTermTitle (gtk.EventBox):
       self._parent = self.get_parent ()
 
     if self._parent.terminator._zoomed and len (self._parent.terminator.term_list):
-      self._unzoomed_title = self.get_terminal_title ()
-      self.set_terminal_title ("Zoomed/Maximised terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
-      self.show()
+      if not self._unzoomed_title:
+        self._unzoomed_title = self.get_terminal_title ()
+      if self._parent.conf.zoomedtitlebar:
+        self.set_terminal_title ("Zoomed/Maximised terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
+        self.show()
+      else:
+        self.hide()
       return
     else:
       if self._unzoomed_title:
@@ -770,6 +774,8 @@ text/plain
     # Set our sloppiness
     self.focus = self.conf.focus
 
+    # Sync our titlebar state
+    self._titlebox.update ()
     self._vte.queue_draw ()
 
   def on_composited_changed (self, widget):
