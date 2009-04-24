@@ -2,7 +2,9 @@ Source: terminator
 Section: misc
 XS-Python-Version: all
 Priority: optional
-Maintainer: Nicolas Valcárcel <nvalcarcel@gmail.com> 
+Maintainer: Nicolas Valcárcel Scerpella <nvalcarcel@canonical.com>
+Uploaders: Rudy Godoy Guillén <rudy@debian.org>,
+ Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>
 Build-Depends: debhelper (>= 5.0.62), python, cdbs (>= 0.4.49)
 Build-Depends-Indep: python-central (>= 0.5.6)
 Standards-Version: 3.8.0

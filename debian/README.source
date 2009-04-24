@@ -1,0 +1,4 @@
+This package uses CDBS simple patchsys. dpkg-source -x does produce source
+ready for building with dpkg-buildpackage. It does not procude source ready
+for editing. To edit or update a patch, use cdbs-edit-patch.
+See cdbs-edit-patch(1) manual page for details.

@@ -1,8 +1,6 @@
 #!/bin/sh -e
 
 if [ "$1" = "configure" ]; then
-        # Add an alternative for aterm
-        update-alternatives --install /usr/bin/terminator terminator /usr/bin/terminator 30
         # Add an alternative for x-terminal-emulator
         update-alternatives --install /usr/bin/x-terminal-emulator \
                 x-terminal-emulator /usr/bin/terminator 50 \
