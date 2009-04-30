@@ -43,6 +43,8 @@ except ImportError:
 class TerminatorTermTitle (gtk.EventBox):
   wanted = None
   _title = None
+  _termtext = ""
+  _sizetext = ""
   _group = None
   _separator = None
   _hbox = None
@@ -81,12 +83,22 @@ class TerminatorTermTitle (gtk.EventBox):
       self._separator.hide ()
 
   def set_terminal_title (self, name):
-    """Set the text shown in the titlebar"""
-    self._title.set_text (name)
+    """Set the title text shown in the titlebar"""
+    self._termtext = name
+    self.update_label ()
+
+  def set_terminal_size (self, width, height):
+    """Set the terminal size shown in the titlebar"""
+    self._sizetext = "%sx%s" % (width, height)
+    self.update_label ()
+
+  def update_label (self):
+    """Update the gtk label with values previously set"""
+    self._title.set_text ("%s %s" % (self._termtext, self._sizetext))
 
   def get_terminal_title (self):
     """Return the text showin in the titlebar"""
-    return (self._title.get_text ())
+    return (self._termtext)
 
   def set_background_color (self, color):
     """Set the background color of the titlebar"""
@@ -262,6 +274,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
     self._vte.connect ("resize-window", self.on_resize_window)
+    self._vte.connect ("size-allocate", self.on_vte_size_allocate)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -316,6 +329,9 @@ class TerminatorTerm (gtk.VBox):
 
   def on_resize_window(self, widget, width, height):
     dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
+
+  def on_vte_size_allocate(self, widget, allocation):
+    self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
