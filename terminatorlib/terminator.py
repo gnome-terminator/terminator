@@ -212,7 +212,7 @@ class Terminator:
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
-                geometry = None, hidden = False):
+                geometry = None, hidden = False, forcedtitle = None):
     self.profile = profile
     self.command = command
 
@@ -306,6 +306,8 @@ class Terminator:
 
     self.window = gtk.Window ()
     self.windowtitle = TerminatorWindowTitle (self.window)
+    if forcedtitle:
+      self.windowtitle.force_title (forcedtitle)
     self.windowtitle.update ()
 
     if self._geometry is not None:

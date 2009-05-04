@@ -10,6 +10,7 @@ terminator 0.13:
   * The tab bar can now be hidden and/or scrolled.
   * Add configurability of cursor colour and shape
   * Support various VoIP URIs
+  * Addcommand line option to force a particular window title
 
 terminator 0.12:
   * Bug fixes
