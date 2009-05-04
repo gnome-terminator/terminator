@@ -38,6 +38,37 @@ except:
            "hide_window is not available."))
   pass
 
+class TerminatorWindowTitle():
+  _window = None
+  _appname = APP_NAME.capitalize()
+  text = None
+  _forced = False
+
+  def __init__ (self, window):
+    self._window = window
+
+  def set_title (self, newtext):
+    if not self._forced:
+      self.text = newtext
+      self.update ()
+
+  def force_title (self, newtext):
+    if newtext:
+      self.set_title (newtext)
+      self._forced = True
+    else:
+      self._forced = False
+
+  def update (self):
+    title = None
+
+    if self._forced:
+      title = self.text
+    else:
+      title = "%s - %s" % (self.text, self._appname)
+
+    self._window.set_title (title)
+    
 class TerminatorNotebookTabLabel(gtk.HBox):
   _terminator = None
   _notebook = None
@@ -274,7 +305,8 @@ class Terminator:
     self.set_closebutton_style ()
 
     self.window = gtk.Window ()
-    self.window.set_title (APP_NAME.capitalize())
+    self.windowtitle = TerminatorWindowTitle (self.window)
+    self.windowtitle.update ()
 
     if self._geometry is not None:
       dbg("Geometry=%s" % self._geometry)
@@ -538,7 +570,7 @@ class Terminator:
     """
     Modifies Terminator window title
     """
-    self.window.set_title(title)
+    self.windowtitle.set_title(title)
     
   def add(self, widget, terminal, pos = "bottom"):
     """

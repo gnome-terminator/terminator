@@ -1434,7 +1434,7 @@ text/plain
       vte.set_property ("tooltip-text", title)
     #set the title anyhow, titlebars setting only show/hide the label
     self._titlebox.set_terminal_title (title)
-    self.terminator.set_window_title("%s - %s" % (re.sub(' - %s' % APP_NAME.capitalize(), '', title), APP_NAME.capitalize()))
+    self.terminator.set_window_title (title)
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
@@ -1453,7 +1453,7 @@ text/plain
 
   def on_vte_focus(self, vte):
     title = self.get_window_title(vte)
-    self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
+    self.terminator.set_window_title(title)
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
