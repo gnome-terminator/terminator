@@ -110,7 +110,7 @@ inside the terminal")
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
-    parser.error("Expecting zero additional arguments, found: %d" % len (args))
+    parser.error("Expecting zero additional arguments, found: %d: %s" % (len (args), args))
 
   if options.no_gconf and options.profile:
     parser.error("using --no-gconf and defining a profile at the same time \
