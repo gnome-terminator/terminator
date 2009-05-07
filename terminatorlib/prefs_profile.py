@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from terminatorlib.config import dbg,err,Defaults,TerminatorConfValuestoreRC
-from terminatorlib.keybindings import TerminatorKeybindings,Modifier
+from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib import translation
 
