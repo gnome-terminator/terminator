@@ -37,8 +37,8 @@ import gtk, pango
 
 try:
   import gconf
-except:
-  pass
+except ImportError:
+  gconf = None
 
 # set this to true to enable debugging output
 # These should be moved somewhere better.
