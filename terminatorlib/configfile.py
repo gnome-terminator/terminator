@@ -2,6 +2,7 @@
 
 import re
 from terminatorlib.config import dbg, debug
+from terminatorlib import translation
 
 def group(*choices): return '(' + '|'.join(choices) + ')'
 def any(*choices): return group(*choices) + '*'

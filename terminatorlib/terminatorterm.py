@@ -31,6 +31,9 @@ from terminatorlib.config import dbg, err, debug
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
 
+# import translation support
+from terminatorlib import translation
+
 # import vte-bindings
 try:
   import vte

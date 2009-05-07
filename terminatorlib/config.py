@@ -40,6 +40,8 @@ try:
 except ImportError:
   gconf = None
 
+from terminatorlib import translation
+
 # set this to true to enable debugging output
 # These should be moved somewhere better.
 debug = False

@@ -30,6 +30,7 @@ from config import dbg, err, debug
 from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
+from terminatorlib import translation
 
 try:
   import deskbar.core.keybinder as bindkey

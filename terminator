@@ -22,17 +22,8 @@
 import os, sys
 from optparse import OptionParser, SUPPRESS_HELP
 
+import terminatorlib.translation
 from terminatorlib.version import APP_NAME, APP_VERSION
-
-try:
-  import gettext
-  gettext.install (APP_NAME)
-except ImportError:
-  import __builtin__
-  def dummytrans (text):
-    """A _ function for systems without gettext. Effectively a NOOP"""
-    return text
-  __builtin__.__dict__['_'] = dummytrans
 
 from terminatorlib.config import dbg, err, debug
 import terminatorlib.config

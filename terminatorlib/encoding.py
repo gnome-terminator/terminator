@@ -23,6 +23,8 @@ This list is taken from gnome-terminal's src/encoding.h
  and src/encoding.c
 """
 
+from terminatorlib import translation
+
 class TerminatorEncoding:
   """Class to store encoding details"""
   encodings = [
