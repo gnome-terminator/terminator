@@ -5,6 +5,7 @@ from terminatorlib.config import err
 
 class KeymapError(Exception):
   def __init__(self, value):
+    Exception.__init__(self, value)
     self.value = value
     self.action = 'unknown'
 
