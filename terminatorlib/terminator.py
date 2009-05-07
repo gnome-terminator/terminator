@@ -295,7 +295,7 @@ class Terminator:
 
     self.keybindings = TerminatorKeybindings()
     if self.conf.f11_modifier:
-      config.Defaults['keybindings']['full_screen'] = '<Ctrl><Shift>F11'
+      config.DEFAULTS['keybindings']['full_screen'] = '<Ctrl><Shift>F11'
       print "Warning: Config setting f11_modifier is deprecated and will be removed in version 1.0"
       print "Please add the following to the end of your terminator config:"
       print "[keybindings]"

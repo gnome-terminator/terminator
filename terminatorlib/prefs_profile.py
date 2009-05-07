@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from terminatorlib.config import dbg,err,Defaults,TerminatorConfValuestoreRC
+from terminatorlib.config import dbg,err,DEFAULTS,TerminatorConfValuestoreRC
 from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib import translation
@@ -85,10 +85,10 @@ class ProfileEditor:
     self.window.show_all ()
 
   def source_get_type (self, key):
-    if Defaults.has_key (key):
-      return Defaults[key].__class__.__name__
-    elif Defaults['keybindings'].has_key (key):
-      return Defaults['keybindings'][key].__class__.__name__
+    if DEFAULTS.has_key (key):
+      return DEFAULTS[key].__class__.__name__
+    elif DEFAULTS['keybindings'].has_key (key):
+      return DEFAULTS['keybindings'][key].__class__.__name__
     else:
       raise KeyError
 
@@ -364,7 +364,7 @@ class ProfileEditor:
     keyval = None
     mask = None
 
-    for binding in Defaults['keybindings']:
+    for binding in DEFAULTS['keybindings']:
       value = self.term.conf.keybindings[binding]
       keyval = 0
       mask = 0
