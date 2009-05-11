@@ -1167,23 +1167,6 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.CheckMenuItem (_("Show _scrollbar"))
-    item.set_active (self._scrollbar.get_property ('visible'))
-    item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
-    menu.append (item)
-    
-    item = gtk.CheckMenuItem (_("Show _titlebar"))
-    item.set_active (self._titlebox.get_property ('visible'))
-    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
-    if self._group:
-      item.set_sensitive (False)
-    menu.append (item)
-
-    self._do_encoding_items (menu)
-        
-    item = gtk.MenuItem ()
-    menu.append (item)
-
     if not self.terminator._zoomed:
       str_horiz = _("Split H_orizontally")
       str_vert = _("Split V_ertically")
@@ -1221,6 +1204,13 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
+    item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
+    item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     if len (self.terminator.term_list) > 1:
       if not self.terminator._zoomed:
         item = gtk.MenuItem (_("_Zoom terminal"))
@@ -1244,10 +1234,25 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
+
+    item = gtk.CheckMenuItem (_("Show _scrollbar"))
+    item.set_active (self._scrollbar.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
+    menu.append (item)
+    
+    item = gtk.CheckMenuItem (_("Show _titlebar"))
+    item.set_active (self._titlebox.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
+    if self._group:
+      item.set_sensitive (False)
+    menu.append (item)
+
     item = gtk.MenuItem (_("Ed_it profile"))
     item.connect ("activate", lambda menu_item: self.terminator.edit_profile (self))
     menu.append (item)
 
+    self._do_encoding_items (menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -1258,13 +1263,6 @@ text/plain
     self.populate_grouping_menu (submenu)
     if len (self.terminator.term_list) == 1:
       item.set_sensitive (False)
-
-    item = gtk.MenuItem ()
-    menu.append (item)
-
-    item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
-    item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
-    menu.append (item)
 
     menu.show_all ()
     menu.popup (None, None, None, button, time)
