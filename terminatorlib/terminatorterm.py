@@ -1441,6 +1441,7 @@ text/plain
       if notebookpage[0].get_tab_label(notebookpage[1]):
         label = notebookpage[0].get_tab_label(notebookpage[1])
         label.set_title(title)
+        # FIXME: Is this necessary? The above line should update the label. LP #369370 might be related
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
