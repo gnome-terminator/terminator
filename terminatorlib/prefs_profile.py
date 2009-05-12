@@ -60,6 +60,11 @@ class ProfileEditor:
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
     self.box = gtk.VBox()
+    self.warning = gtk.Label()
+
+    self.warning.set_use_markup (True)
+    self.warning.set_line_wrap (True)
+    self.warning.set_markup ("<i><b>NOTE:</b> These settings will not be saved. See:</i> <tt>man terminator_config</tt>")
 
     self.butbox = gtk.HButtonBox()
     self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
@@ -67,6 +72,7 @@ class ProfileEditor:
     self.cancelbut = gtk.Button(stock=gtk.STOCK_CLOSE)
     self.cancelbut.connect ("clicked", self.cancel)
 
+    self.box.pack_start(self.warning, False, False)
     self.box.pack_start(self.notebook, False, False)
     self.box.pack_end(self.butbox, False, False)
 
