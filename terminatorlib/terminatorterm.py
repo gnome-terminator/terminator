@@ -338,7 +338,20 @@ class TerminatorTerm (gtk.VBox):
 
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
-    widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
+    pixmap = widget.get_parent().get_snapshot()
+    (width, height) = pixmap.get_size()
+    pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
+    pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width, height)
+
+    longest = max(width, height)
+    factor = float(512) / float(longest)
+
+    if (width * factor) > width or (height * factor) > height:
+      factor = 1
+
+    scaledpixbuf = pixbuf.scale_simple (int(width * factor), int(height * factor), gtk.gdk.INTERP_BILINEAR)
+
+    widget.drag_source_set_icon_pixbuf(scaledpixbuf)
 
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
