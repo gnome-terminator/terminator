@@ -336,22 +336,27 @@ class TerminatorTerm (gtk.VBox):
   def on_vte_size_allocate(self, widget, allocation):
     self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
 
-  def on_drag_begin(self, widget, drag_context, data):
-    dbg ('Drag begins')
-    pixmap = widget.get_parent().get_snapshot()
+  def get_pixbuf(self, maxsize= None):
+    pixmap = self.get_snapshot()
     (width, height) = pixmap.get_size()
     pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
     pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width, height)
 
     longest = max(width, height)
-    factor = float(512) / float(longest)
 
-    if (width * factor) > width or (height * factor) > height:
+    if maxsize is not None:
+      factor = float(maxsize) / float(longest)
+
+    if not maxsize or (width * factor) > width or (height * factor) > height:
       factor = 1
 
     scaledpixbuf = pixbuf.scale_simple (int(width * factor), int(height * factor), gtk.gdk.INTERP_BILINEAR)
 
-    widget.drag_source_set_icon_pixbuf(scaledpixbuf)
+    return(scaledpixbuf)
+
+  def on_drag_begin(self, widget, drag_context, data):
+    dbg ('Drag begins')
+    widget.drag_source_set_icon_pixbuf(self.get_pixbuf (512))
 
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
