@@ -1250,15 +1250,16 @@ class Terminator:
       page = self.get_first_notebook_page(page[0])
 
   def resizeterm (self, widget, keyname):
-    vertical = False
     if keyname in ('Up', 'Down'):
-      vertical = True
+      type = gtk.VPaned
     elif keyname in ('Left', 'Right'):
-      vertical = False
+      type = gtk.HPaned
     else:
+      err ("Invalid keytype: %s" % type)
       return
-    parent = self.get_first_parent_paned(widget,vertical)
-    if parent == None:
+
+    parent = self.get_first_parent_widget(widget, type)
+    if parent is None:
       return
     
     #We have a corresponding parent pane
@@ -1338,21 +1339,15 @@ class Terminator:
         return parent
     return self.get_first_parent_notebook(parent)
   
-  def get_first_parent_paned (self, widget, vertical = None):
-    """This method returns the first parent pane of a widget.
-    if vertical is True returns the first VPaned
-    if vertical is False return the first Hpaned
-    if is None return the First Paned"""
-    if isinstance (widget, gtk.Window):
-      return None
-    parent = widget.get_parent()
-    if isinstance (parent, gtk.Paned) and vertical is None:
-        return parent
-    if isinstance (parent, gtk.VPaned) and vertical:
-      return parent
-    elif isinstance (parent, gtk.HPaned) and not vertical:
-      return parent
-    return self.get_first_parent_paned(parent, vertical)
+  def get_first_parent_widget (self, widget, type):
+    """This method searches up through the gtk widget heirarchy
+    of 'widget' until it finds a parent widget of type 'type'"""
+    while not isinstance(widget.get_parent(), type):
+      widget = widget.get_parent()
+      if widget is None:
+        return widget
+    
+    return widget.get_parent()
 
   def get_first_notebook_page(self, widget):
     if isinstance (widget, gtk.Window) or widget is None:
