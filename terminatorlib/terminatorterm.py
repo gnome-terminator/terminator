@@ -1317,10 +1317,23 @@ text/plain
     item.connect ("activate", self.group_all)
     widget.append (item)
 
+    if self.terminator.get_first_parent_widget (self, gtk.Notebook) is not None and \
+       not isinstance (self.get_parent(), gtk.Notebook):
+      item = gtk.MenuItem (_("G_roup all in tab"))
+      item.connect ("activate", self.group_tab)
+      widget.append (item)
+
     if len (self.terminator.groupings) > 0:
       item = gtk.MenuItem (_("_Ungroup all"))
       item.connect ("activate", self.ungroup_all)
       widget.append (item)
+    
+    if self.terminator.get_first_parent_widget(self, gtk.Notebook) is not None and \
+       not isinstance(self.get_parent(), gtk.Notebook) and \
+       len(self.terminator.groupings) > 0:
+      item = gtk.MenuItem(_("Ungr_oup all in tab"))
+      item.connect("activate", self.ungroup_tab)
+      widget.append(item)
 
   def create_group (self, item):
     win = gtk.Window ()
@@ -1348,10 +1361,14 @@ text/plain
 
   def do_create_group (self, widget, window, entry):
     name = entry.get_text ()
-    self.terminator.groupings.append (name)
+    self.add_group(name)
     self.set_group (None, name)
 
     window.destroy ()
+
+  def add_group (self, groupname):
+    if not groupname in self.terminator.groupings:
+      self.terminator.groupings.append(groupname)
 
   def set_group (self, item, data):
     if self._group == data:
@@ -1367,8 +1384,7 @@ text/plain
 
   def group_all (self, widget):
     allname = _("All")
-    if not allname in self.terminator.groupings:
-      self.terminator.groupings.append (allname)
+    self.add_group(allname)
     for term in self.terminator.term_list:
       term.set_group (None, allname)
     self.terminator.group_hoover ()
@@ -1377,6 +1393,49 @@ text/plain
     for term in self.terminator.term_list:
       term.set_group (None, None)
     self.terminator.group_hoover ()
+
+  def find_all_terms_in_tab (self, notebook, pagenum=-1):
+    if pagenum == -1:
+      pagenum = notebook.get_current_page()
+    notebookchild = notebook.get_nth_page(pagenum)
+
+    terms = []
+
+    for term in self.terminator.term_list:
+      termparent = term.get_parent()
+      while not isinstance(termparent, gtk.Window):
+        if termparent == notebookchild:
+          terms.append(term)
+        termparent = termparent.get_parent()
+
+    return terms
+
+  def group_tab (self, widget):
+    groupname = ""
+    notebook = self.terminator.get_first_parent_widget(self, gtk.Notebook)
+    pagenum = notebook.get_current_page()
+    notebookchild = notebook.get_nth_page(pagenum)
+    terms = self.find_all_terms_in_tab(notebook)
+
+    notebooktablabel = notebook.get_tab_label(notebookchild)
+    if notebooktablabel.custom is True:
+      groupname = notebooktablabel.get_title()
+
+    if groupname == "":
+      groupname = "Tab %d" % pagenum
+
+    self.add_group(groupname)
+    for term in terms:
+      term.set_group(None, groupname)
+    self.terminator.group_hoover()
+
+  def ungroup_tab (self, widget):
+    notebook = self.terminator.get_first_parent_widget(self, gtk.Notebook)
+    terms = self.find_all_terms_in_tab (notebook)
+
+    for term in terms:
+      term.set_group (None, None)
+    self.terminator.group_hoover()
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
