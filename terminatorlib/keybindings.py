@@ -44,7 +44,8 @@ class TerminatorKeybindings:
     'ctrl':  gtk.gdk.CONTROL_MASK,
     'control':  gtk.gdk.CONTROL_MASK,
     'shift': gtk.gdk.SHIFT_MASK,
-    'alt':   gtk.gdk.MOD1_MASK
+    'alt':   gtk.gdk.MOD1_MASK,
+    'super': gtk.gdk.SUPER_MASK,
   }
 
   empty = {}

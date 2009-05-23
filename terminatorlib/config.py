@@ -165,6 +165,10 @@ DEFAULTS = {
     'reset'            : '<Ctrl><Shift>R',
     'reset_clear'      : '<Ctrl><Shift>G',
     'hide_window'      : '<Ctrl><Shift><Alt>a',
+    'group_all'        : '<Super>g',
+    'ungroup_all'      : '<Super><Shift>g',
+    'group_tab'        : '<Super>t',
+    'ungroup_tab'      : '<Super><Shift>T',
   }
 }
 

@@ -1030,6 +1030,18 @@ text/plain
 
   def key_reset_clear(self):
     self._vte.reset (True, True)
+
+  def key_group_all(self):
+    self.group_all(self)
+
+  def key_ungroup_all(self):
+    self.ungroup_all(self)
+
+  def key_group_tab(self):
+    self.group_tab(self)
+
+  def key_ungroup_tab(self):
+    self.ungroup_tab(self)
   # End key events
 
   def zoom_orig (self):
