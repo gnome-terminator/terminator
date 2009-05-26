@@ -294,14 +294,11 @@ class TerminatorTerm (gtk.VBox):
 
     self.add_matches(posix = self.conf.try_posix_regexp)
 
-    dbg ('SEGBUG: Setting http_proxy')
     env_proxy = os.getenv ('http_proxy')
     if not env_proxy and self.conf.http_proxy and self.conf.http_proxy != '':
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
-    dbg ('SEGBUG: TerminatorTerm __init__ complete')
 
   def prepareurl (self, url, match):
     dbg ("prepareurl: Checking '%s' with a match of '%s'" % (url, match))
@@ -625,17 +622,11 @@ text/plain
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
 
-    dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s' % self._vte.get_parent_window().xid)
 
-    dbg ('SEGBUG: Forking command: "%s" with args "%s", loglastlog = "%s", ' \
-        'logwtmp = "%s", logutmp = "%s" and cwd "%s"' % (shell, args, login,
-            update_records, update_records, self.cwd))
     self._pid = self._vte.fork_command (command = shell, argv = args,
         envv = [], loglastlog = login, logwtmp = update_records,
         logutmp = update_records, directory=self.cwd)
-
-    dbg ('SEGBUG: Forked command')
 
     self.on_vte_title_change(self._vte) # Force an initial update of our titles
     self._titlebox.update ()

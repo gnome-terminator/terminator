@@ -591,38 +591,27 @@ class Terminator:
     
     # get the parent of the provided terminal
     parent = widget.get_parent ()
-    dbg ('SEGBUG: add() Got parent')
+
     if isinstance (parent, gtk.Window):
-      dbg ('SEGBUG: parent is a gtk.Window')
       # We have just one term
       parent.remove(widget)
-      dbg ('SEGBUG: removed widget from window')
       if pos in ("top", "left"):
-        dbg ('SEGBUG: pos is in top/left')
         pane.pack1 (terminal, True, True)
-        dbg ('SEGBUG: packed terminal')
         pane.pack2 (widget, True, True)
-        dbg ('SEGBUG: packed widget')
       else:
-        dbg ('SEGBUG: pos is not in top/left')
         pane.pack1 (widget, True, True)
-        dbg ('SEGBUG: packed widget')
         pane.pack2 (terminal, True, True)
-        dbg ('SEGBUG: packed terminal')
       parent.add (pane)
-      dbg ('SEGBUG: added pane to parent')
 
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
     if (isinstance (parent, gtk.Notebook) or isinstance (parent, gtk.Window)) and widget.conf.titlebars:
       #not the only term in the notebook/window anymore, need to reshow the title
-      dbg ('SEGBUG: Showing _titlebox')
       widget._titlebox.update()
       terminal._titlebox.update()
       
     if isinstance (parent, gtk.Notebook):
-      dbg ('SEGBUG: Parent is a notebook')
       page = -1
       
       for i in xrange(0, parent.get_n_pages()):
@@ -652,12 +641,10 @@ class Terminator:
                              or parent.allocation.width
 
     if isinstance (parent, gtk.Paned):
-      dbg ('SEGBUG: parent is a Paned')
       # We are inside a split term
       position = (vertical) and widget.allocation.height \
                              or widget.allocation.width
 
-      dbg ('SEGBUG: Preparing to reparent sibling')
       if (widget == parent.get_child1 ()):
         widget.reparent (pane)
         parent.pack1 (pane, True, True)
@@ -666,26 +653,19 @@ class Terminator:
         parent.pack2 (pane, True, True)
 
       if pos in ("top", "left"):
-        dbg ('SEGBUG: pos is in top/left. Removing and re-ordering')
         pane.remove(widget)
         pane.pack1 (terminal, True, True)
         pane.pack2 (widget, True, True)
       else:
-        dbg ('SEGBUG: pos is not in top/left. Packing')
         pane.pack1 (widget, True, True)
         pane.pack2 (terminal, True, True)
 
-      dbg ('SEGBUG: packing widget and terminal')
       pane.pack1 (widget, True, True)
       pane.pack2 (terminal, True, True)
-      dbg ('SEGBUG: packed widget and terminal')
 
     # show all, set position of the divider
-    dbg ('SEGBUG: Showing pane')
     pane.show ()
-    dbg ('SEGBUG: Showed pane')
     pane.set_position (position / 2)
-    dbg ('SEGBUG: Set position')
     terminal.show ()
 
     # insert the term reference into the list
@@ -860,17 +840,12 @@ class Terminator:
       return
 
     # create a new terminal and parent pane.
-    dbg ('SEGBUG: Creating TerminatorTerm')
     terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
-    dbg ('SEGBUG: Created TerminatorTerm')
     pos = vertical and "right" or "bottom"
-    dbg ('SEGBUG: Position is: %s'%pos)
     self.add(widget, terminal, pos)
-    dbg ('SEGBUG: added TerminatorTerm to container')
     terminal.show ()
-    dbg ('SEGBUG: showed TerminatorTerm')
     terminal.spawn_child ()
-    dbg ('SEGBUG: spawned child')
+    
     return
   
   def remove(self, widget, keep = False):
