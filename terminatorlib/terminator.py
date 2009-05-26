@@ -1092,7 +1092,7 @@ class Terminator:
 	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
     # Horizontal distance between two terminals
     distance = current_geo['offset_x'] - (possible_geo['offset_x'] + possible_geo['span_x'])
-    if new_edge < edge:
+    if new_edge <= edge:
         #print "new_edge(%d) < edge(%d)" % (new_edge, edge)
         if best_geo is None:
             #print "first thing left"
@@ -1134,7 +1134,7 @@ class Terminator:
 	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
     # Horizontal distance between two terminals
     distance = possible_geo['offset_x'] - (current_geo['offset_x'] + current_geo['span_x'])
-    if new_edge > edge:
+    if new_edge >= edge:
         #print "new_edge > edge"
         if best_geo is None:
             #print "first thing right"
