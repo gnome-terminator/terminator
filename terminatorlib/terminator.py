@@ -579,8 +579,15 @@ class Terminator:
     """
     Add a term to another at position pos
     """
-    vertical = pos in ("top", "bottom")
-    pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
+    if pos in ("top", "bottom"):
+      pane = gtk.VPaned()
+      vertical = True
+    elif pos in ("left", "right"):
+      pane = gtk.HPaned()
+      vertical = False
+    else:
+      err('Terminator.add: massive pos fail: %s' % pos)
+      return
     
     # get the parent of the provided terminal
     parent = widget.get_parent ()
