@@ -11,6 +11,8 @@ terminator 0.13:
   * Add configurability of cursor colour and shape
   * Support various VoIP URIs
   * Addcommand line option to force a particular window title
+  * Add a hotkey for spawning a new Terminator instance
+	   (emulates a "new window" feature)
 
 terminator 0.12:
   * Bug fixes

@@ -1033,6 +1033,20 @@ text/plain
 
   def key_ungroup_tab(self):
     self.ungroup_tab(self)
+
+  def key_new_window(self):
+    cmd = sys.argv[0]
+    
+    if not os.path.isabs(cmd):
+      # Command is not an absolute path. Figure out where we are
+      cmd = os.path.join (self.terminator.origcwd, sys.argv[0])
+      if not os.path.isfile(cmd):
+        # we weren't started as ./terminator in a path. Give up
+        err('Unable to locate Terminator')
+        return False
+          
+    dbg("Spawning: %s" % cmd)
+    subprocess.Popen([cmd,])
   # End key events
 
   def zoom_orig (self):

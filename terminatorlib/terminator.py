@@ -210,6 +210,7 @@ class Terminator:
   options = None
   groupings = None
   _urgency = False
+  origcwd = None
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,

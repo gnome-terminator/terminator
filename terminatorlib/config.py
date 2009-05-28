@@ -169,6 +169,7 @@ DEFAULTS = {
     'ungroup_all'      : '<Super><Shift>g',
     'group_tab'        : '<Super>t',
     'ungroup_tab'      : '<Super><Shift>T',
+    'new_window'       : '<Ctrl><Shift>I',
   }
 }
 

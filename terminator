@@ -20,6 +20,7 @@
 
 # import standard python libs
 import os, sys
+origcwd = os.getcwd()
 from optparse import OptionParser, SUPPRESS_HELP
 
 import terminatorlib.translation
@@ -161,6 +162,8 @@ See the following bug report for more details:
                      options.maximise, options.borderless, options.no_gconf, 
                      options.geometry, options.hidden, options.forcedtitle)
 
+  term.origcwd = origcwd
+  
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver
     import threading
