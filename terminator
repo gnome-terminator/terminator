@@ -174,3 +174,14 @@ See the following bug report for more details:
 
   gtk.main()
 
+  try:
+    import pynotify
+    pynotify.init(APP_NAME.capitalize())
+    icontheme = gtk.IconTheme()
+    icon = icontheme.lookup_icon(APP_NAME, 48, 0)
+    notification = pynotify.Notification('Terminator', "I'll be back", icon.get_filename())
+    notification.set_urgency(pynotify.URGENCY_LOW)
+    notification.show()
+  except:
+    pass
+
