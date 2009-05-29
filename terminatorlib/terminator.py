@@ -270,6 +270,9 @@ class Terminator:
     elif platform.system() == 'Linux':
       dbg ('Using Linux self.pid_get_cwd')
       self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+    elif platform.system() == 'SunOS':
+      dbg ('Using SunOS self.pid_get_cwd')
+      self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/path/cwd' % pid)
     else:
       dbg ('Unable to set a self.pid_get_cwd, unknown system: %s' % platform.system)
 
