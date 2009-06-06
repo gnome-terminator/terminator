@@ -1439,7 +1439,7 @@ text/plain
       groupname = notebooktablabel.get_title()
 
     if groupname == "":
-      groupname = "Tab %d" % pagenum
+      groupname = "Tab %d" % (pagenum + 1)
 
     self.add_group(groupname)
     for term in terms:
