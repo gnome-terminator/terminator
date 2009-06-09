@@ -75,6 +75,12 @@ class TerminatorTermTitle (gtk.EventBox):
 
     self.wanted = configwanted
 
+    self.connect ("button-release-event", self.on_clicked)
+
+  def on_clicked (self, widget, event):
+    if self._parent is not None:
+      self._parent._vte.grab_focus ()
+    
   def set_group_label (self, name):
     """If 'name' is None, hide the group name object, otherwise set it as the group label"""
     if name:
