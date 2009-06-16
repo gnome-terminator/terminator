@@ -1299,7 +1299,10 @@ class Terminator:
 
   def move_tab(self, term, direction):
     dbg("moving to direction %s" % direction)
-    (notebook, page) = self.get_first_notebook_page(term)
+    data = self.get_first_notebook_page(term)
+    if data is None:
+      return False
+    (notebook, page) = data
     page_num = notebook.page_num(page)
     nbpages = notebook.get_n_pages()
     #dbg ("%s %s %s %s" % (page_num, nbpages,notebook, page))
