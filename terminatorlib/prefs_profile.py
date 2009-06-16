@@ -142,27 +142,32 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.scrollbar_position:
           widget.append_text (item)
-        widget.set_active (self.scrollbar_position.index(value))
+        if value in self.scrollbar_position:
+          widget.set_active (self.scrollbar_position.index(value))
       elif key == 'backspace_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (self.backspace_del_binding.index(value))
+        if value in self.backspace_del_binding:
+          widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'delete_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (self.backspace_del_binding.index(value))
+        if value in self.backspace_del_binding:
+          widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'focus':
         widget = gtk.combo_box_new_text()
         for item in self.focus:
           widget.append_text (item)
-        widget.set_active (self.focus.index(value))
+        if value in self.focus:
+          widget.set_active (self.focus.index(value))
       elif key == 'background_type':
         widget = gtk.combo_box_new_text()
         for item in self.background_type:
           widget.append_text (item)
-        widget.set_active (self.background_type.index(value))
+        if value in self.background_type:
+          widget.set_active (self.background_type.index(value))
       elif key == 'background_darkness':
         widget = gtk.HScale ()
         widget.set_digits (1)
@@ -209,12 +214,14 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.tab_position:
           widget.append_text (item)
-        widget.set_active (self.tab_position.index(value))
+        if value in self.tab_position:
+          widget.set_active (self.tab_position.index(value))
       elif key == 'cursor_shape':
         widget = gtk.combo_box_new_text()
         for item in self.cursor_shape:
           widget.append_text (item)
-        widget.set_active (self.cursor_shape.index (value))
+        if value in self.cursor_shape:
+          widget.set_active (self.cursor_shape.index (value))
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
