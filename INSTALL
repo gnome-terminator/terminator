@@ -7,9 +7,9 @@ for many distributions at:
 If you don't have this option, please make sure you satisfy Terminator's
 dependencies yourself:
 
- * Python 2.4+, 2.5 recommended:
+ * Python 2.4+, 2.6 recommended:
      Debian/Ubuntu: python
-     FreeBSD: lang/python25
+     FreeBSD: lang/python26
 
  * Python VTE bindings:
      Debian/Ubuntu: python-vte

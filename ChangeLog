@@ -10,9 +10,13 @@ terminator 0.13:
   * The tab bar can now be hidden and/or scrolled.
   * Add configurability of cursor colour and shape
   * Support various VoIP URIs
-  * Addcommand line option to force a particular window title
+  * Add command line option to force a particular window title
   * Add a hotkey for spawning a new Terminator instance
 	   (emulates a "new window" feature)
+  * Ability to group by tab
+  * SunOS support (via patch from Lewis Thompson)
+  * Silly notify-osd message on exit (suggested by pitti)
+  * Drag and drop icon is now a scaled terminal image
 
 terminator 0.12:
   * Bug fixes
