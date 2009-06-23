@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-01-15 00:37+0000\n"
-"PO-Revision-Date: 2008-09-21 22:48+0000\n"
+"POT-Creation-Date: 2009-01-26 13:22+0000\n"
+"PO-Revision-Date: 2009-04-09 09:21+0000\n"
 "Last-Translator: Мартин Спасовски <shorteysk@gmail.com>\n"
 "Language-Team: Macedonian <mk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
+"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:46
+#: ../terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
@@ -25,7 +25,7 @@ msgstr ""
 "Вие мора да ги инсталирате python поврзувањата за gobject, gtk и pango за "
 "Терминатор да се изврши."
 
-#: terminator:127
+#: ../terminator:129
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -33,7 +33,19 @@ msgstr ""
 "Мора да го извршите Терминатор во X околина. Осигурајте се дека ДИСПЛЕЈ е "
 "правилно конфигуриран."
 
-#: terminatorlib/config.py:238
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr "Непрекинат цитиран стринг"
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr "Поставување без вредност"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr "Неочекуван знак"
+
+#: ../terminatorlib/config.py:250
 #, python-format
 msgid ""
 "<big><b>Configuration error</b></big>\n"
@@ -52,233 +64,208 @@ msgstr ""
 "\n"
 "%d линија(и) беа игнорирани."
 
-#: terminatorlib/config.py:246
+#: ../terminatorlib/config.py:258
 msgid "Configuration error"
 msgstr "Конфигурациска грешка"
 
-#: terminatorlib/config.py:299
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: terminatorlib/config.py:304
+#: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
 msgstr "%s мора да е едно од: горе, лево, десно, долу"
 
-#: terminatorlib/config.py:311
+#: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Булеан поставување %s очекува едно од следните: да, не, точно, грешно, "
 "уклучено, исклучено"
 
-#: terminatorlib/config.py:317
+#: ../terminatorlib/config.py:329
 msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
 "Читање на листа на вредности од terminator_config(5) не е поддржано во "
 "моментот"
 
-#: terminatorlib/config.py:320
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr "Непрекинат цитиран стринг"
-
-#: terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr "Поставување без вредност"
-
-#: terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr "Неочекуван знак"
-
-#: terminatorlib/encoding.py:29
+#: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
 msgstr "Тековен локалитет"
 
-#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
-#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
-#: terminatorlib/encoding.py:96
+#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
+#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
+#: ../terminatorlib/encoding.py:96
 msgid "Western"
 msgstr "Западео"
 
-#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
-#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
+#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
 msgstr "Централно европско"
 
-#: terminatorlib/encoding.py:32
+#: ../terminatorlib/encoding.py:32
 msgid "South European"
 msgstr "Јужно европско"
 
-#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
-#: terminatorlib/encoding.py:101
+#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
+#: ../terminatorlib/encoding.py:101
 msgid "Baltic"
 msgstr "Балтичко"
 
-#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
-#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
-#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
 msgstr "Кирилично"
 
-#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
-#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
+#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
 msgstr "Арапско"
 
-#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
-#: terminatorlib/encoding.py:97
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
+#: ../terminatorlib/encoding.py:97
 msgid "Greek"
 msgstr "Грчко"
 
-#: terminatorlib/encoding.py:37
+#: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
 msgstr "Еврејско визуелно"
 
-#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
-#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
 msgid "Hebrew"
 msgstr "Еврејско"
 
-#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
-#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
+#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
 msgstr "Турско"
 
-#: terminatorlib/encoding.py:40
+#: ../terminatorlib/encoding.py:40
 msgid "Nordic"
 msgstr "Нордиско"
 
-#: terminatorlib/encoding.py:42
+#: ../terminatorlib/encoding.py:42
 msgid "Celtic"
 msgstr "Келтско"
 
-#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
 msgstr "Романско"
 
-#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
-#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
-#: terminatorlib/encoding.py:49
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
+#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
+#: ../terminatorlib/encoding.py:49
 msgid "Unicode"
 msgstr "Уникод"
 
-#: terminatorlib/encoding.py:50
+#: ../terminatorlib/encoding.py:50
 msgid "Armenian"
 msgstr "Ерменско"
 
-#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
-#: terminatorlib/encoding.py:56
+#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
+#: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
 msgstr "Кинеско традиционално"
 
-#: terminatorlib/encoding.py:53
+#: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
 msgstr "Кирилично/руско"
 
-#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
-#: terminatorlib/encoding.py:89
+#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
+#: ../terminatorlib/encoding.py:89
 msgid "Japanese"
 msgstr "Јапонско"
 
-#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
-#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
 msgstr "Корејско"
 
-#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
-#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
 msgstr "Кинеско поедноставено"
 
-#: terminatorlib/encoding.py:60
+#: ../terminatorlib/encoding.py:60
 msgid "Georgian"
 msgstr "Грузиско"
 
-#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
 msgstr "Кирилично/украинско"
 
-#: terminatorlib/encoding.py:76
+#: ../terminatorlib/encoding.py:76
 msgid "Croatian"
 msgstr "Хрватско"
 
-#: terminatorlib/encoding.py:78
+#: ../terminatorlib/encoding.py:78
 msgid "Hindi"
 msgstr "Хинди"
 
-#: terminatorlib/encoding.py:79
+#: ../terminatorlib/encoding.py:79
 msgid "Persian"
 msgstr "Персиско"
 
-#: terminatorlib/encoding.py:81
+#: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
 msgstr "Гуџаратско"
 
-#: terminatorlib/encoding.py:82
+#: ../terminatorlib/encoding.py:82
 msgid "Gurmukhi"
 msgstr "Гурмки"
 
-#: terminatorlib/encoding.py:84
+#: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
 msgstr "Исландско"
 
-#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
-#: terminatorlib/encoding.py:102
+#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
+#: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
 msgstr "Виетнамско"
 
-#: terminatorlib/encoding.py:91
+#: ../terminatorlib/encoding.py:91
 msgid "Thai"
 msgstr "Таи"
 
-#: terminatorlib/prefs_profile.py:365
+#: ../terminatorlib/prefs_profile.py:370
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
-#: terminatorlib/prefs_profile.py:372
+#: ../terminatorlib/prefs_profile.py:377
 msgid "Action"
-msgstr ""
+msgstr "Дејство"
 
-#: terminatorlib/prefs_profile.py:379
+#: ../terminatorlib/prefs_profile.py:384
 msgid "Keyboard shortcut"
-msgstr ""
+msgstr "Кратенка за тастатура"
 
-#: terminatorlib/terminator.py:69
+#: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Затвори јазиче"
 
-#: terminatorlib/terminator.py:223
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "tab"
 
-#: terminatorlib/terminator.py:378
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "прозорец"
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "Затворање?"
 
-#: terminatorlib/terminator.py:384
+#: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
-msgstr ""
+msgstr "Затвори _терминали"
 
-#: terminatorlib/terminator.py:386
+#: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>Да ги затворам сите терминали?</b></big>"
 
-#: terminatorlib/terminator.py:389
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:39
+#: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
@@ -286,118 +273,159 @@ msgstr ""
 "Вие мора да ги инсталирате python поврзувањата за libvte (\"python-vte\" во "
 "debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:99
+#: ../terminatorlib/terminatorterm.py:133
 msgid "Search:"
-msgstr ""
+msgstr "Пребарување:"
 
-#: terminatorlib/terminatorterm.py:116
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
 msgid "Next"
-msgstr ""
+msgstr "Напред"
 
-#: terminatorlib/terminatorterm.py:484
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
 msgstr "Неспособен да најде обвивка"
 
-#: terminatorlib/terminatorterm.py:504
+#: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr "Неспособен да започне обвивка: "
 
-#: terminatorlib/terminatorterm.py:954
+#: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr "_Отвори врска"
 
-#: terminatorlib/terminatorterm.py:955
+#: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
 msgstr "_Копирај ја адресата на врската"
 
-#: terminatorlib/terminatorterm.py:965
+#: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
 msgstr "_Испрати порака на..."
 
-#: terminatorlib/terminatorterm.py:966
+#: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
 msgstr "_Копирај адреса за е-пошта"
 
-#: terminatorlib/terminatorterm.py:992
+#: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
 msgstr "Покажи _лизгач"
 
-#: terminatorlib/terminatorterm.py:997
+#: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
 msgstr "Покажи _наслов"
 
-#: terminatorlib/terminatorterm.py:1010
+#: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
 msgstr "Подели хо_ризонтално"
 
-#: terminatorlib/terminatorterm.py:1011
+#: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
 msgstr "Подели вер_тикално"
 
-#: terminatorlib/terminatorterm.py:1028
+#: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
 msgstr "Отвори _јазиче"
 
-#: terminatorlib/terminatorterm.py:1033
+#: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
 msgstr "Отвори _јазиче за отстранување грешки"
 
-#: terminatorlib/terminatorterm.py:1039
+#: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr "Отвори јазиче на најгорно место"
 
-#: terminatorlib/terminatorterm.py:1048
+#: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
 msgstr "_зумирај терминал"
 
-#: terminatorlib/terminatorterm.py:1052
+#: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
 msgstr "Зго_леми терминал"
 
-#: terminatorlib/terminatorterm.py:1057
+#: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
 msgstr "_Одзумирај терминал"
 
-#: terminatorlib/terminatorterm.py:1062
+#: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
 msgstr "На_мали терминал"
 
-#: terminatorlib/terminatorterm.py:1069
-msgid "Ed_it profile"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1076
+#: ../terminatorlib/terminatorterm.py:1155
 msgid "_Group"
-msgstr ""
+msgstr "_Групирај"
 
-#: terminatorlib/terminatorterm.py:1100
+#: ../terminatorlib/terminatorterm.py:1179
 msgid "None"
-msgstr ""
+msgstr "Нема"
 
-#: terminatorlib/terminatorterm.py:1115
+#: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
-msgstr ""
+msgstr "_Нова група"
 
-#: terminatorlib/terminatorterm.py:1122
+#: ../terminatorlib/terminatorterm.py:1201
 msgid "_Group all"
-msgstr ""
+msgstr "_Групирај ги сите"
 
-#: terminatorlib/terminatorterm.py:1127
-msgid "_Ungroup all"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1137
+#: ../terminatorlib/terminatorterm.py:1216
 msgid "Group name:"
-msgstr ""
+msgstr "Име на групата:"
 
-#: terminatorlib/terminatorterm.py:1189
+#: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
-msgstr ""
+msgstr "Сѐ"
 
-#: terminatorlib/terminatorterm.py:1209
+#: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
 msgstr "Шифрирања"
 
-#: terminatorlib/terminatorterm.py:1227
+#: ../terminatorlib/terminatorterm.py:1300
 msgid "Other Encodings"
 msgstr "Други шифрирања"
+
+#: ../data/terminator.desktop.in.h:1
+msgid "Multiple terminals in one window"
+msgstr "Повеќе терминали во еден прозорец"
+
+#: ../data/terminator.desktop.in.h:2
+msgid "Terminator"
+msgstr "Терминатор"
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1148
+msgid "Ed_it profile"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1206
+msgid "_Ungroup all"
+msgstr ""

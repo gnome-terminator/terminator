@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-01-15 00:37+0000\n"
-"PO-Revision-Date: 2008-12-04 19:35+0000\n"
-"Last-Translator: fokis...ftw <fotis.koutoulakis@gmail.com>\n"
+"POT-Creation-Date: 2009-01-26 13:22+0000\n"
+"PO-Revision-Date: 2009-06-04 18:58+0000\n"
+"Last-Translator: j0hn <c7p.admin@gmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-01-20 21:56+0000\n"
+"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:46
+#: ../terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
@@ -25,7 +25,7 @@ msgstr ""
 "Πρέπει να εγκαταστήσετε τους συνδέσμους της python για το gobject, το gtk "
 "και το pango για να εκτελέσετε τον Terminator."
 
-#: terminator:127
+#: ../terminator:129
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -33,7 +33,7 @@ msgstr ""
 "Πρέπει να εκτελέσετε  το terminator σε Χ περιβάλλον. Βεβαιωθείτε πως οι "
 "ρυθμίσεις απεικόνισης είναι σωστές."
 
-#: terminatorlib/config.py:238
+#: ../terminatorlib/config.py:250
 #, python-format
 msgid ""
 "<big><b>Configuration error</b></big>\n"
@@ -53,231 +53,169 @@ msgstr ""
 "\n"
 "%d ρυθμίσεις έχουν αγνοηθεί."
 
-#: terminatorlib/config.py:246
+#: ../terminatorlib/config.py:258
 msgid "Configuration error"
 msgstr "Σφάλμα ρυθμίσεων"
 
-#: terminatorlib/config.py:299
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: terminatorlib/config.py:304
+#: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
 msgstr "%s πρέπει να είναι ένα από τα: πάνω, κάτω, αριστερά, δεξιά"
 
-#: terminatorlib/config.py:311
+#: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Η ρύθμιση %s του τελεστή αναμένει ένα από τα παρακάτω: ναι, όχι, αληθές, "
 "ψευδές, ανοιχτό, κλειστό"
 
-#: terminatorlib/config.py:317
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: terminatorlib/config.py:320
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr ""
-
-#: terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: terminatorlib/encoding.py:29
+#: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
 msgstr "Τρέχουσα εντοπιότητα (locale)"
 
-#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
-#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
-#: terminatorlib/encoding.py:96
+#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
+#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
+#: ../terminatorlib/encoding.py:96
 msgid "Western"
 msgstr "Δυτικός"
 
-#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
-#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
+#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
 msgstr "Κεντρικής Ευρώπης"
 
-#: terminatorlib/encoding.py:32
+#: ../terminatorlib/encoding.py:32
 msgid "South European"
 msgstr "Νότιας Ευρώπης"
 
-#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
-#: terminatorlib/encoding.py:101
+#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
+#: ../terminatorlib/encoding.py:101
 msgid "Baltic"
 msgstr "Βαλτικής"
 
-#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
-#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
-#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
 msgstr "Κυριλλικά"
 
-#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
-#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
+#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
 msgstr "Αραβικά"
 
-#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
-#: terminatorlib/encoding.py:97
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
+#: ../terminatorlib/encoding.py:97
 msgid "Greek"
 msgstr "Ελληνικά"
 
-#: terminatorlib/encoding.py:37
+#: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
 msgstr "Εβραϊκά Οπτικά"
 
-#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
-#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
 msgid "Hebrew"
 msgstr "Εβραϊκά"
 
-#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
-#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
+#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
 msgstr "Τουρκικά"
 
-#: terminatorlib/encoding.py:40
+#: ../terminatorlib/encoding.py:40
 msgid "Nordic"
 msgstr "Σκανδιναβικά"
 
-#: terminatorlib/encoding.py:42
+#: ../terminatorlib/encoding.py:42
 msgid "Celtic"
 msgstr "Κελτικά"
 
-#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
 msgstr "Ρουμανικά"
 
-#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
-#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
-#: terminatorlib/encoding.py:49
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
+#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
+#: ../terminatorlib/encoding.py:49
 msgid "Unicode"
 msgstr "Unicode"
 
-#: terminatorlib/encoding.py:50
+#: ../terminatorlib/encoding.py:50
 msgid "Armenian"
 msgstr "Αρμενικά"
 
-#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
-#: terminatorlib/encoding.py:56
+#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
+#: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
 msgstr "Κινέζικα Παραδοσιακά"
 
-#: terminatorlib/encoding.py:53
+#: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
 msgstr "Κυριλλικά/Ρώσικα"
 
-#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
-#: terminatorlib/encoding.py:89
+#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
+#: ../terminatorlib/encoding.py:89
 msgid "Japanese"
 msgstr "Ιαπωνικά"
 
-#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
-#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
 msgstr "Κορεάτικα"
 
-#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
-#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
 msgstr "Κινέζικα Απλοποιημένα"
 
-#: terminatorlib/encoding.py:60
+#: ../terminatorlib/encoding.py:60
 msgid "Georgian"
 msgstr "Γεωργιανά"
 
-#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
 msgstr "Κυριλλικά/Ουκρανικά"
 
-#: terminatorlib/encoding.py:76
+#: ../terminatorlib/encoding.py:76
 msgid "Croatian"
 msgstr "Κροατικά"
 
-#: terminatorlib/encoding.py:78
+#: ../terminatorlib/encoding.py:78
 msgid "Hindi"
 msgstr "Ινδικά"
 
-#: terminatorlib/encoding.py:79
+#: ../terminatorlib/encoding.py:79
 msgid "Persian"
 msgstr "Περσικά"
 
-#: terminatorlib/encoding.py:81
+#: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
 msgstr "Γκουτζαράτι"
 
-#: terminatorlib/encoding.py:82
-msgid "Gurmukhi"
-msgstr ""
-
-#: terminatorlib/encoding.py:84
+#: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
 msgstr "Ισλανδικά"
 
-#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
-#: terminatorlib/encoding.py:102
+#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
+#: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
 msgstr "Βιετναμέζικα"
 
-#: terminatorlib/encoding.py:91
+#: ../terminatorlib/encoding.py:91
 msgid "Thai"
 msgstr "Ταϋλανδέζικα"
 
-#: terminatorlib/prefs_profile.py:365
-msgid "Name"
-msgstr ""
-
-#: terminatorlib/prefs_profile.py:372
-msgid "Action"
-msgstr ""
-
-#: terminatorlib/prefs_profile.py:379
-msgid "Keyboard shortcut"
-msgstr ""
-
-#: terminatorlib/terminator.py:69
+#: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Κλείσιμο καρτέλας"
 
-#: terminatorlib/terminator.py:223
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: terminatorlib/terminator.py:378
+#. show dialog
+#: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "Κλείσιμο;"
 
-#: terminatorlib/terminator.py:384
-msgid "Close _Terminals"
-msgstr ""
-
-#: terminatorlib/terminator.py:386
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: terminatorlib/terminator.py:389
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:39
+#: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
@@ -285,118 +223,208 @@ msgstr ""
 "Πρέπει να εγκαταστήσετε τις ακόλουθες python συνδέσεις για το libvte "
 "(\"python-vte\" στο debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:99
-msgid "Search:"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:116
-msgid "Next"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:484
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
 msgstr "Αδυναμία εξεύρεσης περιβάλλοντος"
 
-#: terminatorlib/terminatorterm.py:504
+#: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr "Αδυναμία έναρξης  περιβάλλοντος "
 
-#: terminatorlib/terminatorterm.py:954
+#: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr "_Άνοιγμα Συνδέσμου"
 
-#: terminatorlib/terminatorterm.py:955
+#: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
 msgstr "_Αντιγραφή Διεύθυνσης Συνδέσμου"
 
-#: terminatorlib/terminatorterm.py:965
+#: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
 msgstr "_Αποστολή Αλληλογραφίας Σε..."
 
-#: terminatorlib/terminatorterm.py:966
+#: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
 msgstr "_Αντιγραφή Διεύθυνσης Email"
 
-#: terminatorlib/terminatorterm.py:992
+#: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
 msgstr "Εμφάνισε _την  μπάρα κύλισης"
 
-#: terminatorlib/terminatorterm.py:997
+#: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
 msgstr "Εμφάνισε _την  μπάρα τίτλων"
 
-#: terminatorlib/terminatorterm.py:1010
+#: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
 msgstr "Ο_ριζόντιος  διαχωρισμός"
 
-#: terminatorlib/terminatorterm.py:1011
+#: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
 msgstr "Κά_θετος διαχωρισμός"
 
-#: terminatorlib/terminatorterm.py:1028
+#: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
 msgstr "Άνοιγμα _Καρτέλας"
 
-#: terminatorlib/terminatorterm.py:1033
+#: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
 msgstr "Άνοιγμα καρτέλας αποσφαλμάτωσης"
 
-#: terminatorlib/terminatorterm.py:1039
+#: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr "Άνοιγμα καρτέλας Ανώτερου Επιπέδου"
 
-#: terminatorlib/terminatorterm.py:1048
+#: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
 msgstr "_Προσέγγιση τερματικού"
 
-#: terminatorlib/terminatorterm.py:1052
+#: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
 msgstr "Με_γέθυνση τερματικού"
 
-#: terminatorlib/terminatorterm.py:1057
+#: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
 msgstr "_Απομάκρυνση τερματικού"
 
-#: terminatorlib/terminatorterm.py:1062
+#: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
 msgstr "Σμί_κρυνση τερματικού"
 
-#: terminatorlib/terminatorterm.py:1069
-msgid "Ed_it profile"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1076
-msgid "_Group"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1100
-msgid "None"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1115
-msgid "_New group"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1122
-msgid "_Group all"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1127
-msgid "_Ungroup all"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1137
-msgid "Group name:"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1189
-msgid "All"
-msgstr ""
-
-#: terminatorlib/terminatorterm.py:1209
+#: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
 msgstr "Κωδικοποιήσεις"
 
-#: terminatorlib/terminatorterm.py:1227
+#: ../terminatorlib/terminatorterm.py:1300
 msgid "Other Encodings"
 msgstr "Άλλες Κωδικοποιήσεις"
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr "Ρύθμιση χωρίς τιμή"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:82
+msgid "Gurmukhi"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr "Όνομα"
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr "Συντόμευση πληκτρολογίου"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "παράθυρο"
+
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr "Κλείσιμο _Τερματικών"
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Κλείσιμο πολλαπλών τερματικών;</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Αναζήτηση:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Επόμενο"
+
+#: ../terminatorlib/terminatorterm.py:1148
+msgid "Ed_it profile"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1155
+msgid "_Group"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1179
+msgid "None"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1194
+msgid "_New group"
+msgstr "_Νέα ομάδα"
+
+#: ../terminatorlib/terminatorterm.py:1201
+msgid "_Group all"
+msgstr "_Ομαδοποίηση"
+
+#: ../terminatorlib/terminatorterm.py:1206
+msgid "_Ungroup all"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1216
+msgid "Group name:"
+msgstr "Όνομα ομάδας:"
+
+#: ../terminatorlib/terminatorterm.py:1262
+msgid "All"
+msgstr "Όλα"
+
+#: ../data/terminator.desktop.in.h:1
+msgid "Multiple terminals in one window"
+msgstr ""
+
+#: ../data/terminator.desktop.in.h:2
+msgid "Terminator"
+msgstr ""

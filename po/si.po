@@ -1,90 +1,49 @@
-# Hebrew translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Sinhalese translation for terminator
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2008-10-20 08:20+0000\n"
-"Last-Translator: FD_F <oranstudy@gmail.com>\n"
-"Language-Team: Hebrew <he@li.org>\n"
+"PO-Revision-Date: 2009-06-09 10:08+0000\n"
+"Last-Translator: Janith Sampath Bandara <sbslive@gmail.com>\n"
+"Language-Team: Sinhalese <si@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "לסגור?"
-
-#: ../terminatorlib/terminatorterm.py:39
-msgid ""
-"You need to install python bindings for libvte (\"python-vte\" in "
-"debian/ubuntu)"
-msgstr ""
-"הינך צריך להתקין מקשר לפייטון  עבור libvte (\"python-vte\" ב- debian/ubuntu)"
-
-#. Give up, we're completely stuck
-#: ../terminatorlib/terminatorterm.py:518
-msgid "Unable to find a shell"
-msgstr "לא ניתן למצוא מעטפת"
-
-#: ../terminatorlib/terminatorterm.py:539
-msgid "Unable to start shell: "
-msgstr "לא ניתן להתחיל מעטפת "
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_פתח קישור"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_העתק את כתובת הקישור"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "שלח _דוא\"ל אל..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_העתק כתובת דוא\"ל"
-
-#: ../terminatorlib/terminatorterm.py:1089
-msgid "Split H_orizontally"
-msgstr "פצל א_ופקית"
-
-#: ../terminatorlib/terminatorterm.py:1090
-msgid "Split V_ertically"
-msgstr "פצל א_נכית"
-
 #: ../terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
+"gobject සඳහා ඔබට python බැඳීම් ප්‍රතිස්ථාපනය කිරීමට අවශ්‍යය. කෙලවරකිරීම සඳහා "
+"gtk සහ pango ධාවනය කරන්න."
 
 #: ../terminator:129
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr ""
+"ඔබට X පාරිසරිකය තුල terminator ධාවනය කිරීමට අවශ්‍යය. ඔබගේ දර්ශනය නියම ලෙස "
+"සකසා ඇතිදැයි තහවුරු කරගන්න"
 
 #: ../terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
-msgstr ""
+msgstr "අවසන් නොකල වෙන්කල බැඳීම්"
 
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr ""
+msgstr "අගය අතරතුර සැකසීම්"
 
 #: ../terminatorlib/configfile.py:152
 msgid "Unexpected token"
-msgstr ""
+msgstr "අනපේක්ෂිත සංඥාව"
 
 #: ../terminatorlib/config.py:250
 #, python-format
@@ -97,222 +56,233 @@ msgid ""
 "\n"
 "%d line(s) have been ignored."
 msgstr ""
+"<big><b>ආකෘතික දෝෂය</b></big>\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"  <b>%s</b>\n"
+"%d රේඛා(ව) නොසලකාහැර ඇත."
 
 #: ../terminatorlib/config.py:258
 msgid "Configuration error"
-msgstr ""
+msgstr "ආකෘතික දෝෂය"
 
 #: ../terminatorlib/config.py:311
 #, python-format
 msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
+msgstr "සැකසීම් %r අගය %r වලංගු වර්ණයක් නොවේ; ප්‍රතික්ෂේපිත"
 
 #: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
+msgstr "%stop, left, right, bottom :වලින් එකක් විය යුතුයි"
 
 #: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
+"වීජයානු සැකසීම් %s yes, no, true, false, on, off : වලින් එකක් අපේක්ෂිතයි"
 
 #: ../terminatorlib/config.py:329
 msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
+msgstr "terminator_config(5) හි අගයන් ලැයිස්තුව කියවීම දැනට අධාර කරන්නේ නැත"
 
 #: ../terminatorlib/config.py:332
 #, python-format
 msgid "Setting %r should be a section name"
-msgstr ""
+msgstr "සැකසීම් %r නාම ඒකකයක් විය යුතුයි"
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr ""
+msgstr "වර්තමාන ප්‍රදේශය"
 
 #: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
 #: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
 #: ../terminatorlib/encoding.py:96
 msgid "Western"
-msgstr ""
+msgstr "අපරදිග"
 
 #: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
 #: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr ""
+msgstr "මධ්‍යම යුරෝපීය"
 
 #: ../terminatorlib/encoding.py:32
 msgid "South European"
-msgstr ""
+msgstr "දකුණු යුරෝපයීය"
 
 #: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
 #: ../terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr ""
+msgstr "බෝල්ටික්"
 
 #: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr ""
+msgstr "සිරිලික්"
 
 #: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
 #: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr ""
+msgstr "අරාබි"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
 #: ../terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr ""
+msgstr "ග්‍රීක"
 
 #: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "යුදෙව් දෘෂ්ටිය"
 
 #: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr ""
+msgstr "යුදෙව්"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
 #: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr ""
+msgstr "තුර්කි"
 
 #: ../terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr ""
+msgstr "නෝඩික"
 
 #: ../terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr ""
+msgstr "කෙල්ටික"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr ""
+msgstr "රොමානීය"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
 #: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
 #: ../terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr ""
+msgstr "යුනිකේත"
 
 #: ../terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr ""
+msgstr "ආර්මිනියානු"
 
 #: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
 #: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "සම්ප්‍රදායික චීන"
 
 #: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "සිරිලික්/රුසියන්"
 
 #: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
 #: ../terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr ""
+msgstr "ජපන්"
 
 #: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr ""
+msgstr "කොරියන්"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "සුළු  චීන"
 
 #: ../terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr ""
+msgstr "ජෝර්ජියානු"
 
 #: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "සිරිලික්/යුක්රේනියානු"
 
 #: ../terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr ""
+msgstr "කොඒෂන්"
 
 #: ../terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr ""
+msgstr "හින්දි"
 
 #: ../terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr ""
+msgstr "පර්සියන්"
 
 #: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
-msgstr ""
+msgstr "ගුජරාටි"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr ""
+msgstr "ගුර්මුක්ති"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr ""
+msgstr "අයිස්ලන්ත"
 
 #: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
 #: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr ""
+msgstr "වියට්නාම"
 
 #: ../terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr ""
+msgstr "තායිලන්ත"
 
 #: ../terminatorlib/prefs_profile.py:370
 msgid "Name"
-msgstr ""
+msgstr "නම"
 
 #: ../terminatorlib/prefs_profile.py:377
 msgid "Action"
-msgstr ""
+msgstr "කටයුත්ත"
 
 #: ../terminatorlib/prefs_profile.py:384
 msgid "Keyboard shortcut"
-msgstr ""
+msgstr "යතුරුපුවරු කෙටිමං"
 
 #: ../terminatorlib/terminator.py:37
 msgid ""
 "Unable to find python bindings for deskbar, hide_window is not available."
 msgstr ""
+"ඩෙක්ස්බාරය සඳහා python බඳීම් සෙවීමට නොහැකිය. hide_window ප්‍රයෝජනය සඳහා නැත"
 
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
-msgstr ""
+msgstr "ටැබය වසන්න"
 
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
-msgstr ""
+msgstr "ටැබය"
 
 #: ../terminatorlib/terminator.py:230
 #, python-format
 msgid "Invalid geometry string %r"
-msgstr ""
+msgstr "වලංගු නොමැති ජ්‍යාමිතික අගයක් %r"
 
 #: ../terminatorlib/terminator.py:277
 msgid "Unable to bind hide_window key"
-msgstr ""
+msgstr "hide_window යතුර බැඳීමට නොහැකිය"
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
-msgstr ""
+msgstr "කවුළුව"
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr "වැසීම?"
 
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
-msgstr ""
+msgstr "ටර්මිනල්_වසන්න"
 
 #: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "බහු පර්යන්ත වැසීන්නද?"
 
 #: ../terminatorlib/terminator.py:428
 #, python-format
@@ -320,96 +290,139 @@ msgid ""
 "This %s has several terminals open.  Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"මෙම %s හි ටර්මිනල් කිහිපයක් විවෘත වී ඇත. මෙම %s වැසීමට අමතරව එහි ඇති "
+"ටර්මිනල් සියල්ලම වසන්න."
+
+#: ../terminatorlib/terminatorterm.py:39
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr ""
+"ඔබට libvte (\"python-vte\" in debian/ubuntu) හඳහා python බඳීම් ස්ථාපනය "
+"කිරීමට අවශ්‍යය"
 
 #: ../terminatorlib/terminatorterm.py:133
 msgid "Search:"
-msgstr ""
+msgstr "ගවේෂණය:"
 
 #. Button for the next result. Explicitly not show()n by default.
 #: ../terminatorlib/terminatorterm.py:150
 msgid "Next"
-msgstr ""
+msgstr "ඊළඟට"
+
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
+msgid "Unable to find a shell"
+msgstr "ෙෂලය සොයාගැනීමට නොහැකිය"
+
+#: ../terminatorlib/terminatorterm.py:539
+msgid "Unable to start shell: "
+msgstr "ෂෙලය ආරම්භකිරීමට අපහසුය "
+
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr "_ඇමිනුම විවෘතකරන්න"
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "_ඇමිනුම් ලිපිනය පිටපත්කරන්න"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_තැපෑලක් යැවීමට..."
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr "_ඊ-මේල් ලිපිනය පිටපත්කරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "ස්ක්‍රෝල්බාරය_පෙන්වන්න"
 
 #: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
-msgstr ""
+msgstr "ටයිටල්බාරය_පෙන්වන්න"
+
+#: ../terminatorlib/terminatorterm.py:1089
+msgid "Split H_orizontally"
+msgstr "ති_රස්ව කොටස්කිරීම"
+
+#: ../terminatorlib/terminatorterm.py:1090
+msgid "Split V_ertically"
+msgstr "සිර_ස්ව කොටස්කිරීම"
 
 #: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
-msgstr ""
+msgstr "ටැබය_අරින්න"
 
 #: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "_Debug ටැබය විවෘතකරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
-msgstr ""
+msgstr "ඉහල මට්ටමේ මැබය විවෘතකරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "ටර්මිනලය _විශාලනය"
 
 #: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "ටර්මිනලය _උපරිමකරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
-msgstr ""
+msgstr "ටර්මිනලය _කුඩාකරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "ටර්මිනලය _අවමකරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1148
 msgid "Ed_it profile"
-msgstr ""
+msgstr "ප්‍රොෆයිලය සං_ස්කරණය"
 
 #: ../terminatorlib/terminatorterm.py:1155
 msgid "_Group"
-msgstr ""
+msgstr "_කාණ්ඩය"
 
 #: ../terminatorlib/terminatorterm.py:1179
 msgid "None"
-msgstr ""
+msgstr "කිසිවෙක් නැත"
 
 #: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
-msgstr ""
+msgstr "_නව කාණ්ඩයක්"
 
 #: ../terminatorlib/terminatorterm.py:1201
 msgid "_Group all"
-msgstr ""
+msgstr "_සියල්ලම එක්කරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1206
 msgid "_Ungroup all"
-msgstr ""
+msgstr "_සියල්ලම වෙන්කරන්න"
 
 #: ../terminatorlib/terminatorterm.py:1216
 msgid "Group name:"
-msgstr ""
+msgstr "කණ්ඩායම් නාමය"
 
 #: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
-msgstr ""
+msgstr "සමස්ත"
 
 #: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
-msgstr ""
+msgstr "කේතීකරණයන්"
 
 #: ../terminatorlib/terminatorterm.py:1300
 msgid "Other Encodings"
-msgstr ""
+msgstr "අනෙක් කේතීකරණයන්"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "එක් වින්ඩෝවක ටර්මිනල් රාශියක්"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "ටර්මිනේටර්"
