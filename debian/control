@@ -5,8 +5,8 @@ Priority: optional
 Maintainer: Nicolas Valcárcel Scerpella <nvalcarcel@canonical.com>
 Uploaders: Rudy Godoy Guillén <rudy@debian.org>,
  Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>
-Build-Depends: debhelper (>= 5.0.62), python, cdbs (>= 0.4.49)
-Build-Depends-Indep: python-central (>= 0.5.6)
+Build-Depends: debhelper (>= 5.0.62), python, cdbs (>= 0.4.49), intltool
+Build-Depends-Indep: python-support (>= 0.5.3) 
 Standards-Version: 3.8.0
 Vcs-Svn: svn://svn.debian.org/python-apps/packages/terminator/trunk/
 Vcs-Browser: http://svn.debian.org/viewsvn/python-apps/packages/terminator/trunk/
