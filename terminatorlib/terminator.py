@@ -39,7 +39,7 @@ except:
            "hide_window is not available."))
   pass
 
-class TerminatorWindowTitle():
+class TerminatorWindowTitle:
   _window = None
   _appname = APP_NAME.capitalize()
   text = None
