@@ -740,7 +740,7 @@ text/plain
     # set transparency for the background (image)
     opacity = 65535
     if background_type in ("image", "transparent"):
-      self._vte.set_background_tint_color (self.conf.background_color)
+      self._vte.set_background_tint_color (gtk.gdk.color_parse (self.conf.background_color))
       self._vte.set_background_saturation(1 - (self.conf.background_darkness))
       opacity = int(self.conf.background_darkness * 65535)
       dbg ('H9TRANS: Set background tint color to: %s' % self.conf.background_color)
