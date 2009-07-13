@@ -1664,8 +1664,7 @@ text/plain
     allname = _("All")
     self.add_group(allname)
     for term in self.terminator.term_list:
-      if term._group is None:
-        term.set_group (None, allname)
+      term.set_group (None, allname)
     self.terminator.group_hoover ()
 
   def ungroup_all (self, widget):
