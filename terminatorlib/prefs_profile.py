@@ -10,7 +10,7 @@ import gtk, gobject
 class ProfileEditor:
   # lists of which settings to put in which tabs
   appearance = ['titlebars', 'zoomedtitlebar', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
-  colours = ['foreground_color','background_color', 'cursor_color', 'palette']
+  colours = ['foreground_color','background_color', 'cursor_color', 'palette', 'title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']
   behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'alternate_screen_scroll', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
   globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
 
@@ -41,6 +41,12 @@ class ProfileEditor:
           'reset': ['Reset terminal state', ''],
           'reset_clear': ['Reset and clear terminal', ''],
           'hide_window': ['Toggle visibility of the window', ''],
+          'title_tx_txt_color': ['Tx Title Foreground Color', ''],
+          'title_tx_bg_color': ['Tx Title Background Color', ''],
+          'title_rx_txt_color': ['Rx Title Foreground Color', ''],
+          'title_rx_bg_color': ['Rx Title Background Color', ''],
+          'title_ia_txt_color': ['Inactive Title Foreground Color', ''],
+          'title_ia_bg_color': ['Inactive Title Background Color', ''],
          }
 
   # dictionary for results after setting
@@ -202,6 +208,8 @@ class ProfileEditor:
             x = 0
           widget.attach (gtk.ColorButton (gtk.gdk.color_parse (thing)), x, x + 1, y, y + 1)
           x += 1
+      elif key in ['title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']:
+        widget = gtk.ColorButton (gtk.gdk.color_parse (value))
       elif key == 'background_image':
         widget = gtk.FileChooserButton('Select a File')
         filter = gtk.FileFilter()

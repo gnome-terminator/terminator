@@ -227,6 +227,9 @@ class Terminator:
     self._hidden = False
     self.term_list = []
     self.gnome_client = None
+    self.groupsend = 1          # 0 off, 1 group (d), 2 all
+    self.splittogroup = 0       # 0 no group (d), 1 new takes orginators group
+    self.autocleangroups = 1    # 0 off, 1 on (d)
     stores = []
     self.groupings = []
 
@@ -845,6 +848,8 @@ class Terminator:
 
     # create a new terminal and parent pane.
     terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
+    if self.splittogroup:
+      terminal.set_group (None, widget._group)
     pos = vertical and "right" or "bottom"
     self.add(widget, terminal, pos)
     terminal.show ()
@@ -960,6 +965,20 @@ class Terminator:
       self.group_hoover()
       return True
     return False
+
+  def closegroupedterms (self, widget):
+    if self._zoomed:
+      # We are zoomed, pop back out to normal layout before closing
+      dbg ("closeterm function called while in zoomed mode. Restoring previous layout before closing.")
+      self.toggle_zoom(widget, not self._maximised)
+
+    widget_group = widget._group
+    all_closed = True
+    for term in self.term_list[:]:
+      if term._group == widget_group and not self.remove(term):
+        all_closed = False
+    self.group_hoover()
+    return all_closed
 
   def go_to (self, term, selector):
     current = self.term_list.index (term)
@@ -1484,16 +1503,22 @@ class Terminator:
       if term != terminatorterm and term._group == group:
         term._vte.emit (type, event)
 
+  def all_emit (self, terminatorterm, type, event):
+    for term in self.term_list:
+      if term != terminatorterm:
+        term._vte.emit (type, event)
+
   def group_hoover (self):
-    destroy = []
-    for group in self.groupings:
-      save = False
-      for term in self.term_list:
-        if term._group == group:
-          save = True
+    if self.autocleangroups:
+      destroy = []
+      for group in self.groupings:
+        save = False
+        for term in self.term_list:
+          if term._group == group:
+            save = True
 
-      if not save:
-        destroy.append (group)
+        if not save:
+          destroy.append (group)
 
-    for group in destroy:
-      self.groupings.remove (group)
+      for group in destroy:
+        self.groupings.remove (group)

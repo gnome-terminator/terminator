@@ -51,21 +51,41 @@ class TerminatorTermTitle (gtk.EventBox):
   _group = None
   _separator = None
   _hbox = None
+  _ebox = None
+  _grouphbox = None
   _icon = None
   _parent = None
   _unzoomed_title = None
+  terminator = None
 
-  def __init__ (self, configwanted = False):
+  def __init__ (self, terminator, configwanted = False):
     gtk.EventBox.__init__ (self)
 
     self._title = gtk.Label ()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
+    self._ebox = gtk.EventBox ()
+    self._grouphbox = gtk.HBox ()
     self._icon = gtk.Image ()
     self._hbox = gtk.HBox ()
 
-    self._hbox.pack_start (self._icon, False, True, 2)
-    self._hbox.pack_start (self._group, False, True, 2)
+    self.terminator = terminator
+    if self.terminator.groupsend == 2:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_all', gtk.ICON_SIZE_MENU)
+    elif self.terminator.groupsend == 1:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_group', gtk.ICON_SIZE_MENU)
+    else:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_off', gtk.ICON_SIZE_MENU)
+
+    self._grouphbox.pack_start (self._icon, False, True, 2)
+    self._grouphbox.pack_start (self._group, False, True, 2)
+    self._ebox.add (self._grouphbox)
+    self._ebox.show_all ()
+
+    self._hbox.pack_start (self._ebox, False, True, 2)
     self._hbox.pack_start (self._separator, False, True, 2)
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
@@ -76,6 +96,9 @@ class TerminatorTermTitle (gtk.EventBox):
     self.wanted = configwanted
 
     self.connect ("button-release-event", self.on_clicked)
+
+  def connect_icon (self, func):
+    self._ebox.connect ("button-release-event", func)
 
   def on_clicked (self, widget, event):
     if self._parent is not None:
@@ -112,10 +135,11 @@ class TerminatorTermTitle (gtk.EventBox):
   def set_background_color (self, color):
     """Set the background color of the titlebar"""
     self.modify_bg (gtk.STATE_NORMAL, color)
+    self._ebox.modify_bg (gtk.STATE_NORMAL, color)
 
   def set_foreground_color (self, color):
     """Set the foreground color of the titlebar"""
-    self._title.modify_fg (color)
+    self._title.modify_fg (gtk.STATE_NORMAL, color)
 
   def set_from_icon_name (self, name, size = gtk.ICON_SIZE_MENU):
     """Set an icon for the group label"""
@@ -196,7 +220,7 @@ class TerminatorTerm (gtk.VBox):
     self._termbox = gtk.HBox ()
     self._termbox.show()
     
-    self._titlebox = TerminatorTermTitle (self.conf.titlebars)
+    self._titlebox = TerminatorTermTitle (self.terminator, self.conf.titlebars)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -284,6 +308,8 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
     self._vte.connect ("resize-window", self.on_resize_window)
     self._vte.connect ("size-allocate", self.on_vte_size_allocate)
+
+    self._titlebox.connect_icon (self.on_group_button_press)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -453,6 +479,18 @@ text/plain
     parent = widget.get_parent()
     dbg ('Drag drop on %s'%parent)
 
+  def get_target_terms(self):
+    if self.terminator.groupsend == 2:
+      return self.terminator.term_list
+    elif self.terminator.groupsend == 1:
+      term_subset = []
+      for term in self.terminator.term_list:
+        if term == self or (term._group != None and term._group == self._group):
+          term_subset.append(term)
+      return term_subset
+    else:
+      return [self]
+
   def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, time, data):
     dbg ("Drag Data Received")
     if selection_data.type == 'text/plain':
@@ -461,8 +499,7 @@ text/plain
       txt = selection_data.data.strip()
       if txt[0:7] == "file://":
         txt = "'%s'" % txt[7:]
-      for term in self.terminator.term_list:
-        if term == self or (term._group != None and term._group == self._group):
+      for term in self.get_target_terms():
           term._vte.feed_child(txt)
       return
       
@@ -828,7 +865,7 @@ text/plain
     # Left mouse button should transfer focus to this vte widget
     # we also need to give focus on the widget where the paste occured
     if event.button in (1 ,2):
-      if event.button == 2 and self._group:
+      if event.button == 2:
         self.paste_clipboard (True)
         return True
       self._vte.grab_focus ()
@@ -844,9 +881,17 @@ text/plain
       term.grab_focus ()
       return False
 
+  def do_autocleangroups_toggle (self):
+    self.terminator.autocleangroups = not self.terminator.autocleangroups
+    if self.terminator.autocleangroups:
+      self.terminator.group_hoover()
+    
   def do_scrollbar_toggle (self):
     self.toggle_widget_visibility (self._scrollbar)
 
+  def do_splittogroup_toggle (self):
+    self.terminator.splittogroup = not self.terminator.splittogroup
+    
   def do_title_toggle (self):
     self._titlebox.wanted = not self._titlebox.get_property ('visible')
     self.toggle_widget_visibility (self._titlebox)
@@ -861,19 +906,21 @@ text/plain
       widget.show ()
 
   def paste_clipboard(self, primary = False):
-    if self._group:
-      for term in self.terminator.term_list:
-        if term._group == self._group:
-          if primary:
-            term._vte.paste_primary ()
-          else:
-            term._vte.paste_clipboard ()
-    else:
+    for term in self.get_target_terms():
       if primary:
-        self._vte.paste_primary ()
+        term._vte.paste_primary ()
       else:
-        self._vte.paste_clipboard ()
+        term._vte.paste_clipboard ()
     self._vte.grab_focus()
+
+  def do_enumerate(self, pad=False):
+    if pad:
+      numstr='%0'+str(len(str(len(self.terminator.term_list))))+'d'
+    else:
+      numstr='%d'
+    for term in self.get_target_terms():
+      idx=self.terminator.term_list.index(term)
+      term._vte.feed_child(numstr % (idx+1))
 
   #keybindings for the individual splited terminals (affects only the
   #the selected terminal)
@@ -899,8 +946,11 @@ text/plain
         getattr(self, "key_" + mapping)()
         return True
 
-    if self._group and self._vte.is_focus ():
-      self.terminator.group_emit (self, self._group, 'key-press-event', event)
+    if self.terminator.groupsend != 0 and self._vte.is_focus ():
+      if self._group and self.terminator.groupsend == 1:
+        self.terminator.group_emit (self, self._group, 'key-press-event', event)
+      if self.terminator.groupsend == 2:
+        self.terminator.all_emit (self, 'key-press-event', event)
     return False
 
   # Key events
@@ -1205,6 +1255,14 @@ text/plain
     item.connect ("activate", lambda menu_item: self.paste_clipboard ())
     menu.append (item)
 
+    item = gtk.MenuItem (_("Enumerate"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate ())
+    menu.append (item)
+
+    item = gtk.MenuItem (_("Enumerate with pad"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate (pad=True))
+    menu.append (item)
+
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -1275,7 +1333,6 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
-
     item = gtk.CheckMenuItem (_("Show _scrollbar"))
     item.set_active (self._scrollbar.get_property ('visible'))
     item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
@@ -1294,24 +1351,36 @@ text/plain
 
     self._do_encoding_items (menu)
         
-    item = gtk.MenuItem ()
-    menu.append (item)
-
-    item = gtk.MenuItem (_("_Group"))
-    menu.append (item)
-    submenu = gtk.Menu ()
-    item.set_submenu (submenu)
-    self.populate_grouping_menu (submenu)
-    if len (self.terminator.term_list) == 1:
-      item.set_sensitive (False)
-
     menu.show_all ()
     menu.popup (None, None, None, button, time)
 
     return True
 
+  def create_popup_group_menu (self, widget, event = None):
+    menu = gtk.Menu ()
+    url = None
+
+    if event:
+      url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
+      button = event.button
+      time = event.time
+    else:
+      button = 0
+      time = 0
+
+    self.populate_grouping_menu (menu)
+
+    menu.show_all ()
+    menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    
+    return True
+
   def populate_grouping_menu (self, widget):
     groupitem = None
+
+    item = gtk.MenuItem (_("Assign to group..."))
+    item.connect ("activate", self.create_group)
+    widget.append (item)
 
     if len (self.terminator.groupings) > 0:
       groupitem = gtk.RadioMenuItem (groupitem, _("None"))
@@ -1326,19 +1395,14 @@ text/plain
         widget.append (item)
         groupitem = item
 
+    if self._group != None or len (self.terminator.groupings) > 0:
       item = gtk.MenuItem ()
       widget.append (item)
-    
-    item = gtk.MenuItem (_("_New group"))
-    item.connect ("activate", self.create_group)
-    widget.append (item)
 
-    item = gtk.MenuItem ()
-    widget.append (item)
-
-    item = gtk.MenuItem (_("_Group all"))
-    item.connect ("activate", self.group_all)
-    widget.append (item)
+    if self._group != None:
+      item = gtk.MenuItem (_("Remove group %s") % (self._group))
+      item.connect ("activate", self.ungroup,  self._group)
+      widget.append (item)
 
     if self.terminator.get_first_parent_widget (self, gtk.Notebook) is not None and \
        not isinstance (self.get_parent(), gtk.Notebook):
@@ -1346,11 +1410,6 @@ text/plain
       item.connect ("activate", self.group_tab)
       widget.append (item)
 
-    if len (self.terminator.groupings) > 0:
-      item = gtk.MenuItem (_("_Ungroup all"))
-      item.connect ("activate", self.ungroup_all)
-      widget.append (item)
-    
     if self.terminator.get_first_parent_widget(self, gtk.Notebook) is not None and \
        not isinstance(self.get_parent(), gtk.Notebook) and \
        len(self.terminator.groupings) > 0:
@@ -1358,35 +1417,211 @@ text/plain
       item.connect("activate", self.ungroup_tab)
       widget.append(item)
 
+    if len (self.terminator.groupings) > 0:
+      item = gtk.MenuItem (_("Remove all groups"))
+      item.connect ("activate", self.ungroup_all)
+      widget.append (item)
+      
+    if self._group != None:
+      item = gtk.MenuItem ()
+      widget.append (item)
+
+      item = gtk.ImageMenuItem (_("Close group %s") % (self._group))
+      grp_close_img = gtk.Image()
+      grp_close_img.set_from_stock(gtk.STOCK_CLOSE, 1)
+      item.set_image (grp_close_img)
+      item.connect ("activate", lambda menu_item: self.terminator.closegroupedterms (self))
+      widget.append (item)
+
+    item = gtk.MenuItem ()
+    widget.append (item)    
+
+    groupitem = None
+    
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast off"))
+    groupitem.set_active (self.terminator.groupsend == 0)
+    groupitem.connect ("activate", self.set_groupsend, 0)
+    widget.append (groupitem)
+
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast to group"))
+    groupitem.set_active (self.terminator.groupsend == 1)
+    groupitem.connect ("activate", self.set_groupsend, 1)
+    widget.append (groupitem)
+    
+    groupitem = gtk.RadioMenuItem (groupitem, _("Broadcast to all"))
+    groupitem.set_active (self.terminator.groupsend == 2)
+    groupitem.connect ("activate", self.set_groupsend, 2)
+    widget.append (groupitem)
+    
+    item = gtk.MenuItem ()
+    widget.append (item)
+    
+    item = gtk.CheckMenuItem (_("Split to this group"))
+    item.set_active (self.terminator.splittogroup)
+    item.connect ("toggled", lambda menu_item: self.do_splittogroup_toggle ())
+    if self._group == None:
+      item.set_sensitive(False)
+    widget.append (item)
+    
+    item = gtk.CheckMenuItem (_("Autoclean groups"))
+    item.set_active (self.terminator.autocleangroups)
+    item.connect ("toggled", lambda menu_item: self.do_autocleangroups_toggle ())
+    widget.append (item)
+
+  def position_popup_group_menu(self, menu, widget):
+    screen_w = gtk.gdk.screen_width()
+    screen_h = gtk.gdk.screen_height()
+
+    widget_win = widget.get_window()
+    widget_x, widget_y = widget_win.get_origin()
+    widget_w, widget_h = widget_win.get_size()
+    
+    menu_w, menu_h = menu.size_request()
+    
+    if widget_y + widget_h + menu_h > screen_h:
+      menu_y = max(widget_y - menu_h, 0)
+    else:
+      menu_y = widget_y + widget_h
+    
+    return (widget_x, menu_y, 1) 
+    
   def create_group (self, item):
+    self.groupingscope = 0
+    grplist=self.terminator.groupings[:]
+    grplist.sort()
+    
     win = gtk.Window ()
-    vbox = gtk.VBox ()
-    hbox = gtk.HBox ()
-    entrybox = gtk.HBox ()
+    vbox = gtk.VBox (False, 6)
+    vbox.set_border_width(5)
     win.add (vbox)
-    label = gtk.Label (_("Group name:"))
-    entry = gtk.Entry ()
+    
+    # Populate the "Assign..." Section
+    contentvbox = gtk.VBox (False, 6)
+    selframe = gtk.Frame()
+    selframe_label = gtk.Label()
+    selframe_label.set_markup(_("<b>Assign...</b>"))
+    selframe.set_shadow_type(gtk.SHADOW_NONE)
+    selframe.set_label_widget(selframe_label)
+    selframe_align = gtk.Alignment(0, 0, 1, 1)
+    selframe_align.set_padding(0, 0, 12, 0)
+    selframevbox = gtk.VBox ()
+    selframehbox = gtk.HBox ()
+    
+    # Populate the Combo with existing group names (None at the top)
+    sel_combo = gtk.combo_box_new_text()
+    sel_combo.append_text(_("Terminals with no group"))
+    for grp in grplist:
+      sel_combo.append_text(grp)
+    sel_combo.set_sensitive(False)
+    
+    # Here are the radio buttons
+    groupitem = None
+    
+    groupitem = gtk.RadioButton (groupitem, _("Terminal"))
+    groupitem.set_active (True)
+    groupitem.connect ("toggled", self.set_groupingscope, 0, sel_combo)
+    selframehbox.pack_start (groupitem, False)
+
+    groupitem = gtk.RadioButton (groupitem, _("Group"))
+    groupitem.connect ("toggled", self.set_groupingscope, 1, sel_combo)
+    selframehbox.pack_start (groupitem, False)
+    
+    groupitem = gtk.RadioButton (groupitem, _("All"))
+    groupitem.connect ("toggled", self.set_groupingscope, 2, sel_combo)
+    selframehbox.pack_start (groupitem, False)
+    
+    selframevbox.pack_start(selframehbox, True, True)
+    selframevbox.pack_start(sel_combo, True, True)
+    selframe_align.add(selframevbox)
+    selframe.add(selframe_align)
+    contentvbox.pack_start(selframe)
+    
+    # Populate the "To..." Section
+    tgtframe = gtk.Frame()
+    tgtframe_label = gtk.Label()
+    tgtframe_label.set_markup(_("<b>To...</b>"))
+    tgtframe.set_shadow_type(gtk.SHADOW_NONE)
+    tgtframe.set_label_widget(tgtframe_label)
+    tgtframe_align = gtk.Alignment(0, 0, 1, 1)
+    tgtframe_align.set_padding(0, 0, 12, 0)
+    tgtframevbox = gtk.VBox ()
+    
+    # Populate the Combo with existing group names (None not needed)
+    tgt_comboentry = gtk.combo_box_entry_new_text()
+    for grp in grplist:
+      tgt_comboentry.append_text(grp)
+    
+    tgtframevbox.pack_start(tgt_comboentry, True, True)
+    
+    tgtframe_align.add(tgtframevbox)
+    tgtframe.add(tgtframe_align)
+    contentvbox.pack_start(tgtframe)
+    
     okbut = gtk.Button (stock=gtk.STOCK_OK)
     canbut = gtk.Button (stock=gtk.STOCK_CANCEL)
-
-    entrybox.pack_start (label, False, True)
-    entrybox.pack_start (entry, True, True)
-    hbox.pack_end (okbut, False, False)
-    hbox.pack_end (canbut, False, False)
-    vbox.pack_start (entrybox, False, True)
-    vbox.pack_start (hbox, False, True)
-
+    hbuttonbox = gtk.HButtonBox()
+    hbuttonbox.set_layout(gtk.BUTTONBOX_END)
+    hbuttonbox.pack_start (canbut, True, True)
+    hbuttonbox.pack_start (okbut, True, True)
+    
+    vbox.pack_start (contentvbox, False, True)
+    vbox.pack_end (hbuttonbox, False,  True)
+    
     canbut.connect ("clicked", lambda kill: win.destroy())
-    okbut.connect ("clicked", self.do_create_group, win, entry)
-    entry.connect ("activate", self.do_create_group, win, entry)
-
+    okbut.connect ("clicked", self.do_create_group, win, sel_combo, tgt_comboentry)
+    tgt_comboentry.child.connect ("activate", self.do_create_group, win, sel_combo, tgt_comboentry)
+    
+    tgt_comboentry.grab_focus()
+    
+    # Center it over the current terminal (not perfect?!?)
+    # This could be replaced by a less bothersome dialog, but then that would
+    # center over the window, not the terminal
+    screen_w = gtk.gdk.screen_width()
+    screen_h = gtk.gdk.screen_height()
+    local_x, local_y = self.allocation.x, self.allocation.y
+    local_w, local_h = self.allocation.width, self.allocation.height
+    window_x, window_y = self.get_window().get_origin()
+    x = window_x + local_x
+    y = window_y + local_y
+    win.realize()
+    new_x = min(max(0, x+(local_w/2)-(win.allocation.width/2)), screen_w-win.allocation.width)
+    new_y = min(max(0, y+(local_h/2)-(win.allocation.height/2)), screen_h-win.allocation.height)
+    win.move(new_x, new_y)
+    
     win.show_all ()
 
-  def do_create_group (self, widget, window, entry):
-    name = entry.get_text ()
-    self.add_group(name)
-    self.set_group (None, name)
+  def set_groupingscope(self, widget, scope=None, sel_combo=None):
+    if widget.get_active():
+      self.groupingscope = scope
+      if self.groupingscope == 1:
+        sel_combo.set_sensitive(True)
+      else:
+        sel_combo.set_sensitive(False)
 
+  def do_create_group (self, widget, window, src, tgt):
+    tgt_name = tgt.child.get_text()
+    try:
+      src_name = src.get_active_text()
+      src_id = src.get_active()
+    except:
+      src_name = None
+    
+    if tgt_name == "" or (self.groupingscope == 1 and src_name == None):
+      return False
+      
+    if tgt_name not in self.terminator.groupings:
+      self.terminator.groupings.append (tgt_name)
+    
+    if self.groupingscope == 2:
+      for term in self.terminator.term_list:
+        term.set_group (None, tgt_name)
+    elif self.groupingscope == 1:
+      for term in self.terminator.term_list:
+        if term._group == src_name  or (src_id == 0 and term._group == None):
+          term.set_group (None, tgt_name)
+    else:
+      self.set_group (None, tgt_name)
+      
     window.destroy ()
 
   def add_group (self, groupname):
@@ -1403,6 +1638,26 @@ text/plain
     self._titlebox.set_group_label (data)
     self._titlebox.update ()
 
+    if not self._group:
+      # We were not previously in a group
+      self._titlebox.show ()
+      self._group = data
+    else:
+      # We were previously in a group
+      self._group = data
+      if data is None:
+        # We have been removed from a group
+        if not self.conf.titlebars and not self._want_titlebar:
+          self._titlebox.hide ()
+      self.terminator.group_hoover ()
+
+  def set_groupsend (self, item, data):
+    self.terminator.groupsend = data
+
+  def ungroup (self, widget, data):
+    for term in self.terminator.term_list:
+      if term._group == data:
+        term.set_group (None, None)
     self.terminator.group_hoover ()
 
   def group_all (self, widget):
@@ -1546,11 +1801,40 @@ text/plain
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
   def on_vte_focus_in(self, vte, event):
-    self._titlebox.set_background_color (self.terminator.window.get_style().bg[gtk.STATE_SELECTED])
+    for term in self.terminator.term_list:
+      idx = self.terminator.term_list.index(term)
+      if term != self and term._group != None and term._group == self._group:
+        # Not active, group is not none, and in active's group
+        if self.terminator.groupsend == 0:
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlebox.set_from_icon_name('_receive_off', gtk.ICON_SIZE_MENU)
+        else:
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlebox.set_from_icon_name('_receive_on', gtk.ICON_SIZE_MENU)
+      elif term != self and term._group == None or term._group != self._group:
+        # Not active, group is not none, not in active's group
+        if self.terminator.groupsend == 2:
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlebox.set_from_icon_name('_receive_on', gtk.ICON_SIZE_MENU)
+        else:
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlebox.set_from_icon_name('_receive_off', gtk.ICON_SIZE_MENU)
+      else:
+        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
+        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
+        if self.terminator.groupsend == 2:
+          term._titlebox.set_from_icon_name('_active_broadcast_all', gtk.ICON_SIZE_MENU)
+        elif self.terminator.groupsend == 1:
+          term._titlebox.set_from_icon_name('_active_broadcast_group', gtk.ICON_SIZE_MENU)
+        else:
+          term._titlebox.set_from_icon_name('_active_broadcast_off', gtk.ICON_SIZE_MENU)
     return
 
   def on_vte_focus_out(self, vte, event):
-    self._titlebox.set_background_color (self.terminator.window.get_style().bg[gtk.STATE_NORMAL])
     return
 
   def on_vte_focus(self, vte):
@@ -1565,5 +1849,9 @@ text/plain
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
  
   def is_scrollbar_present(self):
-	  return self._scrollbar.get_property('visible')
+    return self._scrollbar.get_property('visible')
 
+  def on_group_button_press(self, term, event):
+    if event.button == 1:
+      self.create_popup_group_menu(term, event)
+    return False
