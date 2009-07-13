@@ -51,6 +51,8 @@ class TerminatorTermTitle (gtk.EventBox):
   _group = None
   _separator = None
   _hbox = None
+  _ebox = None
+  _grouphbox = None
   _icon = None
   _parent = None
   _unzoomed_title = None
@@ -62,6 +64,8 @@ class TerminatorTermTitle (gtk.EventBox):
     self._title = gtk.Label ()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
+    self._ebox = gtk.EventBox ()
+    self._grouphbox = gtk.HBox ()
     self._icon = gtk.Image ()
     self._hbox = gtk.HBox ()
 
@@ -76,8 +80,12 @@ class TerminatorTermTitle (gtk.EventBox):
       self.set_from_icon_name (APP_NAME + \
               '_active_broadcast_off', gtk.ICON_SIZE_MENU)
 
-    self._hbox.pack_start (self._icon, False, True, 2)
-    self._hbox.pack_start (self._group, False, True, 2)
+    self._grouphbox.pack_start (self._icon, False, True, 2)
+    self._grouphbox.pack_start (self._group, False, True, 2)
+    self._ebox.add (self._grouphbox)
+    self._ebox.show_all ()
+
+    self._hbox.pack_start (self._ebox, False, True, 2)
     self._hbox.pack_start (self._separator, False, True, 2)
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
@@ -88,6 +96,9 @@ class TerminatorTermTitle (gtk.EventBox):
     self.wanted = configwanted
 
     self.connect ("button-release-event", self.on_clicked)
+
+  def connect_icon (self, func):
+    self._ebox.connect ("button-release-event", func)
 
   def on_clicked (self, widget, event):
     if self._parent is not None:
@@ -124,6 +135,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def set_background_color (self, color):
     """Set the background color of the titlebar"""
     self.modify_bg (gtk.STATE_NORMAL, color)
+    self._ebox.modify_bg (gtk.STATE_NORMAL, color)
 
   def set_foreground_color (self, color):
     """Set the foreground color of the titlebar"""
@@ -297,7 +309,7 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("resize-window", self.on_resize_window)
     self._vte.connect ("size-allocate", self.on_vte_size_allocate)
 
-    self._titlebox.connect ("button-release-event", self.on_group_button_press)
+    self._titlebox.connect_icon (self.on_group_button_press)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
