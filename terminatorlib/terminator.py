@@ -41,7 +41,6 @@ except:
 
 class TerminatorWindowTitle:
   _window = None
-  _appname = APP_NAME.capitalize()
   text = None
   _forced = False
 
@@ -66,7 +65,7 @@ class TerminatorWindowTitle:
     if self._forced:
       title = self.text
     else:
-      title = "%s - %s" % (self.text, self._appname)
+      title = "%s" % self.text
 
     self._window.set_title (title)
     
