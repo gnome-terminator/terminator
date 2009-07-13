@@ -1400,7 +1400,7 @@ text/plain
       widget.append (item)
 
     if self._group != None:
-      item = gtk.MenuItem (_("Remove group %s")) % (self._group)
+      item = gtk.MenuItem (_("Remove group %s") % (self._group))
       item.connect ("activate", self.ungroup,  self._group)
       widget.append (item)
 
@@ -1426,7 +1426,7 @@ text/plain
       item = gtk.MenuItem ()
       widget.append (item)
 
-      item = gtk.ImageMenuItem (_("Close %s group") % (self._group))
+      item = gtk.ImageMenuItem (_("Close group %s") % (self._group))
       grp_close_img = gtk.Image()
       grp_close_img.set_from_stock(gtk.STOCK_CLOSE, 1)
       item.set_image (grp_close_img)
@@ -1645,7 +1645,7 @@ text/plain
     else:
       # We were previously in a group
       self._group = data
-      if data == None:
+      if data is None:
         # We have been removed from a group
         if not self.conf.titlebars and not self._want_titlebar:
           self._titlebox.hide ()
@@ -1655,16 +1655,17 @@ text/plain
     self.terminator.groupsend = data
 
   def ungroup (self, widget, data):
-    print "UNGROUP HALP"
-    # ??.set_group (None, None)
+    for term in self.terminator.term_list:
+      if term._group == data:
+        term.set_group (None, None)
     self.terminator.group_hoover ()
 
   def group_all (self, widget):
     allname = _("All")
     self.add_group(allname)
     for term in self.terminator.term_list:
-      if term._group == data:
-        term.set_group (None, None)
+      if term._group is None:
+        term.set_group (None, allname)
     self.terminator.group_hoover ()
 
   def ungroup_all (self, widget):
