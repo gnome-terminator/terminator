@@ -1812,8 +1812,6 @@ text/plain
           term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
           term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
           term._titlebox.set_from_icon_name(APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
-        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
       elif term != self and term._group == None or term._group != self._group:
         # Not active, group is not none, not in active's group
         if self.terminator.groupsend == 2:
@@ -1824,12 +1822,8 @@ text/plain
           term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
           term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
           term._titlebox.set_from_icon_name(APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
-        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
       else:
         term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
-        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
-        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
         term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
         if self.terminator.groupsend == 2:
           term._titlebox.set_from_icon_name(APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
