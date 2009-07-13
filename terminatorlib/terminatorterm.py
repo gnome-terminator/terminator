@@ -1342,14 +1342,6 @@ text/plain
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.MenuItem (_("_Group"))
-    menu.append (item)
-    submenu = gtk.Menu ()
-    item.set_submenu (submenu)
-    self.populate_grouping_menu (submenu)
-    if len (self.terminator.term_list) == 1:
-      item.set_sensitive (False)
-
     menu.show_all ()
     menu.popup (None, None, None, button, time)
 
