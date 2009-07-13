@@ -1378,7 +1378,7 @@ text/plain
   def populate_grouping_menu (self, widget):
     groupitem = None
 
-    item = gtk.MenuItem (_("Assign to..."))
+    item = gtk.MenuItem (_("Assign to group..."))
     item.connect ("activate", self.create_group)
     widget.append (item)
 
@@ -1400,7 +1400,7 @@ text/plain
       widget.append (item)
 
     if self._group != None:
-      item = gtk.MenuItem (_("Remove %s group ") % (self._group))
+      item = gtk.MenuItem (_("Remove group %s")) % (self._group)
       item.connect ("activate", self.ungroup,  self._group)
       widget.append (item)
 
@@ -1602,6 +1602,7 @@ text/plain
     tgt_name = tgt.child.get_text()
     try:
       src_name = src.get_active_text()
+      src_id = src.get_active()
     except:
       src_name = None
     
@@ -1616,7 +1617,7 @@ text/plain
         term.set_group (None, tgt_name)
     elif self.groupingscope == 1:
       for term in self.terminator.term_list:
-        if term._group == src_name  or (src_name == "*No Group*" and term._group == None):
+        if term._group == src_name  or (src_id == 0 and term._group == None):
           term.set_group (None, tgt_name)
     else:
       self.set_group (None, tgt_name)
