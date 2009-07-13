@@ -1,292 +1,21 @@
-# Hungarian translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Serbian translation for terminator
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-05-27 12:37+0000\n"
-"Last-Translator: Oli <Unknown>\n"
-"Language-Team: Hungarian <hu@li.org>\n"
+"PO-Revision-Date: 2009-05-26 11:21+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr "Befejezetlen idézőjeles string"
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr "Érték nélküli beállítás"
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr "Nem várt szimbólum"
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-"<big><b>Beállítási hiba<b></big>\n"
-"Hiba a terminator_config(5) fájl értelmezése közben:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d sor kihagyva."
-
-#: ../terminatorlib/config.py:258
-msgid "Configuration error"
-msgstr "Beállítási hiba"
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr "%s a következők egyike kell legyen: top, left, right, bottom"
-
-#: ../terminatorlib/encoding.py:29
-msgid "Current Locale"
-msgstr "Jelenlegi területi beállítás"
-
-#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
-#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
-#: ../terminatorlib/encoding.py:96
-msgid "Western"
-msgstr "Nyugati"
-
-#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
-#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
-msgid "Central European"
-msgstr "Közép-európai"
-
-#: ../terminatorlib/encoding.py:32
-msgid "South European"
-msgstr "Dél-európai"
-
-#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
-#: ../terminatorlib/encoding.py:101
-msgid "Baltic"
-msgstr "Balti"
-
-#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
-#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
-#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
-msgid "Cyrillic"
-msgstr "Cirill"
-
-#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
-#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
-msgid "Arabic"
-msgstr "Arab"
-
-#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
-#: ../terminatorlib/encoding.py:97
-msgid "Greek"
-msgstr "Görög"
-
-#: ../terminatorlib/encoding.py:37
-msgid "Hebrew Visual"
-msgstr "Héber (képi)"
-
-#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
-#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
-msgid "Hebrew"
-msgstr "Héber"
-
-#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
-#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
-msgid "Turkish"
-msgstr "Török"
-
-#: ../terminatorlib/encoding.py:40
-msgid "Nordic"
-msgstr "Északi"
-
-#: ../terminatorlib/encoding.py:42
-msgid "Celtic"
-msgstr "Kelta"
-
-#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
-msgid "Romanian"
-msgstr "Román"
-
-#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
-#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
-#: ../terminatorlib/encoding.py:49
-msgid "Unicode"
-msgstr "Unicode"
-
-#: ../terminatorlib/encoding.py:50
-msgid "Armenian"
-msgstr "Örmény"
-
-#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
-#: ../terminatorlib/encoding.py:56
-msgid "Chinese Traditional"
-msgstr "Kínai (hagyományos)"
-
-#: ../terminatorlib/encoding.py:53
-msgid "Cyrillic/Russian"
-msgstr "Cirill/orosz"
-
-#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
-#: ../terminatorlib/encoding.py:89
-msgid "Japanese"
-msgstr "Japán"
-
-#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
-#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
-msgid "Korean"
-msgstr "Koreai"
-
-#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
-#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
-msgid "Chinese Simplified"
-msgstr "Kínai (egyszerűsített)"
-
-#: ../terminatorlib/encoding.py:60
-msgid "Georgian"
-msgstr "Grúz"
-
-#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
-msgid "Cyrillic/Ukrainian"
-msgstr "Cirill/ukrán"
-
-#: ../terminatorlib/encoding.py:76
-msgid "Croatian"
-msgstr "Horvát"
-
-#: ../terminatorlib/encoding.py:78
-msgid "Hindi"
-msgstr "Hindi"
-
-#: ../terminatorlib/encoding.py:79
-msgid "Persian"
-msgstr "Perzsa"
-
-#: ../terminatorlib/encoding.py:81
-msgid "Gujarati"
-msgstr "Gudzsaráti"
-
-#: ../terminatorlib/encoding.py:82
-msgid "Gurmukhi"
-msgstr "Gurmuki"
-
-#: ../terminatorlib/encoding.py:84
-msgid "Icelandic"
-msgstr "Izlandi"
-
-#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
-#: ../terminatorlib/encoding.py:102
-msgid "Vietnamese"
-msgstr "Vietnámi"
-
-#: ../terminatorlib/encoding.py:91
-msgid "Thai"
-msgstr "Thai"
-
-#: ../terminatorlib/prefs_profile.py:370
-msgid "Name"
-msgstr "Név"
-
-#: ../terminatorlib/prefs_profile.py:377
-msgid "Action"
-msgstr "Művelet"
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr "Gyorsbillentyű"
-
-#: ../terminatorlib/terminator.py:76
-msgid "Close Tab"
-msgstr "Lap bezárása"
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr "lap"
-
-#: ../terminatorlib/terminator.py:413
-msgid "window"
-msgstr "ablak"
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "Bezárás?"
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr "_Terminálok bezárása"
-
-#: ../terminatorlib/terminatorterm.py:39
-msgid ""
-"You need to install python bindings for libvte (\"python-vte\" in "
-"debian/ubuntu)"
-msgstr ""
-"Telepítenie kell a python kötéseket a libvte-hez (\"python-vte\" a debianban "
-"és ubuntuban)"
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr "Keresés:"
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr "Következő"
-
-#. Give up, we're completely stuck
-#: ../terminatorlib/terminatorterm.py:518
-msgid "Unable to find a shell"
-msgstr "Parancsértelmező nem található"
-
-#: ../terminatorlib/terminatorterm.py:539
-msgid "Unable to start shell: "
-msgstr "Parancsértelmező indítása sikertelen: "
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "Hi_vatkozás megnyitása"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "Hivatkozás _címének másolása"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "E-mail küldé_se..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "E-mail cím _másolása"
-
-#: ../terminatorlib/terminatorterm.py:1071
-msgid "Show _scrollbar"
-msgstr "Gördítő_sáv mutatása"
-
-#: ../terminatorlib/terminatorterm.py:1089
-msgid "Split H_orizontally"
-msgstr "Elválasztás _vízszintesen"
-
-#: ../terminatorlib/terminatorterm.py:1090
-msgid "Split V_ertically"
-msgstr "Elválasztás _függőlegesen"
-
-#: ../terminatorlib/terminatorterm.py:1107
-msgid "Open _Tab"
-msgstr "_Lap megnyitása"
 
 #: ../terminator:46
 msgid ""
@@ -300,10 +29,43 @@ msgid ""
 "properly set"
 msgstr ""
 
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:250
+#, python-format
+msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d line(s) have been ignored."
+msgstr ""
+
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr ""
+
 #: ../terminatorlib/config.py:311
 #, python-format
 msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr "Beállított %r érték %r nem valós szín; átugorva"
+msgstr ""
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr ""
 
 #: ../terminatorlib/config.py:323
 #, python-format
@@ -320,9 +82,170 @@ msgstr ""
 msgid "Setting %r should be a section name"
 msgstr ""
 
+#: ../terminatorlib/encoding.py:29
+msgid "Current Locale"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
+#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
+#: ../terminatorlib/encoding.py:96
+msgid "Western"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
+#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
+msgid "Central European"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:32
+msgid "South European"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
+#: ../terminatorlib/encoding.py:101
+msgid "Baltic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
+msgid "Cyrillic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
+#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
+msgid "Arabic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
+#: ../terminatorlib/encoding.py:97
+msgid "Greek"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:37
+msgid "Hebrew Visual"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
+msgid "Hebrew"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
+#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
+msgid "Turkish"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:40
+msgid "Nordic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:42
+msgid "Celtic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
+msgid "Romanian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
+#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
+#: ../terminatorlib/encoding.py:49
+msgid "Unicode"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:50
+msgid "Armenian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
+#: ../terminatorlib/encoding.py:56
+msgid "Chinese Traditional"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:53
+msgid "Cyrillic/Russian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
+#: ../terminatorlib/encoding.py:89
+msgid "Japanese"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
+msgid "Korean"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
+msgid "Chinese Simplified"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:60
+msgid "Georgian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
+msgid "Cyrillic/Ukrainian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:76
+msgid "Croatian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:78
+msgid "Hindi"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:79
+msgid "Persian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:81
+msgid "Gujarati"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:82
+msgid "Gurmukhi"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:84
+msgid "Icelandic"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
+#: ../terminatorlib/encoding.py:102
+msgid "Vietnamese"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:91
+msgid "Thai"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr ""
+
 #: ../terminatorlib/terminator.py:37
 msgid ""
 "Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
+#: ../terminatorlib/terminator.py:76
+msgid "Close Tab"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
 msgstr ""
 
 #: ../terminatorlib/terminator.py:230
@@ -332,6 +255,19 @@ msgstr ""
 
 #: ../terminatorlib/terminator.py:277
 msgid "Unable to bind hide_window key"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr ""
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
 msgstr ""
 
 #: ../terminatorlib/terminator.py:425
@@ -345,8 +281,64 @@ msgid ""
 "terminals within it."
 msgstr ""
 
+#: ../terminatorlib/terminatorterm.py:39
+msgid ""
+"You need to install python bindings for libvte (\"python-vte\" in "
+"debian/ubuntu)"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr ""
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr ""
+
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
+msgid "Unable to find a shell"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:539
+msgid "Unable to start shell: "
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1071
+msgid "Show _scrollbar"
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1089
+msgid "Split H_orizontally"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1090
+msgid "Split V_ertically"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1107
+msgid "Open _Tab"
 msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:1112
@@ -419,4 +411,4 @@ msgstr ""
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Terminator"
+msgstr ""

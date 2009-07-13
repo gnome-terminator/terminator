@@ -30,27 +30,75 @@ from config import dbg, err, debug
 from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
+from terminatorlib import translation
 
+try:
+  import deskbar.core.keybinder as bindkey
+except:
+  dbg (_("Unable to find python bindings for deskbar, "\
+           "hide_window is not available."))
+  pass
+
+class TerminatorWindowTitle:
+  _window = None
+  _appname = APP_NAME.capitalize()
+  text = None
+  _forced = False
+
+  def __init__ (self, window):
+    self._window = window
+
+  def set_title (self, newtext):
+    if not self._forced:
+      self.text = newtext
+      self.update ()
+
+  def force_title (self, newtext):
+    if newtext:
+      self.set_title (newtext)
+      self._forced = True
+    else:
+      self._forced = False
+
+  def update (self):
+    title = None
+
+    if self._forced:
+      title = self.text
+    else:
+      title = "%s - %s" % (self.text, self._appname)
+
+    self._window.set_title (title)
+    
 class TerminatorNotebookTabLabel(gtk.HBox):
   _terminator = None
   _notebook = None
   _label = None
   _icon = None
   _button = None
+  _ebox = None
+  _autotitle = None
+  custom = None
     
   def __init__(self, title, notebook, terminator):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self._terminator = terminator
+    self.custom = False
     
     self._label = gtk.Label(title)
     self.update_angle()
-    self.pack_start(self._label, True, True)
+
+    self._ebox = gtk.EventBox ()
+    self._ebox.set_visible_window (False)
+    self._ebox.add (self._label)
+    self.pack_start(self._ebox, True, True)
 
     self._icon = gtk.Image()
     self._icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     
     self.update_closebut()
+    self._ebox.connect ("button-press-event", self.on_click_title)
 
     self.show_all()
 
@@ -64,11 +112,11 @@ class TerminatorNotebookTabLabel(gtk.HBox):
       self._button.add(self._icon)
       self._button.connect('clicked', self.on_close)
       self._button.set_name("terminator-tab-close-button")
-      self.connect("style-set", self.on_style_set)
+      self._button.connect("style-set", self.on_style_set)
       if hasattr(self._button, "set_tooltip_text"): 
         self._button.set_tooltip_text(_("Close Tab"))
-        self.pack_start(self._button, False, False)
-        self.show_all()
+      self.pack_start(self._button, False, False)
+      self.show_all()
     else:
       if self._button:
         self._button.remove(self._icon)
@@ -94,6 +142,9 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     for i in xrange(0,nbpages):
       if self._notebook.get_tab_label(self._notebook.get_nth_page(i)) == self:
         #dbg("[Close from tab] Found tab at position [%d]" % i)
+        if not isinstance (self._notebook.get_nth_page(i), TerminatorTerm):
+          if self._terminator.confirm_close_multiple (self._terminator.window, _("tab")):
+            return False
         term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         while term:
           if term == self._notebook.get_nth_page(i):
@@ -103,8 +154,10 @@ class TerminatorNotebookTabLabel(gtk.HBox):
           term = self._terminator._notebook_first_term(self._notebook.get_nth_page(i))
         break
 
-  def set_title(self, title):
-    self._label.set_text(title)
+  def set_title(self, title, force=False):
+    self._autotitle = title
+    if not self.custom or force:
+      self._label.set_text(title)
 
   def get_title(self):
     return self._label.get_text()
@@ -115,13 +168,53 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   def width_request(self):
     return self.size_request()[0]
 
+  def on_click_title(self, widget, event):
+    if event.type == gtk.gdk._2BUTTON_PRESS and self._ebox in self.get_children ():
+      self.remove (self._ebox)
+      self._entry = gtk.Entry ()
+      self._entry.set_text (self._label.get_text ())
+      self._entry.show ()
+      self.pack_start (self._entry)
+      self.reorder_child (self._entry, 0)
+      self._notebook.connect ("switch-page", self.entry_to_label)
+      self._entry.connect ("activate", self.on_entry_activated)
+      self._entry.connect ("key-press-event", self.on_entry_keypress)
+      self._entry.grab_focus ()
+
+  def entry_to_label (self, widget, page, page_num):
+    if (self._entry):
+      self.remove (self._entry)
+      self.add (self._ebox)
+      self._entry = None
+      self.reorder_child (self._ebox, 0)
+      self._ebox.show_all ()
+
+  def on_entry_activated (self, widget):
+    entry = self._entry.get_text ()
+    label = self._label.get_text ()
+
+    if entry == '':
+      self.custom = False
+      self.set_title (self._autotitle)
+    elif entry != label:
+      self.custom = True
+      self.set_title (self._entry.get_text (), True)
+    self.entry_to_label (None, None, None)
+
+  def on_entry_keypress (self, widget, event):
+    key = gtk.gdk.keyval_name (event.keyval)
+    if key == 'Escape':
+      self.entry_to_label (None, None, None)
+
 class Terminator:
   options = None
-  groupings = []
+  groupings = None
+  _urgency = False
+  origcwd = None
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
-                geometry = None):
+                geometry = None, hidden = False, forcedtitle = None):
     self.profile = profile
     self.command = command
 
@@ -131,12 +224,14 @@ class Terminator:
     self._geometry = geometry
     self.debugaddress = None
     self.start_cwd = os.getcwd()
+    self._hidden = False
     self.term_list = []
     self.gnome_client = None
     self.groupsend = 1          # 0 off, 1 group (d), 2 all
     self.splittogroup = 0       # 0 no group (d), 1 new takes orginators group
     self.autocleangroups = 1    # 0 off, 1 on (d)
     stores = []
+    self.groupings = []
 
     store = config.TerminatorConfValuestoreRC ()
     store.set_reconfigure_callback (self.reconfigure_vtes)
@@ -178,6 +273,9 @@ class Terminator:
     elif platform.system() == 'Linux':
       dbg ('Using Linux self.pid_get_cwd')
       self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/cwd' % pid)
+    elif platform.system() == 'SunOS':
+      dbg ('Using SunOS self.pid_get_cwd')
+      self.pid_get_cwd = lambda pid: os.path.realpath ('/proc/%s/path/cwd' % pid)
     else:
       dbg ('Unable to set a self.pid_get_cwd, unknown system: %s' % platform.system)
 
@@ -200,12 +298,11 @@ class Terminator:
       import webbrowser
       self.url_show = webbrowser.open
 
-
     self.icon_theme = gtk.IconTheme ()
 
     self.keybindings = TerminatorKeybindings()
     if self.conf.f11_modifier:
-      config.Defaults['keybindings']['full_screen'] = '<Ctrl><Shift>F11'
+      config.DEFAULTS['keybindings']['full_screen'] = '<Ctrl><Shift>F11'
       print "Warning: Config setting f11_modifier is deprecated and will be removed in version 1.0"
       print "Please add the following to the end of your terminator config:"
       print "[keybindings]"
@@ -213,9 +310,13 @@ class Terminator:
     self.keybindings.configure(self.conf.keybindings)
 
     self.set_handle_size (self.conf.handle_size)
+    self.set_closebutton_style ()
 
     self.window = gtk.Window ()
-    self.window.set_title (APP_NAME.capitalize())
+    self.windowtitle = TerminatorWindowTitle (self.window)
+    if forcedtitle:
+      self.windowtitle.force_title (forcedtitle)
+    self.windowtitle.update ()
 
     if self._geometry is not None:
       dbg("Geometry=%s" % self._geometry)
@@ -247,6 +348,7 @@ class Terminator:
     # Set RGBA colormap if possible so VTE can use real alpha
     # channels for transparency.
     if self.conf.enable_real_transparency:
+      dbg ('H9TRANS: Enabling real transparency')
       self.enable_rgba(True)
 
     # Start out with just one terminal
@@ -260,6 +362,15 @@ class Terminator:
     term.spawn_child ()
     self.save_yourself ()
 
+    if hidden or self.conf.hidden:
+      self.hide()
+
+    try:
+      bindkey.tomboy_keybinder_bind(self.conf.keybindings['hide_window'],self.cbkeyCloak,term)
+    except:
+      dbg (_("Unable to bind hide_window key"))
+      pass
+
   def set_handle_size (self, size):
     if size in xrange (0,6):
       gtk.rc_parse_string("""
@@ -270,15 +381,16 @@ class Terminator:
         class "GtkPaned" style "terminator-paned-style"
         """ % self.conf.handle_size)
         
-      gtk.rc_parse_string("""
+  def set_closebutton_style (self):
+    gtk.rc_parse_string("""
       style "terminator-tab-close-button-style" {
             GtkWidget::focus-padding = 0
             GtkWidget::focus-line-width = 0
             xthickness = 0
             ythickness = 0
-         }
-         widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
-         """)
+      }
+      widget "*.terminator-tab-close-button" style "terminator-tab-close-button-style"
+      """)
 
   def enable_rgba (self, rgba = False):
     screen = self.window.get_screen()
@@ -338,6 +450,28 @@ class Terminator:
         c.set_clone_command(len(args), args)
       return True
 
+  def show(self):
+    """Show the terminator window"""
+    # restore window position
+    self.window.move(self.pos[0],self.pos[1])
+    #self.window.present()
+    self.window.show_now()
+    self._hidden = False   
+
+  def hide(self):
+    """Hide the terminator window"""
+    # save window position
+    self.pos = self.window.get_position()
+    self.window.hide()
+    self._hidden = True
+
+  def cbkeyCloak(self, data):
+    """Callback event for show/hide keypress"""
+    if self._hidden:
+      self.show()
+    else:
+      self.hide()
+
   def maximize (self):
     """ Maximize the Terminator window."""
     self.window.maximize ()
@@ -371,7 +505,9 @@ class Terminator:
   def on_delete_event (self, window, event, data=None):
     if len (self.term_list) == 1:
       return False
+    return self.confirm_close_multiple (window, _("window"))
 
+  def confirm_close_multiple (self, window, type):
     # show dialog
     dialog = gtk.Dialog (_("Close?"), window, gtk.DIALOG_MODAL)
     dialog.set_has_separator (False)
@@ -379,12 +515,12 @@ class Terminator:
 
     cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
     close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close All _Terminals"))
+    label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_("Close _Terminals"))
 
-    primairy = gtk.Label (_('<big><b>Close all terminals?</b></big>'))
+    primairy = gtk.Label (_('<big><b>Close multiple terminals?</b></big>'))
     primairy.set_use_markup (True)
     primairy.set_alignment (0, 0.5)
-    secundairy = gtk.Label (_("This window has %s terminals open.  Closing the window will also close all terminals.") % len(self.term_list))
+    secundairy = gtk.Label (_("This %s has several terminals open.  Closing the %s will also close all terminals within it.") % (type, type))
     secundairy.set_line_wrap(True)
     primairy.set_alignment (0, 0.5)
 
@@ -408,6 +544,16 @@ class Terminator:
   def on_destroy_event (self, widget, data=None):
     self.die()
 
+  def on_beep (self, terminal):
+    self.set_urgency (True)
+
+  def set_urgency (self, on):
+    if on == self._urgency:
+      return
+
+    self._urgency = on
+    self.window.set_urgency_hint (on)
+
   # keybindings for the whole terminal window (affects the main
   # windows containing the splited terminals)
   def on_key_press (self, window, event):
@@ -416,6 +562,7 @@ class Terminator:
           * F11:              toggle fullscreen state of the window.
           * CTRL - SHIFT - Q: close all terminals
     """
+    self.set_urgency (False)
     mapping = self.keybindings.lookup(event)
 
     if mapping:
@@ -433,55 +580,53 @@ class Terminator:
     """
     Modifies Terminator window title
     """
-    self.window.set_title(title)
+    self.windowtitle.set_title(title)
     
   def add(self, widget, terminal, pos = "bottom"):
     """
     Add a term to another at position pos
     """
-    vertical = pos in ("top", "bottom")
-    pane = (vertical) and gtk.VPaned () or gtk.HPaned ()
+    if pos in ("top", "bottom"):
+      pane = gtk.VPaned()
+      vertical = True
+    elif pos in ("left", "right"):
+      pane = gtk.HPaned()
+      vertical = False
+    else:
+      err('Terminator.add: massive pos fail: %s' % pos)
+      return
     
     # get the parent of the provided terminal
     parent = widget.get_parent ()
-    dbg ('SEGBUG: add() Got parent')
+
     if isinstance (parent, gtk.Window):
-      dbg ('SEGBUG: parent is a gtk.Window')
       # We have just one term
       parent.remove(widget)
-      dbg ('SEGBUG: removed widget from window')
       if pos in ("top", "left"):
-        dbg ('SEGBUG: pos is in top/left')
         pane.pack1 (terminal, True, True)
-        dbg ('SEGBUG: packed terminal')
         pane.pack2 (widget, True, True)
-        dbg ('SEGBUG: packed widget')
       else:
-        dbg ('SEGBUG: pos is not in top/left')
         pane.pack1 (widget, True, True)
-        dbg ('SEGBUG: packed widget')
         pane.pack2 (terminal, True, True)
-        dbg ('SEGBUG: packed terminal')
       parent.add (pane)
-      dbg ('SEGBUG: added pane to parent')
 
       position = (vertical) and parent.allocation.height \
                              or parent.allocation.width
 
     if (isinstance (parent, gtk.Notebook) or isinstance (parent, gtk.Window)) and widget.conf.titlebars:
       #not the only term in the notebook/window anymore, need to reshow the title
-      dbg ('SEGBUG: Showing _titlebox')
-      widget._titlebox.show()
-      terminal._titlebox.show()
+      widget._titlebox.update()
+      terminal._titlebox.update()
       
     if isinstance (parent, gtk.Notebook):
-      dbg ('SEGBUG: Parent is a notebook')
       page = -1
       
       for i in xrange(0, parent.get_n_pages()):
         if parent.get_nth_page(i) == widget:
           page = i
           break
+
+      label = parent.get_tab_label (widget)
       widget.reparent (pane)
       if pos in ("top", "left"):
         pane.remove(widget)
@@ -493,9 +638,8 @@ class Terminator:
       #parent.remove_page(page)
       pane.show()
       parent.insert_page(pane, None, page)
-      notebooktablabel = TerminatorNotebookTabLabel(widget.get_window_title(), parent, self)
-      parent.set_tab_label(pane,notebooktablabel)
-      parent.set_tab_label_packing(pane, True, True, gtk.PACK_START)
+      parent.set_tab_label(pane,label)
+      parent.set_tab_label_packing(pane, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
       if self._tab_reorderable:
         parent.set_tab_reorderable(pane, True)
       parent.set_current_page(page)
@@ -504,12 +648,10 @@ class Terminator:
                              or parent.allocation.width
 
     if isinstance (parent, gtk.Paned):
-      dbg ('SEGBUG: parent is a Paned')
       # We are inside a split term
       position = (vertical) and widget.allocation.height \
                              or widget.allocation.width
 
-      dbg ('SEGBUG: Preparing to reparent sibling')
       if (widget == parent.get_child1 ()):
         widget.reparent (pane)
         parent.pack1 (pane, True, True)
@@ -518,26 +660,19 @@ class Terminator:
         parent.pack2 (pane, True, True)
 
       if pos in ("top", "left"):
-        dbg ('SEGBUG: pos is in top/left. Removing and re-ordering')
         pane.remove(widget)
         pane.pack1 (terminal, True, True)
         pane.pack2 (widget, True, True)
       else:
-        dbg ('SEGBUG: pos is not in top/left. Packing')
         pane.pack1 (widget, True, True)
         pane.pack2 (terminal, True, True)
 
-      dbg ('SEGBUG: packing widget and terminal')
       pane.pack1 (widget, True, True)
       pane.pack2 (terminal, True, True)
-      dbg ('SEGBUG: packed widget and terminal')
 
     # show all, set position of the divider
-    dbg ('SEGBUG: Showing pane')
     pane.show ()
-    dbg ('SEGBUG: Showed pane')
     pane.set_position (position / 2)
-    dbg ('SEGBUG: Set position')
     terminal.show ()
 
     # insert the term reference into the list
@@ -638,10 +773,12 @@ class Terminator:
       if self._tab_reorderable:
         notebook.connect('page-reordered',self.on_page_reordered)
         notebook.set_tab_reorderable(widget, True)
-      notebook.set_property('homogeneous', True)
+      notebook.set_property('homogeneous', not self.conf.scroll_tabbar)
+      notebook.set_scrollable (self.conf.scroll_tabbar)
       # Config validates this.
       pos = getattr(gtk, "POS_%s" % self.conf.tab_position.upper())
       notebook.set_tab_pos(pos)
+      notebook.set_show_tabs (not self.conf.hide_tabbar)
       
       if isinstance(parent, gtk.Paned):
         if parent.get_child1() == child:
@@ -662,7 +799,7 @@ class Terminator:
         notebooklabel = widget.get_window_title()
       notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
       notebook.set_tab_label(child, notebooktablabel)
-      notebook.set_tab_label_packing(child, True, True, gtk.PACK_START)
+      notebook.set_tab_label_packing(child, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
 
       wal = self.window.allocation
       if not (self._maximised or self._fullscreen):
@@ -687,7 +824,7 @@ class Terminator:
     notebooklabel = terminal.get_window_title()
     notebooktablabel = TerminatorNotebookTabLabel(notebooklabel, notebook, self)
     notebook.set_tab_label(terminal, notebooktablabel)
-    notebook.set_tab_label_packing(terminal, True, True, gtk.PACK_START)
+    notebook.set_tab_label_packing(terminal, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
     if self._tab_reorderable:
       notebook.set_tab_reorderable(terminal,True)
     ## Now, we set focus on the new term
@@ -710,19 +847,14 @@ class Terminator:
       return
 
     # create a new terminal and parent pane.
-    dbg ('SEGBUG: Creating TerminatorTerm')
     terminal = TerminatorTerm (self, self.profile, command, widget.get_cwd())
     if self.splittogroup:
       terminal.set_group (None, widget._group)
-    dbg ('SEGBUG: Created TerminatorTerm')
     pos = vertical and "right" or "bottom"
-    dbg ('SEGBUG: Position is: %s'%pos)
     self.add(widget, terminal, pos)
-    dbg ('SEGBUG: added TerminatorTerm to container')
     terminal.show ()
-    dbg ('SEGBUG: showed TerminatorTerm')
     terminal.spawn_child ()
-    dbg ('SEGBUG: spawned child')
+    
     return
   
   def remove(self, widget, keep = False):
@@ -760,11 +892,12 @@ class Terminator:
           if grandparent.get_nth_page(i) == parent:
             page = i
             break
+        label = grandparent.get_tab_label (parent)
         parent.remove(sibling)
         grandparent.remove_page(page)
         grandparent.insert_page(sibling, None,page)
-        grandparent.set_tab_label(sibling, TerminatorNotebookTabLabel("",grandparent, self))
-        grandparent.set_tab_label_packing(sibling, True, True, gtk.PACK_START)
+        grandparent.set_tab_label(sibling, label)
+        grandparent.set_tab_label_packing(sibling, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           grandparent.set_tab_reorderable(sibling, True)
         grandparent.set_current_page(page)
@@ -892,13 +1025,18 @@ class Terminator:
     edge = current_geo['origin_y']
     # botoom edge of the possible target
     new_edge = possible_geo['origin_y']+possible_geo['span_y']
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Vertical distance between two terminals
+    distance = current_geo['offset_y'] - (possible_geo['offset_y'] + possible_geo['span_y'])
     if new_edge < edge:
         #print "new_edge < edge"
         if best_geo is None:
             #print "first thing left"
             return True
         best_edge = best_geo['origin_y']+best_geo['span_y']
-        if new_edge > best_edge:
+        if new_edge > best_edge and distance == horizontalBar:
             #print "closer y"
             return True
         if new_edge == best_edge:
@@ -911,6 +1049,9 @@ class Terminator:
             if abs(new_cursor - cursor) < abs(best_cursor - cursor):
                 #print "closer x"
                 return True
+	else:
+		if distance == horizontalBar:
+			return True
     #print "fail"
     return False
 
@@ -924,6 +1065,11 @@ class Terminator:
     # top edge of the possible target
     new_edge = possible_geo['origin_y']
     #print "edge: %d new_edge: %d" % (edge, new_edge)
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Vertical distance between two terminals
+    distance = possible_geo['offset_y'] - (current_geo['offset_y'] + current_geo['span_y'])
     if new_edge > edge:
         #print "new_edge > edge"
         if best_geo is None:
@@ -931,7 +1077,7 @@ class Terminator:
             return True
         best_edge = best_geo['origin_y']
         #print "best_edge: %d" % (best_edge)
-        if new_edge < best_edge:
+        if new_edge < best_edge and distance == horizontalBar:
             #print "closer y"
             return True
         if new_edge == best_edge:
@@ -944,6 +1090,9 @@ class Terminator:
             if abs(new_cursor - cursor) < abs(best_cursor - cursor):
                 #print "closer x"
                 return True
+	else:
+		if distance == horizontalBar:
+			return True
     #print "fail"
     return False
 
@@ -956,13 +1105,23 @@ class Terminator:
     edge = current_geo['origin_x']
     # right-side edge of the possible target
     new_edge = possible_geo['origin_x']+possible_geo['span_x']
-    if new_edge < edge:
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Width of the vertical bar that splits terminals
+    if self.term_list[0].is_scrollbar_present():
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+    else:
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+    # Horizontal distance between two terminals
+    distance = current_geo['offset_x'] - (possible_geo['offset_x'] + possible_geo['span_x'])
+    if new_edge <= edge:
         #print "new_edge(%d) < edge(%d)" % (new_edge, edge)
         if best_geo is None:
             #print "first thing left"
             return True
         best_edge = best_geo['origin_x']+best_geo['span_x']
-        if new_edge > best_edge:
+        if new_edge > best_edge and distance == verticalBar:
             #print "closer x (new_edge(%d) > best_edge(%d))" % (new_edge, best_edge)
             return True
         if new_edge == best_edge:
@@ -972,7 +1131,7 @@ class Terminator:
             new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
             best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
 
-            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor) and distance <> horizontalBar:
                 #print "closer y"
                 return True
     #print "fail"
@@ -988,14 +1147,24 @@ class Terminator:
     # left-side edge of the possible target
     new_edge = possible_geo['origin_x']
     #print "edge: %d new_edge: %d" % (edge, new_edge)
-    if new_edge > edge:
+
+    # Width of the horizontal bar that splits terminals
+    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    # Width of the vertical bar that splits terminals
+    if self.term_list[0].is_scrollbar_present():
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+    else:
+	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+    # Horizontal distance between two terminals
+    distance = possible_geo['offset_x'] - (current_geo['offset_x'] + current_geo['span_x'])
+    if new_edge >= edge:
         #print "new_edge > edge"
         if best_geo is None:
             #print "first thing right"
             return True
         best_edge = best_geo['origin_x']
         #print "best_edge: %d" % (best_edge)
-        if new_edge < best_edge:
+        if new_edge < best_edge and distance == verticalBar:
             #print "closer x"
             return True
         if new_edge == best_edge:
@@ -1005,7 +1174,7 @@ class Terminator:
             new_cursor  = possible_geo['origin_y'] + possible_geo['cursor_y']
             best_cursor = best_geo['origin_y']     + best_geo['cursor_y']
 
-            if abs(new_cursor - cursor) < abs(best_cursor - cursor):
+            if abs(new_cursor - cursor) < abs(best_cursor - cursor) and distance <> horizontalBar:
                 #print "closer y"
                 return True
     #print "fail"
@@ -1086,15 +1255,16 @@ class Terminator:
       page = self.get_first_notebook_page(page[0])
 
   def resizeterm (self, widget, keyname):
-    vertical = False
     if keyname in ('Up', 'Down'):
-      vertical = True
+      type = gtk.VPaned
     elif keyname in ('Left', 'Right'):
-      vertical = False
+      type = gtk.HPaned
     else:
+      err ("Invalid keytype: %s" % type)
       return
-    parent = self.get_first_parent_paned(widget,vertical)
-    if parent == None:
+
+    parent = self.get_first_parent_widget(widget, type)
+    if parent is None:
       return
     
     #We have a corresponding parent pane
@@ -1140,9 +1310,18 @@ class Terminator:
         notebook.next_page()
       notebook.set_current_page(notebook.get_current_page())
 
+  def switch_to_tab(self, term, index):
+    notebook = self.get_first_parent_notebook(term)
+    if notebook:
+      notebook.set_current_page(index)
+      notebook.set_current_page(notebook.get_current_page())
+
   def move_tab(self, term, direction):
     dbg("moving to direction %s" % direction)
-    (notebook, page) = self.get_first_notebook_page(term)
+    data = self.get_first_notebook_page(term)
+    if data is None:
+      return False
+    (notebook, page) = data
     page_num = notebook.page_num(page)
     nbpages = notebook.get_n_pages()
     #dbg ("%s %s %s %s" % (page_num, nbpages,notebook, page))
@@ -1168,21 +1347,15 @@ class Terminator:
         return parent
     return self.get_first_parent_notebook(parent)
   
-  def get_first_parent_paned (self, widget, vertical = None):
-    """This method returns the first parent pane of a widget.
-    if vertical is True returns the first VPaned
-    if vertical is False return the first Hpaned
-    if is None return the First Paned"""
-    if isinstance (widget, gtk.Window):
-      return None
-    parent = widget.get_parent()
-    if isinstance (parent, gtk.Paned) and vertical is None:
-        return parent
-    if isinstance (parent, gtk.VPaned) and vertical:
-      return parent
-    elif isinstance (parent, gtk.HPaned) and not vertical:
-      return parent
-    return self.get_first_parent_paned(parent, vertical)
+  def get_first_parent_widget (self, widget, type):
+    """This method searches up through the gtk widget heirarchy
+    of 'widget' until it finds a parent widget of type 'type'"""
+    while not isinstance(widget.get_parent(), type):
+      widget = widget.get_parent()
+      if widget is None:
+        return widget
+    
+    return widget.get_parent()
 
   def get_first_notebook_page(self, widget):
     if isinstance (widget, gtk.Window) or widget is None:
@@ -1217,10 +1390,15 @@ class Terminator:
         widget._titlebox.show()
 
     widget._vte.grab_focus()
+    widget._titlebox.update()
 
   def zoom_term (self, widget, fontscale = False):
     """Maximize to full window an instance of TerminatorTerm."""
     self.old_font = widget._vte.get_font ()
+    self.old_char_height = widget._vte.get_char_height ()
+    self.old_char_width = widget._vte.get_char_width ()
+    self.old_allocation = widget._vte.get_allocation ()
+    self.old_padding = widget._vte.get_padding ()
     self.old_columns = widget._vte.get_column_count ()
     self.old_rows = widget._vte.get_row_count ()
     self.old_parent = widget.get_parent()
@@ -1229,6 +1407,7 @@ class Terminator:
       return
     if isinstance(self.old_parent, gtk.Notebook):
       self.old_page = self.old_parent.get_current_page()
+      self.old_label = self.old_parent.get_tab_label (self.old_parent.get_nth_page (self.old_page))
 
     self.window_child = self.window.get_children()[0]
     self.window.remove(self.window_child)
@@ -1238,47 +1417,57 @@ class Terminator:
 
     if fontscale:
       self.cnid = widget.connect ("size-allocate", self.zoom_scale_font)
-      dbg ('zoom_term: registered font zoom handler to %s with cnid: %s'%(widget, self.cnid))
     else:
       self._maximised = True
 
     widget._vte.grab_focus ()
 
   def zoom_scale_font (self, widget, allocation):
+    # Disconnect ourself so we don't get called again
+    widget.disconnect (self.cnid)
+
     new_columns = widget._vte.get_column_count ()
     new_rows = widget._vte.get_row_count ()
     new_font = widget._vte.get_font ()
-
-    dbg ('zoom_scale_font: Disconnecting %s from %s'%(self.cnid, widget))
-    widget.disconnect (self.cnid)
-
-    dbg ('zoom_scale_font: I just went from %dx%d to %dx%d. Raa!'%(self.old_columns, self.old_rows, new_columns, new_rows))
-
-    if new_rows != self.old_rows:
-      titleheight = widget._titlebox.get_allocation().height
-      vtecharheight =  widget._vte.get_char_height()
-      rowdiff = new_rows - self.old_rows + 2
-      dbg ('zoom_scale_font: titlebox height is %d, char_height is %d'%(titleheight, vtecharheight))
-      dbg ('zoom_scale_font: lhs: %d, rhs: %f'%((titleheight / vtecharheight), rowdiff))
-      care_height = (rowdiff <= vtecharheight / rowdiff)
-      dbg ('zoom_scale_font: caring about height difference: %s'%care_height)
-    else:
-      care_height = False
+    new_allocation = widget._vte.get_allocation ()
     
-    if (new_rows <= self.old_rows) or care_height or (new_columns <= self.old_columns):
-      dbg ('zoom_scale_font: Which means I didnt scale on one axis (col: %s, row: %s). Bailing'%((new_columns <= self.old_columns), (new_rows <= self.old_rows)))
+    old_alloc = { 'x': self.old_allocation.width - self.old_padding[0], 
+                  'y': self.old_allocation.height - self.old_padding[1] };
+
+    dbg ('zoom_scale_font: I just went from %dx%d to %dx%d.'%(self.old_columns, self.old_rows, new_columns, new_rows))
+
+    if (new_rows == self.old_rows) or (new_columns == self.old_columns):
+      dbg ('zoom_scale_font: At least one of my axes didn not change size. Refusing to zoom')
       return
+
+    old_char_spacing = old_alloc['x'] - (self.old_columns * self.old_char_width)
+    old_line_spacing = old_alloc['y'] - (self.old_rows * self.old_char_height)
+    dbg ('zoom_scale_font: char. %d = %d - (%d * %d)' % (old_char_spacing, old_alloc['x'], self.old_columns, self.old_char_width))
+    dbg ('zoom_scale_font: lines. %d = %d - (%d * %d)' % (old_line_spacing, old_alloc['y'], self.old_rows, self.old_char_height))
+    dbg ('zoom_scale_font: Previously my char spacing was %d and my row spacing was %d' % (old_char_spacing, old_line_spacing))
 
     old_area = self.old_columns * self.old_rows
     new_area = new_columns * new_rows
     area_factor = new_area / old_area
-
     dbg ('zoom_scale_font: My area changed from %d characters to %d characters, a factor of %f.'%(old_area, new_area, area_factor))
 
-    new_font.set_size (self.old_font.get_size() * (area_factor / 2))
+    dbg ('zoom_scale_font: Post-scale-factor, char spacing should be %d and row spacing %d' % (old_char_spacing * (area_factor/2), old_line_spacing * (area_factor/2)))
+    dbg ('zoom_scale_font: char width should be %d, it was %d' % ((new_allocation.width - (old_char_spacing * (area_factor / 2)))/self.old_columns, self.old_char_width))
+    dbg ('zoom_scale_font: char height should be %d, it was %d' % ((new_allocation.height - (old_line_spacing * (area_factor / 2)))/self.old_rows, self.old_char_height))
+
+    new_char_width = (new_allocation.width - (old_char_spacing * (area_factor / 2)))/self.old_columns
+    new_char_height = (new_allocation.height - (old_line_spacing * (area_factor / 2)))/self.old_rows
+    font_scaling_factor = min (float(new_char_width) / float(self.old_char_width), float(new_char_height) / float(self.old_char_height))
+
+    new_font_size = self.old_font.get_size () * font_scaling_factor * 0.9
+    if new_font_size < self.old_font.get_size ():
+      dbg ('zoom_scale_font: new font size would have been smaller. bailing.')
+      return
+
+    new_font.set_size (new_font_size)
     dbg ('zoom_scale_font: Scaled font from %f to %f'%(self.old_font.get_size () / pango.SCALE, new_font.get_size () / pango.SCALE))
     widget._vte.set_font (new_font)
-
+    
   def unzoom_term (self, widget, fontscale = False):
     """Proof of concept: Go back to previous application                                 
     widget structure.                        
@@ -1293,8 +1482,8 @@ class Terminator:
       self.window.add(self.window_child)
       if isinstance(self.old_parent, gtk.Notebook):
         self.old_parent.insert_page(widget, None, self.old_page)
-        self.old_parent.set_tab_label(widget, TerminatorNotebookTabLabel("", self.old_parent, self))
-        self.old_parent.set_tab_label_packing(widget, True, True, gtk.PACK_START)
+        self.old_parent.set_tab_label(widget, self.old_label)
+        self.old_parent.set_tab_label_packing(widget, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
         if self._tab_reorderable:
           self.old_parent.set_tab_reorderable(widget, True)
         self.old_parent.set_current_page(self.old_page)

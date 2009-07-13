@@ -31,6 +31,9 @@ from terminatorlib.config import dbg, err, debug
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
 
+# import translation support
+from terminatorlib import translation
+
 # import vte-bindings
 try:
   import vte
@@ -40,13 +43,142 @@ except ImportError:
   error.run()
   sys.exit (1)
 
+class TerminatorTermTitle (gtk.EventBox):
+  wanted = None
+  _title = None
+  _termtext = ""
+  _sizetext = ""
+  _group = None
+  _separator = None
+  _hbox = None
+  _icon = None
+  _parent = None
+  _unzoomed_title = None
+  terminator = None
+
+  def __init__ (self, terminator, configwanted = False):
+    gtk.EventBox.__init__ (self)
+
+    self._title = gtk.Label ()
+    self._group = gtk.Label ()
+    self._separator = gtk.VSeparator ()
+    self._icon = gtk.Image ()
+    self._hbox = gtk.HBox ()
+
+    self.terminator = terminator
+    if self.terminator.groupsend == 2:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_all', gtk.ICON_SIZE_MENU)
+    elif self.terminator.groupsend == 1:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_group', gtk.ICON_SIZE_MENU)
+    else:
+      self.set_from_icon_name (APP_NAME + \
+              '_active_broadcast_off', gtk.ICON_SIZE_MENU)
+
+    self._hbox.pack_start (self._icon, False, True, 2)
+    self._hbox.pack_start (self._group, False, True, 2)
+    self._hbox.pack_start (self._separator, False, True, 2)
+    self._hbox.pack_start (self._title, True, True)
+    self.add (self._hbox)
+
+    self._title.show ()
+    self._hbox.show ()
+
+    self.wanted = configwanted
+
+    self.connect ("button-release-event", self.on_clicked)
+
+  def on_clicked (self, widget, event):
+    if self._parent is not None:
+      self._parent._vte.grab_focus ()
+    
+  def set_group_label (self, name):
+    """If 'name' is None, hide the group name object, otherwise set it as the group label"""
+    if name:
+      self._group.set_text (name)
+      self._group.show ()
+      self._separator.show ()
+    else:
+      self._group.hide ()
+      self._separator.hide ()
+
+  def set_terminal_title (self, name):
+    """Set the title text shown in the titlebar"""
+    self._termtext = name
+    self.update_label ()
+
+  def set_terminal_size (self, width, height):
+    """Set the terminal size shown in the titlebar"""
+    self._sizetext = "%sx%s" % (width, height)
+    self.update_label ()
+
+  def update_label (self):
+    """Update the gtk label with values previously set"""
+    self._title.set_text ("%s %s" % (self._termtext, self._sizetext))
+
+  def get_terminal_title (self):
+    """Return the text showin in the titlebar"""
+    return (self._termtext)
+
+  def set_background_color (self, color):
+    """Set the background color of the titlebar"""
+    self.modify_bg (gtk.STATE_NORMAL, color)
+
+  def set_foreground_color (self, color):
+    """Set the foreground color of the titlebar"""
+    self._title.modify_fg (gtk.STATE_NORMAL, color)
+
+  def set_from_icon_name (self, name, size = gtk.ICON_SIZE_MENU):
+    """Set an icon for the group label"""
+    if not name:
+      self._icon.hide ()
+      return
+
+    self._icon.set_from_icon_name (APP_NAME + name, size)
+    self._icon.show ()
+
+  def update (self):
+    """Update our state"""
+    if not self._parent:
+      self._parent = self.get_parent ()
+
+    if self._parent.terminator._zoomed and len (self._parent.terminator.term_list):
+      if not self._unzoomed_title:
+        self._unzoomed_title = self.get_terminal_title ()
+      if self._parent.conf.zoomedtitlebar:
+        self.set_terminal_title ("Zoomed/Maximised terminal, %d hidden" % (len (self._parent.terminator.term_list) - 1))
+        self.show()
+      else:
+        self.hide()
+      return
+    else:
+      if self._unzoomed_title:
+        self.set_terminal_title (self._unzoomed_title)
+        self._unzoomed_title = None
+
+    if isinstance (self._parent.get_parent (), gtk.Window):
+      self.hide()
+      return
+
+    if (self._parent.conf.titlebars and self.wanted) or self._parent._group:
+      self.show ()
+    else:
+      self.hide ()
+
+    if self._parent._group:
+      self.set_group_label (self._parent._group)
+    else:
+      self.set_group_label (None)
+
 class TerminatorTerm (gtk.VBox):
 
-  matches = {}
+  matches = None
   TARGET_TYPE_VTE = 8
   _custom_font_size = None
   _group = None
-  _want_titlebar = False
+  focus = None
+  _urgent_bell_cnid = None
 
   def __init__ (self, terminator, profile = None, command = None, cwd = None):
     gtk.VBox.__init__ (self)
@@ -54,6 +186,7 @@ class TerminatorTerm (gtk.VBox):
     self.conf = terminator.conf
     self.command = command
     self._oldtitle = ""
+    self.matches = {}
 
     self.cwd = cwd or os.getcwd();
     if not os.path.exists(self.cwd) or not os.path.isdir(self.cwd):
@@ -66,42 +199,16 @@ class TerminatorTerm (gtk.VBox):
     self._vte = vte.Terminal ()
     if not hasattr(self._vte, "set_opacity") or not hasattr(self._vte, "is_composited"):
       self._composited_support = False
+    dbg ('H9TRANS: composited_support: %s' % self._composited_support)
     #self._vte.set_double_buffered(True)
     self._vte.set_size (80, 24)
-    self.reconfigure_vte ()
     self._vte._expose_data = None
     self._vte.show ()
 
     self._termbox = gtk.HBox ()
     self._termbox.show()
-    self._titlegroupimg = gtk.Image()
-    if self.terminator.groupsend == 2:
-      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
-    elif self.terminator.groupsend == 1:
-      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_group', gtk.ICON_SIZE_MENU)
-    else:
-      self._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_off', gtk.ICON_SIZE_MENU)
-    self._title = gtk.Label()
-    self._title.show()
-    self._titlegroup = gtk.Label()
-    self._titlegroupbox = gtk.EventBox ()
-    self._titlegroupbox.set_visible_window(True)
-    self._titlegrouphbox = gtk.HBox()
-    self._titlegrouphbox.pack_start (self._titlegroupimg, False, True, 2)
-    self._titlegrouphbox.pack_start (self._titlegroup, True, True, 2)
-    self._titlegrouphbox.show ()
-    self._titlegroupbox.add (self._titlegrouphbox)
-    self._titlegroupbox.show_all()
-    self._titlegroup.hide()
-    self._titlesep = gtk.VSeparator ()
-    self._titlesep.show()
-    self._titlebox = gtk.EventBox ()
-    self._titlehbox = gtk.HBox()
-    self._titlehbox.pack_start (self._titlegroupbox, False, True)
-    self._titlehbox.pack_start (self._titlesep, False, True)
-    self._titlehbox.pack_start (self._title, True, True, 2)
-    self._titlehbox.show ()
-    self._titlebox.add (self._titlehbox)
+    
+    self._titlebox = TerminatorTermTitle (self.terminator, self.conf.titlebars)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -147,11 +254,7 @@ class TerminatorTerm (gtk.VBox):
     self.pack_start(self._termbox)
     self.pack_end(self._searchbox)
 
-    if self.conf.titlebars:
-      self._titlebox.show()
-      self._want_titlebar = True
-    else:
-      self._titlebox.hide()
+    self._titlebox.update ()
 
     self._scrollbar = gtk.VScrollbar (self._vte.get_adjustment ())
     if self.scrollbar_position != "hidden" and self.scrollbar_position != "disabled":
@@ -192,8 +295,9 @@ class TerminatorTerm (gtk.VBox):
     self._vte.connect ("focus-out-event", self.on_vte_focus_out)
     self._vte.connect ("focus-in-event", self.on_vte_focus_in)
     self._vte.connect ("resize-window", self.on_resize_window)
+    self._vte.connect ("size-allocate", self.on_vte_size_allocate)
 
-    self._titlegroupbox.connect ("button-release-event", self.on_group_button_press)
+    self._titlebox.connect ("button-release-event", self.on_group_button_press)
 
     exit_action = self.conf.exit_action
     if exit_action == "restart":
@@ -206,16 +310,28 @@ class TerminatorTerm (gtk.VBox):
     self._vte.add_events (gtk.gdk.ENTER_NOTIFY_MASK)
     self._vte.connect ("enter_notify_event", self.on_vte_notify_enter)
 
+    self._vte.connect_after ("realize", self.reconfigure_vte)
+
     self.add_matches(posix = self.conf.try_posix_regexp)
 
-    dbg ('SEGBUG: Setting http_proxy')
     env_proxy = os.getenv ('http_proxy')
     if not env_proxy and self.conf.http_proxy and self.conf.http_proxy != '':
       os.putenv ('http_proxy', self.conf.http_proxy)
 
-    dbg ('SEGBUG: Setting COLORTERM')
     os.putenv ('COLORTERM', 'gnome-terminal')
-    dbg ('SEGBUG: TerminatorTerm __init__ complete')
+
+  def prepareurl (self, url, match):
+    dbg ("prepareurl: Checking '%s' with a match of '%s'" % (url, match))
+    if match == self.matches['email'] and url[0:7] != 'mailto:':
+      url = 'mailto:' + url
+    elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+      url = 'ftp://' + url
+    elif match == self.matches['addr_only']:
+      url = 'http://' + url
+    elif match == self.matches['launchpad']:
+      url = 'https://bugs.launchpad.net/bugs/%s' % re.sub (r'[^0-9]+', '', url)
+    
+    return url
 
   def openurl (self, url):
     dbg ('openurl: viewing %s'%url)
@@ -234,9 +350,30 @@ class TerminatorTerm (gtk.VBox):
   def on_resize_window(self, widget, width, height):
     dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
 
+  def on_vte_size_allocate(self, widget, allocation):
+    self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
+
+  def get_pixbuf(self, maxsize= None):
+    pixmap = self.get_snapshot()
+    (width, height) = pixmap.get_size()
+    pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
+    pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width, height)
+
+    longest = max(width, height)
+
+    if maxsize is not None:
+      factor = float(maxsize) / float(longest)
+
+    if not maxsize or (width * factor) > width or (height * factor) > height:
+      factor = 1
+
+    scaledpixbuf = pixbuf.scale_simple (int(width * factor), int(height * factor), gtk.gdk.INTERP_BILINEAR)
+
+    return(scaledpixbuf)
+
   def on_drag_begin(self, widget, drag_context, data):
     dbg ('Drag begins')
-    widget.drag_source_set_icon_pixbuf(self.terminator.icon_theme.load_icon (APP_NAME, 48, 0))
+    widget.drag_source_set_icon_pixbuf(self.get_pixbuf (512))
 
   def on_drag_data_get(self,widget, drag_context, selection_data, info, time, data):
     dbg ("Drag data get")
@@ -319,7 +456,7 @@ text/plain
     #here, we define some widget internal values
     widget._expose_data = { 'color': color, 'coord' : coord }
     #redraw by forcing an event
-    connec = widget.connect('expose-event', self.on_expose_event)
+    connec = widget.connect_after('expose-event', self.on_expose_event)
     widget.window.invalidate_rect(rect, True)
     widget.window.process_updates(True)
     #finaly reset the values
@@ -407,7 +544,7 @@ text/plain
     userchars = "-A-Za-z0-9"
     passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
     hostchars = "-A-Za-z0-9"
-    pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
+    pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'\""
     schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
     user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
     urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
@@ -430,6 +567,7 @@ text/plain
       else:
         err ('add_matches: Failed adding URL match patterns')
     else:
+      self.matches['voip'] = self._vte.match_add(lboundry + '(callto:|h323:|sip:)' + "[" + userchars + "+][" + userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" + rboundry)
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
@@ -515,20 +653,14 @@ text/plain
       gobject.timeout_add (100, self.terminator.closeterm, self)
       return (-1)
 
-    dbg ('SEGBUG: Setting WINDOWID')
     os.putenv ('WINDOWID', '%s' % self._vte.get_parent_window().xid)
 
-    dbg ('SEGBUG: Forking command: "%s" with args "%s", loglastlog = "%s", ' \
-        'logwtmp = "%s", logutmp = "%s" and cwd "%s"' % (shell, args, login,
-            update_records, update_records, self.cwd))
     self._pid = self._vte.fork_command (command = shell, argv = args,
         envv = [], loglastlog = login, logwtmp = update_records,
         logutmp = update_records, directory=self.cwd)
 
-    dbg ('SEGBUG: Forked command')
-
     self.on_vte_title_change(self._vte) # Force an initial update of our titles
-    self._title.show()
+    self._titlebox.update ()
 
     if self._pid == -1:
       err (_('Unable to start shell: ') + shell)
@@ -547,7 +679,7 @@ text/plain
     dbg ('get_cwd found: %s'%cwd)
     return (cwd)
 
-  def reconfigure_vte (self):
+  def reconfigure_vte (self, widget = None):
     # Set our emulation
     self._vte.set_emulation (self.conf.emulation)
 
@@ -605,49 +737,78 @@ text/plain
         palette.append (gtk.gdk.color_parse (color))
     self._vte.set_colors (fg_color, bg_color, palette)
 
+    cursor_color = self.conf.cursor_color
+    if cursor_color != '':
+      self._vte.set_color_cursor (gtk.gdk.color_parse (cursor_color))
+
+    # Set cursor shape
+    if hasattr (self._vte, "set_cursor_shape"):
+      self._vte.set_cursor_shape (getattr (vte, "CURSOR_SHAPE_" + self.conf.cursor_shape.upper ()))
+
     # Set our background image, transparency and type
     # Many thanks to the authors of gnome-terminal, on which this code is based.
     background_type = self.conf.background_type
+    dbg ('H9TRANS: Configuring background type as: %s' % background_type)
 
     # set background image settings
     if background_type == "image":
+      dbg ('H9TRANS: Setting background image to: %s' % self.conf.background_image)
       self._vte.set_background_image_file (self.conf.background_image)
+      dbg ('H9TRANS: Setting background image scroll to: %s' % self.conf.scroll_background)
       self._vte.set_scroll_background (self.conf.scroll_background)
     else:
+      dbg ('H9TRANS: Unsetting background image')
       self._vte.set_background_image_file('')
+      dbg ('H9TRANS: Unsetting background image scrolling')
       self._vte.set_scroll_background(False)
 
     # set transparency for the background (image)
     opacity = 65535
     if background_type in ("image", "transparent"):
-      self._vte.set_background_tint_color (bg_color)
+      self._vte.set_background_tint_color (gtk.gdk.color_parse (self.conf.background_color))
       self._vte.set_background_saturation(1 - (self.conf.background_darkness))
       opacity = int(self.conf.background_darkness * 65535)
+      dbg ('H9TRANS: Set background tint color to: %s' % self.conf.background_color)
+      dbg ('H9TRANS: Set background saturation to: %s' % (1 - (self.conf.background_darkness)))
     else:
+      dbg ('H9TRANS: Set background saturation to: 1')
       self._vte.set_background_saturation(1)
       
     if self._composited_support:
+      dbg ('H9TRANS: Set opacity to: %s' % opacity)
       self._vte.set_opacity(opacity)
 
-    if self._composited_support and not self._vte.is_composited():
-      self._vte.set_background_transparent (background_type == "transparent")
-    else:
-      self._vte.set_background_transparent (False)
+    if background_type == "transparent":
+      if not self.conf.enable_real_transparency:
+        self._vte.set_background_transparent (True)
+      else:
+        self._vte.set_background_transparent (False)
 
     # Set our cursor blinkiness
     self._vte.set_cursor_blinks (self.conf.cursor_blink)
 
-    # Set our audible belliness
-    silent_bell = self.conf.silent_bell
-    self._vte.set_audible_bell (not silent_bell)
-
-    # Set our visual flashiness
-    self._vte.set_visible_bell (silent_bell)
-
-    # Override our flashybelliness
     if self.conf.force_no_bell:
-      self._vte.set_visible_bell (False)
       self._vte.set_audible_bell (False)
+      self._vte.set_visible_bell (False)
+      if self._urgent_bell_cnid:
+        self._vte.disconnect (self._urgent_bell_cnid)
+        self._urgent_bell_cnid = None
+    else:
+      # Set our audible belliness
+      self._vte.set_audible_bell (self.conf.audible_bell)
+
+      # Set our visual flashiness
+      self._vte.set_visible_bell (self.conf.visible_bell)
+
+      # Set our urgent belliness
+      if self.conf.urgent_bell:
+        try:
+          self._urgent_bell_cnid = self._vte.connect ("beep", self.terminator.on_beep)
+        except TypeError:
+          err ("beep signal not supported by your VTE, urgent handler not available")
+      elif self._urgent_bell_cnid:
+        self._vte.disconnect (self._urgent_bell_cnid)
+        self._urgent_bell_cnid = None
 
     # Set our scrolliness
     self._vte.set_scrollback_lines (self.conf.scrollback_lines)
@@ -666,9 +827,14 @@ text/plain
         elif self.scrollbar_position == 'left':
           self._termbox.reorder_child (self._scrollbar, 0)
 
+    if hasattr (self._vte, "set_alternate_screen_scroll"):
+      self._vte.set_alternate_screen_scroll (self.conf.alternate_screen_scroll)
+
     # Set our sloppiness
     self.focus = self.conf.focus
 
+    # Sync our titlebar state
+    self._titlebox.update ()
     self._vte.queue_draw ()
 
   def on_composited_changed (self, widget):
@@ -681,14 +847,7 @@ text/plain
       if event.button == 1:
         url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
         if url:
-          if (url[0][0:7] != "mailto:") & (url[1] == self.matches['email']):
-            address = "mailto:" + url[0]
-          elif url[1] == self.matches['launchpad']:
-            # the only part of 'launchpad' we need are the actual numbers for the bug
-            address = "https://bugs.launchpad.net/bugs/%s" % re.sub(r'[^0-9]+', '', url[0])
-          else:
-            address = url[0]
-          self.openurl ( address )
+          self.openurl (self.prepareurl (url[0], url[1]))
       return False
 
     # Left mouse button should transfer focus to this vte widget
@@ -722,7 +881,7 @@ text/plain
     self.terminator.splittogroup = not self.terminator.splittogroup
     
   def do_title_toggle (self):
-    self._want_titlebar = not self._titlebox.get_property ('visible')
+    self._titlebox.wanted = not self._titlebox.get_property ('visible')
     self.toggle_widget_visibility (self._titlebox)
 
   def toggle_widget_visibility (self, widget):
@@ -759,11 +918,21 @@ text/plain
       dbg ('on_vte_key_press: Called on %s with no event' % term)
       return False
     mapping = self.terminator.keybindings.lookup(event)
+    
+    if mapping == "hide_window":
+      return False
 
     if mapping and mapping not in self.UnhandledKeybindings:
-      dbg("on_vte_key_press: lookup found %r" % mapping)
-      getattr(self, "key_" + mapping)()
-      return True
+      dbg("on_vte_key_press: lookup found %r" % mapping) 
+      # handle the case where user has re-bound copy to ctrl+<key>
+      # we only copy if there is a selection otherwise let it fall through to ^<key>
+      if (mapping == "copy" and event.state & gtk.gdk.CONTROL_MASK):
+        if self._vte.get_has_selection ():
+          getattr(self, "key_" + mapping)()
+          return True
+      else:
+        getattr(self, "key_" + mapping)()
+        return True
 
     if self.terminator.groupsend != 0 and self._vte.is_focus ():
       if self._group and self.terminator.groupsend == 1:
@@ -861,11 +1030,67 @@ text/plain
   def key_prev_tab(self):
     self.terminator.previous_tab (self)
 
+  def key_switch_to_tab_1(self):
+    self.terminator.switch_to_tab (self, 0)
+
+  def key_switch_to_tab_2(self):
+    self.terminator.switch_to_tab (self, 1)
+
+  def key_switch_to_tab_3(self):
+    self.terminator.switch_to_tab (self, 2)
+
+  def key_switch_to_tab_4(self):
+    self.terminator.switch_to_tab (self, 3)
+
+  def key_switch_to_tab_5(self):
+    self.terminator.switch_to_tab (self, 4)
+
+  def key_switch_to_tab_6(self):
+    self.terminator.switch_to_tab (self, 5)
+
+  def key_switch_to_tab_7(self):
+    self.terminator.switch_to_tab (self, 6)
+
+  def key_switch_to_tab_8(self):
+    self.terminator.switch_to_tab (self, 7)
+
+  def key_switch_to_tab_9(self):
+    self.terminator.switch_to_tab (self, 8)
+
+  def key_switch_to_tab_10(self):
+    self.terminator.switch_to_tab (self, 9)
+
   def key_reset(self):
     self._vte.reset (True, False)
 
   def key_reset_clear(self):
     self._vte.reset (True, True)
+
+  def key_group_all(self):
+    self.group_all(self)
+
+  def key_ungroup_all(self):
+    self.ungroup_all(self)
+
+  def key_group_tab(self):
+    self.group_tab(self)
+
+  def key_ungroup_tab(self):
+    self.ungroup_tab(self)
+
+  def key_new_window(self):
+    cmd = sys.argv[0]
+    
+    if not os.path.isabs(cmd):
+      # Command is not an absolute path. Figure out where we are
+      cmd = os.path.join (self.terminator.origcwd, sys.argv[0])
+      if not os.path.isfile(cmd):
+        # we weren't started as ./terminator in a path. Give up
+        err('Unable to locate Terminator')
+        return False
+          
+    dbg("Spawning: %s" % cmd)
+    subprocess.Popen([cmd,])
   # End key events
 
   def zoom_orig (self):
@@ -970,6 +1195,7 @@ text/plain
   def create_popup_menu (self, widget, event = None):
     menu = gtk.Menu ()
     url = None
+    address = None
 
     if event:
       url = self._vte.match_check (int (event.x / self._vte.get_char_width ()), int (event.y / self._vte.get_char_height ()))
@@ -980,35 +1206,23 @@ text/plain
       time = 0
 
     if url:
-      if url[1] != self.matches['email']:
-        # Add protocol if we launch a URL without it, otherwise xdg-open won't open it
-        if url[1] == self.matches['addr_only']:
-          if url[0][0:3] == "ftp":
-              # "ftp.foo.bar" -> "ftp://ftp.foo.bar"
-              address = "ftp://" + url[0]
-          else:
-              # Assume http
-              address = "http://" + url[0]
-        elif url[1] == self.matches['launchpad']:
-          # the only part of 'launchpad' we need are the actual numbers for the bug 
-          address = "https://bugs.launchpad.net/bugs/%s" % re.sub(r'[^0-9]+', '', url[0])
-        else:
-          address = url[0]
+      address = self.prepareurl (url[0], url[1])
+
+      if url[1] == self.matches['email']:
+        nameopen = _("_Send Mail To...")
+        namecopy = _("_Copy Email Address")
+        item = gtk.MenuItem (nameopen)
+      elif url[1] == self.matches['voip']:
+        nameopen = _("Ca_ll To...")
+        namecopy = _("_Copy Call Address")
+        item = gtk.MenuItem (nameopen)
+      else:
         nameopen = _("_Open Link")
         namecopy = _("_Copy Link Address")
         iconopen = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_MENU)
 
         item = gtk.ImageMenuItem (nameopen)
         item.set_property('image', iconopen)
-      else:
-        if url[0][0:7] != "mailto:":
-          address = "mailto:" + url[0]
-        else:
-          address = url[0]
-        nameopen = _("_Send Mail To...")
-        namecopy = _("_Copy Email Address")
-
-        item = gtk.MenuItem (nameopen)
 
       item.connect ("activate", lambda menu_item: self.openurl (address))
       menu.append (item)
@@ -1037,23 +1251,6 @@ text/plain
     item.connect ("activate", lambda menu_item: self.do_enumerate (pad=True))
     menu.append (item)
 
-    item = gtk.MenuItem ()
-    menu.append (item)
-
-    item = gtk.CheckMenuItem (_("Show _scrollbar"))
-    item.set_active (self._scrollbar.get_property ('visible'))
-    item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
-    menu.append (item)
-    
-    item = gtk.CheckMenuItem (_("Show _titlebar"))
-    item.set_active (self._titlebox.get_property ('visible'))
-    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
-    if self._group:
-      item.set_sensitive (True)
-    menu.append (item)
-
-    self._do_encoding_items (menu)
-        
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -1094,6 +1291,13 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
+    item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
+    item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
+    menu.append (item)
+
+    item = gtk.MenuItem ()
+    menu.append (item)
+
     if len (self.terminator.term_list) > 1:
       if not self.terminator._zoomed:
         item = gtk.MenuItem (_("_Zoom terminal"))
@@ -1117,16 +1321,34 @@ text/plain
       item = gtk.MenuItem ()
       menu.append (item)
 
+    item = gtk.CheckMenuItem (_("Show _scrollbar"))
+    item.set_active (self._scrollbar.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_scrollbar_toggle ())
+    menu.append (item)
+    
+    item = gtk.CheckMenuItem (_("Show _titlebar"))
+    item.set_active (self._titlebox.get_property ('visible'))
+    item.connect ("toggled", lambda menu_item: self.do_title_toggle ())
+    if self._group:
+      item.set_sensitive (False)
+    menu.append (item)
+
     item = gtk.MenuItem (_("Ed_it profile"))
     item.connect ("activate", lambda menu_item: self.terminator.edit_profile (self))
     menu.append (item)
 
+    self._do_encoding_items (menu)
+        
     item = gtk.MenuItem ()
     menu.append (item)
 
-    item = gtk.ImageMenuItem (gtk.STOCK_CLOSE)
-    item.connect ("activate", lambda menu_item: self.terminator.closeterm (self))
+    item = gtk.MenuItem (_("_Group"))
     menu.append (item)
+    submenu = gtk.Menu ()
+    item.set_submenu (submenu)
+    self.populate_grouping_menu (submenu)
+    if len (self.terminator.term_list) == 1:
+      item.set_sensitive (False)
 
     menu.show_all ()
     menu.popup (None, None, None, button, time)
@@ -1180,6 +1402,19 @@ text/plain
       item = gtk.MenuItem (_("Remove %s group ") % (self._group))
       item.connect ("activate", self.ungroup,  self._group)
       widget.append (item)
+
+    if self.terminator.get_first_parent_widget (self, gtk.Notebook) is not None and \
+       not isinstance (self.get_parent(), gtk.Notebook):
+      item = gtk.MenuItem (_("G_roup all in tab"))
+      item.connect ("activate", self.group_tab)
+      widget.append (item)
+
+    if self.terminator.get_first_parent_widget(self, gtk.Notebook) is not None and \
+       not isinstance(self.get_parent(), gtk.Notebook) and \
+       len(self.terminator.groupings) > 0:
+      item = gtk.MenuItem(_("Ungr_oup all in tab"))
+      item.connect("activate", self.ungroup_tab)
+      widget.append(item)
 
     if len (self.terminator.groupings) > 0:
       item = gtk.MenuItem (_("Remove all groups"))
@@ -1248,7 +1483,7 @@ text/plain
       menu_y = widget_y + widget_h
     
     return (widget_x, menu_y, 1) 
-
+    
   def create_group (self, item):
     self.groupingscope = 0
     grplist=self.terminator.groupings[:]
@@ -1387,16 +1622,19 @@ text/plain
       
     window.destroy ()
 
+  def add_group (self, groupname):
+    if not groupname in self.terminator.groupings:
+      self.terminator.groupings.append(groupname)
+
   def set_group (self, item, data):
     if self._group == data:
       # No action needed
       return
-      
-    if data:
-      self._titlegroup.set_text (data)
-      self._titlegroup.show()
     else:
-      self._titlegroup.hide()
+       self._group = data
+    
+    self._titlebox.set_group_label (data)
+    self._titlebox.update ()
 
     if not self._group:
       # We were not previously in a group
@@ -1415,6 +1653,13 @@ text/plain
     self.terminator.groupsend = data
 
   def ungroup (self, widget, data):
+    print "UNGROUP HALP"
+    # ??.set_group (None, None)
+    self.terminator.group_hoover ()
+
+  def group_all (self, widget):
+    allname = _("All")
+    self.add_group(allname)
     for term in self.terminator.term_list:
       if term._group == data:
         term.set_group (None, None)
@@ -1424,6 +1669,49 @@ text/plain
     for term in self.terminator.term_list:
       term.set_group (None, None)
     self.terminator.group_hoover ()
+
+  def find_all_terms_in_tab (self, notebook, pagenum=-1):
+    if pagenum == -1:
+      pagenum = notebook.get_current_page()
+    notebookchild = notebook.get_nth_page(pagenum)
+
+    terms = []
+
+    for term in self.terminator.term_list:
+      termparent = term.get_parent()
+      while not isinstance(termparent, gtk.Window):
+        if termparent == notebookchild:
+          terms.append(term)
+        termparent = termparent.get_parent()
+
+    return terms
+
+  def group_tab (self, widget):
+    groupname = ""
+    notebook = self.terminator.get_first_parent_widget(self, gtk.Notebook)
+    pagenum = notebook.get_current_page()
+    notebookchild = notebook.get_nth_page(pagenum)
+    terms = self.find_all_terms_in_tab(notebook)
+
+    notebooktablabel = notebook.get_tab_label(notebookchild)
+    if notebooktablabel.custom is True:
+      groupname = notebooktablabel.get_title()
+
+    if groupname == "":
+      groupname = "Tab %d" % (pagenum + 1)
+
+    self.add_group(groupname)
+    for term in terms:
+      term.set_group(None, groupname)
+    self.terminator.group_hoover()
+
+  def ungroup_tab (self, widget):
+    notebook = self.terminator.get_first_parent_widget(self, gtk.Notebook)
+    terms = self.find_all_terms_in_tab (notebook)
+
+    for term in terms:
+      term.set_group (None, None)
+    self.terminator.group_hoover()
 
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
@@ -1499,13 +1787,14 @@ text/plain
       vte.set_property ("has-tooltip", True)
       vte.set_property ("tooltip-text", title)
     #set the title anyhow, titlebars setting only show/hide the label
-    self._title.set_text(title)
-    self.terminator.set_window_title("%s - %s" % (re.sub(' - %s' % APP_NAME.capitalize(), '', title), APP_NAME.capitalize()))
+    self._titlebox.set_terminal_title (title)
+    self.terminator.set_window_title (title)
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
         label = notebookpage[0].get_tab_label(notebookpage[1])
         label.set_title(title)
+        # FIXME: Is this necessary? The above line should update the label. LP #369370 might be related
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
 
@@ -1515,38 +1804,38 @@ text/plain
       if term != self and term._group != None and term._group == self._group:
         # Not active, group is not none, and in active's group
         if self.terminator.groupsend == 0:
-          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlebox.set_from_icon_name(APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
         else:
-          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
-        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlebox.set_from_icon_name(APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
+        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
       elif term != self and term._group == None or term._group != self._group:
         # Not active, group is not none, not in active's group
         if self.terminator.groupsend == 2:
-          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_rx_bg_color))
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
+          term._titlebox.set_from_icon_name(APP_NAME + '_receive_on', gtk.ICON_SIZE_MENU)
         else:
-          term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-          term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
-        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
+          term._titlebox.set_from_icon_name(APP_NAME + '_receive_off', gtk.ICON_SIZE_MENU)
+        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
+        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
       else:
-        term._title.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
-        term._titlegroup.modify_fg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_txt_color))
-        term._titlebox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
-        term._titlegroupbox.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse (self.conf.title_tx_bg_color))
+        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
+        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
+        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
+        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
         if self.terminator.groupsend == 2:
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
+          term._titlebox.set_from_icon_name(APP_NAME + '_active_broadcast_all', gtk.ICON_SIZE_MENU)
         elif self.terminator.groupsend == 1:
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_group', gtk.ICON_SIZE_MENU)
+          term._titlebox.set_from_icon_name(APP_NAME + '_active_broadcast_group', gtk.ICON_SIZE_MENU)
         else:
-          term._titlegroupimg.set_from_icon_name (APP_NAME + '_active_broadcast_off', gtk.ICON_SIZE_MENU)
+          term._titlebox.set_from_icon_name(APP_NAME + '_active_broadcast_off', gtk.ICON_SIZE_MENU)
     return
 
   def on_vte_focus_out(self, vte, event):
@@ -1554,7 +1843,7 @@ text/plain
 
   def on_vte_focus(self, vte):
     title = self.get_window_title(vte)
-    self.terminator.set_window_title("%s - %s" % (title, APP_NAME.capitalize()))
+    self.terminator.set_window_title(title)
     notebookpage = self.terminator.get_first_notebook_page(vte)
     while notebookpage != None:
       if notebookpage[0].get_tab_label(notebookpage[1]):
@@ -1562,6 +1851,9 @@ text/plain
         label.set_title(title)
         notebookpage[0].set_tab_label(notebookpage[1], label)
       notebookpage = self.terminator.get_first_notebook_page(notebookpage[0])
+ 
+  def is_scrollbar_present(self):
+    return self._scrollbar.get_property('visible')
 
   def on_group_button_press(self, term, event):
     if event.button == 1:

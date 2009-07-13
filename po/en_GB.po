@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-08-28 09:41+0000\n"
+"POT-Creation-Date: 2009-01-26 13:22+0000\n"
+"PO-Revision-Date: 2009-04-02 17:47+0000\n"
 "Last-Translator: Chris Jones <chris.jones@canonical.com>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: ../terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
@@ -25,7 +25,7 @@ msgstr ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 
-#: terminator:122
+#: ../terminator:129
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -33,244 +33,270 @@ msgstr ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 
-#: terminatorlib/config.py:215
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr "Unterminated quoted string"
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr "Setting without a value"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr "Unexpected token"
+
+#: ../terminatorlib/config.py:250
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
-"  <b>%s</b>\n"
+"<b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 
-#: terminatorlib/config.py:221
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr "Configuration error"
+
+#: ../terminatorlib/config.py:311
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
-msgstr ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr "Setting %r value %r not a valid colour; ignoring"
 
-#: terminatorlib/config.py:243
+#: ../terminatorlib/config.py:316
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr "Setting %s value %s not a valid colour; ignoring"
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s must be one of: top, left, right, bottom"
 
-#: terminatorlib/config.py:251
+#: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 
-#: terminatorlib/config.py:258
+#: ../terminatorlib/config.py:329
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 
-#: terminatorlib/config.py:262
+#: ../terminatorlib/config.py:332
 #, python-format
-msgid "Value %s should be a section name, not a setting"
-msgstr "Value %s should be a section name, not a setting"
+msgid "Setting %r should be a section name"
+msgstr "Setting %r should be a section name"
 
-#: terminatorlib/configfile.py:92
-msgid "Unterminated quoted string"
-msgstr "Unterminated quoted string"
-
-#: terminatorlib/configfile.py:139
-msgid "Setting without a value"
-msgstr "Setting without a value"
-
-#: terminatorlib/configfile.py:144
-msgid "Unexpected token"
-msgstr "Unexpected token"
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr "Section %s is being used as a setting name"
-
-#: terminatorlib/encoding.py:29
+#: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
 msgstr "Current Locale"
 
-#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
-#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
-#: terminatorlib/encoding.py:96
+#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
+#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
+#: ../terminatorlib/encoding.py:96
 msgid "Western"
 msgstr "Western"
 
-#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
-#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
+#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
 msgstr "Central European"
 
-#: terminatorlib/encoding.py:32
+#: ../terminatorlib/encoding.py:32
 msgid "South European"
 msgstr "South European"
 
-#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
-#: terminatorlib/encoding.py:101
+#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
+#: ../terminatorlib/encoding.py:101
 msgid "Baltic"
 msgstr "Baltic"
 
-#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
-#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
-#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
 msgstr "Cyrillic"
 
-#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
-#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
+#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
 msgstr "Arabic"
 
-#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
-#: terminatorlib/encoding.py:97
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
+#: ../terminatorlib/encoding.py:97
 msgid "Greek"
 msgstr "Greek"
 
-#: terminatorlib/encoding.py:37
+#: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
 msgstr "Hebrew Visual"
 
-#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
-#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
 msgid "Hebrew"
 msgstr "Hebrew"
 
-#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
-#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
+#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
 msgstr "Turkish"
 
-#: terminatorlib/encoding.py:40
+#: ../terminatorlib/encoding.py:40
 msgid "Nordic"
 msgstr "Nordic"
 
-#: terminatorlib/encoding.py:42
+#: ../terminatorlib/encoding.py:42
 msgid "Celtic"
 msgstr "Celtic"
 
-#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
 msgstr "Romanian"
 
-#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
-#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
-#: terminatorlib/encoding.py:49
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
+#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
+#: ../terminatorlib/encoding.py:49
 msgid "Unicode"
 msgstr "Unicode"
 
-#: terminatorlib/encoding.py:50
+#: ../terminatorlib/encoding.py:50
 msgid "Armenian"
 msgstr "Armenian"
 
-#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
-#: terminatorlib/encoding.py:56
+#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
+#: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
 msgstr "Chinese Traditional"
 
-#: terminatorlib/encoding.py:53
+#: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
 msgstr "Cyrillic/Russian"
 
-#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
-#: terminatorlib/encoding.py:89
+#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
+#: ../terminatorlib/encoding.py:89
 msgid "Japanese"
 msgstr "Japanese"
 
-#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
-#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
 msgstr "Korean"
 
-#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
-#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
 msgstr "Chinese Simplified"
 
-#: terminatorlib/encoding.py:60
+#: ../terminatorlib/encoding.py:60
 msgid "Georgian"
 msgstr "Georgian"
 
-#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
 msgstr "Cyrillic/Ukrainian"
 
-#: terminatorlib/encoding.py:76
+#: ../terminatorlib/encoding.py:76
 msgid "Croatian"
 msgstr "Croatian"
 
-#: terminatorlib/encoding.py:78
+#: ../terminatorlib/encoding.py:78
 msgid "Hindi"
 msgstr "Hindi"
 
-#: terminatorlib/encoding.py:79
+#: ../terminatorlib/encoding.py:79
 msgid "Persian"
 msgstr "Persian"
 
-#: terminatorlib/encoding.py:81
+#: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
 msgstr "Gujarati"
 
-#: terminatorlib/encoding.py:82
+#: ../terminatorlib/encoding.py:82
 msgid "Gurmukhi"
 msgstr "Gurmukhi"
 
-#: terminatorlib/encoding.py:84
+#: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
 msgstr "Icelandic"
 
-#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
-#: terminatorlib/encoding.py:102
+#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
+#: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
 msgstr "Vietnamese"
 
-#: terminatorlib/encoding.py:91
+#: ../terminatorlib/encoding.py:91
 msgid "Thai"
 msgstr "Thai"
 
-#: terminatorlib/terminator.py:52
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr "Name"
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr "Action"
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr "Keyboard shortcut"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+
+#: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Close Tab"
 
-#: terminatorlib/terminator.py:157
-#, python-format
-msgid "Invalid geometry string %s"
-msgstr "Invalid geometry string %s"
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "tab"
 
-#: terminatorlib/terminator.py:224
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr "Invalid geometry string %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "Unable to bind hide_window key"
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "window"
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "Close?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "Close All _Terminals"
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr "Close _Terminals"
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Close all terminals?</b></big>"
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Close multiple terminals?</b></big>"
 
-#: terminatorlib/terminator.py:235
+#: ../terminatorlib/terminator.py:428
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
-"This window has %s terminals open. Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 
-#: terminatorlib/terminatorterm.py:39
+#: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
@@ -278,78 +304,128 @@ msgstr ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 
-#: terminatorlib/terminatorterm.py:476
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Search:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Next"
+
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
 msgstr "Unable to find a shell"
 
-#: terminatorlib/terminatorterm.py:495
+#: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr "Unable to start shell: "
 
-#: terminatorlib/terminatorterm.py:859
+#: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr "_Open Link"
 
-#: terminatorlib/terminatorterm.py:860
+#: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
 msgstr "_Copy Link Address"
 
-#: terminatorlib/terminatorterm.py:870
+#: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
 msgstr "_Send Mail To..."
 
-#: terminatorlib/terminatorterm.py:871
+#: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
 msgstr "_Copy E-mail Address"
 
-#: terminatorlib/terminatorterm.py:897
+#: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
 msgstr "Show _scrollbar"
 
-#: terminatorlib/terminatorterm.py:902
+#: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
 msgstr "Show _titlebar"
 
-#: terminatorlib/terminatorterm.py:913
+#: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
 msgstr "Split H_orizontally"
 
-#: terminatorlib/terminatorterm.py:914
+#: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
 msgstr "Split V_ertically"
 
-#: terminatorlib/terminatorterm.py:931
+#: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
 msgstr "Open _Tab"
 
-#: terminatorlib/terminatorterm.py:936
+#: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
 msgstr "Open _Debug Tab"
 
-#: terminatorlib/terminatorterm.py:942
+#: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr "Open Top Level Tab"
 
-#: terminatorlib/terminatorterm.py:951
+#: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
 msgstr "_Zoom terminal"
 
-#: terminatorlib/terminatorterm.py:955
+#: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
 msgstr "Ma_ximise terminal"
 
-#: terminatorlib/terminatorterm.py:960
+#: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
 msgstr "_Unzoom terminal"
 
-#: terminatorlib/terminatorterm.py:965
+#: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
 msgstr "Unma_ximise terminal"
 
-#: terminatorlib/terminatorterm.py:989
+#: ../terminatorlib/terminatorterm.py:1148
+msgid "Ed_it profile"
+msgstr "Ed_it profile"
+
+#: ../terminatorlib/terminatorterm.py:1155
+msgid "_Group"
+msgstr "_Group"
+
+#: ../terminatorlib/terminatorterm.py:1179
+msgid "None"
+msgstr "None"
+
+#: ../terminatorlib/terminatorterm.py:1194
+msgid "_New group"
+msgstr "_New group"
+
+#: ../terminatorlib/terminatorterm.py:1201
+msgid "_Group all"
+msgstr "_Group all"
+
+#: ../terminatorlib/terminatorterm.py:1206
+msgid "_Ungroup all"
+msgstr "_Ungroup all"
+
+#: ../terminatorlib/terminatorterm.py:1216
+msgid "Group name:"
+msgstr "Group name:"
+
+#: ../terminatorlib/terminatorterm.py:1262
+msgid "All"
+msgstr "All"
+
+#: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
 msgstr "Encodings"
 
-#: terminatorlib/terminatorterm.py:1007
+#: ../terminatorlib/terminatorterm.py:1300
 msgid "Other Encodings"
 msgstr "Other Encodings"
+
+#: ../data/terminator.desktop.in.h:1
+msgid "Multiple terminals in one window"
+msgstr "Multiple terminals in one window"
+
+#: ../data/terminator.desktop.in.h:2
+msgid "Terminator"
+msgstr "Terminator"

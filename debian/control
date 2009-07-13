@@ -1,24 +1,27 @@
 Source: terminator
 Section: misc
-XS-Python-Version: all
+XS-Python-Version: >=2.5 
 Priority: optional
-Maintainer: Terminator Developers <gnome-terminator@lists.launchpad.net>
-Build-Depends: debhelper (>= 5.0.62), python, cdbs (>=0.4.49)
-Build-Depends-Indep: python-central (>= 0.5.6)
-Standards-Version: 3.8.0
-Vcs-Bzr: http://bazaar.launchpad.net/~gnome-terminator/terminator/trunk
-Vcs-Browser: http://code.launchpad.net/~gnome-terminator/terminator/trunk
+Maintainer: Nicolas Valcárcel Scerpella <nvalcarcel@canonical.com>
+Uploaders: Rudy Godoy Guillén <rudy@debian.org>,
+ Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>
+Build-Depends: debhelper (>= 5.0.62), python, cdbs (>= 0.4.49), intltool
+Build-Depends-Indep: python-support (>= 0.5.3) 
+Standards-Version: 3.8.2
+Vcs-Svn: svn://svn.debian.org/python-apps/packages/terminator/trunk/
+Vcs-Browser: http://svn.debian.org/viewsvn/python-apps/packages/terminator/trunk/
 Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gconf, gconf2, libgtk2.0-bin
+Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gnome2, python-gobject, python-gtk2, gconf2, libgtk2.0-bin
 XB-Python-Version: ${python:Versions}
+Provides: x-terminal-emulator
 Recommends: xdg-utils, python-xdg
-Description: Multiple GNOME terminals in one window
+Description: multiple GNOME terminals in one window
  Terminator is a little project to produce an efficient way of 
  filling a large area of screen space with terminals.
  .
  The user can have multiple terminals in one window and use
- keybindings to switch between them. See the manpage for
+ key bindings to switch between them. See the manpage for
  details.

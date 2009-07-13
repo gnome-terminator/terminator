@@ -1,20 +1,22 @@
 #!/usr/bin/python
 
-from terminatorlib.config import dbg,err,Defaults,TerminatorConfValuestoreRC
-from terminatorlib.keybindings import TerminatorKeybindings,Modifier
+from terminatorlib.config import dbg,err,DEFAULTS,TerminatorConfValuestoreRC
+from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.version import APP_NAME, APP_VERSION
+from terminatorlib import translation
 
 import gtk, gobject
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
-  appearance = ['titlebars', 'titletips', 'allow_bold', 'silent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
-  colours = ['foreground_color','background_color', 'palette', 'title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']
-  behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
+  appearance = ['titlebars', 'zoomedtitlebar', 'titletips', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
+  colours = ['foreground_color','background_color', 'cursor_color', 'palette', 'title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']
+  behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'alternate_screen_scroll', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
   globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'extreme_tabs', 'try_posix_regexp']
 
   # metadata about the settings
   data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
+          'zoomedtitlebar': ['Show titlebar when zoomed', 'This places an informative bar above a zoomed terminal to indicate there are hidden terminals.'],
           'titletips': ['Show title tooltips', 'This adds a tooltip to each terminal which contains its title'],
           'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
           'silent_bell': ['', 'When enabled, bell events will generate a flash. When disabled, they will generate a beep'],
@@ -38,6 +40,7 @@ class ProfileEditor:
           'zoom_normal': ['Zoom reset', ''],
           'reset': ['Reset terminal state', ''],
           'reset_clear': ['Reset and clear terminal', ''],
+          'hide_window': ['Toggle visibility of the window', ''],
           'title_tx_txt_color': ['Tx Title Foreground Color', ''],
           'title_tx_bg_color': ['Tx Title Background Color', ''],
           'title_rx_txt_color': ['Rx Title Foreground Color', ''],
@@ -56,19 +59,26 @@ class ProfileEditor:
   background_type = ['solid', 'image', 'transparent']
   tab_position = ['top', 'bottom', 'left', 'right']
   tab_position_gtk = {'top' : gtk.POS_TOP, 'bottom' : gtk.POS_BOTTOM, 'left' : gtk.POS_LEFT, 'right' : gtk.POS_RIGHT}
+  cursor_shape = ['block', 'ibeam', 'underline']
 
   def __init__ (self, term):
     self.term = term
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
     self.box = gtk.VBox()
+    self.warning = gtk.Label()
+
+    self.warning.set_use_markup (True)
+    self.warning.set_line_wrap (True)
+    self.warning.set_markup ("<i><b>NOTE:</b> These settings will not be saved. See:</i> <tt>man terminator_config</tt>")
 
     self.butbox = gtk.HButtonBox()
     self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
     self.applybut.connect ("clicked", self.apply)
-    self.cancelbut = gtk.Button(stock=gtk.STOCK_CANCEL)
+    self.cancelbut = gtk.Button(stock=gtk.STOCK_CLOSE)
     self.cancelbut.connect ("clicked", self.cancel)
 
+    self.box.pack_start(self.warning, False, False)
     self.box.pack_start(self.notebook, False, False)
     self.box.pack_end(self.butbox, False, False)
 
@@ -87,10 +97,10 @@ class ProfileEditor:
     self.window.show_all ()
 
   def source_get_type (self, key):
-    if Defaults.has_key (key):
-      return Defaults[key].__class__.__name__
-    elif Defaults['keybindings'].has_key (key):
-      return Defaults['keybindings'][key].__class__.__name__
+    if DEFAULTS.has_key (key):
+      return DEFAULTS[key].__class__.__name__
+    elif DEFAULTS['keybindings'].has_key (key):
+      return DEFAULTS['keybindings'][key].__class__.__name__
     else:
       raise KeyError
 
@@ -138,27 +148,32 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.scrollbar_position:
           widget.append_text (item)
-        widget.set_active (self.scrollbar_position.index(value))
+        if value in self.scrollbar_position:
+          widget.set_active (self.scrollbar_position.index(value))
       elif key == 'backspace_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (self.backspace_del_binding.index(value))
+        if value in self.backspace_del_binding:
+          widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'delete_binding':
         widget = gtk.combo_box_new_text()
         for item in self.backspace_del_binding:
           widget.append_text (item)
-        widget.set_active (self.backspace_del_binding.index(value))
+        if value in self.backspace_del_binding:
+          widget.set_active (self.backspace_del_binding.index(value))
       elif key == 'focus':
         widget = gtk.combo_box_new_text()
         for item in self.focus:
           widget.append_text (item)
-        widget.set_active (self.focus.index(value))
+        if value in self.focus:
+          widget.set_active (self.focus.index(value))
       elif key == 'background_type':
         widget = gtk.combo_box_new_text()
         for item in self.background_type:
           widget.append_text (item)
-        widget.set_active (self.background_type.index(value))
+        if value in self.background_type:
+          widget.set_active (self.background_type.index(value))
       elif key == 'background_darkness':
         widget = gtk.HScale ()
         widget.set_digits (1)
@@ -176,6 +191,10 @@ class ProfileEditor:
       elif key == 'foreground_color':
         widget = gtk.ColorButton (gtk.gdk.color_parse (value))
       elif key == 'background_color':
+        widget = gtk.ColorButton (gtk.gdk.color_parse (value))
+      elif key == 'cursor_color':
+        if not value:
+          value = self.source_get_value ('foreground_color')
         widget = gtk.ColorButton (gtk.gdk.color_parse (value))
       elif key == 'palette':
         colours = value.split (':')
@@ -203,7 +222,14 @@ class ProfileEditor:
         widget = gtk.combo_box_new_text()
         for item in self.tab_position:
           widget.append_text (item)
-        widget.set_active (self.tab_position.index(value))
+        if value in self.tab_position:
+          widget.set_active (self.tab_position.index(value))
+      elif key == 'cursor_shape':
+        widget = gtk.combo_box_new_text()
+        for item in self.cursor_shape:
+          widget.append_text (item)
+        if value in self.cursor_shape:
+          widget.set_active (self.cursor_shape.index (value))
       else:
         if type == "bool":
           widget = gtk.CheckButton ()
@@ -251,6 +277,8 @@ class ProfileEditor:
             bucket = self.background_type
           elif widget.name == 'tab_position':
             bucket = self.tab_position
+          elif widget.name == 'cursor_shape':
+            bucket = self.cursor_shape
           else:
             err("Unknown bucket type for %s" % widget.name)
             continue
@@ -332,7 +360,11 @@ class ProfileEditor:
       value = self.term.conf.keybindings[row[0]]
       if isinstance (value, tuple):
         value = value[0]
-      if (row[2], row[3]) != self.tkbobj._parsebinding(value):
+      keyval = 0
+      mask = 0
+      if value is not None:
+        (keyval, mask) = self.tkbobj._parsebinding(value)
+      if (row[2], row[3]) != (keyval, mask):
         changed_keybindings.append ((row[0], accel))
         dbg("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
 
@@ -341,9 +373,6 @@ class ProfileEditor:
       newbindings[binding[0]] = binding[1]
     self.term.keybindings.configure (newbindings)
 
-    # We're not actually cancelling, but since all it does is close the window, we might as well use it
-    self.cancel(None)
-  
   def cancel (self, data):
     self.window.destroy()
     self.term.options = None
@@ -356,14 +385,14 @@ class ProfileEditor:
     keyval = None
     mask = None
 
-    for binding in Defaults['keybindings']:
+    for binding in DEFAULTS['keybindings']:
       value = self.term.conf.keybindings[binding]
-      if (value.__class__.__name__ != 'str'):
-        if isinstance (value, tuple):
-          value = value[0]
-        else:
-          continue
-      (keyval, mask) = self.tkbobj._parsebinding (value)
+      keyval = 0
+      mask = 0
+      if isinstance (value, tuple):
+        value = value[0]
+      if value is not None:
+        (keyval, mask) = self.tkbobj._parsebinding (value)
       self.liststore.append ([binding, self.source_get_keyname (binding), keyval, mask, True])
       dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
 

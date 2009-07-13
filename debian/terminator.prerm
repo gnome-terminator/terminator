@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/bin/sh -e
 
-pycentral pkgremove terminator
-
-#DEBHELPER#
-
-if [ "$1" = "remove" ]; then
-	update-alternatives --remove x-terminal-emulator /usr/bin/terminator
+if [ "$1" = remove ]; then
+        update-alternatives --remove terminator /usr/bin/terminator || true
+        update-alternatives --remove x-terminal-emulator /usr/bin/terminator
 fi
 
+#DEBHELPER#

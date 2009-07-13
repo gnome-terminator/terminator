@@ -15,7 +15,7 @@ This is what a Terminator config file should look like:
   font = Fixed 10
   background_color = #000000
   foreground_color = "#FFFFFF" #Another comment. Quotes can be used for any value
-  scrollback_lines = '500' #More comment. Single quotes are valid too
+  scrollback_lines = "500" #More comment. Single quotes are valid too
   cursor_blink = True
   custom_command = "echo \\"foo#bar\\"" #Final comment - this will work as expected.
   
@@ -33,9 +33,19 @@ Default value: \fBTrue\fR
 If true, Terminator will try to use real transparency if possible.
 Default value: \fBFalse\fR
 .TP
-.B silent_bell\fR (boolean)
-If true, don't make a noise when applications send the escape sequence for the terminal bell. Flash the terminal instead.
+\fBNOTE:\fR To enable transparency you should also see the \fBbackground_type\fR and \fBbackground_darkness\fR settings below.
+.TP
+.B audible_bell\fR (boolean)
+If true, make a noise when applications send the escape sequence for the terminal bell.
 Default value: \fBTrue\fR
+.TP
+.B visible_bell\fR (boolean)
+If true, flash the terminal when applications send the escape sequence for the terminal bell.
+Default value: \fBFalse\fR
+.TP
+.B urgent_bell\fR (boolean)
+If true, set the window manager "urgent" hint when applications send the escale sequence for the terminal bell. Any keypress will cancel the urgent status.
+Default value: \fBFalse\fR
 .TP
 .B force_no_bell\fR (boolean)
 If true, don't make a noise or flash. All terminal bells will be ignored.
@@ -73,6 +83,14 @@ Default value: \fBescape\-sequence\fR
 Controls if the cursor blinks.
 Default value: \fBTrue\fR
 .TP
+.B cursor_color
+Default colour of cursor, as a colour specification (can be HTML-style hex digits, or a colour name such as "red").
+Default value: Current value of \fBforeground_color\fR
+.TP
+.B cursor_shape
+Default shape of cursor. Possibilities are "block", "ibeam", and "underline".
+Default value: \fBblock\fR
+.TP
 .B emulation
 Sets what type of terminal should be emulated.
 Default value: \fBxterm\fR
@@ -92,6 +110,14 @@ Default value: \fBright\fR
 .B titlebars
 If true, a titlebar will be drawn for each terminal which shows the current title of that terminal.
 Default value: \fBTrue\fR
+.TP
+.B titlebarzoomed
+If true, a titlebar will be drawn on zoomed/maximised terminals which indicates how many are hidden.
+Default value: \fBTrue\fR
+.TP
+.B titletips
+If true, a tooltip will be available for each terminal which shows the current title of that terminal.
+Default value: \fBFalse\fR
 .TP
 .B title_tx_txt_color
 Sets the colour of the text shown in the titlebar of the active terminal.
@@ -117,10 +143,6 @@ Default value: \fB#000000\fR
 Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB#C0BEBF\fR
 .TP
-.B titletips
-If true, a tooltip will be available for each terminal which shows the current title of that terminal.
-Default value: \fBFalse\fR
-.TP
 .B scroll_background \fR(boolean)
 If true, scroll the background image with the foreground text; if false, keep the image in a fixed position and scroll the text above it.
 Default value: \fBTrue\fR
@@ -131,6 +153,10 @@ Default value: \fBTrue\fR
 .TP
 .B scroll_on_output \fR(boolean)
 If true, whenever there's new output the terminal will scroll to the bottom.
+Default value: \fBTrue\fR
+.TP
+.B alternate_screen_scroll \fR(boolean)
+Whether or not the mouse wheel scrolls alternate screen buffers (man, vim, mutt, etc). This is the default behavior of VTE, however Ubuntu and possbly other distributions feature patched versions of VTE where this functionality is optional. The option only effects the patched versions of VTE, otherwise it is ignored.
 Default value: \fBTrue\fR
 .TP
 .B scrollback_lines
@@ -190,6 +216,10 @@ Default value: \fBFalse\fR
 Controls whether the Terminator window will be started without window borders
 Default value: \fBFalse\fR
 .TP
+.B hidden \fR(boolean)
+Hides the Terminator window by default. Its visibility can be toggled with the \fBhide_window\fR keybinding (Ctrl-Shift-Alt-a by default)
+Default value: \fBFalse\fR
+.TP
 .B handle_size
 Controls the width of the separator between terminals. Anything outside the range 0-5 (inclusive) will be ignored and use your default theme value.
 Default value: \fB-1\fR
@@ -211,15 +241,23 @@ Default value: \fBTrue\fR
 Defines where tabs are placed.  Can be any of: top, left, right, bottom.
 Default value: \fBtop\fR
 .TP
-.B extreme_tabs \fB(boolean)\fR
+.B extreme_tabs \fR(boolean)
 If set to True, tabs can be created within other tabs. Be warned that this can be very confusing and hard to use.
+Default value: \fBFalse\fR
+.TP
+.B hide_tabbar \fR(boolean)
+If set to True, the tab bar will be hidden. This means there will be no visual indication of either how many tabs there are, or which one you are on. Be warned that this can be very confusing and hard to use.
+Default value: \fBFalse\fR
+.TP
+.B scroll_tabbar \fR(boolean)
+If set to True, the tab bar will not fill the width of the window. The titlebars of the tabs will only take as much space as is necessary for the text they contain. Except, that is, if the tabs no longer fit the width of the window - in that case scroll buttons will appear to move through the tabs.
 Default value: \fBFalse\fR
 .TP
 .B copy_on_selection \fR(boolean)
 If set to True, text selections will be automatically copied to the clipboard, in addition to being made the Primary selection.
 Default value: \fBFalse\fR
 .TP
-.B try_posix_regexp \fB(boolean)\fR
+.B try_posix_regexp \fR(boolean)
 If set to True, URL matching regexps will try to use POSIX style first, and fall back on GNU style on failure.  If you are on Linux but URL matches don't work, try setting this to True.  If you are not on Linux, but you get VTE warnings on startup saying "Error compiling regular expression", set this to False to silence them (they are otherwise harmless).
 Default value: \fBFalse\fR on Linux, \fBTrue\fR otherwise.
 .SH "KEYBINDINGS"
@@ -341,6 +379,12 @@ Default value: \fB<Ctrl>Page_Down\fR
 Move to the previous tab.
 Default value: \fB<Ctrl>Page_Up\fR
 .TP
+.B switch_to_tab_1 - switch_to_tab_10
+Keys to switch directly to the numbered tab.
+Note that <Alt><Shift>1 may need to be provided as <Alt>! or similar,
+depending on your keyboard layout.
+Default value: \fBUnbound\fR
+.TP
 .B full_screen
 Toggle the window to a fullscreen window.
 Default value: \fBF11\fR
@@ -352,5 +396,25 @@ Default value: \fB<Ctrl><Shift>R\fR
 .B reset_clear
 Reset the terminal state and clear the terminal window.
 Default value: \fB<Ctrl><Shift>G\fR
+.TP
+.B group_all
+Group all terminals together so input sent to one goes to all of them.
+Default value: \fB<Super>g\fR
+.TP
+.B ungroup_all
+Remove grouping from all terminals.
+Default value: \fB<Super><Shift>G\fR
+.TP
+.B group_tab
+Group all terminals in the current tab together so input sent to one goes to all of them.
+Default value: \fB<Super>t\fR
+.TP
+.B ungroup_tab
+Remove grouping from all terminals in the current tab.
+Default value: \fB<Super><Shift>T\fR
+.TP
+.B new_window
+Spawn a new instance of Terminator and thus get a new window.
+Default value: \fB<Ctrl><Shift>I\fR
 .SH "SEE ALSO"
 .BR gnome\-terminal(1)

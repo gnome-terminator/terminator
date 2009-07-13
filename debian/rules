@@ -1,12 +1,17 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
-DEB_PYTHON_SYSTEM = pycentral
+DEB_PYTHON_SYSTEM = pysupport
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/python-distutils.mk
 include /usr/share/cdbs/1/rules/simple-patchsys.mk
 
 DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
+DEB_PYTHON_INSTALL_ARGS_ALL +=--install-lib=/usr/share/terminator --install-scripts=/usr/share/terminator
+
+binary-install/terminator::
+	dh_icons -pterminator
+	dh_link /usr/share/terminator/terminator /usr/bin/terminator
 
 clean::
 	rm -rf build/

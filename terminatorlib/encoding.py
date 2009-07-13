@@ -2,18 +2,18 @@
 #    TerminatorEncoding - charset encoding classes
 #    Copyright (C) 2006-2008  chantra@debuntu.org
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, version 2 only.
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, version 2 only.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 """TerminatorEncoding by Emmanuel Bretelle <chantra@debuntu.org>
 
@@ -23,8 +23,11 @@ This list is taken from gnome-terminal's src/encoding.h
  and src/encoding.c
 """
 
+from terminatorlib import translation
+
 class TerminatorEncoding:
   """Class to store encoding details"""
+
   encodings = [
     [True, None, _("Current Locale")],
     [False, "ISO-8859-1", _("Western")],
@@ -101,6 +104,9 @@ class TerminatorEncoding:
     [False, "WINDOWS-1257", _("Baltic") ],
     [False, "WINDOWS-1258", _("Vietnamese") ]
   ]
+
+  def __init__(self):
+    pass
 
   def get_list():
     """Return a list of supported encodings"""

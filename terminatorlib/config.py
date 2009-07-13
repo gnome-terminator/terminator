@@ -2,18 +2,18 @@
 #    TerminatorConfig - layered config classes
 #    Copyright (C) 2006-2008  cmsj@tenshu.net
 #
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, version 2 only.
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, version 2 only.
 #
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 """TerminatorConfig by Chris Jones <cmsj@tenshu.net>
 
@@ -31,9 +31,20 @@ Trying to read a value that doesn't exist will raise an
 AttributeError. This is by design. If you want to look something 
 up, set a default for it first."""
 
-import os, platform, sys, re
+import os
+import platform
+import sys
+import re
 import pwd
-import gtk, pango
+import gtk
+import pango
+
+try:
+  import gconf
+except ImportError:
+  gconf = None
+
+from terminatorlib import translation
 
 # set this to true to enable debugging output
 # These should be moved somewhere better.
@@ -48,15 +59,18 @@ def err (log = ""):
   """Print an error message"""
   print >> sys.stderr, log
 
-from configfile import ConfigFile, ParsedWithErrors
+from terminatorlib.configfile import ConfigFile, ParsedWithErrors
 
-Defaults = {
+DEFAULTS = {
   'gt_dir'                : '/apps/gnome-terminal',
   'profile_dir'           : '/apps/gnome-terminal/profiles',
   'titlebars'             : True,
+  'zoomedtitlebar'        : True,
   'titletips'             : False,
   'allow_bold'            : True,
-  'silent_bell'           : True,
+  'audible_bell'          : False,
+  'visible_bell'          : True,
+  'urgent_bell'           : False,
   'background_color'      : '#000000',
   'background_darkness'   : 0.5,
   'background_type'       : 'solid',
@@ -64,6 +78,8 @@ Defaults = {
   'backspace_binding'     : 'ascii-del',
   'delete_binding'        : 'delete-sequence',
   'cursor_blink'          : True,
+  'cursor_shape'          : 'block',
+  'cursor_color'          : '',
   'emulation'             : 'xterm',
   'font'                  : 'Mono 10',
   'foreground_color'      : '#AAAAAA',
@@ -91,6 +107,7 @@ Defaults = {
   'fullscreen'            : False,
   'borderless'            : False,
   'maximise'              : False,
+  'hidden'                : False,
   'handle_size'           : -1,
   'focus_on_close'        : 'auto',
   'f11_modifier'          : False,
@@ -107,6 +124,9 @@ Defaults = {
   'title_ia_txt_color'    : '#000000',
   'title_ia_bg_color'     : '#C0BEBF',
   'try_posix_regexp'      : platform.system() != 'Linux',
+  'hide_tabbar'           : False,
+  'scroll_tabbar'         : False,
+  'alternate_screen_scroll': True,
   'keybindings'           : {
     'zoom_in'          : '<Ctrl>plus',
     'zoom_out'         : '<Ctrl>minus',
@@ -137,25 +157,44 @@ Defaults = {
     'scaled_zoom'      : '<Ctrl><Shift>Z',
     'next_tab'         : '<Ctrl>Page_Down',
     'prev_tab'         : '<Ctrl>Page_Up',
+    'switch_to_tab_1'  : None,
+    'switch_to_tab_2'  : None,
+    'switch_to_tab_3'  : None,
+    'switch_to_tab_4'  : None,
+    'switch_to_tab_5'  : None,
+    'switch_to_tab_6'  : None,
+    'switch_to_tab_7'  : None,
+    'switch_to_tab_8'  : None,
+    'switch_to_tab_9'  : None,
+    'switch_to_tab_10' : None,
     'full_screen'      : 'F11',
     'reset'            : '<Ctrl><Shift>R',
     'reset_clear'      : '<Ctrl><Shift>G',
+    'hide_window'      : '<Ctrl><Shift><Alt>a',
+    'group_all'        : '<Super>g',
+    'ungroup_all'      : '<Super><Shift>g',
+    'group_tab'        : '<Super>t',
+    'ungroup_tab'      : '<Super><Shift>T',
+    'new_window'       : '<Ctrl><Shift>I',
   }
 }
 
 
-class TerminatorConfig:
+class TerminatorConfig(object):
   """This class is used as the base point of the config system"""
   callback = None
-  sources = []
+  sources = None
+  _keys = None
 
   def __init__ (self, sources):
-    self._keys = None
+    self.sources = []
+
     for source in sources:
       if isinstance(source, TerminatorConfValuestore):
         self.sources.append (source)
 
-    # We always add a default valuestore last so no valid config item ever goes unset
+    # We always add a default valuestore last so no valid config item ever 
+    # goes unset
     source = TerminatorConfValuestoreDefault ()
     self.sources.append (source)
 
@@ -187,10 +226,13 @@ class TerminatorConfig:
     dbg (" TConfig: Out of sources")
     raise (AttributeError)
 
-class TerminatorConfValuestore:
+class TerminatorConfValuestore(object):
   type = "Base"
-  values = {}
+  values = None
   reconfigure_callback = None
+
+  def __init__ (self):
+    self.values = {}
 
   # Our settings
   def __getitem__ (self, keyname):
@@ -204,17 +246,19 @@ class TerminatorConfValuestore:
 
 class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
   def __init__ (self):
+    TerminatorConfValuestore.__init__ (self)
     self.type = "Default"
-    self.values = Defaults
+    self.values = DEFAULTS
 
 class TerminatorConfValuestoreRC (TerminatorConfValuestore):
   rcfilename = ""
   type = "RCFile"
   def __init__ (self):
+    TerminatorConfValuestore.__init__ (self)
     try:
       directory = os.environ['XDG_CONFIG_HOME']
-    except KeyError, e:
-      dbg(" VS_RCFile: Environment variable XDG_CONFIG_HOME not found. defaulting to ~/.config")
+    except KeyError:
+      dbg(" VS_RCFile: XDG_CONFIG_HOME not found. defaulting to ~/.config")
       directory = os.path.join (os.path.expanduser("~"), ".config")
     self.rcfilename = os.path.join(directory, "terminator/config")
     dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
@@ -230,9 +274,9 @@ class TerminatorConfValuestoreRC (TerminatorConfValuestore):
     try:
       ini = ConfigFile(self.rcfilename, self._rc_set_callback())
       ini.parse()
-    except IOError, e:
-      dbg (" VS_RCFile: unable to open %s (%r)" % (self.rcfilename, e))
-    except ParsedWithErrors, e:
+    except IOError, ex:
+      dbg (" VS_RCFile: unable to open %s (%r)" % (self.rcfilename, ex))
+    except ParsedWithErrors, ex:
       # We don't really want to produce an error dialog every run
       if not is_init:
         pass
@@ -242,25 +286,26 @@ Errors were encountered while parsing terminator_config(5) file:
 
   <b>%s</b>
 
-%d line(s) have been ignored.""") % (self.rcfilename, len(e.errors))
+%d line(s) have been ignored.""") % (self.rcfilename, len(ex.errors))
 
       dialog = gtk.Dialog(_("Configuration error"), None, gtk.DIALOG_MODAL,
                           (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
       dialog.set_has_separator(False)
       dialog.set_resizable(False)
 
-      image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_DIALOG)
+      image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, 
+                                       gtk.ICON_SIZE_DIALOG)
       image.set_alignment (0.5, 0)
       dmsg = gtk.Label(msg)
       dmsg.set_use_markup(True)
       dmsg.set_alignment(0, 0.5)
 
       textbuff = gtk.TextBuffer()
-      textbuff.set_text("\n".join(map(lambda e: str(e), e.errors)))
+      textbuff.set_text("\n".join(map(lambda ex: str(ex), ex.errors)))
       textview = gtk.TextView(textbuff)
       textview.set_editable(False)
 
-      textview.modify_font(pango.FontDescription(Defaults['font']))
+      textview.modify_font(pango.FontDescription(DEFAULTS['font']))
       textscroll = gtk.ScrolledWindow()
       textscroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
       textscroll.add(textview)
@@ -274,7 +319,9 @@ Errors were encountered while parsing terminator_config(5) file:
       box = gtk.HBox()
       box.pack_start (image, False, False, 6)
       box.pack_start (root, False, False, 6)
-      dialog.vbox.pack_start (box, False, False, 12)
+
+      vbox = dialog.get_content_area()
+      vbox.pack_start (box, False, False, 12)
       dialog.show_all()
 
       dialog.run()
@@ -289,9 +336,18 @@ Errors were encountered while parsing terminator_config(5) file:
       if len(sections) > 0:
         section = sections[0]
       if section is None:
-        if not Defaults.has_key (key):
+        # handle some deprecated configs
+        if key == 'silent_bell':
+          err ("silent_bell config option is deprecated, for the new bell related config options, see: man terminator_config")
+          if value:
+            self.values['audible_bell'] = False
+          else:
+            self.values['audible_bell'] = True
+          key = 'visible_bell'
+            
+        if not DEFAULTS.has_key (key):
           raise ValueError("Unknown configuration option %r" % key)
-        deftype = Defaults[key].__class__.__name__
+        deftype = DEFAULTS[key].__class__.__name__
         if key.endswith('_color'):
           try:
             gtk.gdk.color_parse(value)
@@ -326,7 +382,7 @@ Errors were encountered while parsing terminator_config(5) file:
         dbg (" VS_RCFile: Set value %r to %r" % (key, self.values[key]))
       elif section == 'keybindings':
         self.values.setdefault(section, {})
-        if not Defaults[section].has_key(key):
+        if not DEFAULTS[section].has_key(key):
           raise ValueError("Keybinding name %r is unknown" % key)
         else:
           self.values[section][key] = value
@@ -337,36 +393,47 @@ Errors were encountered while parsing terminator_config(5) file:
 class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
   profile = ""
   client = None
-  cache = {}
+  cache = None
+  notifies = None
 
-  def __init__ (self, profile = None):
+  def __init__ (self, profileName = None):
+    TerminatorConfValuestore.__init__ (self)
     self.type = "GConf"
     self.inactive = False
+    self.cache = {}
+    self.notifies = {}
 
     import gconf
 
     self.client = gconf.client_get_default ()
 
     # Grab a couple of values from base class to avoid recursing with our __getattr__
-    self._gt_dir = Defaults['gt_dir']
-    self._profile_dir = Defaults['profile_dir']
+    self._gt_dir = DEFAULTS['gt_dir']
+    self._profile_dir = DEFAULTS['profile_dir']
 
-    dbg ('VSGConf: Profile requested is: "%s"'%profile)
-    if not profile:
-      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
-    dbg ('VSGConf: Profile bet on is: "%s"'%profile)
+    dbg ('VSGConf: Profile bet on is: "%s"'%profileName)
     profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
     dbg ('VSGConf: Found profiles: "%s"'%profiles)
 
-    #set up the active encoding list
-    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
-    
+    dbg ('VSGConf: Profile requested is: "%s"'%profileName)
+    if not profileName:
+      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
+    else:
+      profile = profileName
+      # In newer gnome-terminal, the profile keys are named Profile0/1 etc.
+      # We have to match using visible_name instead
+      for p in profiles:
+        profileName2 = self.client.get_string (
+          self._profile_dir + '/' + p + '/visible_name')
+        if profileName == profileName2:
+          profile = p
+
     #need to handle the list of Gconf.value
     if profile in profiles:
       dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
-      self.profile = '%s/%s'%(self._profile_dir, profile)
+      self.profile = '%s/%s' % (self._profile_dir, profile)
     elif "Default" in profiles:
-      dbg (" VSGConf: profile '%s' not found, but 'Default' exists"%profile)
+      dbg (" VSGConf: profile '%s' not found, but 'Default' exists" % profile)
       self.profile = '%s/%s'%(self._profile_dir, "Default")
     else:
       # We're a bit stuck, there is no profile in the list
@@ -375,6 +442,9 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
       self.inactive = True
       return
 
+    #set up the active encoding list
+    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+    
     self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
     if self.on_gconf_notify:
       self.client.notify_add (self.profile, self.on_gconf_notify)
@@ -425,25 +495,39 @@ class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
 
         if self.client.get_bool ('/system/http_proxy/use_authentication'):
           dbg ('HACK: Using proxy authentication')
-          value = 'http://%s:%s@%s:%s/'%(
+          value = 'http://%s:%s@%s:%s/' % (
             self.client.get_string ('/system/http_proxy/authentication_user'), 
             self.client.get_string ('/system/http_proxy/authentication_password'), 
             self.client.get_string ('/system/http_proxy/host'), 
             self.client.get_int ('/system/http_proxy/port'))
         else:
           dbg ('HACK: Not using proxy authentication')
-          value = 'http://%s:%s/'%(
+          value = 'http://%s:%s/' % (
             self.client.get_string ('/system/http_proxy/host'),
             self.client.get_int ('/system/http_proxy/port'))
+    elif key == 'cursor_blink':
+      tmp = self.client.get_string('%s/cursor_blink_mode' % self.profile)
+      if tmp in ['on', 'off'] and self.notifies.has_key ('cursor_blink'):
+        self.client.notify_remove (self.notifies['cursor_blink'])
+        del (self.notifies['cursor_blink'])
+      if tmp == 'on':
+        value = True
+      elif tmp == 'off':
+        value = False
+      elif tmp == 'system':
+        value = self.client.get_bool ('/desktop/gnome/interface/cursor_blink')
+        self.notifies['cursor_blink'] = self.client.notify_add ('/desktop/gnome/interface/cursor_blink', self.on_gconf_notify)
+      else:
+        value = self.client.get ('%s/%s'%(self.profile, key))
     else:
       value = self.client.get ('%s/%s'%(self.profile, key))
 
-    if value:
-      from types import StringType
-      if type(value) is StringType:
-         ret = value
+    if value != None:
+      from types import StringType, BooleanType
+      if type(value) in [StringType, BooleanType]:
+        ret = value
       else:
-        funcname = "get_" + Defaults[key].__class__.__name__
+        funcname = "get_" + DEFAULTS[key].__class__.__name__
         dbg ('  GConf: picked function: %s'%funcname)
         # Special case for str
         if funcname == "get_str":

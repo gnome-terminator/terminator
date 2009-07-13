@@ -1,2 +1,4 @@
 *.pyc
 terminatorlib/*.pyc
+.project
+.pydevproject

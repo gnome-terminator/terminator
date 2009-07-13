@@ -3,23 +3,21 @@ Sat, 28 Jul 2007 04:12:30 +0100.
 
 It was downloaded from https://launchpad.net/terminator/+download
 
-Upstream Authors: 
+Upstream Authors (in no discernible order):
 
     Chris Jones
-    Thomas Hurst
-    Emmanuel Bretelle
-    Nicolas Valcarcel
+    Huang He
     Kees Cook
     Thomas Meire
+    Nicolas Valcarcel
+    Emmanuel Bretelle
     Chris Oattes
     Markus Korn
     Mackenzie Morgan
     Daniel T Chen
-    Iain Lane
-    Brian Murray
-    Edoardo Batini
-    Cory Kontros
-    Huang He
+    Nicolas Roman
+    Takao Fujiwara
+    Jordan Callicoat
 
 Artwork:
     Cory Kontros - Produced our current icon under the CC-by-SA licence
@@ -34,14 +32,13 @@ Translations:
     "Data"
     Cristian Grada
     "zhuqin"
-    and others
 
     Seriously, thank you very much to the translators. A few minutes of 
     their dedication opens up userbases like nothing else.
 
 Copyright: 
 
-    <Copyright (C) 2006-2009 Chris Jones>
+    <Copyright (C) 2006-2008 Chris Jones>
 
 License:
 

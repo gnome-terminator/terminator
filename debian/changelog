@@ -1,3 +1,15 @@
+terminator (0.13) karmic; urgency=low
+
+  *  New upstream release
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 29 May 2009 21:51:09 +0200
+
+terminator (0.12) intrepid; urgency=low
+
+  *  New upstream release
+
+ -- Chris Jones <cmsj@tenshu.net>  Thu, 15 Jan 2009 00:20:34 +0000
+
 terminator (0.11) intrepid; urgency=low
 
   *  New upstream release.

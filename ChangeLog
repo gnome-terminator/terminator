@@ -1,3 +1,23 @@
+terminator 0.13:
+  * Bug fixes
+  * Added a shortcut key to make the window appear/disappear
+	   (somewhat like a "Quake console" mode. Needs the deskbar
+		  python bindings to work)
+  * Update pot generation to use intltool-update
+  * Allow users to permanently fix the title of a tab
+  * Added command line option to specify working directory
+  * Improve transparency support in composited desktops.
+  * The tab bar can now be hidden and/or scrolled.
+  * Add configurability of cursor colour and shape
+  * Support various VoIP URIs
+  * Add command line option to force a particular window title
+  * Add a hotkey for spawning a new Terminator instance
+	   (emulates a "new window" feature)
+  * Ability to group by tab
+  * SunOS support (via patch from Lewis Thompson)
+  * Silly notify-osd message on exit (suggested by pitti)
+  * Drag and drop icon is now a scaled terminal image
+
 terminator 0.12:
   * Bug fixes
   * Simultaneous typing support

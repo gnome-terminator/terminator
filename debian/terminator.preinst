@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if [ "$1" = upgrade ] && dpkg --compare-versions "$2" lt 0.13+ds1; then
+	pycentral pkgremove terminator 
+fi
+
+#DEBHELPER#

@@ -56,6 +56,13 @@ class BuildData(build):
           error("Error: %s" % str(e))
           sys.exit(1)
 
+    TOP_BUILDDIR='.'
+    INTLTOOL_MERGE='intltool-merge'
+    desktop_in='data/terminator.desktop.in'
+    desktop_data='data/terminator.desktop'
+    os.system ("C_ALL=C " + INTLTOOL_MERGE + " -d -u -c " + TOP_BUILDDIR +
+               "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
+               desktop_in + " " + desktop_data)
 
 class Uninstall(Command):
   description = "Attempt an uninstall from an install --record file"
@@ -160,7 +167,7 @@ setup(name='Terminator',
                   ('share/icons/hicolor/16x16/apps', glob.glob('data/icons/16x16/apps/*.png')),
                   ('share/icons/hicolor/22x22/apps', glob.glob('data/icons/22x22/apps/*.png')),
                   ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/24x24/apps/*.png')),
-                  ('share/icons/hicolor/24x24/apps', glob.glob('data/icons/32x32/apps/*.png')),
+                  ('share/icons/hicolor/32x32/apps', glob.glob('data/icons/32x32/apps/*.png')),
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
                   ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/16x16/actions/*.png')),
                  ],

@@ -3,28 +3,30 @@
 # This file is distributed under the same license as the terminator package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# $Id: _terminator-fi.po 25 2009-04-20 12:39:22Z pen $
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-27 23:41+0100\n"
-"PO-Revision-Date: 2008-09-15 16:22+0000\n"
-"Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
+"POT-Creation-Date: 2009-01-26 13:22+0000\n"
+"PO-Revision-Date: 2009-04-20 14:18+0000\n"
+"Last-Translator: Pekka Niemi <pekka.niemi@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-19 17:44+0000\n"
+"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: terminator:45
+#: ../terminator:46
 msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
 "Gobject, GTK ja Pango tulee olla asennettuna Terminatorin käyttämiseksi."
 
-#: terminator:122
+#: ../terminator:129
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
@@ -32,243 +34,272 @@ msgstr ""
 "Terminatoria kuuluu käyttää X-ympäristössä. Varmista, että muuttuja DISPLAY "
 "on oikein asetettu."
 
-#: terminatorlib/config.py:215
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr "Päättämätön lainaus"
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr "Asetetaan ilman arvoa"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr "Odottamaton avainsana"
+
+#: ../terminatorlib/config.py:250
 #, python-format
 msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
 "Errors were encountered while parsing terminator_config(5) file:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"Some lines have been ignored."
+"%d line(s) have been ignored."
 msgstr ""
-"Virheitä jäsennettäessä terminator_config(5) -tiedostoa:\n"
-"  <b>%s</b>\n"
-"Joitakin rivejä on jätetty huomioimatta."
+"<big><b>Konfigurointivirhe</b></big>\n"
+" \n"
+"terminator_config(5)-tiedostoa luettaessa löytyi virheitä:\n"
+" \n"
+"   <b>%s</b>\n"
+" \n"
+" %d rivi(ä) on jätetty huomiotta."
 
-#: terminatorlib/config.py:221
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr "Konfigurointivirhe"
+
+#: ../terminatorlib/config.py:311
 #, python-format
-msgid ""
-" * %(message)s, line %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
-msgstr ""
-" * %(message)s, rivi %(lnum)d:\n"
-"    <tt>%(line)s</tt>\n"
-"    <tt>%(pad)s^</tt>"
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr "Asetuksen %r arvo %r on virheellinen väri; ei huomioida"
 
-#: terminatorlib/config.py:243
+#: ../terminatorlib/config.py:316
 #, python-format
-msgid "Setting %s value %s not a valid colour; ignoring"
-msgstr "Asetuksen %s arvo %s ei kelpaa, jätetään huomioimatta"
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s täytyy olla yksi seuraavista: top, left, right, bottom"
 
-#: terminatorlib/config.py:251
+#: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Boolean-asetus %s odottaa arvoa joukosta: yes, no, true, false, on, off"
 
-#: terminatorlib/config.py:258
+#: ../terminatorlib/config.py:329
 msgid ""
-" VS_RCFile: Reading list values from .config/terminator/config is not "
-"currently supported"
+"Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
-" VS_RCFile: Listan arvojen lukeminen tiedostosta .config/terminator/config "
-"ei ole tällä hetkellä tuettu"
+"Listan arvojen lukemista tiedostosta terminator_config(5) ei tueta tällä "
+"hetkellä"
 
-#: terminatorlib/config.py:262
+#: ../terminatorlib/config.py:332
 #, python-format
-msgid "Value %s should be a section name, not a setting"
-msgstr "Arvon %s pitäisi olla osa-alueen nimi, ei asetuksen"
+msgid "Setting %r should be a section name"
+msgstr "Asetuksen %r pitäisi olla osion nimi"
 
-#: terminatorlib/configfile.py:92
-msgid "Unterminated quoted string"
-msgstr "Päättämätön lainausmerkillinen merkkijono"
-
-#: terminatorlib/configfile.py:139
-msgid "Setting without a value"
-msgstr "Asetetaan ilman arvoa"
-
-#: terminatorlib/configfile.py:144
-msgid "Unexpected token"
-msgstr "Odottamaton merkki"
-
-#: terminatorlib/configfile.py:175
-#, python-format
-msgid "Section %s is being used as a setting name"
-msgstr "Osaa %s käytetään asetuksen nimenä"
-
-#: terminatorlib/encoding.py:29
+#: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
 msgstr "Nykyiset maa-asetukset"
 
-#: terminatorlib/encoding.py:30 terminatorlib/encoding.py:43
-#: terminatorlib/encoding.py:62 terminatorlib/encoding.py:85
-#: terminatorlib/encoding.py:96
+#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
+#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
+#: ../terminatorlib/encoding.py:96
 msgid "Western"
-msgstr "Länsimainen"
+msgstr "länsimainen"
 
-#: terminatorlib/encoding.py:31 terminatorlib/encoding.py:63
-#: terminatorlib/encoding.py:75 terminatorlib/encoding.py:94
+#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
+#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "Keski-Eurooppalainen"
+msgstr "keskieurooppalainen"
 
-#: terminatorlib/encoding.py:32
+#: ../terminatorlib/encoding.py:32
 msgid "South European"
-msgstr "Etelä-Eurooppa"
+msgstr "eteläeurooppalainen"
 
-#: terminatorlib/encoding.py:33 terminatorlib/encoding.py:41
-#: terminatorlib/encoding.py:101
+#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
+#: ../terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr "Balttilainen"
+msgstr "balttilainen"
 
-#: terminatorlib/encoding.py:34 terminatorlib/encoding.py:64
-#: terminatorlib/encoding.py:70 terminatorlib/encoding.py:72
-#: terminatorlib/encoding.py:77 terminatorlib/encoding.py:95
+#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr "Kyrillinen"
+msgstr "kyrillinen"
 
-#: terminatorlib/encoding.py:35 terminatorlib/encoding.py:67
-#: terminatorlib/encoding.py:74 terminatorlib/encoding.py:100
+#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
+#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr "Arabia"
+msgstr "arabialainen"
 
-#: terminatorlib/encoding.py:36 terminatorlib/encoding.py:80
-#: terminatorlib/encoding.py:97
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
+#: ../terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr "Kreikkalainen"
+msgstr "kreikkalainen"
 
-#: terminatorlib/encoding.py:37
+#: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr "Heprea näkyvä"
+msgstr "heprea, visuaalinen"
 
-#: terminatorlib/encoding.py:38 terminatorlib/encoding.py:66
-#: terminatorlib/encoding.py:83 terminatorlib/encoding.py:99
+#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
 msgid "Hebrew"
-msgstr "Heprea"
+msgstr "heprealainen"
 
-#: terminatorlib/encoding.py:39 terminatorlib/encoding.py:65
-#: terminatorlib/encoding.py:87 terminatorlib/encoding.py:98
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
+#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr "Turkki"
+msgstr "turkkilainen"
 
-#: terminatorlib/encoding.py:40
+#: ../terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr "Pohjoismainen"
+msgstr "pohjoismainen"
 
-#: terminatorlib/encoding.py:42
+#: ../terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr "Keltti"
+msgstr "kelttiläinen"
 
-#: terminatorlib/encoding.py:44 terminatorlib/encoding.py:86
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr "Romania"
+msgstr "romanialainen"
 
-#: terminatorlib/encoding.py:45 terminatorlib/encoding.py:46
-#: terminatorlib/encoding.py:47 terminatorlib/encoding.py:48
-#: terminatorlib/encoding.py:49
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
+#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
+#: ../terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "unicode"
 
-#: terminatorlib/encoding.py:50
+#: ../terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr "Armenia"
+msgstr "armenialainen"
 
-#: terminatorlib/encoding.py:51 terminatorlib/encoding.py:52
-#: terminatorlib/encoding.py:56
+#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
+#: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr "Kiina, perinteinen"
+msgstr "perinteinen kiina"
 
-#: terminatorlib/encoding.py:53
+#: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr "Kyrillinen, Venäjä"
+msgstr "kyrillinen/venäläinen"
 
-#: terminatorlib/encoding.py:54 terminatorlib/encoding.py:68
-#: terminatorlib/encoding.py:89
+#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
+#: ../terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr "Japani"
+msgstr "japanilainen"
 
-#: terminatorlib/encoding.py:55 terminatorlib/encoding.py:69
-#: terminatorlib/encoding.py:71 terminatorlib/encoding.py:92
+#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr "Korea"
+msgstr "korealainen"
 
-#: terminatorlib/encoding.py:57 terminatorlib/encoding.py:58
-#: terminatorlib/encoding.py:59 terminatorlib/encoding.py:61
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
 msgid "Chinese Simplified"
-msgstr "Yksinkertainen kiina"
+msgstr "Yksinkertaistettu kiina"
 
-#: terminatorlib/encoding.py:60
+#: ../terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr "Georgia"
+msgstr "georgialainen"
 
-#: terminatorlib/encoding.py:73 terminatorlib/encoding.py:88
+#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr "Kyrillinen, Ukraina"
+msgstr "kyrillinen/ukrainalainen"
 
-#: terminatorlib/encoding.py:76
+#: ../terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr "Kroatia"
+msgstr "kroatialainen"
 
-#: terminatorlib/encoding.py:78
+#: ../terminatorlib/encoding.py:78
 msgid "Hindi"
-msgstr "Hindi"
+msgstr "hindi"
 
-#: terminatorlib/encoding.py:79
+#: ../terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr "Persia"
+msgstr "persialainen"
 
-#: terminatorlib/encoding.py:81
+#: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
 msgstr "Gujarati"
 
-#: terminatorlib/encoding.py:82
+#: ../terminatorlib/encoding.py:82
 msgid "Gurmukhi"
-msgstr "Gurmukhi"
+msgstr "gurmukhi"
 
-#: terminatorlib/encoding.py:84
+#: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
-msgstr "Islanti"
+msgstr "islantilainen"
 
-#: terminatorlib/encoding.py:90 terminatorlib/encoding.py:93
-#: terminatorlib/encoding.py:102
+#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
+#: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
-msgstr "Vietnam"
+msgstr "vietnamilainen"
 
-#: terminatorlib/encoding.py:91
+#: ../terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr "Thai"
+msgstr "thaimaalainen"
 
-#: terminatorlib/terminator.py:52
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr "Nimi"
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr "Toiminto"
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr "Näppäinoikotie"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+"Pythonin työpöytäpalkin sidontoja ei löydy, hide_window ei ole käytettävissä."
+
+#: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Sulje välilehti"
 
-#: terminatorlib/terminator.py:157
-#, python-format
-msgid "Invalid geometry string %s"
-msgstr "Kelpaamaton geometriamerkkijono %s"
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "sarkain"
 
-#: terminatorlib/terminator.py:224
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr "Virheellinen geometria %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "hide_window-näppäintä ei voida sitoa"
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "ikkuna"
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "Sulje?"
 
-#: terminatorlib/terminator.py:230
-msgid "Close All _Terminals"
-msgstr "Sulje kaikki _päätteet"
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr "Sulje _Päätteet"
 
-#: terminatorlib/terminator.py:232
-msgid "<big><b>Close all terminals?</b></big>"
-msgstr "<big><b>Sulje kaikki päätteet?</b></big>"
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Suljetaanko useita päätteitä?</b></big>"
 
-#: terminatorlib/terminator.py:235
+#: ../terminatorlib/terminator.py:428
 #, python-format
 msgid ""
-"This window has %s terminals open.  Closing the window will also close all "
-"terminals."
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
 msgstr ""
-"Tässä ikkunassa on %s päätettä auki. Ikkunan sulkeminen sulkee myös kaikki "
+"Ohjelmalla %s on useita avoimia päätteitä. %s:n sulkeminen sulkee kaikki sen "
 "päätteet."
 
-#: terminatorlib/terminatorterm.py:39
+#: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
@@ -276,78 +307,128 @@ msgstr ""
 "Sinun pitää asentaa python-liitännäiset libvte:lle (\"python-vte\" "
 "Debianissa/Ubuntussa)"
 
-#: terminatorlib/terminatorterm.py:476
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Etsi:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Seuraava"
+
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
 msgstr "Komentotulkkia ei löydy"
 
-#: terminatorlib/terminatorterm.py:495
+#: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr "Komentotulkkia ei kyetä käynnistämään: "
 
-#: terminatorlib/terminatorterm.py:859
+#: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr "_Avaa linkki"
 
-#: terminatorlib/terminatorterm.py:860
+#: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
 msgstr "_Kopioi linkin osoite"
 
-#: terminatorlib/terminatorterm.py:870
+#: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
 msgstr "_Lähetä sähköposti..."
 
-#: terminatorlib/terminatorterm.py:871
+#: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
 msgstr "_Kopioi sähköpostiosoite"
 
-#: terminatorlib/terminatorterm.py:897
+#: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
-msgstr "Näytä _vierityspalkki"
+msgstr "Näytä _Vierityspalkki"
 
-#: terminatorlib/terminatorterm.py:902
+#: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
-msgstr "Näytä _otsikkopalkki"
+msgstr "Näytä _Otsikkopalkki"
 
-#: terminatorlib/terminatorterm.py:913
+#: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
-msgstr "Jaa _vaakasuunnassa"
+msgstr "Jaa _Vaakasuunnassa"
 
-#: terminatorlib/terminatorterm.py:914
+#: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
-msgstr "Jaa _pystysuunnassa"
+msgstr "Jaa _Pystysuunnassa"
 
-#: terminatorlib/terminatorterm.py:931
+#: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
-msgstr "Avaa v_älilehti"
+msgstr "Avaa v_Älilehti"
 
-#: terminatorlib/terminatorterm.py:936
+#: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
-msgstr "Avaa _vianjäljitysvälilehti"
+msgstr "Avaa _Vianjäljitysvälilehti"
 
-#: terminatorlib/terminatorterm.py:942
+#: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr "Avaa ylemmän tason välilehti"
 
-#: terminatorlib/terminatorterm.py:951
+#: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
 msgstr "_Kasvata pääte-näkymää"
 
-#: terminatorlib/terminatorterm.py:955
+#: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
 msgstr "S_uurenna pääte"
 
-#: terminatorlib/terminatorterm.py:960
+#: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
 msgstr "_Palauta pääte-näkymä"
 
-#: terminatorlib/terminatorterm.py:965
+#: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
 msgstr "Pala_uta pääte"
 
-#: terminatorlib/terminatorterm.py:989
+#: ../terminatorlib/terminatorterm.py:1148
+msgid "Ed_it profile"
+msgstr "Muokkaa profiilia"
+
+#: ../terminatorlib/terminatorterm.py:1155
+msgid "_Group"
+msgstr "_Ryhmä"
+
+#: ../terminatorlib/terminatorterm.py:1179
+msgid "None"
+msgstr "Ei mitään"
+
+#: ../terminatorlib/terminatorterm.py:1194
+msgid "_New group"
+msgstr "_Uusi ryhmä"
+
+#: ../terminatorlib/terminatorterm.py:1201
+msgid "_Group all"
+msgstr "_Ryhmitä kaikki"
+
+#: ../terminatorlib/terminatorterm.py:1206
+msgid "_Ungroup all"
+msgstr "_Pura ryhmä"
+
+#: ../terminatorlib/terminatorterm.py:1216
+msgid "Group name:"
+msgstr "Ryhmän nimi:"
+
+#: ../terminatorlib/terminatorterm.py:1262
+msgid "All"
+msgstr "Kaikki"
+
+#: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
 msgstr "Merkistöt"
 
-#: terminatorlib/terminatorterm.py:1007
+#: ../terminatorlib/terminatorterm.py:1300
 msgid "Other Encodings"
 msgstr "Muut merkistöt"
+
+#: ../data/terminator.desktop.in.h:1
+msgid "Multiple terminals in one window"
+msgstr "Useita päätteitä yhdessä ikkunassa"
+
+#: ../data/terminator.desktop.in.h:2
+msgid "Terminator"
+msgstr "Terminator"

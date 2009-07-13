@@ -20,19 +20,11 @@
 
 # import standard python libs
 import os, sys
+origcwd = os.getcwd()
 from optparse import OptionParser, SUPPRESS_HELP
 
+import terminatorlib.translation
 from terminatorlib.version import APP_NAME, APP_VERSION
-
-try:
-  import gettext
-  gettext.install (APP_NAME)
-except ImportError:
-  import __builtin__
-  def dummytrans (text):
-    """A _ function for systems without gettext. Effectively a NOOP"""
-    return text
-  __builtin__.__dict__['_'] = dummytrans
 
 from terminatorlib.config import dbg, err, debug
 import terminatorlib.config
@@ -88,6 +80,10 @@ if __name__ == '__main__':
       dest="fullscreen", help="Set the window into fullscreen mode")
   parser.add_option ("-b", "--borderless", action="store_true", 
       dest="borderless",       help="Turn off the window's borders")
+  parser.add_option("-H", "--hidden", action="store_true", dest="hidden", 
+      help="Open the %s window hidden"%APP_NAME.capitalize())
+  parser.add_option("-T", "--title", dest="forcedtitle",
+      help="Specify a title to use for the window")
   parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
       help="ignore gnome-terminal gconf settings")
   parser.add_option ("-p", "--profile", dest="profile", action="callback",
@@ -99,12 +95,14 @@ if __name__ == '__main__':
   parser.add_option ("-x", "--execute", dest="execute", action="callback",
       callback=execute_cb, help="Execute the remainder of the command line \
 inside the terminal")
+  parser.add_option ("--working-directory", metavar="DIR",
+      dest="working_directory", help="Set the terminal's working directory")
   for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
     parser.add_option (item, dest="dummy", action="store", help=SUPPRESS_HELP)
 
   (options, args) = parser.parse_args ()
   if len (args) != 0:
-    parser.error("Expecting zero additional arguments, found: %d" % len (args))
+    parser.error("Expecting zero additional arguments, found: %d: %s" % (len (args), args))
 
   if options.no_gconf and options.profile:
     parser.error("using --no-gconf and defining a profile at the same time \
@@ -117,6 +115,8 @@ does not make sense")
   if options.debug:
     terminatorlib.config.debug = True
 
+  dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
+
   command = None
   if (options.command):
     command = options.command
@@ -127,6 +127,13 @@ does not make sense")
     err (_("You need to run terminator in an X environment. " \
     "Make sure DISPLAY is properly set"))
     sys.exit(1)
+
+  if options.working_directory:
+      if os.path.exists (os.path.expanduser (options.working_directory)):
+        os.chdir (os.path.expanduser (options.working_directory))
+      else:
+        err (_("The working directory you specified does not exist."))
+        sys.exit (1)
 
   try:
     open (os.path.expanduser ('~/.config/terminator/config'))
@@ -153,8 +160,10 @@ See the following bug report for more details:
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, 
                      options.maximise, options.borderless, options.no_gconf, 
-                     options.geometry)
+                     options.geometry, options.hidden, options.forcedtitle)
 
+  term.origcwd = origcwd
+  
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver
     import threading

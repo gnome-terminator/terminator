@@ -1,4 +1,4 @@
-Terminator 0.12
+Terminator 0.13
 by Chris Jones <cmsj@tenshu.net> and others.
 
 The goal of this project is to produce a useful tool for arranging terminals. 
@@ -21,10 +21,11 @@ effect the splitting.
 
 Ctrl-Shift-n and Ctrl-Shift-p will Shift focus to the next/previous terminal 
 respectively, and Ctrl-Shift-w will close the current terminal and 
-Ctrl-Shift-q the current window
+Ctrl-Shift-q the current window.
 
 For more keyboard shortcuts and also the command line options, please see the
-manpage "terminator"
+manpage "terminator". For configuration options, see the manpage 
+"terminator_config".
 
 Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
@@ -44,4 +45,4 @@ I am thus licensing Terminator as GPL v2 only.
 
 Cristian Grada provided the old icon under the same licence.
 Cory Kontros provided the new icon under the CC-by-SA licence.
-
+For other authorship information, see debian/copyright

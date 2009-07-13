@@ -1,3 +1,3 @@
 #!/bin/sh
 # Make translation files
-xgettext -L python -o po/terminator.pot terminator terminatorlib/*.py
+intltool-update -g terminator -o terminator.pot -p
