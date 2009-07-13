@@ -1351,9 +1351,6 @@ text/plain
 
     self._do_encoding_items (menu)
         
-    item = gtk.MenuItem ()
-    menu.append (item)
-
     menu.show_all ()
     menu.popup (None, None, None, button, time)
 
