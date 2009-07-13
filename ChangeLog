@@ -1,3 +1,7 @@
+terminator 0.14:
+  * Major reworking of the grouping interface by Stephen
+	   Boddy
+
 terminator 0.13:
   * Bug fixes
   * Added a shortcut key to make the window appear/disappear
