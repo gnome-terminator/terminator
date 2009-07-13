@@ -1512,7 +1512,7 @@ text/plain
     
     # Populate the Combo with existing group names (None at the top)
     sel_combo = gtk.combo_box_new_text()
-    sel_combo.append_text("*No Group*")
+    sel_combo.append_text(_("Terminals with no group"))
     for grp in grplist:
       sel_combo.append_text(grp)
     sel_combo.set_sensitive(False)
