@@ -1255,14 +1255,6 @@ text/plain
     item.connect ("activate", lambda menu_item: self.paste_clipboard ())
     menu.append (item)
 
-    item = gtk.MenuItem (_("Enumerate"))
-    item.connect ("activate", lambda menu_item: self.do_enumerate ())
-    menu.append (item)
-
-    item = gtk.MenuItem (_("Enumerate with pad"))
-    item.connect ("activate", lambda menu_item: self.do_enumerate (pad=True))
-    menu.append (item)
-
     item = gtk.MenuItem ()
     menu.append (item)
 
@@ -1468,6 +1460,17 @@ text/plain
     item.connect ("toggled", lambda menu_item: self.do_autocleangroups_toggle ())
     widget.append (item)
 
+    item = gtk.MenuItem ()
+    widget.append (item)
+
+    item = gtk.MenuItem (_("Insert terminal number"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate ())
+    widget.append (item)
+
+    item = gtk.MenuItem (_("Insert padded terminal number"))
+    item.connect ("activate", lambda menu_item: self.do_enumerate (pad=True))
+    widget.append (item)
+ 
   def position_popup_group_menu(self, menu, widget):
     screen_w = gtk.gdk.screen_width()
     screen_h = gtk.gdk.screen_height()
