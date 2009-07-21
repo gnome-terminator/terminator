@@ -1381,7 +1381,7 @@ text/plain
       widget.append (groupitem)
 
       for group in self.terminator.groupings:
-        item = gtk.RadioMenuItem (groupitem, group)
+        item = gtk.RadioMenuItem (groupitem, group, False)
         item.set_active (self._group == group)
         item.connect ("toggled", self.set_group, group)
         widget.append (item)
