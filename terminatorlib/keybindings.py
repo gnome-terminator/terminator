@@ -71,7 +71,7 @@ class TerminatorKeybindings:
         bindings = (bindings,)
 
       for binding in bindings:
-        if binding is None:
+        if binding is None or binding == "None":
           continue
 
         try:

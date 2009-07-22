@@ -391,7 +391,7 @@ class ProfileEditor:
       mask = 0
       if isinstance (value, tuple):
         value = value[0]
-      if value is not None:
+      if value is not None and value != "None":
         (keyval, mask) = self.tkbobj._parsebinding (value)
       self.liststore.append ([binding, self.source_get_keyname (binding), keyval, mask, True])
       dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
@@ -418,6 +418,7 @@ class ProfileEditor:
     col.set_attributes(cell, accel_key=2, accel_mods=3, editable=4)
 
     cell.connect ('accel-edited', self.edited)
+    cell.connect ('accel-cleared', self.cleared)
 
     self.treeview.append_column(col)
 
@@ -429,3 +430,7 @@ class ProfileEditor:
   def edited (self, obj, path, key, mods, code):
     iter = self.liststore.get_iter_from_string(path)
     self.liststore.set(iter, 2, key, 3, mods)
+
+  def cleared (self, obj, path):
+    iter = self.liststore.get_iter_from_string(path)
+    self.liststore.set(iter, 2, 0, 3, 0)
