@@ -362,7 +362,7 @@ class ProfileEditor:
         value = value[0]
       keyval = 0
       mask = 0
-      if value is not None:
+      if value is not None and value != "None":
         (keyval, mask) = self.tkbobj._parsebinding(value)
       if (row[2], row[3]) != (keyval, mask):
         changed_keybindings.append ((row[0], accel))
