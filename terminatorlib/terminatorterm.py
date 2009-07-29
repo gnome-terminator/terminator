@@ -140,6 +140,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def set_foreground_color (self, color):
     """Set the foreground color of the titlebar"""
     self._title.modify_fg (gtk.STATE_NORMAL, color)
+    self._group.modify_fg (gtk.STATE_NORMAL, color)
 
   def set_from_icon_name (self, name, size = gtk.ICON_SIZE_MENU):
     """Set an icon for the group label"""
