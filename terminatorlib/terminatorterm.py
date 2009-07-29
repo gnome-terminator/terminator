@@ -1669,11 +1669,13 @@ text/plain
     self.add_group(allname)
     for term in self.terminator.term_list:
       term.set_group (None, allname)
+    self.on_vte_focus_in(self._vte, None)
     self.terminator.group_hoover ()
 
   def ungroup_all (self, widget):
     for term in self.terminator.term_list:
       term.set_group (None, None)
+    self.on_vte_focus_in(self._vte, None)
     self.terminator.group_hoover ()
 
   def find_all_terms_in_tab (self, notebook, pagenum=-1):
@@ -1709,6 +1711,7 @@ text/plain
     self.add_group(groupname)
     for term in terms:
       term.set_group(None, groupname)
+    self.on_vte_focus_in(self._vte, None)
     self.terminator.group_hoover()
 
   def ungroup_tab (self, widget):
@@ -1717,6 +1720,7 @@ text/plain
 
     for term in terms:
       term.set_group (None, None)
+    self.on_vte_focus_in(self._vte, None)
     self.terminator.group_hoover()
 
   def on_encoding_change (self, widget, encoding):
