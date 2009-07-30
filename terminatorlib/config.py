@@ -116,7 +116,7 @@ DEFAULTS = {
   'copy_on_selection'     : False,
   'close_button_on_tab'   : True,
   'tab_position'          : 'top',
-  'enable_real_transparency'  : False,
+  'enable_real_transparency'  : True,
   'title_tx_txt_color'    : '#FFFFFF',
   'title_tx_bg_color'     : '#C80003',
   'title_rx_txt_color'    : '#FFFFFF',
