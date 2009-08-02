@@ -38,7 +38,7 @@ rm -rf %{buildroot}
 %find_lang %{name}
 rm -f %{buildroot}/%{_datadir}/icons/hicolor/icon-theme.cache
 rm -f %{buildroot}/%{_datadir}/applications/%{name}.desktop
-desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name}.desktop
+desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name}.desktop --vendor=""
 
 
 %clean
