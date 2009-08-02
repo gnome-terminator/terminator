@@ -56,9 +56,10 @@ class TerminatorTermTitle (gtk.EventBox):
   _icon = None
   _parent = None
   _unzoomed_title = None
+  _terminal = None
   terminator = None
 
-  def __init__ (self, terminator, configwanted = False):
+  def __init__ (self, terminal, terminator, configwanted = False):
     gtk.EventBox.__init__ (self)
 
     self._title = gtk.Label ()
@@ -68,6 +69,7 @@ class TerminatorTermTitle (gtk.EventBox):
     self._grouphbox = gtk.HBox ()
     self._icon = gtk.Image ()
     self._hbox = gtk.HBox ()
+    self._terminal = terminal
 
     self.terminator = terminator
     if self.terminator.groupsend == 2:
@@ -85,8 +87,8 @@ class TerminatorTermTitle (gtk.EventBox):
     self._ebox.add (self._grouphbox)
     self._ebox.show_all ()
 
-    self._hbox.pack_start (self._ebox, False, True, 2)
-    self._hbox.pack_start (self._separator, False, True, 2)
+    self._hbox.pack_start (self._ebox, False, True, 0)
+    self._hbox.pack_start (self._separator, False, True, 0)
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
 
@@ -109,10 +111,9 @@ class TerminatorTermTitle (gtk.EventBox):
     if name:
       self._group.set_text (name)
       self._group.show ()
-      self._separator.show ()
     else:
       self._group.hide ()
-      self._separator.hide ()
+    self._separator.show ()
 
   def set_terminal_title (self, name):
     """Set the title text shown in the titlebar"""
@@ -132,16 +133,6 @@ class TerminatorTermTitle (gtk.EventBox):
     """Return the text showin in the titlebar"""
     return (self._termtext)
 
-  def set_background_color (self, color):
-    """Set the background color of the titlebar"""
-    self.modify_bg (gtk.STATE_NORMAL, color)
-    self._ebox.modify_bg (gtk.STATE_NORMAL, color)
-
-  def set_foreground_color (self, color):
-    """Set the foreground color of the titlebar"""
-    self._title.modify_fg (gtk.STATE_NORMAL, color)
-    self._group.modify_fg (gtk.STATE_NORMAL, color)
-
   def set_from_icon_name (self, name, size = gtk.ICON_SIZE_MENU):
     """Set an icon for the group label"""
     if not name:
@@ -150,6 +141,52 @@ class TerminatorTermTitle (gtk.EventBox):
 
     self._icon.set_from_icon_name (APP_NAME + name, size)
     self._icon.show ()
+    
+  def update_colors(self, source):
+    """Update terminals titlebar colours based on grouping"""
+    term = self._terminal
+    if term != source and term._group != None and term._group == source._group:
+      # Not active, group is not none, and in active's group
+      if self.terminator.groupsend == 0:
+        title_fg = term.conf.title_ia_txt_color
+        title_bg = term.conf.title_ia_bg_color
+        icon = '_receive_off'
+      else:
+        title_fg = term.conf.title_rx_txt_color
+        title_bg = term.conf.title_rx_bg_color
+        icon = '_receive_on'
+      group_fg = term.conf.title_rx_txt_color
+      group_bg = term.conf.title_rx_bg_color
+    elif term != source and term._group == None or term._group != source._group:
+      # Not active, group is not none, not in active's group
+      if self.terminator.groupsend == 2:
+        title_fg = term.conf.title_rx_txt_color
+        title_bg = term.conf.title_rx_bg_color
+        icon = '_receive_on'
+      else:
+        title_fg = term.conf.title_ia_txt_color
+        title_bg = term.conf.title_ia_bg_color
+        icon = '_receive_off'
+      group_fg = term.conf.title_ia_txt_color
+      group_bg = term.conf.title_ia_bg_color
+    else:
+      title_fg = term.conf.title_tx_txt_color
+      title_bg = term.conf.title_tx_bg_color
+      if self.terminator.groupsend == 2:
+        icon = '_active_broadcast_all'
+      elif self.terminator.groupsend == 1:
+        icon = '_active_broadcast_group'
+      else:
+        icon = '_active_broadcast_off'
+      group_fg = term.conf.title_tx_txt_color
+      group_bg = term.conf.title_tx_bg_color
+
+    self._title.modify_fg (gtk.STATE_NORMAL, gtk.gdk.color_parse (title_fg))
+    self._group.modify_fg (gtk.STATE_NORMAL, gtk.gdk.color_parse (group_fg))
+    self.modify_bg (gtk.STATE_NORMAL, gtk.gdk.color_parse (title_bg))
+    self._ebox.modify_bg (gtk.STATE_NORMAL, gtk.gdk.color_parse (group_bg))
+    self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)
+    return
 
   def update (self):
     """Update our state"""
@@ -221,7 +258,7 @@ class TerminatorTerm (gtk.VBox):
     self._termbox = gtk.HBox ()
     self._termbox.show()
     
-    self._titlebox = TerminatorTermTitle (self.terminator, self.conf.titlebars)
+    self._titlebox = TerminatorTermTitle (self, self.terminator, self.conf.titlebars)
 
     self._search_string = None
     self._searchbox = gtk.HBox()
@@ -1810,36 +1847,7 @@ text/plain
 
   def on_vte_focus_in(self, vte, event):
     for term in self.terminator.term_list:
-      idx = self.terminator.term_list.index(term)
-      if term != self and term._group != None and term._group == self._group:
-        # Not active, group is not none, and in active's group
-        if self.terminator.groupsend == 0:
-          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
-          term._titlebox.set_from_icon_name('_receive_off', gtk.ICON_SIZE_MENU)
-        else:
-          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
-          term._titlebox.set_from_icon_name('_receive_on', gtk.ICON_SIZE_MENU)
-      elif term != self and term._group == None or term._group != self._group:
-        # Not active, group is not none, not in active's group
-        if self.terminator.groupsend == 2:
-          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_rx_txt_color))
-          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_rx_bg_color))
-          term._titlebox.set_from_icon_name('_receive_on', gtk.ICON_SIZE_MENU)
-        else:
-          term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_ia_txt_color))
-          term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_ia_bg_color))
-          term._titlebox.set_from_icon_name('_receive_off', gtk.ICON_SIZE_MENU)
-      else:
-        term._titlebox.set_foreground_color(gtk.gdk.color_parse (self.conf.title_tx_txt_color))
-        term._titlebox.set_background_color(gtk.gdk.color_parse (self.conf.title_tx_bg_color))
-        if self.terminator.groupsend == 2:
-          term._titlebox.set_from_icon_name('_active_broadcast_all', gtk.ICON_SIZE_MENU)
-        elif self.terminator.groupsend == 1:
-          term._titlebox.set_from_icon_name('_active_broadcast_group', gtk.ICON_SIZE_MENU)
-        else:
-          term._titlebox.set_from_icon_name('_active_broadcast_off', gtk.ICON_SIZE_MENU)
+      term._titlebox.update_colors(self)
     return
 
   def on_vte_focus_out(self, vte, event):
