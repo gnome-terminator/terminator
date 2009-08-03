@@ -34,7 +34,7 @@ class TerminatorEncoding:
     [False, "ISO-8859-2", _("Central European")],
     [False, "ISO-8859-3", _("South European") ],
     [False, "ISO-8859-4", _("Baltic") ],
-    [False,"ISO-8859-5", _("Cyrillic") ],
+    [False, "ISO-8859-5", _("Cyrillic") ],
     [False, "ISO-8859-6", _("Arabic") ],
     [False, "ISO-8859-7", _("Greek") ],
     [False, "ISO-8859-8", _("Hebrew Visual") ],
