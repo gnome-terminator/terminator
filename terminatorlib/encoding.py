@@ -19,7 +19,7 @@
 
 TerminatorEncoding supplies a list of possible encoding
  values.
-This list is taken from gnome-terminal's src/encoding.h
+This list is taken from gnome-terminal's src/terminal-encoding.c
  and src/encoding.c
 """
 
@@ -28,6 +28,8 @@ from terminatorlib import translation
 class TerminatorEncoding:
   """Class to store encoding details"""
 
+# The commented out entries below are so marked because gnome-terminal has done
+#  the same.
   encodings = [
     [True, None, _("Current Locale")],
     [False, "ISO-8859-1", _("Western")],
@@ -45,11 +47,11 @@ class TerminatorEncoding:
     [False, "ISO-8859-14", _("Celtic") ],
     [False, "ISO-8859-15", _("Western") ],
     [False, "ISO-8859-16", _("Romanian") ],
-    [False, "UTF-7", _("Unicode") ],
+#    [False, "UTF-7", _("Unicode") ],
     [False, "UTF-8", _("Unicode") ],
-    [False, "UTF-16", _("Unicode") ],
-    [False, "UCS-2", _("Unicode") ],
-    [False, "UCS-4", _("Unicode") ],
+#    [False, "UTF-16", _("Unicode") ],
+#    [False, "UCS-2", _("Unicode") ],
+#    [False, "UCS-4", _("Unicode") ],
     [False, "ARMSCII-8", _("Armenian") ],
     [False, "BIG5", _("Chinese Traditional") ],
     [False, "BIG5-HKSCS", _("Chinese Traditional") ],
@@ -68,10 +70,10 @@ class TerminatorEncoding:
     [False, "IBM857", _("Turkish") ],
     [False, "IBM862", _("Hebrew") ],
     [False, "IBM864", _("Arabic") ],
-    [False, "ISO2022JP", _("Japanese") ],
-    [False, "ISO2022KR", _("Korean") ],
+    [False, "ISO-2022-JP", _("Japanese") ],
+    [False, "ISO-2022-KR", _("Korean") ],
     [False, "ISO-IR-111", _("Cyrillic") ],
-    [False, "JOHAB", _("Korean") ],
+#    [False, "JOHAB", _("Korean") ],
     [False, "KOI8-R", _("Cyrillic") ],
     [False, "KOI8-U", _("Cyrillic/Ukrainian") ],
     [False, "MAC_ARABIC", _("Arabic") ],
