@@ -1311,6 +1311,8 @@ text/plain
       item_image = gtk.Image ()
       item_image.set_from_icon_name (APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
       item.set_image (item_image)
+      if hasattr(item, "set_always_show_image"):
+        item.set_always_show_image (True)
 
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, False))
       menu.append (item)
@@ -1318,6 +1320,8 @@ text/plain
       item_image = gtk.Image ()
       item_image.set_from_icon_name (APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
       item.set_image (item_image)
+      if hasattr(item, "set_always_show_image"):
+        item.set_always_show_image (True)
 
       item.connect ("activate", lambda menu_item: self.terminator.splitaxis (self, True))
       menu.append (item)
