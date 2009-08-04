@@ -226,6 +226,8 @@ class TerminatorTerm (gtk.VBox):
   matches = None
   TARGET_TYPE_VTE = 8
   _custom_font_size = None
+  _custom_encoding = None
+  _default_encoding = None
   _group = None
   focus = None
   _urgent_bell_cnid = None
@@ -247,6 +249,7 @@ class TerminatorTerm (gtk.VBox):
 
     self._composited_support = True
     self._vte = vte.Terminal ()
+    self._default_encoding = self._vte.get_encoding()
     if not hasattr(self._vte, "set_opacity") or not hasattr(self._vte, "is_composited"):
       self._composited_support = False
     dbg ('H9TRANS: composited_support: %s' % self._composited_support)
@@ -732,6 +735,10 @@ text/plain
   def reconfigure_vte (self, widget = None):
     # Set our emulation
     self._vte.set_emulation (self.conf.emulation)
+
+    # Set our charset
+    if self._custom_encoding == False or self._custom_encoding == None:
+      self._vte.set_encoding (self.conf.encoding)
 
     # Set our wordchars
     self._vte.set_word_chars (self.conf.word_chars)
@@ -1763,7 +1770,11 @@ text/plain
   def on_encoding_change (self, widget, encoding):
     current = self._vte.get_encoding ()
     if current != encoding:
-      dbg ('Setting Encoding to: %s'%encoding)
+      dbg ('Setting Encoding to: %s' % encoding)
+      if encoding == self.conf.encoding:
+        self._custom_encoding = False
+      else:
+        self._custom_encoding = True
       self._vte.set_encoding (encoding)
       
   def _do_encoding_items (self, menu):
@@ -1772,17 +1783,31 @@ text/plain
     menu.append (item)
     submenu = gtk.Menu ()
     item.set_submenu (submenu)
+    encodings = TerminatorEncoding ().get_list ()
+    encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
     
     current_encoding = self._vte.get_encoding ()
     group = None
+
+    if current_encoding not in active_encodings:
+      active_encodings.insert (0, _(current_encoding))
+
     for encoding in active_encodings:
-      radioitem = gtk.RadioMenuItem (group, _(encoding))
-      if group is None:
-        group = radioitem
+      if encoding == self._default_encoding:
+        extratext = " (%s)" % _("Default")
+      elif encoding == current_encoding and self._custom_encoding == True:
+        extratext = " (%s)" % _("User defined")
+      else:
+        extratext = ""
+
+      radioitem = gtk.RadioMenuItem (group, _(encoding) + extratext)
         
       if encoding == current_encoding:
         radioitem.set_active (True)
       
+      if group is None:
+        group = radioitem
+
       radioitem.connect ('activate', self.on_encoding_change, encoding)
       submenu.append (radioitem)
       
@@ -1792,8 +1817,6 @@ text/plain
 
     submenu = gtk.Menu ()
     item.set_submenu (submenu)
-    encodings = TerminatorEncoding ().get_list ()
-    encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
     group = None
 
     for encoding in encodings:
