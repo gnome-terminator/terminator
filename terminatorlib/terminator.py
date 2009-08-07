@@ -361,11 +361,10 @@ class Terminator:
     term.spawn_child ()
     self.save_yourself ()
 
-    if hidden or self.conf.hidden:
-      self.hide()
-
     try:
       bindkey.tomboy_keybinder_bind(self.conf.keybindings['hide_window'],self.cbkeyCloak,term)
+      if hidden or self.conf.hidden:
+        self.hide()
     except:
       dbg (_("Unable to bind hide_window key"))
       pass
