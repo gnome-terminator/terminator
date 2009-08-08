@@ -25,7 +25,7 @@ import gobject, gtk, pango
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 from terminatorlib import config
-from config import dbg, err, debug
+from util import dbg, err, debug
 
 from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm

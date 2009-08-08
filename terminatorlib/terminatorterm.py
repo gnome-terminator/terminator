@@ -26,7 +26,7 @@ from terminatorlib.version import *
 
 # import our configuration loader
 from terminatorlib import config
-from terminatorlib.config import dbg, err, debug
+from terminatorlib.util import dbg, err, debug
 
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding

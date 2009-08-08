@@ -45,20 +45,7 @@ except ImportError:
   gconf = None
 
 from terminatorlib import translation
-
-# set this to true to enable debugging output
-# These should be moved somewhere better.
-debug = False
-
-def dbg (log = ""):
-  """Print a message if debugging is enabled"""
-  if debug:
-    print >> sys.stderr, log
-
-def err (log = ""):
-  """Print an error message"""
-  print >> sys.stderr, log
-
+from terminatorlib.util import dbg, err
 from terminatorlib.configfile import ConfigFile, ParsedWithErrors
 
 DEFAULTS = {

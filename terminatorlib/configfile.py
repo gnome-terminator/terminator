@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import re
-from terminatorlib.config import dbg, debug
+from terminatorlib.util import dbg
 from terminatorlib import translation
 
 def group(*choices): return '(' + '|'.join(choices) + ')'
