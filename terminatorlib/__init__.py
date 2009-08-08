@@ -17,3 +17,4 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
+from version import APP_NAME, APP_VERSION
