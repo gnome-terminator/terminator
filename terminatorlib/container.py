@@ -97,8 +97,4 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-if __name__ == '__main__':
-    CONTAINER = Container()
-    CONTAINER.zoom()
-
 # vim: set expandtab ts=4 sw=4:
