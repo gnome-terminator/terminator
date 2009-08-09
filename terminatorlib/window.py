@@ -8,7 +8,7 @@ pygtk.require('2.0')
 import gobject
 import gtk
 
-from util import debug, dbg, err
+from util import dbg, err
 
 from container import Container
 

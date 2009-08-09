@@ -19,7 +19,7 @@
 import sys
 
 # set this to true to enable debugging output
-DEBUG = False
+DEBUG = True
 
 def dbg (log = ""):
     """Print a message if debugging is enabled"""
