@@ -31,6 +31,8 @@ class Window(Container, gtk.Window):
         """Class initialiser"""
         Container.__init__(self, configobject)
         gtk.Window.__init__(self)
+        gobject.type_register(Window)
+        self.register_signals(Window)
 
         self.set_property('allow-shrink', True)
         self.register_callbacks()
@@ -112,6 +114,7 @@ class Window(Container, gtk.Window):
             self.set_colormap(colormap)
 
 CONFIG = {'fullscreen':False, 'maximised':False, 'borderless':False, 'enable_real_transparency':True, 'hidden':False}
+
 WINDOW = Window(CONFIG)
 WINDOW.show_all()
 gtk.main()

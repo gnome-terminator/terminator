@@ -3,9 +3,12 @@
 # GPL v2 only
 """container.py - classes necessary to contain Terminal widgets"""
 
+import gobject
+import gtk
+
 from util import debug, err
 
-class Container:
+class Container():
     """Base class for Terminator Containers"""
 
     immutable = None
@@ -17,10 +20,26 @@ class Container:
                     'zoomed' : 1,
                     'maximised' : 2 }
 
+    signals = [ {'name': 'group-hoover-needed',
+                 'flags': gobject.SIGNAL_RUN_LAST,
+                 'return_type': gobject.TYPE_BOOLEAN,
+                 'param_types': ()
+                 }
+              ]
+
     def __init__(self, configobject):
         """Class initialiser"""
         self.children = []
         self.config = configobject
+
+    def register_signals(self, object):
+        """Register gobject signals in a way that avoids multiple inheritance"""
+        for signal in self.signals:
+            gobject.signal_new(signal['name'],
+                               object,
+                               signal['flags'],
+                               signal['return_type'],
+                               signal['param_types'])
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
@@ -44,6 +63,10 @@ class Container:
         err('unsplit called from base class. This is a bug')
         return(False)
 
+    def remove(self, widget):
+        """Remove a widget from the container"""
+        err('remove called from base class. This is a bug')
+
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
         if self.state_zoomed != self.states_zoom['normal']:
@@ -52,7 +75,7 @@ class Container:
         if not self.remove(widget):
             return(False)
 
-        self.group_hoover()
+        self.emit('need_group_hoover')
         return(True)
 
     def closegroupterms(self, widget):
@@ -65,7 +88,7 @@ class Container:
             if term._group == widget._group and not self.remove(term):
                 all_closed = False
 
-        self.group_hoover()
+        self.emit('need_group_hoover')
         return(all_closed)
 
     def resizeterm(self, widget, keyname):
