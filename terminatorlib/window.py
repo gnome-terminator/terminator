@@ -26,6 +26,7 @@ class Window(Container, gtk.Window):
     title = None
     isfullscreen = None
     hidebound = None
+    hidefunc = None
 
     def __init__(self, configobject):
         """Class initialiser"""
@@ -45,13 +46,16 @@ class Window(Container, gtk.Window):
         self.connect('destroy', self.on_destroy_event)
         self.connect('window-state-event', self.on_window_state_changed)
 
-        self.hidebound = False
-        try:
-            self.couldbind = bindkey.tomboy_keybinder_bind(
-                self.config['keybindings']['hide_window'],
-                self.on_hide_window)
-        except KeyError:
+        # Attempt to grab a global hotkey for hiding the window.
+        # If we fail, we'll never hide the window, iconifying instead.
+        self.hidebound = bindkey.tomboy_keybinder_bind(
+            self.config['keybindings']['hide_window'],
+            self.on_hide_window)
+        if not self.hidebound:
             dbg('Unable to bind hide_window key, another instance has it.')
+            self.hidefunc = self.iconify
+        else:
+            self.hidefunc = self.hide
 
     def apply_config(self):
         """Apply various configuration options"""
