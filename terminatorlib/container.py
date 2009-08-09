@@ -4,11 +4,9 @@
 """container.py - classes necessary to contain Terminal widgets"""
 
 import gobject
-import gtk
 
-from util import debug, err
-
-class Container():
+# pylint: disable-msg=R0921
+class Container(object):
     """Base class for Terminator Containers"""
 
     immutable = None
@@ -32,14 +30,18 @@ class Container():
         self.children = []
         self.config = configobject
 
-    def register_signals(self, object):
+    def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
         for signal in self.signals:
             gobject.signal_new(signal['name'],
-                               object,
+                               widget,
                                signal['flags'],
                                signal['return_type'],
                                signal['param_types'])
+
+    def emit(self, signal):
+        """Emit a gobject signal"""
+        raise NotImplementedError('emit')
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
@@ -55,17 +57,15 @@ class Container():
 
     def split_axis(self, widget, vertical=True):
         """Default axis splitter. This should be implemented by subclasses"""
-        err('split_axis called from base class. This is a bug')
-        return(False)
+        raise NotImplementedError('split_axis')
 
     def unsplit(self, widget, keep=False):
         """Default unsplitter. This should be implemented by subclasses"""
-        err('unsplit called from base class. This is a bug')
-        return(False)
+        raise NotImplementedError('unsplit')
 
     def remove(self, widget):
         """Remove a widget from the container"""
-        err('remove called from base class. This is a bug')
+        raise NotImplementedError('remove')
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
@@ -78,22 +78,9 @@ class Container():
         self.emit('need_group_hoover')
         return(True)
 
-    def closegroupterms(self, widget):
-        """Handle the closure of a group of terminals"""
-        if self.state_zoomed != self.states_zoom['normal']:
-            self.unzoom(widget)
-
-        all_closed = True
-        for term in self.term_list[:]:
-            if term._group == widget._group and not self.remove(term):
-                all_closed = False
-
-        self.emit('need_group_hoover')
-        return(all_closed)
-
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
-        err('resizeterm called from base class. This is a bug')
+        raise NotImplementedError('resizeterm')
 
     def toggle_zoom(self, widget, fontscale = False):
         """Toggle the existing zoom state"""
@@ -104,10 +91,14 @@ class Container():
 
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""
-        err('zoom called from base class. This is a bug')
+        raise NotImplementedError('zoom')
 
     def unzoom(self, widget):
         """Unzoom a terminal"""
-        err('unzoom called from base class. This is a bug')
+        raise NotImplementedError('unzoom')
+
+if __name__ == '__main__':
+    CONTAINER = Container()
+    CONTAINER.zoom()
 
 # vim: set expandtab ts=4 sw=4:
