@@ -3,7 +3,7 @@
 # GPL v2 only
 """container.py - classes necessary to contain Terminal widgets"""
 
-from util import debug, dbg, err
+from util import debug, err
 
 class Container:
     """Base class for Terminator Containers"""
@@ -11,6 +11,11 @@ class Container:
     immutable = None
     children = None
     config = None
+    state_zoomed = None
+
+    states_zoom = { 'none' : 0,
+                    'zoomed' : 1,
+                    'maximised' : 2 }
 
     def __init__(self, configobject):
         """Class initialiser"""
@@ -31,6 +36,55 @@ class Container:
 
     def split_axis(self, widget, vertical=True):
         """Default axis splitter. This should be implemented by subclasses"""
-        dbg('split_axis called from base class. This is a bug')
+        err('split_axis called from base class. This is a bug')
         return(False)
 
+    def unsplit(self, widget, keep=False):
+        """Default unsplitter. This should be implemented by subclasses"""
+        err('unsplit called from base class. This is a bug')
+        return(False)
+
+    def closeterm(self, widget):
+        """Handle the closure of a terminal"""
+        if self.state_zoomed != self.states_zoom['normal']:
+            self.unzoom(widget)
+
+        if not self.remove(widget):
+            return(False)
+
+        self.group_hoover()
+        return(True)
+
+    def closegroupterms(self, widget):
+        """Handle the closure of a group of terminals"""
+        if self.state_zoomed != self.states_zoom['normal']:
+            self.unzoom(widget)
+
+        all_closed = True
+        for term in self.term_list[:]:
+            if term._group == widget._group and not self.remove(term):
+                all_closed = False
+
+        self.group_hoover()
+        return(all_closed)
+
+    def resizeterm(self, widget, keyname):
+        """Handle a keyboard event requesting a terminal resize"""
+        err('resizeterm called from base class. This is a bug')
+
+    def toggle_zoom(self, widget, fontscale = False):
+        """Toggle the existing zoom state"""
+        if self.state_zoomed != self.states_zoom['normal']:
+            self.unzoom(widget)
+        else:
+            self.zoom(widget, fontscale)
+
+    def zoom(self, widget, fontscale = False):
+        """Zoom a terminal"""
+        err('zoom called from base class. This is a bug')
+
+    def unzoom(self, widget):
+        """Unzoom a terminal"""
+        err('unzoom called from base class. This is a bug')
+
+# vim: set expandtab ts=4 sw=4:
