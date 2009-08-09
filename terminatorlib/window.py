@@ -7,9 +7,7 @@ import pygtk
 pygtk.require('2.0')
 import gobject
 import gtk
-import pango
 
-from version import APP_NAME, APP_VERSION
 from util import debug, dbg, err
 
 from container import Container
@@ -25,6 +23,7 @@ class Window(Container, gtk.Window):
 
     title = None
     isfullscreen = None
+    ismaximised = None
     hidebound = None
     hidefunc = None
 
@@ -48,9 +47,13 @@ class Window(Container, gtk.Window):
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
-        self.hidebound = bindkey.tomboy_keybinder_bind(
-            self.config['keybindings']['hide_window'],
-            self.on_hide_window)
+        try:
+            self.hidebound = bindkey.tomboy_keybinder_bind(
+                self.config['keybindings']['hide_window'],
+                self.on_hide_window)
+        except NameError:
+            pass
+
         if not self.hidebound:
             dbg('Unable to bind hide_window key, another instance has it.')
             self.hidefunc = self.iconify
@@ -69,45 +72,60 @@ class Window(Container, gtk.Window):
             self.set_iconified(self.config['hidden'])
 
     def on_key_press(self, window, event):
+        """Handle a keyboard event"""
         pass
 
     def on_delete_event(self, window, event, data=None):
+        """Handle a window close request"""
         pass
 
     def on_destroy_event(self, widget, data=None):
+        """Handle window descruction"""
+        pass
+
+    def on_hide_window(self, data):
+        """Handle a request to hide/show the window"""
         pass
 
     def on_window_state_changed(self, window, event):
+        """Handle the state of the window changing"""
         self.isfullscreen = bool(event.new_window_state & 
                                  gtk.gdk.WINDOW_STATE_FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  gtk.gdk.WINDOW_STATE_MAXIMIZED)
         dbg('window state changed: fullscreen %s, maximised %s' %
             (self.isfullscreen, self.ismaximised))
+
         return(False)
 
     def set_maximised(self, value):
+        """Set the maximised state of the window from the supplied value"""
         if value == True:
             self.maximize()
         else:
             self.unmaximize()
 
     def set_fullscreen(self, value):
+        """Set the fullscreen state of the window from the supplied value"""
         if value == True:
             self.fullscreen()
         else:
             self.unfullscreen()
 
     def set_borderless(self, value):
+        """Set the state of the window border from the supplied value"""
         self.set_decorated (not value)
 
     def set_hidden(self, value):
+        """Set the visibility of the window from the supplied value"""
         pass
 
     def set_iconified(self, value):
+        """Set the minimised state of the window from the value"""
         pass
 
     def set_real_transparency(self, value):
+        """Enable RGBA if supported on the current screen"""
         screen = self.get_screen()
         if value:
             colormap = screen.get_rgba_colormap()
@@ -117,7 +135,15 @@ class Window(Container, gtk.Window):
         if colormap:
             self.set_colormap(colormap)
 
-CONFIG = {'fullscreen':False, 'maximised':False, 'borderless':False, 'enable_real_transparency':True, 'hidden':False}
+# Temporary config object until that code is refactored
+CONFIG = {'fullscreen':False, 
+          'maximised':False, 
+          'borderless':False, 
+          'enable_real_transparency':True, 
+          'hidden':False,
+          'keybindings':{'hide_window': '<Super>a',
+                        }
+         }
 
 WINDOW = Window(CONFIG)
 WINDOW.show_all()
