@@ -6,11 +6,6 @@
 from util import dbg, err
 from version import APP_NAME, APP_VERSION
 
-_terminator = _Terminator()
-def Terminator():
-    """Return the instance"""
-    return(_terminator)
-
 class _Terminator(object):
     """master object for the application"""
 
@@ -25,9 +20,6 @@ class _Terminator(object):
 
         self.terminals = []
         self.groups = []
-
-        self.window = Window(self.config)
-        self.windowtitle = WindowTitle()
 
     def new_terminal(self):
         """Create and register a new terminal widget"""
@@ -58,5 +50,11 @@ class _Terminator(object):
 
             for group in todestroy:
                 self.groups.remove(group)
+
+
+_terminator = _Terminator()
+def Terminator():
+    """Return the instance"""
+    return(_terminator)
 
 # vim: set expandtab ts=4 sw=4:
