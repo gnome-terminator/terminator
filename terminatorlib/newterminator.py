@@ -3,8 +3,7 @@
 # GPL v2 only
 """terminator.py - class for the master Terminator singleton"""
 
-from util import dbg, err
-from version import APP_NAME, APP_VERSION
+from terminal import Terminal
 
 class _Terminator(object):
     """master object for the application"""
@@ -43,7 +42,7 @@ class _Terminator(object):
                     save = False
                     if terminal.group == group:
                         save = True
-                        break;
+                        break
 
                     if not save:
                         todestroy.append(group)
@@ -51,10 +50,9 @@ class _Terminator(object):
             for group in todestroy:
                 self.groups.remove(group)
 
-
-_terminator = _Terminator()
+TERMINATOR = _Terminator()
 def Terminator():
     """Return the instance"""
-    return(_terminator)
+    return(TERMINATOR)
 
 # vim: set expandtab ts=4 sw=4:
