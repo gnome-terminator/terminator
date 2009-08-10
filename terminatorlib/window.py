@@ -9,7 +9,7 @@ import gobject
 import gtk
 
 from util import dbg, err
-
+from version import APP_NAME
 from container import Container
 
 try:
@@ -35,6 +35,8 @@ class Window(Container, gtk.Window):
         self.register_signals(Window)
 
         self.set_property('allow-shrink', True)
+        self.apply_icon()
+
         self.register_callbacks()
         self.apply_config()
 
@@ -70,6 +72,18 @@ class Window(Container, gtk.Window):
             self.set_hidden(self.config['hidden'])
         else:
             self.set_iconified(self.config['hidden'])
+
+    def apply_icon(self):
+        """Set the window icon"""
+        icon_theme = gtk.IconTheme()
+
+        try:
+            icon = icon_theme.load_icon(APP_NAME, 48, 0)
+        except NameError:
+            dbg('Unable to load 48px Terminator icon')
+            icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+
+        self.set_icon(icon)
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
