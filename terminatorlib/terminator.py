@@ -22,53 +22,16 @@ import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
 
-from terminatorlib.version import APP_NAME, APP_VERSION
-
-from terminatorlib import config
+from version import APP_NAME, APP_VERSION
+import config
 from util import dbg, err, debug
 
-from terminatorlib.keybindings import TerminatorKeybindings
-from terminatorlib.terminatorterm import TerminatorTerm
-from terminatorlib.prefs_profile import ProfileEditor
-from terminatorlib import translation
+from keybindings import TerminatorKeybindings
+from terminatorterm import TerminatorTerm
+from prefs_profile import ProfileEditor
+import translation
 
-try:
-  import deskbar.core.keybinder as bindkey
-except:
-  dbg (_("Unable to find python bindings for deskbar, "\
-           "hide_window is not available."))
-  pass
-
-class TerminatorWindowTitle:
-  _window = None
-  text = None
-  _forced = False
-
-  def __init__ (self, window):
-    self._window = window
-
-  def set_title (self, newtext):
-    if not self._forced:
-      self.text = newtext
-      self.update ()
-
-  def force_title (self, newtext):
-    if newtext:
-      self.set_title (newtext)
-      self._forced = True
-    else:
-      self._forced = False
-
-  def update (self):
-    title = None
-
-    if self._forced:
-      title = self.text
-    else:
-      title = "%s" % self.text
-
-    self._window.set_title (title)
-    
+# FIXME: Move to notebook.py
 class TerminatorNotebookTabLabel(gtk.HBox):
   _terminator = None
   _notebook = None
