@@ -135,6 +135,44 @@ class Window(Container, gtk.Window):
         if colormap:
             self.set_colormap(colormap)
 
+class WindowTitle(object):
+    """Class to handle the setting of the window title"""
+
+    window = None
+    text = None
+    forced = None
+
+    def __init__(self, window):
+        """Class initialiser"""
+        self.window = window
+        self.forced = False
+
+    def set_title(self, newtext):
+        """Set the title"""
+        if not self.forced:
+            self.text = newtext
+            self.update()
+
+    def force_title(self, newtext):
+        """Force a specific title"""
+        if newtext:
+            self.set_title(newtext)
+            self.forced = True
+        else:
+            self.forced = False
+
+    def update(self):
+        """Update the title automatically"""
+        title = None
+
+        # FIXME: What the hell is this for?!
+        if self.forced:
+            title = self.text
+        else:
+            title = "%s" % self.text
+
+        self.window.set_title(title)
+
 # Temporary config object until that code is refactored
 CONFIG = {'fullscreen':False, 
           'maximised':False, 
@@ -146,6 +184,8 @@ CONFIG = {'fullscreen':False,
          }
 
 WINDOW = Window(CONFIG)
+WINDOWTITLE = WindowTitle(WINDOW)
+WINDOWTITLE.update()
 WINDOW.show_all()
 gtk.main()
 
