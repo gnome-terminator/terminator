@@ -11,6 +11,7 @@ import gtk
 from util import dbg, err
 from version import APP_NAME
 from container import Container
+from newterminator import Terminator
 
 try:
     import deskbar.core.keybinder as bindkey
@@ -21,6 +22,7 @@ except ImportError:
 class Window(Container, gtk.Window):
     """Class implementing a top-level Terminator window"""
 
+    terminator = None
     title = None
     isfullscreen = None
     ismaximised = None
@@ -29,6 +31,8 @@ class Window(Container, gtk.Window):
 
     def __init__(self, configobject):
         """Class initialiser"""
+        self.terminator = Terminator()
+
         Container.__init__(self, configobject)
         gtk.Window.__init__(self)
         gobject.type_register(Window)
@@ -39,6 +43,8 @@ class Window(Container, gtk.Window):
 
         self.register_callbacks()
         self.apply_config()
+
+        self.default_setup()
 
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
@@ -84,6 +90,15 @@ class Window(Container, gtk.Window):
             icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
         self.set_icon(icon)
+
+    def default_setup(self):
+        """Set up the default child widget"""
+        terminal = self.terminator.new_terminal()
+
+        self.add(terminal)
+        terminal.hide_titlebar()
+        self.show()
+        terminal.spawn_child()
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
@@ -196,11 +211,5 @@ CONFIG = {'fullscreen':False,
           'keybindings':{'hide_window': '<Super>a',
                         }
          }
-
-WINDOW = Window(CONFIG)
-WINDOWTITLE = WindowTitle(WINDOW)
-WINDOWTITLE.update()
-WINDOW.show_all()
-gtk.main()
 
 # vim: set expandtab ts=4 sw=4:
