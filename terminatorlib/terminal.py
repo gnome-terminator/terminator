@@ -4,7 +4,6 @@
 """terminal.py - classes necessary to provide Terminal widgets"""
 
 import sys
-
 import pygtk
 pygtk.require('2.0')
 import gobject
@@ -22,6 +21,8 @@ except ImportError:
     ERROR.run()
     sys.exit(1)
 
+from cwd import get_pid_cwd, get_default_cwd
+
 class Terminal(gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
 
@@ -32,5 +33,8 @@ class Terminal(gtk.VBox):
         gtk.VBox.__init__(self)
 
         self.vte = vte.Terminal()
+        self.vte.set_size(80, 24)
+        self.vte._expose_data = None
+        self.vte.show()
 
 # vim: set expandtab ts=4 sw=4:

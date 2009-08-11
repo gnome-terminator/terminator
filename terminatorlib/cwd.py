@@ -5,9 +5,16 @@
 
 import platform
 import os
+import pwd
 from util import dbg
 
-def get_pidcwd():
+def get_default_cwd():
+    """Determine a reasonable default cwd"""
+    cwd = os.getcwd()
+    if not os.path.exists(cwd) or not os.path.isdir(cwd):
+        cwd = pwd.getpwuid(os.getuid())[5]
+
+def get_pid_cwd():
     """Determine an appropriate cwd function for the OS we are running on"""
 
     func = lambda pid: None
