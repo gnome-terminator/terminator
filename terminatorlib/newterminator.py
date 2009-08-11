@@ -3,9 +3,10 @@
 # GPL v2 only
 """terminator.py - class for the master Terminator singleton"""
 
+from borg import Borg
 from terminal import Terminal
 
-class _Terminator(object):
+class Terminator(Borg):
     """master object for the application"""
 
     window = None
@@ -17,8 +18,16 @@ class _Terminator(object):
     def __init__(self):
         """Class initialiser"""
 
-        self.terminals = []
-        self.groups = []
+        Borg.__init__(self)
+        self.prepare_attributes()
+
+    def prepare_attributes(self):
+        """Initialise anything that isn't alread"""
+
+        if not self.terminals:
+            self.terminals = []
+        if not self.groups:
+            self.groups = []
 
     def new_terminal(self):
         """Create and register a new terminal widget"""
@@ -49,10 +58,5 @@ class _Terminator(object):
 
             for group in todestroy:
                 self.groups.remove(group)
-
-TERMINATOR = _Terminator()
-def Terminator():
-    """Return the instance"""
-    return(TERMINATOR)
 
 # vim: set expandtab ts=4 sw=4:

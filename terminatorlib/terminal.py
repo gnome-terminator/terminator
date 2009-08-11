@@ -22,8 +22,6 @@ except ImportError:
     error.run()
     sys.exit(1)
 
-from terminator import Terminator
-
 class Terminal(gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
 
