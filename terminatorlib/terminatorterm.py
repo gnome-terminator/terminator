@@ -30,7 +30,7 @@ from terminatorlib.config import dbg, err, debug
 
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
-
+from terminatorlib.terminatoreditablelabel import TerminatorEditableLabel
 # import translation support
 from terminatorlib import translation
 
@@ -62,7 +62,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def __init__ (self, terminal, terminator, configwanted = False):
     gtk.EventBox.__init__ (self)
 
-    self._title = gtk.Label ()
+    self._title = TerminatorEditableLabel()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
     self._ebox = gtk.EventBox ()
@@ -92,12 +92,12 @@ class TerminatorTermTitle (gtk.EventBox):
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
 
-    self._title.show ()
+    self._title.show_all ()
     self._hbox.show ()
 
     self.wanted = configwanted
 
-    self.connect ("button-release-event", self.on_clicked)
+    self.connect ("button-press-event", self.on_clicked)
 
   def connect_icon (self, func):
     self._ebox.connect ("button-release-event", func)
@@ -105,7 +105,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def on_clicked (self, widget, event):
     if self._parent is not None:
       self._parent._vte.grab_focus ()
-    
+
   def set_group_label (self, name):
     """If 'name' is None, hide the group name object, otherwise set it as the group label"""
     if name:
