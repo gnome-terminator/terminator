@@ -23,7 +23,6 @@ pygtk.require ("2.0")
 import gobject, gtk, pango
 
 from terminatorlib.version import APP_NAME, APP_VERSION
-
 from terminatorlib import config
 from config import dbg, err, debug
 
@@ -31,6 +30,8 @@ from terminatorlib.keybindings import TerminatorKeybindings
 from terminatorlib.terminatorterm import TerminatorTerm
 from terminatorlib.prefs_profile import ProfileEditor
 from terminatorlib import translation
+
+from terminatorlib.terminatoreditablelabel import TerminatorEditableLabel
 
 try:
   import deskbar.core.keybinder as bindkey
@@ -72,32 +73,24 @@ class TerminatorWindowTitle:
 class TerminatorNotebookTabLabel(gtk.HBox):
   _terminator = None
   _notebook = None
-  _label = None
   _icon = None
+  _label = None
   _button = None
-  _ebox = None
-  _autotitle = None
-  custom = None
     
   def __init__(self, title, notebook, terminator):
     gtk.HBox.__init__(self, False)
     self._notebook = notebook
     self._terminator = terminator
-    self.custom = False
     
-    self._label = gtk.Label(title)
+    self._label = TerminatorEditableLabel(title)
     self.update_angle()
 
-    self._ebox = gtk.EventBox ()
-    self._ebox.set_visible_window (False)
-    self._ebox.add (self._label)
-    self.pack_start(self._ebox, True, True)
+    self.pack_start(self._label, True, True)
 
     self._icon = gtk.Image()
     self._icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
     
     self.update_closebut()
-    self._ebox.connect ("button-press-event", self.on_click_title)
 
     self.show_all()
 
@@ -154,9 +147,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
         break
 
   def set_title(self, title, force=False):
-    self._autotitle = title
-    if not self.custom or force:
-      self._label.set_text(title)
+		self._label.set_text(title, force)
 
   def get_title(self):
     return self._label.get_text()
@@ -167,43 +158,6 @@ class TerminatorNotebookTabLabel(gtk.HBox):
   def width_request(self):
     return self.size_request()[0]
 
-  def on_click_title(self, widget, event):
-    if event.type == gtk.gdk._2BUTTON_PRESS and self._ebox in self.get_children ():
-      self.remove (self._ebox)
-      self._entry = gtk.Entry ()
-      self._entry.set_text (self._label.get_text ())
-      self._entry.show ()
-      self.pack_start (self._entry)
-      self.reorder_child (self._entry, 0)
-      self._notebook.connect ("switch-page", self.entry_to_label)
-      self._entry.connect ("activate", self.on_entry_activated)
-      self._entry.connect ("key-press-event", self.on_entry_keypress)
-      self._entry.grab_focus ()
-
-  def entry_to_label (self, widget, page, page_num):
-    if (self._entry):
-      self.remove (self._entry)
-      self.add (self._ebox)
-      self._entry = None
-      self.reorder_child (self._ebox, 0)
-      self._ebox.show_all ()
-
-  def on_entry_activated (self, widget):
-    entry = self._entry.get_text ()
-    label = self._label.get_text ()
-
-    if entry == '':
-      self.custom = False
-      self.set_title (self._autotitle)
-    elif entry != label:
-      self.custom = True
-      self.set_title (self._entry.get_text (), True)
-    self.entry_to_label (None, None, None)
-
-  def on_entry_keypress (self, widget, event):
-    key = gtk.gdk.keyval_name (event.keyval)
-    if key == 'Escape':
-      self.entry_to_label (None, None, None)
 
 class Terminator:
   options = None
