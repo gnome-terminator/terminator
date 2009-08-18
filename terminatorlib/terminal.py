@@ -14,7 +14,7 @@ from cwd import get_pid_cwd, get_default_cwd
 from util import dbg, err, gerr
 from config import Config
 from titlebar import Titlebar
-from searchbox import Searchbox
+from searchbar import Searchbar
 
 try:
     import vte
