@@ -23,7 +23,7 @@ This list is taken from gnome-terminal's src/terminal-encoding.c
  and src/encoding.c
 """
 
-from terminatorlib import translation
+from translation import _
 
 class TerminatorEncoding:
   """Class to store encoding details"""
