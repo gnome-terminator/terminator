@@ -21,11 +21,21 @@ import sys
 # set this to true to enable debugging output
 DEBUG = True
 
-def dbg (log = ""):
+def dbg(log = ""):
     """Print a message if debugging is enabled"""
     if DEBUG:
         print >> sys.stderr, log
 
-def err (log = ""):
+def err(log = ""):
     """Print an error message"""
     print >> sys.stderr, log
+
+def gerr(message = None):
+    """Display a graphical error. This should only be used for serious
+    errors as it will halt execution"""
+
+    import gtk
+    dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
+            gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message)
+    dialog.run()
+
