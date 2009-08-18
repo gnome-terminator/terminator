@@ -13,6 +13,8 @@ import pango
 from cwd import get_pid_cwd, get_default_cwd
 from util import dbg, err, gerr
 from config import Config
+from titlebar import Titlebar
+from searchbox import Searchbox
 
 try:
     import vte
@@ -24,8 +26,12 @@ class Terminal(gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
 
     vte = None
+    titlebar = None
+    searchbar = None
+
     matches = None
     config = None
+    default_encoding = None
 
     def __init__(self):
         """Class initialiser"""
@@ -38,8 +44,16 @@ class Terminal(gtk.VBox):
         self.vte.set_size(80, 24)
         self.vte._expose_data = None
         self.vte.show()
-
+        self.default_encoding = self.vte.get_encoding()
         self.update_url_matches(self.config['try_posix_regexp'])
+
+        self.titlebar = Titlebar()
+        self.searchbar = Searchbar()
+
+        self.show()
+        self.pack_start(self.titlebar, False)
+        self.pack_start(self.terminalbox)
+        self.pack_end(self.searchbar)
 
     def update_url_matches(self, posix = True):
         """Update the regexps used to match URLs"""
