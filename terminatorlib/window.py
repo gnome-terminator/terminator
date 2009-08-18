@@ -202,14 +202,4 @@ class WindowTitle(object):
 
         self.window.set_title(title)
 
-# Temporary config object until that code is refactored
-CONFIG = {'fullscreen':False, 
-          'maximised':False, 
-          'borderless':False, 
-          'enable_real_transparency':True, 
-          'hidden':False,
-          'keybindings':{'hide_window': '<Super>a',
-                        }
-         }
-
 # vim: set expandtab ts=4 sw=4:
