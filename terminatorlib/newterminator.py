@@ -22,7 +22,7 @@ class Terminator(Borg):
         self.prepare_attributes()
 
     def prepare_attributes(self):
-        """Initialise anything that isn't alread"""
+        """Initialise anything that isn't already"""
 
         if not self.terminals:
             self.terminals = []
