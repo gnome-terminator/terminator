@@ -13,6 +13,8 @@ def get_default_cwd():
     cwd = os.getcwd()
     if not os.path.exists(cwd) or not os.path.isdir(cwd):
         cwd = pwd.getpwuid(os.getuid())[5]
+    
+    return(cwd)
 
 def get_pid_cwd():
     """Determine an appropriate cwd function for the OS we are running on"""
