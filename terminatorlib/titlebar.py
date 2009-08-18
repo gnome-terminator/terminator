@@ -6,8 +6,7 @@
 import gtk
 import gobject
 
-from translation import _
-
+# pylint: disable-msg=R0904
 class Titlebar(gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
