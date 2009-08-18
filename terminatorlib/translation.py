@@ -20,16 +20,18 @@
 from version import APP_NAME
 from util import dbg
 
+_ = None
+
 try:
     import gettext
-    gettext.install(APP_NAME)
+    gettext.textdomain(APP_NAME)
+    _ = gettext.gettext
 except ImportError:
     dbg("Using fallback _()")
-    import __builtin__
 
     def dummytrans (text):
         """A _ function for systems without gettext. Effectively a NOOP"""
         return(text)
 
-    __builtin__.__dict__['_'] = dummytrans
+    _ = dummytrans
 
