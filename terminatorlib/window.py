@@ -19,6 +19,7 @@ except ImportError:
     err('Unable to find python bindings for deskbar, "hide_window" is not' \
             'available.')
 
+# pylint: disable-msg=R0904
 class Window(Container, gtk.Window):
     """Class implementing a top-level Terminator window"""
 
@@ -116,6 +117,7 @@ class Window(Container, gtk.Window):
         """Handle a request to hide/show the window"""
         pass
 
+    # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
         """Handle the state of the window changing"""
         self.isfullscreen = bool(event.new_window_state & 
