@@ -8,6 +8,7 @@ import gobject
 
 from translation import _
 
+# pylint: disable-msg=R0904
 class Searchbar(gtk.HBox):
     """Class implementing the Searchbar widget"""
 
@@ -66,6 +67,7 @@ class Searchbar(gtk.HBox):
 
         self.show()
 
+    # pylint: disable-msg=W0613
     def search_keypress(self, widget, event):
         """Handle keypress events"""
         key = gtk.gdk.keyval_name(event.keyval)
