@@ -12,8 +12,6 @@ class Searchbar(gtk.HBox):
     """Class implementing the Searchbar widget"""
 
     __gsignals__ = {
-        'key-press-event': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            ()),
         'do-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'next-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'end-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -69,8 +67,10 @@ class Searchbar(gtk.HBox):
         self.show()
 
     def search_keypress(self, widget, event):
-        """Trap and re-emit the key-press-event signal"""
-        self.emit('key-press-event', widget, event)
+        """Handle keypress events"""
+        key = gtk.gdk.keyval_name(event.keyval)
+        if key == 'Escape':
+            self.end_search()
 
     def do_search(self, widget):
         """Trap and re-emit the clicked signal"""
