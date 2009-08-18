@@ -382,7 +382,9 @@ class TerminatorTerm (gtk.VBox):
     elif match == self.matches['addr_only']:
       url = 'http://' + url
     elif match == self.matches['launchpad']:
-      url = 'https://bugs.launchpad.net/bugs/%s' % re.sub (r'[^0-9]+', '', url)
+      for item in re.findall(r'[0-9]+',url):
+        url = 'https://bugs.launchpad.net/bugs/%s' % item
+        return url
     
     return url
 
@@ -625,7 +627,8 @@ text/plain
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
       # if the url looks like a Launchpad changelog closure entry LP: #92953 - make it a url to http://bugs.launchpad.net
-      self.matches['launchpad'] = self._vte.match_add ('\\bLP:? #?[0-9]+\\b')
+      # the regular expression is similar to the perl one specified in the Ubuntu Policy Manual - /lp:\s+\#\d+(?:,\s*\#\d+)*/i
+      self.matches['launchpad'] = self._vte.match_add ('\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b')
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
