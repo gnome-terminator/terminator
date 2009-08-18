@@ -6,11 +6,8 @@
 import sys
 import pygtk
 pygtk.require('2.0')
-import gobject
 import gtk
-import pango
 
-from cwd import get_pid_cwd, get_default_cwd
 from util import dbg, err, gerr
 from config import Config
 from titlebar import Titlebar
@@ -22,6 +19,7 @@ except ImportError:
     gerr('You need to install python bindings for libvte')
     sys.exit(1)
 
+# pylint: disable-msg=R0904
 class Terminal(gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
 
@@ -97,9 +95,12 @@ class Terminal(gtk.VBox):
                     "(www|ftp)[" + hostchars + "]*\.[" + hostchars + 
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
             self.matches['email'] = self._vte.match_add (lboundry + 
-                    "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
+                    "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]\
+                            [a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+\
+                            [.a-zA-Z0-9-]*" + rboundry)
             self.matches['nntp'] = self._vte.match_add (lboundry + 
-                    '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+                    '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@\
+                            [-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
             # if the url looks like a Launchpad changelog closure entry 
             # LP: #92953 - make it a url to http://bugs.launchpad.net
             self.matches['launchpad'] = self._vte.match_add (
