@@ -17,16 +17,19 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-from terminatorlib.version import APP_NAME
+from version import APP_NAME
+from util import dbg
 
 try:
     import gettext
-    gettext.install (APP_NAME)
+    gettext.install(APP_NAME)
 except ImportError:
-    print "Using fallback _()"
+    dbg("Using fallback _()")
     import __builtin__
+
     def dummytrans (text):
-      """A _ function for systems without gettext. Effectively a NOOP"""
-      return text
+        """A _ function for systems without gettext. Effectively a NOOP"""
+        return(text)
+
     __builtin__.__dict__['_'] = dummytrans
 
