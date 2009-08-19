@@ -5,6 +5,8 @@
 
 import gobject
 
+from config import Config
+
 # pylint: disable-msg=R0921
 class Container(object):
     """Base class for Terminator Containers"""
@@ -25,10 +27,10 @@ class Container(object):
                  }
               ]
 
-    def __init__(self, configobject):
+    def __init__(self):
         """Class initialiser"""
         self.children = []
-        self.config = configobject
+        self.config = Config()
 
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
