@@ -3,6 +3,7 @@
 # GPL v2 only
 """terminal.py - classes necessary to provide Terminal widgets"""
 
+import pwd
 import sys
 import os
 import pygtk
@@ -121,15 +122,11 @@ class Terminal(gtk.VBox):
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
         if posix:
-            dbg ('update_url_matches: Trying POSIX URL regexps.  Set \
-                    try_posix_regexp = False in config to only try GNU \
-                    if you get (harmless) VTE warnings.')
+            dbg ('update_url_matches: Trying POSIX URL regexps')
             lboundry = "[[:<:]]"
             rboundry = "[[:>:]]"
         else: # GNU
-            dbg ('update_url_matches: Trying GNU URL regexps.  Set \
-                    try_posix_regexp = True in config if URLs are not \
-                    detected.')
+            dbg ('update_url_matches: Trying GNU URL regexps')
             lboundry = "\\<"
             rboundry = "\\>"
 
@@ -218,8 +215,9 @@ class Terminal(gtk.VBox):
             self.on_vte_notify_enter)
 
         self.vte.connect_after('realize', self.reconfigure)
+        self.vte.connect_after('realize', self.spawn_child)
 
-    def reconfigure(self):
+    def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         pass
 
@@ -227,11 +225,11 @@ class Terminal(gtk.VBox):
         """Handler for the group button"""
         pass
 
-    def on_keypress(self):
+    def on_keypress(self, vte, event):
         """Handler for keyboard events"""
         pass
 
-    def on_buttonpress(self):
+    def on_buttonpress(self, vte, event):
         """Handler for mouse events"""
         pass
     
@@ -239,40 +237,44 @@ class Terminal(gtk.VBox):
         """Display the context menu"""
         pass
 
-    def on_drag_begin(self):
+    def on_drag_begin(self, widget, drag_context, data):
         pass
 
-    def on_drag_data_get(self):
+    def on_drag_data_get(self, widget, drag_context, selection_data, info, time,
+            data):
         pass
 
-    def on_drag_motion(self):
+    def on_drag_motion(self, widget, drag_context, x, y, time, data):
         pass
 
-    def on_drag_data_received(self):
+    def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
+            info, time, data):
         pass
 
-    def on_vte_title_change(self):
+    def on_vte_title_change(self, vte):
         pass
 
-    def on_vte_focus(self):
+    def on_vte_focus(self, vte):
         pass
 
-    def on_vte_focus_out(self):
+    def on_vte_focus_out(self, vte, event):
         pass
 
-    def on_vte_focus_in(self):
+    def on_vte_focus_in(self, vte, event):
         pass
 
     def on_resize_window(self):
         pass
 
-    def on_vte_size_allocate(self):
+    def on_vte_size_allocate(self, widget, allocation):
+        self.titlebar.update_terminal_size(self.vte.get_column_count(),
+                self.vte.get_row_count())
         pass
 
-    def on_vte_notify_enter(self):
+    def on_vte_notify_enter(self, term, event):
         pass
 
-    def close_term(self):
+    def close_term(self, widget):
         self.emit('close-term')
 
     def hide_titlebar(self):
@@ -281,8 +283,85 @@ class Terminal(gtk.VBox):
     def show_titlebar(self):
         self.titlebar.show()
 
-    def spawn_child(self):
-        pass
+    def spawn_child(self, widget=None):
+        update_records = self.config['update_records']
+        login = self.config['login_shell']
+        args = []
+        shell = None
+        command = None
+
+        if self.config['use_custom_command']:
+            command = self.config['custom_command']
+
+        shell = self.shell_lookup()
+
+        if self.config['login_shell']:
+            args.insert(0, "-%s" % shell)
+        else:
+            args.insert(0, shell)
+
+        if command is not None:
+            args += ['-c', command]
+
+        if shell is None:
+            self.vte.feed(_('Unable to find a shell'))
+            return(-1)
+
+        os.putenv('WINDOWID', '%s' % self.vte.get_parent_window().xid)
+
+        self.pid = self.vte.fork_command(command=shell, argv=args, envv=[],
+                loglastlog=login, logwtmp=update_records,
+                logutmp=update_records, directory=self.cwd)
+
+        self.on_vte_title_change(self.vte)
+        self.titlebar.update()
+
+        if self.pid == -1:
+            self.vte.feed(_('Unable to start shell:') + shell)
+            return(-1)
+
+    def shell_lookup(self):
+        """Find an appropriate shell for the user"""
+        shells = [os.getenv('SHELL'), pwd.getpwuid(os.getuid())[6], 'bash',
+                'zsh', 'tcsh', 'ksh', 'csh', 'sh']
+
+        for shell in shells:
+            if shell is None: continue
+            elif os.path.isfile(shell):
+                return(shell)
+            else:
+                rshell = self.path_lookup(shell)
+                if rshell is not None:
+                    dbg('shell_lookup: Found %s at %s' % (shell, rshell))
+                    return(rshell)
+        dbg('shell_lookup: Unable to locate a shell')
+
+    def path_lookup(self, command):
+        if os.path.isabs(command):
+            if os.path.isfile(command):
+                return(command)
+            else:
+                return(None)
+        elif command[:2] == './' and os.path.isfile(command):
+            dbg('path_lookup: Relative filename %s found in cwd' % command)
+            return(command)
+
+        try:
+            paths = os.environ['PATH'].split(':')
+            if len(paths[0]) == 0: raise(ValueError)
+        except (ValueError, NameError):
+            dbg('path_lookup: PATH not set in environment, using fallbacks')
+            paths = ['/usr/local/bin', '/usr/bin', '/bin']
+
+        dbg('path_lookup: Using %d paths: %s', (len(paths), paths))
+
+        for path in paths:
+            target = os.path.join(path, command)
+            if os.path.isfile(target):
+                dbg('path_lookup: found %s' % target)
+                return(target)
+
+        dbg('path_lookup: Unable to locate %s' % command)
 
 gobject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
