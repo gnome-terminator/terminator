@@ -30,11 +30,11 @@ class Window(Container, gtk.Window):
     hidebound = None
     hidefunc = None
 
-    def __init__(self, configobject):
+    def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
 
-        Container.__init__(self, configobject)
+        Container.__init__(self)
         gtk.Window.__init__(self)
         gobject.type_register(Window)
         self.register_signals(Window)
@@ -72,7 +72,7 @@ class Window(Container, gtk.Window):
     def apply_config(self):
         """Apply various configuration options"""
         self.set_fullscreen(self.config['fullscreen'])
-        self.set_maximised(self.config['maximised'])
+        self.set_maximised(self.config['maximise'])
         self.set_borderless(self.config['borderless'])
         self.set_real_transparency(self.config['enable_real_transparency'])
         if self.hidebound:
