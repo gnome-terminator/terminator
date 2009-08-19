@@ -21,4 +21,8 @@ class Titlebar(gtk.EventBox):
         """Connect the supplied function to clicking on the group icon"""
         pass
 
+    def update_terminal_size(self, width, height):
+        """Update the displayed terminal size"""
+        pass
+
 gobject.type_register(Titlebar)
