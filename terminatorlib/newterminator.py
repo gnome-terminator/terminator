@@ -34,6 +34,7 @@ class Terminator(Borg):
 
         terminal = Terminal()
         self.terminals.append(terminal)
+        return(terminal)
 
     def reconfigure_terminals(self):
         """Tell all terminals to update their configuration"""
