@@ -25,7 +25,7 @@ class Searchbar(gtk.HBox):
     def __init__(self):
         """Class initialiser"""
         gtk.HBox.__init__(self)
-        self.__gobject__init()
+        self.__gobject_init__()
 
         # Search text
         self.entry = gtk.Entry()
