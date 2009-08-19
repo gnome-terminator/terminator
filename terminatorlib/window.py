@@ -45,8 +45,6 @@ class Window(Container, gtk.Window):
         self.register_callbacks()
         self.apply_config()
 
-        self.default_setup()
-
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
@@ -91,15 +89,6 @@ class Window(Container, gtk.Window):
             icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
         self.set_icon(icon)
-
-    def default_setup(self):
-        """Set up the default child widget"""
-        terminal = self.terminator.new_terminal()
-
-        self.add(terminal)
-        terminal.hide_titlebar()
-        self.show()
-        terminal.spawn_child()
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
