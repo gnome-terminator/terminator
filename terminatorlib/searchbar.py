@@ -65,7 +65,7 @@ class Searchbar(gtk.HBox):
         self.pack_start(self.next, False, False)
         self.pack_end(close, False, False)
 
-        self.show()
+        self.hide()
 
     # pylint: disable-msg=W0613
     def search_keypress(self, widget, event):
