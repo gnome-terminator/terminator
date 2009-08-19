@@ -13,8 +13,12 @@ class Titlebar(gtk.EventBox):
     def __init__(self):
         """Class initialiser"""
         gtk.EventBox.__init__(self)
-        self.__gobject__init()
+        self.__gobject_init__()
 
         self.show()
+
+    def connect_icon(self, func):
+        """Connect the supplied function to clicking on the group icon"""
+        pass
 
 gobject.type_register(Titlebar)
