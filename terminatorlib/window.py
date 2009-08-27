@@ -155,6 +155,16 @@ class Window(Container, gtk.Window):
         if colormap:
             self.set_colormap(colormap)
 
+    def add(self, widget):
+        """Add a widget to the window by way of gtk.Window.add()"""
+        widget.connect('close-term', self.closeterm)
+        gtk.Window.add(self, widget)
+
+    def remove(self, widget):
+        """Remove our child widget by way of gtk.Window.remove()"""
+        gtk.Window.remove(self, widget)
+        self.destroy()
+
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
 

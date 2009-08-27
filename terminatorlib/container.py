@@ -6,6 +6,7 @@
 import gobject
 
 from config import Config
+from util import dbg
 
 # pylint: disable-msg=R0921
 class Container(object):
@@ -31,6 +32,7 @@ class Container(object):
         """Class initialiser"""
         self.children = []
         self.config = Config()
+        self.state_zoomed = self.states_zoom['none']
 
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
@@ -65,13 +67,18 @@ class Container(object):
         """Default unsplitter. This should be implemented by subclasses"""
         raise NotImplementedError('unsplit')
 
+    def add(self, widget):
+        """Add a widget to the container"""
+        raise NotImplementedError('add')
+
     def remove(self, widget):
         """Remove a widget from the container"""
         raise NotImplementedError('remove')
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
-        if self.state_zoomed != self.states_zoom['normal']:
+        if self.state_zoomed != self.states_zoom['none']:
+            dbg('closeterm: current zoomed state is: %s' % self.state_zoomed)
             self.unzoom(widget)
 
         if not self.remove(widget):
@@ -86,7 +93,7 @@ class Container(object):
 
     def toggle_zoom(self, widget, fontscale = False):
         """Toggle the existing zoom state"""
-        if self.state_zoomed != self.states_zoom['normal']:
+        if self.state_zoomed != self.states_zoom['none']:
             self.unzoom(widget)
         else:
             self.zoom(widget, fontscale)
