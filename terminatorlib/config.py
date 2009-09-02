@@ -27,7 +27,6 @@ DEFAULTS = {
   'profile_dir'           : '/apps/gnome-terminal/profiles',
   'titlebars'             : True,
   'zoomedtitlebar'        : True,
-  'titletips'             : False,
   'allow_bold'            : True,
   'audible_bell'          : False,
   'visible_bell'          : True,
