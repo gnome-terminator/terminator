@@ -811,7 +811,7 @@ text/plain
     dbg ('H9TRANS: Configuring background type as: %s' % background_type)
 
     # set background image settings
-    if background_type == "image":
+    if background_type == "image" and self.conf.background_image is not None and self.conf.background_image != '':
       dbg ('H9TRANS: Setting background image to: %s' % self.conf.background_image)
       self._vte.set_background_image_file (self.conf.background_image)
       dbg ('H9TRANS: Setting background image scroll to: %s' % self.conf.scroll_background)
