@@ -30,7 +30,7 @@ from terminatorlib.util import dbg, err, debug
 
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
-
+from terminatorlib.terminatoreditablelabel import TerminatorEditableLabel
 # import translation support
 from terminatorlib import translation
 
@@ -62,7 +62,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def __init__ (self, terminal, terminator, configwanted = False):
     gtk.EventBox.__init__ (self)
 
-    self._title = gtk.Label ()
+    self._title = TerminatorEditableLabel()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
     self._ebox = gtk.EventBox ()
@@ -92,12 +92,12 @@ class TerminatorTermTitle (gtk.EventBox):
     self._hbox.pack_start (self._title, True, True)
     self.add (self._hbox)
 
-    self._title.show ()
+    self._title.show_all ()
     self._hbox.show ()
 
     self.wanted = configwanted
 
-    self.connect ("button-release-event", self.on_clicked)
+    self.connect ("button-press-event", self.on_clicked)
 
   def connect_icon (self, func):
     self._ebox.connect ("button-release-event", func)
@@ -105,7 +105,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def on_clicked (self, widget, event):
     if self._parent is not None:
       self._parent._vte.grab_focus ()
-    
+
   def set_group_label (self, name):
     """If 'name' is None, hide the group name object, otherwise set it as the group label"""
     if name:
@@ -382,7 +382,9 @@ class TerminatorTerm (gtk.VBox):
     elif match == self.matches['addr_only']:
       url = 'http://' + url
     elif match == self.matches['launchpad']:
-      url = 'https://bugs.launchpad.net/bugs/%s' % re.sub (r'[^0-9]+', '', url)
+      for item in re.findall(r'[0-9]+',url):
+        url = 'https://bugs.launchpad.net/bugs/%s' % item
+        return url
     
     return url
 
@@ -625,7 +627,8 @@ text/plain
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
       # if the url looks like a Launchpad changelog closure entry LP: #92953 - make it a url to http://bugs.launchpad.net
-      self.matches['launchpad'] = self._vte.match_add ('\\bLP:? #?[0-9]+\\b')
+      # the regular expression is similar to the perl one specified in the Ubuntu Policy Manual - /lp:\s+\#\d+(?:,\s*\#\d+)*/i
+      self.matches['launchpad'] = self._vte.match_add ('\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b')
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
@@ -808,7 +811,7 @@ text/plain
     dbg ('H9TRANS: Configuring background type as: %s' % background_type)
 
     # set background image settings
-    if background_type == "image":
+    if background_type == "image" and self.conf.background_image is not None and self.conf.background_image != '':
       dbg ('H9TRANS: Setting background image to: %s' % self.conf.background_image)
       self._vte.set_background_image_file (self.conf.background_image)
       dbg ('H9TRANS: Setting background image scroll to: %s' % self.conf.scroll_background)
