@@ -77,6 +77,8 @@ class Terminal(gtk.VBox):
 
         self.titlebar = Titlebar()
         self.titlebar.connect_icon(self.on_group_button_press)
+        self.connect('title-change', self.titlebar.set_terminal_title)
+
         self.searchbar = Searchbar()
 
         self.show()
@@ -259,18 +261,7 @@ class Terminal(gtk.VBox):
         pass
 
     def on_vte_title_change(self, vte):
-        title = self.get_window_title()
-        if title == self.titlebar.oldtitle:
-            # Title hasn't changed, don't do anything
-            return
-        self.titlebar.oldtitle = title
-
-        if self.config['titletips']:
-            vte.set_property('has-tooltip', True)
-            vte.set_property('tooltip-text', title)
-
-        self.titlebar.set_terminal_title(title)
-        self.emit('title-change', title)
+        self.emit('title-change', self.get_window_title())
 
     def on_vte_focus(self, vte):
         pass

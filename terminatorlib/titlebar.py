@@ -31,7 +31,7 @@ class Titlebar(gtk.EventBox):
         """Update the displayed terminal size"""
         pass
 
-    def set_terminal_title(self, title):
+    def set_terminal_title(self, widget, title):
         """Update the terminal title"""
         pass
 
