@@ -30,7 +30,7 @@ from terminatorlib.util import dbg, err, debug
 
 #import encoding list
 from terminatorlib.encoding import TerminatorEncoding
-from terminatorlib.terminatoreditablelabel import TerminatorEditableLabel
+from editablelabel import EditableLabel
 # import translation support
 from terminatorlib import translation
 
@@ -62,7 +62,7 @@ class TerminatorTermTitle (gtk.EventBox):
   def __init__ (self, terminal, terminator, configwanted = False):
     gtk.EventBox.__init__ (self)
 
-    self._title = TerminatorEditableLabel()
+    self._title = EditableLabel()
     self._group = gtk.Label ()
     self._separator = gtk.VSeparator ()
     self._ebox = gtk.EventBox ()

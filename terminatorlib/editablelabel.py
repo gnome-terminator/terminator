@@ -18,22 +18,23 @@
 #    , Boston, MA  02110-1301  USA
 
 # pylint: disable-msg=W0212
-''' Editable Label class'''
+""" Editable Label class"""
 import gtk
 
-class TerminatorEditableLabel( gtk.EventBox ):
-    '''
+class EditableLabel(gtk.EventBox):
+    """
     An eventbox that partialy emulate a gtk.Label
     On double-click, the label is editable, entering an empty will revert back to automatic text
-    '''
+    """
     _label = None
     _ebox = None
     _autotext = None
     _custom = None
     _entry = None
     _entry_handler_id = []
+
     def __init__(self, text = ""):
-        ''' Class initialiser'''
+        """ Class initialiser"""
         gtk.EventBox.__init__(self) 
         self._label = gtk.Label(text)
         self._custom = False
@@ -42,21 +43,21 @@ class TerminatorEditableLabel( gtk.EventBox ):
         self.connect ("button-press-event", self._on_click_text)
 
     def set_angle(self, angle ):
-        '''set angle of the label'''
+        """set angle of the label"""
         self._label.set_angle( angle )
  
     def set_text( self, text, force=False):
-        '''set the text of the label'''
+        """set the text of the label"""
         self._autotext = text
         if not self._custom or force:
             self._label.set_text(text) 
 
     def get_text( self ):
-        '''get the text from the label'''
+        """get the text from the label"""
         return self._label.get_text()
 
     def _on_click_text(self, widget, event):
-        '''event handling text edition'''
+        """event handling text edition"""
         if event.type == gtk.gdk._2BUTTON_PRESS :
             self.remove (self._label)
             self._entry = gtk.Entry ()
@@ -77,7 +78,7 @@ class TerminatorEditableLabel( gtk.EventBox ):
             return False
 
     def _entry_to_label (self, widget, event):
-        '''replace gtk.Entry by the gtk.Label'''
+        """replace gtk.Entry by the gtk.Label"""
         if self._entry and self._entry in self.get_children():
             #disconnect signals to avoid segfault :s
             for sig in self._entry_handler_id:
@@ -94,7 +95,7 @@ class TerminatorEditableLabel( gtk.EventBox ):
             return False
 
     def _on_entry_activated (self, widget):
-        '''get the text entered in gtk.Entry'''
+        """get the text entered in gtk.Entry"""
         entry = self._entry.get_text ()
         label = self._label.get_text ()
         if entry == '':
@@ -110,7 +111,7 @@ class TerminatorEditableLabel( gtk.EventBox ):
             return
 
     def _on_entry_keypress (self, widget, event):
-        '''handle keypressed in gtk.Entry'''
+        """handle keypressed in gtk.Entry"""
         key = gtk.gdk.keyval_name (event.keyval)
         if key == 'Escape':
             self._entry_to_label (None, None)

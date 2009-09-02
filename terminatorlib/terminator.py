@@ -29,7 +29,7 @@ from util import dbg, err, debug
 from keybindings import TerminatorKeybindings
 from terminatorterm import TerminatorTerm
 from prefs_profile import ProfileEditor
-from terminatoreditablelabel import TerminatorEditableLabel
+from editablelabel import EditableLabel
 import translation
 
 # FIXME: Move to notebook.py
@@ -45,7 +45,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
     self._notebook = notebook
     self._terminator = terminator
     
-    self._label = TerminatorEditableLabel(title)
+    self._label = EditableLabel(title)
     self.update_angle()
 
     self.pack_start(self._label, True, True)
