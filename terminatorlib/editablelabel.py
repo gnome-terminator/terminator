@@ -20,6 +20,7 @@
 # pylint: disable-msg=W0212
 """ Editable Label class"""
 import gtk
+import gobject
 
 class EditableLabel(gtk.EventBox):
     """
@@ -33,9 +34,15 @@ class EditableLabel(gtk.EventBox):
     _entry = None
     _entry_handler_id = []
 
+    __gsignals__ = {
+            'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+    }
+
     def __init__(self, text = ""):
         """ Class initialiser"""
         gtk.EventBox.__init__(self) 
+        self.__gobject_init__()
+
         self._label = gtk.Label(text)
         self._custom = False
         self.set_visible_window (False)
@@ -58,7 +65,7 @@ class EditableLabel(gtk.EventBox):
 
     def _on_click_text(self, widget, event):
         """event handling text edition"""
-        if event.type == gtk.gdk._2BUTTON_PRESS :
+        if event.type == gtk.gdk._2BUTTON_PRESS:
             self.remove (self._label)
             self._entry = gtk.Entry ()
             self._entry.set_text (self._label.get_text ())
@@ -89,6 +96,7 @@ class EditableLabel(gtk.EventBox):
             self.add (self._label)
             self._entry = None
             self.show_all ()
+            self.emit('edit-done')
             return True
         #make pylint happy
         if 1 or widget or event:
@@ -119,3 +127,4 @@ class EditableLabel(gtk.EventBox):
         if 1 or widget or event:
             return
 
+gobject.type_register(EditableLabel)
