@@ -4,7 +4,8 @@
 """terminator.py - class for the master Terminator singleton"""
 
 from borg import Borg
-from terminal import Terminal
+
+groupsend_type = {'all':0, 'group':1, 'off':2}
 
 class Terminator(Borg):
     """master object for the application"""
@@ -14,6 +15,7 @@ class Terminator(Borg):
     terminals = None
     groups = None
     config = None
+    groupsend = None
 
     def __init__(self):
         """Class initialiser"""
@@ -28,13 +30,13 @@ class Terminator(Borg):
             self.terminals = []
         if not self.groups:
             self.groups = []
+        if not self.groupsend:
+            self.groupsend = groupsend_type['group']
 
-    def new_terminal(self):
-        """Create and register a new terminal widget"""
+    def register_terminal(self, terminal):
+        """Register a new terminal widget"""
 
-        terminal = Terminal()
         self.terminals.append(terminal)
-        return(terminal)
 
     def reconfigure_terminals(self):
         """Tell all terminals to update their configuration"""

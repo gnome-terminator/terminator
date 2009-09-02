@@ -6,12 +6,15 @@
 import gtk
 import gobject
 
+from version import APP_NAME
+from newterminator import Terminator,groupsend_type
 from editablelabel import EditableLabel
 
 # pylint: disable-msg=R0904
 class Titlebar(gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
+    terminator = None
     oldtitle = None
     termtext = None
     sizetext = None
@@ -27,13 +30,22 @@ class Titlebar(gtk.EventBox):
         gtk.EventBox.__init__(self)
         self.__gobject_init__()
 
+        self.terminator = Terminator()
+
         self.label = EditableLabel()
         self.ebox = gtk.EventBox()
         self.grouphbox = gtk.HBox()
         self.grouplabel = gtk.Label()
         self.groupicon = gtk.Image()
 
-        # FIXME: How do we decide which icon to use?
+        if self.terminator.groupsend == groupsend_type['all']:
+            icon_name = 'all'
+        elif self.terminator.groupsend == groupsend_type['group']:
+            icon_name = 'group'
+        elif self.terminator.groupsend == groupsend_type['off']:
+            icon_name = 'off'
+        self.set_from_icon_name('_active_broadcast_%s' % icon_name, 
+                gtk.ICON_SIZE_MENU)
 
         self.grouphbox.pack_start(self.groupicon, False, True, 2)
         self.grouphbox.pack_start(self.grouplabel, False, True, 2)
@@ -55,6 +67,15 @@ class Titlebar(gtk.EventBox):
     def update(self):
         """Update our contents"""
         self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+
+    def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
+        """Set an icon for the group label"""
+        if not name:
+            self.groupicon.hide()
+            return
+        
+        self.groupicon.set_from_icon_name(APP_NAME + name, size)
+        self.groupicon.show()
 
     def update_terminal_size(self, width, height):
         """Update the displayed terminal size"""
