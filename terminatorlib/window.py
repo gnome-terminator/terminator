@@ -45,6 +45,9 @@ class Window(Container, gtk.Window):
         self.register_callbacks()
         self.apply_config()
 
+        self.title = WindowTitle(self)
+        self.title.update()
+
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
@@ -158,6 +161,7 @@ class Window(Container, gtk.Window):
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""
         widget.connect('close-term', self.closeterm)
+        widget.connect('title-change', self.title.set_title)
         gtk.Window.add(self, widget)
 
     def remove(self, widget):
@@ -177,10 +181,10 @@ class WindowTitle(object):
         self.window = window
         self.forced = False
 
-    def set_title(self, newtext):
+    def set_title(self, widget, text):
         """Set the title"""
         if not self.forced:
-            self.text = newtext
+            self.text = text
             self.update()
 
     def force_title(self, newtext):

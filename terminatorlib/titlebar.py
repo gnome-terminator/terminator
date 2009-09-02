@@ -10,6 +10,8 @@ import gobject
 class Titlebar(gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
+    oldtitle = None
+
     def __init__(self):
         """Class initialiser"""
         gtk.EventBox.__init__(self)
@@ -27,6 +29,10 @@ class Titlebar(gtk.EventBox):
 
     def update_terminal_size(self, width, height):
         """Update the displayed terminal size"""
+        pass
+
+    def set_terminal_title(self, title):
+        """Update the terminal title"""
         pass
 
 gobject.type_register(Titlebar)

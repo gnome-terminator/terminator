@@ -29,6 +29,8 @@ class Terminal(gtk.VBox):
 
     __gsignals__ = {
         'close-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'title-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_STRING,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -39,6 +41,7 @@ class Terminal(gtk.VBox):
     searchbar = None
 
     cwd = None
+    command = None
     clipboard = None
 
     matches = None
@@ -221,6 +224,10 @@ class Terminal(gtk.VBox):
         """Reconfigure our settings"""
         pass
 
+    def get_window_title(self):
+        """Return the window title"""
+        return(self.vte.get_window_title() or str(self.command))
+
     def on_group_button_press(self):
         """Handler for the group button"""
         pass
@@ -252,7 +259,18 @@ class Terminal(gtk.VBox):
         pass
 
     def on_vte_title_change(self, vte):
-        pass
+        title = self.get_window_title()
+        if title == self.titlebar.oldtitle:
+            # Title hasn't changed, don't do anything
+            return
+        self.titlebar.oldtitle = title
+
+        if self.config['titletips']:
+            vte.set_property('has-tooltip', True)
+            vte.set_property('tooltip-text', title)
+
+        self.titlebar.set_terminal_title(title)
+        self.emit('title-change', title)
 
     def on_vte_focus(self, vte):
         pass
@@ -312,6 +330,7 @@ class Terminal(gtk.VBox):
         self.pid = self.vte.fork_command(command=shell, argv=args, envv=[],
                 loglastlog=login, logwtmp=update_records,
                 logutmp=update_records, directory=self.cwd)
+        self.command = shell
 
         self.on_vte_title_change(self.vte)
         self.titlebar.update()
