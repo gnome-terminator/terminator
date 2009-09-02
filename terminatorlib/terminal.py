@@ -16,6 +16,7 @@ from config import Config
 from cwd import get_default_cwd
 from titlebar import Titlebar
 from searchbar import Searchbar
+from translation import _
 
 try:
     import vte
@@ -77,6 +78,7 @@ class Terminal(gtk.VBox):
 
         self.titlebar = Titlebar()
         self.titlebar.connect_icon(self.on_group_button_press)
+        self.titlebar.connect('edit-done', self.on_edit_done)
         self.connect('title-change', self.titlebar.set_terminal_title)
 
         self.searchbar = Searchbar()
@@ -222,6 +224,56 @@ class Terminal(gtk.VBox):
         self.vte.connect_after('realize', self.reconfigure)
         self.vte.connect_after('realize', self.spawn_child)
 
+    def create_popup_group_menu(self, widget, event = None):
+        """Pop up a menu for the group widget"""
+        if event:
+            button = event.button
+            time = event.time
+        else:
+            button = 0
+            time = 0
+
+        menu = self.populate_group_menu()
+        menu.show_all()
+        menu.popup(None, None, self.position_popup_group_menu, button, time,
+                widget)
+        return(True)
+
+    def populate_group_menu(self):
+        """Fill out a group menu"""
+        menu = gtk.Menu()
+        groupitem = None
+
+        item = gtk.MenuItem(_('Assign to group...'))
+        item.connect('activate', self.create_group)
+        menu.append(item)
+        
+        #FIXME: Add the rest of the menu
+
+        return(menu)
+
+    def position_popup_group_menu(self, menu, widget):
+        """Calculate the position of the group popup menu"""
+        screen_w = gtk.gdk.screen_width()
+        screen_h = gtk.gdk.screen_height()
+
+        widget_win = widget.get_window()
+        widget_x, widget_y = widget_win.get_origin()
+        widget_w, widget_h = widget_win.get_size()
+
+        menu_w, menu_h = menu.size_request()
+
+        if widget_y + widget_h + menu_h > screen_h:
+            menu_y = max(widget_y - menu_h, 0)
+        else:
+            menu_y = widget_y + widget_h
+
+        return(widget_x, menu_y, 1)
+
+    def create_group(self, item):
+        """Create a new group"""
+        pass
+
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         pass
@@ -230,9 +282,11 @@ class Terminal(gtk.VBox):
         """Return the window title"""
         return(self.vte.get_window_title() or str(self.command))
 
-    def on_group_button_press(self):
+    def on_group_button_press(self, widget, event):
         """Handler for the group button"""
-        pass
+        if event.button == 1:
+            self.create_popup_group_menu(widget, event)
+        return(False)
 
     def on_keypress(self, vte, event):
         """Handler for keyboard events"""
@@ -271,6 +325,10 @@ class Terminal(gtk.VBox):
 
     def on_vte_focus_in(self, vte, event):
         pass
+
+    def on_edit_done(self, widget):
+        """A child widget is done editing a label, return focus to VTE"""
+        self.vte.grab_focus()
 
     def on_resize_window(self):
         pass

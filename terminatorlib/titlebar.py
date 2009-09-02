@@ -25,6 +25,11 @@ class Titlebar(gtk.EventBox):
     groupicon = None
     grouplabel = None
 
+    __gsignals__ = {
+            'clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+            'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+    }
+
     def __init__(self):
         """Class initialiser"""
         gtk.EventBox.__init__(self)
@@ -33,6 +38,7 @@ class Titlebar(gtk.EventBox):
         self.terminator = Terminator()
 
         self.label = EditableLabel()
+        self.label.connect('edit-done', self.on_edit_done)
         self.ebox = gtk.EventBox()
         self.grouphbox = gtk.HBox()
         self.grouplabel = gtk.Label()
@@ -60,9 +66,11 @@ class Titlebar(gtk.EventBox):
         self.add(self.hbox)
         self.show_all()
 
+        self.connect('button-press-event', self.on_clicked)
+
     def connect_icon(self, func):
         """Connect the supplied function to clicking on the group icon"""
-        pass
+        self.ebox.connect('button-release-event', func)
 
     def update(self):
         """Update our contents"""
@@ -97,6 +105,10 @@ class Titlebar(gtk.EventBox):
 
     def on_clicked(self, widget, event):
         """Handle a click on the label"""
-        pass
+        self.emit('clicked')
+
+    def on_edit_done(self, widget):
+        """Re-emit an edit-done signal from an EditableLabel"""
+        self.emit('edit-done')
 
 gobject.type_register(Titlebar)
