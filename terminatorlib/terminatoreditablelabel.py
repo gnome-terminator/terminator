@@ -31,10 +31,11 @@ class TerminatorEditableLabel( gtk.EventBox ):
     _autotext = None
     _custom = None
     _entry = None
-    _entry_handler_id = []
+    _entry_handler_id = None
     def __init__(self, text = ""):
         ''' Class initialiser'''
         gtk.EventBox.__init__(self) 
+        self._entry_handler_id = []
         self._label = gtk.Label(text)
         self._custom = False
         self.set_visible_window (False)
