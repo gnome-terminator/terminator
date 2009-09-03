@@ -7,10 +7,11 @@ import gtk
 import gobject
 
 from version import APP_NAME
-from newterminator import Terminator,groupsend_type
+from newterminator import Terminator, groupsend_type
 from editablelabel import EditableLabel
 
 # pylint: disable-msg=R0904
+# pylint: disable-msg=W0613
 class Titlebar(gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
