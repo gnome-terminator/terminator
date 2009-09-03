@@ -7,7 +7,7 @@ import gtk
 import gobject
 
 from version import APP_NAME
-from newterminator import Terminator, groupsend_type
+from newterminator import Terminator
 from editablelabel import EditableLabel
 
 # pylint: disable-msg=R0904
@@ -45,6 +45,7 @@ class Titlebar(gtk.EventBox):
         self.grouplabel = gtk.Label()
         self.groupicon = gtk.Image()
 
+        groupsend_type = self.terminator.groupsend_type
         if self.terminator.groupsend == groupsend_type['all']:
             icon_name = 'all'
         elif self.terminator.groupsend == groupsend_type['group']:
