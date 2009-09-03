@@ -32,7 +32,7 @@ class EditableLabel(gtk.EventBox):
     _autotext = None
     _custom = None
     _entry = None
-    _entry_handler_id = []
+    _entry_handler_id = None
 
     __gsignals__ = {
             'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -43,6 +43,7 @@ class EditableLabel(gtk.EventBox):
         gtk.EventBox.__init__(self) 
         self.__gobject_init__()
 
+        self._entry_handler_id = []
         self._label = gtk.Label(text)
         self._custom = False
         self.set_visible_window (False)
