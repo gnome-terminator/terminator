@@ -294,9 +294,28 @@ class Terminal(gtk.VBox):
 
     def on_buttonpress(self, vte, event):
         """Handler for mouse events"""
-        pass
+        # Any button event should grab focus
+        self.vte.grab_focus()
+
+        if event.button == 1:
+            # Ctrl+leftclick on a URL should open it
+            if event.state & gtk.gdk.CONTROL_MASK == gtk.gdk.CONTROL_MASK:
+                url = self.check_for_url(event)
+                if url:
+                    self.open_url(url, prepare=True)
+        elif event.button == 2:
+            # middleclick should paste the clipboard
+            self.paste_clipboard(True)
+            return(True)
+        elif event.button == 3:
+            # rightclick should display a context menu if Ctrl is not pressed
+            if event.state & gtk.gdk.CONTROL_MASK == 0:
+                self.popup_menu(self.vte, event)
+                return(True)
+
+        return(False)
     
-    def popup_menu(self):
+    def popup_menu(self, widget, event=None):
         """Display the context menu"""
         pass
 
@@ -431,5 +450,22 @@ class Terminal(gtk.VBox):
 
         dbg('path_lookup: Unable to locate %s' % command)
 
+    def check_for_url(self, event):
+        """Check if the mouse is over a URL"""
+        return (self.vte.match_check(int(event.x / self.vte.get_char_width()),
+            int(event.y / self.vte.get_char_height())))
+
+    def open_url(self, url, prepare=False):
+        """Open a given URL, conditionally preparing it"""
+        pass
+
+    def paste_clipboard(self, primary=False):
+        """Paste one of the two clipboards"""
+        # FIXME: Make this work across a group
+        if primary:
+            self.vte.paste_primary()
+        else:
+            self.vte.paste_clipboard()
+        self.vte.grab_focus()
 gobject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
