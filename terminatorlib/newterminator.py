@@ -5,7 +5,6 @@
 
 from borg import Borg
 
-
 class Terminator(Borg):
     """master object for the application"""
 
@@ -14,6 +13,9 @@ class Terminator(Borg):
     terminals = None
     groups = None
     config = None
+
+    splittogroup = None
+    autocleangroups = None
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
 
@@ -32,6 +34,10 @@ class Terminator(Borg):
             self.groups = []
         if not self.groupsend:
             self.groupsend = self.groupsend_type['group']
+        if not self.splittogroup:
+            self.splittogroup = False
+        if not self.autocleangroups:
+            self.autocleangroups = True
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
