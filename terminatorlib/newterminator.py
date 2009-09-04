@@ -68,4 +68,29 @@ class Terminator(Borg):
             for group in todestroy:
                 self.groups.remove(group)
 
+    def do_enumerate(self, widget, pad):
+        """Insert the number of each terminal in a group, into that terminal"""
+        if pad:
+            numstr='%0'+str(len(str(len(self.terminals))))+'d'
+        else:
+            numstr='%d'
+
+        for term in self.get_target_terms(widget):
+            idx = self.terminals.index(term)
+            term.feed(numstr % (idx + 1))
+
+    def get_target_terms(self, widget):
+        """Get the terminals we should currently be broadcasting to"""
+        if self.groupsend == self.groupsend_type['all']:
+            return(self.terminals)
+        elif self.groupsend == self.groupsend_type['group']:
+            set = []
+            for term in self.terminals:
+                if term == widget or (term.group != None and term.group ==
+                        widget.group):
+                    set.append(term)
+            return(set)
+        else:
+            return([widget])
+
 # vim: set expandtab ts=4 sw=4:

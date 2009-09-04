@@ -33,6 +33,8 @@ class Terminal(gtk.VBox):
         'close-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'title-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
+        'enumerate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_INT,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -60,6 +62,8 @@ class Terminal(gtk.VBox):
         self.__gobject_init__()
 
         self.terminator = Terminator()
+        self.connect('enumerate', self.terminator.do_enumerate)
+
         self.matches = {}
 
         self.config = Config()
@@ -318,11 +322,11 @@ class Terminal(gtk.VBox):
         menu.append(gtk.MenuItem())
 
         item = gtk.MenuItem(_('Insert terminal number'))
-        item.connect('activate', lambda menu_item: self.do_enumerate())
+        item.connect('activate', lambda menu_item: self.emit('enumerate', False))
         menu.append(item)
 
         item = gtk.MenuItem(_('Insert padded terminal number'))
-        item.connect('activate', lambda menu_item: self.do_enumerate(pad=True))
+        item.connect('activate', lambda menu_item: self.emit('enumerate', True))
         menu.append(item)
 
         return(menu)
@@ -581,12 +585,16 @@ class Terminal(gtk.VBox):
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
-        # FIXME: Make this work across a group
-        if primary:
-            self.vte.paste_primary()
-        else:
-            self.vte.paste_clipboard()
+        for term in self.terminator.get_target_terms():
+            if primary:
+                term.vte.paste_primary()
+            else:
+                term.vte.paste_clipboard()
         self.vte.grab_focus()
+
+    def feed(self, text):
+        """Feed the supplied text to VTE"""
+        self.vte.feed_child(text)
 
 gobject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
