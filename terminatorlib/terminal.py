@@ -14,6 +14,7 @@ import gobject
 from util import dbg, err, gerr
 from config import Config
 from cwd import get_default_cwd
+from newterminator import Terminator
 from titlebar import Titlebar
 from searchbar import Searchbar
 from translation import _
@@ -36,11 +37,13 @@ class Terminal(gtk.VBox):
 
     TARGET_TYPE_VTE = 8
 
+    terminator = None
     vte = None
     terminalbox = None
     titlebar = None
     searchbar = None
 
+    group = None
     cwd = None
     command = None
     clipboard = None
@@ -56,6 +59,7 @@ class Terminal(gtk.VBox):
         gtk.VBox.__init__(self)
         self.__gobject_init__()
 
+        self.terminator = Terminator()
         self.matches = {}
 
         self.config = Config()
@@ -247,8 +251,79 @@ class Terminal(gtk.VBox):
         item = gtk.MenuItem(_('Assign to group...'))
         item.connect('activate', self.create_group)
         menu.append(item)
-        
-        #FIXME: Add the rest of the menu
+       
+        if len(self.terminator.groups) > 0:
+            groupitem = gtk.RadioMenuItem(groupitem, _('None'))
+            groupitem.set_active(self.group == None)
+            groupitem.connect('activate', self.set_group, None)
+            menu.append(groupitem)
+
+            for group in self.terminator.groups:
+                item = gtk.RadioMenuItem(groupitem, group, False)
+                item.set_active(self.group == group)
+                item.connect('toggled', self.set_group, group)
+                menu.append(item)
+                groupitem = item
+
+        if self.group != None or len(self.terminator.groups) > 0:
+            menu.append(gtk.MenuItem())
+
+        if self.group != None:
+            item = gtk.MenuItem(_('Remove group %s') % self.group)
+            item.connect('activate', self.ungroup, self.group)
+            menu.append(item)
+
+        # FIXME: Functions to group/ungroup all terms in current tab
+
+        if len(self.terminator.groups) > 0:
+            item = gtk.MenuItem(_('Remove all groups'))
+            item.connect('activate', self.ungroup_all) # FIXME: ungroup_all should be in Terminator() ?
+            menu.append(item)
+
+        if self.group != None:
+            menu.append(gtk.MenuItem())
+
+            item = gtk.MenuItem(_('Close group %s') % self.group)
+            item.connect('activate', lambda menu_item:
+                    self.terminator.closegroupedterms(self))
+            menu.append(item)
+
+        menu.append(gtk.MenuItem())
+
+        groupitem = None
+
+        for key,value in {_('Broadcast off'):'off', 
+                          _('Broadcast group'):'group',
+                          _('Broadcast all'):'all'}.items():
+            groupitem = gtk.RadioMenuItem(groupitem, key)
+            groupitem.set_active(self.terminator.groupsend ==
+                    self.terminator.groupsend_type[value])
+            groupitem.connect('activate', self.set_groupsend,
+                    self.terminator.groupsend_type[value])
+            menu.append(groupitem)
+
+        menu.append(gtk.MenuItem())
+
+        item = gtk.CheckMenuItem(_('Split to this group'))
+        item.set_active(self.terminator.splittogroup)
+        item.connect('toggled', lambda menu_item: self.do_splittogroup_toggle())
+        menu.append(item)
+
+        item = gtk.CheckMenuItem(_('Autoclean groups'))
+        item.set_active(self.terminator.autocleangroups)
+        item.connect('toggled', lambda menu_item:
+                self.do_autocleangroups_toggle())
+        menu.append(item)
+
+        menu.append(gtk.MenuItem())
+
+        item = gtk.MenuItem(_('Insert terminal number'))
+        item.connect('activate', lambda menu_item: self.do_enumerate())
+        menu.append(item)
+
+        item = gtk.MenuItem(_('Insert padded terminal number'))
+        item.connect('activate', lambda menu_item: self.do_enumerate(pad=True))
+        menu.append(item)
 
         return(menu)
 
@@ -273,6 +348,21 @@ class Terminal(gtk.VBox):
     def create_group(self, item):
         """Create a new group"""
         pass
+
+    def set_groupsend(self, widget, value):
+        """Set the groupsend mode"""
+        # FIXME: Can we think of a smarter way of doing this than poking?
+        self.terminator.groupsend = value
+
+    def do_splittogroup_toggle(self):
+        """Toggle the splittogroup mode"""
+        # FIXME: Can we think of a smarter way of doing this than poking?
+        self.terminator.splittogroup = not self.terminator.splittogroup
+
+    def do_autocleangroups_toggle(self):
+        """Toggle the autocleangroups mode"""
+        # FIXME: Can we think of a smarter way of doing this than poking?
+        self.terminator.autocleangroups = not self.terminator.autocleangroups
 
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
@@ -467,7 +557,7 @@ class Terminal(gtk.VBox):
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
-        elif match == self.matches['launchpad']
+        elif match == self.matches['launchpad']:
             for item in re.findall(r'[0-9]+', url):
                 url = 'https://bugs.launchpad.net/bugs/%s' % item
                 return(url)
