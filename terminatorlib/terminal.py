@@ -317,6 +317,7 @@ class Terminal(gtk.VBox):
     
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
+
         pass
 
     def on_drag_begin(self, widget, drag_context, data):
@@ -455,9 +456,38 @@ class Terminal(gtk.VBox):
         return (self.vte.match_check(int(event.x / self.vte.get_char_width()),
             int(event.y / self.vte.get_char_height())))
 
+    def prepare_url(self, urlmatch):
+        """Prepare a URL from a VTE match"""
+        url = urlmatch[0]
+        match = urlmatch[1]
+
+        if match == self.matches['email'] and url[0:7] != 'mailto:':
+            url = 'mailto:' + url
+        elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+            url = 'ftp://' + url
+        elif match == self.matches['addr_only']:
+            url = 'http://' + url
+        elif match == self.matches['launchpad']
+            for item in re.findall(r'[0-9]+', url):
+                url = 'https://bugs.launchpad.net/bugs/%s' % item
+                return(url)
+        else:
+            return(url)
+
     def open_url(self, url, prepare=False):
-        """Open a given URL, conditionally preparing it"""
-        pass
+        """Open a given URL, conditionally unpacking it from a VTE match"""
+        if prepare == True:
+            url = self.prepare_url(url)
+        dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
+        try:
+            subprocess.Popen(['xdg-open', url])
+        except OSError:
+            dbg('open_url: xdg-open failed')
+            try:
+                self.terminator.url_show(url)
+            except:
+                dbg('open_url: url_show failed. Giving up')
+                pass
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
@@ -467,5 +497,6 @@ class Terminal(gtk.VBox):
         else:
             self.vte.paste_clipboard()
         self.vte.grab_focus()
+
 gobject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
