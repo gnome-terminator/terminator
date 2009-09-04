@@ -93,4 +93,11 @@ class Terminator(Borg):
         else:
             return([widget])
 
+    def group_tab(self, widget):
+        """Group all the terminals in a tab"""
+        pass
+
+    def ungroup_tab(self, widget):
+        """Ungroup all the terminals in a tab"""
+        pass
 # vim: set expandtab ts=4 sw=4:

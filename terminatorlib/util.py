@@ -17,6 +17,7 @@
 """Terminator.util - misc utility functions"""
 
 import sys
+import gtk
 
 # set this to true to enable debugging output
 DEBUG = True
@@ -34,8 +35,15 @@ def gerr(message = None):
     """Display a graphical error. This should only be used for serious
     errors as it will halt execution"""
 
-    import gtk
     dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
             gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message)
     dialog.run()
+
+def has_ancestor(widget, type):
+    """Walk up the family tree of widget to see if any ancestors are of type"""
+    while widget:
+        widget = widget.get_parent()
+        if isinstance(widget, type):
+            return(True)
+    return(False)
 

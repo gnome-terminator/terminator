@@ -11,7 +11,7 @@ pygtk.require('2.0')
 import gtk
 import gobject
 
-from util import dbg, err, gerr
+from util import dbg, err, gerr, has_ancestor
 from config import Config
 from cwd import get_default_cwd
 from newterminator import Terminator
@@ -35,6 +35,8 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_STRING,)),
         'enumerate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_INT,)),
+        'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -63,6 +65,8 @@ class Terminal(gtk.VBox):
 
         self.terminator = Terminator()
         self.connect('enumerate', self.terminator.do_enumerate)
+        self.connect('group-tab', self.terminator.group_tab)
+        self.connect('ungroup-tab', self.terminator.ungroup_tab)
 
         self.matches = {}
 
@@ -277,7 +281,16 @@ class Terminal(gtk.VBox):
             item.connect('activate', self.ungroup, self.group)
             menu.append(item)
 
-        # FIXME: Functions to group/ungroup all terms in current tab
+        if has_ancestor(self, gtk.Notebook):
+            item = gtk.MenuItem(_('G_roup all in tab'))
+            item.connect('activate', lambda menu_item: self.emit('group_tab'))
+            menu.append(item)
+
+            if len(self.terminator.groups) > 0:
+                item = gtk.MenuItem(_('Ungr_oup all in tab'))
+                item.connect('activate', lambda menu_item:
+                    self.emit('ungroup_tab'))
+                menu.append(item)
 
         if len(self.terminator.groups) > 0:
             item = gtk.MenuItem(_('Remove all groups'))
