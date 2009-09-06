@@ -3,15 +3,18 @@
 # GPL v2 only
 """terminal.py - classes necessary to provide Terminal widgets"""
 
-import pwd
 import sys
 import os
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gobject
+import subprocess
+import re
 
-from util import dbg, err, gerr, has_ancestor
+from version import APP_NAME
+from util import dbg, err, gerr
+import util
 from config import Config
 from cwd import get_default_cwd
 from newterminator import Terminator
@@ -38,6 +41,10 @@ class Terminal(gtk.VBox):
         'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'split-horiz': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -52,6 +59,7 @@ class Terminal(gtk.VBox):
     cwd = None
     command = None
     clipboard = None
+    pid = None
 
     matches = None
     config = None
@@ -228,7 +236,7 @@ class Terminal(gtk.VBox):
         if self.config['exit_action'] == 'restart':
             self.vte.connect('child-exited', self.spawn_child)
         elif self.config['exit_action'] in ('close', 'left'):
-            self.vte.connect('child-exited', self.close_term)
+            self.vte.connect('child-exited', lambda x: self.emit('close-term'))
 
         self.vte.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
         self.vte.connect('enter_notify_event',
@@ -282,7 +290,7 @@ class Terminal(gtk.VBox):
             item.connect('activate', self.ungroup, self.group)
             menu.append(item)
 
-        if has_ancestor(self, gtk.Notebook):
+        if util.has_ancestor(self, gtk.Notebook):
             item = gtk.MenuItem(_('G_roup all in tab'))
             item.connect('activate', lambda x: self.emit('group_tab'))
             menu.append(item)
@@ -309,7 +317,7 @@ class Terminal(gtk.VBox):
 
         groupitem = None
 
-        for key,value in {_('Broadcast off'):'off', 
+        for key, value in {_('Broadcast off'):'off', 
                           _('Broadcast group'):'group',
                           _('Broadcast all'):'all'}.items():
             groupitem = gtk.RadioMenuItem(groupitem, key)
@@ -394,14 +402,14 @@ class Terminal(gtk.VBox):
             self.create_popup_group_menu(widget, event)
         return(False)
 
-    def on_keypress(self, vte, event):
+    def on_keypress(self, widget, event):
         """Handler for keyboard events"""
         pass
 
-    def on_buttonpress(self, vte, event):
+    def on_buttonpress(self, widget, event):
         """Handler for mouse events"""
         # Any button event should grab focus
-        self.vte.grab_focus()
+        widget.grab_focus()
 
         if event.button == 1:
             # Ctrl+leftclick on a URL should open it
@@ -416,15 +424,102 @@ class Terminal(gtk.VBox):
         elif event.button == 3:
             # rightclick should display a context menu if Ctrl is not pressed
             if event.state & gtk.gdk.CONTROL_MASK == 0:
-                self.popup_menu(self.vte, event)
+                self.popup_menu(widget, event)
                 return(True)
 
         return(False)
     
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
+        menu = gtk.Menu()
+        url = None
+        button = None
+        time = None
 
-        pass
+        if event:
+            url = self.check_for_url(event)
+            button = event.button
+            time = event.time
+
+        if url:
+            if url[1] == self.matches['email']:
+                nameopen = _('_Send email to...')
+                namecopy = _('_Copy email address')
+            elif url[1] == self.matches['voip']:
+                nameopen = _('Ca_ll VoIP address')
+                namecopy = _('_Copy VoIP address')
+            else:
+                nameopen = _('_Open link')
+                namecopy = _('_Copy address')
+
+            icon = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO,
+                    gtk.ICON_SIZE_MENU)
+            item = gtk.ImageMenuItem(nameopen)
+            item.set_property('image', icon)
+            item.connect('activate', lambda x: self.open_url(url, True))
+            menu.append(item)
+
+            item = gtk.MenuItem(namecopy)
+            item.connect('activate', lambda x: self.clipboard.set_text(url[0]))
+            menu.append(item)
+
+            menu.append(gtk.MenuItem())
+
+        item = gtk.ImageMenuItem(gtk.STOCK_COPY)
+        item.connect('activate', lambda x: self.vte.copy_clipboard())
+        item.set_sensitive(self.vte.get_has_selection())
+        menu.append(item)
+
+        item = gtk.ImageMenuItem(gtk.STOCK_PASTE)
+        item.connect('activate', lambda x: self.paste_clipboard())
+        menu.append(item)
+
+        menu.append(gtk.MenuItem())
+
+        #FIXME: These split/tab items should be conditional on not being zoomed
+        if True:
+            item = gtk.ImageMenuItem('Split H_orizontally')
+            image = gtk.Image()
+            image.set_from_icon_name(APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
+            item.set_image(image)
+            if hasattr(item, 'set_always_show_image'):
+                item.set_always_show_image(True)
+            item.connect('activate', lambda x: self.emit('split-horiz'))
+            menu.append(item)
+    
+            item = gtk.ImageMenuItem('Split V_ertically')
+            image = gtk.Image()
+            image.set_from_icon_name(APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
+            item.set_image(image)
+            if hasattr(item, 'set_always_show_image'):
+                item.set_always_show_image(True)
+            item.connect('activate', lambda x: self.emit('split-vert'))
+            menu.append(item)
+    
+            item = gtk.MenuItem(_('Open _Tab'))
+            item.connect('activate', lambda x: self.emit('tab-new'))
+            menu.append(item)
+    
+            if self.config['extreme_tabs']:
+                item = gtk.MenuItem(_('Open top level tab'))
+                item.connect('activate', lambda x: self.emit('tab-top-new'))
+                menu.append(item)
+
+            menu.append(gtk.MenuItem())
+
+        item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
+        item.connect('activate', lambda x: self.emit('close-term'))
+        menu.append(item)
+
+        menu.append(gtk.MenuItem())
+
+        # FIXME: Add menu items for (un)zoom, (un)maximise, (un)showing
+        # scrollbar, (un)showing titlebar, profile editing, encodings
+
+        menu.show_all()
+        menu.popup(None, None, None, button, time)
+
+        return(True)
 
     def on_drag_begin(self, widget, drag_context, data):
         pass
@@ -440,16 +535,16 @@ class Terminal(gtk.VBox):
             info, time, data):
         pass
 
-    def on_vte_title_change(self, vte):
+    def on_vte_title_change(self, widget):
         self.emit('title-change', self.get_window_title())
 
-    def on_vte_focus(self, vte):
+    def on_vte_focus(self, widget):
         pass
 
-    def on_vte_focus_out(self, vte, event):
+    def on_vte_focus_out(self, widget, event):
         pass
 
-    def on_vte_focus_in(self, vte, event):
+    def on_vte_focus_in(self, widget, event):
         pass
 
     def on_edit_done(self, widget):
@@ -467,9 +562,6 @@ class Terminal(gtk.VBox):
     def on_vte_notify_enter(self, term, event):
         pass
 
-    def close_term(self, widget):
-        self.emit('close-term')
-
     def hide_titlebar(self):
         self.titlebar.hide()
 
@@ -486,7 +578,7 @@ class Terminal(gtk.VBox):
         if self.config['use_custom_command']:
             command = self.config['custom_command']
 
-        shell = self.shell_lookup()
+        shell = util.shell_lookup()
 
         if self.config['login_shell']:
             args.insert(0, "-%s" % shell)
@@ -513,49 +605,6 @@ class Terminal(gtk.VBox):
         if self.pid == -1:
             self.vte.feed(_('Unable to start shell:') + shell)
             return(-1)
-
-    def shell_lookup(self):
-        """Find an appropriate shell for the user"""
-        shells = [os.getenv('SHELL'), pwd.getpwuid(os.getuid())[6], 'bash',
-                'zsh', 'tcsh', 'ksh', 'csh', 'sh']
-
-        for shell in shells:
-            if shell is None: continue
-            elif os.path.isfile(shell):
-                return(shell)
-            else:
-                rshell = self.path_lookup(shell)
-                if rshell is not None:
-                    dbg('shell_lookup: Found %s at %s' % (shell, rshell))
-                    return(rshell)
-        dbg('shell_lookup: Unable to locate a shell')
-
-    def path_lookup(self, command):
-        if os.path.isabs(command):
-            if os.path.isfile(command):
-                return(command)
-            else:
-                return(None)
-        elif command[:2] == './' and os.path.isfile(command):
-            dbg('path_lookup: Relative filename %s found in cwd' % command)
-            return(command)
-
-        try:
-            paths = os.environ['PATH'].split(':')
-            if len(paths[0]) == 0: raise(ValueError)
-        except (ValueError, NameError):
-            dbg('path_lookup: PATH not set in environment, using fallbacks')
-            paths = ['/usr/local/bin', '/usr/bin', '/bin']
-
-        dbg('path_lookup: Using %d paths: %s', (len(paths), paths))
-
-        for path in paths:
-            target = os.path.join(path, command)
-            if os.path.isfile(target):
-                dbg('path_lookup: found %s' % target)
-                return(target)
-
-        dbg('path_lookup: Unable to locate %s' % command)
 
     def check_for_url(self, event):
         """Check if the mouse is over a URL"""
@@ -593,7 +642,6 @@ class Terminal(gtk.VBox):
                 self.terminator.url_show(url)
             except:
                 dbg('open_url: url_show failed. Giving up')
-                pass
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
