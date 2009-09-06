@@ -225,8 +225,8 @@ class Terminal(gtk.VBox):
             self.vte.connect('composited-changed',
                 self.on_composited_changed)
 
-        self.vte.connect('window-title-changed',
-            self.on_vte_title_change)
+        self.vte.connect('window-title-changed', lambda x:
+            self.emit('title-change', self.get_window_title()))
         self.vte.connect('grab-focus', self.on_vte_focus)
         self.vte.connect('focus-out-event', self.on_vte_focus_out)
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
@@ -535,9 +535,6 @@ class Terminal(gtk.VBox):
             info, time, data):
         pass
 
-    def on_vte_title_change(self, widget):
-        self.emit('title-change', self.get_window_title())
-
     def on_vte_focus(self, widget):
         pass
 
@@ -599,7 +596,6 @@ class Terminal(gtk.VBox):
                 logutmp=update_records, directory=self.cwd)
         self.command = shell
 
-        self.on_vte_title_change(self.vte)
         self.titlebar.update()
 
         if self.pid == -1:
