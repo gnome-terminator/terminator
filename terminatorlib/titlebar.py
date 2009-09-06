@@ -20,9 +20,7 @@ class Titlebar(gtk.EventBox):
     termtext = None
     sizetext = None
     label = None
-    hbox = None
     ebox = None
-    grouphbox = None
     groupicon = None
     grouplabel = None
 
@@ -41,7 +39,7 @@ class Titlebar(gtk.EventBox):
         self.label = EditableLabel()
         self.label.connect('edit-done', self.on_edit_done)
         self.ebox = gtk.EventBox()
-        self.grouphbox = gtk.HBox()
+        grouphbox = gtk.HBox()
         self.grouplabel = gtk.Label()
         self.groupicon = gtk.Image()
 
@@ -55,17 +53,17 @@ class Titlebar(gtk.EventBox):
         self.set_from_icon_name('_active_broadcast_%s' % icon_name, 
                 gtk.ICON_SIZE_MENU)
 
-        self.grouphbox.pack_start(self.groupicon, False, True, 2)
-        self.grouphbox.pack_start(self.grouplabel, False, True, 2)
-        self.ebox.add(self.grouphbox)
+        grouphbox.pack_start(self.groupicon, False, True, 2)
+        grouphbox.pack_start(self.grouplabel, False, True, 2)
+        self.ebox.add(grouphbox)
         self.ebox.show_all()
 
-        self.hbox = gtk.HBox()
-        self.hbox.pack_start(self.ebox, False, True, 0)
-        self.hbox.pack_start(gtk.VSeparator(), False, True, 0)
-        self.hbox.pack_start(self.label, True, True)
+        hbox = gtk.HBox()
+        hbox.pack_start(self.ebox, False, True, 0)
+        hbox.pack_start(gtk.VSeparator(), False, True, 0)
+        hbox.pack_start(self.label, True, True)
 
-        self.add(self.hbox)
+        self.add(hbox)
         self.show_all()
 
         self.connect('button-press-event', self.on_clicked)
