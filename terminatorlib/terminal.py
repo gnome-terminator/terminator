@@ -37,6 +37,7 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_INT,)),
         'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -283,25 +284,24 @@ class Terminal(gtk.VBox):
 
         if has_ancestor(self, gtk.Notebook):
             item = gtk.MenuItem(_('G_roup all in tab'))
-            item.connect('activate', lambda menu_item: self.emit('group_tab'))
+            item.connect('activate', lambda x: self.emit('group_tab'))
             menu.append(item)
 
             if len(self.terminator.groups) > 0:
                 item = gtk.MenuItem(_('Ungr_oup all in tab'))
-                item.connect('activate', lambda menu_item:
-                    self.emit('ungroup_tab'))
+                item.connect('activate', lambda x: self.emit('ungroup_tab'))
                 menu.append(item)
 
         if len(self.terminator.groups) > 0:
             item = gtk.MenuItem(_('Remove all groups'))
-            item.connect('activate', self.ungroup_all) # FIXME: ungroup_all should be in Terminator() ?
+            item.connect('activate', lambda x: self.emit('ungroup-all'))
             menu.append(item)
 
         if self.group != None:
             menu.append(gtk.MenuItem())
 
             item = gtk.MenuItem(_('Close group %s') % self.group)
-            item.connect('activate', lambda menu_item:
+            item.connect('activate', lambda x:
                     self.terminator.closegroupedterms(self))
             menu.append(item)
 
@@ -323,23 +323,22 @@ class Terminal(gtk.VBox):
 
         item = gtk.CheckMenuItem(_('Split to this group'))
         item.set_active(self.terminator.splittogroup)
-        item.connect('toggled', lambda menu_item: self.do_splittogroup_toggle())
+        item.connect('toggled', lambda x: self.do_splittogroup_toggle())
         menu.append(item)
 
         item = gtk.CheckMenuItem(_('Autoclean groups'))
         item.set_active(self.terminator.autocleangroups)
-        item.connect('toggled', lambda menu_item:
-                self.do_autocleangroups_toggle())
+        item.connect('toggled', lambda x: self.do_autocleangroups_toggle())
         menu.append(item)
 
         menu.append(gtk.MenuItem())
 
         item = gtk.MenuItem(_('Insert terminal number'))
-        item.connect('activate', lambda menu_item: self.emit('enumerate', False))
+        item.connect('activate', lambda x: self.emit('enumerate', False))
         menu.append(item)
 
         item = gtk.MenuItem(_('Insert padded terminal number'))
-        item.connect('activate', lambda menu_item: self.emit('enumerate', True))
+        item.connect('activate', lambda x: self.emit('enumerate', True))
         menu.append(item)
 
         return(menu)
