@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# vim: tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 #    Terminator - multiple gnome terminals in one window
 #    Copyright (C) 2006-2008  cmsj@tenshu.net
 #

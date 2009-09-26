@@ -14,10 +14,10 @@ Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gnome2, python-gobject, python-gtk2, gconf2, libgtk2.0-bin
+Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gobject, python-gtk2, gconf2, libgtk2.0-bin
 XB-Python-Version: ${python:Versions}
 Provides: x-terminal-emulator
-Recommends: xdg-utils, python-xdg
+Recommends: xdg-utils, python-xdg, python-gnome2
 Description: multiple GNOME terminals in one window
  Terminator is a little project to produce an efficient way of 
  filling a large area of screen space with terminals.
