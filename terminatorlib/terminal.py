@@ -87,8 +87,8 @@ class Terminal(gtk.VBox):
         self.vte = vte.Terminal()
         self.vte.set_size(80, 24)
         self.vte._expose_data = None
-        if not hasattr(self.vte, "set_opacity") or not hasattr(self.vte,
-                "is_composited"):
+        if not hasattr(self.vte, "set_opacity") or \
+           not hasattr(self.vte, "is_composited"):
             self.composite_support = False
         self.vte.show()
 
