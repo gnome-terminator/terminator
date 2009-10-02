@@ -1415,7 +1415,10 @@ text/plain
     self.populate_grouping_menu (menu)
 
     menu.show_all ()
-    menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    if gtk.gtk_version > (2, 14, 0):
+        menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    else:
+        menu.popup (None, None, None, button, time, widget)
     
     return True
 
