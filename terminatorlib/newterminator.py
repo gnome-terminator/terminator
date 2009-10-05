@@ -44,6 +44,11 @@ class Terminator(Borg):
 
         self.terminals.append(terminal)
 
+    def deregister_terminal(self, terminal):
+        """De-register a terminal widget"""
+
+        self.terminals.remove(terminal)
+
     def reconfigure_terminals(self):
         """Tell all terminals to update their configuration"""
 

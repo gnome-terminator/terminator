@@ -84,6 +84,7 @@ class Container(object):
         if not self.remove(widget):
             return(False)
 
+        self.terminator.deregister_terminal(widget)
         self.emit('need_group_hoover')
         return(True)
 
