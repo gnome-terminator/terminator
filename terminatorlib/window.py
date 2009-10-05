@@ -12,6 +12,7 @@ from util import dbg, err
 from version import APP_NAME
 from container import Container
 from newterminator import Terminator
+from terminal import Terminal
 
 try:
     import deskbar.core.keybinder as bindkey
@@ -29,10 +30,12 @@ class Window(Container, gtk.Window):
     ismaximised = None
     hidebound = None
     hidefunc = None
+    cnxids = None
 
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
+        self.cnxids = []
 
         Container.__init__(self)
         gtk.Window.__init__(self)
@@ -160,14 +163,40 @@ class Window(Container, gtk.Window):
 
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""
-        widget.connect('close-term', self.closeterm)
-        widget.connect('title-change', self.title.set_title)
+        if isinstance(widget, Terminal):
+            self.cnxids.append(widget.connect('close-term', self.closeterm))
+            self.cnxids.append(widget.connect('title-change', 
+                                                self.title.set_title))
+            self.cnxids.append(widget.connect('split-horiz', self.split_horiz))
+            self.cnxids.append(widget.connect('split-vert', self.split_vert))
         gtk.Window.add(self, widget)
 
     def remove(self, widget):
         """Remove our child widget by way of gtk.Window.remove()"""
         gtk.Window.remove(self, widget)
-        self.destroy()
+        for cnxid in self.cnxids:
+            widget.disconnect(cnxid)
+        self.cnxids = []
+
+    def split_axis(self, widget, vertical=True):
+        """Split the window"""
+        # FIXME: this .remove isn't good enough, what about signal handlers?
+        self.remove(widget)
+
+        # FIXME: we should be creating proper containers, not these gtk widgets
+        if vertical:
+            container = gtk.VPaned()
+        else:
+            container = gtk.HPaned()
+
+        sibling = Terminal()
+        self.terminator.register_terminal(sibling)
+
+        container.pack1(widget, True, True)
+        container.pack2(sibling, True, True)
+        container.show()
+
+        self.add(container)
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
