@@ -32,6 +32,8 @@ class Window(Container, gtk.Window):
     hidefunc = None
     cnxids = None
 
+    term_zoomed = gobject.property(type=bool, default=False)
+
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()

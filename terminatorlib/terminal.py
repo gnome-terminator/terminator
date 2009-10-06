@@ -52,6 +52,7 @@ class Terminal(gtk.VBox):
     terminator = None
     vte = None
     terminalbox = None
+    scrollbar = None
     titlebar = None
     searchbar = None
 
@@ -122,11 +123,11 @@ class Terminal(gtk.VBox):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
         terminalbox = gtk.HBox()
-        scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
+        self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
         position = self.config['scrollbar_position']
 
         if position not in ('hidden', 'disabled'):
-            scrollbar.show()
+            self.scrollbar.show()
 
         if position == 'left':
             func = terminalbox.pack_end
@@ -134,7 +135,7 @@ class Terminal(gtk.VBox):
             func = terminalbox.pack_start
 
         func(self.vte)
-        func(scrollbar, False)
+        func(self.scrollbar, False)
         terminalbox.show()
 
         return(terminalbox)
@@ -476,8 +477,7 @@ class Terminal(gtk.VBox):
 
         menu.append(gtk.MenuItem())
 
-        #FIXME: These split/tab items should be conditional on not being zoomed
-        if True:
+        if not self.is_zoomed():
             item = gtk.ImageMenuItem('Split H_orizontally')
             image = gtk.Image()
             image.set_from_icon_name(APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
@@ -500,11 +500,6 @@ class Terminal(gtk.VBox):
             item.connect('activate', lambda x: self.emit('tab-new'))
             menu.append(item)
     
-            if self.config['extreme_tabs']:
-                item = gtk.MenuItem(_('Open top level tab'))
-                item.connect('activate', lambda x: self.emit('tab-top-new'))
-                menu.append(item)
-
             menu.append(gtk.MenuItem())
 
         item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
@@ -513,13 +508,48 @@ class Terminal(gtk.VBox):
 
         menu.append(gtk.MenuItem())
 
-        # FIXME: Add menu items for (un)zoom, (un)maximise, (un)showing
+        if not self.is_zoomed():
+            item = gtk.MenuItem(_('_Zoom terminal'))
+            item.connect('activate', self.zoom)
+            menu.append(item)
+
+            item = gtk.MenuItem(_('Ma_ximise terminal'))
+            item.connect('activate', self.maximise)
+            menu.append(item)
+
+            menu.append(gtk.MenuItem())
+
+        item = gtk.CheckMenuItem(_('Show _scrollbar'))
+        item.set_active(self.scrollbar.get_property('visible'))
+        item.connect('toggled', lambda x: self.do_scrollbar_toggle())
+        menu.append(item)
+
+        item = gtk.CheckMenuItem(_('Show _titlebar'))
+        item.set_active(self.titlebar.get_property('visible'))
+        item.connect('toggled', lambda x: self.do_title_toggle())
+        if self.group:
+            item.set_sensitive(False)
+        menu.append(item)
+
+        # FIXME: Add menu items for (un)showing
         # scrollbar, (un)showing titlebar, profile editing, encodings
 
         menu.show_all()
         menu.popup(None, None, None, button, time)
 
         return(True)
+
+    def do_scrollbar_toggle(self):
+        self.toggle_widget_visibility(self.scrollbar)
+
+    def do_title_toggle(self):
+        self.toggle_widget_visibility(self.titlebar)
+
+    def toggle_widget_visibility(self, widget):
+        if widget.get_property('visible'):
+            widget.hide()
+        else:
+            widget.show()
 
     def on_drag_begin(self, widget, drag_context, data):
         pass
@@ -564,6 +594,31 @@ class Terminal(gtk.VBox):
 
     def show_titlebar(self):
         self.titlebar.show()
+
+    def is_zoomed(self):
+        """Determine if we are a zoomed terminal"""
+        widget = self.get_parent()
+        while True:
+            tmp = widget.get_parent()
+            if not tmp:
+                break
+            else:
+                widget = tmp
+
+        try:
+            prop = widget.get_property('term-zoomed')
+        except TypeError:
+            prop = False
+
+        return(prop)
+
+    def zoom(self):
+        """Zoom ourself to fill the window"""
+        pass
+
+    def maximise(self):
+        """Maximise ourself to fill the window"""
+        pass
 
     def spawn_child(self, widget=None):
         update_records = self.config['update_records']
