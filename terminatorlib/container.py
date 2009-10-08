@@ -12,6 +12,7 @@ from util import dbg
 class Container(object):
     """Base class for Terminator Containers"""
 
+    terminator = None
     immutable = None
     children = None
     config = None
