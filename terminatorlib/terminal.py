@@ -448,6 +448,14 @@ class Terminal(gtk.VBox):
         else:
             widget.show()
 
+    def on_encoding_change(self, widget, encoding):
+        """Handle the encoding changing"""
+        current = self.vte.get_encoding()
+        if current != encoding:
+            dbg('on_encoding_change: setting encoding to: %s' % encoding)
+            self.custom_encoding = not (encoding == self.config['encoding'])
+            self.vte.set_encoding(encoding)
+
     def on_drag_begin(self, widget, drag_context, data):
         pass
 

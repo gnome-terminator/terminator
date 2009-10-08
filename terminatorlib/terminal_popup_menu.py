@@ -8,6 +8,7 @@ import gtk
 
 from version import APP_NAME
 from translation import _
+from encoding import TerminatorEncoding
 
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
@@ -121,10 +122,79 @@ class TerminalPopupMenu(object):
             item.set_sensitive(False)
         menu.append(item)
 
-        # FIXME: Add menu items for profile editing, encodings
+        item = gtk.MenuItem(_('Ed_it profile'))
+        item.connect('activate', lambda x:
+                     terminal.terminator.edit_profile(terminal))
+        menu.append(item)
+
+        self.add_encoding_items(menu)
 
         menu.show_all()
         menu.popup(None, None, None, button, time)
 
         return(True)
+
+
+    def add_encoding_items(self, menu):
+        """Add the encoding list to the menu"""
+        terminal = self.terminal
+        active_encodings = terminal.config['active_encodings']
+        item = gtk.MenuItem (_("Encodings"))
+        menu.append (item)
+        submenu = gtk.Menu ()
+        item.set_submenu (submenu)
+        encodings = TerminatorEncoding ().get_list ()
+        encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
+
+        current_encoding = terminal.vte.get_encoding ()
+        group = None
+
+        if current_encoding not in active_encodings:
+            active_encodings.insert (0, _(current_encoding))
+
+        for encoding in active_encodings:
+            if encoding == terminal.default_encoding:
+                extratext = " (%s)" % _("Default")
+            elif encoding == current_encoding and terminal.custom_encoding == True:
+                extratext = " (%s)" % _("User defined")
+            else:
+                extratext = ""
+    
+            radioitem = gtk.RadioMenuItem (group, _(encoding) + extratext)
+    
+            if encoding == current_encoding:
+                radioitem.set_active (True)
+    
+            if group is None:
+                group = radioitem
+    
+            radioitem.connect ('activate', terminal.on_encoding_change, encoding)
+            submenu.append (radioitem)
+    
+            item = gtk.MenuItem (_("Other Encodings"))
+            submenu.append (item)
+            #second level
+    
+            submenu = gtk.Menu ()
+            item.set_submenu (submenu)
+            group = None
+    
+            for encoding in encodings:
+                if encoding[1] in active_encodings:
+                    continue
+    
+                if encoding[1] is None:
+                    label = "%s %s"%(encoding[2], terminal.vte.get_encoding ())
+                else:
+                    label = "%s %s"%(encoding[2], encoding[1])
+    
+                radioitem = gtk.RadioMenuItem (group, label)
+                if group is None:
+                    group = radioitem
+    
+                if encoding[1] == current_encoding:
+                    radioitem.set_active (True)
+
+                radioitem.connect ('activate', terminal.on_encoding_change, encoding[1])
+                submenu.append (radioitem)
 
