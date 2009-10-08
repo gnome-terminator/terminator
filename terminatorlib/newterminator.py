@@ -105,4 +105,10 @@ class Terminator(Borg):
     def ungroup_tab(self, widget):
         """Ungroup all the terminals in a tab"""
         pass
+
+    def focus_changed(self, widget):
+        """We just moved focus to a new terminal"""
+        for terminal in self.terminals:
+            terminal.titlebar.update()
+        return
 # vim: set expandtab ts=4 sw=4:

@@ -46,6 +46,7 @@ class Terminal(gtk.VBox):
         'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -78,6 +79,7 @@ class Terminal(gtk.VBox):
         self.connect('enumerate', self.terminator.do_enumerate)
         self.connect('group-tab', self.terminator.group_tab)
         self.connect('ungroup-tab', self.terminator.ungroup_tab)
+        self.connect('focus-in', self.terminator.focus_changed)
 
         self.matches = {}
 
@@ -230,7 +232,6 @@ class Terminal(gtk.VBox):
         self.vte.connect('window-title-changed', lambda x:
             self.emit('title-change', self.get_window_title()))
         self.vte.connect('grab-focus', self.on_vte_focus)
-        self.vte.connect('focus-out-event', self.on_vte_focus_out)
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
         self.vte.connect('resize-window', self.on_resize_window)
         self.vte.connect('size-allocate', self.on_vte_size_allocate)
@@ -477,6 +478,7 @@ class Terminal(gtk.VBox):
         pass
 
     def on_vte_focus_in(self, widget, event):
+        self.emit('focus-in')
         pass
 
     def on_edit_done(self, widget):
