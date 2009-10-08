@@ -76,9 +76,9 @@ class Terminator(Borg):
     def do_enumerate(self, widget, pad):
         """Insert the number of each terminal in a group, into that terminal"""
         if pad:
-            numstr='%0'+str(len(str(len(self.terminals))))+'d'
+            numstr = '%0'+str(len(str(len(self.terminals))))+'d'
         else:
-            numstr='%d'
+            numstr = '%d'
 
         for term in self.get_target_terms(widget):
             idx = self.terminals.index(term)
@@ -89,12 +89,12 @@ class Terminator(Borg):
         if self.groupsend == self.groupsend_type['all']:
             return(self.terminals)
         elif self.groupsend == self.groupsend_type['group']:
-            set = []
+            termset = []
             for term in self.terminals:
                 if term == widget or (term.group != None and term.group ==
                         widget.group):
-                    set.append(term)
-            return(set)
+                    termset.append(term)
+            return(termset)
         else:
             return([widget])
 
