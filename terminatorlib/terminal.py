@@ -19,6 +19,7 @@ from config import Config
 from cwd import get_default_cwd
 from newterminator import Terminator
 from titlebar import Titlebar
+from terminal_popup_menu import TerminalPopupMenu
 from searchbar import Searchbar
 from translation import _
 
@@ -432,112 +433,8 @@ class Terminal(gtk.VBox):
     
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
-        menu = gtk.Menu()
-        url = None
-        button = None
-        time = None
-
-        if event:
-            url = self.check_for_url(event)
-            button = event.button
-            time = event.time
-
-        if url:
-            if url[1] == self.matches['email']:
-                nameopen = _('_Send email to...')
-                namecopy = _('_Copy email address')
-            elif url[1] == self.matches['voip']:
-                nameopen = _('Ca_ll VoIP address')
-                namecopy = _('_Copy VoIP address')
-            else:
-                nameopen = _('_Open link')
-                namecopy = _('_Copy address')
-
-            icon = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO,
-                    gtk.ICON_SIZE_MENU)
-            item = gtk.ImageMenuItem(nameopen)
-            item.set_property('image', icon)
-            item.connect('activate', lambda x: self.open_url(url, True))
-            menu.append(item)
-
-            item = gtk.MenuItem(namecopy)
-            item.connect('activate', lambda x: self.clipboard.set_text(url[0]))
-            menu.append(item)
-
-            menu.append(gtk.MenuItem())
-
-        item = gtk.ImageMenuItem(gtk.STOCK_COPY)
-        item.connect('activate', lambda x: self.vte.copy_clipboard())
-        item.set_sensitive(self.vte.get_has_selection())
-        menu.append(item)
-
-        item = gtk.ImageMenuItem(gtk.STOCK_PASTE)
-        item.connect('activate', lambda x: self.paste_clipboard())
-        menu.append(item)
-
-        menu.append(gtk.MenuItem())
-
-        if not self.is_zoomed():
-            item = gtk.ImageMenuItem('Split H_orizontally')
-            image = gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
-            item.set_image(image)
-            if hasattr(item, 'set_always_show_image'):
-                item.set_always_show_image(True)
-            item.connect('activate', lambda x: self.emit('split-horiz'))
-            menu.append(item)
-    
-            item = gtk.ImageMenuItem('Split V_ertically')
-            image = gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
-            item.set_image(image)
-            if hasattr(item, 'set_always_show_image'):
-                item.set_always_show_image(True)
-            item.connect('activate', lambda x: self.emit('split-vert'))
-            menu.append(item)
-    
-            item = gtk.MenuItem(_('Open _Tab'))
-            item.connect('activate', lambda x: self.emit('tab-new'))
-            menu.append(item)
-    
-            menu.append(gtk.MenuItem())
-
-        item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
-        item.connect('activate', lambda x: self.emit('close-term'))
-        menu.append(item)
-
-        menu.append(gtk.MenuItem())
-
-        if not self.is_zoomed():
-            item = gtk.MenuItem(_('_Zoom terminal'))
-            item.connect('activate', self.zoom)
-            menu.append(item)
-
-            item = gtk.MenuItem(_('Ma_ximise terminal'))
-            item.connect('activate', self.maximise)
-            menu.append(item)
-
-            menu.append(gtk.MenuItem())
-
-        item = gtk.CheckMenuItem(_('Show _scrollbar'))
-        item.set_active(self.scrollbar.get_property('visible'))
-        item.connect('toggled', lambda x: self.do_scrollbar_toggle())
-        menu.append(item)
-
-        item = gtk.CheckMenuItem(_('Show _titlebar'))
-        item.set_active(self.titlebar.get_property('visible'))
-        item.connect('toggled', lambda x: self.do_title_toggle())
-        if self.group:
-            item.set_sensitive(False)
-        menu.append(item)
-
-        # FIXME: Add menu items for (un)showing
-        # scrollbar, (un)showing titlebar, profile editing, encodings
-
-        menu.show_all()
-        menu.popup(None, None, None, button, time)
-
-        return(True)
+        menu = TerminalPopupMenu(self)
+        menu.show(widget, event)
 
     def do_scrollbar_toggle(self):
         self.toggle_widget_visibility(self.scrollbar)
