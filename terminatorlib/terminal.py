@@ -47,6 +47,8 @@ class Terminal(gtk.VBox):
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -521,11 +523,11 @@ class Terminal(gtk.VBox):
 
     def zoom(self):
         """Zoom ourself to fill the window"""
-        pass
+        self.emit('zoom')
 
     def maximise(self):
         """Maximise ourself to fill the window"""
-        pass
+        self.emit('maximise')
 
     def spawn_child(self, widget=None):
         update_records = self.config['update_records']
