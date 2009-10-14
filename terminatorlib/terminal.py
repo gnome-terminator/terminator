@@ -376,6 +376,7 @@ class Terminal(gtk.VBox):
 
     def create_group(self, item):
         """Create a new group"""
+        #FIXME: Make this work
         pass
 
     def set_groupsend(self, widget, value):
@@ -395,6 +396,7 @@ class Terminal(gtk.VBox):
 
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
+        # FIXME: actually reconfigure our settings
         pass
 
     def get_window_title(self):
@@ -409,7 +411,39 @@ class Terminal(gtk.VBox):
 
     def on_keypress(self, widget, event):
         """Handler for keyboard events"""
-        pass
+        if not event:
+            dbg('Terminal::on_keypress: Called on %s with no event' % widget)
+            return(False)
+
+        # FIXME: Does keybindings really want to live in Terminator()?
+        mapping = self.terminator.keybindings.lookup(event)
+
+        if mapping == "hide_window":
+            return(False)
+
+        if mapping and mapping not in ['close_window', 'full_screen']:
+            dbg('Terminal::on_keypress: lookup found: %r' % mapping)
+            # handle the case where user has re-bound copy to ctrl+<key>
+            # we only copy if there is a selection otherwise let it fall through
+            # to ^<key>
+            if (mapping == "copy" and event.state & gtk.gdk.CONTROL_MASK):
+                if self._vte.get_has_selection ():
+                    getattr(self, "key_" + mapping)()
+                    return(True)
+                else:
+                    getattr(self, "key_" + mapping)()
+                    return(True)
+
+        # FIXME: This is all clearly wrong. We should be doing this better
+        # FIXMS: maybe we can emit the key event and let Terminator() care?
+        if self.terminator.groupsend != 0 and self.vte.is_focus():
+            if self.group and self.terminator.groupsend == 1:
+                self.terminator.group_emit(self, self.group, 'key-press-event',
+                        event)
+            if self.terminator.groupsend == 2:
+                self.terminator.all_emit(self, 'key-press-event', event)
+
+        return(False)
 
     def on_buttonpress(self, widget, event):
         """Handler for mouse events"""
@@ -460,23 +494,29 @@ class Terminal(gtk.VBox):
             self.vte.set_encoding(encoding)
 
     def on_drag_begin(self, widget, drag_context, data):
+        # FIXME: Implement this
         pass
 
     def on_drag_data_get(self, widget, drag_context, selection_data, info, time,
             data):
+        # FIXME: Implement this
         pass
 
     def on_drag_motion(self, widget, drag_context, x, y, time, data):
+        # FIXME: Implement this
         pass
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
             info, time, data):
+        # FIXME: Implement this
         pass
 
     def on_vte_focus(self, widget):
+        # FIXME: Implement this
         pass
 
     def on_vte_focus_out(self, widget, event):
+        # FIXME: Implement this
         pass
 
     def on_vte_focus_in(self, widget, event):
@@ -488,6 +528,7 @@ class Terminal(gtk.VBox):
         self.vte.grab_focus()
 
     def on_resize_window(self):
+        # FIXME: Implement this
         pass
 
     def on_vte_size_allocate(self, widget, allocation):
@@ -496,6 +537,7 @@ class Terminal(gtk.VBox):
         pass
 
     def on_vte_notify_enter(self, term, event):
+        # FIXME: Implement this
         pass
 
     def hide_titlebar(self):

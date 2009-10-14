@@ -4,6 +4,8 @@
 """terminator.py - class for the master Terminator singleton"""
 
 from borg import Borg
+from config import Config
+from keybindings import Keybindings
 
 class Terminator(Borg):
     """master object for the application"""
@@ -13,6 +15,7 @@ class Terminator(Borg):
     terminals = None
     groups = None
     config = None
+    keybindings = None
 
     splittogroup = None
     autocleangroups = None
@@ -38,6 +41,11 @@ class Terminator(Borg):
             self.splittogroup = False
         if not self.autocleangroups:
             self.autocleangroups = True
+        if not self.config:
+            self.config = Config()
+        if not self.keybindings:
+            self.keybindings = Keybindings()
+            self.keybindings.configure(self.config['keybindings'])
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
