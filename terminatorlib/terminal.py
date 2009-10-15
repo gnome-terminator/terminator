@@ -106,6 +106,7 @@ class Terminal(gtk.VBox):
         self.titlebar.connect_icon(self.on_group_button_press)
         self.titlebar.connect('edit-done', self.on_edit_done)
         self.connect('title-change', self.titlebar.set_terminal_title)
+        self.titlebar.connect('create-group', self.really_create_group)
 
         self.searchbar = Searchbar()
 
@@ -374,9 +375,13 @@ class Terminal(gtk.VBox):
         return(widget_x, menu_y, 1)
 
     def create_group(self, item):
-        """Create a new group"""
-        #FIXME: Make this work
-        pass
+        """Trigger the creation of a group via the titlebar (because popup 
+        windows are really lame)"""
+        self.titlebar.create_group()
+
+    def really_create_group(self, groupname):
+        """The titlebar has spoken, let a group be created"""
+        # FIXME: Actually create the group
 
     def set_groupsend(self, widget, value):
         """Set the groupsend mode"""

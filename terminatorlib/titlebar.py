@@ -7,6 +7,7 @@ import gtk
 import gobject
 
 from version import APP_NAME
+from util import dbg
 from newterminator import Terminator
 from editablelabel import EditableLabel
 
@@ -23,10 +24,13 @@ class Titlebar(gtk.EventBox):
     ebox = None
     groupicon = None
     grouplabel = None
+    groupentry = None
 
     __gsignals__ = {
             'clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
             'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+            'create-group': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                (gobject.TYPE_STRING,)),
     }
 
     def __init__(self):
@@ -43,6 +47,12 @@ class Titlebar(gtk.EventBox):
         self.grouplabel = gtk.Label()
         self.groupicon = gtk.Image()
 
+        self.groupentry = gtk.Entry()
+        self.groupentry.set_no_show_all(True)
+        self.groupentry.connect('focus-out-event', self.groupentry_cancel)
+        self.groupentry.connect('activate', self.groupentry_activate)
+        self.groupentry.connect('key-press-event', self.groupentry_keypress)
+
         groupsend_type = self.terminator.groupsend_type
         if self.terminator.groupsend == groupsend_type['all']:
             icon_name = 'all'
@@ -55,6 +65,8 @@ class Titlebar(gtk.EventBox):
 
         grouphbox.pack_start(self.groupicon, False, True, 2)
         grouphbox.pack_start(self.grouplabel, False, True, 2)
+        grouphbox.pack_start(self.groupentry, False, True, 2)
+
         self.ebox.add(grouphbox)
         self.ebox.show_all()
 
@@ -110,5 +122,28 @@ class Titlebar(gtk.EventBox):
     def on_edit_done(self, widget):
         """Re-emit an edit-done signal from an EditableLabel"""
         self.emit('edit-done')
+
+    def create_group(self):
+        """Create a new group"""
+        self.groupentry.show()
+        self.groupentry.grab_focus()
+
+    def groupentry_cancel(self, widget, event):
+        """Hide the group name entry"""
+        self.groupentry.set_text('')
+        self.groupentry.hide()
+
+    def groupentry_activate(self, widget):
+        """Actually cause a group to be created"""
+        groupname = self.groupentry.get_text()
+        dbg('creating group: %s' % groupname)
+        self.groupentry_cancel(None, None)
+        self.emit('create-group', groupname)
+
+    def groupentry_keypress(self, widget, event):
+        """Handle keypresses on the entry widget"""
+        key = gtk.gdk.keyval_name(event.keyval)
+        if key == 'Escape':
+            self.groupentry_cancel(None, None)
 
 gobject.type_register(Titlebar)
