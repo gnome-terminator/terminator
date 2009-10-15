@@ -9,7 +9,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gobject
-import subprocess
 import re
 
 from version import APP_NAME
@@ -633,18 +632,10 @@ class Terminal(gtk.VBox):
 
     def open_url(self, url, prepare=False):
         """Open a given URL, conditionally unpacking it from a VTE match"""
-        # FIXME: Use gtk.show_uri()
         if prepare == True:
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
-        try:
-            subprocess.Popen(['xdg-open', url])
-        except OSError:
-            dbg('open_url: xdg-open failed')
-            try:
-                self.terminator.url_show(url)
-            except:
-                dbg('open_url: url_show failed. Giving up')
+        gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
