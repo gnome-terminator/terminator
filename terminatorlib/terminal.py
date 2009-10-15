@@ -633,6 +633,7 @@ class Terminal(gtk.VBox):
 
     def open_url(self, url, prepare=False):
         """Open a given URL, conditionally unpacking it from a VTE match"""
+        # FIXME: Use gtk.show_uri()
         if prepare == True:
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
