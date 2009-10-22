@@ -328,6 +328,47 @@ class Terminator:
       if hidden or self.conf.hidden:
         self.window.iconify()
 
+  def on_term_resized(self):
+    win_total_width, win_total_height = self.window.get_size ()
+    dbg ('Resized window is %dx%d' % (win_total_width, win_total_height))
+
+    # FIXME: find first terminal
+    firstidx = 0
+
+    # Walk terminals across top edge to sum column geometries
+    prev = -1
+    column_sum = 0
+    width_extra = 0
+    walker = firstidx
+    while (walker != None):
+        term = self.term_list[walker]
+        font_width, font_height, columns, rows = term.get_size_details ()
+        column_sum += columns
+        dbg ('Geometry hints (term %d) column += %d characters' % (walker, columns))
+        prev = walker
+        walker = self._select_right (walker)
+
+    # Walk terminals down left edge to sum row geometries
+    prev = -1
+    row_sum = 0
+    height_extra = 0
+    walker = firstidx
+    while (walker != None):
+        term = self.term_list[walker]
+        font_width, font_height, columns, rows = term.get_size_details ()
+        row_sum += rows
+        dbg ('Geometry hints (term %d) row += %d characters' % (walker, rows))
+        prev = walker
+        walker = self._select_down (walker)
+
+    # adjust...
+    width_extra = win_total_width - (column_sum * font_width)
+    height_extra = win_total_height - (row_sum * font_height)
+
+    dbg ('Geometry hints based on font size: %dx%d, columns: %d, rows: %d, extra width: %d, extra height: %d' % (font_width, font_height, column_sum, row_sum, width_extra, height_extra))
+
+    self.window.set_geometry_hints(self.window, -1, -1, -1, -1, width_extra, height_extra, font_width, font_height, -1.0, -1.0)
+
   def set_handle_size (self, size):
     if size in xrange (0,6):
       gtk.rc_parse_string("""
@@ -947,7 +988,13 @@ class Terminator:
         term._vte.grab_focus ()
 
   def _select_direction (self, term, matcher):
-    current = self.term_list.index (term)
+    '''Return index of terminal in given direction'''
+    # Handle either TerminatorTerm or int index
+    if type(term) == int:
+        current = term
+        term = self.term_list[current]
+    else:
+        current = self.term_list.index (term)
     current_geo = term.get_geometry ()
     best_index = None
     best_geo = None
