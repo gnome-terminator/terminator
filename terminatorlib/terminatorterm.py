@@ -406,7 +406,10 @@ class TerminatorTerm (gtk.VBox):
     dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
 
   def on_vte_size_allocate(self, widget, allocation):
+    dbg ('Terminal resized to %dx%d' % (self._vte.get_column_count (), self._vte.get_row_count ()))
     self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
+    if self._vte.window != None:
+        self.terminator.on_term_resized ()
 
   def get_pixbuf(self, maxsize= None):
     pixmap = self.get_snapshot()
@@ -896,6 +899,14 @@ text/plain
     # Sync our titlebar state
     self._titlebox.update ()
     self._vte.queue_draw ()
+
+  def get_size_details(self):
+    font_width = self._vte.get_char_width ()
+    font_height = self._vte.get_char_height ()
+    columns = self._vte.get_column_count ()
+    rows = self._vte.get_row_count ()
+
+    return (font_width, font_height, columns, rows)
 
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
