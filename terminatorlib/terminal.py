@@ -11,7 +11,6 @@ import gtk
 import gobject
 import re
 
-from version import APP_NAME
 from util import dbg, err, gerr
 import util
 from config import Config
