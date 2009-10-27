@@ -246,7 +246,6 @@ class Terminal(gtk.VBox):
             self.on_vte_notify_enter)
 
         self.vte.connect_after('realize', self.reconfigure)
-        self.vte.connect_after('realize', self.spawn_child)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""

@@ -199,6 +199,7 @@ class Window(Container, gtk.Window):
         container.show()
 
         self.add(container)
+        sibling.spawn_child()
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

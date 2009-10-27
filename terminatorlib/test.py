@@ -17,6 +17,7 @@ foo.register_terminal(term)
 
 window.add(term)
 window.show()
+term.spawn_child()
 
 window.connect("destroy", on_window_destroyed)
 
