@@ -95,3 +95,23 @@ def shell_lookup():
                 return(rshell)
     dbg('shell_lookup: Unable to locate a shell')
 
+def widget_pixbuf(widget, maxsize=None):
+    """Generate a pixbuf of a widget"""
+    pixmap = widget.get_snapshot()
+    (width, height) = pixmap.get_size()
+    pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
+    pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width,
+            height)
+
+    longest = max(width, height)
+
+    if maxsize is not None:
+        factor = float(maxsize) / float(longest)
+
+    if not maxsize or (width * factor) > width or (height * factor) > height:
+        factor = 1
+
+    scaledpixbuf = pixbuf.scale_simple(int(width * factor), int(height * factor), gtk.gdk.INTERP_BILINEAR)
+
+    return(scaledpixbuf)
+
