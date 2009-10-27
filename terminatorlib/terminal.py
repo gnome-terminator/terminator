@@ -11,7 +11,7 @@ import gtk
 import gobject
 import re
 
-from util import dbg, err, gerr
+from util import dbg, err, gerr, widget_pixbuf
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -206,7 +206,7 @@ class Terminal(gtk.VBox):
 
         for (widget, mask) in [
             (self.vte, gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK), 
-            (self.titlebar, gtk.gdk.CONTROL_MASK)]:
+            (self.titlebar, gtk.gdk.BUTTON1_MASK)]:
             widget.drag_source_set(mask, srcvtetargets, gtk.gdk.ACTION_MOVE)
 
         self.vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION |
@@ -234,7 +234,6 @@ class Terminal(gtk.VBox):
             self.emit('title-change', self.get_window_title()))
         self.vte.connect('grab-focus', self.on_vte_focus)
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
-        self.vte.connect('resize-window', self.on_resize_window)
         self.vte.connect('size-allocate', self.on_vte_size_allocate)
 
         if self.config['exit_action'] == 'restart':
@@ -380,12 +379,14 @@ class Terminal(gtk.VBox):
 
     def really_create_group(self, groupname):
         """The titlebar has spoken, let a group be created"""
-        # FIXME: Actually create the group
+        self.terminator.create_group(groupname)
+        self.group = groupname
 
     def set_groupsend(self, widget, value):
         """Set the groupsend mode"""
         # FIXME: Can we think of a smarter way of doing this than poking?
-        self.terminator.groupsend = value
+        if value in self.terminator.groupsend_type:
+            self.terminator.groupsend = value
 
     def do_splittogroup_toggle(self):
         """Toggle the splittogroup mode"""
@@ -497,56 +498,172 @@ class Terminal(gtk.VBox):
             self.vte.set_encoding(encoding)
 
     def on_drag_begin(self, widget, drag_context, data):
-        # FIXME: Implement this
-        pass
+        """Handle the start of a drag event"""
+        widget.drag_source_set_icon_pixbuf(util.widget_pixbuf(self, 512))
 
     def on_drag_data_get(self, widget, drag_context, selection_data, info, time,
             data):
-        # FIXME: Implement this
-        pass
+        """I have no idea what this does, drag and drop is a mystery. sorry."""
+        selection_data.set('vte', info,
+                str(data.terminator.terminals.index(self)))
 
     def on_drag_motion(self, widget, drag_context, x, y, time, data):
-        # FIXME: Implement this
-        pass
+        """*shrug*"""
+        if 'text/plain' in drag_context.targets:
+            # copy text from another widget
+            return
+        srcwidget = drag_context.get_source_widget()
+        if(isinstance(srcwidget, gtk.EventBox) and 
+           srcwidget == self.titlebar) or widget == srcwidget:
+            # on self
+            return
+
+        alloc = widget.allocation
+        rect = gtk.gdk.Rectangle(0, 0, alloc.width, alloc.height)
+
+        if self.config['use_theme_colors']:
+            color = self.vte.get_style().text[gtk.STATE_NORMAL]
+        else:
+            color = gtk.gdk.color_parse(self.config['foreground_color'])
+
+        pos = self.get_location(widget, x, y)
+        topleft = (0,0)
+        topright = (alloc.width,0)
+        topmiddle = (alloc.width/2,0)
+        bottomleft = (0, alloc.height)
+        bottomright = (alloc.width,alloc.height)
+        bottommiddle = (alloc.width/2, alloc.height)
+        middle = (alloc.width/2, alloc.height/2)
+        middleleft = (0, alloc.height/2)
+        middleright = (alloc.width, alloc.height/2)
+        #print "%f %f %d %d" %(coef1, coef2, b1,b2)
+        coord = ()
+        if pos == "right":
+            coord = (topright, topmiddle, bottommiddle, bottomright)
+        elif pos == "top":
+            coord = (topleft, topright, middleright , middleleft)
+        elif pos == "left":
+            coord = (topleft, topmiddle, bottommiddle, bottomleft)
+        elif pos == "bottom":
+            coord = (bottomleft, bottomright, middleright , middleleft) 
+
+        #here, we define some widget internal values
+        widget._expose_data = { 'color': color, 'coord' : coord }
+        #redraw by forcing an event
+        connec = widget.connect_after('expose-event', self.on_expose_event)
+        widget.window.invalidate_rect(rect, True)
+        widget.window.process_updates(True)
+        #finaly reset the values
+        widget.disconnect(connec)
+        widget._expose_data = None
+
+    def on_expose_event(self, widget, event):
+        """Handle an expose event while dragging"""
+        if not widget._expose_data:
+            return(False)
+
+        color = widget._expose_data['color']
+        coord = widget._expose_data['coord']
+
+        context = widget.window.cairo_create()
+        context.set_source_rgba(color.red, color.green, color.blue, 0.5)
+        if len(coord) > 0 :
+            context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
+            for i in coord:
+                context.line_to(i[0],i[1])
+
+        context.fill()
+        return(False)
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
             info, time, data):
-        # FIXME: Implement this
-        pass
+        if selection_data.type == 'text/plain':
+            # copy text to destination
+            txt = selection_data.data.strip()
+            if txt[0:7] == 'file://':
+                text = "'%s'" % urllib.unquote(txt[7:])
+            for term in self.terminator.get_target_terms():
+                term.feed(txt)
+            return
+        
+        widgetsrc = data.terminator.terminals[int(selection_data.data)]
+        srcvte = drag_context.get_source_widget()
+        #check if computation requireds
+        if (isinstance(srcvte, gtk.EventBox) and 
+                srcvte == self.titlebar) or srcvte == widget:
+            return
+
+        srchbox = widgetsrc
+        dsthbox = widget.get_parent().get_parent()
+
+        dstpaned = dsthbox.get_parent()
+        srcpaned = srchbox.get_parent()
+        if isinstance(dstpaned, gtk.Window) and  isinstance(srcpaned, gtk.Window):
+            return
+
+        pos = self.get_location(widget, x, y)
+
+        data.terminator.remove(widgetsrc, True)
+        data.terminator.add(self, widgetsrc, pos)
+
+    def get_location(self, vte, x, y):
+        """Get our location within the terminal"""
+        pos = ''
+        #get the diagonales function for the receiving widget
+        coef1 = float(vte.allocation.height)/float(vte.allocation.width)
+        coef2 = -float(vte.allocation.height)/float(vte.allocation.width)
+        b1 = 0
+        b2 = vte.allocation.height
+        #determine position in rectangle
+        """
+        --------
+        |\    /|
+        | \  / |
+        |  \/  |
+        |  /\  |
+        | /  \ |
+        |/    \|
+        --------
+        """
+        if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
+              pos =  "right"
+        if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
+              pos = "top"
+        if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
+              pos = "left"
+        if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
+              pos = "bottom"
+        return pos
 
     def on_vte_focus(self, widget):
-        # FIXME: Implement this
-        pass
+        self.emit('title-change', self.get_window_title())
 
     def on_vte_focus_out(self, widget, event):
-        # FIXME: Implement this
-        pass
+        return
 
     def on_vte_focus_in(self, widget, event):
         self.emit('focus-in')
-        pass
 
     def on_edit_done(self, widget):
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
 
-    def on_resize_window(self):
-        # FIXME: Implement this
-        pass
-
     def on_vte_size_allocate(self, widget, allocation):
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
-        pass
 
     def on_vte_notify_enter(self, term, event):
-        # FIXME: Implement this
-        pass
+        """Handle the mouse entering this terminal"""
+        if self.config['focus'] in ['sloppy', 'mouse']:
+            term.grab_focus()
+            return(False)
 
     def hide_titlebar(self):
+        """Hide the titlebar"""
         self.titlebar.hide()
 
     def show_titlebar(self):
+        """Show the titlebar"""
         self.titlebar.show()
 
     def is_zoomed(self):
