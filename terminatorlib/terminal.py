@@ -9,7 +9,9 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gobject
+import pango
 import re
+import subprocess
 
 from util import dbg, err, gerr, widget_pixbuf
 import util
@@ -770,13 +772,39 @@ class Terminal(gtk.VBox):
         """Feed the supplied text to VTE"""
         self.vte.feed_child(text)
 
+    def zoom_in(self):
+        """Increase the font size"""
+        self.zoom_font(True)
+
+    def zoom_out(self):
+        """Decrease the font size"""
+        self.zoom_font(False)
+
+    def zoom_font(self, zoom_in):
+        """Change the font size"""
+        pangodesc = self.vte.get_font()
+        fontsize = pangodesc.get_size()
+
+        if fontsize > pango.SCALE and not zoom_in:
+            fontsize -= pango.SCALE
+        elif zoom_in:
+            fontsize += pango.SCALE
+
+        pangodesc.set_size(fontsize)
+        self.vte.set_font(pangodesc)
+
+    def zoom_orig(self):
+        """Restore original font size"""
+        print "restoring font to: %s" % self.config['font']
+        self.vte.set_font(pango.FontDescription(self.config['font']))
+
     # There now begins a great list of keyboard event handlers
     # FIXME: Probably a bunch of these are wrong. TEST!
     def key_zoom_in(self):
-        self.zoom(True)
+        self.zoom_in()
 
     def key_zoom_out(self):
-        self.zoom(False)
+        self.zoom_out()
 
     def key_copy(self):
         self.vte.copy_clipboard()
@@ -913,7 +941,7 @@ class Terminal(gtk.VBox):
     
         if not os.path.isabs(cmd):
             # Command is not an absolute path. Figure out where we are
-            cmd = os.path.join (self.terminator.origcwd, sys.argv[0])
+            cmd = os.path.join (self.cwd, sys.argv[0])
             if not os.path.isfile(cmd):
                 # we weren't started as ./terminator in a path. Give up
                 err('Unable to locate Terminator')
