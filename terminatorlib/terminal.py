@@ -430,12 +430,12 @@ class Terminal(gtk.VBox):
             # we only copy if there is a selection otherwise let it fall through
             # to ^<key>
             if (mapping == "copy" and event.state & gtk.gdk.CONTROL_MASK):
-                if self._vte.get_has_selection ():
+                if self.vte.get_has_selection ():
                     getattr(self, "key_" + mapping)()
                     return(True)
-                else:
-                    getattr(self, "key_" + mapping)()
-                    return(True)
+            else:
+                getattr(self, "key_" + mapping)()
+                return(True)
 
         # FIXME: This is all clearly wrong. We should be doing this better
         # FIXMS: maybe we can emit the key event and let Terminator() care?
@@ -769,6 +769,159 @@ class Terminal(gtk.VBox):
     def feed(self, text):
         """Feed the supplied text to VTE"""
         self.vte.feed_child(text)
+
+    # There now begins a great list of keyboard event handlers
+    # FIXME: Probably a bunch of these are wrong. TEST!
+    def key_zoom_in(self):
+        self.zoom(True)
+
+    def key_zoom_out(self):
+        self.zoom(False)
+
+    def key_copy(self):
+        self.vte.copy_clipboard()
+
+    def key_paste(self):
+        self.vte-paste_clipboard()
+
+    def key_toggle_scrollbar(self):
+        self.do_scrollbar_toggle()
+
+    def key_zoom_normal(self):
+        self.zoom_orig ()
+
+    def key_search(self):
+        self.start_search()
+
+    # bindings that should be moved to Terminator as they all just call
+    # a function of Terminator. It would be cleaner if TerminatorTerm
+    # has absolutely no reference to Terminator.
+    # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+    def key_new_root_tab(self):
+        self.terminator.newtab (self, True)
+
+    def key_go_next(self):
+        self.terminator.go_next (self)
+
+    def key_go_prev(self):
+        self.terminator.go_prev (self)
+
+    def key_go_up(self):
+        self.terminator.go_up (self)
+
+    def key_go_down(self):
+        self.terminator.go_down (self)
+
+    def key_go_left(self):
+        self.terminator.go_left (self)
+
+    def key_go_right(self):
+        self.terminator.go_right (self)
+
+    def key_split_horiz(self):
+        self.emit('split-horiz')
+
+    def key_split_vert(self):
+        self.emit('split-vert')
+
+    def key_close_term(self):
+        self.terminator.closeterm (self)
+
+    def key_new_tab(self):
+        self.terminator.newtab(self)
+
+    def key_resize_up(self):
+        self.terminator.resizeterm (self, 'Up')
+
+    def key_resize_down(self):
+        self.terminator.resizeterm (self, 'Down')
+
+    def key_resize_left(self):
+        self.terminator.resizeterm (self, 'Left')
+
+    def key_resize_right(self):
+        self.terminator.resizeterm (self, 'Right')
+
+    def key_move_tab_right(self):
+        self.terminator.move_tab (self, 'right')
+
+    def key_move_tab_left(self):
+        self.terminator.move_tab (self, 'left')
+
+    def key_toggle_zoom(self):
+        self.terminator.toggle_zoom (self)
+
+    def key_scaled_zoom(self):
+        self.terminator.toggle_zoom (self, True)
+
+    def key_next_tab(self):
+        self.terminator.next_tab (self)
+
+    def key_prev_tab(self):
+        self.terminator.previous_tab (self)
+
+    def key_switch_to_tab_1(self):
+        self.terminator.switch_to_tab (self, 0)
+
+    def key_switch_to_tab_2(self):
+        self.terminator.switch_to_tab (self, 1)
+
+    def key_switch_to_tab_3(self):
+        self.terminator.switch_to_tab (self, 2)
+
+    def key_switch_to_tab_4(self):
+        self.terminator.switch_to_tab (self, 3)
+
+    def key_switch_to_tab_5(self):
+        self.terminator.switch_to_tab (self, 4)
+
+    def key_switch_to_tab_6(self):
+        self.terminator.switch_to_tab (self, 5)
+
+    def key_switch_to_tab_7(self):
+        self.terminator.switch_to_tab (self, 6)
+
+    def key_switch_to_tab_8(self):
+        self.terminator.switch_to_tab (self, 7)
+
+    def key_switch_to_tab_9(self):
+        self.terminator.switch_to_tab (self, 8)
+
+    def key_switch_to_tab_10(self):
+        self.terminator.switch_to_tab (self, 9)
+
+    def key_reset(self):
+        self.vte.reset (True, False)
+
+    def key_reset_clear(self):
+        self.vte.reset (True, True)
+
+    def key_group_all(self):
+        self.group_all(self)
+
+    def key_ungroup_all(self):
+        self.ungroup_all(self)
+
+    def key_group_tab(self):
+        self.group_tab(self)
+    
+    def key_ungroup_tab(self):
+        self.ungroup_tab(self)
+
+    def key_new_window(self):
+        cmd = sys.argv[0]
+    
+        if not os.path.isabs(cmd):
+            # Command is not an absolute path. Figure out where we are
+            cmd = os.path.join (self.terminator.origcwd, sys.argv[0])
+            if not os.path.isfile(cmd):
+                # we weren't started as ./terminator in a path. Give up
+                err('Unable to locate Terminator')
+                return False
+          
+        dbg("Spawning: %s" % cmd)
+        subprocess.Popen([cmd,])
+# End key events
 
 gobject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
