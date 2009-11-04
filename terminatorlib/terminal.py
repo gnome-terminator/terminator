@@ -270,7 +270,7 @@ class Terminal(gtk.VBox):
         menu = gtk.Menu()
         groupitem = None
 
-        item = gtk.MenuItem(_('Assign to group...'))
+        item = gtk.MenuItem(_('New group...'))
         item.connect('activate', self.create_group)
         menu.append(item)
        
@@ -374,15 +374,32 @@ class Terminal(gtk.VBox):
 
         return(widget_x, menu_y, 1)
 
+    def set_group(self, item, name):
+        """Set a particular group"""
+        if self.group == name:
+            # already in this group, no action needed
+            return
+        self.group = name
+        self.titlebar.set_group_label(name)
+        self.terminator.group_hoover()
+
     def create_group(self, item):
         """Trigger the creation of a group via the titlebar (because popup 
         windows are really lame)"""
         self.titlebar.create_group()
 
-    def really_create_group(self, groupname):
+    def really_create_group(self, widget, groupname):
         """The titlebar has spoken, let a group be created"""
         self.terminator.create_group(groupname)
-        self.group = groupname
+        self.set_group(None, groupname)
+
+    def ungroup(self, widget, data):
+        """Remove a group"""
+        # FIXME: Could we emit and have Terminator do this?
+        for term in self.terminator.terminals:
+            if term.group == data:
+                term.set_group(None, None)
+        self.terminator.group_hoover()
 
     def set_groupsend(self, widget, value):
         """Set the groupsend mode"""

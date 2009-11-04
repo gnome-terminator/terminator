@@ -49,8 +49,8 @@ class Terminator(Borg):
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
-
         self.terminals.append(terminal)
+        terminal.connect('ungroup-all', self.ungroup_all)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
@@ -63,10 +63,21 @@ class Terminator(Borg):
         for terminal in self.terminals:
             terminal.reconfigure()
 
+    def create_group(self, name):
+        """Create a new group"""
+        if name not in self.groups:
+            self.groups.append(name)
+
+    def ungroup_all(self, widget):
+        """Remove all groups"""
+        for terminal in self.terminals:
+            terminal.set_group(None, None)
+        self.groups = []
+
     def group_hoover(self):
         """Clean out unused groups"""
 
-        if self.config['autoclean_groups']:
+        if self.autocleangroups:
             todestroy = []
             for group in self.groups:
                 for terminal in self.terminals:
