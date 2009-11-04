@@ -110,6 +110,7 @@ class Terminal(gtk.VBox):
         self.titlebar.connect('create-group', self.really_create_group)
 
         self.searchbar = Searchbar()
+        self.searchbar.connect('end-search', self.on_search_done)
 
         self.show()
         self.pack_start(self.titlebar, False)
@@ -645,6 +646,20 @@ class Terminal(gtk.VBox):
     def on_vte_focus_in(self, widget, event):
         self.emit('focus-in')
 
+    def scrollbar_jump(self, position):
+        """Move the scrollbar to a particular row"""
+        self.scrollbar.set_value(position)
+
+    def scrollbar_position(self):
+        """Return the current position of the scrollbar"""
+        return(self.scrollbar.get_value())
+
+    def on_search_done(self, widget):
+        """We've finished searching, so clean up"""
+        self.searchbar.hide()
+        self.scrollbar.set_value(self.vte.get_cursor_position()[1])
+        self.vte.grab_focus()
+
     def on_edit_done(self, widget):
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
@@ -761,7 +776,7 @@ class Terminal(gtk.VBox):
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
-        for term in self.terminator.get_target_terms():
+        for term in self.terminator.get_target_terms(self):
             if primary:
                 term.vte.paste_primary()
             else:
@@ -810,7 +825,7 @@ class Terminal(gtk.VBox):
         self.vte.copy_clipboard()
 
     def key_paste(self):
-        self.vte-paste_clipboard()
+        self.vte.paste_clipboard()
 
     def key_toggle_scrollbar(self):
         self.do_scrollbar_toggle()
@@ -819,7 +834,7 @@ class Terminal(gtk.VBox):
         self.zoom_orig ()
 
     def key_search(self):
-        self.start_search()
+        self.searchbar.start_search()
 
     # bindings that should be moved to Terminator as they all just call
     # a function of Terminator. It would be cleaner if TerminatorTerm

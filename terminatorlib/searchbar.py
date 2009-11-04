@@ -7,25 +7,36 @@ import gtk
 import gobject
 
 from translation import _
+from config import Config
+from util import dbg
 
 # pylint: disable-msg=R0904
 class Searchbar(gtk.HBox):
     """Class implementing the Searchbar widget"""
 
     __gsignals__ = {
-        'do-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'next-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'end-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     entry = None
     reslabel = None
     next = None
+    prev = None
+
+    vte = None
+    config = None
+
+    searchstring = None
+    searchrow = None
+
+    searchits = None
 
     def __init__(self):
         """Class initialiser"""
         gtk.HBox.__init__(self)
         self.__gobject_init__()
+
+        self.config = Config()
 
         # Search text
         self.entry = gtk.Entry()
@@ -59,13 +70,24 @@ class Searchbar(gtk.HBox):
         self.next = gtk.Button(_('Next'))
         self.next.connect('clicked', self.next_search)
 
+        # Previous Button
+        self.prev = gtk.Button(_('Prev'))
+        self.prev.connect('clicked', self.prev_search)
+
         self.pack_start(label, False)
         self.pack_start(self.entry)
         self.pack_start(self.reslabel, False)
+        self.pack_start(self.prev, False, False)
         self.pack_start(self.next, False, False)
         self.pack_end(close, False, False)
 
         self.hide()
+
+    def get_vte(self):
+        """Find our parent widget"""
+        parent = self.get_parent()
+        if parent:
+            self.vte = parent.vte
 
     # pylint: disable-msg=W0613
     def search_keypress(self, widget, event):
@@ -74,17 +96,88 @@ class Searchbar(gtk.HBox):
         if key == 'Escape':
             self.end_search()
 
+    def start_search(self):
+        """Show ourselves"""
+        if not self.vte:
+            self.get_vte()
+
+        self.show()
+        self.entry.grab_focus()
+
     def do_search(self, widget):
         """Trap and re-emit the clicked signal"""
-        self.emit('do-search', widget)
+        self.searchhits = []
+        searchtext = self.entry.get_text()
+        if searchtext == '':
+            return
+
+        if searchtext != self.searchstring:
+            self.searchrow = self.get_vte_buffer_range()[0]
+            self.searchstring = searchtext
+
+        self.reslabel.set_text(_("Searching scrollback"))
+        self.next_search(None)
 
     def next_search(self, widget):
-        """Trap and re-emit the next-search signal"""
-        self.emit('next-search', widget)
+        """Search forwards and jump to the next result, if any"""
+        # FIXME: I think we should emit a signal and have Terminal() do this.
+        startrow,endrow = self.get_vte_buffer_range()
+        while True:
+            if self.searchrow == endrow:
+                self.searchrow = startrow
+                self.reslabel.set_text(_("Finished search"))
+                self.next.hide()
+                self.prev.hide()
+                return
+            buffer = self.vte.get_text_range(self.searchrow, 0, 
+                                             self.searchrow, -1,
+                                             self.search_character)
 
-    def end_search(self, widget):
+            index = buffer.find(self.searchstring)
+            if index != -1:
+                self.searchhits.append(self.searchrow)
+                self.search_hit(self.searchrow)
+                self.searchrow += 1
+                return
+            self.searchrow += 1
+
+    def prev_search(self, widget):
+        """Jump back to the previous search"""
+        row = self.searchhits.pop()
+        position = self.get_parent().scrollbar_position()
+        while row >= position:
+            row = self.searchhits.pop()
+        self.search_hit(row)
+        self.searchrow -= 1
+
+    def search_hit(self, row):
+        """Update the UI for a search hit"""
+        dbg('Searchbar::search_hit row %d, history of %d' % (row,
+                                                         len(self.searchhits)))
+        self.reslabel.set_text("%s %d" % (_('Found at row'), row))
+        self.get_parent().scrollbar_jump(row)
+        self.next.show()
+        if len(self.searchhits) > 1:
+            self.prev.show()
+        else:
+            self.prev.hide()
+
+    def search_character(self, widget, col, row, junk):
+        """We have to have a callback for each character"""
+        return(True)
+
+    def get_vte_buffer_range(self):
+        """Get the range of a vte widget"""
+        column, endrow = self.vte.get_cursor_position()
+        startrow = max(0, endrow - self.config['scrollback_lines'])
+        return(startrow, endrow)
+
+    def end_search(self, widget=None):
         """Trap and re-emit the end-search signal"""
-        self.emit('end-search', widget)
+        self.searchrow = 0
+        self.searchstring = None
+        self.reslabel.set_text('')
+        self.emit('end-search')
 
     def get_search_term(self):
         """Return the currently set search term"""
