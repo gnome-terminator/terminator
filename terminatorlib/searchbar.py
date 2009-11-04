@@ -68,10 +68,14 @@ class Searchbar(gtk.HBox):
 
         # Next Button
         self.next = gtk.Button(_('Next'))
+        self.next.show()
+        self.next.set_sensitive(False)
         self.next.connect('clicked', self.next_search)
 
         # Previous Button
         self.prev = gtk.Button(_('Prev'))
+        self.prev.show()
+        self.prev.set_sensitive(False)
         self.prev.connect('clicked', self.prev_search)
 
         self.pack_start(label, False)
@@ -106,7 +110,6 @@ class Searchbar(gtk.HBox):
 
     def do_search(self, widget):
         """Trap and re-emit the clicked signal"""
-        self.searchhits = []
         searchtext = self.entry.get_text()
         if searchtext == '':
             return
@@ -116,18 +119,17 @@ class Searchbar(gtk.HBox):
             self.searchstring = searchtext
 
         self.reslabel.set_text(_("Searching scrollback"))
+        self.next.set_sensitive(True)
+        self.prev.set_sensitive(True)
         self.next_search(None)
 
     def next_search(self, widget):
         """Search forwards and jump to the next result, if any"""
-        # FIXME: I think we should emit a signal and have Terminal() do this.
         startrow,endrow = self.get_vte_buffer_range()
         while True:
             if self.searchrow == endrow:
                 self.searchrow = startrow
-                self.reslabel.set_text(_("Finished search"))
-                self.next.hide()
-                self.prev.hide()
+                self.reslabel.set_text(_('No more results'))
                 return
             buffer = self.vte.get_text_range(self.searchrow, 0, 
                                              self.searchrow, -1,
@@ -135,32 +137,38 @@ class Searchbar(gtk.HBox):
 
             index = buffer.find(self.searchstring)
             if index != -1:
-                self.searchhits.append(self.searchrow)
                 self.search_hit(self.searchrow)
                 self.searchrow += 1
                 return
             self.searchrow += 1
 
+    # FIXME: There is an issue in switching search direction, probably because
+    # we increment/decrement self.searchrow after each search iteration
     def prev_search(self, widget):
         """Jump back to the previous search"""
-        row = self.searchhits.pop()
-        position = self.get_parent().scrollbar_position()
-        while row >= position:
-            row = self.searchhits.pop()
-        self.search_hit(row)
-        self.searchrow -= 1
+        startrow,endrow = self.get_vte_buffer_range()
+        while True:
+            if self.searchrow == startrow:
+                self.searchrow = endrow
+                self.reslabel.set_text(_('No more results'))
+                return
+            buffer = self.vte.get_text_range(self.searchrow, 0,
+                                             self.searchrow, -1,
+                                             self.search_character)
+
+            index = buffer.find(self.searchstring)
+            if index != -1:
+                self.search_hit(self.searchrow)
+                self.searchrow -= 1
+                return
+            self.searchrow -= 1
 
     def search_hit(self, row):
         """Update the UI for a search hit"""
-        dbg('Searchbar::search_hit row %d, history of %d' % (row,
-                                                         len(self.searchhits)))
         self.reslabel.set_text("%s %d" % (_('Found at row'), row))
         self.get_parent().scrollbar_jump(row)
         self.next.show()
-        if len(self.searchhits) > 1:
-            self.prev.show()
-        else:
-            self.prev.hide()
+        self.prev.show()
 
     def search_character(self, widget, col, row, junk):
         """We have to have a callback for each character"""
@@ -182,17 +190,5 @@ class Searchbar(gtk.HBox):
     def get_search_term(self):
         """Return the currently set search term"""
         return(self.entry.get_text())
-
-    def set_search_label(self, string = ''):
-        """Set the  search label"""
-        self.reslabel.set_text(string)
-
-    def hide_next(self):
-        """Hide the Next button"""
-        self.next.hide()
-
-    def show_next(self):
-        """Show the Next button"""
-        self.next.show()
 
 gobject.type_register(Searchbar)
