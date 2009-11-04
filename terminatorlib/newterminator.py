@@ -74,6 +74,12 @@ class Terminator(Borg):
             terminal.set_group(None, None)
         self.groups = []
 
+    def closegroupedterms(self, group):
+        """Close all terminals in a group"""
+        for terminal in self.terminals:
+            if terminal.group == group:
+                terminal.close()
+
     def group_hoover(self):
         """Clean out unused groups"""
 

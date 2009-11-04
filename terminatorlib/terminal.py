@@ -126,6 +126,10 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
+    def close(self):
+        """Close ourselves"""
+        self.emit('close-term')
+
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
@@ -315,7 +319,7 @@ class Terminal(gtk.VBox):
 
             item = gtk.MenuItem(_('Close group %s') % self.group)
             item.connect('activate', lambda x:
-                    self.terminator.closegroupedterms(self))
+                         self.terminator.closegroupedterms(self.group))
             menu.append(item)
 
         menu.append(gtk.MenuItem())
