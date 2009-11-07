@@ -752,7 +752,10 @@ class Terminal(gtk.VBox):
             self.vte.feed(_('Unable to find a shell'))
             return(-1)
 
-        os.putenv('WINDOWID', '%s' % self.vte.get_parent_window().xid)
+        try:
+            os.putenv('WINDOWID', '%s' % self.vte.get_parent_window().xid)
+        except AttributeError:
+            pass
 
         self.pid = self.vte.fork_command(command=shell, argv=args, envv=[],
                 loglastlog=login, logwtmp=update_records,

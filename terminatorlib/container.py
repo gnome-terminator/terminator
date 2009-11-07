@@ -22,12 +22,7 @@ class Container(object):
                     'zoomed' : 1,
                     'maximised' : 2 }
 
-    signals = [ {'name': 'group-hoover-needed',
-                 'flags': gobject.SIGNAL_RUN_LAST,
-                 'return_type': gobject.TYPE_BOOLEAN,
-                 'param_types': ()
-                 }
-              ]
+    signals = []
 
     def __init__(self):
         """Class initialiser"""
@@ -38,15 +33,12 @@ class Container(object):
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
         for signal in self.signals:
+            dbg("Container:: registering signal for %s on %s" % (signal['name'], widget))
             gobject.signal_new(signal['name'],
                                widget,
                                signal['flags'],
                                signal['return_type'],
                                signal['param_types'])
-
-    def emit(self, signal):
-        """Emit a gobject signal"""
-        raise NotImplementedError('emit')
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
@@ -86,7 +78,7 @@ class Container(object):
             return(False)
 
         self.terminator.deregister_terminal(widget)
-        self.emit('need_group_hoover')
+        self.terminator.group_hoover()
         return(True)
 
     def resizeterm(self, widget, keyname):

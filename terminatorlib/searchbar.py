@@ -86,6 +86,7 @@ class Searchbar(gtk.HBox):
         self.pack_end(close, False, False)
 
         self.hide()
+        self.set_no_show_all(True)
 
     def get_vte(self):
         """Find our parent widget"""

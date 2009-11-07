@@ -13,6 +13,7 @@ from version import APP_NAME
 from container import Container
 from newterminator import Terminator
 from terminal import Terminal
+from paned import HPaned,VPaned
 
 try:
     import deskbar.core.keybinder as bindkey
@@ -37,6 +38,7 @@ class Window(Container, gtk.Window):
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
+        self.terminator.window = self
         self.cnxids = []
 
         Container.__init__(self)
@@ -182,21 +184,20 @@ class Window(Container, gtk.Window):
 
     def split_axis(self, widget, vertical=True):
         """Split the window"""
-        # FIXME: this .remove isn't good enough, what about signal handlers?
         self.remove(widget)
 
         # FIXME: we should be creating proper containers, not these gtk widgets
         if vertical:
-            container = gtk.VPaned()
+            container = VPaned()
         else:
-            container = gtk.HPaned()
+            container = HPaned()
 
         sibling = Terminal()
         self.terminator.register_terminal(sibling)
 
-        container.pack1(widget, True, True)
-        container.pack2(sibling, True, True)
-        container.show()
+        for term in [widget, sibling]:
+            container.add(term)
+        container.show_all()
 
         self.add(container)
         sibling.spawn_child()
