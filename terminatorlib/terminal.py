@@ -72,6 +72,8 @@ class Terminal(gtk.VBox):
 
     composite_support = None
 
+    cnxid = None
+
     def __init__(self):
         """Class initialiser"""
         gtk.VBox.__init__(self)
@@ -252,7 +254,7 @@ class Terminal(gtk.VBox):
         self.vte.connect('enter_notify_event',
             self.on_vte_notify_enter)
 
-        self.vte.connect_after('realize', self.reconfigure)
+        self.cnxid = self.vte.connect_after('realize', self.reconfigure)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -423,6 +425,12 @@ class Terminal(gtk.VBox):
 
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
+        dbg('Terminal::reconfigure')
+        if self.cnxid:
+            dbg('Terminal::reconfigure: disconnecting')
+            self.vte.disconnect(self.cnxid)
+            self.cnxid = None
+
         # FIXME: actually reconfigure our settings
         pass
 
