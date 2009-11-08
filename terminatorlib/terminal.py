@@ -49,6 +49,8 @@ class Terminal(gtk.VBox):
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'resize-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_STRING,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -743,6 +745,8 @@ class Terminal(gtk.VBox):
         shell = None
         command = None
 
+        self.vte.grab_focus()
+
         if self.config['use_custom_command']:
             command = self.config['custom_command']
 
@@ -906,16 +910,16 @@ class Terminal(gtk.VBox):
         self.terminator.newtab(self)
 
     def key_resize_up(self):
-        self.terminator.resizeterm (self, 'Up')
+        self.emit('resize-term', 'up')
 
     def key_resize_down(self):
-        self.terminator.resizeterm (self, 'Down')
+        self.emit('resize-term', 'down')
 
     def key_resize_left(self):
-        self.terminator.resizeterm (self, 'Left')
+        self.emit('resize-term', 'left')
 
     def key_resize_right(self):
-        self.terminator.resizeterm (self, 'Right')
+        self.emit('resize-term', 'right')
 
     def key_move_tab_right(self):
         self.terminator.move_tab (self, 'right')

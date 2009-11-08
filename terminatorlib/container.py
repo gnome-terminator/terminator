@@ -32,13 +32,18 @@ class Container(object):
 
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
+        existing = gobject.signal_list_names(widget)
         for signal in self.signals:
-            dbg("Container:: registering signal for %s on %s" % (signal['name'], widget))
-            gobject.signal_new(signal['name'],
-                               widget,
-                               signal['flags'],
-                               signal['return_type'],
-                               signal['param_types'])
+            if signal['name'] in existing:
+                dbg('Container:: skipping signal %s for %s, already exists' % (
+                        signal['name'], widget))
+            else:
+                dbg('Container:: registering signal for %s on %s' % (signal['name'], widget))
+                gobject.signal_new(signal['name'],
+                                   widget,
+                                   signal['flags'],
+                                   signal['return_type'],
+                                   signal['param_types'])
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
