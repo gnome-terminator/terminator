@@ -667,6 +667,9 @@ class Terminal(gtk.VBox):
               pos = "bottom"
         return pos
 
+    def grab_focus(self):
+        self.vte.grab_focus()
+
     def on_vte_focus(self, widget):
         self.emit('title-change', self.get_window_title())
 

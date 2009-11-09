@@ -84,7 +84,7 @@ class Terminator(Borg):
         
         if next is not None:
             print "sending focus to term %d" % next
-            self.terminals[next].vte.grab_focus()
+            self.terminals[next].grab_focus()
 
     def create_group(self, name):
         """Create a new group"""
