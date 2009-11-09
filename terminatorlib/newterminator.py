@@ -17,8 +17,6 @@ class Terminator(Borg):
     config = None
     keybindings = None
 
-    splittogroup = None
-    autocleangroups = None
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
 
@@ -37,10 +35,6 @@ class Terminator(Borg):
             self.groups = []
         if not self.groupsend:
             self.groupsend = self.groupsend_type['group']
-        if not self.splittogroup:
-            self.splittogroup = False
-        if not self.autocleangroups:
-            self.autocleangroups = True
         if not self.config:
             self.config = Config()
         if not self.keybindings:
@@ -51,6 +45,7 @@ class Terminator(Borg):
         """Register a new terminal widget"""
         self.terminals.append(terminal)
         terminal.connect('ungroup-all', self.ungroup_all)
+        terminal.connect('navigate', self.navigate_terminal)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
@@ -62,6 +57,34 @@ class Terminator(Borg):
 
         for terminal in self.terminals:
             terminal.reconfigure()
+
+    def navigate_terminal(self, terminal, direction):
+        """Nagivate around the terminals"""
+        current = self.terminals.index(terminal)
+        length = len(self.terminals)
+        next = None
+
+        if length <= 1:
+            return
+
+        print "Current term: %d" % current
+        print "Number of terms: %d" % length
+
+        if direction == 'next':
+            next = current + 1
+            if next >= length:
+                next = 0
+        elif direction == 'prev':
+            next = current - 1
+            if next < 0:
+                next = length - 1
+        else:
+            raise NotImplementedError
+            # FIXME: Do the directional navigation
+        
+        if next is not None:
+            print "sending focus to term %d" % next
+            self.terminals[next].vte.grab_focus()
 
     def create_group(self, name):
         """Create a new group"""
@@ -83,7 +106,7 @@ class Terminator(Borg):
     def group_hoover(self):
         """Clean out unused groups"""
 
-        if self.autocleangroups:
+        if self.config['autoclean_groups']:
             todestroy = []
             for group in self.groups:
                 for terminal in self.terminals:

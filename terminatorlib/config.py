@@ -91,6 +91,8 @@ DEFAULTS = {
   'hide_tabbar'           : False,
   'scroll_tabbar'         : False,
   'alternate_screen_scroll': True,
+  'split_to_group'        : False,
+  'autoclean_groups'      : True,
   'keybindings'           : {
     'zoom_in'          : '<Ctrl>plus',
     'zoom_out'         : '<Ctrl>minus',

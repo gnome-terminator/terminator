@@ -51,6 +51,8 @@ class Terminal(gtk.VBox):
         'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'resize-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
+        'navigate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_STRING,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -343,12 +345,12 @@ class Terminal(gtk.VBox):
         menu.append(gtk.MenuItem())
 
         item = gtk.CheckMenuItem(_('Split to this group'))
-        item.set_active(self.terminator.splittogroup)
+        item.set_active(self.config['split_to_group'])
         item.connect('toggled', lambda x: self.do_splittogroup_toggle())
         menu.append(item)
 
         item = gtk.CheckMenuItem(_('Autoclean groups'))
-        item.set_active(self.terminator.autocleangroups)
+        item.set_active(self.config['autoclean_groups'])
         item.connect('toggled', lambda x: self.do_autocleangroups_toggle())
         menu.append(item)
 
@@ -417,19 +419,16 @@ class Terminal(gtk.VBox):
 
     def do_splittogroup_toggle(self):
         """Toggle the splittogroup mode"""
-        # FIXME: Can we think of a smarter way of doing this than poking?
-        self.terminator.splittogroup = not self.terminator.splittogroup
+        self.config['split_to_group'] = not self.config['split_to_group']
 
     def do_autocleangroups_toggle(self):
         """Toggle the autocleangroups mode"""
-        # FIXME: Can we think of a smarter way of doing this than poking?
-        self.terminator.autocleangroups = not self.terminator.autocleangroups
+        self.config['autoclean_groups'] = not self.config['autoclean_groups']
 
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
         if self.cnxid:
-            dbg('Terminal::reconfigure: disconnecting')
             self.vte.disconnect(self.cnxid)
             self.cnxid = None
 
@@ -880,22 +879,22 @@ class Terminal(gtk.VBox):
         self.terminator.newtab (self, True)
 
     def key_go_next(self):
-        self.terminator.go_next (self)
+        self.emit('navigate', 'next')
 
     def key_go_prev(self):
-        self.terminator.go_prev (self)
+        self.emit('navigate', 'prev')
 
     def key_go_up(self):
-        self.terminator.go_up (self)
+        self.emit('navigate', 'up')
 
     def key_go_down(self):
-        self.terminator.go_down (self)
+        self.emit('navigate', 'down')
 
     def key_go_left(self):
-        self.terminator.go_left (self)
+        self.emit('navigate', 'left')
 
     def key_go_right(self):
-        self.terminator.go_right (self)
+        self.emit('navigate', 'right')
 
     def key_split_horiz(self):
         self.emit('split-horiz')
