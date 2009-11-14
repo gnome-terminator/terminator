@@ -33,6 +33,7 @@ class Window(Container, gtk.Window):
     hidefunc = None
     cnxids = None
 
+    zoom_data = None
     term_zoomed = gobject.property(type=bool, default=False)
 
     def __init__(self):
@@ -173,6 +174,7 @@ class Window(Container, gtk.Window):
                                                 self.title.set_title))
             self.cnxids.append(widget.connect('split-horiz', self.split_horiz))
             self.cnxids.append(widget.connect('split-vert', self.split_vert))
+            self.cnxids.append(widget.connect('unzoom', self.terminal_unzoom))
         gtk.Window.add(self, widget)
 
     def remove(self, widget):
@@ -194,13 +196,58 @@ class Window(Container, gtk.Window):
 
         sibling = Terminal()
         self.terminator.register_terminal(sibling)
+        self.add(container)
+        container.show_all()
 
         for term in [widget, sibling]:
             container.add(term)
         container.show_all()
 
-        self.add(container)
         sibling.spawn_child()
+
+    def terminal_zoom(self, widget, font_scale=True):
+        """Zoom a terminal widget"""
+        print font_scale
+        children = self.get_children()
+
+        if widget in children:
+            # This widget is a direct child of ours and we're a Window
+            # so zooming is a no-op
+            return
+
+        self.zoom_data = widget.get_zoom_data()
+        self.zoom_data['widget'] = widget
+        self.zoom_data['old_child'] = children[0]
+        self.zoom_data['font_scale'] = font_scale
+
+        self.remove(self.zoom_data['old_child'])
+        self.zoom_data['old_parent'].remove(widget)
+        self.add(widget)
+        self.set_property('term_zoomed', True)
+
+        if font_scale:
+            widget.zoomcnxid = widget.connect('size-allocate',
+                    widget.zoom_scale, self.zoom_data)
+
+        widget.grab_focus()
+
+    def terminal_unzoom(self, widget):
+        """Restore normal terminal layout"""
+        if not self.get_property('term_zoomed'):
+            # We're not zoomed anyway
+            dbg('Window::terminal_unzoom: not zoomed, no-op')
+            return
+
+        widget = self.zoom_data['widget']
+        if self.zoom_data['font_scale']:
+            widget.vte.set_font(self.zoom_data['old_font'])
+
+        self.remove(widget)
+        self.add(self.zoom_data['old_child'])
+        self.zoom_data['old_parent'].add(widget)
+        widget.grab_focus()
+        self.zoom_data = None
+        self.set_property('term_zoomed', False)
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
