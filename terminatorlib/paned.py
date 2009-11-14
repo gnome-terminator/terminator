@@ -7,6 +7,7 @@ variants"""
 import gobject
 import gtk
 
+from util import dbg, err
 from newterminator import Terminator
 from terminal import Terminal
 from container import Container
@@ -27,8 +28,6 @@ class Paned(Container):
                              'param_types': (gobject.TYPE_STRING,)})
 
         Container.__init__(self)
-        gobject.type_register(HPaned)
-        self.register_signals(HPaned)
 
     # pylint: disable-msg=W0613
     def set_initial_position(self, widget, event):
@@ -38,7 +37,7 @@ class Paned(Container):
         else:
             position = self.allocation.width / 2
 
-        print "Setting position to: %d" % position
+        dbg("Paned::set_initial_position: Setting position to: %d" % position)
         self.set_position(position)
         self.disconnect(self.cnxids['init'])
         del(self.cnxids['init'])
@@ -56,10 +55,12 @@ class Paned(Container):
         self.terminator.register_terminal(sibling)
         sibling.spawn_child()
 
+        self.add(container)
+        self.show_all()
+
         container.add(widget)
         container.add(sibling)
 
-        self.add(container)
         self.show_all()
 
     def add(self, widget):
@@ -87,9 +88,18 @@ class Paned(Container):
                                                       self.split_vert))
             self.cnxids[widget].append(widget.connect('resize-term',
                                                       self.resizeterm))
+            top_window = self.get_top_window(self)
+            self.cnxids[widget].append(widget.connect('zoom',
+                                                      top_window.terminal_zoom))
+            self.cnxids[widget].append(widget.connect('maximise',
+                                                      top_window.terminal_zoom,
+                                                      False))
         elif isinstance(widget, gtk.Paned):
-            self.cnxids[widget].append(widget.connect('resize-term',
+            try:
+                self.cnxids[widget].append(widget.connect('resize-term',
                                                       self.resizeterm))
+            except TypeError:
+                err('Paned::add: %s has no signal resize-term' % widget)
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -112,7 +122,7 @@ class Paned(Container):
             parent.add(sibling)
             del(self)
         else:
-            print "self.closeterm failed"
+            dbg("Paned::wrapcloseterm: self.closeterm failed")
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
@@ -152,6 +162,7 @@ class HPaned(Paned, gtk.HPaned):
         """Class initialiser"""
         Paned.__init__(self)
         gtk.HPaned.__init__(self)
+        self.register_signals(HPaned)
         self.cnxids['init'] = self.connect('expose-event',
                 self.set_initial_position)
 
@@ -161,6 +172,7 @@ class VPaned(Paned, gtk.VPaned):
         """Class initialiser"""
         Paned.__init__(self)
         gtk.VPaned.__init__(self)
+        self.register_signals(VPaned)
         self.cnxids['init'] = self.connect('expose-event',
                 self.set_initial_position)
 
