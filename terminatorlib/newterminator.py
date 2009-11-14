@@ -6,11 +6,12 @@
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
+from util import dbg
 
 class Terminator(Borg):
     """master object for the application"""
 
-    window = None
+    windows = None
     windowtitle = None
     terminals = None
     groups = None
@@ -29,6 +30,8 @@ class Terminator(Borg):
     def prepare_attributes(self):
         """Initialise anything that isn't already"""
 
+        if not self.windows:
+            self.windows = []
         if not self.terminals:
             self.terminals = []
         if not self.groups:
@@ -41,15 +44,26 @@ class Terminator(Borg):
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
 
+    def register_window(self, window):
+        """Register a new window widget"""
+        dbg('Terminator::register_window: registering %s' % window)
+        self.windows.append(window)
+
+    def deregister_window(self, window):
+        """de-register a window widget"""
+        dbg('Terminator::deregister_window: de-registering %s' % window)
+        self.windows.remove(window)
+
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
+        dbg('Terminator::register_terminal: registering %s' % terminal)
         self.terminals.append(terminal)
         terminal.connect('ungroup-all', self.ungroup_all)
         terminal.connect('navigate', self.navigate_terminal)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
-
+        dbg('Terminator::deregister_terminal: de-registering %s' % terminal)
         self.terminals.remove(terminal)
 
     def reconfigure_terminals(self):
