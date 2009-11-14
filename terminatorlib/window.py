@@ -13,7 +13,7 @@ from version import APP_NAME
 from container import Container
 from newterminator import Terminator
 from terminal import Terminal
-from paned import HPaned,VPaned
+from paned import HPaned, VPaned
 
 try:
     import deskbar.core.keybinder as bindkey

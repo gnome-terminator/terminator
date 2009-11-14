@@ -12,6 +12,7 @@ from terminal import Terminal
 from container import Container
 
 # pylint: disable-msg=R0921
+# pylint: disable-msg=E1101
 class Paned(Container):
     """Base class for Paned Containers"""
     cnxids = None
@@ -29,6 +30,7 @@ class Paned(Container):
         gobject.type_register(HPaned)
         self.register_signals(HPaned)
 
+    # pylint: disable-msg=W0613
     def set_initial_position(self, widget, event):
         """Set the initial position of the widget"""
         if isinstance(self, gtk.VPaned):
@@ -41,6 +43,7 @@ class Paned(Container):
         self.disconnect(self.cnxids['init'])
         del(self.cnxids['init'])
 
+    # pylint: disable-msg=W0613
     def split_axis(self, widget, vertical=True):
         """Default axis splitter. This should be implemented by subclasses"""
         self.remove(widget)

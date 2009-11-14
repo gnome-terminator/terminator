@@ -61,10 +61,6 @@ class Container(object):
         """Default axis splitter. This should be implemented by subclasses"""
         raise NotImplementedError('split_axis')
 
-    def unsplit(self, widget, keep=False):
-        """Default unsplitter. This should be implemented by subclasses"""
-        raise NotImplementedError('unsplit')
-
     def add(self, widget):
         """Add a widget to the container"""
         raise NotImplementedError('add')
