@@ -22,11 +22,14 @@ class Container(object):
                     'zoomed' : 1,
                     'maximised' : 2 }
 
-    signals = []
+    signals = None
+    cnxids = None
 
     def __init__(self):
         """Class initialiser"""
         self.children = []
+        self.signals = []
+        self.cnxids = {}
         self.config = Config()
         self.state_zoomed = self.states_zoom['none']
 
@@ -48,6 +51,28 @@ class Container(object):
                 except RuntimeError:
                     err('Container:: registering signal for %s on %s failed' %
                             (signal['name'], widget))
+
+    def connect_child(self, widget, signal, handler, data=None):
+        """Register the requested signal and record its connection ID"""
+        if not self.cnxids.has_key(widget):
+            self.cnxids[widget] = []
+
+        if data is not None:
+            self.cnxids[widget].append(widget.connect(signal, handler, data))
+            dbg('Container::connect_child: registering %s(%s) to handle %s::%s' %
+                (handler.__name__, data, widget.__class__.__name__, signal))
+        else:
+            self.cnxids[widget].append(widget.connect(signal, handler))
+            dbg('Container::connect_child: registering %s to handle %s::%s' %
+                (handler.__name__, widget.__class__.__name__, signal))
+
+    def disconnect_child(self, widget):
+        """De-register the signals for a child"""
+        if self.cnxids.has_key(widget):
+            for cnxid in self.cnxids[widget]:
+                # FIXME: Look up the IDs to print a useful debugging message
+                widget.disconnect(cnxid)
+            del(self.cnxids[widget])
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
