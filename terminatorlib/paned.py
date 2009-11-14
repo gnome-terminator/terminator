@@ -92,6 +92,8 @@ class Paned(Container):
             self.connect_child(widget, 'maximise', top_window.terminal_zoom,
                     False)
 
+            widget.grab_focus()
+
         elif isinstance(widget, gtk.Paned):
             try:
                 self.connect_child(widget, 'resize-term', self.resizeterm)

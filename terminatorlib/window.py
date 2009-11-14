@@ -166,6 +166,7 @@ class Window(Container, gtk.Window):
 
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""
+        gtk.Window.add(self, widget)
         if isinstance(widget, Terminal):
             signals = {'close-term': self.closeterm,
                        'title-change': self.title.set_title,
@@ -176,7 +177,7 @@ class Window(Container, gtk.Window):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
 
-        gtk.Window.add(self, widget)
+            widget.grab_focus()
 
     def remove(self, widget):
         """Remove our child widget by way of gtk.Window.remove()"""
