@@ -16,18 +16,16 @@ from container import Container
 # pylint: disable-msg=E1101
 class Paned(Container):
     """Base class for Paned Containers"""
-    cnxids = None
 
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
-        self.cnxids = {}
+        Container.__init__(self)
         self.signals.append({'name': 'resize-term', 
                              'flags': gobject.SIGNAL_RUN_LAST,
                              'return_type': gobject.TYPE_NONE, 
                              'param_types': (gobject.TYPE_STRING,)})
 
-        Container.__init__(self)
 
     # pylint: disable-msg=W0613
     def set_initial_position(self, widget, event):
@@ -75,38 +73,35 @@ class Paned(Container):
                 self.pack1(widget, True, True)
             self.children.append(widget)
         else:
-            raise ValueError('already have two children')
+            raise ValueError('Paned widgets can only have two children')
 
         self.cnxids[widget] = []
         if isinstance(widget, Terminal):
-            self.cnxids[widget].append(widget.connect('close-term',
-                                       self.wrapcloseterm))
-            # FIXME: somehow propagate the title-change signal to the Window
-            self.cnxids[widget].append(widget.connect('split-horiz',
-                                                      self.split_horiz))
-            self.cnxids[widget].append(widget.connect('split-vert',
-                                                      self.split_vert))
-            self.cnxids[widget].append(widget.connect('resize-term',
-                                                      self.resizeterm))
             top_window = self.get_top_window(self)
-            self.cnxids[widget].append(widget.connect('zoom',
-                                                      top_window.terminal_zoom))
-            self.cnxids[widget].append(widget.connect('maximise',
-                                                      top_window.terminal_zoom,
-                                                      False))
+
+            # FIXME: somehow propagate the title-change signal to the Window
+            signals = {'close-term': self.wrapcloseterm,
+                    'split-horiz': self.split_horiz,
+                    'split-vert': self.split_vert,
+                    'resize-term': self.resizeterm,
+                    'zoom': top_window.terminal_zoom}
+
+            for signal in signals:
+                self.connect_child(widget, signal, signals[signal])
+
+            self.connect_child(widget, 'maximise', top_window.terminal_zoom,
+                    False)
+
         elif isinstance(widget, gtk.Paned):
             try:
-                self.cnxids[widget].append(widget.connect('resize-term',
-                                                      self.resizeterm))
+                self.connect_child(widget, 'resize-term', self.resizeterm)
             except TypeError:
                 err('Paned::add: %s has no signal resize-term' % widget)
 
     def remove(self, widget):
         """Remove a widget from the container"""
         gtk.Paned.remove(self, widget)
-        for cnxid in self.cnxids[widget]:
-            widget.disconnect(cnxid)
-        del(self.cnxids[widget])
+        self.disconnect_child(widget)
         self.children.remove(widget)
         return(True)
 
