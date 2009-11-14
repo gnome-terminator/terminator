@@ -109,6 +109,12 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             menu.append(gtk.MenuItem())
+        else:
+            item = gtk.MenuItem(_('_Restore all terminals'))
+            item.connect('activate', terminal.unzoom)
+            menu.append(item)
+
+            menu.append(gtk.MenuItem())
 
         item = gtk.CheckMenuItem(_('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
