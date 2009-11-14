@@ -31,7 +31,6 @@ class Window(Container, gtk.Window):
     ismaximised = None
     hidebound = None
     hidefunc = None
-    cnxids = None
 
     zoom_data = None
     term_zoomed = gobject.property(type=bool, default=False)
@@ -40,7 +39,6 @@ class Window(Container, gtk.Window):
         """Class initialiser"""
         self.terminator = Terminator()
         self.terminator.window = self
-        self.cnxids = []
 
         Container.__init__(self)
         gtk.Window.__init__(self)
@@ -169,20 +167,22 @@ class Window(Container, gtk.Window):
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""
         if isinstance(widget, Terminal):
-            self.cnxids.append(widget.connect('close-term', self.closeterm))
-            self.cnxids.append(widget.connect('title-change', 
-                                                self.title.set_title))
-            self.cnxids.append(widget.connect('split-horiz', self.split_horiz))
-            self.cnxids.append(widget.connect('split-vert', self.split_vert))
-            self.cnxids.append(widget.connect('unzoom', self.terminal_unzoom))
+            signals = {'close-term': self.closeterm,
+                       'title-change': self.title.set_title,
+                       'split-horiz': self.split_horiz,
+                       'split-vert': self.split_vert,
+                       'unzoom': self.terminal_unzoom}
+
+            for signal in signals:
+                self.connect_child(widget, signal, signals[signal])
+
         gtk.Window.add(self, widget)
 
     def remove(self, widget):
         """Remove our child widget by way of gtk.Window.remove()"""
         gtk.Window.remove(self, widget)
-        for cnxid in self.cnxids:
-            widget.disconnect(cnxid)
-        self.cnxids = []
+        self.disconnect_child(widget)
+        return(True)
 
     def split_axis(self, widget, vertical=True):
         """Split the window"""
@@ -207,7 +207,6 @@ class Window(Container, gtk.Window):
 
     def terminal_zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
-        print font_scale
         children = self.get_children()
 
         if widget in children:
