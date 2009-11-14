@@ -6,7 +6,7 @@
 import gobject
 
 from config import Config
-from util import dbg
+from util import dbg, err
 
 # pylint: disable-msg=R0921
 class Container(object):
@@ -39,15 +39,28 @@ class Container(object):
                         signal['name'], widget))
             else:
                 dbg('Container:: registering signal for %s on %s' % (signal['name'], widget))
-                gobject.signal_new(signal['name'],
-                                   widget,
-                                   signal['flags'],
-                                   signal['return_type'],
-                                   signal['param_types'])
+                try:
+                    gobject.signal_new(signal['name'],
+                                       widget,
+                                       signal['flags'],
+                                       signal['return_type'],
+                                        signal['param_types'])
+                except RuntimeError:
+                    err('Container:: registering signal for %s on %s failed' %
+                            (signal['name'], widget))
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""
         return(self.children)
+
+    def get_top_window(self, startpoint):
+        """Return the Window instance this container belongs to"""
+        widget = startpoint
+        parent = widget.get_parent()
+        while parent:
+            widget = parent
+            parent = widget.get_parent()
+        return(widget)
 
     def split_horiz(self, widget):
         """Split this container horizontally"""
