@@ -47,9 +47,9 @@ class Terminal(gtk.VBox):
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, 
-            (gobject.TYPE_BOOL,)),
+        'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'unzoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'resize-term': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
         'navigate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -77,7 +77,8 @@ class Terminal(gtk.VBox):
 
     composite_support = None
 
-    cnxid = None
+    confcnxid = None
+    zoomcnxid = None
 
     def __init__(self):
         """Class initialiser"""
@@ -259,7 +260,7 @@ class Terminal(gtk.VBox):
         self.vte.connect('enter_notify_event',
             self.on_vte_notify_enter)
 
-        self.cnxid = self.vte.connect_after('realize', self.reconfigure)
+        self.confcnxid = self.vte.connect_after('realize', self.reconfigure)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -429,9 +430,9 @@ class Terminal(gtk.VBox):
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
-        if self.cnxid:
-            self.vte.disconnect(self.cnxid)
-            self.cnxid = None
+        if self.confcnxid:
+            self.vte.disconnect(self.confcnxid)
+            self.confcnxid = None
 
         # FIXME: actually reconfigure our settings
         pass
@@ -716,30 +717,77 @@ class Terminal(gtk.VBox):
         """Show the titlebar"""
         self.titlebar.show()
 
+    def get_zoom_data(self):
+        """Return a dict of information for Window"""
+        data = {}
+        data['old_font'] = self.vte.get_font()
+        data['old_char_height'] = self.vte.get_char_height()
+        data['old_char_width'] = self.vte.get_char_width()
+        data['old_allocation'] = self.vte.get_allocation()
+        data['old_padding'] = self.vte.get_padding()
+        data['old_columns'] = self.vte.get_column_count()
+        data['old_rows'] = self.vte.get_row_count()
+        data['old_parent'] = self.get_parent()
+
+        return(data)
+
+    def zoom_scale(self, widget, allocation, old_data):
+        """Scale our font correctly based on how big we are not vs before"""
+        self.disconnect(self.zoomcnxid)
+        self.zoomcnxid = None
+
+        new_columns = self.vte.get_column_count()
+        new_rows = self.vte.get_row_count()
+        new_font = self.vte.get_font()
+        new_allocation = self.vte.get_allocation()
+
+        old_alloc = {'x': old_data['old_allocation'].width - \
+                          old_data['old_padding'][0],
+                     'y': old_data['old_allocation'].height - \
+                          old_data['old_padding'][1]
+                    }
+
+        dbg('Terminal::zoom_scale: Resized from %dx%d to %dx%d' % (
+             old_data['old_columns'],
+             old_data['old_rows'],
+             new_columns,
+             new_rows))
+
+        if (new_rows == old_data['old_rows'] or new_columns == old_data['old_columns']):
+            dbg('Terminal::zoom_scale: One axis unchanged, not scaling')
+            return
+
+        old_area = old_data['old_columns'] * old_data['old_rows']
+        new_area = new_columns * new_rows
+        area_factor = (new_area / old_area) / 2
+
+        new_font.set_size(old_data['old_font'].get_size() * area_factor)
+        self.vte.set_font(new_font)
+
     def is_zoomed(self):
         """Determine if we are a zoomed terminal"""
-        widget = self.get_parent()
-        while True:
-            tmp = widget.get_parent()
-            if not tmp:
-                break
-            else:
-                widget = tmp
+        prop = None
+        parent = self.get_parent()
+        window = parent.get_top_window(self)
 
         try:
-            prop = widget.get_property('term-zoomed')
+            prop = window.get_property('term-zoomed')
         except TypeError:
             prop = False
 
         return(prop)
 
-    def zoom(self):
+    def zoom(self, widget=None):
         """Zoom ourself to fill the window"""
         self.emit('zoom')
 
-    def maximise(self):
+    def maximise(self, widget=None):
         """Maximise ourself to fill the window"""
         self.emit('maximise')
+
+    def unzoom(self, widget=None):
+        """Restore normal layout"""
+        self.emit('unzoom')
 
     def spawn_child(self, widget=None):
         update_records = self.config['update_records']
@@ -849,7 +897,7 @@ class Terminal(gtk.VBox):
 
     def zoom_orig(self):
         """Restore original font size"""
-        print "restoring font to: %s" % self.config['font']
+        dbg("Terminal::zoom_orig: restoring font to: %s" % self.config['font'])
         self.vte.set_font(pango.FontDescription(self.config['font']))
 
     # There now begins a great list of keyboard event handlers
@@ -931,10 +979,16 @@ class Terminal(gtk.VBox):
         self.terminator.move_tab (self, 'left')
 
     def key_toggle_zoom(self):
-        self.terminator.toggle_zoom (self)
+        if self.is_zoomed():
+            self.unzoom()
+        else:
+            self.maximise()
 
     def key_scaled_zoom(self):
-        self.terminator.toggle_zoom (self, True)
+        if self.is_zoomed():
+            self.unzoom()
+        else:
+            self.zoom()
 
     def key_next_tab(self):
         self.terminator.next_tab (self)
