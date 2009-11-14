@@ -170,11 +170,11 @@ class Terminal(gtk.VBox):
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
         if posix:
-            dbg ('update_url_matches: Trying POSIX URL regexps')
+            dbg ('Terminal::update_url_matches: Trying POSIX URL regexps')
             lboundry = "[[:<:]]"
             rboundry = "[[:>:]]"
         else: # GNU
-            dbg ('update_url_matches: Trying GNU URL regexps')
+            dbg ('Terminal::update_url_matches: Trying GNU URL regexps')
             lboundry = "\\<"
             rboundry = "\\>"
 
@@ -184,10 +184,10 @@ class Terminal(gtk.VBox):
 
         if self.matches['full_uri'] == -1:
             if posix:
-                err ('update_url_matches: POSIX match failed, trying GNU')
+                err ('Terminal::update_url_matches: POSIX match failed, trying GNU')
                 self.update_url_matches(posix = False)
             else:
-                err ('update_url_matches: Failed adding URL match patterns')
+                err ('Terminal::update_url_matches: Failed adding URL match patterns')
         else:
             self.matches['voip'] = self.vte.match_add(lboundry + 
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
