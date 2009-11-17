@@ -186,7 +186,7 @@ class Window(Container, gtk.Window):
         self.disconnect_child(widget)
         return(True)
 
-    def split_axis(self, widget, vertical=True):
+    def split_axis(self, widget, vertical=True, sibling=None):
         """Split the window"""
         self.remove(widget)
 
@@ -196,7 +196,8 @@ class Window(Container, gtk.Window):
         else:
             container = HPaned()
 
-        sibling = Terminal()
+        if not sibling:
+            sibling = Terminal()
         self.terminator.register_terminal(sibling)
         self.add(container)
         container.show_all()

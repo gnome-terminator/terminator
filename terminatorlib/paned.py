@@ -41,7 +41,7 @@ class Paned(Container):
         del(self.cnxids['init'])
 
     # pylint: disable-msg=W0613
-    def split_axis(self, widget, vertical=True):
+    def split_axis(self, widget, vertical=True, sibling=None):
         """Default axis splitter. This should be implemented by subclasses"""
         self.remove(widget)
         if vertical:
@@ -49,7 +49,8 @@ class Paned(Container):
         else:
             container = HPaned()
 
-        sibling = Terminal()
+        if not sibling:
+            sibling = Terminal()
         self.terminator.register_terminal(sibling)
         sibling.spawn_child()
 
