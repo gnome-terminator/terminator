@@ -38,7 +38,7 @@ class Window(Container, gtk.Window):
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
-        self.terminator.window = self
+        self.terminator.register_window(self)
 
         Container.__init__(self)
         gtk.Window.__init__(self)
@@ -109,6 +109,7 @@ class Window(Container, gtk.Window):
 
     def on_destroy_event(self, widget, data=None):
         """Handle window descruction"""
+        self.terminator.deregister_window(self)
         pass
 
     def on_hide_window(self, data):
@@ -122,7 +123,7 @@ class Window(Container, gtk.Window):
                                  gtk.gdk.WINDOW_STATE_FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  gtk.gdk.WINDOW_STATE_MAXIMIZED)
-        dbg('window state changed: fullscreen %s, maximised %s' %
+        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' %
             (self.isfullscreen, self.ismaximised))
 
         return(False)
