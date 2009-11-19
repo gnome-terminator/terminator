@@ -45,6 +45,7 @@ class TerminatorWindowTitle:
   _window = None
   text = None
   _forced = False
+  _role = None
 
   def __init__ (self, window):
     self._window = window
@@ -168,7 +169,7 @@ class Terminator:
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
-                geometry = None, hidden = False, forcedtitle = None):
+                geometry = None, hidden = False, forcedtitle = None, role=None):
     self.profile = profile
     self.command = command
 
@@ -267,6 +268,9 @@ class Terminator:
     self.set_closebutton_style ()
 
     self.window = gtk.Window ()
+    if role:
+        self.window.set_role(role)
+
     self.windowtitle = TerminatorWindowTitle (self.window)
     if forcedtitle:
       self.windowtitle.force_title (forcedtitle)
