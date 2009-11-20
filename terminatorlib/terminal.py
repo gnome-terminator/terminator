@@ -644,6 +644,7 @@ class Terminal(gtk.VBox):
 
         srcpaned.remove(widgetsrc)
         dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], widgetsrc)
+        srcpaned.hoover()
 
     def get_location(self, vte, x, y):
         """Get our location within the terminal"""
