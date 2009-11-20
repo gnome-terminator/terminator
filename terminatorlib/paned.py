@@ -122,6 +122,17 @@ class Paned(Container):
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
 
+    def hoover(self):
+        """Check that we still have a reason to exist"""
+        if len(self.children) == 1:
+            dbg('Paned::hoover: We only have one child, die')
+            parent = self.get_parent()
+            parent.remove(self)
+            child = self.children[0]
+            self.remove(child)
+            parent.add(child)
+            del(self)
+
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         if keyname in ['up', 'down'] and isinstance(self, gtk.VPaned):
