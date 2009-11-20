@@ -13,7 +13,7 @@ import pango
 import re
 import subprocess
 
-from util import dbg, err, gerr, widget_pixbuf
+from util import dbg, err, gerr, widget_pixbuf, get_top_window
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -774,7 +774,7 @@ class Terminal(gtk.VBox):
         """Determine if we are a zoomed terminal"""
         prop = None
         parent = self.get_parent()
-        window = parent.get_top_window(self)
+        window = get_top_window(self)
 
         try:
             prop = window.get_property('term-zoomed')

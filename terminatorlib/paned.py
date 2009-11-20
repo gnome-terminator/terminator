@@ -7,7 +7,7 @@ variants"""
 import gobject
 import gtk
 
-from util import dbg, err
+from util import dbg, err, get_top_window
 from newterminator import Terminator
 from terminal import Terminal
 from container import Container
@@ -78,7 +78,7 @@ class Paned(Container):
 
         self.cnxids[widget] = []
         if isinstance(widget, Terminal):
-            top_window = self.get_top_window(self)
+            top_window = get_top_window(self)
 
             # FIXME: somehow propagate the title-change signal to the Window
             signals = {'close-term': self.wrapcloseterm,
