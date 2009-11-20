@@ -66,6 +66,10 @@ class Terminator(Borg):
         dbg('Terminator::deregister_terminal: de-registering %s' % terminal)
         self.terminals.remove(terminal)
 
+        if len(self.terminals) == 0:
+            for window in self.windows:
+                window.destroy()
+
     def reconfigure_terminals(self):
         """Tell all terminals to update their configuration"""
 
