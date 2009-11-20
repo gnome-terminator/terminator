@@ -156,6 +156,8 @@ class Config(Borg, dict):
         Borg.__init__(self)
         dict.__init__(self)
 
+        self.prepare_attributes()
+
     def prepare_attributes(self):
         """Set up our borg environment"""
         if self.defaults is None:
