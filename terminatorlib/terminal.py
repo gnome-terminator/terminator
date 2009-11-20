@@ -334,10 +334,13 @@ class Terminal(gtk.VBox):
 
         groupitem = None
 
-        for key, value in {_('Broadcast off'):'off', 
+        for key, value in {_('Broadcast all'):'all', 
                           _('Broadcast group'):'group',
-                          _('Broadcast all'):'all'}.items():
+                          _('Broadcast off'):'off'}.items():
             groupitem = gtk.RadioMenuItem(groupitem, key)
+            dbg('Terminal::populate_group_menu: %s active: %s' %
+                    (key, self.terminator.groupsend ==
+                        self.terminator.groupsend_type[value]))
             groupitem.set_active(self.terminator.groupsend ==
                     self.terminator.groupsend_type[value])
             groupitem.connect('activate', self.set_groupsend,
@@ -416,7 +419,8 @@ class Terminal(gtk.VBox):
     def set_groupsend(self, widget, value):
         """Set the groupsend mode"""
         # FIXME: Can we think of a smarter way of doing this than poking?
-        if value in self.terminator.groupsend_type:
+        if value in self.terminator.groupsend_type.values():
+            dbg('Terminal::set_groupsend: setting groupsend to %s' % value)
             self.terminator.groupsend = value
 
     def do_splittogroup_toggle(self):
