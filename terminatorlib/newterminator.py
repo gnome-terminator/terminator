@@ -103,6 +103,7 @@ class Terminator(Borg):
     def create_group(self, name):
         """Create a new group"""
         if name not in self.groups:
+            dbg('Terminator::create_group: registering group %s' % name)
             self.groups.append(name)
 
     def ungroup_all(self, widget):
@@ -121,17 +122,20 @@ class Terminator(Borg):
         """Clean out unused groups"""
 
         if self.config['autoclean_groups']:
+            inuse = []
             todestroy = []
+
+            for terminal in self.terminals:
+                if terminal.group:
+                    if not terminal.group in inuse:
+                        inuse.append(terminal.group)
+
             for group in self.groups:
-                for terminal in self.terminals:
-                    save = False
-                    if terminal.group == group:
-                        save = True
-                        break
+                if not group in inuse:
+                    todestroy.append(group)
 
-                    if not save:
-                        todestroy.append(group)
-
+            dbg('Terminator::group_hoover: %d groups, hoovering %d' %
+                    (len(self.groups), len(todestroy)))
             for group in todestroy:
                 self.groups.remove(group)
 

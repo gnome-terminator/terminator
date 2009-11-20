@@ -136,7 +136,7 @@ class Titlebar(gtk.EventBox):
     def groupentry_activate(self, widget):
         """Actually cause a group to be created"""
         groupname = self.groupentry.get_text()
-        dbg('creating group: %s' % groupname)
+        dbg('Titlebar::groupentry_activate: creating group: %s' % groupname)
         self.groupentry_cancel(None, None)
         self.emit('create-group', groupname)
 

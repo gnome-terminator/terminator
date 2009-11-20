@@ -285,7 +285,7 @@ class Terminal(gtk.VBox):
         item = gtk.MenuItem(_('New group...'))
         item.connect('activate', self.create_group)
         menu.append(item)
-       
+
         if len(self.terminator.groups) > 0:
             groupitem = gtk.RadioMenuItem(groupitem, _('None'))
             groupitem.set_active(self.group == None)
