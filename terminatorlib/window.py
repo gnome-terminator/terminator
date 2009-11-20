@@ -173,7 +173,7 @@ class Window(Container, gtk.Window):
                        'title-change': self.title.set_title,
                        'split-horiz': self.split_horiz,
                        'split-vert': self.split_vert,
-                       'unzoom': self.terminal_unzoom}
+                       'unzoom': self.unzoom}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
@@ -208,7 +208,7 @@ class Window(Container, gtk.Window):
 
         sibling.spawn_child()
 
-    def terminal_zoom(self, widget, font_scale=True):
+    def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
         children = self.get_children()
 
@@ -233,11 +233,11 @@ class Window(Container, gtk.Window):
 
         widget.grab_focus()
 
-    def terminal_unzoom(self, widget):
+    def unzoom(self, widget):
         """Restore normal terminal layout"""
         if not self.get_property('term_zoomed'):
             # We're not zoomed anyway
-            dbg('Window::terminal_unzoom: not zoomed, no-op')
+            dbg('Window::unzoom: not zoomed, no-op')
             return
 
         widget = self.zoom_data['widget']

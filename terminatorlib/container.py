@@ -16,12 +16,6 @@ class Container(object):
     immutable = None
     children = None
     config = None
-    state_zoomed = None
-
-    states_zoom = { 'none' : 0,
-                    'zoomed' : 1,
-                    'maximised' : 2 }
-
     signals = None
     cnxids = None
 
@@ -31,7 +25,6 @@ class Container(object):
         self.signals = []
         self.cnxids = {}
         self.config = Config()
-        self.state_zoomed = self.states_zoom['none']
 
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
@@ -109,9 +102,15 @@ class Container(object):
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
-        if self.state_zoomed != self.states_zoom['none']:
-            dbg('closeterm: current zoomed state is: %s' % self.state_zoomed)
-            self.unzoom(widget)
+        try:
+            if self.get_property('term_zoomed'):
+                # We're zoomed, so unzoom and then start closing again
+                dbg('Container::closeterm: terminal zoomed, unzooming')
+                self.unzoom(widget)
+                widget.close()
+                return(True)
+        except TypeError:
+            pass
 
         if not self.remove(widget):
             return(False)
@@ -126,10 +125,14 @@ class Container(object):
 
     def toggle_zoom(self, widget, fontscale = False):
         """Toggle the existing zoom state"""
-        if self.state_zoomed != self.states_zoom['none']:
-            self.unzoom(widget)
-        else:
-            self.zoom(widget, fontscale)
+        try:
+            if self.get_property('term_zoomed'):
+                self.unzoom(widget)
+            else:
+                self.zoom(widget, fontscale)
+        except TypeError:
+            err('Container::toggle_zoom: %s is unable to handle zooming, for \
+            %s' % (self, widget))
 
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""

@@ -85,12 +85,12 @@ class Paned(Container):
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
                     'resize-term': self.resizeterm,
-                    'zoom': top_window.terminal_zoom}
+                    'zoom': top_window.zoom}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
 
-            self.connect_child(widget, 'maximise', top_window.terminal_zoom,
+            self.connect_child(widget, 'maximise', top_window.zoom,
                     False)
 
             widget.grab_focus()
