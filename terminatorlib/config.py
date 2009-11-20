@@ -148,13 +148,20 @@ DEFAULTS = {
 class Config(Borg, dict):
     """Class to provide access to our user configuration"""
 
+    defaults = None
+
     def __init__(self):
         """Class initialiser"""
 
         Borg.__init__(self)
         dict.__init__(self)
 
+    def prepare_attributes(self):
+        """Set up our borg environment"""
+        if self.defaults is None:
+            self.defaults = DEFAULTS
+
     def __getitem__(self, key):
         """Look up a configuration item"""
-        return(DEFAULTS[key])
+        return(self.defaults[key])
 
