@@ -132,6 +132,7 @@ class Titlebar(gtk.EventBox):
         """Hide the group name entry"""
         self.groupentry.set_text('')
         self.groupentry.hide()
+        self.get_parent().grab_focus()
 
     def groupentry_activate(self, widget):
         """Actually cause a group to be created"""
