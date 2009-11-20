@@ -34,7 +34,8 @@ class Container(object):
                 dbg('Container:: skipping signal %s for %s, already exists' % (
                         signal['name'], widget))
             else:
-                dbg('Container:: registering signal for %s on %s' % (signal['name'], widget))
+                dbg('Container:: registering signal for %s on %s' % 
+                        (signal['name'], widget))
                 try:
                     gobject.signal_new(signal['name'],
                                        widget,
@@ -52,7 +53,7 @@ class Container(object):
 
         if data is not None:
             self.cnxids[widget].append(widget.connect(signal, handler, data))
-            dbg('Container::connect_child: registering %s(%s) to handle %s::%s' %
+            dbg('Container::connect_child: connecting %s(%s) for %s::%s' %
                 (handler.__name__, data, widget.__class__.__name__, signal))
         else:
             self.cnxids[widget].append(widget.connect(signal, handler))
@@ -70,15 +71,6 @@ class Container(object):
     def get_offspring(self):
         """Return a list of child widgets, if any"""
         return(self.children)
-
-    def get_top_window(self, startpoint):
-        """Return the Window instance this container belongs to"""
-        widget = startpoint
-        parent = widget.get_parent()
-        while parent:
-            widget = parent
-            parent = widget.get_parent()
-        return(widget)
 
     def split_horiz(self, widget):
         """Split this container horizontally"""
