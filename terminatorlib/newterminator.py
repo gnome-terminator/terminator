@@ -143,6 +143,20 @@ class Terminator(Borg):
             for group in todestroy:
                 self.groups.remove(group)
 
+    def group_emit(self, terminal, group, type, event):
+        """Emit to each terminal in a group"""
+        dbg('Terminator::group_emit: emitting a keystroke for group %s' %
+                group)
+        for term in self.terminals:
+            if term != terminal and term.group == group:
+                term.vte.emit(type, event)
+
+    def all_emit(self, terminal, type, event):
+        """Emit to all terminals"""
+        for term in self.terminals:
+            if term != terminal:
+                term.vte.emit(type, event)
+
     def do_enumerate(self, widget, pad):
         """Insert the number of each terminal in a group, into that terminal"""
         if pad:

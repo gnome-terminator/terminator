@@ -394,6 +394,7 @@ class Terminal(gtk.VBox):
         if self.group == name:
             # already in this group, no action needed
             return
+        dbg('Terminal::set_group: Setting group to %s' % name)
         self.group = name
         self.titlebar.set_group_label(name)
         self.terminator.group_hoover()
