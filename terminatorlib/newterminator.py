@@ -46,8 +46,9 @@ class Terminator(Borg):
 
     def register_window(self, window):
         """Register a new window widget"""
-        dbg('Terminator::register_window: registering %s' % window)
-        self.windows.append(window)
+        if window not in self.windows:
+            dbg('Terminator::register_window: registering %s' % window)
+            self.windows.append(window)
 
     def deregister_window(self, window):
         """de-register a window widget"""
@@ -56,10 +57,11 @@ class Terminator(Borg):
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
-        dbg('Terminator::register_terminal: registering %s' % terminal)
-        self.terminals.append(terminal)
-        terminal.connect('ungroup-all', self.ungroup_all)
-        terminal.connect('navigate', self.navigate_terminal)
+        if terminal not in self.terminals:
+            dbg('Terminator::register_terminal: registering %s' % terminal)
+            self.terminals.append(terminal)
+            terminal.connect('ungroup-all', self.ungroup_all)
+            terminal.connect('navigate', self.navigate_terminal)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
@@ -69,6 +71,9 @@ class Terminator(Borg):
         if len(self.terminals) == 0:
             for window in self.windows:
                 window.destroy()
+        else:
+            dbg('Terminator::deregister_terminal: %d terminals remain' %
+                    len(self.terminals))
 
     def reconfigure_terminals(self):
         """Tell all terminals to update their configuration"""
