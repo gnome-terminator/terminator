@@ -961,7 +961,7 @@ class Terminal(gtk.VBox):
         self.emit('split-vert')
 
     def key_close_term(self):
-        self.terminator.closeterm (self)
+        self.close()
 
     def key_new_tab(self):
         self.terminator.newtab(self)
