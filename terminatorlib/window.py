@@ -9,6 +9,7 @@ import gobject
 import gtk
 
 from util import dbg, err
+from translation import _
 from version import APP_NAME
 from container import Container
 from newterminator import Terminator
@@ -81,7 +82,7 @@ class Window(Container, gtk.Window):
         self.set_fullscreen(self.config['fullscreen'])
         self.set_maximised(self.config['maximise'])
         self.set_borderless(self.config['borderless'])
-        self.set_real_transparency(self.config['enable_real_transparency'])
+        self.set_real_transparency()
         if self.hidebound:
             self.set_hidden(self.config['hidden'])
         else:
@@ -101,16 +102,43 @@ class Window(Container, gtk.Window):
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
-        pass
+        # FIXME: We probably want to cancel window urgency here
+
+        mapping = self.terminator.keybindings.lookup(event)
+
+        if mapping:
+            dbg('Window::on_key_press: looked up %r' % mapping)
+            if mapping == 'full_screen':
+                self.set_fullscreen(not self.isfullscreen)
+            elif mapping == 'close_window':
+                if not self.on_delete_event(window,
+                        gtk.gdk.Event(gtk.gdk.DELETE)):
+                    self.on_destroy_event(window,
+                            gtk.gdk.Event(gtk.gdk.DESTROY))
+            else:
+                return(False)
+            return(True)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
-        pass
+        if isinstance(self.get_child(), Terminal):
+            dbg('Window::on_delete_event: Only one child, closing is fine')
+            return(False)
+        return(self.confirm_close(window, _('window')))
+
+    def confirm_close(self, window, type):
+        """Display a confirmation dialog when the user is closing multiple
+        terminals in one window"""
+        dialog = self.construct_confirm_close(window, type)
+        result = dialog.run()
+        dialog.destroy()
+        return(not (result == gtk.RESPONSE_ACCEPT))
 
     def on_destroy_event(self, widget, data=None):
         """Handle window descruction"""
         self.terminator.deregister_window(self)
-        pass
+        self.destroy()
+        del(self)
 
     def on_hide_window(self, data):
         """Handle a request to hide/show the window"""
@@ -154,7 +182,7 @@ class Window(Container, gtk.Window):
         """Set the minimised state of the window from the value"""
         pass
 
-    def set_real_transparency(self, value):
+    def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
         screen = self.get_screen()
         if value:
