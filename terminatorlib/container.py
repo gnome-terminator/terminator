@@ -4,9 +4,11 @@
 """container.py - classes necessary to contain Terminal widgets"""
 
 import gobject
+import gtk
 
 from config import Config
 from util import dbg, err
+from translation import _
 
 # pylint: disable-msg=R0921
 class Container(object):
@@ -134,4 +136,37 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
+    def construct_confirm_close(self, window, type):
+        """Create a confirmation dialog for closing things"""
+        dialog = gtk.Dialog(_('Close?'), window, gtk.DIALOG_MODAL)
+        dialog.set_has_separator(False)
+        dialog.set_resizable(False)
+    
+        cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
+        close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
+        label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_('Close _Terminals'))
+    
+        primary = gtk.Label(_('<big><b>Close multiple temrinals?</b></big>'))
+        primary.set_use_markup(True)
+        primary.set_alignment(0, 0.5)
+        secondary = gtk.Label(_('This %s has several terminals open. Closing the \
+%s will also close all terminals within it.') % (type, type))
+        secondary.set_line_wrap(True)
+    
+        labels = gtk.VBox()
+        labels.pack_start(primary, False, False, 6)
+        labels.pack_start(secondary, False, False, 6)
+    
+        image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING,
+                                         gtk.ICON_SIZE_DIALOG)
+        image.set_alignment(0.5, 0)
+    
+        box = gtk.HBox()
+        box.pack_start(image, False, False, 6)
+        box.pack_start(labels, False, False, 6)
+        dialog.vbox.pack_start(box, False, False, 12)
+    
+        dialog.show_all()
+        return(dialog)
+    
 # vim: set expandtab ts=4 sw=4:
