@@ -87,6 +87,7 @@ class Titlebar(gtk.EventBox):
     def update(self):
         """Update our contents"""
         self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+        # FIXME: Aren't we supposed to be setting a colour here too?
 
     def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
         """Set an icon for the group label"""
