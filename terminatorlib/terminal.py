@@ -464,7 +464,7 @@ class Terminal(gtk.VBox):
         if mapping == "hide_window":
             return(False)
 
-        if mapping and mapping not in ['close_window', 'full_screen']:
+        if mapping and mapping not in ['close_window', 'full_screen', 'new_tab']:
             dbg('Terminal::on_keypress: lookup found: %r' % mapping)
             # handle the case where user has re-bound copy to ctrl+<key>
             # we only copy if there is a selection otherwise let it fall through
@@ -962,9 +962,6 @@ class Terminal(gtk.VBox):
 
     def key_close_term(self):
         self.close()
-
-    def key_new_tab(self):
-        self.terminator.newtab(self)
 
     def key_resize_up(self):
         self.emit('resize-term', 'up')

@@ -12,6 +12,7 @@ from util import dbg, err
 from translation import _
 from version import APP_NAME
 from container import Container
+from notebook import Notebook
 from newterminator import Terminator
 from terminal import Terminal
 from paned import HPaned, VPaned
@@ -115,6 +116,10 @@ class Window(Container, gtk.Window):
                         gtk.gdk.Event(gtk.gdk.DELETE)):
                     self.on_destroy_event(window,
                             gtk.gdk.Event(gtk.gdk.DESTROY))
+            elif mapping == 'new_tab':
+                if not isinstance(self.get_child(), Notebook):
+                    notebook = Notebook(self)
+                self.get_child().newtab()
             else:
                 return(False)
             return(True)

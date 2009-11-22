@@ -1,86 +1,47 @@
 #!/usr/bin/python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""container.py - classes necessary to contain Terminal widgets"""
+"""notebook.py - classes for the notebook widget"""
 
 import gobject
 import gtk
 
-from config import Config
-from util import dbg, err
-from translation import _
+from container import Container
+from newterminator import Terminator
+from terminal import Terminal
+from util import err
 
-# pylint: disable-msg=R0921
-class Container(object):
-    """Base class for Terminator Containers"""
+class Notebook(Container, gtk.Notebook):
+    """Class implementing a gtk.Notebook container"""
 
-    terminator = None
-    immutable = None
-    children = None
-    config = None
-    signals = None
-    cnxids = None
-
-    def __init__(self):
+    def __init__(self, window):
         """Class initialiser"""
-        self.children = []
-        self.signals = []
-        self.cnxids = {}
-        self.config = Config()
+        if isinstance(window.get_child(), gtk.Notebook):
+            err('There is already a Notebook at the top of this window')
+            raise(ValueError)
 
-    def register_signals(self, widget):
-        """Register gobject signals in a way that avoids multiple inheritance"""
-        existing = gobject.signal_list_names(widget)
-        for signal in self.signals:
-            if signal['name'] in existing:
-                dbg('Container:: skipping signal %s for %s, already exists' % (
-                        signal['name'], widget))
-            else:
-                dbg('Container:: registering signal for %s on %s' % 
-                        (signal['name'], widget))
-                try:
-                    gobject.signal_new(signal['name'],
-                                       widget,
-                                       signal['flags'],
-                                       signal['return_type'],
-                                        signal['param_types'])
-                except RuntimeError:
-                    err('Container:: registering signal for %s on %s failed' %
-                            (signal['name'], widget))
+        Container.__init__(self)
+        gtk.Notebook.__init__(self)
+        self.terminator = Terminator()
+        gobject.type_register(Notebook)
+        self.register_signals(Notebook)
+        self.configure()
 
-    def connect_child(self, widget, signal, handler, data=None):
-        """Register the requested signal and record its connection ID"""
-        if not self.cnxids.has_key(widget):
-            self.cnxids[widget] = []
+        child = window.get_child()
+        window.remove(child)
+        window.add(self)
+        self.newtab(child)
+        self.show_all()
 
-        if data is not None:
-            self.cnxids[widget].append(widget.connect(signal, handler, data))
-            dbg('Container::connect_child: connecting %s(%s) for %s::%s' %
-                (handler.__name__, data, widget.__class__.__name__, signal))
-        else:
-            self.cnxids[widget].append(widget.connect(signal, handler))
-            dbg('Container::connect_child: registering %s to handle %s::%s' %
-                (handler.__name__, widget.__class__.__name__, signal))
+    def configure(self):
+        """Apply widget-wide settings"""
+        #self.connect('page-reordered', self.on_page_reordered)
+        self.set_property('homogeneous', not self.config['scroll_tabbar'])
+        self.set_scrollable(self.config['scroll_tabbar'])
 
-    def disconnect_child(self, widget):
-        """De-register the signals for a child"""
-        if self.cnxids.has_key(widget):
-            for cnxid in self.cnxids[widget]:
-                # FIXME: Look up the IDs to print a useful debugging message
-                widget.disconnect(cnxid)
-            del(self.cnxids[widget])
-
-    def get_offspring(self):
-        """Return a list of child widgets, if any"""
-        return(self.children)
-
-    def split_horiz(self, widget):
-        """Split this container horizontally"""
-        return(self.split_axis(widget, True))
-
-    def split_vert(self, widget):
-        """Split this container vertically"""
-        return(self.split_axis(widget, False))
+        pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
+        self.set_tab_pos(pos)
+        self.set_show_tabs(not self.config['hide_tabbar'])
 
     def split_axis(self, widget, vertical=True, sibling=None):
         """Default axis splitter. This should be implemented by subclasses"""
@@ -94,39 +55,20 @@ class Container(object):
         """Remove a widget from the container"""
         raise NotImplementedError('remove')
 
-    def closeterm(self, widget):
-        """Handle the closure of a terminal"""
-        try:
-            if self.get_property('term_zoomed'):
-                # We're zoomed, so unzoom and then start closing again
-                dbg('Container::closeterm: terminal zoomed, unzooming')
-                self.unzoom(widget)
-                widget.close()
-                return(True)
-        except TypeError:
-            pass
+    def newtab(self, widget=None):
+        """Add a new tab, optionally supplying a child widget"""
+        if not widget:
+            widget = Terminal()
+            self.terminator.register_terminal(widget)
+            widget.spawn_child()
 
-        if not self.remove(widget):
-            return(False)
-
-        self.terminator.deregister_terminal(widget)
-        self.terminator.group_hoover()
-        return(True)
-
+        self.set_tab_reorderable(widget, True)
+        self.append_page(widget, None)
+        widget.grab_focus()
+        
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
-
-    def toggle_zoom(self, widget, fontscale = False):
-        """Toggle the existing zoom state"""
-        try:
-            if self.get_property('term_zoomed'):
-                self.unzoom(widget)
-            else:
-                self.zoom(widget, fontscale)
-        except TypeError:
-            err('Container::toggle_zoom: %s is unable to handle zooming, for \
-            %s' % (self, widget))
 
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""
@@ -136,37 +78,4 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-    def construct_confirm_close(self, window, type):
-        """Create a confirmation dialog for closing things"""
-        dialog = gtk.Dialog(_('Close?'), window, gtk.DIALOG_MODAL)
-        dialog.set_has_separator(False)
-        dialog.set_resizable(False)
-    
-        cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
-        close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-        label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_('Close _Terminals'))
-    
-        primary = gtk.Label(_('<big><b>Close multiple temrinals?</b></big>'))
-        primary.set_use_markup(True)
-        primary.set_alignment(0, 0.5)
-        secondary = gtk.Label(_('This %s has several terminals open. Closing the \
-%s will also close all terminals within it.') % (type, type))
-        secondary.set_line_wrap(True)
-    
-        labels = gtk.VBox()
-        labels.pack_start(primary, False, False, 6)
-        labels.pack_start(secondary, False, False, 6)
-    
-        image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING,
-                                         gtk.ICON_SIZE_DIALOG)
-        image.set_alignment(0.5, 0)
-    
-        box = gtk.HBox()
-        box.pack_start(image, False, False, 6)
-        box.pack_start(labels, False, False, 6)
-        dialog.vbox.pack_start(box, False, False, 12)
-    
-        dialog.show_all()
-        return(dialog)
-    
 # vim: set expandtab ts=4 sw=4:
