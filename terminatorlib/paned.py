@@ -12,9 +12,6 @@ from newterminator import Terminator
 from terminal import Terminal
 from container import Container
 
-# forward declaration of class Notebook
-class Notebook:
-  pass
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
 class Paned(Container):
@@ -119,7 +116,7 @@ class Paned(Container):
             self.remove(sibling)
 
             parent = self.get_parent()
-            if isinstance( parent, Notebook ):
+            if 'remove_page' in dir(parent):
               page_num = parent.page_num( self )
               parent.remove_page( page_num )
               parent.insert_page( sibling, None, page_num )
