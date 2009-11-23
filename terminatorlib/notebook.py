@@ -12,6 +12,7 @@ from container import Container
 from terminal import Terminal
 from editablelabel import EditableLabel
 from translation import _
+from paned import VPaned, HPaned
 from util import err
 
 class Notebook(Container, gtk.Notebook):
@@ -37,6 +38,7 @@ class Notebook(Container, gtk.Notebook):
         window.add(self)
         self.newtab(child)
 
+ 
         label = TabLabel(self.window.get_title(), self)
         self.set_tab_label(child, label)
         self.set_tab_label_packing(child, not self.config['scroll_tabbar'],
@@ -57,7 +59,30 @@ class Notebook(Container, gtk.Notebook):
 
     def split_axis(self, widget, vertical=True, sibling=None):
         """Default axis splitter. This should be implemented by subclasses"""
-        raise NotImplementedError('split_axis')
+        #raise NotImplementedError('split_axis')
+        page_num = self.page_num( widget )
+        if page_num == -1:
+          raise NotImplementedError('split_axis widget cannot be found')
+        self.remove_page(page_num)
+        if vertical:
+            container = VPaned()
+        else:
+            container = HPaned()
+
+        if not sibling:
+            sibling = Terminal()
+        self.terminator.register_terminal(sibling)
+        sibling.spawn_child()
+
+        self.insert_page(container, None, page_num )
+        self.show_all()
+
+        container.add(widget)
+        container.add(sibling)
+        self.set_current_page( page_num )
+
+        self.show_all()
+
 
     def add(self, widget):
         """Add a widget to the container"""
@@ -65,7 +90,11 @@ class Notebook(Container, gtk.Notebook):
 
     def remove(self, widget):
         """Remove a widget from the container"""
-        raise NotImplementedError('remove')
+        page_num = self.page_num( widget )
+        if page_num == -1:
+          print('remove current page = -1')
+          return(False)
+        self.remove_page( page_num )
 
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
@@ -73,6 +102,15 @@ class Notebook(Container, gtk.Notebook):
             widget = Terminal()
             self.terminator.register_terminal(widget)
             widget.spawn_child()
+        
+        signals = {'close-term': self.closeterm,
+                   #'title-change': self.title.set_title,
+                   'split-horiz': self.split_horiz,
+                   'split-vert': self.split_vert,
+                   'unzoom': self.unzoom}
+
+        for signal in signals:
+            self.connect_child(widget, signal, signals[signal])
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
@@ -87,6 +125,7 @@ class Notebook(Container, gtk.Notebook):
 
 
         self.append_page(widget, None)
+        self.set_current_page(-1)
         widget.grab_focus()
         
     def resizeterm(self, widget, keyname):

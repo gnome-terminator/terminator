@@ -12,6 +12,9 @@ from newterminator import Terminator
 from terminal import Terminal
 from container import Container
 
+# forward declaration of class Notebook
+class Notebook:
+  pass
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
 class Paned(Container):
@@ -111,13 +114,18 @@ class Paned(Container):
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         if self.closeterm(widget):
-            parent = self.get_parent()
-            parent.remove(self)
-
             # At this point we only have one child, which is the surviving term
             sibling = self.children[0]
             self.remove(sibling)
-            parent.add(sibling)
+
+            parent = self.get_parent()
+            if isinstance( parent, Notebook ):
+              page_num = parent.page_num( self )
+              parent.remove_page( page_num )
+              parent.insert_page( sibling, None, page_num )
+            else:
+              parent.remove(self)
+              parent.add(sibling)
             del(self)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
