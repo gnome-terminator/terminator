@@ -48,34 +48,3 @@ class Factory(Borg):
         import notebook
         return(notebook.Notebook(args[0][0]))
 
-if __name__ == '__main__':
-    # Do some testing
-
-    fact = Factory()
-    objects = []
-
-    # Test making a Terminal
-    terminal = fact.make('terminal')
-    objects.append(terminal)
-
-    # Test making a Notebook
-    import gtk
-    win = gtk.Window()
-    win.add(terminal)
-    notebook = fact.make('notebook', win)
-    objects.append(notebook)
-
-    # Test making an HPaned
-    hpaned = fact.make('hpaned')
-    objects.append(hpaned)
-
-    # Test making a VPaned
-    vpaned = fact.make('vpaned')
-    objects.append(vpaned)
-
-    for item in objects:
-        print item.__class__.__name__
-
-    # Test making something fake
-    fail = fact.make('counterfeit')
-
