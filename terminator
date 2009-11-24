@@ -97,6 +97,8 @@ if __name__ == '__main__':
 inside the terminal")
   parser.add_option ("--working-directory", metavar="DIR",
       dest="working_directory", help="Set the terminal's working directory")
+  parser.add_option ("-r", "--role", dest="role",
+      help="Set custom WM_WINDOW_ROLE property")
   for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
     parser.add_option (item, dest="dummy", action="store", help=SUPPRESS_HELP)
 
@@ -160,7 +162,7 @@ See the following bug report for more details:
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
   term = Terminator (options.profile, command, options.fullscreen, 
                      options.maximise, options.borderless, options.no_gconf, 
-                     options.geometry, options.hidden, options.forcedtitle)
+                     options.geometry, options.hidden, options.forcedtitle, options.role)
 
   term.origcwd = origcwd
   
