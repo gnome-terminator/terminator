@@ -6,6 +6,8 @@
 from borg import Borg
 from util import dbg, err
 
+# pylint: disable-msg=R0201
+# pylint: disable-msg=W0613
 class Factory(Borg):
     """Definition of a class that makes other classes"""
     def __init__(self):
