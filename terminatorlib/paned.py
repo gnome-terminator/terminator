@@ -9,7 +9,7 @@ import gtk
 
 from util import dbg, err, get_top_window
 from newterminator import Terminator
-from terminal import Terminal
+from factory import Factory
 from container import Container
 
 # pylint: disable-msg=R0921
@@ -43,6 +43,8 @@ class Paned(Container):
     # pylint: disable-msg=W0613
     def split_axis(self, widget, vertical=True, sibling=None):
         """Default axis splitter. This should be implemented by subclasses"""
+        maker = Factory()
+
         self.remove(widget)
         if vertical:
             container = VPaned()
@@ -50,7 +52,7 @@ class Paned(Container):
             container = HPaned()
 
         if not sibling:
-            sibling = Terminal()
+            sibling = maker.make('terminal')
         self.terminator.register_terminal(sibling)
         sibling.spawn_child()
 
@@ -64,6 +66,7 @@ class Paned(Container):
 
     def add(self, widget):
         """Add a widget to the container"""
+        maker = Factory()
         if len(self.children) == 0:
             self.pack1(widget, True, True)
             self.children.append(widget)
@@ -77,7 +80,7 @@ class Paned(Container):
             raise ValueError('Paned widgets can only have two children')
 
         self.cnxids[widget] = []
-        if isinstance(widget, Terminal):
+        if maker.isinstance(widget, 'Terminal'):
             top_window = get_top_window(self)
 
             # FIXME: somehow propagate the title-change signal to the Window
@@ -111,13 +114,19 @@ class Paned(Container):
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         if self.closeterm(widget):
-            parent = self.get_parent()
-            parent.remove(self)
-
             # At this point we only have one child, which is the surviving term
             sibling = self.children[0]
             self.remove(sibling)
-            parent.add(sibling)
+
+            parent = self.get_parent()
+            maker = Factory()
+            if maker.isinstance(parent, 'Notebook'):
+              page_num = parent.page_num(self)
+              parent.remove_page(page_num)
+              parent.insert_page(sibling, None, page_num)
+            else:
+              parent.remove(self)
+              parent.add(sibling)
             del(self)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
@@ -135,11 +144,12 @@ class Paned(Container):
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
+        maker = Factory()
         if keyname in ['up', 'down'] and isinstance(self, gtk.VPaned):
             # This is a key we can handle
             position = self.get_position()
 
-            if isinstance(widget, Terminal):
+            if maker.isinstance(widget, 'Terminal'):
                 fontheight = widget.vte.get_char_height()
             else:
                 fontheight = 10
@@ -152,7 +162,7 @@ class Paned(Container):
             # This is a key we can handle
             position = self.get_position()
 
-            if isinstance(widget, Terminal):
+            if maker.isinstance(widget, 'Terminal'):
                 fontwidth = widget.vte.get_char_width()
             else:
                 fontwidth = 10

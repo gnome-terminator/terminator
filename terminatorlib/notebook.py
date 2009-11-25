@@ -8,8 +8,8 @@ import gtk
 
 from newterminator import Terminator
 from config import Config
+from factory import Factory
 from container import Container
-from terminal import Terminal
 from editablelabel import EditableLabel
 from translation import _
 from util import err
@@ -57,7 +57,32 @@ class Notebook(Container, gtk.Notebook):
 
     def split_axis(self, widget, vertical=True, sibling=None):
         """Default axis splitter. This should be implemented by subclasses"""
-        raise NotImplementedError('split_axis')
+        page_num = self.page_num(widget)
+        if page_num == -1:
+            err('Notebook::split_axis: %s not found in Notebook' % widget)
+            return
+
+        self.remove_page(page_num)
+
+        maker = Factory()
+        if vertical:
+            container = maker.make('vpaned')
+        else:
+            container = maker.make('hpaned')
+
+        if not sibling:
+            sibling = maker.make('terminal')
+        self.terminator.register_terminal(sibling)
+        sibling.spawn_child()
+
+        self.insert_page(container, None, page_num)
+        self.show_all()
+
+        container.add(widget)
+        container.add(sibling)
+        self.set_current_page(page_num)
+
+        self.show_all()
 
     def add(self, widget):
         """Add a widget to the container"""
@@ -65,14 +90,31 @@ class Notebook(Container, gtk.Notebook):
 
     def remove(self, widget):
         """Remove a widget from the container"""
-        raise NotImplementedError('remove')
+        page_num = self.page_num(widget)
+        if page_num == -1:
+            err('Notebook::remove: %s not found in Notebook' % widget)
+            return(False)
+        self.remove_page(page_num)
 
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
         if not widget:
-            widget = Terminal()
+            maker = Factory()
+            widget = maker.make('terminal')
             self.terminator.register_terminal(widget)
             widget.spawn_child()
+
+        # FIXME: We likely need a wrapcloseterm() to handle
+        # things like removing Notebook when there is only
+        # one tab left.
+        signals = {'close-term': self.closeterm,
+                   #'title-change': self.title.set_title,
+                   'split-horiz': self.split_horiz,
+                   'split-vert': self.split_vert,
+                   'unzoom': self.unzoom}
+
+        for signal in signals:
+            self.connect_child(widget, signal, signals[signal])
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
@@ -87,6 +129,7 @@ class Notebook(Container, gtk.Notebook):
 
 
         self.append_page(widget, None)
+        self.set_current_page(-1)
         widget.grab_focus()
         
     def resizeterm(self, widget, keyname):

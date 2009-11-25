@@ -19,6 +19,27 @@ class Factory(Borg):
         """Required by the borg, but a no-op here"""
         pass
 
+    def isinstance(self, product, classtype):
+        """Check if a given product is a particular type of object"""
+        if classtype == 'Terminal':
+            import terminal
+            return(isinstance(product, terminal.Terminal))
+        elif classtype == 'VPaned':
+            import paned
+            return(isinstance(product, paned.VPaned))
+        elif classtype == 'HPaned':
+            import paned
+            return(isinstance(product, paned.HPaned))
+        elif classtype == 'Paned':
+            import paned
+            return(isinstance(product, paned.Paned))
+        elif classtype == 'Notebook':
+            import notebook
+            return(isinstance(product, notebook.Notebook))
+        else:
+            err('Factory::isinstance: unknown class type: %s' % classtype)
+            return(False)
+
     def make(self, product, *args):
         """Make the requested product"""
         try:

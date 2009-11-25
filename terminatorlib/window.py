@@ -12,10 +12,8 @@ from util import dbg, err
 from translation import _
 from version import APP_NAME
 from container import Container
-from notebook import Notebook
+from factory import Factory
 from newterminator import Terminator
-from terminal import Terminal
-from paned import HPaned, VPaned
 
 try:
     import deskbar.core.keybinder as bindkey
@@ -103,6 +101,7 @@ class Window(Container, gtk.Window):
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
+        maker = Factory()
         # FIXME: We probably want to cancel window urgency here
 
         mapping = self.terminator.keybindings.lookup(event)
@@ -117,8 +116,8 @@ class Window(Container, gtk.Window):
                     self.on_destroy_event(window,
                             gtk.gdk.Event(gtk.gdk.DESTROY))
             elif mapping == 'new_tab':
-                if not isinstance(self.get_child(), Notebook):
-                    notebook = Notebook(self)
+                if not maker.isinstance(self.get_child(), 'Notebook'):
+                    notebook = maker.make('Notebook', self)
                 self.get_child().newtab()
             else:
                 return(False)
@@ -126,7 +125,8 @@ class Window(Container, gtk.Window):
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
-        if isinstance(self.get_child(), Terminal):
+        maker = Factory()
+        if maker.isinstance(self.get_child(), 'Terminal'):
             dbg('Window::on_delete_event: Only one child, closing is fine')
             return(False)
         return(self.confirm_close(window, _('window')))
@@ -200,8 +200,9 @@ class Window(Container, gtk.Window):
 
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""
+        maker = Factory()
         gtk.Window.add(self, widget)
-        if isinstance(widget, Terminal):
+        if maker.isinstance(widget, 'Terminal'):
             signals = {'close-term': self.closeterm,
                        'title-change': self.title.set_title,
                        'split-horiz': self.split_horiz,
@@ -221,16 +222,17 @@ class Window(Container, gtk.Window):
 
     def split_axis(self, widget, vertical=True, sibling=None):
         """Split the window"""
+        maker = Factory()
         self.remove(widget)
 
         # FIXME: we should be creating proper containers, not these gtk widgets
         if vertical:
-            container = VPaned()
+            container = maker.make('VPaned')
         else:
-            container = HPaned()
+            container = maker.make('HPaned')
 
         if not sibling:
-            sibling = Terminal()
+            sibling = maker.make('Terminal')
         self.terminator.register_terminal(sibling)
         self.add(container)
         container.show_all()
