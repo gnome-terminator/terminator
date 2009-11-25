@@ -47,6 +47,7 @@ class Notebook(Container, gtk.Notebook):
 
     def configure(self):
         """Apply widget-wide settings"""
+        # FIXME: Should all of our widgets have this?
         #self.connect('page-reordered', self.on_page_reordered)
         self.set_property('homogeneous', not self.config['scroll_tabbar'])
         self.set_scrollable(self.config['scroll_tabbar'])
@@ -95,6 +96,7 @@ class Notebook(Container, gtk.Notebook):
             err('Notebook::remove: %s not found in Notebook' % widget)
             return(False)
         self.remove_page(page_num)
+        return(True)
 
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
@@ -104,10 +106,7 @@ class Notebook(Container, gtk.Notebook):
             self.terminator.register_terminal(widget)
             widget.spawn_child()
 
-        # FIXME: We likely need a wrapcloseterm() to handle
-        # things like removing Notebook when there is only
-        # one tab left.
-        signals = {'close-term': self.closeterm,
+        signals = {'close-term': self.wrapcloseterm,
                    #'title-change': self.title.set_title,
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
@@ -133,7 +132,18 @@ class Notebook(Container, gtk.Notebook):
         self.append_page(widget, None)
         self.set_current_page(-1)
         widget.grab_focus()
-        
+
+    def wrapcloseterm(self, widget):
+        """A child terminal has closed"""
+        if self.closeterm(widget):
+            if self.get_n_pages() == 1:
+                child = self.get_nth_page(0)
+                self.remove_page(0)
+                parent = self.get_parent()
+                parent.remove(self)
+                parent.add(child)
+                del(self)
+
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
