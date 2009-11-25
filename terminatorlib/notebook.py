@@ -113,8 +113,10 @@ class Notebook(Container, gtk.Notebook):
                    'split-vert': self.split_vert,
                    'unzoom': self.unzoom}
 
-        for signal in signals:
-            self.connect_child(widget, signal, signals[signal])
+        maker = Factory()
+        if maker.isinstance(widget, 'Terminal'):
+            for signal in signals:
+                self.connect_child(widget, signal, signals[signal])
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
