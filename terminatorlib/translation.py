@@ -22,6 +22,7 @@ from util import dbg
 
 _ = None
 
+# pylint: disable-msg=W0702
 try:
     import gettext
     gettext.textdomain(APP_NAME)
