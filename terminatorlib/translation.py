@@ -26,7 +26,7 @@ try:
     import gettext
     gettext.textdomain(APP_NAME)
     _ = gettext.gettext
-except ImportError:
+except:
     dbg("Using fallback _()")
 
     def dummytrans (text):
