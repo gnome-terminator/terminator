@@ -119,3 +119,7 @@ class TerminatorEditableLabel( gtk.EventBox ):
         if 1 or widget or event:
             return
 
+    def modify_fg (self, state, color):
+        '''modify the foreground of our label'''
+        self._label.modify_fg(state, color)
+
