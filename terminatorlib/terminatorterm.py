@@ -1767,7 +1767,7 @@ text/plain
     terms = self.find_all_terms_in_tab(notebook)
 
     notebooktablabel = notebook.get_tab_label(notebookchild)
-    if notebooktablabel.custom is True:
+    if notebooktablabel._label._custom is True:
       groupname = notebooktablabel.get_title()
 
     if groupname == "":
