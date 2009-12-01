@@ -149,7 +149,7 @@ class TerminatorNotebookTabLabel(gtk.HBox):
         break
 
   def set_title(self, title, force=False):
-		self._label.set_text(title, force)
+    self._label.set_text(title, force)
 
   def get_title(self):
     return self._label.get_text()
