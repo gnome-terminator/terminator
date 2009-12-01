@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, signal, sys, subprocess, pwd, re
+import os, signal, sys, subprocess, pwd, re, urllib2
 
 #import version details
 from terminatorlib.version import *
@@ -544,7 +544,7 @@ text/plain
       #print "%s %s" % (selection_data.type, selection_data.target)
       txt = selection_data.data.strip()
       if txt[0:7] == "file://":
-        txt = "'%s'" % txt[7:]
+        txt = "'%s'" % urllib2.unquote(txt[7:])
       for term in self.get_target_terms():
           term._vte.feed_child(txt)
       return
