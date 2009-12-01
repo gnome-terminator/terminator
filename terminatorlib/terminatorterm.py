@@ -1771,7 +1771,12 @@ text/plain
       groupname = notebooktablabel.get_title()
 
     if groupname == "":
-      groupname = "Tab %d" % (pagenum + 1)
+      tmppagenum = pagenum
+      while True:
+        groupname = "Tab %d" % (tmppagenum + 1)
+        if groupname not in self.terminator.groupings:
+            break
+        tmppagenum += 1
 
     self.add_group(groupname)
     for term in terms:
