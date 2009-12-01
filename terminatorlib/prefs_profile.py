@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from terminatorlib.config import dbg,err,DEFAULTS,TerminatorConfValuestoreRC
-from terminatorlib.keybindings import TerminatorKeybindings
+from terminatorlib.keybindings import TerminatorKeybindings, KeymapError
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib import translation
 
@@ -363,7 +363,10 @@ class ProfileEditor:
       keyval = 0
       mask = 0
       if value is not None and value != "None":
-        (keyval, mask) = self.tkbobj._parsebinding(value)
+        try:
+          (keyval, mask) = self.tkbobj._parsebinding(value)
+        except KeymapError:
+          pass
       if (row[2], row[3]) != (keyval, mask):
         changed_keybindings.append ((row[0], accel))
         dbg("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
@@ -392,7 +395,10 @@ class ProfileEditor:
       if isinstance (value, tuple):
         value = value[0]
       if value is not None and value != "None":
-        (keyval, mask) = self.tkbobj._parsebinding (value)
+        try:
+          (keyval, mask) = self.tkbobj._parsebinding (value)
+        except KeymapError:
+          pass
       self.liststore.append ([binding, self.source_get_keyname (binding), keyval, mask, True])
       dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
 
