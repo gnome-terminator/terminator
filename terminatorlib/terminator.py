@@ -871,7 +871,7 @@ class Terminator:
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
       return True
 
-    if isinstance (parent, gtk.Paned):
+    elif isinstance (parent, gtk.Paned):
       index = self.term_list.index (widget)
       grandparent = parent.get_parent ()
 
@@ -943,6 +943,8 @@ class Terminator:
             gdparent.pack2(sibling)
         if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
           sibling._titlebox.show()
+    else:
+      err('Attempting to remove terminal from unknown parent: %s' % parent)
     if self.conf.focus_on_close == 'prev' or ( self.conf.focus_on_close == 'auto' and focus_on_close == 'prev'):
       if index == 0: index = 1
       self.term_list[index - 1]._vte.grab_focus ()

@@ -1244,6 +1244,8 @@ text/plain
     '''Returns Gdk.Window.get_position(), pixel-based cursor position,
        and Gdk.Window.get_geometry()'''
     reply = dict()
+    if not self._vte.window:
+        return reply
     x, y = self._vte.window.get_origin ()
     reply.setdefault('origin_x',x)
     reply.setdefault('origin_y',y)
