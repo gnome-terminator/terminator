@@ -408,7 +408,7 @@ class TerminatorTerm (gtk.VBox):
   def on_vte_size_allocate(self, widget, allocation):
     dbg ('Terminal resized to %dx%d' % (self._vte.get_column_count (), self._vte.get_row_count ()))
     self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
-    if self._vte.window != None:
+    if self._vte.window != None and (self.conf.geometry_hinting):
         self.terminator.on_term_resized ()
 
   def get_pixbuf(self, maxsize= None):
