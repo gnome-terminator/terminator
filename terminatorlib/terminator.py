@@ -941,6 +941,18 @@ class Terminator:
           else:
             gdparent.remove(parent)
             gdparent.pack2(sibling)
+        elif isinstance(gdparent, gtk.Notebook):
+          # extreme_tabs is on :(
+          label = gdparent.get_tab_label(parent)
+          gdparent.remove(parent)
+          gdparent.insert_page(sibling, None, 0)
+          gdparent.set_tab_label(sibling, label)
+          gdparent.set_tab_label_packing(sibling, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
+          if self._tab_reorderable:
+            gdparent.set_tab_reorderable(sibling, True)
+          gdparent.set_current_page(0)
+        else:
+          err('Unknown grandparent of %s (parent is a notebook)' % widget)
         if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
           sibling._titlebox.show()
     else:
@@ -1017,9 +1029,13 @@ class Terminator:
         #print "I saw %d" % (i)
         #pprint.pprint(possible_geo)
 
-        if matcher (current_geo, possible_geo, best_geo):
+        try:
+          if matcher (current_geo, possible_geo, best_geo):
             best_index = i
             best_geo = possible_geo
+        except TypeError, KeyError:
+          # Not being called on a Paned widget
+          pass
     #if best_index is None:
     #    print "nothing best"
     #else:
@@ -1162,9 +1178,9 @@ class Terminator:
     horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
     # Width of the vertical bar that splits terminals
     if self.term_list[0].is_scrollbar_present():
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+      verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
     else:
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+      verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
     # Horizontal distance between two terminals
     distance = possible_geo['offset_x'] - (current_geo['offset_x'] + current_geo['span_x'])
     if new_edge >= edge:
