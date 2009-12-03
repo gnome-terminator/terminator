@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -28,6 +28,59 @@ msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr "你要在 X 環境下執行 terminator。請確定你的顯示正確設置"
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:250
+#, python-format
+msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d line(s) have been ignored."
+msgstr ""
+
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr ""
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr ""
+
+#: ../terminatorlib/config.py:323
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -170,20 +223,87 @@ msgstr "越南語"
 msgid "Thai"
 msgstr "泰文"
 
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr ""
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "關閉分頁"
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr ""
 
 #. show dialog
 #: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "關閉?"
 
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 msgstr "你需要安裝 python bindings for libvte (在debian/ubuntu 是\"python-vte\")"
+
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr ""
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr ""
+
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
+msgid "Unable to find a shell"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:539
+msgid "Unable to start shell: "
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
@@ -221,142 +341,6 @@ msgstr "垂直分隔(_e)"
 msgid "Open _Tab"
 msgstr "開啟分頁(_T)"
 
-#: ../terminatorlib/terminatorterm.py:1127
-msgid "_Zoom terminal"
-msgstr "放大終端機(_Z)"
-
-#: ../terminatorlib/terminatorterm.py:1136
-msgid "_Unzoom terminal"
-msgstr "取消放大終端機(&U)"
-
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "編碼"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "其他編碼"
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-
-#: ../terminatorlib/config.py:258
-msgid "Configuration error"
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:370
-msgid "Name"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:377
-msgid "Action"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:413
-msgid "window"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr ""
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr ""
-
-#. Give up, we're completely stuck
-#: ../terminatorlib/terminatorterm.py:518
-msgid "Unable to find a shell"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:539
-msgid "Unable to start shell: "
-msgstr ""
-
 #: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
 msgstr ""
@@ -365,9 +349,17 @@ msgstr ""
 msgid "Open Top Level Tab"
 msgstr ""
 
+#: ../terminatorlib/terminatorterm.py:1127
+msgid "_Zoom terminal"
+msgstr "放大終端機(_Z)"
+
 #: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1136
+msgid "_Unzoom terminal"
+msgstr "取消放大終端機(&U)"
 
 #: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
@@ -404,6 +396,14 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "編碼"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "其他編碼"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"

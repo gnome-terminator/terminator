@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-04-11 12:06+0000\n"
-"Last-Translator: ehpc <Unknown>\n"
+"PO-Revision-Date: 2009-10-18 07:14+0000\n"
+"Last-Translator: Alexey Kotlyarov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -30,8 +30,8 @@ msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr ""
-"Вы должны запускать terminator в X режиме. Пожалуйста убедитесь, в том что "
-"переменная DISPLAY установлена."
+"Вы должны запускать terminator под X-системой. Убедитесь, что переменная "
+"DISPLAY установлена."
 
 #: ../terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
@@ -58,7 +58,7 @@ msgid ""
 msgstr ""
 "<big><b>Ошибка настройки</b></big>\n"
 "\n"
-"Ошибка была вызвана при разборе файла terminator_config(5):\n"
+"При разборе файла terminator_config(5) произошли ошибки:\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
@@ -71,7 +71,7 @@ msgstr "Ошибка настройки"
 #: ../terminatorlib/config.py:311
 #, python-format
 msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr "Устанавливаем %r значение %r не является цветом; игнорируем"
+msgstr "Значение параметра %r - %r - не является цветом; игнорируем"
 
 #: ../terminatorlib/config.py:316
 #, python-format
@@ -105,41 +105,41 @@ msgstr "Текущая локаль"
 #: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
 #: ../terminatorlib/encoding.py:96
 msgid "Western"
-msgstr "Западный"
+msgstr "Западная"
 
 #: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
 #: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "Центральноевропейский"
+msgstr "Центральноевропейская"
 
 #: ../terminatorlib/encoding.py:32
 msgid "South European"
-msgstr "Южноевропейский"
+msgstr "Южноевропейская"
 
 #: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
 #: ../terminatorlib/encoding.py:101
 msgid "Baltic"
-msgstr "Балтийский"
+msgstr "Прибалтийская"
 
 #: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
 msgid "Cyrillic"
-msgstr "Кириллический"
+msgstr "Кириллическая"
 
 #: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
 #: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
 msgid "Arabic"
-msgstr "Арабский"
+msgstr "Арабская"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
 #: ../terminatorlib/encoding.py:97
 msgid "Greek"
-msgstr "Греческий"
+msgstr "Греческая"
 
 #: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr "Визуальный иврит"
+msgstr "Иврит (Визуальный)"
 
 #: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
@@ -149,19 +149,19 @@ msgstr "Иврит"
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
 #: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
 msgid "Turkish"
-msgstr "Турецкий"
+msgstr "Турецкая"
 
 #: ../terminatorlib/encoding.py:40
 msgid "Nordic"
-msgstr "Скандинавский"
+msgstr "Скандинавская"
 
 #: ../terminatorlib/encoding.py:42
 msgid "Celtic"
-msgstr "Кельтский"
+msgstr "Кельтская"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
 msgid "Romanian"
-msgstr "Румынский"
+msgstr "Румынская"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
 #: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
@@ -171,26 +171,26 @@ msgstr "Юникод"
 
 #: ../terminatorlib/encoding.py:50
 msgid "Armenian"
-msgstr "Армянский"
+msgstr "Армянская"
 
 #: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
 #: ../terminatorlib/encoding.py:56
 msgid "Chinese Traditional"
-msgstr "Китайский Традиционный"
+msgstr "Традиционная китайская"
 
 #: ../terminatorlib/encoding.py:53
 msgid "Cyrillic/Russian"
-msgstr "Кириллица/Русский"
+msgstr "Кириллица/Россия"
 
 #: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
 #: ../terminatorlib/encoding.py:89
 msgid "Japanese"
-msgstr "Японский"
+msgstr "Японская"
 
 #: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
 msgid "Korean"
-msgstr "Корейский"
+msgstr "Корейская"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
@@ -199,15 +199,15 @@ msgstr "Упрощенная китайская"
 
 #: ../terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr "Грузинский"
+msgstr "Грузинская"
 
 #: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
-msgstr "Кириллица/Украинский"
+msgstr "Кириллица/Украина"
 
 #: ../terminatorlib/encoding.py:76
 msgid "Croatian"
-msgstr "Хорватский"
+msgstr "Хорватская"
 
 #: ../terminatorlib/encoding.py:78
 msgid "Hindi"
@@ -215,7 +215,7 @@ msgstr "Хинди"
 
 #: ../terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr "Персидский"
+msgstr "Персидская"
 
 #: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
@@ -319,11 +319,11 @@ msgstr "Следующее"
 #. Give up, we're completely stuck
 #: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
-msgstr "Не удается найти оболочку(shell)"
+msgstr "Не удается найти оболочку (shell)"
 
 #: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
-msgstr "Не удается запустить оболочку "
+msgstr "Не удается запустить оболочку: "
 
 #: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
@@ -343,7 +343,7 @@ msgstr "_Копировать почтовый адрес"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
-msgstr "Показать прокрутку"
+msgstr "Показать полосу прокрутки"
 
 #: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
@@ -367,7 +367,7 @@ msgstr "Открыть отла_дочную вкладку"
 
 #: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
-msgstr "Открыть верхнюю вкладку"
+msgstr "Открыть вкладку верхнего уровня"
 
 #: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"

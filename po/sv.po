@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-05-28 19:35+0000\n"
-"Last-Translator: Christian Widell <Christian_widell@hotmail.com>\n"
+"PO-Revision-Date: 2009-08-19 09:50+0000\n"
+"Last-Translator: Simon Österberg <simon.osterberg@gmail.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -68,6 +68,11 @@ msgstr ""
 msgid "Configuration error"
 msgstr "Konfigurationsfel"
 
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
 #: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
@@ -79,6 +84,16 @@ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Booleansk inställning %s en av följande är förväntad: yes, no, true, false, "
 "on, off"
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -233,6 +248,11 @@ msgstr "Åtgärd"
 msgid "Keyboard shortcut"
 msgstr "Kortkommando"
 
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Stäng flik"
@@ -240,6 +260,15 @@ msgstr "Stäng flik"
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
 msgstr "flik"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr "Ogiltig geometristräng %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -253,6 +282,17 @@ msgstr "Stäng?"
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
 msgstr "Stäng _terminaler"
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Stäng flera terminaler?</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
@@ -328,9 +368,17 @@ msgstr "Öppna toppnivåflik"
 msgid "_Zoom terminal"
 msgstr "_Zooma in terminal"
 
+#: ../terminatorlib/terminatorterm.py:1131
+msgid "Ma_ximise terminal"
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
 msgstr "Zooma _ut terminal"
+
+#: ../terminatorlib/terminatorterm.py:1141
+msgid "Unma_ximise terminal"
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:1148
 msgid "Ed_it profile"
@@ -352,6 +400,10 @@ msgstr "_Ny grupp"
 msgid "_Group all"
 msgstr "_Gruppera alla"
 
+#: ../terminatorlib/terminatorterm.py:1206
+msgid "_Ungroup all"
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:1216
 msgid "Group name:"
 msgstr "Gruppnamn:"
@@ -368,61 +420,9 @@ msgstr "Teckenkodningar"
 msgid "Other Encodings"
 msgstr "Övriga teckenkodningar"
 
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1131
-msgid "Ma_ximise terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1141
-msgid "Unma_ximise terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1206
-msgid "_Ungroup all"
-msgstr ""
-
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Flera terminaler i ett fönster"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"

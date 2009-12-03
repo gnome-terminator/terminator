@@ -14,12 +14,73 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: ../terminator:46
+msgid ""
+"You need to install the python bindings for gobject, gtk and pango to run "
+"Terminator."
+msgstr ""
+
+#: ../terminator:129
+msgid ""
+"You need to run terminator in an X environment. Make sure DISPLAY is "
+"properly set"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:250
+#, python-format
+msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d line(s) have been ignored."
+msgstr ""
 
 #: ../terminatorlib/config.py:258
 msgid "Configuration error"
 msgstr "Konfigurācijas kļūda"
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr ""
+
+#: ../terminatorlib/config.py:323
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -60,6 +121,10 @@ msgstr "Arābu"
 #: ../terminatorlib/encoding.py:97
 msgid "Greek"
 msgstr "Grieķu"
+
+#: ../terminatorlib/encoding.py:37
+msgid "Hebrew Visual"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
@@ -166,6 +231,15 @@ msgstr "Nosaukums"
 msgid "Action"
 msgstr "Darbība"
 
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Aizvērt Cilni"
@@ -173,6 +247,15 @@ msgstr "Aizvērt Cilni"
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
 msgstr "tab"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -186,126 +269,6 @@ msgstr "Aizvērt?"
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
 msgstr "Aizvērt Termināli"
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr "Meklēt:"
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr "Tālāk"
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_Atvērt saiti"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_Kopēt saites adresi"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_Sūtīt e-pastu..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_Kopēt e-pasta adresi"
-
-#: ../terminatorlib/terminatorterm.py:1107
-msgid "Open _Tab"
-msgstr "Atvērt _Cilni"
-
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "Kodējumi"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "Citi kodējumi"
-
-#: ../terminator:46
-msgid ""
-"You need to install the python bindings for gobject, gtk and pango to run "
-"Terminator."
-msgstr ""
-
-#: ../terminator:129
-msgid ""
-"You need to run terminator in an X environment. Make sure DISPLAY is "
-"properly set"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:37
-msgid "Hebrew Visual"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
 
 #: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -324,6 +287,15 @@ msgid ""
 "debian/ubuntu)"
 msgstr ""
 
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Meklēt:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Tālāk"
+
 #. Give up, we're completely stuck
 #: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
@@ -332,6 +304,22 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr "_Atvērt saiti"
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "_Kopēt saites adresi"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_Sūtīt e-pastu..."
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr "_Kopēt e-pasta adresi"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
@@ -348,6 +336,10 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1107
+msgid "Open _Tab"
+msgstr "Atvērt _Cilni"
 
 #: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
@@ -404,6 +396,14 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "Kodējumi"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "Citi kodējumi"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"

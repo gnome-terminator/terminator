@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-06-04 18:58+0000\n"
-"Last-Translator: j0hn <c7p.admin@gmail.com>\n"
+"PO-Revision-Date: 2009-09-02 19:32+0000\n"
+"Last-Translator: Alex P. Natsios <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -32,6 +32,18 @@ msgid ""
 msgstr ""
 "Πρέπει να εκτελέσετε  το terminator σε Χ περιβάλλον. Βεβαιωθείτε πως οι "
 "ρυθμίσεις απεικόνισης είναι σωστές."
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr "Ρύθμιση χωρίς τιμή"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
 
 #: ../terminatorlib/config.py:250
 #, python-format
@@ -57,6 +69,11 @@ msgstr ""
 msgid "Configuration error"
 msgstr "Σφάλμα ρυθμίσεων"
 
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
 #: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
@@ -68,6 +85,16 @@ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
 "Η ρύθμιση %s του τελεστή αναμένει ένα από τα παρακάτω: ναι, όχι, αληθές, "
 "ψευδές, ανοιχτό, κλειστό"
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr "Η ρύθμιση %r θα έπρεπε να είναι ένα όνομα τμήματος"
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -193,6 +220,10 @@ msgstr "Περσικά"
 msgid "Gujarati"
 msgstr "Γκουτζαράτι"
 
+#: ../terminatorlib/encoding.py:82
+msgid "Gurmukhi"
+msgstr "Gurmukhi"
+
 #: ../terminatorlib/encoding.py:84
 msgid "Icelandic"
 msgstr "Ισλανδικά"
@@ -206,14 +237,63 @@ msgstr "Βιετναμέζικα"
 msgid "Thai"
 msgstr "Ταϋλανδέζικα"
 
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr "Όνομα"
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr "Ενέργεια"
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr "Συντόμευση πληκτρολογίου"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Κλείσιμο καρτέλας"
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "στηλοθέτης"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "παράθυρο"
 
 #. show dialog
 #: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "Κλείσιμο;"
+
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr "Κλείσιμο _Τερματικών"
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Κλείσιμο πολλαπλών τερματικών;</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
@@ -222,6 +302,15 @@ msgid ""
 msgstr ""
 "Πρέπει να εγκαταστήσετε τις ακόλουθες python συνδέσεις για το libvte "
 "(\"python-vte\" στο debian/ubuntu)"
+
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Αναζήτηση:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Επόμενο"
 
 #. Give up, we're completely stuck
 #: ../terminatorlib/terminatorterm.py:518
@@ -292,114 +381,17 @@ msgstr "_Απομάκρυνση τερματικού"
 msgid "Unma_ximise terminal"
 msgstr "Σμί_κρυνση τερματικού"
 
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "Κωδικοποιήσεις"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "Άλλες Κωδικοποιήσεις"
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr "Ρύθμιση χωρίς τιμή"
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:82
-msgid "Gurmukhi"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:370
-msgid "Name"
-msgstr "Όνομα"
-
-#: ../terminatorlib/prefs_profile.py:377
-msgid "Action"
-msgstr "Ενέργεια"
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr "Συντόμευση πληκτρολογίου"
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:413
-msgid "window"
-msgstr "παράθυρο"
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr "Κλείσιμο _Τερματικών"
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Κλείσιμο πολλαπλών τερματικών;</b></big>"
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr "Αναζήτηση:"
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr "Επόμενο"
-
 #: ../terminatorlib/terminatorterm.py:1148
 msgid "Ed_it profile"
-msgstr ""
+msgstr "Επεξεργασία Προφίλ"
 
 #: ../terminatorlib/terminatorterm.py:1155
 msgid "_Group"
-msgstr ""
+msgstr "_Ομαδοποίηση"
 
 #: ../terminatorlib/terminatorterm.py:1179
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
@@ -421,10 +413,18 @@ msgstr "Όνομα ομάδας:"
 msgid "All"
 msgstr "Όλα"
 
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "Κωδικοποιήσεις"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "Άλλες Κωδικοποιήσεις"
+
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Πολλαπλά τερματικά σε ένα παράθυρο"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "Terminator"

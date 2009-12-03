@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-04-29 13:04+0000\n"
-"Last-Translator: Osman Tosun <rainman.neu@gmail.com>\n"
+"PO-Revision-Date: 2009-10-02 18:27+0000\n"
+"Last-Translator: aylincan <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -32,6 +32,10 @@ msgid ""
 msgstr ""
 "Terminator'u bir X ortamında çalıştırmanız gerekmektedir. DISPLAY "
 "değişkeninin uygun şekilde ayarlandığına emin olunuz."
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr "Sınırsız yineleyen dizi"
 
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
@@ -85,6 +89,11 @@ msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
 "terminator_config(5)'ten liste değerleri okuması şu anda desteklenmiyor"
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -239,6 +248,11 @@ msgstr "Eylem"
 msgid "Keyboard shortcut"
 msgstr "Klavye kısayolu"
 
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Sekmeyi Kapat"
@@ -251,6 +265,10 @@ msgstr "sekme"
 #, python-format
 msgid "Invalid geometry string %r"
 msgstr "Geçersiz geometri katarı: %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -268,6 +286,13 @@ msgstr "_Terminalleri Kapat"
 #: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
 msgstr "<big><b>Birden çok uçbirim kapatılsın mı?</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
@@ -402,28 +427,3 @@ msgstr "Tek pencerede birden çok uçbirim"
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
 msgstr "Terminator"
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-06-21 16:13+0000\n"
-"Last-Translator: DiegoJ <diegojromerolopez@gmail.com>\n"
+"PO-Revision-Date: 2009-09-18 16:08+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -22,7 +22,7 @@ msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
-"Necesita instalar los vinculos de python para gobject.gtk y pango para "
+"Necesita instalar los vínculos de python para gobject, gtk y pango para "
 "ejecutar Terminator"
 
 #: ../terminator:129
@@ -83,7 +83,7 @@ msgstr ""
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
 msgstr ""
-"Valor de configuración %s boleano esperaba uno de los siguientes: yes, no, "
+"Valor de configuración %s booleano esperaba uno de los siguientes: yes, no, "
 "true, false, on, off"
 
 #: ../terminatorlib/config.py:329
@@ -111,11 +111,11 @@ msgstr "Occidental"
 #: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
 #: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
 msgid "Central European"
-msgstr "Europa central"
+msgstr "Europeo central"
 
 #: ../terminatorlib/encoding.py:32
 msgid "South European"
-msgstr "Europa del sur"
+msgstr "Europeo del sur"
 
 #: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
 #: ../terminatorlib/encoding.py:101
@@ -273,7 +273,7 @@ msgstr "Cadena de geometría inválida %r"
 
 #: ../terminatorlib/terminator.py:277
 msgid "Unable to bind hide_window key"
-msgstr "No se puede asociar la clave hide_window"
+msgstr "No se puede asociar la tecla de hide_window"
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -290,7 +290,7 @@ msgstr "Cerrar_Terminales"
 
 #: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>¿Cerar Multiples Termnales?</b></big>"
+msgstr "<big><b>¿Cerar Multiples Terminales?</b></big>"
 
 #: ../terminatorlib/terminator.py:428
 #, python-format
@@ -306,7 +306,7 @@ msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 msgstr ""
-"Necesita instalar los «bindings» de Python para libvte (python-vte en "
+"Necesita instalar los vínculos de Python para libvte (python-vte en "
 "Debian/Ubuntu)"
 
 #: ../terminatorlib/terminatorterm.py:133
@@ -373,7 +373,7 @@ msgstr "Abrir Pestana de Nivel Superior"
 
 #: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
-msgstr "Hacer acercamiento (_zoom) en terminal"
+msgstr "Acercar en la terminal (_zoom)"
 
 #: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
@@ -381,7 +381,7 @@ msgstr "Ma_ximizar terminal"
 
 #: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
-msgstr "Deshacer acercamiento en terminal (_zoom)"
+msgstr "Alejar en la terminal (_unzoom)"
 
 #: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
@@ -393,7 +393,7 @@ msgstr "Ed_itar perfil"
 
 #: ../terminatorlib/terminatorterm.py:1155
 msgid "_Group"
-msgstr "_Agrupar"
+msgstr "A_grupar"
 
 #: ../terminatorlib/terminatorterm.py:1179
 msgid "None"

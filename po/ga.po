@@ -14,29 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "Dún?"
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_Oscail Nasc"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_Macasamhlaigh Seoladh an Naisc"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_Seol Post Chuig..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_Macasamhlaigh an Seoladh Ríomhphost"
 
 #: ../terminator:46
 msgid ""
@@ -282,6 +261,11 @@ msgstr ""
 msgid "window"
 msgstr ""
 
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr "Dún?"
+
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
 msgstr ""
@@ -320,6 +304,22 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr "_Oscail Nasc"
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "_Macasamhlaigh Seoladh an Naisc"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_Seol Post Chuig..."
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr "_Macasamhlaigh an Seoladh Ríomhphost"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"

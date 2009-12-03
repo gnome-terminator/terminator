@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-05-08 19:11+0000\n"
-"Last-Translator: Wacław Jacek <mail@waclawjacek.com>\n"
+"PO-Revision-Date: 2009-07-16 22:47+0000\n"
+"Last-Translator: Marek Spociński <marek_sp@tlen.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -22,7 +22,7 @@ msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
-"Musisz zainstalować dowiązania pythona dla gobject, gtk i pangoo aby móc "
+"Musisz zainstalować dowiązania pythona dla gobject, gtk i pango aby móc "
 "uruchomić Terminatora."
 
 #: ../terminator:129
@@ -250,6 +250,11 @@ msgstr "Czynność"
 msgid "Keyboard shortcut"
 msgstr "Skrót klawiaturowy"
 
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Zamknij kartę"
@@ -262,6 +267,10 @@ msgstr "karta"
 #, python-format
 msgid "Invalid geometry string %r"
 msgstr "Nieprawidłowy ciąg geometrii %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "Nie można było przypisać klawisza do komendy hide_window"
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -422,12 +431,3 @@ msgstr "Wiele terminali w jednym oknie"
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
 msgstr "Terminator"
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr "Nie można było przypisać klawisza do komendy hide_window"
