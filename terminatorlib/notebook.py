@@ -37,12 +37,6 @@ class Notebook(Container, gtk.Notebook):
         window.add(self)
         self.newtab(child)
 
-        label = TabLabel(self.window.get_title(), self)
-        self.set_tab_label(child, label)
-        self.set_tab_label_packing(child, not self.config['scroll_tabbar'],
-                                   not self.config['scroll_tabbar'],
-                                   gtk.PACK_START)
-
         self.show_all()
 
     def configure(self):
@@ -123,13 +117,12 @@ class Notebook(Container, gtk.Notebook):
         label.show_all()
         widget.show_all()
 
+        self.append_page(widget, None)
         self.set_tab_label(widget, label)
         self.set_tab_label_packing(widget, not self.config['scroll_tabbar'],
                                    not self.config['scroll_tabbar'],
                                    gtk.PACK_START)
 
-
-        self.append_page(widget, None)
         self.set_current_page(-1)
         widget.grab_focus()
 
