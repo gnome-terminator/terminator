@@ -162,8 +162,12 @@ class Notebook(Container, gtk.Notebook):
         if maker.isinstance(child, 'Terminal'):
             child.close()
         elif maker.isinstance(child, 'Container'):
-            #FIXME: Handle this case
-            dbg('Notebook::closetab: Container children not yet handled')
+            dialog = self.construct_confirm_close(self.get_window(), _('tab'))
+            result = dialog.run()
+            dialog.destroy()
+
+            if result is True:
+                print child.get_children()
         else:
             err('Notebook::closetab: Unknown child type %s' % child)
 

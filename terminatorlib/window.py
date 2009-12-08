@@ -116,12 +116,17 @@ class Window(Container, gtk.Window):
                     self.on_destroy_event(window,
                             gtk.gdk.Event(gtk.gdk.DESTROY))
             elif mapping == 'new_tab':
-                if not maker.isinstance(self.get_child(), 'Notebook'):
-                    notebook = maker.make('Notebook', self)
-                self.get_child().newtab()
+                self.tab_new()
             else:
                 return(False)
             return(True)
+
+    def tab_new(self):
+        """Make a new tab"""
+        maker = Factory()
+        if not maker.isinstance(self.get_child(), 'Notebook'):
+            notebook = maker.make('Notebook', self)
+        self.get_child().newtab()
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
