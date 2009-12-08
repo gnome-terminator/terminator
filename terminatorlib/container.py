@@ -67,6 +67,8 @@ class Container(object):
         if self.cnxids.has_key(widget):
             for cnxid in self.cnxids[widget]:
                 # FIXME: Look up the IDs to print a useful debugging message
+                dbg('Container::disconnect_child: removing handler on %s' %
+                        widget.__class__.__name__)
                 widget.disconnect(cnxid)
             del(self.cnxids[widget])
 
@@ -107,6 +109,7 @@ class Container(object):
             pass
 
         if not self.remove(widget):
+            dbg('Container::closeterm: self.remove() failed for %s' % widget)
             return(False)
 
         self.terminator.deregister_terminal(widget)

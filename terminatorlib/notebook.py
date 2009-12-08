@@ -12,7 +12,7 @@ from factory import Factory
 from container import Container
 from editablelabel import EditableLabel
 from translation import _
-from util import err
+from util import err, dbg
 
 class Notebook(Container, gtk.Notebook):
     """Class implementing a gtk.Notebook container"""
@@ -51,13 +51,14 @@ class Notebook(Container, gtk.Notebook):
         self.set_show_tabs(not self.config['hide_tabbar'])
 
     def split_axis(self, widget, vertical=True, sibling=None):
-        """Default axis splitter. This should be implemented by subclasses"""
+        """Split the axis of a terminal inside us"""
         page_num = self.page_num(widget)
         if page_num == -1:
             err('Notebook::split_axis: %s not found in Notebook' % widget)
             return
 
-        self.remove_page(page_num)
+        label = self.get_tab_label(widget)
+        self.remove(widget)
 
         maker = Factory()
         if vertical:
@@ -71,6 +72,7 @@ class Notebook(Container, gtk.Notebook):
         sibling.spawn_child()
 
         self.insert_page(container, None, page_num)
+        self.set_tab_label(container, label)
         self.show_all()
 
         container.add(widget)
@@ -81,15 +83,17 @@ class Notebook(Container, gtk.Notebook):
 
     def add(self, widget):
         """Add a widget to the container"""
-        raise NotImplementedError('add')
+        self.newtab(widget)
 
     def remove(self, widget):
         """Remove a widget from the container"""
         page_num = self.page_num(widget)
         if page_num == -1:
-            err('Notebook::remove: %s not found in Notebook' % widget)
+            err('Notebook::remove: %s not found in Notebook. Actual parent is: %s' % 
+                    (widget, widget.get_parent()))
             return(False)
         self.remove_page(page_num)
+        self.disconnect_child(widget)
         return(True)
 
     def newtab(self, widget=None):
@@ -130,13 +134,20 @@ class Notebook(Container, gtk.Notebook):
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""
         if self.closeterm(widget):
+            dbg('Notebook::wrapcloseterm: closeterm succeeded')
             if self.get_n_pages() == 1:
+                dbg('Notebook::wrapcloseterm: last page, removing self')
                 child = self.get_nth_page(0)
                 self.remove_page(0)
                 parent = self.get_parent()
                 parent.remove(self)
                 parent.add(child)
                 del(self)
+            else:
+                dbg('Notebook::wrapcloseterm: %d pages remain' %
+                        self.get_n_pages())
+        else:
+            dbg('Notebook::wrapcloseterm: closeterm failed')
 
     def closetab(self, widget, label):
         """Close a tab"""
@@ -160,16 +171,42 @@ class Notebook(Container, gtk.Notebook):
         child = nb.get_nth_page(tabnum)
 
         if maker.isinstance(child, 'Terminal'):
+            dbg('Notebook::closetab: child is a single Terminal')
             child.close()
         elif maker.isinstance(child, 'Container'):
-            dialog = self.construct_confirm_close(self.get_window(), _('tab'))
+            dbg('Notebook::closetab: child is a Container')
+            dialog = self.construct_confirm_close(self.window, _('tab'))
             result = dialog.run()
             dialog.destroy()
 
-            if result is True:
-                print child.get_children()
+            if result == gtk.RESPONSE_ACCEPT:
+                containers = []
+                objects = []
+                for descendant in child.get_children():
+                    if maker.isinstance(descendant, 'Container'):
+                        containers.append(descendant)
+                    elif maker.isinstance(descendant, 'Terminal'):
+                        objects.append(descendant)
+
+                while len(containers) > 0:
+                    child = containers.pop()
+                    for descendant in child.get_children():
+                        if maker.isinstance(descendant, 'Container'):
+                            containers.append(descendant)
+                        elif maker.isinstance(descendant, 'Terminal'):
+                            objects.append(descendant)
+
+                for descendant in objects:
+                    descendant.close()
+                    while gtk.events_pending():
+                        gtk.main_iteration()
+                return
+            else:
+                dbg('Notebook::closetab: user cancelled request')
+                return
         else:
-            err('Notebook::closetab: Unknown child type %s' % child)
+            err('Notebook::closetab: child is unknown type %s' % child)
+            return
 
         nb.remove_page(tabnum)
         del(label)
