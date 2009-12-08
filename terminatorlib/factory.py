@@ -36,6 +36,9 @@ class Factory(Borg):
         elif classtype == 'Notebook':
             import notebook
             return(isinstance(product, notebook.Notebook))
+        elif classtype == 'Container':
+            import container
+            return(isinstance(product, container.Container))
         else:
             err('Factory::isinstance: unknown class type: %s' % classtype)
             return(False)

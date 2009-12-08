@@ -113,6 +113,7 @@ class Notebook(Container, gtk.Notebook):
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
+        label.connect('close-clicked', self.closetab)
 
         label.show_all()
         widget.show_all()
@@ -137,6 +138,38 @@ class Notebook(Container, gtk.Notebook):
                 parent.add(child)
                 del(self)
 
+    def closetab(self, widget, label):
+        """Close a tab"""
+        tabnum = None
+        try:
+            nb = widget.notebook
+        except AttributeError:
+            err('TabLabel::closetab: called on non-Notebook: %s' % widget)
+            return
+
+        for i in xrange(0, nb.get_n_pages()):
+            if label == nb.get_tab_label(nb.get_nth_page(i)):
+                tabnum = i
+                break
+
+        if not tabnum:
+            err('TabLabel::closetab: %s not in %s' % (label, nb))
+            return
+
+        maker = Factory()
+        child = nb.get_nth_page(tabnum)
+
+        if maker.isinstance(child, 'Terminal'):
+            child.close()
+        elif maker.isinstance(child, 'Container'):
+            #FIXME: Handle this case
+            dbg('Notebook::closetab: Container children not yet handled')
+        else:
+            err('Notebook::closetab: Unknown child type %s' % child)
+
+        nb.remove_page(tabnum)
+        del(label)
+
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
@@ -158,9 +191,16 @@ class TabLabel(gtk.HBox):
     icon = None
     button = None
 
+    __gsignals__ = {
+            'close-clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+                (gobject.TYPE_OBJECT,)),
+    }
+
     def __init__(self, title, notebook):
         """Class initialiser"""
         gtk.HBox.__init__(self)
+        self.__gobject_init__()
+
         self.notebook = notebook
         self.terminator = Terminator()
         self.config = Config()
@@ -223,5 +263,6 @@ class TabLabel(gtk.HBox):
 
     def on_close(self, widget):
         """The close button has been clicked. Destroy the tab"""
-        pass
+        self.emit('close-clicked', self)
+
 # vim: set expandtab ts=4 sw=4:
