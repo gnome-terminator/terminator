@@ -113,20 +113,15 @@ class Paned(Container):
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
+        dbg('Paned::wrapcloseterm: Called on %s' % widget)
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
             sibling = self.children[0]
             self.remove(sibling)
 
             parent = self.get_parent()
-            maker = Factory()
-            if maker.isinstance(parent, 'Notebook'):
-              page_num = parent.page_num(self)
-              parent.remove_page(page_num)
-              parent.insert_page(sibling, None, page_num)
-            else:
-              parent.remove(self)
-              parent.add(sibling)
+            parent.remove(self)
+            parent.add(sibling)
             del(self)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
