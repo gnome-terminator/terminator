@@ -133,6 +133,7 @@ class Notebook(Container, gtk.Notebook):
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""
+        dbg('Notebook::wrapcloseterm: called on %s' % widget)
         if self.closeterm(widget):
             dbg('Notebook::wrapcloseterm: closeterm succeeded')
             if self.get_n_pages() == 1:
@@ -164,7 +165,7 @@ class Notebook(Container, gtk.Notebook):
                 break
 
         if not tabnum:
-            err('TabLabel::closetab: %s not in %s' % (label, nb))
+            err('TabLabel::closetab: %s not in %s. Bailing.' % (label, nb))
             return
 
         maker = Factory()
@@ -196,8 +197,10 @@ class Notebook(Container, gtk.Notebook):
                         elif maker.isinstance(descendant, 'Terminal'):
                             objects.append(descendant)
 
-                for descendant in objects:
+                while len(objects) > 0:
+                    descendant = objects.pop()
                     descendant.close()
+                    # FIXME: Is this mainloop iterations stuff necessary?
                     while gtk.events_pending():
                         gtk.main_iteration()
                 return
