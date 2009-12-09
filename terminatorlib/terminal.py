@@ -136,6 +136,7 @@ class Terminal(gtk.VBox):
 
     def close(self):
         """Close ourselves"""
+        dbg('Terminal::close: emitting close-term')
         self.emit('close-term')
 
     def create_terminalbox(self):
