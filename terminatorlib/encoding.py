@@ -25,6 +25,7 @@ This list is taken from gnome-terminal's src/terminal-encoding.c
 
 from translation import _
 
+#pylint: disable-msg=R0903
 class TerminatorEncoding:
     """Class to store encoding details"""
 

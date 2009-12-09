@@ -5,6 +5,7 @@
    http://code.activestate.com/recipes/66531/"""
 
 # pylint: disable-msg=R0903
+# pylint: disable-msg=R0921
 class Borg:
     """Definition of a class that can never be duplicated. Correct usage is
     thus:

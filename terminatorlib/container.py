@@ -139,21 +139,21 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-    def construct_confirm_close(self, window, type):
+    def construct_confirm_close(self, window, reqtype):
         """Create a confirmation dialog for closing things"""
         dialog = gtk.Dialog(_('Close?'), window, gtk.DIALOG_MODAL)
         dialog.set_has_separator(False)
         dialog.set_resizable(False)
     
-        cancel = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
-        close_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-        label = close_all.get_children()[0].get_children()[0].get_children()[1].set_label(_('Close _Terminals'))
+        dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
+        c_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
+        c_all.get_children()[0].get_children()[0].get_children()[1].set_label(_('Close _Terminals'))
     
         primary = gtk.Label(_('<big><b>Close multiple terminals?</b></big>'))
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
-        secondary = gtk.Label(_('This %s has several terminals open. Closing the \
-%s will also close all terminals within it.') % (type, type))
+        secondary = gtk.Label(_('This %s has several terminals open. Closing \
+the %s will also close all terminals within it.') % (reqtype, reqtype))
         secondary.set_line_wrap(True)
     
         labels = gtk.VBox()
