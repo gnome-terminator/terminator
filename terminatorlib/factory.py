@@ -21,24 +21,15 @@ class Factory(Borg):
 
     def isinstance(self, product, classtype):
         """Check if a given product is a particular type of object"""
-        if classtype == 'Terminal':
-            import terminal
-            return(isinstance(product, terminal.Terminal))
-        elif classtype == 'VPaned':
-            import paned
-            return(isinstance(product, paned.VPaned))
-        elif classtype == 'HPaned':
-            import paned
-            return(isinstance(product, paned.HPaned))
-        elif classtype == 'Paned':
-            import paned
-            return(isinstance(product, paned.Paned))
-        elif classtype == 'Notebook':
-            import notebook
-            return(isinstance(product, notebook.Notebook))
-        elif classtype == 'Container':
-            import container
-            return(isinstance(product, container.Container))
+        types = {'Terminal': 'terminal',
+                 'VPaned': 'paned',
+                 'HPaned': 'paned',
+                 'Paned': 'paned',
+                 'Notebook': 'notebook',
+                 'Container': 'container'}
+        if classtype in types.keys():
+            module = __import__(types[classtype], None, None, [''])
+            return(isinstance(product, getattr(module, classtype)))
         else:
             err('Factory::isinstance: unknown class type: %s' % classtype)
             return(False)
