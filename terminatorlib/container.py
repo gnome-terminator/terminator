@@ -179,8 +179,6 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         parent = self.get_parent()
         title = widget.get_window_title()
 
-        dbg('Container::propagate_title_change: I am %s. My parent is %s' %
-                (self, parent))
         if maker.isinstance(self, 'Notebook'):
             self.update_tab_label_text(widget, title)
         elif maker.isinstance(self, 'Window'):

@@ -226,12 +226,25 @@ class Notebook(Container, gtk.Notebook):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
+    def find_tab_root(self, widget):
+        """Look for the tab child which is or ultimately contains the supplied
+        widget"""
+        parent = widget.get_parent()
+        previous = parent
+
+        while parent is not None and parent is not self:
+            previous = parent
+            parent = parent.get_parent()
+
+        if previous == self:
+            return(widget)
+        else:
+            return(previous)
+
     def update_tab_label_text(self, widget, text):
         """Update the text of a tab label"""
-        # FIXME: get_tab_label() doesn't descend the widget tree. We need
-        # something that does or this only works for Notebook->Terminal, not
-        # Notebook->Container->...->Terminal
-        label = self.get_tab_label(widget)
+        notebook = self.find_tab_root(widget)
+        label = self.get_tab_label(notebook)
         if not label:
             err('Notebook::update_tab_label_text: %s not found' % widget)
             return
