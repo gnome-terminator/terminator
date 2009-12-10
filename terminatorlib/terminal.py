@@ -185,10 +185,10 @@ class Terminal(gtk.VBox):
 
         if self.matches['full_uri'] == -1:
             if posix:
-                err ('Terminal::update_url_matches: POSIX match failed, trying GNU')
+                err ('Terminal::update_url_matches: POSIX failed, trying GNU')
                 self.update_url_matches(posix = False)
             else:
-                err ('Terminal::update_url_matches: Failed adding URL match patterns')
+                err ('Terminal::update_url_matches: Failed adding URL matches')
         else:
             self.matches['voip'] = self.vte.match_add(lboundry + 
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
@@ -465,7 +465,9 @@ class Terminal(gtk.VBox):
         if mapping == "hide_window":
             return(False)
 
-        if mapping and mapping not in ['close_window', 'full_screen', 'new_tab']:
+        if mapping and mapping not in ['close_window', 
+                                       'full_screen', 
+                                       'new_tab']:
             dbg('Terminal::on_keypress: lookup found: %r' % mapping)
             # handle the case where user has re-bound copy to ctrl+<key>
             # we only copy if there is a selection otherwise let it fall through
@@ -638,7 +640,8 @@ class Terminal(gtk.VBox):
 
         dstpaned = dsthbox.get_parent()
         srcpaned = srchbox.get_parent()
-        if isinstance(dstpaned, gtk.Window) and  isinstance(srcpaned, gtk.Window):
+        if isinstance(dstpaned, gtk.Window) and \
+           isinstance(srcpaned, gtk.Window):
             return
 
         pos = self.get_location(widget, x, y)
@@ -667,13 +670,13 @@ class Terminal(gtk.VBox):
         --------
         """
         if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
-              pos =  "right"
+            pos =  "right"
         if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
-              pos = "top"
+            pos = "top"
         if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
-              pos = "left"
+            pos = "left"
         if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
-              pos = "bottom"
+            pos = "bottom"
         return pos
 
     def grab_focus(self):
@@ -760,7 +763,8 @@ class Terminal(gtk.VBox):
              new_columns,
              new_rows))
 
-        if (new_rows == old_data['old_rows'] or new_columns == old_data['old_columns']):
+        if new_rows == old_data['old_rows'] or \
+           new_columns == old_data['old_columns']:
             dbg('Terminal::zoom_scale: One axis unchanged, not scaling')
             return
 
