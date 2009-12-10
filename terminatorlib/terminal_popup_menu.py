@@ -192,9 +192,9 @@ class TerminalPopupMenu(object):
                 continue
 
             if encoding[1] is None:
-                label = "%s %s"%(encoding[2], terminal.vte.get_encoding ())
+                label = "%s %s" % (encoding[2], terminal.vte.get_encoding ())
             else:
-                label = "%s %s"%(encoding[2], encoding[1])
+                label = "%s %s" % (encoding[2], encoding[1])
     
             radioitem = gtk.RadioMenuItem (group, label)
             if group is None:
