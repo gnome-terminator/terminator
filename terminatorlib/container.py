@@ -6,6 +6,7 @@
 import gobject
 import gtk
 
+from factory import Factory
 from config import Config
 from util import dbg, err
 from translation import _
@@ -171,5 +172,21 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
     
         dialog.show_all()
         return(dialog)
-    
+
+    def propagate_title_change(self, widget, title):
+        """Pass a title change up the widget stack"""
+        maker = Factory()
+        parent = self.get_parent()
+        title = widget.get_window_title()
+
+        dbg('Container::propagate_title_change: I am %s. My parent is %s' %
+                (self, parent))
+        if maker.isinstance(self, 'Notebook'):
+            self.update_tab_label_text(widget, title)
+        elif maker.isinstance(self, 'Window'):
+            self.title.set_title(widget, title)
+
+        if maker.isinstance(parent, 'Container'):
+            parent.propagate_title_change(widget, title)
+
 # vim: set expandtab ts=4 sw=4:

@@ -105,9 +105,9 @@ class Notebook(Container, gtk.Notebook):
             widget.spawn_child()
 
         signals = {'close-term': self.wrapcloseterm,
-                   #'title-change': self.title.set_title,
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
+                   'title-change': self.propagate_title_change,
                    'unzoom': self.unzoom}
 
         maker = Factory()
@@ -226,6 +226,18 @@ class Notebook(Container, gtk.Notebook):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
+    def update_tab_label_text(self, widget, text):
+        """Update the text of a tab label"""
+        # FIXME: get_tab_label() doesn't descend the widget tree. We need
+        # something that does or this only works for Notebook->Terminal, not
+        # Notebook->Container->...->Terminal
+        label = self.get_tab_label(widget)
+        if not label:
+            err('Notebook::update_tab_label_text: %s not found' % widget)
+            return
+        
+        label.set_label(text)
+
 class TabLabel(gtk.HBox):
     """Class implementing a label widget for Notebook tabs"""
     notebook = None
@@ -256,6 +268,10 @@ class TabLabel(gtk.HBox):
 
         self.update_button()
         self.show_all()
+
+    def set_label(self, text):
+        """Update the text of our label"""
+        self.label.set_text(text)
 
     def update_button(self):
         """Update the state of our close button"""

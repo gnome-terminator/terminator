@@ -26,7 +26,8 @@ class Factory(Borg):
                  'HPaned': 'paned',
                  'Paned': 'paned',
                  'Notebook': 'notebook',
-                 'Container': 'container'}
+                 'Container': 'container',
+                 'Window': 'window'}
         if classtype in types.keys():
             module = __import__(types[classtype], None, None, [''])
             return(isinstance(product, getattr(module, classtype)))

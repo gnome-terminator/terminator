@@ -107,6 +107,8 @@ class Titlebar(gtk.EventBox):
         """Update the terminal title"""
         self.termtext = title
         self.update()
+        # Return False so we don't interrupt any chains of signal handling
+        return False
 
     def set_group_label(self, name):
         """Set the name of the group"""

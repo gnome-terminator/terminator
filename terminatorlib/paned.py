@@ -83,10 +83,10 @@ class Paned(Container):
         if maker.isinstance(widget, 'Terminal'):
             top_window = get_top_window(self)
 
-            # FIXME: somehow propagate the title-change signal to the Window
             signals = {'close-term': self.wrapcloseterm,
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
+                    'title-change': self.propagate_title_change,
                     'resize-term': self.resizeterm,
                     'zoom': top_window.zoom}
 
