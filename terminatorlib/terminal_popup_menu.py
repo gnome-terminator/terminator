@@ -161,7 +161,8 @@ class TerminalPopupMenu(object):
         for encoding in active_encodings:
             if encoding == terminal.default_encoding:
                 extratext = " (%s)" % _("Default")
-            elif encoding == current_encoding and terminal.custom_encoding == True:
+            elif encoding == current_encoding and \
+                 terminal.custom_encoding == True:
                 extratext = " (%s)" % _("User defined")
             else:
                 extratext = ""
@@ -174,7 +175,8 @@ class TerminalPopupMenu(object):
             if group is None:
                 group = radioitem
     
-            radioitem.connect ('activate', terminal.on_encoding_change, encoding)
+            radioitem.connect ('activate', terminal.on_encoding_change, 
+                               encoding)
             submenu.append (radioitem)
     
         item = gtk.MenuItem (_("Other Encodings"))
@@ -201,6 +203,7 @@ class TerminalPopupMenu(object):
             if encoding[1] == current_encoding:
                 radioitem.set_active (True)
 
-            radioitem.connect ('activate', terminal.on_encoding_change, encoding[1])
+            radioitem.connect ('activate', terminal.on_encoding_change, 
+                               encoding[1])
             submenu.append (radioitem)
 
