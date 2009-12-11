@@ -2,7 +2,23 @@
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """borg.py - We are the borg. Resistance is futile.
-   http://code.activestate.com/recipes/66531/"""
+   http://code.activestate.com/recipes/66531/
+
+>>> obj1 = TestBorg()
+>>> obj2 = TestBorg()
+>>> obj1.attribute
+0
+>>> obj2.attribute
+0
+>>> obj1.attribute = 12345
+>>> obj1.attribute
+12345
+>>> obj2.attribute
+12345
+>>> obj2.attribute = 54321
+>>> obj1.attribute
+54321
+"""
 
 # pylint: disable-msg=R0903
 # pylint: disable-msg=R0921
@@ -41,4 +57,20 @@ class Borg:
     def prepare_attributes(self):
         """This should be used to prepare any attributes of the borg class."""
         raise NotImplementedError('prepare_attributes')
+
+if __name__ == '__main__':
+    class TestBorg(Borg):
+        attribute = None
+
+        def __init__(self):
+            Borg.__init__(self)
+            self.prepare_attributes()
+        
+        def prepare_attributes(self):
+            if not self.attribute:
+                self.attribute = 0
+
+    import doctest
+    (failed, attempted) = doctest.testmod()
+    print "%d/%d tests failed" % (failed, attempted)
 
