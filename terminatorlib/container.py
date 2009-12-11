@@ -67,7 +67,6 @@ class Container(object):
         """De-register the signals for a child"""
         if self.cnxids.has_key(widget):
             for cnxid in self.cnxids[widget]:
-                # FIXME: Look up the IDs to print a useful debugging message
                 dbg('Container::disconnect_child: removing handler on %s' %
                         widget.__class__.__name__)
                 widget.disconnect(cnxid)

@@ -230,7 +230,6 @@ class Window(Container, gtk.Window):
         maker = Factory()
         self.remove(widget)
 
-        # FIXME: we should be creating proper containers, not these gtk widgets
         if vertical:
             container = maker.make('VPaned')
         else:
