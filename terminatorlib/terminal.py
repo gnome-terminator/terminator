@@ -999,12 +999,15 @@ class Terminal(gtk.VBox):
             self.zoom()
 
     def key_next_tab(self):
+        # FIXME: Implement this
         self.terminator.next_tab (self)
 
     def key_prev_tab(self):
+        # FIXME: Implement this
         self.terminator.previous_tab (self)
 
     def key_switch_to_tab_1(self):
+        # FIXME: Implement these
         self.terminator.switch_to_tab (self, 0)
 
     def key_switch_to_tab_2(self):
@@ -1041,12 +1044,15 @@ class Terminal(gtk.VBox):
         self.vte.reset (True, True)
 
     def key_group_all(self):
+        # FIXME: Implement this
         self.group_all(self)
 
     def key_ungroup_all(self):
+        # FIXME: Implement this
         self.ungroup_all(self)
 
     def key_group_tab(self):
+        # FIXME: Implement this
         self.group_tab(self)
     
     def key_ungroup_tab(self):
@@ -1060,10 +1066,10 @@ class Terminal(gtk.VBox):
             cmd = os.path.join (self.cwd, sys.argv[0])
             if not os.path.isfile(cmd):
                 # we weren't started as ./terminator in a path. Give up
-                err('Unable to locate Terminator')
+                err('Terminal::key_new_window: Unable to locate Terminator')
                 return False
           
-        dbg("Spawning: %s" % cmd)
+        dbg("Terminal::key_new_window: Spawning: %s" % cmd)
         subprocess.Popen([cmd,])
 # End key events
 
