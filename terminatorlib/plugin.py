@@ -1,12 +1,21 @@
 #!/usr/bin/python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""plugin.py - Base plugin system"""
+"""plugin.py - Base plugin system
+
+>>> registry = PluginRegistry()
+>>> registry.load_plugins()
+>>> registry.get_plugins_by_capability('test')
+[<testplugin.TestPlugin object at ...>]
+>>> registry.get_plugins_by_capability('this_should_not_ever_exist')
+[]
+
+"""
 
 import sys
 import os
 import borg
-from util import dbg
+from util import dbg, err
 
 class Plugin(object):
     """Definition of our base plugin class"""
@@ -45,11 +54,17 @@ class PluginRegistry(borg.Borg):
                plugin[-3:] == '.py':
                 dbg('PluginRegistry::load_plugins: Importing plugin %s' % 
                     plugin)
-                __import__(plugin[:-3], None, None, [''])
+                try:
+                    __import__(plugin[:-3], None, None, [''])
+                except Exception as e:
+                    err('PluginRegistry::load_plugins: Importing plugin %s \
+failed: %s' % (plugin, e))
 
     def get_plugins_by_capability(self, capability):
         """Return a list of plugins with a particular capability"""
         result = []
+        dbg('PluginRegistry::get_plugins_by_capability: searching %d plugins \
+for %s' % (len(Plugin.__subclasses__()), capability))
         for plugin in Plugin.__subclasses__():
             if capability in plugin.capabilities:
                 if not plugin in self.instances:
@@ -57,3 +72,9 @@ class PluginRegistry(borg.Borg):
                 result.append(self.instances[plugin])
         return result
 
+if __name__ == '__main__':
+    import doctest
+    sys.path.insert(0, 'plugins')
+    import testplugin
+    (failed, attempted) = doctest.testmod()
+    print "%d/%d tests failed" % (failed, attempted)
