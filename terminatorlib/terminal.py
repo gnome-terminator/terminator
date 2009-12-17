@@ -22,6 +22,7 @@ from titlebar import Titlebar
 from terminal_popup_menu import TerminalPopupMenu
 from searchbar import Searchbar
 from translation import _
+import plugin
 
 try:
     import vte
@@ -204,11 +205,22 @@ class Terminal(gtk.VBox):
             self.matches['nntp'] = self.vte.match_add (lboundry + 
                     '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@\
                             [-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
-            # if the url looks like a Launchpad changelog closure entry 
-            # LP: #92953 - make it a url to http://bugs.launchpad.net
-            self.matches['launchpad'] = self.vte.match_add (
-                    '\\bLP:? #?[0-9]+\\b')
 
+            # Now add any matches from plugins
+            try:
+                registry = plugin.PluginRegistry()
+                registry.load_plugins()
+                plugins = registry.get_plugins_by_capability('url_handler')
+
+                for urlplugin in plugins:
+                    name = urlplugin.handler_name
+                    match = urlplugin.match
+                    self.matches[name] = self.vte.match_add(match)
+                    dbg('Terminal::update_matches: added plugin URL handler \
+for %s' % name)
+            except Exception as ex:
+                err('Terminal::update_url_matches: %s' % ex)
+            
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
@@ -858,12 +870,23 @@ class Terminal(gtk.VBox):
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
-        elif match == self.matches['launchpad']:
-            for item in re.findall(r'[0-9]+', url):
-                url = 'https://bugs.launchpad.net/bugs/%s' % item
-                return(url)
-        else:
-            return(url)
+        elif match in self.matches.values():
+            # We have a match, but it's not a hard coded one, so it's a plugin
+            try:
+                registry = plugin.PluginRegistry()
+                registry.load_plugins()
+                plugins = registry.get_plugins_by_capability('url_handler')
+
+                for urlplugin in plugins:
+                    if match == self.matches[urlplugin.handler_name]:
+                        newurl = urlplugin.callback(url)
+                        if newurl is not None:
+                            url = newurl
+                        break;
+            except Exception as ex:
+                err('Terminal::prepare_url: %s' % ex)
+
+        return(url)
 
     def open_url(self, url, prepare=False):
         """Open a given URL, conditionally unpacking it from a VTE match"""
