@@ -1,9 +1,27 @@
+import re
 import plugin
 
 available = ['LaunchpadURLHandler']
 
-class LaunchpadURLHandler(plugin.Plugin):
+class URLHandler(plugin.Plugin):
+    """Base class for URL handlers"""
     capabilities = ['url_handler']
+    handler_name = None
+    match = None
 
-    def do_test(self):
-        return "Launchpad blah"
+    def callback(self, url):
+        raise NotImplementedError
+
+class LaunchpadURLHandler(URLHandler):
+    """Launchpad URL handler. If the URL looks like a Launchpad changelog
+    closure entry... 'LP: #12345' then it should be transformed into a 
+    Launchpad URL"""
+    capabilities = ['url_handler']
+    handler_name = 'launchpad'
+    match = '\\bLP:? #?[0-9]+\\b'
+
+    def callback(self, url):
+        for item in re.findall(r'[0-9]+', url):
+            url = 'https://bugs.launchpad.net/bugs/%s' % item
+            return(url)
+
