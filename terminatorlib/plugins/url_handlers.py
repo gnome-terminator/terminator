@@ -1,6 +1,10 @@
+# Terminator by Chris Jones <cmsj@tenshu.net?
+# GPL v2 only
+"""url_handlers.py - Default plugins for URL handling"""
 import re
 import plugin
 
+# Every plugin you want Terminator to load *must* be listed in 'available'
 available = ['LaunchpadURLHandler']
 
 class URLHandler(plugin.Plugin):
@@ -10,6 +14,7 @@ class URLHandler(plugin.Plugin):
     match = None
 
     def callback(self, url):
+        """Callback to transform the enclosed URL"""
         raise NotImplementedError
 
 class LaunchpadURLHandler(URLHandler):
@@ -21,6 +26,7 @@ class LaunchpadURLHandler(URLHandler):
     match = '\\bLP:? #?[0-9]+\\b'
 
     def callback(self, url):
+        """Look for the number in the supplied string and return it as a URL"""
         for item in re.findall(r'[0-9]+', url):
             url = 'https://bugs.launchpad.net/bugs/%s' % item
             return(url)
