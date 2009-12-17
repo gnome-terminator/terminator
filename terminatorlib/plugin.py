@@ -4,11 +4,18 @@
 """plugin.py - Base plugin system
 
 >>> registry = PluginRegistry()
+>>> registry.instances
+{}
 >>> registry.load_plugins()
->>> registry.get_plugins_by_capability('test')
-[<testplugin.TestPlugin object at ...>]
+>>> plugins = registry.get_plugins_by_capability('test')
+>>> len(plugins)
+1
+>>> plugins[0] #doctest: +ELLIPSIS
+<testplugin.TestPlugin object at 0x...>
 >>> registry.get_plugins_by_capability('this_should_not_ever_exist')
 []
+>>> plugins[0].do_test()
+'TestPluginWin'
 
 """
 
@@ -50,12 +57,16 @@ class PluginRegistry(borg.Borg):
         sys.path.insert(0, self.path)
         files = os.listdir(self.path)
         for plugin in files:
-            if os.path.isfile(os.path.join(self.path, plugin)) and \
-               plugin[-3:] == '.py':
+            pluginpath = os.path.join(self.path, plugin)
+            if os.path.isfile(pluginpath) and plugin[-3:] == '.py':
                 dbg('PluginRegistry::load_plugins: Importing plugin %s' % 
                     plugin)
                 try:
-                    __import__(plugin[:-3], None, None, [''])
+                    module = __import__(plugin[:-3], None, None, [''])
+                    for item in getattr(module, 'available'):
+                        if item not in self.instances:
+                            func = getattr(module, item)
+                            self.instances[item] = func()
                 except Exception as e:
                     err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, e))
@@ -64,17 +75,19 @@ failed: %s' % (plugin, e))
         """Return a list of plugins with a particular capability"""
         result = []
         dbg('PluginRegistry::get_plugins_by_capability: searching %d plugins \
-for %s' % (len(Plugin.__subclasses__()), capability))
-        for plugin in Plugin.__subclasses__():
-            if capability in plugin.capabilities:
-                if not plugin in self.instances:
-                    self.instances[plugin] = plugin()
+for %s' % (len(self.instances), capability))
+        for plugin in self.instances:
+            if capability in self.instances[plugin].capabilities:
                 result.append(self.instances[plugin])
         return result
+
+    def get_all_plugins(self):
+        """Return all plugins"""
+        return(self.instances)
 
 if __name__ == '__main__':
     import doctest
     sys.path.insert(0, 'plugins')
-    import testplugin
     (failed, attempted) = doctest.testmod()
     print "%d/%d tests failed" % (failed, attempted)
+
