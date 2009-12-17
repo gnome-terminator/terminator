@@ -36,6 +36,7 @@ class PluginRegistry(borg.Borg):
     """Definition of a class to store plugin instances"""
     instances = None
     path = None
+    done = None
 
     def __init__(self):
         """Class initialiser"""
@@ -51,9 +52,15 @@ class PluginRegistry(borg.Borg):
             self.path = os.path.join(head, 'plugins')
             dbg('PluginRegistry::prepare_attributes: Plugin path: %s' % 
                 self.path)
+        if not self.done:
+            self.done = False
 
     def load_plugins(self):
         """Load all plugins present in the plugins/ directory in our module"""
+        if self.done:
+            dbg('PluginRegistry::load_plugins: Already loaded')
+            return
+
         sys.path.insert(0, self.path)
         files = os.listdir(self.path)
         for plugin in files:
@@ -70,6 +77,8 @@ class PluginRegistry(borg.Borg):
                 except Exception as e:
                     err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, e))
+
+        self.done = True
 
     def get_plugins_by_capability(self, capability):
         """Return a list of plugins with a particular capability"""
