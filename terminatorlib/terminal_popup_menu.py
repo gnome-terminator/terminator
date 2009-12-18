@@ -9,6 +9,8 @@ import gtk
 from version import APP_NAME
 from translation import _
 from encoding import TerminatorEncoding
+from util import err
+import plugin
 
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
@@ -134,6 +136,18 @@ class TerminalPopupMenu(object):
         menu.append(item)
 
         self.add_encoding_items(menu)
+
+        try:
+            menuitems = []
+            registry = plugin.PluginRegistry()
+            registry.load_plugins()
+            plugins = registry.get_plugins_by_capability('terminal_menu')
+            for menuplugin in plugins:
+                menuplugin.callback(menuitems, menu, terminal)
+            for menuitem in menuitems:
+                menu.append(menuitem)
+        except Exception as ex:
+            err('TerminalPopupMenu::show: %s' % ex)
 
         menu.show_all()
         menu.popup(None, None, None, button, time)
