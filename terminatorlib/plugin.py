@@ -49,6 +49,8 @@ class PluginRegistry(borg.Borg):
             self.instances = {}
         if not self.path:
             (head, tail) = os.path.split(borg.__file__)
+            # FIXME: self.path should really be a list so we can have something
+            # in the users home directory
             self.path = os.path.join(head, 'plugins')
             dbg('PluginRegistry::prepare_attributes: Plugin path: %s' % 
                 self.path)
