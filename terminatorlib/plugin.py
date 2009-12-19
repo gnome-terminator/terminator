@@ -2,6 +2,10 @@
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """plugin.py - Base plugin system
+   Inspired by Armin Ronacher's post at
+   http://lucumr.pocoo.org/2006/7/3/python-plugin-system
+   Used with permission (the code in that post is to be
+   considered BSD licenced, per the authors wishes)
 
 >>> registry = PluginRegistry()
 >>> registry.instances

@@ -3,6 +3,9 @@
 # GPL v2 only
 """borg.py - We are the borg. Resistance is futile.
    http://code.activestate.com/recipes/66531/
+   ActiveState's policy appears to be that snippets
+   exist to encourage re-use, but I can not find any
+   specific licencing terms.
 
 >>> obj1 = TestBorg()
 >>> obj2 = TestBorg()
