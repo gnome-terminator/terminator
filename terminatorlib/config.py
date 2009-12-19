@@ -41,6 +41,7 @@ DEFAULTS = {
   'cursor_shape'          : 'block',
   'cursor_color'          : '',
   'emulation'             : 'xterm',
+  'geometry_hinting'      : True,
   'font'                  : 'Mono 10',
   'foreground_color'      : '#AAAAAA',
   'scrollbar_position'    : "right",

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-05-19 20:50+0000\n"
-"Last-Translator: Pieter Lexis <Unknown>\n"
+"PO-Revision-Date: 2009-09-11 13:28+0000\n"
+"Last-Translator: Arioch <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -33,9 +33,17 @@ msgstr ""
 "Terminator draait alleen in een X omgeving. Controleer eerst of je DISPLAY "
 "variable goed is ingesteld."
 
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr "Niet-afgesloten aanhalingsteken"
+
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr "Optie zonder een waarde"
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr "Onverwacht symbool"
 
 #: ../terminatorlib/config.py:250
 #, python-format
@@ -57,12 +65,38 @@ msgstr ""
 "\n"
 "%d lijn(en) zijn overgeslagen."
 
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr "Configuratiefout"
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr "Instelling %r waarde %r is niet een geldige kleur; wordt genegeerd"
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr "%s moet een van de volgende zijn: boven, links, rechts, onder"
+
+#: ../terminatorlib/config.py:323
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+"Booleaanse instelling %s verwacht een van de volgende: yes, no, true, false, "
+"on, off"
+
 #: ../terminatorlib/config.py:329
 msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
 msgstr ""
 "Het lezen van lijsten van het terminator_config(5) bestand is momenteel niet "
 "ondersteund"
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr "Instelling %r dient een sectienaam te zijn"
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -106,7 +140,7 @@ msgstr "Grieks"
 
 #: ../terminatorlib/encoding.py:37
 msgid "Hebrew Visual"
-msgstr "Visueel Hebreeuws"
+msgstr "Hebreeuws Visueel"
 
 #: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
@@ -205,9 +239,44 @@ msgstr "Vietnamees"
 msgid "Thai"
 msgstr "Thais"
 
+#: ../terminatorlib/prefs_profile.py:370
+msgid "Name"
+msgstr "Naam"
+
+#: ../terminatorlib/prefs_profile.py:377
+msgid "Action"
+msgstr "Actie:"
+
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr "Sneltoets"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+"Kan pythonbindings deskbar, hide_window niet vinden, deze zijn onbeschikbaar"
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "Tabblad sluiten"
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "tabblad"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr "ongeldige geometrie string %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "Het is niet mogelijk de hide_window toets in te stellen"
+
+#: ../terminatorlib/terminator.py:413
+msgid "window"
+msgstr "venster"
 
 #. show dialog
 #: ../terminatorlib/terminator.py:417
@@ -218,6 +287,19 @@ msgstr "Sluiten?"
 msgid "Close _Terminals"
 msgstr "Sluit_Terminals"
 
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Meerdere terminals sluiten?</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"Deze %s heeft meerdere terminals open. Het sluiten van de %s zal ook alle "
+"terminals er in sluiten."
+
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
@@ -225,6 +307,15 @@ msgid ""
 msgstr ""
 "Je moet de python-bindingen installeren voor libvte (\"python-vte\" in "
 "debian/ubuntu)"
+
+#: ../terminatorlib/terminatorterm.py:133
+msgid "Search:"
+msgstr "Zoeken:"
+
+#. Button for the next result. Explicitly not show()n by default.
+#: ../terminatorlib/terminatorterm.py:150
+msgid "Next"
+msgstr "Volgende"
 
 #. Give up, we're completely stuck
 #: ../terminatorlib/terminatorterm.py:518
@@ -241,7 +332,7 @@ msgstr "Koppeling _openen"
 
 #: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
-msgstr "Koppelingsadres _kopiëren"
+msgstr "Kopieer Koppeling Adres"
 
 #: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
@@ -271,6 +362,10 @@ msgstr "Splits V_erticaal"
 msgid "Open _Tab"
 msgstr "Nieuw _tabblad"
 
+#: ../terminatorlib/terminatorterm.py:1112
+msgid "Open _Debug Tab"
+msgstr "Open_Debug Tabblad"
+
 #: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr "Open bovenste niveau tab"
@@ -287,109 +382,9 @@ msgstr "Ma_ximaliseer"
 msgid "_Unzoom terminal"
 msgstr "Zoom terminal uit"
 
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "Tekensets"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "Andere tekensets"
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr "Niet-afgesloten aanhalingsteken"
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr "Onverwacht symbool"
-
-#: ../terminatorlib/config.py:258
-msgid "Configuration error"
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr "Instelling %r waarde %r is niet een geldige kleur; wordt genegeerd"
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr "%s moet een van de volgende zijn: boven, links, rechts, onder"
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr "Instelling %r dient een sectienaam te zijn"
-
-#: ../terminatorlib/prefs_profile.py:370
-msgid "Name"
-msgstr "Naam"
-
-#: ../terminatorlib/prefs_profile.py:377
-msgid "Action"
-msgstr "Actie:"
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr "Sneltoets"
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr "ongeldige geometrie string %r"
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:413
-msgid "window"
-msgstr "venster"
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Meerdere terminals sluiten?</b></big>"
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-"Deze %s heeft meerdere terminals open. Het sluiten van de %s zal ook alle "
-"terminals er in sluiten."
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr "Zoeken:"
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr "Volgende"
-
-#: ../terminatorlib/terminatorterm.py:1112
-msgid "Open _Debug Tab"
-msgstr ""
-
 #: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
-msgstr ""
+msgstr "Unma_ximise terminal"
 
 #: ../terminatorlib/terminatorterm.py:1148
 msgid "Ed_it profile"
@@ -401,11 +396,11 @@ msgstr "_Groep"
 
 #: ../terminatorlib/terminatorterm.py:1179
 msgid "None"
-msgstr ""
+msgstr "Geen"
 
 #: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
-msgstr ""
+msgstr "_Nieuwe groep"
 
 #: ../terminatorlib/terminatorterm.py:1201
 msgid "_Group all"
@@ -417,11 +412,19 @@ msgstr "_het Groepering op"
 
 #: ../terminatorlib/terminatorterm.py:1216
 msgid "Group name:"
-msgstr "Groep naam:"
+msgstr "Groepsnaam:"
 
 #: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
-msgstr ""
+msgstr "Alles"
+
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "Tekensets"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "Andere tekensets"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"

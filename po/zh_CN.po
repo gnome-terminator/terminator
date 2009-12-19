@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-06-07 10:30+0000\n"
-"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
+"PO-Revision-Date: 2009-08-26 13:05+0000\n"
+"Last-Translator: Alexey Kotlyarov <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -27,7 +27,7 @@ msgstr "你需要安装gobject，gtk和pango的python绑定来运行Terminator�
 msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
-msgstr "你需要在一个X环境中运行terminator。请确保显示器已正确设置"
+msgstr "你需要在一个X环境中运行terminator。请确保DISPLAY已正确设置"
 
 #: ../terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
@@ -239,11 +239,29 @@ msgstr "行为"
 
 #: ../terminatorlib/prefs_profile.py:384
 msgid "Keyboard shortcut"
-msgstr "键盘快捷键"
+msgstr "快捷键"
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr "找不到桌面栏的 python 绑定， hide_window 不可用。"
 
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "关闭标签"
+
+#: ../terminatorlib/terminator.py:105
+msgid "tab"
+msgstr "标签页"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr "无效的几何尺寸 %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "不能绑定 hide_window 快捷键 (_W)"
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -253,6 +271,21 @@ msgstr "窗口"
 #: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "确定关闭？"
+
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr "关闭终端 (_T)"
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>关闭多个终端？</b></big>"
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr "%s 已打开多个终端。关闭 %s 的同时会关闭它打开的全部终端。"
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
@@ -292,7 +325,7 @@ msgstr "发送邮件给(_S)..."
 
 #: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
-msgstr "复制Email地址(_C)"
+msgstr "复制电子邮件地址(_C)"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
@@ -346,58 +379,13 @@ msgstr "修改档案(_d)"
 msgid "_Group"
 msgstr "编组(_G)"
 
-#: ../terminatorlib/terminatorterm.py:1194
-msgid "_New group"
-msgstr "新组(_N)"
-
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "编码"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "其他编码"
-
-#: ../data/terminator.desktop.in.h:2
-msgid "Terminator"
-msgstr "Terminator"
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr "找不到桌面栏的 python 绑定， 隐藏窗口不可用。"
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr "标签页"
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr "无效的几何尺寸 %r"
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr "不能绑定 “隐藏窗口” 的快捷键 (_W)"
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr "关闭终端 (_T)"
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>关闭多个终端？</b></big>"
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr "%s 已打开多个终端。关闭 %s 的同时会关闭它打开的全部终端。"
-
 #: ../terminatorlib/terminatorterm.py:1179
 msgid "None"
 msgstr "无"
+
+#: ../terminatorlib/terminatorterm.py:1194
+msgid "_New group"
+msgstr "新组(_N)"
 
 #: ../terminatorlib/terminatorterm.py:1201
 msgid "_Group all"
@@ -415,6 +403,18 @@ msgstr "分组名："
 msgid "All"
 msgstr "全部"
 
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "编码"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "其他编码"
+
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
 msgstr "一个窗口里多个终端"
+
+#: ../data/terminator.desktop.in.h:2
+msgid "Terminator"
+msgstr "Terminator"

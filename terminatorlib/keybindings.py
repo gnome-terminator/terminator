@@ -79,8 +79,7 @@ class Keybindings:
                     # Does much the same, but with poorer error handling.
                     #keyval, mask = gtk.accelerator_parse(binding)
                 except KeymapError, ex:
-                    ex.action = action
-                    raise ex
+                    continue
                 else:
                     if mask & gtk.gdk.SHIFT_MASK:
                         if keyval == gtk.keysyms.Tab:

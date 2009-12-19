@@ -19,7 +19,7 @@
 import pygtk
 pygtk.require ("2.0")
 import gobject, gtk, pango
-import os, signal, sys, subprocess, pwd, re
+import os, signal, sys, subprocess, pwd, re, urllib2
 
 #import version details
 from terminatorlib.version import *
@@ -406,7 +406,11 @@ class TerminatorTerm (gtk.VBox):
     dbg ('Resize window triggered on %s: %dx%d' % (widget, width, height))
 
   def on_vte_size_allocate(self, widget, allocation):
+    dbg ('Terminal resized to %dx%d' % (self._vte.get_column_count (),
+        self._vte.get_row_count ()))
     self._titlebox.set_terminal_size (self._vte.get_column_count (), self._vte.get_row_count ())
+    if self._vte.window != None and (self.conf.geometry_hinting):
+        self.terminator.on_term_resized ()
 
   def get_pixbuf(self, maxsize= None):
     pixmap = self.get_snapshot()
@@ -541,7 +545,7 @@ text/plain
       #print "%s %s" % (selection_data.type, selection_data.target)
       txt = selection_data.data.strip()
       if txt[0:7] == "file://":
-        txt = "'%s'" % txt[7:]
+        txt = "'%s'" % urllib2.unquote(txt[7:])
       for term in self.get_target_terms():
           term._vte.feed_child(txt)
       return
@@ -897,6 +901,14 @@ text/plain
     self._titlebox.update ()
     self._vte.queue_draw ()
 
+  def get_size_details(self):
+    font_width = self._vte.get_char_width ()
+    font_height = self._vte.get_char_height ()
+    columns = self._vte.get_column_count ()
+    rows = self._vte.get_row_count ()
+
+    return (font_width, font_height, columns, rows)
+
   def on_composited_changed (self, widget):
     self.reconfigure_vte ()
 
@@ -1233,6 +1245,8 @@ text/plain
     '''Returns Gdk.Window.get_position(), pixel-based cursor position,
        and Gdk.Window.get_geometry()'''
     reply = dict()
+    if not self._vte.window:
+        return reply
     x, y = self._vte.window.get_origin ()
     reply.setdefault('origin_x',x)
     reply.setdefault('origin_y',y)
@@ -1415,7 +1429,10 @@ text/plain
     self.populate_grouping_menu (menu)
 
     menu.show_all ()
-    menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    if gtk.gtk_version > (2, 14, 0):
+        menu.popup (None, None, self.position_popup_group_menu, button, time, widget)
+    else:
+        menu.popup (None, None, None, button, time, widget)
     
     return True
 
@@ -1753,11 +1770,16 @@ text/plain
     terms = self.find_all_terms_in_tab(notebook)
 
     notebooktablabel = notebook.get_tab_label(notebookchild)
-    if notebooktablabel.custom is True:
+    if notebooktablabel._label.custom is True:
       groupname = notebooktablabel.get_title()
 
     if groupname == "":
-      groupname = "Tab %d" % (pagenum + 1)
+      tmppagenum = pagenum
+      while True:
+        groupname = "Tab %d" % (tmppagenum + 1)
+        if groupname not in self.terminator.groupings:
+            break
+        tmppagenum += 1
 
     self.add_group(groupname)
     for term in terms:

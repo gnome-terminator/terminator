@@ -2,19 +2,19 @@
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the terminator package.
 # Cris Grada <krig@tiscali.it>, 2008.
-#
+# Lucian Adrian Grijincu <lucian.grijincu@gmail.com>, 2009
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-05-30 12:33+0000\n"
-"Last-Translator: Cris G <Unknown>\n"
+"PO-Revision-Date: 2009-11-10 17:56+0000\n"
+"Last-Translator: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -22,7 +22,7 @@ msgid ""
 "You need to install the python bindings for gobject, gtk and pango to run "
 "Terminator."
 msgstr ""
-"Pentru a putea rula Terminator este nevoie de dependinţele python pentru "
+"Pentru a putea executa Terminator este nevoie de dependenţele python pentru "
 "gobject, gtk şi pango."
 
 #: ../terminator:129
@@ -30,16 +30,16 @@ msgid ""
 "You need to run terminator in an X environment. Make sure DISPLAY is "
 "properly set"
 msgstr ""
-"Terminator trebuie rulat în serverul grafic. Asiguraţi-vă ca MONITORUL să "
-"fie setat corect"
+"Terminator trebuie executat într-un mediu grafic. Asiguraţi-vă ca variabila "
+"de mediu DISPLAY este definită corect"
 
 #: ../terminatorlib/configfile.py:96
 msgid "Unterminated quoted string"
-msgstr "Linie cu ghilimele deschise"
+msgstr "Șir între ghilimele neterminat"
 
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr "Setare fără nici o valoare"
+msgstr "Variabilă de configurare fără nici o valoare"
 
 #: ../terminatorlib/configfile.py:152
 msgid "Unexpected token"
@@ -56,46 +56,47 @@ msgid ""
 "\n"
 "%d line(s) have been ignored."
 msgstr ""
-"<big><b>Eroare setare</b></big>\n"
-"S-au ivit erori la analiza fişierului terminator_config(5):\n"
+"<big><b>Eroare de configurare</b></big>\n"
+"Au apărut erori la analiza fişierului terminator_config(5):\n"
 "\n"
 "  <b>%s</b>\n"
 "\n"
-"linia(le) %d au fost ignorate."
+"%d linii au fost ignorate."
 
 #: ../terminatorlib/config.py:258
 msgid "Configuration error"
-msgstr "Eroare setare"
+msgstr "Eroare de configurare"
 
 #: ../terminatorlib/config.py:311
 #, python-format
 msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr "Setarea %r valorii %r nu e o culoare valabilă; se ignoră"
+msgstr "Definirea %r valorii %r nu e o culoare validă; va fi ignorată"
 
 #: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
-msgstr "%s trebuie să fie una dintre: sus, stânga, dreapta, jos"
+msgstr "%s trebuie să fie una dintre: top, left, right, bottom"
 
 #: ../terminatorlib/config.py:323
 #, python-format
 msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr "Setare boleană %s aşteptată precum: yes, no, true, false, on, off"
+msgstr ""
+"Variabila boleană %s aşteptată una din valorile: yes, no, true, false, on, "
+"off"
 
 #: ../terminatorlib/config.py:329
 msgid ""
 "Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-"Citirea valorilor listei din terminator-config(5) momentan nu e disponibilă"
+msgstr "Citirea valorilor listei din terminator_config(5) nu este suportată"
 
 #: ../terminatorlib/config.py:332
 #, python-format
 msgid "Setting %r should be a section name"
-msgstr "Setarea %r ar trebui să fie un nume secţiune  valabil"
+msgstr "Variabila %r ar trebui să fie un nume secţiune valid"
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
-msgstr "Setări locale curente"
+msgstr "Configurări locale curente"
 
 #: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
 #: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
@@ -163,7 +164,7 @@ msgstr "Română"
 #: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
 #: ../terminatorlib/encoding.py:49
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Unicod"
 
 #: ../terminatorlib/encoding.py:50
 msgid "Armenian"
@@ -195,7 +196,7 @@ msgstr "Chineză simplificată"
 
 #: ../terminatorlib/encoding.py:60
 msgid "Georgian"
-msgstr "Giorgiană"
+msgstr "Georgiană"
 
 #: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
 msgid "Cyrillic/Ukrainian"
@@ -211,7 +212,7 @@ msgstr "Hindusă"
 
 #: ../terminatorlib/encoding.py:79
 msgid "Persian"
-msgstr "Persiană"
+msgstr "Persană"
 
 #: ../terminatorlib/encoding.py:81
 msgid "Gujarati"
@@ -232,7 +233,7 @@ msgstr "Vietnameză"
 
 #: ../terminatorlib/encoding.py:91
 msgid "Thai"
-msgstr "Thailandeză"
+msgstr "Tailandeză"
 
 #: ../terminatorlib/prefs_profile.py:370
 msgid "Name"
@@ -246,9 +247,16 @@ msgstr "Acţiune"
 msgid "Keyboard shortcut"
 msgstr "Scurtături tastatură"
 
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+"Nu s-au găsit dependenţele python pentru deskbar, opţiunea hide_window nu "
+"este disponibilă."
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
-msgstr "Închide Tab"
+msgstr "Închide tab"
 
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
@@ -257,7 +265,11 @@ msgstr "tab"
 #: ../terminatorlib/terminator.py:230
 #, python-format
 msgid "Invalid geometry string %r"
-msgstr "Stringa necorespunzătoare %r"
+msgstr "Șir geometrie necorespunzător %r"
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr "Nu s-a putut asocia tasta rapidă pentru hide_window"
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -266,15 +278,15 @@ msgstr "fereastră"
 #. show dialog
 #: ../terminatorlib/terminator.py:417
 msgid "Close?"
-msgstr "Închid?"
+msgstr "Închideți?"
 
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
-msgstr "Închide _Terminalele"
+msgstr "Închide _terminalele"
 
 #: ../terminatorlib/terminator.py:425
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Închid terminalele multiple?</b></big>"
+msgstr "<big><b>Doriți să închideți multiple terminale?</b></big>"
 
 #: ../terminatorlib/terminator.py:428
 #, python-format
@@ -282,94 +294,94 @@ msgid ""
 "This %s has several terminals open.  Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Această %s are terminale deschise. Închizând %s deasemenea celelalte "
-"terminale vor fi Închise."
+"Această %s are mai multe terminale deschise. Închizând %s veți închide și "
+"toate aceste terminale deschise."
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
 "You need to install python bindings for libvte (\"python-vte\" in "
 "debian/ubuntu)"
 msgstr ""
-"Trebuie instalată  dependinţa \"python\" pentru \"libvte\" (\"python-vte\" "
-"în debian/ubuntu)."
+"Trebuie instalată dependenţa python pentru libvte („python-vte” în "
+"debian/ubuntu)."
 
 #: ../terminatorlib/terminatorterm.py:133
 msgid "Search:"
-msgstr "Căutare:"
+msgstr "Caută:"
 
 #. Button for the next result. Explicitly not show()n by default.
 #: ../terminatorlib/terminatorterm.py:150
 msgid "Next"
-msgstr "Următor"
+msgstr "Următorul"
 
 #. Give up, we're completely stuck
 #: ../terminatorlib/terminatorterm.py:518
 msgid "Unable to find a shell"
-msgstr "Niciun interpretor de comenzi găsit"
+msgstr "Nu s-a găsit niciun shell"
 
 #: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
-msgstr "Imposibilitatea pornirii interpretorului de comenzi: "
+msgstr "Nu s-a putut porni shellul: "
 
 #: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
-msgstr "_Deschide link"
+msgstr "_Deschide legătura"
 
 #: ../terminatorlib/terminatorterm.py:1034
 msgid "_Copy Link Address"
-msgstr "_Copiază adresa"
+msgstr "_Copiază adresa legăturii"
 
 #: ../terminatorlib/terminatorterm.py:1044
 msgid "_Send Mail To..."
-msgstr "_Trimite E-mail la..."
+msgstr "_Trimite e-mail către..."
 
 #: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"
-msgstr "_Copiază adresa E-mail"
+msgstr "_Copiază adresa e-mail"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
-msgstr "Arată _scrollbar"
+msgstr "Arată _bara de derulare"
 
 #: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
-msgstr "Arată bara _titlu"
+msgstr "Arată bara de _titlu"
 
 #: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
-msgstr "Împarte _Orizontal"
+msgstr "Împarte _orizontal"
 
 #: ../terminatorlib/terminatorterm.py:1090
 msgid "Split V_ertically"
-msgstr "Împarte V_ertical"
+msgstr "Împarte v_ertical"
 
 #: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"
-msgstr "Deschide _Tab"
+msgstr "Deschide _tab"
 
 #: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
-msgstr "Deschide Tab _Depanare"
+msgstr "Deschide tab de _depanare"
 
 #: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
-msgstr "Deschide Tab primul nivel"
+msgstr "Deschide tab de primul nivel"
 
 #: ../terminatorlib/terminatorterm.py:1127
 msgid "_Zoom terminal"
-msgstr "_Zoom-ează terminalul"
+msgstr "Panoramea_ză terminalul"
 
 #: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
-msgstr "Măreşte terminalul"
+msgstr "Ma_ximizează terminalul"
 
 #: ../terminatorlib/terminatorterm.py:1136
 msgid "_Unzoom terminal"
-msgstr "_De-zoom-ează terminalul"
+msgstr "Ad_u terminalul la mărimea inițială"
 
 #: ../terminatorlib/terminatorterm.py:1141
 msgid "Unma_ximise terminal"
-msgstr "De-măreşte terminalul"
+msgstr "Dema_ximizează terminalul"
 
 #: ../terminatorlib/terminatorterm.py:1148
 msgid "Ed_it profile"
@@ -385,11 +397,11 @@ msgstr "Nimic"
 
 #: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
-msgstr "_Nou grup"
+msgstr "Grup _nou"
 
 #: ../terminatorlib/terminatorterm.py:1201
 msgid "_Group all"
-msgstr "_Grupează tot"
+msgstr "_Grupează toate"
 
 #: ../terminatorlib/terminatorterm.py:1206
 msgid "_Ungroup all"
@@ -401,7 +413,7 @@ msgstr "Nume grup:"
 
 #: ../terminatorlib/terminatorterm.py:1262
 msgid "All"
-msgstr "Tot"
+msgstr "Toate"
 
 #: ../terminatorlib/terminatorterm.py:1282
 msgid "Encodings"
@@ -418,14 +430,3 @@ msgstr "Terminale multiple într-o singură fereastră"
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
 msgstr "Terminator"
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-"Nu sau găsit dependinţele python pentru panou, opţiunea hide_window nu este "
-"disponibilă."
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr "Nu s-a putut asocia tasta rapidă pentru hide_window"

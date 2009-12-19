@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2008-08-15 22:28+0000\n"
-"Last-Translator: mirena <baci_m@hotmail.com>\n"
+"PO-Revision-Date: 2009-09-03 21:07+0000\n"
+"Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../terminator:46
@@ -33,6 +33,59 @@ msgstr ""
 "Terminator duhet ne nje X ambient te startoi. Sigurohuni qe DISPLAY te jete "
 "korrekt i rregulluar."
 
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:147
+msgid "Setting without a value"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:250
+#, python-format
+msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d line(s) have been ignored."
+msgstr ""
+
+#: ../terminatorlib/config.py:258
+msgid "Configuration error"
+msgstr ""
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr ""
+
+#: ../terminatorlib/config.py:323
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
+
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
 msgstr "Parametrat lokal te perdorur aktualisht."
@@ -41,7 +94,7 @@ msgstr "Parametrat lokal te perdorur aktualisht."
 #: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
 #: ../terminatorlib/encoding.py:96
 msgid "Western"
-msgstr "Westeuropäisch"
+msgstr "Perëndimore"
 
 #: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
 #: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
@@ -145,6 +198,10 @@ msgstr "Qirilike/Ukraina"
 msgid "Croatian"
 msgstr "Kroate"
 
+#: ../terminatorlib/encoding.py:78
+msgid "Hindi"
+msgstr ""
+
 #: ../terminatorlib/encoding.py:79
 msgid "Persian"
 msgstr "Persishte"
@@ -157,6 +214,10 @@ msgstr "Gujarati"
 msgid "Gurmukhi"
 msgstr "Gurmuki"
 
+#: ../terminatorlib/encoding.py:84
+msgid "Icelandic"
+msgstr ""
+
 #: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
 #: ../terminatorlib/encoding.py:102
 msgid "Vietnamese"
@@ -165,84 +226,6 @@ msgstr "Vietnameze"
 #: ../terminatorlib/encoding.py:91
 msgid "Thai"
 msgstr "Tai"
-
-#: ../terminatorlib/terminator.py:76
-msgid "Close Tab"
-msgstr "Mbylle skedën"
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "Mbylle"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "Link-Adresse _kopieren"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_Dërgo Mail tek..."
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-
-#: ../terminatorlib/config.py:258
-msgid "Configuration error"
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:78
-msgid "Hindi"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:84
-msgid "Icelandic"
-msgstr ""
 
 #: ../terminatorlib/prefs_profile.py:370
 msgid "Name"
@@ -261,6 +244,10 @@ msgid ""
 "Unable to find python bindings for deskbar, hide_window is not available."
 msgstr ""
 
+#: ../terminatorlib/terminator.py:76
+msgid "Close Tab"
+msgstr "Mbylle skedën"
+
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
 msgstr ""
@@ -277,6 +264,11 @@ msgstr ""
 #: ../terminatorlib/terminator.py:413
 msgid "window"
 msgstr ""
+
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr "Mbylle"
 
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
@@ -320,6 +312,14 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "Link-Adresse _kopieren"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_Dërgo Mail tek..."
 
 #: ../terminatorlib/terminatorterm.py:1045
 msgid "_Copy Email Address"

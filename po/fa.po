@@ -8,35 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2008-03-14 09:32+0000\n"
-"Last-Translator: Ali Sattari <ali.sattari@gmail.com>\n"
+"PO-Revision-Date: 2009-08-30 20:00+0000\n"
+"Last-Translator: ataeyan <Unknown>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "بستن؟"
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_باز کردن پیوند"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_نسخه‌برداری از نشانی پیوند"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_ارسال پست الکترونیک به..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_نسخه‌برداری از نشانی پست الکترونیکی"
 
 #: ../terminator:46
 msgid ""
@@ -56,7 +35,7 @@ msgstr ""
 
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
-msgstr ""
+msgstr "تنظیم بدون یک مقدار"
 
 #: ../terminatorlib/configfile.py:152
 msgid "Unexpected token"
@@ -76,7 +55,7 @@ msgstr ""
 
 #: ../terminatorlib/config.py:258
 msgid "Configuration error"
-msgstr ""
+msgstr "خطای پیکربندی"
 
 #: ../terminatorlib/config.py:311
 #, python-format
@@ -86,7 +65,7 @@ msgstr ""
 #: ../terminatorlib/config.py:316
 #, python-format
 msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
+msgstr "%s باید یکی از: بالا، چپ، راست، پایین باشد."
 
 #: ../terminatorlib/config.py:323
 #, python-format
@@ -282,6 +261,11 @@ msgstr ""
 msgid "window"
 msgstr ""
 
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr "بستن؟"
+
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
 msgstr ""
@@ -320,6 +304,22 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:539
 msgid "Unable to start shell: "
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr "_باز کردن پیوند"
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "_نسخه‌برداری از نشانی پیوند"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_ارسال پست الکترونیک به..."
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr "_نسخه‌برداری از نشانی پست الکترونیکی"
 
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"

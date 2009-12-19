@@ -1,6 +1,11 @@
 terminator 0.14:
   * Major reworking of the grouping interface by Stephen
 	   Boddy
+  * Keybindings can now be disabled by setting them to "None"
+  * Change default behaviour to enable full transparency
+  * Terminal titlebars can now be edited like tab labels
+  * Geometry hinting is now available and enabled by default
+  * Lots of bug fixing
 
 terminator 0.13:
   * Bug fixes

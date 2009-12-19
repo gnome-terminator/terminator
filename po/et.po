@@ -9,42 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
 "PO-Revision-Date: 2008-02-24 08:18+0000\n"
-"Last-Translator: Jaan Janesmae <secrgb@gmail.com>\n"
+"Last-Translator: Jaan Janesmae <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "Sulge?"
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_Ava viit"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_Kopeeri viida aadress"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_Saada e-sõnum..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_Kopeeri e-postiaadress"
-
-#: ../terminatorlib/terminatorterm.py:1089
-msgid "Split H_orizontally"
-msgstr "Poolita H_orisontaalselt"
-
-#: ../terminatorlib/terminatorterm.py:1090
-msgid "Split V_ertically"
-msgstr "Poolita V_ertikaalselt"
 
 #: ../terminator:46
 msgid ""
@@ -290,6 +261,11 @@ msgstr ""
 msgid "window"
 msgstr ""
 
+#. show dialog
+#: ../terminatorlib/terminator.py:417
+msgid "Close?"
+msgstr "Sulge?"
+
 #: ../terminatorlib/terminator.py:423
 msgid "Close _Terminals"
 msgstr ""
@@ -329,6 +305,22 @@ msgstr ""
 msgid "Unable to start shell: "
 msgstr ""
 
+#: ../terminatorlib/terminatorterm.py:1033
+msgid "_Open Link"
+msgstr "_Ava viit"
+
+#: ../terminatorlib/terminatorterm.py:1034
+msgid "_Copy Link Address"
+msgstr "_Kopeeri viida aadress"
+
+#: ../terminatorlib/terminatorterm.py:1044
+msgid "_Send Mail To..."
+msgstr "_Saada e-sõnum..."
+
+#: ../terminatorlib/terminatorterm.py:1045
+msgid "_Copy Email Address"
+msgstr "_Kopeeri e-postiaadress"
+
 #: ../terminatorlib/terminatorterm.py:1071
 msgid "Show _scrollbar"
 msgstr ""
@@ -336,6 +328,14 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1076
 msgid "Show _titlebar"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1089
+msgid "Split H_orizontally"
+msgstr "Poolita H_orisontaalselt"
+
+#: ../terminatorlib/terminatorterm.py:1090
+msgid "Split V_ertically"
+msgstr "Poolita V_ertikaalselt"
 
 #: ../terminatorlib/terminatorterm.py:1107
 msgid "Open _Tab"

@@ -8,22 +8,85 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-01-26 13:22+0000\n"
-"PO-Revision-Date: 2009-01-27 14:45+0000\n"
-"Last-Translator: Nizar Kerkeni <nizar.kerkeni@gmail.com>\n"
+"PO-Revision-Date: 2009-08-25 13:56+0000\n"
+"Last-Translator: Nizar Kerkeni <nizarus@nizarus.org>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-06-23 19:52+0000\n"
+"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: ../terminator:46
+msgid ""
+"You need to install the python bindings for gobject, gtk and pango to run "
+"Terminator."
+msgstr ""
+
+#: ../terminator:129
+msgid ""
+"You need to run terminator in an X environment. Make sure DISPLAY is "
+"properly set"
+msgstr ""
+
+#: ../terminatorlib/configfile.py:96
+msgid "Unterminated quoted string"
+msgstr ""
 
 #: ../terminatorlib/configfile.py:147
 msgid "Setting without a value"
 msgstr "من دون تحديد قيمة"
 
+#: ../terminatorlib/configfile.py:152
+msgid "Unexpected token"
+msgstr ""
+
+#: ../terminatorlib/config.py:250
+#, python-format
+msgid ""
+"<big><b>Configuration error</b></big>\n"
+"\n"
+"Errors were encountered while parsing terminator_config(5) file:\n"
+"\n"
+"  <b>%s</b>\n"
+"\n"
+"%d line(s) have been ignored."
+msgstr ""
+"<big><b>خطأ في الإعدادات</b></big>\n"
+"تمت مصادفة أخطاء أثناء تحليل الملف terminator_config(5) :\n"
+"\n"
+"  <b>%s</b>  \n"
+"\n"
+"%d سطر قد تم تجاهلها."
+
 #: ../terminatorlib/config.py:258
 msgid "Configuration error"
 msgstr "خطأ في الإعدادات"
+
+#: ../terminatorlib/config.py:311
+#, python-format
+msgid "Setting %r value %r not a valid colour; ignoring"
+msgstr ""
+
+#: ../terminatorlib/config.py:316
+#, python-format
+msgid "%s must be one of: top, left, right, bottom"
+msgstr ""
+
+#: ../terminatorlib/config.py:323
+#, python-format
+msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+msgstr ""
+
+#: ../terminatorlib/config.py:329
+msgid ""
+"Reading list values from terminator_config(5) is not currently supported"
+msgstr ""
+
+#: ../terminatorlib/config.py:332
+#, python-format
+msgid "Setting %r should be a section name"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:29
 msgid "Current Locale"
@@ -174,6 +237,15 @@ msgstr "اسم"
 msgid "Action"
 msgstr "إجراء"
 
+#: ../terminatorlib/prefs_profile.py:384
+msgid "Keyboard shortcut"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:37
+msgid ""
+"Unable to find python bindings for deskbar, hide_window is not available."
+msgstr ""
+
 #: ../terminatorlib/terminator.py:76
 msgid "Close Tab"
 msgstr "اغلق اللسان"
@@ -181,6 +253,15 @@ msgstr "اغلق اللسان"
 #: ../terminatorlib/terminator.py:105
 msgid "tab"
 msgstr "لسان"
+
+#: ../terminatorlib/terminator.py:230
+#, python-format
+msgid "Invalid geometry string %r"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:277
+msgid "Unable to bind hide_window key"
+msgstr ""
 
 #: ../terminatorlib/terminator.py:413
 msgid "window"
@@ -190,6 +271,21 @@ msgstr "نافذة"
 #: ../terminatorlib/terminator.py:417
 msgid "Close?"
 msgstr "أأغلق؟"
+
+#: ../terminatorlib/terminator.py:423
+msgid "Close _Terminals"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:425
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
+
+#: ../terminatorlib/terminator.py:428
+#, python-format
+msgid ""
+"This %s has several terminals open.  Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: ../terminatorlib/terminatorterm.py:39
 msgid ""
@@ -207,6 +303,15 @@ msgstr "إبحث:"
 msgid "Next"
 msgstr "التالي"
 
+#. Give up, we're completely stuck
+#: ../terminatorlib/terminatorterm.py:518
+msgid "Unable to find a shell"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:539
+msgid "Unable to start shell: "
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:1033
 msgid "_Open Link"
 msgstr "ا_فتح الوصلة"
@@ -223,6 +328,14 @@ msgstr "أر_سل رسالة إلى..."
 msgid "_Copy Email Address"
 msgstr "ا_نسخ عنوان البريد الإلكتروني"
 
+#: ../terminatorlib/terminatorterm.py:1071
+msgid "Show _scrollbar"
+msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1076
+msgid "Show _titlebar"
+msgstr ""
+
 #: ../terminatorlib/terminatorterm.py:1089
 msgid "Split H_orizontally"
 msgstr "اقسم أف_قيا"
@@ -235,137 +348,6 @@ msgstr "اقسم ع_موديا"
 msgid "Open _Tab"
 msgstr "افتح _لسان"
 
-#: ../terminatorlib/terminatorterm.py:1127
-msgid "_Zoom terminal"
-msgstr "ت_كبير الطرفية"
-
-#: ../terminatorlib/terminatorterm.py:1179
-msgid "None"
-msgstr "لاشيء"
-
-#: ../terminatorlib/terminatorterm.py:1216
-msgid "Group name:"
-msgstr "اسم المجموعة:"
-
-#: ../terminatorlib/terminatorterm.py:1262
-msgid "All"
-msgstr "الجميع"
-
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr "الترميزات"
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr "ترميزات اخرى"
-
-#: ../terminator:46
-msgid ""
-"You need to install the python bindings for gobject, gtk and pango to run "
-"Terminator."
-msgstr ""
-
-#: ../terminator:129
-msgid ""
-"You need to run terminator in an X environment. Make sure DISPLAY is "
-"properly set"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#. Give up, we're completely stuck
-#: ../terminatorlib/terminatorterm.py:518
-msgid "Unable to find a shell"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:539
-msgid "Unable to start shell: "
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1071
-msgid "Show _scrollbar"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1076
-msgid "Show _titlebar"
-msgstr ""
-
 #: ../terminatorlib/terminatorterm.py:1112
 msgid "Open _Debug Tab"
 msgstr ""
@@ -373,6 +355,10 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1118
 msgid "Open Top Level Tab"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1127
+msgid "_Zoom terminal"
+msgstr "ت_كبير الطرفية"
 
 #: ../terminatorlib/terminatorterm.py:1131
 msgid "Ma_ximise terminal"
@@ -394,6 +380,10 @@ msgstr ""
 msgid "_Group"
 msgstr ""
 
+#: ../terminatorlib/terminatorterm.py:1179
+msgid "None"
+msgstr "لاشيء"
+
 #: ../terminatorlib/terminatorterm.py:1194
 msgid "_New group"
 msgstr ""
@@ -405,6 +395,22 @@ msgstr ""
 #: ../terminatorlib/terminatorterm.py:1206
 msgid "_Ungroup all"
 msgstr ""
+
+#: ../terminatorlib/terminatorterm.py:1216
+msgid "Group name:"
+msgstr "اسم المجموعة:"
+
+#: ../terminatorlib/terminatorterm.py:1262
+msgid "All"
+msgstr "الجميع"
+
+#: ../terminatorlib/terminatorterm.py:1282
+msgid "Encodings"
+msgstr "الترميزات"
+
+#: ../terminatorlib/terminatorterm.py:1300
+msgid "Other Encodings"
+msgstr "ترميزات اخرى"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"

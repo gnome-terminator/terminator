@@ -130,7 +130,7 @@ class Terminator:
 
   def __init__ (self, profile = None, command = None, fullscreen = False,
                 maximise = False, borderless = False, no_gconf = False,
-                geometry = None, hidden = False, forcedtitle = None):
+                geometry = None, hidden = False, forcedtitle = None, role=None):
     self.profile = profile
     self.command = command
 
@@ -229,6 +229,8 @@ class Terminator:
     self.set_closebutton_style ()
 
     self.window = gtk.Window ()
+    if role:
+        self.window.set_role(role)
     self.windowtitle = TerminatorWindowTitle (self.window)
     if forcedtitle:
       self.windowtitle.force_title (forcedtitle)
@@ -287,6 +289,47 @@ class Terminator:
     else:
       if hidden or self.conf.hidden:
         self.window.iconify()
+
+  def on_term_resized(self):
+    win_total_width, win_total_height = self.window.get_size ()
+    dbg ('Resized window is %dx%d' % (win_total_width, win_total_height))
+
+    # FIXME: find first terminal
+    firstidx = 0
+
+    # Walk terminals across top edge to sum column geometries
+    prev = -1
+    column_sum = 0
+    width_extra = 0
+    walker = firstidx
+    while (walker != None):
+        term = self.term_list[walker]
+        font_width, font_height, columns, rows = term.get_size_details ()
+        column_sum += columns
+        dbg ('Geometry hints (term %d) column += %d characters' % (walker, columns))
+        prev = walker
+        walker = self._select_right (walker)
+
+    # Walk terminals down left edge to sum row geometries
+    prev = -1
+    row_sum = 0
+    height_extra = 0
+    walker = firstidx
+    while (walker != None):
+        term = self.term_list[walker]
+        font_width, font_height, columns, rows = term.get_size_details ()
+        row_sum += rows
+        dbg ('Geometry hints (term %d) row += %d characters' % (walker, rows))
+        prev = walker
+        walker = self._select_down (walker)
+
+    # adjust...
+    width_extra = win_total_width - (column_sum * font_width)
+    height_extra = win_total_height - (row_sum * font_height)
+
+    dbg ('Geometry hints based on font size: %dx%d, columns: %d, rows: %d, extra width: %d, extra height: %d' % (font_width, font_height, column_sum, row_sum, width_extra, height_extra))
+
+    self.window.set_geometry_hints(self.window, -1, -1, -1, -1, width_extra, height_extra, font_width, font_height, -1.0, -1.0)
 
   def set_handle_size (self, size):
     if size in xrange (0,6):
@@ -786,7 +829,7 @@ class Terminator:
         self.on_destroy_event (parent, gtk.gdk.Event (gtk.gdk.DESTROY))
       return True
 
-    if isinstance (parent, gtk.Paned):
+    elif isinstance (parent, gtk.Paned):
       index = self.term_list.index (widget)
       grandparent = parent.get_parent ()
 
@@ -856,8 +899,22 @@ class Terminator:
           else:
             gdparent.remove(parent)
             gdparent.pack2(sibling)
+        elif isinstance(gdparent, gtk.Notebook):
+          # extreme_tabs is on :(
+          label = gdparent.get_tab_label(parent)
+          gdparent.remove(parent)
+          gdparent.insert_page(sibling, None, 0)
+          gdparent.set_tab_label(sibling, label)
+          gdparent.set_tab_label_packing(sibling, not self.conf.scroll_tabbar, not self.conf.scroll_tabbar, gtk.PACK_START)
+          if self._tab_reorderable:
+            gdparent.set_tab_reorderable(sibling, True)
+          gdparent.set_current_page(0)
+        else:
+          err('Unknown grandparent of %s (parent is a notebook)' % widget)
         if isinstance(sibling, TerminatorTerm) and sibling.conf.titlebars and sibling.conf.extreme_tabs:
           sibling._titlebox.show()
+   else:
+     err('Attempting to remove terminal from unknown parent: %s' % parent)
     if self.conf.focus_on_close == 'prev' or ( self.conf.focus_on_close == 'auto' and focus_on_close == 'prev'):
       if index == 0: index = 1
       self.term_list[index - 1]._vte.grab_focus ()
@@ -907,7 +964,13 @@ class Terminator:
         term._vte.grab_focus ()
 
   def _select_direction (self, term, matcher):
-    current = self.term_list.index (term)
+    '''Return index of terminal in given direction'''
+    # Handle either TerminatorTerm or int index
+    if type(term) == int:
+        current = term
+        term = self.term_list[current]
+    else:
+        current = self.term_list.index (term)
     current_geo = term.get_geometry ()
     best_index = None
     best_geo = None
@@ -924,9 +987,13 @@ class Terminator:
         #print "I saw %d" % (i)
         #pprint.pprint(possible_geo)
 
-        if matcher (current_geo, possible_geo, best_geo):
+        try:
+          if matcher (current_geo, possible_geo, best_geo):
             best_index = i
             best_geo = possible_geo
+        except:
+          # Not being called on a Paned widget
+          pass
     #if best_index is None:
     #    print "nothing best"
     #else:
@@ -937,6 +1004,10 @@ class Terminator:
     '''We want to find terminals that are fully above the top
        border, but closest in the y direction, breaking ties via
        the closest cursor x position.'''
+    if len(possible_geo.keys()) == 0:
+      dbg('_match_right: no possible geo, bailing')
+      return False
+
     #print "matching up..."
     # top edge of the current terminal
     edge = current_geo['origin_y']
@@ -944,7 +1015,10 @@ class Terminator:
     new_edge = possible_geo['origin_y']+possible_geo['span_y']
 
     # Width of the horizontal bar that splits terminals
-    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    try:
+      horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    except TypeError:
+      horizontalBar = 0
     # Vertical distance between two terminals
     distance = current_geo['offset_y'] - (possible_geo['offset_y'] + possible_geo['span_y'])
     if new_edge < edge:
@@ -976,6 +1050,10 @@ class Terminator:
     '''We want to find terminals that are fully below the bottom
        border, but closest in the y direction, breaking ties via
        the closest cursor x position.'''
+    if len(possible_geo.keys()) == 0:
+      dbg('_match_right: no possible geo, bailing')
+      return False
+
     #print "matching down..."
     # bottom edge of the current terminal
     edge = current_geo['origin_y']+current_geo['span_y']
@@ -984,7 +1062,10 @@ class Terminator:
     #print "edge: %d new_edge: %d" % (edge, new_edge)
 
     # Width of the horizontal bar that splits terminals
-    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    try:
+      horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    except TypeError:
+      horizontalBar = 0
     # Vertical distance between two terminals
     distance = possible_geo['offset_y'] - (current_geo['offset_y'] + current_geo['span_y'])
     if new_edge > edge:
@@ -1017,6 +1098,10 @@ class Terminator:
     '''We want to find terminals that are fully to the left of
        the left-side border, but closest in the x direction, breaking
        ties via the closest cursor y position.'''
+    if len(possible_geo.keys()) == 0:
+      dbg('_match_right: no possible geo, bailing')
+      return False
+
     #print "matching left..."
     # left-side edge of the current terminal
     edge = current_geo['origin_x']
@@ -1024,12 +1109,21 @@ class Terminator:
     new_edge = possible_geo['origin_x']+possible_geo['span_x']
 
     # Width of the horizontal bar that splits terminals
-    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    try:
+      horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    except TypeError:
+      horizontalBar = 0
     # Width of the vertical bar that splits terminals
     if self.term_list[0].is_scrollbar_present():
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+        try:
+            verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+        except TypeError:
+            verticalBar = 0
     else:
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+        try:
+            verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+        except TypeError:
+            verticalBar = 0
     # Horizontal distance between two terminals
     distance = current_geo['offset_x'] - (possible_geo['offset_x'] + possible_geo['span_x'])
     if new_edge <= edge:
@@ -1058,6 +1152,10 @@ class Terminator:
     '''We want to find terminals that are fully to the right of
        the right-side border, but closest in the x direction, breaking
        ties via the closest cursor y position.'''
+    if len(possible_geo.keys()) == 0:
+      dbg('_match_right: no possible geo, bailing')
+      return False
+
     #print "matching right..."
     # right-side edge of the current terminal
     edge = current_geo['origin_x']+current_geo['span_x']
@@ -1066,12 +1164,21 @@ class Terminator:
     #print "edge: %d new_edge: %d" % (edge, new_edge)
 
     # Width of the horizontal bar that splits terminals
-    horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    try:
+      horizontalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0]._titlebox.get_allocation().height
+    except TypeError:
+      horizontalBar = 0
     # Width of the vertical bar that splits terminals
     if self.term_list[0].is_scrollbar_present():
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+        try:
+            verticalBar = self.term_list[0].get_parent().style_get_property('handle-size') + self.term_list[0].get_parent().style_get_property('scroll-arrow-vlength')
+        except TypeError:
+            verticalBar = 0
     else:
-	    verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+        try:
+            verticalBar = self.term_list[0].get_parent().style_get_property('handle-size')
+        except TypeError:
+            verticalBar = 0
     # Horizontal distance between two terminals
     distance = possible_geo['offset_x'] - (current_geo['offset_x'] + current_geo['span_x'])
     if new_edge >= edge:
