@@ -29,6 +29,7 @@ Classes relating to configuration
 
 import platform
 from borg import Borg
+from util import dbg
 
 DEFAULTS = {
         'global':   {
@@ -209,13 +210,21 @@ class ConfigBase(Borg, dict):
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
+        dbg('ConfigBase::get_item: Lookup %s (profile=%s, plugin=%s)' % (key,
+                profile, plugin))
         if self.global_config.has_key(key):
+            dbg('ConfigBase::get_item: found in globals: %s' %
+                    self.global_config[key])
             return(self.global_config[key])
         elif self.profiles['default'].has_key(key):
+            dbg('ConfigBase::get_item: found in profile: %s' %
+                    self.profiles[profile][key])
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
         elif plugin is not None and self.plugins[plugin].has_key(key):
+            dbg('ConfigBase::get_item: found in plugin: %s' %
+                    self.plugins[plugin][key])
             return(self.plugins[plugin][key])
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
