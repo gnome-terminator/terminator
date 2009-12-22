@@ -17,7 +17,7 @@ Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gobject, python-gtk2, gconf2, libgtk2.0-bin
 XB-Python-Version: ${python:Versions}
 Provides: x-terminal-emulator
-Recommends: xdg-utils, python-xdg, python-gnome2
+Recommends: xdg-utils, python-xdg, python-gnome2, deskbar-applet
 Description: multiple GNOME terminals in one window
  Terminator is a little project to produce an efficient way of 
  filling a large area of screen space with terminals.
