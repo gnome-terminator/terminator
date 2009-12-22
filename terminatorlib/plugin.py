@@ -44,7 +44,7 @@ class PluginRegistry(borg.Borg):
 
     def __init__(self):
         """Class initialiser"""
-        borg.Borg.__init__(self)
+        borg.Borg.__init__(self, self.__class__.__name__)
         self.prepare_attributes()
 
     def prepare_attributes(self):
