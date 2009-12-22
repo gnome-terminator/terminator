@@ -21,7 +21,18 @@
 >>> obj2.attribute = 54321
 >>> obj1.attribute
 54321
+>>> obj3 = TestBorg2()
+>>> obj3.attribute
+1
+>>> obj4 = TestBorg2()
+>>> obj3.attribute = 98765
+>>> obj4.attribute
+98765
+>>>
+
 """
+
+from util import dbg
 
 # pylint: disable-msg=R0903
 # pylint: disable-msg=R0921
@@ -35,7 +46,7 @@ class Borg:
             attribute = None
 
             def __init__(self):
-                Borg.__init__(self)
+                Borg.__init__(self, self.__class__.__name__)
 
             def prepare_attributes(self):
                 if not self.attribute:
@@ -51,11 +62,16 @@ class Borg:
     if necessary."""
     __shared_state = {} 
 
-    def __init__(self):
+    def __init__(self, borgtype=None):
         """Class initialiser. Overwrite our class dictionary with the shared
         state. This makes us identical to every other instance of this class
         type."""
-        self.__dict__ = self.__shared_state
+        if borgtype is None:
+            raise TypeError('Borg::__init__: You must pass a borgtype')
+        if not self.__shared_state.has_key(borgtype):
+            dbg('Borg::__init__: Preparing borg state for %s' % borgtype)
+            self.__shared_state[borgtype] = {}
+        self.__dict__ = self.__shared_state[borgtype]
 
     def prepare_attributes(self):
         """This should be used to prepare any attributes of the borg class."""
@@ -66,12 +82,23 @@ if __name__ == '__main__':
         attribute = None
 
         def __init__(self):
-            Borg.__init__(self)
+            Borg.__init__(self, self.__class__.__name__)
             self.prepare_attributes()
         
         def prepare_attributes(self):
             if not self.attribute:
                 self.attribute = 0
+
+    class TestBorg2(Borg):
+        attribute = None
+
+        def __init__(self):
+            Borg.__init__(self, self.__class__.__name__)
+            self.prepare_attributes()
+
+        def prepare_attributes(self):
+            if not self.attribute:
+                self.attribute = 1
 
     import doctest
     (failed, attempted) = doctest.testmod()
