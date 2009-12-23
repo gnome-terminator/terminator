@@ -5,7 +5,7 @@ import re
 import plugin
 
 # Every plugin you want Terminator to load *must* be listed in 'available'
-available = ['LaunchpadURLHandler']
+available = ['LaunchpadURLHandler', 'APTURLHandler']
 
 class URLHandler(plugin.Plugin):
     """Base class for URL handlers"""
@@ -30,4 +30,15 @@ class LaunchpadURLHandler(URLHandler):
         for item in re.findall(r'[0-9]+', url):
             url = 'https://bugs.launchpad.net/bugs/%s' % item
             return(url)
+
+class APTURLHandler(URLHandler):
+    """APT URL handler. If there is a URL that looks like an apturl, handle
+    it appropriately"""
+    capabilities = ['url_handler']
+    handler_hane = 'apturl'
+    match = '\\bapt:.*\\b'
+
+    def callback(self, url):
+        """Actually we don't need to do anything for this to work"""
+        return(url)
 
