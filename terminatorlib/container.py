@@ -68,7 +68,7 @@ class Container(object):
         if self.cnxids.has_key(widget):
             for cnxid in self.cnxids[widget]:
                 dbg('Container::disconnect_child: removing handler on %s' %
-                        widget.__class__.__name__)
+                        type(widget))
                 widget.disconnect(cnxid)
             del(self.cnxids[widget])
 

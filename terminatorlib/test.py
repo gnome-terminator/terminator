@@ -22,4 +22,7 @@ term.spawn_child()
 
 window.connect("destroy", on_window_destroyed)
 
-gtk.main()
+try:
+  gtk.main()
+except KeyboardInterrupt:
+  pass
