@@ -23,6 +23,8 @@ Classes relating to configuration
 >>> config['focus']
 'click'
 >>> config['focus'] = 'sloppy'
+>>> config['focus']
+'sloppy'
 >>>
 
 """
@@ -175,7 +177,15 @@ class Config(object):
         """Look up a configuration item"""
         return(self.base.get_item(key, self.profile))
 
-class ConfigBase(Borg, dict):
+    def __setitem__(self, key, value):
+        """Set a particular configuration item"""
+        return(self.base.set_item(key, value, self.profile))
+
+    def set_profile(self, profile):
+        """Set our profile (which usually means change it)"""
+        self.profile = profile
+
+class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     global_config = None
     profiles = None
@@ -186,7 +196,6 @@ class ConfigBase(Borg, dict):
         """Class initialiser"""
 
         Borg.__init__(self, self.__class__.__name__)
-        dict.__init__(self)
 
         self.prepare_attributes()
         self.load_config()
@@ -216,7 +225,7 @@ class ConfigBase(Borg, dict):
             dbg('ConfigBase::get_item: found in globals: %s' %
                     self.global_config[key])
             return(self.global_config[key])
-        elif self.profiles['default'].has_key(key):
+        elif self.profiles[profile].has_key(key):
             dbg('ConfigBase::get_item: found in profile: %s' %
                     self.profiles[profile][key])
             return(self.profiles[profile][key])
@@ -228,6 +237,24 @@ class ConfigBase(Borg, dict):
             return(self.plugins[plugin][key])
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
+
+    def set_item(self, key, value, profile='default', plugin=None):
+        """Set a configuration item"""
+        dbg('ConfigBase::set_item: Setting %s=%s (profile=%s, plugin=%s)' %
+                (key, value, profile, plugin))
+
+        if self.global_config.has_key(key):
+            self.global_config[key] = value
+        elif self.profiles[profile].has_key(key):
+            self.profiles[profile] = value
+        elif key == 'keybindings':
+            self.keybindings = value
+        elif plugin is not None and self.plugins[plugin].has_key(key):
+            self.plugins[plugin][key] = value
+        else:
+            raise KeyError('ConfigBase::set_item: unknown key %s' % key)
+
+        return(True)
 
 if __name__ == '__main__':
     import doctest
