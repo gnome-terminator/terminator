@@ -25,6 +25,14 @@ Classes relating to configuration
 >>> config['focus'] = 'sloppy'
 >>> config['focus']
 'sloppy'
+>>> config2 = Config()
+>>> config2['focus']
+'sloppy'
+>>> config2['focus'] = 'click'
+>>> config2['focus']
+'click'
+>>> config['focus']
+'click'
 >>>
 
 """
