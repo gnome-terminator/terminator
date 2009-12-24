@@ -26,7 +26,7 @@
 import sys
 import os
 import borg
-from util import dbg, err
+from util import dbg, err, get_config_dir
 
 class Plugin(object):
     """Definition of our base plugin class"""
@@ -52,10 +52,10 @@ class PluginRegistry(borg.Borg):
         if not self.instances:
             self.instances = {}
         if not self.path:
+            self.path = []
             (head, tail) = os.path.split(borg.__file__)
-            # FIXME: self.path should really be a list so we can have something
-            # in the users home directory
-            self.path = os.path.join(head, 'plugins')
+            self.path.append(os.path.join(head, 'plugins'))
+            self.path.append(os.path.join(get_config_dir(), 'plugins'))
             dbg('PluginRegistry::prepare_attributes: Plugin path: %s' % 
                 self.path)
         if not self.done:
@@ -67,21 +67,26 @@ class PluginRegistry(borg.Borg):
             dbg('PluginRegistry::load_plugins: Already loaded')
             return
 
-        sys.path.insert(0, self.path)
-        files = os.listdir(self.path)
-        for plugin in files:
-            pluginpath = os.path.join(self.path, plugin)
-            if os.path.isfile(pluginpath) and plugin[-3:] == '.py':
-                dbg('PluginRegistry::load_plugins: Importing plugin %s' % 
-                    plugin)
-                try:
-                    module = __import__(plugin[:-3], None, None, [''])
-                    for item in getattr(module, 'available'):
-                        if item not in self.instances:
-                            func = getattr(module, item)
+        for plugindir in self.path:
+            sys.path.insert(0, plugindir)
+            try:
+                files = os.listdir(plugindir)
+            except OSError:
+                sys.path.remove(plugindir)
+                continue
+            for plugin in files:
+                pluginpath = os.path.join(plugindir, plugin)
+                if os.path.isfile(pluginpath) and plugin[-3:] == '.py':
+                    dbg('PluginRegistry::load_plugins: Importing plugin %s' % 
+                        plugin)
+                    try:
+                        module = __import__(plugin[:-3], None, None, [''])
+                        for item in getattr(module, 'available'):
+                            if item not in self.instances:
+                                func = getattr(module, item)
                             self.instances[item] = func()
-                except Exception as e:
-                    err('PluginRegistry::load_plugins: Importing plugin %s \
+                    except Exception as e:
+                        err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, e))
 
         self.done = True

@@ -123,3 +123,13 @@ def widget_pixbuf(widget, maxsize=None):
 
     return(scaledpixbuf)
 
+def get_config_dir():
+    """Expand all the messy nonsense for finding where ~/.config/terminator
+    really is"""
+    try:
+        configdir = os.environ['XDG_CONFIG_HOME']
+    except KeyError:
+        configdir = os.path.join(os.path.expanduser('~'), '.config')
+
+    return(os.path.join(configdir, 'terminator'))
+
