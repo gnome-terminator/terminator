@@ -385,6 +385,9 @@ class TerminatorTerm (gtk.VBox):
       for item in re.findall(r'[0-9]+',url):
         url = 'https://bugs.launchpad.net/bugs/%s' % item
         return url
+    elif match == self.matches['apturl']:
+        # xdg-open will work as-is with apt: URLs
+        pass
     
     return url
 
@@ -632,6 +635,8 @@ text/plain
       # if the url looks like a Launchpad changelog closure entry LP: #92953 - make it a url to http://bugs.launchpad.net
       # the regular expression is similar to the perl one specified in the Ubuntu Policy Manual - /lp:\s+\#\d+(?:,\s*\#\d+)*/i
       self.matches['launchpad'] = self._vte.match_add ('\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b')
+
+      self.matches['apturl'] = self._vte.match_add ('\\bapt.*\\b')
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
