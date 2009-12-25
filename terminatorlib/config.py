@@ -38,6 +38,8 @@ Classes relating to configuration
 """
 
 import platform
+import sys
+from configobj import ConfigObj
 from borg import Borg
 from util import dbg
 
@@ -193,6 +195,10 @@ class Config(object):
         """Set our profile (which usually means change it)"""
         self.profile = profile
 
+    def save(self):
+        """Cause ConfigBase to save our config to file"""
+        return(self.base.save())
+
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     global_config = None
@@ -263,6 +269,17 @@ class ConfigBase(Borg):
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 
         return(True)
+
+    def save(self):
+        """Save the config to a file"""
+        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
+        parser = ConfigObj()
+        parser.indent_type = '  '
+        for section_name in sections:
+            section = getattr(self, section_name)
+            parser[section_name] = section
+
+        parser.write(sys.stdout)
 
 if __name__ == '__main__':
     import doctest
