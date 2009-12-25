@@ -278,6 +278,8 @@ class ConfigBase(Borg):
         parser.indent_type = '  '
         for section_name in sections:
             section = getattr(self, section_name)
+            # FIXME: Instead of just writing out the whole section we should 
+            # only write out things that aren't defaults
             parser[section_name] = section
 
         parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
