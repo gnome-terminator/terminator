@@ -38,10 +38,11 @@ Classes relating to configuration
 """
 
 import platform
+import os
 import sys
 from configobj import ConfigObj
 from borg import Borg
-from util import dbg
+from util import dbg, get_config_dir
 
 DEFAULTS = {
         'global':   {
@@ -279,7 +280,7 @@ class ConfigBase(Borg):
             section = getattr(self, section_name)
             parser[section_name] = section
 
-        parser.write(sys.stdout)
+        parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
 
 if __name__ == '__main__':
     import doctest
