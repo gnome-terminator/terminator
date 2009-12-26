@@ -45,6 +45,7 @@ import sys
 from copy import copy
 from configobj import ConfigObj
 from borg import Borg
+from factory import Factory
 from util import dbg, get_config_dir, dict_diff
 
 DEFAULTS = {
@@ -172,7 +173,7 @@ DEFAULTS = {
                 'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
             },
         },
-        'layout':   {
+        'layouts':   {
         },
         'plugins': {
         },
@@ -198,6 +199,8 @@ class Config(object):
     def set_profile(self, profile):
         """Set our profile (which usually means change it)"""
         self.profile = profile
+        if not self.base.profiles.has_key(profile):
+            self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
     def save(self):
         """Cause ConfigBase to save our config to file"""
@@ -205,10 +208,13 @@ class Config(object):
 
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
+    loaded = None
+    sections = None
     global_config = None
     profiles = None
     keybindings = None
     plugins = None
+    layouts = None
 
     def __init__(self):
         """Class initialiser"""
@@ -220,6 +226,11 @@ class ConfigBase(Borg):
 
     def prepare_attributes(self):
         """Set up our borg environment"""
+        if self.loaded is None:
+            self.loaded = False
+        if self.sections is None:
+            self.sections = ['global_config', 'keybindings', 'profiles',
+                             'layouts', 'plugins']
         if self.global_config is None:
             self.global_config = copy(DEFAULTS['global_config'])
         if self.profiles is None:
@@ -229,44 +240,91 @@ class ConfigBase(Borg):
             self.keybindings = copy(DEFAULTS['keybindings'])
         if self.plugins is None:
             self.plugins = {}
+        if self.layouts is None:
+            self.layouts = copy(DEFAULTS['layouts'])
 
     def load(self):
         """Load configuration data from our various sources"""
-        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
-        configfile = open(os.path.join(get_config_dir(), 'epic-config'), 'r')
+        if self.loaded is True:
+            dbg('ConfigBase::load: config already loaded')
+            return
+
+        filename = os.path.join(get_config_dir(), 'epic-config')
+        try:
+            configfile = open(filename, 'r')
+        except Exception, ex:
+            dbg('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+            return
+
         parser = ConfigObj(configfile)
-        for section_name in sections:
+        for section_name in self.sections:
+            dbg('ConfigBase::load: Processing section: %s' % section_name)
             section = getattr(self, section_name)
-            section.update(parser[section_name])
+            if section_name == 'profiles':
+                for profile in parser[section_name]:
+                    dbg('ConfigBase::load: Processing profile: %s' % profile)
+                    if not section.has_key(section_name):
+                        section[profile] = copy(DEFAULTS['profiles']['default'])
+                    section[profile].update(parser[section_name][profile])
+            elif section_name == ['layouts', 'plugins']:
+                for part in parser[section_name]:
+                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
+                                                                 part))
+                    section[part] = parser[section_name][part]
+            else:
+                try:
+                    section.update(parser[section_name])
+                except KeyError, ex:
+                    dbg('ConfigBase::load: skipping loading missing section %s' %
+                            section_name)
+
+        self.loaded = True
         
     def save(self):
         """Save the config to a file"""
-        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
+        dbg('ConfigBase::save: saving config')
         parser = ConfigObj()
         parser.indent_type = '  '
-        for section_name in sections:
+
+        for section_name in ['global_config', 'keybindings']:
+            dbg('ConfigBase::save: Processing section: %s' % section_name)
             section = getattr(self, section_name)
             parser[section_name] = dict_diff(DEFAULTS[section_name], section)
+
+        parser['profiles'] = {}
+        for profile in self.profiles:
+            dbg('ConfigBase::save: Processing profile: %s' % profile)
+            parser['profiles'][profile] = dict_diff(DEFAULTS['profiles']['default'],
+                    self.profiles[profile])
+
+        parser['layouts'] = {}
+        for layout in self.layouts:
+            dbg('ConfigBase::save: Processing layout: %s' % layout)
+            parser['layouts'][layout] = self.layouts[layout]
+
+        parser['plugins'] = {}
+        for plugin in self.plugins:
+            dbg('ConfigBase::save: Processing plugin: %s' % plugin)
+            parser['plugins'][plugin] = self.plugins[plugin]
 
         parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
-        dbg('ConfigBase::get_item: Lookup %s (profile=%s, plugin=%s)' % (key,
-                profile, plugin))
+        dbg('ConfigBase::get_item: %s:%s' % (profile, key))
         if self.global_config.has_key(key):
             dbg('ConfigBase::get_item: found in globals: %s' %
                     self.global_config[key])
             return(self.global_config[key])
         elif self.profiles[profile].has_key(key):
-            dbg('ConfigBase::get_item: found in profile: %s' %
-                    self.profiles[profile][key])
+            dbg('ConfigBase::get_item: found in profile %s (%s)' % (
+                    profile, self.profiles[profile][key]))
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
         elif plugin is not None and self.plugins[plugin].has_key(key):
-            dbg('ConfigBase::get_item: found in plugin: %s' %
-                    self.plugins[plugin][key])
+            dbg('ConfigBase::get_item: found in plugin %s (%s)' % (
+                    plugin, self.plugins[plugin][key]))
             return(self.plugins[plugin][key])
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
@@ -279,7 +337,7 @@ class ConfigBase(Borg):
         if self.global_config.has_key(key):
             self.global_config[key] = value
         elif self.profiles[profile].has_key(key):
-            self.profiles[profile] = value
+            self.profiles[profile][key] = value
         elif key == 'keybindings':
             self.keybindings = value
         elif plugin is not None and self.plugins[plugin].has_key(key):
