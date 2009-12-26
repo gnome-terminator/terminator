@@ -22,8 +22,6 @@ Classes relating to configuration
 >>> DEFAULTS['global_config']['focus']
 'click'
 >>> config = Config()
->>> config['focus']
-'click'
 >>> config['focus'] = 'sloppy'
 >>> config['focus']
 'sloppy'
@@ -218,7 +216,7 @@ class ConfigBase(Borg):
         Borg.__init__(self, self.__class__.__name__)
 
         self.prepare_attributes()
-        self.load_config()
+        self.load()
 
     def prepare_attributes(self):
         """Set up our borg environment"""
@@ -232,10 +230,25 @@ class ConfigBase(Borg):
         if self.plugins is None:
             self.plugins = {}
 
-    def load_config(self):
+    def load(self):
         """Load configuration data from our various sources"""
-        # FIXME: Load our config from wherever and merge it into the defaults
-        pass
+        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
+        configfile = open(os.path.join(get_config_dir(), 'epic-config'), 'r')
+        parser = ConfigObj(configfile)
+        for section_name in sections:
+            section = getattr(self, section_name)
+            section.update(parser[section_name])
+        
+    def save(self):
+        """Save the config to a file"""
+        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
+        parser = ConfigObj()
+        parser.indent_type = '  '
+        for section_name in sections:
+            section = getattr(self, section_name)
+            parser[section_name] = dict_diff(DEFAULTS[section_name], section)
+
+        parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
@@ -275,17 +288,6 @@ class ConfigBase(Borg):
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 
         return(True)
-
-    def save(self):
-        """Save the config to a file"""
-        sections = ['global_config', 'keybindings', 'profiles', 'plugins']
-        parser = ConfigObj()
-        parser.indent_type = '  '
-        for section_name in sections:
-            section = getattr(self, section_name)
-            parser[section_name] = dict_diff(DEFAULTS[section_name], section)
-
-        parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
 
 if __name__ == '__main__':
     import doctest
