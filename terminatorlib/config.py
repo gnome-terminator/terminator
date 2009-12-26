@@ -19,12 +19,16 @@
 
 Classes relating to configuration
 
+>>> DEFAULTS['global_config']['focus']
+'click'
 >>> config = Config()
 >>> config['focus']
 'click'
 >>> config['focus'] = 'sloppy'
 >>> config['focus']
 'sloppy'
+>>> DEFAULTS['global_config']['focus']
+'click'
 >>> config2 = Config()
 >>> config2['focus']
 'sloppy'
@@ -40,12 +44,13 @@ Classes relating to configuration
 import platform
 import os
 import sys
+from copy import copy
 from configobj import ConfigObj
 from borg import Borg
-from util import dbg, get_config_dir
+from util import dbg, get_config_dir, dict_diff
 
 DEFAULTS = {
-        'global':   {
+        'global_config':   {
             'focus'                 : 'click',
             'enable_real_transparency'  : True,
             'handle_size'           : -1,
@@ -218,12 +223,12 @@ class ConfigBase(Borg):
     def prepare_attributes(self):
         """Set up our borg environment"""
         if self.global_config is None:
-            self.global_config = DEFAULTS['global']
+            self.global_config = copy(DEFAULTS['global_config'])
         if self.profiles is None:
             self.profiles = {}
-            self.profiles['default'] = DEFAULTS['profiles']['default']
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
         if self.keybindings is None:
-            self.keybindings = DEFAULTS['keybindings']
+            self.keybindings = copy(DEFAULTS['keybindings'])
         if self.plugins is None:
             self.plugins = {}
 
@@ -278,9 +283,7 @@ class ConfigBase(Borg):
         parser.indent_type = '  '
         for section_name in sections:
             section = getattr(self, section_name)
-            # FIXME: Instead of just writing out the whole section we should 
-            # only write out things that aren't defaults
-            parser[section_name] = section
+            parser[section_name] = dict_diff(DEFAULTS[section_name], section)
 
         parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
 

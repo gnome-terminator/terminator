@@ -133,3 +133,16 @@ def get_config_dir():
 
     return(os.path.join(configdir, 'terminator'))
 
+def dict_diff(reference, working):
+    """Examine the values in the supplied working set and return a new dict
+    that only contains those values which are different from those in the
+    reference dictionary"""
+
+    result = {}
+
+    for key in reference:
+        if reference[key] != working[key]:
+            result[key] = working[key]
+
+    return(result)
+
