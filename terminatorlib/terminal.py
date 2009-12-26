@@ -135,6 +135,15 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
+    def set_profile(self, widget, profile):
+        """Set our profile"""
+        self.config.set_profile(profile)
+        self.reconfigure()
+
+    def get_profile(self):
+        """Return our profile name"""
+        return(self.config.profile)
+
     def close(self):
         """Close ourselves"""
         dbg('Terminal::close: emitting close-term')

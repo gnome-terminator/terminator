@@ -198,8 +198,10 @@ class Config(object):
 
     def set_profile(self, profile):
         """Set our profile (which usually means change it)"""
+        dbg('Config::set_profile: Changing profile to %s' % profile)
         self.profile = profile
         if not self.base.profiles.has_key(profile):
+            dbg('Config::set_profile: %s does not exist, creating' % profile)
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
     def del_profile(self, profile):

@@ -10,6 +10,7 @@ from version import APP_NAME
 from translation import _
 from encoding import TerminatorEncoding
 from util import err
+from config import Config
 import plugin
 
 class TerminalPopupMenu(object):
@@ -130,10 +131,29 @@ class TerminalPopupMenu(object):
             item.set_sensitive(False)
         menu.append(item)
 
+        item = gtk.MenuItem(_('Profiles'))
+        submenu = gtk.Menu()
+        item.set_submenu(submenu)
+        menu.append(item)
+
+        config = Config()
+        current = terminal.get_profile()
+
+        group = None
+
+        for profile in config.list_profiles():
+            item = gtk.RadioMenuItem(group, profile.capitalize())
+            item.connect('activate', terminal.set_profile, profile)
+            if profile == current:
+                item.set_active(True)
+            submenu.append(item)
+
+        submenu.append(gtk.MenuItem())
+
         item = gtk.MenuItem(_('Ed_it profile'))
         item.connect('activate', lambda x:
                      terminal.terminator.edit_profile(terminal))
-        menu.append(item)
+        submenu.append(item)
 
         self.add_encoding_items(menu)
 
