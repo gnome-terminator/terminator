@@ -173,7 +173,7 @@ DEFAULTS = {
                 'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
             },
         },
-        'layouts':   {
+        'layouts': {
         },
         'plugins': {
         },
@@ -201,6 +201,15 @@ class Config(object):
         self.profile = profile
         if not self.base.profiles.has_key(profile):
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
+
+    def del_profile(self, profile):
+        """Delete a profile"""
+        if self.base.profiles.has_key(profile):
+            del(self.base.profiles[profile])
+
+    def list_profiles(self):
+        """List all configured profiles"""
+        return(self.base.profiles.keys())
 
     def save(self):
         """Cause ConfigBase to save our config to file"""
