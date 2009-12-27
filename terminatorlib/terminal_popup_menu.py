@@ -150,7 +150,7 @@ class TerminalPopupMenu(object):
 
         submenu.append(gtk.MenuItem())
 
-        item = gtk.MenuItem(_('Ed_it profile'))
+        item = gtk.MenuItem(_('Ed_it profiles'))
         item.connect('activate', lambda x:
                      terminal.terminator.edit_profile(terminal))
         submenu.append(item)
