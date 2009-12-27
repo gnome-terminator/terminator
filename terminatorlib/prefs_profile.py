@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
-from terminatorlib.util import dbg,err
-from terminatorlib.config import DEFAULTS,TerminatorConfValuestoreRC
-from terminatorlib.keybindings import TerminatorKeybindings, KeymapError
-from terminatorlib.version import APP_NAME, APP_VERSION
-from terminatorlib import translation
+import gtk
+import gobject
 
-import gtk, gobject
+from util import dbg, err
+import config
+from keybindings import Keybindings
+from version import APP_NAME, APP_VERSION
+from translation import _
+
 
 class ProfileEditor:
   # lists of which settings to put in which tabs
@@ -67,11 +69,6 @@ class ProfileEditor:
     self.window = gtk.Window ()
     self.notebook = gtk.Notebook()
     self.box = gtk.VBox()
-    self.warning = gtk.Label()
-
-    self.warning.set_use_markup (True)
-    self.warning.set_line_wrap (True)
-    self.warning.set_markup ("<i><b>NOTE:</b> These settings will not be saved. See:</i> <tt>man terminator_config</tt>")
 
     self.butbox = gtk.HButtonBox()
     self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
