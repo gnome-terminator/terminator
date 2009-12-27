@@ -11,6 +11,7 @@ from translation import _
 from encoding import TerminatorEncoding
 from util import err
 from config import Config
+from profileeditor import ProfileEditor
 import plugin
 
 class TerminalPopupMenu(object):
@@ -151,8 +152,7 @@ class TerminalPopupMenu(object):
         submenu.append(gtk.MenuItem())
 
         item = gtk.MenuItem(_('Ed_it profiles'))
-        item.connect('activate', lambda x:
-                     terminal.terminator.edit_profile(terminal))
+        item.connect('activate', lambda x: ProfileEditor(self.terminal))
         submenu.append(item)
 
         self.add_encoding_items(menu)
