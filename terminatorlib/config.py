@@ -44,9 +44,10 @@ import os
 import sys
 from copy import copy
 from configobj import ConfigObj
+from validate import Validator
 from borg import Borg
 from factory import Factory
-from util import dbg, get_config_dir, dict_diff
+from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
 DEFAULTS = {
         'global_config':   {
@@ -254,6 +255,64 @@ class ConfigBase(Borg):
         if self.layouts is None:
             self.layouts = copy(DEFAULTS['layouts'])
 
+    def defaults_to_configspec(self):
+        """Convert our tree of default values into a ConfigObj validation
+        specification"""
+        configspecdata = {}
+
+        section = {}
+        for key in DEFAULTS['global_config']:
+            keytype = DEFAULTS['global_config'][key].__class__.__name__
+            value = DEFAULTS['global_config'][key]
+            if keytype == 'int':
+                keytype = 'integer'
+            elif keytype == 'str':
+                keytype = 'string'
+            elif keytype == 'bool':
+                keytype = 'boolean'
+            elif keytype == 'list':
+                value = 'list(%s)' % ','.join(value)
+
+            keytype = '%s(default=%s)' % (keytype, value)
+
+            section[key] = keytype
+        configspecdata['global_config'] = section
+
+        section = {}
+        for key in DEFAULTS['keybindings']:
+            value = DEFAULTS['keybindings'][key]
+            if value is None:
+                continue
+            elif isinstance(value, tuple):
+                value = value[0]
+            section[key] = 'string(default=%s)' % value
+        configspecdata['keybindings'] = section
+
+        section = {}
+        for key in DEFAULTS['profiles']['default']:
+            keytype = DEFAULTS['profiles']['default'][key].__class__.__name__
+            value = DEFAULTS['profiles']['default'][key]
+            if keytype == 'int':
+                keytype = 'integer'
+            elif keytype == 'bool':
+                keytype = 'boolean'
+            elif keytype == 'str':
+                keytype = 'string'
+                value = '"%s"' % value
+            elif keytype == 'list':
+                value = 'list(%s)' % ','.join(value)
+
+            keytype = '%s(default=%s)' % (keytype, value)
+
+            section[key] = keytype
+        configspecdata['profiles'] = {}
+        configspecdata['profiles']['__many__'] = section
+
+        configspec = ConfigObj(configspecdata)
+        if DEBUG == True:
+            configspec.write(open('/tmp/configspec', 'w'))
+        return(configspec)
+
     def load(self):
         """Load configuration data from our various sources"""
         if self.loaded is True:
@@ -267,7 +326,14 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
             return
 
-        parser = ConfigObj(configfile)
+        configspec = self.defaults_to_configspec()
+        parser = ConfigObj(configfile, configspec=configspec)
+        validator = Validator()
+        result = parser.validate(validator, preserve_errors=True)
+
+        if result != True:
+            err('ConfigBase::load: config format is not valid')
+
         for section_name in self.sections:
             dbg('ConfigBase::load: Processing section: %s' % section_name)
             section = getattr(self, section_name)
