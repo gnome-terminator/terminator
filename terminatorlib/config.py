@@ -35,6 +35,8 @@ Classes relating to configuration
 'click'
 >>> config['focus']
 'click'
+>>> config['fullscreen'].__class__.__name__
+'bool'
 >>>
 
 """
