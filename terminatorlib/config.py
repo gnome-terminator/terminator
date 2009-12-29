@@ -312,7 +312,7 @@ class ConfigBase(Borg):
 
         configspec = ConfigObj(configspecdata)
         if DEBUG == True:
-            configspec.write(open('/tmp/configspec', 'w'))
+            configspec.write(open('/tmp/terminator_configspec_debug.txt', 'w'))
         return(configspec)
 
     def load(self):
