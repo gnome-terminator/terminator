@@ -645,7 +645,7 @@ text/plain
       lpfilters['group'] = '~%s' % lpfilters['project']
       lpfilters['series'] = lpfilters['project']
       lpfilters['branch'] = '[a-zA-Z0-9]{1}[a-zA-Z0-9_+@.-]+'
-      self.matches['launchpad-branch'] = self._vte.match_add ('\\b((lp|LP):%(project)s(/%(series)s)?|(lp|LP):%(group)s/%(project)s/%(branch)s)\\b' % lpfilters)
+      self.matches['launchpad-branch'] = self._vte.match_add ('\\b((lp|LP):%(project)s(/%(series)s)?|(lp|LP):%(group)s/(%(project)s|\+junk)/%(branch)s)\\b' % lpfilters)
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
