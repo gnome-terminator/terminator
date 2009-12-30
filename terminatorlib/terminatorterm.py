@@ -381,10 +381,13 @@ class TerminatorTerm (gtk.VBox):
       url = 'ftp://' + url
     elif match == self.matches['addr_only']:
       url = 'http://' + url
-    elif match == self.matches['launchpad']:
+    elif match == self.matches['launchpad-bug']:
       for item in re.findall(r'[0-9]+',url):
         url = 'https://bugs.launchpad.net/bugs/%s' % item
         return url
+    elif match == self.matches['launchpad-branch']:
+        url = url[3:] if url.startswith('lp:') else url
+        url = 'https://code.launchpad.net/+branch/%s' % url
     elif match == self.matches['apturl']:
         # xdg-open will work as-is with apt: URLs
         pass
@@ -632,11 +635,17 @@ text/plain
       self.matches['addr_only'] = self._vte.match_add (lboundry + "(www|ftp)[" + hostchars + "]*\.[" + hostchars + ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
       self.matches['email'] = self._vte.match_add (lboundry + "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+[.a-zA-Z0-9-]*" + rboundry)
       self.matches['nntp'] = self._vte.match_add (lboundry + '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@[-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+      self.matches['apturl'] = self._vte.match_add ('\\bapt:/?/?\w+\\b') # apt+http isn't supported
       # if the url looks like a Launchpad changelog closure entry LP: #92953 - make it a url to http://bugs.launchpad.net
       # the regular expression is similar to the perl one specified in the Ubuntu Policy Manual - /lp:\s+\#\d+(?:,\s*\#\d+)*/i
-      self.matches['launchpad'] = self._vte.match_add ('\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b')
-
-      self.matches['apturl'] = self._vte.match_add ('\\bapt.*\\b')
+      self.matches['launchpad-bug'] = self._vte.match_add ('\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b')
+      # same for Bazaar branches hosted on Launchpad
+      lpfilters = {}
+      lpfilters['project'] = '[a-z0-9]{1}[a-z0-9\.\-\+]+'
+      lpfilters['group'] = '~%s' % lpfilters['project']
+      lpfilters['series'] = lpfilters['project']
+      lpfilters['branch'] = '[a-zA-Z0-9]{1}[a-zA-Z0-9_+@.-]+'
+      self.matches['launchpad-branch'] = self._vte.match_add ('\\b((lp|LP):%(project)s(/%(series)s)?|(lp|LP):%(group)s/(%(project)s|\+junk)/%(branch)s)\\b' % lpfilters)
 
   def _path_lookup(self, command):
     if os.path.isabs (command):
