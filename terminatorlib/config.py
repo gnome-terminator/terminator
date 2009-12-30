@@ -427,6 +427,8 @@ class ConfigBase(Borg):
         return(True)
 
 if __name__ == '__main__':
+    import sys
     import doctest
     (failed, attempted) = doctest.testmod()
     print "%d/%d tests failed" % (failed, attempted)
+    sys.exit(failed)

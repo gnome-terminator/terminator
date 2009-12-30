@@ -106,8 +106,9 @@ for %s' % (len(self.instances), capability))
         return(self.instances)
 
 if __name__ == '__main__':
+    import sys
     import doctest
     sys.path.insert(0, 'plugins')
     (failed, attempted) = doctest.testmod()
     print "%d/%d tests failed" % (failed, attempted)
-
+    sys.exit(failed)

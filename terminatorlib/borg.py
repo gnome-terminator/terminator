@@ -100,7 +100,8 @@ if __name__ == '__main__':
             if not self.attribute:
                 self.attribute = 1
 
+    import sys
     import doctest
     (failed, attempted) = doctest.testmod()
     print "%d/%d tests failed" % (failed, attempted)
-
+    sys.exit(failed)
