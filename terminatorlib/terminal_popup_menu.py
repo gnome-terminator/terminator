@@ -166,7 +166,7 @@ class TerminalPopupMenu(object):
                 menuplugin.callback(menuitems, menu, terminal)
             for menuitem in menuitems:
                 menu.append(menuitem)
-        except Exception as ex:
+        except Exception, ex:
             err('TerminalPopupMenu::show: %s' % ex)
 
         menu.show_all()

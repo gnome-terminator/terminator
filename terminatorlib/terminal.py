@@ -228,7 +228,7 @@ class Terminal(gtk.VBox):
                     self.matches[name] = self.vte.match_add(match)
                     dbg('Terminal::update_matches: added plugin URL handler \
 for %s (%s)' % (name, urlplugin.__class__.__name__))
-            except Exception as ex:
+            except Exception, ex:
                 err('Terminal::update_url_matches: %s' % ex)
             
     def connect_signals(self):
@@ -895,7 +895,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 %s plugin' % urlplugin.handler_name)
                             url = newurl
                         break;
-            except Exception as ex:
+            except Exception, ex:
                 err('Terminal::prepare_url: %s' % ex)
 
         return(url)
