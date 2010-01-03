@@ -9,7 +9,7 @@ from keybindings import Keybindings
 from version import APP_NAME, APP_VERSION
 from translation import _
 
-class ProfileEditor:
+class PrefsEditor:
     # lists of which settings to put in which tabs
     appearance = ['titlebars', 'zoomedtitlebar', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
     colours = ['foreground_color','background_color', 'cursor_color', 'palette', 'title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']

@@ -11,7 +11,7 @@ from translation import _
 from encoding import TerminatorEncoding
 from util import err
 from config import Config
-from profileeditor import ProfileEditor
+from prefseditor import PrefsEditor
 import plugin
 
 class TerminalPopupMenu(object):
@@ -132,28 +132,29 @@ class TerminalPopupMenu(object):
             item.set_sensitive(False)
         menu.append(item)
 
-        item = gtk.MenuItem(_('Profiles'))
-        submenu = gtk.Menu()
-        item.set_submenu(submenu)
+        item = gtk.MenuItem(_('_Preferences'))
+        item.connect('activate', lambda x: PrefsEditor(self.terminal))
         menu.append(item)
 
         config = Config()
-        current = terminal.get_profile()
+        profilelist = config.list_profiles()
 
-        group = None
+        if len(profilelist) > 1:
+            item = gtk.MenuItem(_('Profiles'))
+            submenu = gtk.Menu()
+            item.set_submenu(submenu)
+            menu.append(item)
 
-        for profile in config.list_profiles():
-            item = gtk.RadioMenuItem(group, profile.capitalize())
-            item.connect('activate', terminal.set_profile, profile)
-            if profile == current:
-                item.set_active(True)
-            submenu.append(item)
+            current = terminal.get_profile()
 
-        submenu.append(gtk.MenuItem())
+            group = None
 
-        item = gtk.MenuItem(_('Ed_it profiles'))
-        item.connect('activate', lambda x: ProfileEditor(self.terminal))
-        submenu.append(item)
+            for profile in profilelist():
+                item = gtk.RadioMenuItem(group, profile.capitalize())
+                item.connect('activate', terminal.set_profile, profile)
+                if profile == current:
+                    item.set_active(True)
+                submenu.append(item)
 
         self.add_encoding_items(menu)
 

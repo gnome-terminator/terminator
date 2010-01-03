@@ -21,7 +21,6 @@ from newterminator import Terminator
 from titlebar import Titlebar
 from terminal_popup_menu import TerminalPopupMenu
 from searchbar import Searchbar
-from profileeditor import ProfileEditor
 from translation import _
 import plugin
 
