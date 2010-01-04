@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import gtk
-from factory import Factory
+from terminatorlib.factory import Factory
 
 maker = Factory()
 window = maker.make('Window')
