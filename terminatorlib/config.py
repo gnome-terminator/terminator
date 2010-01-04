@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #    TerminatorConfig - layered config classes
-#    Copyright (C) 2006-2008  cmsj@tenshu.net
+#    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by

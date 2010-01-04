@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #    Terminator.optionparse - Parse commandline options
-#    Copyright (C) 2006-2008  cmsj@tenshu.net
+#    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
