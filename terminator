@@ -18,181 +18,56 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-# import standard python libs
-import os
 import sys
-origcwd = os.getcwd()
-from optparse import OptionParser, SUPPRESS_HELP
 
-from terminatorlib.factory import Factory
-import terminatorlib.translation
-from terminatorlib.version import APP_NAME, APP_VERSION
-
-from terminatorlib.util import dbg, err
-import terminatorlib.config
-
+# Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
-  import pygtk
-  pygtk.require ("2.0")
+    import pygtk
+    pygtk.require ("2.0")
+    import gtk
 
-  import gobject, gtk, pango
+    if gtk.gdk.display_get_default() == None:
+        print('You need to run terminator in an X environment. ' \
+              'Make sure $DISPLAY is properly set')
+        sys.exit(1)
+
 except ImportError:
-  err (_("You need to install the python bindings for " \
-    "gobject, gtk and pango to run Terminator."))
-  sys.exit(1)
-
-from terminatorlib.newterminator import Terminator
-
-if __name__ == '__main__':
-  def on_window_destroyed(window):
-    """Window has been closed"""
-    gtk.main_quit()
-
-  def execute_cb (option, opt, value, lparser):
-    """Callback for use in parsing Terminator command line options"""
-    assert value is None
-    value = []
-    while lparser.rargs:
-      arg = lparser.rargs[0]
-      value.append (arg)
-      del (lparser.rargs[0])
-    setattr(lparser.values, option.dest, value)
-
-  def profile_cb (option, opt, value, lparser):
-    """Callback for handling the profile name"""
-    assert value is None
-    value = ''
-    while lparser.rargs:
-      arg = lparser.rargs[0]
-      if arg[0] != '-':
-        if len (value) > 0:
-          value = '%s %s' % (value, arg)
-        else:
-          value = '%s' % arg
-        del (lparser.rargs[0])
-      else:
-        break
-    setattr (lparser.values, option.dest, value)
-
-  usage = "usage: %prog [options]"
-  parser = OptionParser (usage)
-  parser.add_option ("-v", "--version", action="store_true", dest="version",
-      help="Display program version")
-  parser.add_option ("-d", "--debug", action="count", dest="debug",
-      help="Enable debugging information (twice for debug server)")
-  parser.add_option ("-m", "--maximise", action="store_true", dest="maximise",
-      help="Open the %s window maximised" % APP_NAME.capitalize())
-  parser.add_option ("-f", "--fullscreen", action="store_true", 
-      dest="fullscreen", help="Set the window into fullscreen mode")
-  parser.add_option ("-b", "--borderless", action="store_true", 
-      dest="borderless",       help="Turn off the window's borders")
-  parser.add_option("-H", "--hidden", action="store_true", dest="hidden", 
-      help="Open the %s window hidden"%APP_NAME.capitalize())
-  parser.add_option("-T", "--title", dest="forcedtitle",
-      help="Specify a title to use for the window")
-  parser.add_option ("-n", "--no-gconf", dest="no_gconf", action="store_true",
-      help="ignore gnome-terminal gconf settings")
-  parser.add_option ("-p", "--profile", dest="profile", action="callback",
-      callback=profile_cb, help="Specify a GNOME Terminal profile to emulate")
-  parser.add_option ("--geometry", dest="geometry", type="string",
-      help="Set the preferred size and position of the window (see X man page)")
-  parser.add_option ("-e", "--command", dest="command",
-      help="Execute the argument to this option inside the terminal")
-  parser.add_option ("-x", "--execute", dest="execute", action="callback",
-      callback=execute_cb, help="Execute the remainder of the command line \
-inside the terminal")
-  parser.add_option ("--working-directory", metavar="DIR",
-      dest="working_directory", help="Set the terminal's working directory")
-  parser.add_option ("-r", "--role", dest="role",
-      help="Set custom WM_WINDOW_ROLE property")
-  for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
-    parser.add_option (item, dest="dummy", action="store", help=SUPPRESS_HELP)
-
-  (options, args) = parser.parse_args ()
-  if len (args) != 0:
-    parser.error("Expecting zero additional arguments, found: %d: %s" % (len (args), args))
-
-  if options.no_gconf and options.profile:
-    parser.error("using --no-gconf and defining a profile at the same time \
-does not make sense")
-
-  if options.version:
-    print "%s %s" % (APP_NAME, APP_VERSION)
-    sys.exit (0)
-
-  if options.debug:
-    terminatorlib.config.debug = True
-
-  dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
-
-  command = None
-  if (options.command):
-    command = options.command
-  if (options.execute):
-    command = options.execute
-
-  if gtk.gdk.display_get_default() == None:
-    err (_("You need to run terminator in an X environment. " \
-    "Make sure DISPLAY is properly set"))
+    print('You need to install the python bindings for ' \
+           'gobject, gtk and pango to run Terminator.')
     sys.exit(1)
 
-  if options.working_directory:
-      if os.path.exists (os.path.expanduser (options.working_directory)):
-        os.chdir (os.path.expanduser (options.working_directory))
-      else:
-        err (_("The working directory you specified does not exist."))
-        sys.exit (1)
+import terminatorlib.config
+import terminatorlib.optionparse
+from terminatorlib.newterminator import Terminator
+from terminatorlib.factory import Factory
+from terminatorlib.version import APP_NAME, APP_VERSION
+from terminatorlib.util import dbg
 
-  try:
-    open (os.path.expanduser ('~/.config/terminator/config'))
-  except IOError:
+if __name__ == '__main__':
+    dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
+  
+    OPTIONS = terminatorlib.optionparse.parse_options()
+
+    MAKER = Factory()
+    TERMINATOR = Terminator()
+    WINDOW = MAKER.make('Window')
+    TERMINAL = MAKER.make('Terminal')
+
+    WINDOW.add(TERMINAL)
+    WINDOW.show()
+    TERMINAL.spawn_child()
+
+    if OPTIONS.debug > 1:
+        import terminatorlib.debugserver as debugserver
+        # pylint: disable-msg=W0611
+        import threading
+
+        gtk.gdk.threads_init()
+        (DEBUGTHREAD, DEBUGSVR) = debugserver.spawn(locals())
+        TERMINATOR.debugaddress = DEBUGSVR.server_address
+
     try:
-      open (os.path.expanduser ('~/.terminatorrc'))
-      error = gtk.MessageDialog (None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR, 
-                              gtk.BUTTONS_OK, ('''You have a configuration file:
-
-      ~/.terminatorrc.
-
-Please be aware that this file needs to be moved to:
-
-      ~/.config/terminator/config.
-
-See the following bug report for more details:
-
-      https://bugs.launchpad.net/bugs/238070'''))
-      error.run ()
-      error.destroy ()
-    except IOError:
-      pass
-
-  dbg ('profile_cb: settled on profile: "%s"' % options.profile)
-  term = Terminator()
-#  term = Terminator (options.profile, command, options.fullscreen, 
-#                     options.maximise, options.borderless, options.no_gconf, 
-#                     options.geometry, options.hidden, options.forcedtitle, options.role)
-
-  term.origcwd = origcwd
-
-  maker = Factory()
-  window = maker.make('Window')
-  terminal = maker.make('Terminal')
-
-  window.add(terminal)
-  window.show()
-  terminal.spawn_child()
-
-  window.connect('destroy', on_window_destroyed)
-
-  if options.debug > 1:
-    import terminatorlib.debugserver as debugserver
-    import threading
-
-    gtk.gdk.threads_init()
-    (debugthread, debugsvr) = debugserver.spawn(locals())
-    term.debugaddress = debugsvr.server_address
-
-  try:
-    gtk.main()
-  except KeyboardInterrupt:
-    pass
+        gtk.main()
+    except KeyboardInterrupt:
+        pass
 
