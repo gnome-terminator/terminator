@@ -3,6 +3,8 @@
 # GPL v2 only
 """terminator.py - class for the master Terminator singleton"""
 
+import gtk
+
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
@@ -56,6 +58,9 @@ class Terminator(Borg):
         dbg('Terminator::deregister_window: de-registering %s:%s' %
                 (id(window), type(window)))
         self.windows.remove(window)
+        if len(self.windows) == 0:
+            # We have no windows left, we should exit
+            gtk.main_quit()
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
