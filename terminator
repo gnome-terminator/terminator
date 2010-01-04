@@ -19,14 +19,16 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 # import standard python libs
-import os, sys
+import os
+import sys
 origcwd = os.getcwd()
 from optparse import OptionParser, SUPPRESS_HELP
 
+from terminatorlib.factory import Factory
 import terminatorlib.translation
 from terminatorlib.version import APP_NAME, APP_VERSION
 
-from terminatorlib.config import dbg, err, debug
+from terminatorlib.util import dbg, err
 import terminatorlib.config
 
 try:
@@ -39,9 +41,13 @@ except ImportError:
     "gobject, gtk and pango to run Terminator."))
   sys.exit(1)
 
-from terminatorlib.terminator import Terminator
+from terminatorlib.newterminator import Terminator
 
 if __name__ == '__main__':
+  def on_window_destroyed(window):
+    """Window has been closed"""
+    gtk.main_quit()
+
   def execute_cb (option, opt, value, lparser):
     """Callback for use in parsing Terminator command line options"""
     assert value is None
@@ -160,12 +166,23 @@ See the following bug report for more details:
       pass
 
   dbg ('profile_cb: settled on profile: "%s"' % options.profile)
-  term = Terminator (options.profile, command, options.fullscreen, 
-                     options.maximise, options.borderless, options.no_gconf, 
-                     options.geometry, options.hidden, options.forcedtitle, options.role)
+  term = Terminator()
+#  term = Terminator (options.profile, command, options.fullscreen, 
+#                     options.maximise, options.borderless, options.no_gconf, 
+#                     options.geometry, options.hidden, options.forcedtitle, options.role)
 
   term.origcwd = origcwd
-  
+
+  maker = Factory()
+  window = maker.make('Window')
+  terminal = maker.make('Terminal')
+
+  window.add(terminal)
+  window.show()
+  terminal.spawn_child()
+
+  window.connect('destroy', on_window_destroyed)
+
   if options.debug > 1:
     import terminatorlib.debugserver as debugserver
     import threading
@@ -174,5 +191,8 @@ See the following bug report for more details:
     (debugthread, debugsvr) = debugserver.spawn(locals())
     term.debugaddress = debugsvr.server_address
 
-  gtk.main()
+  try:
+    gtk.main()
+  except KeyboardInterrupt:
+    pass
 
