@@ -46,10 +46,23 @@ class Factory(Borg):
         dbg('Factory::make: created a %s' % product)
         return(func(args))
 
+    def make_window(self, *args):
+        """Make a Window"""
+        import window
+        from newterminator import Terminator
+        terminator = Terminator()
+        product = window.Window()
+        terminator.register_window(product)
+        return(product)
+
     def make_terminal(self, *args):
         """Make a Terminal"""
         import terminal
-        return(terminal.Terminal())
+        from newterminator import Terminator
+        terminator = Terminator()
+        product = terminal.Terminal()
+        terminator.register_terminal(product)
+        return(product)
 
     def make_hpaned(self, *args):
         """Make an HPaned"""
