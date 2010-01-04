@@ -68,7 +68,6 @@ class Notebook(Container, gtk.Notebook):
 
         if not sibling:
             sibling = maker.make('terminal')
-        self.terminator.register_terminal(sibling)
         sibling.spawn_child()
 
         self.insert_page(container, None, page_num)
@@ -100,8 +99,7 @@ class Notebook(Container, gtk.Notebook):
         """Add a new tab, optionally supplying a child widget"""
         if not widget:
             maker = Factory()
-            widget = maker.make('terminal')
-            self.terminator.register_terminal(widget)
+            widget = maker.make('Terminal')
             widget.spawn_child()
 
         signals = {'close-term': self.wrapcloseterm,

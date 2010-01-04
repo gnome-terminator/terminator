@@ -53,7 +53,6 @@ class Paned(Container):
 
         if not sibling:
             sibling = maker.make('terminal')
-        self.terminator.register_terminal(sibling)
         sibling.spawn_child()
 
         self.add(container)

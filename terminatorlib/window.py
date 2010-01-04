@@ -237,7 +237,6 @@ class Window(Container, gtk.Window):
 
         if not sibling:
             sibling = maker.make('Terminal')
-        self.terminator.register_terminal(sibling)
         self.add(container)
         container.show_all()
 

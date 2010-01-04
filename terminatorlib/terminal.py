@@ -87,6 +87,8 @@ class Terminal(gtk.VBox):
         self.__gobject_init__()
 
         self.terminator = Terminator()
+        self.terminator.register_terminal(self)
+
         self.connect('enumerate', self.terminator.do_enumerate)
         self.connect('group-tab', self.terminator.group_tab)
         self.connect('ungroup-tab', self.terminator.ungroup_tab)
