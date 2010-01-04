@@ -29,7 +29,15 @@ class Factory(Borg):
                  'Container': 'container',
                  'Window': 'window'}
         if classtype in types.keys():
-            module = __import__(types[classtype], None, None, [''])
+            # This is quite ugly, but we're importing from the current
+            # directory if that makes sense, otherwise falling back to
+            # terminatorlib. Someone with real Python skills should fix
+            # this to be less insane.
+            try:
+                module = __import__(types[classtype], None, None, [''])
+            except ImportError, ex:
+                module = __import__('terminatorlib.%s' % types[classtype],
+                    None, None, [''])
             return(isinstance(product, getattr(module, classtype)))
         else:
             err('Factory::isinstance: unknown class type: %s' % classtype)

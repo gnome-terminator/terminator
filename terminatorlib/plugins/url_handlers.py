@@ -2,7 +2,7 @@
 # GPL v2 only
 """url_handlers.py - Default plugins for URL handling"""
 import re
-import plugin
+import terminatorlib.plugin as plugin
 
 # Every plugin you want Terminator to load *must* be listed in 'available'
 available = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']

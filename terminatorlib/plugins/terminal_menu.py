@@ -2,7 +2,7 @@
 # GPL v2 only
 """terminal_menu.py - Default plugins for the terminal menu"""
 import gtk
-import plugin
+import terminatorlib.plugin as plugin
 
 # Every plugin you want Terminator to load *must* be listed in 'available'
 
