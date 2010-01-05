@@ -1,50 +1,44 @@
-# Terminator by Chris Jones <cmsj@tenshu.net?
+#!/usr/bin/python
+# Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""terminal_menu.py - Default plugins for the terminal menu"""
+"""custom_commands.py - Terminator Plugin to add custom command menu entries"""
 import sys
 import os
-# only ran when testing plugin
+
+# Fix imports when testing this file directly
 if __name__ == '__main__':
   sys.path.append( os.path.join(os.path.dirname(__file__), "../.."))
+
 import gtk
 import terminatorlib.plugin as plugin
+from terminatorlib.config import Config
 from terminatorlib.translation import _
 from terminatorlib.util import get_config_dir
-import ConfigParser
 
 (CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = range(0,3)
 
 # Every plugin you want Terminator to load *must* be listed in 'available'
-
-# This is commented out because we don't want any menu item plugins by default
-#available = ['MyFirstMenuItem']
 available = ['CustomCommandsMenu']
 
-class MenuItem(plugin.Plugin):
-    """Base class for menu items"""
-    capabilities = ['terminal_menu']
-
-    def callback(self, menuitems, menu, terminal):
-        """Callback to transform the enclosed URL"""
-        raise NotImplementedError
-
-class CustomCommandsMenu(MenuItem):
-    """Simple proof of concept"""
+class CustomCommandsMenu(plugin.MenuItem):
+    """Add custom commands to the terminal menu"""
     capabilities = ['terminal_menu']
     cmd_list = []
     conf_file = os.path.join(get_config_dir(),"custom_commands")
 
     def __init__( self):
-      config = ConfigParser.ConfigParser()
-      config.read(self.conf_file)
-      sections = config.sections()
-      for s in sections:
-        if not (config.has_option(s, "name") and config.has_option(s, "command")):
+      config = Config()
+      sections = config.plugin_get_config(self.__class__.__name__)
+      if not isinstance(sections, dict):
+          return
+      for part in sections:
+        s = sections[part]
+        if not (s.has_key("name") and s.has_key("command")):
           print "CustomCommandsMenu: Ignoring section %s" % s
           continue
-        name = config.get(s, "name")
-        command = config.get(s, "command")
-        enabled = config.has_option(s, "enabled") and config.getboolean(s, "enabled") or False
+        name = s["name"]
+        command = s["command"]
+        enabled = s["enabled"] and s["enabled"] or False
         self.cmd_list.append(
                               {'enabled' : enabled,
                                 'name' : name,
@@ -83,25 +77,23 @@ class CustomCommandsMenu(MenuItem):
           submenu.append(menuitem)
         
     def _save_config(self):
-      config = ConfigParser.ConfigParser()
+      config = Config()
       i = 0
       length = len(self.cmd_list)
       while i < length:
         enabled = self.cmd_list[i]['enabled']
         name = self.cmd_list[i]['name']
         command = self.cmd_list[i]['command']
-        
-        config.add_section(name)
-        config.set(name,'enabled', enabled)
-        config.set(name,'name', name)
-        config.set(name,'command', command)
+       
+        item = {}
+        item['enabled'] = enabled
+        item['name'] = name
+        item['command'] = command
+
+        config.plugin_set(self.__class__.__name__, name, item)
+        config.save()
         i = i + 1
 
-      with open(self.conf_file, 'wb') as configfile:
-        config.write(configfile)
-        configfile.close()
-
- 
     def _execute(self, widget, data):
       command = data['command']
       if command[len(command)-1] != '\n':
