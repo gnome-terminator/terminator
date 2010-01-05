@@ -35,7 +35,7 @@ class Window(Container, gtk.Window):
     zoom_data = None
     term_zoomed = gobject.property(type=bool, default=False)
 
-    def __init__(self):
+    def __init__(self, geometry=None, forcedtitle=None, role=None):
         """Class initialiser"""
         self.terminator = Terminator()
         self.terminator.register_window(self)
@@ -53,6 +53,8 @@ class Window(Container, gtk.Window):
 
         self.title = WindowTitle(self)
         self.title.update()
+        if forcedtitle is not None:
+            self.title.force_title(forcedtitle)
 
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
@@ -125,7 +127,7 @@ class Window(Container, gtk.Window):
         """Make a new tab"""
         maker = Factory()
         if not maker.isinstance(self.get_child(), 'Notebook'):
-            notebook = maker.make('Notebook', self)
+            notebook = maker.make('Notebook', window=self)
         self.get_child().newtab()
 
     def on_delete_event(self, window, event, data=None):
@@ -310,7 +312,7 @@ class WindowTitle(object):
     def force_title(self, newtext):
         """Force a specific title"""
         if newtext:
-            self.set_title(newtext)
+            self.set_title(None, newtext)
             self.forced = True
         else:
             self.forced = False
