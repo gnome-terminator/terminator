@@ -67,7 +67,8 @@ command to execute inside the terminal, and its arguments')
             dest='working_directory', help='Set the working directory')
     parser.add_option('-r', '--role', dest='role', help='Set a custom \
 WM_WINDOW_ROLE property on the window')
-    for item in ['--sm-client-id', '--sm-config-prefix', '--screen']:
+    for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
+    '--no-gconf', '-p', '--profile' ]:
         parser.add_option(item, dest='dummy', action='store',
                 help=SUPPRESS_HELP)
 
@@ -92,6 +93,15 @@ WM_WINDOW_ROLE property on the window')
 
     if options.maximise:
         configobj['maximise'] = True
+
+    if options.fullscreen:
+        configobj['fullscreen'] = True
+
+    if options.borderless:
+        configobj['borderless'] = True
+
+    if options.hidden:
+        configobj['hidden'] = True
 
     # FIXME: Map all the other bits of options to configobj
 
