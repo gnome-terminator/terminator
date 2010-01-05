@@ -161,6 +161,7 @@ setup(name='Terminator',
       license='GNU GPL v2',
       scripts=['terminator'],
       data_files=[
+                  ('share/terminator', ['data/preferences.glade']),
                   ('share/applications', ['data/terminator.desktop']),
                   (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),
                   (os.path.join(man_dir, 'man5'), ['doc/terminator_config.5']),

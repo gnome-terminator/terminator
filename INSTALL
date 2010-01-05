@@ -7,19 +7,13 @@ for many distributions at:
 If you don't have this option, please make sure you satisfy Terminator's
 dependencies yourself:
 
- * Python 2.4+, 2.6 recommended:
+ * Python 2.5+, 2.6 recommended:
      Debian/Ubuntu: python
      FreeBSD: lang/python26
 
  * Python VTE bindings:
      Debian/Ubuntu: python-vte
      FreeBSD: x11-toolkits/py-vte
-
-If you want gnome-terminal profile support, you also need:
-
- * Python GNOME 2 bindings:
-     Debian/Ubuntu: python-gnome2
-     FreeBSD: x11-toolkits/py-gnome2
 
 If you don't care about native language support or icons, Terminator
 should run just fine directly from this directory, just:
