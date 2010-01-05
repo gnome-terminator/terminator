@@ -45,8 +45,8 @@ import platform
 import os
 import sys
 from copy import copy
-from configobj import ConfigObj
-from validate import Validator
+from configobj.configobj import ConfigObj
+from configobj.validate import Validator
 from borg import Borg
 from factory import Factory
 from util import dbg, err, DEBUG, get_config_dir, dict_diff
