@@ -24,7 +24,8 @@ import sys
 try:
     import pygtk
     pygtk.require ("2.0")
-    import gtk
+    # pylint: disable-msg=W0611
+    import gtk, pango, gobject
 
     if gtk.gdk.display_get_default() == None:
         print('You need to run terminator in an X environment. ' \
