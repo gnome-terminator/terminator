@@ -37,6 +37,13 @@ Classes relating to configuration
 'click'
 >>> config['fullscreen'].__class__.__name__
 'bool'
+>>> plugintest = {}
+>>> plugintest['foo'] = 'bar'
+>>> config.plugin_set_config('testplugin', plugintest)
+>>> config.plugin_get_config('testplugin')
+{'foo': 'bar'}
+>>> config.plugin_get('testplugin', 'foo')
+'bar'
 >>>
 
 """
@@ -219,6 +226,22 @@ class Config(object):
     def save(self):
         """Cause ConfigBase to save our config to file"""
         return(self.base.save())
+
+    def plugin_get(self, pluginname, key):
+        """Get a plugin config value"""
+        return(self.base.get_item(key, plugin=pluginname))
+
+    def plugin_set(self, pluginname, key, value):
+        """Set a plugin config value"""
+        return(self.base.set_item(key, value, plugin=pluginname))
+
+    def plugin_get_config(self, plugin):
+        """Return a whole config tree for a given plugin"""
+        return(self.base.get_plugin(plugin))
+
+    def plugin_set_config(self, plugin, tree):
+        """Set a whole config tree for a given plugin"""
+        return(self.base.set_plugin(plugin, tree))
 
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
@@ -419,12 +442,21 @@ class ConfigBase(Borg):
             self.profiles[profile][key] = value
         elif key == 'keybindings':
             self.keybindings = value
-        elif plugin is not None and self.plugins[plugin].has_key(key):
+        elif plugin is not None:
             self.plugins[plugin][key] = value
         else:
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 
         return(True)
+
+    def get_plugin(self, plugin):
+        """Return a whole tree for a plugin"""
+        if self.plugins.has_key(plugin):
+            return(self.plugins[plugin])
+
+    def set_plugin(self, plugin, tree):
+        """Set a whole tree for a plugin"""
+        self.plugins[plugin] = tree
 
 if __name__ == '__main__':
     import sys
