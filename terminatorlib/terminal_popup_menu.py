@@ -165,6 +165,10 @@ class TerminalPopupMenu(object):
             plugins = registry.get_plugins_by_capability('terminal_menu')
             for menuplugin in plugins:
                 menuplugin.callback(menuitems, menu, terminal)
+            
+            if len(menuitems) > 0:
+                menu.append(gtk.MenuItem())
+
             for menuitem in menuitems:
                 menu.append(menuitem)
         except Exception, ex:
