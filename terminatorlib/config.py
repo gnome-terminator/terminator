@@ -443,6 +443,8 @@ class ConfigBase(Borg):
         elif key == 'keybindings':
             self.keybindings = value
         elif plugin is not None:
+            if not self.plugins.has_key(plugin):
+                self.plugins[plugin] = {}
             self.plugins[plugin][key] = value
         else:
             raise KeyError('ConfigBase::set_item: unknown key %s' % key)
