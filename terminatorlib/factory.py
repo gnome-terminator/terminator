@@ -43,7 +43,7 @@ class Factory(Borg):
             err('Factory::isinstance: unknown class type: %s' % classtype)
             return(False)
 
-    def make(self, product, *args):
+    def make(self, product, **kwargs):
         """Make the requested product"""
         try:
             func = getattr(self, 'make_%s' % product.lower())
@@ -52,30 +52,30 @@ class Factory(Borg):
             return(None)
 
         dbg('Factory::make: created a %s' % product)
-        return(func(args))
+        return(func(**kwargs))
 
-    def make_window(self, *args):
+    def make_window(self, **kwargs):
         """Make a Window"""
         import window
-        return(window.Window())
+        return(window.Window(**kwargs))
 
-    def make_terminal(self, *args):
+    def make_terminal(self, **kwargs):
         """Make a Terminal"""
         import terminal
         return(terminal.Terminal())
 
-    def make_hpaned(self, *args):
+    def make_hpaned(self, **kwargs):
         """Make an HPaned"""
         import paned
         return(paned.HPaned())
 
-    def make_vpaned(self, *args):
+    def make_vpaned(self, **kwargs):
         """Make a VPaned"""
         import paned
         return(paned.VPaned())
 
-    def make_notebook(self, *args):
+    def make_notebook(self, **kwargs):
         """Make a Notebook"""
         import notebook
-        return(notebook.Notebook(args[0][0]))
+        return(notebook.Notebook(kwargs['window']))
 
