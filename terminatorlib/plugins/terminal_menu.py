@@ -10,15 +10,7 @@ import terminatorlib.plugin as plugin
 #available = ['MyFirstMenuItem']
 available = []
 
-class MenuItem(plugin.Plugin):
-    """Base class for menu items"""
-    capabilities = ['terminal_menu']
-
-    def callback(self, menuitems, menu, terminal):
-        """Callback to transform the enclosed URL"""
-        raise NotImplementedError
-
-class MyFirstMenuItem(MenuItem):
+class MyFirstMenuItem(plugin.MenuItem):
     """Simple proof of concept"""
     capabilities = ['terminal_menu']
 

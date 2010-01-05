@@ -105,6 +105,31 @@ for %s' % (len(self.instances), capability))
         """Return all plugins"""
         return(self.instances)
 
+# This is where we should define a base class for each type of plugin we
+# support
+
+# URLHandler - This adds a regex match to the Terminal widget and provides a
+#               callback to turn that into a URL.
+class URLHandler(Plugin):
+    """Base class for URL handlers"""
+    capabilities = ['url_handler']
+    handler_name = None
+    match = None
+
+    def callback(self, url):
+        """Callback to transform the enclosed URL"""
+        raise NotImplementedError
+
+# MenuItem - This is able to execute code during the construction of the
+#             context menu of a Terminal.
+class MenuItem(Plugin):
+    """Base class for menu items"""
+    capabilities = ['terminal_menu']
+
+    def callback(self, menuitems, menu, terminal):
+        """Callback to transform the enclosed URL"""
+        raise NotImplementedError
+
 if __name__ == '__main__':
     import sys
     import doctest

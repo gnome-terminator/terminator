@@ -7,17 +7,7 @@ import terminatorlib.plugin as plugin
 # Every plugin you want Terminator to load *must* be listed in 'available'
 available = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']
 
-class URLHandler(plugin.Plugin):
-    """Base class for URL handlers"""
-    capabilities = ['url_handler']
-    handler_name = None
-    match = None
-
-    def callback(self, url):
-        """Callback to transform the enclosed URL"""
-        raise NotImplementedError
-
-class LaunchpadBugURLHandler(URLHandler):
+class LaunchpadBugURLHandler(plugin.URLHandler):
     """Launchpad Bug URL handler. If the URL looks like a Launchpad changelog
     closure entry... 'LP: #12345' then it should be transformed into a 
     Launchpad Bug URL"""
@@ -31,7 +21,7 @@ class LaunchpadBugURLHandler(URLHandler):
             url = 'https://bugs.launchpad.net/bugs/%s' % item
             return(url)
 
-class LaunchpadCodeURLHandler(URLHandler):
+class LaunchpadCodeURLHandler(plugin.URLHandler):
     """Launchpad Code URL handler. If the URL looks like a Launchpad project or
     branch entry then it should be transformed into a code.launchpad.net URL"""
     capabilities = ['url_handler']
@@ -50,7 +40,7 @@ class LaunchpadCodeURLHandler(URLHandler):
             url = url[3:]
         return('https://code.launchpad.net/+branch/%s' % url)
 
-class APTURLHandler(URLHandler):
+class APTURLHandler(plugin.URLHandler):
     """APT URL handler. If there is a URL that looks like an apturl, handle
     it appropriately"""
     capabilities = ['url_handler']
