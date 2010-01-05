@@ -59,6 +59,10 @@ class Window(Container, gtk.Window):
         if role is not None:
             self.set_role(role)
 
+        if geometry is not None:
+            if not self.parse_geometry(geometry):
+                err('Window::__init__: Unable to parse geometry: %s' % geometry)
+
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
