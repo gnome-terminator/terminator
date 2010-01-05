@@ -56,6 +56,9 @@ class Window(Container, gtk.Window):
         if forcedtitle is not None:
             self.title.force_title(forcedtitle)
 
+        if role is not None:
+            self.set_role(role)
+
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
