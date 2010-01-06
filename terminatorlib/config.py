@@ -73,6 +73,7 @@ DEFAULTS = {
             'hide_tabbar'           : False,
             'scroll_tabbar'         : False,
             'try_posix_regexp'      : platform.system() != 'Linux',
+            'disabled_plugins'      : ['TestPlugin', 'CustomCommandsMenu'],
         },
         'keybindings': {
             'zoom_in'          : '<Ctrl>plus',

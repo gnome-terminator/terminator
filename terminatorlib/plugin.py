@@ -10,7 +10,7 @@
 >>> registry = PluginRegistry()
 >>> registry.instances
 {}
->>> registry.load_plugins()
+>>> registry.load_plugins(True)
 >>> plugins = registry.get_plugins_by_capability('test')
 >>> len(plugins)
 1
@@ -26,6 +26,7 @@
 import sys
 import os
 import borg
+from config import Config
 from util import dbg, err, get_config_dir
 
 class Plugin(object):
@@ -61,11 +62,13 @@ class PluginRegistry(borg.Borg):
         if not self.done:
             self.done = False
 
-    def load_plugins(self):
+    def load_plugins(self, testing=False):
         """Load all plugins present in the plugins/ directory in our module"""
         if self.done:
             dbg('PluginRegistry::load_plugins: Already loaded')
             return
+
+        config = Config()
 
         for plugindir in self.path:
             sys.path.insert(0, plugindir)
@@ -82,6 +85,8 @@ class PluginRegistry(borg.Borg):
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
                         for item in getattr(module, 'available'):
+                            if not testing and item in config['disabled_plugins']:
+                                continue
                             if item not in self.instances:
                                 func = getattr(module, item)
                             self.instances[item] = func()
