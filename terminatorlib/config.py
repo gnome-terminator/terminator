@@ -35,7 +35,7 @@ Classes relating to configuration
 'click'
 >>> config['focus']
 'click'
->>> config['fullscreen'].__class__.__name__
+>>> config['geometry_hinting'].__class__.__name__
 'bool'
 >>> plugintest = {}
 >>> plugintest['foo'] = 'bar'
@@ -64,10 +64,8 @@ DEFAULTS = {
             'enable_real_transparency'  : True,
             'handle_size'           : -1,
             'geometry_hinting'      : True,
-            'fullscreen'            : False,
+            'window_state'          : 'normal',
             'borderless'            : False,
-            'maximise'              : False,
-            'hidden'                : False,
             'tab_position'          : 'top',
             'close_button_on_tab'   : True,
             'hide_tabbar'           : False,
@@ -218,6 +216,12 @@ class Config(object):
     def del_profile(self, profile):
         """Delete a profile"""
         if self.base.profiles.has_key(profile):
+            del(self.base.profiles[profile])
+
+    def rename_profile(self, profile, newname):
+        """Rename a profile"""
+        if self.base.profiles.has_key(profile):
+            self.base.profiles[newname] = self.base.profiles[profile]
             del(self.base.profiles[profile])
 
     def list_profiles(self):

@@ -10,13 +10,6 @@ from version import APP_NAME, APP_VERSION
 from translation import _
 
 class PrefsEditor:
-    # lists of which settings to put in which tabs
-    appearance = ['titlebars', 'zoomedtitlebar', 'allow_bold', 'audible_bell', 'visible_bell', 'urgent_bell', 'force_no_bell', 'background_darkness', 'background_type', 'background_image', 'cursor_blink', 'cursor_shape', 'font', 'scrollbar_position', 'scroll_background', 'use_system_font', 'use_theme_colors', 'enable_real_transparency']
-    colours = ['foreground_color','background_color', 'cursor_color', 'palette', 'title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']
-    behaviour = ['backspace_binding', 'delete_binding', 'emulation', 'scroll_on_keystroke', 'scroll_on_output', 'alternate_screen_scroll', 'scrollback_lines', 'focus', 'focus_on_close', 'exit_action', 'word_chars', 'mouse_autohide', 'use_custom_command', 'custom_command', 'http_proxy', 'encoding']
-    globals = ['fullscreen', 'maximise', 'borderless', 'handle_size', 'cycle_term_tab', 'close_button_on_tab', 'tab_position', 'copy_on_selection', 'try_posix_regexp']
-
-    # metadata about the settings
     data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
                     'zoomedtitlebar': ['Show titlebar when zoomed', 'This places an informative bar above a zoomed terminal to indicate there are hidden terminals.'],
                     'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
@@ -50,48 +43,134 @@ class PrefsEditor:
                     'title_ia_bg_color': ['Inactive Title Background Color', ''],
                  }
 
-    # dictionary for results after setting
-    widgets = {}
-
-    # combobox settings
-    scrollbar_position = ['left', 'right', 'disabled']
-    backspace_del_binding = ['ascii-del', 'control-h', 'escape-sequence', 'delete-sequence']
-    focus = ['click', 'sloppy', 'mouse']
-    background_type = ['solid', 'image', 'transparent']
-    tab_position = ['top', 'bottom', 'left', 'right']
-    tab_position_gtk = {'top' : gtk.POS_TOP, 'bottom' : gtk.POS_BOTTOM, 'left' : gtk.POS_LEFT, 'right' : gtk.POS_RIGHT}
-    cursor_shape = ['block', 'ibeam', 'underline']
-
     config = None
 
     def __init__ (self, term):
         self.config = config.Config()
         self.term = term
-        self.window = gtk.Window ()
-        self.notebook = gtk.Notebook()
-        self.box = gtk.VBox()
+        self.builder = gtk.Builder()
+        try:
+            gladefile = open('/home/cmsj/code/personal/terminator/branches/epicrefactor/data/preferences.glade', 'r')
+            gladedata = gladefile.read()
+        except Exception, ex:
+            print "Failed to find preferences.glade"
+            print ex
+            return
 
-        self.butbox = gtk.HButtonBox()
-        self.applybut = gtk.Button(stock=gtk.STOCK_APPLY)
-        self.applybut.connect ("clicked", self.apply)
-        self.cancelbut = gtk.Button(stock=gtk.STOCK_CLOSE)
-        self.cancelbut.connect ("clicked", self.cancel)
-
-        self.box.pack_start(self.notebook, False, False)
-        self.box.pack_end(self.butbox, False, False)
-
-        self.butbox.set_layout(gtk.BUTTONBOX_END)
-        self.butbox.pack_start(self.applybut, False, False)
-        self.butbox.pack_start(self.cancelbut, False, False)
-        self.window.add (self.box)
-
-        self.notebook.append_page (self.auto_add (gtk.Table (), self.globals), gtk.Label ("Global Settings"))
-        self.notebook.append_page (self.prepare_keybindings (), gtk.Label ("Keybindings"))
-        self.notebook.append_page (self.auto_add (gtk.Table (), self.appearance), gtk.Label ("Appearance"))
-        self.notebook.append_page (self.auto_add (gtk.Table (), self.colours), gtk.Label ("Colours"))
-        self.notebook.append_page (self.auto_add (gtk.Table (), self.behaviour), gtk.Label ("Behaviour"))
-
+        self.builder.add_from_string(gladedata)
+        self.window = self.builder.get_object('prefswin')
+        self.set_values()
+        self.builder.connect_signals(self)
         self.window.show_all()
+
+    def set_values(self):
+        """Update the preferences window with all the configuration from
+        Config()"""
+        guiget = self.builder.get_object
+
+        print "SETTING VALUES"
+
+        ## Global tab
+
+        # Mouse focus
+        # default is 'system', which == 0
+        focus = self.config['focus']
+        active = 0
+        if focus == 'click':
+            active = 1
+        elif focus == 'sloppy':
+            active = 2
+        widget = guiget('focuscombo')
+        widget.set_active(active)
+
+        # Terminal separator size
+        # default is -1
+        termsepsize = self.config['handle_size']
+        widget = guiget('handlesize')
+        widget.set_value(termsepsize)
+
+        # Window geometry hints
+        # default is True
+        geomhint = self.config['geometry_hinting']
+        widget = guiget('wingeomcheck')
+        widget.set_active(geomhint)
+
+        # Window state
+        # default is not maximised, not fullscreen
+        option = self.config['window_state']
+        if option == 'hidden':
+            active = 1
+        elif option == 'maximise':
+            active = 2
+        elif option == 'fullscreen':
+            active = 3
+        else:
+            active = 0
+        widget = guiget('winstatecombo')
+        widget.set_active(active)
+
+        # Window borders
+        # default is True
+        widget = guiget('winbordercheck')
+        widget.set_active(not self.config['borderless'])
+        
+        # Tab bar position
+        # default is top
+        option = self.config['tab_position']
+        widget = guiget('tabposcombo')
+        if option == 'bottom':
+            active = 1
+        elif option == 'left':
+            active = 2
+        elif option == 'right':
+            active = 3
+        else:
+            active = 0
+        widget.set_active(active)
+
+        ## Profile tab
+
+        # Populate the profile list
+        widget = guiget('profilelist')
+        liststore = widget.get_model()
+        profiles = self.config.list_profiles()
+        self.profileiters = {}
+        for profile in profiles:
+            self.profileiters[profile] = liststore.append([profile])
+
+        selection = widget.get_selection()
+        selection.connect('changed', self.on_profile_selection_changed)
+        selection.select_iter(self.profileiters['default'])
+        print "VALUES ALL SET"
+
+    def on_profile_selection_changed(self, selection):
+        """A different profile was selected"""
+        (listmodel, rowiter) = selection.get_selected()
+        profile = listmodel.get_value(rowiter, 0)
+        self.update_profile_values(profile)
+
+    def update_profile_values(self, profile):
+        """Update the profile values for a given profile"""
+        self.config.set_profile(profile)
+        guiget = self.builder.get_object
+
+        print "setting profile %s" % profile
+        widget = guiget('allow-bold-checkbutton')
+        widget.set_active(self.config['allow_bold'])
+
+    def on_profile_name_edited(self, cell, path, newtext):
+        """Update a profile name"""
+        oldname = cell.get_property('text')
+        if oldname == newtext:
+            return
+        dbg('PrefsEditor::on_profile_name_edited: Changing %s to %s' %
+        (oldname, newtext))
+        self.config.rename_profile(oldname, newtext)
+        
+        widget = self.builder.get_object('profilelist')
+        model = widget.get_model()
+        iter = model.get_iter(path)
+        model.set_value(iter, 0, newtext)
 
     def source_get_type (self, key):
         if config.DEFAULTS['global_config'].has_key (key):
@@ -117,262 +196,8 @@ class PrefsEditor:
             label_text = key.replace ('_', ' ').capitalize ()
         return label_text
 
-    def auto_add (self, table, list):
-        row = 0
-        for key in list:
-            table.resize (row + 1, 2)
-            label = gtk.Label (self.source_get_keyname (key))
-            wrapperbox = gtk.HBox()
-            wrapperbox.pack_start(label, False, True)    
-
-            type = self.source_get_type (key)
-            value = self.source_get_value (key)
-            widget = None
-
-            if key == 'font':
-                widget = gtk.FontButton(value)
-            elif key == 'scrollback_lines':
-                # estimated byte size per line according to g-t:
-                # sizeof(void *) + sizeof(char *) + sizeof(int) + (80 * (sizeof(int32) + 4)
-                widget = gtk.SpinButton()
-                widget.set_digits(0)
-                widget.set_increments(100, 1000)
-                widget.set_range(0, 100000)
-                widget.set_value(value)
-            elif key == 'scrollbar_position':
-                if value == 'hidden':
-                    value = 'disabled'
-                widget = gtk.combo_box_new_text()
-                for item in self.scrollbar_position:
-                    widget.append_text (item)
-                if value in self.scrollbar_position:
-                    widget.set_active (self.scrollbar_position.index(value))
-            elif key == 'backspace_binding':
-                widget = gtk.combo_box_new_text()
-                for item in self.backspace_del_binding:
-                    widget.append_text (item)
-                if value in self.backspace_del_binding:
-                    widget.set_active (self.backspace_del_binding.index(value))
-            elif key == 'delete_binding':
-                widget = gtk.combo_box_new_text()
-                for item in self.backspace_del_binding:
-                    widget.append_text (item)
-                if value in self.backspace_del_binding:
-                    widget.set_active (self.backspace_del_binding.index(value))
-            elif key == 'focus':
-                widget = gtk.combo_box_new_text()
-                for item in self.focus:
-                    widget.append_text (item)
-                if value in self.focus:
-                    widget.set_active (self.focus.index(value))
-            elif key == 'background_type':
-                widget = gtk.combo_box_new_text()
-                for item in self.background_type:
-                    widget.append_text (item)
-                if value in self.background_type:
-                    widget.set_active (self.background_type.index(value))
-            elif key == 'background_darkness':
-                widget = gtk.HScale ()
-                widget.set_digits (1)
-                widget.set_draw_value (True)
-                widget.set_value_pos (gtk.POS_LEFT)
-                widget.set_range (0, 1)
-                widget.set_value (value)
-            elif key == 'handle_size':
-                widget = gtk.HScale ()
-                widget.set_digits (0)
-                widget.set_draw_value (True)
-                widget.set_value_pos (gtk.POS_LEFT)
-                widget.set_range (-1, 5)
-                widget.set_value (value)
-            elif key == 'foreground_color':
-                widget = gtk.ColorButton (gtk.gdk.color_parse (value))
-            elif key == 'background_color':
-                widget = gtk.ColorButton (gtk.gdk.color_parse (value))
-            elif key == 'cursor_color':
-                if not value:
-                    value = self.source_get_value ('foreground_color')
-                widget = gtk.ColorButton (gtk.gdk.color_parse (value))
-            elif key == 'palette':
-                colours = value.split (':')
-                numcolours = len (colours)
-                widget = gtk.Table (2, numcolours / 2)
-                x = 0
-                y = 0
-                for thing in colours:
-                    if x == numcolours / 2:
-                        y += 1
-                        x = 0
-                    widget.attach (gtk.ColorButton (gtk.gdk.color_parse (thing)), x, x + 1, y, y + 1)
-                    x += 1
-            elif key in ['title_tx_txt_color', 'title_tx_bg_color', 'title_rx_txt_color', 'title_rx_bg_color', 'title_ia_txt_color', 'title_ia_bg_color']:
-                widget = gtk.ColorButton (gtk.gdk.color_parse (value))
-            elif key == 'background_image':
-                widget = gtk.FileChooserButton('Select a File')
-                filter = gtk.FileFilter()
-                filter.add_mime_type ('image/*')
-                widget.add_filter (filter)
-                widget.set_local_only (True)
-                if value:
-                    widget.set_filename (value)
-            elif key == 'tab_position':
-                widget = gtk.combo_box_new_text()
-                for item in self.tab_position:
-                    widget.append_text (item)
-                if value in self.tab_position:
-                    widget.set_active (self.tab_position.index(value))
-            elif key == 'cursor_shape':
-                widget = gtk.combo_box_new_text()
-                for item in self.cursor_shape:
-                    widget.append_text (item)
-                if value in self.cursor_shape:
-                    widget.set_active (self.cursor_shape.index (value))
-            else:
-                print "doing %s automagically" % key
-                if type == "bool":
-                    widget = gtk.CheckButton ()
-                    widget.set_active (value == 'True')
-                elif type in ["str", "int", "float"]:
-                    widget = gtk.Entry ()
-                    widget.set_text (str(value))
-                elif type == "list":
-                    continue
-                else:
-                    err("Unknown type: %s for key: %s" % (type, key))
-                    continue
-
-            if hasattr(widget, 'set_tooltip_text') and self.data.has_key (key):
-                widget.set_tooltip_text (self.data[key][1])
-    
-            widget.set_name(key)
-            self.widgets[key] = widget
-            table.attach (wrapperbox, 0, 1, row, row + 1, gtk.EXPAND|gtk.FILL, gtk.FILL)
-            table.attach (widget, 1, 2, row, row + 1,    gtk.EXPAND|gtk.FILL, gtk.FILL)
-            row += 1
-
-        return (table)
-
     def apply (self, data):
-        values = {}
-        for page in [self.appearance, self.behaviour, self.globals, self.colours]:
-            for property in page:
-                widget = self.widgets[property]
-
-                if isinstance (widget, gtk.SpinButton):
-                    value = widget.get_value ()
-                elif isinstance (widget, gtk.Entry):
-                    value = widget.get_text()
-                elif isinstance (widget, gtk.CheckButton):
-                    value = widget.get_active()
-                elif isinstance (widget, gtk.ComboBox):
-                    if widget.name == 'scrollbar_position':
-                        bucket = self.scrollbar_position
-                    elif widget.name == 'backspace_binding' or widget.name == 'delete_binding':
-                        bucket = self.backspace_del_binding
-                    elif widget.name == 'focus':
-                        bucket = self.focus
-                    elif widget.name == 'background_type':
-                        bucket = self.background_type
-                    elif widget.name == 'tab_position':
-                        bucket = self.tab_position
-                    elif widget.name == 'cursor_shape':
-                        bucket = self.cursor_shape
-                    else:
-                        err("Unknown bucket type for %s" % widget.name)
-                        continue
-    
-                    value = bucket[widget.get_active()]
-                elif isinstance (widget, gtk.FontButton):
-                    value = widget.get_font_name()
-                elif isinstance (widget, gtk.HScale):
-                    value = widget.get_value()
-                    if widget.get_digits() == 0:
-                        value = int(value)
-                elif isinstance (widget, gtk.ColorButton):
-                    value = widget.get_color().to_string()
-                elif isinstance (widget, gtk.FileChooserButton):
-                    value = widget.get_filename()
-                elif widget.get_name() == 'palette':
-                    value = ''
-                    valuebits = []
-                    children = widget.get_children()
-                    children.reverse()
-                    for child in children:
-                        valuebits.append (child.get_color().to_string())
-                    value = ':'.join (valuebits)
-                else:
-                    value = None
-                    err("skipping unknown property: %s" % property)
-
-                values[property] = value
-
-        has_changed = False
-        changed = []
-        for source in self.config.sources:
-            if isinstance (source, TerminatorConfValuestoreRC):
-                for property in values:
-                    try:
-                        if self.source_get_value(property) != values[property]:
-                            dbg("%s changed from %s to %s" % (property, self.source_get_value(property), values[property]))
-                            source.values[property] = values[property]
-                            has_changed = True
-                            changed.append(property)
-                    except KeyError:
-                        pass
-        if has_changed:
-            for changer in changed:
-                if changer == "fullscreen":
-                    self.term.fullscreen_absolute(values[changer])
-                elif changer == "maximise":
-                    if values[changer]:
-                        self.term.maximize()
-                    else:
-                        self.term.unmaximize()
-                elif changer == "borderless":
-                    self.term.window.set_decorated (not values[changer])
-                elif changer == "handle_size":
-                    self.term.set_handle_size(values[changer])
-                    gtk.rc_reset_styles(gtk.settings_get_default())
-                elif changer == "tab_position":
-                    notebook = self.term.window.get_child()
-                    new_pos = self.tab_position_gtk[values[changer]]
-                    angle = 0
-                    if isinstance (notebook, gtk.Notebook):
-                        notebook.set_tab_pos(new_pos)
-                        for i in xrange(0,notebook.get_n_pages()):
-                            notebook.get_tab_label(notebook.get_nth_page(i)).update_angle()
-                    pass
-                elif changer == "close_button_on_tab":
-                    notebook = self.term.window.get_child()
-                    if isinstance (notebook, gtk.Notebook):
-                        for i in xrange(0,notebook.get_n_pages()):
-                            notebook.get_tab_label(notebook.get_nth_page(i)).update_closebut()
-                # FIXME: which others? cycle_term_tab, copy_on_selection, try_posix_regexp
-                    
-            self.term.reconfigure_vtes()
-
-        # Check for changed keybindings
-        changed_keybindings = []
-        for row in self.liststore:
-            accel = gtk.accelerator_name (row[2], row[3])
-            value = self.term.conf.keybindings[row[0]]
-            if isinstance (value, tuple):
-                value = value[0]
-            keyval = 0
-            mask = 0
-            if value is not None and value != "None":
-                try:
-                    (keyval, mask) = self.tkbobj._parsebinding(value)
-                except KeymapError:
-                    pass
-            if (row[2], row[3]) != (keyval, mask):
-                changed_keybindings.append ((row[0], accel))
-                dbg("%s changed from %s to %s" % (row[0], self.term.conf.keybindings[row[0]], accel))
-
-        newbindings = self.term.conf.keybindings
-        for binding in changed_keybindings:
-            newbindings[binding[0]] = binding[1]
-        self.term.keybindings.configure (newbindings)
+        pass
 
     def cancel (self, data):
         self.window.destroy()
@@ -438,3 +263,10 @@ class PrefsEditor:
     def cleared (self, obj, path):
         iter = self.liststore.get_iter_from_string(path)
         self.liststore.set(iter, 2, 0, 3, 0)
+
+if __name__ == '__main__':
+    import terminal
+    term = terminal.Terminal()
+    foo = PrefsEditor(term)
+
+    gtk.main()

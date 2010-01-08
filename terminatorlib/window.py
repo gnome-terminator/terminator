@@ -87,14 +87,14 @@ class Window(Container, gtk.Window):
 
     def apply_config(self):
         """Apply various configuration options"""
-        self.set_fullscreen(self.config['fullscreen'])
-        self.set_maximised(self.config['maximise'])
+        self.set_fullscreen(self.config['window_state'] == 'fullscreen')
+        self.set_maximised(self.config['window_state'] == 'maximise')
         self.set_borderless(self.config['borderless'])
         self.set_real_transparency()
         if self.hidebound:
-            self.set_hidden(self.config['hidden'])
+            self.set_hidden(self.config['window_state'] == 'hidden')
         else:
-            self.set_iconified(self.config['hidden'])
+            self.set_iconified(self.config['window_state'] == 'hidden')
 
     def apply_icon(self):
         """Set the window icon"""
