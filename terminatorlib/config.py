@@ -137,6 +137,7 @@ DEFAULTS = {
                 'background_image'      : '',
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'delete-sequence',
+                'color_scheme'          : 'grey_on_black',
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
                 'cursor_color'          : '',

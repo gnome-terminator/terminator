@@ -10,6 +10,14 @@ from version import APP_NAME, APP_VERSION
 from translation import _
 
 class PrefsEditor:
+    colorschemevalues = {'black_on_yellow': 0, 
+                         'black_on_white': 1,
+                         'grey_on_black': 2,
+                         'green_on_black': 3,
+                         'white_on_black': 4,
+                         'orange_on_black': 5,
+                         'custom': 6}
+
     data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
                     'zoomedtitlebar': ['Show titlebar when zoomed', 'This places an informative bar above a zoomed terminal to indicate there are hidden terminals.'],
                     'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
@@ -182,6 +190,54 @@ class PrefsEditor:
         widget = guiget('word-chars-entry')
         widget.set_text(self.config['word_chars'])
 
+        ## Teminal Command tab
+        # Login shell
+        widget = guiget('login-shell-checkbutton')
+        widget.set_active(self.config['login_shell'])
+        # Login records
+        widget = guiget('update-records-checkbutton')
+        widget.set_active(self.config['update_records'])
+        # Use Custom command
+        widget = guiget('use-custom-command-checkbutton')
+        widget.set_active(self.config['use_custom_command'])
+        # Custom Command
+        widget = guiget('custom-command-entry')
+        widget.set_text(self.config['custom_command'])
+        # Exit action
+        widget = guiget('exit-action-combobox')
+        if self.config['exit_action'] == 'restart':
+            widget.set_active(1)
+        elif self.config['exit_action'] == 'hold':
+            widget.set_active(2)
+        else:
+            # Default is to close the terminal
+            widget.set_active(0)
+
+        ## Colors tab
+        # Use system colors
+        widget = guiget('use-theme-colors-checkbutton')
+        widget.set_active(self.config['use_theme_colors'])
+        # Colorscheme
+        widget = guiget('color-scheme-combobox')
+        scheme = self.config['color_scheme']
+        if scheme not in self.colorschemevalues:
+            scheme = 'grey_on_black'
+        widget.set_active(self.colorschemevalues[scheme])
+        # Foreground color
+        widget = guiget('foreground-colorpicker')
+        widget.set_color(gtk.gdk.Color(self.config['foreground_color']))
+        if scheme == 'custom':
+            widget.set_sensitive(True)
+        else:
+            widget.set_sensitive(False)
+        # Background color
+        widget = guiget('background-colorpicker')
+        widget.set_color(gtk.gdk.Color(self.config['background_color']))
+        if scheme == 'custom':
+            widget.set_sensitive(True)
+        else:
+            widget.set_sensitive(False)
+
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
         (listmodel, rowiter) = selection.get_selected()
@@ -201,6 +257,66 @@ class PrefsEditor:
         model = widget.get_model()
         iter = model.get_iter(path)
         model.set_value(iter, 0, newtext)
+
+    def on_color_scheme_combobox_changed(self, widget):
+        """Update the fore/background colour pickers"""
+        value = None
+        guiget = self.builder.get_object
+        active = widget.get_active()
+        for key in self.colorschemevalues.keys():
+            if self.colorschemevalues[key] == active:
+                value = key
+
+        fore = guiget('foreground-colorpicker')
+        back = guiget('background-colorpicker')
+        if value == 'custom':
+            fore.set_sensitive(True)
+            back.set_sensitive(True)
+        else:
+            fore.set_sensitive(False)
+            back.set_sensitive(False)
+
+        forecol = None
+        backcol = None
+        if value == 'grey_on_black':
+            forecol = '#AAAAAA'
+            backcol = '#000000'
+        elif value == 'black_on_yellow':
+            forecol = '#000000'
+            backcol = '#FFFFDD'
+        elif value == 'black_on_white':
+            forecol = '#000000'
+            backcol = '#FFFFFF'
+        elif value == 'white_on_black':
+            forecol = '#FFFFFF'
+            backcol = '#000000'
+        elif value == 'green_on_black':
+            forecol = '#00FF00'
+            backcol = '#000000'
+        elif value == 'orange_on_black':
+            forecol = '#E53C00'
+            backcol = '#000000'
+
+        if forecol is not None:
+            fore.set_color(gtk.gdk.Color(forecol))
+        if backcol is not None:
+            back.set_color(gtk.gdk.Color(backcol))
+
+    def on_use_theme_colors_checkbutton_toggled(self, widget):
+        """Update colour pickers"""
+        guiget = self.builder.get_object
+        active = widget.get_active()
+
+        scheme = guiget('color-scheme-combobox')
+        fore = guiget('foreground-colorpicker')
+        back = guiget('background-colorpicker')
+
+        if active:
+            for widget in [scheme, fore, back]:
+                widget.set_sensitive(False)
+        else:
+            scheme.set_sensitive(True)
+            self.on_color_scheme_combobox_changed(scheme)
 
     def source_get_type (self, key):
         if config.DEFAULTS['global_config'].has_key (key):

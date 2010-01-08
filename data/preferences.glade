@@ -109,6 +109,35 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="ColourSchemeListStore">
+    <columns>
+      <!-- column-name scheme -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Black on light yellow</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Black on white</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Grey on black</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Green on black</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">White on black</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Orange on black</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Custom</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="prefswin">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
@@ -625,76 +654,12 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVBox" id="vbox91">
+                      <object class="GtkAlignment" id="alignment1">
                         <property name="visible">True</property>
-                        <property name="border_width">12</property>
-                        <property name="orientation">vertical</property>
-                        <property name="spacing">18</property>
-                        <child>
-                          <object class="GtkVBox" id="vbox79">
-                            <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <object class="GtkLabel" id="label33">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Title&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkAlignment" id="alignment10108">
-                                <property name="visible">True</property>
-                                <property name="left_padding">12</property>
-                                <child>
-                                  <object class="GtkHBox" id="hbox137">
-                                    <property name="visible">True</property>
-                                    <property name="spacing">12</property>
-                                    <child>
-                                      <object class="GtkLabel" id="title-entry-label">
-                                        <property name="visible">True</property>
-                                        <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Initial _title:</property>
-                                        <property name="use_underline">True</property>
-                                        <property name="justify">center</property>
-                                        <property name="mnemonic_widget">title-entry</property>
-                                      </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <object class="GtkEntry" id="title-entry">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="invisible_char">&#x2022;</property>
-                                      </object>
-                                      <packing>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </object>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
+                        <property name="top_padding">6</property>
+                        <property name="bottom_padding">6</property>
+                        <property name="left_padding">6</property>
+                        <property name="right_padding">6</property>
                         <child>
                           <object class="GtkVBox" id="vbox80">
                             <property name="visible">True</property>
@@ -867,10 +832,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                       </object>
                       <packing>
@@ -880,7 +841,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label38">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Title and Command</property>
+                        <property name="label" translatable="yes">Terminal Command</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
                       </object>
@@ -948,6 +909,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_use_theme_colors_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="right_attach">2</property>
@@ -1050,6 +1012,15 @@
                                     <child>
                                       <object class="GtkComboBox" id="color-scheme-combobox">
                                         <property name="visible">True</property>
+                                        <property name="model">ColourSchemeListStore</property>
+                                        <property name="active">2</property>
+                                        <signal name="changed" handler="on_color_scheme_combobox_changed"/>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="cellrenderertext6"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
