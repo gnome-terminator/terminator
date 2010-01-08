@@ -143,20 +143,50 @@ class PrefsEditor:
         selection.select_iter(self.profileiters['default'])
         print "VALUES ALL SET"
 
-    def on_profile_selection_changed(self, selection):
-        """A different profile was selected"""
-        (listmodel, rowiter) = selection.get_selected()
-        profile = listmodel.get_value(rowiter, 0)
-        self.update_profile_values(profile)
-
-    def update_profile_values(self, profile):
+    def set_profile_values(self, profile):
         """Update the profile values for a given profile"""
         self.config.set_profile(profile)
         guiget = self.builder.get_object
 
-        print "setting profile %s" % profile
+        dbg('PrefsEditor::set_profile_values: Setting profile %s' % profile)
+
+        ## General tab
+        # Use system font
+        widget = guiget('system-font-checkbutton')
+        widget.set_active(self.config['use_system_font'])
+        # Font selector
+        widget = guiget('font-selector')
+        widget.set_font_name(self.config['font'])
+        # Allow bold text
         widget = guiget('allow-bold-checkbutton')
         widget.set_active(self.config['allow_bold'])
+        # Visual terminal bell
+        widget = guiget('visual-bell-checkbutton')
+        widget.set_active(self.config['visible_bell'])
+        # Audible terminal bell
+        widget = guiget('audible-bell-checkbutton')
+        widget.set_active(self.config['audible_bell'])
+        # WM_URGENT terminal bell
+        widget = guiget('urgent-bell-checkbutton')
+        widget.set_active(self.config['urgent_bell'])
+        # Cursor shape
+        widget = guiget('cursor-shape-combobox')
+        if self.config['cursor_shape'] == 'underline':
+            active = 1
+        elif self.config['cursor_shape'] == 'ibeam':
+            active = 2
+        else:
+            active = 0
+        widget.set_active(active)
+        # Word chars
+        widget = guiget('word-chars-entry')
+        widget.set_text(self.config['word_chars'])
+
+    def on_profile_selection_changed(self, selection):
+        """A different profile was selected"""
+        (listmodel, rowiter) = selection.get_selected()
+        profile = listmodel.get_value(rowiter, 0)
+        self.set_profile_values(profile)
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""

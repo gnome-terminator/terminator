@@ -492,8 +492,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="show-menubar-checkbutton">
-                            <property name="label" translatable="yes">Show _menubar by default in new terminals</property>
+                          <object class="GtkCheckButton" id="visual-bell-checkbutton">
+                            <property name="label" translatable="yes">Visual terminal _bell</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -507,8 +507,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="bell-checkbutton">
-                            <property name="label" translatable="yes">Terminal _bell</property>
+                          <object class="GtkCheckButton" id="audible-bell-checkbutton">
+                            <property name="label" translatable="yes">Audible terminal _bell</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -519,6 +519,21 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="urgent-bell-checkbutton">
+                            <property name="label" translatable="yes">WM_URGENT terminal _bell</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                         <child>
@@ -558,7 +573,7 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="position">5</property>
+                            <property name="position">6</property>
                           </packing>
                         </child>
                         <child>
@@ -593,7 +608,7 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="position">6</property>
+                            <property name="position">7</property>
                           </packing>
                         </child>
                       </object>
