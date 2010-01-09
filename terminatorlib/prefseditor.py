@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import gtk
 import gobject
 
@@ -27,7 +28,10 @@ class PrefsEditor:
         self.term = term
         self.builder = gtk.Builder()
         try:
-            gladefile = open('/home/cmsj/code/personal/terminator/branches/epicrefactor/data/preferences.glade', 'r')
+            # Figure out where our library is on-disk so we can open our 
+            (head, tail) = os.path.split(config.__file__)
+            librarypath = os.path.join(head, 'preferences.glade')
+            gladefile = open(librarypath, 'r')
             gladedata = gladefile.read()
         except Exception, ex:
             print "Failed to find preferences.glade"
