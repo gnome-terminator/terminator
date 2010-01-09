@@ -162,6 +162,7 @@ class PrefsEditor:
         # Use system font
         widget = guiget('system-font-checkbutton')
         widget.set_active(self.config['use_system_font'])
+        self.on_system_font_checkbutton_toggled(widget)
         # Font selector
         widget = guiget('font-selector')
         widget.set_font_name(self.config['font'])
@@ -190,7 +191,7 @@ class PrefsEditor:
         widget = guiget('word-chars-entry')
         widget.set_text(self.config['word_chars'])
 
-        ## Teminal Command tab
+        ## Command tab
         # Login shell
         widget = guiget('login-shell-checkbutton')
         widget.set_active(self.config['login_shell'])
@@ -200,6 +201,7 @@ class PrefsEditor:
         # Use Custom command
         widget = guiget('use-custom-command-checkbutton')
         widget.set_active(self.config['use_custom_command'])
+        self.on_use_custom_command_checkbutton_toggled(widget)
         # Custom Command
         widget = guiget('custom-command-entry')
         widget.set_text(self.config['custom_command'])
@@ -290,6 +292,47 @@ class PrefsEditor:
             widget.set_active(2)
         else:
             widget.set_active(1)
+        # Delete key
+        widget = guiget('delete-binding-combobox')
+        value = self.config['delete_binding']
+        if value == 'control-h':
+            widget.set_active(0)
+        elif value == 'escape-sequence':
+            widget.set_active(2)
+        else:
+            widget.set_active(1)
+
+    def on_use_custom_command_checkbutton_toggled(self, checkbox):
+        """Toggling the use_custom_command checkbox needs to alter the
+        sensitivity of the custom_command entrybox"""
+        guiget = self.builder.get_object
+
+        widget = guiget('custom-command-entry')
+        if checkbox.get_active() == True:
+            widget.set_sensitive(True)
+        else:
+            widget.set_sensitive(False)
+
+    def on_system_font_checkbutton_toggled(self, checkbox):
+        """Toggling the use_system_font checkbox needs to alter the
+        sensitivity of the font selector"""
+        guiget = self.builder.get_object
+
+        widget = guiget('font-selector')
+        if checkbox.get_active() == True:
+            widget.set_sensitive(False)
+        else:
+            widget.set_sensitive(True)
+
+    def on_reset_compatibility_clicked(self, widget):
+        """Reset the confusing and annoying backspace/delete options to the
+        safest values"""
+        guiget = self.builder.get_object
+
+        widget = guiget('backspace-binding-combobox')
+        widget.set_active(1)
+        widget = guiget('delete-binding-combobox')
+        widget.set_active(2)
 
     def on_background_type_toggled(self, widget):
         """The background type was toggled"""

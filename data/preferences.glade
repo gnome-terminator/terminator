@@ -509,6 +509,7 @@
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_system_font_checkbutton_toggled"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -787,6 +788,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_use_custom_command_checkbutton_toggled"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -899,7 +901,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label38">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Terminal Command</property>
+                        <property name="label" translatable="yes">Command</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
                       </object>
@@ -1800,17 +1802,6 @@
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="scrollback-kb-label">
-                                <property name="visible">True</property>
-                                <property name="label">(about 120kB)</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>
