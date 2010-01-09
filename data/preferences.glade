@@ -25,7 +25,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">System Default</col>
+        <col id="0" translatable="yes">GNOME Default</col>
       </row>
       <row>
         <col id="0" translatable="yes">Click to focus</col>
@@ -213,64 +213,6 @@
                     <property name="n_columns">2</property>
                     <property name="column_spacing">6</property>
                     <child>
-                      <object class="GtkComboBox" id="focuscombo">
-                        <property name="visible">True</property>
-                        <property name="model">FocusListStore</property>
-                        <property name="active">0</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="focuscell"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="x_options"></property>
-                        <property name="y_options">GTK_EXPAND</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label6">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Mouse focus</property>
-                      </object>
-                      <packing>
-                        <property name="x_options"></property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label7">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Terminal separator size</property>
-                      </object>
-                      <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options"></property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHScale" id="handlesize">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">adjustment1</property>
-                        <property name="digits">0</property>
-                        <property name="value_pos">left</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="y_options">GTK_EXPAND</property>
-                        <property name="x_padding">20</property>
-                      </packing>
-                    </child>
-                    <child>
                       <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Window geometry hints</property>
@@ -392,6 +334,64 @@
                         <property name="bottom_attach">6</property>
                         <property name="x_options"></property>
                         <property name="y_options">GTK_EXPAND</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label6">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Mouse focus</property>
+                      </object>
+                      <packing>
+                        <property name="x_options"></property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="focuscombo">
+                        <property name="visible">True</property>
+                        <property name="model">FocusListStore</property>
+                        <property name="active">0</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="focuscell"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="x_options"></property>
+                        <property name="y_options">GTK_EXPAND</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label7">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Terminal separator size</property>
+                      </object>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options"></property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHScale" id="handlesize">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">adjustment1</property>
+                        <property name="digits">0</property>
+                        <property name="value_pos">left</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="y_options">GTK_EXPAND</property>
+                        <property name="x_padding">20</property>
                       </packing>
                     </child>
                   </object>
