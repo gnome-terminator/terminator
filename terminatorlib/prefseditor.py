@@ -237,6 +237,89 @@ class PrefsEditor:
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
+        # FIXME: Do the Palette schemes and pickers
+
+        ## Background tab
+        # Radio values
+        self.update_background_tab()
+        # Background image file
+        if self.config['background_image'] != '':
+            widget = guiget('background-image-filechooser')
+            widget.set_filename(self.config['background_image'])
+        # Background image scrolls
+        widget = guiget('scroll-background-checkbutton')
+        widget.set_active(self.config['scroll_background'])
+        # Background shading
+        widget = guiget('background_darkness_scale')
+        widget.set_value(self.config['background_darkness'])
+
+        if self.config['background_type'] == 'solid':
+            guiget('solid-radiobutton').set_active(True)
+        elif self.config['background_type'] == 'image':
+            guiget('image-radiobutton').set_active(True)
+        elif self.config['background_type'] == 'transparent':
+            guiget('trans-radiobutton').set_active(True)
+
+        ## Scrolling tab
+        # Scrollbar position
+        widget = guiget('scrollbar-position-combobox')
+        value = self.config['scrollbar_position']
+        if value == 'left':
+            widget.set_active(0)
+        elif value == 'disabled':
+            widget.set_active(2)
+        else:
+            widget.set_active(1)
+        # Scrollback lines
+        widget = guiget('scrollback-lines-spinbutton')
+        widget.set_value(self.config['scrollback_lines'])
+        # Scroll on outut
+        widget = guiget('scroll-on-output-checkbutton')
+        widget.set_active(self.config['scroll_on_output'])
+        # Scroll on keystroke
+        widget = guiget('scroll-on-keystroke-checkbutton')
+        widget.set_active(self.config['scroll_on_keystroke'])
+
+        ## Compatibility tab
+        # Backspace key
+        widget = guiget('backspace-binding-combobox')
+        value = self.config['backspace_binding']
+        if value == 'control-h':
+            widget.set_active(0)
+        elif value == 'escape-sequence':
+            widget.set_active(2)
+        else:
+            widget.set_active(1)
+
+    def on_background_type_toggled(self, widget):
+        """The background type was toggled"""
+        self.update_background_tab()
+
+    def update_background_tab(self):
+        """Update the background tab"""
+        guiget = self.builder.get_object
+
+        # Background type
+        backtype = None
+        solidwidget = guiget('solid-radiobutton')
+        imagewidget = guiget('image-radiobutton')
+        transwidget = guiget('transparent-radiobutton')
+        if transwidget.get_active() == True:
+            backtype = 'trans'
+        elif imagewidget.get_active() == True:
+            backtype = 'image'
+        else:
+            backtype = 'solid'
+        if backtype == 'image':
+            guiget('background-image-filechooser').set_sensitive(True)
+            guiget('scroll-background-checkbutton').set_sensitive(True)
+        else:
+            guiget('background-image-filechooser').set_sensitive(False)
+            guiget('scroll-background-checkbutton').set_sensitive(False)
+        if backtype == 'trans':
+            guiget('darken-background-scale').set_sensitive(True)
+        else:
+            guiget('darken-background-scale').set_sensitive(False)
 
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""

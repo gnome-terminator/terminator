@@ -138,6 +138,57 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="ScrollbarPositionListStore">
+    <columns>
+      <!-- column-name Position -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">On the left side</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">On the right side</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disabled</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="BackspaceKeyListStore">
+    <columns>
+      <!-- column-name Result -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Control-H</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ASCII DEL</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Escape sequence</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="DeleteKeyListStore">
+    <columns>
+      <!-- column-name Profile -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Control-H</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ASCII DEL</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Escape sequence</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="prefswin">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
@@ -1431,6 +1482,7 @@
                             <property name="use_underline">True</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_background_type_toggled"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1452,6 +1504,7 @@
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">solid-radiobutton</property>
+                                <signal name="toggled" handler="on_background_type_toggled"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1541,6 +1594,7 @@
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">solid-radiobutton</property>
+                            <signal name="toggled" handler="on_background_type_toggled"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1590,8 +1644,7 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="update_policy">delayed</property>
-                                    <property name="digits">2</property>
-                                    <property name="draw_value">False</property>
+                                    <property name="adjustment">background_darkness_scale</property>
                                     <property name="value_pos">bottom</property>
                                   </object>
                                   <packing>
@@ -1689,6 +1742,14 @@
                             <child>
                               <object class="GtkComboBox" id="scrollbar-position-combobox">
                                 <property name="visible">True</property>
+                                <property name="model">ScrollbarPositionListStore</property>
+                                <property name="active">0</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext7"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -1711,6 +1772,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x2022;</property>
+                                <property name="adjustment">ScrollbackAdjustmend</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
                               </object>
@@ -1860,6 +1922,14 @@
                             <child>
                               <object class="GtkComboBox" id="backspace-binding-combobox">
                                 <property name="visible">True</property>
+                                <property name="model">BackspaceKeyListStore</property>
+                                <property name="active">1</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext8"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1871,6 +1941,14 @@
                             <child>
                               <object class="GtkComboBox" id="delete-binding-combobox">
                                 <property name="visible">True</property>
+                                <property name="model">DeleteKeyListStore</property>
+                                <property name="active">2</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext9"/>
+                                  <attributes>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -1898,6 +1976,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="use_underline">True</property>
+                                <signal name="clicked" handler="on_reset_compatibility_clicked"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2017,12 +2096,13 @@
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="button1">
+              <object class="GtkButton" id="cancelbutton">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_cancelbutton_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2031,12 +2111,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button2">
+              <object class="GtkButton" id="okbutton">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_okbutton_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2054,8 +2135,8 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button1</action-widget>
-      <action-widget response="0">button2</action-widget>
+      <action-widget response="0">cancelbutton</action-widget>
+      <action-widget response="0">okbutton</action-widget>
     </action-widgets>
   </object>
   <object class="GtkAdjustment" id="adjustment1">
@@ -2074,6 +2155,18 @@
   </object>
   <object class="GtkAdjustment" id="adjustment3">
     <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="background_darkness_scale">
+    <property name="upper">1</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">0.10000000000000001</property>
+    <property name="page_size">1</property>
+  </object>
+  <object class="GtkAdjustment" id="ScrollbackAdjustmend">
+    <property name="upper">10000000</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
     <property name="page_size">10</property>
