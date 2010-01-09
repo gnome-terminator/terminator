@@ -74,7 +74,7 @@ class PrefsEditor:
         # Terminal separator size
         termsepsize = self.config['handle_size']
         widget = guiget('handlesize')
-        widget.set_value(termsepsize)
+        widget.set_value(float(termsepsize))
         # Window geometry hints
         geomhint = self.config['geometry_hinting']
         widget = guiget('wingeomcheck')
@@ -292,7 +292,7 @@ class PrefsEditor:
         widget.set_active(self.config['scroll_background'])
         # Background shading
         widget = guiget('background_darkness_scale')
-        widget.set_value(self.config['background_darkness'])
+        widget.set_value(float(self.config['background_darkness']))
 
         if self.config['background_type'] == 'solid':
             guiget('solid-radiobutton').set_active(True)
