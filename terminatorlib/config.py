@@ -214,6 +214,10 @@ class Config(object):
             dbg('Config::set_profile: %s does not exist, creating' % profile)
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
+    def add_profile(self, profile):
+        """Add a new profile"""
+        return(self.base.add_profile(profile))
+
     def del_profile(self, profile):
         """Delete a profile"""
         if self.base.profiles.has_key(profile):
@@ -465,6 +469,13 @@ class ConfigBase(Borg):
     def set_plugin(self, plugin, tree):
         """Set a whole tree for a plugin"""
         self.plugins[plugin] = tree
+
+    def add_profile(self, profile):
+        """Add a new profile"""
+        if profile in self.profiles:
+            return(False)
+        self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
+        return(True)
 
 if __name__ == '__main__':
     import sys

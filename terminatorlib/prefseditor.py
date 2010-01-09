@@ -10,6 +10,7 @@ from version import APP_NAME, APP_VERSION
 from translation import _
 
 class PrefsEditor:
+    previous_selection = None
     colorschemevalues = {'black_on_yellow': 0, 
                          'black_on_white': 1,
                          'grey_on_black': 2,
@@ -247,7 +248,9 @@ class PrefsEditor:
         # Background image file
         if self.config['background_image'] != '':
             widget = guiget('background-image-filechooser')
-            widget.set_filename(self.config['background_image'])
+            if self.config['background_image'] is not None and \
+               self.config['background_image'] != '':
+                widget.set_filename(self.config['background_image'])
         # Background image scrolls
         widget = guiget('scroll-background-checkbutton')
         widget.set_active(self.config['scroll_background'])
@@ -301,6 +304,197 @@ class PrefsEditor:
             widget.set_active(2)
         else:
             widget.set_active(1)
+
+    def store_profile_values(self, profile):
+        """Pull out all the settings before switching profile"""
+        guiget = self.builder.get_object
+
+        ## General tab
+        # Use system font
+        widget = guiget('system-font-checkbutton')
+        self.config['use_system_font'] = widget.get_active()
+        # Font
+        widget = guiget('font-selector')
+        self.config['font'] = widget.get_font_name()
+        # Allow bold
+        widget = guiget('allow-bold-checkbutton')
+        self.config['allow_bold'] = widget.get_active()
+        # Visual Bell
+        widget = guiget('visual-bell-checkbutton')
+        self.config['visible_bell'] = widget.get_active()
+        # Audible Bell
+        widget = guiget('audible-bell-checkbutton')
+        self.config['audible_bell'] = widget.get_active()
+        # Urgent Bell
+        widget = guiget('urgent-bell-checkbutton')
+        self.config['urgent_bell'] = widget.get_active()
+        # Cursor Shape
+        widget = guiget('cursor-shape-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'block'
+        elif selected == 1:
+            value = 'underline'
+        elif selected == 2:
+            value = 'ibeam'
+        self.config['cursor_shape'] = value
+        # Word chars
+        widget = guiget('word-chars-entry')
+        self.config['word_chars'] = widget.get_text()
+        
+        ## Command tab
+        # Login shell
+        widget = guiget('login-shell-checkbutton')
+        self.config['login_shell'] = widget.get_active()
+        # Update records
+        widget = guiget('update-records-checkbutton')
+        self.config['update_records'] = widget.get_active()
+        # Use custom command
+        widget = guiget('use-custom-command-checkbutton')
+        self.config['use_custom_command'] = widget.get_active()
+        # Custom command
+        widget = guiget('custom-command-entry')
+        self.config['custom_command'] = widget.get_text()
+        # Exit action
+        widget = guiget('exit-action-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'close'
+        elif selected == 1:
+            value = 'restart'
+        elif selected == 2:
+            value = 'hold'
+        self.config['exit_action'] = value
+
+        ## Colours tab
+        # Use system colours
+        widget = guiget('use-theme-colors-checkbutton')
+        self.config['use_theme_colors'] = widget.get_active()
+        # Colour scheme
+        widget = guiget('color-scheme-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'black_on_yellow'
+        elif selected == 1:
+            value = 'black_on_white'
+        elif selected == 2:
+            value = 'grey_on_black'
+        elif selected == 3:
+            value = 'green_on_black'
+        elif selected == 4:
+            value = 'white_on_black'
+        elif selected == 5:
+            value = 'orange_on_black'
+        elif selected == 6:
+            value = 'custom'
+        self.config['color_scheme'] = value
+        # Foreground colour
+        widget = guiget('foreground-colorpicker')
+        self.config['foreground_color'] = widget.get_color().to_string()
+        # Background colour
+        widget = guiget('background-colorpicker')
+        self.config['background_color'] = widget.get_color().to_string()
+        # FIXME: Do the palette schemes and palette
+
+        ## Background tab
+        # Background type
+        widget = guiget('solid-radiobutton')
+        if widget.get_active() == True:
+            value = 'solid'
+        widget = guiget('image-radiobutton')
+        if widget.get_active() == True:
+            value = 'image'
+        widget = guiget('transparent-radiobutton')
+        if widget.get_active() == True:
+            value = 'transparent'
+        # Background image
+        widget = guiget('background-image-filechooser')
+        self.config['background_image'] = widget.get_filename()
+        # Background scrolls
+        widget = guiget('scroll-background-checkbutton')
+        self.config['scroll_background'] = widget.get_active()
+        # Background darkness
+        widget = guiget('darken-background-scale')
+        self.config['background_darkness'] = widget.get_value()
+
+        ## Scrolling tab
+        # Scrollbar
+        widget = guiget('scrollbar-position-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'left'
+        elif selected == 1:
+            value = 'right'
+        elif selected ==2:
+            value = 'hidden'
+        self.config['scrollbar_position'] = value
+        # Scrollback lines
+        widget = guiget('scrollback-lines-spinbutton')
+        self.config['scrollback_lines'] = widget.get_value()
+        # Scroll on output
+        widget = guiget('scroll-on-output-checkbutton')
+        self.config['scroll_on_output'] = widget.get_active()
+        # Scroll on keystroke
+        widget = guiget('scroll-on-keystroke-checkbutton')
+        self.config['scroll_on_keystroke'] = widget.get_active()
+
+        ## Compatibility tab
+        # Backspace key
+        widget = guiget('backspace-binding-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'control-h'
+        elif selected == 1:
+            value = 'ascii-del'
+        elif selected == 2:
+            value =='escape-sequence'
+        self.config['backspace_binding'] = value
+        # Delete key
+        widget = guiget('delete-binding-combobox')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'control-h'
+        elif selected == 1:
+            value = 'ascii-del'
+        elif selected == 2:
+            value = 'escape-sequence'
+        self.config['delete_binding'] = value
+
+    def on_profileaddbutton_clicked(self, button):
+        """Add a new profile to the list"""
+        guiget = self.builder.get_object
+
+        treeview = guiget('profilelist')
+        model = treeview.get_model()
+        values = [ r[0] for r in model ]
+
+        newprofile = _('New Profile')
+        if newprofile in values:
+            i = 0
+            while newprofile in values:
+                i = i + 1
+                newprofile = '%s %d' % (_('New Profile'), i)
+
+        if self.config.add_profile(newprofile):
+            model.append([newprofile])
+
+    def on_profileremovebutton_clicked(self, button):
+        """Remove a profile from the list"""
+        guiget = self.builder.get_object
+
+        treeview = guiget('profilelist')
+        selection = treeview.get_selection()
+        (model, rowiter) = selection.get_selected()
+        profile = model.get_value(rowiter, 0)
+
+        if profile == 'default':
+            # We shouldn't let people delete this profile
+            return
+
+        self.config.del_profile(profile)
+        model.remove(rowiter)
+
+        selection.select_iter(model.get_iter_first())
 
     def on_use_custom_command_checkbutton_toggled(self, checkbox):
         """Toggling the use_custom_command checkbox needs to alter the
@@ -366,9 +560,25 @@ class PrefsEditor:
 
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
+        if self.previous_selection is not None:
+            self.store_profile_values(self.previous_selection)
+
         (listmodel, rowiter) = selection.get_selected()
+        if not rowiter:
+            # Something is wrong, just jump to the first item in the list
+            treeview = selection.get_tree_view()
+            liststore = treeview.get_model()
+            selection.select_iter(liststore.get_iter_first())
+            return
         profile = listmodel.get_value(rowiter, 0)
         self.set_profile_values(profile)
+        self.previous_selection = profile
+
+        widget = self.builder.get_object('profileremovebutton')
+        if profile == 'default':
+            widget.set_sensitive(False)
+        else:
+            widget.set_sensitive(True)
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""
