@@ -10,6 +10,9 @@ from version import APP_NAME, APP_VERSION
 from translation import _
 
 class PrefsEditor:
+    config = None
+    window = None
+    builder = None
     previous_selection = None
     colorschemevalues = {'black_on_yellow': 0, 
                          'black_on_white': 1,
@@ -18,41 +21,6 @@ class PrefsEditor:
                          'white_on_black': 4,
                          'orange_on_black': 5,
                          'custom': 6}
-
-    data = {'titlebars': ['Show titlebars', 'This places a bar above each terminal which displays its title.'],
-                    'zoomedtitlebar': ['Show titlebar when zoomed', 'This places an informative bar above a zoomed terminal to indicate there are hidden terminals.'],
-                    'allow_bold': ['Allow bold text', 'Controls whether or not the terminals will honour requests for bold text'],
-                    'silent_bell': ['', 'When enabled, bell events will generate a flash. When disabled, they will generate a beep'],
-                    'background_darkness': ['', 'Controls how much the background will be tinted'],
-                    'scroll_background': ['', 'When enabled the background image will scroll with the text'],
-                    'force_no_bell': ['', 'Disable both the visual and audible bells'],
-                    'tab_position': ['', 'Controls the placement of the tab bar'],
-                    'use_theme_colors': ['', 'Take the foreground and background colours from the current GTK theme'],
-                    'enable_real_transparency': ['', 'If you are running a composited desktop (e.g. compiz), enabling this option will enable "true" transpraency'],
-                    'handle_size': ['', 'This controls the size of the border between terminals. Values 0 to 5 are in pixels, while -1 means the value will be decided by your normal GTK theme.'],
-                    'close_window': ['Quit Terminator', ''],
-                    'toggle_zoom': ['Toggle maximise terminal', ''],
-                    'scaled_zoom': ['Toggle zoomed terminal', ''],
-                    'prev_tab': ['Previous tab', ''],
-                    'split_vert': ['Split vertically', ''],
-                    'split_horiz': ['Split horizontally', ''],
-                    'go_prev': ['Focus previous terminal', ''],
-                    'go_next': ['Focus next terminal', ''],
-                    'close_term': ['Close terminal', ''],
-                    'new_root_tab': ['New root tab', ''],
-                    'zoom_normal': ['Zoom reset', ''],
-                    'reset': ['Reset terminal state', ''],
-                    'reset_clear': ['Reset and clear terminal', ''],
-                    'hide_window': ['Toggle visibility of the window', ''],
-                    'title_tx_txt_color': ['Tx Title Foreground Color', ''],
-                    'title_tx_bg_color': ['Tx Title Background Color', ''],
-                    'title_rx_txt_color': ['Rx Title Foreground Color', ''],
-                    'title_rx_bg_color': ['Rx Title Background Color', ''],
-                    'title_ia_txt_color': ['Inactive Title Foreground Color', ''],
-                    'title_ia_bg_color': ['Inactive Title Background Color', ''],
-                 }
-
-    config = None
 
     def __init__ (self, term):
         self.config = config.Config()
@@ -72,17 +40,25 @@ class PrefsEditor:
         self.builder.connect_signals(self)
         self.window.show_all()
 
+    def on_cancelbutton_clicked(self, button):
+        """Close the window"""
+        self.window.destroy()
+        del(self)
+
+    def on_okbutton_clicked(self, button):
+        """Save the config"""
+        self.store_values()
+        self.config.save()
+        self.window.destroy()
+        del(self)
+
     def set_values(self):
         """Update the preferences window with all the configuration from
         Config()"""
         guiget = self.builder.get_object
 
-        print "SETTING VALUES"
-
         ## Global tab
-
         # Mouse focus
-        # default is 'system', which == 0
         focus = self.config['focus']
         active = 0
         if focus == 'click':
@@ -91,21 +67,15 @@ class PrefsEditor:
             active = 2
         widget = guiget('focuscombo')
         widget.set_active(active)
-
         # Terminal separator size
-        # default is -1
         termsepsize = self.config['handle_size']
         widget = guiget('handlesize')
         widget.set_value(termsepsize)
-
         # Window geometry hints
-        # default is True
         geomhint = self.config['geometry_hinting']
         widget = guiget('wingeomcheck')
         widget.set_active(geomhint)
-
         # Window state
-        # default is not maximised, not fullscreen
         option = self.config['window_state']
         if option == 'hidden':
             active = 1
@@ -117,14 +87,10 @@ class PrefsEditor:
             active = 0
         widget = guiget('winstatecombo')
         widget.set_active(active)
-
         # Window borders
-        # default is True
         widget = guiget('winbordercheck')
         widget.set_active(not self.config['borderless'])
-        
         # Tab bar position
-        # default is top
         option = self.config['tab_position']
         widget = guiget('tabposcombo')
         if option == 'bottom':
@@ -138,7 +104,6 @@ class PrefsEditor:
         widget.set_active(active)
 
         ## Profile tab
-
         # Populate the profile list
         widget = guiget('profilelist')
         liststore = widget.get_model()
@@ -146,12 +111,79 @@ class PrefsEditor:
         self.profileiters = {}
         for profile in profiles:
             self.profileiters[profile] = liststore.append([profile])
-
         selection = widget.get_selection()
         selection.connect('changed', self.on_profile_selection_changed)
         selection.select_iter(self.profileiters['default'])
-        print "VALUES ALL SET"
 
+        ## Layouts tab
+        # FIXME: Implement this
+
+        ## Keybindings tab
+        # FIXME: Implement this
+
+        ## Plugins tab
+        # FIXME: Implement this
+
+    def store_values(self):
+        """Store the values from the GUI back into Config()"""
+        guiget = self.builder.get_object
+
+        ## Global tab
+        # Focus
+        widget = guiget('focuscombo')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'system'
+        elif selected == 1:
+            value = 'click'
+        elif selected == 2:
+            value = 'mouse'
+        self.config['focus'] = value
+        # Handle size
+        widget = guiget('handlesize')
+        self.config['handle_size'] = widget.get_value()
+        # Window geometry
+        widget = guiget('wingeomcheck')
+        self.config['geometry_hinting'] = widget.get_active()
+        # Window state
+        widget = guiget('winstatecombo')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'normal'
+        elif selected == 1:
+            value = 'hidden'
+        elif selected == 2:
+            value = 'maximise'
+        elif selected == 3:
+            value = 'fullscreen'
+        self.config['window_state'] = value
+        # Window borders
+        widget = guiget('winbordercheck')
+        self.config['borderless'] = not widget.get_active()
+        # Tab position
+        widget = guiget('tabposcombo')
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'top'
+        elif selected == 1:
+            value = 'bottom'
+        elif selected == 2:
+            value = 'left'
+        elif selected == 3:
+            value = 'right'
+        self.config['tab_position'] = value
+
+        ## Profile tab
+        self.store_profile_values(self.previous_selection)
+
+        ## Layouts tab
+        # FIXME: Implement this
+
+        ## Keybindings tab
+        # FIXME: Implement this
+
+        ## Plugins tab
+        # FIXME: Implement this
     def set_profile_values(self, profile):
         """Update the profile values for a given profile"""
         self.config.set_profile(profile)
@@ -300,10 +332,10 @@ class PrefsEditor:
         value = self.config['delete_binding']
         if value == 'control-h':
             widget.set_active(0)
-        elif value == 'escape-sequence':
-            widget.set_active(2)
-        else:
+        elif value == 'ascii-del':
             widget.set_active(1)
+        else:
+            widget.set_active(2)
 
     def store_profile_values(self, profile):
         """Pull out all the settings before switching profile"""
