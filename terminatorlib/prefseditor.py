@@ -10,6 +10,7 @@ from keybindings import Keybindings, KeymapError
 from version import APP_NAME, APP_VERSION
 from translation import _
 
+# FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
     config = None
     keybindings = None
@@ -23,6 +24,55 @@ class PrefsEditor:
                          'white_on_black': 4,
                          'orange_on_black': 5,
                          'custom': 6}
+
+    keybindingnames = { 'zoom_in'          : 'Increase font size',
+                        'zoom_out'         : 'Decrease font size',
+                        'zoom_normal'      : 'Restore original font size',
+                        'new_tab'          : 'Create a new tab',
+                        'go_next'          : 'Focus the next terminal',
+                        'go_prev'          : 'Focus the previous terminal',
+                        'go_up'            : 'Focus the terminal above',
+                        'go_down'          : 'Focus the terminal below',
+                        'go_left'          : 'Focus the terminal left',
+                        'go_right'         : 'Focus the terminal right',
+                        'split_horiz'      : 'Split horizontally',
+                        'split_vert'       : 'Split vertically',
+                        'close_term'       : 'Close terminal',
+                        'copy'             : 'Copy selected text',
+                        'paste'            : 'Paste clipboard',
+                        'toggle_scrollbar' : 'Show/Hide the scrollbar',
+                        'search'           : 'Search terminal scrollback',
+                        'close_window'     : 'Close window',
+                        'resize_up'        : 'Resize the terminal up',
+                        'resize_down'      : 'Resize the terminal down',
+                        'resize_left'      : 'Resize the terminal left',
+                        'resize_right'     : 'Resize the terminal right',
+                        'move_tab_right'   : 'Move the tab right',
+                        'move_tab_left'    : 'Move the tab left',
+                        'toggle_zoom'      : 'Maximise terminal',
+                        'scaled_zoom'      : 'Zoom terminal',
+                        'next_tab'         : 'Switch to the next tab',
+                        'prev_tab'         : 'Switch to the previous tab',
+                        'switch_to_tab_1'  : 'Switch to the first tab',
+                        'switch_to_tab_2'  : 'Switch to the second tab',
+                        'switch_to_tab_3'  : 'Switch to the third tab',
+                        'switch_to_tab_4'  : 'Switch to the fourth tab',
+                        'switch_to_tab_5'  : 'Switch to the fifth tab',
+                        'switch_to_tab_6'  : 'Switch to the sixth tab',
+                        'switch_to_tab_7'  : 'Switch to the seventh tab',
+                        'switch_to_tab_8'  : 'Switch to the eighth tab',
+                        'switch_to_tab_9'  : 'Switch to the ninth tab',
+                        'switch_to_tab_10' : 'Switch to the tenth tab',
+                        'full_screen'      : 'Toggle fullscreen',
+                        'reset'            : 'Reset the terminal',
+                        'reset_clear'      : 'Reset and clear the terminal',
+                        'hide_window'      : 'Toggle window visibility',
+                        'group_all'        : 'Group all terminals',
+                        'ungroup_all'      : 'Ungroup all terminals',
+                        'group_tab'        : 'Group terminals in tab',
+                        'ungroup_tab'      : 'Ungroup terminals in tab',
+                        'new_window'       : 'Create a new window',
+            }
 
     def __init__ (self, term):
         self.config = config.Config()
@@ -138,7 +188,8 @@ class PrefsEditor:
                     (keyval, mask) = self.keybindings._parsebinding(value)
                 except KeymapError:
                     pass
-            liststore.append([keybinding, 'UNDOCUMENTED', keyval, mask])
+            liststore.append([keybinding, self.keybindingnames[keybinding], 
+                             keyval, mask])
 
         ## Plugins tab
         # FIXME: Implement this
