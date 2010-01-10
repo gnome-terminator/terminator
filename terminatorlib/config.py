@@ -427,20 +427,19 @@ class ConfigBase(Borg):
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
-        dbg('ConfigBase::get_item: %s:%s' % (profile, key))
         if self.global_config.has_key(key):
-            dbg('ConfigBase::get_item: found in globals: %s' %
-                    self.global_config[key])
+            dbg('ConfigBase::get_item: %s found in globals: %s' %
+                    (key, self.global_config[key]))
             return(self.global_config[key])
         elif self.profiles[profile].has_key(key):
-            dbg('ConfigBase::get_item: found in profile %s (%s)' % (
-                    profile, self.profiles[profile][key]))
+            dbg('ConfigBase::get_item: %s found in profile %s: %s' % (
+                    key, profile, self.profiles[profile][key]))
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
         elif plugin is not None and self.plugins[plugin].has_key(key):
-            dbg('ConfigBase::get_item: found in plugin %s (%s)' % (
-                    plugin, self.plugins[plugin][key]))
+            dbg('ConfigBase::get_item: %s found in plugin %s: %s' % (
+                    key, plugin, self.plugins[plugin][key]))
             return(self.plugins[plugin][key])
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
