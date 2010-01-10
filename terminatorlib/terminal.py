@@ -78,6 +78,8 @@ class Terminal(gtk.VBox):
 
     composite_support = None
 
+    cnxids = None
+    # FIXME: These two are old and should be updated to use cnxids[]
     confcnxid = None
     zoomcnxid = None
 
@@ -95,6 +97,7 @@ class Terminal(gtk.VBox):
         self.connect('focus-in', self.terminator.focus_changed)
 
         self.matches = {}
+        self.cnxids = {}
 
         self.config = Config()
 
@@ -262,8 +265,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.on_drag_data_received, self)
 
         if self.config['copy_on_selection']:
-            self.vte.connect('selection-changed', lambda widget:
-                self.vte.copy_clipboard())
+            self.cnxids['copy_on_selection'] = self.vte.connect(
+                    'selection-changed', 
+                    lambda widget: self.vte.copy_clipboard())
 
         if self.composite_support:
             self.vte.connect('composited-changed',
@@ -276,9 +280,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.connect('size-allocate', self.on_vte_size_allocate)
 
         if self.config['exit_action'] == 'restart':
-            self.vte.connect('child-exited', self.spawn_child)
+            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
+                                                            self.spawn_child)
         elif self.config['exit_action'] in ('close', 'left'):
-            self.vte.connect('child-exited', lambda x: self.emit('close-term'))
+            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
+                                            lambda x: self.emit('close-term'))
 
         self.vte.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
         self.vte.connect('enter_notify_event',
