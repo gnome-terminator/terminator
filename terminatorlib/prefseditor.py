@@ -6,12 +6,13 @@ import gobject
 
 from util import dbg, err
 import config
-from keybindings import Keybindings
+from keybindings import Keybindings, KeymapError
 from version import APP_NAME, APP_VERSION
 from translation import _
 
 class PrefsEditor:
     config = None
+    keybindings = None
     window = None
     builder = None
     previous_selection = None
@@ -27,6 +28,7 @@ class PrefsEditor:
         self.config = config.Config()
         self.term = term
         self.builder = gtk.Builder()
+        self.keybindings = Keybindings()
         try:
             # Figure out where our library is on-disk so we can open our 
             (head, tail) = os.path.split(config.__file__)
@@ -123,7 +125,20 @@ class PrefsEditor:
         # FIXME: Implement this
 
         ## Keybindings tab
-        # FIXME: Implement this
+        widget = guiget('keybindingtreeview')
+        liststore = widget.get_model()
+        liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        keybindings = self.config['keybindings']
+        for keybinding in keybindings:
+            keyval = 0
+            mask = 0
+            value = keybindings[keybinding]
+            if value is not None and value != '':
+                try:
+                    (keyval, mask) = self.keybindings._parsebinding(value)
+                except KeymapError:
+                    pass
+            liststore.append([keybinding, 'UNDOCUMENTED', keyval, mask])
 
         ## Plugins tab
         # FIXME: Implement this
@@ -184,10 +199,15 @@ class PrefsEditor:
         # FIXME: Implement this
 
         ## Keybindings tab
-        # FIXME: Implement this
+        keybindings = self.config['keybindings']
+        liststore = guiget('KeybindingsListStore')
+        for keybinding in liststore:
+            accel = gtk.accelerator_name(keybinding[2], keybinding[3])
+            keybindings[keybinding[0]] = accel
 
         ## Plugins tab
         # FIXME: Implement this
+
     def set_profile_values(self, profile):
         """Update the profile values for a given profile"""
         self.config.set_profile(profile)
@@ -690,22 +710,14 @@ class PrefsEditor:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
 
-    def source_get_type (self, key):
-        if config.DEFAULTS['global_config'].has_key (key):
-            print "found %s in global_config" % key
-            return config.DEFAULTS['global_config'][key].__class__.__name__
-        elif config.DEFAULTS['profiles']['default'].has_key (key):
-            print "found %s in profiles" % key
-            return config.DEFAULTS['profiles']['default'][key].__class__.__name__
-        elif config.DEFAULTS['keybindings'].has_key (key):
-            print "found %s in keybindings" % key
-            return config.DEFAULTS['keybindings'][key].__class__.__name__
-        else:
-            print "could not find %s" % key
-            raise KeyError
+    def on_cellrenderer_accel_edited(self, liststore, path, key, mods, code):
+        """Handle an edited keybinding"""
+        celliter = liststore.get_iter_from_string(path)
+        liststore.set(celliter, 2, key, 3, mods)
 
-    def source_get_value (self, key):
-        return self.config[key]
+    def on_cellrenderer_accel_cleared(self, liststore, path):
+        celliter = liststore.get_iter_from_string(path)
+        liststore.set(celliter, 2, 0, 3, 0)
 
     def source_get_keyname (self, key):
         if self.data.has_key (key) and self.data[key][0] != '':
@@ -713,14 +725,6 @@ class PrefsEditor:
         else:
             label_text = key.replace ('_', ' ').capitalize ()
         return label_text
-
-    def apply (self, data):
-        pass
-
-    def cancel (self, data):
-        self.window.destroy()
-        self.term.options = None
-        del(self)
 
     def prepare_keybindings (self):
         self.liststore = gtk.ListStore (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT, gobject.TYPE_UINT, gobject.TYPE_BOOLEAN)

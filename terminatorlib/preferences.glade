@@ -8,16 +8,6 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="KeybindingsListStore">
-    <columns>
-      <!-- column-name Name -->
-      <column type="gchararray"/>
-      <!-- column-name Action -->
-      <column type="gchararray"/>
-      <!-- column-name Keyboard -->
-      <column type="GtkCellRendererAccelMode"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="FocusListStore">
     <columns>
       <!-- column-name focustype -->
@@ -188,6 +178,18 @@
         <col id="0" translatable="yes">Escape sequence</col>
       </row>
     </data>
+  </object>
+  <object class="GtkListStore" id="KeybindingsListStore">
+    <columns>
+      <!-- column-name Name -->
+      <column type="gchararray"/>
+      <!-- column-name Action -->
+      <column type="gchararray"/>
+      <!-- column-name keyval -->
+      <column type="guint"/>
+      <!-- column-name modifiers -->
+      <column type="guint"/>
+    </columns>
   </object>
   <object class="GtkDialog" id="prefswin">
     <property name="border_width">5</property>
@@ -2046,40 +2048,56 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTreeView" id="treeview2">
+              <object class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="model">KeybindingsListStore</property>
+                <property name="vadjustment">adjustment4</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
                 <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-                    <property name="title">Name</property>
+                  <object class="GtkTreeView" id="keybindingtreeview">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">KeybindingsListStore</property>
+                    <property name="headers_clickable">False</property>
+                    <property name="search_column">0</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext10"/>
-                      <attributes>
-                        <attribute name="text">0</attribute>
-                      </attributes>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                        <property name="title">Name</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext10"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn2">
-                    <property name="title">Action</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext11"/>
-                      <attributes>
-                        <attribute name="text">1</attribute>
-                      </attributes>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                        <property name="title">Action</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext11"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkTreeViewColumn" id="treeviewcolumn3">
-                    <property name="title">Keybinding</property>
                     <child>
-                      <object class="GtkCellRendererAccel" id="cellrendereraccel1"/>
-                      <attributes>
-                        <attribute name="text">2</attribute>
-                      </attributes>
+                      <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                        <property name="title">Keybinding</property>
+                        <child>
+                          <object class="GtkCellRendererAccel" id="cellrendereraccel1">
+                            <property name="editable">True</property>
+                            <signal name="accel_cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore"/>
+                            <signal name="accel_edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore"/>
+                          </object>
+                          <attributes>
+                            <attribute name="accel-key">2</attribute>
+                            <attribute name="accel-mods">3</attribute>
+                          </attributes>
+                        </child>
+                      </object>
                     </child>
                   </object>
                 </child>
@@ -2198,6 +2216,12 @@
   </object>
   <object class="GtkAdjustment" id="ScrollbackAdjustmend">
     <property name="upper">10000000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="upper">100</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
     <property name="page_size">10</property>
