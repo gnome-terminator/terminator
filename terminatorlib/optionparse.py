@@ -106,6 +106,6 @@ WM_WINDOW_ROLE property on the window')
     # FIXME: Map all the other bits of options to configobj
 
     if util.DEBUG == True:
-        dbg('OptionParse::parse_options: options dump: %s' % options)
+        dbg('OptionParse::parse_options: command line options: %s' % options)
 
     return(options)
