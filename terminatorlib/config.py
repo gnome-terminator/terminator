@@ -227,6 +227,8 @@ class Config(object):
         if self.base.profiles.has_key(profile):
             self.base.profiles[newname] = self.base.profiles[profile]
             del(self.base.profiles[profile])
+            if profile == self.profile:
+                self.profile = newname
 
     def list_profiles(self):
         """List all configured profiles"""

@@ -577,7 +577,7 @@ class PrefsEditor:
 
         newprofile = _('New Profile')
         if newprofile in values:
-            i = 0
+            i = 1
             while newprofile in values:
                 i = i + 1
                 newprofile = '%s %d' % (_('New Profile'), i)
@@ -668,6 +668,8 @@ class PrefsEditor:
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
         if self.previous_selection is not None:
+            dbg('PrefsEditor::on_profile_selection_changed: Storing: %s' %
+                    self.previous_selection)
             self.store_profile_values(self.previous_selection)
 
         (listmodel, rowiter) = selection.get_selected()
@@ -700,6 +702,9 @@ class PrefsEditor:
         model = widget.get_model()
         iter = model.get_iter(path)
         model.set_value(iter, 0, newtext)
+
+        if oldname == self.previous_selection:
+            self.previous_selection = newtext
 
     def on_color_scheme_combobox_changed(self, widget):
         """Update the fore/background colour pickers"""
