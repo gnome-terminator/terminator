@@ -52,7 +52,7 @@ import platform
 import os
 import sys
 from copy import copy
-from configobj.configobj import ConfigObj
+from configobj.configobj import ConfigObj, flatten_errors
 from configobj.validate import Validator
 from borg import Borg
 from factory import Factory
@@ -317,10 +317,8 @@ class ConfigBase(Borg):
         section = {}
         for key in DEFAULTS['keybindings']:
             value = DEFAULTS['keybindings'][key]
-            if value is None:
+            if value is None or value == '':
                 continue
-            elif isinstance(value, tuple):
-                value = value[0]
             section[key] = 'string(default=%s)' % value
         configspecdata['keybindings'] = section
 
@@ -369,6 +367,11 @@ class ConfigBase(Borg):
 
         if result != True:
             err('ConfigBase::load: config format is not valid')
+            for (section_list, key, other) in flatten_errors(parser, result):
+                if key is not None:
+                    print('[%s]: %s is invalid' % (','.join(section_list), key))
+                else:
+                    print ('[%s] missing' % ','.join(section_list))
 
         for section_name in self.sections:
             dbg('ConfigBase::load: Processing section: %s' % section_name)
