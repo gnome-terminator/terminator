@@ -75,6 +75,8 @@ class Terminal(gtk.VBox):
     matches = None
     config = None
     default_encoding = None
+    custom_encoding = None
+    custom_font_size = None
 
     composite_support = None
 
@@ -461,6 +463,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         # Handle child command exiting
         if self.cnxids.has_key('child-exited'):
+            dbg('Terminal::reconfigure: Dropping child-exited handler')
             self.vte.disconnect(self.cnxids['child-exited'])
             del(self.cnxids['child-exited'])
 
@@ -471,7 +474,121 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.cnxids['child-exited'] = self.vte.connect('child-exited', 
                                             lambda x: self.emit('close-term'))
 
-        # FIXME: actually reconfigure our settings
+        self.vte.set_emulation(self.config['emulation'])
+        if self.custom_encoding != True:
+            self.vte.set_encoding(self.config['encoding'])
+        self.vte.set_word_chars(self.config['word_chars'])
+        self.vte.set_mouse_autohide(self.config['mouse_autohide'])
+
+        backspace = self.config['backspace_binding']
+        delete = self.config['delete_binding']
+
+        # FIXME: This doesn't seem like we ever obey control-h or
+        # escape-sequence
+        try:
+            if backspace == 'ascii-del':
+                backbind = vte.ERASE_ASCII_BACKSPACE
+            else:
+                backbind = vte.ERASE_AUTO_BACKSPACE
+        except AttributeError:
+            if backspace == 'ascii-del':
+                backbind = 2
+            else:
+                backbind = 1
+
+        try:
+            if delete == 'escape-sequence':
+                delbind = vte.ERASE_DELETE_SEQUENCE
+            else:
+                delbind = vte.ERASE_AUTO
+        except AttributeError:
+            if delete == 'escape-sequence':
+                delbind = 3
+            else:
+                delbind = 0
+
+        self.vte.set_backspace_binding(backbind)
+        self.vte.set_delete_binding(delbind)
+
+        if not self.custom_font_size:
+            try:
+                self.vte.set_font(pango.FontDescription(self.config['font']))
+            except:
+                pass
+        self.vte.set_allow_bold(self.config['allow_bold'])
+        if self.config['use_theme_colors']:
+            fgcolor = self.vte.get_style().text[gtk.STATE_NORMAL]
+            bgcolor = self.vte.get_style().base[gtk.STATE_NORMAL]
+        else:
+            fgcolor = gtk.gdk.color_parse(self.config['foreground_color'])
+            bgcolor = gtk.gdk.color_parse(self.config['background_color'])
+
+        colors = self.config['palette'].split(':')
+        palette = []
+        for color in colors:
+            if color:
+                palette.append(gtk.gdk.color_parse(color))
+        self.vte.set_colors(fgcolor, bgcolor, palette)
+        if self.config['cursor_color'] != '':
+            self.vte.set_color_cursor(gtk.gdk.color_parse(self.config['cursor_color']))
+        if hasattr(self.vte, 'set_cursor_shape'):
+            self.vte.set_cursor_shape(getattr(vte, 'CURSOR_SHAPE_' +
+                self.config['cursor_shape'].upper()))
+
+        background_type = self.config['background_type']
+        if background_type == 'image' and \
+           self.config['background_image'] is not None and \
+           self.config['background_image'] != '':
+            self.vte.set_background_image_file(self.config['background_image'])
+            self.vte.set_scroll_background(self.config['scroll_background'])
+        else:
+            self.vte.set_background_image_file('')
+            self.vte.set_scroll_background(False)
+
+        opacity = 65536
+        if background_type in ('image', 'transparent'):
+            self.vte.set_background_tint_color(gtk.gdk.color_parse(self.config['background_color']))
+            self.vte.set_background_saturation(1 -
+                    (self.config['background_darkness']))
+            opacity = int(self.config['background_darkness'] * 65536)
+        else:
+            self.vte.set_background_saturation(1)
+
+        if self.composite_support:
+            self.vte.set_opacity(opacity)
+        if self.config['background_type'] == 'transparent':
+            self.vte.set_background_transparent(True)
+
+        self.vte.set_cursor_blinks(self.config['cursor_blink'])
+
+        if self.config['force_no_bell'] == True:
+            self.vte.set_audible_bell(False)
+            self.vte.set_visible_bell(False)
+            if self.cnxids.has_key('urgent_bell'):
+                self.vte.disconnect(self.cnxids['urgent_bell'])
+                del(self.cnxids['urgent_bell'])
+        else:
+            self.vte.set_audible_bell(self.config['audible_bell'])
+            self.vte.set_visible_bell(self.config['visible_bell'])
+            if self.config['urgent_bell'] == True:
+                # FIXME: Hook up a signal handler here
+                pass
+            else:
+                if self.cnxids.has_key('urgent_bell'):
+                    self.vte.disconnect(self.cnxids['urgent_bell'])
+                    del(self.cnxids['urgent_bell'])
+
+        self.vte.set_scrollback_lines(self.config['scrollback_lines'])
+        self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
+        self.vte.set_scroll_on_output(self.config['scroll_on_output'])
+
+        # FIXME: Do subtle scrollbar_position stuff here
+
+        if hasattr(self.vte, 'set_alternate_screen_scroll'):
+            self.vte.set_alternate_screen_scroll(self.config['alternate_screen_scroll'])
+
+        self.titlebar.update()
+        self.vte.queue_draw()
 
     def get_window_title(self):
         """Return the window title"""
@@ -948,11 +1065,13 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         pangodesc.set_size(fontsize)
         self.vte.set_font(pangodesc)
+        self.custom_font_size = fontsize
 
     def zoom_orig(self):
         """Restore original font size"""
         dbg("Terminal::zoom_orig: restoring font to: %s" % self.config['font'])
         self.vte.set_font(pango.FontDescription(self.config['font']))
+        self.custom_font_size = None
 
     # There now begins a great list of keyboard event handlers
     # FIXME: Probably a bunch of these are wrong. TEST!
