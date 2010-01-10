@@ -9,6 +9,7 @@ import config
 from keybindings import Keybindings, KeymapError
 from version import APP_NAME, APP_VERSION
 from translation import _
+from newterminator import Terminator
 
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
@@ -105,6 +106,8 @@ class PrefsEditor:
         """Save the config"""
         self.store_values()
         self.config.save()
+        terminator = Terminator()
+        terminator.reconfigure_terminals()
         self.window.destroy()
         del(self)
 
