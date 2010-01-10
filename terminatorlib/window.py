@@ -275,7 +275,7 @@ class Window(Container, gtk.Window):
         self.set_property('term_zoomed', True)
 
         if font_scale:
-            widget.zoomcnxid = widget.connect('size-allocate',
+            widget.cnxids['zoom'] = widget.connect('size-allocate',
                     widget.zoom_scale, self.zoom_data)
 
         widget.grab_focus()

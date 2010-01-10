@@ -79,9 +79,6 @@ class Terminal(gtk.VBox):
     composite_support = None
 
     cnxids = None
-    # FIXME: These two are old and should be updated to use cnxids[]
-    confcnxid = None
-    zoomcnxid = None
 
     def __init__(self):
         """Class initialiser"""
@@ -290,7 +287,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.connect('enter_notify_event',
             self.on_vte_notify_enter)
 
-        self.confcnxid = self.vte.connect_after('realize', self.reconfigure)
+        self.cnxids['conf'] = self.vte.connect_after('realize', self.reconfigure)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -465,9 +462,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
-        if self.confcnxid:
-            self.vte.disconnect(self.confcnxid)
-            self.confcnxid = None
+        if self.cnxids.has_key('conf'):
+            self.vte.disconnect(self.cnxids['conf'])
+            self.cnxids.remove('conf')
 
         # FIXME: actually reconfigure our settings
         pass
@@ -772,8 +769,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
-        self.disconnect(self.zoomcnxid)
-        self.zoomcnxid = None
+        self.disconnect(self.cnxids['zoom'])
+        self.cnxids.remove('zoom')
 
         new_columns = self.vte.get_column_count()
         new_rows = self.vte.get_row_count()
