@@ -276,13 +276,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
         self.vte.connect('size-allocate', self.on_vte_size_allocate)
 
-        if self.config['exit_action'] == 'restart':
-            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
-                                                            self.spawn_child)
-        elif self.config['exit_action'] in ('close', 'left'):
-            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
-                                            lambda x: self.emit('close-term'))
-
         self.vte.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
         self.vte.connect('enter_notify_event',
             self.on_vte_notify_enter)
@@ -464,10 +457,21 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         dbg('Terminal::reconfigure')
         if self.cnxids.has_key('conf'):
             self.vte.disconnect(self.cnxids['conf'])
-            self.cnxids.remove('conf')
+            del(self.cnxids['conf'])
+
+        # Handle child command exiting
+        if self.cnxids.has_key('child-exited'):
+            self.vte.disconnect(self.cnxids['child-exited'])
+            del(self.cnxids['child-exited'])
+
+        if self.config['exit_action'] == 'restart':
+            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
+                                                            self.spawn_child)
+        elif self.config['exit_action'] in ('close', 'left'):
+            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
+                                            lambda x: self.emit('close-term'))
 
         # FIXME: actually reconfigure our settings
-        pass
 
     def get_window_title(self):
         """Return the window title"""
@@ -770,7 +774,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
         self.disconnect(self.cnxids['zoom'])
-        self.cnxids.remove('zoom')
+        del(self.cnxids['zoom'])
 
         new_columns = self.vte.get_column_count()
         new_rows = self.vte.get_row_count()
