@@ -598,9 +598,9 @@ class PrefsEditor:
             # We shouldn't let people delete this profile
             return
 
+        self.previous_selection = None
         self.config.del_profile(profile)
         model.remove(rowiter)
-
         selection.select_iter(model.get_iter_first())
 
     def on_use_custom_command_checkbutton_toggled(self, checkbox):
