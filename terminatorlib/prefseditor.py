@@ -213,7 +213,7 @@ class PrefsEditor:
         self.config['focus'] = value
         # Handle size
         widget = guiget('handlesize')
-        self.config['handle_size'] = widget.get_value()
+        self.config['handle_size'] = int(widget.get_value())
         # Window geometry
         widget = guiget('wingeomcheck')
         self.config['geometry_hinting'] = widget.get_active()
