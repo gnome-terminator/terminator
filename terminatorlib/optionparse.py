@@ -91,18 +91,7 @@ WM_WINDOW_ROLE property on the window')
                     options.working_directory)
             sys.exit(1)
 
-    if options.maximise:
-        configobj['window_state'] = 'maximise'
-
-    if options.fullscreen:
-        configobj['window_state'] = 'fullscreen'
-
-    if options.borderless:
-        configobj['borderless'] = True
-
-    if options.hidden:
-        configobj['window_state'] = 'hidden'
-
+    configobj.options_set(options)
     # FIXME: Map all the other bits of options to configobj
 
     if util.DEBUG == True:

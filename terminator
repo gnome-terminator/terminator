@@ -50,8 +50,7 @@ if __name__ == '__main__':
 
     MAKER = Factory()
     TERMINATOR = Terminator()
-    WINDOW = MAKER.make('Window', geometry=OPTIONS.geometry,
-            forcedtitle=OPTIONS.forcedtitle, role=OPTIONS.role)
+    WINDOW = MAKER.make('Window')
     TERMINAL = MAKER.make('Terminal')
 
     WINDOW.add(TERMINAL)

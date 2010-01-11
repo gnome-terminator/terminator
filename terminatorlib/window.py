@@ -35,7 +35,7 @@ class Window(Container, gtk.Window):
     zoom_data = None
     term_zoomed = gobject.property(type=bool, default=False)
 
-    def __init__(self, geometry=None, forcedtitle=None, role=None):
+    def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
         self.terminator.register_window(self)
@@ -53,15 +53,19 @@ class Window(Container, gtk.Window):
 
         self.title = WindowTitle(self)
         self.title.update()
-        if forcedtitle is not None:
-            self.title.force_title(forcedtitle)
 
-        if role is not None:
-            self.set_role(role)
+        options = self.config.options_get()
+        if options:
+            if options.forcedtitle is not None:
+                self.title.force_title(options.forcedtitle)
 
-        if geometry is not None:
-            if not self.parse_geometry(geometry):
-                err('Window::__init__: Unable to parse geometry: %s' % geometry)
+            if options.role is not None:
+                self.set_role(options.role)
+
+            if options.geometry is not None:
+                if not self.parse_geometry(options.geometry):
+                    err('Window::__init__: Unable to parse geometry: %s' % 
+                            options.geometry)
 
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
@@ -87,14 +91,30 @@ class Window(Container, gtk.Window):
 
     def apply_config(self):
         """Apply various configuration options"""
-        self.set_fullscreen(self.config['window_state'] == 'fullscreen')
-        self.set_maximised(self.config['window_state'] == 'maximise')
-        self.set_borderless(self.config['borderless'])
+        options = self.config.options_get()
+        maximise = self.config['window_state'] == 'maximise'
+        fullscreen = self.config['window_state'] == 'fullscreen'
+        hidden = self.config['window_state'] == 'hidden'
+        borderless = self.config['borderless']
+
+        if options:
+            if options.maximise:
+                maximise = True
+            if options.fullscreen:
+                fullscreen = True
+            if options.hidden:
+                hidden = True
+            if options.borderless:
+                borderless = True
+
+        self.set_fullscreen(fullscreen)
+        self.set_maximised(maximise)
+        self.set_borderless(borderless)
         self.set_real_transparency()
         if self.hidebound:
-            self.set_hidden(self.config['window_state'] == 'hidden')
+            self.set_hidden(hidden)
         else:
-            self.set_iconified(self.config['window_state'] == 'hidden')
+            self.set_iconified(hidden)
 
     def apply_icon(self):
         """Set the window icon"""

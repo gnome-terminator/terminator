@@ -237,6 +237,14 @@ class Config(object):
         """Cause ConfigBase to save our config to file"""
         return(self.base.save())
 
+    def options_set(self, options):
+        """Set the command line options"""
+        self.base.command_line_options = options
+
+    def options_get(self):
+        """Get the command line options"""
+        return(self.base.command_line_options)
+
     def plugin_get(self, pluginname, key):
         """Get a plugin config value"""
         return(self.base.get_item(key, plugin=pluginname))
@@ -262,6 +270,7 @@ class ConfigBase(Borg):
     keybindings = None
     plugins = None
     layouts = None
+    command_line_options = None
 
     def __init__(self):
         """Class initialiser"""
