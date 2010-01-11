@@ -37,9 +37,8 @@ except ImportError:
            'gobject, gtk and pango to run Terminator.')
     sys.exit(1)
 
-import terminatorlib.config
 import terminatorlib.optionparse
-from terminatorlib.newterminator import Terminator
+from terminatorlib.terminator import Terminator
 from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg
