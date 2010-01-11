@@ -540,7 +540,7 @@ class PrefsEditor:
         self.config['scrollbar_position'] = value
         # Scrollback lines
         widget = guiget('scrollback-lines-spinbutton')
-        self.config['scrollback_lines'] = widget.get_value()
+        self.config['scrollback_lines'] = int(widget.get_value())
         # Scroll on output
         widget = guiget('scroll-on-output-checkbutton')
         self.config['scroll_on_output'] = widget.get_active()
