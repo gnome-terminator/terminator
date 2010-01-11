@@ -22,7 +22,7 @@ import os
 import pwd
 
 # set this to true to enable debugging output
-DEBUG = True
+DEBUG = False
 
 def dbg(log = ""):
     """Print a message if debugging is enabled"""
