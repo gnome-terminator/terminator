@@ -17,7 +17,7 @@ from util import dbg, err, gerr, get_top_window
 import util
 from config import Config
 from cwd import get_default_cwd
-from newterminator import Terminator
+from terminator import Terminator
 from titlebar import Titlebar
 from terminal_popup_menu import TerminalPopupMenu
 from searchbar import Searchbar

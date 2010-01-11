@@ -6,7 +6,7 @@
 import gobject
 import gtk
 
-from newterminator import Terminator
+from terminator import Terminator
 from config import Config
 from factory import Factory
 from container import Container

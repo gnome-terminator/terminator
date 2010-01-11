@@ -8,7 +8,7 @@ from util import dbg
 import config
 from keybindings import Keybindings, KeymapError
 from translation import _
-from newterminator import Terminator
+from terminator import Terminator
 
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:

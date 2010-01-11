@@ -13,7 +13,7 @@ from translation import _
 from version import APP_NAME
 from container import Container
 from factory import Factory
-from newterminator import Terminator
+from terminator import Terminator
 
 try:
     import deskbar.core.keybinder as bindkey

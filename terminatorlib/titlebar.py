@@ -8,7 +8,7 @@ import gobject
 
 from version import APP_NAME
 from util import dbg
-from newterminator import Terminator
+from terminator import Terminator
 from editablelabel import EditableLabel
 
 # pylint: disable-msg=R0904

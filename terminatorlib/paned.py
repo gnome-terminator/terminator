@@ -8,7 +8,7 @@ import gobject
 import gtk
 
 from util import dbg, err, get_top_window
-from newterminator import Terminator
+from terminator import Terminator
 from factory import Factory
 from container import Container
 
