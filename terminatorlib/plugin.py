@@ -136,7 +136,6 @@ class MenuItem(Plugin):
         raise NotImplementedError
 
 if __name__ == '__main__':
-    import sys
     import doctest
     sys.path.insert(0, 'plugins')
     (failed, attempted) = doctest.testmod()

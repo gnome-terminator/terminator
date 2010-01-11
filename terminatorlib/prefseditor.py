@@ -4,10 +4,9 @@ import os
 import gtk
 import gobject
 
-from util import dbg, err
+from util import dbg
 import config
 from keybindings import Keybindings, KeymapError
-from version import APP_NAME, APP_VERSION
 from translation import _
 from newterminator import Terminator
 

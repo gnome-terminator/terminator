@@ -10,10 +10,10 @@ pygtk.require('2.0')
 import gtk
 import gobject
 import pango
-import re
 import subprocess
+import urllib
 
-from util import dbg, err, gerr, widget_pixbuf, get_top_window
+from util import dbg, err, gerr, get_top_window
 import util
 from config import Config
 from cwd import get_default_cwd

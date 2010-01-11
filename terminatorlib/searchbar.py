@@ -8,7 +8,6 @@ import gobject
 
 from translation import _
 from config import Config
-from util import dbg
 
 # pylint: disable-msg=R0904
 class Searchbar(gtk.HBox):

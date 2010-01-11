@@ -55,7 +55,6 @@ from copy import copy
 from configobj.configobj import ConfigObj, flatten_errors
 from configobj.validate import Validator
 from borg import Borg
-from factory import Factory
 from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
 DEFAULTS = {
@@ -481,7 +480,6 @@ class ConfigBase(Borg):
         return(True)
 
 if __name__ == '__main__':
-    import sys
     import doctest
     (failed, attempted) = doctest.testmod()
     print "%d/%d tests failed" % (failed, attempted)

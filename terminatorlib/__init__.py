@@ -16,5 +16,3 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
-
-from version import APP_NAME, APP_VERSION
