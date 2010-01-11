@@ -107,7 +107,7 @@ class PrefsEditor:
         self.store_values()
         self.config.save()
         terminator = Terminator()
-        terminator.reconfigure_terminals()
+        terminator.reconfigure()
         self.window.destroy()
         del(self)
 

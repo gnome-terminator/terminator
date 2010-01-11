@@ -85,9 +85,12 @@ class Terminator(Borg):
             dbg('Terminator::deregister_terminal: %d terminals remain' %
                     len(self.terminals))
 
-    def reconfigure_terminals(self):
-        """Tell all terminals to update their configuration"""
+    def reconfigure(self):
+        """Update configuration for the whole application"""
 
+        # FIXME: Set handle_size here
+
+        # Cause all the terminals to reconfigure
         for terminal in self.terminals:
             terminal.reconfigure()
 
