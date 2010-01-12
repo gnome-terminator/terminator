@@ -126,9 +126,9 @@ class Titlebar(gtk.EventBox):
         """Re-emit an edit-done signal from an EditableLabel"""
         self.emit('edit-done')
 
-    def creating_group(self):
-        """Determine if we're currently creating a group"""
-        return(self.groupentry.get_property('visible'))
+    def editing(self):
+        """Determine if we're currently editing a group name or title"""
+        return(self.groupentry.get_property('visible') or self.label.editing())
 
     def create_group(self):
         """Create a new group"""

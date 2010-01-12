@@ -54,7 +54,11 @@ class EditableLabel(gtk.EventBox):
     def set_angle(self, angle ):
         """set angle of the label"""
         self._label.set_angle( angle )
- 
+
+    def editing(self):
+        """Return if we are currently editing"""
+        return(self._entry != None)
+
     def set_text(self, text, force=False):
         """set the text of the label"""
         self._autotext = text
