@@ -63,6 +63,7 @@ class Terminal(gtk.VBox):
     vte = None
     terminalbox = None
     scrollbar = None
+    scrollbar_position = None
     titlebar = None
     searchbar = None
 
@@ -158,12 +159,13 @@ class Terminal(gtk.VBox):
 
         terminalbox = gtk.HBox()
         self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
-        position = self.config['scrollbar_position']
+        self.scrollbar.set_no_show_all(True)
+        self.scrollbar_position = self.config['scrollbar_position']
 
-        if position not in ('hidden', 'disabled'):
+        if self.scrollbar_position not in ('hidden', 'disabled'):
             self.scrollbar.show()
 
-        if position == 'left':
+        if self.scrollbar_position == 'left':
             func = terminalbox.pack_end
         else:
             func = terminalbox.pack_start
@@ -582,7 +584,16 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
-        # FIXME: Do subtle scrollbar_position stuff here
+        if self.scrollbar_position != self.config['scrollbar_position']:
+            self.scrollbar_position = self.config['scrollbar_position']
+            if self.config['scrollbar_position'] == 'disabled':
+                self.scrollbar.hide()
+            else:
+                self.scrollbar.show()
+                if self.config['scrollbar_position'] == 'left':
+                    self.reorder_child(self.scrollbar, 0)
+                elif self.config['scrollbar_position'] == 'right':
+                    self.reorder_child(self.vte, 0)
 
         if hasattr(self.vte, 'set_alternate_screen_scroll'):
             self.vte.set_alternate_screen_scroll(self.config['alternate_screen_scroll'])
