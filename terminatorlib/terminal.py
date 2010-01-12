@@ -874,8 +874,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
         if self.config['focus'] in ['sloppy', 'mouse']:
-            term.grab_focus()
-            return(False)
+            if self.titlebar.creating_group() == False:
+                term.grab_focus()
+                return(False)
 
     def hide_titlebar(self):
         """Hide the titlebar"""
