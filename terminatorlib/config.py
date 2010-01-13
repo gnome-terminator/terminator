@@ -123,8 +123,6 @@ DEFAULTS = {
         },
         'profiles': {
             'default':  {
-                'titlebars'             : True,
-                'zoomedtitlebar'        : True,
                 'allow_bold'            : True,
                 'audible_bell'          : False,
                 'visible_bell'          : True,

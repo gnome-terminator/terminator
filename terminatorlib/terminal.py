@@ -681,9 +681,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def do_scrollbar_toggle(self):
         self.toggle_widget_visibility(self.scrollbar)
 
-    def do_title_toggle(self):
-        self.toggle_widget_visibility(self.titlebar)
-
     def toggle_widget_visibility(self, widget):
         if widget.get_property('visible'):
             widget.hide()
@@ -878,14 +875,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             if self.titlebar.editing() == False:
                 term.grab_focus()
                 return(False)
-
-    def hide_titlebar(self):
-        """Hide the titlebar"""
-        self.titlebar.hide()
-
-    def show_titlebar(self):
-        """Show the titlebar"""
-        self.titlebar.show()
 
     def get_zoom_data(self):
         """Return a dict of information for Window"""

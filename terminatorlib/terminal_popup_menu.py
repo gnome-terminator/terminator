@@ -125,13 +125,6 @@ class TerminalPopupMenu(object):
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
-        item = gtk.CheckMenuItem(_('Show _titlebar'))
-        item.set_active(terminal.titlebar.get_property('visible'))
-        item.connect('toggled', lambda x: terminal.do_title_toggle())
-        if terminal.group:
-            item.set_sensitive(False)
-        menu.append(item)
-
         item = gtk.MenuItem(_('_Preferences'))
         item.connect('activate', lambda x: PrefsEditor(self.terminal))
         menu.append(item)
