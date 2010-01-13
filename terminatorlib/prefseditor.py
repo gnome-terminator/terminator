@@ -121,7 +121,7 @@ class PrefsEditor:
         active = 0
         if focus == 'click':
             active = 1
-        elif focus == 'sloppy':
+        elif focus in ['sloppy', 'mouse']:
             active = 2
         widget = guiget('focuscombo')
         widget.set_active(active)
@@ -380,7 +380,7 @@ class PrefsEditor:
         value = self.config['scrollbar_position']
         if value == 'left':
             widget.set_active(0)
-        elif value == 'disabled':
+        elif value in ['disabled', 'hidden']:
             widget.set_active(2)
         else:
             widget.set_active(1)
@@ -534,7 +534,7 @@ class PrefsEditor:
             value = 'left'
         elif selected == 1:
             value = 'right'
-        elif selected ==2:
+        elif selected == 2:
             value = 'hidden'
         self.config['scrollbar_position'] = value
         # Scrollback lines
