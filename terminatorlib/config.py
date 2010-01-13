@@ -204,6 +204,10 @@ class Config(object):
         """Set a particular configuration item"""
         return(self.base.set_item(key, value, self.profile))
 
+    def get_profile(self):
+        """Get our profile"""
+        return(self.profile)
+
     def set_profile(self, profile):
         """Set our profile (which usually means change it)"""
         dbg('Config::set_profile: Changing profile to %s' % profile)

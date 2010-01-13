@@ -142,8 +142,9 @@ class Terminal(gtk.VBox):
 
     def set_profile(self, widget, profile):
         """Set our profile"""
-        self.config.set_profile(profile)
-        self.reconfigure()
+        if profile != self.config.get_profile():
+            self.config.set_profile(profile)
+            self.reconfigure()
 
     def get_profile(self):
         """Return our profile name"""
