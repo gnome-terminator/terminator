@@ -58,7 +58,7 @@ if __name__ == '__main__':
     WINDOW.show()
     TERMINAL.spawn_child()
 
-    if OPTIONS.debug > 1:
+    if OPTIONS.debug > 2:
         import terminatorlib.debugserver as debugserver
         # pylint: disable-msg=W0611
         import threading

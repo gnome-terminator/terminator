@@ -20,14 +20,32 @@ import sys
 import gtk
 import os
 import pwd
+import inspect
 
 # set this to true to enable debugging output
 DEBUG = False
+# set this to true to additionally list filenames in debugging
+DEBUGFILES = False
 
 def dbg(log = ""):
     """Print a message if debugging is enabled"""
     if DEBUG:
-        print >> sys.stderr, log
+        stackitem = inspect.stack()[1]
+        parent_frame = stackitem[0]
+        method = parent_frame.f_code.co_name
+        names, varargs, keywords, local_vars = inspect.getargvalues(parent_frame)
+        try:
+            self_name = names[0]
+            classname = local_vars[self_name].__class__.__name__
+        except IndexError:
+            classname = "noclass"
+        if DEBUGFILES:
+            line = stackitem[2]
+            filename = parent_frame.f_code.co_filename
+            extra = " (%s:%s)" % (filename, line)
+        else:
+            extra = ""
+        print >> sys.stderr, "%s::%s: %s%s" % (classname, method, log, extra)
 
 def err(log = ""):
     """Print an error message"""
@@ -145,4 +163,3 @@ def dict_diff(reference, working):
             result[key] = working[key]
 
     return(result)
-

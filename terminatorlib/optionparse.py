@@ -82,6 +82,8 @@ WM_WINDOW_ROLE property on the window')
     
     if options.debug:
         util.DEBUG = True
+        if options.debug >1:
+            util.DEBUGFILES = True
 
     if options.working_directory:
         if os.path.exists(os.path.expanduser(options.working_directory)):
