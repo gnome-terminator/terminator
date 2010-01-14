@@ -1,7 +1,23 @@
 #!/usr/bin/python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""factory.py - Maker of objects"""
+"""factory.py - Maker of objects
+
+>>> maker = Factory()
+>>> window = maker.make_window()
+>>> maker.isinstance(window, 'Window')
+True
+>>> terminal = maker.make_terminal()
+>>> maker.isinstance(terminal, 'Terminal')
+True
+>>> hpaned = maker.make_hpaned()
+>>> maker.isinstance(hpaned, 'HPaned')
+True
+>>> vpaned = maker.make_vpaned()
+>>> maker.isinstance(vpaned, 'VPaned')
+True
+
+"""
 
 from borg import Borg
 from util import dbg, err
