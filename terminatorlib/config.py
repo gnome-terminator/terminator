@@ -44,7 +44,20 @@ Classes relating to configuration
 {'foo': 'bar'}
 >>> config.plugin_get('testplugin', 'foo')
 'bar'
->>>
+>>> config.get_profile()
+'default'
+>>> config.set_profile('my_first_new_testing_profile')
+>>> config.get_profile()
+'my_first_new_testing_profile'
+>>> config.del_profile('my_first_new_testing_profile')
+>>> config.get_profile()
+'default'
+>>> config.list_profiles().__class__.__name__
+'list'
+>>> config.options_set({})
+>>> config.options_get()
+{}
+>>> 
 
 """
 
@@ -220,6 +233,9 @@ class Config(object):
 
     def del_profile(self, profile):
         """Delete a profile"""
+        if profile == self.profile:
+            err('Config::del_profile: Deleting in-use profile %s.' % profile)
+            self.set_profile('default')
         if self.base.profiles.has_key(profile):
             del(self.base.profiles[profile])
 
