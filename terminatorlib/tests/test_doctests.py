@@ -8,6 +8,7 @@ def test_suite():
         'config',
         'plugin',
         'testborg',
+        'cwd',
         ):
         suite.addTest(DocTestSuite('terminatorlib.' + name))
     return suite

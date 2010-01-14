@@ -1,7 +1,16 @@
 #!/usr/bin/python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""cwd.py - function necessary to get the cwd for a given pid on various OSes"""
+"""cwd.py - function necessary to get the cwd for a given pid on various OSes
+
+>>> cwd = get_default_cwd()
+>>> cwd.__class__.__name__
+'str'
+>>> func = get_pid_cwd()
+>>> func.__class__.__name__
+'function'
+
+"""
 
 import platform
 import os
