@@ -10,6 +10,7 @@ def test_suite():
         'testborg',
         'cwd',
         'factory',
+        'util',
         ):
         suite.addTest(DocTestSuite('terminatorlib.' + name))
     return suite
