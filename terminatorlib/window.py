@@ -80,7 +80,7 @@ class Window(Container, gtk.Window):
             self.hidebound = bindkey.tomboy_keybinder_bind(
                 self.config['keybindings']['hide_window'],
                 self.on_hide_window)
-        except NameError:
+        except KeyError,NameError:
             pass
 
         if not self.hidebound:
