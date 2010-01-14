@@ -215,12 +215,12 @@ class Terminal(gtk.VBox):
                     "(www|ftp)[" + hostchars + "]*\.[" + hostchars + 
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
             self.matches['email'] = self.vte.match_add (lboundry + 
-                    "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]\
-                            [a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+\
-                            [.a-zA-Z0-9-]*" + rboundry)
+                    "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]" +
+                            "[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+"
+                            "[.a-zA-Z0-9-]*" + rboundry)
             self.matches['nntp'] = self.vte.match_add (lboundry + 
-                    '''news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@\
-                            [-A-Za-z0-9.]+(:[0-9]+)?''' + rboundry)
+                    "news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@"
+                            "[-A-Za-z0-9.]+(:[0-9]+)?" + rboundry)
 
             # Now add any matches from plugins
             try:
