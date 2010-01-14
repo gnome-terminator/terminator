@@ -433,7 +433,13 @@ class ConfigBase(Borg):
             dbg('ConfigBase::save: Processing plugin: %s' % plugin)
             parser['plugins'][plugin] = self.plugins[plugin]
 
-        parser.write(open(os.path.join(get_config_dir(), 'epic-config'), 'w'))
+        config_dir = get_config_dir()
+        if not os.isdir(config_dir):
+            os.makedirs(config_dir)
+        try:
+            parser.write(open(os.path.join(config_dir, 'epic-config'), 'w'))
+        except Exception, ex:
+            err('ConfigBase::save: Unable to save config: %s' % ex)
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
