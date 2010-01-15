@@ -450,7 +450,7 @@ class ConfigBase(Borg):
             parser['plugins'][plugin] = self.plugins[plugin]
 
         config_dir = get_config_dir()
-        if not os.isdir(config_dir):
+        if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
         try:
             parser.write(open(os.path.join(config_dir, 'epic-config'), 'w'))
