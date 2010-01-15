@@ -349,7 +349,11 @@ class PrefsEditor:
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
-        # FIXME: Do the Palette schemes and pickers
+        # Palette
+        palette = self.config['palette'].split(':')
+        for i in xrange(1,17):
+            widget = guiget('palette-colorpicker-%d' % i)
+            widget.set_color(gtk.gdk.Color(palette[i - 1]))
 
         ## Background tab
         # Radio values
@@ -503,7 +507,12 @@ class PrefsEditor:
         # Background colour
         widget = guiget('background-colorpicker')
         self.config['background_color'] = widget.get_color().to_string()
-        # FIXME: Do the palette schemes and palette
+        # Palette
+        palette = []
+        for i in xrange(1,17):
+            widget = guiget('palette-colorpicker-%d' % i)
+            palette.append(widget.get_color().to_string())
+        self.config['palette'] = ':'.join(palette)
 
         ## Background tab
         # Background type
