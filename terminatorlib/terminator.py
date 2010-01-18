@@ -114,9 +114,6 @@ class Terminator(Borg):
         if length <= 1:
             return
 
-        print "Current term: %d" % current
-        print "Number of terms: %d" % length
-
         if direction == 'next':
             next = current + 1
             if next >= length:
@@ -130,7 +127,6 @@ class Terminator(Borg):
             # FIXME: Do the directional navigation
         
         if next is not None:
-            print "sending focus to term %d" % next
             self.terminals[next].grab_focus()
 
     def create_group(self, name):
