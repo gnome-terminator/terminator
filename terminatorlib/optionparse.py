@@ -94,7 +94,6 @@ WM_WINDOW_ROLE property on the window')
             sys.exit(1)
 
     configobj.options_set(options)
-    # FIXME: Map all the other bits of options to configobj
 
     if util.DEBUG == True:
         dbg('OptionParse::parse_options: command line options: %s' % options)

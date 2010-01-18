@@ -948,18 +948,29 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         self.vte.grab_focus()
 
-        if self.config['use_custom_command']:
+        options = self.config.options_get()
+        if options.command:
+            command = options.command
+            options.command = None
+        elif options.execute:
+            command = options.execute
+            options.execute = None
+        elif self.config['use_custom_command']:
             command = self.config['custom_command']
 
-        shell = util.shell_lookup()
-
-        if self.config['login_shell']:
-            args.insert(0, "-%s" % shell)
+        if type(command) is list:
+            shell = util.path_lookup(command[0])
+            args = command
         else:
-            args.insert(0, shell)
+            shell = util.shell_lookup()
 
-        if command is not None:
-            args += ['-c', command]
+            if self.config['login_shell']:
+                args.insert(0, "-%s" % shell)
+            else:
+                args.insert(0, shell)
+
+            if command is not None:
+                args += ['-c', command]
 
         if shell is None:
             self.vte.feed(_('Unable to find a shell'))
@@ -970,6 +981,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         except AttributeError:
             pass
 
+        dbg('Forking shell: "%s" with args: %s' % (shell, args))
         self.pid = self.vte.fork_command(command=shell, argv=args, envv=[],
                 loglastlog=login, logwtmp=update_records,
                 logutmp=update_records, directory=self.cwd)

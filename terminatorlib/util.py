@@ -101,7 +101,7 @@ def path_lookup(command):
         dbg('path_lookup: PATH not set in environment, using fallbacks')
         paths = ['/usr/local/bin', '/usr/bin', '/bin']
 
-    dbg('path_lookup: Using %d paths: %s', (len(paths), paths))
+    dbg('path_lookup: Using %d paths: %s' % (len(paths), paths))
 
     for path in paths:
         target = os.path.join(path, command)
