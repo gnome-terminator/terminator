@@ -10,6 +10,7 @@ from factory import Factory
 from config import Config
 from util import dbg, err
 from translation import _
+from signalman import Signalman
 
 # pylint: disable-msg=R0921
 class Container(object):
@@ -20,13 +21,13 @@ class Container(object):
     children = None
     config = None
     signals = None
-    cnxids = None
+    signalman = None
 
     def __init__(self):
         """Class initialiser"""
         self.children = []
         self.signals = []
-        self.cnxids = {}
+        self.cnxids = Signalman()
         self.config = Config()
 
     def register_signals(self, widget):
@@ -49,28 +50,14 @@ class Container(object):
                     err('Container:: registering signal for %s on %s failed' %
                             (signal['name'], widget))
 
-    def connect_child(self, widget, signal, handler, data=None):
+    def connect_child(self, widget, signal, handler, *args):
         """Register the requested signal and record its connection ID"""
-        if not self.cnxids.has_key(widget):
-            self.cnxids[widget] = []
-
-        if data is not None:
-            self.cnxids[widget].append(widget.connect(signal, handler, data))
-            dbg('Container::connect_child: connecting %s(%s) for %s::%s' %
-                (handler.__name__, data, widget.__class__.__name__, signal))
-        else:
-            self.cnxids[widget].append(widget.connect(signal, handler))
-            dbg('Container::connect_child: registering %s to handle %s::%s' %
-                (handler.__name__, widget.__class__.__name__, signal))
+        self.cnxids.new(widget, signal, handler, *args)
+        return
 
     def disconnect_child(self, widget):
         """De-register the signals for a child"""
-        if self.cnxids.has_key(widget):
-            for cnxid in self.cnxids[widget]:
-                dbg('Container::disconnect_child: removing handler on %s' %
-                        type(widget))
-                widget.disconnect(cnxid)
-            del(self.cnxids[widget])
+        self.cnxids.remove_widget(widget)
 
     def get_offspring(self):
         """Return a list of child widgets, if any"""

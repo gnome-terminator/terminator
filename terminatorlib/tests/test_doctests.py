@@ -11,6 +11,7 @@ def test_suite():
         'cwd',
         'factory',
         'util',
+        'testsignalman',
         ):
         suite.addTest(DocTestSuite('terminatorlib.' + name))
     return suite

@@ -97,6 +97,7 @@ class Terminal(gtk.VBox):
         self.connect('focus-in', self.terminator.focus_changed)
 
         self.matches = {}
+        # FIXME: Port cnxids to using Signalman
         self.cnxids = {}
 
         self.config = Config()

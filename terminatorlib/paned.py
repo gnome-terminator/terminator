@@ -37,8 +37,7 @@ class Paned(Container):
 
         dbg("Paned::set_initial_position: Setting position to: %d" % position)
         self.set_position(position)
-        self.disconnect(self.cnxids['init'])
-        del(self.cnxids['init'])
+        self.cnxids.remove_signal(self, 'expose-event')
 
     # pylint: disable-msg=W0613
     def split_axis(self, widget, vertical=True, sibling=None):
@@ -78,7 +77,6 @@ class Paned(Container):
         else:
             raise ValueError('Paned widgets can only have two children')
 
-        self.cnxids[widget] = []
         if maker.isinstance(widget, 'Terminal'):
             top_window = get_top_window(self)
 
@@ -92,8 +90,7 @@ class Paned(Container):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
 
-            self.connect_child(widget, 'maximise', top_window.zoom,
-                    False)
+            self.connect_child(widget, 'maximise', top_window.zoom, False)
 
             widget.grab_focus()
 
@@ -176,8 +173,7 @@ class HPaned(Paned, gtk.HPaned):
         Paned.__init__(self)
         gtk.HPaned.__init__(self)
         self.register_signals(HPaned)
-        self.cnxids['init'] = self.connect('expose-event',
-                self.set_initial_position)
+        self.cnxids.new(self, 'expose-event', self.set_initial_position)
 
 class VPaned(Paned, gtk.VPaned):
     """Merge gtk.VPaned into our base Paned Container"""
@@ -186,8 +182,7 @@ class VPaned(Paned, gtk.VPaned):
         Paned.__init__(self)
         gtk.VPaned.__init__(self)
         self.register_signals(VPaned)
-        self.cnxids['init'] = self.connect('expose-event',
-                self.set_initial_position)
+        self.cnxids.new(self, 'expose-event', self.set_initial_position)
 
 gobject.type_register(HPaned)
 gobject.type_register(VPaned)
