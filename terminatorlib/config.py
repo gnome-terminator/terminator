@@ -83,6 +83,12 @@ DEFAULTS = {
             'hide_tabbar'           : False,
             'scroll_tabbar'         : False,
             'try_posix_regexp'      : platform.system() != 'Linux',
+            'title_transmit_fg_color' : '#ffffff',
+            'title_transmit_bg_color' : '#c80003',
+            'title_receive_fg_color' : '#ffffff',
+            'title_receive_bg_color' : '#0076c9',
+            'title_inactive_fg_color' : '#000000',
+            'title_inactive_bg_color' : '#c0bebf',
             'disabled_plugins'      : ['TestPlugin', 'CustomCommandsMenu'],
         },
         'keybindings': {

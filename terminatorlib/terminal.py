@@ -118,7 +118,7 @@ class Terminal(gtk.VBox):
 
         self.terminalbox = self.create_terminalbox()
 
-        self.titlebar = Titlebar()
+        self.titlebar = Titlebar(self)
         self.titlebar.connect_icon(self.on_group_button_press)
         self.titlebar.connect('edit-done', self.on_edit_done)
         self.connect('title-change', self.titlebar.set_terminal_title)

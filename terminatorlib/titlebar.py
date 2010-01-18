@@ -17,6 +17,8 @@ class Titlebar(gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
     terminator = None
+    terminal = None
+    config = None
     oldtitle = None
     termtext = None
     sizetext = None
@@ -33,12 +35,14 @@ class Titlebar(gtk.EventBox):
                 (gobject.TYPE_STRING,)),
     }
 
-    def __init__(self):
+    def __init__(self, terminal):
         """Class initialiser"""
         gtk.EventBox.__init__(self)
         self.__gobject_init__()
 
         self.terminator = Terminator()
+        self.terminal = terminal
+        self.config = self.terminal.config
 
         self.label = EditableLabel()
         self.label.connect('edit-done', self.on_edit_done)
@@ -84,10 +88,56 @@ class Titlebar(gtk.EventBox):
         """Connect the supplied function to clicking on the group icon"""
         self.ebox.connect('button-release-event', func)
 
-    def update(self):
+    def update(self, other=None):
         """Update our contents"""
         self.label.set_text("%s %s" % (self.termtext, self.sizetext))
-        # FIXME: Aren't we supposed to be setting a colour here too?
+
+        if other:
+            term = self.terminal
+            terminator = self.terminator
+            if term != other and term.group and term.group == other.group:
+                if terminator.groupsend == terminator.groupsend_type['off']:
+                    title_fg = self.config['title_inactive_fg_color']
+                    title_bg = self.config['title_inactive_bg_color']
+                    icon = '_receive_off'
+                else:
+                    title_fg = self.config['title_receive_fg_color']
+                    title_bg = self.config['title_receive_bg_color']
+                    icon = '_receive_on'
+                group_fg = self.config['title_receive_fg_color']
+                group_bg = self.config['title_receive_bg_color']
+            elif term != other and not term.group or term.group != other.group:
+                if terminator.groupsend == terminator.groupsend_type['all']:
+                    title_fg = self.config['title_receive_fg_color']
+                    title_bg = self.config['title_receive_bg_color']
+                    icon = '_receive_on'
+                else:
+                    title_fg = self.config['title_inactive_fg_color']
+                    title_bg = self.config['title_inactive_bg_color']
+                    icon = '_receive_off'
+                group_fg = self.config['title_inactive_fg_color']
+                group_bg = self.config['title_inactive_bg_color']
+            else:
+                title_fg = self.config['title_transmit_fg_color']
+                title_bg = self.config['title_transmit_bg_color']
+                if terminator.groupsend == terminator.groupsend_type['all']:
+                    icon = '_active_broadcast_all'
+                elif terminator.groupsend == terminator.groupsend_type['group']:
+                    icon = '_active_broadcast_group'
+                else:
+                    icon = '_active_broadcast_off'
+                group_fg = self.config['title_transmit_fg_color']
+                group_bg = self.config['title_transmit_bg_color']
+
+            self.label.modify_fg(gtk.STATE_NORMAL,
+                    gtk.gdk.color_parse(title_fg))
+            self.grouplabel.modify_fg(gtk.STATE_NORMAL,
+                    gtk.gdk.color_parse(group_fg))
+            self.modify_bg(gtk.STATE_NORMAL, 
+                    gtk.gdk.color_parse(title_bg))
+            self.ebox.modify_bg(gtk.STATE_NORMAL,
+                    gtk.gdk.color_parse(group_bg))
+            self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)
 
     def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
         """Set an icon for the group label"""

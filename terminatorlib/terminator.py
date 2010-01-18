@@ -218,6 +218,6 @@ class Terminator(Borg):
     def focus_changed(self, widget):
         """We just moved focus to a new terminal"""
         for terminal in self.terminals:
-            terminal.titlebar.update()
+            terminal.titlebar.update(widget)
         return
 # vim: set expandtab ts=4 sw=4:
