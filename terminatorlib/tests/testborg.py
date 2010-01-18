@@ -29,7 +29,7 @@
 
 """
 
-from borg import Borg
+from ..borg import Borg
 
 class TestBorg(Borg):
     attribute = None

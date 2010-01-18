@@ -27,7 +27,7 @@ False
 
 """
 
-from signalman import Signalman
+from ..signalman import Signalman
 
 class TestWidget():
     signals = None

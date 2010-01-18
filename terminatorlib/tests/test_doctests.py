@@ -7,11 +7,11 @@ def test_suite():
     for name in (
         'config',
         'plugin',
-        'testborg',
         'cwd',
         'factory',
         'util',
-        'testsignalman',
+        'tests.testborg',
+        'tests.testsignalman',
         ):
         suite.addTest(DocTestSuite('terminatorlib.' + name))
     return suite
