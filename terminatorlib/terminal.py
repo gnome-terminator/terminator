@@ -22,6 +22,7 @@ from titlebar import Titlebar
 from terminal_popup_menu import TerminalPopupMenu
 from searchbar import Searchbar
 from translation import _
+from signalman import Signalman
 import plugin
 
 try:
@@ -97,8 +98,7 @@ class Terminal(gtk.VBox):
         self.connect('focus-in', self.terminator.focus_changed)
 
         self.matches = {}
-        # FIXME: Port cnxids to using Signalman
-        self.cnxids = {}
+        self.cnxids = Signalman()
 
         self.config = Config()
 
@@ -267,9 +267,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.connect('drag-data-received',
             self.on_drag_data_received, self)
 
+        # FIXME: Shouldn't this be in configure()?
         if self.config['copy_on_selection']:
-            self.cnxids['copy_on_selection'] = self.vte.connect(
-                    'selection-changed', 
+            self.cnxids.new(self.vte, 'selection-changed', 
                     lambda widget: self.vte.copy_clipboard())
 
         if self.composite_support:
@@ -286,7 +286,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.connect('enter_notify_event',
             self.on_vte_notify_enter)
 
-        self.cnxids['conf'] = self.vte.connect_after('realize', self.reconfigure)
+        self.cnxids.new(self.vte, 'realize', self.reconfigure)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -461,21 +461,15 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def reconfigure(self, widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
-        if self.cnxids.has_key('conf'):
-            self.vte.disconnect(self.cnxids['conf'])
-            del(self.cnxids['conf'])
+        self.cnxids.remove_signal(self.vte, 'realize')
 
         # Handle child command exiting
-        if self.cnxids.has_key('child-exited'):
-            dbg('Terminal::reconfigure: Dropping child-exited handler')
-            self.vte.disconnect(self.cnxids['child-exited'])
-            del(self.cnxids['child-exited'])
+        self.cnxids.remove_signal(self.vte, 'child-exited')
 
         if self.config['exit_action'] == 'restart':
-            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
-                                                            self.spawn_child)
+            self.cnxids.new(self.vte, 'child-exited', self.spawn_child)
         elif self.config['exit_action'] in ('close', 'left'):
-            self.cnxids['child-exited'] = self.vte.connect('child-exited', 
+            self.cnxids.new(self.vte, 'child-exited', 
                                             lambda x: self.emit('close-term'))
 
         self.vte.set_emulation(self.config['emulation'])
@@ -568,9 +562,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if self.config['force_no_bell'] == True:
             self.vte.set_audible_bell(False)
             self.vte.set_visible_bell(False)
-            if self.cnxids.has_key('urgent_bell'):
-                self.vte.disconnect(self.cnxids['urgent_bell'])
-                del(self.cnxids['urgent_bell'])
+            self.cnxids.remove_signal(self.vte, 'urgent_bell')
         else:
             self.vte.set_audible_bell(self.config['audible_bell'])
             self.vte.set_visible_bell(self.config['visible_bell'])
@@ -578,9 +570,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 # FIXME: Hook up a signal handler here
                 pass
             else:
-                if self.cnxids.has_key('urgent_bell'):
-                    self.vte.disconnect(self.cnxids['urgent_bell'])
-                    del(self.cnxids['urgent_bell'])
+                self.cnxids.remove_signal(self.vte, 'urgent_bell')
 
         self.vte.set_scrollback_lines(self.config['scrollback_lines'])
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
@@ -893,8 +883,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
-        self.disconnect(self.cnxids['zoom'])
-        del(self.cnxids['zoom'])
+        self.cnxids.remove_signal(self, 'zoom')
 
         new_columns = self.vte.get_column_count()
         new_rows = self.vte.get_row_count()

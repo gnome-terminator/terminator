@@ -33,8 +33,11 @@ class Signalman(object):
 
     def remove_signal(self, widget, signal):
         """Remove a signal handler"""
+        if not self.cnxids.has_key(widget):
+            dbg('%s is not registered' % widget)
+            return
         if not self.cnxids[widget].has_key(signal):
-            err('%s not registered for %s' % (signal, type(widget)))
+            dbg('%s not registered for %s' % (signal, type(widget)))
             return
         dbg('removing %s::%s' % (type(widget), signal))
         widget.disconnect(self.cnxids[widget][signal])
