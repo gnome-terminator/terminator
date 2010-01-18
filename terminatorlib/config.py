@@ -90,8 +90,10 @@ DEFAULTS = {
             'zoom_out'         : '<Control>minus',
             'zoom_normal'      : '<Control>0',
             'new_tab'          : '<Shift><Control>t',
-            'go_next'          : '<Shift><Control>n', # FIXME: Define ctrl-tab
-            'go_prev'          : '<Shift><Control>p', #FIXME: ctrl-shift-tab
+            'cycle_next'       : '<Control>Tab',
+            'cycle_prev'       : '<Shift><Control>Tab',
+            'go_next'          : '<Shift><Control>n',
+            'go_prev'          : '<Shift><Control>p',
             'go_up'            : '<Alt>Up',
             'go_down'          : '<Alt>Down',
             'go_left'          : '<Alt>Left',

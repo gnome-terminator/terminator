@@ -1095,6 +1095,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def key_new_root_tab(self):
         self.terminator.newtab (self, True)
 
+    def key_cycle_next(self):
+        self.key_go_next()
+
+    def key_cycle_prev(self):
+        self.key_go_prev()
+
     def key_go_next(self):
         self.emit('navigate', 'next')
 
