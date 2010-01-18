@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""signalman.py - class providing a glib signal tracker"""
+"""Simple management of Gtk Widget signal handlers"""
 
 from util import dbg, err
 
@@ -15,7 +15,7 @@ class Signalman(object):
         self.cnxids = {}
 
     def __del__(self):
-        """Class destructor"""
+        """Class destructor. This is only used to check for stray signals"""
         if len(self.cnxids.keys()) > 0:
             err('Signals remain. This is likely a bug: %s' % self.cnxids)
 
