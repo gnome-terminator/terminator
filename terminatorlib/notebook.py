@@ -134,17 +134,7 @@ class Notebook(Container, gtk.Notebook):
         dbg('Notebook::wrapcloseterm: called on %s' % widget)
         if self.closeterm(widget):
             dbg('Notebook::wrapcloseterm: closeterm succeeded')
-            if self.get_n_pages() == 1:
-                dbg('Notebook::wrapcloseterm: last page, removing self')
-                child = self.get_nth_page(0)
-                self.remove_page(0)
-                parent = self.get_parent()
-                parent.remove(self)
-                parent.add(child)
-                del(self)
-            else:
-                dbg('Notebook::wrapcloseterm: %d pages remain' %
-                        self.get_n_pages())
+            self.hoover()
         else:
             dbg('Notebook::wrapcloseterm: closeterm failed')
 
@@ -248,6 +238,25 @@ class Notebook(Container, gtk.Notebook):
             return
         
         label.set_label(text)
+
+    def hoover(self):
+        """Clean up any empty tabs and if we only have one tab left, die"""
+        numpages = self.get_n_pages()
+        while numpages > 0:
+            numpages = numpages - 1
+            page = self.get_nth_page(numpages)
+            if not page:
+                dbg('Removing empty page: %d' % numpages)
+                self.remove_page(numpages)
+
+        if self.get_n_pages() == 1:
+            dbg('Last page, removing self')
+            child = self.get_nth_page(0)
+            self.remove_page(0)
+            parent = self.get_parent()
+            parent.remove(self)
+            parent.add(child)
+            del(self)
 
 class TabLabel(gtk.HBox):
     """Class implementing a label widget for Notebook tabs"""
