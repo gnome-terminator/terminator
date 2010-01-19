@@ -318,6 +318,30 @@ class Window(Container, gtk.Window):
         self.zoom_data = None
         self.set_property('term_zoomed', False)
 
+    def get_visible_terminals(self):
+        """Walk down the widget tree to find all of the visible terminals.
+        Mostly using Container::get_visible_terminals()"""
+        maker = Factory()
+        child = self.get_child()
+        terminals = {}
+
+        # If our child is a Notebook, reset to work from its visible child
+        if maker.isinstance(child, 'Notebook'):
+            pagenum = child.get_current_page()
+            child = child.get_nth_page(pagenum)
+
+        if maker.isinstance(child, 'Container'):
+            terminals.update(child.get_visible_terminals())
+        elif maker.isnstance(child, 'Terminal'):
+            # This branch is only possible if we started out as a Notebook. We
+            # wouldn't have been called if there was really only one Terminal
+            # child.
+            terminals[child] = child.get_allocation()
+        else:
+            err('Unknown child type %s' % type(child))
+
+        return(terminals)
+
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
 

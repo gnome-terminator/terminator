@@ -123,8 +123,12 @@ class Terminator(Borg):
             if next < 0:
                 next = length - 1
         else:
+            window = get_top_window(terminal)
+            layout = window.get_visible_terminals()
+            # FIXME: Do the directional navigation, don't just print the layout
+            import pprint
+            pprint.pprint(layout)
             raise NotImplementedError
-            # FIXME: Do the directional navigation
         
         if next is not None:
             self.terminals[next].grab_focus()

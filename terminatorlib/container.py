@@ -173,4 +173,20 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if maker.isinstance(parent, 'Container'):
             parent.propagate_title_change(widget, title)
 
+    def get_visible_terminals(self):
+        """Walk the widget tree to find all of the visible terminals. That is,
+        any terminals which are not hidden in another Notebook pane"""
+        maker = Factory()
+        terminals = {}
+
+        for child in self.get_offspring():
+            if maker.isinstance(child, 'Terminal'):
+                terminals[child] = child.get_allocation()
+            elif maker.isinstance(child, 'Container'):
+                terminals.update(child.get_visible_terminals())
+            else:
+                err('Unknown child type %s' % type(child))
+
+        return(terminals)
+
 # vim: set expandtab ts=4 sw=4:
