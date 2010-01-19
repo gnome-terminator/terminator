@@ -7,6 +7,7 @@ import pygtk
 pygtk.require('2.0')
 import gobject
 import gtk
+import glib
 
 from util import dbg, err
 from translation import _
@@ -122,7 +123,7 @@ class Window(Container, gtk.Window):
 
         try:
             icon = icon_theme.load_icon(APP_NAME, 48, 0)
-        except NameError:
+        except (NameError, glib.GError):
             dbg('Unable to load 48px Terminator icon')
             icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
