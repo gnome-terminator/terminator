@@ -29,6 +29,8 @@ class PrefsEditor:
                         'zoom_out'         : 'Decrease font size',
                         'zoom_normal'      : 'Restore original font size',
                         'new_tab'          : 'Create a new tab',
+                        'cycle_next'       : 'Focus the next terminal',
+                        'cycle_prev'       : 'Focus the previous terminal',
                         'go_next'          : 'Focus the next terminal',
                         'go_prev'          : 'Focus the previous terminal',
                         'go_up'            : 'Focus the terminal above',
