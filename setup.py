@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+print "You probably don't want to run this, we're not ready for proper \
+installation yet"
+import sys
+sys.exit(0)
+
 from distutils.core import setup
 from distutils.dist import Distribution
 from distutils.cmd import Command
