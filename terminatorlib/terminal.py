@@ -859,6 +859,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def on_vte_size_allocate(self, widget, allocation):
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
+        if self.vte.window and self.config['geometry_hinting']:
+            window = util.get_top_window(self)
+            window.set_rough_geometry_hints()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
@@ -1083,6 +1086,14 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         width = self.vte.get_char_width()
         height = self.vte.get_char_height()
         return((col * width, row * height))
+
+    def get_font_size(self):
+        """Return the width/height of our font"""
+        return((self.vte.get_char_width(), self.vte.get_char_height()))
+
+    def get_size(self):
+        """Return the column/rows of the terminal"""
+        return((self.vte.get_column_count(), self.vte.get_row_count()))
 
     # There now begins a great list of keyboard event handlers
     # FIXME: Probably a bunch of these are wrong. TEST!

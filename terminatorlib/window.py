@@ -333,15 +333,43 @@ class Window(Container, gtk.Window):
 
         if maker.isinstance(child, 'Container'):
             terminals.update(child.get_visible_terminals())
-        elif maker.isnstance(child, 'Terminal'):
-            # This branch is only possible if we started out as a Notebook. We
-            # wouldn't have been called if there was really only one Terminal
-            # child.
+        elif maker.isinstance(child, 'Terminal'):
             terminals[child] = child.get_allocation()
         else:
             err('Unknown child type %s' % type(child))
 
         return(terminals)
+
+    def set_rough_geometry_hints(self):
+        """Walk all the terminals along the top and left edges to fake up how
+        many columns/rows we sort of have"""
+        terminals = self.get_visible_terminals()
+        column_sum = 0
+        row_sum = 0
+
+        for terminal in terminals:
+            rect = terminal.get_allocation()
+            if rect.x == 0:
+                cols, rows = terminal.get_size()
+                row_sum = row_sum + rows
+            if rect.y == 0:
+                cols, rows = terminal.get_size()
+                column_sum = column_sum + cols
+
+        # FIXME: I don't think we should just use whatever font size info is on
+        # the last terminal we inspected. Looking up the default profile font
+        # size and calculating its character sizes would be rather expensive
+        # though.
+        font_width, font_height = terminal.get_font_size()
+        total_font_width = font_width * column_sum
+        total_font_height = font_height * row_sum
+
+        win_width, win_height = self.get_size()
+        extra_width = win_width - total_font_width
+        extra_height = win_height - total_font_height
+
+        self.set_geometry_hints(self, -1, -1, -1, -1, extra_width,
+                extra_height, font_width, font_height, -1.0, -1.0)
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
