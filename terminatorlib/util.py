@@ -202,3 +202,27 @@ def get_nav_possible(edge, allocation, direction):
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
+def get_nav_offset(edge, allocation, direction):
+    """Work out how far edge is from a particular point on the allocation
+    rectangle, in the given direction"""
+    if direction == 'left':
+        return(edge - (allocation.x + allocation.width))
+    elif direction == 'right':
+        return(edge + allocation.x)
+    elif direction == 'up':
+        return(edge - (allocation.y - allocation.height))
+    elif direction == 'down':
+        return(edge + allocation.y)
+    else:
+        raise ValueError('Unknown direction: %s' % direction)
+
+def get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
+    """We have multiple candidate terminals. Pick the closest by cursor
+    position"""
+    if direction in ['left', 'right']:
+        return(cursor_y >= rect.y and cursor_y <= (rect.y + rect.height))
+    elif direction in ['up', 'down']:
+        return(cursor_x >= rect.x and cursor_x <= (rect.x + rect.width))
+    else:
+        raise ValueError('Unknown direction: %s' % direction)
+

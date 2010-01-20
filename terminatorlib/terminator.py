@@ -124,7 +124,6 @@ class Terminator(Borg):
             if next < 0:
                 next = length - 1
         elif direction in ['left', 'right', 'up', 'down']:
-            print direction
             window = get_top_window(terminal)
             layout = window.get_visible_terminals()
 
@@ -147,8 +146,7 @@ class Terminator(Borg):
             offsets = {}
             for term in possibles:
                 rect = layout[term]
-                offset = edge - (rect.x + rect.width)
-                offsets[term] = offset
+                offsets[term] = util.get_nav_offset(edge, rect, direction)
             keys = offsets.values()
             keys.sort()
             winners = [k for k, v in offsets.iteritems() if v == keys[0]]
@@ -160,7 +158,7 @@ class Terminator(Borg):
             cursor_y = cursor_y + allocation.y
             for term in winners:
                 rect = layout[term]
-                if cursor_y >= rect.y and cursor_y <= (rect.y + rect.height):
+                if util.get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
                     next = self.terminals.index(term)
                     break;
         else:
