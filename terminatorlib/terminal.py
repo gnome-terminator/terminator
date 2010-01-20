@@ -631,12 +631,14 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 return(True)
 
         # FIXME: This is all clearly wrong. We should be doing this better
-        # FIXMS: maybe we can emit the key event and let Terminator() care?
-        if self.terminator.groupsend != 0 and self.vte.is_focus():
-            if self.group and self.terminator.groupsend == 1:
+        #         maybe we can emit the key event and let Terminator() care?
+        groupsend = self.terminator.groupsend
+        groupsend_type = self.terminator.groupsend_type
+        if groupsend != groupsend_type['off'] and self.vte.is_focus():
+            if self.group and groupsend == groupsend_type['group']:
                 self.terminator.group_emit(self, self.group, 'key-press-event',
                         event)
-            if self.terminator.groupsend == 2:
+            if groupsend == groupsend_type['all']:
                 self.terminator.all_emit(self, 'key-press-event', event)
 
         return(False)
