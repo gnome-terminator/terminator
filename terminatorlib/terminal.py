@@ -771,7 +771,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             txt = selection_data.data.strip()
             if txt[0:7] == 'file://':
                 text = "'%s'" % urllib.unquote(txt[7:])
-            for term in self.terminator.get_target_terms():
+            for term in self.terminator.get_target_terms(self):
                 term.feed(txt)
             return
         
