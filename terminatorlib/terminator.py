@@ -130,8 +130,10 @@ class Terminator(Borg):
             allocation = terminal.get_allocation()
             possibles = []
 
-            # left
+            # Get the co-ordinate of the appropriate edge for this direction
             edge = util.get_edge(allocation, direction)
+            # Find all visible terminals which are, in their entirity, in the
+            # direction we want to move
             for term in layout:
                 rect = layout[term]
                 if util.get_nav_possible(edge, rect, direction):
@@ -140,9 +142,9 @@ class Terminator(Borg):
             if len(possibles) == 0:
                 return
 
-            # FIXME: Check if the selection of winners and the tie-break need
-            # helper functions to make them direction agnostic. Likely the
-            # offset calculation will
+            # Find out how far away each of the possible terminals is, then
+            # find the smallest distance. The winning terminals are all of
+            # those who are that distance away.
             offsets = {}
             for term in possibles:
                 rect = layout[term]
@@ -152,15 +154,16 @@ class Terminator(Borg):
             winners = [k for k, v in offsets.iteritems() if v == keys[0]]
             next = self.terminals.index(winners[0])
 
-            # Break an n-way tie
-            cursor_x, cursor_y = terminal.get_cursor_position()
-            cursor_x = cursor_x + allocation.x
-            cursor_y = cursor_y + allocation.y
-            for term in winners:
-                rect = layout[term]
-                if util.get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
-                    next = self.terminals.index(term)
-                    break;
+            if len(winners) > 1:
+                # Break an n-way tie with the cursor position
+                cursor_x, cursor_y = terminal.get_cursor_position()
+                cursor_x = cursor_x + allocation.x
+                cursor_y = cursor_y + allocation.y
+                for term in winners:
+                    rect = layout[term]
+                    if util.get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
+                        next = self.terminals.index(term)
+                        break;
         else:
             err('Unknown navigation direction: %s' % direction)
         
