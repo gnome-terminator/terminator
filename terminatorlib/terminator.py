@@ -8,7 +8,8 @@ import gtk
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
-from util import dbg, get_top_window
+from util import dbg, err, get_top_window
+import util
 
 class Terminator(Borg):
     """master object for the application"""
@@ -122,13 +123,48 @@ class Terminator(Borg):
             next = current - 1
             if next < 0:
                 next = length - 1
-        else:
+        elif direction in ['left', 'right', 'up', 'down']:
+            print direction
             window = get_top_window(terminal)
             layout = window.get_visible_terminals()
-            # FIXME: Do the directional navigation, don't just print the layout
-            import pprint
-            pprint.pprint(layout)
-            raise NotImplementedError
+
+            allocation = terminal.get_allocation()
+            possibles = []
+
+            # left
+            edge = util.get_edge(allocation, direction)
+            for term in layout:
+                rect = layout[term]
+                if util.get_nav_possible(edge, rect, direction):
+                    possibles.append(term)
+
+            if len(possibles) == 0:
+                return
+
+            # FIXME: Check if the selection of winners and the tie-break need
+            # helper functions to make them direction agnostic. Likely the
+            # offset calculation will
+            offsets = {}
+            for term in possibles:
+                rect = layout[term]
+                offset = edge - (rect.x + rect.width)
+                offsets[term] = offset
+            keys = offsets.values()
+            keys.sort()
+            winners = [k for k, v in offsets.iteritems() if v == keys[0]]
+            next = self.terminals.index(winners[0])
+
+            # Break an n-way tie
+            cursor_x, cursor_y = terminal.get_cursor_position()
+            cursor_x = cursor_x + allocation.x
+            cursor_y = cursor_y + allocation.y
+            for term in winners:
+                rect = layout[term]
+                if cursor_y >= rect.y and cursor_y <= (rect.y + rect.height):
+                    next = self.terminals.index(term)
+                    break;
+        else:
+            err('Unknown navigation direction: %s' % direction)
         
         if next is not None:
             self.terminals[next].grab_focus()

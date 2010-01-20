@@ -170,3 +170,35 @@ def dict_diff(reference, working):
             result[key] = working[key]
 
     return(result)
+
+# Helper functions for directional navigation
+def get_edge(allocation, direction):
+    """Return the edge of the supplied allocation that we will care about for
+    directional navigation"""
+    if direction == 'left':
+        edge = allocation.x
+    elif direction == 'up':
+        edge = allocation.y
+    elif direction == 'right':
+        edge = allocation.x + allocation.width
+    elif direction == 'down':
+        edge = allocation.y + allocation.height
+    else:
+        raise ValueError('unknown direction %s' % direction)
+    
+    return(edge)
+
+def get_nav_possible(edge, allocation, direction):
+    """Check if the supplied allocation is in the right direction of the
+    supplied edge"""
+    if direction == 'left':
+        return((allocation.x + allocation.width) < edge)
+    elif direction == 'right':
+        return(allocation.x > edge)
+    elif direction == 'up':
+        return((allocation.y + allocation.height) < edge)
+    elif direction == 'down':
+        return(allocation.y > edge)
+    else:
+        raise ValueError('Unknown direction: %s' % direction)
+

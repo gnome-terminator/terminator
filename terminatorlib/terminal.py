@@ -1077,6 +1077,13 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.set_font(pango.FontDescription(self.config['font']))
         self.custom_font_size = None
 
+    def get_cursor_position(self):
+        """Return the co-ordinates of our cursor"""
+        col, row = self.vte.get_cursor_position()
+        width = self.vte.get_char_width()
+        height = self.vte.get_char_height()
+        return((col * width, row * height))
+
     # There now begins a great list of keyboard event handlers
     # FIXME: Probably a bunch of these are wrong. TEST!
     def key_zoom_in(self):
