@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #    TerminatorConfig - layered config classes
-#    Copyright (C) 2006-2008  cmsj@tenshu.net
+#    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -15,532 +15,513 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
-"""TerminatorConfig by Chris Jones <cmsj@tenshu.net>
+"""Terminator by Chris Jones <cmsj@tenshu.net>
 
-The config scheme works in layers, with defaults at the base,
-and a simple/flexible class which can be placed over the top
-in multiple layers. This was written for Terminator, but
-could be used generically. Its original use is to guarantee
-default values for any config item, while allowing them to be
-overridden by at least two other stores of configuration values.
-Those being gconf and a plain config file.
-In addition to the value, the default layer must also provide
-the datatype (str, int, float and bool are currently supported).
-values are found as attributes of the TerminatorConfig object.
-Trying to read a value that doesn't exist will raise an 
-AttributeError. This is by design. If you want to look something 
-up, set a default for it first."""
+Classes relating to configuration
 
-import os
+>>> DEFAULTS['global_config']['focus']
+'click'
+>>> config = Config()
+>>> config['focus'] = 'sloppy'
+>>> config['focus']
+'sloppy'
+>>> DEFAULTS['global_config']['focus']
+'click'
+>>> config2 = Config()
+>>> config2['focus']
+'sloppy'
+>>> config2['focus'] = 'click'
+>>> config2['focus']
+'click'
+>>> config['focus']
+'click'
+>>> config['geometry_hinting'].__class__.__name__
+'bool'
+>>> plugintest = {}
+>>> plugintest['foo'] = 'bar'
+>>> config.plugin_set_config('testplugin', plugintest)
+>>> config.plugin_get_config('testplugin')
+{'foo': 'bar'}
+>>> config.plugin_get('testplugin', 'foo')
+'bar'
+>>> config.get_profile()
+'default'
+>>> config.set_profile('my_first_new_testing_profile')
+>>> config.get_profile()
+'my_first_new_testing_profile'
+>>> config.del_profile('my_first_new_testing_profile')
+>>> config.get_profile()
+'default'
+>>> config.list_profiles().__class__.__name__
+'list'
+>>> config.options_set({})
+>>> config.options_get()
+{}
+>>> 
+
+"""
+
 import platform
+import os
 import sys
-import re
-import pwd
-import gtk
-import pango
-
-try:
-  import gconf
-except ImportError:
-  gconf = None
-
-from terminatorlib import translation
-
-# set this to true to enable debugging output
-# These should be moved somewhere better.
-debug = False
-
-def dbg (log = ""):
-  """Print a message if debugging is enabled"""
-  if debug:
-    print >> sys.stderr, log
-
-def err (log = ""):
-  """Print an error message"""
-  print >> sys.stderr, log
-
-from terminatorlib.configfile import ConfigFile, ParsedWithErrors
+from copy import copy
+from configobj.configobj import ConfigObj, flatten_errors
+from configobj.validate import Validator
+from borg import Borg
+from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
 DEFAULTS = {
-  'gt_dir'                : '/apps/gnome-terminal',
-  'profile_dir'           : '/apps/gnome-terminal/profiles',
-  'titlebars'             : True,
-  'zoomedtitlebar'        : True,
-  'titletips'             : False,
-  'allow_bold'            : True,
-  'audible_bell'          : False,
-  'visible_bell'          : True,
-  'urgent_bell'           : False,
-  'background_color'      : '#000000',
-  'background_darkness'   : 0.5,
-  'background_type'       : 'solid',
-  'background_image'      : '',
-  'backspace_binding'     : 'ascii-del',
-  'delete_binding'        : 'delete-sequence',
-  'cursor_blink'          : True,
-  'cursor_shape'          : 'block',
-  'cursor_color'          : '',
-  'emulation'             : 'xterm',
-  'geometry_hinting'      : True,
-  'font'                  : 'Mono 10',
-  'foreground_color'      : '#AAAAAA',
-  'scrollbar_position'    : "right",
-  'scroll_background'     : True,
-  'scroll_on_keystroke'   : True,
-  'scroll_on_output'      : True,
-  'scrollback_lines'      : 500,
-  'focus'                 : 'click',
-  'exit_action'           : 'close',
-  'palette'               : '#000000000000:#CDCD00000000:#0000CDCD0000:#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
-  'word_chars'            : '-A-Za-z0-9,./?%&#:_',
-  'mouse_autohide'        : True,
-  'update_records'        : True,
-  'login_shell'           : False,
-  'use_custom_command'    : False,
-  'custom_command'        : '',
-  'use_system_font'       : True,
-  'use_theme_colors'      : False,
-  'http_proxy'            : '',
-  'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
-  'encoding'              : 'UTF-8',
-  'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
-  'extreme_tabs'          : False,
-  'fullscreen'            : False,
-  'borderless'            : False,
-  'maximise'              : False,
-  'hidden'                : False,
-  'handle_size'           : -1,
-  'focus_on_close'        : 'auto',
-  'f11_modifier'          : False,
-  'force_no_bell'         : False,
-  'cycle_term_tab'        : True,
-  'copy_on_selection'     : False,
-  'close_button_on_tab'   : True,
-  'tab_position'          : 'top',
-  'enable_real_transparency'  : True,
-  'title_tx_txt_color'    : '#FFFFFF',
-  'title_tx_bg_color'     : '#C80003',
-  'title_rx_txt_color'    : '#FFFFFF',
-  'title_rx_bg_color'     : '#0076C9',
-  'title_ia_txt_color'    : '#000000',
-  'title_ia_bg_color'     : '#C0BEBF',
-  'try_posix_regexp'      : platform.system() != 'Linux',
-  'hide_tabbar'           : False,
-  'scroll_tabbar'         : False,
-  'alternate_screen_scroll': True,
-  'keybindings'           : {
-    'zoom_in'          : '<Ctrl>plus',
-    'zoom_out'         : '<Ctrl>minus',
-    'zoom_normal'      : '<Ctrl>0',
-    'new_root_tab'     : '<Ctrl><Shift><Alt>T',
-    'new_tab'          : '<Ctrl><Shift>T',
-    'go_next'          : ('<Ctrl><Shift>N','<Ctrl>Tab'),
-    'go_prev'          : ('<Ctrl><Shift>P','<Ctrl><Shift>Tab'),
-    'go_up'            : '<Alt>Up',
-    'go_down'          : '<Alt>Down',
-    'go_left'          : '<Alt>Left',
-    'go_right'         : '<Alt>Right',
-    'split_horiz'      : '<Ctrl><Shift>O',
-    'split_vert'       : '<Ctrl><Shift>E',
-    'close_term'       : '<Ctrl><Shift>W',
-    'copy'             : '<Ctrl><Shift>C',
-    'paste'            : '<Ctrl><Shift>V',
-    'toggle_scrollbar' : '<Ctrl><Shift>S',
-    'search'           : '<Ctrl><Shift>F',
-    'close_window'     : '<Ctrl><Shift>Q',
-    'resize_up'        : '<Ctrl><Shift>Up',
-    'resize_down'      : '<Ctrl><Shift>Down',
-    'resize_left'      : '<Ctrl><Shift>Left',
-    'resize_right'     : '<Ctrl><Shift>Right',
-    'move_tab_right'   : '<Ctrl><Shift>Page_Down',
-    'move_tab_left'    : '<Ctrl><Shift>Page_Up',
-    'toggle_zoom'      : '<Ctrl><Shift>X',
-    'scaled_zoom'      : '<Ctrl><Shift>Z',
-    'next_tab'         : '<Ctrl>Page_Down',
-    'prev_tab'         : '<Ctrl>Page_Up',
-    'switch_to_tab_1'  : None,
-    'switch_to_tab_2'  : None,
-    'switch_to_tab_3'  : None,
-    'switch_to_tab_4'  : None,
-    'switch_to_tab_5'  : None,
-    'switch_to_tab_6'  : None,
-    'switch_to_tab_7'  : None,
-    'switch_to_tab_8'  : None,
-    'switch_to_tab_9'  : None,
-    'switch_to_tab_10' : None,
-    'full_screen'      : 'F11',
-    'reset'            : '<Ctrl><Shift>R',
-    'reset_clear'      : '<Ctrl><Shift>G',
-    'hide_window'      : '<Ctrl><Shift><Alt>a',
-    'group_all'        : '<Super>g',
-    'ungroup_all'      : '<Super><Shift>g',
-    'group_tab'        : '<Super>t',
-    'ungroup_tab'      : '<Super><Shift>T',
-    'new_window'       : '<Ctrl><Shift>I',
-  }
+        'global_config':   {
+            'focus'                 : 'click',
+            'enable_real_transparency'  : True,
+            'handle_size'           : -1,
+            'geometry_hinting'      : True,
+            'window_state'          : 'normal',
+            'borderless'            : False,
+            'tab_position'          : 'top',
+            'close_button_on_tab'   : True,
+            'hide_tabbar'           : False,
+            'scroll_tabbar'         : False,
+            'try_posix_regexp'      : platform.system() != 'Linux',
+            'title_transmit_fg_color' : '#ffffff',
+            'title_transmit_bg_color' : '#c80003',
+            'title_receive_fg_color' : '#ffffff',
+            'title_receive_bg_color' : '#0076c9',
+            'title_inactive_fg_color' : '#000000',
+            'title_inactive_bg_color' : '#c0bebf',
+            'disabled_plugins'      : ['TestPlugin', 'CustomCommandsMenu'],
+        },
+        'keybindings': {
+            'zoom_in'          : '<Control>plus',
+            'zoom_out'         : '<Control>minus',
+            'zoom_normal'      : '<Control>0',
+            'new_tab'          : '<Shift><Control>t',
+            'cycle_next'       : '<Control>Tab',
+            'cycle_prev'       : '<Shift><Control>Tab',
+            'go_next'          : '<Shift><Control>n',
+            'go_prev'          : '<Shift><Control>p',
+            'go_up'            : '<Alt>Up',
+            'go_down'          : '<Alt>Down',
+            'go_left'          : '<Alt>Left',
+            'go_right'         : '<Alt>Right',
+            'split_horiz'      : '<Shift><Control>o',
+            'split_vert'       : '<Shift><Control>e',
+            'close_term'       : '<Shift><Control>w',
+            'copy'             : '<Shift><Control>c',
+            'paste'            : '<Shift><Control>v',
+            'toggle_scrollbar' : '<Shift><Control>s',
+            'search'           : '<Shift><Control>f',
+            'close_window'     : '<Shift><Control>q',
+            'resize_up'        : '<Shift><Control>Up',
+            'resize_down'      : '<Shift><Control>Down',
+            'resize_left'      : '<Shift><Control>Left',
+            'resize_right'     : '<Shift><Control>Right',
+            'move_tab_right'   : '<Shift><Control>Page_Down',
+            'move_tab_left'    : '<Shift><Control>Page_Up',
+            'toggle_zoom'      : '<Shift><Control>x',
+            'scaled_zoom'      : '<Shift><Control>z',
+            'next_tab'         : '<Control>Page_Down',
+            'prev_tab'         : '<Control>Page_Up',
+            'switch_to_tab_1'  : '',
+            'switch_to_tab_2'  : '',
+            'switch_to_tab_3'  : '',
+            'switch_to_tab_4'  : '',
+            'switch_to_tab_5'  : '',
+            'switch_to_tab_6'  : '',
+            'switch_to_tab_7'  : '',
+            'switch_to_tab_8'  : '',
+            'switch_to_tab_9'  : '',
+            'switch_to_tab_10' : '',
+            'full_screen'      : 'F11',
+            'reset'            : '<Shift><Control>r',
+            'reset_clear'      : '<Shift><Control>g',
+            'hide_window'      : '<Shift><Control><Alt>a',
+            'group_all'        : '<Super>g',
+            'ungroup_all'      : '<Shift><Super>g',
+            'group_tab'        : '<Super>t',
+            'ungroup_tab'      : '<Shift><Super>t',
+            'new_window'       : '<Shift><Control>i',
+        },
+        'profiles': {
+            'default':  {
+                'allow_bold'            : True,
+                'audible_bell'          : False,
+                'visible_bell'          : True,
+                'urgent_bell'           : False,
+                'background_color'      : '#000000000000',
+                'background_darkness'   : 0.5,
+                'background_type'       : 'solid',
+                'background_image'      : None,
+                'backspace_binding'     : 'ascii-del',
+                'delete_binding'        : 'escape-sequence',
+                'color_scheme'          : 'grey_on_black',
+                'cursor_blink'          : True,
+                'cursor_shape'          : 'block',
+                'cursor_color'          : '',
+                'emulation'             : 'xterm',
+                'font'                  : 'Mono 10',
+                'foreground_color'      : '#aaaaaaaaaaaa',
+                'scrollbar_position'    : "right",
+                'scroll_background'     : True,
+                'scroll_on_keystroke'   : True,
+                'scroll_on_output'      : True,
+                'scrollback_lines'      : 500,
+                'exit_action'           : 'close',
+                'palette'   :'#000000000000:#CDCD00000000:#0000CDCD0000:\
+#CDCDCDCD0000:#30BF30BFA38E:#A53C212FA53C:\
+#0000CDCDCDCD:#FAFAEBEBD7D7:#404040404040:\
+#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:\
+#00000000FFFF:#FFFF0000FFFF:#0000FFFFFFFF:\
+#FFFFFFFFFFFF',
+                'word_chars'            : '-A-Za-z0-9,./?%&#:_',
+                'mouse_autohide'        : True,
+                'update_records'        : True,
+                'login_shell'           : False,
+                'use_custom_command'    : False,
+                'custom_command'        : '',
+                'use_system_font'       : True,
+                'use_theme_colors'      : False,
+                'encoding'              : 'UTF-8',
+                'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
+                'focus_on_close'        : 'auto',
+                'force_no_bell'         : False,
+                'cycle_term_tab'        : True,
+                'copy_on_selection'     : False,
+                'title_tx_txt_color'    : '#FFFFFF',
+                'title_tx_bg_color'     : '#C80003',
+                'title_rx_txt_color'    : '#FFFFFF',
+                'title_rx_bg_color'     : '#0076C9',
+                'title_ia_txt_color'    : '#000000',
+                'title_ia_bg_color'     : '#C0BEBF',
+                'alternate_screen_scroll': True,
+                'split_to_group'        : False,
+                'autoclean_groups'      : True,
+                'http_proxy'            : '',
+                'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
+            },
+        },
+        'layouts': {
+        },
+        'plugins': {
+        },
 }
 
-
-class TerminatorConfig(object):
-  """This class is used as the base point of the config system"""
-  callback = None
-  sources = None
-  _keys = None
-
-  def __init__ (self, sources):
-    self.sources = []
-
-    for source in sources:
-      if isinstance(source, TerminatorConfValuestore):
-        self.sources.append (source)
-
-    # We always add a default valuestore last so no valid config item ever 
-    # goes unset
-    source = TerminatorConfValuestoreDefault ()
-    self.sources.append (source)
-
-  def _merge_keybindings(self):
-    if self._keys:
-      return self._keys
-
-    self._keys = {}
-    for source in reversed(self.sources):
-      try:
-        val = source['keybindings']
-        self._keys.update(val)
-      except:
-        pass
-    return self._keys
-
-  keybindings = property(_merge_keybindings)
-
-  def __getattr__ (self, keyname):
-    for source in self.sources:
-      dbg ("TConfig: Looking for: '%s' in '%s'"%(keyname, source.type))
-      try:
-        val = source[keyname]
-        dbg (" TConfig: got: '%s' from a '%s'"%(val, source.type))
-        return (val)
-      except KeyError:
-        pass
-
-    dbg (" TConfig: Out of sources")
-    raise (AttributeError)
-
-class TerminatorConfValuestore(object):
-  type = "Base"
-  values = None
-  reconfigure_callback = None
-
-  def __init__ (self):
-    self.values = {}
-
-  # Our settings
-  def __getitem__ (self, keyname):
-    if self.values.has_key (keyname):
-      value = self.values[keyname]
-      dbg ("Returning '%s':'%s'"%(keyname, value))
-      return value
-    else:
-      dbg ("Failed to find '%s'"%keyname)
-      raise (KeyError)
-
-class TerminatorConfValuestoreDefault (TerminatorConfValuestore):
-  def __init__ (self):
-    TerminatorConfValuestore.__init__ (self)
-    self.type = "Default"
-    self.values = DEFAULTS
-
-class TerminatorConfValuestoreRC (TerminatorConfValuestore):
-  rcfilename = ""
-  type = "RCFile"
-  def __init__ (self):
-    TerminatorConfValuestore.__init__ (self)
-    try:
-      directory = os.environ['XDG_CONFIG_HOME']
-    except KeyError:
-      dbg(" VS_RCFile: XDG_CONFIG_HOME not found. defaulting to ~/.config")
-      directory = os.path.join (os.path.expanduser("~"), ".config")
-    self.rcfilename = os.path.join(directory, "terminator/config")
-    dbg(" VS_RCFile: config file located at %s" % self.rcfilename)
-    self.call_parser(True)
-
-  def set_reconfigure_callback (self, function):
-    dbg (" VS_RCFile: setting callback to: %s"%function)
-    self.reconfigure_callback = function
-    return (True)
-
-  def call_parser (self, is_init = False):
-    dbg (" VS_RCFile: parsing config file")
-    try:
-      ini = ConfigFile(self.rcfilename, self._rc_set_callback())
-      ini.parse()
-    except IOError, ex:
-      dbg (" VS_RCFile: unable to open %s (%r)" % (self.rcfilename, ex))
-    except ParsedWithErrors, ex:
-      # We don't really want to produce an error dialog every run
-      if not is_init:
-        pass
-      msg = _("""<big><b>Configuration error</b></big>
-
-Errors were encountered while parsing terminator_config(5) file:
-
-  <b>%s</b>
-
-%d line(s) have been ignored.""") % (self.rcfilename, len(ex.errors))
-
-      dialog = gtk.Dialog(_("Configuration error"), None, gtk.DIALOG_MODAL,
-                          (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-      dialog.set_has_separator(False)
-      dialog.set_resizable(False)
-
-      image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING, 
-                                       gtk.ICON_SIZE_DIALOG)
-      image.set_alignment (0.5, 0)
-      dmsg = gtk.Label(msg)
-      dmsg.set_use_markup(True)
-      dmsg.set_alignment(0, 0.5)
-
-      textbuff = gtk.TextBuffer()
-      textbuff.set_text("\n".join(map(lambda ex: str(ex), ex.errors)))
-      textview = gtk.TextView(textbuff)
-      textview.set_editable(False)
-
-      textview.modify_font(pango.FontDescription(DEFAULTS['font']))
-      textscroll = gtk.ScrolledWindow()
-      textscroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-      textscroll.add(textview)
-      # This should be scaled with the size of the text and font
-      textscroll.set_size_request(600, 200)
-
-      root = gtk.VBox()
-      root.pack_start(dmsg, padding = 6)
-      root.pack_start(textscroll, padding = 6)
-
-      box = gtk.HBox()
-      box.pack_start (image, False, False, 6)
-      box.pack_start (root, False, False, 6)
-
-      vbox = dialog.get_content_area()
-      vbox.pack_start (box, False, False, 12)
-      dialog.show_all()
-
-      dialog.run()
-      dialog.destroy()
-
-    dbg("ConfigFile settings are: %r" % self.values)
-
-  def _rc_set_callback(self):
-    def callback(sections, key, value):
-      dbg("Setting: section=%r with %r => %r" % (sections, key, value))
-      section = None
-      if len(sections) > 0:
-        section = sections[0]
-      if section is None:
-        # handle some deprecated configs
-        if key == 'silent_bell':
-          err ("silent_bell config option is deprecated, for the new bell related config options, see: man terminator_config")
-          if value:
-            self.values['audible_bell'] = False
-          else:
-            self.values['audible_bell'] = True
-          key = 'visible_bell'
-            
-        if not DEFAULTS.has_key (key):
-          raise ValueError("Unknown configuration option %r" % key)
-        deftype = DEFAULTS[key].__class__.__name__
-        if key.endswith('_color'):
-          try:
-            gtk.gdk.color_parse(value)
-            self.values[key] = value
-          except ValueError:
-            raise ValueError(_("Setting %r value %r not a valid colour; ignoring") % (key, value))
-        elif key == 'tab_position':
-          if value.lower() in ('top', 'left', 'bottom', 'right'):
-            self.values[key] = value.lower()
-          else:
-            raise ValueError(_("%s must be one of: top, left, right, bottom") % key)
-        elif deftype == 'bool':
-          if value.lower () in ('true', 'yes', 'on'):
-            self.values[key] = True
-          elif value.lower () in ('false', 'no', 'off'):
-            self.values[key] = False
-          else:
-            raise ValueError(_("Boolean setting %s expecting one of: yes, no, true, false, on, off") % key)
-        elif deftype == 'int':
-          self.values[key] = int (value)
-        elif deftype == 'float':
-          self.values[key] = float (value)
-        elif deftype == 'list':
-          raise ValueError(_("Reading list values from terminator_config(5) is not currently supported"))
-        elif deftype == 'dict':
-          if type(value) != dict:
-            raise ValueError(_("Setting %r should be a section name") % key)
-          self.values[key] = value
-        else:
-          self.values[key] = value
-
-        dbg (" VS_RCFile: Set value %r to %r" % (key, self.values[key]))
-      elif section == 'keybindings':
-        self.values.setdefault(section, {})
-        if not DEFAULTS[section].has_key(key):
-          raise ValueError("Keybinding name %r is unknown" % key)
-        else:
-          self.values[section][key] = value
-      else:
-        raise ValueError("Section name %r is unknown" % section)
-    return callback
-
-class TerminatorConfValuestoreGConf (TerminatorConfValuestore):
-  profile = ""
-  client = None
-  cache = None
-  notifies = None
-
-  def __init__ (self, profileName = None):
-    TerminatorConfValuestore.__init__ (self)
-    self.type = "GConf"
-    self.inactive = False
-    self.cache = {}
-    self.notifies = {}
-
-    import gconf
-
-    self.client = gconf.client_get_default ()
-
-    # Grab a couple of values from base class to avoid recursing with our __getattr__
-    self._gt_dir = DEFAULTS['gt_dir']
-    self._profile_dir = DEFAULTS['profile_dir']
-
-    dbg ('VSGConf: Profile bet on is: "%s"'%profileName)
-    profiles = self.client.get_list (self._gt_dir + '/global/profile_list','string')
-    dbg ('VSGConf: Found profiles: "%s"'%profiles)
-
-    dbg ('VSGConf: Profile requested is: "%s"'%profileName)
-    if not profileName:
-      profile = self.client.get_string (self._gt_dir + '/global/default_profile')
-    else:
-      profile = profileName
-      # In newer gnome-terminal, the profile keys are named Profile0/1 etc.
-      # We have to match using visible_name instead
-      for p in profiles:
-        profileName2 = self.client.get_string (
-          self._profile_dir + '/' + p + '/visible_name')
-        if profileName == profileName2:
-          profile = p
-
-    #need to handle the list of Gconf.value
-    if profile in profiles:
-      dbg (" VSGConf: Found profile '%s' in profile_list"%profile)
-      self.profile = '%s/%s' % (self._profile_dir, profile)
-    elif "Default" in profiles:
-      dbg (" VSGConf: profile '%s' not found, but 'Default' exists" % profile)
-      self.profile = '%s/%s'%(self._profile_dir, "Default")
-    else:
-      # We're a bit stuck, there is no profile in the list
-      # FIXME: Find a better way to handle this than setting a non-profile
-      dbg ("VSGConf: No profile found, marking inactive")
-      self.inactive = True
-      return
-
-    #set up the active encoding list
-    self.active_encodings = self.client.get_list (self._gt_dir + '/global/active_encodings', 'string')
+class Config(object):
+    """Class to provide a slightly richer config API above ConfigBase"""
+    base = None
+    profile = None
     
-    self.client.add_dir (self.profile, gconf.CLIENT_PRELOAD_RECURSIVE)
-    if self.on_gconf_notify:
-      self.client.notify_add (self.profile, self.on_gconf_notify)
+    def __init__(self, profile='default'):
+        self.base = ConfigBase()
+        self.profile = profile
 
-    self.client.add_dir ('/apps/metacity/general', gconf.CLIENT_PRELOAD_RECURSIVE)
-    self.client.notify_add ('/apps/metacity/general/focus_mode', self.on_gconf_notify)
-    self.client.add_dir ('/desktop/gnome/interface', gconf.CLIENT_PRELOAD_RECURSIVE)
-    self.client.notify_add ('/desktop/gnome/interface/monospace_font_name', self.on_gconf_notify)
-    # FIXME: Do we need to watch more non-profile stuff here?
+    def __getitem__(self, key):
+        """Look up a configuration item"""
+        return(self.base.get_item(key, self.profile))
 
-  def set_reconfigure_callback (self, function):
-    dbg (" VSConf: setting callback to: %s"%function)
-    self.reconfigure_callback = function
-    return (True)
+    def __setitem__(self, key, value):
+        """Set a particular configuration item"""
+        return(self.base.set_item(key, value, self.profile))
 
-  def on_gconf_notify (self, client, cnxn_id, entry, what):
-    dbg (" VSGConf: invalidating cache")
-    self.cache = {}
-    dbg (" VSGConf: gconf changed, may run a callback. %s, %s"%(entry.key, entry.value))
-    if entry.key[-12:] == 'visible_name':
-      dbg (" VSGConf: only a visible_name change, ignoring")
-      return False
-    if self.reconfigure_callback:
-      dbg (" VSGConf: callback is: %s"%self.reconfigure_callback)
-      self.reconfigure_callback ()
+    def get_profile(self):
+        """Get our profile"""
+        return(self.profile)
 
-  def __getitem__ (self, key = ""):
-    if self.inactive:
-      raise KeyError
+    def set_profile(self, profile):
+        """Set our profile (which usually means change it)"""
+        dbg('Config::set_profile: Changing profile to %s' % profile)
+        self.profile = profile
+        if not self.base.profiles.has_key(profile):
+            dbg('Config::set_profile: %s does not exist, creating' % profile)
+            self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
-    if self.cache.has_key (key):
-      dbg (" VSGConf: returning cached value: %s"%self.cache[key])
-      return (self.cache[key])
+    def add_profile(self, profile):
+        """Add a new profile"""
+        return(self.base.add_profile(profile))
 
-    ret = None
-    value = None
+    def del_profile(self, profile):
+        """Delete a profile"""
+        if profile == self.profile:
+            err('Config::del_profile: Deleting in-use profile %s.' % profile)
+            self.set_profile('default')
+        if self.base.profiles.has_key(profile):
+            del(self.base.profiles[profile])
 
-    dbg (' VSGConf: preparing: %s/%s'%(self.profile, key))
+    def rename_profile(self, profile, newname):
+        """Rename a profile"""
+        if self.base.profiles.has_key(profile):
+            self.base.profiles[newname] = self.base.profiles[profile]
+            del(self.base.profiles[profile])
+            if profile == self.profile:
+                self.profile = newname
 
-    # FIXME: Ugly special cases we should look to fix in some other way.
-    if key == 'font' and self['use_system_font']:
-      value = self.client.get ('/desktop/gnome/interface/monospace_font_name')
-    elif key == 'focus':
-      value = self.client.get ('/apps/metacity/general/focus_mode')
-    elif key == 'http_proxy':
-      if self.client.get_bool ('/system/http_proxy/use_http_proxy'):
-        dbg ('HACK: Mangling http_proxy')
+    def list_profiles(self):
+        """List all configured profiles"""
+        return(self.base.profiles.keys())
 
-        if self.client.get_bool ('/system/http_proxy/use_authentication'):
-          dbg ('HACK: Using proxy authentication')
-          value = 'http://%s:%s@%s:%s/' % (
-            self.client.get_string ('/system/http_proxy/authentication_user'), 
-            self.client.get_string ('/system/http_proxy/authentication_password'), 
-            self.client.get_string ('/system/http_proxy/host'), 
-            self.client.get_int ('/system/http_proxy/port'))
+    def save(self):
+        """Cause ConfigBase to save our config to file"""
+        return(self.base.save())
+
+    def options_set(self, options):
+        """Set the command line options"""
+        self.base.command_line_options = options
+
+    def options_get(self):
+        """Get the command line options"""
+        return(self.base.command_line_options)
+
+    def plugin_get(self, pluginname, key):
+        """Get a plugin config value"""
+        return(self.base.get_item(key, plugin=pluginname))
+
+    def plugin_set(self, pluginname, key, value):
+        """Set a plugin config value"""
+        return(self.base.set_item(key, value, plugin=pluginname))
+
+    def plugin_get_config(self, plugin):
+        """Return a whole config tree for a given plugin"""
+        return(self.base.get_plugin(plugin))
+
+    def plugin_set_config(self, plugin, tree):
+        """Set a whole config tree for a given plugin"""
+        return(self.base.set_plugin(plugin, tree))
+
+class ConfigBase(Borg):
+    """Class to provide access to our user configuration"""
+    loaded = None
+    sections = None
+    global_config = None
+    profiles = None
+    keybindings = None
+    plugins = None
+    layouts = None
+    command_line_options = None
+
+    def __init__(self):
+        """Class initialiser"""
+
+        Borg.__init__(self, self.__class__.__name__)
+
+        self.prepare_attributes()
+        self.load()
+
+    def prepare_attributes(self):
+        """Set up our borg environment"""
+        if self.loaded is None:
+            self.loaded = False
+        if self.sections is None:
+            self.sections = ['global_config', 'keybindings', 'profiles',
+                             'layouts', 'plugins']
+        if self.global_config is None:
+            self.global_config = copy(DEFAULTS['global_config'])
+        if self.profiles is None:
+            self.profiles = {}
+            self.profiles['default'] = copy(DEFAULTS['profiles']['default'])
+        if self.keybindings is None:
+            self.keybindings = copy(DEFAULTS['keybindings'])
+        if self.plugins is None:
+            self.plugins = {}
+        if self.layouts is None:
+            self.layouts = copy(DEFAULTS['layouts'])
+
+    def defaults_to_configspec(self):
+        """Convert our tree of default values into a ConfigObj validation
+        specification"""
+        configspecdata = {}
+
+        section = {}
+        for key in DEFAULTS['global_config']:
+            keytype = DEFAULTS['global_config'][key].__class__.__name__
+            value = DEFAULTS['global_config'][key]
+            if keytype == 'int':
+                keytype = 'integer'
+            elif keytype == 'str':
+                keytype = 'string'
+            elif keytype == 'bool':
+                keytype = 'boolean'
+            elif keytype == 'list':
+                value = 'list(%s)' % ','.join(value)
+
+            keytype = '%s(default=%s)' % (keytype, value)
+
+            section[key] = keytype
+        configspecdata['global_config'] = section
+
+        section = {}
+        for key in DEFAULTS['keybindings']:
+            value = DEFAULTS['keybindings'][key]
+            if value is None or value == '':
+                continue
+            section[key] = 'string(default=%s)' % value
+        configspecdata['keybindings'] = section
+
+        section = {}
+        for key in DEFAULTS['profiles']['default']:
+            keytype = DEFAULTS['profiles']['default'][key].__class__.__name__
+            value = DEFAULTS['profiles']['default'][key]
+            if keytype == 'int':
+                keytype = 'integer'
+            elif keytype == 'bool':
+                keytype = 'boolean'
+            elif keytype == 'str':
+                keytype = 'string'
+                value = '"%s"' % value
+            elif keytype == 'list':
+                value = 'list(%s)' % ','.join(value)
+
+            keytype = '%s(default=%s)' % (keytype, value)
+
+            section[key] = keytype
+        configspecdata['profiles'] = {}
+        configspecdata['profiles']['__many__'] = section
+
+        configspec = ConfigObj(configspecdata)
+        if DEBUG == True:
+            configspec.write(open('/tmp/terminator_configspec_debug.txt', 'w'))
+        return(configspec)
+
+    def load(self):
+        """Load configuration data from our various sources"""
+        if self.loaded is True:
+            dbg('ConfigBase::load: config already loaded')
+            return
+
+        filename = os.path.join(get_config_dir(), 'epic-config')
+        try:
+            configfile = open(filename, 'r')
+        except Exception, ex:
+            dbg('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+            return
+
+        configspec = self.defaults_to_configspec()
+        parser = ConfigObj(configfile, configspec=configspec)
+        validator = Validator()
+        result = parser.validate(validator, preserve_errors=True)
+
+        if result != True:
+            err('ConfigBase::load: config format is not valid')
+            for (section_list, key, other) in flatten_errors(parser, result):
+                if key is not None:
+                    print('[%s]: %s is invalid' % (','.join(section_list), key))
+                else:
+                    print ('[%s] missing' % ','.join(section_list))
+
+        for section_name in self.sections:
+            dbg('ConfigBase::load: Processing section: %s' % section_name)
+            section = getattr(self, section_name)
+            if section_name == 'profiles':
+                for profile in parser[section_name]:
+                    dbg('ConfigBase::load: Processing profile: %s' % profile)
+                    if not section.has_key(section_name):
+                        section[profile] = copy(DEFAULTS['profiles']['default'])
+                    section[profile].update(parser[section_name][profile])
+            elif section_name == ['layouts', 'plugins']:
+                for part in parser[section_name]:
+                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
+                                                                 part))
+                    section[part] = parser[section_name][part]
+            else:
+                try:
+                    section.update(parser[section_name])
+                except KeyError, ex:
+                    dbg('ConfigBase::load: skipping loading missing section %s' %
+                            section_name)
+
+        self.loaded = True
+        
+    def save(self):
+        """Save the config to a file"""
+        dbg('ConfigBase::save: saving config')
+        parser = ConfigObj()
+        parser.indent_type = '  '
+
+        for section_name in ['global_config', 'keybindings']:
+            dbg('ConfigBase::save: Processing section: %s' % section_name)
+            section = getattr(self, section_name)
+            parser[section_name] = dict_diff(DEFAULTS[section_name], section)
+
+        parser['profiles'] = {}
+        for profile in self.profiles:
+            dbg('ConfigBase::save: Processing profile: %s' % profile)
+            parser['profiles'][profile] = dict_diff(DEFAULTS['profiles']['default'],
+                    self.profiles[profile])
+
+        parser['layouts'] = {}
+        for layout in self.layouts:
+            dbg('ConfigBase::save: Processing layout: %s' % layout)
+            parser['layouts'][layout] = self.layouts[layout]
+
+        parser['plugins'] = {}
+        for plugin in self.plugins:
+            dbg('ConfigBase::save: Processing plugin: %s' % plugin)
+            parser['plugins'][plugin] = self.plugins[plugin]
+
+        config_dir = get_config_dir()
+        if not os.path.isdir(config_dir):
+            os.makedirs(config_dir)
+        try:
+            parser.write(open(os.path.join(config_dir, 'epic-config'), 'w'))
+        except Exception, ex:
+            err('ConfigBase::save: Unable to save config: %s' % ex)
+
+    def get_item(self, key, profile='default', plugin=None):
+        """Look up a configuration item"""
+        if self.global_config.has_key(key):
+            dbg('ConfigBase::get_item: %s found in globals: %s' %
+                    (key, self.global_config[key]))
+            return(self.global_config[key])
+        elif self.profiles[profile].has_key(key):
+            dbg('ConfigBase::get_item: %s found in profile %s: %s' % (
+                    key, profile, self.profiles[profile][key]))
+            return(self.profiles[profile][key])
+        elif key == 'keybindings':
+            return(self.keybindings)
+        elif plugin is not None and self.plugins[plugin].has_key(key):
+            dbg('ConfigBase::get_item: %s found in plugin %s: %s' % (
+                    key, plugin, self.plugins[plugin][key]))
+            return(self.plugins[plugin][key])
         else:
-          dbg ('HACK: Not using proxy authentication')
-          value = 'http://%s:%s/' % (
-            self.client.get_string ('/system/http_proxy/host'),
-            self.client.get_int ('/system/http_proxy/port'))
-    elif key == 'cursor_blink':
-      tmp = self.client.get_string('%s/cursor_blink_mode' % self.profile)
-      if tmp in ['on', 'off'] and self.notifies.has_key ('cursor_blink'):
-        self.client.notify_remove (self.notifies['cursor_blink'])
-        del (self.notifies['cursor_blink'])
-      if tmp == 'on':
-        value = True
-      elif tmp == 'off':
-        value = False
-      elif tmp == 'system':
-        value = self.client.get_bool ('/desktop/gnome/interface/cursor_blink')
-        self.notifies['cursor_blink'] = self.client.notify_add ('/desktop/gnome/interface/cursor_blink', self.on_gconf_notify)
-      else:
-        value = self.client.get ('%s/%s'%(self.profile, key))
-    else:
-      value = self.client.get ('%s/%s'%(self.profile, key))
+            raise KeyError('ConfigBase::get_item: unknown key %s' % key)
 
-    if value != None:
-      from types import StringType, BooleanType
-      if type(value) in [StringType, BooleanType]:
-        ret = value
-      else:
-        funcname = "get_" + DEFAULTS[key].__class__.__name__
-        dbg ('  GConf: picked function: %s'%funcname)
-        # Special case for str
-        if funcname == "get_str":
-          funcname = "get_string"
-        # Special case for strlist
-        if funcname == "get_strlist":
-          funcname = "get_list"
-        typefunc = getattr (value, funcname)
-        ret = typefunc ()
+    def set_item(self, key, value, profile='default', plugin=None):
+        """Set a configuration item"""
+        dbg('ConfigBase::set_item: Setting %s=%s (profile=%s, plugin=%s)' %
+                (key, value, profile, plugin))
 
-      self.cache[key] = ret
-      return (ret)
-    else:
-      raise (KeyError)
+        if self.global_config.has_key(key):
+            self.global_config[key] = value
+        elif self.profiles[profile].has_key(key):
+            self.profiles[profile][key] = value
+        elif key == 'keybindings':
+            self.keybindings = value
+        elif plugin is not None:
+            if not self.plugins.has_key(plugin):
+                self.plugins[plugin] = {}
+            self.plugins[plugin][key] = value
+        else:
+            raise KeyError('ConfigBase::set_item: unknown key %s' % key)
 
+        return(True)
+
+    def get_plugin(self, plugin):
+        """Return a whole tree for a plugin"""
+        if self.plugins.has_key(plugin):
+            return(self.plugins[plugin])
+
+    def set_plugin(self, plugin, tree):
+        """Set a whole tree for a plugin"""
+        self.plugins[plugin] = tree
+
+    def add_profile(self, profile):
+        """Add a new profile"""
+        if profile in self.profiles:
+            return(False)
+        self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
+        return(True)
+
+if __name__ == '__main__':
+    import doctest
+    (failed, attempted) = doctest.testmod()
+    print "%d/%d tests failed" % (failed, attempted)
+    sys.exit(failed)

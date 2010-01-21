@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #    Terminator - multiple gnome terminals in one window
-#    Copyright (C) 2006-2008  cmsj@tenshu.net
+#    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,16 +17,22 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-from terminatorlib.version import APP_NAME
+from version import APP_NAME
+from util import dbg
 
+_ = None
+
+# pylint: disable-msg=W0702
 try:
     import gettext
-    gettext.install (APP_NAME)
-except ImportError:
-    print "Using fallback _()"
-    import __builtin__
+    gettext.textdomain(APP_NAME)
+    _ = gettext.gettext
+except:
+    dbg("Using fallback _()")
+
     def dummytrans (text):
-      """A _ function for systems without gettext. Effectively a NOOP"""
-      return text
-    __builtin__.__dict__['_'] = dummytrans
+        """A _ function for systems without gettext. Effectively a NOOP"""
+        return(text)
+
+    _ = dummytrans
 

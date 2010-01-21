@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           terminator
-Version:        0.14
+Version:        0.90
 Release:        3%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 
@@ -52,6 +52,7 @@ rm -rf %{buildroot}
 %{_mandir}/man5/%{name}_config.*
 %{_bindir}/%{name}
 %{python_sitelib}/*
+%{_datadir}/terminator/preferences.glade
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}*.png
 %{_datadir}/icons/hicolor/*/*/%{name}*.svg
@@ -67,6 +68,10 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Jan 05 2010 Chris Jones <cmsj@tenshu.net> 0.90-1
+- Attempt to update for 0.90 pre-release.
+    Note that this specfile is untested.
+
 * Thu Jan 15 2009 Chris Jones <cmsj@tenshu.net> 0.12-1
 - Remove patch application since this isn't a fedora build.
     Note that this specfile is untested.

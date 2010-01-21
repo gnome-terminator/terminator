@@ -6,14 +6,15 @@ from distutils.cmd import Command
 from distutils.command.install_data import install_data
 from distutils.command.build import build
 from distutils.dep_util import newer
-from distutils.log import warn, info, error, fatal
+from distutils.log import warn, info, error
+from distutils.errors import DistutilsFileError
 import glob
 import os
 import sys
 import subprocess
 import platform
 
-from terminatorlib.version import *
+from terminatorlib.version import APP_NAME, APP_VERSION
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
@@ -83,6 +84,8 @@ class Uninstall(Command):
     self.ensure_filename('manifest')
     try:
       try:
+        if not self.manifest:
+            raise DistutilsFileError("Pass manifest with --manifest=file")
         f = open(self.manifest)
         files = [file.strip() for file in f]
       except IOError, e:
@@ -152,7 +155,7 @@ if platform.system() == 'FreeBSD':
 else:
   man_dir = 'share/man'
 
-setup(name='Terminator',
+setup(name=APP_NAME.capitalize(),
       version=APP_VERSION,
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
@@ -173,7 +176,9 @@ setup(name='Terminator',
                   ('share/icons/hicolor/48x48/apps', glob.glob('data/icons/48x48/apps/*.png')),
                   ('share/icons/hicolor/16x16/actions', glob.glob('data/icons/16x16/actions/*.png')),
                  ],
-      packages=['terminatorlib'],
+      packages=['terminatorlib', 'terminatorlib.configobj',
+      'terminatorlib.plugins'],
+      package_data={'terminatorlib': ['preferences.glade']},
       cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
       distclass=TerminatorDist
      )

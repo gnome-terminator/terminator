@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #    TerminatorVersion - version number
-#    Copyright (C) 2008  cmsj@tenshu.net
+#    Copyright (C) 2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,4 +21,4 @@ TerminatorVersion supplies our version number.
 """
 
 APP_NAME = 'terminator'
-APP_VERSION = '0.14'
+APP_VERSION = '0.90'

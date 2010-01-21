@@ -5,7 +5,7 @@
 # Use of this file is unrestricted provided this notice is retained.
 # If you use it, it'd be nice if you dropped me a note.  Also beer.
 
-from terminatorlib.config import dbg, err
+from terminatorlib.util import dbg, err
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 import socket
