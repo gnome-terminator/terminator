@@ -607,7 +607,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         if self.scrollbar_position != self.config['scrollbar_position']:
             self.scrollbar_position = self.config['scrollbar_position']
-            if self.config['scrollbar_position'] == 'disabled':
+            if self.config['scrollbar_position'] in ['disabled', 'hidden']:
                 self.scrollbar.hide()
             else:
                 self.scrollbar.show()
