@@ -62,6 +62,8 @@ class Terminal(gtk.VBox):
         'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'move-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, 
+            (gobject.TYPE_STRING,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -1184,11 +1186,13 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def key_resize_right(self):
         self.emit('resize-term', 'right')
 
+    # FIXME: Nothing currently handles this signal. Make it so something does.
     def key_move_tab_right(self):
-        self.terminator.move_tab (self, 'right')
+        self.emit('move-tab', 'right')
 
+    # FIXME: Nothing currently handles this signal. Make it so something does.
     def key_move_tab_left(self):
-        self.terminator.move_tab (self, 'left')
+        self.emit('move-tab', 'left')
 
     def key_toggle_zoom(self):
         if self.is_zoomed():
