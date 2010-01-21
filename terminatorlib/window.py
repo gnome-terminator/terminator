@@ -249,6 +249,11 @@ class Window(Container, gtk.Window):
                 self.connect_child(widget, signal, signals[signal])
 
             self.connect_child(widget, 'tab-change', self.tab_change)
+            self.connect_child(widget, 'group-all', self.group_all)
+            self.connect_child(widget, 'ungroup-all', self.ungroup_all)
+            self.connect_child(widget, 'group-tab', self.group_tab)
+            self.connect_child(widget, 'ungroup-tab', self.ungroup_tab)
+
             widget.grab_focus()
 
     def remove(self, widget):

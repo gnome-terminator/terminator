@@ -120,6 +120,10 @@ class Notebook(Container, gtk.Notebook):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
             self.connect_child(widget, 'tab-change', top_window.tab_change)
+            self.connect_child(widget, 'group-all', top_window.group_all)
+            self.connect_child(widget, 'ungroup-all', top_window.ungroup_all)
+            self.connect_child(widget, 'group-tab', top_window.group_tab)
+            self.connect_child(widget, 'ungroup-tab', top_window.ungroup_tab)
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
