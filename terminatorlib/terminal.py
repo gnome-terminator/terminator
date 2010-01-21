@@ -562,11 +562,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if self.config['force_no_bell'] == True:
             self.vte.set_audible_bell(False)
             self.vte.set_visible_bell(False)
-            self.cnxids.remove_signal(self.vte, 'urgent_bell')
+            self.cnxids.remove_signal(self.vte, 'beep')
         else:
             self.vte.set_audible_bell(self.config['audible_bell'])
             self.vte.set_visible_bell(self.config['visible_bell'])
-            self.cnxids.remove_signal(self.vte, 'urgent_bell')
+            self.cnxids.remove_signal(self.vte, 'beep')
             if self.config['urgent_bell'] == True:
                 try:
                     self.cnxids.new(self.vte, 'beep', self.on_beep)
