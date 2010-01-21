@@ -119,6 +119,8 @@ class Terminal(gtk.VBox):
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
             self.composite_support = False
+        else:
+            self.composite_support = True
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
@@ -281,8 +283,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                     lambda widget: self.vte.copy_clipboard())
 
         if self.composite_support:
-            self.vte.connect('composited-changed',
-                self.on_composited_changed)
+            self.vte.connect('composited-changed', self.reconfigure)
 
         self.vte.connect('window-title-changed', lambda x:
             self.emit('title-change', self.get_window_title()))
@@ -557,16 +558,21 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         opacity = 65536
         if background_type in ('image', 'transparent'):
             self.vte.set_background_tint_color(gtk.gdk.color_parse(self.config['background_color']))
-            self.vte.set_background_saturation(1 -
-                    (self.config['background_darkness']))
+            saturation = 1.0 - float(self.config['background_darkness'])
+            dbg('setting background saturation: %f' % saturation)
+            self.vte.set_background_saturation(saturation)
             opacity = int(self.config['background_darkness'] * 65536)
         else:
             self.vte.set_background_saturation(1)
 
         if self.composite_support:
+            dbg('setting opacity: %d' % opacity)
             self.vte.set_opacity(opacity)
-        if self.config['background_type'] == 'transparent':
+        if self.config['background_type'] == 'transparent' and \
+                self.config['enable_real_transparency'] == False:
             self.vte.set_background_transparent(True)
+        elif self.config['background_type'] != 'transparent':
+            self.vte.set_background_transparent(False)
 
         self.vte.set_cursor_blinks(self.config['cursor_blink'])
 
