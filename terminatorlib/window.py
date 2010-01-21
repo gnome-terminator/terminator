@@ -132,7 +132,8 @@ class Window(Container, gtk.Window):
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
         maker = Factory()
-        # FIXME: We probably want to cancel window urgency here
+
+        self.set_urgency_hint(False)
 
         mapping = self.terminator.keybindings.lookup(event)
 

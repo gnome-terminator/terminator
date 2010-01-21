@@ -566,11 +566,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         else:
             self.vte.set_audible_bell(self.config['audible_bell'])
             self.vte.set_visible_bell(self.config['visible_bell'])
+            self.cnxids.remove_signal(self.vte, 'urgent_bell')
             if self.config['urgent_bell'] == True:
-                # FIXME: Hook up a signal handler here
-                pass
-            else:
-                self.cnxids.remove_signal(self.vte, 'urgent_bell')
+                try:
+                    self.cnxids.new(self.vte, 'beep', self.on_beep)
+                except TypeError:
+                    err('beep signal unavailable with this version of VTE')
 
         self.vte.set_scrollback_lines(self.config['scrollback_lines'])
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
@@ -1096,6 +1097,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def get_size(self):
         """Return the column/rows of the terminal"""
         return((self.vte.get_column_count(), self.vte.get_row_count()))
+
+    def on_beep(self, widget):
+        """Set the urgency hint for our window"""
+        window = util.get_top_window(self)
+        window.set_urgency_hint(True)
 
     # There now begins a great list of keyboard event handlers
     # FIXME: Probably a bunch of these are wrong. TEST!
