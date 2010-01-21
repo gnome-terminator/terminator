@@ -227,8 +227,10 @@ class Window(Container, gtk.Window):
         """Enable RGBA if supported on the current screen"""
         screen = self.get_screen()
         if value:
+            dbg('setting rgba colormap')
             colormap = screen.get_rgba_colormap()
         else:
+            dbg('setting rgb colormap')
             colormap = screen.get_rgb_colormap()
 
         if colormap:
