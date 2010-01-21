@@ -277,7 +277,10 @@ class PrefsEditor:
         self.on_system_font_checkbutton_toggled(widget)
         # Font selector
         widget = guiget('font-selector')
-        widget.set_font_name(self.config['font'])
+        if self.config['use_system_font'] == True:
+            widget.set_font_name(self.config.get_system_font())
+        else:
+            widget.set_font_name(self.config['font'])
         # Allow bold text
         widget = guiget('allow-bold-checkbutton')
         widget.set_active(self.config['allow_bold'])

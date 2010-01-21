@@ -524,7 +524,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         if not self.custom_font_size:
             try:
-                self.vte.set_font(pango.FontDescription(self.config['font']))
+                if self.config['use_system_font'] == True:
+                    font = self.config.get_system_font()
+                else:
+                    font = self.config['font']
+                self.vte.set_font(pango.FontDescription(font))
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
@@ -892,10 +896,14 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
-        if self.config['focus'] in ['sloppy', 'mouse']:
-            if self.titlebar.editing() == False:
-                term.grab_focus()
-                return(False)
+        sloppy = False
+        if self.config['focus'] == 'system':
+            sloppy = self.config.get_system_focus() == 'sloppy'
+        elif self.config['focus'] in ['sloppy', 'mouse']:
+            sloppy = True
+        if sloppy == True and self.titlebar.editing() == False:
+            term.grab_focus()
+            return(False)
 
     def get_zoom_data(self):
         """Return a dict of information for Window"""
@@ -1103,8 +1111,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def zoom_orig(self):
         """Restore original font size"""
-        dbg("Terminal::zoom_orig: restoring font to: %s" % self.config['font'])
-        self.vte.set_font(pango.FontDescription(self.config['font']))
+        if self.config['use_system_font'] == True:
+            font = self.config.get_system_font()
+        else:
+            font = self.config['font']
+        dbg("Terminal::zoom_orig: restoring font to: %s" % font)
+        self.vte.set_font(pango.FontDescription(font))
         self.custom_font_size = None
 
     def get_cursor_position(self):

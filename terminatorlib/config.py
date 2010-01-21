@@ -70,6 +70,11 @@ from configobj.validate import Validator
 from borg import Borg
 from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
+try:
+    import gconf
+except ImportError:
+    dbg('Unable to import gconf, GNOME defaults unavailable')
+
 DEFAULTS = {
         'global_config':   {
             'focus'                 : 'click',
@@ -210,6 +215,7 @@ class Config(object):
     """Class to provide a slightly richer config API above ConfigBase"""
     base = None
     profile = None
+    gconf = None
     
     def __init__(self, profile='default'):
         self.base = ConfigBase()
@@ -258,6 +264,28 @@ class Config(object):
     def list_profiles(self):
         """List all configured profiles"""
         return(self.base.profiles.keys())
+
+    def get_system_font(self):
+        """Look up the system font"""
+        if 'gconf' not in globals():
+            return
+
+        if self.gconf is None:
+            self.gconf = gconf.client_get_default()
+
+        value = self.gconf.get('/desktop/gnome/interface/monospace_font_name')
+        return(value.get_string())
+
+    def get_system_focus(self):
+        """Look up the system focus setting"""
+        if 'gconf' not in globals():
+            return
+
+        if self.gconf is None:
+            self.gconf = gconf.client_get_default()
+
+        value = self.gconf.get('/apps/metacity/general/focus_mode')
+        return(value.get_string())
 
     def save(self):
         """Cause ConfigBase to save our config to file"""
