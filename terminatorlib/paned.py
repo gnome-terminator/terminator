@@ -91,6 +91,7 @@ class Paned(Container):
                 self.connect_child(widget, signal, signals[signal])
 
             self.connect_child(widget, 'maximise', top_window.zoom, False)
+            self.connect_child(widget, 'tab-change', top_window.tab_change)
 
             widget.grab_focus()
 

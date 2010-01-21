@@ -56,6 +56,8 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_STRING,)),
         'navigate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
+        'tab-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_INT,)),
     }
 
     TARGET_TYPE_VTE = 8
@@ -1197,43 +1199,40 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.zoom()
 
     def key_next_tab(self):
-        # FIXME: Implement this
-        self.terminator.next_tab (self)
+        self.emit('tab-change', -1)
 
     def key_prev_tab(self):
-        # FIXME: Implement this
-        self.terminator.previous_tab (self)
+        self.emit('tab-change', -2)
 
     def key_switch_to_tab_1(self):
-        # FIXME: Implement these
-        self.terminator.switch_to_tab (self, 0)
+        self.emit('tab-change', 0)
 
     def key_switch_to_tab_2(self):
-        self.terminator.switch_to_tab (self, 1)
+        self.emit('tab-change', 1)
 
     def key_switch_to_tab_3(self):
-        self.terminator.switch_to_tab (self, 2)
+        self.emit('tab-change', 2)
 
     def key_switch_to_tab_4(self):
-        self.terminator.switch_to_tab (self, 3)
+        self.emit('tab-change', 3)
 
     def key_switch_to_tab_5(self):
-        self.terminator.switch_to_tab (self, 4)
+        self.emit('tab-change', 4)
 
     def key_switch_to_tab_6(self):
-        self.terminator.switch_to_tab (self, 5)
+        self.emit('tab-change', 5)
 
     def key_switch_to_tab_7(self):
-        self.terminator.switch_to_tab (self, 6)
+        self.emit('tab-change', 6)
 
     def key_switch_to_tab_8(self):
-        self.terminator.switch_to_tab (self, 7)
+        self.emit('tab-change', 7)
 
     def key_switch_to_tab_9(self):
-        self.terminator.switch_to_tab (self, 8)
+        self.emit('tab-change', 8)
 
     def key_switch_to_tab_10(self):
-        self.terminator.switch_to_tab (self, 9)
+        self.emit('tab-change', 9)
 
     def key_reset(self):
         self.vte.reset (True, False)
@@ -1254,6 +1253,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.group_tab(self)
     
     def key_ungroup_tab(self):
+        # FIXME: IMplement this
         self.ungroup_tab(self)
 
     def key_new_window(self):

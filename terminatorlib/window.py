@@ -248,6 +248,7 @@ class Window(Container, gtk.Window):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
 
+            self.connect_child(widget, 'tab-change', self.tab_change)
             widget.grab_focus()
 
     def remove(self, widget):
@@ -371,6 +372,38 @@ class Window(Container, gtk.Window):
 
         self.set_geometry_hints(self, -1, -1, -1, -1, extra_width,
                 extra_height, font_width, font_height, -1.0, -1.0)
+
+    def tab_change(self, widget, num=None):
+        """Change to a specific tab"""
+        if num is None:
+            err('must specify a tab to change to')
+
+        maker = Factory()
+        child = self.get_child()
+
+        if not maker.isinstance(child, 'Notebook'):
+            dbg('child is not a notebook, nothing to change to')
+            return
+
+        if num == -1:
+            # Go to the next tab
+            cur = child.get_current_page()
+            pages = child.get_n_pages()
+            if cur == pages - 1:
+                num = 0
+        elif num == -2:
+            # Go to the previous tab
+            cur = child.get_current_page()
+            if cur > 0:
+                num = cur - 1
+            else:
+                num = child.get_n_pages() - 1
+
+        child.set_current_page(num)
+        # Work around strange bug in gtk-2.12.11 and pygtk-2.12.1
+        # Without it, the selection changes, but the displayed page doesn't
+        # change
+        child.set_current_page(child.get_current_page())
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

@@ -12,7 +12,7 @@ from factory import Factory
 from container import Container
 from editablelabel import EditableLabel
 from translation import _
-from util import err, dbg
+from util import err, dbg, get_top_window
 
 class Notebook(Container, gtk.Notebook):
     """Class implementing a gtk.Notebook container"""
@@ -97,6 +97,8 @@ class Notebook(Container, gtk.Notebook):
 
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
+        top_window = get_top_window(self)
+
         if not widget:
             maker = Factory()
             widget = maker.make('Terminal')
@@ -112,6 +114,7 @@ class Notebook(Container, gtk.Notebook):
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
+            self.connect_child(widget, 'tab-change', top_window.tab_change)
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
