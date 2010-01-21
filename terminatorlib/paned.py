@@ -79,7 +79,6 @@ class Paned(Container):
 
         if maker.isinstance(widget, 'Terminal'):
             top_window = get_top_window(self)
-
             signals = {'close-term': self.wrapcloseterm,
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
@@ -90,8 +89,14 @@ class Paned(Container):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
 
+            # FIXME: We shouldn't be doing this exact same thing in each
+            # Container
             self.connect_child(widget, 'maximise', top_window.zoom, False)
             self.connect_child(widget, 'tab-change', top_window.tab_change)
+            self.connect_child(widget, 'group-all', top_window.group_all)
+            self.connect_child(widget, 'ungroup-all', top_window.ungroup_all)
+            self.connect_child(widget, 'group-tab', top_window.group_tab)
+            self.connect_child(widget, 'ungroup-tab', top_window.ungroup_tab)
 
             widget.grab_focus()
 

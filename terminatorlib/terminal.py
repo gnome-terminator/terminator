@@ -58,6 +58,10 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_STRING,)),
         'tab-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_INT,)),
+        'group-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -1241,20 +1245,16 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.reset (True, True)
 
     def key_group_all(self):
-        # FIXME: Implement this
-        self.group_all(self)
+        self.emit('group-all')
 
     def key_ungroup_all(self):
-        # FIXME: Implement this
-        self.ungroup_all(self)
+        self.emit('ungroup-all')
 
     def key_group_tab(self):
-        # FIXME: Implement this
-        self.group_tab(self)
+        self.emit('group-tab')
     
     def key_ungroup_tab(self):
-        # FIXME: IMplement this
-        self.ungroup_tab(self)
+        self.emit('ungroup-tab')
 
     def key_new_window(self):
         cmd = sys.argv[0]

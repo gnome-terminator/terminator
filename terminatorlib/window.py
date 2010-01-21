@@ -405,6 +405,50 @@ class Window(Container, gtk.Window):
         # change
         child.set_current_page(child.get_current_page())
 
+    # FIXME: All of these (un)group_(all|tab) methods need refactoring work
+    def group_all(self, widget):
+        """Group all terminals"""
+        # FIXME: Why isn't this being done by Terminator() ?
+        group = _('All')
+        self.terminator.create_group(group)
+        for terminal in self.terminator.terminals:
+            terminal.set_group(None, group)
+
+    def ungroup_all(self, widget):
+        """Ungroup all terminals"""
+        for terminal in self.terminator.terminals:
+            terminal.set_group(None, None)
+
+    def group_tab(self, widget):
+        """Group all terminals in the current tab"""
+        maker = Factory()
+        notebook = self.get_child()
+
+        if not maker.isinstance(notebook, 'Notebook'):
+            dbg('not in a notebook, refusing to group tab')
+            return
+
+        pagenum = notebook.get_current_page()
+        while True:
+            group = _('Tab %d') % pagenum
+            if group not in self.terminator.groups:
+                break
+            pagenum += 1
+        for terminal in self.get_visible_terminals():
+            terminal.set_group(None, group)
+
+    def ungroup_tab(self, widget):
+        """Ungroup all terminals in the current tab"""
+        maker = Factory()
+        notebook = self.get_child()
+
+        if not maker.isinstance(notebook, 'Notebook'):
+            dbg('note in a notebook, refusing to ungroup tab')
+            return
+        
+        for terminal in self.get_visible_terminals():
+            terminal.set_group(None, None)
+
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
 

@@ -41,7 +41,12 @@ class Notebook(Container, gtk.Notebook):
 
     def configure(self):
         """Apply widget-wide settings"""
-        # FIXME: Should all of our widgets have this?
+        # FIXME: Should all of our widgets have a ::configure()?
+
+        # FIXME: The old reordered handler updated Terminator.terminals with
+        # the new order of terminals. We probably need to preserve this for
+        # navigation to next/prev terminals.
+
         #self.connect('page-reordered', self.on_page_reordered)
         self.set_property('homogeneous', not self.config['scroll_tabbar'])
         self.set_scrollable(self.config['scroll_tabbar'])
