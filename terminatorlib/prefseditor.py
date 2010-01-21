@@ -378,7 +378,7 @@ class PrefsEditor:
         elif self.config['background_type'] == 'image':
             guiget('image-radiobutton').set_active(True)
         elif self.config['background_type'] == 'transparent':
-            guiget('trans-radiobutton').set_active(True)
+            guiget('transparent-radiobutton').set_active(True)
 
         ## Scrolling tab
         # Scrollbar position
@@ -527,6 +527,7 @@ class PrefsEditor:
         widget = guiget('transparent-radiobutton')
         if widget.get_active() == True:
             value = 'transparent'
+        self.config['background_type'] = value
         # Background image
         widget = guiget('background-image-filechooser')
         self.config['background_image'] = widget.get_filename()
