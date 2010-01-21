@@ -130,6 +130,9 @@ def shell_lookup():
 
 def widget_pixbuf(widget, maxsize=None):
     """Generate a pixbuf of a widget"""
+    if gtk.gtk_version > (2, 14):
+        return(None)
+
     pixmap = widget.get_snapshot()
     (width, height) = pixmap.get_size()
     pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)

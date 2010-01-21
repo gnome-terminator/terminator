@@ -410,7 +410,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         screen_w = gtk.gdk.screen_width()
         screen_h = gtk.gdk.screen_height()
 
-        widget_win = widget.get_window()
+        if gtk.gtk_version >= (2, 14):
+            widget_win = widget.get_window()
+        else:
+            widget_win = widget.window
         widget_x, widget_y = widget_win.get_origin()
         widget_w, widget_h = widget_win.get_size()
 
