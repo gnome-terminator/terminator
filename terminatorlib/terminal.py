@@ -121,6 +121,8 @@ class Terminal(gtk.VBox):
             self.composite_support = False
         else:
             self.composite_support = True
+        dbg('composite_support: %s' % self.composite_support)
+
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
@@ -546,6 +548,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 self.config['cursor_shape'].upper()))
 
         background_type = self.config['background_type']
+        dbg('background_type=%s' % background_type)
         if background_type == 'image' and \
            self.config['background_image'] is not None and \
            self.config['background_image'] != '':
@@ -555,23 +558,27 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.vte.set_background_image_file('')
             self.vte.set_scroll_background(False)
 
-        opacity = 65536
         if background_type in ('image', 'transparent'):
             self.vte.set_background_tint_color(gtk.gdk.color_parse(self.config['background_color']))
+            opacity = int(self.config['background_darkness'] * 65536)
             saturation = 1.0 - float(self.config['background_darkness'])
             dbg('setting background saturation: %f' % saturation)
             self.vte.set_background_saturation(saturation)
-            opacity = int(self.config['background_darkness'] * 65536)
         else:
+            dbg('setting background_saturation: 1')
+            opacity = 65535
             self.vte.set_background_saturation(1)
 
         if self.composite_support:
             dbg('setting opacity: %d' % opacity)
             self.vte.set_opacity(opacity)
+
         if self.config['background_type'] == 'transparent' and \
                 self.config['enable_real_transparency'] == False:
+            dbg('setting background_transparent=True')
             self.vte.set_background_transparent(True)
-        elif self.config['background_type'] != 'transparent':
+        else:
+            dbg('setting background_transparent=False')
             self.vte.set_background_transparent(False)
 
         self.vte.set_cursor_blinks(self.config['cursor_blink'])
