@@ -78,7 +78,7 @@ class Keybindings:
                     keyval, mask = self._parsebinding(binding)
                     # Does much the same, but with poorer error handling.
                     #keyval, mask = gtk.accelerator_parse(binding)
-                except KeymapError, ex:
+                except KeymapError:
                     continue
                 else:
                     if mask & gtk.gdk.SHIFT_MASK:
@@ -121,10 +121,10 @@ class Keybindings:
     def lookup(self, event):
         """Translate a keyboard event into a mapped key"""
         try:
-            keyval, egroup, level, consumed = self.keymap.translate_keyboard_state(
-                                                      event.hardware_keycode, 
-                                                      event.state & ~gtk.gdk.LOCK_MASK, 
-                                                      event.group)
+            keyval, _egp, _lvl, consumed = self.keymap.translate_keyboard_state(
+                                              event.hardware_keycode, 
+                                              event.state & ~gtk.gdk.LOCK_MASK, 
+                                              event.group)
         except TypeError:
             err ("keybindings.lookup failed to translate keyboard event: %s" % 
                      dir(event))
