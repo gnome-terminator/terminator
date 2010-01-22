@@ -63,7 +63,6 @@ Classes relating to configuration
 
 import platform
 import os
-import sys
 from copy import copy
 from configobj.configobj import ConfigObj, flatten_errors
 from configobj.validate import Validator
@@ -358,16 +357,18 @@ class ConfigBase(Borg):
         specification"""
         configspecdata = {}
 
+        keymap = {
+                'int': 'integer',
+                'str': 'string',
+                'bool': 'boolean',
+                }
+
         section = {}
         for key in DEFAULTS['global_config']:
             keytype = DEFAULTS['global_config'][key].__class__.__name__
             value = DEFAULTS['global_config'][key]
-            if keytype == 'int':
-                keytype = 'integer'
-            elif keytype == 'str':
-                keytype = 'string'
-            elif keytype == 'bool':
-                keytype = 'boolean'
+            if keytype in keymap:
+                keytype = keymap[keytype]
             elif keytype == 'list':
                 value = 'list(%s)' % ','.join(value)
 
@@ -388,15 +389,12 @@ class ConfigBase(Borg):
         for key in DEFAULTS['profiles']['default']:
             keytype = DEFAULTS['profiles']['default'][key].__class__.__name__
             value = DEFAULTS['profiles']['default'][key]
-            if keytype == 'int':
-                keytype = 'integer'
-            elif keytype == 'bool':
-                keytype = 'boolean'
-            elif keytype == 'str':
-                keytype = 'string'
-                value = '"%s"' % value
+            if keytype in keymap:
+                keytype = keymap[keytype]
             elif keytype == 'list':
                 value = 'list(%s)' % ','.join(value)
+            if keytype == 'string':
+                value = '"%s"' % value
 
             keytype = '%s(default=%s)' % (keytype, value)
 
@@ -429,7 +427,7 @@ class ConfigBase(Borg):
 
         if result != True:
             err('ConfigBase::load: config format is not valid')
-            for (section_list, key, other) in flatten_errors(parser, result):
+            for (section_list, key, _other) in flatten_errors(parser, result):
                 if key is not None:
                     print('[%s]: %s is invalid' % (','.join(section_list), key))
                 else:
@@ -453,7 +451,7 @@ class ConfigBase(Borg):
                 try:
                     section.update(parser[section_name])
                 except KeyError, ex:
-                    dbg('ConfigBase::load: skipping loading missing section %s' %
+                    dbg('ConfigBase::load: skipping missing section %s' %
                             section_name)
 
         self.loaded = True
@@ -472,8 +470,8 @@ class ConfigBase(Borg):
         parser['profiles'] = {}
         for profile in self.profiles:
             dbg('ConfigBase::save: Processing profile: %s' % profile)
-            parser['profiles'][profile] = dict_diff(DEFAULTS['profiles']['default'],
-                    self.profiles[profile])
+            parser['profiles'][profile] = dict_diff(
+                    DEFAULTS['profiles']['default'], self.profiles[profile])
 
         parser['layouts'] = {}
         for layout in self.layouts:
@@ -548,8 +546,3 @@ class ConfigBase(Borg):
         self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
         return(True)
 
-if __name__ == '__main__':
-    import doctest
-    (failed, attempted) = doctest.testmod()
-    print "%d/%d tests failed" % (failed, attempted)
-    sys.exit(failed)
