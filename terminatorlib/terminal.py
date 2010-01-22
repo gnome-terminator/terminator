@@ -1140,7 +1140,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         window.set_urgency_hint(True)
 
     # There now begins a great list of keyboard event handlers
-    # FIXME: Probably a bunch of these are wrong. TEST!
     def key_zoom_in(self):
         self.zoom_in()
 
