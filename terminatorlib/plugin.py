@@ -54,7 +54,7 @@ class PluginRegistry(borg.Borg):
             self.instances = {}
         if not self.path:
             self.path = []
-            (head, tail) = os.path.split(borg.__file__)
+            (head, _tail) = os.path.split(borg.__file__)
             self.path.append(os.path.join(head, 'plugins'))
             self.path.append(os.path.join(get_config_dir(), 'plugins'))
             dbg('PluginRegistry::prepare_attributes: Plugin path: %s' % 
@@ -90,9 +90,9 @@ class PluginRegistry(borg.Borg):
                             if item not in self.instances:
                                 func = getattr(module, item)
                             self.instances[item] = func()
-                    except Exception, e:
+                    except Exception, ex:
                         err('PluginRegistry::load_plugins: Importing plugin %s \
-failed: %s' % (plugin, e))
+failed: %s' % (plugin, ex))
 
         self.done = True
 
@@ -135,9 +135,3 @@ class MenuItem(Plugin):
         """Callback to transform the enclosed URL"""
         raise NotImplementedError
 
-if __name__ == '__main__':
-    import doctest
-    sys.path.insert(0, 'plugins')
-    (failed, attempted) = doctest.testmod()
-    print "%d/%d tests failed" % (failed, attempted)
-    sys.exit(failed)
