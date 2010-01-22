@@ -1,8 +1,14 @@
 #!/usr/bin/python
+"""Preferences Editor for Terminator. 
+
+Load a UIBuilder config file, display it,
+populate it with our current config, then optionally read that back out and
+write it to a config file
+
+"""
 
 import os
 import gtk
-import gobject
 
 from util import dbg
 import config
@@ -12,6 +18,7 @@ from terminator import Terminator
 
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
+    """Class implementing the various parts of the preferences editor"""
     config = None
     keybindings = None
     window = None
@@ -83,7 +90,7 @@ class PrefsEditor:
         self.keybindings = Keybindings()
         try:
             # Figure out where our library is on-disk so we can open our 
-            (head, tail) = os.path.split(config.__file__)
+            (head, _tail) = os.path.split(config.__file__)
             librarypath = os.path.join(head, 'preferences.glade')
             gladefile = open(librarypath, 'r')
             gladedata = gladefile.read()
@@ -98,12 +105,12 @@ class PrefsEditor:
         self.builder.connect_signals(self)
         self.window.show_all()
 
-    def on_cancelbutton_clicked(self, button):
+    def on_cancelbutton_clicked(self, _button):
         """Close the window"""
         self.window.destroy()
         del(self)
 
-    def on_okbutton_clicked(self, button):
+    def on_okbutton_clicked(self, _button):
         """Save the config"""
         self.store_values()
         self.config.save()
@@ -356,7 +363,7 @@ class PrefsEditor:
             widget.set_sensitive(False)
         # Palette
         palette = self.config['palette'].split(':')
-        for i in xrange(1,17):
+        for i in xrange(1, 17):
             widget = guiget('palette-colorpicker-%d' % i)
             widget.set_color(gtk.gdk.Color(palette[i - 1]))
 
@@ -422,6 +429,7 @@ class PrefsEditor:
         else:
             widget.set_active(2)
 
+    # FIXME: Why do we have a profile argument that we don't use?
     def store_profile_values(self, profile):
         """Pull out all the settings before switching profile"""
         guiget = self.builder.get_object
@@ -513,7 +521,7 @@ class PrefsEditor:
         self.config['background_color'] = widget.get_color().to_string()
         # Palette
         palette = []
-        for i in xrange(1,17):
+        for i in xrange(1, 17):
             widget = guiget('palette-colorpicker-%d' % i)
             palette.append(widget.get_color().to_string())
         self.config['palette'] = ':'.join(palette)
@@ -570,7 +578,7 @@ class PrefsEditor:
         elif selected == 1:
             value = 'ascii-del'
         elif selected == 2:
-            value =='escape-sequence'
+            value == 'escape-sequence'
         self.config['backspace_binding'] = value
         # Delete key
         widget = guiget('delete-binding-combobox')
@@ -583,7 +591,7 @@ class PrefsEditor:
             value = 'escape-sequence'
         self.config['delete_binding'] = value
 
-    def on_profileaddbutton_clicked(self, button):
+    def on_profileaddbutton_clicked(self, _button):
         """Add a new profile to the list"""
         guiget = self.builder.get_object
 
@@ -601,7 +609,7 @@ class PrefsEditor:
         if self.config.add_profile(newprofile):
             model.append([newprofile])
 
-    def on_profileremovebutton_clicked(self, button):
+    def on_profileremovebutton_clicked(self, _button):
         """Remove a profile from the list"""
         guiget = self.builder.get_object
 
@@ -651,7 +659,7 @@ class PrefsEditor:
         widget = guiget('delete-binding-combobox')
         widget.set_active(2)
 
-    def on_background_type_toggled(self, widget):
+    def on_background_type_toggled(self, _widget):
         """The background type was toggled"""
         self.update_background_tab()
 
@@ -661,7 +669,6 @@ class PrefsEditor:
 
         # Background type
         backtype = None
-        solidwidget = guiget('solid-radiobutton')
         imagewidget = guiget('image-radiobutton')
         transwidget = guiget('transparent-radiobutton')
         if transwidget.get_active() == True:
@@ -716,8 +723,8 @@ class PrefsEditor:
         
         widget = self.builder.get_object('profilelist')
         model = widget.get_model()
-        iter = model.get_iter(path)
-        model.set_value(iter, 0, newtext)
+        itera = model.get_iter(path)
+        model.set_value(itera, 0, newtext)
 
         if oldname == self.previous_selection:
             self.previous_selection = newtext
@@ -782,87 +789,21 @@ class PrefsEditor:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
 
-    def on_cellrenderer_accel_edited(self, liststore, path, key, mods, code):
+    def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
         """Handle an edited keybinding"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, key, 3, mods)
 
     def on_cellrenderer_accel_cleared(self, liststore, path):
+        """Handle the clearing of a keybinding accelerator"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, 0, 3, 0)
-
-    def source_get_keyname (self, key):
-        if self.data.has_key (key) and self.data[key][0] != '':
-            label_text = self.data[key][0]
-        else:
-            label_text = key.replace ('_', ' ').capitalize ()
-        return label_text
-
-    def prepare_keybindings (self):
-        self.liststore = gtk.ListStore (gobject.TYPE_STRING, gobject.TYPE_STRING, gobject.TYPE_UINT, gobject.TYPE_UINT, gobject.TYPE_BOOLEAN)
-        self.liststore.set_sort_column_id (0, gtk.SORT_ASCENDING)
-        self.tkbobj = Keybindings()
-        keyval = None
-        mask = None
-
-        for binding in config.DEFAULTS['keybindings']:
-            value = self.config['keybindings'][binding]
-            keyval = 0
-            mask = 0
-            if isinstance (value, tuple):
-                value = value[0]
-            if value is not None and value != "None":
-                try:
-                    (keyval, mask) = self.tkbobj._parsebinding (value)
-                except KeymapError:
-                    pass
-            self.liststore.append ([binding, self.source_get_keyname (binding), keyval, mask, True])
-            dbg("Appended row: %s, %s, %s" % (binding, keyval, mask))
-
-        self.treeview = gtk.TreeView(self.liststore)
-
-        cell = gtk.CellRendererText()
-        col = gtk.TreeViewColumn(_("Name"))
-        col.pack_start(cell, True)
-        col.add_attribute(cell, "text", 0)
-
-        self.treeview.append_column(col)
-
-        cell = gtk.CellRendererText()
-        col = gtk.TreeViewColumn(_("Action"))
-        col.pack_start(cell, True)
-        col.add_attribute(cell, "text", 1)
-
-        self.treeview.append_column(col)
-
-        cell = gtk.CellRendererAccel()
-        col = gtk.TreeViewColumn(_("Keyboard shortcut"))
-        col.pack_start(cell, True)
-        col.set_attributes(cell, accel_key=2, accel_mods=3, editable=4)
-
-        cell.connect ('accel-edited', self.edited)
-        cell.connect ('accel-cleared', self.cleared)
-
-        self.treeview.append_column(col)
-
-        scrollwin = gtk.ScrolledWindow ()
-        scrollwin.set_policy (gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
-        scrollwin.add (self.treeview)
-        return (scrollwin)
-
-    def edited (self, obj, path, key, mods, code):
-        iter = self.liststore.get_iter_from_string(path)
-        self.liststore.set(iter, 2, key, 3, mods)
-
-    def cleared (self, obj, path):
-        iter = self.liststore.get_iter_from_string(path)
-        self.liststore.set(iter, 2, 0, 3, 0)
 
 if __name__ == '__main__':
     import util
     util.DEBUG = True
     import terminal
-    term = terminal.Terminal()
-    foo = PrefsEditor(term)
+    TERM = terminal.Terminal()
+    PREFEDIT = PrefsEditor(TERM)
 
     gtk.main()
