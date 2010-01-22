@@ -362,6 +362,12 @@ class PrefsEditor:
 
         ## Background tab
         # Radio values
+        if self.config['background_type'] == 'solid':
+            guiget('solid-radiobutton').set_active(True)
+        elif self.config['background_type'] == 'image':
+            guiget('image-radiobutton').set_active(True)
+        elif self.config['background_type'] == 'transparent':
+            guiget('transparent-radiobutton').set_active(True)
         self.update_background_tab()
         # Background image file
         if self.config['background_image'] != '':
@@ -375,13 +381,6 @@ class PrefsEditor:
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-
-        if self.config['background_type'] == 'solid':
-            guiget('solid-radiobutton').set_active(True)
-        elif self.config['background_type'] == 'image':
-            guiget('image-radiobutton').set_active(True)
-        elif self.config['background_type'] == 'transparent':
-            guiget('transparent-radiobutton').set_active(True)
 
         ## Scrolling tab
         # Scrollbar position
