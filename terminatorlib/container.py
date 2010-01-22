@@ -134,7 +134,8 @@ class Container(object):
     
         dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
         c_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
-        c_all.get_children()[0].get_children()[0].get_children()[1].set_label(_('Close _Terminals'))
+        c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
+                _('Close _Terminals'))
     
         primary = gtk.Label(_('<big><b>Close multiple terminals?</b></big>'))
         primary.set_use_markup(True)
