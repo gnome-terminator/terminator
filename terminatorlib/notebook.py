@@ -93,7 +93,7 @@ class Notebook(Container, gtk.Notebook):
         """Remove a widget from the container"""
         page_num = self.page_num(widget)
         if page_num == -1:
-            err('Notebook::remove: %s not found in Notebook. Actual parent is: %s' % 
+            err('%s not found in Notebook. Actual parent is: %s' % 
                     (widget, widget.get_parent()))
             return(False)
         self.remove_page(page_num)
@@ -353,7 +353,7 @@ class TabLabel(gtk.HBox):
                                                  gtk.ICON_SIZE_MENU)
         self.button.set_size_request(x + 2, y + 2)
 
-    def on_close(self, widget):
+    def on_close(self, _widget):
         """The close button has been clicked. Destroy the tab"""
         self.emit('close-clicked', self)
 
