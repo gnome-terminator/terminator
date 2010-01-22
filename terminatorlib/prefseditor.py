@@ -860,6 +860,8 @@ class PrefsEditor:
         self.liststore.set(iter, 2, 0, 3, 0)
 
 if __name__ == '__main__':
+    import util
+    util.DEBUG = True
     import terminal
     term = terminal.Terminal()
     foo = PrefsEditor(term)
