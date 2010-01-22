@@ -51,7 +51,7 @@ class Factory(Borg):
             # this to be less insane.
             try:
                 module = __import__(types[classtype], None, None, [''])
-            except ImportError, ex:
+            except ImportError:
                 module = __import__('terminatorlib.%s' % types[classtype],
                     None, None, [''])
             return(isinstance(product, getattr(module, classtype)))
