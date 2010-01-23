@@ -59,9 +59,6 @@ class Terminal(gtk.VBox):
         'tab-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_INT,)),
         'group-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'move-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, 
             (gobject.TYPE_STRING,)),
     }
@@ -153,7 +150,7 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
-    def set_profile(self, widget, profile):
+    def set_profile(self, _widget, profile):
         """Set our profile"""
         if profile != self.config.get_profile():
             self.config.set_profile(profile)
@@ -410,7 +407,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def position_popup_group_menu(self, menu, widget):
         """Calculate the position of the group popup menu"""
-        screen_w = gtk.gdk.screen_width()
+        _screen_w = gtk.gdk.screen_width()
         screen_h = gtk.gdk.screen_height()
 
         if gtk.gtk_version >= (2, 14):
@@ -418,9 +415,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         else:
             widget_win = widget.window
         widget_x, widget_y = widget_win.get_origin()
-        widget_w, widget_h = widget_win.get_size()
+        _widget_w, widget_h = widget_win.get_size()
 
-        menu_w, menu_h = menu.size_request()
+        _menu_w, menu_h = menu.size_request()
 
         if widget_y + widget_h + menu_h > screen_h:
             menu_y = max(widget_y - menu_h, 0)
@@ -429,7 +426,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         return(widget_x, menu_y, 1)
 
-    def set_group(self, item, name):
+    def set_group(self, _item, name):
         """Set a particular group"""
         if self.group == name:
             # already in this group, no action needed
@@ -439,17 +436,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.titlebar.set_group_label(name)
         self.terminator.group_hoover()
 
-    def create_group(self, item):
+    def create_group(self, _item):
         """Trigger the creation of a group via the titlebar (because popup 
         windows are really lame)"""
         self.titlebar.create_group()
 
-    def really_create_group(self, widget, groupname):
+    def really_create_group(self, _widget, groupname):
         """The titlebar has spoken, let a group be created"""
         self.terminator.create_group(groupname)
         self.set_group(None, groupname)
 
-    def ungroup(self, widget, data):
+    def ungroup(self, _widget, data):
         """Remove a group"""
         # FIXME: Could we emit and have Terminator do this?
         for term in self.terminator.terminals:
@@ -457,7 +454,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 term.set_group(None, None)
         self.terminator.group_hoover()
 
-    def set_groupsend(self, widget, value):
+    def set_groupsend(self, _widget, value):
         """Set the groupsend mode"""
         # FIXME: Can we think of a smarter way of doing this than poking?
         if value in self.terminator.groupsend_type.values():
@@ -472,7 +469,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Toggle the autocleangroups mode"""
         self.config['autoclean_groups'] = not self.config['autoclean_groups']
 
-    def reconfigure(self, widget=None):
+    def reconfigure(self, _widget=None):
         """Reconfigure our settings"""
         dbg('Terminal::reconfigure')
         self.cnxids.remove_signal(self.vte, 'realize')
@@ -501,7 +498,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             if backspace == 'ascii-del':
                 backbind = vte.ERASE_ASCII_BACKSPACE
             else:
-                backbind = vte.ERASE_AUTO_BACKSPACE
+                backbind = vte.ERASE_AUTO
         except AttributeError:
             if backspace == 'ascii-del':
                 backbind = 2
@@ -546,7 +543,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 palette.append(gtk.gdk.color_parse(color))
         self.vte.set_colors(fgcolor, bgcolor, palette)
         if self.config['cursor_color'] != '':
-            self.vte.set_color_cursor(gtk.gdk.color_parse(self.config['cursor_color']))
+            self.vte.set_color_cursor(gtk.gdk.color_parse(
+                                        self.config['cursor_color']))
         if hasattr(self.vte, 'set_cursor_shape'):
             self.vte.set_cursor_shape(getattr(vte, 'CURSOR_SHAPE_' +
                 self.config['cursor_shape'].upper()))
@@ -563,7 +561,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.vte.set_scroll_background(False)
 
         if background_type in ('image', 'transparent'):
-            self.vte.set_background_tint_color(gtk.gdk.color_parse(self.config['background_color']))
+            self.vte.set_background_tint_color(gtk.gdk.color_parse(
+                                               self.config['background_color']))
             opacity = int(self.config['background_darkness'] * 65536)
             saturation = 1.0 - float(self.config['background_darkness'])
             dbg('setting background saturation: %f' % saturation)
@@ -617,7 +616,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                     self.reorder_child(self.vte, 0)
 
         if hasattr(self.vte, 'set_alternate_screen_scroll'):
-            self.vte.set_alternate_screen_scroll(self.config['alternate_screen_scroll'])
+            self.vte.set_alternate_screen_scroll(
+                                        self.config['alternate_screen_scroll'])
 
         self.titlebar.update()
         self.vte.queue_draw()
@@ -701,15 +701,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         menu.show(widget, event)
 
     def do_scrollbar_toggle(self):
+        """Show or hide the terminal scrollbar"""
         self.toggle_widget_visibility(self.scrollbar)
 
     def toggle_widget_visibility(self, widget):
+        """Show or hide a widget"""
         if widget.get_property('visible'):
             widget.hide()
         else:
             widget.show()
 
-    def on_encoding_change(self, widget, encoding):
+    def on_encoding_change(self, _widget, encoding):
         """Handle the encoding changing"""
         current = self.vte.get_encoding()
         if current != encoding:
@@ -717,17 +719,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.custom_encoding = not (encoding == self.config['encoding'])
             self.vte.set_encoding(encoding)
 
-    def on_drag_begin(self, widget, drag_context, data):
+    def on_drag_begin(self, widget, drag_context, _data):
         """Handle the start of a drag event"""
         widget.drag_source_set_icon_pixbuf(util.widget_pixbuf(self, 512))
 
-    def on_drag_data_get(self, widget, drag_context, selection_data, info, time,
-            data):
+    def on_drag_data_get(self, _widget, _drag_context, selection_data, info, 
+            _time, data):
         """I have no idea what this does, drag and drop is a mystery. sorry."""
         selection_data.set('vte', info,
                 str(data.terminator.terminals.index(self)))
 
-    def on_drag_motion(self, widget, drag_context, x, y, time, data):
+    def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
         if 'text/plain' in drag_context.targets:
             # copy text from another widget
@@ -747,13 +749,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             color = gtk.gdk.color_parse(self.config['foreground_color'])
 
         pos = self.get_location(widget, x, y)
-        topleft = (0,0)
-        topright = (alloc.width,0)
-        topmiddle = (alloc.width/2,0)
+        topleft = (0, 0)
+        topright = (alloc.width, 0)
+        topmiddle = (alloc.width/2, 0)
         bottomleft = (0, alloc.height)
-        bottomright = (alloc.width,alloc.height)
+        bottomright = (alloc.width, alloc.height)
         bottommiddle = (alloc.width/2, alloc.height)
-        middle = (alloc.width/2, alloc.height/2)
         middleleft = (0, alloc.height/2)
         middleright = (alloc.width, alloc.height/2)
         #print "%f %f %d %d" %(coef1, coef2, b1,b2)
@@ -777,7 +778,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         widget.disconnect(connec)
         widget._expose_data = None
 
-    def on_expose_event(self, widget, event):
+    def on_expose_event(self, widget, _event):
         """Handle an expose event while dragging"""
         if not widget._expose_data:
             return(False)
@@ -788,20 +789,22 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         context = widget.window.cairo_create()
         context.set_source_rgba(color.red, color.green, color.blue, 0.5)
         if len(coord) > 0 :
-            context.move_to(coord[len(coord)-1][0],coord[len(coord)-1][1])
+            context.move_to(coord[len(coord)-1][0], coord[len(coord)-1][1])
             for i in coord:
-                context.line_to(i[0],i[1])
+                context.line_to(i[0], i[1])
 
         context.fill()
         return(False)
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
-            info, time, data):
+            _info, _time, data):
+        """Something has been dragged into the terminal. Handle it as either a
+        URL or another terminal."""
         if selection_data.type == 'text/plain':
             # copy text to destination
             txt = selection_data.data.strip()
             if txt[0:7] == 'file://':
-                text = "'%s'" % urllib.unquote(txt[7:])
+                txt = "'%s'" % urllib.unquote(txt[7:])
             for term in self.terminator.get_target_terms(self):
                 term.feed(txt)
             return
@@ -828,25 +831,23 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], widgetsrc)
         srcpaned.hoover()
 
-    def get_location(self, vte, x, y):
+    def get_location(self, term, x, y):
         """Get our location within the terminal"""
         pos = ''
         #get the diagonales function for the receiving widget
-        coef1 = float(vte.allocation.height)/float(vte.allocation.width)
-        coef2 = -float(vte.allocation.height)/float(vte.allocation.width)
+        coef1 = float(term.allocation.height)/float(term.allocation.width)
+        coef2 = -float(term.allocation.height)/float(term.allocation.width)
         b1 = 0
-        b2 = vte.allocation.height
+        b2 = term.allocation.height
         #determine position in rectangle
-        """
-        --------
-        |\    /|
-        | \  / |
-        |  \/  |
-        |  /\  |
-        | /  \ |
-        |/    \|
-        --------
-        """
+        #--------
+        #|\    /|
+        #| \  / |
+        #|  \/  |
+        #|  /\  |
+        #| /  \ |
+        #|/    \|
+        #--------
         if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
             pos =  "right"
         if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
@@ -858,32 +859,28 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         return pos
 
     def grab_focus(self):
+        """Steal focus for this terminal"""
         self.vte.grab_focus()
 
-    def on_vte_focus(self, widget):
+    def on_vte_focus(self, _widget):
+        """Update our UI when we get focus"""
         self.emit('title-change', self.get_window_title())
 
-    def on_vte_focus_out(self, widget, event):
-        return
-
-    def on_vte_focus_in(self, widget, event):
+    def on_vte_focus_in(self, _widget, _event):
+        """Inform other parts of the application when focus is received"""
         self.emit('focus-in')
 
     def scrollbar_jump(self, position):
         """Move the scrollbar to a particular row"""
         self.scrollbar.set_value(position)
 
-    def scrollbar_position(self):
-        """Return the current position of the scrollbar"""
-        return(self.scrollbar.get_value())
-
-    def on_search_done(self, widget):
+    def on_search_done(self, _widget):
         """We've finished searching, so clean up"""
         self.searchbar.hide()
         self.scrollbar.set_value(self.vte.get_cursor_position()[1])
         self.vte.grab_focus()
 
-    def on_edit_done(self, widget):
+    def on_edit_done(self, _widget):
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
 
@@ -1061,7 +1058,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                             dbg('Terminal::prepare_url: URL prepared by \
 %s plugin' % urlplugin.handler_name)
                             url = newurl
-                        break;
+                        break
             except Exception, ex:
                 err('Terminal::prepare_url: %s' % ex)
 
@@ -1165,9 +1162,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     # a function of Terminator. It would be cleaner if TerminatorTerm
     # has absolutely no reference to Terminator.
     # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
-    def key_new_root_tab(self):
-        self.terminator.newtab (self, True)
-
     def key_cycle_next(self):
         self.key_go_next()
 
@@ -1299,7 +1293,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 return False
           
         dbg("Terminal::key_new_window: Spawning: %s" % cmd)
-        subprocess.Popen([cmd,])
+        subprocess.Popen([cmd, ])
 # End key events
 
 gobject.type_register(Terminal)
