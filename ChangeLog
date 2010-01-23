@@ -1,3 +1,8 @@
+terminator 0.90:
+  * Almost complete refactoring of the code. This almost
+	   inevitably means lots of regressions, unfortunately.
+  * Brand new preferences editor, including profiles
+
 terminator 0.14:
   * Major reworking of the grouping interface by Stephen
 	   Boddy
