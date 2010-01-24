@@ -414,20 +414,24 @@ class PrefsEditor:
         widget = guiget('backspace-binding-combobox')
         value = self.config['backspace_binding']
         if value == 'control-h':
-            widget.set_active(0)
-        elif value == 'escape-sequence':
-            widget.set_active(2)
-        else:
             widget.set_active(1)
+        elif value == 'ascii-del':
+            widget.set_active(2)
+        elif value == 'escape-sequence':
+            widget.set_active(3)
+        else:
+            widget.set_active(0)
         # Delete key
         widget = guiget('delete-binding-combobox')
         value = self.config['delete_binding']
         if value == 'control-h':
-            widget.set_active(0)
-        elif value == 'ascii-del':
             widget.set_active(1)
-        else:
+        elif value == 'ascii-del':
             widget.set_active(2)
+        elif value == 'escape-sequence':
+            widget.set_active(3)
+        else:
+            widget.set_active(0)
 
     # FIXME: Why do we have a profile argument that we don't use?
     def store_profile_values(self, profile):
@@ -574,20 +578,24 @@ class PrefsEditor:
         widget = guiget('backspace-binding-combobox')
         selected = widget.get_active()
         if selected == 0:
-            value = 'control-h'
+            value = 'automatic'
         elif selected == 1:
-            value = 'ascii-del'
+            value = 'control-h'
         elif selected == 2:
+            value = 'ascii-del'
+        elif selected == 3:
             value == 'escape-sequence'
         self.config['backspace_binding'] = value
         # Delete key
         widget = guiget('delete-binding-combobox')
         selected = widget.get_active()
         if selected == 0:
-            value = 'control-h'
+            valud = 'automatic'
         elif selected == 1:
-            value = 'ascii-del'
+            value = 'control-h'
         elif selected == 2:
+            value = 'ascii-del'
+        elif selected == 3:
             value = 'escape-sequence'
         self.config['delete_binding'] = value
 
@@ -655,9 +663,9 @@ class PrefsEditor:
         guiget = self.builder.get_object
 
         widget = guiget('backspace-binding-combobox')
-        widget.set_active(1)
-        widget = guiget('delete-binding-combobox')
         widget.set_active(2)
+        widget = guiget('delete-binding-combobox')
+        widget.set_active(3)
 
     def on_background_type_toggled(self, _widget):
         """The background type was toggled"""

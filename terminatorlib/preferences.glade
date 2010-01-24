@@ -152,6 +152,9 @@
     </columns>
     <data>
       <row>
+        <col id="0" translatable="yes">Automatic</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">Control-H</col>
       </row>
       <row>
@@ -168,6 +171,9 @@
       <column type="gchararray"/>
     </columns>
     <data>
+      <row>
+        <col id="0" translatable="yes">Automatic</col>
+      </row>
       <row>
         <col id="0" translatable="yes">Control-H</col>
       </row>

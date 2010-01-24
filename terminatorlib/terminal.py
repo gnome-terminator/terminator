@@ -496,22 +496,38 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         # escape-sequence
         try:
             if backspace == 'ascii-del':
+                backbind = vte.ERASE_ASCII_DELETE
+            elif backspace == 'control-h':
                 backbind = vte.ERASE_ASCII_BACKSPACE
+            elif backspace == 'escape-sequence':
+                backbind = vte.ERASE_DELETE_SEQUENCE
             else:
                 backbind = vte.ERASE_AUTO
         except AttributeError:
             if backspace == 'ascii-del':
                 backbind = 2
-            else:
+            elif backspace == 'control-h':
                 backbind = 1
+            elif backspace == 'escape-sequence':
+                backbind = 3
+            else:
+                backbind = 0
 
         try:
-            if delete == 'escape-sequence':
+            if delete == 'ascii-del':
+                delbind = vte.ERASE_ASCII_DELETE
+            elif delete == 'control-h':
+                delbind = vte.ERASE_ASCII_BACKSPACE
+            elif delete == 'escape-sequence':
                 delbind = vte.ERASE_DELETE_SEQUENCE
             else:
                 delbind = vte.ERASE_AUTO
         except AttributeError:
-            if delete == 'escape-sequence':
+            if delete == 'ascii-del':
+                delbind = 2
+            elif delete == 'control-h':
+                delbind = 1
+            elif delete == 'escape-sequence':
                 delbind = 3
             else:
                 delbind = 0
