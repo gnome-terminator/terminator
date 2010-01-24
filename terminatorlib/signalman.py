@@ -17,7 +17,7 @@ class Signalman(object):
     def __del__(self):
         """Class destructor. This is only used to check for stray signals"""
         if len(self.cnxids.keys()) > 0:
-            err('Signals remain. This is likely a bug: %s' % self.cnxids)
+            dbg('Remaining signals: %s' % self.cnxids)
 
     def new(self, widget, signal, handler, *args):
         """Register a new signal on a widget"""
