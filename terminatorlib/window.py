@@ -258,7 +258,8 @@ class Window(Container, gtk.Window):
                        'group-all': self.group_all,
                        'ungroup-all': self.ungroup_all,
                        'group-tab': self.group_tab,
-                       'ungroup-tab': self.ungroup_tab}
+                       'ungroup-tab': self.ungroup_tab,
+                       'move-tab': self.move_tab}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
@@ -405,6 +406,8 @@ class Window(Container, gtk.Window):
             pages = child.get_n_pages()
             if cur == pages - 1:
                 num = 0
+            else:
+                num = cur + 1
         elif num == -2:
             # Go to the previous tab
             cur = child.get_current_page()
@@ -462,6 +465,36 @@ class Window(Container, gtk.Window):
         
         for terminal in self.get_visible_terminals():
             terminal.set_group(None, None)
+
+    def move_tab(self, widget, direction):
+        """Handle a keyboard shortcut for moving tab positions"""
+        maker = Factory()
+        notebook = self.get_child()
+
+        if not maker.isinstance(notebook, 'Notebook'):
+            dbg('not in a notebook, refusing to move tab %s' % direction)
+            return
+
+        dbg('moving tab %s' % direction)
+        numpages = notebook.get_n_pages()
+        page = notebook.get_current_page()
+        child = notebook.get_nth_page(page)
+
+        if direction == 'left':
+            if page == 0:
+                page = numpages
+            else:
+                page = page - 1
+        elif direction == 'right':
+            if page == numpages - 1:
+                page = 0
+            else:
+                page = page + 1
+        else:
+            err('unknown direction: %s' % direction)
+            return
+        
+        notebook.reorder_child(child, page)
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

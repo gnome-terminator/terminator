@@ -1223,11 +1223,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def key_resize_right(self):
         self.emit('resize-term', 'right')
 
-    # FIXME: Nothing currently handles this signal. Make it so something does.
     def key_move_tab_right(self):
         self.emit('move-tab', 'right')
 
-    # FIXME: Nothing currently handles this signal. Make it so something does.
     def key_move_tab_left(self):
         self.emit('move-tab', 'left')
 
