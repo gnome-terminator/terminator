@@ -152,10 +152,15 @@ class Window(Container, gtk.Window):
                 return(False)
             return(True)
 
+    def is_child_notebook(self):
+        """Returns True if this Window's child is a Notebook"""
+        maker = Factory()
+        return(maker.isinstance(self.get_child(), 'Notebook'))
+
     def tab_new(self):
         """Make a new tab"""
         maker = Factory()
-        if not maker.isinstance(self.get_child(), 'Notebook'):
+        if not self.is_child_notebook():
             notebook = maker.make('Notebook', window=self)
         self.get_child().newtab()
 
@@ -217,10 +222,12 @@ class Window(Container, gtk.Window):
 
     def set_hidden(self, value):
         """Set the visibility of the window from the supplied value"""
+        # FIXME: Implement or drop this
         pass
 
     def set_iconified(self, value):
         """Set the minimised state of the window from the value"""
+        # FIXME: Implement or drop this
         pass
 
     def set_real_transparency(self, value=True):
@@ -245,16 +252,15 @@ class Window(Container, gtk.Window):
                        'title-change': self.title.set_title,
                        'split-horiz': self.split_horiz,
                        'split-vert': self.split_vert,
-                       'unzoom': self.unzoom}
+                       'unzoom': self.unzoom,
+                       'tab-change': self.tab_change,
+                       'group-all': self.group_all,
+                       'ungroup-all': self.ungroup_all,
+                       'group-tab': self.group_tab,
+                       'ungroup-tab': self.ungroup_tab}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
-
-            self.connect_child(widget, 'tab-change', self.tab_change)
-            self.connect_child(widget, 'group-all', self.group_all)
-            self.connect_child(widget, 'ungroup-all', self.ungroup_all)
-            self.connect_child(widget, 'group-tab', self.group_tab)
-            self.connect_child(widget, 'ungroup-tab', self.ungroup_tab)
 
             widget.grab_focus()
 

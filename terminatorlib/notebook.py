@@ -102,10 +102,10 @@ class Notebook(Container, gtk.Notebook):
 
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
+        maker = Factory()
         top_window = get_top_window(self)
 
         if not widget:
-            maker = Factory()
             widget = maker.make('Terminal')
             widget.spawn_child()
 
@@ -113,17 +113,16 @@ class Notebook(Container, gtk.Notebook):
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
                    'title-change': self.propagate_title_change,
-                   'unzoom': self.unzoom}
+                   'unzoom': self.unzoom,
+                   'tab-change': top_window.tab_change,
+                   'group-all': top_window.group_all,
+                   'ungroup-all': top_window.ungroup_all,
+                   'group-tab': top_window.group_tab,
+                   'ungroup-tab': top_window.ungroup_tab}
 
-        maker = Factory()
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
-            self.connect_child(widget, 'tab-change', top_window.tab_change)
-            self.connect_child(widget, 'group-all', top_window.group_all)
-            self.connect_child(widget, 'ungroup-all', top_window.ungroup_all)
-            self.connect_child(widget, 'group-tab', top_window.group_tab)
-            self.connect_child(widget, 'ungroup-tab', top_window.ungroup_tab)
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)

@@ -84,19 +84,21 @@ class Paned(Container):
                     'split-vert': self.split_vert,
                     'title-change': self.propagate_title_change,
                     'resize-term': self.resizeterm,
-                    'zoom': top_window.zoom}
+                    'zoom': top_window.zoom,
+                    'tab-change': top_window.tab_change,
+                    'group-all': top_window.group_all,
+                    'ungroup-all': top_window.ungroup_all,
+                    'group-tab': top_window.group_tab,
+                    'ungroup-tab': top_window.ungroup_tab,
+                    'maximise': [top_window.zoom, False]}
 
             for signal in signals:
-                self.connect_child(widget, signal, signals[signal])
-
-            # FIXME: We shouldn't be doing this exact same thing in each
-            # Container
-            self.connect_child(widget, 'maximise', top_window.zoom, False)
-            self.connect_child(widget, 'tab-change', top_window.tab_change)
-            self.connect_child(widget, 'group-all', top_window.group_all)
-            self.connect_child(widget, 'ungroup-all', top_window.ungroup_all)
-            self.connect_child(widget, 'group-tab', top_window.group_tab)
-            self.connect_child(widget, 'ungroup-tab', top_window.ungroup_tab)
+                args = []
+                handler = signals[signal]
+                if isinstance(handler, list):
+                    args = handler[1:]
+                    handler = handler[0]
+                self.connect_child(widget, signal, handler, *args)
 
             widget.grab_focus()
 
