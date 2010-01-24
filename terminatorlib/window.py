@@ -188,6 +188,7 @@ class Window(Container, gtk.Window):
 
     def on_hide_window(self, data):
         """Handle a request to hide/show the window"""
+        # FIXME: Implement or drop, or explain why its empty
         pass
 
     # pylint: disable-msg=W0613
