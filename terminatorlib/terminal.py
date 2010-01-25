@@ -5,6 +5,7 @@
 
 import sys
 import os
+import signal
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -164,6 +165,7 @@ class Terminal(gtk.VBox):
         """Close ourselves"""
         dbg('Terminal::close: emitting close-term')
         self.emit('close-term')
+        os.kill(self.pid, signal.SIGHUP)
 
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""

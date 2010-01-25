@@ -200,7 +200,6 @@ class Notebook(Container, gtk.Notebook):
                 while len(objects) > 0:
                     descendant = objects.pop()
                     descendant.close()
-                    # FIXME: Is this mainloop iterations stuff necessary?
                     while gtk.events_pending():
                         gtk.main_iteration()
                 return
