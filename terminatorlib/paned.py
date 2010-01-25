@@ -126,6 +126,7 @@ class Paned(Container):
 
             parent = self.get_parent()
             parent.remove(self)
+            self.cnxids.remove_all()
             parent.add(sibling)
             del(self)
         else:

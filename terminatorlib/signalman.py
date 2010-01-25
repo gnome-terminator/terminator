@@ -30,6 +30,7 @@ class Signalman(object):
 
         self.cnxids[widget][signal] = widget.connect(signal, handler, *args)
         dbg('connected %s::%s to %s' % (type(widget), signal, handler))
+        return(self.cnxids[widget][signal])
 
     def remove_signal(self, widget, signal):
         """Remove a signal handler"""
@@ -54,4 +55,10 @@ class Signalman(object):
         signals = self.cnxids[widget].keys()
         for signal in signals:
             self.remove_signal(widget, signal)
+
+    def remove_all(self):
+        """Remove all signal handlers for all widgets"""
+        widgets = self.cnxids.keys()
+        for widget in widgets:
+            self.remove_widget(widget)
 

@@ -266,6 +266,7 @@ class Notebook(Container, gtk.Notebook):
             self.remove_page(0)
             parent = self.get_parent()
             parent.remove(self)
+            self.cnxids.remove_all()
             parent.add(child)
             del(self)
 

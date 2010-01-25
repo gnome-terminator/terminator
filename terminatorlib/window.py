@@ -182,6 +182,7 @@ class Window(Container, gtk.Window):
 
     def on_destroy_event(self, widget, data=None):
         """Handle window descruction"""
+        self.cnxids.remove_all()
         self.terminator.deregister_window(self)
         self.destroy()
         del(self)
