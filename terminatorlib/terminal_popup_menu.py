@@ -35,6 +35,9 @@ class TerminalPopupMenu(object):
             url = terminal.check_for_url(event)
             button = event.button
             time = event.time
+        else:
+            time = 0
+            button = 3
 
         if url:
             if url[1] == terminal.matches['email']:
