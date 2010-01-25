@@ -165,7 +165,12 @@ class Terminal(gtk.VBox):
         """Close ourselves"""
         dbg('Terminal::close: emitting close-term')
         self.emit('close-term')
-        os.kill(self.pid, signal.SIGHUP)
+        try:
+            os.kill(self.pid, signal.SIGHUP)
+        except:
+            # We really don't want to care if this failed. Deep OS voodoo is
+            # not what we should be doing.
+            pass
 
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
