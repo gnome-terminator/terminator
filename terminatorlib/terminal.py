@@ -499,8 +499,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         backspace = self.config['backspace_binding']
         delete = self.config['delete_binding']
 
-        # FIXME: This doesn't seem like we ever obey control-h or
-        # escape-sequence
         try:
             if backspace == 'ascii-del':
                 backbind = vte.ERASE_ASCII_DELETE
