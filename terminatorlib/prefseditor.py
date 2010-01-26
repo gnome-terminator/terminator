@@ -255,7 +255,7 @@ class PrefsEditor:
         self.config['tab_position'] = value
 
         ## Profile tab
-        self.store_profile_values(self.previous_selection)
+        self.store_profile_values()
 
         ## Layouts tab
         # FIXME: Implement this
@@ -433,8 +433,7 @@ class PrefsEditor:
         else:
             widget.set_active(0)
 
-    # FIXME: Why do we have a profile argument that we don't use?
-    def store_profile_values(self, profile):
+    def store_profile_values(self):
         """Pull out all the settings before switching profile"""
         guiget = self.builder.get_object
 
@@ -701,7 +700,7 @@ class PrefsEditor:
         if self.previous_selection is not None:
             dbg('PrefsEditor::on_profile_selection_changed: Storing: %s' %
                     self.previous_selection)
-            self.store_profile_values(self.previous_selection)
+            self.store_profile_values()
 
         (listmodel, rowiter) = selection.get_selected()
         if not rowiter:
