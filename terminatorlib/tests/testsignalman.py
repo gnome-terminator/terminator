@@ -6,6 +6,7 @@
 >>> widget = TestWidget()
 >>> signalman = Signalman()
 >>> signalman.new(widget, 'test1', handler)
+1
 >>> signalman.cnxids[widget].keys()
 ['test1']
 >>> widget.signals.values()
@@ -16,7 +17,9 @@ False
 >>> widget.signals.values()
 []
 >>> signalman.new(widget, 'test2', handler)
+2
 >>> signalman.new(widget, 'test3', handler)
+3
 >>> signalman.remove_signal(widget, 'test2')
 >>> signalman.cnxids[widget].keys()
 ['test3']
