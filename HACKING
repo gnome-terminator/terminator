@@ -1,0 +1,1 @@
+If you want to hack on Terminator you probably want to have the "trial" command available, which is part of python-twisted-core. This is useful for running the test suite with "trial terminatorlib".
