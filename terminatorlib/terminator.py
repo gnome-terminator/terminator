@@ -71,7 +71,6 @@ class Terminator(Borg):
             self.terminals.append(terminal)
             terminal.connect('ungroup-all', self.ungroup_all)
             terminal.connect('navigate', self.navigate_terminal)
-            terminal.connect('tab-new', self.tab_new)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
@@ -99,12 +98,6 @@ class Terminator(Borg):
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
             terminal.reconfigure()
-
-    def tab_new(self, terminal):
-        """A terminal asked for a new tab. This function is an indirection
-        to the Window object"""
-        window = get_top_window(terminal)
-        window.tab_new()
 
     def navigate_terminal(self, terminal, direction):
         """Nagivate around the terminals"""
@@ -250,10 +243,12 @@ class Terminator(Borg):
 
     def group_tab(self, widget):
         """Group all the terminals in a tab"""
+        # FIXME: Implement or drop
         pass
 
     def ungroup_tab(self, widget):
         """Ungroup all the terminals in a tab"""
+        # FIXME: Implement or drop
         pass
 
     def focus_changed(self, widget):

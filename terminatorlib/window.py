@@ -157,7 +157,7 @@ class Window(Container, gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
-    def tab_new(self):
+    def tab_new(self, widget=None):
         """Make a new tab"""
         maker = Factory()
         if not self.is_child_notebook():
@@ -260,7 +260,8 @@ class Window(Container, gtk.Window):
                        'ungroup-all': self.ungroup_all,
                        'group-tab': self.group_tab,
                        'ungroup-tab': self.ungroup_tab,
-                       'move-tab': self.move_tab}
+                       'move-tab': self.move_tab,
+                       'tab-new': self.tab_new}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
