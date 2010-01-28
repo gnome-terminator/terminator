@@ -60,7 +60,7 @@ class Container(object):
         self.cnxids.remove_widget(widget)
 
     def get_offspring(self):
-        """Return a list of child widgets, if any"""
+        """Return a list of direct child widgets, if any"""
         return(self.children)
 
     def split_horiz(self, widget):

@@ -229,3 +229,38 @@ def get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
+def enumerate_descendants(parent):
+    """Walk all our children and build up a list of containers and
+    terminals"""
+    # FIXME: Does having to import this here mean we should move this function
+    # back to Container?
+    from factory import Factory
+
+    containerstmp = []
+    containers = []
+    terminals = []
+    maker = Factory()
+
+    if parent is None:
+        err('no parent widget specified')
+        return
+
+    for descendant in parent.get_children():
+        if maker.isinstance(descendant, 'Container'):
+            containerstmp.append(descendant)
+        elif maker.isinstance(descendant, 'Terminal'):
+            terminals.append(descendant)
+
+        while len(containerstmp) > 0:
+            child = containerstmp.pop()
+            for descendant in child.get_children():
+                if maker.isinstance(descendant, 'Container'):
+                    containerstmp.append(descendant)
+                elif maker.isinstance(descendant, 'Terminal'):
+                    terminals.append(descendant)
+            containers.append(child)
+
+    dbg('%d containers and %d terminals fall beneath %s' % (len(containers), 
+        len(terminals), parent))
+    return(containers, terminals)
+

@@ -61,6 +61,7 @@ class Terminator(Borg):
         self.windows.remove(window)
         if len(self.windows) == 0:
             # We have no windows left, we should exit
+            dbg('no windows remain, quitting')
             gtk.main_quit()
 
     def register_terminal(self, terminal):
@@ -79,6 +80,7 @@ class Terminator(Borg):
         self.terminals.remove(terminal)
 
         if len(self.terminals) == 0:
+            dbg('no terminals remain, destroying all windows')
             for window in self.windows:
                 window.destroy()
         else:

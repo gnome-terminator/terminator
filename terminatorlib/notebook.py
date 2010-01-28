@@ -12,7 +12,7 @@ from factory import Factory
 from container import Container
 from editablelabel import EditableLabel
 from translation import _
-from util import err, dbg, get_top_window
+from util import err, dbg, get_top_window, enumerate_descendants
 
 class Notebook(Container, gtk.Notebook):
     """Class implementing a gtk.Notebook container"""
@@ -179,21 +179,9 @@ class Notebook(Container, gtk.Notebook):
             dialog.destroy()
 
             if result == gtk.RESPONSE_ACCEPT:
-                containers = []
-                objects = []
-                for descendant in child.get_children():
-                    if maker.isinstance(descendant, 'Container'):
-                        containers.append(descendant)
-                    elif maker.isinstance(descendant, 'Terminal'):
-                        objects.append(descendant)
-
-                while len(containers) > 0:
-                    child = containers.pop()
-                    for descendant in child.get_children():
-                        if maker.isinstance(descendant, 'Container'):
-                            containers.append(descendant)
-                        elif maker.isinstance(descendant, 'Terminal'):
-                            objects.append(descendant)
+                containers = None
+                objects = None
+                containers, objects = enumerate_descendants(child)
 
                 while len(objects) > 0:
                     descendant = objects.pop()
