@@ -171,7 +171,10 @@ class Window(Container, gtk.Window):
         if maker.isinstance(self.get_child(), 'Terminal'):
             dbg('Window::on_delete_event: Only one child, closing is fine')
             return(False)
-        return(self.confirm_close(window, _('window')))
+        elif maker.isinstance(self.get_child(), 'Container'):
+            return(self.confirm_close(window, _('window')))
+        else:
+            dbg('unknown child: %s' % self.get_child())
 
     def confirm_close(self, window, type):
         """Display a confirmation dialog when the user is closing multiple
@@ -183,6 +186,7 @@ class Window(Container, gtk.Window):
 
     def on_destroy_event(self, widget, data=None):
         """Handle window descruction"""
+        dbg('destroying self')
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)
         self.destroy()
@@ -275,6 +279,13 @@ class Window(Container, gtk.Window):
         gtk.Window.remove(self, widget)
         self.disconnect_child(widget)
         return(True)
+
+    def closeterm(self, widget):
+        """Handle a terminal closing"""
+        Container.closeterm(self, widget)
+
+        if len(self.get_children()) == 0:
+            self.emit('destroy')
 
     def split_axis(self, widget, vertical=True, sibling=None):
         """Split the window"""

@@ -58,7 +58,11 @@ class Terminator(Borg):
         """de-register a window widget"""
         dbg('Terminator::deregister_window: de-registering %s:%s' %
                 (id(window), type(window)))
-        self.windows.remove(window)
+        if window in self.windows:
+            self.windows.remove(window)
+        else:
+            err('%s is not in registered window list' % window)
+
         if len(self.windows) == 0:
             # We have no windows left, we should exit
             dbg('no windows remain, quitting')
