@@ -76,6 +76,7 @@ class Terminal(gtk.VBox):
 
     group = None
     cwd = None
+    origcwd = None
     command = None
     clipboard = None
     pid = None
@@ -109,6 +110,7 @@ class Terminal(gtk.VBox):
         self.config = Config()
 
         self.cwd = get_default_cwd()
+        self.origcwd = self.terminator.origcwd
         self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 
         self.vte = vte.Terminal()
@@ -1301,11 +1303,14 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.emit('ungroup-tab')
 
     def key_new_window(self):
+        self.terminator.new_window()
+
+    def key_new_terminator(self):
         cmd = sys.argv[0]
     
         if not os.path.isabs(cmd):
             # Command is not an absolute path. Figure out where we are
-            cmd = os.path.join (self.cwd, sys.argv[0])
+            cmd = os.path.join (self.origcwd, sys.argv[0])
             if not os.path.isfile(cmd):
                 # we weren't started as ./terminator in a path. Give up
                 err('Terminal::key_new_window: Unable to locate Terminator')

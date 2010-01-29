@@ -19,6 +19,8 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 import sys
+import os
+ORIGCWD = os.getcwd()
 
 # Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
@@ -50,6 +52,7 @@ if __name__ == '__main__':
 
     MAKER = Factory()
     TERMINATOR = Terminator()
+    TERMINATOR.origcwd = ORIGCWD
     TERMINATOR.reconfigure()
     TERMINATOR.new_window()
 

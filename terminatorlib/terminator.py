@@ -21,6 +21,8 @@ class Terminator(Borg):
     config = None
     keybindings = None
 
+    origcwd = None
+
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
 
