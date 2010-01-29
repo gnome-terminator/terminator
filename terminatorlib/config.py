@@ -145,6 +145,7 @@ DEFAULTS = {
             'group_tab'        : '<Super>t',
             'ungroup_tab'      : '<Shift><Super>t',
             'new_window'       : '<Shift><Control>i',
+            'new_terminator'   : '<Super>i',
         },
         'profiles': {
             'default':  {
