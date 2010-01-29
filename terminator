@@ -51,12 +51,7 @@ if __name__ == '__main__':
     MAKER = Factory()
     TERMINATOR = Terminator()
     TERMINATOR.reconfigure()
-    WINDOW = MAKER.make('Window')
-    TERMINAL = MAKER.make('Terminal')
-
-    WINDOW.add(TERMINAL)
-    WINDOW.show()
-    TERMINAL.spawn_child()
+    TERMINATOR.new_window()
 
     if OPTIONS.debug > 2:
         import terminatorlib.debugserver as debugserver

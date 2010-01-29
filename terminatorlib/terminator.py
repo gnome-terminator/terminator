@@ -8,8 +8,8 @@ import gtk
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
-from util import dbg, err, get_top_window
-import util
+from util import dbg, err
+from factory import Factory
 
 class Terminator(Borg):
     """master object for the application"""
@@ -89,6 +89,17 @@ class Terminator(Borg):
         else:
             dbg('Terminator::deregister_terminal: %d terminals remain' %
                     len(self.terminals))
+
+    def new_window(self):
+        """Create a window with a Terminal in it"""
+        maker = Factory()
+        window = maker.make('Window')
+        terminal = maker.make('Terminal')
+        window.add(terminal)
+        window.show()
+        terminal.spawn_child()
+
+        return(window, terminal)
 
     def reconfigure(self):
         """Update configuration for the whole application"""
