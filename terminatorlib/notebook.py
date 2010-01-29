@@ -117,7 +117,8 @@ class Notebook(Container, gtk.Notebook):
                    'group-tab': top_window.group_tab,
                    'ungroup-tab': top_window.ungroup_tab,
                    'move-tab': top_window.move_tab,
-                   'tab-new': top_window.tab_new}
+                   'tab-new': top_window.tab_new,
+                   'navigate': top_window.navigate_terminal}
 
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:

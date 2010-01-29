@@ -10,6 +10,7 @@ import gtk
 import glib
 
 from util import dbg, err
+import util
 from translation import _
 from version import APP_NAME
 from container import Container
@@ -261,7 +262,8 @@ class Window(Container, gtk.Window):
                        'group-tab': self.group_tab,
                        'ungroup-tab': self.ungroup_tab,
                        'move-tab': self.move_tab,
-                       'tab-new': self.tab_new}
+                       'tab-new': self.tab_new,
+                       'navigate': self.navigate_terminal}
 
             for signal in signals:
                 self.connect_child(widget, signal, signals[signal])
@@ -497,6 +499,70 @@ class Window(Container, gtk.Window):
             return
         
         notebook.reorder_child(child, page)
+
+    def navigate_terminal(self, terminal, direction):
+        """Navigate around terminals"""
+        _containers, terminals = util.enumerate_descendants(self)
+        current = terminals.index(terminal)
+        length = len(terminals)
+        next = None
+
+        if length <= 1:
+            return
+
+        if direction == 'next':
+            next = current + 1
+            if next >= length:
+                next = 0
+        elif direction == 'prev':
+            next = current - 1
+            if next < 0:
+                next = length - 1
+        elif direction in ['left', 'right', 'up', 'down']:
+            layout = self.get_visible_terminals()
+            allocation = terminal.get_allocation()
+            possibles = []
+
+            # Get the co-ordinate of the appropriate edge for this direction
+            edge = util.get_edge(allocation, direction)
+            # Find all visible terminals which are, in their entirity, in the
+            # direction we want to move
+            for term in layout:
+                rect = layout[term]
+                if util.get_nav_possible(edge, rect, direction):
+                    possibles.append(term)
+
+            if len(possibles) == 0:
+                return
+
+            # Find out how far away each of the possible terminals is, then
+            # find the smallest distance. The winning terminals are all of
+            # those who are that distance away.
+            offsets = {}
+            for term in possibles:
+                rect = layout[term]
+                offsets[term] = util.get_nav_offset(edge, rect, direction)
+            keys = offsets.values()
+            keys.sort()
+            winners = [k for k, v in offsets.iteritems() if v == keys[0]]
+            next = terminals.index(winners[0])
+
+            if len(winners) > 1:
+                # Break an n-way tie using the cursor position
+                cursor_x, cursor_y = terminal.get_cursor_position()
+                cursor_x = cursor_x + allocation.x
+                cursor_y = cursor_y + allocation.y
+                for term in winners:
+                    rect = layout[term]
+                    if util.get_nav_tiebreak(direction, cursor_x, cursor_y,
+                            rect):
+                        next = terminals.index(term)
+                        break;
+        else:
+            err('Unknown navigation direction: %s' % direction)
+
+        if next is not None:
+            terminals[next].grab_focus()
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
