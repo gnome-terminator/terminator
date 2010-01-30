@@ -178,7 +178,11 @@ class PrefsEditor:
         profiles = self.config.list_profiles()
         self.profileiters = {}
         for profile in profiles:
-            self.profileiters[profile] = liststore.append([profile])
+            if profile == 'default':
+                editable = False
+            else:
+                editable = True
+            self.profileiters[profile] = liststore.append([profile, editable])
         selection = widget.get_selection()
         selection.connect('changed', self.on_profile_selection_changed)
         selection.select_iter(self.profileiters['default'])
@@ -189,7 +193,11 @@ class PrefsEditor:
         layouts = self.config.list_layouts()
         self.layoutiters = {}
         for layout in layouts:
-            self.layoutiters[layout] = liststore.append([layout])
+            if layout == 'default':
+                editable = False
+            else:
+                editable = True
+            self.layoutiters[layout] = liststore.append([layout, editable])
         selection = widget.get_selection()
         selection.connect('changed', self.on_layout_selection_changed)
         selection.select_iter(self.layoutiters['default'])
@@ -267,7 +275,7 @@ class PrefsEditor:
         self.store_profile_values()
 
         ## Layouts tab
-        # FIXME: Implement this
+        self.store_layout()
 
         ## Keybindings tab
         keybindings = self.config['keybindings']
@@ -607,6 +615,10 @@ class PrefsEditor:
             value = 'escape-sequence'
         self.config['delete_binding'] = value
 
+    def set_layout(self, layout):
+        """Set a layout"""
+        pass
+
     def store_layout(self, layout):
         """Store a layout"""
         pass
@@ -627,7 +639,7 @@ class PrefsEditor:
                 newprofile = '%s %d' % (_('New Profile'), i)
 
         if self.config.add_profile(newprofile):
-            model.append([newprofile])
+            model.append([newprofile, True])
 
     def on_profileremovebutton_clicked(self, _button):
         """Remove a profile from the list"""
@@ -663,7 +675,7 @@ class PrefsEditor:
                 newlayout = '%s %d' % (_('New Layout'), i)
 
         if self.config.add_layout(newlayout):
-            model.append([newlayout])
+            model.append([newlayout, True])
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
@@ -771,7 +783,7 @@ class PrefsEditor:
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""
         oldname = cell.get_property('text')
-        if oldname == newtext:
+        if oldname == newtext or oldname == 'default':
             return
         dbg('PrefsEditor::on_profile_name_edited: Changing %s to %s' %
         (oldname, newtext))
@@ -799,7 +811,7 @@ class PrefsEditor:
             selection.select_iter(liststore.get_iter_first())
             return
         layout = listmodel.get_value(rowiter, 0)
-        self.set_profile_values(layout)
+        self.set_layout(layout)
         self.previous_selection = layout
 
         widget = self.builder.get_object('layoutremovebutton')
@@ -811,7 +823,7 @@ class PrefsEditor:
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
         oldname = cell.get_property('text')
-        if oldname == newtext:
+        if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
         self.config.rename_layout(oldname, newtext)

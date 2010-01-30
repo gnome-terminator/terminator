@@ -2,12 +2,6 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkListStore" id="ProfilesListStore">
-    <columns>
-      <!-- column-name Profile -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="FocusListStore">
     <columns>
       <!-- column-name focustype -->
@@ -197,10 +191,20 @@
       <column type="guint"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="ProfilesListStore">
+    <columns>
+      <!-- column-name Profile -->
+      <column type="gchararray"/>
+      <!-- column-name editable -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="LayoutListStore">
     <columns>
       <!-- column-name Layout -->
       <column type="gchararray"/>
+      <!-- column-name editable -->
+      <column type="gboolean"/>
     </columns>
   </object>
   <object class="GtkDialog" id="prefswin">
@@ -443,10 +447,10 @@
                             <property name="clickable">True</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext3">
-                                <property name="editable">True</property>
                                 <signal name="edited" handler="on_profile_name_edited"/>
                               </object>
                               <attributes>
+                                <attribute name="editable">1</attribute>
                                 <attribute name="text">0</attribute>
                               </attributes>
                             </child>
@@ -2062,10 +2066,10 @@
                             <property name="clickable">True</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext12">
-                                <property name="editable">True</property>
                                 <signal name="edited" handler="on_layout_name_edited"/>
                               </object>
                               <attributes>
+                                <attribute name="editable">1</attribute>
                                 <attribute name="text">0</attribute>
                               </attributes>
                             </child>
