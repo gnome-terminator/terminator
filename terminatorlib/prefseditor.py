@@ -184,7 +184,15 @@ class PrefsEditor:
         selection.select_iter(self.profileiters['default'])
 
         ## Layouts tab
-        # FIXME: Implement this
+        widget = guiget('layoutlist')
+        liststore = widget.get_model()
+        layouts = self.config.list_layouts()
+        self.layoutiters = {}
+        for layout in layouts:
+            self.layoutiters[layout] = liststore.append([layout])
+        selection = widget.get_selection()
+        selection.connect('changed', self.on_layout_selection_changed)
+        selection.select_iter(self.layoutiters['default'])
 
         ## Keybindings tab
         widget = guiget('keybindingtreeview')
@@ -599,6 +607,10 @@ class PrefsEditor:
             value = 'escape-sequence'
         self.config['delete_binding'] = value
 
+    def store_layout(self, layout):
+        """Store a layout"""
+        pass
+
     def on_profileaddbutton_clicked(self, _button):
         """Add a new profile to the list"""
         guiget = self.builder.get_object
@@ -632,6 +644,42 @@ class PrefsEditor:
 
         self.previous_selection = None
         self.config.del_profile(profile)
+        model.remove(rowiter)
+        selection.select_iter(model.get_iter_first())
+
+    def on_layoutaddbutton_clicked(self, _button):
+        """Add a new layout to the list"""
+        guiget = self.builder.get_object
+
+        treeview = guiget('layoutlist')
+        model = treeview.get_model()
+        values = [ r[0] for r in model ]
+
+        newlayout = _('New Layout')
+        if newlayout in values:
+            i = 1
+            while newlayout in values:
+                i = i + 1
+                newlayout = '%s %d' % (_('New Layout'), i)
+
+        if self.config.add_layout(newlayout):
+            model.append([newlayout])
+
+    def on_layoutremovebutton_clicked(self, _button):
+        """Remove a layout from the list"""
+        guiget = self.builder.get_object
+
+        treeview = guiget('layoutlist')
+        selection = treeview.get_selection()
+        (model, rowiter) = selection.get_selected()
+        layout = model.get_value(rowiter, 0)
+
+        if layout == 'default':
+            # We shouldn't let people delete this layout
+            return
+
+        self.previous_sekection = None
+        self.config.del_layout(layout)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
 
@@ -730,6 +778,45 @@ class PrefsEditor:
         self.config.rename_profile(oldname, newtext)
         
         widget = self.builder.get_object('profilelist')
+        model = widget.get_model()
+        itera = model.get_iter(path)
+        model.set_value(itera, 0, newtext)
+
+        if oldname == self.previous_selection:
+            self.previous_selection = newtext
+
+    def on_layout_selection_changed(self, selection):
+        """A different layout was selected"""
+        if self.previous_selection is not None:
+            dbg('Storing: %s' % self.previous_selection)
+            self.store_layout(self.previous_selection)
+
+        (listmodel, rowiter) = selection.get_selected()
+        if not rowiter:
+            # Something is wrong, just jump to the first item in the list
+            treeview = selection.get_tree_view()
+            liststore = treeview.get_model()
+            selection.select_iter(liststore.get_iter_first())
+            return
+        layout = listmodel.get_value(rowiter, 0)
+        self.set_profile_values(layout)
+        self.previous_selection = layout
+
+        widget = self.builder.get_object('layoutremovebutton')
+        if layout == 'default':
+            widget.set_sensitive(False)
+        else:
+            widget.set_sensitive(True)
+
+    def on_layout_name_edited(self, cell, path, newtext):
+        """Update a layout name"""
+        oldname = cell.get_property('text')
+        if oldname == newtext:
+            return
+        dbg('Changing %s to %s' % (oldname, newtext))
+        self.config.rename_layout(oldname, newtext)
+        
+        widget = self.builder.get_object('layoutlist')
         model = widget.get_model()
         itera = model.get_iter(path)
         model.set_value(itera, 0, newtext)

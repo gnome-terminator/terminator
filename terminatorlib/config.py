@@ -206,6 +206,7 @@ DEFAULTS = {
             },
         },
         'layouts': {
+                'default': {'type': 'Terminal'}
         },
         'plugins': {
         },
@@ -264,6 +265,25 @@ class Config(object):
     def list_profiles(self):
         """List all configured profiles"""
         return(self.base.profiles.keys())
+
+    def add_layout(self, layout):
+        """Add a new layout"""
+        return(self.base.add_layout(layout))
+
+    def del_layout(self, layout):
+        """Delete a layout"""
+        if self.base.layouts.has_key(layout):
+            del(self.base.layouts[layout])
+
+    def rename_layout(self, layout, newname):
+        """Rename a layout"""
+        if self.base.layouts.has_key(layout):
+            self.base.layouts[newname] = self.base.layouts[layout]
+            del(self.base.layouts[layout])
+
+    def list_layouts(self):
+        """List all configured layouts"""
+        return(self.base.layouts.keys())
 
     def get_system_font(self):
         """Look up the system font"""
@@ -545,5 +565,12 @@ class ConfigBase(Borg):
         if profile in self.profiles:
             return(False)
         self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
+        return(True)
+
+    def add_layout(self, layout):
+        """Add a new layout"""
+        if layout in self.layouts:
+            return(False)
+        self.layouts[layout] = {'type': 'Terminal'}
         return(True)
 
