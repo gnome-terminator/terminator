@@ -81,6 +81,7 @@ class PrefsEditor:
                         'group_tab'        : 'Group terminals in tab',
                         'ungroup_tab'      : 'Ungroup terminals in tab',
                         'new_window'       : 'Create a new window',
+                        'new_terminator'   : 'Spawn a new Terminator process',
             }
 
     def __init__ (self, term):
