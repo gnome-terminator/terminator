@@ -23,7 +23,8 @@ class PrefsEditor:
     keybindings = None
     window = None
     builder = None
-    previous_selection = None
+    previous_layout_selection = None
+    previous_profile_selection = None
     colorschemevalues = {'black_on_yellow': 0, 
                          'black_on_white': 1,
                          'grey_on_black': 2,
@@ -275,7 +276,7 @@ class PrefsEditor:
         self.store_profile_values()
 
         ## Layouts tab
-        self.store_layout()
+        self.store_layout(self.previous_layout_selection)
 
         ## Keybindings tab
         keybindings = self.config['keybindings']
@@ -654,7 +655,7 @@ class PrefsEditor:
             # We shouldn't let people delete this profile
             return
 
-        self.previous_selection = None
+        self.previous_profile_selection = None
         self.config.del_profile(profile)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
@@ -758,9 +759,9 @@ class PrefsEditor:
 
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
-        if self.previous_selection is not None:
+        if self.previous_profile_selection is not None:
             dbg('PrefsEditor::on_profile_selection_changed: Storing: %s' %
-                    self.previous_selection)
+                    self.previous_profile_selection)
             self.store_profile_values()
 
         (listmodel, rowiter) = selection.get_selected()
@@ -772,7 +773,7 @@ class PrefsEditor:
             return
         profile = listmodel.get_value(rowiter, 0)
         self.set_profile_values(profile)
-        self.previous_selection = profile
+        self.previous_profile_selection = profile
 
         widget = self.builder.get_object('profileremovebutton')
         if profile == 'default':
@@ -794,14 +795,14 @@ class PrefsEditor:
         itera = model.get_iter(path)
         model.set_value(itera, 0, newtext)
 
-        if oldname == self.previous_selection:
-            self.previous_selection = newtext
+        if oldname == self.previous_profile_selection:
+            self.previous_profile_selection = newtext
 
     def on_layout_selection_changed(self, selection):
         """A different layout was selected"""
-        if self.previous_selection is not None:
-            dbg('Storing: %s' % self.previous_selection)
-            self.store_layout(self.previous_selection)
+        if self.previous_layout_selection is not None:
+            dbg('Storing: %s' % self.previous_layout_selection)
+            self.store_layout(self.previous_layout_selection)
 
         (listmodel, rowiter) = selection.get_selected()
         if not rowiter:
@@ -812,7 +813,7 @@ class PrefsEditor:
             return
         layout = listmodel.get_value(rowiter, 0)
         self.set_layout(layout)
-        self.previous_selection = layout
+        self.previous_layout_selection = layout
 
         widget = self.builder.get_object('layoutremovebutton')
         if layout == 'default':
@@ -833,8 +834,8 @@ class PrefsEditor:
         itera = model.get_iter(path)
         model.set_value(itera, 0, newtext)
 
-        if oldname == self.previous_selection:
-            self.previous_selection = newtext
+        if oldname == self.previous_layout_selection:
+            self.previous_layout_selection = newtext
 
     def on_color_scheme_combobox_changed(self, widget):
         """Update the fore/background colour pickers"""
