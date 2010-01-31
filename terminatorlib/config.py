@@ -497,7 +497,8 @@ class ConfigBase(Borg):
         parser['layouts'] = {}
         for layout in self.layouts:
             dbg('ConfigBase::save: Processing layout: %s' % layout)
-            parser['layouts'][layout] = self.layouts[layout]
+            parser['layouts'][layout] = dict_diff(
+                    DEFAULTS['layouts']['default'], self.layouts[layout])
 
         parser['plugins'] = {}
         for plugin in self.plugins:
