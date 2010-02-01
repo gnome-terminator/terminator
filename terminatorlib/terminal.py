@@ -3,6 +3,7 @@
 # GPL v2 only
 """terminal.py - classes necessary to provide Terminal widgets"""
 
+from __future__ import division
 import sys
 import os
 import signal
@@ -969,7 +970,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         new_area = new_columns * new_rows
         area_factor = (new_area / old_area) / 2
 
-        new_font.set_size(old_data['old_font'].get_size() * area_factor)
+        new_size = int(old_data['old_font'].get_size() * area_factor)
+        if new_size == 0:
+            dbg('refusing to set a zero sized font')
+            return
+        new_font.set_size(new_size)
+        dbg('setting new font: %s' % new_font)
         self.vte.set_font(new_font)
 
     def is_zoomed(self):
