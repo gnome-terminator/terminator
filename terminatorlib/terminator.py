@@ -103,6 +103,23 @@ class Terminator(Borg):
 
         return(window, terminal)
 
+    def create_layout(self, layoutname):
+        """Create all the parts necessary to satisfy the specified layout"""
+        layout = None
+
+        layout = self.config.layout_get_config(layoutname)
+        if not layout:
+            # User specified a non-existent layout. default to one Terminal
+            err('layout %s not defined' % layout)
+            raise(KeyError)
+
+        for windef in layout:
+            if windef['type'] != 'Window':
+                err('invalid layout format. %s' % layout)
+                raise(ValueError)
+            window, terminal = self.new_window()
+            window.create_layout(windef)
+
     def reconfigure(self):
         """Update configuration for the whole application"""
 
@@ -210,4 +227,13 @@ class Terminator(Borg):
         for terminal in self.terminals:
             terminal.titlebar.update(widget)
         return
+
+    def describe_layout(self):
+        """Describe our current layout"""
+        layout = []
+        for window in self.windows:
+            layout.append(window.describe_layout())
+
+        return(layout)
+
 # vim: set expandtab ts=4 sw=4:

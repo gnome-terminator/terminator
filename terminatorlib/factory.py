@@ -26,6 +26,14 @@ from util import dbg, err
 # pylint: disable-msg=W0613
 class Factory(Borg):
     """Definition of a class that makes other classes"""
+    types = {'Terminal': 'terminal',
+             'VPaned': 'paned',
+             'HPaned': 'paned',
+             'Paned': 'paned',
+             'Notebook': 'notebook',
+             'Container': 'container',
+             'Window': 'window'}
+
     def __init__(self):
         """Class initialiser"""
         Borg.__init__(self, self.__class__.__name__)
@@ -37,27 +45,30 @@ class Factory(Borg):
 
     def isinstance(self, product, classtype):
         """Check if a given product is a particular type of object"""
-        types = {'Terminal': 'terminal',
-                 'VPaned': 'paned',
-                 'HPaned': 'paned',
-                 'Paned': 'paned',
-                 'Notebook': 'notebook',
-                 'Container': 'container',
-                 'Window': 'window'}
-        if classtype in types.keys():
+        if classtype in self.types.keys():
             # This is quite ugly, but we're importing from the current
             # directory if that makes sense, otherwise falling back to
             # terminatorlib. Someone with real Python skills should fix
             # this to be less insane.
             try:
-                module = __import__(types[classtype], None, None, [''])
+                module = __import__(self.types[classtype], None, None, [''])
             except ImportError:
-                module = __import__('terminatorlib.%s' % types[classtype],
+                module = __import__('terminatorlib.%s' % self.types[classtype],
                     None, None, [''])
             return(isinstance(product, getattr(module, classtype)))
         else:
             err('Factory::isinstance: unknown class type: %s' % classtype)
             return(False)
+
+    def type(self, product):
+        """Determine the type of an object we've previously created"""
+        for atype in self.types:
+            # Skip over generic types
+            if atype in ['Container', 'Paned']:
+                continue
+            if self.isinstance(product, atype):
+                return(atype)
+        return(None)
 
     def make(self, product, **kwargs):
         """Make the requested product"""

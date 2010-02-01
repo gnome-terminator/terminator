@@ -575,6 +575,33 @@ class Window(Container, gtk.Window):
         if next is not None:
             terminals[next].grab_focus()
 
+    def create_layout(self, layout):
+        """Apply any config items from our layout"""
+        if not layout.has_key('children'):
+            err('layout describes no children: %s' % layout)
+            return
+        children = layout['children']
+        if len(children) !=  1:
+            # We're a Window, we can only have one child
+            err('incorrect number of children for Window: %s' % layout)
+            return
+
+        child = children[0]
+        terminal = self.get_children()[0]
+        if child['type'] == 'VPaned':
+            self.split_axis(terminal, True)
+        elif child['type'] == 'HPaned':
+            self.split_axis(terminal, False)
+        elif child['type'] == 'Notebook':
+            self.tab_new()
+        elif child['type'] == 'Terminal':
+            pass
+        else:
+            err('unknown child type: %s' % child['type'])
+            return
+
+        self.get_children()[0].create_layout(child)
+
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
 

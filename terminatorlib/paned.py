@@ -178,6 +178,40 @@ class Paned(Container):
             # This is not a key we can handle
             self.emit('resize-term', keyname)
 
+    def create_layout(self, layout):
+        """Apply layout configuration"""
+        if not layout.has_key('children'):
+            err('layout specifies no children: %s' % layout)
+            return
+
+        children = layout['children']
+        if len(children) != 2:
+            # Paned widgets can only have two children
+            err('incorrect number of children for Paned: %s' % layout)
+            return
+
+        for num in xrange(0, 2):
+            child = children[num]
+            if child['type'] == 'Terminal':
+                continue
+            elif child['type'] == 'VPaned':
+                if num == 0:
+                    terminal = self.get_child1()
+                else:
+                    terminal = self.get_child2()
+                self.split_axis(terminal, True)
+            elif child['type'] == 'HPaned':
+                if num == 0:
+                    terminal = self.get_child1()
+                else:
+                    terminal = self.get_child2()
+                self.split_axis(terminal, False)
+            else:
+                err('unknown child type: %s' % child['type'])
+
+        self.get_child1().create_layout(children[0])
+        self.get_child2().create_layout(children[1])
+
 class HPaned(Paned, gtk.HPaned):
     """Merge gtk.HPaned into our base Paned Container"""
     def __init__(self):

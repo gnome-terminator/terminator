@@ -662,21 +662,23 @@ class PrefsEditor:
 
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
+        terminator = Terminator()
+        current_layout = terminator.describe_layout()
         guiget = self.builder.get_object
 
         treeview = guiget('layoutlist')
         model = treeview.get_model()
         values = [ r[0] for r in model ]
 
-        newlayout = _('New Layout')
-        if newlayout in values:
+        name = _('New Layout')
+        if name in values:
             i = 1
-            while newlayout in values:
+            while name in values:
                 i = i + 1
-                newlayout = '%s %d' % (_('New Layout'), i)
+                name = '%s %d' % (_('New Layout'), i)
 
-        if self.config.add_layout(newlayout):
-            model.append([newlayout, True])
+        if self.config.add_layout(name, current_layout):
+            model.append([name, True])
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""

@@ -190,4 +190,24 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         return(terminals)
 
+    def describe_layout(self):
+        """Describe our current layout"""
+        layout = {}
+        maker = Factory()
+        mytype = maker.type(self)
+        if not mytype:
+            err('unable to detemine own type. %s' % self)
+            return({})
+
+        layout['type'] = mytype
+        layout['children'] = []
+        for child in self.get_children():
+            layout['children'].append(child.describe_layout())
+
+        return(layout)
+
+    def create_layout(self, layout):
+        """Apply settings for our layout"""
+        raise NotImplementedError('create_layout')
+
 # vim: set expandtab ts=4 sw=4:

@@ -67,6 +67,7 @@ command to execute inside the terminal, and its arguments')
             dest='working_directory', help='Set the working directory')
     parser.add_option('-r', '--role', dest='role', help='Set a custom \
 WM_WINDOW_ROLE property on the window')
+    parser.add_option('-l', '--layout', dest='layout', help='Select a layout')
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
     '--no-gconf', '-p', '--profile' ]:
         parser.add_option(item, dest='dummy', action='store',

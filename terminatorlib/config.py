@@ -206,8 +206,8 @@ DEFAULTS = {
             },
         },
         'layouts': {
-                'default': {'type': 'Terminal'}
-        },
+                'default': "{'type': 'Window', 'children': [{'type': 'Terminal'}]}",
+                },
         'plugins': {
         },
 }
@@ -266,9 +266,9 @@ class Config(object):
         """List all configured profiles"""
         return(self.base.profiles.keys())
 
-    def add_layout(self, layout):
+    def add_layout(self, name, layout):
         """Add a new layout"""
-        return(self.base.add_layout(layout))
+        return(self.base.add_layout(name, layout))
 
     def del_layout(self, layout):
         """Delete a layout"""
@@ -335,6 +335,14 @@ class Config(object):
         """Set a whole config tree for a given plugin"""
         return(self.base.set_plugin(plugin, tree))
 
+    def layout_get_config(self, layout):
+        """Return a layout"""
+        return(self.base.get_layout(layout))
+
+    def layout_set_config(self, layout, tree):
+        """Set a layout"""
+        return(self.base.set_layout(layout, tree))
+
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     loaded = None
@@ -371,7 +379,9 @@ class ConfigBase(Borg):
         if self.plugins is None:
             self.plugins = {}
         if self.layouts is None:
-            self.layouts = copy(DEFAULTS['layouts'])
+            self.layouts = {}
+            for layout in DEFAULTS['layouts']:
+                self.layouts[layout] = eval(DEFAULTS['layouts'][layout])
 
     def defaults_to_configspec(self):
         """Convert our tree of default values into a ConfigObj validation
@@ -463,11 +473,23 @@ class ConfigBase(Borg):
                     if not section.has_key(section_name):
                         section[profile] = copy(DEFAULTS['profiles']['default'])
                     section[profile].update(parser[section_name][profile])
-            elif section_name == ['layouts', 'plugins']:
+            elif section_name == 'plugins':
                 for part in parser[section_name]:
                     dbg('ConfigBase::load: Processing %s: %s' % (section_name,
                                                                  part))
                     section[part] = parser[section_name][part]
+            elif section_name == 'layouts':
+                for part in parser[section_name]:
+                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
+                                                                 part))
+                    try:
+                        windows = []
+                        for window in parser[section_name][part]:
+                           windows.append(eval(window))
+                        section[part] = windows
+                    except Exception, ex: 
+                        err('Unable to parse layout: %s (%s: %s)' % (part, ex,
+                            window))
             else:
                 try:
                     section.update(parser[section_name])
@@ -497,8 +519,13 @@ class ConfigBase(Borg):
         parser['layouts'] = {}
         for layout in self.layouts:
             dbg('ConfigBase::save: Processing layout: %s' % layout)
-            parser['layouts'][layout] = dict_diff(
-                    DEFAULTS['layouts']['default'], self.layouts[layout])
+            if layout == 'default' and \
+               str(self.layouts[layout]) == DEFAULTS['layouts']['default']:
+                continue;
+            parser['layouts'][layout] = []
+            # FIXME: This look seems pointless and broken
+            for window in self.layouts[layout]:
+                parser['layouts'][layout].append(str(self.layouts[layout]))
 
         parser['plugins'] = {}
         for plugin in self.plugins:
@@ -568,10 +595,21 @@ class ConfigBase(Borg):
         self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
         return(True)
 
-    def add_layout(self, layout):
+    def add_layout(self, name, layout):
         """Add a new layout"""
-        if layout in self.layouts:
+        if name in self.layouts:
             return(False)
-        self.layouts[layout] = {'type': 'Terminal'}
+        self.layouts[name] = layout
         return(True)
+
+    def get_layout(self, layout):
+        """Return a layout"""
+        if self.layouts.has_key(layout):
+            return(self.layouts[layout])
+        else:
+            err('layout does not exist: %s' % layout)
+
+    def set_layout(self, layout, tree):
+        """Set a layout"""
+        self.layouts[layout] = tree
 

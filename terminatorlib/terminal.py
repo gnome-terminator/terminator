@@ -1159,6 +1159,16 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         window = util.get_top_window(self)
         window.set_urgency_hint(True)
 
+    def describe_layout(self):
+        """Describe our layout"""
+        layout = {}
+        layout['type'] = 'Terminal'
+        return(layout)
+
+    def create_layout(self, layout):
+        """Apply our layout"""
+        print "Terminal::create_layout: Unimplemented. %s" % layout
+
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
         self.zoom_in()
