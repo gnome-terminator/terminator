@@ -581,12 +581,12 @@ class Window(Container, gtk.Window):
             err('layout describes no children: %s' % layout)
             return
         children = layout['children']
-        if len(children) !=  1:
+        if len(children) != 1:
             # We're a Window, we can only have one child
             err('incorrect number of children for Window: %s' % layout)
             return
 
-        child = children[0]
+        child = children[children.keys()[0]]
         terminal = self.get_children()[0]
         if child['type'] == 'VPaned':
             self.split_axis(terminal, True)

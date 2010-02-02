@@ -190,8 +190,9 @@ class Paned(Container):
             err('incorrect number of children for Paned: %s' % layout)
             return
 
-        for num in xrange(0, 2):
-            child = children[num]
+        num = 0
+        for child_key in children:
+            child = children[child_key]
             if child['type'] == 'Terminal':
                 continue
             elif child['type'] == 'VPaned':
@@ -208,9 +209,12 @@ class Paned(Container):
                 self.split_axis(terminal, False)
             else:
                 err('unknown child type: %s' % child['type'])
+            num = num + 1
 
-        self.get_child1().create_layout(children[0])
-        self.get_child2().create_layout(children[1])
+        keys = children.keys()
+        keys.sort()
+        self.get_child1().create_layout(children[keys[0]])
+        self.get_child2().create_layout(children[keys[1]])
 
 class HPaned(Paned, gtk.HPaned):
     """Merge gtk.HPaned into our base Paned Container"""

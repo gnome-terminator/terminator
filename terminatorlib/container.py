@@ -190,7 +190,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         return(terminals)
 
-    def describe_layout(self):
+    def describe_layout(self, count, parent, global_layout):
         """Describe our current layout"""
         layout = {}
         maker = Factory()
@@ -200,11 +200,16 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
             return({})
 
         layout['type'] = mytype
-        layout['children'] = []
-        for child in self.get_children():
-            layout['children'].append(child.describe_layout())
+        layout['parent'] = parent
+        name = 'child%d' % count
+        count = count + 1
 
-        return(layout)
+        global_layout[name] = layout
+
+        for child in self.get_children():
+            count = child.describe_layout(count, name, global_layout)
+
+        return(count)
 
     def create_layout(self, layout):
         """Apply settings for our layout"""

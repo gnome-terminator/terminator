@@ -206,7 +206,16 @@ DEFAULTS = {
             },
         },
         'layouts': {
-                'default': "{'type': 'Window', 'children': [{'type': 'Terminal'}]}",
+                'default': {
+                    'window0': {
+                        'type': 'Window',
+                        'parent': ''
+                        },
+                    'child1': {
+                        'type': 'Terminal',
+                        'parent': 'window0'
+                        }
+                    }
                 },
         'plugins': {
         },
@@ -381,7 +390,7 @@ class ConfigBase(Borg):
         if self.layouts is None:
             self.layouts = {}
             for layout in DEFAULTS['layouts']:
-                self.layouts[layout] = eval(DEFAULTS['layouts'][layout])
+                self.layouts[layout] = copy(DEFAULTS['layouts'][layout])
 
     def defaults_to_configspec(self):
         """Convert our tree of default values into a ConfigObj validation
@@ -433,6 +442,15 @@ class ConfigBase(Borg):
         configspecdata['profiles'] = {}
         configspecdata['profiles']['__many__'] = section
 
+        section = {}
+        section['type'] = 'string'
+        section['parent'] = 'string'
+        section['profile'] = 'string(default=default)'
+        section['command'] = 'string(default="")'
+        configspecdata['layouts'] = {}
+        configspecdata['layouts']['__many__'] = {}
+        configspecdata['layouts']['__many__']['__many__'] = section
+
         configspec = ConfigObj(configspecdata)
         if DEBUG == True:
             configspec.write(open('/tmp/terminator_configspec_debug.txt', 'w'))
@@ -460,9 +478,11 @@ class ConfigBase(Borg):
             err('ConfigBase::load: config format is not valid')
             for (section_list, key, _other) in flatten_errors(parser, result):
                 if key is not None:
-                    print('[%s]: %s is invalid' % (','.join(section_list), key))
+                    err('[%s]: %s is invalid' % (','.join(section_list), key))
                 else:
-                    print ('[%s] missing' % ','.join(section_list))
+                    err('[%s] missing' % ','.join(section_list))
+        else:
+            dbg('config validated successfully')
 
         for section_name in self.sections:
             dbg('ConfigBase::load: Processing section: %s' % section_name)
@@ -471,6 +491,7 @@ class ConfigBase(Borg):
                 for profile in parser[section_name]:
                     dbg('ConfigBase::load: Processing profile: %s' % profile)
                     if not section.has_key(section_name):
+                        # FIXME: Should this be outside the loop?
                         section[profile] = copy(DEFAULTS['profiles']['default'])
                     section[profile].update(parser[section_name][profile])
             elif section_name == 'plugins':
@@ -479,17 +500,10 @@ class ConfigBase(Borg):
                                                                  part))
                     section[part] = parser[section_name][part]
             elif section_name == 'layouts':
-                for part in parser[section_name]:
+                for layout in parser[section_name]:
                     dbg('ConfigBase::load: Processing %s: %s' % (section_name,
-                                                                 part))
-                    try:
-                        windows = []
-                        for window in parser[section_name][part]:
-                           windows.append(eval(window))
-                        section[part] = windows
-                    except Exception, ex: 
-                        err('Unable to parse layout: %s (%s: %s)' % (part, ex,
-                            window))
+                                                                 layout))
+                    section[layout] = parser[section_name][layout]
             else:
                 try:
                     section.update(parser[section_name])
@@ -519,13 +533,7 @@ class ConfigBase(Borg):
         parser['layouts'] = {}
         for layout in self.layouts:
             dbg('ConfigBase::save: Processing layout: %s' % layout)
-            if layout == 'default' and \
-               str(self.layouts[layout]) == DEFAULTS['layouts']['default']:
-                continue;
-            parser['layouts'][layout] = []
-            # FIXME: This look seems pointless and broken
-            for window in self.layouts[layout]:
-                parser['layouts'][layout].append(str(self.layouts[layout]))
+            parser['layouts'][layout] = self.layouts[layout]
 
         parser['plugins'] = {}
         for plugin in self.plugins:

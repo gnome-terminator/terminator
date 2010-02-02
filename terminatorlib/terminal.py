@@ -1165,11 +1165,15 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         window = util.get_top_window(self)
         window.set_urgency_hint(True)
 
-    def describe_layout(self):
+    def describe_layout(self, count, parent, global_layout):
         """Describe our layout"""
         layout = {}
         layout['type'] = 'Terminal'
-        return(layout)
+        layout['parent'] = parent
+        name = 'terminal%d' % count
+        count = count + 1
+        global_layout[name] = layout
+        return(count)
 
     def create_layout(self, layout):
         """Apply our layout"""

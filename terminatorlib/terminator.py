@@ -106,6 +106,7 @@ class Terminator(Borg):
     def create_layout(self, layoutname):
         """Create all the parts necessary to satisfy the specified layout"""
         layout = None
+        objects = {}
 
         layout = self.config.layout_get_config(layoutname)
         if not layout:
@@ -113,12 +114,45 @@ class Terminator(Borg):
             err('layout %s not defined' % layout)
             raise(KeyError)
 
+        # Wind the flat objects into a hierarchy
+        hierarchy = {}
+        count = 0
+        # Loop over the layout until we have consumed it, or hit 1000 loops.
+        # This is a stupid artificial limit, but it's safe.
+        while len(layout) > 0 and count < 1000:
+            count = count + 1
+            if count == 1000:
+                err('hit maximum loop boundary. THIS IS VERY LIKELY A BUG')
+            for obj in layout.keys():
+                if layout[obj]['type'].lower() == 'window':
+                    hierarchy[obj] = {}
+                    hierarchy[obj]['type'] = 'Window'
+                    hierarchy[obj]['children'] = {}
+                    objects[obj] = hierarchy[obj]
+                    del(layout[obj])
+                else:
+                    # Now examine children to see if their parents exist yet
+                    if not layout[obj].has_key('parent'):
+                        err('Invalid object: %s' % obj)
+                        del(layout[obj])
+                        continue
+                    if objects.has_key(layout[obj]['parent']):
+                        # Our parent has been created
+                        childobj = {}
+                        childobj['type'] = layout[obj]['type']
+                        childobj['children'] = {}
+                        objects[layout[obj]['parent']]['children'][obj] = childobj
+                        objects[obj] = childobj
+                        del(layout[obj])
+
+        layout = hierarchy
+
         for windef in layout:
-            if windef['type'] != 'Window':
+            if layout[windef]['type'] != 'Window':
                 err('invalid layout format. %s' % layout)
                 raise(ValueError)
             window, terminal = self.new_window()
-            window.create_layout(windef)
+            window.create_layout(layout[windef])
 
     def reconfigure(self):
         """Update configuration for the whole application"""
@@ -230,9 +264,11 @@ class Terminator(Borg):
 
     def describe_layout(self):
         """Describe our current layout"""
-        layout = []
+        layout = {}
+        count = 0
         for window in self.windows:
-            layout.append(window.describe_layout())
+            parent = ''
+            count = window.describe_layout(count, parent, layout)
 
         return(layout)
 
