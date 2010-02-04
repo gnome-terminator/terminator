@@ -70,7 +70,7 @@ class Notebook(Container, gtk.Notebook):
 
         if not sibling:
             sibling = maker.make('terminal')
-        sibling.spawn_child()
+            sibling.spawn_child()
 
         self.insert_page(container, None, page_num)
         self.set_tab_label(container, label)

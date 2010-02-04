@@ -299,14 +299,13 @@ class Window(Container, gtk.Window):
 
         if not sibling:
             sibling = maker.make('Terminal')
+            sibling.spawn_child()
         self.add(container)
         container.show_all()
 
         for term in [widget, sibling]:
             container.add(term)
         container.show_all()
-
-        sibling.spawn_child()
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""

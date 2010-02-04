@@ -52,7 +52,7 @@ class Paned(Container):
 
         if not sibling:
             sibling = maker.make('terminal')
-        sibling.spawn_child()
+            sibling.spawn_child()
 
         self.add(container)
         self.show_all()
