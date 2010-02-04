@@ -94,6 +94,9 @@ WM_WINDOW_ROLE property on the window')
                     options.working_directory)
             sys.exit(1)
 
+    if options.layout is None:
+        options.layout = 'default'
+
     configobj.options_set(options)
 
     if util.DEBUG == True:
