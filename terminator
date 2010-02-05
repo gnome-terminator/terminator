@@ -54,7 +54,11 @@ if __name__ == '__main__':
     TERMINATOR = Terminator()
     TERMINATOR.origcwd = ORIGCWD
     TERMINATOR.reconfigure()
-    TERMINATOR.new_window()
+    try:
+        TERMINATOR.create_layout(OPTIONS.layout)
+    except (KeyError,ValueError), ex:
+        err('layout creation failed, creating a window ("%s")' % ex)
+        TERMINATOR.new_window()
 
     if OPTIONS.debug > 2:
         import terminatorlib.debugserver as debugserver
