@@ -451,6 +451,9 @@ class ConfigBase(Borg):
         configspecdata['layouts']['__many__'] = {}
         configspecdata['layouts']['__many__']['__many__'] = section
 
+        # FIXME: should be properly loading plugins from built-in config
+        configspecdata['plugins'] = {}
+
         configspec = ConfigObj(configspecdata)
         if DEBUG == True:
             configspec.write(open('/tmp/terminator_configspec_debug.txt', 'w'))
