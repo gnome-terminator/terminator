@@ -168,6 +168,9 @@ class Terminator(Borg):
         for terminal in self.terminals:
             terminal.reconfigure()
 
+        # Reparse our keybindings
+        self.keybindings.configure(self.config['keybindings'])
+
     def create_group(self, name):
         """Create a new group"""
         if name not in self.groups:
