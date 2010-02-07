@@ -917,9 +917,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
+        # FIXME: This shouldn't be looking up all these values every time
         sloppy = False
         if self.config['focus'] == 'system':
-            sloppy = self.config.get_system_focus() == 'sloppy'
+            sloppy = self.config.get_system_focus() in ['sloppy', 'mouse']
         elif self.config['focus'] in ['sloppy', 'mouse']:
             sloppy = True
         if sloppy == True and self.titlebar.editing() == False:
