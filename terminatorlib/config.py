@@ -451,7 +451,6 @@ class ConfigBase(Borg):
         configspecdata['layouts']['__many__'] = {}
         configspecdata['layouts']['__many__']['__many__'] = section
 
-        # FIXME: should be properly loading plugins from built-in config
         configspecdata['plugins'] = {}
 
         configspec = ConfigObj(configspecdata)
@@ -498,6 +497,8 @@ class ConfigBase(Borg):
                         section[profile] = copy(DEFAULTS['profiles']['default'])
                     section[profile].update(parser[section_name][profile])
             elif section_name == 'plugins':
+                if not parser.has_key(section_name):
+                    continue
                 for part in parser[section_name]:
                     dbg('ConfigBase::load: Processing %s: %s' % (section_name,
                                                                  part))
