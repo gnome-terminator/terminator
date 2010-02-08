@@ -384,6 +384,12 @@ class PrefsEditor:
         for i in xrange(1, 17):
             widget = guiget('palette-colorpicker-%d' % i)
             widget.set_color(gtk.gdk.Color(palette[i - 1]))
+        # Titlebar colors
+        for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
+            'title_receive_fg_color', 'title_receive_bg_color',
+            'title_inactive_fg_color', 'title_inactive_bg_color']:
+            widget = guiget(bit)
+            widget.set_color(gtk.gdk.Color(self.config[bit]))
 
         ## Background tab
         # Radio values
@@ -546,6 +552,12 @@ class PrefsEditor:
             widget = guiget('palette-colorpicker-%d' % i)
             palette.append(widget.get_color().to_string())
         self.config['palette'] = ':'.join(palette)
+        # Titlebar colours
+        for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
+            'title_receive_fg_color', 'title_receive_bg_color',
+            'title_inactive_fg_color', 'title_inactive_bg_color']:
+            widget = guiget(bit)
+            self.config[bit] = widget.get_color().to_string()
 
         ## Background tab
         # Background type
