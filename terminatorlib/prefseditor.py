@@ -652,7 +652,11 @@ class PrefsEditor:
                 newprofile = '%s %d' % (_('New Profile'), i)
 
         if self.config.add_profile(newprofile):
-            model.append([newprofile, True])
+            res = model.append([newprofile, True])
+            if res:
+                path = model.get_path(res)
+                treeview.set_cursor(path, focus_column=treeview.get_column(0), 
+                                    start_editing=True)
 
     def on_profileremovebutton_clicked(self, _button):
         """Remove a profile from the list"""
@@ -690,7 +694,11 @@ class PrefsEditor:
                 name = '%s %d' % (_('New Layout'), i)
 
         if self.config.add_layout(name, current_layout):
-            model.append([name, True])
+            res = model.append([name, True])
+            if res:
+                path = model.get_path(res)
+                treeview.set_cursor(path, focus_column=treeview.get_column(0),
+                                    start_editing=True)
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
