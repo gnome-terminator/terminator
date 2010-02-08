@@ -318,6 +318,9 @@ class PrefsEditor:
         # WM_URGENT terminal bell
         widget = guiget('urgent-bell-checkbutton')
         widget.set_active(self.config['urgent_bell'])
+        # Word chars
+        widget = guiget('word-chars-entry')
+        widget.set_text(self.config['word_chars'])
         # Cursor shape
         widget = guiget('cursor-shape-combobox')
         if self.config['cursor_shape'] == 'underline':
@@ -327,9 +330,12 @@ class PrefsEditor:
         else:
             active = 0
         widget.set_active(active)
-        # Word chars
-        widget = guiget('word-chars-entry')
-        widget.set_text(self.config['word_chars'])
+        # Cursor blink
+        widget = guiget('cursor_blink')
+        widget.set_active(self.config['cursor_blink'])
+        # Cursor colour
+        widget = guiget('cursor_color')
+        widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
 
         ## Command tab
         # Login shell
@@ -480,6 +486,9 @@ class PrefsEditor:
         # Urgent Bell
         widget = guiget('urgent-bell-checkbutton')
         self.config['urgent_bell'] = widget.get_active()
+        # Word chars
+        widget = guiget('word-chars-entry')
+        self.config['word_chars'] = widget.get_text()
         # Cursor Shape
         widget = guiget('cursor-shape-combobox')
         selected = widget.get_active()
@@ -490,9 +499,12 @@ class PrefsEditor:
         elif selected == 2:
             value = 'ibeam'
         self.config['cursor_shape'] = value
-        # Word chars
-        widget = guiget('word-chars-entry')
-        self.config['word_chars'] = widget.get_text()
+        # Cursor Blink
+        widget = guiget('cursor_blink')
+        self.config['cursor_blink'] = widget.get_active()
+        # Cursor Colour
+        widget = guiget('cursor_color')
+        self.config['cursor_color'] = widget.get_color().to_string()
         
         ## Command tab
         # Login shell

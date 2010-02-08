@@ -821,7 +821,7 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="visual-bell-checkbutton">
-                            <property name="label" translatable="yes">Visual terminal _bell</property>
+                            <property name="label" translatable="yes">Visual terminal bell</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -836,7 +836,7 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="audible-bell-checkbutton">
-                            <property name="label" translatable="yes">Audible terminal _bell</property>
+                            <property name="label" translatable="yes">Audible terminal bell</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -851,7 +851,7 @@
                         </child>
                         <child>
                           <object class="GtkCheckButton" id="urgent-bell-checkbutton">
-                            <property name="label" translatable="yes">WM_URGENT terminal _bell</property>
+                            <property name="label" translatable="yes">Window manager bell</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -862,46 +862,6 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="position">5</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHBox" id="hbox140">
-                            <property name="visible">True</property>
-                            <property name="spacing">12</property>
-                            <child>
-                              <object class="GtkLabel" id="label480">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Cursor _shape:</property>
-                                <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">cursor-shape-combobox</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkComboBox" id="cursor-shape-combobox">
-                                <property name="visible">True</property>
-                                <property name="model">CursorShapeListStore</property>
-                                <property name="active">0</property>
-                                <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext4"/>
-                                  <attributes>
-                                    <attribute name="text">0</attribute>
-                                  </attributes>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">6</property>
                           </packing>
                         </child>
                         <child>
@@ -936,6 +896,134 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="position">6</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkVBox" id="vbox8">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkLabel" id="label21">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Cursor&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkAlignment" id="alignment5">
+                                <property name="visible">True</property>
+                                <property name="left_padding">12</property>
+                                <child>
+                                  <object class="GtkVBox" id="vbox9">
+                                    <property name="visible">True</property>
+                                    <property name="orientation">vertical</property>
+                                    <child>
+                                      <object class="GtkHBox" id="hbox140">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">12</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label480">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">Cursor _shape:</property>
+                                            <property name="use_underline">True</property>
+                                            <property name="mnemonic_widget">cursor-shape-combobox</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkComboBox" id="cursor-shape-combobox">
+                                            <property name="visible">True</property>
+                                            <property name="model">CursorShapeListStore</property>
+                                            <property name="active">0</property>
+                                            <child>
+                                              <object class="GtkCellRendererText" id="cellrenderertext4"/>
+                                              <attributes>
+                                                <attribute name="text">0</attribute>
+                                              </attributes>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkCheckButton" id="cursor_blink">
+                                        <property name="label" translatable="yes">Cursor blink</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">False</property>
+                                        <property name="draw_indicator">True</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkHBox" id="hbox4">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label22">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">Cursor colour:</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkColorButton" id="cursor_color">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="color">#000000000000</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
                             <property name="position">7</property>
                           </packing>
                         </child>

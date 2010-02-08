@@ -162,7 +162,7 @@ DEFAULTS = {
                 'color_scheme'          : 'grey_on_black',
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
-                'cursor_color'          : '',
+                'cursor_color'          : '#aaaaaaaaaaaa',
                 'emulation'             : 'xterm',
                 'font'                  : 'Mono 10',
                 'foreground_color'      : '#aaaaaaaaaaaa',
