@@ -468,13 +468,17 @@ class ConfigBase(Borg):
         try:
             configfile = open(filename, 'r')
         except Exception, ex:
-            dbg('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+            err('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
             return
 
-        configspec = self.defaults_to_configspec()
-        parser = ConfigObj(configfile, configspec=configspec)
-        validator = Validator()
-        result = parser.validate(validator, preserve_errors=True)
+        try:
+            configspec = self.defaults_to_configspec()
+            parser = ConfigObj(configfile, configspec=configspec)
+            validator = Validator()
+            result = parser.validate(validator, preserve_errors=True)
+        except Exception, ex:
+            err('Unable to load configuration: %s' % ex)
+            return
 
         if result != True:
             err('ConfigBase::load: config format is not valid')
