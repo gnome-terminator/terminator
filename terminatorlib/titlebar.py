@@ -90,6 +90,7 @@ class Titlebar(gtk.EventBox):
 
     def update(self, other=None):
         """Update our contents"""
+        default_bg = False
         self.label.set_text("%s %s" % (self.termtext, self.sizetext))
 
         if other:
@@ -100,6 +101,7 @@ class Titlebar(gtk.EventBox):
                     title_fg = self.config['title_inactive_fg_color']
                     title_bg = self.config['title_inactive_bg_color']
                     icon = '_receive_off'
+                    default_bg = True
                 else:
                     title_fg = self.config['title_receive_fg_color']
                     title_bg = self.config['title_receive_bg_color']
@@ -115,6 +117,7 @@ class Titlebar(gtk.EventBox):
                     title_fg = self.config['title_inactive_fg_color']
                     title_bg = self.config['title_inactive_bg_color']
                     icon = '_receive_off'
+                    default_bg = True
                 group_fg = self.config['title_inactive_fg_color']
                 group_bg = self.config['title_inactive_bg_color']
             else:
@@ -135,6 +138,14 @@ class Titlebar(gtk.EventBox):
                     gtk.gdk.color_parse(group_fg))
             self.modify_bg(gtk.STATE_NORMAL, 
                     gtk.gdk.color_parse(title_bg))
+            if not self.get_property('visible'):
+                if default_bg == True:
+                    color = term.get_style().bg[gtk.STATE_NORMAL]
+                else:
+                    color = gtk.gdk.color_parse(title_bg)
+                term.terminal_border(2, color)
+            else:
+                term.terminal_border(0)
             self.ebox.modify_bg(gtk.STATE_NORMAL,
                     gtk.gdk.color_parse(group_bg))
             self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)

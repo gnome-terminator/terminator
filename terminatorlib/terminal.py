@@ -74,6 +74,7 @@ class Terminal(gtk.VBox):
     scrollbar_position = None
     titlebar = None
     searchbar = None
+    border_boxes = None
 
     group = None
     cwd = None
@@ -178,6 +179,9 @@ class Terminal(gtk.VBox):
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
+        ebox1 = gtk.EventBox()
+        ebox2 = gtk.EventBox()
+        ebox1.add(ebox2)
         terminalbox = gtk.HBox()
         self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
         self.scrollbar.set_no_show_all(True)
@@ -193,9 +197,19 @@ class Terminal(gtk.VBox):
 
         func(self.vte)
         func(self.scrollbar, False)
-        terminalbox.show()
+        ebox2.add(terminalbox)
+        ebox1.show_all()
 
-        return(terminalbox)
+        self.border_boxes = (ebox1, ebox2)
+        return(ebox1)
+
+    def terminal_border(self, width, colour=None):
+        """Show a border around the terminal and optionally colour it in"""
+        ebox1, ebox2 = self.border_boxes
+
+        ebox2.set_border_width(width)
+        if colour:
+            ebox1.modify_bg(gtk.STATE_NORMAL, colour)
 
     def update_url_matches(self, posix = True):
         """Update the regexps used to match URLs"""
@@ -727,6 +741,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
         self.toggle_widget_visibility(self.scrollbar)
+
+    def do_titlebar_toggle(self):
+        """Show or hide the terminal titlebar"""
+        self.toggle_widget_visibility(self.titlebar)
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""

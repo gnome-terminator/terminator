@@ -166,6 +166,7 @@ DEFAULTS = {
                 'emulation'             : 'xterm',
                 'font'                  : 'Mono 10',
                 'foreground_color'      : '#aaaaaaaaaaaa',
+                'show_titlebar'         : True,
                 'scrollbar_position'    : "right",
                 'scroll_background'     : True,
                 'scroll_on_keystroke'   : True,

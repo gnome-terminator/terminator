@@ -318,6 +318,9 @@ class PrefsEditor:
         # WM_URGENT terminal bell
         widget = guiget('urgent-bell-checkbutton')
         widget.set_active(self.config['urgent_bell'])
+        # Show titlebar
+        widget = guiget('show_titlebar')
+        widget.set_active(self.config['show_titlebar'])
         # Word chars
         widget = guiget('word-chars-entry')
         widget.set_text(self.config['word_chars'])
@@ -486,6 +489,9 @@ class PrefsEditor:
         # Urgent Bell
         widget = guiget('urgent-bell-checkbutton')
         self.config['urgent_bell'] = widget.get_active()
+        # Show titlebar
+        widget = guiget('show_titlebar')
+        self.config['show_titlebar'] = widget.get_active()
         # Word chars
         widget = guiget('word-chars-entry')
         self.config['word_chars'] = widget.get_text()
