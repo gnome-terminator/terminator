@@ -80,7 +80,10 @@ class Titlebar(gtk.EventBox):
         hbox.pack_start(self.label, True, True)
 
         self.add(hbox)
-        self.show_all()
+        hbox.show_all()
+        self.set_no_show_all(True)
+        if self.config['show_titlebar'] == True:
+            self.show()
 
         self.connect('button-press-event', self.on_clicked)
 

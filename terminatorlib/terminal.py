@@ -658,6 +658,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                                         self.config['alternate_screen_scroll'])
 
         self.titlebar.update()
+        if self.config['show_titlebar'] == True:
+            self.titlebar.show()
+        else:
+            self.titlebar.hide()
         self.vte.queue_draw()
 
     def get_window_title(self):
@@ -741,10 +745,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
         self.toggle_widget_visibility(self.scrollbar)
-
-    def do_titlebar_toggle(self):
-        """Show or hide the terminal titlebar"""
-        self.toggle_widget_visibility(self.titlebar)
 
     def toggle_widget_visibility(self, widget):
         """Show or hide a widget"""
