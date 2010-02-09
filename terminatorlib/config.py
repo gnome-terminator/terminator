@@ -227,6 +227,8 @@ class Config(object):
     base = None
     profile = None
     gconf = None
+    system_font = None
+    system_focus = None
     
     def __init__(self, profile='default'):
         self.base = ConfigBase()
@@ -297,25 +299,41 @@ class Config(object):
 
     def get_system_font(self):
         """Look up the system font"""
-        if 'gconf' not in globals():
+        if self.system_font is not None:
+            return(self.system_font)
+        elif 'gconf' not in globals():
             return
+        else:
+            if self.gconf is None:
+                self.gconf = gconf.client_get_default()
 
-        if self.gconf is None:
-            self.gconf = gconf.client_get_default()
-
-        value = self.gconf.get('/desktop/gnome/interface/monospace_font_name')
-        return(value.get_string())
+            value = self.gconf.get('/desktop/gnome/interface/monospace_font_name')
+            self.system_font = value.get_string()
+            self.gconf.notify_add('/desktop/gnome/interface/monospace_font_name', 
+                    self.on_gconf_notify)
+            return(self.system_font)
 
     def get_system_focus(self):
         """Look up the system focus setting"""
-        if 'gconf' not in globals():
+        if self.system_focus is not None:
+            return(self.system_focus)
+        elif 'gconf' not in globals():
             return
+        else:
+            if self.gconf is None:
+                self.gconf = gconf.client_get_default()
 
-        if self.gconf is None:
-            self.gconf = gconf.client_get_default()
+            value = self.gconf.get('/apps/metacity/general/focus_mode')
+            self.system_focus = value.get_string()
+            self.gconf.notify_add('/apps/metacity/general/focus_mode',
+                    self.on_gconf_notify)
+            return(self.system_focus)
 
-        value = self.gconf.get('/apps/metacity/general/focus_mode')
-        return(value.get_string())
+    def on_gconf_notify(self, client, cnxn_id, entry, what):
+        """Handle a gconf watch changing"""
+        dbg('GConf notification received. Invalidating caches')
+        self.system_focus = None
+        self.system_font = None
 
     def save(self):
         """Cause ConfigBase to save our config to file"""
