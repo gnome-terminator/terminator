@@ -309,6 +309,9 @@ class PrefsEditor:
         # Allow bold text
         widget = guiget('allow-bold-checkbutton')
         widget.set_active(self.config['allow_bold'])
+        # Icon terminal bell
+        widget = guiget('icon-bell-checkbutton')
+        widget.set_active(self.config['icon_bell'])
         # Visual terminal bell
         widget = guiget('visual-bell-checkbutton')
         widget.set_active(self.config['visible_bell'])
@@ -480,6 +483,9 @@ class PrefsEditor:
         # Allow bold
         widget = guiget('allow-bold-checkbutton')
         self.config['allow_bold'] = widget.get_active()
+        # Icon Bell
+        widget = guiget('icon-bell-checkbutton')
+        self.config['icon_bell'] = widget.get_active()
         # Visual Bell
         widget = guiget('visual-bell-checkbutton')
         self.config['visible_bell'] = widget.get_active()
