@@ -27,6 +27,7 @@ class Titlebar(gtk.EventBox):
     groupicon = None
     grouplabel = None
     groupentry = None
+    bellicon = None
 
     __gsignals__ = {
             'clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -50,6 +51,8 @@ class Titlebar(gtk.EventBox):
         grouphbox = gtk.HBox()
         self.grouplabel = gtk.Label()
         self.groupicon = gtk.Image()
+        self.bellicon = gtk.Image()
+        self.bellicon.set_no_show_all(True)
 
         self.groupentry = gtk.Entry()
         self.groupentry.set_no_show_all(True)
@@ -74,10 +77,12 @@ class Titlebar(gtk.EventBox):
         self.ebox.add(grouphbox)
         self.ebox.show_all()
 
+        self.bellicon.set_from_icon_name('terminal-bell', gtk.ICON_SIZE_MENU)
         hbox = gtk.HBox()
         hbox.pack_start(self.ebox, False, True, 0)
         hbox.pack_start(gtk.VSeparator(), False, True, 0)
         hbox.pack_start(self.label, True, True)
+        hbox.pack_end(self.bellicon, False, False, 2)
 
         self.add(hbox)
         hbox.show_all()
@@ -217,5 +222,15 @@ class Titlebar(gtk.EventBox):
         key = gtk.gdk.keyval_name(event.keyval)
         if key == 'Escape':
             self.groupentry_cancel(None, None)
+
+    def icon_bell(self):
+        """A bell signal requires we display our bell icon"""
+        self.bellicon.show()
+        gobject.timeout_add(1000, self.icon_bell_hide)
+
+    def icon_bell_hide(self):
+        """Handle a timeout which means we now hide the bell icon"""
+        self.bellicon.hide()
+        return(False)
 
 gobject.type_register(Titlebar)

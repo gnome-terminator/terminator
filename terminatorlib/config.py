@@ -151,8 +151,9 @@ DEFAULTS = {
             'default':  {
                 'allow_bold'            : True,
                 'audible_bell'          : False,
-                'visible_bell'          : True,
+                'visible_bell'          : False,
                 'urgent_bell'           : False,
+                'icon_bell'             : True,
                 'background_color'      : '#000000000000',
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',

@@ -632,7 +632,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.vte.set_audible_bell(self.config['audible_bell'])
             self.vte.set_visible_bell(self.config['visible_bell'])
             self.cnxids.remove_signal(self.vte, 'beep')
-            if self.config['urgent_bell'] == True:
+            if self.config['urgent_bell'] == True or \
+               self.config['icon_bell'] == True:
                 try:
                     self.cnxids.new(self.vte, 'beep', self.on_beep)
                 except TypeError:
@@ -1181,8 +1182,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def on_beep(self, widget):
         """Set the urgency hint for our window"""
-        window = util.get_top_window(self)
-        window.set_urgency_hint(True)
+        if self.config['urgent_bell'] == True:
+            window = util.get_top_window(self)
+            window.set_urgency_hint(True)
+        if self.config['icon_bell'] == True:
+            self.titlebar.icon_bell()
 
     def describe_layout(self, count, parent, global_layout):
         """Describe our layout"""
