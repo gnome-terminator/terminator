@@ -3,6 +3,7 @@
 # GPL v2 only
 """window.py - class for the main Terminator window"""
 
+import copy
 import pygtk
 pygtk.require('2.0')
 import gobject
@@ -513,21 +514,28 @@ class Window(Container, gtk.Window):
     def navigate_terminal(self, terminal, direction):
         """Navigate around terminals"""
         _containers, terminals = util.enumerate_descendants(self)
+        visibles = self.get_visible_terminals()
         current = terminals.index(terminal)
         length = len(terminals)
         next = None
 
-        if length <= 1:
+        if length <= 1 or len(visibles) <= 1:
             return
 
-        if direction == 'next':
-            next = current + 1
-            if next >= length:
-                next = 0
-        elif direction == 'prev':
-            next = current - 1
-            if next < 0:
-                next = length - 1
+        if direction in ['next', 'prev']:
+            tmpterms = copy.copy(terminals)
+            tmpterms = tmpterms[current+1:]
+            tmpterms.extend(terminals[0:current])
+
+            if direction == 'next':
+                tmpterms.reverse()
+
+            next = 0
+            while len(tmpterms) > 0:
+                tmpitem = tmpterms.pop()
+                if tmpitem in visibles:
+                    next = terminals.index(tmpitem)
+                    break
         elif direction in ['left', 'right', 'up', 'down']:
             layout = self.get_visible_terminals()
             allocation = terminal.get_allocation()
