@@ -1204,11 +1204,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def create_layout(self, layout):
         """Apply our layout"""
+        dbg(layout)
         if layout.has_key('command') and layout['command'] != '':
             options = self.config.options_get()
             options.command = layout['command']
             self.config.options_set(options)
-        print "Terminal::create_layout: Unimplemented. %s" % layout
 
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
