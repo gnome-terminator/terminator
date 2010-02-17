@@ -44,8 +44,6 @@ def parse_options():
 
     parser.add_option('-v', '--version', action='store_true', dest='version',
             help='Display program version')
-    parser.add_option('-d', '--debug', action='count', dest='debug',
-            help='Enable debugging information (twice for debug server)')
     parser.add_option('-m', '--maximise', action='store_true', dest='maximise',
             help='Maximise the window')
     parser.add_option('-f', '--fullscreen', action='store_true',
@@ -68,6 +66,12 @@ command to execute inside the terminal, and its arguments')
     parser.add_option('-r', '--role', dest='role', help='Set a custom \
 WM_WINDOW_ROLE property on the window')
     parser.add_option('-l', '--layout', dest='layout', help='Select a layout')
+    parser.add_option('-d', '--debug', action='count', dest='debug',
+            help='Enable debugging information (twice for debug server)')
+    parser.add_option('--debug-classes', action='store', dest='debug_classes', 
+            help='Comma separated list of classes to limit debugging to')
+    parser.add_option('--debug-methods', action='store', dest='debug_methods',
+            help='Comma separated list of methods to limit debugging to')
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
     '--no-gconf', '-p', '--profile' ]:
         parser.add_option(item, dest='dummy', action='store',
@@ -80,11 +84,22 @@ WM_WINDOW_ROLE property on the window')
     if options.version:
         print '%s %s' % (version.APP_NAME, version.APP_VERSION)
         sys.exit(0)
-    
+
+    if options.debug_classes or options.debug_methods:
+        options.debug = True
+
     if options.debug:
         util.DEBUG = True
         if options.debug > 1:
             util.DEBUGFILES = True
+        if options.debug_classes:
+            classes = options.debug_classes.split(',')
+            for item in classes:
+                util.DEBUGCLASSES.append(item.strip())
+        if options.debug_methods:
+            methods = options.debug_methods.split(',')
+            for item in methods:
+                util.DEBUGMETHODS.append(item.strip())
 
     if options.working_directory:
         if os.path.exists(os.path.expanduser(options.working_directory)):
