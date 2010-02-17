@@ -33,6 +33,10 @@ import inspect
 DEBUG = False
 # set this to true to additionally list filenames in debugging
 DEBUGFILES = False
+# list of classes to show debugging for. empty list means show all classes
+DEBUGCLASSES = []
+# list of methods to show debugging for. empty list means show all methods
+DEBUGMETHODS = []
 
 def dbg(log = ""):
     """Print a message if debugging is enabled"""
@@ -52,6 +56,10 @@ def dbg(log = ""):
             extra = " (%s:%s)" % (filename, line)
         else:
             extra = ""
+        if DEBUGCLASSES != [] and classname not in DEBUGCLASSES:
+            return
+        if DEBUGMETHODS != [] and method not in DEBUGMETHODS:
+            return
         print >> sys.stderr, "%s::%s: %s%s" % (classname, method, log, extra)
 
 def err(log = ""):
