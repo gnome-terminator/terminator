@@ -1030,6 +1030,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         shell = None
         command = None
 
+        if self.terminator.doing_layout == True:
+            dbg('still laying out, refusing to spawn a child')
+            return
+
         self.vte.grab_focus()
 
         options = self.config.options_get()
@@ -1200,6 +1204,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def create_layout(self, layout):
         """Apply our layout"""
+        if layout.has_key('command') and layout['command'] != '':
+            options = self.config.options_get()
+            options.command = layout['command']
+            self.config.options_set(options)
         print "Terminal::create_layout: Unimplemented. %s" % layout
 
     # There now begins a great list of keyboard event handlers

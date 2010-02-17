@@ -23,6 +23,8 @@ class Terminator(Borg):
 
     origcwd = None
 
+    doing_layout = None
+
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
 
@@ -48,6 +50,8 @@ class Terminator(Borg):
         if not self.keybindings:
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
+        if not self.doing_layout:
+            self.doing_layout = False
 
     def register_window(self, window):
         """Register a new window widget"""
@@ -108,6 +112,8 @@ class Terminator(Borg):
         layout = None
         objects = {}
 
+        self.doing_layout = True
+
         layout = self.config.layout_get_config(layoutname)
         if not layout:
             # User specified a non-existent layout. default to one Terminal
@@ -159,6 +165,14 @@ class Terminator(Borg):
                 raise(ValueError)
             window, terminal = self.new_window()
             window.create_layout(layout[windef])
+
+    def layout_done(self):
+        """Layout operations have finished, record that fact"""
+        self.doing_layout = False
+
+        for terminal in self.terminals:
+            if not terminal.pid:
+                terminal.spawn_child()
 
     def reconfigure(self):
         """Update configuration for the whole application"""
