@@ -137,10 +137,16 @@ class Terminator(Borg):
                         del(layout[obj])
                         continue
                     if objects.has_key(layout[obj]['parent']):
-                        # Our parent has been created
+                        # Our parent has been created, add ourselves
                         childobj = {}
                         childobj['type'] = layout[obj]['type']
                         childobj['children'] = {}
+
+                        # Copy over any additional object keys
+                        for objkey in layout[obj].keys():
+                            if not childobj.has_key(objkey):
+                                childobj[objkey] = layout[obj][objkey]
+
                         objects[layout[obj]['parent']]['children'][obj] = childobj
                         objects[obj] = childobj
                         del(layout[obj])
