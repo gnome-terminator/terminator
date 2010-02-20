@@ -19,6 +19,7 @@ from util import dbg, err, gerr, get_top_window
 import util
 from config import Config
 from cwd import get_default_cwd
+from factory import Factory
 from terminator import Terminator
 from titlebar import Titlebar
 from terminal_popup_menu import TerminalPopupMenu
@@ -860,7 +861,19 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             return
 
         srchbox = widgetsrc
-        dsthbox = widget.get_parent().get_parent()
+
+        # The widget argument is actually a vte.Terminal(). Turn that into a
+        # terminatorlib Terminal()
+        maker = Factory()
+        while True:
+            widget = widget.get_parent()
+            if not widget:
+                # We've run out of widgets. Something is wrong.
+                return
+            if maker.isinstance(widget, 'Terminal'):
+                break
+
+        dsthbox = widget
 
         dstpaned = dsthbox.get_parent()
         srcpaned = srchbox.get_parent()
