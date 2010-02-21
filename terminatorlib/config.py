@@ -411,8 +411,6 @@ class ConfigBase(Borg):
             self.layouts = {}
             for layout in DEFAULTS['layouts']:
                 self.layouts[layout] = copy(DEFAULTS['layouts'][layout])
-        if self.command_line_options is None:
-            self.command_line_options = {}
 
     def defaults_to_configspec(self):
         """Convert our tree of default values into a ConfigObj validation

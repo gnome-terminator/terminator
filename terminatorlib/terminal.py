@@ -1050,10 +1050,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.grab_focus()
 
         options = self.config.options_get()
-        if options.command:
+        if options and options.command:
             command = options.command
             options.command = None
-        elif options.execute:
+        elif options and options.execute:
             command = options.execute
             options.execute = None
         elif self.config['use_custom_command']:
@@ -1220,8 +1220,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         dbg(layout)
         if layout.has_key('command') and layout['command'] != '':
             options = self.config.options_get()
-            options.command = layout['command']
-            self.config.options_set(options)
+            if options:
+                options.command = layout['command']
+                self.config.options_set(options)
 
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
