@@ -89,6 +89,7 @@ class Terminal(gtk.VBox):
     default_encoding = None
     custom_encoding = None
     custom_font_size = None
+    layout_command = None
 
     composite_support = None
 
@@ -1058,6 +1059,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             options.execute = None
         elif self.config['use_custom_command']:
             command = self.config['custom_command']
+        elif self.layout_command:
+            command = self.layout_command
 
         if type(command) is list:
             shell = util.path_lookup(command[0])
@@ -1218,10 +1221,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def create_layout(self, layout):
         """Apply our layout"""
         if layout.has_key('command') and layout['command'] != '':
-            options = self.config.options_get()
-            if options:
-                options.command = layout['command']
-                self.config.options_set(options)
+            self.layout_command = layout['command']
 
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
