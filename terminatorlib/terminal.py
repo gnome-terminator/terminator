@@ -976,6 +976,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
+        self.cnxids.remove_signal(self, 'size-allocate')
+        # FIXME: Is a zoom signal actualy used anywhere?
         self.cnxids.remove_signal(self, 'zoom')
 
         new_columns = self.vte.get_column_count()
@@ -1006,7 +1008,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         new_size = int(old_data['old_font'].get_size() * area_factor)
         if new_size == 0:
-            dbg('refusing to set a zero sized font')
+            err('refusing to set a zero sized font')
             return
         new_font.set_size(new_size)
         dbg('setting new font: %s' % new_font)
