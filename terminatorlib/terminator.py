@@ -175,6 +175,9 @@ class Terminator(Borg):
                 parts = layout[windef]['position'].split(':')
                 if len(parts) == 2:
                     window.move(int(parts[0]), int(parts[1]))
+            if layout[windef].has_key('size'):
+                parts = layout[windef]['size']
+                window.resize(int(parts[0]), int(parts[1]))
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""

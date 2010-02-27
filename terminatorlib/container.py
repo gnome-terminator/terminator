@@ -208,6 +208,9 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
                 position = ':'.join([str(x) for x in position])
             layout['position'] = position
 
+        if hasattr(self, 'get_size'):
+            layout['size'] = self.get_size()
+
         name = 'child%d' % count
         count = count + 1
 
