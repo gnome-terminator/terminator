@@ -40,8 +40,12 @@ class Paned(Container):
         self.cnxids.remove_signal(self, 'expose-event')
 
     # pylint: disable-msg=W0613
-    def split_axis(self, widget, vertical=True, sibling=None):
+    def split_axis(self, widget, vertical=True, sibling=None,
+            siblinglast=False):
         """Default axis splitter. This should be implemented by subclasses"""
+        first = None
+        second = None
+
         maker = Factory()
 
         self.remove(widget)
@@ -57,8 +61,15 @@ class Paned(Container):
         self.add(container)
         self.show_all()
 
-        container.add(widget)
-        container.add(sibling)
+        if siblinglast is True:
+            first = widget
+            second = sibling
+        else:
+            first = sibling
+            second = widget
+
+        container.add(first)
+        container.add(second)
 
         self.show_all()
 

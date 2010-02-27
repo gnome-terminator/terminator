@@ -884,7 +884,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         pos = self.get_location(widget, x, y)
 
         srcpaned.remove(widgetsrc)
-        dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], widgetsrc)
+        dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], widgetsrc, pos in ['bottom', 'right'])
         srcpaned.hoover()
 
     def get_location(self, term, x, y):
