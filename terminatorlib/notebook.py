@@ -52,6 +52,41 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_pos(pos)
         self.set_show_tabs(not self.config['hide_tabbar'])
 
+    def create_layout(self, layout):
+        """Apply layout configuration"""
+        if not layout.has_key('children'):
+            err('layout specifies no children: %s' % layout)
+            return
+
+        children = layout['children']
+        if len(children) <= 1:
+            #Notebooks should have two or more children
+            err('incorrect number of children for Notebook: %s' % layout)
+            return
+
+        pages = 2 # Notebooks always start with two pages
+        num = 0
+        keys = children.keys()
+        keys.sort()
+
+        for child_key in keys:
+            child = children[child_key]
+            if child['type'] == 'Terminal':
+                continue
+            elif child['type'] == 'VPaned':
+                page = self.get_nth_page(num)
+                self.split_axis(page, True)
+            elif child['type'] == 'HPaned':
+                page = self.get_nth_page(num)
+                self.split_axis(page, False)
+            num = num + 1
+
+        num = 0
+        for child_key in keys:
+            page = self.get_nth_page(num)
+            page.create_layout(children[child_key])
+            num = num + 1
+
     def split_axis(self, widget, vertical=True, sibling=None, siblinglast=False):
         """Split the axis of a terminal inside us"""
         order = None
