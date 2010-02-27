@@ -198,7 +198,9 @@ class Paned(Container):
             return
 
         num = 0
-        for child_key in children:
+        keys = children.keys()
+        keys.sort()
+        for child_key in keys:
             child = children[child_key]
             if child['type'] == 'Terminal':
                 continue
@@ -218,8 +220,6 @@ class Paned(Container):
                 err('unknown child type: %s' % child['type'])
             num = num + 1
 
-        keys = children.keys()
-        keys.sort()
         self.get_child1().create_layout(children[keys[0]])
         self.get_child2().create_layout(children[keys[1]])
 
