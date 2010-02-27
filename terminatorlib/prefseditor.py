@@ -9,7 +9,6 @@ write it to a config file
 
 import os
 import gtk
-import goocanvas
 
 from util import dbg
 import config
@@ -871,27 +870,15 @@ class PrefsEditor:
         # Render this layout to the canvas
         # FIXME: This should probably be in a scrollable viewport for when
         # there are multiple windows
-        canvas = self.layout_to_goo(layout)
-        canvas.show_all()
-        container = self.builder.get_object('canvasalignment')
+        #canvas = self.layout_to_goo(layout)
+        #canvas.show_all()
+        #container = self.builder.get_object('canvasalignment')
 
-        child = container.get_child()
-        if child is not None:
-            container.remove(child)
-            del(child)
-        container.add(canvas)
-
-    def layout_to_goo(self, layout):
-        """Create a GooCanvas widget that represents a particular layout"""
-        canvas = goocanvas.Canvas()
-        root = canvas.get_root_item()
-
-        # FIXME: Set the background colour
-        # FIXME: Determine the number of windows
-        # FIXME: Render each window
-        goocanvas.Text(parent = root, text = 'Render layout "%s" here' % layout)
-
-        return(canvas)
+        #child = container.get_child()
+        #if child is not None:
+        #    container.remove(child)
+        #    del(child)
+        #container.add(canvas)
 
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
