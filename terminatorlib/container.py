@@ -71,7 +71,7 @@ class Container(object):
         """Split this container vertically"""
         return(self.split_axis(widget, False))
 
-    def split_axis(self, widget, vertical=True, sibling=None):
+    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=None):
         """Default axis splitter. This should be implemented by subclasses"""
         raise NotImplementedError('split_axis')
 

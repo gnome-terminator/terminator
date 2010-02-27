@@ -288,8 +288,9 @@ class Window(Container, gtk.Window):
         if len(self.get_children()) == 0:
             self.emit('destroy')
 
-    def split_axis(self, widget, vertical=True, sibling=None):
+    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=False):
         """Split the window"""
+        order = None
         maker = Factory()
         self.remove(widget)
 
@@ -304,7 +305,11 @@ class Window(Container, gtk.Window):
         self.add(container)
         container.show_all()
 
-        for term in [widget, sibling]:
+        order = [widget, sibling]
+        if siblinglast is True:
+            order.reverse()
+
+        for term in order:
             container.add(term)
         container.show_all()
 

@@ -43,8 +43,7 @@ class Paned(Container):
     def split_axis(self, widget, vertical=True, sibling=None,
             siblinglast=False):
         """Default axis splitter. This should be implemented by subclasses"""
-        first = None
-        second = None
+        order = None
 
         maker = Factory()
 
@@ -61,15 +60,12 @@ class Paned(Container):
         self.add(container)
         self.show_all()
 
+        order = [widget, sibling]
         if siblinglast is True:
-            first = widget
-            second = sibling
-        else:
-            first = sibling
-            second = widget
+            order.reverse()
 
-        container.add(first)
-        container.add(second)
+        for terminal in order:
+            container.add(terminal)
 
         self.show_all()
 

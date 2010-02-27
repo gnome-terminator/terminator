@@ -52,8 +52,9 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_pos(pos)
         self.set_show_tabs(not self.config['hide_tabbar'])
 
-    def split_axis(self, widget, vertical=True, sibling=None):
+    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=False):
         """Split the axis of a terminal inside us"""
+        order = None
         page_num = self.page_num(widget)
         if page_num == -1:
             err('Notebook::split_axis: %s not found in Notebook' % widget)
@@ -76,8 +77,12 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_label(container, label)
         self.show_all()
 
-        container.add(widget)
-        container.add(sibling)
+        order = [widget, sibling]
+        if siblinglast is True:
+            order.reverse
+
+        for terminal in order:
+            container.add(terminal)
         self.set_current_page(page_num)
 
         self.show_all()
