@@ -201,6 +201,13 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         layout['type'] = mytype
         layout['parent'] = parent
+
+        if hasattr(self, 'get_position'):
+            position = self.get_position()
+            if hasattr(position, '__iter__'):
+                position = ':'.join([str(x) for x in position])
+            layout['position'] = position
+
         name = 'child%d' % count
         count = count + 1
 

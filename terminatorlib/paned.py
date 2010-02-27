@@ -223,6 +223,10 @@ class Paned(Container):
         self.get_child1().create_layout(children[keys[0]])
         self.get_child2().create_layout(children[keys[1]])
 
+        # FIXME: We need a delayed call to set_position, probably on realizing
+        # this widget, but it probably needs to start at the deepest widget and
+        # work back up. Fun.
+
 class HPaned(Paned, gtk.HPaned):
     """Merge gtk.HPaned into our base Paned Container"""
     def __init__(self):

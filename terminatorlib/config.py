@@ -467,6 +467,7 @@ class ConfigBase(Borg):
         section['parent'] = 'string'
         section['profile'] = 'string(default=default)'
         section['command'] = 'string(default="")'
+        section['position'] = 'string(default="")'
         configspecdata['layouts'] = {}
         configspecdata['layouts']['__many__'] = {}
         configspecdata['layouts']['__many__']['__many__'] = section

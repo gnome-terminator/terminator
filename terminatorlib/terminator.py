@@ -134,6 +134,12 @@ class Terminator(Borg):
                     hierarchy[obj] = {}
                     hierarchy[obj]['type'] = 'Window'
                     hierarchy[obj]['children'] = {}
+
+                    # Copy any additional keys
+                    for objkey in layout[obj].keys():
+                        if layout[obj][objkey] != '' and not hierarchy[obj].has_key(objkey):
+                            hierarchy[obj][objkey] = layout[obj][objkey]
+
                     objects[obj] = hierarchy[obj]
                     del(layout[obj])
                 else:
@@ -165,6 +171,10 @@ class Terminator(Borg):
                 raise(ValueError)
             window, terminal = self.new_window()
             window.create_layout(layout[windef])
+            if layout[windef].has_key('position'):
+                parts = layout[windef]['position'].split(':')
+                if len(parts) == 2:
+                    window.move(int(parts[0]), int(parts[1]))
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""
