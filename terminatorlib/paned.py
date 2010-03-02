@@ -41,7 +41,7 @@ class Paned(Container):
 
     # pylint: disable-msg=W0613
     def split_axis(self, widget, vertical=True, sibling=None,
-            siblinglast=False):
+            widgetlast=False):
         """Default axis splitter. This should be implemented by subclasses"""
         order = None
 
@@ -61,7 +61,7 @@ class Paned(Container):
         self.show_all()
 
         order = [widget, sibling]
-        if siblinglast is True:
+        if widgetlast is False:
             order.reverse()
 
         for terminal in order:

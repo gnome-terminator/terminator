@@ -87,7 +87,7 @@ class Notebook(Container, gtk.Notebook):
             page.create_layout(children[child_key])
             num = num + 1
 
-    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=False):
+    def split_axis(self, widget, vertical=True, sibling=None, widgetlast=False):
         """Split the axis of a terminal inside us"""
         order = None
         page_num = self.page_num(widget)
@@ -112,9 +112,9 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_label(container, label)
         self.show_all()
 
-        order = [widget, sibling]
-        if siblinglast is True:
-            order.reverse
+        order = [sibling, widget]
+        if widgetlast is True:
+            order.reverse()
 
         for terminal in order:
             container.add(terminal)

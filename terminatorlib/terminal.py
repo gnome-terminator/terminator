@@ -870,6 +870,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             widget = widget.get_parent()
             if not widget:
                 # We've run out of widgets. Something is wrong.
+                err('Failed to find Terminal from vte')
                 return
             if maker.isinstance(widget, 'Terminal'):
                 break
@@ -878,9 +879,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         dstpaned = dsthbox.get_parent()
         srcpaned = srchbox.get_parent()
-        if isinstance(dstpaned, gtk.Window) and \
-           isinstance(srcpaned, gtk.Window):
-            return
 
         pos = self.get_location(widget, x, y)
 

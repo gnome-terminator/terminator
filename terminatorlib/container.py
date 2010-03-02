@@ -83,6 +83,10 @@ class Container(object):
         """Remove a widget from the container"""
         raise NotImplementedError('remove')
 
+    def hoover(self, widget):
+        """Ensure we still have a reason to exist"""
+        raise NotImplementedError('hoover')
+
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
         try:

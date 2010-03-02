@@ -281,14 +281,17 @@ class Window(Container, gtk.Window):
         self.disconnect_child(widget)
         return(True)
 
-    def closeterm(self, widget):
-        """Handle a terminal closing"""
-        Container.closeterm(self, widget)
-
+    def hoover(self):
+        """Ensure we still have a reason to exist"""
         if len(self.get_children()) == 0:
             self.emit('destroy')
 
-    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=False):
+    def closeterm(self, widget):
+        """Handle a terminal closing"""
+        Container.closeterm(self, widget)
+        self.hoover()
+
+    def split_axis(self, widget, vertical=True, sibling=None, widgetlast=False):
         """Split the window"""
         order = None
         maker = Factory()
@@ -305,8 +308,8 @@ class Window(Container, gtk.Window):
         self.add(container)
         container.show_all()
 
-        order = [widget, sibling]
-        if siblinglast is True:
+        order = [sibling, widget]
+        if widgetlast is True:
             order.reverse()
 
         for term in order:
