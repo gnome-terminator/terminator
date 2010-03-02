@@ -64,7 +64,6 @@ class Notebook(Container, gtk.Notebook):
             err('incorrect number of children for Notebook: %s' % layout)
             return
 
-        pages = 2 # Notebooks always start with two pages
         num = 0
         keys = children.keys()
         keys.sort()
@@ -87,7 +86,7 @@ class Notebook(Container, gtk.Notebook):
             page.create_layout(children[child_key])
             num = num + 1
 
-    def split_axis(self, widget, vertical=True, sibling=None, widgetlast=False):
+    def split_axis(self, widget, vertical=True, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
         order = None
         page_num = self.page_num(widget)
@@ -112,8 +111,8 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_label(container, label)
         self.show_all()
 
-        order = [sibling, widget]
-        if widgetlast is True:
+        order = [widget, sibling]
+        if widgetfirst is False:
             order.reverse()
 
         for terminal in order:
