@@ -283,7 +283,7 @@ class Window(Container, gtk.Window):
 
     def hoover(self):
         """Ensure we still have a reason to exist"""
-        if len(self.get_children()) == 0:
+        if not self.get_child():
             self.emit('destroy')
 
     def closeterm(self, widget):
