@@ -83,7 +83,7 @@ class Container(object):
         """Remove a widget from the container"""
         raise NotImplementedError('remove')
 
-    def hoover(self, widget):
+    def hoover(self):
         """Ensure we still have a reason to exist"""
         raise NotImplementedError('hoover')
 
