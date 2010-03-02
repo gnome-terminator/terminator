@@ -1,6 +1,6 @@
 # validate.py
 # A Validator object
-# Copyright (C) 2005 Michael Foord, Mark Andrews, Nicola Larosa
+# Copyright (C) 2005-2010 Michael Foord, Mark Andrews, Nicola Larosa
 # E-mail: fuzzyman AT voidspace DOT org DOT uk
 #         mark AT la-la DOT com
 #         nico AT tekNico DOT net
@@ -128,11 +128,8 @@
     A badly formatted set of arguments will raise a ``VdtParamError``.
 """
 
-__docformat__ = "restructuredtext en"
+__version__ = '1.0.1'
 
-__version__ = '1.0.0'
-
-__revision__ = '$Id: validate.py 123 2005-09-08 08:54:28Z fuzzyman $'
 
 __all__ = (
     '__version__',
@@ -620,7 +617,7 @@ class Validator(object):
             fun_kwargs = dict(fun_kwargs)
         else:
             fun_name, fun_args, fun_kwargs, default = self._parse_check(check)
-            fun_kwargs = dict((str(key), value) for (key, value) in fun_kwargs.items())
+            fun_kwargs = dict([(str(key), value) for (key, value) in fun_kwargs.items()])
             self._cache[check] = fun_name, list(fun_args), dict(fun_kwargs), default
         return fun_name, fun_args, fun_kwargs, default
         
