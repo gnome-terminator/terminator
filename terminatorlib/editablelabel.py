@@ -127,6 +127,7 @@ class EditableLabel(gtk.EventBox):
             self._entry_to_label (None, None)
 
     def modify_fg(self, state, color):
+        """Set the label foreground"""
         self._label.modify_fg(state, color)
 
 gobject.type_register(EditableLabel)
