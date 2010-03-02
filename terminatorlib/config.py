@@ -308,10 +308,12 @@ class Config(object):
             if self.gconf is None:
                 self.gconf = gconf.client_get_default()
 
-            value = self.gconf.get('/desktop/gnome/interface/monospace_font_name')
+            value = self.gconf.get(
+                        '/desktop/gnome/interface/monospace_font_name')
             self.system_font = value.get_string()
-            self.gconf.notify_add('/desktop/gnome/interface/monospace_font_name', 
-                    self.on_gconf_notify)
+            self.gconf.notify_add(
+                        '/desktop/gnome/interface/monospace_font_name', 
+                        self.on_gconf_notify)
             return(self.system_font)
 
     def get_system_focus(self):
@@ -330,7 +332,7 @@ class Config(object):
                     self.on_gconf_notify)
             return(self.system_focus)
 
-    def on_gconf_notify(self, client, cnxn_id, entry, what):
+    def on_gconf_notify(self, _client, _cnxn_id, _entry, _what):
         """Handle a gconf watch changing"""
         dbg('GConf notification received. Invalidating caches')
         self.system_focus = None
