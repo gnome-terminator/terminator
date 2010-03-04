@@ -221,7 +221,8 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         global_layout[name] = layout
 
         for child in self.get_children():
-            count = child.describe_layout(count, name, global_layout)
+            if hasattr(child, 'describe_layout'):
+                count = child.describe_layout(count, name, global_layout)
 
         return(count)
 
