@@ -291,7 +291,7 @@ class Window(Container, gtk.Window):
         Container.closeterm(self, widget)
         self.hoover()
 
-    def split_axis(self, widget, vertical=True, sibling=None, widgetfirst=True):
+    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the window"""
         order = None
         maker = Factory()
@@ -304,6 +304,7 @@ class Window(Container, gtk.Window):
 
         if not sibling:
             sibling = maker.make('Terminal')
+            sibling.set_cwd(cwd)
             sibling.spawn_child()
         self.add(container)
         container.show_all()

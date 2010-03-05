@@ -63,15 +63,15 @@ class Container(object):
         """Return a list of direct child widgets, if any"""
         return(self.children)
 
-    def split_horiz(self, widget):
+    def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
-        return(self.split_axis(widget, True))
+        return(self.split_axis(widget, True, cwd))
 
-    def split_vert(self, widget):
+    def split_vert(self, widget, cwd=None):
         """Split this container vertically"""
-        return(self.split_axis(widget, False))
+        return(self.split_axis(widget, False, cwd))
 
-    def split_axis(self, widget, vertical=True, sibling=None, siblinglast=None):
+    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None):
         """Default axis splitter. This should be implemented by subclasses"""
         raise NotImplementedError('split_axis')
 

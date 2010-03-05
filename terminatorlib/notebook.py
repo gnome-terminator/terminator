@@ -86,7 +86,7 @@ class Notebook(Container, gtk.Notebook):
             page.create_layout(children[child_key])
             num = num + 1
 
-    def split_axis(self, widget, vertical=True, sibling=None, widgetfirst=True):
+    def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
         order = None
         page_num = self.page_num(widget)
@@ -105,6 +105,7 @@ class Notebook(Container, gtk.Notebook):
 
         if not sibling:
             sibling = maker.make('terminal')
+            sibling.set_cwd(cwd)
             sibling.spawn_child()
 
         self.insert_page(container, None, page_num)

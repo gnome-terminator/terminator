@@ -10,6 +10,7 @@ from config import Config
 from keybindings import Keybindings
 from util import dbg, err
 from factory import Factory
+from cwd import get_pid_cwd
 
 class Terminator(Borg):
     """master object for the application"""
@@ -22,6 +23,7 @@ class Terminator(Borg):
     keybindings = None
 
     origcwd = None
+    pid_cwd = None
 
     doing_layout = None
 
@@ -52,6 +54,8 @@ class Terminator(Borg):
             self.keybindings.configure(self.config['keybindings'])
         if not self.doing_layout:
             self.doing_layout = False
+        if not self.pid_cwd:
+            self.pid_cwd = get_pid_cwd()
 
     def register_window(self, window):
         """Register a new window widget"""

@@ -47,8 +47,10 @@ class Terminal(gtk.VBox):
         'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'split-horiz': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-        'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'split-horiz': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_STRING,)),
+        'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_STRING,)),
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -1037,6 +1039,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Restore normal layout"""
         self.emit('unzoom')
 
+    def set_cwd(self, cwd=None):
+        """Set our cwd"""
+        if cwd is not None:
+            self.cwd = cwd
+
     def spawn_child(self, widget=None, respawn=False):
         update_records = self.config['update_records']
         login = self.config['login_shell']
@@ -1275,10 +1282,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.emit('navigate', 'right')
 
     def key_split_horiz(self):
-        self.emit('split-horiz')
+        self.emit('split-horiz', self.terminator.pid_cwd(self.pid))
 
     def key_split_vert(self):
-        self.emit('split-vert')
+        self.emit('split-vert', self.terminator.pid_cwd(self.pid))
 
     def key_close_term(self):
         self.close()

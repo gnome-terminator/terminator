@@ -40,7 +40,7 @@ class Paned(Container):
         self.cnxids.remove_signal(self, 'expose-event')
 
     # pylint: disable-msg=W0613
-    def split_axis(self, widget, vertical=True, sibling=None,
+    def split_axis(self, widget, vertical=True, cwd=None, sibling=None,
             widgetfirst=True):
         """Default axis splitter. This should be implemented by subclasses"""
         order = None
@@ -55,6 +55,7 @@ class Paned(Container):
 
         if not sibling:
             sibling = maker.make('terminal')
+            sibling.set_cwd(cwd)
             sibling.spawn_child()
 
         self.add(container)
