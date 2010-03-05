@@ -2615,6 +2615,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x2022;</property>
+                                <signal name="activate" handler="on_layout_profile_command_activate"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2630,6 +2631,7 @@
                                 <property name="visible">True</property>
                                 <property name="model">layoutprofilelist</property>
                                 <property name="active">0</property>
+                                <signal name="changed" handler="on_layout_profile_chooser_changed"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext13"/>
                                   <attributes>

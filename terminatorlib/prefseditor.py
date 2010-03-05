@@ -10,7 +10,7 @@ write it to a config file
 import os
 import gtk
 
-from util import dbg
+from util import dbg, err
 import config
 from keybindings import Keybindings, KeymapError
 from translation import _
@@ -23,6 +23,7 @@ class PrefsEditor:
     keybindings = None
     window = None
     builder = None
+    layouteditor = None
     previous_layout_selection = None
     previous_profile_selection = None
     colorschemevalues = {'black_on_yellow': 0, 
@@ -104,9 +105,11 @@ class PrefsEditor:
 
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('prefswin')
-        self.set_values()
+        self.layouteditor = LayoutEditor(self.builder)
         self.builder.connect_signals(self)
+        self.layouteditor.prepare()
         self.window.show_all()
+        self.set_values()
 
     def on_cancelbutton_clicked(self, _button):
         """Close the window"""
@@ -203,6 +206,10 @@ class PrefsEditor:
         selection = widget.get_selection()
         selection.connect('changed', self.on_layout_selection_changed)
         selection.select_iter(self.layoutiters['default'])
+        # Now set up the selection changed handler for the layout itself
+        widget = guiget('LayoutTreeView')
+        selection = widget.get_selection()
+        selection.connect('changed', self.on_layout_item_selection_changed)
 
         ## Keybindings tab
         widget = guiget('keybindingtreeview')
@@ -655,9 +662,9 @@ class PrefsEditor:
             value = 'escape-sequence'
         self.config['delete_binding'] = value
 
-    def set_layout(self, layout):
+    def set_layout(self, layout_name):
         """Set a layout"""
-        pass
+        self.layouteditor.set_layout(layout_name)
 
     def store_layout(self, layout):
         """Store a layout"""
@@ -685,6 +692,8 @@ class PrefsEditor:
                 treeview.set_cursor(path, focus_column=treeview.get_column(0), 
                                     start_editing=True)
 
+        self.layouteditor.update_profiles()
+
     def on_profileremovebutton_clicked(self, _button):
         """Remove a profile from the list"""
         guiget = self.builder.get_object
@@ -702,6 +711,7 @@ class PrefsEditor:
         self.config.del_profile(profile)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
+        self.layouteditor.update_profiles()
 
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
@@ -740,7 +750,7 @@ class PrefsEditor:
             # We shouldn't let people delete this layout
             return
 
-        self.previous_sekection = None
+        self.previous_selection = None
         self.config.del_layout(layout)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
@@ -849,39 +859,19 @@ class PrefsEditor:
 
     def on_layout_selection_changed(self, selection):
         """A different layout was selected"""
-        if self.previous_layout_selection is not None:
-            dbg('Storing: %s' % self.previous_layout_selection)
-            self.store_layout(self.previous_layout_selection)
+        self.layouteditor.on_layout_selection_changed(selection)
 
-        (listmodel, rowiter) = selection.get_selected()
-        if not rowiter:
-            # Something is wrong, just jump to the first item in the list
-            treeview = selection.get_tree_view()
-            liststore = treeview.get_model()
-            selection.select_iter(liststore.get_iter_first())
-            return
-        layout = listmodel.get_value(rowiter, 0)
-        self.set_layout(layout)
-        self.previous_layout_selection = layout
+    def on_layout_item_selection_changed(self, selection):
+        """A different item in the layout was selected"""
+        self.layouteditor.on_layout_item_selection_changed(selection)
 
-        widget = self.builder.get_object('layoutremovebutton')
-        if layout == 'default':
-            widget.set_sensitive(False)
-        else:
-            widget.set_sensitive(True)
+    def on_layout_profile_chooser_changed(self, widget):
+        """A different profile has been selected for this item"""
+        self.layouteditor.on_layout_profile_chooser_changed(widget)
 
-        # Render this layout to the canvas
-        # FIXME: This should probably be in a scrollable viewport for when
-        # there are multiple windows
-        #canvas = self.layout_to_goo(layout)
-        #canvas.show_all()
-        #container = self.builder.get_object('canvasalignment')
-
-        #child = container.get_child()
-        #if child is not None:
-        #    container.remove(child)
-        #    del(child)
-        #container.add(canvas)
+    def on_layout_profile_command_activate(self, widget):
+        """A different command has been entered for this item"""
+        self.layouteditor.on_layout_profile_command_activate(widget)
 
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
@@ -971,6 +961,146 @@ class PrefsEditor:
         """Handle the clearing of a keybinding accelerator"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, 0, 3, 0)
+
+class LayoutEditor:
+    profile_ids_to_profile = None
+    profile_profile_to_ids = None
+    layout_name = None
+    layout_item = None
+    builder = None
+    treeview = None
+    treestore = None
+    config = None
+
+    def __init__(self, builder):
+        """Initialise ourself"""
+        self.config = config.Config()
+        self.builder = builder
+
+    def prepare(self, layout=None):
+        """Do the things we can't do in __init__"""
+        self.treeview = self.builder.get_object('LayoutTreeView')
+        self.treestore = self.builder.get_object('LayoutTreeStore')
+        self.update_profiles()
+        if layout:
+            self.set_layout(layout)
+
+    def set_layout(self, layout_name):
+        """Load a particular layout"""
+        self.layout_name = layout_name
+        store = self.treestore
+        layout = self.config.layout_get_config(layout_name)
+        listitems = {}
+        store.clear()
+
+        children = layout.keys()
+        i = 0
+        while children != []:
+            child = children.pop()
+            child_type = layout[child]['type']
+            parent = layout[child]['parent']
+
+            if child_type != 'Window' and parent not in layout:
+                # We have an orphan!
+                err('%s is an orphan in this layout. Discarding' % child)
+                continue
+            try:
+                parentiter = listitems[parent]
+            except KeyError:
+                if child_type == 'Window':
+                    parentiter = None
+                else:
+                    # We're not ready for this widget yet
+                    children.insert(0, child)
+                    continue
+
+            if child_type == 'VPaned':
+                child_type = 'Vertical split'
+            elif child_type == 'HPaned':
+                child_type = 'Horizontal split'
+
+            listitems[child] = store.append(parentiter, [child, child_type])
+
+        treeview = self.builder.get_object('LayoutTreeView')
+        treeview.expand_all()
+
+    def update_profiles(self):
+        """Update the list of profiles"""
+        self.profile_ids_to_profile = {}
+        self.profile_profile_to_ids= {}
+        chooser = self.builder.get_object('layout_profile_chooser')
+        model = chooser.get_model()
+
+        model.clear()
+
+        profiles = self.config.list_profiles()
+        profiles.sort()
+        i = 0
+        for profile in profiles:
+            self.profile_ids_to_profile[i] = profile
+            self.profile_profile_to_ids[profile] = i
+            model.append([profile])
+            i = i + 1
+
+    def on_layout_selection_changed(self, selection):
+        """A different layout was selected"""
+        (listmodel, rowiter) = selection.get_selected()
+        if not rowiter:
+            # Something is wrong, just jump to the first item in the list
+            selection.select_iter(self.treestore.get_iter_first())
+            return
+        layout = listmodel.get_value(rowiter, 0)
+        self.set_layout(layout)
+        self.previous_layout_selection = layout
+
+        widget = self.builder.get_object('layoutremovebutton')
+        if layout == 'default':
+            widget.set_sensitive(False)
+        else:
+            widget.set_sensitive(True)
+
+    def on_layout_item_selection_changed(self, selection):
+        """A different item in the layout was selected"""
+        (treemodel, rowiter) = selection.get_selected()
+        if not rowiter:
+            return
+        item = treemodel.get_value(rowiter, 0)
+        self.layout_item = item
+        self.set_layout_item(item)
+
+    def set_layout_item(self, item_name):
+        """Set a layout item"""
+        layout = self.config.layout_get_config(self.layout_name)
+        layout_item = layout[self.layout_item]
+        command = self.builder.get_object('layout_profile_command')
+        chooser = self.builder.get_object('layout_profile_chooser')
+
+        if layout_item['type'] != 'Terminal':
+            command.set_sensitive(False)
+            chooser.set_sensitive(False)
+            return
+
+        command.set_sensitive(True)
+        chooser.set_sensitive(True)
+        if layout_item.has_key('command') and layout_item['command'] != '':
+            command.set_text(layout_item['command'])
+
+        if layout_item.has_key('profile') and layout_item['profile'] != '':
+            chooser.set_active(self.profile_profile_to_ids[layout_item['profile']])
+
+    def on_layout_profile_chooser_changed(self, widget):
+        """A new profile has been selected for this item"""
+        if not self.layout_item:
+            return
+        profile = widget.get_active_text()
+        layout = self.config.layout_get_config(self.layout_name)
+        layout[self.layout_item]['profile'] = profile
+
+    def on_layout_profile_command_activate(self, widget):
+        """A new command has been entered for this item"""
+        command = widget.get_text()
+        layout = self.config.layout_get_config(self.layout_name)
+        layout[self.layout_item]['command'] = command
 
 if __name__ == '__main__':
     import util
