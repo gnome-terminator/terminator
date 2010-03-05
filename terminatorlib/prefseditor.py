@@ -31,7 +31,8 @@ class PrefsEditor:
                          'green_on_black': 3,
                          'white_on_black': 4,
                          'orange_on_black': 5,
-                         'custom': 6}
+                         'ambience': 6,
+                         'custom': 7}
 
     keybindingnames = { 'zoom_in'          : 'Increase font size',
                         'zoom_out'         : 'Decrease font size',
@@ -562,6 +563,8 @@ class PrefsEditor:
         elif selected == 5:
             value = 'orange_on_black'
         elif selected == 6:
+            value = 'ambience'
+        elif selected == 7:
             value = 'custom'
         self.config['color_scheme'] = value
         # Foreground colour
@@ -934,6 +937,9 @@ class PrefsEditor:
         elif value == 'orange_on_black':
             forecol = '#E53C00'
             backcol = '#000000'
+        elif value == 'ambience':
+            forecol = '#FFFFFF'
+            backcol = '#300A24'
 
         if forecol is not None:
             fore.set_color(gtk.gdk.Color(forecol))
