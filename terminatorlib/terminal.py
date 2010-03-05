@@ -504,7 +504,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.cnxids.remove_signal(self.vte, 'child-exited')
 
         if self.config['exit_action'] == 'restart':
-            self.cnxids.new(self.vte, 'child-exited', self.spawn_child)
+            self.cnxids.new(self.vte, 'child-exited', self.spawn_child, True)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited', 
                                             lambda x: self.emit('close-term'))
@@ -1037,7 +1037,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Restore normal layout"""
         self.emit('unzoom')
 
-    def spawn_child(self, widget=None):
+    def spawn_child(self, widget=None, respawn=False):
         update_records = self.config['update_records']
         login = self.config['login_shell']
         args = []
@@ -1048,7 +1048,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             dbg('still laying out, refusing to spawn a child')
             return
 
-        self.vte.grab_focus()
+        if respawn == False:
+            self.vte.grab_focus()
 
         options = self.config.options_get()
         if options and options.command:
