@@ -535,6 +535,9 @@ class ConfigBase(Borg):
                 for layout in parser[section_name]:
                     dbg('ConfigBase::load: Processing %s: %s' % (section_name,
                                                                  layout))
+                    if layout == 'default' and \
+                       parser[section_name][layout] == {}:
+                           continue
                     section[layout] = parser[section_name][layout]
             else:
                 try:
