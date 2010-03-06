@@ -305,38 +305,38 @@ class PrefsEditor:
 
         ## General tab
         # Use system font
-        widget = guiget('system-font-checkbutton')
+        widget = guiget('system_font_checkbutton')
         widget.set_active(self.config['use_system_font'])
         self.on_system_font_checkbutton_toggled(widget)
         # Font selector
-        widget = guiget('font-selector')
+        widget = guiget('font_selector')
         if self.config['use_system_font'] == True:
             widget.set_font_name(self.config.get_system_font())
         else:
             widget.set_font_name(self.config['font'])
         # Allow bold text
-        widget = guiget('allow-bold-checkbutton')
+        widget = guiget('allow_bold_checkbutton')
         widget.set_active(self.config['allow_bold'])
         # Icon terminal bell
-        widget = guiget('icon-bell-checkbutton')
+        widget = guiget('icon_bell_checkbutton')
         widget.set_active(self.config['icon_bell'])
         # Visual terminal bell
-        widget = guiget('visual-bell-checkbutton')
+        widget = guiget('visual_bell_checkbutton')
         widget.set_active(self.config['visible_bell'])
         # Audible terminal bell
-        widget = guiget('audible-bell-checkbutton')
+        widget = guiget('audible_bell_checkbutton')
         widget.set_active(self.config['audible_bell'])
         # WM_URGENT terminal bell
-        widget = guiget('urgent-bell-checkbutton')
+        widget = guiget('urgent_bell_checkbutton')
         widget.set_active(self.config['urgent_bell'])
         # Show titlebar
         widget = guiget('show_titlebar')
         widget.set_active(self.config['show_titlebar'])
         # Word chars
-        widget = guiget('word-chars-entry')
+        widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
         # Cursor shape
-        widget = guiget('cursor-shape-combobox')
+        widget = guiget('cursor_shape_combobox')
         if self.config['cursor_shape'] == 'underline':
             active = 1
         elif self.config['cursor_shape'] == 'ibeam':
@@ -353,20 +353,20 @@ class PrefsEditor:
 
         ## Command tab
         # Login shell
-        widget = guiget('login-shell-checkbutton')
+        widget = guiget('login_shell_checkbutton')
         widget.set_active(self.config['login_shell'])
         # Login records
-        widget = guiget('update-records-checkbutton')
+        widget = guiget('update_records_checkbutton')
         widget.set_active(self.config['update_records'])
         # Use Custom command
-        widget = guiget('use-custom-command-checkbutton')
+        widget = guiget('use_custom_command_checkbutton')
         widget.set_active(self.config['use_custom_command'])
         self.on_use_custom_command_checkbutton_toggled(widget)
         # Custom Command
-        widget = guiget('custom-command-entry')
+        widget = guiget('custom_command_entry')
         widget.set_text(self.config['custom_command'])
         # Exit action
-        widget = guiget('exit-action-combobox')
+        widget = guiget('exit_action_combobox')
         if self.config['exit_action'] == 'restart':
             widget.set_active(1)
         elif self.config['exit_action'] == 'hold':
@@ -377,23 +377,23 @@ class PrefsEditor:
 
         ## Colors tab
         # Use system colors
-        widget = guiget('use-theme-colors-checkbutton')
+        widget = guiget('use_theme_colors_checkbutton')
         widget.set_active(self.config['use_theme_colors'])
         # Colorscheme
-        widget = guiget('color-scheme-combobox')
+        widget = guiget('color_scheme_combobox')
         scheme = self.config['color_scheme']
         if scheme not in self.colorschemevalues:
             scheme = 'grey_on_black'
         widget.set_active(self.colorschemevalues[scheme])
         # Foreground color
-        widget = guiget('foreground-colorpicker')
+        widget = guiget('foreground_colorpicker')
         widget.set_color(gtk.gdk.Color(self.config['foreground_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
         # Background color
-        widget = guiget('background-colorpicker')
+        widget = guiget('background_colorpicker')
         widget.set_color(gtk.gdk.Color(self.config['background_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
@@ -402,7 +402,7 @@ class PrefsEditor:
         # Palette
         palette = self.config['palette'].split(':')
         for i in xrange(1, 17):
-            widget = guiget('palette-colorpicker-%d' % i)
+            widget = guiget('palette_colorpicker_%d' % i)
             widget.set_color(gtk.gdk.Color(palette[i - 1]))
         # Titlebar colors
         for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
@@ -414,20 +414,20 @@ class PrefsEditor:
         ## Background tab
         # Radio values
         if self.config['background_type'] == 'solid':
-            guiget('solid-radiobutton').set_active(True)
+            guiget('solid_radiobutton').set_active(True)
         elif self.config['background_type'] == 'image':
-            guiget('image-radiobutton').set_active(True)
+            guiget('image_radiobutton').set_active(True)
         elif self.config['background_type'] == 'transparent':
-            guiget('transparent-radiobutton').set_active(True)
+            guiget('transparent_radiobutton').set_active(True)
         self.update_background_tab()
         # Background image file
         if self.config['background_image'] != '':
-            widget = guiget('background-image-filechooser')
+            widget = guiget('background_image_filechooser')
             if self.config['background_image'] is not None and \
                self.config['background_image'] != '':
                 widget.set_filename(self.config['background_image'])
         # Background image scrolls
-        widget = guiget('scroll-background-checkbutton')
+        widget = guiget('scroll_background_checkbutton')
         widget.set_active(self.config['scroll_background'])
         # Background shading
         widget = guiget('background_darkness_scale')
@@ -435,7 +435,7 @@ class PrefsEditor:
 
         ## Scrolling tab
         # Scrollbar position
-        widget = guiget('scrollbar-position-combobox')
+        widget = guiget('scrollbar_position_combobox')
         value = self.config['scrollbar_position']
         if value == 'left':
             widget.set_active(0)
@@ -444,18 +444,18 @@ class PrefsEditor:
         else:
             widget.set_active(1)
         # Scrollback lines
-        widget = guiget('scrollback-lines-spinbutton')
+        widget = guiget('scrollback_lines_spinbutton')
         widget.set_value(self.config['scrollback_lines'])
         # Scroll on outut
-        widget = guiget('scroll-on-output-checkbutton')
+        widget = guiget('scroll_on_output_checkbutton')
         widget.set_active(self.config['scroll_on_output'])
         # Scroll on keystroke
-        widget = guiget('scroll-on-keystroke-checkbutton')
+        widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
 
         ## Compatibility tab
         # Backspace key
-        widget = guiget('backspace-binding-combobox')
+        widget = guiget('backspace_binding_combobox')
         value = self.config['backspace_binding']
         if value == 'control-h':
             widget.set_active(1)
@@ -466,7 +466,7 @@ class PrefsEditor:
         else:
             widget.set_active(0)
         # Delete key
-        widget = guiget('delete-binding-combobox')
+        widget = guiget('delete_binding_combobox')
         value = self.config['delete_binding']
         if value == 'control-h':
             widget.set_active(1)
@@ -483,34 +483,34 @@ class PrefsEditor:
 
         ## General tab
         # Use system font
-        widget = guiget('system-font-checkbutton')
+        widget = guiget('system_font_checkbutton')
         self.config['use_system_font'] = widget.get_active()
         # Font
-        widget = guiget('font-selector')
+        widget = guiget('font_selector')
         self.config['font'] = widget.get_font_name()
         # Allow bold
-        widget = guiget('allow-bold-checkbutton')
+        widget = guiget('allow_bold_checkbutton')
         self.config['allow_bold'] = widget.get_active()
         # Icon Bell
-        widget = guiget('icon-bell-checkbutton')
+        widget = guiget('icon_bell_checkbutton')
         self.config['icon_bell'] = widget.get_active()
         # Visual Bell
-        widget = guiget('visual-bell-checkbutton')
+        widget = guiget('visual_bell_checkbutton')
         self.config['visible_bell'] = widget.get_active()
         # Audible Bell
-        widget = guiget('audible-bell-checkbutton')
+        widget = guiget('audible_bell_checkbutton')
         self.config['audible_bell'] = widget.get_active()
         # Urgent Bell
-        widget = guiget('urgent-bell-checkbutton')
+        widget = guiget('urgent_bell_checkbutton')
         self.config['urgent_bell'] = widget.get_active()
         # Show titlebar
         widget = guiget('show_titlebar')
         self.config['show_titlebar'] = widget.get_active()
         # Word chars
-        widget = guiget('word-chars-entry')
+        widget = guiget('word_chars_entry')
         self.config['word_chars'] = widget.get_text()
         # Cursor Shape
-        widget = guiget('cursor-shape-combobox')
+        widget = guiget('cursor_shape_combobox')
         selected = widget.get_active()
         if selected == 0:
             value = 'block'
@@ -528,19 +528,19 @@ class PrefsEditor:
         
         ## Command tab
         # Login shell
-        widget = guiget('login-shell-checkbutton')
+        widget = guiget('login_shell_checkbutton')
         self.config['login_shell'] = widget.get_active()
         # Update records
-        widget = guiget('update-records-checkbutton')
+        widget = guiget('update_records_checkbutton')
         self.config['update_records'] = widget.get_active()
         # Use custom command
-        widget = guiget('use-custom-command-checkbutton')
+        widget = guiget('use_custom_command_checkbutton')
         self.config['use_custom_command'] = widget.get_active()
         # Custom command
-        widget = guiget('custom-command-entry')
+        widget = guiget('custom_command_entry')
         self.config['custom_command'] = widget.get_text()
         # Exit action
-        widget = guiget('exit-action-combobox')
+        widget = guiget('exit_action_combobox')
         selected = widget.get_active()
         if selected == 0:
             value = 'close'
@@ -552,10 +552,10 @@ class PrefsEditor:
 
         ## Colours tab
         # Use system colours
-        widget = guiget('use-theme-colors-checkbutton')
+        widget = guiget('use_theme_colors_checkbutton')
         self.config['use_theme_colors'] = widget.get_active()
         # Colour scheme
-        widget = guiget('color-scheme-combobox')
+        widget = guiget('color_scheme_combobox')
         selected = widget.get_active()
         if selected == 0:
             value = 'black_on_yellow'
@@ -575,15 +575,15 @@ class PrefsEditor:
             value = 'custom'
         self.config['color_scheme'] = value
         # Foreground colour
-        widget = guiget('foreground-colorpicker')
+        widget = guiget('foreground_colorpicker')
         self.config['foreground_color'] = widget.get_color().to_string()
         # Background colour
-        widget = guiget('background-colorpicker')
+        widget = guiget('background_colorpicker')
         self.config['background_color'] = widget.get_color().to_string()
         # Palette
         palette = []
         for i in xrange(1, 17):
-            widget = guiget('palette-colorpicker-%d' % i)
+            widget = guiget('palette_colorpicker_%d' % i)
             palette.append(widget.get_color().to_string())
         self.config['palette'] = ':'.join(palette)
         # Titlebar colours
@@ -595,29 +595,29 @@ class PrefsEditor:
 
         ## Background tab
         # Background type
-        widget = guiget('solid-radiobutton')
+        widget = guiget('solid_radiobutton')
         if widget.get_active() == True:
             value = 'solid'
-        widget = guiget('image-radiobutton')
+        widget = guiget('image_radiobutton')
         if widget.get_active() == True:
             value = 'image'
-        widget = guiget('transparent-radiobutton')
+        widget = guiget('transparent_radiobutton')
         if widget.get_active() == True:
             value = 'transparent'
         self.config['background_type'] = value
         # Background image
-        widget = guiget('background-image-filechooser')
+        widget = guiget('background_image_filechooser')
         self.config['background_image'] = widget.get_filename()
         # Background scrolls
-        widget = guiget('scroll-background-checkbutton')
+        widget = guiget('scroll_background_checkbutton')
         self.config['scroll_background'] = widget.get_active()
         # Background darkness
-        widget = guiget('darken-background-scale')
+        widget = guiget('darken_background_scale')
         self.config['background_darkness'] = widget.get_value()
 
         ## Scrolling tab
         # Scrollbar
-        widget = guiget('scrollbar-position-combobox')
+        widget = guiget('scrollbar_position_combobox')
         selected = widget.get_active()
         if selected == 0:
             value = 'left'
@@ -627,18 +627,18 @@ class PrefsEditor:
             value = 'hidden'
         self.config['scrollbar_position'] = value
         # Scrollback lines
-        widget = guiget('scrollback-lines-spinbutton')
+        widget = guiget('scrollback_lines_spinbutton')
         self.config['scrollback_lines'] = int(widget.get_value())
         # Scroll on output
-        widget = guiget('scroll-on-output-checkbutton')
+        widget = guiget('scroll_on_output_checkbutton')
         self.config['scroll_on_output'] = widget.get_active()
         # Scroll on keystroke
-        widget = guiget('scroll-on-keystroke-checkbutton')
+        widget = guiget('scroll_on_keystroke_checkbutton')
         self.config['scroll_on_keystroke'] = widget.get_active()
 
         ## Compatibility tab
         # Backspace key
-        widget = guiget('backspace-binding-combobox')
+        widget = guiget('backspace_binding_combobox')
         selected = widget.get_active()
         if selected == 0:
             value = 'automatic'
@@ -650,7 +650,7 @@ class PrefsEditor:
             value == 'escape-sequence'
         self.config['backspace_binding'] = value
         # Delete key
-        widget = guiget('delete-binding-combobox')
+        widget = guiget('delete_binding_combobox')
         selected = widget.get_active()
         if selected == 0:
             valud = 'automatic'
@@ -760,7 +760,7 @@ class PrefsEditor:
         sensitivity of the custom_command entrybox"""
         guiget = self.builder.get_object
 
-        widget = guiget('custom-command-entry')
+        widget = guiget('custom_command_entry')
         if checkbox.get_active() == True:
             widget.set_sensitive(True)
         else:
@@ -771,7 +771,7 @@ class PrefsEditor:
         sensitivity of the font selector"""
         guiget = self.builder.get_object
 
-        widget = guiget('font-selector')
+        widget = guiget('font_selector')
         if checkbox.get_active() == True:
             widget.set_sensitive(False)
         else:
@@ -782,9 +782,9 @@ class PrefsEditor:
         safest values"""
         guiget = self.builder.get_object
 
-        widget = guiget('backspace-binding-combobox')
+        widget = guiget('backspace_binding_combobox')
         widget.set_active(2)
-        widget = guiget('delete-binding-combobox')
+        widget = guiget('delete_binding_combobox')
         widget.set_active(3)
 
     def on_background_type_toggled(self, _widget):
@@ -797,8 +797,8 @@ class PrefsEditor:
 
         # Background type
         backtype = None
-        imagewidget = guiget('image-radiobutton')
-        transwidget = guiget('transparent-radiobutton')
+        imagewidget = guiget('image_radiobutton')
+        transwidget = guiget('transparent_radiobutton')
         if transwidget.get_active() == True:
             backtype = 'trans'
         elif imagewidget.get_active() == True:
@@ -806,15 +806,15 @@ class PrefsEditor:
         else:
             backtype = 'solid'
         if backtype == 'image':
-            guiget('background-image-filechooser').set_sensitive(True)
-            guiget('scroll-background-checkbutton').set_sensitive(True)
+            guiget('background_image_filechooser').set_sensitive(True)
+            guiget('scroll_background_checkbutton').set_sensitive(True)
         else:
-            guiget('background-image-filechooser').set_sensitive(False)
-            guiget('scroll-background-checkbutton').set_sensitive(False)
+            guiget('background_image_filechooser').set_sensitive(False)
+            guiget('scroll_background_checkbutton').set_sensitive(False)
         if backtype == 'trans':
-            guiget('darken-background-scale').set_sensitive(True)
+            guiget('darken_background_scale').set_sensitive(True)
         else:
-            guiget('darken-background-scale').set_sensitive(False)
+            guiget('darken_background_scale').set_sensitive(False)
 
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
@@ -898,8 +898,8 @@ class PrefsEditor:
             if self.colorschemevalues[key] == active:
                 value = key
 
-        fore = guiget('foreground-colorpicker')
-        back = guiget('background-colorpicker')
+        fore = guiget('foreground_colorpicker')
+        back = guiget('background_colorpicker')
         if value == 'custom':
             fore.set_sensitive(True)
             back.set_sensitive(True)
@@ -941,9 +941,9 @@ class PrefsEditor:
         guiget = self.builder.get_object
         active = widget.get_active()
 
-        scheme = guiget('color-scheme-combobox')
-        fore = guiget('foreground-colorpicker')
-        back = guiget('background-colorpicker')
+        scheme = guiget('color_scheme_combobox')
+        fore = guiget('foreground_colorpicker')
+        back = guiget('background_colorpicker')
 
         if active:
             for widget in [scheme, fore, back]:
