@@ -276,6 +276,7 @@
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_wingeomcheck_toggled"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -303,6 +304,7 @@
                             <property name="visible">True</property>
                             <property name="model">WindowStateListStore</property>
                             <property name="active">0</property>
+                            <signal name="changed" handler="on_winstatecombo_changed"/>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext1"/>
                               <attributes>
@@ -338,6 +340,7 @@
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_winbordercheck_toggled"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -365,6 +368,7 @@
                             <property name="visible">True</property>
                             <property name="model">TabPositionListStore</property>
                             <property name="active">0</property>
+                            <signal name="changed" handler="on_tabposcombo_changed"/>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext2"/>
                               <attributes>
@@ -396,6 +400,7 @@
                             <property name="visible">True</property>
                             <property name="model">FocusListStore</property>
                             <property name="active">0</property>
+                            <signal name="changed" handler="on_focuscombo_changed"/>
                             <child>
                               <object class="GtkCellRendererText" id="focuscell"/>
                               <attributes>
@@ -429,6 +434,7 @@
                             <property name="adjustment">adjustment1</property>
                             <property name="digits">0</property>
                             <property name="value_pos">left</property>
+                            <signal name="change_value" handler="on_handlesize_change_value"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -479,6 +485,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_transmit_fg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -495,6 +502,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_inactive_fg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -511,6 +519,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_transmit_bg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -527,6 +536,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_inactive_bg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -543,6 +553,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_receive_fg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -559,6 +570,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="color">#000000000000</property>
+                                    <signal name="color_set" handler="on_title_receive_bg_color_color_set"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -782,7 +794,7 @@
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Font:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">font-selector</property>
+                                    <property name="mnemonic_widget">font_selector</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -791,7 +803,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkFontButton" id="font-selector">
+                                  <object class="GtkFontButton" id="font_selector">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
@@ -799,6 +811,7 @@
                                     <property name="title" translatable="yes">Choose A Terminal Font</property>
                                     <property name="use_font">True</property>
                                     <property name="use_size">True</property>
+                                    <signal name="font_set" handler="on_font_selector_font_set"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -816,13 +829,14 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkCheckButton" id="allow-bold-checkbutton">
+                          <object class="GtkCheckButton" id="allow_bold_checkbutton">
                             <property name="label" translatable="yes">_Allow bold text</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_allow_bold_checkbutton_toggled"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2777,23 +2791,8 @@
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="cancelbutton">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_cancelbutton_clicked"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="okbutton">
-                <property name="label">gtk-ok</property>
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -2803,7 +2802,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </object>
@@ -2816,7 +2815,6 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">cancelbutton</action-widget>
       <action-widget response="0">okbutton</action-widget>
     </action-widgets>
   </object>
