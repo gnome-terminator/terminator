@@ -111,15 +111,8 @@ class PrefsEditor:
         self.window.show_all()
         self.set_values()
 
-    def on_cancelbutton_clicked(self, _button):
+    def on_closebutton_clicked(self, _button):
         """Close the window"""
-        self.window.destroy()
-        del(self)
-
-    def on_okbutton_clicked(self, _button):
-        """Save the config"""
-        self.store_values()
-        self.config.save()
         terminator = Terminator()
         terminator.reconfigure()
         self.window.destroy()
@@ -227,71 +220,6 @@ class PrefsEditor:
                     pass
             liststore.append([keybinding, self.keybindingnames[keybinding], 
                              keyval, mask])
-
-        ## Plugins tab
-        # FIXME: Implement this
-
-    def store_values(self):
-        """Store the values from the GUI back into Config()"""
-        guiget = self.builder.get_object
-
-        ## Global tab
-        # Focus
-        widget = guiget('focuscombo')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'system'
-        elif selected == 1:
-            value = 'click'
-        elif selected == 2:
-            value = 'mouse'
-        self.config['focus'] = value
-        # Handle size
-        widget = guiget('handlesize')
-        self.config['handle_size'] = int(widget.get_value())
-        # Window geometry
-        widget = guiget('wingeomcheck')
-        self.config['geometry_hinting'] = widget.get_active()
-        # Window state
-        widget = guiget('winstatecombo')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'normal'
-        elif selected == 1:
-            value = 'hidden'
-        elif selected == 2:
-            value = 'maximise'
-        elif selected == 3:
-            value = 'fullscreen'
-        self.config['window_state'] = value
-        # Window borders
-        widget = guiget('winbordercheck')
-        self.config['borderless'] = not widget.get_active()
-        # Tab position
-        widget = guiget('tabposcombo')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'top'
-        elif selected == 1:
-            value = 'bottom'
-        elif selected == 2:
-            value = 'left'
-        elif selected == 3:
-            value = 'right'
-        self.config['tab_position'] = value
-
-        ## Profile tab
-        self.store_profile_values()
-
-        ## Layouts tab
-        self.store_layout(self.previous_layout_selection)
-
-        ## Keybindings tab
-        keybindings = self.config['keybindings']
-        liststore = guiget('KeybindingsListStore')
-        for keybinding in liststore:
-            accel = gtk.accelerator_name(keybinding[2], keybinding[3])
-            keybindings[keybinding[0]] = accel
 
         ## Plugins tab
         # FIXME: Implement this
@@ -477,198 +405,269 @@ class PrefsEditor:
         else:
             widget.set_active(0)
 
-    def store_profile_values(self):
-        """Pull out all the settings before switching profile"""
-        guiget = self.builder.get_object
+    def set_layout(self, layout_name):
+        """Set a layout"""
+        self.layouteditor.set_layout(layout_name)
 
-        ## General tab
-        # Use system font
-        widget = guiget('system_font_checkbutton')
-        self.config['use_system_font'] = widget.get_active()
-        # Font
-        widget = guiget('font_selector')
-        self.config['font'] = widget.get_font_name()
-        # Allow bold
-        widget = guiget('allow_bold_checkbutton')
+    def on_wingeomcheck_toggled(self, widget):
+        """Window geometry setting changed"""
+        self.config['geometry_hinting'] = widget.get_active()
+        self.config.save()
+
+    def on_winbordercheck_toggled(self, widget):
+        """Window border setting changed"""
+        self.config['borderless'] = not widget.get_active()
+        self.config.save()
+
+    def on_allow_bold_checkbutton_toggled(self, widget):
+        """Allow bold setting changed"""
         self.config['allow_bold'] = widget.get_active()
-        # Icon Bell
-        widget = guiget('icon_bell_checkbutton')
-        self.config['icon_bell'] = widget.get_active()
-        # Visual Bell
-        widget = guiget('visual_bell_checkbutton')
-        self.config['visible_bell'] = widget.get_active()
-        # Audible Bell
-        widget = guiget('audible_bell_checkbutton')
-        self.config['audible_bell'] = widget.get_active()
-        # Urgent Bell
-        widget = guiget('urgent_bell_checkbutton')
-        self.config['urgent_bell'] = widget.get_active()
-        # Show titlebar
-        widget = guiget('show_titlebar')
+        self.config.save()
+
+    def on_show_titlebar_toggled(self, widget):
+        """Show titlebar setting changed"""
         self.config['show_titlebar'] = widget.get_active()
-        # Word chars
-        widget = guiget('word_chars_entry')
-        self.config['word_chars'] = widget.get_text()
-        # Cursor Shape
-        widget = guiget('cursor_shape_combobox')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'block'
-        elif selected == 1:
-            value = 'underline'
-        elif selected == 2:
-            value = 'ibeam'
-        self.config['cursor_shape'] = value
-        # Cursor Blink
-        widget = guiget('cursor_blink')
+        self.config.save()
+
+    def on_cursor_blink_toggled(self, widget):
+        """Cursor blink setting changed"""
         self.config['cursor_blink'] = widget.get_active()
-        # Cursor Colour
-        widget = guiget('cursor_color')
-        self.config['cursor_color'] = widget.get_color().to_string()
-        
-        ## Command tab
-        # Login shell
-        widget = guiget('login_shell_checkbutton')
+        self.config.save()
+
+    def on_icon_bell_checkbutton_toggled(self, widget):
+        """Icon bell setting changed"""
+        self.config['icon_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_visual_bell_checkbutton_toggled(self, widget):
+        """Visual bell setting changed"""
+        self.config['visible_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_audible_bell_checkbutton_toggled(self, widget):
+        """Audible bell setting changed"""
+        self.config['audible_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_urgent_bell_checkbutton_toggled(self, widget):
+        """Window manager bell setting changed"""
+        self.config['urgent_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_login_shell_checkbutton_toggled(self, widget):
+        """Login shell setting changed"""
         self.config['login_shell'] = widget.get_active()
-        # Update records
-        widget = guiget('update_records_checkbutton')
+        self.config.save()
+
+    def on_update_records_checkbutton_toggled(self, widget):
+        """Update records setting changed"""
         self.config['update_records'] = widget.get_active()
-        # Use custom command
-        widget = guiget('use_custom_command_checkbutton')
-        self.config['use_custom_command'] = widget.get_active()
-        # Custom command
-        widget = guiget('custom_command_entry')
-        self.config['custom_command'] = widget.get_text()
-        # Exit action
-        widget = guiget('exit_action_combobox')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'close'
-        elif selected == 1:
-            value = 'restart'
-        elif selected == 2:
-            value = 'hold'
-        self.config['exit_action'] = value
+        self.config.save()
 
-        ## Colours tab
-        # Use system colours
-        widget = guiget('use_theme_colors_checkbutton')
-        self.config['use_theme_colors'] = widget.get_active()
-        # Colour scheme
-        widget = guiget('color_scheme_combobox')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'black_on_yellow'
-        elif selected == 1:
-            value = 'black_on_white'
-        elif selected == 2:
-            value = 'grey_on_black'
-        elif selected == 3:
-            value = 'green_on_black'
-        elif selected == 4:
-            value = 'white_on_black'
-        elif selected == 5:
-            value = 'orange_on_black'
-        elif selected == 6:
-            value = 'ambience'
-        elif selected == 7:
-            value = 'custom'
-        self.config['color_scheme'] = value
-        # Foreground colour
-        widget = guiget('foreground_colorpicker')
-        self.config['foreground_color'] = widget.get_color().to_string()
-        # Background colour
-        widget = guiget('background_colorpicker')
-        self.config['background_color'] = widget.get_color().to_string()
-        # Palette
-        palette = []
-        for i in xrange(1, 17):
-            widget = guiget('palette_colorpicker_%d' % i)
-            palette.append(widget.get_color().to_string())
-        self.config['palette'] = ':'.join(palette)
-        # Titlebar colours
-        for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
-            'title_receive_fg_color', 'title_receive_bg_color',
-            'title_inactive_fg_color', 'title_inactive_bg_color']:
-            widget = guiget(bit)
-            self.config[bit] = widget.get_color().to_string()
-
-        ## Background tab
-        # Background type
-        widget = guiget('solid_radiobutton')
-        if widget.get_active() == True:
-            value = 'solid'
-        widget = guiget('image_radiobutton')
-        if widget.get_active() == True:
-            value = 'image'
-        widget = guiget('transparent_radiobutton')
-        if widget.get_active() == True:
-            value = 'transparent'
-        self.config['background_type'] = value
-        # Background image
-        widget = guiget('background_image_filechooser')
-        self.config['background_image'] = widget.get_filename()
-        # Background scrolls
-        widget = guiget('scroll_background_checkbutton')
+    def on_scroll_background_checkbutton_toggled(self, widget):
+        """Scroll background setting changed"""
         self.config['scroll_background'] = widget.get_active()
-        # Background darkness
-        widget = guiget('darken_background_scale')
-        self.config['background_darkness'] = widget.get_value()
+        self.config.save()
 
-        ## Scrolling tab
-        # Scrollbar
-        widget = guiget('scrollbar_position_combobox')
-        selected = widget.get_active()
-        if selected == 0:
-            value = 'left'
-        elif selected == 1:
-            value = 'right'
-        elif selected == 2:
-            value = 'hidden'
-        self.config['scrollbar_position'] = value
-        # Scrollback lines
-        widget = guiget('scrollback_lines_spinbutton')
-        self.config['scrollback_lines'] = int(widget.get_value())
-        # Scroll on output
-        widget = guiget('scroll_on_output_checkbutton')
-        self.config['scroll_on_output'] = widget.get_active()
-        # Scroll on keystroke
-        widget = guiget('scroll_on_keystroke_checkbutton')
+    def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
+        """Scroll on keystrong setting changed"""
         self.config['scroll_on_keystroke'] = widget.get_active()
+        self.config.save()
 
-        ## Compatibility tab
-        # Backspace key
-        widget = guiget('backspace_binding_combobox')
+    def on_scroll_on_output_checkbutton_toggled(self, widget):
+        """Scroll on output setting changed"""
+        self.config['scroll_on_output'] = widget.get_active()
+        self.config.save()
+
+    def on_delete_binding_combobox_changed(self, widget):
+        """Delete binding setting changed"""
         selected = widget.get_active()
-        if selected == 0:
-            value = 'automatic'
-        elif selected == 1:
-            value = 'control-h'
-        elif selected == 2:
-            value = 'ascii-del'
-        elif selected == 3:
-            value == 'escape-sequence'
-        self.config['backspace_binding'] = value
-        # Delete key
-        widget = guiget('delete_binding_combobox')
-        selected = widget.get_active()
-        if selected == 0:
-            valud = 'automatic'
-        elif selected == 1:
+        if selected == 1:
             value = 'control-h'
         elif selected == 2:
             value = 'ascii-del'
         elif selected == 3:
             value = 'escape-sequence'
+        else:
+            value = 'automatic'
         self.config['delete_binding'] = value
+        self.config.save()
 
-    def set_layout(self, layout_name):
-        """Set a layout"""
-        self.layouteditor.set_layout(layout_name)
+    def on_backspace_binding_combobox_changed(self, widget):
+        """Backspace binding setting changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'control-h'
+        elif selected == 2:
+            value = 'ascii-del'
+        elif selected == 3:
+            value == 'escape-sequence'
+        else:
+            value = 'automatic'
+        self.config['backspace_binding'] = value
+        self.config.save()
 
-    def store_layout(self, layout):
-        """Store a layout"""
+    def on_scrollback_lines_spinbutton_value_changed(self, widget):
+        """Scrollback lines setting changed"""
+        value = widget.get_value_as_int()
+        self.config['scrollback_lines'] = value
+        self.config.save()
+
+    def on_scrollbar_position_combobox_changed(self, widget):
+        """Scrollbar position setting changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'right'
+        elif selected == 2:
+            value = 'hidden'
+        else:
+            value = 'left'
+        self.config['scrollbar_position'] = value
+        self.config.save()
+
+    def on_darken_background_scale_change_value(self, widget):
+        """Background darkness setting changed"""
+        self.config['background_darkness'] = widget.get_value()
+        self.config.save()
+
+    def on_background_image_filechooser_file_set(self, widget):
+        """Background image setting changed"""
+        self.config['background_image'] = widget.get_filename()
+        self.config.save()
+
+    def on_palette_combobox_changed(self, widget):
+        """Palette selector changed"""
+        # FIXME: This doesn't really exist yet.
         pass
+
+    def on_background_colorpicker_color_set(self, widget):
+        """Background color changed"""
+        self.config['background_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_foreground_colorpicker_color_set(self, widget):
+        """Foreground color changed"""
+        self.config['foreground_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_exit_action_combobox_changed(self, widget):
+        """Exit action changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'restart'
+        elif selected == 2:
+            value = 'hold'
+        else:
+            value = 'close'
+        self.config['exit_action'] = value
+        self.config.save()
+
+    def on_custom_command_entry_activate(self, widget):
+        """Custom command value changed"""
+        self.config['custom_command'] = widget.get_text()
+        self.config.save()
+
+    def on_cursor_color_color_set(self, widget):
+        """Cursor colour changed"""
+        self.config['cursor_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_cursor_shape_combobox_changed(self, widget):
+        """Cursor shape changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'underline'
+        elif selected == 2:
+            value = 'ibeam'
+        else:
+            value = 'block'
+        self.config['cursor_shape'] = value
+        self.config.save()
+
+    def on_word_chars_entry_activate(self, widget):
+        """Word characters changed"""
+        self.config['word_chars'] = widget.get_text()
+        self.config.save()
+
+    def on_font_selector_font_set(self, widget):
+        """Font changed"""
+        self.config['font'] = widget.get_font_name()
+        self.config.save()
+
+    def on_title_receive_bg_color_color_set(self, widget):
+        """Title receive background colour changed"""
+        self.config['title_receive_bg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_title_receive_fg_color_color_set(self, widget):
+        """Title receive foreground colour changed"""
+        self.config['title_receive_fg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_title_inactive_bg_color_color_set(self, widget):
+        """Title inactive background colour changed"""
+        self.config['title_inactive_bg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_title_transmit_bg_color_color_set(self, widget):
+        """Title transmit backgruond colour changed"""
+        self.config['title_transmit_bg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_title_inactive_fg_color_color_set(self, widget):
+        """Title inactive foreground colour changed"""
+        self.config['title_inactive_fg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_title_transmit_fg_color_color_set(self, widget):
+        """Title transmit foreground colour changed"""
+        self.config['title_transmit_fg_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_handlesize_change_value(self, widget):
+        """Handle size changed"""
+        self.config['handle_size'] = int(widget.get_value())
+        self.config.save()
+
+    def on_focuscombo_changed(self, widget):
+        """Focus type changed"""
+        selected  = widget.get_active()
+        if selected == 1:
+            value = 'click'
+        elif selected == 2:
+            value = 'mouse'
+        else:
+            value = 'system'
+        self.config['focus'] = value
+        self.config.save()
+
+    def on_tabposcombo_changed(self, widget):
+        """Tab position changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'bottom'
+        elif selected == 2:
+            value = 'left'
+        elif selected == 3:
+            value = 'right'
+        else:
+            value = 'top'
+        self.config['tab_position'] = value
+        self.config.save()
+
+    def on_winstatecombo_changed(self, widget):
+        """Window state changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'hidden'
+        elif selected == 2:
+            value = 'maximise'
+        elif selected == 3:
+            value = 'fullscreen'
+        else:
+            value = 'normal'
+        self.config['window_state'] = value
+        self.config.save()
 
     def on_profileaddbutton_clicked(self, _button):
         """Add a new profile to the list"""
@@ -759,23 +758,23 @@ class PrefsEditor:
         """Toggling the use_custom_command checkbox needs to alter the
         sensitivity of the custom_command entrybox"""
         guiget = self.builder.get_object
-
         widget = guiget('custom_command_entry')
-        if checkbox.get_active() == True:
-            widget.set_sensitive(True)
-        else:
-            widget.set_sensitive(False)
+        value = checkbox.get_active()
+
+        widget.set_sensitive(value)
+        self.config['use_custom_command'] = value
+        self.config.save()
 
     def on_system_font_checkbutton_toggled(self, checkbox):
         """Toggling the use_system_font checkbox needs to alter the
         sensitivity of the font selector"""
         guiget = self.builder.get_object
-
         widget = guiget('font_selector')
-        if checkbox.get_active() == True:
-            widget.set_sensitive(False)
-        else:
-            widget.set_sensitive(True)
+        value = checkbox.get_active()
+
+        widget.set_sensitive(not value)
+        self.config['use_system_font'] = value
+        self.config.save()
 
     def on_reset_compatibility_clicked(self, widget):
         """Reset the confusing and annoying backspace/delete options to the
@@ -800,29 +799,27 @@ class PrefsEditor:
         imagewidget = guiget('image_radiobutton')
         transwidget = guiget('transparent_radiobutton')
         if transwidget.get_active() == True:
-            backtype = 'trans'
+            backtype = 'transparent'
         elif imagewidget.get_active() == True:
             backtype = 'image'
         else:
             backtype = 'solid'
+        self.config['background_type'] = backtype
+        self.config.save()
+
         if backtype == 'image':
             guiget('background_image_filechooser').set_sensitive(True)
             guiget('scroll_background_checkbutton').set_sensitive(True)
         else:
             guiget('background_image_filechooser').set_sensitive(False)
             guiget('scroll_background_checkbutton').set_sensitive(False)
-        if backtype == 'trans':
+        if backtype == 'transparent':
             guiget('darken_background_scale').set_sensitive(True)
         else:
             guiget('darken_background_scale').set_sensitive(False)
 
     def on_profile_selection_changed(self, selection):
         """A different profile was selected"""
-        if self.previous_profile_selection is not None:
-            dbg('PrefsEditor::on_profile_selection_changed: Storing: %s' %
-                    self.previous_profile_selection)
-            self.store_profile_values()
-
         (listmodel, rowiter) = selection.get_selected()
         if not rowiter:
             # Something is wrong, just jump to the first item in the list
@@ -848,6 +845,7 @@ class PrefsEditor:
         dbg('PrefsEditor::on_profile_name_edited: Changing %s to %s' %
         (oldname, newtext))
         self.config.rename_profile(oldname, newtext)
+        self.config.save()
         
         widget = self.builder.get_object('profilelist')
         model = widget.get_model()
@@ -880,6 +878,7 @@ class PrefsEditor:
             return
         dbg('Changing %s to %s' % (oldname, newtext))
         self.config.rename_layout(oldname, newtext)
+        self.config.save()
         
         widget = self.builder.get_object('layoutlist')
         model = widget.get_model()
@@ -894,6 +893,7 @@ class PrefsEditor:
         value = None
         guiget = self.builder.get_object
         active = widget.get_active()
+
         for key in self.colorschemevalues.keys():
             if self.colorschemevalues[key] == active:
                 value = key
@@ -936,6 +936,11 @@ class PrefsEditor:
         if backcol is not None:
             back.set_color(gtk.gdk.Color(backcol))
 
+        self.config['color_scheme'] = value
+        self.config['foreground_color'] = forecol
+        self.config['background_color'] = backcol
+        self.config.save()
+
     def on_use_theme_colors_checkbutton_toggled(self, widget):
         """Update colour pickers"""
         guiget = self.builder.get_object
@@ -952,15 +957,27 @@ class PrefsEditor:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
 
+        self.config['use_theme_colors'] = active
+        self.config.save()
+
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
         """Handle an edited keybinding"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, key, 3, mods)
 
+        binding = liststore.get_value(liststore.get_iter(path), 0)
+        accel = gtk.accelerator_name(key, mods)
+        self.config['keybindings'][binding] = accel
+        self.config.save()
+
     def on_cellrenderer_accel_cleared(self, liststore, path):
         """Handle the clearing of a keybinding accelerator"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, 0, 3, 0)
+
+        binding = liststore.get_value(liststore.get_iter(path), 0)
+        self.config['keybindings'][binding] = None
+        self.config.save()
 
 class LayoutEditor:
     profile_ids_to_profile = None

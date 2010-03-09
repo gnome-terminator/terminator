@@ -810,7 +810,6 @@
                                     <property name="focus_on_click">False</property>
                                     <property name="title" translatable="yes">Choose A Terminal Font</property>
                                     <property name="use_font">True</property>
-                                    <property name="use_size">True</property>
                                     <signal name="font_set" handler="on_font_selector_font_set"/>
                                   </object>
                                   <packing>
@@ -851,6 +850,7 @@
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_show_titlebar_toggled"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -882,6 +882,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">&#x2022;</property>
+                                <signal name="activate" handler="on_word_chars_entry_activate"/>
                               </object>
                               <packing>
                                 <property name="position">1</property>
@@ -934,6 +935,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="model">CursorShapeListStore</property>
                                                 <property name="active">0</property>
+                                                <signal name="changed" handler="on_cursor_shape_combobox_changed"/>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext4"/>
                                                   <attributes>
@@ -964,6 +966,7 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
                                                 <property name="color">#000000000000</property>
+                                                <signal name="color_set" handler="on_cursor_color_color_set"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -1004,6 +1007,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_cursor_blink_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1059,6 +1063,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_icon_bell_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="position">0</property>
@@ -1072,6 +1077,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_visual_bell_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1087,6 +1093,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_audible_bell_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1102,6 +1109,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_urgent_bell_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1184,6 +1192,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_login_shell_checkbutton_toggled"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1199,6 +1208,7 @@
                                             <property name="receives_default">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_update_records_checkbutton_toggled"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1250,6 +1260,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">&#x2022;</property>
+                                                    <signal name="activate" handler="on_custom_command_entry_activate"/>
                                                   </object>
                                                   <packing>
                                                     <property name="position">1</property>
@@ -1287,6 +1298,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="model">ChildExitedListStore</property>
                                                 <property name="active">0</property>
+                                                <signal name="changed" handler="on_exit_action_combobox_changed"/>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext5"/>
                                                   <attributes>
@@ -1445,6 +1457,7 @@
                                             <property name="receives_default">True</property>
                                             <property name="title" translatable="yes">Choose Terminal Text Color</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_foreground_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1475,6 +1488,7 @@
                                             <property name="receives_default">True</property>
                                             <property name="title" translatable="yes">Choose Terminal Background Color</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_background_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1845,6 +1859,7 @@
                                     <child>
                                       <object class="GtkComboBox" id="palette_combobox">
                                         <property name="visible">True</property>
+                                        <signal name="changed" handler="on_palette_combobox_changed"/>
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -1981,6 +1996,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="create_folders">False</property>
                                             <property name="title" translatable="yes">Select Background Image</property>
+                                            <signal name="file_set" handler="on_background_image_filechooser_file_set"/>
                                           </object>
                                           <packing>
                                             <property name="position">1</property>
@@ -1999,6 +2015,7 @@
                                         <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_scroll_background_checkbutton_toggled"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2081,6 +2098,7 @@
                                     <property name="update_policy">delayed</property>
                                     <property name="adjustment">background_darkness_scale</property>
                                     <property name="value_pos">bottom</property>
+                                    <signal name="change_value" handler="on_darken_background_scale_change_value"/>
                                   </object>
                                   <packing>
                                     <property name="position">1</property>
@@ -2147,6 +2165,7 @@
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_scroll_on_keystroke_checkbutton_toggled"/>
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
@@ -2163,6 +2182,7 @@
                             <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_scroll_on_output_checkbutton_toggled"/>
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
@@ -2179,6 +2199,7 @@
                                 <property name="visible">True</property>
                                 <property name="model">ScrollbarPositionListStore</property>
                                 <property name="active">0</property>
+                                <signal name="changed" handler="on_scrollbar_position_combobox_changed"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext7"/>
                                   <attributes>
@@ -2210,6 +2231,7 @@
                                 <property name="adjustment">ScrollbackAdjustmend</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
+                                <signal name="value_changed" handler="on_scrollback_lines_spinbutton_value_changed"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2349,6 +2371,7 @@
                                 <property name="visible">True</property>
                                 <property name="model">BackspaceKeyListStore</property>
                                 <property name="active">1</property>
+                                <signal name="changed" handler="on_backspace_binding_combobox_changed"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext8"/>
                                   <attributes>
@@ -2368,6 +2391,7 @@
                                 <property name="visible">True</property>
                                 <property name="model">DeleteKeyListStore</property>
                                 <property name="active">2</property>
+                                <signal name="changed" handler="on_delete_binding_combobox_changed"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext9"/>
                                   <attributes>
@@ -2797,7 +2821,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_okbutton_clicked"/>
+                <signal name="clicked" handler="on_closebutton_clicked"/>
               </object>
               <packing>
                 <property name="expand">False</property>
