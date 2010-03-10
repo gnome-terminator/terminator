@@ -3,6 +3,7 @@
 # GPL v2 only
 """terminator.py - class for the master Terminator singleton"""
 
+import copy
 import gtk
 
 from borg import Borg
@@ -118,7 +119,7 @@ class Terminator(Borg):
 
         self.doing_layout = True
 
-        layout = self.config.layout_get_config(layoutname)
+        layout = copy.deepcopy(self.config.layout_get_config(layoutname))
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
