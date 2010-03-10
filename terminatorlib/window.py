@@ -281,6 +281,12 @@ class Window(Container, gtk.Window):
         self.disconnect_child(widget)
         return(True)
 
+    def get_children(self):
+        """Return a single list of our child"""
+        children = []
+        children.append(self.get_child())
+        return(children)
+
     def hoover(self):
         """Ensure we still have a reason to exist"""
         if not self.get_child():

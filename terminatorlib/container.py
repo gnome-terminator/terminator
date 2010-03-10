@@ -87,6 +87,10 @@ class Container(object):
         """Ensure we still have a reason to exist"""
         raise NotImplementedError('hoover')
 
+    def get_children(self):
+        """Return an ordered list of the children of this Container"""
+        raise NotImplementedError('get_children')
+
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
         try:

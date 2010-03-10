@@ -126,6 +126,13 @@ class Paned(Container):
         self.children.remove(widget)
         return(True)
 
+    def get_children(self):
+        """Return an ordered list of our children"""
+        children = []
+        children.append(self.get_child1())
+        children.append(self.get_child2())
+        return(children)
+
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         dbg('Paned::wrapcloseterm: Called on %s' % widget)

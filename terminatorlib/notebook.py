@@ -137,6 +137,13 @@ class Notebook(Container, gtk.Notebook):
         self.disconnect_child(widget)
         return(True)
 
+    def get_children(self):
+        """Return an ordered list of our children"""
+        children = []
+        for page in xrange(0,self.get_n_pages() - 1):
+            children.append(self.get_nth_page(page))
+        return(children)
+
     def newtab(self, widget=None):
         """Add a new tab, optionally supplying a child widget"""
         maker = Factory()
