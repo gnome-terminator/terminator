@@ -109,7 +109,13 @@ class PrefsEditor:
         self.builder.connect_signals(self)
         self.layouteditor.prepare()
         self.window.show_all()
-        self.set_values()
+        try:
+            self.config.inhibit_save()
+            self.set_values()
+        except Exception, e:
+            err('Unable to set values: %s' % e)
+        finally:
+            self.config.uninhibit_save()
 
     def on_closebutton_clicked(self, _button):
         """Close the window"""
@@ -888,6 +894,9 @@ class PrefsEditor:
         if oldname == self.previous_layout_selection:
             self.previous_layout_selection = newtext
 
+        if oldname == self.layouteditor.layout_name:
+            self.layouteditor.layout_name = newtext
+
     def on_color_scheme_combobox_changed(self, widget):
         """Update the fore/background colour pickers"""
         value = None
@@ -1101,9 +1110,13 @@ class LayoutEditor:
         chooser.set_sensitive(True)
         if layout_item.has_key('command') and layout_item['command'] != '':
             command.set_text(layout_item['command'])
+        else:
+            command.set_text('')
 
         if layout_item.has_key('profile') and layout_item['profile'] != '':
             chooser.set_active(self.profile_profile_to_ids[layout_item['profile']])
+        else:
+            chooser.set_active(0)
 
     def on_layout_profile_chooser_changed(self, widget):
         """A new profile has been selected for this item"""
@@ -1112,12 +1125,14 @@ class LayoutEditor:
         profile = widget.get_active_text()
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['profile'] = profile
+        self.config.save()
 
     def on_layout_profile_command_activate(self, widget):
         """A new command has been entered for this item"""
         command = widget.get_text()
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['command'] = command
+        self.config.save()
 
 if __name__ == '__main__':
     import util
