@@ -230,10 +230,12 @@ class Config(object):
     gconf = None
     system_font = None
     system_focus = None
+    inhibited = None
     
     def __init__(self, profile='default'):
         self.base = ConfigBase()
         self.profile = profile
+        self.inhibited = False
 
     def __getitem__(self, key):
         """Look up a configuration item"""
@@ -340,7 +342,18 @@ class Config(object):
 
     def save(self):
         """Cause ConfigBase to save our config to file"""
-        return(self.base.save())
+        if self.inhibited is True:
+            return(True)
+        else:
+            return(self.base.save())
+
+    def inhibit_save(self):
+        """Prevent calls to save() being honoured"""
+        self.inhibited = True
+
+    def uninhibit_save(self):
+        """Allow calls to save() to be honoured"""
+        self.inhibited = False
 
     def options_set(self, options):
         """Set the command line options"""
