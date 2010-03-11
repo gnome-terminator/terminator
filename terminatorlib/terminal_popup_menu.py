@@ -9,6 +9,7 @@ import gtk
 from version import APP_NAME
 from translation import _
 from encoding import TerminatorEncoding
+from terminator import Terminator
 from util import err
 from config import Config
 from prefseditor import PrefsEditor
@@ -17,10 +18,12 @@ import plugin
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
     terminal = None
+    terminator = None
 
     def __init__(self, terminal):
         """Class initialiser"""
         self.terminal = terminal
+        self.terminator = Terminator()
 
     def show(self, widget, event=None):
         """Display the context menu"""
@@ -82,7 +85,8 @@ class TerminalPopupMenu(object):
             item.set_image(image)
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
-            item.connect('activate', lambda x: terminal.emit('split-horiz'))
+            item.connect('activate', lambda x: terminal.emit('split-horiz',
+                self.terminator.pid_cwd(self.terminal.pid)))
             menu.append(item)
 
             item = gtk.ImageMenuItem('Split V_ertically')
@@ -91,7 +95,8 @@ class TerminalPopupMenu(object):
             item.set_image(image)
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
-            item.connect('activate', lambda x: terminal.emit('split-vert'))
+            item.connect('activate', lambda x: terminal.emit('split-vert',
+                self.terminator.pid_cwd(self.terminal.pid)))
             menu.append(item)
 
             item = gtk.MenuItem(_('Open _Tab'))
