@@ -198,7 +198,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         return(terminals)
 
-    def describe_layout(self, count, parent, global_layout):
+    def describe_layout(self, count, parent, global_layout, child_order):
         """Describe our current layout"""
         layout = {}
         maker = Factory()
@@ -209,6 +209,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         layout['type'] = mytype
         layout['parent'] = parent
+        layout['order'] = child_order
 
         if hasattr(self, 'get_position'):
             position = self.get_position()
@@ -224,9 +225,11 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
 
         global_layout[name] = layout
 
+        child_order = 0
         for child in self.get_children():
             if hasattr(child, 'describe_layout'):
-                count = child.describe_layout(count, name, global_layout)
+                count = child.describe_layout(count, name, global_layout, child_order)
+            child_order = child_order + 1
 
         return(count)
 

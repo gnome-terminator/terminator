@@ -1216,11 +1216,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if self.config['icon_bell'] == True:
             self.titlebar.icon_bell()
 
-    def describe_layout(self, count, parent, global_layout):
+    def describe_layout(self, count, parent, global_layout, child_order):
         """Describe our layout"""
         layout = {}
         layout['type'] = 'Terminal'
         layout['parent'] = parent
+        layout['order'] = child_order
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout

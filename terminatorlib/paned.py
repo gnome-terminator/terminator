@@ -205,13 +205,29 @@ class Paned(Container):
             err('incorrect number of children for Paned: %s' % layout)
             return
 
+        keys = []
+
+        # FIXME: This seems kinda ugly. All we want here is to know the order
+        # of children based on child['order']
+        try:
+            child_order_map = {}
+            for child in children:
+                key = children[child]['order']
+                child_order_map[key] = child
+            map_keys = child_order_map.keys()
+            map_keys.sort()
+            for map_key in map_keys:
+                keys.append(child_order_map[map_key])
+        except KeyError:
+            # We've failed to figure out the order. At least give the terminals
+            # in the wrong order
+            keys = children.keys()
+
         num = 0
-        keys = children.keys()
-        keys.sort()
         for child_key in keys:
             child = children[child_key]
             if child['type'] == 'Terminal':
-                continue
+                pass
             elif child['type'] == 'VPaned':
                 if num == 0:
                     terminal = self.get_child1()

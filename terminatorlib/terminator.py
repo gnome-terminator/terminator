@@ -309,7 +309,7 @@ class Terminator(Borg):
         count = 0
         for window in self.windows:
             parent = ''
-            count = window.describe_layout(count, parent, layout)
+            count = window.describe_layout(count, parent, layout, 0)
 
         return(layout)
 
