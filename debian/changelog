@@ -1,3 +1,9 @@
+terminator (0.90-beta3ppa1) karmic; urgency=low
+
+  * Nochange rebuild for karmic
+
+ -- Chris Jones <cmsj@tenshu.net>  Mon, 15 Mar 2010 20:19:10 +0000
+
 terminator (0.90-beta3) lucid; urgency=low
 
   * Third upstream pre-release
