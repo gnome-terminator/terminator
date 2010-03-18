@@ -1222,6 +1222,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         layout['type'] = 'Terminal'
         layout['parent'] = parent
         layout['order'] = child_order
+        profile = self.get_profile()
+        if layout != "default":
+            # There's no point explicitly noting default profiles
+            layout['profile'] = profile
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
