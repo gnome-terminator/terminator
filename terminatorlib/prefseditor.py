@@ -742,6 +742,8 @@ class PrefsEditor:
                 treeview.set_cursor(path, focus_column=treeview.get_column(0),
                                     start_editing=True)
 
+        self.config.save()
+
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
         guiget = self.builder.get_object
@@ -759,6 +761,7 @@ class PrefsEditor:
         self.config.del_layout(layout)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
+        self.config.save()
 
     def on_use_custom_command_checkbutton_toggled(self, checkbox):
         """Toggling the use_custom_command checkbox needs to alter the
