@@ -12,6 +12,7 @@ from keybindings import Keybindings
 from util import dbg, err
 from factory import Factory
 from cwd import get_pid_cwd
+from version import APP_NAME, APP_VERSION
 
 class Terminator(Borg):
     """master object for the application"""
@@ -25,6 +26,7 @@ class Terminator(Borg):
 
     origcwd = None
     pid_cwd = None
+    gnome_client = None
 
     doing_layout = None
 
@@ -57,6 +59,33 @@ class Terminator(Borg):
             self.doing_layout = False
         if not self.pid_cwd:
             self.pid_cwd = get_pid_cwd()
+        if self.gnome_client is None:
+            self.attempt_gnome_client()
+
+    def attempt_gnome_client(self):
+        """Attempt to find a GNOME Session to register with"""
+        try:
+            import gnome
+            import gnome.ui
+            self.gnome_program = gnome.init(APP_NAME, APP_VERSION)
+            self.gnome_client = gnome.ui.master_client()
+            self.gnome_client.connect_to_session_manager()
+            self.gnome_client.connect('save-yourself', self.save_yourself)
+            self.gnome_client.connect('die', self.die)
+            dbg('GNOME session support enabled and registered')
+        except ImportError:
+            self.gnome_client = False
+            dbg('GNOME session support not available')
+
+    def save_yourself(self, *args):
+        """Save as much state as possible for the session manager"""
+        dbg('preparing session manager state')
+        # FIXME: Implement this
+
+    def die(self, *args):
+        """Die at the hands of the session manager"""
+        dbg('session manager asked us to die')
+        # FIXME: Implement this
 
     def register_window(self, window):
         """Register a new window widget"""
