@@ -51,7 +51,8 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_STRING,)),
         'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
-        'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_BOOLEAN,)),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -1044,7 +1045,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if cwd is not None:
             self.cwd = cwd
 
-    def spawn_child(self, widget=None, respawn=False):
+    def spawn_child(self, widget=None, respawn=False, debugserver=False):
         update_records = self.config['update_records']
         login = self.config['login_shell']
         args = []
@@ -1069,6 +1070,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             command = self.config['custom_command']
         elif self.layout_command:
             command = self.layout_command
+        elif debugserver is True:
+            details = self.terminator.debug_address
+            dbg('spawning debug session with: %s:%s' % (details[0],
+                details[1]))
+            command = 'telnet %s %s' % (details[0], details[1])
 
         if type(command) is list:
             shell = util.path_lookup(command[0])

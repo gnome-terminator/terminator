@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
         gtk.gdk.threads_init()
         (DEBUGTHREAD, DEBUGSVR) = debugserver.spawn(locals())
-        TERMINATOR.debugaddress = DEBUGSVR.server_address
+        TERMINATOR.debug_address = DEBUGSVR.server_address
 
     try:
         gtk.main()

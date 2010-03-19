@@ -159,12 +159,12 @@ class Window(Container, gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
-    def tab_new(self, widget=None):
+    def tab_new(self, widget=None, debugtab=False):
         """Make a new tab"""
         maker = Factory()
         if not self.is_child_notebook():
             notebook = maker.make('Notebook', window=self)
-        self.get_child().newtab()
+        self.get_child().newtab(debugtab)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""

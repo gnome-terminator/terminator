@@ -27,6 +27,7 @@ class Terminator(Borg):
     origcwd = None
     pid_cwd = None
     gnome_client = None
+    debug_address = None
 
     doing_layout = None
 

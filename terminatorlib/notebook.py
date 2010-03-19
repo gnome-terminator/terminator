@@ -35,7 +35,7 @@ class Notebook(Container, gtk.Notebook):
         child = window.get_child()
         window.remove(child)
         window.add(self)
-        self.newtab(child)
+        self.newtab(widget=child)
 
         self.show_all()
 
@@ -124,7 +124,7 @@ class Notebook(Container, gtk.Notebook):
 
     def add(self, widget):
         """Add a widget to the container"""
-        self.newtab(widget)
+        self.newtab(widget=widget)
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -144,14 +144,14 @@ class Notebook(Container, gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, widget=None):
+    def newtab(self, debugtab=False, widget=None):
         """Add a new tab, optionally supplying a child widget"""
         maker = Factory()
         top_window = get_top_window(self)
 
         if not widget:
             widget = maker.make('Terminal')
-            widget.spawn_child()
+            widget.spawn_child(debugserver=debugtab)
 
         signals = {'close-term': self.wrapcloseterm,
                    'split-horiz': self.split_horiz,
