@@ -86,7 +86,8 @@ WM_WINDOW_ROLE property on the window')
         sys.exit(0)
 
     if options.debug_classes or options.debug_methods:
-        options.debug = True
+        if not options.debug > 0:
+            options.debug = True
 
     if options.debug:
         util.DEBUG = True
