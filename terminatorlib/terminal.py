@@ -78,7 +78,6 @@ class Terminal(gtk.VBox):
     scrollbar_position = None
     titlebar = None
     searchbar = None
-    border_boxes = None
 
     group = None
     cwd = None
@@ -142,6 +141,7 @@ class Terminal(gtk.VBox):
         self.titlebar.connect('edit-done', self.on_edit_done)
         self.connect('title-change', self.titlebar.set_terminal_title)
         self.titlebar.connect('create-group', self.really_create_group)
+        self.titlebar.show_all()
 
         self.searchbar = Searchbar()
         self.searchbar.connect('end-search', self.on_search_done)
@@ -184,9 +184,6 @@ class Terminal(gtk.VBox):
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
-        ebox1 = gtk.EventBox()
-        ebox2 = gtk.EventBox()
-        ebox1.add(ebox2)
         terminalbox = gtk.HBox()
         self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
         self.scrollbar.set_no_show_all(True)
@@ -202,19 +199,9 @@ class Terminal(gtk.VBox):
 
         func(self.vte)
         func(self.scrollbar, False)
-        ebox2.add(terminalbox)
-        ebox1.show_all()
+        terminalbox.show_all()
 
-        self.border_boxes = (ebox1, ebox2)
-        return(ebox1)
-
-    def terminal_border(self, width, colour=None):
-        """Show a border around the terminal and optionally colour it in"""
-        ebox1, ebox2 = self.border_boxes
-
-        ebox2.set_border_width(width)
-        if colour:
-            ebox1.modify_bg(gtk.STATE_NORMAL, colour)
+        return(terminalbox)
 
     def update_url_matches(self, posix = True):
         """Update the regexps used to match URLs"""
@@ -664,10 +651,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                                         self.config['alternate_screen_scroll'])
 
         self.titlebar.update()
-        if self.config['show_titlebar'] == True:
-            self.titlebar.show()
-        else:
-            self.titlebar.hide()
         self.vte.queue_draw()
 
     def get_window_title(self):

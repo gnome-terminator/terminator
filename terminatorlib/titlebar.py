@@ -87,8 +87,7 @@ class Titlebar(gtk.EventBox):
         self.add(hbox)
         hbox.show_all()
         self.set_no_show_all(True)
-        if self.config['show_titlebar'] == True:
-            self.show()
+        self.show()
 
         self.connect('button-press-event', self.on_clicked)
 
@@ -146,17 +145,27 @@ class Titlebar(gtk.EventBox):
                     gtk.gdk.color_parse(group_fg))
             self.modify_bg(gtk.STATE_NORMAL, 
                     gtk.gdk.color_parse(title_bg))
-            if not self.get_property('visible'):
+            if not self.get_desired_visibility():
                 if default_bg == True:
                     color = term.get_style().bg[gtk.STATE_NORMAL]
                 else:
                     color = gtk.gdk.color_parse(title_bg)
-                term.terminal_border(2, color)
+                self.set_size_request(-1, 2)
+                self.label.hide()
             else:
-                term.terminal_border(0)
+                self.set_size_request(-1, -1)
+                self.label.show()
             self.ebox.modify_bg(gtk.STATE_NORMAL,
                     gtk.gdk.color_parse(group_bg))
             self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)
+
+    def get_desired_visibility(self):
+        """Returns True if the titlebar is supposed to be visible. False if
+        not"""
+        if self.editing() == True:
+            return(True)
+        else:
+            return(self.config['show_titlebar'])
 
     def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
         """Set an icon for the group label"""
@@ -189,6 +198,8 @@ class Titlebar(gtk.EventBox):
 
     def on_clicked(self, widget, event):
         """Handle a click on the label"""
+        self.set_size_request(-1, -1)
+        self.label.show()
         self.emit('clicked')
 
     def on_edit_done(self, widget):
