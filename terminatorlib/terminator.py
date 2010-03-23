@@ -317,16 +317,6 @@ class Terminator(Borg):
         else:
             return([widget])
 
-    def group_tab(self, widget):
-        """Group all the terminals in a tab"""
-        # FIXME: Implement or drop
-        pass
-
-    def ungroup_tab(self, widget):
-        """Ungroup all the terminals in a tab"""
-        # FIXME: Implement or drop
-        pass
-
     def focus_changed(self, widget):
         """We just moved focus to a new terminal"""
         for terminal in self.terminals:
