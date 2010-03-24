@@ -2153,7 +2153,7 @@
                       <object class="GtkTable" id="table27">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="n_rows">4</property>
+                        <property name="n_rows">5</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
@@ -2169,8 +2169,8 @@
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -2186,8 +2186,8 @@
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -2242,7 +2242,7 @@
                               <object class="GtkLabel" id="scrollback_lines_spinbutton_label">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">lines &lt;small&gt;&lt;b&gt;(Note: for infinite scrollback choose -1)&lt;/b&gt;&lt;/small&gt;</property>
+                                <property name="label" translatable="yes">lines</property>
                                 <property name="use_markup">True</property>
                                 <property name="justify">center</property>
                                 <property name="mnemonic_widget">scrollback_lines_spinbutton</property>
@@ -2291,6 +2291,27 @@
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="scrollback_infinite">
+                            <property name="label" translatable="yes">Infinite Scrollback</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_scrollback_infinite_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                       </object>
@@ -2867,7 +2888,6 @@
     <property name="page_increment">0.20000000000000001</property>
   </object>
   <object class="GtkAdjustment" id="ScrollbackAdjustmend">
-    <property name="lower">-1</property>
     <property name="upper">10000000</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>

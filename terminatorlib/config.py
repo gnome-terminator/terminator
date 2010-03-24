@@ -173,6 +173,7 @@ DEFAULTS = {
                 'scroll_on_keystroke'   : True,
                 'scroll_on_output'      : True,
                 'scrollback_lines'      : 500,
+                'scrollback_infinite'   : False,
                 'exit_action'           : 'close',
                 'palette'   :'#000000000000:#cdcd00000000:#0000cdcd0000:\
 #cdcdcdcd0000:#30bf30bfa38e:#a53c212fa53c:\

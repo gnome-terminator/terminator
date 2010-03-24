@@ -380,6 +380,9 @@ class PrefsEditor:
         # Scrollback lines
         widget = guiget('scrollback_lines_spinbutton')
         widget.set_value(self.config['scrollback_lines'])
+        # Scrollback infinite
+        widget = guiget('scrollback_infinite')
+        widget.set_active(self.config['scrollback_infinite'])
         # Scroll on outut
         widget = guiget('scroll_on_output_checkbutton')
         widget.set_active(self.config['scroll_on_output'])
@@ -517,6 +520,17 @@ class PrefsEditor:
         """Scrollback lines setting changed"""
         value = widget.get_value_as_int()
         self.config['scrollback_lines'] = value
+        self.config.save()
+
+    def on_scrollback_infinite_toggled(self, widget):
+        """Scrollback infiniteness changed"""
+        spinbutton = self.builder.get_object('scrollback_lines_spinbutton')
+        value = widget.get_active()
+        if value == True:
+            spinbutton.set_sensitive(False)
+        else:
+            spinbutton.set_sensitive(True)
+        self.config['scrollback_infinite'] = value
         self.config.save()
 
     def on_scrollbar_position_combobox_changed(self, widget):

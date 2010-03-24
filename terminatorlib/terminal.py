@@ -629,7 +629,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 except TypeError:
                     err('beep signal unavailable with this version of VTE')
 
-        self.vte.set_scrollback_lines(self.config['scrollback_lines'])
+        if self.config['scrollback_infinite'] == True:
+            scrollback_lines = -1
+        else:
+            scrollback_lines = self.config['scrollback_lines']
+        self.vte.set_scrollback_lines(scrollback_lines)
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
