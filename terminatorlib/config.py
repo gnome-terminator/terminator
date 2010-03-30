@@ -496,7 +496,7 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        filename = os.path.join(get_config_dir(), 'epic-config')
+        filename = os.path.join(get_config_dir(), 'config')
         try:
             configfile = open(filename, 'r')
         except Exception, ex:
