@@ -20,18 +20,18 @@ A summary of options is included below.
 .B \-h, \-\-help
 Show summary of options
 .TP 
-.B \-d, \-\-debug
-Enable debugging output (please use this when reporting bugs)
-.TP 
+.B \-v, \-\-version
+Show the version of the Terminator installation
+.TP
 .B \-m, \-\-maximise
-Maximise the Terminator window when it starts
+Start with a maximised window
 .TP 
 .B \-f, \-\-fullscreen
-Place the Terminator window in its fullscreen state when it starts
+Start with a fullscreen window
 .TP 
 .B \-b, \-\-borderless
 Instruct the window manager not to render borders/decoration on the 
-Terminator window (good with \-m)
+Terminator window (this works well with \-m)
 .TP 
 .B \-H, \-\-hidden
 Hide the Terminator window by default. Its visibility can be toggled
@@ -52,6 +52,28 @@ Runs \fBthe rest of the command line\fR instead of your default shell or profile
 .TP
 .B \-\-working\-directory=DIR
 Set the terminal's working directory
+.TP
+.B \-r, \-\-role=ROLE
+Set a custom WM_WINDOW_ROLE property on the window
+.TP
+.B \-l, \-\-layout=LAYOUT
+Start Terminator with a specific layout. The argument here is the name
+of a saved layout.
+.TP
+.B \-d, \-\-debug
+Enable debugging output (please use this when reporting bugs). This 
+can be specified twice to enable a built-in python debugging server.
+.TP 
+.B \-\-debug\-classes=DEBUG_CLASSES
+If this is specified as a comma separated list, debugging output will 
+only be printed from the specified classes.
+.TP
+.B \-\-debug\-methods=DEBUG_METHODS
+If this is specified as a comma separated list, debugging outut will
+only be printed from the specified functions. If this is specified in
+addition to --debug-classes, only the intersection of the two lists
+will be displayed
+.TP
 .SH "KEYBINDINGS"
 The following keybindings can be used to control Terminator:
 .TP 
@@ -120,9 +142,6 @@ Toggle between showing all terminals and only showing a scaled version of the cu
 .B Ctrl+Shift+T
 Open new \fBt\fRab
 .TP
-.B Ctrl+Shift+Alt+T
-Open new \fBt\fRab at root level, if using \fBextreme_tabs\fR.
-.TP
 .B Ctrl+PageDown
 Move to next Tab
 .TP
@@ -169,14 +188,20 @@ Group all terminals in the current tab so input sent to one of them, goes to all
 Remove grouping from all terminals in the current tab.
 .TP
 .B Ctrl+Shift+I
-Spawn a new Terminator process and thus get a new window
+Open a new window (note: unlike in previous releases, this window is 
+part of the same Terminator process)
+.TP
+.B Super+i
+Spawn a new Terminator process
+.TP
 .SH "Drag and Drop"
 The layout can be modified by moving terminals with Drag and Drop.
-To start dragging a terminal, hold down \fBCtrl\fP, click and hold the \fBright\fP mouse button.
+To start dragging a terminal, click and hold on its titlebar.
+Alternatively, hold down \fBCtrl\fP, click and hold the \fBright\fP mouse button.
 Then, \fB**Release Ctrl**\fP. You can now drag the terminal to the point in the layout you would like it to be.
 The zone where the terminal would be inserted will be highlighted.
 .SH "SEE ALSO"
-.BR gnome\-terminal(1),terminator_config(5)
+.BR terminator_config(5)
 .SH "AUTHOR"
 Terminator was written by Chris Jones <cmsj@tenshu.net> and others.
 .PP 
