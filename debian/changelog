@@ -1,3 +1,15 @@
+terminator (0.90ppa3) karmic; urgency=low
+
+  * Nochange rebuild for karmic
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 30 Mar 2010 23:56:37 +0100
+
+terminator (0.90ppa2) lucid; urgency=low
+
+  * Fix a stupid release bug
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 30 Mar 2010 23:55:39 +0100
+
 terminator (0.90ppa1) karmic; urgency=low
 
   * Nochange rebuild for karmic
