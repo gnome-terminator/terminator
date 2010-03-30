@@ -7,403 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-01-26 13:22+0000\n"
+"POT-Creation-Date: 2010-03-15 10:30+0000\n"
 "PO-Revision-Date: 2008-08-01 12:10+0000\n"
 "Last-Translator: zolookas <zolookas@delfi.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-12-03 13:04+0000\n"
+"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: ../terminator:46
-msgid ""
-"You need to install the python bindings for gobject, gtk and pango to run "
-"Terminator."
-msgstr ""
-
-#: ../terminator:129
-msgid ""
-"You need to run terminator in an X environment. Make sure DISPLAY is "
-"properly set"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:96
-msgid "Unterminated quoted string"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:147
-msgid "Setting without a value"
-msgstr ""
-
-#: ../terminatorlib/configfile.py:152
-msgid "Unexpected token"
-msgstr ""
-
-#: ../terminatorlib/config.py:250
-#, python-format
-msgid ""
-"<big><b>Configuration error</b></big>\n"
-"\n"
-"Errors were encountered while parsing terminator_config(5) file:\n"
-"\n"
-"  <b>%s</b>\n"
-"\n"
-"%d line(s) have been ignored."
-msgstr ""
-
-#: ../terminatorlib/config.py:258
-msgid "Configuration error"
-msgstr ""
-
-#: ../terminatorlib/config.py:311
-#, python-format
-msgid "Setting %r value %r not a valid colour; ignoring"
-msgstr ""
-
-#: ../terminatorlib/config.py:316
-#, python-format
-msgid "%s must be one of: top, left, right, bottom"
-msgstr ""
-
-#: ../terminatorlib/config.py:323
-#, python-format
-msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-msgstr ""
-
-#: ../terminatorlib/config.py:329
-msgid ""
-"Reading list values from terminator_config(5) is not currently supported"
-msgstr ""
-
-#: ../terminatorlib/config.py:332
-#, python-format
-msgid "Setting %r should be a section name"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:29
-msgid "Current Locale"
-msgstr "Dabartinė lokalė"
-
-#: ../terminatorlib/encoding.py:30 ../terminatorlib/encoding.py:43
-#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:85
-#: ../terminatorlib/encoding.py:96
-msgid "Western"
-msgstr "Vakariečių"
-
-#: ../terminatorlib/encoding.py:31 ../terminatorlib/encoding.py:63
-#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:94
-msgid "Central European"
-msgstr "Centrinės Europos"
-
-#: ../terminatorlib/encoding.py:32
-msgid "South European"
-msgstr "Pietų Europos"
-
-#: ../terminatorlib/encoding.py:33 ../terminatorlib/encoding.py:41
-#: ../terminatorlib/encoding.py:101
-msgid "Baltic"
-msgstr "Baltų"
-
-#: ../terminatorlib/encoding.py:34 ../terminatorlib/encoding.py:64
-#: ../terminatorlib/encoding.py:70 ../terminatorlib/encoding.py:72
-#: ../terminatorlib/encoding.py:77 ../terminatorlib/encoding.py:95
-msgid "Cyrillic"
-msgstr "Kirilica"
-
-#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:67
-#: ../terminatorlib/encoding.py:74 ../terminatorlib/encoding.py:100
-msgid "Arabic"
-msgstr "Arabų"
-
-#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:80
-#: ../terminatorlib/encoding.py:97
-msgid "Greek"
-msgstr "Graikų"
-
-#: ../terminatorlib/encoding.py:37
-msgid "Hebrew Visual"
-msgstr "Hebrajų vizuali"
-
-#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:66
-#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:99
-msgid "Hebrew"
-msgstr "Hebrajų"
-
-#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:65
-#: ../terminatorlib/encoding.py:87 ../terminatorlib/encoding.py:98
-msgid "Turkish"
-msgstr "Turkų"
-
-#: ../terminatorlib/encoding.py:40
-msgid "Nordic"
-msgstr "Skandinavų"
-
-#: ../terminatorlib/encoding.py:42
-msgid "Celtic"
-msgstr "Keltų"
-
-#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:86
-msgid "Romanian"
-msgstr "Rumunų"
-
-#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:46
-#: ../terminatorlib/encoding.py:47 ../terminatorlib/encoding.py:48
-#: ../terminatorlib/encoding.py:49
-msgid "Unicode"
-msgstr "Unikodas"
-
-#: ../terminatorlib/encoding.py:50
-msgid "Armenian"
-msgstr "Armėnų"
-
-#: ../terminatorlib/encoding.py:51 ../terminatorlib/encoding.py:52
-#: ../terminatorlib/encoding.py:56
-msgid "Chinese Traditional"
-msgstr "Tradicinė kiniečių"
-
-#: ../terminatorlib/encoding.py:53
-msgid "Cyrillic/Russian"
-msgstr "Kirilica/Rusų"
-
-#: ../terminatorlib/encoding.py:54 ../terminatorlib/encoding.py:68
-#: ../terminatorlib/encoding.py:89
-msgid "Japanese"
-msgstr "Japonų"
-
-#: ../terminatorlib/encoding.py:55 ../terminatorlib/encoding.py:69
-#: ../terminatorlib/encoding.py:71 ../terminatorlib/encoding.py:92
-msgid "Korean"
-msgstr "Korėjiečių"
-
-#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
-#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:61
-msgid "Chinese Simplified"
-msgstr "Supaprastinta kiniečių"
-
-#: ../terminatorlib/encoding.py:60
-msgid "Georgian"
-msgstr ""
-
-#: ../terminatorlib/encoding.py:73 ../terminatorlib/encoding.py:88
-msgid "Cyrillic/Ukrainian"
-msgstr "Kirilica/Ukrainiečių"
-
-#: ../terminatorlib/encoding.py:76
-msgid "Croatian"
-msgstr "Kroatų"
-
-#: ../terminatorlib/encoding.py:78
-msgid "Hindi"
-msgstr "Hindi"
-
-#: ../terminatorlib/encoding.py:79
-msgid "Persian"
-msgstr "Persų"
-
-#: ../terminatorlib/encoding.py:81
-msgid "Gujarati"
-msgstr "Gudžarati"
-
-#: ../terminatorlib/encoding.py:82
-msgid "Gurmukhi"
-msgstr "Gurmukhi"
-
-#: ../terminatorlib/encoding.py:84
-msgid "Icelandic"
-msgstr "Islandų"
-
-#: ../terminatorlib/encoding.py:90 ../terminatorlib/encoding.py:93
-#: ../terminatorlib/encoding.py:102
-msgid "Vietnamese"
-msgstr "Vietnamiečių"
-
-#: ../terminatorlib/encoding.py:91
-msgid "Thai"
-msgstr "Tajų"
-
-#: ../terminatorlib/prefs_profile.py:370
-msgid "Name"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:377
-msgid "Action"
-msgstr ""
-
-#: ../terminatorlib/prefs_profile.py:384
-msgid "Keyboard shortcut"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:37
-msgid ""
-"Unable to find python bindings for deskbar, hide_window is not available."
-msgstr ""
-
-#: ../terminatorlib/terminator.py:76
-msgid "Close Tab"
-msgstr "Užverti kortelę"
-
-#: ../terminatorlib/terminator.py:105
-msgid "tab"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:230
-#, python-format
-msgid "Invalid geometry string %r"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:277
-msgid "Unable to bind hide_window key"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:413
-msgid "window"
-msgstr ""
-
-#. show dialog
-#: ../terminatorlib/terminator.py:417
-msgid "Close?"
-msgstr "Uždaryti?"
-
-#: ../terminatorlib/terminator.py:423
-msgid "Close _Terminals"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:425
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/terminator.py:428
-#, python-format
-msgid ""
-"This %s has several terminals open.  Closing the %s will also close all "
-"terminals within it."
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:39
-msgid ""
-"You need to install python bindings for libvte (\"python-vte\" in "
-"debian/ubuntu)"
-msgstr "Turite įdiegti Python modulį libvte (\"python-vte\" debian/ubuntu)"
-
-#: ../terminatorlib/terminatorterm.py:133
-msgid "Search:"
-msgstr ""
-
-#. Button for the next result. Explicitly not show()n by default.
-#: ../terminatorlib/terminatorterm.py:150
-msgid "Next"
-msgstr ""
-
-#. Give up, we're completely stuck
-#: ../terminatorlib/terminatorterm.py:518
-msgid "Unable to find a shell"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:539
-msgid "Unable to start shell: "
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1033
-msgid "_Open Link"
-msgstr "_Atverti nuorodą"
-
-#: ../terminatorlib/terminatorterm.py:1034
-msgid "_Copy Link Address"
-msgstr "_Kopijuoti nuorodos adresą"
-
-#: ../terminatorlib/terminatorterm.py:1044
-msgid "_Send Mail To..."
-msgstr "_Siųsti laišką į..."
-
-#: ../terminatorlib/terminatorterm.py:1045
-msgid "_Copy Email Address"
-msgstr "_Kopijuoti el. pašto adresą"
-
-#: ../terminatorlib/terminatorterm.py:1071
-msgid "Show _scrollbar"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1076
-msgid "Show _titlebar"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1089
-msgid "Split H_orizontally"
-msgstr "Padalinti H_orizontaliai"
-
-#: ../terminatorlib/terminatorterm.py:1090
-msgid "Split V_ertically"
-msgstr "Padalinti V_ertikaliai"
-
-#: ../terminatorlib/terminatorterm.py:1107
-msgid "Open _Tab"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1112
-msgid "Open _Debug Tab"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1118
-msgid "Open Top Level Tab"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1127
-msgid "_Zoom terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1131
-msgid "Ma_ximise terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1136
-msgid "_Unzoom terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1141
-msgid "Unma_ximise terminal"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1148
-msgid "Ed_it profile"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1155
-msgid "_Group"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1179
-msgid "None"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1194
-msgid "_New group"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1201
-msgid "_Group all"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1206
-msgid "_Ungroup all"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1216
-msgid "Group name:"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1262
-msgid "All"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1282
-msgid "Encodings"
-msgstr ""
-
-#: ../terminatorlib/terminatorterm.py:1300
-msgid "Other Encodings"
-msgstr ""
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -411,4 +23,397 @@ msgstr ""
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
+msgstr ""
+
+#: ../terminatorlib/notebook.py:225
+msgid "tab"
+msgstr ""
+
+#: ../terminatorlib/notebook.py:368
+msgid "Close Tab"
+msgstr "Užverti kortelę"
+
+#: ../terminatorlib/encoding.py:35
+msgid "Current Locale"
+msgstr "Dabartinė lokalė"
+
+#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
+#: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
+#: ../terminatorlib/encoding.py:102
+msgid "Western"
+msgstr "Vakariečių"
+
+#: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
+#: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
+msgid "Central European"
+msgstr "Centrinės Europos"
+
+#: ../terminatorlib/encoding.py:38
+msgid "South European"
+msgstr "Pietų Europos"
+
+#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
+#: ../terminatorlib/encoding.py:107
+msgid "Baltic"
+msgstr "Baltų"
+
+#. [False, "JOHAB", _("Korean") ],
+#: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
+#: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
+#: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
+msgid "Cyrillic"
+msgstr "Kirilica"
+
+#: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
+#: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
+msgid "Arabic"
+msgstr "Arabų"
+
+#: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
+#: ../terminatorlib/encoding.py:103
+msgid "Greek"
+msgstr "Graikų"
+
+#: ../terminatorlib/encoding.py:43
+msgid "Hebrew Visual"
+msgstr "Hebrajų vizuali"
+
+#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
+#: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
+msgid "Hebrew"
+msgstr "Hebrajų"
+
+#: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
+#: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
+msgid "Turkish"
+msgstr "Turkų"
+
+#: ../terminatorlib/encoding.py:46
+msgid "Nordic"
+msgstr "Skandinavų"
+
+#: ../terminatorlib/encoding.py:48
+msgid "Celtic"
+msgstr "Keltų"
+
+#: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
+msgid "Romanian"
+msgstr "Rumunų"
+
+#. [False, "UTF-7", _("Unicode") ],
+#: ../terminatorlib/encoding.py:52
+msgid "Unicode"
+msgstr "Unikodas"
+
+#. [False, "UTF-16", _("Unicode") ],
+#. [False, "UCS-2", _("Unicode") ],
+#. [False, "UCS-4", _("Unicode") ],
+#: ../terminatorlib/encoding.py:56
+msgid "Armenian"
+msgstr "Armėnų"
+
+#: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
+#: ../terminatorlib/encoding.py:62
+msgid "Chinese Traditional"
+msgstr "Tradicinė kiniečių"
+
+#: ../terminatorlib/encoding.py:59
+msgid "Cyrillic/Russian"
+msgstr "Kirilica/Rusų"
+
+#: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
+#: ../terminatorlib/encoding.py:95
+msgid "Japanese"
+msgstr "Japonų"
+
+#: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
+#: ../terminatorlib/encoding.py:98
+msgid "Korean"
+msgstr "Korėjiečių"
+
+#: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
+#: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
+msgid "Chinese Simplified"
+msgstr "Supaprastinta kiniečių"
+
+#: ../terminatorlib/encoding.py:66
+msgid "Georgian"
+msgstr ""
+
+#: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
+msgid "Cyrillic/Ukrainian"
+msgstr "Kirilica/Ukrainiečių"
+
+#: ../terminatorlib/encoding.py:82
+msgid "Croatian"
+msgstr "Kroatų"
+
+#: ../terminatorlib/encoding.py:84
+msgid "Hindi"
+msgstr "Hindi"
+
+#: ../terminatorlib/encoding.py:85
+msgid "Persian"
+msgstr "Persų"
+
+#: ../terminatorlib/encoding.py:87
+msgid "Gujarati"
+msgstr "Gudžarati"
+
+#: ../terminatorlib/encoding.py:88
+msgid "Gurmukhi"
+msgstr "Gurmukhi"
+
+#: ../terminatorlib/encoding.py:90
+msgid "Icelandic"
+msgstr "Islandų"
+
+#: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
+#: ../terminatorlib/encoding.py:108
+msgid "Vietnamese"
+msgstr "Vietnamiečių"
+
+#: ../terminatorlib/encoding.py:97
+msgid "Thai"
+msgstr "Tajų"
+
+#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
+msgid "New Profile"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
+msgid "New Layout"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:50
+msgid "Custom Commands"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:106
+msgid "Custom Commands Configuration"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:238
+msgid "New Command"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:248
+msgid "Enabled:"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:254
+msgid "Name:"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:260
+msgid "Command:"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:296
+#: ../terminatorlib/plugins/custom_commands.py:406
+msgid "You need to define a name and command"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:313
+#: ../terminatorlib/plugins/custom_commands.py:425
+#, python-format
+msgid "Name *%s* already exist"
+msgstr ""
+
+#: ../terminatorlib/container.py:139
+msgid "Close?"
+msgstr "Uždaryti?"
+
+#: ../terminatorlib/container.py:146
+msgid "Close _Terminals"
+msgstr ""
+
+#: ../terminatorlib/container.py:148
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr ""
+
+#: ../terminatorlib/container.py:151
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+
+#. Label
+#: ../terminatorlib/searchbar.py:48
+msgid "Search:"
+msgstr ""
+
+#: ../terminatorlib/searchbar.py:64
+msgid "Close Search bar"
+msgstr ""
+
+#. Next Button
+#: ../terminatorlib/searchbar.py:69
+msgid "Next"
+msgstr ""
+
+#. Previous Button
+#: ../terminatorlib/searchbar.py:75
+msgid "Prev"
+msgstr ""
+
+#: ../terminatorlib/searchbar.py:121
+msgid "Searching scrollback"
+msgstr ""
+
+#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+msgid "No more results"
+msgstr ""
+
+#: ../terminatorlib/searchbar.py:168
+msgid "Found at row"
+msgstr ""
+
+#: ../terminatorlib/window.py:176
+msgid "window"
+msgstr ""
+
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:459
+msgid "All"
+msgstr ""
+
+#: ../terminatorlib/window.py:480
+#, python-format
+msgid "Tab %d"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:347
+msgid "New group..."
+msgstr ""
+
+#: ../terminatorlib/terminal.py:352
+msgid "None"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:368
+#, python-format
+msgid "Remove group %s"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:373
+msgid "G_roup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:378
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:383
+msgid "Remove all groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:390
+#, python-format
+msgid "Close group %s"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:399
+msgid "Broadcast all"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:400
+msgid "Broadcast group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Broadcast off"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:414
+msgid "Split to this group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:419
+msgid "Autoclean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:426
+msgid "Insert terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:430
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1088
+msgid "Unable to find a shell"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1105
+msgid "Unable to start shell:"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:47
+msgid "_Send email to..."
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:48
+msgid "_Copy email address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:50
+msgid "Ca_ll VoIP address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Copy VoIP address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:53
+msgid "_Open link"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "_Copy address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:102
+msgid "Open _Tab"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:115
+msgid "_Zoom terminal"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:119
+msgid "Ma_ximise terminal"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:125
+msgid "_Restore all terminals"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:131
+msgid "Show _scrollbar"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Preferences"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:144
+msgid "Profiles"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:188
+msgid "Encodings"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:203
+msgid "Default"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:206
+msgid "User defined"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Other Encodings"
 msgstr ""

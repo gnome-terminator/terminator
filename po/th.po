@@ -1,16 +1,16 @@
-# Czech translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Thai translation for terminator
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-11-05 14:48+0000\n"
-"Last-Translator: Kuvaly [LCT] <kuvaly@seznam.cz>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"PO-Revision-Date: 2010-03-26 10:41+0000\n"
+"Last-Translator: Tharawut Paripaiboon <Unknown>\n"
+"Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Několik terminálů v jednom okně"
+msgstr "หลายเทอร์มินัลในหน้าต่างเดียว"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
@@ -27,159 +27,159 @@ msgstr "Terminator"
 
 #: ../terminatorlib/notebook.py:225
 msgid "tab"
-msgstr "záložka"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:368
 msgid "Close Tab"
-msgstr "Zavřít panel"
+msgstr "ปิดแท็ป"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Aktuální locale"
+msgstr "โลแคลปัจจุบัน"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Západní"
+msgstr "ตะวันตก"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Středoevropské"
+msgstr "ยุโรปตอนกลาง"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Jihoevropské"
+msgstr "ยุโรปตอนใต้"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Pobaltské"
+msgstr "บอลติก"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "Cyrilice"
+msgstr "ไซริลลิค"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "Arabština"
+msgstr "อารบิก"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "Řečtina"
+msgstr "กรีก"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Hebrejské vizuální"
+msgstr "ฮีบรู (ซ้ายไปขวา)"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "Hebrejština"
+msgstr "ฮีบรู"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "Turečtina"
+msgstr "ตรุกี"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Skandinávské"
+msgstr "นอร์ดิก"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Keltské"
+msgstr "เซลติก"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Rumunština"
+msgstr "โรมาเนีย"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "ยูนิโค้ด"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Arménština"
+msgstr "อาร์เมเนีย"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Tradiční čínština"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Azbuka/Rusko"
+msgstr "ไซริลลิก/รัซเซีย"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Japonština"
+msgstr "ญี่ปุ่น"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "Korejština"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Zjednodušená čínština"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Gruzínština"
+msgstr "จอร์เจีย"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Azbuka/Ukrajinské"
+msgstr "ไซริลลิก/ยูเครน"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Chorvatština"
+msgstr "โครเอเชีย"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Hindština"
+msgstr "ฮินดี"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "Perština"
+msgstr "เปอร์เซีย"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Gujaratština"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "Gurmukhi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "Islandština"
+msgstr "ไอซ์แลนด์"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Vietnamština"
+msgstr "เวียดนาม"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Thajština"
+msgstr "ไทย"
 
 #: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
 msgid "New Profile"
-msgstr ""
+msgstr "โปรไฟล์ใหม่"
 
 #: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
 msgid "New Layout"
@@ -195,7 +195,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "คำสั่งใหม่"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
@@ -203,11 +203,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "ชื่อ:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "คำสั่ง:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
@@ -218,21 +218,19 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "ชื่อ *%s* มีอยู่แล้ว"
 
 #: ../terminatorlib/container.py:139
 msgid "Close?"
-msgstr "Uzavřít?"
+msgstr "ปิด?"
 
 #: ../terminatorlib/container.py:146
 msgid "Close _Terminals"
-msgstr "Zavřít _terminály"
+msgstr "ปิดเทอมินัล"
 
 #: ../terminatorlib/container.py:148
 msgid "<big><b>Close multiple terminals?</b></big>"
 msgstr ""
-"Copy text   \t\r\n"
-"<big><b>Zavřít více terminálů?</b></big>"
 
 #: ../terminatorlib/container.py:151
 #, python-format
@@ -244,21 +242,21 @@ msgstr ""
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr "Najít:"
+msgstr "ค้นหา:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "ปิดแถมค้นหา"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr "Dále"
+msgstr "ถัดไป"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "ก่อนหน้า"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -274,12 +272,12 @@ msgstr ""
 
 #: ../terminatorlib/window.py:176
 msgid "window"
-msgstr "okno"
+msgstr "หน้าต่าง"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:459
 msgid "All"
-msgstr "Vše"
+msgstr "ทั้งหมด"
 
 #: ../terminatorlib/window.py:480
 #, python-format
@@ -288,16 +286,16 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:347
 msgid "New group..."
-msgstr ""
+msgstr "กลุ่มใหม่..."
 
 #: ../terminatorlib/terminal.py:352
 msgid "None"
-msgstr "Žádný"
+msgstr "ไม่มี"
 
 #: ../terminatorlib/terminal.py:368
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "ลบกลุ่ม %s"
 
 #: ../terminatorlib/terminal.py:373
 msgid "G_roup all in tab"
@@ -309,12 +307,12 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:383
 msgid "Remove all groups"
-msgstr ""
+msgstr "ลบกลุ่มทั้งหมด"
 
 #: ../terminatorlib/terminal.py:390
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "ปิดกลุ่ม %s"
 
 #: ../terminatorlib/terminal.py:399
 msgid "Broadcast all"
@@ -346,7 +344,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1088
 msgid "Unable to find a shell"
-msgstr "Nemohu najít shell"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1105
 msgid "Unable to start shell:"
@@ -378,15 +376,15 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:102
 msgid "Open _Tab"
-msgstr "Otevří_t kartu"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:115
 msgid "_Zoom terminal"
-msgstr "_Přiblížit terminál"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:119
 msgid "Ma_ximise terminal"
-msgstr "Ma_ximalizovat terminál"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:125
 msgid "_Restore all terminals"
@@ -394,7 +392,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:131
 msgid "Show _scrollbar"
-msgstr "Ukázat _scrollbar"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Preferences"
@@ -406,7 +404,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "Encodings"
-msgstr "Kódování"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:203
 msgid "Default"
@@ -418,4 +416,4 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Other Encodings"
-msgstr "Jiné kódování"
+msgstr ""
