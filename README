@@ -7,17 +7,16 @@ the main focus is arranging terminals in grids (tabs is the most common default
 method, which Terminator also supports).
 
 When you run Terminator, you will get a terminal in a window, just like almost 
-every other terminal emulator available. There is no other GUI apart from the 
-context menu on each terminal, but there is a configuration file which can be
-used to control the behaviours and settings of Terminator (see the manpage
-"terminator_config"). If you use GNOME then the settings for your default
-gnome-terminal profile will be used (you can specify an alternate profile on
-the command line).
+every other terminal emulator available. There is also a titlebar which will
+update as shells/programs inside the terminal tell it to. Also on the titlebar
+is a small button that opens the grouping menu. From here you can put terminals
+into groups, which allows you to control multiple terminals simultaneously.
 
 You can create more terminals by right clicking on one and choosing to split 
 it vertically or horizontally. You can get rid of a terminal by right 
 clicking on it and choosing Close. Ctrl-Shift-o and Ctrl-Shift-e will also 
 effect the splitting.
+Also from the right mouse menu you can access Terminator's preferences window.
 
 Ctrl-Shift-n and Ctrl-Shift-p will Shift focus to the next/previous terminal 
 respectively, and Ctrl-Shift-w will close the current terminal and 
@@ -31,7 +30,7 @@ Ask questions at: https://answers.launchpad.net/terminator/
 Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
 
 Terminator began by shamelessly copying code from the vte-demo.py in the vte 
-widget package, and on the gedit terminal plugin (which was fantastically 
+widget package, and the gedit terminal plugin (which was fantastically 
 useful at figuring out vte's API).
 
 vte-demo.py was not my code and is copyright its original author. While it 

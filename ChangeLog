@@ -1,7 +1,10 @@
 terminator 0.90:
   * Almost complete refactoring of the code. This almost
-	   inevitably means lots of regressions, unfortunately.
-  * Brand new preferences editor, including profiles
+	   inevitably means some regressions, unfortunately, but
+		 it brings serious internal improvements and some new
+		 features.
+  * Brand new preferences editor, including profiles and
+	   layouts. The editor now saves to a config file.
 
 terminator 0.14:
   * Major reworking of the grouping interface by Stephen
