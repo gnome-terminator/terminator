@@ -108,7 +108,7 @@ WM_WINDOW_ROLE property on the window')
         else:
             err('OptionParse::parse_options: %s does not exist' %
                     options.working_directory)
-            sys.exit(1)
+            options.working_directory = ''
 
     if options.layout is None:
         options.layout = 'default'

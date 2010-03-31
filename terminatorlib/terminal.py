@@ -1061,6 +1061,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 details[1]))
             command = 'telnet %s %s' % (details[0], details[1])
 
+        if options and options.working_directory and \
+           options.working_directory != '':
+            self.set_cwd(options.working_directory)
+            options.working_directory = ''
+
         if type(command) is list:
             shell = util.path_lookup(command[0])
             args = command
