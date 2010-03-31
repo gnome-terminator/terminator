@@ -587,7 +587,7 @@ class ConfigBase(Borg):
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
         try:
-            parser.write(open(os.path.join(config_dir, 'epic-config'), 'w'))
+            parser.write(open(os.path.join(config_dir, 'config'), 'w'))
         except Exception, ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
