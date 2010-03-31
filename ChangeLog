@@ -1,3 +1,6 @@
+terminator 0.91:
+  * Fix various stupid release bugs from 0.90
+
 terminator 0.90:
   * Almost complete refactoring of the code. This almost
 	   inevitably means some regressions, unfortunately, but

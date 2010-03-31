@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           terminator
-Version:        0.90
+Version:        0.91
 Release:        3%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 
@@ -68,6 +68,10 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Mar 31 2010 Chris Jones <cmsj@tenshu.net> 0.91-1
+- Update to fix some stupid release bugs in 0.90.
+    Note that this specfile is untested.
+
 * Tue Jan 05 2010 Chris Jones <cmsj@tenshu.net> 0.90-1
 - Attempt to update for 0.90 pre-release.
     Note that this specfile is untested.
