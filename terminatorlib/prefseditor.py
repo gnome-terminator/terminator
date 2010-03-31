@@ -644,9 +644,9 @@ class PrefsEditor:
         self.config['title_transmit_fg_color'] = widget.get_color().to_string()
         self.config.save()
 
-    def on_handlesize_change_value(self, widget):
+    def on_handlesize_change_value(self, widget, scroll, value):
         """Handle size changed"""
-        self.config['handle_size'] = int(widget.get_value())
+        self.config['handle_size'] = int(value)
         self.config.save()
 
     def on_focuscombo_changed(self, widget):
