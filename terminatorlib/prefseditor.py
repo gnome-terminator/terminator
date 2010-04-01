@@ -958,15 +958,19 @@ class PrefsEditor:
         elif value == 'ambience':
             forecol = '#FFFFFF'
             backcol = '#300A24'
+        elif value == 'custom':
+            forecol = fore.get_color().to_string()
+            backcol = back.get_color().to_string()
+        else:
+            err('Unknown colourscheme value: %s' % value)
+            return
 
-        if forecol is not None:
-            fore.set_color(gtk.gdk.Color(forecol))
-        if backcol is not None:
-            back.set_color(gtk.gdk.Color(backcol))
+        fore.set_color(gtk.gdk.Color(forecol))
+        back.set_color(gtk.gdk.Color(backcol))
 
-        self.config['color_scheme'] = value
         self.config['foreground_color'] = forecol
         self.config['background_color'] = backcol
+        self.config['color_scheme'] = value
         self.config.save()
 
     def on_use_theme_colors_checkbutton_toggled(self, widget):
