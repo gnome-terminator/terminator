@@ -373,10 +373,12 @@ class TabLabel(gtk.HBox):
         """Update the angle of a label"""
         position = self.notebook.get_tab_pos()
         if position == gtk.POS_LEFT:
+            self.set_orientation(gtk.ORIENTATION_VERTICAL)
             self.label.set_angle(90)
         elif position == gtk.POS_RIGHT:
             self.label.set_angle(270)
         else:
+            self.set_orientation(gtk.ORIENTATION_HORIZONTAL)
             self.label.set_angle(0)
 
     def on_style_set(self, widget, prevstyle):
