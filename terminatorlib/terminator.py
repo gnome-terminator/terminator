@@ -239,6 +239,13 @@ class Terminator(Borg):
         # Reparse our keybindings
         self.keybindings.configure(self.config['keybindings'])
 
+        # Update tab position if appropriate
+        maker = Factory()
+        for window in self.windows:
+            child = window.get_child()
+            if maker.isinstance(child, 'Notebook'):
+                child.configure()
+
     def create_group(self, name):
         """Create a new group"""
         if name not in self.groups:

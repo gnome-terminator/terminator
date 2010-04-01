@@ -52,6 +52,10 @@ class Notebook(Container, gtk.Notebook):
         self.set_tab_pos(pos)
         self.set_show_tabs(not self.config['hide_tabbar'])
 
+        for tab in xrange(0, self.get_n_pages()):
+            label = self.get_tab_label(self.get_nth_page(tab))
+            label.update_angle()
+
     def create_layout(self, layout):
         """Apply layout configuration"""
         if not layout.has_key('children'):
