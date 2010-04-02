@@ -244,8 +244,11 @@ class PrefsEditor:
         self.on_system_font_checkbutton_toggled(widget)
         # Font selector
         widget = guiget('font_selector')
-        if self.config['use_system_font'] == True:
-            widget.set_font_name(self.config.get_system_font())
+
+        fontname = self.config.get_system_font()
+        if self.config['use_system_font'] == True \
+        and fontname is not None:
+            widget.set_font_name(fontname)
         else:
             widget.set_font_name(self.config['font'])
         # Allow bold text
@@ -549,7 +552,7 @@ class PrefsEditor:
         """Background darkness setting changed"""
         # FIXME: 'value' is a float with way too much precision. Round it off
         # to 1 significant digit, e.g. 0.9 not 0.89989888413241345
-        self.config['background_darkness'] = value
+        self.config['background_darkness'] = round(value, 2)
         self.config.save()
 
     def on_background_image_filechooser_file_set(self, widget):
