@@ -52,7 +52,7 @@ class Terminal(gtk.VBox):
         'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            (gobject.TYPE_BOOLEAN,)),
+            (gobject.TYPE_BOOLEAN, gobject.TYPE_OBJECT)),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -167,6 +167,10 @@ class Terminal(gtk.VBox):
     def get_profile(self):
         """Return our profile name"""
         return(self.config.profile)
+
+    def get_cwd(self):
+        """Return our cwd"""
+        return(self.terminator.pid_cwd(self.pid))
 
     def close(self):
         """Close ourselves"""

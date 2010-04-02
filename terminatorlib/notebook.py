@@ -148,13 +148,15 @@ class Notebook(Container, gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, debugtab=False, widget=None):
+    def newtab(self, debugtab=False, widget=None, cwd=None):
         """Add a new tab, optionally supplying a child widget"""
         maker = Factory()
         top_window = get_top_window(self)
 
         if not widget:
             widget = maker.make('Terminal')
+            if cwd:
+                widget.set_cwd(cwd)
             widget.spawn_child(debugserver=debugtab)
 
         signals = {'close-term': self.wrapcloseterm,
@@ -168,12 +170,17 @@ class Notebook(Container, gtk.Notebook):
                    'group-tab': top_window.group_tab,
                    'ungroup-tab': top_window.ungroup_tab,
                    'move-tab': top_window.move_tab,
-                   'tab-new': top_window.tab_new,
+                   'tab-new': [top_window.tab_new, widget],
                    'navigate': top_window.navigate_terminal}
 
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:
-                self.connect_child(widget, signal, signals[signal])
+                args = []
+                handler = signals[signal]
+                if isinstance(handler, list):
+                    args = handler[1:]
+                    handler = handler[0]
+                self.connect_child(widget, signal, handler, *args)
 
         self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)

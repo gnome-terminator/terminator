@@ -149,7 +149,7 @@ class Window(Container, gtk.Window):
                     self.on_destroy_event(window,
                             gtk.gdk.Event(gtk.gdk.DESTROY))
             elif mapping == 'new_tab':
-                self.tab_new()
+                self.tab_new(self.get_focussed_terminal())
             else:
                 return(False)
             return(True)
@@ -159,12 +159,16 @@ class Window(Container, gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
-    def tab_new(self, widget=None, debugtab=False):
+    def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
+        cwd = None
+
+        if widget:
+            cwd = widget.get_cwd()
         maker = Factory()
         if not self.is_child_notebook():
             notebook = maker.make('Notebook', window=self)
-        self.get_child().newtab(debugtab)
+        self.get_child().newtab(debugtab, cwd=cwd)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
@@ -267,11 +271,16 @@ class Window(Container, gtk.Window):
                        'group-tab': self.group_tab,
                        'ungroup-tab': self.ungroup_tab,
                        'move-tab': self.move_tab,
-                       'tab-new': self.tab_new,
+                       'tab-new': [self.tab_new, widget],
                        'navigate': self.navigate_terminal}
 
             for signal in signals:
-                self.connect_child(widget, signal, signals[signal])
+                args = []
+                handler = signals[signal]
+                if isinstance(handler, list):
+                    args = handler[1:]
+                    handler = handler[0]
+                self.connect_child(widget, signal, handler, *args)
 
             widget.grab_focus()
 
@@ -386,6 +395,14 @@ class Window(Container, gtk.Window):
             err('Unknown child type %s' % type(child))
 
         return(terminals)
+
+    def get_focussed_terminal(self):
+        """Find which terminal we want to have focus"""
+        terminals = self.get_visible_terminals()
+        for terminal in terminals:
+            if terminal.vte.is_focus():
+                return(terminal)
+        return(None)
 
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how

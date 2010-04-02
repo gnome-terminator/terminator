@@ -100,13 +100,14 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             item = gtk.MenuItem(_('Open _Tab'))
-            item.connect('activate', lambda x: terminal.emit('tab-new', False))
+            item.connect('activate', lambda x: terminal.emit('tab-new', False,
+                terminal))
             menu.append(item)
 
-            if self.terminator.debug_address or True:
+            if self.terminator.debug_address is not None:
                 item = gtk.MenuItem(_('Open _Debug Tab'))
                 item.connect('activate', lambda x:
-                        terminal.emit('tab-new', True))
+                        terminal.emit('tab-new', True, terminal))
                 menu.append(item)
 
             menu.append(gtk.MenuItem())

@@ -324,6 +324,13 @@ class Terminator(Borg):
         else:
             return([widget])
 
+    def get_focussed_terminal(self):
+        """iterate over all the terminals to find which, if any, has focus"""
+        for terminal in self.terminals:
+            if terminal.has_focus():
+                return(terminal)
+        return(None)
+
     def focus_changed(self, widget):
         """We just moved focus to a new terminal"""
         for terminal in self.terminals:
