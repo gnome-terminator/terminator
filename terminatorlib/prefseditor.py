@@ -550,8 +550,6 @@ class PrefsEditor:
 
     def on_darken_background_scale_change_value(self, widget, scroll, value):
         """Background darkness setting changed"""
-        # FIXME: 'value' is a float with way too much precision. Round it off
-        # to 1 significant digit, e.g. 0.9 not 0.89989888413241345
         self.config['background_darkness'] = round(value, 2)
         self.config.save()
 
