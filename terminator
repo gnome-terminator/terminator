@@ -59,8 +59,7 @@ if __name__ == '__main__':
     except (KeyError,ValueError), ex:
         err('layout creation failed, creating a window ("%s")' % ex)
         TERMINATOR.new_window()
-    finally:
-        TERMINATOR.layout_done()
+    TERMINATOR.layout_done()
 
     if OPTIONS.debug > 2:
         import terminatorlib.debugserver as debugserver
