@@ -52,7 +52,6 @@ rm -rf %{buildroot}
 %{_mandir}/man5/%{name}_config.*
 %{_bindir}/%{name}
 %{python_sitelib}/*
-%{_datadir}/terminator/preferences.glade
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}*.png
 %{_datadir}/icons/hicolor/*/*/%{name}*.svg
