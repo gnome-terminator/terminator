@@ -385,6 +385,7 @@ class Config(object):
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     loaded = None
+    whined = None
     sections = None
     global_config = None
     profiles = None
@@ -405,6 +406,8 @@ class ConfigBase(Borg):
         """Set up our borg environment"""
         if self.loaded is None:
             self.loaded = False
+        if self.whined is None:
+            self.whined = False
         if self.sections is None:
             self.sections = ['global_config', 'keybindings', 'profiles',
                              'layouts', 'plugins']
@@ -500,8 +503,12 @@ class ConfigBase(Borg):
         try:
             configfile = open(filename, 'r')
         except Exception, ex:
-            err('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+            if not self.whined:
+                err('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+                self.whined = True
             return
+        # If we have successfully loaded a config, allow future whining
+        self.whined = False
 
         try:
             configspec = self.defaults_to_configspec()
