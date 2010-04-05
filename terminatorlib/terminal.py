@@ -589,7 +589,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.vte.set_background_image_file(self.config['background_image'])
             self.vte.set_scroll_background(self.config['scroll_background'])
         else:
-            self.vte.set_background_image_file('')
+            try:
+                self.vte.set_background_image(None)
+            except TypeError:
+                # FIXME: I think this is only necessary because of
+                # https://bugzilla.gnome.org/show_bug.cgi?id=614910
+                pass
             self.vte.set_scroll_background(False)
 
         if background_type in ('image', 'transparent'):
