@@ -34,6 +34,13 @@ class PrefsEditor:
                          'orange_on_black': 5,
                          'ambience': 6,
                          'custom': 7}
+    colourschemes = {'grey_on_black': ['#AAAAAA', '#000000'],
+                     'black_on_yellow': ['#000000', '#FFFFDD'],
+                     'black_on_white': ['#000000', '#FFFFFF'],
+                     'white_on_black': ['#FFFFFF', '#000000'],
+                     'green_on_black': ['#00FF00', '#000000'],
+                     'orange_on_black': ['#E53C00', '#000000'],
+                     'ambience': ['#FFFFFF', '#300A24']}
 
     keybindingnames = { 'zoom_in'          : 'Increase font size',
                         'zoom_out'         : 'Decrease font size',
@@ -318,7 +325,13 @@ class PrefsEditor:
         widget.set_active(self.config['use_theme_colors'])
         # Colorscheme
         widget = guiget('color_scheme_combobox')
-        scheme = self.config['color_scheme']
+        for ascheme in self.colourschemes:
+            forecol = self.colourschemes[ascheme][0]
+            backcol = self.colourschemes[ascheme][1]
+            if self.config['foreground_color'] == forecol and \
+               self.config['background_color'] == backcol:
+                scheme = ascheme
+                break
         if scheme not in self.colorschemevalues:
             scheme = 'grey_on_black'
         widget.set_active(self.colorschemevalues[scheme])
@@ -938,27 +951,9 @@ class PrefsEditor:
 
         forecol = None
         backcol = None
-        if value == 'grey_on_black':
-            forecol = '#AAAAAA'
-            backcol = '#000000'
-        elif value == 'black_on_yellow':
-            forecol = '#000000'
-            backcol = '#FFFFDD'
-        elif value == 'black_on_white':
-            forecol = '#000000'
-            backcol = '#FFFFFF'
-        elif value == 'white_on_black':
-            forecol = '#FFFFFF'
-            backcol = '#000000'
-        elif value == 'green_on_black':
-            forecol = '#00FF00'
-            backcol = '#000000'
-        elif value == 'orange_on_black':
-            forecol = '#E53C00'
-            backcol = '#000000'
-        elif value == 'ambience':
-            forecol = '#FFFFFF'
-            backcol = '#300A24'
+        if value in self.colourschemes:
+            forecol = self.colourschemes[value][0]
+            backcol = self.colourschemes[value][1]
         elif value == 'custom':
             forecol = fore.get_color().to_string()
             backcol = back.get_color().to_string()
@@ -971,7 +966,6 @@ class PrefsEditor:
 
         self.config['foreground_color'] = forecol
         self.config['background_color'] = backcol
-        self.config['color_scheme'] = value
         self.config.save()
 
     def on_use_theme_colors_checkbutton_toggled(self, widget):
