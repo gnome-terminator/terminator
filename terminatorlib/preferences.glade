@@ -229,6 +229,32 @@
       <column type="gchararray"/>
     </columns>
   </object>
+  <object class="GtkListStore" id="PaletteListStore">
+    <columns>
+      <!-- column-name Palette -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Tango</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Linux</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">XTerm</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Rxvt</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Ambience</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Custom</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="prefswin">
     <property name="border_width">5</property>
     <property name="type_hint">normal</property>
@@ -236,7 +262,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog_vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkNotebook" id="notebook1">
@@ -249,7 +274,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <property name="spacing">18</property>
                     <child>
                       <object class="GtkTable" id="global_config_table">
@@ -453,7 +477,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox7">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label15">
@@ -676,7 +699,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkTreeView" id="profilelist">
                         <property name="visible">True</property>
@@ -762,7 +784,6 @@
                       <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkCheckButton" id="system_font_checkbutton">
@@ -897,7 +918,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox8">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label21">
@@ -919,7 +939,6 @@
                                 <child>
                                   <object class="GtkVBox" id="vbox9">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox4">
                                         <property name="visible">True</property>
@@ -1033,7 +1052,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox10">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label23">
@@ -1055,7 +1073,6 @@
                                 <child>
                                   <object class="GtkVBox" id="vbox11">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkCheckButton" id="icon_bell_checkbutton">
                                         <property name="label" translatable="yes">Titlebar icon</property>
@@ -1156,7 +1173,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox80">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label36">
@@ -1178,11 +1194,9 @@
                                 <child>
                                   <object class="GtkVBox" id="vbox81">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox92">
                                         <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkCheckButton" id="login_shell_checkbutton">
@@ -1352,12 +1366,10 @@
                       <object class="GtkVBox" id="vbox90">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">18</property>
                         <child>
                           <object class="GtkVBox" id="vbox82">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label39">
@@ -1547,7 +1559,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox83">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label42">
@@ -1602,6 +1613,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="x_options"></property>
@@ -1614,6 +1626,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1628,6 +1641,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -1642,6 +1656,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -1656,6 +1671,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -1670,6 +1686,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -1684,6 +1701,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -1698,6 +1716,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -1712,6 +1731,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1728,6 +1748,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -1744,6 +1765,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -1760,6 +1782,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -1776,6 +1799,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -1792,6 +1816,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -1808,6 +1833,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -1822,6 +1848,7 @@
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="color">#000000000000</property>
+                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -1859,7 +1886,15 @@
                                     <child>
                                       <object class="GtkComboBox" id="palette_combobox">
                                         <property name="visible">True</property>
+                                        <property name="model">PaletteListStore</property>
+                                        <property name="active">0</property>
                                         <signal name="changed" handler="on_palette_combobox_changed"/>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="cellrenderertext14"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -1921,7 +1956,6 @@
                       <object class="GtkVBox" id="vbox86">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkRadioButton" id="solid_radiobutton">
@@ -1943,7 +1977,6 @@
                         <child>
                           <object class="GtkVBox" id="vbox87">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="image_radiobutton">
@@ -1969,7 +2002,6 @@
                                 <child>
                                   <object class="GtkVBox" id="vbox89">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox2">
@@ -2057,7 +2089,6 @@
                         <child>
                           <object class="GtkVBox" id="darken_background_vbox">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="darken_background_scale_label">
@@ -2294,9 +2325,6 @@
                           </packing>
                         </child>
                         <child>
-                          <placeholder/>
-                        </child>
-                        <child>
                           <object class="GtkCheckButton" id="scrollback_infinite">
                             <property name="label" translatable="yes">Infinite Scrollback</property>
                             <property name="visible">True</property>
@@ -2313,6 +2341,9 @@
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -2334,7 +2365,6 @@
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="label51">
@@ -2504,7 +2534,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkTreeView" id="layoutlist">
                         <property name="visible">True</property>
@@ -2635,7 +2664,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkAlignment" id="alignment3">
                         <property name="visible">True</property>

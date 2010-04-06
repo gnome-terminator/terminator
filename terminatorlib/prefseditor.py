@@ -41,7 +41,32 @@ class PrefsEditor:
                      'green_on_black': ['#00FF00', '#000000'],
                      'orange_on_black': ['#E53C00', '#000000'],
                      'ambience': ['#FFFFFF', '#300A24']}
-
+    palettevalues = {'tango': 0,
+                     'linux': 1,
+                     'xterm': 2,
+                     'rxvt': 3,
+                     'ambience': 4,
+                     'custom': 5}
+    palettes = {'tango': '#000000000000:#CCCC00000000:#4E4E9A9A0606:\
+#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:\
+#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:\
+#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC',
+                'linux': '#000000000000:#AAAA00000000:#0000AAAA0000:\
+#AAAA55550000:#00000000AAAA:#AAAA0000AAAA:#0000AAAAAAAA:#AAAAAAAAAAAA:\
+#555555555555:#FFFF55555555:#5555FFFF5555:#FFFFFFFF5555:#55555555FFFF:\
+#FFFF5555FFFF:#5555FFFFFFFF:#FFFFFFFFFFFF',
+                'xterm': '#000000000000:#CDCB00000000:#0000CDCB0000:\
+#CDCBCDCB0000:#1E1A908FFFFF:#CDCB0000CDCB:#0000CDCBCDCB:#E5E2E5E2E5E2:\
+#4CCC4CCC4CCC:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#46458281B4AE:\
+#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
+                'rxvt': '#000000000000:#CDCD00000000:#0000CDCD0000:\
+#CDCDCDCD0000:#00000000CDCD:#CDCD0000CDCD:#0000CDCDCDCD:#FAFAEBEBD7D7:\
+#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:\
+#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
+                'ambience': '#2E2E34343636:#CCCC00000000:#4E4E9A9A0606:\
+#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:\
+#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:\
+#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC'}
     keybindingnames = { 'zoom_in'          : 'Increase font size',
                         'zoom_out'         : 'Decrease font size',
                         'zoom_normal'      : 'Restore original font size',
@@ -325,6 +350,7 @@ class PrefsEditor:
         widget.set_active(self.config['use_theme_colors'])
         # Colorscheme
         widget = guiget('color_scheme_combobox')
+        scheme = None
         for ascheme in self.colourschemes:
             forecol = self.colourschemes[ascheme][0]
             backcol = self.colourschemes[ascheme][1]
@@ -349,7 +375,16 @@ class PrefsEditor:
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
-        # Palette
+        # Palette scheme
+        widget = guiget('palette_combobox')
+        palette = None
+        for apalette in self.palettes:
+            if self.config['palette'] == self.palettes[apalette]:
+                palette = apalette
+        if palette not in self.palettevalues:
+            palette = 'tango'
+        widget.set_active(self.palettevalues[palette])
+        # Palette colour pickers
         palette = self.config['palette'].split(':')
         for i in xrange(1, 17):
             widget = guiget('palette_colorpicker_%d' % i)
@@ -573,8 +608,42 @@ class PrefsEditor:
 
     def on_palette_combobox_changed(self, widget):
         """Palette selector changed"""
-        # FIXME: This doesn't really exist yet.
-        pass
+        value = None
+        guiget = self.builder.get_object
+        active = widget.get_active()
+
+        for key in self.palettevalues.keys():
+            if self.palettevalues[key] == active:
+                value = key
+
+        if value == 'custom':
+            sensitive = True
+        else:
+            sensitive = False
+
+        for num in xrange(1, 17):
+            picker = guiget('palette_colorpicker_%d' % num)
+            picker.set_sensitive(sensitive)
+
+        if value in self.palettes:
+            palette = self.palettes[value]
+            palettebits = palette.split(':')
+            for num in xrange(1, 17):
+                # Update the visible elements
+                picker = guiget('palette_colorpicker_%d' % num)
+                picker.set_color(gtk.gdk.Color(palettebits[num - 1]))
+        elif value == 'custom':
+            palettebits = []
+            for num in xrange(1, 17):
+                picker = guiget('palette_colorpicker_%d' % num)
+                palettebits.append(picker.get_color().to_string())
+            palette = ':'.join(palettebits)
+        else:
+            err('Unknown palette value: %s' % value)
+            return
+
+        self.config['palette'] = palette
+        self.config.save()
 
     def on_background_colorpicker_color_set(self, widget):
         """Background color changed"""
@@ -584,6 +653,21 @@ class PrefsEditor:
     def on_foreground_colorpicker_color_set(self, widget):
         """Foreground color changed"""
         self.config['foreground_color'] = widget.get_color().to_string()
+        self.config.save()
+
+    def on_palette_colorpicker_color_set(self, widget):
+        """A palette colour changed"""
+        palette = None
+        palettebits = []
+        guiget = self.builder.get_object
+
+        # FIXME: We do this at least once elsewhere. refactor!
+        for num in xrange(1, 17):
+            picker = guiget('palette_colorpicker_%d' % num)
+            palettebits.append(picker.get_color().to_string())
+        palette = ':'.join(palettebits)
+
+        self.config['palette'] = palette
         self.config.save()
 
     def on_exit_action_combobox_changed(self, widget):
