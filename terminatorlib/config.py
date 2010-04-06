@@ -175,12 +175,10 @@ DEFAULTS = {
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
                 'exit_action'           : 'close',
-                'palette'   :'#000000000000:#cdcd00000000:#0000cdcd0000:\
-#cdcdcdcd0000:#30bf30bfa38e:#a53c212fa53c:\
-#0000cdcdcdcd:#fafaebebd7d7:#404040404040:\
-#ffff00000000:#0000ffff0000:#ffffffff0000:\
-#00000000ffff:#ffff0000ffff:#0000ffffffff:\
-#ffffffffffff',
+                'palette'               : '#2E2E34343636:#CCCC00000000:\
+#4E4E9A9A0606:#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:\
+#D3D3D7D7CFCF:#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:\
+#72729F9FCFCF:#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC',
                 'word_chars'            : '-A-Za-z0-9,./?%&#:_',
                 'mouse_autohide'        : True,
                 'update_records'        : True,
