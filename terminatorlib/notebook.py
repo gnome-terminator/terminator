@@ -216,12 +216,12 @@ class Notebook(Container, gtk.Notebook):
             err('TabLabel::closetab: called on non-Notebook: %s' % widget)
             return
 
-        for i in xrange(0, nb.get_n_pages()):
+        for i in xrange(0, nb.get_n_pages() + 1):
             if label == nb.get_tab_label(nb.get_nth_page(i)):
                 tabnum = i
                 break
 
-        if not tabnum:
+        if tabnum is None:
             err('TabLabel::closetab: %s not in %s. Bailing.' % (label, nb))
             return
 
@@ -231,6 +231,10 @@ class Notebook(Container, gtk.Notebook):
         if maker.isinstance(child, 'Terminal'):
             dbg('Notebook::closetab: child is a single Terminal')
             child.close()
+            # FIXME: We only do this del and return here to avoid removing the
+            # page below, which child.close() implicitly does
+            del(label)
+            return
         elif maker.isinstance(child, 'Container'):
             dbg('Notebook::closetab: child is a Container')
             dialog = self.construct_confirm_close(self.window, _('tab'))
