@@ -382,7 +382,7 @@ class PrefsEditor:
             if self.config['palette'] == self.palettes[apalette]:
                 palette = apalette
         if palette not in self.palettevalues:
-            palette = 'tango'
+            palette = 'rxvt'
         widget.set_active(self.palettevalues[palette])
         # Palette colour pickers
         palette = self.config['palette'].split(':')
