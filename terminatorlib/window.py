@@ -244,6 +244,9 @@ class Window(Container, gtk.Window):
 
     def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
+        if self.is_composited() == False:
+            value = False
+
         screen = self.get_screen()
         if value:
             dbg('setting rgba colormap')
