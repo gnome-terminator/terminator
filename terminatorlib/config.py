@@ -77,7 +77,6 @@ except ImportError:
 DEFAULTS = {
         'global_config':   {
             'focus'                 : 'click',
-            'enable_real_transparency'  : True,
             'handle_size'           : -1,
             'geometry_hinting'      : True,
             'window_state'          : 'normal',

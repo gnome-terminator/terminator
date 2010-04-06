@@ -613,10 +613,23 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             dbg('setting opacity: %d' % opacity)
             self.vte.set_opacity(opacity)
 
-        if self.config['background_type'] == 'transparent' and \
-                self.config['enable_real_transparency'] == False:
-            dbg('setting background_transparent=True')
-            self.vte.set_background_transparent(True)
+        # This is quite hairy, but the basic explanation is that we should
+        # set_background_transparent(True) when we have no compositing and want
+        # fake background transparency, otherwise it should be False.
+        if not self.composite_support:
+            # We have no compositing support, fake background only
+            background_transparent = True
+        else:
+            if self.vte.is_composited() == False:
+                # We have compositing and it's enabled. no fake background.
+                background_transparent = True
+            else:
+                # We have compositing, but it's not enabled. fake background
+                background_transparent = False
+
+        if self.config['background_type'] == 'transparent':
+            dbg('setting background_transparent=%s' % background_transparent)
+            self.vte.set_background_transparent(background_transparent)
         else:
             dbg('setting background_transparent=False')
             self.vte.set_background_transparent(False)
