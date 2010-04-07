@@ -410,6 +410,11 @@ class Window(Container, gtk.Window):
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
         many columns/rows we sort of have"""
+        maker = Factory()
+        if maker.isinstance(self.get_child(), 'Notebook'):
+            dbg("We don't currently support geometry hinting with tabs")
+            return
+
         terminals = self.get_visible_terminals()
         column_sum = 0
         row_sum = 0
@@ -435,6 +440,9 @@ class Window(Container, gtk.Window):
         extra_width = win_width - total_font_width
         extra_height = win_height - total_font_height
 
+        dbg('setting geometry hints: (ewidth:%s)(eheight:%s),\
+(fwidth:%s)(fheight:%s)' % (extra_width, extra_height, 
+                            font_width, font_height))
         self.set_geometry_hints(self, -1, -1, -1, -1, extra_width,
                 extra_height, font_width, font_height, -1.0, -1.0)
 
