@@ -1,3 +1,7 @@
+terminator 0.92:
+  * Lots of juicy bug fixes
+  * Implement the Palette section of the Profile preferences
+
 terminator 0.91:
   * Fix various stupid release bugs from 0.90
 
