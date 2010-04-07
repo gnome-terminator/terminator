@@ -746,7 +746,10 @@ class PrefsEditor:
 
     def on_handlesize_change_value(self, widget, scroll, value):
         """Handle size changed"""
-        self.config['handle_size'] = int(value)
+        value = int(value)
+        if value > 5:
+            value = 5
+        self.config['handle_size'] = value
         self.config.save()
 
     def on_focuscombo_changed(self, widget):

@@ -229,10 +229,12 @@ class Terminator(Borg):
         """Update configuration for the whole application"""
 
         if self.config['handle_size'] in xrange(0, 6):
-            gtk.rc_parse_string("""style "terminator-paned-style" {
-                GtkPaned::handle_size = %s }
-                class "GtkPaned" style "terminator-paned-style" """ %
-                self.config['handle_size'])
+            gtk.rc_parse_string("""
+                style "terminator-paned-style" {
+                    GtkPaned::handle_size = %s 
+                }
+                class "GtkPaned" style "terminator-paned-style" 
+                """ % self.config['handle_size'])
             gtk.rc_reset_styles(gtk.settings_get_default())
 
         # Cause all the terminals to reconfigure
