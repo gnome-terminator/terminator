@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-03-29 22:56+0000\n"
+"PO-Revision-Date: 2010-04-06 18:27+0000\n"
 "Last-Translator: Jan-Christoph Borchardt <jan@inquata.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
+"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -262,7 +262,7 @@ msgstr "Voriger"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Durchsuche Verlauf"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
@@ -342,7 +342,7 @@ msgstr "Terminal-Nummer einfügen"
 
 #: ../terminatorlib/terminal.py:430
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Terminal-Nummer einfügen (auffüllen)"
 
 #: ../terminatorlib/terminal.py:1088
 msgid "Unable to find a shell"

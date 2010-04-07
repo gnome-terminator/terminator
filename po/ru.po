@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-03-21 08:50+0000\n"
-"Last-Translator: Vadim Rutkovsky <roignac@gmail.com>\n"
+"PO-Revision-Date: 2010-04-01 20:36+0000\n"
+"Last-Translator: Max Riveiro <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
+"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -183,7 +183,7 @@ msgstr "Создать профиль"
 
 #: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
 msgid "New Layout"
-msgstr ""
+msgstr "Новое расположение"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -266,7 +266,7 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Больше нет результатов"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
@@ -350,7 +350,7 @@ msgstr "Не удается найти оболочку (shell)"
 
 #: ../terminatorlib/terminal.py:1105
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Не удается запустить оболочку:"
 
 #: ../terminatorlib/terminal_popup_menu.py:47
 msgid "_Send email to..."
@@ -414,7 +414,7 @@ msgstr "По умолчанию"
 
 #: ../terminatorlib/terminal_popup_menu.py:206
 msgid "User defined"
-msgstr ""
+msgstr "Пользовательский"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Other Encodings"

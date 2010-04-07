@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-11-28 13:47+0000\n"
+"PO-Revision-Date: 2010-04-02 14:29+0000\n"
 "Last-Translator: Milo Casagrande <milo@casagrande.name>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
+"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -179,46 +179,46 @@ msgstr "Tailandese"
 
 #: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
 msgid "New Profile"
-msgstr ""
+msgstr "Nuovo profilo"
 
 #: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
 msgid "New Layout"
-msgstr ""
+msgstr "Nuova disposizione"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Comandi personalizzati"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Configurazione comandi personalizzati"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Nuovo comando"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Abilitato:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Comando:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "È necessario definire un nome e un comando"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "Il nome «%s» esiste già"
 
 #: ../terminatorlib/container.py:139
 msgid "Close?"

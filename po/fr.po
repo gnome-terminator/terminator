@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-07-22 07:29+0000\n"
-"Last-Translator: dommy9111 <Unknown>\n"
+"PO-Revision-Date: 2010-04-05 08:10+0000\n"
+"Last-Translator: lann <lann@worldonline.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
+"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -179,7 +179,7 @@ msgstr "Thaï"
 
 #: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
 msgid "New Profile"
-msgstr ""
+msgstr "Nouveau profil"
 
 #: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
 msgid "New Layout"
@@ -187,38 +187,38 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Commandes personnalisées"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Configuration des commandes personnalisées"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Nouvelle commande"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Activé :"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Nom :"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Commande:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Vous de vez définir a nom et une commande"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "Le nom *%s* existe déjà"
 
 #: ../terminatorlib/container.py:139
 msgid "Close?"
@@ -238,6 +238,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"Ce %s a plusieurs terminaux ouvert. En arrêtant le %s fermera aussi tous les "
+"terminaux"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +248,7 @@ msgstr "Rechercher :"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Fermer la barre de recherche"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,7 +258,7 @@ msgstr "Suivant"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Précédent"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -264,11 +266,11 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Plus aucun résultat"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "Trouvé à la ligne"
 
 #: ../terminatorlib/window.py:176
 msgid "window"
@@ -282,11 +284,11 @@ msgstr "Tout"
 #: ../terminatorlib/window.py:480
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "Tableau %d"
 
 #: ../terminatorlib/terminal.py:347
 msgid "New group..."
-msgstr ""
+msgstr "Nouveau groupe..."
 
 #: ../terminatorlib/terminal.py:352
 msgid "None"
@@ -295,11 +297,11 @@ msgstr "Aucun"
 #: ../terminatorlib/terminal.py:368
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "Supprimer le groupe %s"
 
 #: ../terminatorlib/terminal.py:373
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "G_rouper dans un seul tableau"
 
 #: ../terminatorlib/terminal.py:378
 msgid "Ungr_oup all in tab"
@@ -336,7 +338,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:426
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Insérer le numéro de terminal"
 
 #: ../terminatorlib/terminal.py:430
 msgid "Insert padded terminal number"
@@ -352,7 +354,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:47
 msgid "_Send email to..."
-msgstr ""
+msgstr "Envoyer un e-mail à..."
 
 #: ../terminatorlib/terminal_popup_menu.py:48
 msgid "_Copy email address"
@@ -368,7 +370,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:53
 msgid "_Open link"
-msgstr ""
+msgstr "_Ouvrir lien"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "_Copy address"
@@ -396,11 +398,11 @@ msgstr "Montrer la barre de défilement"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Preferences"
-msgstr ""
+msgstr "_Préférences"
 
 #: ../terminatorlib/terminal_popup_menu.py:144
 msgid "Profiles"
-msgstr ""
+msgstr "Profils"
 
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "Encodings"
@@ -408,11 +410,11 @@ msgstr "Encodages"
 
 #: ../terminatorlib/terminal_popup_menu.py:203
 msgid "Default"
-msgstr ""
+msgstr "Valeur par défaut"
 
 #: ../terminatorlib/terminal_popup_menu.py:206
 msgid "User defined"
-msgstr ""
+msgstr "Défini par l'utilisateur"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Other Encodings"

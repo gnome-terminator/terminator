@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-07-01 11:11+0000\n"
+"PO-Revision-Date: 2010-03-31 04:35+0000\n"
 "Last-Translator: wariua <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-30 18:52+0000\n"
+"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -179,46 +179,46 @@ msgstr "타이어"
 
 #: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
 msgid "New Profile"
-msgstr ""
+msgstr "새 프로파일"
 
 #: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
 msgid "New Layout"
-msgstr ""
+msgstr "새 레이아웃"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "실행 명령"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "실행 명령 설정"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "새 명령"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "사용:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "이름:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "명령:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "이름과 명령을 설정해주십시오."
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "이름 *%s*이(가) 이미 있습니다"
 
 #: ../terminatorlib/container.py:139
 msgid "Close?"
@@ -237,7 +237,7 @@ msgstr "<big><b>여러 개의 터미널을 닫을까요?</b></big>"
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr ""
+msgstr "이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그 안의 터미널 모두가 함께 닫힙니다."
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +246,7 @@ msgstr "찾기:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "검색창 닫기"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,19 +256,19 @@ msgstr "다음"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "이전"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "찾는 중"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "결과가 더 없음"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "찾은 위치"
 
 #: ../terminatorlib/window.py:176
 msgid "window"
@@ -282,11 +282,11 @@ msgstr "전체"
 #: ../terminatorlib/window.py:480
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "탭 %d"
 
 #: ../terminatorlib/terminal.py:347
 msgid "New group..."
-msgstr ""
+msgstr "새 그룹..."
 
 #: ../terminatorlib/terminal.py:352
 msgid "None"
@@ -295,52 +295,52 @@ msgstr "없음"
 #: ../terminatorlib/terminal.py:368
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "그룹 %s 지우기"
 
 #: ../terminatorlib/terminal.py:373
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "탭 안의 모두를 그룹으로 묶기(_G)"
 
 #: ../terminatorlib/terminal.py:378
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "탭 안의 모두를 그룹 해제하기(_O)"
 
 #: ../terminatorlib/terminal.py:383
 msgid "Remove all groups"
-msgstr ""
+msgstr "모든 그룹 지우기"
 
 #: ../terminatorlib/terminal.py:390
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "그룹 %s 닫기"
 
 #: ../terminatorlib/terminal.py:399
 msgid "Broadcast all"
-msgstr ""
+msgstr "모든 터미널로 뿌리기"
 
 #: ../terminatorlib/terminal.py:400
 msgid "Broadcast group"
-msgstr ""
+msgstr "같은 그룹에 뿌리기"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Broadcast off"
-msgstr ""
+msgstr "뿌리지 않기"
 
 #: ../terminatorlib/terminal.py:414
 msgid "Split to this group"
-msgstr ""
+msgstr "이 그룹으로 나누기"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Autoclean groups"
-msgstr ""
+msgstr "그룹 자동으로 지우기"
 
 #: ../terminatorlib/terminal.py:426
 msgid "Insert terminal number"
-msgstr ""
+msgstr "터미널 번호 붙여넣기"
 
 #: ../terminatorlib/terminal.py:430
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "0으로 채운 터미널 번호 붙여넣기"
 
 #: ../terminatorlib/terminal.py:1088
 msgid "Unable to find a shell"
@@ -348,31 +348,31 @@ msgstr "셸을 찾을 수 없음"
 
 #: ../terminatorlib/terminal.py:1105
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "셸을 시작할 수 없음:"
 
 #: ../terminatorlib/terminal_popup_menu.py:47
 msgid "_Send email to..."
-msgstr ""
+msgstr "이메일 보내기(_S)..."
 
 #: ../terminatorlib/terminal_popup_menu.py:48
 msgid "_Copy email address"
-msgstr ""
+msgstr "이메일 주소 복사하기(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:50
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "VoIP 주소로 전화하기(_L)"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "VoIP 주소 복사하기(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:53
 msgid "_Open link"
-msgstr ""
+msgstr "링크 열기(_O)"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "_Copy address"
-msgstr ""
+msgstr "주소 복사하기(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:102
 msgid "Open _Tab"
@@ -388,7 +388,7 @@ msgstr "터미널 최대화(_X)"
 
 #: ../terminatorlib/terminal_popup_menu.py:125
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "모든 터미널 복구하기(_R)"
 
 #: ../terminatorlib/terminal_popup_menu.py:131
 msgid "Show _scrollbar"
@@ -396,11 +396,11 @@ msgstr "스크롤 막대 표시(_S)"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Preferences"
-msgstr ""
+msgstr "환경 설정(_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:144
 msgid "Profiles"
-msgstr ""
+msgstr "프로파일"
 
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "Encodings"
@@ -408,11 +408,11 @@ msgstr "인코딩"
 
 #: ../terminatorlib/terminal_popup_menu.py:203
 msgid "Default"
-msgstr ""
+msgstr "기본"
 
 #: ../terminatorlib/terminal_popup_menu.py:206
 msgid "User defined"
-msgstr ""
+msgstr "사용자 정의"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Other Encodings"
