@@ -1164,7 +1164,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if prepare == True:
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
-        gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
+        if gtk.gtk_version < (2, 14, 0):
+            dbg('Old gtk (%s,%s,%s), calling xdg-open' % gtk.gtk_version)
+            try:
+                subprocess.Popen(["xdg-open", url])
+            except:
+                dbg('xdg-open did not work, falling back to webbrowser.open')
+                import webbrowser
+                webbrowser.open(url)
+        else:
+            # Shiny new Gtk+, so we hope they have a sane setup
+            gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
