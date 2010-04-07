@@ -428,6 +428,11 @@ class Window(Container, gtk.Window):
                 cols, rows = terminal.get_size()
                 column_sum = column_sum + cols
 
+        if column_sum == 0 or row_sum == 0:
+            dbg('column_sum=%s,row_sum=%s. No terminals found in >=1 axis' %
+                (column_sum, row_sum))
+            return
+
         # FIXME: I don't think we should just use whatever font size info is on
         # the last terminal we inspected. Looking up the default profile font
         # size and calculating its character sizes would be rather expensive
