@@ -197,7 +197,7 @@ class Window(Container, gtk.Window):
         self.destroy()
         del(self)
 
-    def on_hide_window(self, data):
+    def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""
         # FIXME: Implement or drop, or explain why its empty
         pass
