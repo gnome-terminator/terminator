@@ -2184,10 +2184,27 @@
                       <object class="GtkTable" id="table27">
                         <property name="visible">True</property>
                         <property name="border_width">12</property>
-                        <property name="n_rows">5</property>
+                        <property name="n_rows">6</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
+                        <child>
+                          <object class="GtkCheckButton" id="alternate_screen_scroll_checkbutton">
+                            <property name="label" translatable="yes">Use keystrokes to scroll on _alternate screen</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_underline">True</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_alternate_screen_scroll_checkbutton_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
                         <child>
                           <object class="GtkCheckButton" id="scroll_on_keystroke_checkbutton">
                             <property name="label" translatable="yes">Scroll on _keystroke</property>

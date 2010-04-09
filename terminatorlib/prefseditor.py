@@ -440,6 +440,9 @@ class PrefsEditor:
         # Scroll on keystroke
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
+        # Scroll in alternate mode
+        widget = guiget('alternate_screen_scroll_checkbutton')
+        widget.set_active(self.config['alternate_screen_scroll'])
 
         ## Compatibility tab
         # Backspace key
@@ -527,6 +530,11 @@ class PrefsEditor:
     def on_scroll_background_checkbutton_toggled(self, widget):
         """Scroll background setting changed"""
         self.config['scroll_background'] = widget.get_active()
+        self.config.save()
+
+    def on_alternate_screen_scroll_checkbutton_toggled(self, widget):
+        """Scroll in alt-mode setting changed"""
+        self.config['alternate_screen_scroll'] = widget.get_active()
         self.config.save()
 
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
