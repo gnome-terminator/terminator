@@ -311,6 +311,10 @@ class Window(Container, gtk.Window):
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the window"""
+        if self.get_property('term_zoomed') == True:
+            err("You can't split while a terminal is maximised/zoomed")
+            return
+
         order = None
         maker = Factory()
         self.remove(widget)
