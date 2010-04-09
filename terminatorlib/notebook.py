@@ -125,6 +125,7 @@ class Notebook(Container, gtk.Notebook):
         self.set_current_page(page_num)
 
         self.show_all()
+        terminal.grab_focus()
 
     def add(self, widget):
         """Add a widget to the container"""
@@ -196,7 +197,9 @@ class Notebook(Container, gtk.Notebook):
                                    gtk.PACK_START)
 
         self.set_current_page(-1)
-        widget.grab_focus()
+        self.show_all()
+        if maker.isinstance(widget, 'Terminal'):
+            widget.grab_focus()
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""

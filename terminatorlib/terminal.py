@@ -925,7 +925,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def grab_focus(self):
         """Steal focus for this terminal"""
-        self.vte.grab_focus()
+        if not self.vte.has_focus():
+            self.vte.grab_focus()
 
     def on_vte_focus(self, _widget):
         """Update our UI when we get focus"""
