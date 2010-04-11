@@ -183,7 +183,6 @@ class Notebook(Container, gtk.Notebook):
                     handler = handler[0]
                 self.connect_child(widget, signal, handler, *args)
 
-        self.set_tab_reorderable(widget, True)
         label = TabLabel(self.window.get_title(), self)
         label.connect('close-clicked', self.closetab)
 
@@ -196,6 +195,7 @@ class Notebook(Container, gtk.Notebook):
                                    not self.config['scroll_tabbar'],
                                    gtk.PACK_START)
 
+        self.set_tab_reorderable(widget, True)
         self.set_current_page(-1)
         self.show_all()
         if maker.isinstance(widget, 'Terminal'):
