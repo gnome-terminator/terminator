@@ -321,6 +321,9 @@ class Notebook(Container, gtk.Notebook):
             self.cnxids.remove_all()
             parent.add(child)
             del(self)
+            # Find the last terminal in the new parent and give it focus
+            terms = parent.get_visible_terminals()
+            terms.keys()[-1].grab_focus()
 
 class TabLabel(gtk.HBox):
     """Class implementing a label widget for Notebook tabs"""
