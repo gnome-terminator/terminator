@@ -381,10 +381,13 @@ class TabLabel(gtk.HBox):
 
         self.button.set_focus_on_click(False)
         self.button.set_relief(gtk.RELIEF_NONE)
+        style = gtk.RcStyle()
+        style.xthickness = 0
+        style.ythickness = 0
+        self.button.modify_style(style)
         self.button.add(self.icon)
         self.button.connect('clicked', self.on_close)
         self.button.set_name('terminator-tab-close-button')
-        self.button.connect('style-set', self.on_style_set)
         if hasattr(self.button, 'set_tooltip_text'):
             self.button.set_tooltip_text(_('Close Tab'))
         self.pack_start(self.button, False, False)
@@ -401,12 +404,6 @@ class TabLabel(gtk.HBox):
         else:
             self.set_orientation(gtk.ORIENTATION_HORIZONTAL)
             self.label.set_angle(0)
-
-    def on_style_set(self, widget, prevstyle):
-        """Style changed, recalculate icon size"""
-        x, y = gtk.icon_size_lookup_for_settings(self.button.get_settings(),
-                                                 gtk.ICON_SIZE_MENU)
-        self.button.set_size_request(x + 2, y + 2)
 
     def on_close(self, _widget):
         """The close button has been clicked. Destroy the tab"""
