@@ -895,6 +895,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         srcpaned.remove(widgetsrc)
         dstpaned.split_axis(dsthbox, pos in ['top', 'bottom'], None, widgetsrc, pos in ['bottom', 'right'])
         srcpaned.hoover()
+        widgetsrc.ensure_visible_and_focussed()
 
     def get_location(self, term, x, y):
         """Get our location within the terminal"""
@@ -927,6 +928,23 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Steal focus for this terminal"""
         if not self.vte.flags()&gtk.HAS_FOCUS:
             self.vte.grab_focus()
+
+    def ensure_visible_and_focussed(self):
+        """Make sure that we're visible and focussed"""
+        window = util.get_top_window(self)
+        topchild = window.get_child()
+        maker = Factory()
+
+        if maker.isinstance(topchild, 'Notebook'):
+            prevtmp = None
+            tmp = self.get_parent()
+            while tmp != topchild:
+                prevtmp = tmp
+                tmp = tmp.get_parent() 
+            page = topchild.page_num(prevtmp)
+            topchild.set_current_page(page)
+
+        self.grab_focus()
 
     def on_vte_focus(self, _widget):
         """Update our UI when we get focus"""

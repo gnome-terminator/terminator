@@ -154,10 +154,9 @@ class Paned(Container):
         if len(self.children) == 1:
             dbg('Paned::hoover: We only have one child, die')
             parent = self.get_parent()
-            parent.remove(self)
             child = self.children[0]
             self.remove(child)
-            parent.add(child)
+            parent.replace(self, child)
             del(self)
 
     def resizeterm(self, widget, keyname):

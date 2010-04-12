@@ -142,6 +142,13 @@ class Notebook(Container, gtk.Notebook):
         self.disconnect_child(widget)
         return(True)
 
+    def replace(self, oldwidget, newwidget):
+        """Replace a tab's contents with a new widget"""
+        page_num = self.page_num(oldwidget)
+        self.remove(oldwidget)
+        self.add(newwidget)
+        self.reorder_child(newwidget, page_num)
+
     def get_children(self):
         """Return an ordered list of our children"""
         children = []

@@ -83,6 +83,16 @@ class Container(object):
         """Remove a widget from the container"""
         raise NotImplementedError('remove')
 
+    def replace(self, oldwidget, newwidget):
+        """Replace the child oldwidget with newwidget. This is the bare minimum
+        required for this operation. Containers should override it if they have
+        more complex requirements"""
+        if not oldwidget in self.get_children():
+            err('%s is not a child of %s' % (oldwidget, self))
+            return
+        self.remove(oldwidget)
+        self.add(newwidget)
+
     def hoover(self):
         """Ensure we still have a reason to exist"""
         raise NotImplementedError('hoover')
