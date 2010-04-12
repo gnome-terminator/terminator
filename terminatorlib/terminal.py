@@ -1180,10 +1180,20 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def open_url(self, url, prepare=False):
         """Open a given URL, conditionally unpacking it from a VTE match"""
+        oldstyle = False
+
         if prepare == True:
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
-        if gtk.gtk_version < (2, 14, 0):
+
+        if gtk.gtk_version < (2, 14, 0) or \
+           not hasattr(gtk, 'show_uri') or \
+           not hasattr(gtk.gdk, 'CURRENT_TIME'):
+            oldstyle = True
+
+        if oldstyle == False:
+            gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
+        else:
             dbg('Old gtk (%s,%s,%s), calling xdg-open' % gtk.gtk_version)
             try:
                 subprocess.Popen(["xdg-open", url])
@@ -1191,9 +1201,6 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 dbg('xdg-open did not work, falling back to webbrowser.open')
                 import webbrowser
                 webbrowser.open(url)
-        else:
-            # Shiny new Gtk+, so we hope they have a sane setup
-            gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
