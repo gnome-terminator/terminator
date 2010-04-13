@@ -690,7 +690,7 @@ class PrefsEditor:
         self.config['exit_action'] = value
         self.config.save()
 
-    def on_custom_command_entry_activate(self, widget):
+    def on_custom_command_entry_changed(self, widget):
         """Custom command value changed"""
         self.config['custom_command'] = widget.get_text()
         self.config.save()
@@ -712,7 +712,7 @@ class PrefsEditor:
         self.config['cursor_shape'] = value
         self.config.save()
 
-    def on_word_chars_entry_activate(self, widget):
+    def on_word_chars_entry_changed(self, widget):
         """Word characters changed"""
         self.config['word_chars'] = widget.get_text()
         self.config.save()
@@ -1001,7 +1001,7 @@ class PrefsEditor:
         """A different profile has been selected for this item"""
         self.layouteditor.on_layout_profile_chooser_changed(widget)
 
-    def on_layout_profile_command_activate(self, widget):
+    def on_layout_profile_command_changed(self, widget):
         """A different command has been entered for this item"""
         self.layouteditor.on_layout_profile_command_activate(widget)
 
