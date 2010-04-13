@@ -16,6 +16,12 @@ from keybindings import Keybindings, KeymapError
 from translation import _
 from terminator import Terminator
 
+def color2hex(widget):
+    """Pull the colour values out of a Gtk ColorPicker widget and return them
+    as 8bit hex values, sinces its default behaviour is to give 16bit values"""
+    widcol = widget.get_color()
+    return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
+
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
@@ -47,26 +53,21 @@ class PrefsEditor:
                      'rxvt': 3,
                      'ambience': 4,
                      'custom': 5}
-    palettes = {'tango': '#000000000000:#CCCC00000000:#4E4E9A9A0606:\
-#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:\
-#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:\
-#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC',
-                'linux': '#000000000000:#AAAA00000000:#0000AAAA0000:\
-#AAAA55550000:#00000000AAAA:#AAAA0000AAAA:#0000AAAAAAAA:#AAAAAAAAAAAA:\
-#555555555555:#FFFF55555555:#5555FFFF5555:#FFFFFFFF5555:#55555555FFFF:\
-#FFFF5555FFFF:#5555FFFFFFFF:#FFFFFFFFFFFF',
-                'xterm': '#000000000000:#CDCB00000000:#0000CDCB0000:\
-#CDCBCDCB0000:#1E1A908FFFFF:#CDCB0000CDCB:#0000CDCBCDCB:#E5E2E5E2E5E2:\
-#4CCC4CCC4CCC:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#46458281B4AE:\
-#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
-                'rxvt': '#000000000000:#CDCD00000000:#0000CDCD0000:\
-#CDCDCDCD0000:#00000000CDCD:#CDCD0000CDCD:#0000CDCDCDCD:#FAFAEBEBD7D7:\
-#404040404040:#FFFF00000000:#0000FFFF0000:#FFFFFFFF0000:#00000000FFFF:\
-#FFFF0000FFFF:#0000FFFFFFFF:#FFFFFFFFFFFF',
-                'ambience': '#2E2E34343636:#CCCC00000000:#4E4E9A9A0606:\
-#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:#D3D3D7D7CFCF:\
-#555557575353:#EFEF29292929:#8A8AE2E23434:#FCFCE9E94F4F:#72729F9FCFCF:\
-#ADAD7F7FA8A8:#3434E2E2E2E2:#EEEEEEEEECEC'}
+    palettes = {'tango': '#000000:#cc0000:#4e9a06:#c4a000:#3465a4:\
+#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:\
+#ad7fa8:#34e2e2:#eeeeec',
+                'linux': '#000000:#aa0000:#00aa00:#aa5500:#0000aa:\
+#aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:\
+#ff55ff:#55ffff:#ffffff',
+                'xterm': '#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:\
+#cd00cd:#00cdcd:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:\
+#ff00ff:#00ffff:#ffffff',
+                'rxvt': '#000000:#cd0000:#00cd00:#cdcd00:#0000cd:\
+#cd00cd:#00cdcd:#faebd7:#404040:#ff0000:#00ff00:#ffff00:#0000ff:\
+#ff00ff:#00ffff:#ffffff',
+                'ambience': '#2e3436:#cc0000:#4e9a06:#c4a000:\
+#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
+#729fcf:#ad7fa8:#34e2e2:#eeeeec'}
     keybindingnames = { 'zoom_in'          : 'Increase font size',
                         'zoom_out'         : 'Decrease font size',
                         'zoom_normal'      : 'Restore original font size',
@@ -644,7 +645,7 @@ class PrefsEditor:
             palettebits = []
             for num in xrange(1, 17):
                 picker = guiget('palette_colorpicker_%d' % num)
-                palettebits.append(picker.get_color().to_string())
+                palettebits.append(color2hex(picker))
             palette = ':'.join(palettebits)
         else:
             err('Unknown palette value: %s' % value)
@@ -655,12 +656,12 @@ class PrefsEditor:
 
     def on_background_colorpicker_color_set(self, widget):
         """Background color changed"""
-        self.config['background_color'] = widget.get_color().to_string()
+        self.config['background_color'] = color2hex(widget)
         self.config.save()
 
     def on_foreground_colorpicker_color_set(self, widget):
         """Foreground color changed"""
-        self.config['foreground_color'] = widget.get_color().to_string()
+        self.config['foreground_color'] = color2hex(widget)
         self.config.save()
 
     def on_palette_colorpicker_color_set(self, widget):
@@ -672,7 +673,8 @@ class PrefsEditor:
         # FIXME: We do this at least once elsewhere. refactor!
         for num in xrange(1, 17):
             picker = guiget('palette_colorpicker_%d' % num)
-            palettebits.append(picker.get_color().to_string())
+            value = color2hex(picker)
+            palettebits.append(value)
         palette = ':'.join(palettebits)
 
         self.config['palette'] = palette
@@ -697,7 +699,7 @@ class PrefsEditor:
 
     def on_cursor_color_color_set(self, widget):
         """Cursor colour changed"""
-        self.config['cursor_color'] = widget.get_color().to_string()
+        self.config['cursor_color'] = color2hex(widget)
         self.config.save()
 
     def on_cursor_shape_combobox_changed(self, widget):
@@ -724,32 +726,32 @@ class PrefsEditor:
 
     def on_title_receive_bg_color_color_set(self, widget):
         """Title receive background colour changed"""
-        self.config['title_receive_bg_color'] = widget.get_color().to_string()
+        self.config['title_receive_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_receive_fg_color_color_set(self, widget):
         """Title receive foreground colour changed"""
-        self.config['title_receive_fg_color'] = widget.get_color().to_string()
+        self.config['title_receive_fg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_inactive_bg_color_color_set(self, widget):
         """Title inactive background colour changed"""
-        self.config['title_inactive_bg_color'] = widget.get_color().to_string()
+        self.config['title_inactive_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_transmit_bg_color_color_set(self, widget):
         """Title transmit backgruond colour changed"""
-        self.config['title_transmit_bg_color'] = widget.get_color().to_string()
+        self.config['title_transmit_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_inactive_fg_color_color_set(self, widget):
         """Title inactive foreground colour changed"""
-        self.config['title_inactive_fg_color'] = widget.get_color().to_string()
+        self.config['title_inactive_fg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_transmit_fg_color_color_set(self, widget):
         """Title transmit foreground colour changed"""
-        self.config['title_transmit_fg_color'] = widget.get_color().to_string()
+        self.config['title_transmit_fg_color'] = color2hex(widget)
         self.config.save()
 
     def on_handlesize_change_value(self, widget, scroll, value):
@@ -1050,8 +1052,8 @@ class PrefsEditor:
             forecol = self.colourschemes[value][0]
             backcol = self.colourschemes[value][1]
         elif value == 'custom':
-            forecol = fore.get_color().to_string()
-            backcol = back.get_color().to_string()
+            forecol = color2hex(fore)
+            backcol = color2hex(back)
         else:
             err('Unknown colourscheme value: %s' % value)
             return
