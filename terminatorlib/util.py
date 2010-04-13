@@ -203,13 +203,13 @@ def get_nav_possible(edge, allocation, direction):
     """Check if the supplied allocation is in the right direction of the
     supplied edge"""
     if direction == 'left':
-        return((allocation.x + allocation.width) < edge)
+        return((allocation.x + allocation.width) <= edge)
     elif direction == 'right':
-        return(allocation.x > edge)
+        return(allocation.x >= edge)
     elif direction == 'up':
-        return((allocation.y + allocation.height) < edge)
+        return((allocation.y + allocation.height) <= edge)
     elif direction == 'down':
-        return(allocation.y > edge)
+        return(allocation.y >= edge)
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
