@@ -173,7 +173,6 @@ DEFAULTS = {
                 'scroll_on_output'      : True,
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
-                'alternate_screen_scroll'   : True,
                 'exit_action'           : 'close',
                 'palette'               : '#2E2E34343636:#CCCC00000000:\
 #4E4E9A9A0606:#C4C4A0A00000:#34346565A4A4:#757550507B7B:#060698209A9A:\
