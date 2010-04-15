@@ -40,13 +40,13 @@ class PrefsEditor:
                          'orange_on_black': 5,
                          'ambience': 6,
                          'custom': 7}
-    colourschemes = {'grey_on_black': ['#AAAAAA', '#000000'],
-                     'black_on_yellow': ['#000000', '#FFFFDD'],
-                     'black_on_white': ['#000000', '#FFFFFF'],
-                     'white_on_black': ['#FFFFFF', '#000000'],
-                     'green_on_black': ['#00FF00', '#000000'],
-                     'orange_on_black': ['#E53C00', '#000000'],
-                     'ambience': ['#FFFFFF', '#300A24']}
+    colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
+                     'black_on_yellow': ['#000000', '#ffffdd'],
+                     'black_on_white': ['#000000', '#ffffff'],
+                     'white_on_black': ['#ffffff', '#000000'],
+                     'green_on_black': ['#00ff00', '#000000'],
+                     'orange_on_black': ['#e53c00', '#000000'],
+                     'ambience': ['#ffffff', '#300a24']}
     palettevalues = {'tango': 0,
                      'linux': 1,
                      'xterm': 2,
@@ -355,8 +355,8 @@ class PrefsEditor:
         for ascheme in self.colourschemes:
             forecol = self.colourschemes[ascheme][0]
             backcol = self.colourschemes[ascheme][1]
-            if self.config['foreground_color'] == forecol and \
-               self.config['background_color'] == backcol:
+            if self.config['foreground_color'].lower() == forecol and \
+               self.config['background_color'].lower() == backcol:
                 scheme = ascheme
                 break
         if scheme not in self.colorschemevalues:
@@ -387,16 +387,22 @@ class PrefsEditor:
         widget = guiget('palette_combobox')
         palette = None
         for apalette in self.palettes:
-            if self.config['palette'] == self.palettes[apalette]:
+            if self.config['palette'].lower() == self.palettes[apalette]:
                 palette = apalette
         if palette not in self.palettevalues:
-            palette = 'rxvt'
-        widget.set_active(self.palettevalues[palette])
+            if self.config['palette'] in [None, '']:
+                palette = 'rxvt'
+            else:
+                palette = 'custom'
+        # NOTE: The palette selector is set after the colour pickers
         # Palette colour pickers
-        palette = self.config['palette'].split(':')
+        colourpalette = self.config['palette'].split(':')
         for i in xrange(1, 17):
             widget = guiget('palette_colorpicker_%d' % i)
-            widget.set_color(gtk.gdk.Color(palette[i - 1]))
+            widget.set_color(gtk.gdk.Color(colourpalette[i - 1]))
+        # Now set the palette selector widget
+        widget = guiget('palette_combobox')
+        widget.set_active(self.palettevalues[palette])
         # Titlebar colors
         for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
             'title_receive_fg_color', 'title_receive_bg_color',
