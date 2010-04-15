@@ -2825,6 +2825,7 @@
                         <child>
                           <object class="GtkCellRendererAccel" id="cellrendereraccel1">
                             <property name="editable">True</property>
+                            <property name="accel_mode">other</property>
                             <signal name="accel_cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore"/>
                             <signal name="accel_edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore"/>
                           </object>
