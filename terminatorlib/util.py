@@ -60,11 +60,17 @@ def dbg(log = ""):
             return
         if DEBUGMETHODS != [] and method not in DEBUGMETHODS:
             return
-        print >> sys.stderr, "%s::%s: %s%s" % (classname, method, log, extra)
+        try:
+            print >> sys.stderr, "%s::%s: %s%s" % (classname, method, log, extra)
+        except IOError:
+            pass
 
 def err(log = ""):
     """Print an error message"""
-    print >> sys.stderr, log
+    try:
+        print >> sys.stderr, log
+    except IOError:
+        pass
 
 def gerr(message = None):
     """Display a graphical error. This should only be used for serious
