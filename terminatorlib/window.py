@@ -163,6 +163,10 @@ class Window(Container, gtk.Window):
         """Make a new tab"""
         cwd = None
 
+        if self.get_property('term_zoomed') == True:
+            err("You can't create a tab while a terminal is maximised/zoomed")
+            return
+
         if widget:
             cwd = widget.get_cwd()
         maker = Factory()
