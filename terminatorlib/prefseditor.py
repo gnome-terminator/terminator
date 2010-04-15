@@ -360,8 +360,12 @@ class PrefsEditor:
                 scheme = ascheme
                 break
         if scheme not in self.colorschemevalues:
-            scheme = 'grey_on_black'
-        widget.set_active(self.colorschemevalues[scheme])
+            if self.config['foreground_color'] in [None, ''] or \
+               self.config['background_color'] in [None, '']:
+                scheme = 'grey_on_black'
+            else:
+                scheme = 'custom'
+        # NOTE: The scheme is set in the GUI widget after the fore/back colours
         # Foreground color
         widget = guiget('foreground_colorpicker')
         widget.set_color(gtk.gdk.Color(self.config['foreground_color']))
@@ -376,6 +380,9 @@ class PrefsEditor:
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
+        # Now actually set the scheme
+        widget = guiget('color_scheme_combobox')
+        widget.set_active(self.colorschemevalues[scheme])
         # Palette scheme
         widget = guiget('palette_combobox')
         palette = None
