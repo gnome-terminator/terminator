@@ -1,5 +1,8 @@
-terminator UNRELEASED:
+terminator 0.93:
   * Add preferences support for alternate_screen_scroll (LP: #558832).
+  * Bug fixes for LPs: #562490, #563911, #546665, #558324, #490627,
+	   #558376, #558375, #559185, #558330, #554571, #554440, #561697, 
+		 #562039, #558832, #561710, #563445 and some other bugs.
 
 terminator 0.92:
   * Lots of juicy bug fixes
