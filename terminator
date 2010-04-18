@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     MAKER = Factory()
     TERMINATOR = Terminator()
-    TERMINATOR.origcwd = ORIGCWD
+    TERMINATOR.set_origcwd(ORIGCWD)
     TERMINATOR.reconfigure()
     try:
         TERMINATOR.create_layout(OPTIONS.layout)

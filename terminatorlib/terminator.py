@@ -4,6 +4,7 @@
 """terminator.py - class for the master Terminator singleton"""
 
 import copy
+import os
 import gtk
 
 from borg import Borg
@@ -62,6 +63,13 @@ class Terminator(Borg):
             self.pid_cwd = get_pid_cwd()
         if self.gnome_client is None:
             self.attempt_gnome_client()
+
+    def set_origcwd(self, cwd):
+        """Store the original cwd our process inherits"""
+        if cwd == '/':
+            cwd = os.path.expanduser('~')
+            os.chdir(cwd)
+        self.origcwd = cwd
 
     def attempt_gnome_client(self):
         """Attempt to find a GNOME Session to register with"""
