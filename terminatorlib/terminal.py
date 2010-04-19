@@ -1276,6 +1276,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         layout['type'] = 'Terminal'
         layout['parent'] = parent
         layout['order'] = child_order
+        if self.group:
+            layout['group'] = self.group
         profile = self.get_profile()
         if layout != "default":
             # There's no point explicitly noting default profiles
@@ -1289,6 +1291,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Apply our layout"""
         if layout.has_key('command') and layout['command'] != '':
             self.layout_command = layout['command']
+        if layout.has_key('group') and layout['group'] != '':
+            # This doesn't need/use self.titlebar, but it's safer than sending
+            # None
+            self.really_create_group(self.titlebar, layout['group'])
 
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
