@@ -113,6 +113,7 @@ class Notebook(Container, gtk.Notebook):
             sibling.spawn_child()
 
         self.insert_page(container, None, page_num)
+        self.set_tab_reorderable(container, True)
         self.set_tab_label(container, label)
         self.show_all()
 
