@@ -1291,6 +1291,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Apply our layout"""
         if layout.has_key('command') and layout['command'] != '':
             self.layout_command = layout['command']
+        if layout.has_key('profile') and layout['profile'] != '':
+            if layout['profile'] in self.config.list_profiles():
+                self.set_profile(self, layout['profile'])
         if layout.has_key('group') and layout['group'] != '':
             # This doesn't need/use self.titlebar, but it's safer than sending
             # None
