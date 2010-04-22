@@ -244,4 +244,16 @@ class Titlebar(gtk.EventBox):
         self.bellicon.hide()
         return(False)
 
+    def get_custom_string(self):
+        """If we have a custom string set, return it, otherwise None"""
+        if self.label.is_custom():
+            return(self.label.get_text())
+        else:
+            return(None)
+
+    def set_custom_string(self, string):
+        """Set a custom string"""
+        self.label.set_text(string)
+        self.label.set_custom()
+
 gobject.type_register(Titlebar)
