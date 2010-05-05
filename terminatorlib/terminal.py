@@ -1249,6 +1249,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def get_cursor_position(self):
         """Return the co-ordinates of our cursor"""
+        # FIXME: THIS METHOD IS DEPRECATED AND UNUSED
         col, row = self.vte.get_cursor_position()
         width = self.vte.get_char_width()
         height = self.vte.get_char_height()
