@@ -1249,6 +1249,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def get_cursor_position(self):
         """Return the co-ordinates of our cursor"""
+        # FIXME: THIS METHOD IS DEPRECATED AND UNUSED
         col, row = self.vte.get_cursor_position()
         width = self.vte.get_char_width()
         height = self.vte.get_char_height()
@@ -1282,6 +1283,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         if layout != "default":
             # There's no point explicitly noting default profiles
             layout['profile'] = profile
+        title = self.titlebar.get_custom_string()
+        if title:
+            layout['title'] = title
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
@@ -1298,6 +1302,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             # This doesn't need/use self.titlebar, but it's safer than sending
             # None
             self.really_create_group(self.titlebar, layout['group'])
+        if layout.has_key('title') and layout['title'] != '':
+            self.titlebar.set_custom_string(layout['title'])
 
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):

@@ -130,4 +130,11 @@ class EditableLabel(gtk.EventBox):
         """Set the label foreground"""
         self._label.modify_fg(state, color)
 
+    def is_custom(self):
+        """Return whether or not we have a custom string set"""
+        return(self._custom)
+
+    def set_custom(self):
+        """Set the customness of the string to True"""
+        self._custom = True
 gobject.type_register(EditableLabel)

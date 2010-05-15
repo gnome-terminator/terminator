@@ -671,9 +671,10 @@ class Window(Container, gtk.Window):
 
             if len(winners) > 1:
                 # Break an n-way tie using the cursor position
-                cursor_x, cursor_y = terminal.get_cursor_position()
-                cursor_x = cursor_x + allocation.x
-                cursor_y = cursor_y + allocation.y
+                term_alloc = terminal.allocation
+                cursor_x = term_alloc.x + term_alloc.width / 2
+                cursor_y = term_alloc.y + term_alloc.height / 2
+
                 for term in winners:
                     rect = layout[term]
                     if util.get_nav_tiebreak(direction, cursor_x, cursor_y,
