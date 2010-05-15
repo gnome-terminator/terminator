@@ -259,10 +259,16 @@ class Config(object):
     def del_profile(self, profile):
         """Delete a profile"""
         if profile == self.profile:
+            # FIXME: We should solve this problem by updating terminals when we
+            # remove a profile
             err('Config::del_profile: Deleting in-use profile %s.' % profile)
             self.set_profile('default')
         if self.base.profiles.has_key(profile):
             del(self.base.profiles[profile])
+        options = self.options_get()
+        if options and options.profile == profile:
+            options.profile = None
+            self.options_set(options)
 
     def rename_profile(self, profile, newname):
         """Rename a profile"""
@@ -600,6 +606,10 @@ class ConfigBase(Borg):
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
+        if not self.profiles.has_key(profile):
+            # Hitting this generally implies a bug
+            profile = 'default'
+
         if self.global_config.has_key(key):
             dbg('ConfigBase::get_item: %s found in globals: %s' %
                     (key, self.global_config[key]))
