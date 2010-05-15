@@ -207,6 +207,18 @@ class PrefsEditor:
         else:
             active = 0
         widget.set_active(active)
+        #Hide from taskbar
+        widget = guiget('hidefromtaskbcheck')
+        widget.set_active(self.config['hide_from_taskbar'])
+        #Always on top
+        widget = guiget('alwaysontopcheck')
+        widget.set_active(self.config['always_on_top'])
+        #Hide on lose focus
+        widget = guiget('hideonlosefocuscheck')
+        widget.set_active(self.config['hide_on_lose_focus'])
+        #Show on all workspaces
+        widget = guiget('stickycheck')
+        widget.set_active(self.config['sticky'])
 
         ## Profile tab
         # Populate the profile list
@@ -494,6 +506,26 @@ class PrefsEditor:
     def on_winbordercheck_toggled(self, widget):
         """Window border setting changed"""
         self.config['borderless'] = not widget.get_active()
+        self.config.save()
+
+    def on_hidefromtaskbcheck_toggled(self, widget):
+        """Hide from taskbar setting changed"""
+        self.config['hide_from_taskbar'] = widget.get_active()
+        self.config.save()
+
+    def on_alwaysontopcheck_toggled(self, widget):
+        """Always on top setting changed"""
+        self.config['always_on_top'] = widget.get_active()
+        self.config.save()
+
+    def on_hideonlosefocuscheck_toggled(self, widget):
+        """Hide on lose focus setting changed"""
+        self.config['hide_on_lose_focus'] = widget.get_active()
+        self.config.save()
+
+    def on_stickycheck_toggled(self, widget):
+        """Sticky setting changed"""
+        self.config['sticky'] = widget.get_active()
         self.config.save()
 
     def on_allow_bold_checkbutton_toggled(self, widget):

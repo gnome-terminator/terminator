@@ -145,7 +145,7 @@ class Terminator(Borg):
         window = maker.make('Window')
         terminal = maker.make('Terminal')
         window.add(terminal)
-        window.show()
+        window.show(True)
         terminal.spawn_child()
 
         return(window, terminal)
