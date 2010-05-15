@@ -150,21 +150,30 @@ class Titlebar(gtk.EventBox):
                     color = term.get_style().bg[gtk.STATE_NORMAL]
                 else:
                     color = gtk.gdk.color_parse(title_bg)
-                self.set_size_request(-1, 2)
-                self.label.hide()
-            else:
-                self.set_size_request(-1, -1)
-                self.label.show()
+            self.update_visibility()
             self.ebox.modify_bg(gtk.STATE_NORMAL,
                     gtk.gdk.color_parse(group_bg))
             self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)
 
+    def update_visibility(self):
+        """Make the titlebar be visible or not"""
+        if not self.get_desired_visibility():
+            dbg('hiding titlebar')
+            self.hide()
+            self.label.hide()
+        else:
+            dbg('showing titlebar')
+            self.show()
+            self.label.show()
+
     def get_desired_visibility(self):
         """Returns True if the titlebar is supposed to be visible. False if
         not"""
-        if self.editing() == True:
+        if self.editing() == True or self.terminal.group:
+            dbg('implicit desired visibility')
             return(True)
         else:
+            dbg('configured visibility: %s' % self.config['show_titlebar'])
             return(self.config['show_titlebar'])
 
     def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
@@ -195,10 +204,11 @@ class Titlebar(gtk.EventBox):
             self.grouplabel.show()
         else:
             self.grouplabel.hide()
+        self.update_visibility()
 
     def on_clicked(self, widget, event):
         """Handle a click on the label"""
-        self.set_size_request(-1, -1)
+        self.show()
         self.label.show()
         self.emit('clicked')
 
@@ -214,6 +224,7 @@ class Titlebar(gtk.EventBox):
         """Create a new group"""
         self.groupentry.show()
         self.groupentry.grab_focus()
+        self.update_visibility()
 
     def groupentry_cancel(self, widget, event):
         """Hide the group name entry"""
