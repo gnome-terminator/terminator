@@ -105,6 +105,7 @@ class Terminal(gtk.VBox):
         self.terminator = Terminator()
         self.terminator.register_terminal(self)
 
+        # FIXME: Surely these should happen in Terminator::register_terminal()?
         self.connect('enumerate', self.terminator.do_enumerate)
         self.connect('focus-in', self.terminator.focus_changed)
 
