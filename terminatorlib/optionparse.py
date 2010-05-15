@@ -66,6 +66,8 @@ command to execute inside the terminal, and its arguments')
     parser.add_option('-r', '--role', dest='role', help='Set a custom \
 WM_WINDOW_ROLE property on the window')
     parser.add_option('-l', '--layout', dest='layout', help='Select a layout')
+    parser.add_option('-p', '--profile', dest='profile', help='Use a \
+different profile as the default')
     parser.add_option('-d', '--debug', action='count', dest='debug',
             help='Enable debugging information (twice for debug server)')
     parser.add_option('--debug-classes', action='store', dest='debug_classes', 
@@ -73,7 +75,7 @@ WM_WINDOW_ROLE property on the window')
     parser.add_option('--debug-methods', action='store', dest='debug_methods',
             help='Comma separated list of methods to limit debugging to')
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
-    '--no-gconf', '-p', '--profile' ]:
+    '--no-gconf' ]:
         parser.add_option(item, dest='dummy', action='store',
                 help=SUPPRESS_HELP)
 
@@ -112,6 +114,9 @@ WM_WINDOW_ROLE property on the window')
 
     if options.layout is None:
         options.layout = 'default'
+
+    if options.profile and options.profile not in configobj.list_profiles():
+        options.profile = None
 
     configobj.options_set(options)
 

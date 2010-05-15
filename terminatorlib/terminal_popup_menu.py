@@ -172,7 +172,7 @@ class TerminalPopupMenu(object):
                 item = gtk.RadioMenuItem(group, profile.capitalize())
                 if profile == current:
                     item.set_active(True)
-                item.connect('activate', terminal.set_profile, profile)
+                item.connect('activate', terminal.force_set_profile, profile)
                 submenu.append(item)
 
         self.add_encoding_items(menu)

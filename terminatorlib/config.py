@@ -225,7 +225,7 @@ class Config(object):
     
     def __init__(self, profile='default'):
         self.base = ConfigBase()
-        self.profile = profile
+        self.set_profile(profile)
         self.inhibited = False
 
     def __getitem__(self, key):
@@ -240,8 +240,12 @@ class Config(object):
         """Get our profile"""
         return(self.profile)
 
-    def set_profile(self, profile):
+    def set_profile(self, profile, force=False):
         """Set our profile (which usually means change it)"""
+        options = self.options_get()
+        if not force and options and options.profile and profile == 'default':
+            dbg('overriding default profile to %s' % options.profile)
+            profile = options.profile
         dbg('Config::set_profile: Changing profile to %s' % profile)
         self.profile = profile
         if not self.base.profiles.has_key(profile):

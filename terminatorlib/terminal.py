@@ -159,10 +159,14 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
-    def set_profile(self, _widget, profile):
+    def force_set_profile(self, widget, profile):
+        """Forcibly set our profile"""
+        self.set_profile(widget, profile, True)
+
+    def set_profile(self, _widget, profile, force=False):
         """Set our profile"""
         if profile != self.config.get_profile():
-            self.config.set_profile(profile)
+            self.config.set_profile(profile, force)
             self.reconfigure()
 
     def get_profile(self):
