@@ -19,11 +19,13 @@ class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
     terminal = None
     terminator = None
+    config = None
 
     def __init__(self, terminal):
         """Class initialiser"""
         self.terminal = terminal
         self.terminator = Terminator()
+        self.config = Config()
 
     def show(self, widget, event=None):
         """Display the context menu"""
@@ -33,6 +35,8 @@ class TerminalPopupMenu(object):
         url = None
         button = None
         time = None
+
+        self.config.set_profile(terminal.get_profile())
 
         if event:
             url = terminal.check_for_url(event)
@@ -135,6 +139,14 @@ class TerminalPopupMenu(object):
 
             menu.append(gtk.MenuItem())
 
+        if self.config['show_titlebar'] == False:
+            item = gtk.MenuItem(_('Grouping'))
+            submenu = self.terminal.populate_group_menu()
+            submenu.show_all()
+            item.set_submenu(submenu)
+            menu.append(item)
+            menu.append(gtk.MenuItem())
+
         item = gtk.CheckMenuItem(_('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
@@ -144,8 +156,7 @@ class TerminalPopupMenu(object):
         item.connect('activate', lambda x: PrefsEditor(self.terminal))
         menu.append(item)
 
-        config = Config()
-        profilelist = config.list_profiles()
+        profilelist = self.config.list_profiles()
 
         if len(profilelist) > 1:
             item = gtk.MenuItem(_('Profiles'))
@@ -161,7 +172,7 @@ class TerminalPopupMenu(object):
                 item = gtk.RadioMenuItem(group, profile.capitalize())
                 if profile == current:
                     item.set_active(True)
-                item.connect('activate', terminal.set_profile, profile)
+                item.connect('activate', terminal.force_set_profile, profile)
                 submenu.append(item)
 
         self.add_encoding_items(menu)

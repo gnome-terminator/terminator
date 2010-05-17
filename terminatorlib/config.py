@@ -229,7 +229,7 @@ class Config(object):
     
     def __init__(self, profile='default'):
         self.base = ConfigBase()
-        self.profile = profile
+        self.set_profile(profile)
         self.inhibited = False
 
     def __getitem__(self, key):
@@ -244,8 +244,12 @@ class Config(object):
         """Get our profile"""
         return(self.profile)
 
-    def set_profile(self, profile):
+    def set_profile(self, profile, force=False):
         """Set our profile (which usually means change it)"""
+        options = self.options_get()
+        if not force and options and options.profile and profile == 'default':
+            dbg('overriding default profile to %s' % options.profile)
+            profile = options.profile
         dbg('Config::set_profile: Changing profile to %s' % profile)
         self.profile = profile
         if not self.base.profiles.has_key(profile):
@@ -259,10 +263,16 @@ class Config(object):
     def del_profile(self, profile):
         """Delete a profile"""
         if profile == self.profile:
+            # FIXME: We should solve this problem by updating terminals when we
+            # remove a profile
             err('Config::del_profile: Deleting in-use profile %s.' % profile)
             self.set_profile('default')
         if self.base.profiles.has_key(profile):
             del(self.base.profiles[profile])
+        options = self.options_get()
+        if options and options.profile == profile:
+            options.profile = None
+            self.options_set(options)
 
     def rename_profile(self, profile, newname):
         """Rename a profile"""
@@ -600,6 +610,10 @@ class ConfigBase(Borg):
 
     def get_item(self, key, profile='default', plugin=None):
         """Look up a configuration item"""
+        if not self.profiles.has_key(profile):
+            # Hitting this generally implies a bug
+            profile = 'default'
+
         if self.global_config.has_key(key):
             dbg('ConfigBase::get_item: %s found in globals: %s' %
                     (key, self.global_config[key]))
