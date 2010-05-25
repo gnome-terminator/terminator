@@ -87,6 +87,10 @@ class Notebook(Container, gtk.Notebook):
         num = 0
         for child_key in keys:
             page = self.get_nth_page(num)
+            if not page:
+                # This page does not yet exist, so make it
+                self.newtab(children[child_key])
+                page = self.get_nth_page(num)
             page.create_layout(children[child_key])
             num = num + 1
 
