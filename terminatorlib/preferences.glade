@@ -643,7 +643,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label16">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Foreground</property>
+                                    <property name="label" translatable="yes">Font colour</property>
                                   </object>
                                   <packing>
                                     <property name="top_attach">1</property>
