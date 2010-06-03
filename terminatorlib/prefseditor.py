@@ -147,8 +147,7 @@ class PrefsEditor:
             self.set_values()
         except Exception, e:
             err('Unable to set values: %s' % e)
-        finally:
-            self.config.uninhibit_save()
+        self.config.uninhibit_save()
 
     def on_closebutton_clicked(self, _button):
         """Close the window"""
