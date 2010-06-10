@@ -47,7 +47,9 @@ class TerminalShot(plugin.MenuItem):
 
         savedialog.show_all()
         response = savedialog.run()
-        if response not in [gtk.RESPONSE_NONE, gtk.RESPONSE_DELETE_EVENT]:
+        path = None
+        if response not in [gtk.RESPONSE_NONE, gtk.RESPONSE_DELETE_EVENT,
+                            gtk.RESPONSE_CANCEL]:
             path = os.path.join(savedialog.get_current_folder(),
                                 savedialog.get_filename())
         savedialog.destroy()
