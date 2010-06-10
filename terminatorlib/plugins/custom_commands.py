@@ -17,8 +17,8 @@ from terminatorlib.util import get_config_dir
 
 (CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = range(0,3)
 
-# Every plugin you want Terminator to load *must* be listed in 'available'
-available = ['CustomCommandsMenu']
+# Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
+AVAILABLE = ['CustomCommandsMenu']
 
 class CustomCommandsMenu(plugin.MenuItem):
     """Add custom commands to the terminal menu"""

@@ -84,7 +84,7 @@ class PluginRegistry(borg.Borg):
                         plugin)
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
-                        for item in getattr(module, 'available'):
+                        for item in getattr(module, 'AVAILABLE'):
                             if not testing and item in config['disabled_plugins']:
                                 continue
                             if item not in self.instances:

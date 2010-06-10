@@ -10,8 +10,8 @@ import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 from terminatorlib.util import widget_pixbuf
 
-# Every plugin you want Terminator to load *must* be listed in 'available'
-available = ['TerminalShot']
+# Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
+AVAILABLE = ['TerminalShot']
 
 class TerminalShot(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
