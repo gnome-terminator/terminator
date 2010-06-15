@@ -159,6 +159,10 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
+    def get_vte(self):
+        """This simply returns the vte widget we are using"""
+        return(self.vte)
+
     def force_set_profile(self, widget, profile):
         """Forcibly set our profile"""
         self.set_profile(widget, profile, True)
