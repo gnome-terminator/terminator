@@ -79,6 +79,7 @@ def gerr(message = None):
     dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
             gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message)
     dialog.run()
+    dialog.destroy()
 
 def has_ancestor(widget, wtype):
     """Walk up the family tree of widget to see if any ancestors are of type"""
