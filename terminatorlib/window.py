@@ -652,6 +652,7 @@ class Window(Container, gtk.Window):
 
         child = children[children.keys()[0]]
         terminal = self.get_children()[0]
+        dbg('Making a child of type: %s' % child['type'])
         if child['type'] == 'VPaned':
             self.split_axis(terminal, True)
         elif child['type'] == 'HPaned':

@@ -1302,6 +1302,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def create_layout(self, layout):
         """Apply our layout"""
+        dbg('Setting layout')
         if layout.has_key('command') and layout['command'] != '':
             self.layout_command = layout['command']
         if layout.has_key('profile') and layout['profile'] != '':

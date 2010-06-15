@@ -74,6 +74,7 @@ class Notebook(Container, gtk.Notebook):
 
         for child_key in keys:
             child = children[child_key]
+            dbg('Making a child of type: %s' % child['type'])
             if child['type'] == 'Terminal':
                 continue
             elif child['type'] == 'VPaned':

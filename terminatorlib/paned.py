@@ -225,6 +225,7 @@ class Paned(Container):
         num = 0
         for child_key in keys:
             child = children[child_key]
+            dbg('Making a child of type: %s' % child['type'])
             if child['type'] == 'Terminal':
                 pass
             elif child['type'] == 'VPaned':
