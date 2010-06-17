@@ -1326,7 +1326,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.copy_clipboard()
 
     def key_paste(self):
-        self.vte.paste_clipboard()
+        self.paste_clipboard()
 
     def key_toggle_scrollbar(self):
         self.do_scrollbar_toggle()
