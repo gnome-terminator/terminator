@@ -92,7 +92,8 @@ DEFAULTS = {
             'title_receive_bg_color' : '#0076c9',
             'title_inactive_fg_color' : '#000000',
             'title_inactive_bg_color' : '#c0bebf',
-            'disabled_plugins'      : ['TestPlugin', 'CustomCommandsMenu'],
+            'enabled_plugins'       : ['LaunchpadBugURLHandler',
+                                       'LaunchpadCodeURLHandler'],
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

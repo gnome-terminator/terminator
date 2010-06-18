@@ -96,9 +96,11 @@ Default value: \fB'#000000'\fR
 Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#C0BEBF'\fR
 .TP
-.B disabled_plugins
-A list of plugins which should not be loaded by default.
-Default value: \fB"TestPlugin, CustomCommandsMenu"\fR
+.B enabled_plugins
+A list of plugins which should be loaded by default. All other plugin classes will be ignored. The default value includes two
+plugins related to Launchpad, which are enabled by default to provide continuity with earlier releases where these were the
+only substantial plugins available, and all plugins were loaded by default.
+Default value: \fB"LaunchpadBugURLHandler, LaunchpadCodeURLHandler"\fR
 
 .SH keybindings
 These are the options Terminator currently supports in the keybindings section:

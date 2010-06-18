@@ -85,7 +85,8 @@ class PluginRegistry(borg.Borg):
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
                         for item in getattr(module, 'AVAILABLE'):
-                            if not testing and item in config['disabled_plugins']:
+                            if not testing and item not in config['enabled_plugins']:
+                                dbg('plugin %s not enabled, skipping' % item)
                                 continue
                             if item not in self.instances:
                                 func = getattr(module, item)
