@@ -93,7 +93,8 @@ DEFAULTS = {
             'title_inactive_fg_color' : '#000000',
             'title_inactive_bg_color' : '#c0bebf',
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
-                                       'LaunchpadCodeURLHandler'],
+                                       'LaunchpadCodeURLHandler',
+                                       'APTURLHandler'],
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
