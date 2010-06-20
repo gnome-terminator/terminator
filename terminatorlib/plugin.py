@@ -32,6 +32,7 @@ from util import dbg, err, get_config_dir
 class Plugin(object):
     """Definition of our base plugin class"""
     capabilities = None
+    is_permanent = None
 
     def __init__(self):
         """Class initialiser."""
@@ -135,8 +136,11 @@ for %s' % (len(self.instances), capability))
 
     def disable(self, plugin):
         """Disable a plugin"""
-        dbg("Disabling %s" % plugin)
-        del(self.instances[plugin])
+        if self.instances[plugin].is_permanent:
+            dbg("Refusing to disable permanent plugin %s" % plugin)
+        else:
+            dbg("Disabling %s" % plugin)
+            del(self.instances[plugin])
 
 # This is where we should define a base class for each type of plugin we
 # support
@@ -148,6 +152,7 @@ class URLHandler(Plugin):
     capabilities = ['url_handler']
     handler_name = None
     match = None
+    is_permanent = True
 
     def callback(self, url):
         """Callback to transform the enclosed URL"""
