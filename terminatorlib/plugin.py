@@ -128,6 +128,16 @@ for %s' % (len(self.instances), capability))
         not"""
         return(self.instances.has_key(plugin))
 
+    def is_permanent(self, plugin):
+        """Return a boolean value indicating whether a plugin is believed to be
+        permanent. This is impossible to determine for plugins that haven't
+        been loaded, so they will report as not being permanent until they are
+        loaded"""
+        if plugin not in self.instances:
+            return(False)
+        else:
+            return(self.instances[plugin].is_permanent)
+
     def enable(self, plugin):
         """Enable a plugin"""
         dbg("Enabling %s" % plugin)
