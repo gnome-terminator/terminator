@@ -15,6 +15,7 @@ import config
 from keybindings import Keybindings, KeymapError
 from translation import _
 from terminator import Terminator
+from plugin import PluginRegistry
 
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
@@ -26,6 +27,7 @@ def color2hex(widget):
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
     config = None
+    registry = None
     keybindings = None
     window = None
     builder = None
@@ -260,7 +262,19 @@ class PrefsEditor:
                              keyval, mask])
 
         ## Plugins tab
-        # FIXME: Implement this
+        # Populate the plugin list
+        widget = guiget('pluginlist')
+        liststore = widget.get_model()
+        self.registry = PluginRegistry()
+        plugins = self.registry.get_available_plugins()
+        self.pluginiters = {}
+        for plugin in plugins:
+            self.pluginiters[plugin] = liststore.append([plugin,
+                                             self.registry.is_enabled(plugin)])
+        selection = widget.get_selection()
+        selection.connect('changed', self.on_plugin_selection_changed)
+        if len(self.pluginiters) > 0:
+            selection.select_iter(liststore.get_iter_first())
 
     def set_profile_values(self, profile):
         """Update the profile values for a given profile"""
@@ -984,6 +998,46 @@ class PrefsEditor:
             widget.set_sensitive(False)
         else:
             widget.set_sensitive(True)
+
+    def on_plugin_selection_changed(self, selection):
+        """A different plugin was selected"""
+        (listmodel, rowiter) = selection.get_selected()
+        if not rowiter:
+            # Something is wrong, just jump to the first item in the list
+            treeview = selection.get_tree_view()
+            liststore = treeview.get_model()
+            selection.select_iter(liststore.get_iter_first())
+            return
+        plugin = listmodel.get_value(rowiter, 0)
+        self.set_plugin(plugin)
+        self.previous_plugin_selection = plugin
+
+        widget = self.builder.get_object('plugintogglebutton')
+
+    def on_plugin_toggled(self, cell, path):
+        """A plugin has been enabled or disabled"""
+        treeview = self.builder.get_object('pluginlist')
+        model = treeview.get_model()
+        plugin = model[path][0]
+
+        state = self.registry.is_enabled(plugin)
+        if state:
+            self.registry.disable(plugin)
+        else:
+            self.registry.enable(plugin)
+        state = self.registry.is_enabled(plugin)
+        # Update the treeview
+        model[path][1] = state
+
+        enabled_plugins = self.registry.get_all_plugins().keys()
+        self.config['enabled_plugins'] = enabled_plugins
+        self.config.save()
+
+    def set_plugin(self, plugin):
+        """Show the preferences for the selected plugin, if any"""
+        pluginpanelabel = self.builder.get_object('pluginpanelabel')
+        pluginconfig = self.config.plugin_get_config(plugin)
+        # FIXME: Implement this, we need to auto-construct a UI for the plugin
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""

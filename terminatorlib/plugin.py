@@ -39,6 +39,7 @@ class Plugin(object):
 
 class PluginRegistry(borg.Borg):
     """Definition of a class to store plugin instances"""
+    available_plugins = None
     instances = None
     path = None
     done = None
@@ -61,6 +62,8 @@ class PluginRegistry(borg.Borg):
                 self.path)
         if not self.done:
             self.done = False
+        if not self.available_plugins:
+            self.available_plugins = {}
 
     def load_plugins(self, testing=False):
         """Load all plugins present in the plugins/ directory in our module"""
@@ -85,12 +88,15 @@ class PluginRegistry(borg.Borg):
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
                         for item in getattr(module, 'AVAILABLE'):
+                            if item not in self.available_plugins.keys():
+                                func = getattr(module, item)
+                                self.available_plugins[item] = func
+
                             if not testing and item not in config['enabled_plugins']:
                                 dbg('plugin %s not enabled, skipping' % item)
                                 continue
                             if item not in self.instances:
-                                func = getattr(module, item)
-                            self.instances[item] = func()
+                                self.instances[item] = func()
                     except Exception, ex:
                         err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, ex))
@@ -110,6 +116,27 @@ for %s' % (len(self.instances), capability))
     def get_all_plugins(self):
         """Return all plugins"""
         return(self.instances)
+
+    def get_available_plugins(self):
+        """Return a list of all available plugins whether they are enabled or
+        disabled"""
+        return(self.available_plugins.keys())
+
+    def is_enabled(self, plugin):
+        """Return a boolean value indicating whether a plugin is enabled or
+        not"""
+        return(self.instances.has_key(plugin))
+
+    def enable(self, plugin):
+        """Enable a plugin"""
+        dbg("Enabling %s" % plugin)
+        if plugin not in self.instances:
+            self.instances[plugin] = self.available_plugins[plugin]()
+
+    def disable(self, plugin):
+        """Disable a plugin"""
+        dbg("Disabling %s" % plugin)
+        del(self.instances[plugin])
 
 # This is where we should define a base class for each type of plugin we
 # support
