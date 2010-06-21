@@ -28,6 +28,7 @@ class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
     config = None
     registry = None
+    plugins = None
     keybindings = None
     window = None
     builder = None
@@ -266,11 +267,15 @@ class PrefsEditor:
         widget = guiget('pluginlist')
         liststore = widget.get_model()
         self.registry = PluginRegistry()
-        plugins = self.registry.get_available_plugins()
         self.pluginiters = {}
-        for plugin in plugins:
+        pluginlist = self.registry.get_available_plugins()
+        self.plugins = {}
+        for plugin in pluginlist:
+            self.plugins[plugin] = self.registry.is_enabled(plugin)
+
+        for plugin in self.plugins:
             self.pluginiters[plugin] = liststore.append([plugin,
-                                             self.registry.is_enabled(plugin)])
+                                             self.plugins[plugin]])
         selection = widget.get_selection()
         selection.connect('changed', self.on_plugin_selection_changed)
         if len(self.pluginiters) > 0:
@@ -1020,16 +1025,11 @@ class PrefsEditor:
         model = treeview.get_model()
         plugin = model[path][0]
 
-        state = self.registry.is_enabled(plugin)
-        if state:
-            self.registry.disable(plugin)
-        else:
-            self.registry.enable(plugin)
-        state = self.registry.is_enabled(plugin)
+        self.plugins[plugin] = not self.plugins[plugin]
         # Update the treeview
-        model[path][1] = state
+        model[path][1] = self.plugins[plugin]
 
-        enabled_plugins = self.registry.get_all_plugins().keys()
+        enabled_plugins = [x for x in self.plugins if self.plugins[x] == True]
         self.config['enabled_plugins'] = enabled_plugins
         self.config.save()
 
