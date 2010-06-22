@@ -28,14 +28,18 @@ import os
 import borg
 from config import Config
 from util import dbg, err, get_config_dir
+from terminator import Terminator
 
 class Plugin(object):
     """Definition of our base plugin class"""
     capabilities = None
-    is_permanent = None
 
     def __init__(self):
         """Class initialiser."""
+        pass
+
+    def unload(self):
+        """Prepare to be unloaded"""
         pass
 
 class PluginRegistry(borg.Borg):
@@ -128,29 +132,18 @@ for %s' % (len(self.instances), capability))
         not"""
         return(self.instances.has_key(plugin))
 
-    def is_permanent(self, plugin):
-        """Return a boolean value indicating whether a plugin is believed to be
-        permanent. This is impossible to determine for plugins that haven't
-        been loaded, so they will report as not being permanent until they are
-        loaded"""
-        if plugin not in self.instances:
-            return(False)
-        else:
-            return(self.instances[plugin].is_permanent)
-
     def enable(self, plugin):
         """Enable a plugin"""
+        if plugin in self.instances:
+            err("Cannot enable plugin %s, already enabled" % plugin)
         dbg("Enabling %s" % plugin)
-        if plugin not in self.instances:
-            self.instances[plugin] = self.available_plugins[plugin]()
+        self.instances[plugin] = self.available_plugins[plugin]()
 
     def disable(self, plugin):
         """Disable a plugin"""
-        if self.instances[plugin].is_permanent:
-            dbg("Refusing to disable permanent plugin %s" % plugin)
-        else:
-            dbg("Disabling %s" % plugin)
-            del(self.instances[plugin])
+        dbg("Disabling %s" % plugin)
+        self.instances[plugin].unload()
+        del(self.instances[plugin])
 
 # This is where we should define a base class for each type of plugin we
 # support
@@ -162,11 +155,27 @@ class URLHandler(Plugin):
     capabilities = ['url_handler']
     handler_name = None
     match = None
-    is_permanent = True
+
+    def __init__(self):
+        """Class initialiser"""
+        Plugin.__init__(self)
+        terminator = Terminator()
+        for terminal in terminator.terminals:
+            terminal.match_add(self.handler_name, self.match)
 
     def callback(self, url):
         """Callback to transform the enclosed URL"""
         raise NotImplementedError
+
+    def unload(self):
+        """Handle being removed"""
+        if not self.match:
+            err('unload called without self.handler_name being set')
+            return
+        terminator = Terminator()
+        for terminal in terminator.terminals:
+            print self.handler_name
+            terminal.match_remove(self.handler_name)
 
 # MenuItem - This is able to execute code during the construction of the
 #             context menu of a Terminal.

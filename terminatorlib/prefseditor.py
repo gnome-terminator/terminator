@@ -1025,6 +1025,13 @@ class PrefsEditor:
         model = treeview.get_model()
         plugin = model[path][0]
 
+        if not self.plugins[plugin]:
+            # Plugin is currently disabled, load it
+            self.registry.enable(plugin)
+        else:
+            # Plugin is currently enabled, unload it
+            self.registry.disable(plugin)
+
         self.plugins[plugin] = not self.plugins[plugin]
         # Update the treeview
         model[path][1] = self.plugins[plugin]

@@ -268,12 +268,31 @@ class Terminal(gtk.VBox):
                 for urlplugin in plugins:
                     name = urlplugin.handler_name
                     match = urlplugin.match
+                    if name in self.matches:
+                        dbg('Terminal::update_matches: refusing to add \
+duplicate match %s' % name)
+                        continue
                     self.matches[name] = self.vte.match_add(match)
                     dbg('Terminal::update_matches: added plugin URL handler \
 for %s (%s)' % (name, urlplugin.__class__.__name__))
             except Exception, ex:
                 err('Terminal::update_url_matches: %s' % ex)
-            
+
+    def match_add(self, name, match):
+        """Register a URL match"""
+        if name in self.matches:
+            err('Terminal::match_add: Refusing to create duplicate match %s' % name)
+            return
+        self.matches[name] = self.vte.match_add(match)
+
+    def match_remove(self, name):
+        """Remove a previously registered URL match"""
+        if name not in self.matches:
+            err('Terminal::match_remove: Unable to remove non-existent match %s' % name)
+            return
+        self.vte.match_remove(self.matches[name])
+        del(self.matches[name])
+
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 

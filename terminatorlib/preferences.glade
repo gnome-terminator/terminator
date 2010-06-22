@@ -2865,51 +2865,32 @@
               <object class="GtkHBox" id="hbox7">
                 <property name="visible">True</property>
                 <child>
-                  <object class="GtkVBox" id="vbox12">
+                  <object class="GtkTreeView" id="pluginlist">
                     <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">PluginListStore</property>
+                    <property name="hadjustment">adjustment2</property>
+                    <property name="vadjustment">adjustment3</property>
+                    <property name="search_column">0</property>
                     <child>
-                      <object class="GtkTreeView" id="pluginlist">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="model">PluginListStore</property>
-                        <property name="hadjustment">adjustment2</property>
-                        <property name="vadjustment">adjustment3</property>
-                        <property name="search_column">0</property>
+                      <object class="GtkTreeViewColumn" id="plugincolumn1">
+                        <property name="title">Plugin</property>
+                        <property name="clickable">True</property>
                         <child>
-                          <object class="GtkTreeViewColumn" id="plugincolumn1">
-                            <property name="title">Plugin</property>
-                            <property name="clickable">True</property>
-                            <child>
-                              <object class="GtkCellRendererToggle" id="cellrenderertext15">
-                                <signal name="toggled" handler="on_plugin_toggled"/>
-                              </object>
-                              <attributes>
-                                <attribute name="active">1</attribute>
-                              </attributes>
-                            </child>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext16"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
-                            </child>
+                          <object class="GtkCellRendererToggle" id="cellrenderertext15">
+                            <signal name="toggled" handler="on_plugin_toggled"/>
                           </object>
+                          <attributes>
+                            <attribute name="active">1</attribute>
+                          </attributes>
+                        </child>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext16"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
                         </child>
                       </object>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label13">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Plugins will be enabled/disabled after restarting Terminator</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
