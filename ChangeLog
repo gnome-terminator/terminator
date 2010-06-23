@@ -1,3 +1,13 @@
+terminator 0.94:
+  * Improved support for entirely hiding Terminal titlebars
+  * Plugin configuration via preferences UI
+  * New plugins: Terminal Screenshot, Watch Terminal Activity
+  * Add preferences support for profile encodings (LP: #597340)
+  * Add Terminal profiles and custom titlebar values to layouts
+  * Improved directional navigation
+  * Bug fixes for LPs: #566925, #563445, #583041, #589200, #576279,
+	   #597340 and some other bugs.
+
 terminator 0.93:
   * Add preferences support for alternate_screen_scroll (LP: #558832).
   * Bug fixes for LPs: #562490, #563911, #546665, #558324, #490627,
