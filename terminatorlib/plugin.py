@@ -174,7 +174,6 @@ class URLHandler(Plugin):
             return
         terminator = Terminator()
         for terminal in terminator.terminals:
-            print self.handler_name
             terminal.match_remove(self.handler_name)
 
 # MenuItem - This is able to execute code during the construction of the
