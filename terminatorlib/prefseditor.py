@@ -321,6 +321,9 @@ class PrefsEditor:
         # Show titlebar
         widget = guiget('show_titlebar')
         widget.set_active(self.config['show_titlebar'])
+        # Copy on selection
+        widget = guiget('copy_on_selection')
+        widget.set_active(self.config['copy_on_selection'])
         # Word chars
         widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
@@ -540,6 +543,11 @@ class PrefsEditor:
     def on_show_titlebar_toggled(self, widget):
         """Show titlebar setting changed"""
         self.config['show_titlebar'] = widget.get_active()
+        self.config.save()
+
+    def on_copy_on_selection_toggled(self, widget):
+        """Copy on selection setting changed"""
+        self.config['copy_on_selection'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):
