@@ -8,7 +8,6 @@ import pygtk
 pygtk.require('2.0')
 import gobject
 import gtk
-import glib
 
 from util import dbg, err
 import util
@@ -36,7 +35,15 @@ class Window(Container, gtk.Window):
     hidefunc = None
 
     zoom_data = None
-    term_zoomed = gobject.property(type=bool, default=False)
+
+    term_zoomed = False
+    __gproperties__ = {
+            'term_zoomed': (gobject.TYPE_BOOLEAN,
+                            'terminal zoomed',
+                            'whether the terminal is zoomed',
+                            False,
+                            gobject.PARAM_READWRITE)
+    }
 
     def __init__(self):
         """Class initialiser"""
@@ -69,6 +76,20 @@ class Window(Container, gtk.Window):
                 if not self.parse_geometry(options.geometry):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)
+
+    def do_get_property(self, prop):
+        """Handle gobject getting a property"""
+        if prop.name in ['term_zoomed', 'term-zoomed']:
+            return(self.term_zoomed)
+        else:
+            raise AttributeError('unknown property %s' % prop.name)
+
+    def do_set_property(self, prop, value):
+        """Handle gobject setting a property"""
+        if prop.name in ['term_zoomed', 'term-zoomed']:
+            self.term_zoomed = value
+        else:
+            raise AttributeError('unknown property %s' % prop.name)
 
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
@@ -125,7 +146,7 @@ class Window(Container, gtk.Window):
 
         try:
             icon = icon_theme.load_icon(APP_NAME, 48, 0)
-        except (NameError, glib.GError):
+        except (NameError, gobject.GError):
             dbg('Unable to load 48px Terminator icon')
             icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
