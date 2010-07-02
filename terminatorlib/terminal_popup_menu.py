@@ -152,9 +152,10 @@ class TerminalPopupMenu(object):
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
-        item = gtk.MenuItem(_('_Preferences'))
-        item.connect('activate', lambda x: PrefsEditor(self.terminal))
-        menu.append(item)
+        if hasattr(gtk, 'Builder'):
+            item = gtk.MenuItem(_('_Preferences'))
+            item.connect('activate', lambda x: PrefsEditor(self.terminal))
+            menu.append(item)
 
         profilelist = self.config.list_profiles()
 
