@@ -982,6 +982,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Inform other parts of the application when focus is received"""
         self.emit('focus-in')
 
+    def on_window_focus_out(self):
+        """Update our UI when the window loses focus"""
+        self.titlebar.update('window-focus-out')
+
     def scrollbar_jump(self, position):
         """Move the scrollbar to a particular row"""
         self.scrollbar.set_value(position)

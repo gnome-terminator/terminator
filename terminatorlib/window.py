@@ -186,8 +186,8 @@ class Window(Container, gtk.Window):
 
     def on_focus_out(self, window, event):
         """Focus has left the window"""
-        # FIXME: Cause the terminal titlebars to update here
-        pass
+        for terminal in self.get_visible_terminals():
+            terminal.on_window_focus_out()
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
