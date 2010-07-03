@@ -431,9 +431,12 @@ class Window(Container, gtk.Window):
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
+        terminals = {}
         maker = Factory()
         child = self.get_child()
-        terminals = {}
+
+        if not child:
+            return([])
 
         # If our child is a Notebook, reset to work from its visible child
         if maker.isinstance(child, 'Notebook'):

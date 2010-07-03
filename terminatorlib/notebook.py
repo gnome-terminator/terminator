@@ -48,9 +48,12 @@ class Notebook(Container, gtk.Notebook):
         self.set_property('homogeneous', True)
         self.set_scrollable(self.config['scroll_tabbar'])
 
-        pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
-        self.set_tab_pos(pos)
-        self.set_show_tabs(not self.config['hide_tabbar'])
+        if self.config['tab_position'] == 'hidden' or self.config['hide_tabbar']:
+            self.set_show_tabs(False)
+        else:
+            self.set_show_tabs(True)
+            pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
+            self.set_tab_pos(pos)
 
         for tab in xrange(0, self.get_n_pages()):
             label = self.get_tab_label(self.get_nth_page(tab))

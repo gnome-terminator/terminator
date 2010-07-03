@@ -57,6 +57,9 @@
       <row>
         <col id="0" translatable="yes">Right</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Hidden</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="CursorShapeListStore">

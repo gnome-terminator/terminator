@@ -210,6 +210,8 @@ class PrefsEditor:
             active = 2
         elif option == 'right':
             active = 3
+        elif option == 'hidden':
+            active = 4
         else:
             active = 0
         widget.set_active(active)
@@ -852,6 +854,8 @@ class PrefsEditor:
             value = 'left'
         elif selected == 3:
             value = 'right'
+        elif selected == 4:
+            value = 'hidden'
         else:
             value = 'top'
         self.config['tab_position'] = value

@@ -199,6 +199,8 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         terminals = {}
 
         for child in self.get_offspring():
+            if not child:
+                continue
             if maker.isinstance(child, 'Terminal'):
                 terminals[child] = child.get_allocation()
             elif maker.isinstance(child, 'Container'):
