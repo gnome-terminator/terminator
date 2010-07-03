@@ -215,8 +215,10 @@ class Window(Container, gtk.Window):
         return(not (result == gtk.RESPONSE_ACCEPT))
 
     def on_destroy_event(self, widget, data=None):
-        """Handle window descruction"""
+        """Handle window destruction"""
         dbg('destroying self')
+        for terminal in self.get_visible_terminals():
+            terminal.close()
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)
         self.destroy()
