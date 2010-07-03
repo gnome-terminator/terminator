@@ -94,6 +94,7 @@ class Window(Container, gtk.Window):
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
+        self.connect('button-press-event', self.on_button_press)
         self.connect('delete_event', self.on_delete_event)
         self.connect('destroy', self.on_destroy_event)
         self.connect('window-state-event', self.on_window_state_changed)
@@ -174,6 +175,12 @@ class Window(Container, gtk.Window):
             else:
                 return(False)
             return(True)
+
+    def on_button_press(self, window, event):
+        """Handle a mouse button event. Mainly this is just a clean way to
+        cancel any urgency hints that are set."""
+        self.set_urgency_hint(False)
+        return(False)
 
     def is_child_notebook(self):
         """Returns True if this Window's child is a Notebook"""
