@@ -139,11 +139,13 @@ class Terminator(Borg):
             dbg('Terminator::deregister_terminal: %d terminals remain' %
                     len(self.terminals))
 
-    def new_window(self):
+    def new_window(self, cwd=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
         window = maker.make('Window')
         terminal = maker.make('Terminal')
+        if cwd:
+            terminal.set_cwd(cwd)
         window.add(terminal)
         window.show()
         terminal.spawn_child()

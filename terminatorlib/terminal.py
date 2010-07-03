@@ -1482,7 +1482,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window()
+        self.terminator.new_window(self.terminator.pid_cwd(self.pid))
 
     def key_new_terminator(self):
         cmd = sys.argv[0]
