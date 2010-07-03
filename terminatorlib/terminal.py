@@ -1220,8 +1220,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             oldstyle = True
 
         if oldstyle == False:
-            gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
-        else:
+            try:
+                gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
+            except:
+                oldstyle = True
+
+        if oldstyle == True:
             dbg('Old gtk (%s,%s,%s), calling xdg-open' % gtk.gtk_version)
             try:
                 subprocess.Popen(["xdg-open", url])
