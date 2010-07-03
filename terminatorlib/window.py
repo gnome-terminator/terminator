@@ -98,6 +98,8 @@ class Window(Container, gtk.Window):
         self.connect('delete_event', self.on_delete_event)
         self.connect('destroy', self.on_destroy_event)
         self.connect('window-state-event', self.on_window_state_changed)
+        self.connect('focus-out-event', self.on_focus_out)
+        self.connect('focus-in-event', self.on_focus_in)
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
@@ -181,6 +183,16 @@ class Window(Container, gtk.Window):
         cancel any urgency hints that are set."""
         self.set_urgency_hint(False)
         return(False)
+
+    def on_focus_out(self, window, event):
+        """Focus has left the window"""
+        # FIXME: Cause the terminal titlebars to update here
+        pass
+
+    def on_focus_in(self, window, event):
+        """Focus has entered the window"""
+        self.set_urgency_hint(False)
+        # FIXME: Cause the terminal titlebars to update here
 
     def is_child_notebook(self):
         """Returns True if this Window's child is a Notebook"""
