@@ -147,6 +147,9 @@ DEFAULTS = {
             'ungroup_tab'      : '<Shift><Super>t',
             'new_window'       : '<Shift><Control>i',
             'new_terminator'   : '<Super>i',
+            'broadcast_off'    : '',
+            'broadcast_group'  : '',
+            'broadcast_all'    : ''
         },
         'profiles': {
             'default':  {

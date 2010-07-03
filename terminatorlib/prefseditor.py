@@ -122,6 +122,9 @@ class PrefsEditor:
                         'ungroup_tab'      : 'Ungroup terminals in tab',
                         'new_window'       : 'Create a new window',
                         'new_terminator'   : 'Spawn a new Terminator process',
+                        'broadcast_off'    : 'Don\'t broadcast key presses',
+                        'broadcast_group'  : 'Broadcast key presses to group',
+                        'broadcast_all'    : 'Broadcast key events to all'
             }
 
     def __init__ (self, term):

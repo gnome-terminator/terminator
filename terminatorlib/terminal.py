@@ -1497,6 +1497,16 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
           
         dbg("Terminal::key_new_window: Spawning: %s" % cmd)
         subprocess.Popen([cmd, ])
+
+    def key_broadcast_off(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['off'])
+
+    def key_broadcast_group(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['group'])
+
+    def key_broadcast_all(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['all'])
+
 # End key events
 
 gobject.type_register(Terminal)
