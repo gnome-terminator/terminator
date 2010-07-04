@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-04-07 16:00+0000\n"
-"Last-Translator: Lartza <lartza@wippies.com>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-05-07 19:03+0000\n"
+"Last-Translator: Tommi Saira <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-04 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -27,13 +27,26 @@ msgstr "Useita päätteitä yhdessä ikkunassa"
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "sarkain"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Sulje?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Sulje välilehti"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Sulje _Päätteet"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Suljetaanko useita päätteitä?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"Tällä %s on useita päätteitä auki. Sulkemalla %s suljet myös siinä auki "
+"olevat päätteet"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -179,13 +192,25 @@ msgstr "vietnamilainen"
 msgid "Thai"
 msgstr "thaimaalainen"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
-msgstr "Uusi profiili"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "sarkain"
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
-msgstr "Uusi pohja"
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Sulje välilehti"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -222,24 +247,17 @@ msgstr "Nimi ja komento on määritettävä"
 msgid "Name *%s* already exist"
 msgstr "Nimi *%s* on jo olemassa"
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Sulje?"
-
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "Sulje _Päätteet"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Suljetaanko useita päätteitä?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
+
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Uusi profiili"
+
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Uusi pohja"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -272,150 +290,166 @@ msgstr "Ei enempää tuloksia"
 msgid "Found at row"
 msgstr "Löytyi riviltä"
 
-#: ../terminatorlib/window.py:176
-msgid "window"
-msgstr "ikkuna"
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "Lähetä _sähköpostilla..."
 
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
-msgid "All"
-msgstr "Kaikki"
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "_Kopioi sähköpostiosoite"
 
-#: ../terminatorlib/window.py:480
-#, python-format
-msgid "Tab %d"
-msgstr "Välilehti %d"
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr "So_ita VoIP osoitteeseen"
 
-#: ../terminatorlib/terminal.py:347
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "_Kopioi VoIP osoite"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "_Avaa linkki"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "_Kopiois osoite"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Jaa _Vaakasuunnassa"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Jaa _Pystysuunnassa"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "Avaa _välilehti"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "Avaa _Vianjäljitysvälilehti"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "_Kasvata pääte-näkymää"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "S_uurenna pääte"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "_Palauta kaikki päätteet"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Näytä _vierityspalkki"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Asetukset"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Profiilit"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Merkistöt"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Oletus"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Käyttäjän määrittelemä"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Muut merkistöt"
+
+#: ../terminatorlib/terminal.py:365
 msgid "New group..."
 msgstr "Uusi ryhmä..."
 
-#: ../terminatorlib/terminal.py:352
+#: ../terminatorlib/terminal.py:370
 msgid "None"
 msgstr "Ei mitään"
 
-#: ../terminatorlib/terminal.py:368
+#: ../terminatorlib/terminal.py:386
 #, python-format
 msgid "Remove group %s"
 msgstr "Poista ryhmä %s"
 
-#: ../terminatorlib/terminal.py:373
+#: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
 msgstr "R_yhmitä kaikki välilehdessä"
 
-#: ../terminatorlib/terminal.py:378
+#: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:383
+#: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
 msgstr "Poista kaikki ryhmät"
 
-#: ../terminatorlib/terminal.py:390
+#: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
 msgstr "Sulje ryhmä %s"
 
-#: ../terminatorlib/terminal.py:399
+#: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
-msgstr ""
+msgstr "Lähetä kaikki"
 
-#: ../terminatorlib/terminal.py:400
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast group"
-msgstr ""
+msgstr "Lähetys ryhmä"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast off"
-msgstr ""
+msgstr "Lähetys pois päältä"
 
-#: ../terminatorlib/terminal.py:414
+#: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
 msgstr "Jaa tähän ryhmään"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
 msgstr "Siivoa ryhmät automaattisesti"
 
-#: ../terminatorlib/terminal.py:426
+#: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
 msgstr "Syötä päätteen numero"
 
-#: ../terminatorlib/terminal.py:430
+#: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1088
+#: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
 msgstr "Komentotulkkia ei löydy"
 
-#: ../terminatorlib/terminal.py:1105
+#: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
 msgstr "Komentotulkkia ei voitu käynnistää:"
 
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
+#: ../terminatorlib/window.py:224
+msgid "window"
+msgstr "ikkuna"
 
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr "_Kopioi sähköpostiosoite"
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:545
+msgid "All"
+msgstr "Kaikki"
 
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr "So_ita VoIP osoitteeseen"
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr "_Kopioi VoIP osoite"
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr "_Avaa linkki"
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr "_Kopiois osoite"
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "Avaa _välilehti"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "_Kasvata pääte-näkymää"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "S_uurenna pääte"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr "_Palauta kaikki päätteet"
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "Näytä _vierityspalkki"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr "_Asetukset"
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr "Profiilit"
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "Merkistöt"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr "Oletus"
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr "Käyttäjän määrittelemä"
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "Muut merkistöt"
+#: ../terminatorlib/window.py:566
+#, python-format
+msgid "Tab %d"
+msgstr "Välilehti %d"

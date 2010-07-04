@@ -7,31 +7,44 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2008-08-01 12:10+0000\n"
-"Last-Translator: zolookas <zolookas@delfi.lt>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-06-27 08:07+0000\n"
+"Last-Translator: Vytautas Bačiulis <info@infosoft.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-04 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Keli terminalai viename lange"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr ""
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Užverti?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Užverti kortelę"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Užverti _terminalus"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Užverti kelis terminalus?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"%s turi keletą atvertų terminalų. %s užvėrimas taip pat užvers visus jame "
+"esančius terminalus."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -138,7 +151,7 @@ msgstr "Supaprastinta kiniečių"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "Gruzinų"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
@@ -177,86 +190,91 @@ msgstr "Vietnamiečių"
 msgid "Thai"
 msgstr "Tajų"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "kortelė"
+
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Užverti kortelę"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Pasirinktinės komandos"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Pasirinktinių komandų nustatymas"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Nauja komanda"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Įjungta:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Pavadinimas:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Komanda:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Jūs turite nurodyti pavadinimą ir komandą"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "Pavadinimas *%s* jau egzistuoja"
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Uždaryti?"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Naujas profilis"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr ""
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Naujas išdėstymas"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr ""
+msgstr "Ieškoti:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Užverti paieškos juostą"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Ankstesnis"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -264,156 +282,172 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Nėra daugiau rezultatų"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "Rasta ties eilute"
 
-#: ../terminatorlib/window.py:176
-msgid "window"
-msgstr ""
-
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
-msgid "All"
-msgstr ""
-
-#: ../terminatorlib/window.py:480
-#, python-format
-msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
+#: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Siųsti el. laišką į..."
 
-#: ../terminatorlib/terminal_popup_menu.py:48
+#: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Kopijuoti el. pašto adresą"
 
-#: ../terminatorlib/terminal_popup_menu.py:50
+#: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:51
+#: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "_Kopijuoti VoIP adresą"
 
-#: ../terminatorlib/terminal_popup_menu.py:53
+#: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "_Atverti nuorodą"
 
-#: ../terminatorlib/terminal_popup_menu.py:54
+#: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "_Kopijuoti adresą"
 
-#: ../terminatorlib/terminal_popup_menu.py:102
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Padalinti H_orizontaliai"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Padalinti V_ertikaliai"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
+msgstr "Atverti _kortelę"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:115
+#: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "_Padidinti terminalą"
 
-#: ../terminatorlib/terminal_popup_menu.py:119
+#: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr ""
+msgstr "Iš_didinti terminalą"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "_Atkurti visus terminalus"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Rodyti _slinkties juostą"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "_Nustatymai"
 
-#: ../terminatorlib/terminal_popup_menu.py:144
+#: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "Profiliai"
 
-#: ../terminatorlib/terminal_popup_menu.py:188
+#: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr ""
+msgstr "Koduotės"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Numatytoji"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Naudotojo nustatyta"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
+msgstr "Kitos koduotės"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "Nauja grupė..."
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
 msgstr ""
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "Šalinti grupę %s"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "Pašalinti visas grupes"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "Uždaryti grupę %s"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr "Transliuoti visiems"
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr "Transliavimas išjungtas"
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "Išskaidyti į šitą grupę"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "Įterpti terminalo numerį"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr "Nepavyksta rasti shell'o"
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr "Nepavyksta paleisti shell'o"
+
+#: ../terminatorlib/window.py:224
+msgid "window"
+msgstr "langas"
+
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:545
+msgid "All"
+msgstr ""
+
+#: ../terminatorlib/window.py:566
+#, python-format
+msgid "Tab %d"
+msgstr "Kortelė %d"

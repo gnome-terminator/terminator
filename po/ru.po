@@ -7,35 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-04-01 20:36+0000\n"
-"Last-Translator: Max Riveiro <Unknown>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-05-14 20:42+0000\n"
+"Last-Translator: Ilya Telegin <devi29rus@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-04 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Множественные терминалы в одном окне"
+msgstr "Несколько терминалов в одном окне"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Терминатор"
+msgstr "Terminator — работа с командной строкой"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "табуляция"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Закрыть?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Закрыть вкладку"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Закрыть _Терминалы"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Закрыть несколько терминалов?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"В этом %s открыто несколько терминалов. Закрытие %s приведет к закрытию всех "
+"терминалов внутри."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Текущая локаль"
+msgstr "Текущая языковая настройка"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -46,23 +59,23 @@ msgstr "Западная"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Центральноевропейская"
+msgstr "Центральная Европа"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Южноевропейская"
+msgstr "Южная Европа"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Прибалтийская"
+msgstr "Балтийский"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "Кириллическая"
+msgstr "Кириллица"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
@@ -177,13 +190,25 @@ msgstr "Вьетнамский"
 msgid "Thai"
 msgstr "Тайский"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
-msgstr "Создать профиль"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "вкладка"
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
-msgstr "Новое расположение"
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Закрыть вкладку"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -220,26 +245,17 @@ msgstr "Необходимо указать название и команду"
 msgid "Name *%s* already exist"
 msgstr "Название *%s* уже существует"
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Закрыть?"
-
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "Закрыть _Терминалы"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Закрыть несколько терминалов?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
-"В этом %s открыто несколько терминалов. Закрытие %s приведет к закрытию всех "
-"терминалов внутри."
+
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Создать профиль"
+
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Новое расположение"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -262,7 +278,7 @@ msgstr "Пред."
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Поиск в истории"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
@@ -272,150 +288,166 @@ msgstr "Больше нет результатов"
 msgid "Found at row"
 msgstr "Найти в строке"
 
-#: ../terminatorlib/window.py:176
-msgid "window"
-msgstr "окно"
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "_Отправить письмо..."
 
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
-msgid "All"
-msgstr "Все"
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "_Копировать адрес почты"
 
-#: ../terminatorlib/window.py:480
-#, python-format
-msgid "Tab %d"
-msgstr "Вкладка %d"
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr "Позво_нить по VoIP-адресу"
 
-#: ../terminatorlib/terminal.py:347
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "_Копировать VoIP-адрес"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "_Открыть ссылку"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "_Копировать адрес"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Разделить экран г_оризонтально"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Разделить экран в_ертикально"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "Открыть _вкладку"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "Открыть отла_дочную вкладку"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "_Увеличить терминал"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "Раскрыть терминал"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "Восстановить все терминалы"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Показать полосу прокрутки"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Параметры"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Профили"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Кодировки"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "По умолчанию"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Пользовательский"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Другие кодировки"
+
+#: ../terminatorlib/terminal.py:365
 msgid "New group..."
 msgstr "Новая группа..."
 
-#: ../terminatorlib/terminal.py:352
+#: ../terminatorlib/terminal.py:370
 msgid "None"
 msgstr "Ничего"
 
-#: ../terminatorlib/terminal.py:368
+#: ../terminatorlib/terminal.py:386
 #, python-format
 msgid "Remove group %s"
 msgstr "Удалить группу %s"
 
-#: ../terminatorlib/terminal.py:373
+#: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "С_группировать всё во вкладке"
 
-#: ../terminatorlib/terminal.py:378
+#: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Разгр_уппировать всё во вкладке"
 
-#: ../terminatorlib/terminal.py:383
+#: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
 msgstr "Удалить все группы"
 
-#: ../terminatorlib/terminal.py:390
+#: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
 msgstr "Закрыть группу %s"
 
-#: ../terminatorlib/terminal.py:399
+#: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
-msgstr ""
+msgstr "Вещать всё"
 
-#: ../terminatorlib/terminal.py:400
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
+msgstr "Вещать группу"
 
 #: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
+msgid "Broadcast off"
+msgstr "Выключить вещание"
 
-#: ../terminatorlib/terminal.py:426
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "Разделить на эту группу"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr "Автоочистить группы"
+
+#: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
 msgstr "Вставить номер терминала"
 
-#: ../terminatorlib/terminal.py:430
+#: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Вставить консольное число с цифровой клавиатуры"
 
-#: ../terminatorlib/terminal.py:1088
+#: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
 msgstr "Не удается найти оболочку (shell)"
 
-#: ../terminatorlib/terminal.py:1105
+#: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
 msgstr "Не удается запустить оболочку:"
 
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
+#: ../terminatorlib/window.py:224
+msgid "window"
+msgstr "окно"
 
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr ""
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:545
+msgid "All"
+msgstr "Все"
 
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr "_Открыть ссылку"
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr "_Копировать адрес"
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "Открыть _вкладку"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "_Увеличить терминал"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "Раскрыть терминал"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "Показать полосу прокрутки"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr "_Параметры"
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr "Профили"
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "Кодировки"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr "По умолчанию"
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr "Пользовательский"
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "Другие кодировки"
+#: ../terminatorlib/window.py:566
+#, python-format
+msgid "Tab %d"
+msgstr "Вкладка %d"

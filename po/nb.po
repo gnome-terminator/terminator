@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-10-18 22:02+0000\n"
-"Last-Translator: jraregris <Unknown>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-05-13 16:12+0000\n"
+"Last-Translator: Tor Syversen <sol-moe@online.no>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-04 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -25,13 +25,26 @@ msgstr "Flere terminaler i et vindu"
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "tabulator"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Lukk?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Lukk fane"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Lukk _Terminal"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Lukke alle terminalene?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"Denne %s har flere terminaler åpne. Lukk %s vil også lukke alle terminaler "
+"inni den."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -177,67 +190,72 @@ msgstr "Vietnamesisk"
 msgid "Thai"
 msgstr "Thai"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "tabulator"
+
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Lukk fane"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Dine Kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Din Kommando Konfigurasjon"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Ny Kommando"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Aktivert:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Navn:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Kommando:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Du må definere ett navn og en kommando"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "Navnet *%s* finnes allerede."
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Lukk?"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Ny Profil"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "Lukk _Terminal"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Lukke alle terminalene?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Ny Side"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +264,7 @@ msgstr "Søk:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Lukk Søk"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,164 +274,180 @@ msgstr "Neste"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Forrige"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Søker i historikk"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Ingen flere resultater"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
+msgstr "Funnet på rad"
+
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "_Send email til..."
+
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "_Kopier email adresse"
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr "Ca_ll VoIP addresse"
+
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "_Kopier VoIP adresse"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "_Åpne link"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "_Kopier adresse"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Splitt H_orisontalt"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Splitt V_ertikalt"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "Åpne _Fane"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "Åpne :Debug Tab"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "_Zoom inn på terminal"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "Ma_ksimer terminal"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "_Gjenoppta alle terminaler"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
 msgstr ""
 
-#: ../terminatorlib/window.py:176
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Vis _rullefelt"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Innstillinger"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Profiler"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Tegnkodinger"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Standard"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Brukerdefinert"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Andre tegnkodinger"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "Ny gruppe..."
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
+msgstr "Ingen"
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "Fjern gruppe %s"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
+msgstr "G_ruppe alle i tab"
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr "Ugr_upper alle i tab"
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "Fjern alle grupper"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "Lukk gruppe %s"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr "Broadcast alle"
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr "Broadcast gruppe"
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr "Broadcast off"
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "Splitt til denne gruppen"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr "Automatisk rydd grupper"
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "Sett inn terminal nummer"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr "Klarer ikke å finne et skall"
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr "Kan ikke starte shell:"
+
+#: ../terminatorlib/window.py:224
 msgid "window"
 msgstr "vindu"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
+#: ../terminatorlib/window.py:545
 msgid "All"
 msgstr "Alle"
 
-#: ../terminatorlib/window.py:480
+#: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr "Ingen"
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr "Klarer ikke å finne et skall"
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "Åpne _Fane"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "_Zoom inn på terminal"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "Ma_ksimer terminal"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "Vis _rullefelt"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "Tegnkodinger"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "Andre tegnkodinger"
+msgstr "Tab %d"

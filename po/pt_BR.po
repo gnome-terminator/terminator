@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-03-30 20:12+0000\n"
-"Last-Translator: Eugênio F <Unknown>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-05-02 04:04+0000\n"
+"Last-Translator: irtigor <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-04 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -25,13 +25,26 @@ msgstr "Múltiplos terminais em uma janela"
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "aba"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Fechar?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Fechar Aba"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Fechar Terminais"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Fechar múltiplos terminais?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"Este %s tem vários terminais abertos. Fechando o %s irá fechar todos "
+"terminais dele."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -177,13 +190,25 @@ msgstr "Vietinamita"
 msgid "Thai"
 msgstr "Tailandês"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
-msgstr "Novo Perfil"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "aba"
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
-msgstr "Novo Modelo"
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Fechar Aba"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -220,24 +245,17 @@ msgstr "Você precisa definir um nome e um comando"
 msgid "Name *%s* already exist"
 msgstr "Nome *%s* já existe"
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Fechar?"
-
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "Fechar Terminais"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Fechar múltiplos terminais?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
+
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Novo Perfil"
+
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Novo Modelo"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -260,7 +278,7 @@ msgstr "Ant"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Procurando scrollback"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
@@ -268,152 +286,168 @@ msgstr "Sem mais resultados"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
+msgstr "Encontrado em linha"
+
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "_Enviar email para..."
+
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "_Copiar endereço de email"
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr "_Ligar para endereço VOIP"
+
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "_Copiar endereço VOIP"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "_Abrir link"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "_Copiar endereço"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Dividir H_orizontalmente"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Dividir V_erticalmente"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "Abrir _Aba"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "Abrir aba de _Depuração"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "_Zoom terminal"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "Ma_ximizar terminal"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "_Restaurar todos os terminais"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
 msgstr ""
 
-#: ../terminatorlib/window.py:176
-msgid "window"
-msgstr "janela"
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Mostrar  _barras de rolagem"
 
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
-msgid "All"
-msgstr "Todos"
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Preferências"
 
-#: ../terminatorlib/window.py:480
-#, python-format
-msgid "Tab %d"
-msgstr "Aba %d"
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Perfis"
 
-#: ../terminatorlib/terminal.py:347
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Codificações"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Padrão"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Definido pelo usuário"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Outras Codificações"
+
+#: ../terminatorlib/terminal.py:365
 msgid "New group..."
 msgstr "Novo grupo..."
 
-#: ../terminatorlib/terminal.py:352
+#: ../terminatorlib/terminal.py:370
 msgid "None"
 msgstr "Nenhum"
 
-#: ../terminatorlib/terminal.py:368
+#: ../terminatorlib/terminal.py:386
 #, python-format
 msgid "Remove group %s"
 msgstr "Remover grupo %s"
 
-#: ../terminatorlib/terminal.py:373
+#: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
 msgstr "Ag_rupar tudo em uma aba"
 
-#: ../terminatorlib/terminal.py:378
+#: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
 msgstr "Desagr_upar em abas"
 
-#: ../terminatorlib/terminal.py:383
+#: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
 msgstr "Remover todos grupos"
 
-#: ../terminatorlib/terminal.py:390
+#: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
 msgstr "Fechar grupo %s"
 
-#: ../terminatorlib/terminal.py:399
+#: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
-msgstr ""
+msgstr "Difundir tudo"
 
-#: ../terminatorlib/terminal.py:400
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast group"
-msgstr ""
+msgstr "Grupo de broadcast"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast off"
-msgstr ""
+msgstr "Broadcast Desligado"
 
-#: ../terminatorlib/terminal.py:414
+#: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
 msgstr "Jutar à este grupo"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
 msgstr "Auto-limpar grupos"
 
-#: ../terminatorlib/terminal.py:426
+#: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Insira o número do terminal"
 
-#: ../terminatorlib/terminal.py:430
+#: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Insira o número de terminais acolchoados"
 
-#: ../terminatorlib/terminal.py:1088
+#: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
 msgstr "Incapaz de encontrar um shell"
 
-#: ../terminatorlib/terminal.py:1105
+#: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
 msgstr "Incapaz de iniciar o shell:"
 
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr "_Enviar email para..."
+#: ../terminatorlib/window.py:224
+msgid "window"
+msgstr "janela"
 
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr "_Copiar endereço de email"
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:545
+msgid "All"
+msgstr "Todos"
 
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr "_Ligar para endereço VOIP"
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr "_Copiar endereço VOIP"
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr "_Abrir link"
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr "_Copiar endereço"
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "Abrir _Aba"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "_Zoom terminal"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "Ma_ximizar terminal"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr "_Restaurar todos os terminais"
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "Mostrar  _barras de rolagem"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr "_Preferências"
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr "Perfis"
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "Codificações"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr "Padrão"
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr "Definido pelo usuário"
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "Outras Codificações"
+#: ../terminatorlib/window.py:566
+#, python-format
+msgid "Tab %d"
+msgstr "Aba %d"
