@@ -1,3 +1,9 @@
+terminator (0.94) lucid; urgency=low
+
+  * New upstream release of 0.94
+
+ -- Chris Jones <cmsj@tenshu.net>  Sun, 04 Jul 2010 18:48:52 +0100
+
 terminator (0.93ppa2) karmic; urgency=low
 
   * Nochange rebuild for karmic
