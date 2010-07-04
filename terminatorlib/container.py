@@ -232,6 +232,15 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if hasattr(self, 'get_size'):
             layout['size'] = self.get_size()
 
+        labels = []
+        if mytype == 'Notebook':
+            for tabnum in xrange(0, self.get_n_pages()):
+                page = self.get_nth_page(tabnum)
+                label = self.get_tab_label(page)
+                labels.append(label.get_custom_label())
+        if len(labels) > 0:
+            layout['labels'] = labels
+
         name = 'child%d' % count
         count = count + 1
 

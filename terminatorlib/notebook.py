@@ -95,6 +95,11 @@ class Notebook(Container, gtk.Notebook):
                 # This page does not yet exist, so make it
                 self.newtab(children[child_key])
                 page = self.get_nth_page(num)
+            if layout.has_key('labels'):
+                labeltext = layout['labels'][num]
+                if labeltext and labeltext != "None":
+                    label = self.get_tab_label(page)
+                    label.set_custom_label(labeltext)
             page.create_layout(children[child_key])
             num = num + 1
 
@@ -375,6 +380,18 @@ class TabLabel(gtk.HBox):
     def set_label(self, text):
         """Update the text of our label"""
         self.label.set_text(text)
+
+    def set_custom_label(self, text):
+        """Set a permanent label as if the user had edited it"""
+        self.label.set_text(text)
+        self.label.set_custom()
+
+    def get_custom_label(self):
+        """Return a custom label if we have one, otherwise None"""
+        if self.label.is_custom():
+            return(self.label.get_text())
+        else:
+            return(None)
 
     def update_button(self):
         """Update the state of our close button"""
