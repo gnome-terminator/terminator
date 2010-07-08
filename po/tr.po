@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-06-16 14:01+0000\n"
-"Last-Translator: boracasli <Unknown>\n"
+"PO-Revision-Date: 2010-07-07 08:46+0000\n"
+"Last-Translator: Cihan Ersoy <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
+"X-Launchpad-Export-Date: 2010-07-08 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -201,14 +201,15 @@ msgstr "Sekmeyi Kapat"
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch eklentisi kullanılabilir değil: lütfen python-notify kurun"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Etkinlik için izle"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Etkinlik için izlemeyi durdur"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -247,7 +248,7 @@ msgstr "*%s* ismi zaten var"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Uçbirim ekran görüntüsü"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
@@ -342,7 +343,7 @@ msgstr "Tüm uçbirimleri _geri al"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Gruplandırma"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
