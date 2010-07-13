@@ -1,16 +1,16 @@
-# Malay translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Russian (Russian Federation) translation for terminator
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-01-13 09:44+0000\n"
-"Last-Translator: KatieKitty <Unknown>\n"
-"Language-Team: Malay <ms@li.org>\n"
+"PO-Revision-Date: 2010-03-18 09:54+0000\n"
+"Last-Translator: Alex Goretoy <Unknown>\n"
+"Language-Team: Russian (Russian Federation) <ru_RU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,23 +19,23 @@ msgstr ""
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Kesemua terminal dalam satu tetingkap"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Terminator"
+msgstr "Терминатор"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr "Tutup?"
+msgstr ""
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr "Tutup _Terminal"
+msgstr ""
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Tutup semua terminal?</b></big>"
+msgstr ""
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -46,155 +46,155 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Lokaliti Semasa"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Barat"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Eropah Tengah"
+msgstr "Центрально-европейская"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Eropah Selatan"
+msgstr "Южно-европейская"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Baltik"
+msgstr "Прибалтика"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "Cyril"
+msgstr "Кириллическая"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "Bahasa Arab"
+msgstr "Арабский"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "Bahasa Yunani"
+msgstr "Греческая"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Paparan Ibrani"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "Bahasa Ibrani"
+msgstr "Иврит"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "Bahasa Turki"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Nordic"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Celtic"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Romania"
+msgstr ""
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unicode"
+msgstr ""
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Bahasa Armenia"
+msgstr "Армянская"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Bahasa Cina Tradisi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Cyril/Rusia"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Jepun"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "Bahasa Korea"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Tulisan Cina Baru"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Georgia"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Cyril/Ukraine"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Croatia"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "Parsi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Gujarati"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "Gurmukhī"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "Iceland"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Vietnam"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Bahasa Thailand"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:259
 msgid "tab"
-msgstr "tab"
+msgstr "таб"
 
 #: ../terminatorlib/notebook.py:408
 msgid "Close Tab"
-msgstr "Tutup Tab"
+msgstr "Закрыть вкладку"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -258,7 +258,7 @@ msgstr ""
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr "Cari:"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
@@ -267,7 +267,7 @@ msgstr ""
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr "Seterusnya"
+msgstr ""
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
@@ -312,27 +312,27 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr "Bahagikan secara Mencancang"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr "bahagikan secara Mendatar"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr "Buka _Tab"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr "Buka _Debug Tab"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr "_Besarkan terminal"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr "Besar_kan terminal"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
@@ -344,7 +344,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr "Papar _scrollbar"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
@@ -356,7 +356,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr "Mengenkodkan"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
@@ -368,7 +368,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
-msgstr "Pengenkodan Lain"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:365
 msgid "New group..."
@@ -376,7 +376,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:370
 msgid "None"
-msgstr "Tiada"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:386
 #, python-format
@@ -430,7 +430,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
-msgstr "Gagal mencari shell"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
@@ -438,12 +438,12 @@ msgstr ""
 
 #: ../terminatorlib/window.py:224
 msgid "window"
-msgstr "tetingkap"
+msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:545
 msgid "All"
-msgstr "Semua"
+msgstr ""
 
 #: ../terminatorlib/window.py:566
 #, python-format

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-08-26 13:05+0000\n"
-"Last-Translator: Alexey Kotlyarov <Unknown>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-06-10 15:08+0000\n"
+"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -25,13 +25,24 @@ msgstr "一个窗口里多个终端"
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "标签页"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "确定关闭？"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "关闭标签"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "关闭终端 (_T)"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>关闭多个终端？</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -177,67 +188,72 @@ msgstr "越南语"
 msgid "Thai"
 msgstr "泰语"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "标签页"
+
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "关闭标签"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "自定义命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "自定义命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "新命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "启用："
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "名称:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "命令："
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "你需要定义名称和命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "*%s*已经存在"
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "确定关闭？"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "新配置"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "关闭终端 (_T)"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>关闭多个终端？</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "新布局"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +262,7 @@ msgstr "搜索："
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "关闭搜索栏"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,164 +272,180 @@ msgstr "下一个"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "上一个"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "回滚搜索"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "无更多结果"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
 msgstr ""
 
-#: ../terminatorlib/window.py:176
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "发送邮件到...(_S)"
+
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "复制邮件地址(_C)"
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "打开连接(_O)"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "复制地址(_C)"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "水平分割(_H)"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "垂直分割(_V)"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "打开标签(_T)"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "打开Debug标签(_D)"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "放大终端(_Z)"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "最大化(_x) 选中的页面"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "还原所有终端(_R)"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "显示滚动条"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "首选项 (_P)"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "配置"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "编码"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "默认"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "用户定义"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "其他编码"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "新建组"
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
+msgstr "无"
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "移除组 %s"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "移除所有的组"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "关闭组 %s"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "分离到这个组"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "插入终端编号"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr "无法找到shell"
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr "无法启动shell："
+
+#: ../terminatorlib/window.py:224
 msgid "window"
 msgstr "窗口"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
+#: ../terminatorlib/window.py:545
 msgid "All"
 msgstr "全部"
 
-#: ../terminatorlib/window.py:480
+#: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr "无"
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr "无法找到shell"
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "打开标签(_T)"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "放大终端(_Z)"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "最大化(_x) 选中的页面"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "显示滚动条"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "编码"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "其他编码"
+msgstr "标签 %d"

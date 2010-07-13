@@ -8,7 +8,6 @@ import pygtk
 pygtk.require('2.0')
 import gobject
 import gtk
-import glib
 
 from util import dbg, err
 import util
@@ -39,7 +38,15 @@ class Window(Container, gtk.Window):
     ignore_startup_show = None
 
     zoom_data = None
-    term_zoomed = gobject.property(type=bool, default=False)
+
+    term_zoomed = False
+    __gproperties__ = {
+            'term_zoomed': (gobject.TYPE_BOOLEAN,
+                            'terminal zoomed',
+                            'whether the terminal is zoomed',
+                            False,
+                            gobject.PARAM_READWRITE)
+    }
 
     def __init__(self):
         """Class initialiser"""
@@ -73,12 +80,29 @@ class Window(Container, gtk.Window):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)
 
+    def do_get_property(self, prop):
+        """Handle gobject getting a property"""
+        if prop.name in ['term_zoomed', 'term-zoomed']:
+            return(self.term_zoomed)
+        else:
+            raise AttributeError('unknown property %s' % prop.name)
+
+    def do_set_property(self, prop, value):
+        """Handle gobject setting a property"""
+        if prop.name in ['term_zoomed', 'term-zoomed']:
+            self.term_zoomed = value
+        else:
+            raise AttributeError('unknown property %s' % prop.name)
+
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
+        self.connect('button-press-event', self.on_button_press)
         self.connect('delete_event', self.on_delete_event)
         self.connect('destroy', self.on_destroy_event)
         self.connect('window-state-event', self.on_window_state_changed)
+        self.connect('focus-out-event', self.on_focus_out)
+        self.connect('focus-in-event', self.on_focus_in)
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
@@ -136,7 +160,7 @@ class Window(Container, gtk.Window):
 
         try:
             icon = icon_theme.load_icon(APP_NAME, 48, 0)
-        except (NameError, glib.GError):
+        except (NameError, gobject.GError):
             dbg('Unable to load 48px Terminator icon')
             icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
@@ -164,6 +188,22 @@ class Window(Container, gtk.Window):
             else:
                 return(False)
             return(True)
+
+    def on_button_press(self, window, event):
+        """Handle a mouse button event. Mainly this is just a clean way to
+        cancel any urgency hints that are set."""
+        self.set_urgency_hint(False)
+        return(False)
+
+    def on_focus_out(self, window, event):
+        """Focus has left the window"""
+        for terminal in self.get_visible_terminals():
+            terminal.on_window_focus_out()
+
+    def on_focus_in(self, window, event):
+        """Focus has entered the window"""
+        self.set_urgency_hint(False)
+        # FIXME: Cause the terminal titlebars to update here
 
     def is_child_notebook(self):
         """Returns True if this Window's child is a Notebook"""
@@ -205,8 +245,10 @@ class Window(Container, gtk.Window):
         return(not (result == gtk.RESPONSE_ACCEPT))
 
     def on_destroy_event(self, widget, data=None):
-        """Handle window descruction"""
+        """Handle window destruction"""
         dbg('destroying self')
+        for terminal in self.get_visible_terminals():
+            terminal.close()
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)
         self.destroy()
@@ -437,9 +479,12 @@ class Window(Container, gtk.Window):
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
+        terminals = {}
         maker = Factory()
         child = self.get_child()
-        terminals = {}
+
+        if not child:
+            return([])
 
         # If our child is a Notebook, reset to work from its visible child
         if maker.isinstance(child, 'Notebook'):
@@ -700,6 +745,7 @@ class Window(Container, gtk.Window):
 
         child = children[children.keys()[0]]
         terminal = self.get_children()[0]
+        dbg('Making a child of type: %s' % child['type'])
         if child['type'] == 'VPaned':
             self.split_axis(terminal, True)
         elif child['type'] == 'HPaned':

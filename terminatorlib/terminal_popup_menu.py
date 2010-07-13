@@ -83,7 +83,7 @@ class TerminalPopupMenu(object):
         menu.append(gtk.MenuItem())
 
         if not terminal.is_zoomed():
-            item = gtk.ImageMenuItem('Split H_orizontally')
+            item = gtk.ImageMenuItem(_('Split H_orizontally'))
             image = gtk.Image()
             image.set_from_icon_name(APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
             item.set_image(image)
@@ -93,7 +93,7 @@ class TerminalPopupMenu(object):
                 self.terminator.pid_cwd(self.terminal.pid)))
             menu.append(item)
 
-            item = gtk.ImageMenuItem('Split V_ertically')
+            item = gtk.ImageMenuItem(_('Split V_ertically'))
             image = gtk.Image()
             image.set_from_icon_name(APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
             item.set_image(image)
@@ -152,9 +152,10 @@ class TerminalPopupMenu(object):
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
-        item = gtk.MenuItem(_('_Preferences'))
-        item.connect('activate', lambda x: PrefsEditor(self.terminal))
-        menu.append(item)
+        if hasattr(gtk, 'Builder'):
+            item = gtk.MenuItem(_('_Preferences'))
+            item.connect('activate', lambda x: PrefsEditor(self.terminal))
+            menu.append(item)
 
         profilelist = self.config.list_profiles()
 

@@ -48,9 +48,12 @@ class Notebook(Container, gtk.Notebook):
         self.set_property('homogeneous', True)
         self.set_scrollable(self.config['scroll_tabbar'])
 
-        pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
-        self.set_tab_pos(pos)
-        self.set_show_tabs(not self.config['hide_tabbar'])
+        if self.config['tab_position'] == 'hidden' or self.config['hide_tabbar']:
+            self.set_show_tabs(False)
+        else:
+            self.set_show_tabs(True)
+            pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
+            self.set_tab_pos(pos)
 
         for tab in xrange(0, self.get_n_pages()):
             label = self.get_tab_label(self.get_nth_page(tab))
@@ -74,6 +77,7 @@ class Notebook(Container, gtk.Notebook):
 
         for child_key in keys:
             child = children[child_key]
+            dbg('Making a child of type: %s' % child['type'])
             if child['type'] == 'Terminal':
                 continue
             elif child['type'] == 'VPaned':
@@ -91,6 +95,11 @@ class Notebook(Container, gtk.Notebook):
                 # This page does not yet exist, so make it
                 self.newtab(children[child_key])
                 page = self.get_nth_page(num)
+            if layout.has_key('labels'):
+                labeltext = layout['labels'][num]
+                if labeltext and labeltext != "None":
+                    label = self.get_tab_label(page)
+                    label.set_custom_label(labeltext)
             page.create_layout(children[child_key])
             num = num + 1
 
@@ -371,6 +380,18 @@ class TabLabel(gtk.HBox):
     def set_label(self, text):
         """Update the text of our label"""
         self.label.set_text(text)
+
+    def set_custom_label(self, text):
+        """Set a permanent label as if the user had edited it"""
+        self.label.set_text(text)
+        self.label.set_custom()
+
+    def get_custom_label(self):
+        """Return a custom label if we have one, otherwise None"""
+        if self.label.is_custom():
+            return(self.label.get_text())
+        else:
+            return(None)
 
     def update_button(self):
         """Update the state of our close button"""

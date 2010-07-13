@@ -4,8 +4,8 @@
 import re
 import terminatorlib.plugin as plugin
 
-# Every plugin you want Terminator to load *must* be listed in 'available'
-available = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']
+# Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
+AVAILABLE = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']
 
 class LaunchpadBugURLHandler(plugin.URLHandler):
     """Launchpad Bug URL handler. If the URL looks like a Launchpad changelog

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2009-12-14 13:46+0000\n"
-"Last-Translator: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-07-11 10:03+0000\n"
+"Last-Translator: Ic3-T <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-12 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -25,13 +25,26 @@ msgstr "Terminale multiple într-o singură fereastră"
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr "tab"
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Închideți?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
-msgstr "Închide tab"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Închide _terminalele"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Doriți să închideți multiple terminale?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
+msgstr ""
+"Acest %s are terminale deschise. Închizând %s se vor închide și terminalele "
+"din el."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -177,67 +190,73 @@ msgstr "Vietnameză"
 msgid "Thai"
 msgstr "Tailandeză"
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
-msgstr ""
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "tab"
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Închide tab"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"Plugin-ul ActivityWatch este indisponibil: vă rugăm instalați python-notify"
+
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr "Urmărește activitatea"
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
+msgstr "Oprește urmărirea activității"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Comenzi Personalizate"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Configurare Comenzi Personalizate"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Comandă nouă"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Valabil:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Nume:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Comandă:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Trebuie să definiți un nume și o comandă"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "Numele *%s* deja există"
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Închideți?"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Profil nou"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "Închide _terminalele"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Doriți să închideți multiple terminale?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Mod de aranjare nou"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +265,7 @@ msgstr "Caută:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Închide bara de căutare"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,7 +275,7 @@ msgstr "Următorul"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Precedent"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -264,156 +283,172 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Nu mai sunt rezultate"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
+msgstr "Găsit la linia"
+
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "_Send email către..."
+
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "_Copiază adresa de email"
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
 msgstr ""
 
-#: ../terminatorlib/window.py:176
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "_Copiază adresa de VoIP"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "_Deschide legătură"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "_Copiază adresă"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Împarte _orizontal"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Împarte v_ertical"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
+msgstr "Deschide _tab"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr "Deschide tab de _depanare"
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "Panoramea_ză terminalul"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "Ma_ximizează terminalul"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "_Restaurează toate terminalele"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr "Grupare"
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "Arată _bara de derulare"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Preferințe"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Profile"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Codificări"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Implicit"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Definit de utilizator"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Alte codificări"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "Nou grup..."
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
+msgstr "Nimic"
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "Șterge grupul %s"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
+msgstr "G_rupează totul in tab"
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "Șterge toate grupele"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "Închide grupa %s"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr "Difuzează pe toți"
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr "Difuzează grupa"
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr "Oprește difuzarea"
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "Împarte la acest grup"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr "Auto-curățirea grupei"
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "Introdu numărul de terminal"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr "Nu s-a găsit niciun shell"
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr "Imposibil de pornit shell-ul"
+
+#: ../terminatorlib/window.py:224
 msgid "window"
 msgstr "fereastră"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
+#: ../terminatorlib/window.py:545
 msgid "All"
 msgstr "Toate"
 
-#: ../terminatorlib/window.py:480
+#: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr "Nimic"
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr "Nu s-a găsit niciun shell"
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr "Deschide _tab"
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "Panoramea_ză terminalul"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "Ma_ximizează terminalul"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "Arată _bara de derulare"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr "Codificări"
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
-msgstr "Alte codificări"
+msgstr "Tab %d"

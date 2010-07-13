@@ -28,6 +28,7 @@ import os
 import borg
 from config import Config
 from util import dbg, err, get_config_dir
+from terminator import Terminator
 
 class Plugin(object):
     """Definition of our base plugin class"""
@@ -37,8 +38,13 @@ class Plugin(object):
         """Class initialiser."""
         pass
 
+    def unload(self):
+        """Prepare to be unloaded"""
+        pass
+
 class PluginRegistry(borg.Borg):
     """Definition of a class to store plugin instances"""
+    available_plugins = None
     instances = None
     path = None
     done = None
@@ -61,6 +67,8 @@ class PluginRegistry(borg.Borg):
                 self.path)
         if not self.done:
             self.done = False
+        if not self.available_plugins:
+            self.available_plugins = {}
 
     def load_plugins(self, testing=False):
         """Load all plugins present in the plugins/ directory in our module"""
@@ -84,12 +92,16 @@ class PluginRegistry(borg.Borg):
                         plugin)
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
-                        for item in getattr(module, 'available'):
-                            if not testing and item in config['disabled_plugins']:
+                        for item in getattr(module, 'AVAILABLE'):
+                            if item not in self.available_plugins.keys():
+                                func = getattr(module, item)
+                                self.available_plugins[item] = func
+
+                            if not testing and item not in config['enabled_plugins']:
+                                dbg('plugin %s not enabled, skipping' % item)
                                 continue
                             if item not in self.instances:
-                                func = getattr(module, item)
-                            self.instances[item] = func()
+                                self.instances[item] = func()
                     except Exception, ex:
                         err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, ex))
@@ -110,6 +122,29 @@ for %s' % (len(self.instances), capability))
         """Return all plugins"""
         return(self.instances)
 
+    def get_available_plugins(self):
+        """Return a list of all available plugins whether they are enabled or
+        disabled"""
+        return(self.available_plugins.keys())
+
+    def is_enabled(self, plugin):
+        """Return a boolean value indicating whether a plugin is enabled or
+        not"""
+        return(self.instances.has_key(plugin))
+
+    def enable(self, plugin):
+        """Enable a plugin"""
+        if plugin in self.instances:
+            err("Cannot enable plugin %s, already enabled" % plugin)
+        dbg("Enabling %s" % plugin)
+        self.instances[plugin] = self.available_plugins[plugin]()
+
+    def disable(self, plugin):
+        """Disable a plugin"""
+        dbg("Disabling %s" % plugin)
+        self.instances[plugin].unload()
+        del(self.instances[plugin])
+
 # This is where we should define a base class for each type of plugin we
 # support
 
@@ -121,9 +156,25 @@ class URLHandler(Plugin):
     handler_name = None
     match = None
 
+    def __init__(self):
+        """Class initialiser"""
+        Plugin.__init__(self)
+        terminator = Terminator()
+        for terminal in terminator.terminals:
+            terminal.match_add(self.handler_name, self.match)
+
     def callback(self, url):
         """Callback to transform the enclosed URL"""
         raise NotImplementedError
+
+    def unload(self):
+        """Handle being removed"""
+        if not self.match:
+            err('unload called without self.handler_name being set')
+            return
+        terminator = Terminator()
+        for terminal in terminator.terminals:
+            terminal.match_remove(self.handler_name)
 
 # MenuItem - This is able to execute code during the construction of the
 #             context menu of a Terminal.

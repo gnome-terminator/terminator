@@ -1,7 +1,7 @@
 import terminatorlib.plugin as plugin
 
-# available must contain a list of all the classes that you want exposed
-available = ['TestPlugin']
+# AVAILABLE must contain a list of all the classes that you want exposed
+AVAILABLE = ['TestPlugin']
 
 class TestPlugin(plugin.Plugin):
     capabilities = ['test']

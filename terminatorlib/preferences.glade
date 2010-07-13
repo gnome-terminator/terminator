@@ -57,6 +57,9 @@
       <row>
         <col id="0" translatable="yes">Right</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Hidden</col>
+      </row>
     </data>
   </object>
   <object class="GtkListStore" id="CursorShapeListStore">
@@ -255,8 +258,25 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="PluginListStore">
+    <columns>
+      <!-- column-name Plugin -->
+      <column type="gchararray"/>
+      <!-- column-name Enabled -->
+      <column type="gboolean"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="EncodingListStore">
+    <columns>
+      <!-- column-name Encoding -->
+      <column type="gchararray"/>
+      <!-- column-name config_value -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="prefswin">
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">Terminator Preferences</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -1000,6 +1020,19 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkCheckButton" id="copy_on_selection">
+                            <property name="label" translatable="yes">Copy on selection</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_copy_on_selection_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkHBox" id="hbox136">
                             <property name="visible">True</property>
                             <property name="spacing">12</property>
@@ -1032,7 +1065,7 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="position">4</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                         <child>
@@ -1166,7 +1199,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">5</property>
+                            <property name="position">6</property>
                           </packing>
                         </child>
                         <child>
@@ -1267,7 +1300,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">6</property>
+                            <property name="position">7</property>
                           </packing>
                         </child>
                       </object>
@@ -2628,6 +2661,79 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkVBox" id="vbox12">
+                            <property name="visible">True</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkLabel" id="label13">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Encoding&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkAlignment" id="alignment7">
+                                <property name="visible">True</property>
+                                <property name="left_padding">12</property>
+                                <child>
+                                  <object class="GtkTable" id="table4">
+                                    <property name="visible">True</property>
+                                    <property name="n_columns">2</property>
+                                    <property name="column_spacing">12</property>
+                                    <property name="row_spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="color_scheme_combobox_label1">
+                                        <property name="visible">True</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Default:</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="justify">center</property>
+                                        <property name="mnemonic_widget">color_scheme_combobox</property>
+                                      </object>
+                                      <packing>
+                                        <property name="x_options">GTK_FILL</property>
+                                        <property name="y_options"></property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkComboBox" id="encoding_combobox">
+                                        <property name="visible">True</property>
+                                        <property name="model">EncodingListStore</property>
+                                        <signal name="changed" handler="on_encoding_combobox_changed"/>
+                                        <child>
+                                          <object class="GtkCellRendererText" id="cellrenderertext17"/>
+                                          <attributes>
+                                            <attribute name="text">0</attribute>
+                                          </attributes>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                        <property name="y_options">GTK_FILL</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">5</property>
@@ -2974,9 +3080,50 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label13">
+              <object class="GtkHBox" id="hbox7">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Not yet implemented</property>
+                <child>
+                  <object class="GtkTreeView" id="pluginlist">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">PluginListStore</property>
+                    <property name="hadjustment">adjustment2</property>
+                    <property name="vadjustment">adjustment3</property>
+                    <property name="search_column">0</property>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="plugincolumn1">
+                        <property name="title">Plugin</property>
+                        <property name="clickable">True</property>
+                        <child>
+                          <object class="GtkCellRendererToggle" id="cellrenderertext15">
+                            <signal name="toggled" handler="on_plugin_toggled"/>
+                          </object>
+                          <attributes>
+                            <attribute name="active">1</attribute>
+                          </attributes>
+                        </child>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext16"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="pluginpanelabel">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">This plugin has no configuration options</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="position">4</property>

@@ -55,6 +55,7 @@ if __name__ == '__main__':
     TERMINATOR.set_origcwd(ORIGCWD)
     TERMINATOR.reconfigure()
     try:
+        dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
         TERMINATOR.create_layout(OPTIONS.layout)
     except (KeyError,ValueError), ex:
         err('layout creation failed, creating a window ("%s")' % ex)

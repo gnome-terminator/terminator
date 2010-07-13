@@ -139,11 +139,13 @@ class Terminator(Borg):
             dbg('Terminator::deregister_terminal: %d terminals remain' %
                     len(self.terminals))
 
-    def new_window(self):
+    def new_window(self, cwd=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
         window = maker.make('Window')
         terminal = maker.make('Terminal')
+        if cwd:
+            terminal.set_cwd(cwd)
         window.add(terminal)
         window.show(True)
         terminal.spawn_child()
@@ -212,6 +214,7 @@ class Terminator(Borg):
             if layout[windef]['type'] != 'Window':
                 err('invalid layout format. %s' % layout)
                 raise(ValueError)
+            dbg('Creating a window')
             window, terminal = self.new_window()
             window.create_layout(layout[windef])
             if layout[windef].has_key('position'):

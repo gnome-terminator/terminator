@@ -54,6 +54,7 @@ Default value: \fBFalse\fR
 .TP
 .B tab_position
 Defines where tabs are placed.  Can be any of: top, left, right, bottom.
+If this is set to "hidden", the tab bar will not be shown. Note that hiding the tab bar is very confusing and not recommended.
 Default value: \fBtop\fR
 .TP
 .B close_button_on_tab \fR(boolean)
@@ -62,6 +63,7 @@ Default value: \fBTrue\fR
 .TP
 .B hide_tabbar \fR(boolean)
 If set to True, the tab bar will be hidden. This means there will be no visual indication of either how many tabs there are, or which one you are on. Be warned that this can be very confusing and hard to use.
+.B NOTE: THIS OPTION IS DEPRECATED, USE tab_position INSTEAD
 Default value: \fBFalse\fR
 .TP
 .B scroll_tabbar \fR(boolean)
@@ -96,9 +98,11 @@ Default value: \fB'#000000'\fR
 Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#C0BEBF'\fR
 .TP
-.B disabled_plugins
-A list of plugins which should not be loaded by default.
-Default value: \fB"TestPlugin, CustomCommandsMenu"\fR
+.B enabled_plugins
+A list of plugins which should be loaded by default. All other plugin classes will be ignored. The default value includes two
+plugins related to Launchpad, which are enabled by default to provide continuity with earlier releases where these were the
+only substantial plugins available, and all plugins were loaded by default.
+Default value: \fB"LaunchpadBugURLHandler, LaunchpadCodeURLHandler"\fR
 
 .SH keybindings
 These are the options Terminator currently supports in the keybindings section:

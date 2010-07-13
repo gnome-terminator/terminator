@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2010-02-19 14:56+0000\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-04-25 08:53+0000\n"
 "Last-Translator: arruah <Unknown>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -25,13 +25,26 @@ msgstr "Бір терезе ішінде көптік терминалдар"
 msgid "Terminator"
 msgstr "Терминатор"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr ""
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Жабайын ба?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "_Терминалдарды жабу"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Бірнеше терминалдарды жабайын ба?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
 msgstr ""
+"Бұл %s бірнеше терминал ашық тұр. %s жабылуы, ішіндегі терминалдардың "
+"барлығының жабылуына әкеліп соқтырады."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -177,25 +190,37 @@ msgstr ""
 msgid "Thai"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "табуляция"
+
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Жекешеленген командалар"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Жекешеленген командалар баптаулары"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Жаңа команда"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
@@ -203,41 +228,34 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Аты:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Команда:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Атын беріп, команданы көрсетуіңіз қажет"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "Бұндай *%s* атау бар"
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Жабайын ба?"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Жаңа профиль"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr "_Терминалдарды жабу"
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Бірнеше терминалдарды жабайын ба?</b></big>"
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Жаңа қабат"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -246,7 +264,7 @@ msgstr "Іздеу:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Іздеу панелін жабу"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -256,164 +274,180 @@ msgstr "Келесі"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Алдыңғы"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Тарихта іздеу"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Одан басқа нәтиже жоқ"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
+msgstr "Жол ішінде іздеу"
+
+#: ../terminatorlib/terminal_popup_menu.py:51
+msgid "_Send email to..."
+msgstr "Электронды поштаға хат _жіберу..."
+
+#: ../terminatorlib/terminal_popup_menu.py:52
+msgid "_Copy email address"
+msgstr "Электронды поштаны _алмастыру буферіне көшіру"
+
+#: ../terminatorlib/terminal_popup_menu.py:54
+msgid "Ca_ll VoIP address"
+msgstr "VoIP-ге шалу"
+
+#: ../terminatorlib/terminal_popup_menu.py:55
+msgid "_Copy VoIP address"
+msgstr "VoIP-ді _алмастыру буферіне көшіру"
+
+#: ../terminatorlib/terminal_popup_menu.py:57
+msgid "_Open link"
+msgstr "Cілтемені _ашу"
+
+#: ../terminatorlib/terminal_popup_menu.py:58
+msgid "_Copy address"
+msgstr "Cілтемені алмастыру буферіне _көшіру"
+
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Терезені көлбеу бөлу"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Терезені тігінен бөлу"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
+msgid "Open _Tab"
 msgstr ""
 
-#: ../terminatorlib/window.py:176
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:126
+msgid "_Zoom terminal"
+msgstr "Терминалды _ұлғайту"
+
+#: ../terminatorlib/terminal_popup_menu.py:130
+msgid "Ma_ximise terminal"
+msgstr "Тек осы терминалды _көрсету"
+
+#: ../terminatorlib/terminal_popup_menu.py:136
+msgid "_Restore all terminals"
+msgstr "Барлық терминалдарды бастапқы _қалпыға әкелу"
+
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
+msgid "Show _scrollbar"
+msgstr "_Жылдыту жолақшасын көрсету"
+
+#: ../terminatorlib/terminal_popup_menu.py:156
+msgid "_Preferences"
+msgstr "_Баптаулар"
+
+#: ../terminatorlib/terminal_popup_menu.py:163
+msgid "Profiles"
+msgstr "Профильдер"
+
+#: ../terminatorlib/terminal_popup_menu.py:207
+msgid "Encodings"
+msgstr "Кодылау"
+
+#: ../terminatorlib/terminal_popup_menu.py:222
+msgid "Default"
+msgstr "Қалыпты"
+
+#: ../terminatorlib/terminal_popup_menu.py:225
+msgid "User defined"
+msgstr "Пайдаланушымен анықталған"
+
+#: ../terminatorlib/terminal_popup_menu.py:241
+msgid "Other Encodings"
+msgstr "Басқа кодылау"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "Жаңа топ..."
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
+msgstr "Жоқ"
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "%s тобын жою"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "Барлық топтарды жою"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "%s тобын жабу"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr "Топтарды автоматты түрде тазарту"
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "Терминал нөмірін енгізіңіз"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr "Сандық пернетақтадан консольды санды енгізу"
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr "Қабықшаны табу мүмкін емес"
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr "Қабықшаны ашу мүмкін емес:"
+
+#: ../terminatorlib/window.py:224
 msgid "window"
 msgstr "терезе"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
+#: ../terminatorlib/window.py:545
 msgid "All"
 msgstr "Барлық"
 
-#: ../terminatorlib/window.py:480
+#: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr "Жоқ"
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr "Қабықшаны табу мүмкін емес"
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
-msgid "_Send email to..."
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:48
-msgid "_Copy email address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:50
-msgid "Ca_ll VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:51
-msgid "_Copy VoIP address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:53
-msgid "_Open link"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:54
-msgid "_Copy address"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:102
-msgid "Open _Tab"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:115
-msgid "_Zoom terminal"
-msgstr "Терминалды _ұлғайту"
-
-#: ../terminatorlib/terminal_popup_menu.py:119
-msgid "Ma_ximise terminal"
-msgstr "Тек осы терминалды _көрсету"
-
-#: ../terminatorlib/terminal_popup_menu.py:125
-msgid "_Restore all terminals"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:131
-msgid "Show _scrollbar"
-msgstr "_Жылдыту жолақшасын көрсету"
-
-#: ../terminatorlib/terminal_popup_menu.py:136
-msgid "_Preferences"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:144
-msgid "Profiles"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:188
-msgid "Encodings"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:203
-msgid "Default"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:206
-msgid "User defined"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:222
-msgid "Other Encodings"
 msgstr ""

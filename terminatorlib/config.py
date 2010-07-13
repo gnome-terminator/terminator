@@ -96,7 +96,9 @@ DEFAULTS = {
             'title_receive_bg_color' : '#0076c9',
             'title_inactive_fg_color' : '#000000',
             'title_inactive_bg_color' : '#c0bebf',
-            'disabled_plugins'      : ['TestPlugin', 'CustomCommandsMenu'],
+            'enabled_plugins'       : ['LaunchpadBugURLHandler',
+                                       'LaunchpadCodeURLHandler',
+                                       'APTURLHandler'],
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
@@ -149,6 +151,9 @@ DEFAULTS = {
             'ungroup_tab'      : '<Shift><Super>t',
             'new_window'       : '<Shift><Control>i',
             'new_terminator'   : '<Super>i',
+            'broadcast_off'    : '',
+            'broadcast_group'  : '',
+            'broadcast_all'    : ''
         },
         'profiles': {
             'default':  {

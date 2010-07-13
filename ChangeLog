@@ -1,3 +1,18 @@
+terminator 0.94:
+  * Improved support for entirely hiding Terminal titlebars
+  * Plugin configuration via preferences UI
+  * New plugins: Terminal Screenshot, Watch Terminal Activity
+  * Add preferences support for profile encodings (LP: #597340)
+  * Deprecate the tabbar_hide option, replacing it with a 'hidden'
+	   option for tab_position.
+  * Add profiles, custom titlebar and custom tab labels to layouts.
+  * Improved directional navigation
+  * Backwards compatibility fixes for RHEL 5.5.
+  * Disabled-by-default keybindings for switching broadcast modes
+  * Bug fixes for LPs: #566925, #563445, #583041, #589200, #576279,
+	   #597340, #554571, #597651, #308025, #600280, #576276, #570706,
+	   #575827 and some other bugs.
+
 terminator 0.93:
   * Add preferences support for alternate_screen_scroll (LP: #558832).
   * Bug fixes for LPs: #562490, #563911, #546665, #558324, #490627,

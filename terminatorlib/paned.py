@@ -145,6 +145,7 @@ class Paned(Container):
             parent.remove(self)
             self.cnxids.remove_all()
             parent.add(sibling)
+            sibling.grab_focus()
             del(self)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
@@ -225,6 +226,7 @@ class Paned(Container):
         num = 0
         for child_key in keys:
             child = children[child_key]
+            dbg('Making a child of type: %s' % child['type'])
             if child['type'] == 'Terminal':
                 pass
             elif child['type'] == 'VPaned':
@@ -249,6 +251,10 @@ class Paned(Container):
         # FIXME: We need a delayed call to set_position, probably on realizing
         # this widget, but it probably needs to start at the deepest widget and
         # work back up. Fun.
+
+    def grab_focus(self):
+        """We don't want focus, we want a Terminal to have it"""
+        self.get_child1().grab_focus()
 
 class HPaned(Paned, gtk.HPaned):
     """Merge gtk.HPaned into our base Paned Container"""

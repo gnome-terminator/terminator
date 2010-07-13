@@ -159,6 +159,10 @@ class Terminal(gtk.VBox):
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
 
+    def get_vte(self):
+        """This simply returns the vte widget we are using"""
+        return(self.vte)
+
     def force_set_profile(self, widget, profile):
         """Forcibly set our profile"""
         self.set_profile(widget, profile, True)
@@ -264,12 +268,31 @@ class Terminal(gtk.VBox):
                 for urlplugin in plugins:
                     name = urlplugin.handler_name
                     match = urlplugin.match
+                    if name in self.matches:
+                        dbg('Terminal::update_matches: refusing to add \
+duplicate match %s' % name)
+                        continue
                     self.matches[name] = self.vte.match_add(match)
                     dbg('Terminal::update_matches: added plugin URL handler \
 for %s (%s)' % (name, urlplugin.__class__.__name__))
             except Exception, ex:
                 err('Terminal::update_url_matches: %s' % ex)
-            
+
+    def match_add(self, name, match):
+        """Register a URL match"""
+        if name in self.matches:
+            err('Terminal::match_add: Refusing to create duplicate match %s' % name)
+            return
+        self.matches[name] = self.vte.match_add(match)
+
+    def match_remove(self, name):
+        """Remove a previously registered URL match"""
+        if name not in self.matches:
+            err('Terminal::match_remove: Unable to remove non-existent match %s' % name)
+            return
+        self.vte.match_remove(self.matches[name])
+        del(self.matches[name])
+
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
@@ -959,6 +982,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Inform other parts of the application when focus is received"""
         self.emit('focus-in')
 
+    def on_window_focus_out(self):
+        """Update our UI when the window loses focus"""
+        self.titlebar.update('window-focus-out')
+
     def scrollbar_jump(self, position):
         """Move the scrollbar to a particular row"""
         self.scrollbar.set_value(position)
@@ -1197,8 +1224,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             oldstyle = True
 
         if oldstyle == False:
-            gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
-        else:
+            try:
+                gtk.show_uri(None, url, gtk.gdk.CURRENT_TIME)
+            except:
+                oldstyle = True
+
+        if oldstyle == True:
             dbg('Old gtk (%s,%s,%s), calling xdg-open' % gtk.gtk_version)
             try:
                 subprocess.Popen(["xdg-open", url])
@@ -1298,6 +1329,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def create_layout(self, layout):
         """Apply our layout"""
+        dbg('Setting layout')
         if layout.has_key('command') and layout['command'] != '':
             self.layout_command = layout['command']
         if layout.has_key('profile') and layout['profile'] != '':
@@ -1321,7 +1353,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.vte.copy_clipboard()
 
     def key_paste(self):
-        self.vte.paste_clipboard()
+        self.paste_clipboard()
 
     def key_toggle_scrollbar(self):
         self.do_scrollbar_toggle()
@@ -1454,7 +1486,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window()
+        self.terminator.new_window(self.terminator.pid_cwd(self.pid))
 
     def key_new_terminator(self):
         cmd = sys.argv[0]
@@ -1469,6 +1501,16 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
           
         dbg("Terminal::key_new_window: Spawning: %s" % cmd)
         subprocess.Popen([cmd, ])
+
+    def key_broadcast_off(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['off'])
+
+    def key_broadcast_group(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['group'])
+
+    def key_broadcast_all(self):
+        self.set_groupsend(None, self.terminator.groupsend_type['all'])
+
 # End key events
 
 gobject.type_register(Terminal)

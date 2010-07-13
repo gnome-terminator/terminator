@@ -7,94 +7,105 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-15 10:30+0000\n"
-"PO-Revision-Date: 2008-05-30 13:13+0000\n"
-"Last-Translator: Mikel Alzibar <mikelalzibar@gmail.com>\n"
+"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"PO-Revision-Date: 2010-06-21 23:56+0000\n"
+"Last-Translator: Victor Herrero <victorhera@gmail.com>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 20:40+0000\n"
+"X-Launchpad-Export-Date: 2010-07-05 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Asko terminalak leio batean"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "Bukaera"
 
-#: ../terminatorlib/notebook.py:225
-msgid "tab"
-msgstr ""
+#: ../terminatorlib/container.py:149
+msgid "Close?"
+msgstr "Itxi?"
 
-#: ../terminatorlib/notebook.py:368
-msgid "Close Tab"
+#: ../terminatorlib/container.py:156
+msgid "Close _Terminals"
+msgstr "Itxi_Terminalak"
+
+#: ../terminatorlib/container.py:158
+msgid "<big><b>Close multiple terminals?</b></big>"
+msgstr "<big><b>Azko terminalak itxi?</b></big>"
+
+#: ../terminatorlib/container.py:161
+#, python-format
+msgid ""
+"This %s has several terminals open. Closing the %s will also close all "
+"terminals within it."
 msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr ""
+msgstr "Uneko lokala"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr ""
+msgstr "Mendebaldea"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr ""
+msgstr "Europako Erdialdekoa"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr ""
+msgstr "Europako Hegoaldekoa"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr ""
+msgstr "Baltikoa"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr ""
+msgstr "Zirilikoa"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr ""
+msgstr "Arabiarra"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr ""
+msgstr "Greziarra"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "Hebrear bisuala"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreoa"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr ""
+msgstr "Turkiarra"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr ""
+msgstr "Nordikoa"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr ""
+msgstr "Zeltiarra"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
@@ -103,160 +114,165 @@ msgstr ""
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr ""
+msgstr "Unikodea"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr ""
+msgstr "Armeniarra"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "Txinatar tradizionala"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "Zirilikoa/Errusiarra"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr ""
+msgstr "Japoniarra"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr ""
+msgstr "Korearra"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Txinatar Soildua"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "Georgiarra"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "Zirilikoa/Ukrainarra"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr ""
+msgstr "Kroatiarra"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr ""
+msgstr "Hindia"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "Pertsiarra"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr ""
+msgstr "Gujaratia"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr ""
+msgstr "Gurmukhia"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "Islandiarra"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamdarra"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
+msgstr "Thaiera"
+
+#: ../terminatorlib/notebook.py:259
+msgid "tab"
+msgstr "tab"
+
+#: ../terminatorlib/notebook.py:408
+msgid "Close Tab"
+msgstr "Itxi tab"
+
+#: ../terminatorlib/plugins/activitywatch.py:21
+msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:686 ../terminatorlib/prefseditor.py:691
-msgid "New Profile"
+#: ../terminatorlib/plugins/activitywatch.py:41
+msgid "Watch for activity"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:731 ../terminatorlib/prefseditor.py:736
-msgid "New Layout"
+#: ../terminatorlib/plugins/activitywatch.py:44
+msgid "Stop watching for activity"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Ohitura komandoak"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Ohitura komandoak konfigurazioa"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Komando berria"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Egokitu"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Izena:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Komandoa:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Izena eta komandoa zehaztu behar duzu"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
+msgstr "Izena *%s* existitzen da"
+
+#: ../terminatorlib/plugins/terminalshot.py:28
+msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/container.py:139
-msgid "Close?"
-msgstr "Itxi?"
+#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+msgid "New Profile"
+msgstr "Profila berria"
 
-#: ../terminatorlib/container.py:146
-msgid "Close _Terminals"
-msgstr ""
-
-#: ../terminatorlib/container.py:148
-msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-
-#: ../terminatorlib/container.py:151
-#, python-format
-msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr ""
+#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+msgid "New Layout"
+msgstr "Diseinu berria"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr ""
+msgstr "Bilatu:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Itxi bilatzeko barra"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr ""
+msgstr "Hurrengoa"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Aurrekoa"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -264,156 +280,172 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Emaitza gehiago ez"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "Lerro aurkito"
 
-#: ../terminatorlib/window.py:176
-msgid "window"
-msgstr ""
-
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:459
-msgid "All"
-msgstr ""
-
-#: ../terminatorlib/window.py:480
-#, python-format
-msgid "Tab %d"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:347
-msgid "New group..."
-msgstr ""
-
-#: ../terminatorlib/terminal.py:352
-msgid "None"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:368
-#, python-format
-msgid "Remove group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:373
-msgid "G_roup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:378
-msgid "Ungr_oup all in tab"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:383
-msgid "Remove all groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:390
-#, python-format
-msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:399
-msgid "Broadcast all"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:400
-msgid "Broadcast group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:401
-msgid "Broadcast off"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:414
-msgid "Split to this group"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:419
-msgid "Autoclean groups"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:426
-msgid "Insert terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:430
-msgid "Insert padded terminal number"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1088
-msgid "Unable to find a shell"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:1105
-msgid "Unable to start shell:"
-msgstr ""
-
-#: ../terminatorlib/terminal_popup_menu.py:47
+#: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:48
+#: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Bidali posta elektronikoa"
 
-#: ../terminatorlib/terminal_popup_menu.py:50
+#: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:51
+#: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:53
+#: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "_Esteka ireki"
 
-#: ../terminatorlib/terminal_popup_menu.py:54
+#: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "_Kopiatu helbide"
 
-#: ../terminatorlib/terminal_popup_menu.py:102
+#: ../terminatorlib/terminal_popup_menu.py:86
+msgid "Split H_orizontally"
+msgstr "Zatitu H_orizontalki"
+
+#: ../terminatorlib/terminal_popup_menu.py:96
+msgid "Split V_ertically"
+msgstr "Zatitu V_ertikalki"
+
+#: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
+msgstr "Ireki_Tab"
+
+#: ../terminatorlib/terminal_popup_menu.py:112
+msgid "Open _Debug Tab"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:115
+#: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "_Zoom terminala"
 
-#: ../terminatorlib/terminal_popup_menu.py:119
+#: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:125
+#: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:131
+#: ../terminatorlib/terminal_popup_menu.py:143
+msgid "Grouping"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:136
+#: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "_Preferentziak"
 
-#: ../terminatorlib/terminal_popup_menu.py:144
+#: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "Profilak"
 
-#: ../terminatorlib/terminal_popup_menu.py:188
+#: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr ""
+msgstr "Kodeketak"
 
-#: ../terminatorlib/terminal_popup_menu.py:203
+#: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:206
+#: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:222
+#: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
+msgstr "Beste kodeketen"
+
+#: ../terminatorlib/terminal.py:365
+msgid "New group..."
+msgstr "Talde berria..."
+
+#: ../terminatorlib/terminal.py:370
+msgid "None"
+msgstr "Ezer ez"
+
+#: ../terminatorlib/terminal.py:386
+#, python-format
+msgid "Remove group %s"
+msgstr "Kendu talde %s"
+
+#: ../terminatorlib/terminal.py:391
+msgid "G_roup all in tab"
 msgstr ""
+
+#: ../terminatorlib/terminal.py:396
+msgid "Ungr_oup all in tab"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:401
+msgid "Remove all groups"
+msgstr "Kendu talde guztiak"
+
+#: ../terminatorlib/terminal.py:408
+#, python-format
+msgid "Close group %s"
+msgstr "Itxi talde %s"
+
+#: ../terminatorlib/terminal.py:417
+msgid "Broadcast all"
+msgstr "Dena bidalpen"
+
+#: ../terminatorlib/terminal.py:418
+msgid "Broadcast group"
+msgstr "Talde bidalpen"
+
+#: ../terminatorlib/terminal.py:419
+msgid "Broadcast off"
+msgstr "Itzali bidalpen"
+
+#: ../terminatorlib/terminal.py:432
+msgid "Split to this group"
+msgstr "Banatu talde honetan"
+
+#: ../terminatorlib/terminal.py:437
+msgid "Autoclean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:444
+msgid "Insert terminal number"
+msgstr "Sartu terminala zenbakia"
+
+#: ../terminatorlib/terminal.py:448
+msgid "Insert padded terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1157
+msgid "Unable to find a shell"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:1174
+msgid "Unable to start shell:"
+msgstr ""
+
+#: ../terminatorlib/window.py:224
+msgid "window"
+msgstr "leihoa"
+
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/window.py:545
+msgid "All"
+msgstr "Guztia"
+
+#: ../terminatorlib/window.py:566
+#, python-format
+msgid "Tab %d"
+msgstr "Tab %d"

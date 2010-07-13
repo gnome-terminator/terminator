@@ -127,7 +127,13 @@ class Titlebar(gtk.EventBox):
                     default_bg = True
                 group_fg = self.config['title_inactive_fg_color']
                 group_bg = self.config['title_inactive_bg_color']
+            elif other == 'window-focus-out':
+                title_fg = self.config['title_inactive_fg_color']
+                title_bg = self.config['title_inactive_bg_color']
+                icon = '_receive_off'
+                default_bg = True
             else:
+                # We're the active terminal
                 title_fg = self.config['title_transmit_fg_color']
                 title_bg = self.config['title_transmit_bg_color']
                 if terminator.groupsend == terminator.groupsend_type['all']:
