@@ -311,6 +311,9 @@ class PrefsEditor:
         # Allow bold text
         widget = guiget('allow_bold_checkbutton')
         widget.set_active(self.config['allow_bold'])
+        # Anti-alias
+        widget = guiget('antialias_checkbutton')
+        widget.set_active(self.config['antialias'])
         # Icon terminal bell
         widget = guiget('icon_bell_checkbutton')
         widget.set_active(self.config['icon_bell'])
@@ -543,6 +546,11 @@ class PrefsEditor:
     def on_allow_bold_checkbutton_toggled(self, widget):
         """Allow bold setting changed"""
         self.config['allow_bold'] = widget.get_active()
+        self.config.save()
+
+    def on_antialias_checkbutton_toggled(self, widget):
+        """Anti-alias setting changed"""
+        self.config['antialias'] = widget.get_active()
         self.config.save()
 
     def on_show_titlebar_toggled(self, widget):

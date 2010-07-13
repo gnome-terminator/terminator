@@ -154,6 +154,7 @@ DEFAULTS = {
         'profiles': {
             'default':  {
                 'allow_bold'            : True,
+                'antialias'             : True,
                 'audible_bell'          : False,
                 'visible_bell'          : False,
                 'urgent_bell'           : False,
