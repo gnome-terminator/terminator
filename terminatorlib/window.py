@@ -259,7 +259,7 @@ class Window(Container, gtk.Window):
         if self.iswithdrawn == True:
             if self.position:
                 self.move(self.position[0], self.position[1])
-            self.present()
+            self.show()
         else:
             self.position = self.get_position()
             self.hidefunc()
@@ -347,6 +347,9 @@ class Window(Container, gtk.Window):
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
         gtk.Window.show(self)
+        #Present is necessary to grab focus when window is hidden from taskbar
+        self.present()
+
         #Window must be shown, then hidden for the hotkeys to be registered
         if (self.ignore_startup_show and startup == True):
             self.hide()
