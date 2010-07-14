@@ -4,6 +4,7 @@
 """window.py - class for the main Terminator window"""
 
 import copy
+import time
 import pygtk
 pygtk.require('2.0')
 import gobject
@@ -31,9 +32,9 @@ class Window(Container, gtk.Window):
     title = None
     isfullscreen = None
     ismaximised = None
-    iswithdrawn = None
     hidebound = None
     hidefunc = None
+    losefocus_time = 0
     position = None
     ignore_startup_show = None
 
@@ -128,7 +129,6 @@ class Window(Container, gtk.Window):
         borderless = self.config['borderless']
         skiptaskbar = self.config['hide_from_taskbar']
         alwaysontop = self.config['always_on_top']
-        hideonlosefocus = self.config['hide_on_lose_focus']
         sticky = self.config['sticky']
 
         if options:
@@ -145,7 +145,6 @@ class Window(Container, gtk.Window):
         self.set_maximised(maximise)
         self.set_borderless(borderless)
         self.set_always_on_top(alwaysontop)
-        self.set_hide_on_lose_focus(hideonlosefocus)
         self.set_real_transparency()
         self.set_sticky(sticky)
         if self.hidebound:
@@ -199,6 +198,11 @@ class Window(Container, gtk.Window):
         """Focus has left the window"""
         for terminal in self.get_visible_terminals():
             terminal.on_window_focus_out()
+
+        self.losefocus_time = time.time()
+        if self.config['hide_on_lose_focus'] and self.get_property('visible'):
+            self.position = self.get_position()
+            self.hidefunc()
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
@@ -256,18 +260,18 @@ class Window(Container, gtk.Window):
 
     def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""
-        if self.iswithdrawn == True:
+
+        if not self.get_property('visible'):
+            #Don't show if window has just been hidden because of
+            #e.g. lost focus
+            if time.time() - self.losefocus_time < 0.1:
+                return
             if self.position:
                 self.move(self.position[0], self.position[1])
             self.show()
         else:
             self.position = self.get_position()
             self.hidefunc()
-
-    def on_lose_focus(self, widget, event):
-        """Handle when window lose focus"""
-        self.position = self.get_position()
-        self.hidefunc()
 
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
@@ -276,11 +280,8 @@ class Window(Container, gtk.Window):
                                  gtk.gdk.WINDOW_STATE_FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  gtk.gdk.WINDOW_STATE_MAXIMIZED)
-        self.iswithdrawn = bool(event.new_window_state &
-                                 gtk.gdk.WINDOW_STATE_WITHDRAWN)
-        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s,\
-                withdrawn=%s' %
-            (self.isfullscreen, self.ismaximised, self.iswithdrawn))
+        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' \
+                % (self.isfullscreen, self.ismaximised))
 
         return(False)
 
@@ -322,11 +323,6 @@ class Window(Container, gtk.Window):
         """Set the sticky hint from the supplied value"""
         if value == True:
             self.stick()
-
-    def set_hide_on_lose_focus(self,value):
-        """Registers the callback for lost focus from the supplied value"""
-        if value == True:
-            self.connect('focus-out-event', self.on_lose_focus)
 
     def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
