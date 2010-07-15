@@ -585,7 +585,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                     font = self.config.get_system_font()
                 else:
                     font = self.config['font']
-                self.vte.set_font(pango.FontDescription(font))
+                self.set_font(pango.FontDescription(font))
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
@@ -1071,7 +1071,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             return
         new_font.set_size(new_size)
         dbg('setting new font: %s' % new_font)
-        self.vte.set_font(new_font)
+        self.set_font(new_font)
 
     def is_zoomed(self):
         """Determine if we are a zoomed terminal"""
@@ -1270,7 +1270,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             fontsize += pango.SCALE
 
         pangodesc.set_size(fontsize)
-        self.vte.set_font(pangodesc)
+        self.set_font(pangodesc)
         self.custom_font_size = fontsize
 
     def zoom_orig(self):
@@ -1280,8 +1280,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         else:
             font = self.config['font']
         dbg("Terminal::zoom_orig: restoring font to: %s" % font)
-        self.vte.set_font(pango.FontDescription(font))
+        self.set_font(pango.FontDescription(font))
         self.custom_font_size = None
+
+    def set_font(self, fontdesc):
+        """Set the font we want in VTE"""
+        antialias = self.config['antialias']
+        if antialias:
+            antialias = vte.ANTI_ALIAS_FORCE_ENABLE
+        else:
+            antialias = vte.ANTI_ALIAS_FORCE_DISABLE
+        self.vte.set_font_full(fontdesc, antialias)
 
     def get_cursor_position(self):
         """Return the co-ordinates of our cursor"""
