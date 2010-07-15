@@ -263,8 +263,9 @@ class Window(Container, gtk.Window):
 
         if not self.get_property('visible'):
             #Don't show if window has just been hidden because of
-            #e.g. lost focus
-            if time.time() - self.losefocus_time < 0.1:
+            #lost focus
+            if (time.time() - self.losefocus_time < 0.1) and \
+                self.config['hide_on_lose_focus']:
                 return
             if self.position:
                 self.move(self.position[0], self.position[1])
