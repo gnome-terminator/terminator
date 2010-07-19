@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-07-10 06:33+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2010-07-18 04:09+0000\n"
+"Last-Translator: Sam Dieck <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-11 03:38+0000\n"
+"X-Launchpad-Export-Date: 2010-07-19 03:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -204,11 +204,11 @@ msgstr "Complemento ActivityWatch no disponible: instale python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Monitorear actividad"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Dejar de monitorear actividad"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -342,7 +342,7 @@ msgstr "_Restaurar todas las terminales"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Agrupamiento"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
