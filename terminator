@@ -60,9 +60,11 @@ if __name__ == '__main__':
         try:
             ipc.DBusService()
         except ipc.DBusException:
+            dbg('Unable to become master process, requesting a new window')
             ipc.new_window()
             sys.exit()
     except ImportError:
+        dbg('dbus not imported')
         pass
 
     MAKER = Factory()
