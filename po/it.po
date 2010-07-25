@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-05-22 16:15+0000\n"
-"Last-Translator: Milo Casagrande <milo@casagrande.name>\n"
+"PO-Revision-Date: 2010-07-24 11:30+0000\n"
+"Last-Translator: Andrea Corbellini <corbellini.andrea@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
+"X-Launchpad-Export-Date: 2010-07-25 04:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Molteplici terminali un una sola finestra"
+msgstr "Terminali multipli in una sola finestra"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
@@ -31,11 +31,11 @@ msgstr "Chiudere?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr "Chiudi _terminali"
+msgstr "Chiudi i _Terminali"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Chiudere i terminali?</b></big>"
+msgstr "<big><b>Chiudere più di un terminale?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Localizzazione corrente"
+msgstr "Localizzazione Corrente"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -59,11 +59,11 @@ msgstr "Occidentale"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Europa centrale"
+msgstr "Europa Centrale"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Sud europeo"
+msgstr "Sud Europa"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
@@ -200,7 +200,7 @@ msgstr "Chiudi scheda"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "Il plugin ActivityWatch non è disponibile: installare python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
@@ -342,7 +342,7 @@ msgstr "_Ripristina tutti i terminali"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Raggruppamento"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
