@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-06-27 08:07+0000\n"
+"PO-Revision-Date: 2010-07-27 19:41+0000\n"
 "Last-Translator: Vytautas Bačiulis <info@infosoft.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
+"X-Launchpad-Export-Date: 2010-07-28 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -200,7 +200,7 @@ msgstr "Užverti kortelę"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "ActivityWatch įskiepis nepasiekiamas: prašome įdiegti python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
@@ -247,7 +247,7 @@ msgstr "Pavadinimas *%s* jau egzistuoja"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Terminalo ekrano nuotrauka"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
@@ -326,7 +326,7 @@ msgstr "Atverti _kortelę"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Atverti _Derinimo kortelę"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -342,7 +342,7 @@ msgstr "_Atkurti visus terminalus"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Grupavimas"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
@@ -378,7 +378,7 @@ msgstr "Nauja grupė..."
 
 #: ../terminatorlib/terminal.py:370
 msgid "None"
-msgstr ""
+msgstr "Nėra"
 
 #: ../terminatorlib/terminal.py:386
 #, python-format
@@ -387,11 +387,11 @@ msgstr "Šalinti grupę %s"
 
 #: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "G_rupuoti visus kortelėje"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Negr_upuoti visų kortelėje"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
