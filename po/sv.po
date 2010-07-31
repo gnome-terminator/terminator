@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-07-22 23:05+0000\n"
-"Last-Translator: Anders Ponga <Unknown>\n"
+"PO-Revision-Date: 2010-07-30 15:38+0000\n"
+"Last-Translator: David Bengtsson <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-24 03:52+0000\n"
+"X-Launchpad-Export-Date: 2010-07-31 03:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -132,7 +132,7 @@ msgstr "Traditionell kinesisk"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Kyrillisk/Rysk"
+msgstr "Kyrillisk/rysk"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
@@ -155,7 +155,7 @@ msgstr "Georgisk"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Kyrillisk/Ukrainsk"
+msgstr "Kyrillisk/ukrainsk"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
@@ -188,7 +188,7 @@ msgstr "Vietnamesisk"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Thai"
+msgstr "Thailändsk"
 
 #: ../terminatorlib/notebook.py:259
 msgid "tab"
@@ -200,24 +200,23 @@ msgstr "Stäng flik"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
-"ActivityWatch plugin otillgänglig: Var vänlig att installera python-notify"
+msgstr "Insticksmodulen ActivityWatch otillgänglig: installera python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr "Kolla efter aktivitet"
+msgstr "Vaka över aktivitet"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr "Sluta kolla efter aktivitet"
+msgstr "Stäng av övervakning av aktivitet"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Anpassade Kommandon"
+msgstr "Anpassade kommandon"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Anpassade Kommando Inställningar"
+msgstr "Inställningar för anpassade kommando"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -238,7 +237,7 @@ msgstr "Kommando:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr "Du måste definiera ett namn och ett kommando"
+msgstr "Du måste ange ett namn och kommando"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
@@ -248,7 +247,7 @@ msgstr "Namnet *%s* finns redan"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr "Skärmdump av terminalen"
+msgstr "Skärmbild av terminalen"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
@@ -265,7 +264,7 @@ msgstr "Sök:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr "Stäng Sökfältet"
+msgstr "Stäng sökfält"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -279,7 +278,7 @@ msgstr "Föregående"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr "Söker"
+msgstr "Söker tillbakarullning"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
@@ -287,7 +286,7 @@ msgstr "Inga fler resultat"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr "Hittade på rad"
+msgstr "Hittades på rad"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
@@ -295,15 +294,15 @@ msgstr "_Skicka e-post till..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr "_Kopiera e-post adress"
+msgstr "_Kopiera e-postadress"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr "Ri_ng VoIP adress"
+msgstr "Ri_ng VoIP-adress"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr "_Kopiera VoIP adress"
+msgstr "_Kopiera VoIP-adress"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -327,7 +326,7 @@ msgstr "Öppna _flik"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr "Öppna en _Debug Tabb"
+msgstr "Öppna _felsökningsflik"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -335,7 +334,7 @@ msgstr "_Zooma in terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr "Maximera terminal"
+msgstr "Ma_ximera terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
@@ -388,11 +387,11 @@ msgstr "Ta bort grupp %s"
 
 #: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
-msgstr "G_ruppera alla i fliken"
+msgstr "G_ruppera allt i fliken"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr "Dela _up alla i fliken"
+msgstr "Dela _upp allt i fliken"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
@@ -405,39 +404,39 @@ msgstr "Stäng grupp %s"
 
 #: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
-msgstr "Sänd till alla"
+msgstr "Sänd ut allt"
 
 #: ../terminatorlib/terminal.py:418
 msgid "Broadcast group"
-msgstr "Sänd till grupp"
+msgstr "Sänd ut grupp"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Broadcast off"
-msgstr "Stäng av sändning"
+msgstr "Utsändning avstängd"
 
 #: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
-msgstr "Dela upp den här gruppen"
+msgstr "Dela till den här gruppen"
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Rensa grupper automatiskt"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
-msgstr "Infoga terminalens nummer"
+msgstr "Infoga terminalnummer"
 
 #: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
-msgstr "Infoga vadderat terminal nummer"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
-msgstr "Kunde inte hitta ett skal"
+msgstr "Det gick inte att hitta ett skal"
 
 #: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
-msgstr "Kan inte starta skal:"
+msgstr "Det gick inte att starta skal:"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
@@ -446,7 +445,7 @@ msgstr "fönster"
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:545
 msgid "All"
-msgstr "Alla"
+msgstr "Allt"
 
 #: ../terminatorlib/window.py:566
 #, python-format
