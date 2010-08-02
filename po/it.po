@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-07-31 18:58+0000\n"
+"PO-Revision-Date: 2010-08-01 08:38+0000\n"
 "Last-Translator: Riccardo Angelino <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-01 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-08-02 03:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -204,7 +204,7 @@ msgstr "Il plugin ActivityWatch non è disponibile: installare python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Vedere per le attività"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
