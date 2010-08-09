@@ -5,7 +5,7 @@ import re
 import terminatorlib.plugin as plugin
 
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
-AVAILABLE = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler', 'MavenPluginURLHandler']
+AVAILABLE = ['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']
 
 class LaunchpadBugURLHandler(plugin.URLHandler):
     """Launchpad Bug URL handler. If the URL looks like a Launchpad changelog
@@ -51,16 +51,3 @@ class APTURLHandler(plugin.URLHandler):
         """Actually we don't need to do anything for this to work"""
         return(url)
 
-class MavenPluginURLHandler(plugin.URLHandler):
-    """Maven plugin handler. If there is the name of a Maven plugin, link
-    to its documentation site."""
-    
-    capabilities = ['url_handler']
-    handler_name = 'maven_plugin'
-    mavenfilters = {}
-    mavenfilters['apache_maven_plugins'] = 'clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|IDEs|eclipse|idea'
-    
-    match = '\\b(maven-(%(apache_maven_plugins)s)-plugin)\\b' % mavenfilters
-
-    def callback(self, url):
-        return('http://maven.apache.org/plugins/%s' % url)
