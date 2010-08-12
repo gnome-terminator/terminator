@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-07-07 13:20+0000\n"
-"Last-Translator: Artem Karimov <skybon@gmail.com>\n"
+"PO-Revision-Date: 2010-08-11 16:43+0000\n"
+"Last-Translator: Malody <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-08 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-08-12 03:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -59,11 +59,11 @@ msgstr "Западная"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Центральная Европа"
+msgstr "Центрально-европейская"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Южная Европа"
+msgstr "Южно-европейская"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
