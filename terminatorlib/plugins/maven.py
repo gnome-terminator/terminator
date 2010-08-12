@@ -34,7 +34,7 @@ class MavenPluginURLHandler(plugin.URLHandler):
     maven_filters['apache_maven_plugin_artifact_id'] = 'maven\-(%(apache_maven_plugin_shortname)s)\-plugin' % maven_filters
     maven_filters['codehaus_maven_plugin_artifact_id'] = '(%(codehaus_maven_plugin_shortname)s)\-maven\-plugin' % maven_filters
     maven_filters['maven_plugin_version'] = '[0-9\.\-\_]+'
-    maven_filters['maven_plugin_goal'] = '[a-z\-]+'
+    maven_filters['maven_plugin_goal'] = '[a-zA-Z\-]+'
     maven_filters['maven_plugin'] = '(%(apache_maven_plugin_artifact_id)s|%(codehaus_maven_plugin_artifact_id)s)(:%(maven_plugin_version)s:%(maven_plugin_goal)s)?' % maven_filters
     maven_filters['maven_plugin_named_groups'] = '(?P<artifact_id>%(apache_maven_plugin_artifact_id)s|%(codehaus_maven_plugin_artifact_id)s)(:%(maven_plugin_version)s:(?P<goal>%(maven_plugin_goal)s))?' % maven_filters
 
