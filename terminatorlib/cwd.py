@@ -15,7 +15,7 @@
 import platform
 import os
 import pwd
-from util import dbg
+from util import dbg, err
 
 def get_default_cwd():
     """Determine a reasonable default cwd"""
@@ -33,7 +33,7 @@ def get_pid_cwd():
 
     if system == 'Linux':
         dbg('Using Linux get_pid_cwd')
-        func = lambda pid: os.path.realpath('/proc/%s/cwd' % pid)
+        func = linux_get_pid_cwd
     elif system == 'FreeBSD':
         try:
             import freebsd
@@ -43,10 +43,29 @@ def get_pid_cwd():
             dbg('FreeBSD version too old for get_pid_cwd')
     elif system == 'SunOS':
         dbg('Using SunOS get_pid_cwd')
-        func = lambda pid: os.path.realpath('/proc/%s/path/cwd' % pid)
+        func = sunos_get_pid_cwd
     else:
         dbg('Unable to determine a get_pid_cwd for OS: %s' % system)
 
     return(func)
+
+def proc_get_pid_cwd(pid, path):
+    """Extract the cwd of a PID from proc, given the PID and the /proc path to
+    insert it into, e.g. /proc/%s/cwd"""
+    try:
+        cwd = os.path.realpath(path % pid)
+    except Exception, ex:
+        err('Unable to get cwd for PID %s: %s' % (pid, ex))
+        cwd = '/'
+
+    return(cwd)
+
+def linux_get_pid_cwd(pid):
+    """Determine the cwd for a given PID on Linux kernels"""
+    return(proc_get_pid_cwd(pid, '/proc/%s/cwd'))
+
+def sunos_get_pid_cwd(pid):
+    """Determine the cwd for a given PID on SunOS kernels"""
+    return(proc_get_pid_cwd(pid, '/proc/%s/path/cwd'))
 
 # vim: set expandtab ts=4 sw=4:
