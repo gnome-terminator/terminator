@@ -215,6 +215,9 @@ class PrefsEditor:
         else:
             active = 0
         widget.set_active(active)
+        # DBus Server
+        widget = guiget('dbuscheck')
+        widget.set_active(self.config['dbus'])
 
         ## Profile tab
         # Populate the profile list
@@ -536,6 +539,11 @@ class PrefsEditor:
     def on_wingeomcheck_toggled(self, widget):
         """Window geometry setting changed"""
         self.config['geometry_hinting'] = widget.get_active()
+        self.config.save()
+
+    def on_dbuscheck_toggled(self, widget):
+        """DBus server setting changed"""
+        self.config['dbus'] = widget.get_active()
         self.config.save()
 
     def on_winbordercheck_toggled(self, widget):
