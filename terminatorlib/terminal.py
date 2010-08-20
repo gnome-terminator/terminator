@@ -152,6 +152,7 @@ class Terminal(gtk.VBox):
 
         self.connect_signals()
 
+        os.putenv('TERM', 'xterm')
         os.putenv('COLORTERM', 'gnome-terminal')
 
         env_proxy = os.getenv('http_proxy')
