@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-07-23 22:59+0000\n"
-"Last-Translator: Nicolas Semrau <Unknown>\n"
+"PO-Revision-Date: 2010-08-22 19:22+0000\n"
+"Last-Translator: Dav <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:45+0000\n"
+"X-Launchpad-Export-Date: 2010-08-23 03:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -217,7 +217,7 @@ msgstr "Eigene Befehle"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Eigene Befehle einstellen"
+msgstr "Eigene Befehle verwalten"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -392,16 +392,16 @@ msgstr "Alle im _Reiter gruppieren"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr "Gruppierung im Reiter auflösen"
+msgstr "Gruppe im Reiter auflösen"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
-msgstr "Alle Gruppierungen auflösen"
+msgstr "Alle Gruppen auflösen"
 
 #: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
-msgstr "Gruppierung %s schließen"
+msgstr "Gruppe %s schließen"
 
 #: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
@@ -417,11 +417,11 @@ msgstr "Nichts senden"
 
 #: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
-msgstr "Aus Gruppierung abtrennen"
+msgstr "Aus Gruppe abtrennen"
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
-msgstr "Gruppierungen automatisch aufräumen"
+msgstr "Gruppen automatisch aufräumen"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
