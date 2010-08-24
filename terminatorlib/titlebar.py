@@ -103,7 +103,14 @@ class Titlebar(gtk.EventBox):
         if other:
             term = self.terminal
             terminator = self.terminator
-            if term != other and term.group and term.group == other.group:
+            if other == 'window-focus-out':
+                title_fg = self.config['title_inactive_fg_color']
+                title_bg = self.config['title_inactive_bg_color']
+                icon = '_receive_off'
+                default_bg = True
+                group_fg = self.config['title_inactive_fg_color']
+                group_bg = self.config['title_inactive_bg_color']
+            elif term != other and term.group and term.group == other.group:
                 if terminator.groupsend == terminator.groupsend_type['off']:
                     title_fg = self.config['title_inactive_fg_color']
                     title_bg = self.config['title_inactive_bg_color']
@@ -127,11 +134,6 @@ class Titlebar(gtk.EventBox):
                     default_bg = True
                 group_fg = self.config['title_inactive_fg_color']
                 group_bg = self.config['title_inactive_bg_color']
-            elif other == 'window-focus-out':
-                title_fg = self.config['title_inactive_fg_color']
-                title_bg = self.config['title_inactive_bg_color']
-                icon = '_receive_off'
-                default_bg = True
             else:
                 # We're the active terminal
                 title_fg = self.config['title_transmit_fg_color']
