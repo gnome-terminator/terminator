@@ -1,3 +1,15 @@
+terminator (0.95ppa2) karmic; urgency=low
+
+  * No-change rebuild for karmic
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 24 Aug 2010 22:24:59 +0100
+
+terminator (0.95ppa1) maverick; urgency=low
+
+  * No-change rebuild for maverick
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 24 Aug 2010 22:24:20 +0100
+
 terminator (0.95) lucid; urgency=low
 
   * New upstream release of 0.95
