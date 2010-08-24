@@ -1,8 +1,8 @@
 terminator 0.95:
   * Add a configuration option to enable a DBus server
-	* Add a configuration option to disable font anti-aliasing
-	* Improved error handling in various locations
-	* Maven URL handler plugin (thanks to Julien Nicoulaud)
+  * Add a configuration option to disable font anti-aliasing
+  * Improved error handling in various locations
+  * Maven URL handler plugin (thanks to Julien Nicoulaud)
 
 terminator 0.94:
   * Improved support for entirely hiding Terminal titlebars
