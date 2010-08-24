@@ -1,3 +1,9 @@
+terminator (0.95) lucid; urgency=low
+
+  * New upstream release of 0.95
+
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 24 Aug 2010 21:42:51 +0100
+
 terminator (0.94) lucid; urgency=low
 
   * New upstream release of 0.94
