@@ -76,6 +76,7 @@ except ImportError:
 
 DEFAULTS = {
         'global_config':   {
+            'dbus'                  : False,
             'focus'                 : 'click',
             'handle_size'           : -1,
             'geometry_hinting'      : True,

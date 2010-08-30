@@ -68,6 +68,8 @@ WM_WINDOW_ROLE property on the window')
     parser.add_option('-l', '--layout', dest='layout', help='Select a layout')
     parser.add_option('-p', '--profile', dest='profile', help='Use a \
 different profile as the default')
+    parser.add_option('-u', '--no-dbus', action='store_true', dest='nodbus', 
+            help='Disable DBus')
     parser.add_option('-d', '--debug', action='count', dest='debug',
             help='Enable debugging information (twice for debug server)')
     parser.add_option('--debug-classes', action='store', dest='debug_classes', 

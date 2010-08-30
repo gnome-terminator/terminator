@@ -8,34 +8,34 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2009-05-26 11:21+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-08-22 06:33+0000\n"
+"Last-Translator: Rancher <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-05 03:44+0000\n"
+"X-Launchpad-Export-Date: 2010-08-23 03:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Више терминала у једном прозору"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "Терминатор"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr ""
+msgstr "Изаћи?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr ""
+msgstr "Затвори _терминале"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>Затворити више терминала?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -43,409 +43,412 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"%s има неколико отворених терминала. Ако затворите %s, то ће затворити и све "
+"терминале у њему."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr ""
+msgstr "Текући локалитет"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr ""
+msgstr "Западни"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr ""
+msgstr "Средњоевропски"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr ""
+msgstr "Јужноевропски"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr ""
+msgstr "Балтички"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr ""
+msgstr "Ћирилица"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr ""
+msgstr "Арапски"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr ""
+msgstr "Грчки"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "Визуелни хебрејски"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr ""
+msgstr "Хебрејски"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr ""
+msgstr "Турски"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr ""
+msgstr "Нордијски"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr ""
+msgstr "Келтски"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr ""
+msgstr "Румунски"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr ""
+msgstr "Уникод"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr ""
+msgstr "Јерменски"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "Традиционални кинески"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "Ћирилички/руски"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr ""
+msgstr "Јапански"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr ""
+msgstr "Корејски"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Поједностављени кинески"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "Грузијски"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "Ћирилички/украјински"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr ""
+msgstr "Хрватски"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr ""
+msgstr "Хинди"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "Персијски"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr ""
+msgstr "Гуџарати"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr ""
+msgstr "Гермуки"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "Исландски"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "Вијетнамски"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr ""
+msgstr "Тајландски"
 
 #: ../terminatorlib/notebook.py:259
 msgid "tab"
-msgstr ""
+msgstr "језичак"
 
 #: ../terminatorlib/notebook.py:408
 msgid "Close Tab"
-msgstr ""
+msgstr "Затвори језичак"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch додатак није доступан. Молимо, инсталирајте python-notify."
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Прати активност"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Престани да пратиш активност"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Прилагођене наредбе"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Поставке прилагођених наредби"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Нова наредба"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Омогућено:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Назив:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Наредба:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Морате да одредите назив и наредбу"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "„%s“ назив већ постоји."
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Снимак терминала"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
-msgstr ""
+msgstr "Нови профил"
 
 #: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
 msgid "New Layout"
-msgstr ""
+msgstr "Нови изглед"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr ""
+msgstr "Претрага:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "Затвори поље за претрагу"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr ""
+msgstr "Следеће"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "Претходно"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Претраживање преписа"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Нема више резултата"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "Пронађено у реду"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Пошаљи е-поруку..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Умножи е-адресу"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "По_зови VoIP адресу"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "_Умножи VoIP адресу"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "_Отвори везу"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "_Умножи адресу"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr ""
+msgstr "Раздвоји водо_равно"
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr ""
+msgstr "Раздвоји у_справно"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr ""
+msgstr "Отвори _језичак"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Отвори _језичак за отклањање неисправности"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "_Приближи терминал"
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Уве_ћај терминал"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "_Поврати све терминале"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Груписање"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Прикажи _препис"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "_Поставке"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "Профили"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr ""
+msgstr "Кодирања"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr ""
+msgstr "Подразумевано"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr ""
+msgstr "Кориснички дефинисано"
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
-msgstr ""
+msgstr "Друга кодирања"
 
 #: ../terminatorlib/terminal.py:365
 msgid "New group..."
-msgstr ""
+msgstr "Нова група..."
 
 #: ../terminatorlib/terminal.py:370
 msgid "None"
-msgstr ""
+msgstr "Ништа"
 
 #: ../terminatorlib/terminal.py:386
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "Уклони %s групу"
 
 #: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "Гру_пиши све у језичке"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Раз_групиши све у језичке"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
-msgstr ""
+msgstr "Уклони све групе"
 
 #: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "Затвори %s групу"
 
 #: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
-msgstr ""
+msgstr "Емитуј све"
 
 #: ../terminatorlib/terminal.py:418
 msgid "Broadcast group"
-msgstr ""
+msgstr "Група емитовања"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Broadcast off"
-msgstr ""
+msgstr "Искључи емитовање"
 
 #: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
-msgstr ""
+msgstr "Раздвој у ову групу"
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Самостално очисти групе"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Унеси број терминала"
 
 #: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Унеси уметнут број терминала"
 
 #: ../terminatorlib/terminal.py:1157
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "Љуска није пронађена"
 
 #: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Покретање љуске није успело:"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
-msgstr ""
+msgstr "прозор"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:545
 msgid "All"
-msgstr ""
+msgstr "Све"
 
 #: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "%d језичак"

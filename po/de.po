@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-06-30 07:55+0000\n"
-"Last-Translator: Johannes Haupt <Unknown>\n"
+"PO-Revision-Date: 2010-08-23 18:50+0000\n"
+"Last-Translator: Dav <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-05 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-08-24 03:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -35,7 +35,7 @@ msgstr "_Terminals schließen"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Mehrere Fenster schließen?</b></big>"
+msgstr "<big><b>Mehrere Terminals schließen?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Aktuelles Gebietsschema"
+msgstr "Derzeitige Standorteinstellungen"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -201,14 +201,15 @@ msgstr "Reiter schließen"
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch-Plugin nicht verfügbar: Bitte installieren Sie python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Aktivität überwachen"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Aktivität nicht mehr überwachen"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -216,7 +217,7 @@ msgstr "Eigene Befehle"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Eigene Befehle einstellen"
+msgstr "Eigene Befehle verwalten"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -247,7 +248,7 @@ msgstr "Die Bezeichnung *%s* ist bereits vergeben."
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Terminal-Bildschirmfoto"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
@@ -342,7 +343,7 @@ msgstr "Alle Terminals _wiederherstellen"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Gruppierung"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
@@ -391,16 +392,16 @@ msgstr "Alle im _Reiter gruppieren"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr "Gruppierung im Reiter auflösen"
+msgstr "Gruppe im Reiter auflösen"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
-msgstr "Alle Gruppierungen auflösen"
+msgstr "Alle Gruppen auflösen"
 
 #: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
-msgstr "Gruppierung %s schließen"
+msgstr "Gruppe %s schließen"
 
 #: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
@@ -416,11 +417,11 @@ msgstr "Nichts senden"
 
 #: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
-msgstr "Aus Gruppierung abtrennen"
+msgstr "Aus Gruppe abtrennen"
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
-msgstr "Gruppierungen automatisch aufräumen"
+msgstr "Gruppen automatisch aufräumen"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
