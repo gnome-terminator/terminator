@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-08-04 01:26+0000\n"
-"Last-Translator: s953812 <Unknown>\n"
+"PO-Revision-Date: 2010-09-02 07:38+0000\n"
+"Last-Translator: elleryq <elleryq@gmail.com>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
+"X-Launchpad-Export-Date: 2010-09-03 03:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -23,7 +23,7 @@ msgstr "終端機分頁化"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "Terminator"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
@@ -42,7 +42,7 @@ msgstr "<big><b>要關閉所有終端機嗎?</b></big>"
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr ""
+msgstr "%s 已經開啟著多個終端機。關閉 %s 也會關閉裏面所有的終端機。"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -61,38 +61,38 @@ msgstr "中歐語系"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "南歐"
+msgstr "南歐語系"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "波羅的海語系"
+msgstr "波羅的海語"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr ""
+msgstr "斯拉夫語"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "阿拉伯文"
+msgstr "阿拉伯語"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "希臘文"
+msgstr "希臘語"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "希伯來文（左至右）"
+msgstr "希伯來語（左至右）"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "希伯來文"
+msgstr "希伯來語"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
@@ -130,17 +130,17 @@ msgstr "中文（繁體）"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "斯拉夫語系/俄文"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "日文"
+msgstr "日本語"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "韓文"
+msgstr "韓國語"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
@@ -149,48 +149,48 @@ msgstr "中文（簡體）"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "喬治亞語"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "斯拉夫/烏克蘭語系"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr ""
+msgstr "克羅埃西亞語"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr ""
+msgstr "北印度語"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "波斯語"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr ""
+msgstr "古吉拉特語"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr ""
+msgstr "古爾穆奇文"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "冰島語"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "越南語"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr ""
+msgstr "泰語"
 
 #: ../terminatorlib/notebook.py:259
 msgid "tab"
-msgstr ""
+msgstr "分頁"
 
 #: ../terminatorlib/notebook.py:408
 msgid "Close Tab"
@@ -202,11 +202,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "觀察活動"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "停止觀察活動"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -218,7 +218,7 @@ msgstr "自訂命令組態"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "新命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
@@ -226,11 +226,11 @@ msgstr "已開啟："
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "名稱："
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "指令"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
@@ -245,11 +245,11 @@ msgstr "已經存在 *%s* ，名稱不可相同"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "終端機螢幕截圖"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
-msgstr ""
+msgstr "新增設定檔"
 
 #: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
 msgid "New Layout"
@@ -258,7 +258,7 @@ msgstr "新配置"
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr ""
+msgstr "搜尋："
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
@@ -267,12 +267,12 @@ msgstr "關閉搜尋列"
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr ""
+msgstr "下一個"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "上一個"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -304,7 +304,7 @@ msgstr "複製網路電話地址(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "開啟連結(_O)"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
@@ -320,11 +320,11 @@ msgstr "垂直分裂(_e)"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr ""
+msgstr "開啟分頁(_T)"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "開啟除錯分頁(_D)"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -348,11 +348,11 @@ msgstr "顯示邊條捲軸(_S)"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "偏好設定(_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "設定檔"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
@@ -360,11 +360,11 @@ msgstr "編碼"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr ""
+msgstr "預設"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr ""
+msgstr "使用者定義"
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
@@ -372,11 +372,11 @@ msgstr "其他編碼"
 
 #: ../terminatorlib/terminal.py:365
 msgid "New group..."
-msgstr ""
+msgstr "新群組..."
 
 #: ../terminatorlib/terminal.py:370
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: ../terminatorlib/terminal.py:386
 #, python-format
@@ -414,7 +414,7 @@ msgstr "廣播關閉"
 
 #: ../terminatorlib/terminal.py:432
 msgid "Split to this group"
-msgstr ""
+msgstr "分割到這個群組"
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
@@ -438,12 +438,12 @@ msgstr "無法啟動命令處理器"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
-msgstr ""
+msgstr "視窗"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:545
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: ../terminatorlib/window.py:566
 #, python-format
