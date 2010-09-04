@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-04 10:58+0200\n"
+"POT-Creation-Date: 2010-09-04 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,6 +193,76 @@ msgstr ""
 
 #: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
