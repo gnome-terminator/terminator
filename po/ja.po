@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-01-20 12:11+0000\n"
-"Last-Translator: jugger Yamamoto <Unknown>\n"
+"PO-Revision-Date: 2010-09-30 14:40+0000\n"
+"Last-Translator: IMAI Kazuki <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
+"X-Launchpad-Export-Date: 2010-10-01 08:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "複数の端末を一つのウインドウに"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "端末"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
@@ -31,18 +31,18 @@ msgstr "閉じますか?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr ""
+msgstr "端末を閉じる"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>複数の端末を閉じますか?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr ""
+msgstr "この%sはいくつかの端末を開いています。%sを閉じると、全ての端末が閉じられます。"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -241,7 +241,7 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "*%s*は既に存在しています。"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
@@ -249,11 +249,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
-msgstr ""
+msgstr "新しいプロファイル"
 
 #: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
 msgid "New Layout"
-msgstr ""
+msgstr "新しいレイアウト"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -262,7 +262,7 @@ msgstr "検索:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "検索バーを閉じる"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -272,7 +272,7 @@ msgstr "次へ"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "前へ"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -288,11 +288,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "メールを送信する(_S)"
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "メールアドレスをコピー(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
@@ -304,11 +304,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "リンクを開く(_O)"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "アドレスをコピー(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
@@ -340,7 +340,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "グループ化"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
@@ -372,7 +372,7 @@ msgstr "その他のエンコーディング"
 
 #: ../terminatorlib/terminal.py:365
 msgid "New group..."
-msgstr ""
+msgstr "新しいグループ..."
 
 #: ../terminatorlib/terminal.py:370
 msgid "None"
@@ -381,24 +381,24 @@ msgstr "なし"
 #: ../terminatorlib/terminal.py:386
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "グループ%sを解除"
 
 #: ../terminatorlib/terminal.py:391
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "全てのタブをグループ化(_r)"
 
 #: ../terminatorlib/terminal.py:396
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "このタブの全てのグループ化を解除(_o)"
 
 #: ../terminatorlib/terminal.py:401
 msgid "Remove all groups"
-msgstr ""
+msgstr "全てのグループ化を解除"
 
 #: ../terminatorlib/terminal.py:408
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "グループ%sを閉じる"
 
 #: ../terminatorlib/terminal.py:417
 msgid "Broadcast all"
@@ -418,11 +418,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:437
 msgid "Autoclean groups"
-msgstr ""
+msgstr "使われていないグループを削除"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
-msgstr ""
+msgstr "端末番号を挿入"
 
 #: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
@@ -434,7 +434,7 @@ msgstr "シェルが見つかりません"
 
 #: ../terminatorlib/terminal.py:1174
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "シェルを起動できません:"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
@@ -448,4 +448,4 @@ msgstr "全て"
 #: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "タブ%d"
