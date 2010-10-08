@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-04-25 08:53+0000\n"
-"Last-Translator: arruah <Unknown>\n"
+"PO-Revision-Date: 2010-10-07 18:48+0000\n"
+"Last-Translator: jmb_kz <Unknown>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
+"X-Launchpad-Export-Date: 2010-10-08 04:31+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -247,7 +247,7 @@ msgstr "Бұндай *%s* атау бар"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Терминал суреті (screenshot)"
 
 #: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
 msgid "New Profile"
@@ -342,7 +342,7 @@ msgstr "Барлық терминалдарды бастапқы _қалпыға
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Топтастыру"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
