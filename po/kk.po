@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-10-07 18:48+0000\n"
+"PO-Revision-Date: 2010-10-08 18:52+0000\n"
 "Last-Translator: jmb_kz <Unknown>\n"
 "Language-Team: Kazakh <kk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-08 04:31+0000\n"
+"X-Launchpad-Export-Date: 2010-10-09 12:07+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -290,11 +290,11 @@ msgstr "Жол ішінде іздеу"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr "Электронды поштаға хат _жіберу..."
+msgstr "Электрондық поштаға хат _жіберу..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr "Электронды поштаны _алмастыру буферіне көшіру"
+msgstr "Электрондық поштаны _алмастыру буферіне көшіру"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
@@ -346,7 +346,7 @@ msgstr "Топтастыру"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr "_Жылдыту жолақшасын көрсету"
+msgstr "_Жылжыту жолағын көрсету"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
@@ -424,7 +424,7 @@ msgstr "Топтарды автоматты түрде тазарту"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Insert terminal number"
-msgstr "Терминал нөмірін енгізіңіз"
+msgstr "Терминал нөмірін басып шығару"
 
 #: ../terminatorlib/terminal.py:448
 msgid "Insert padded terminal number"
