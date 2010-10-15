@@ -4,6 +4,7 @@
 """window.py - class for the main Terminator window"""
 
 import copy
+import time
 import pygtk
 pygtk.require('2.0')
 import gobject
@@ -33,6 +34,9 @@ class Window(Container, gtk.Window):
     ismaximised = None
     hidebound = None
     hidefunc = None
+    losefocus_time = 0
+    position = None
+    ignore_startup_show = None
 
     zoom_data = None
 
@@ -123,6 +127,9 @@ class Window(Container, gtk.Window):
         fullscreen = self.config['window_state'] == 'fullscreen'
         hidden = self.config['window_state'] == 'hidden'
         borderless = self.config['borderless']
+        skiptaskbar = self.config['hide_from_taskbar']
+        alwaysontop = self.config['always_on_top']
+        sticky = self.config['sticky']
 
         if options:
             if options.maximise:
@@ -137,9 +144,12 @@ class Window(Container, gtk.Window):
         self.set_fullscreen(fullscreen)
         self.set_maximised(maximise)
         self.set_borderless(borderless)
+        self.set_always_on_top(alwaysontop)
         self.set_real_transparency()
+        self.set_sticky(sticky)
         if self.hidebound:
             self.set_hidden(hidden)
+            self.set_skip_taskbar_hint(skiptaskbar)
         else:
             self.set_iconified(hidden)
 
@@ -188,6 +198,11 @@ class Window(Container, gtk.Window):
         """Focus has left the window"""
         for terminal in self.get_visible_terminals():
             terminal.on_window_focus_out()
+
+        self.losefocus_time = time.time()
+        if self.config['hide_on_lose_focus'] and self.get_property('visible'):
+            self.position = self.get_position()
+            self.hidefunc()
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
@@ -245,8 +260,19 @@ class Window(Container, gtk.Window):
 
     def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""
-        # FIXME: Implement or drop, or explain why its empty
-        pass
+
+        if not self.get_property('visible'):
+            #Don't show if window has just been hidden because of
+            #lost focus
+            if (time.time() - self.losefocus_time < 0.1) and \
+                self.config['hide_on_lose_focus']:
+                return
+            if self.position:
+                self.move(self.position[0], self.position[1])
+            self.show()
+        else:
+            self.position = self.get_position()
+            self.hidefunc()
 
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
@@ -255,8 +281,8 @@ class Window(Container, gtk.Window):
                                  gtk.gdk.WINDOW_STATE_FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  gtk.gdk.WINDOW_STATE_MAXIMIZED)
-        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' %
-            (self.isfullscreen, self.ismaximised))
+        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' \
+                % (self.isfullscreen, self.ismaximised))
 
         return(False)
 
@@ -280,13 +306,24 @@ class Window(Container, gtk.Window):
 
     def set_hidden(self, value):
         """Set the visibility of the window from the supplied value"""
-        # FIXME: Implement or drop this
-        pass
+        if value == True:
+            self.ignore_startup_show = True
+        else:
+            self.ignore_startup_show = False
 
     def set_iconified(self, value):
-        """Set the minimised state of the window from the value"""
-        # FIXME: Implement or drop this
-        pass
+        """Set the minimised state of the window from the supplied value"""
+        if value == True:
+            self.iconify()
+
+    def set_always_on_top(self, value):
+        """Set the always on top window hint from the supplied value"""
+        self.set_keep_above(value)
+
+    def set_sticky(self, value):
+        """Set the sticky hint from the supplied value"""
+        if value == True:
+            self.stick()
 
     def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
@@ -303,6 +340,17 @@ class Window(Container, gtk.Window):
 
         if colormap:
             self.set_colormap(colormap)
+    
+    def show(self, startup=False):
+        """Undo the startup show request if started in hidden mode"""
+        gtk.Window.show(self)
+        #Present is necessary to grab focus when window is hidden from taskbar
+        self.present()
+
+        #Window must be shown, then hidden for the hotkeys to be registered
+        if (self.ignore_startup_show and startup == True):
+            self.hide()
+
 
     def add(self, widget):
         """Add a widget to the window by way of gtk.Window.add()"""

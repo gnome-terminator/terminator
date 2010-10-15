@@ -147,7 +147,7 @@ class Terminator(Borg):
         if cwd:
             terminal.set_cwd(cwd)
         window.add(terminal)
-        window.show()
+        window.show(True)
         terminal.spawn_child()
 
         return(window, terminal)
