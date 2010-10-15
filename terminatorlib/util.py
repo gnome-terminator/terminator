@@ -174,6 +174,7 @@ def get_config_dir():
     except KeyError:
         configdir = os.path.join(os.path.expanduser('~'), '.config')
 
+    dbg('Found config dir: %s' % configdir)
     return(os.path.join(configdir, 'terminator'))
 
 def dict_diff(reference, working):

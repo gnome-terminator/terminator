@@ -513,6 +513,7 @@ class ConfigBase(Borg):
             return
 
         filename = os.path.join(get_config_dir(), 'config')
+        dbg('looking for config file: %s' % filename)
         try:
             configfile = open(filename, 'r')
         except Exception, ex:
