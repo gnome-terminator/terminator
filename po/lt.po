@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-09-30 12:41+0000\n"
-"Last-Translator: Vytautas Bačiulis <info@infosoft.lt>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2010-10-16 10:59+0000\n"
+"Last-Translator: Darius Kulikauskas <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-01 08:43+0000\n"
+"X-Launchpad-Export-Date: 2010-10-17 04:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -191,13 +191,85 @@ msgstr "Vietnamiečių"
 msgid "Thai"
 msgstr "Tajų"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "kortelė"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Užverti kortelę"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Rodyti programos versiją"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Išdidinti langą"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Užpildyti langu ekraną"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Išjungti langų kraštines"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Paslėpti langą paleidimo metu"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Nurodyti pavadinimą langui"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr "Nustatyti lango norimą dydį ir poziciją (žiūrėkite X žinyną)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "Nurodykite komandą, kurią norite paleisti terminalo viduje"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+"Naudoti likusią komandų eilutę ir jos argumentus kaip komandą paleidimui "
+"terminalo viduje"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Nurodyti darbinį aplanką"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "Nurodyti pasirinktiną WM_WINDOW_ROLE nustatymą langui"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "Pasirinkite išdėstymą"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "Naudoti skirtingą profilį kaip numatytąjį"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "Išjungti DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr "Įjungti derinimo informaciją (du kartus derinimo tarnybinei stočiai)"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "Kableliu atskirtas klasių, apribotų derinimui, sąrašas"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "Kableliu atskirtas metodų, apribotų derinimui, sąrašas"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -250,11 +322,11 @@ msgstr "Pavadinimas *%s* jau egzistuoja"
 msgid "Terminal screenshot"
 msgstr "Terminalo ekrano nuotrauka"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Naujas profilis"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Naujas išdėstymas"
 
@@ -279,7 +351,7 @@ msgstr "Ankstesnis"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Ieškojimo atgalinis slinkimas"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
@@ -299,7 +371,7 @@ msgstr "_Kopijuoti el. pašto adresą"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "Ska_mbinti VoIP adresui"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
@@ -373,69 +445,69 @@ msgstr "Naudotojo nustatyta"
 msgid "Other Encodings"
 msgstr "Kitos koduotės"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Nauja grupė..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Nėra"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Šalinti grupę %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "G_rupuoti visus kortelėje"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr "Negr_upuoti visų kortelėje"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Pašalinti visas grupes"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Uždaryti grupę %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Transliuoti visiems"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Transliuoti grupei"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Transliavimas išjungtas"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Išskaidyti į šią grupę"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Automatiškai valyti grupes"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Įterpti terminalo numerį"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Nepavyksta rasti komandų interpretatoriaus"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Nepavyksta paleisti komandų interpretatoriaus:"
 
