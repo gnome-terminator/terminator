@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-15 12:34+0000\n"
-"Last-Translator: Martín V. <Unknown>\n"
+"PO-Revision-Date: 2010-10-18 17:11+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-16 04:44+0000\n"
+"X-Launchpad-Export-Date: 2010-10-19 04:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -200,61 +200,64 @@ msgstr "Cerrar solapa"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Mostrar la versión del programa"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "Maximizar la ventana"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Ajustar la ventana para que llene la pantalla"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Desactivar los bordes de la ventana"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Ocultar la ventana en el inicio"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Especificar un título para la ventana"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
 msgstr ""
+"Seleccionar el tamaño y posición de la ventana (ver la página de man de X)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Especificar una orden a ejecutar dentro de la terminal"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Usar el resto de la línea de órdenes como una orden y los argumentos "
+"necesarios para ejecutarse dentro de la terminal"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Establece el directorio de trabajo"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Establecer una propiedad WM_WINDOW_ROLE personalizada en la ventana"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Seleccionar una disposición"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Usar un perfil diferente como predeterminado"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Desactivar DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
