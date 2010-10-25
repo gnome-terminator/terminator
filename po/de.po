@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-15 17:54+0000\n"
-"Last-Translator: Linus Hoppe <Unknown>\n"
+"PO-Revision-Date: 2010-10-24 17:15+0000\n"
+"Last-Translator: Merlin Schumacher <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-16 04:44+0000\n"
+"X-Launchpad-Export-Date: 2010-10-25 04:35+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -212,7 +212,7 @@ msgstr "Fenster im Vollbildmodus zeigen"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Fensterrahmen ausschalten"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -220,21 +220,26 @@ msgstr "Fenster beim Start verbergen"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Legen Sie einen Titel für das Fenster fest"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
 msgstr ""
+"Legen sie die bevorzugte Größe und Position des Fensters fest (siehe auch "
+"man-page von X)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
 msgstr ""
+"Legen Sie einen Befehl fest, welcher in dem Terminal ausgeführt werden soll."
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Den Rest der Befehlszeile als Befehl mit Argumenten verwenden, und im "
+"Terminal ausführen"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
@@ -242,31 +247,34 @@ msgstr "Das Arbeitsverzeichnis festlegen"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Die Fenstereigenschaft WM_WINDOW_ROLE manuell festlegen."
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Wählen Sie ein Layout aus"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Anderes Profil als Standard verwenden"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "DBus deaktivieren"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
 msgstr ""
+"Debug Informationen ausgeben (Zweimal angeben um den Debug-Server zu starten)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
 msgstr ""
+"Komma-getrennte Liste von Klassen, auf die das Debuggen beschränkt wird"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
+"Komma-getrennte Liste von Funktionen, auf die das Debuggen beschränkt wird"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
