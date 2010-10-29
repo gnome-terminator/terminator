@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-24 19:52+0000\n"
-"Last-Translator: DronAn[BY] <andyak77@mail.ru>\n"
+"PO-Revision-Date: 2010-10-28 07:30+0000\n"
+"Last-Translator: jmb_kz <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-25 04:35+0000\n"
+"X-Launchpad-Export-Date: 2010-10-29 05:18+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -200,7 +200,7 @@ msgstr "Закрыть вкладку"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Версия программы"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
@@ -208,11 +208,11 @@ msgstr "Рзвернуть окно"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "На весь экран"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Не показывать границы окна"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -220,7 +220,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Название для окна"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Команда для выполнения в терминале"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
