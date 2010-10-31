@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-10-14 00:18+0000\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2010-10-31 00:24+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-15 04:40+0000\n"
+"X-Launchpad-Export-Date: 2010-10-31 04:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -190,13 +190,86 @@ msgstr "Vietnamita"
 msgid "Thai"
 msgstr "Thai"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "llingüeta"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Zarrar llingüeta"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Amosar la versión del programa"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Maximizar la ventana"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Facer que la ventana llene la pantalla"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Desactivar los bordes de la ventana"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Anubrir la ventana nel aniciu"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Conseñar un títulu pa la ventana"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr "Conseñar el tamañu y posición de la ventana (ver la páxina man de X)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "Escoyer un comandu pa executar dientro del terminal"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+"Usar el resto de la llinia de comandu como comandu a executar nel terminal, "
+"colos sos argumentos"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Conseñar el direutoriu de trabayu"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "Conseñar una propiedá WM_WINDOW_ROLE personalizada na ventana"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "Escoyer una disposición"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "Usar un perfil diferente como predetermináu"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "Desactivar DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+"Activar la información de depuráu (dos veces pal sirvidor de depuración)"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "Llista separada por comes de clases a les que llendar la depuración"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "Llista separada por comes de métodos a los que llendar la depuración"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -250,11 +323,11 @@ msgstr "El nome *%s* yá esiste"
 msgid "Terminal screenshot"
 msgstr "Semeya del terminal"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Perfil nuevu"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Aspeutu nuevu"
 
@@ -373,69 +446,69 @@ msgstr "Definío pol usuariu"
 msgid "Other Encodings"
 msgstr "Otres codificaciones"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Grupu nuevu..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Dengún"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Desaniciar el grupu %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "Ag_rupar too en llingüeta"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr "Desag_rupar tolo de la llingüeta"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Desaniciar tolos grupos"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Zarrar el grupu %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Tresmitilo too"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Tresmitir grupu"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Desactivar tresmisión"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Partir nesti grupu"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Llimpiar grupos automáticamente"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Escribi'l númberu de terminal"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr "Escribi'l númberu de terminal separtáu"
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Nun se pue alcontrar una shell"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Nun se pue aniciar la shell:"
 

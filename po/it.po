@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-23 14:37+0000\n"
-"Last-Translator: Antonio De Vincentiis <Unknown>\n"
+"PO-Revision-Date: 2010-10-30 20:28+0000\n"
+"Last-Translator: simone.sandri <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-24 04:52+0000\n"
+"X-Launchpad-Export-Date: 2010-10-31 04:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -200,11 +200,11 @@ msgstr "Chiudi scheda"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Visualizza la versione del programma"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "Ingrandire la finestra"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
@@ -212,15 +212,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Disabilita i bordi della finestra"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Nascondi la finestra all'avvio"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Specifica un titolo per la finestra"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Specifica un comando da eseguire nel terminale"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
@@ -250,11 +250,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Usare un profilo differente come predefinito"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Disabilita DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
