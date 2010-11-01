@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-08-28 17:52+0000\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2010-10-31 20:55+0000\n"
 "Last-Translator: Saša Teković <Unknown>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-29 03:41+0000\n"
+"X-Launchpad-Export-Date: 2010-11-01 05:03+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -190,13 +190,87 @@ msgstr "Vijetnamski"
 msgid "Thai"
 msgstr "Tajlandski"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "kartica"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Zatvori karticu"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Prikaži inačicu programa"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Maksimiziraj prozor"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Rastegni prozor preko cijelog zaslona"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Onemogući okvir prozora"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Sakrij prozor pri pokretanju"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Odredite naslov prozora"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+"Postavite preferiranu veličinu i poziciju prozora (pogledajte man stranicu X-"
+"a)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "Odredite naredbu za izvršenje unutar terminala"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+"Koristi ostatak naredbenog retka kao naredbu za izvršenje unutar terminala i "
+"njezine argumente"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Postavite radni direktorij"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "Postavite prilagođeno WM_WINDOW_ROLE svojstvo na prozor"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "Odaberite raspored"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "Koristi različiti profil kao zadani"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "Onemogući DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr "Omogući debug informacije (dvaput za debug poslužitelj)"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "Popis klasa za ograničavanje debugiranja, odvojene zarezima"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "Popis metoda za ograničavanje debugiranja, odvojene zarezima"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -250,11 +324,11 @@ msgstr "Naziv *%s* već postoji"
 msgid "Terminal screenshot"
 msgstr "Slika zaslona terminala"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Novi profil"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Novi raspored"
 
@@ -373,69 +447,69 @@ msgstr "Korisnički zadano"
 msgid "Other Encodings"
 msgstr "Ostale kôdne stranice"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Nova grupa..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Nijedan"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Ukloni grupu %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "G_rupiraj sve u kartici"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr "_Razgrupiraj sve u kartici"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Ukloni sve grupe"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Zatvori grupu %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Emitiraj sve"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Emitiraj grupu"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Isključi emitiranje"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Razdjeli na ovu grupu"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Automatski očisti grupe"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Unesite broj terminala"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr "Unesite broj ispunjenog terminala"
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Nije moguće pronaći ljuske"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Nije moguće pokrenuti ljusku:"
 
