@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-28 07:30+0000\n"
-"Last-Translator: jmb_kz <Unknown>\n"
+"PO-Revision-Date: 2010-11-01 05:19+0000\n"
+"Last-Translator: ap0stol <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-29 05:18+0000\n"
+"X-Launchpad-Export-Date: 2010-11-02 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -216,7 +216,7 @@ msgstr "Не показывать границы окна"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Скрыть окно при запуске"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
@@ -225,6 +225,7 @@ msgstr "Название для окна"
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
 msgstr ""
+"Установите нужный размер и положение окна (см. man-страницы по X-серверу)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
@@ -246,27 +247,27 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Выбрать макет"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Использовать другой профиль по умолчанию"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Не использовать DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Включить отладочную информацию (дважды для отладки сервера)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Разделенный запятыми список классов для ограничения отладки"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Разделенный запятыми список методов для ограничения отладки"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
