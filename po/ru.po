@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-01 05:19+0000\n"
-"Last-Translator: ap0stol <Unknown>\n"
+"PO-Revision-Date: 2010-11-09 02:54+0000\n"
+"Last-Translator: Павел Ехлаков <mapcuahuh@list.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-02 04:45+0000\n"
+"X-Launchpad-Export-Date: 2010-11-09 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -236,6 +236,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Использовать для выполнения в терминале остаток командной строки как команду "
+"и её аргументы"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
@@ -243,7 +245,7 @@ msgstr "Установить рабочий каталог"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Установить в окне своё свойство WM_WINDOW_ROLE"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
