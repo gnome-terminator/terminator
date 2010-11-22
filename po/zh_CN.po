@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-21 04:41+0000\n"
+"PO-Revision-Date: 2010-11-21 04:45+0000\n"
 "Last-Translator: Jimmie Lin <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-21 04:43+0000\n"
+"X-Launchpad-Export-Date: 2010-11-22 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -236,15 +236,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "设置工作目录"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "设置窗口自定义的 WM_WINDOW_ROLE"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "选择一个窗口布局"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
@@ -252,7 +252,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "禁用DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -268,7 +268,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "ActivityWatch插件不可用: 请安装python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
