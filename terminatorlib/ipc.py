@@ -56,10 +56,10 @@ class DBusService(Borg, dbus.service.Object):
             self.terminator = Terminator()
 
     @dbus.service.method(BUS_NAME)
-    def new_window(self):
+    def new_window(self, layout='default'):
         """Create a new Window"""
         dbg('dbus method called')
-        self.terminator.create_layout('default')
+        self.terminator.create_layout(layout)
         self.terminator.layout_done()
 
 def with_proxy(func):
@@ -72,7 +72,7 @@ def with_proxy(func):
     return _exec
 
 @with_proxy
-def new_window(session):
+def new_window(session, layout='default'):
     """Call the dbus method to open a new window"""
-    session.new_window()
+    session.new_window(layout)
 
