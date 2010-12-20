@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-28 18:10+0000\n"
-"Last-Translator: Jan Jamšek <Unknown>\n"
+"PO-Revision-Date: 2010-12-19 11:15+0000\n"
+"Last-Translator: Matic Gradišer <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-29 04:45+0000\n"
+"X-Launchpad-Export-Date: 2010-12-20 04:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -200,7 +200,7 @@ msgstr "Zapri zavihek"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Pokaži različico programa"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
@@ -208,11 +208,11 @@ msgstr "Razpri okno"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Razširi okno na celoten zaslon"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Onemogoči robove oken"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -220,29 +220,31 @@ msgstr "Skrij okno ob zagonu"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Določi naslov okna"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
-msgstr ""
+msgstr "Nastavi želeno velikost in pozicijo okna (glej stran pomoči za X)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Določi ukaz za izvedbo znotraj terminala"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Uporabi preostanek ukazne vrstice in njegove argumente, kot ukaz za izvedbo "
+"znotraj terminala"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Nastavi delovni imenik"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Nastavi WM_WINDOW_ROLE lastnost tega okna"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
@@ -250,11 +252,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Izberi drug profil"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Onemogoči DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -400,7 +402,7 @@ msgstr "Odpri_"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "_Povečaj terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
@@ -478,7 +480,7 @@ msgstr "Oddajaj vse"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
-msgstr ""
+msgstr "Oddajaj skupini"
 
 #: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
@@ -486,7 +488,7 @@ msgstr "Oddajanje izključeno"
 
 #: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
-msgstr ""
+msgstr "Razdeli v to skupino"
 
 #: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"

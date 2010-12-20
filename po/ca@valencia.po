@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-12-19 14:32+0000\n"
+"PO-Revision-Date: 2010-12-19 17:52+0000\n"
 "Last-Translator: Toni Hermoso Pulido <toniher@softcatala.cat>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -43,8 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Aquest %s té diversos terminals oberts. Si tanqueu el %s es tancaran tots "
-"els seus terminals."
+"Este %s té diversos terminals oberts. Si tanqueu el %s es tancaran tots els "
+"seus terminals."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -111,7 +111,7 @@ msgstr "Cèltic"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Romanès"
+msgstr "Romanés"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
@@ -128,7 +128,7 @@ msgstr "Armeni"
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Xinès tradicional"
+msgstr "Xinés tradicional"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -137,7 +137,7 @@ msgstr "Ciríl·lic/Rus"
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Japonès"
+msgstr "Japonés"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
@@ -147,7 +147,7 @@ msgstr "Coreà"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Xinès simplificat"
+msgstr "Xinés simplificat"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -155,7 +155,7 @@ msgstr "Georgià"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Ciríl·lic/Ucraïnès"
+msgstr "Ciríl·lic/Ucraïnés"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
@@ -179,7 +179,7 @@ msgstr "Gurmukhi"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "Islandès"
+msgstr "Islandés"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
@@ -230,14 +230,14 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr "Especifica una ordre a executar dins del terminal"
+msgstr "Especifica una orde a executar dins del terminal"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Fes servir la resta de la línia d'ordres com a ordre a executar dins del "
+"Fes servir la resta de la línia d'ordes com a orde a executar dins del "
 "terminal, i els seus arguments"
 
 #: ../terminatorlib/optionparse.py:66
@@ -289,15 +289,15 @@ msgstr "Atura la vigilància de l'activitat"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Ordres personalitzades"
+msgstr "Ordes personalitzades"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Configuració de les ordres personalitzades"
+msgstr "Configuració de les ordes personalitzades"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr "Ordre nova"
+msgstr "Orde nova"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
@@ -383,7 +383,7 @@ msgstr "_Copia l'adreça de VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr "_Obre l'enllaç"
+msgstr "_Obri l'enllaç"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
@@ -399,11 +399,11 @@ msgstr "Divideix v_erticalment"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr "Obre una pes_tanya"
+msgstr "Obri una pes_tanya"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr "Obre una pestanya de _depuració"
+msgstr "Obri una pestanya de _depuració"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -493,7 +493,7 @@ msgstr "Inhabilita la difusió"
 
 #: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
-msgstr "Parteix aquest grup"
+msgstr "Parteix este grup"
 
 #: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
@@ -509,11 +509,11 @@ msgstr "Insereix un número de terminal amb coixinet"
 
 #: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
-msgstr "No s'ha pogut trobar cap intèrpret d'ordres"
+msgstr "No s'ha pogut trobar cap intèrpret d'ordes"
 
 #: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
-msgstr "No s'ha pogut iniciar l'intèrpret d'ordres:"
+msgstr "No s'ha pogut iniciar l'intèrpret d'ordes:"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
