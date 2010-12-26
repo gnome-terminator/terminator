@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-09-02 07:38+0000\n"
-"Last-Translator: elleryq <elleryq@gmail.com>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2010-12-25 14:15+0000\n"
+"Last-Translator: bootleq <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-03 03:41+0000\n"
+"X-Launchpad-Export-Date: 2010-12-26 04:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "終端機分頁化"
+msgstr "一個視窗，多個終端機"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Terminator"
+msgstr "終端機"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr "關閉?"
+msgstr "關閉？"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
@@ -35,14 +35,14 @@ msgstr "關閉終端機(_T)"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>要關閉所有終端機嗎?</b></big>"
+msgstr "<big><b>要關閉所有終端機嗎？</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr "%s 已經開啟著多個終端機。關閉 %s 也會關閉裏面所有的終端機。"
+msgstr "%s 已經開啟多個終端機，關閉 %s 將關閉其中的所有終端機。"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -105,7 +105,7 @@ msgstr "北歐語系"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "塞爾特語系"
+msgstr "塞爾特語"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
@@ -114,19 +114,19 @@ msgstr "羅馬尼亞語"
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "萬國碼"
+msgstr "萬國碼 (Unicode)"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "亞美尼亞文"
+msgstr "亞美尼亞語"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "中文（繁體）"
+msgstr "正體中文"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -145,7 +145,7 @@ msgstr "韓國語"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "中文（簡體）"
+msgstr "簡體中文"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -188,17 +188,87 @@ msgstr "越南語"
 msgid "Thai"
 msgstr "泰語"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "分頁"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "關閉分頁"
 
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "顯示程式版本"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "將視窗最大化"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "以全螢幕顯示視窗"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "顯示視窗邊框"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "啟動時隱藏視窗"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "自訂視窗標題"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr "自訂視窗位置與尺寸（見 X man page）"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "自訂終端機中要執行的指令"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr "將整個命令列內容（含參數）視為一個指令，於終端機內執行"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "設定工作目錄"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "自訂視窗的 WM_WINDOW_ROLE 屬性"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "選擇配置"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "使用不同的設定組合為預設值"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "停用 DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr "啟用除錯訊息（可開啟兩次以啟用 debug server）"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "用於限制除錯訊息的 classes 符號分隔清單"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "用於限制除錯訊息的 methods 符號分隔清單"
+
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "無法使用 ActivityWatch 插件：請安裝 python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
@@ -210,19 +280,19 @@ msgstr "停止觀察活動"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "自訂命令"
+msgstr "自訂指令"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "自訂命令組態"
+msgstr "自訂指令設定"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr "新命令"
+msgstr "新指令"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr "已開啟："
+msgstr "已啟用"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -235,7 +305,7 @@ msgstr "指令"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr "您需要定義一個名稱和命令"
+msgstr "您需要定義名稱和指令"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
@@ -245,13 +315,13 @@ msgstr "已經存在 *%s* ，名稱不可相同"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr "終端機螢幕截圖"
+msgstr "終端機螢幕擷圖"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
-msgstr "新增設定檔"
+msgstr "新增設定組合"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "新配置"
 
@@ -284,7 +354,7 @@ msgstr "找不到更多資料"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "找到於列"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
@@ -308,15 +378,15 @@ msgstr "開啟連結(_O)"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr "複製地址(_C)"
+msgstr "複製連結位址"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr "橫向分裂(_o)"
+msgstr "水平分割"
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr "垂直分裂(_e)"
+msgstr "垂直分割"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
@@ -336,15 +406,15 @@ msgstr "終端機最大化(_x)"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr "回復所有終端機(_R)"
+msgstr "還原所有終端機(_R)"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "群組"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr "顯示邊條捲軸(_S)"
+msgstr "顯示捲動列"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
@@ -352,7 +422,7 @@ msgstr "偏好設定(_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr "設定檔"
+msgstr "設定組合"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
@@ -370,71 +440,71 @@ msgstr "使用者定義"
 msgid "Other Encodings"
 msgstr "其他編碼"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "新群組..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "無"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "移除群組 %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "將分頁內容合併為群組(_R)"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "取消所分頁中的所有群組(_O)"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "移除所有群組"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "關閉群組 %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "廣播到全部"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "群組廣播"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "廣播關閉"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "分割到這個群組"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "自動清除群組"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "插入終端機編號"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
-msgstr "插入被跳過的終端機號碼"
+msgstr "插入自動補 0 的終端機編號"
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
-msgstr "找不到命令處理器"
+msgstr "找不到 shell"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
-msgstr "無法啟動命令處理器"
+msgstr "無法啟動 shell"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
@@ -449,3 +519,25 @@ msgstr "全部"
 #, python-format
 msgid "Tab %d"
 msgstr "分頁 %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "複製郵件地址(_C)"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "傳送郵件給(_S)..."
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "複製鏈結位址(_C)"
+
+#~ msgid "_Open Link"
+#~ msgstr "開啟鏈結(_O)"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr "你需要安裝python bindings for gobject，gtk和pango才可執行Terminator"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr "你要在 X 環境下執行 terminator。請確定你的顯示正確設置"
