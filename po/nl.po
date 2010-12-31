@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-14 00:42+0000\n"
-"Last-Translator: Siegie <s.de.bie@gmail.com>\n"
+"PO-Revision-Date: 2010-12-30 22:21+0000\n"
+"Last-Translator: Rachid <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-15 04:55+0000\n"
+"X-Launchpad-Export-Date: 2010-12-31 05:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -103,7 +103,7 @@ msgstr "Turks"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Noors"
+msgstr "Noord-Europees"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
@@ -200,27 +200,27 @@ msgstr "Tabblad sluiten"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Versienummer van het programma weergeven"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "Het venster maximaliseren"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Laat het venster het hele scherm vullen"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Toon vensterranden"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Het venster verborgen opstarten"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Geef een titel voor het venster"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Geef een commando om in een Terminal uit te voeren"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
@@ -238,7 +238,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Werkmap instellen"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -246,27 +246,27 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Selecteer indeling"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Gebruik een ander profiel dan standaard ingesteld"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "DBus Uitschakelen"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Debuginformatie aanzetten (twee maal voor serverdebug)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Kommagescheiden lijst van klassen als limiet om te debuggen"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Kommagescheiden lijst van methoden als limiet om te debuggen"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -498,7 +498,7 @@ msgstr "Terminalnummer invoegen"
 
 #: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Aangevuld terminalnummer invoegen"
 
 #: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
@@ -522,6 +522,15 @@ msgstr "Alle"
 msgid "Tab %d"
 msgstr "Tabblad %d"
 
+#~ msgid "_Copy Email Address"
+#~ msgstr "E-mailadres _kopiëren"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_E-mail verzenden naar..."
+
+#~ msgid "_Open Link"
+#~ msgstr "Koppeling _openen"
+
 #~ msgid ""
 #~ "You need to install python bindings for libvte (\"python-vte\" in "
 #~ "debian/ubuntu)"
@@ -531,3 +540,135 @@ msgstr "Tabblad %d"
 
 #~ msgid "_Copy Link Address"
 #~ msgstr "Kopieer Koppeling Adres"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Terminator draait alleen in een X omgeving. Controleer eerst of je DISPLAY "
+#~ "variable goed is ingesteld."
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Niet mogelijk om een shell te starten "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Laat titel balk zien"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "Zoom terminal uit"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Configuratie fout</b></big>\n"
+#~ "\n"
+#~ "Er zijn fouten opgetreden bij het doorlopen van het terminator_config(5) "
+#~ "bestand:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d lijn(en) zijn overgeslagen."
+
+#~ msgid "Setting without a value"
+#~ msgstr "Optie zonder een waarde"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Onverwacht symbool"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Niet-afgesloten aanhalingsteken"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Sneltoets"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Unma_ximise terminal"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Deze %s heeft meerdere terminals open. Het sluiten van de %s zal ook alle "
+#~ "terminals er in sluiten."
+
+#~ msgid "_New group"
+#~ msgstr "_Nieuwe groep"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Booleaanse instelling %s verwacht een van de volgende: yes, no, true, false, "
+#~ "on, off"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s moet een van de volgende zijn: boven, links, rechts, onder"
+
+#~ msgid "Configuration error"
+#~ msgstr "Configuratiefout"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "Het lezen van lijsten van het terminator_config(5) bestand is momenteel niet "
+#~ "ondersteund"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Instelling %r dient een sectienaam te zijn"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "ongeldige geometrie string %r"
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Het is niet mogelijk de hide_window toets in te stellen"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Open bovenste niveau tab"
+
+#~ msgid "_Group"
+#~ msgstr "_Groep"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Wijzig profiel"
+
+#~ msgid "_Group all"
+#~ msgstr "_Groepeer alles"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_het Groepering op"
+
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Instelling %r waarde %r is niet een geldige kleur; wordt genegeerd"
+
+#~ msgid "Group name:"
+#~ msgstr "Groepsnaam:"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Kan pythonbindings deskbar, hide_window niet vinden, deze zijn niet "
+#~ "beschikbaar"
+
+#~ msgid "Action"
+#~ msgstr "Actie"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Je moet eerst de python gobject, gtk en pango bibliotheken installeren "
+#~ "voordat je Terminator kan uitvoeren."
