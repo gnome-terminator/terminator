@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-12-14 18:14+0000\n"
-"Last-Translator: dpdt1 <Unknown>\n"
+"PO-Revision-Date: 2011-01-04 10:02+0000\n"
+"Last-Translator: Νιάνιος Ρωμανός <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-15 04:32+0000\n"
+"X-Launchpad-Export-Date: 2011-01-04 13:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"Το %s έχει πολλά τερματικά ανοιχτά. Αν κλείσετε το %s τότε θα κλείσετε και "
+"τα τερματικά που έχει."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -276,15 +278,15 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Παύση παρακολούθησης δραστηριότητας"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Προσαρμοσμένες Εντολές"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Διαμόρφωση Προσαρμοσμένων Εντολών"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -519,3 +521,114 @@ msgstr "Όλα"
 #, python-format
 msgid "Tab %d"
 msgstr "Καρτέλα %d"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "Πρέπει να εγκαταστήσετε τις ακόλουθες python συνδέσεις για το libvte "
+#~ "(\"python-vte\" στο debian/ubuntu)"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Αντιγραφή Διεύθυνσης Email"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Αποστολή Αλληλογραφίας Σε..."
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Εμφάνισε _την  μπάρα τίτλων"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Άνοιγμα Συνδέσμου"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Αντιγραφή Διεύθυνσης Συνδέσμου"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Απομάκρυνση τερματικού"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Πρέπει να εκτελέσετε  το terminator σε Χ περιβάλλον. Βεβαιωθείτε πως οι "
+#~ "ρυθμίσεις απεικόνισης είναι σωστές."
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Αδυναμία έναρξης  περιβάλλοντος "
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Η ρύθμιση %s του τελεστή αναμένει ένα από τα παρακάτω: ναι, όχι, αληθές, "
+#~ "ψευδές, ανοιχτό, κλειστό"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Πρέπει να εγκαταστήσετε τους συνδέσμους της python για το gobject, το gtk "
+#~ "και το pango για να εκτελέσετε τον Terminator."
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Σμί_κρυνση τερματικού"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Άνοιγμα καρτέλας Ανώτερου Επιπέδου"
+
+#~ msgid "Configuration error"
+#~ msgstr "Σφάλμα ρυθμίσεων"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b> Σφάλμα Ρυθμίσεων </b><big>\n"
+#~ "\n"
+#~ "Σφάλματα εντοπίστηκαν κατά την μεταγλώττιση του αρχείου ρυθμίσεων "
+#~ "terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d ρυθμίσεις έχουν αγνοηθεί."
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s πρέπει να είναι ένα από τα: πάνω, κάτω, αριστερά, δεξιά"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Συντόμευση πληκτρολογίου"
+
+#~ msgid "Name"
+#~ msgstr "Όνομα"
+
+#~ msgid "Action"
+#~ msgstr "Ενέργεια"
+
+#~ msgid "_Group"
+#~ msgstr "_Ομαδοποίηση"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Επεξεργασία Προφίλ"
+
+#~ msgid "Group name:"
+#~ msgstr "Όνομα ομάδας:"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Η ρύθμιση %r θα έπρεπε να είναι ένα όνομα τμήματος"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Ρύθμιση χωρίς τιμή"
+
+#~ msgid "_New group"
+#~ msgstr "_Νέα ομάδα"
+
+#~ msgid "_Group all"
+#~ msgstr "_Ομαδοποίηση"
