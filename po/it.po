@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-30 20:28+0000\n"
-"Last-Translator: simone.sandri <Unknown>\n"
+"PO-Revision-Date: 2011-01-04 22:08+0000\n"
+"Last-Translator: Guybrush88 <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-31 04:53+0000\n"
+"X-Launchpad-Export-Date: 2011-01-05 04:31+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Terminali multipli in una sola finestra"
+msgstr "Molteplici terminali un una sola finestra"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
@@ -31,7 +31,7 @@ msgstr "Chiudere?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr "Chiudi i _Terminali"
+msgstr "Chiudi i _terminali"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Localizzazione Corrente"
+msgstr "Localizzazione corrente"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -521,3 +521,151 @@ msgstr "Tutti"
 #, python-format
 msgid "Tab %d"
 msgstr "Scheda %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Copia indirizzo email"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Apri collegamento"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Copia indirizzo collegamento"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "È necessario installare le librerie python per gobject, gtk e pango per "
+#~ "poter usare Terminator."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "È necessario avviare terminator in un ambiente X. Assicurarsi che DISPLAY "
+#~ "sia impostato correttamente"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Impossibile avviare la shell: "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Mostra barra del _titolo"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Rimpicciolisci terminale"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "È necessario installare le librerie python per libvte («python-vte» in "
+#~ "debian/ubuntu)"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Token inatteso"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Impostazione senza valore"
+
+#~ msgid "Configuration error"
+#~ msgstr "Errore di configurazione"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "_New group"
+#~ msgstr "_Nuovo gruppo"
+
+#~ msgid "_Group all"
+#~ msgstr "_Raggruppa tutto"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "L'impostazione %r valore %r non è un colore valido; ignorato"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Errore di configurazione</b></big>\n"
+#~ "\n"
+#~ "Sono stati riscontrati errori nell'analizzare il file terminator_config(5):\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d righe sono state ignorate."
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "La lettura dell'elenco dei valori da terminator_config(5) non è attualmente "
+#~ "supportata"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "L'impostazione %r deve essere un nome di sezione"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr "Il booleano %s richiede un valore tra: yes, no, true, false, on, off"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Stringa geometrica %r non valida"
+
+#~ msgid "Action"
+#~ msgstr "Azione"
+
+#~ msgid "_Group"
+#~ msgstr "_Raggruppa"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Rilascia tutto"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "%s ha diversi terminali aperti. Chiudendo %s verranno chiusi anche tutti gli "
+#~ "altri terminali."
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Impossibile trovare i binding python per deskbar, hide_window non è "
+#~ "disponibile."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Impossibile legare la chiave hide_window"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s deve essere un valore tra: top, left, right, bottom"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Invia email a..."
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Dema_ssimizza terminale"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Modi_fica profilo"
+
+#~ msgid "Group name:"
+#~ msgstr "Nome del gruppo:"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Stringa tra virgolette non terminata"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Scorciatoia da tastiera"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Apri scheda superiore"
