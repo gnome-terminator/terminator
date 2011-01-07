@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-08-17 20:06+0000\n"
-"Last-Translator: Lucian Adrian Grijincu <lucian.grijincu@gmail.com>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-01-06 22:05+0000\n"
+"Last-Translator: Ivan Paul <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
+"X-Launchpad-Export-Date: 2011-01-07 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -190,13 +190,86 @@ msgstr "Vietnameză"
 msgid "Thai"
 msgstr "Tailandeză"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "tab"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Închide tab"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Afișează versiunea programului"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Maximizează fereastra"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Fereastra să umple ecranul"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Dezactivează conturul ferestrelor"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Ascunde fereastra la pornire"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Specificați un titlu pentru fereastră"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+"Setați dimensiunea preferată și poziția ferestrei (vedeți pagina de manual X)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "Specificați o comandă pentru a fi executată în terminal"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+"Folosește restul liniei de comandă ca un ordin pentru a executa în terminal, "
+"cu argumente"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Definește dosarul de lucru"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -250,11 +323,11 @@ msgstr "Numele *%s* deja există"
 msgid "Terminal screenshot"
 msgstr "Captură de ecran a terminalului"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Profil nou"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Mod de aranjare nou"
 
@@ -373,69 +446,69 @@ msgstr "Definit de utilizator"
 msgid "Other Encodings"
 msgstr "Alte codificări"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Nou grup..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Nimic"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Șterge grupul %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "G_rupează totul in tab"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Șterge toate grupele"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Închide grupa %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Difuzează pe toți"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Difuzează grupa"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Oprește difuzarea"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Împarte la acest grup"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Auto-curățirea grupei"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Introdu numărul de terminal"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Nu s-a găsit niciun shell"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Imposibil de pornit shell-ul"
 
@@ -452,3 +525,150 @@ msgstr "Toate"
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Element neașteptat"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ed_itează profilul"
+
+#~ msgid "_Group"
+#~ msgstr "_Grup"
+
+#~ msgid "Name"
+#~ msgstr "Nume"
+
+#~ msgid "Group name:"
+#~ msgstr "Nume grup:"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Scurtături tastatură"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "Degr_upează toate"
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Nu s-a putut asocia tasta rapidă pentru hide_window"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Șir între ghilimele neterminat"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Variabilă de configurare fără nici o valoare"
+
+#~ msgid "Configuration error"
+#~ msgstr "Eroare de configurare"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Definirea %r valorii %r nu e o culoare validă; va fi ignorată"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s trebuie să fie una dintre: top, left, right, bottom"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr "Citirea valorilor listei din terminator_config(5) nu este suportată"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Șir geometrie necorespunzător %r"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Această %s are mai multe terminale deschise. Închizând %s veți închide și "
+#~ "toate aceste terminale deschise."
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Nu s-a putut porni shellul: "
+
+#~ msgid "_Open Link"
+#~ msgstr "_Deschide legătura"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Copiază adresa legăturii"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Trimite e-mail către..."
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Copiază adresa e-mail"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Arată bara de _titlu"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Deschide tab de primul nivel"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "Ad_u terminalul la mărimea inițială"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Dema_ximizează terminalul"
+
+#~ msgid "_New group"
+#~ msgstr "Grup _nou"
+
+#~ msgid "_Group all"
+#~ msgstr "_Grupează toate"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Pentru a putea executa Terminator este nevoie de dependențele python pentru "
+#~ "gobject, gtk și pango."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Terminator trebuie executat într-un mediu grafic. Asigurați-vă ca variabila "
+#~ "de mediu DISPLAY este definită corect"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Eroare de configurare</b></big>\n"
+#~ "Au apărut erori la analiza fișierului terminator_config(5):\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d linii au fost ignorate."
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Variabila boleană %s așteptată una din valorile: yes, no, true, false, on, "
+#~ "off"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Variabila %r ar trebui să fie un nume secțiune valid"
+
+#~ msgid "Action"
+#~ msgstr "Acțiune"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Nu s-au găsit dependențele python pentru deskbar, opțiunea hide_window nu "
+#~ "este disponibilă."
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "Trebuie instalată dependența python pentru libvte („python-vte” în "
+#~ "debian/ubuntu)."
