@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-08-25 15:25+0000\n"
-"Last-Translator: Michal Chlup <Unknown>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-01-07 21:18+0000\n"
+"Last-Translator: John <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-26 03:50+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:38+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -61,7 +61,7 @@ msgstr "Západní"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Středoevropské"
+msgstr "Středoevropské jazyky"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
@@ -192,13 +192,83 @@ msgstr "Vietnamština"
 msgid "Thai"
 msgstr "Thajština"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "záložka"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Zavřít panel"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -252,11 +322,11 @@ msgstr "Název *%s* již existuje"
 msgid "Terminal screenshot"
 msgstr "Screenshoty terminálu"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Nový profil"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Nové rozložení"
 
@@ -375,69 +445,69 @@ msgstr "Uživatelem definovaný"
 msgid "Other Encodings"
 msgstr "Jiné kódování"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Nová skupina..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Žádný"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Odstranit skupinu %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Odstranit všechny skupiny"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Zavřít skupinu %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Vysílat vše"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Vysílat skupinu"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Přenos vypnut"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Rozdělit do těchto skupin"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Automatické čištění skupin"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Vložte číslo terminálu"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr "Vložit podložené číslo terminálu"
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Nemohu najít shell"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Nemohu spustit příkazovou řádku:"
 
@@ -454,3 +524,143 @@ msgstr "Vše"
 #, python-format
 msgid "Tab %d"
 msgstr "Záložka %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Zkopírovat e-mailovou adresu"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Odeslat zprávu..."
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "Musíte nainstalovat python rozšíření pro libvte (\"python-vte\" v "
+#~ "debianu/ubuntu)"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Kopírovat adresu odkazu"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Otevřít odkaz"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Nedokončený citovaný řetězec"
+
+#~ msgid "Configuration error"
+#~ msgstr "Chyba konfigurace"
+
+#~ msgid "Action"
+#~ msgstr "Akce"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Klávesová zkratka"
+
+#~ msgid "_Group"
+#~ msgstr "_Seskupit"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Ke spuštění programu terminator potřebujete prostředí X windows. Ujistěte "
+#~ "se, že proměnná DISPLAY je správně nastavena."
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr ""
+#~ "%s musí být jeden z následujících: top (nahoře), left (vlevo), right "
+#~ "(vpravo), bottom (dole)"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Chyba konfigurace</b></big>\n"
+#~ "\n"
+#~ "Během parsování souboru terminator_config(5) se vyskytli chyby:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d řádek(řádků) bylo ignorováno."
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Potřebuje nainstalovat související pythonovské knihovny pro gobject, gtk a "
+#~ "pango ke spuštění programu Teminator."
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "Čtení listu hodnot ze souboru terminator_config(5) není v současné době "
+#~ "podporováno"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Nastavení %r má obsahovat název sekce"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Nastavení %r hodnota %r není správná barva; ignoruji"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Boolean nastavení %s očekává jednu z těchto hodnot: yes (ano), no (ne), true "
+#~ "(pravda), false (lež), on (zapnuto), off (vypnuto)"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Neočekávaný token"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Chybějící hodnota nastavení"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Nesprávný geometry string %r"
+
+#~ msgid "Name"
+#~ msgstr "Název"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Nemohu nastartovat shell "
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Otevřít vrchní panel záložek"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Ukázat _titlebar"
+
+#~ msgid "_Group all"
+#~ msgstr "_Všechny skupiny"
+
+#~ msgid "_New group"
+#~ msgstr "_Nová skupina"
+
+#~ msgid "Group name:"
+#~ msgstr "Název skupiny:"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Oddálit terminál"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "U_pravit profil"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "V %s je několik terminálů otevřených. Zavřením %s současně zavřete všechny "
+#~ "obsažené terminály."
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Odebrat ze skupin vše"

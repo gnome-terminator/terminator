@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-12-13 17:29+0000\n"
+"PO-Revision-Date: 2011-01-07 18:07+0000\n"
 "Last-Translator: Erkin Batu Altunbaş <erkinbatu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 04:45+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:38+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -245,7 +245,7 @@ msgstr "Çalışma dizinini ayarla"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Pencereye özel bir WM_WINDOW_ROLE özelliği ayarla"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
@@ -262,14 +262,15 @@ msgstr "DBus'ı devredışı bırak"
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
 msgstr ""
+"Hata bulma bilgilendirmesine izin ver (hata bulma sunucusu için iki katı)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Hata bulmanın sınırlanacağı, virgüllerle ayrılmış olan sınıflar"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Hata bulmanın sınırlanacağı, virgüllerle ayrılmış olan metodlar"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -525,3 +526,142 @@ msgstr "Tümü"
 #, python-format
 msgid "Tab %d"
 msgstr "Sekme %d"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "Postayı _Gönder..."
+
+#~ msgid "_Open Link"
+#~ msgstr "_Bağlantıyı aç"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "E-posta Adresini _Kopyala"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "libvte için python bağlayıcılarını yüklemeniz gerekmektedir (debian/ubuntu "
+#~ "için \"python-vte\")"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "Bağlantı Adresini _Kopyala"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "başlık çubuğunu göster"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "üst seviye sekmesini aç"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Sınırsız yineleyen dizi"
+
+#~ msgid "Configuration error"
+#~ msgstr "Yapılandırma hatası"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Terminator'u bir X ortamında çalıştırmanız gerekmektedir. DISPLAY "
+#~ "değişkeninin uygun şekilde ayarlandığına emin olunuz."
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s şunlardan biri olmalı: üst, sol, sağ, alt"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr "%s boolean ayarı bir değer bekliyor:yes,no,true,false,on,off"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Yapılandırma hatası</b></big>\n"
+#~ "\n"
+#~ "terminator_config(5) dosyası ayıklanırken hata(lar) ile karşılaşıldı:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d satır-ı/(ları) gözardı edildi."
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Terminator 'ü çalıştırmak için gobject, gtk ve pango'nun python eklerini "
+#~ "yüklemelisiniz."
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "terminator_config(5)'ten liste değerleri okuması şu anda desteklenmiyor"
+
+#~ msgid "Unexpected token"
+#~ msgstr "beklenmedik değer"
+
+#~ msgid "Setting without a value"
+#~ msgstr "değer atanmamış"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "Terminali küçült"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Klavye kısayolu"
+
+#~ msgid "Action"
+#~ msgstr "Eylem"
+
+#~ msgid "Name"
+#~ msgstr "Ad"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr ""
+#~ "%r değerini %r olarak ayarlamak geçerli bir renk değil; yok sayılıyor"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Kabuk başlatıamadı: "
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Geçersiz geometri katarı: %r"
+
+#~ msgid "Group name:"
+#~ msgstr "Grup adı:"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Terminali büyüt_me"
+
+#~ msgid "_Group"
+#~ msgstr "_Grupla"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Profil_i düzenle"
+
+#~ msgid "_New group"
+#~ msgstr "Ye_ni grup"
+
+#~ msgid "_Group all"
+#~ msgstr "Tümünü _grupla"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "Tümünü gr_uptan ayır"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "%r ayarı bir seçim adı olmalı"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Bu %s 'de birden fazla terminal açık. %s kapatılınca tüm terminaller "
+#~ "kapatılacak."
