@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-10-15 15:20+0000\n"
-"Last-Translator: shriekout <shriekout@gmail.com>\n"
+"PO-Revision-Date: 2011-01-15 09:11+0000\n"
+"Last-Translator: wariua <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-16 04:44+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-16 04:41+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -406,7 +406,7 @@ msgstr "터미널 최대화(_X)"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr "모든 터미널 복구하기(_R)"
+msgstr "모든 터미널 복원하기(_R)"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
@@ -519,3 +519,139 @@ msgstr "전체"
 #, python-format
 msgid "Tab %d"
 msgstr "탭 %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "메일 주소 복사(_C)"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "메일 보내기(_S)..."
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr "libvte의 파이썬 바인딩(데비안/우분투에서는 \"python-vte\")을 설치해야 합니다."
+
+#~ msgid "_Open Link"
+#~ msgstr "링크 열기(_O)"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "링크 주소 복사(_C)"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "끝나지 않은 문자열"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr "%s 항목은 불리언이므로 yes, no, true, false, on, off 중 하나여야 함"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr "터미네이터를 실행하기 위해선 gobject, gtk, pango의 파이썬 바인딩을 설치해야 합니다."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr "터미네이터는 X 환경에서 실행해야 합니다. DISPLAY 변수가 올바로 설정돼 있는지 확인해 주십시오."
+
+#~ msgid "Setting without a value"
+#~ msgstr "설정값 없음"
+
+#~ msgid "Unexpected token"
+#~ msgstr "알 수 없는 추가 문자열"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "최상위 탭 열기"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "확대 취소(_U)"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "셸을 시작할 수 없음: "
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s 항목은 top, left, right, bottom 중 하나여야 함"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>설정 오류</b></big>\n"
+#~ "\n"
+#~ "terminator_config(5) 파일을 파싱하는 중 오류가 발생했습니다:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d행을 무시하였습니다."
+
+#~ msgid "Configuration error"
+#~ msgstr "설정 오류"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr "terminator_config(5)에서 목록값을 읽는 기능은 아직 지원하지 않음"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "제목 막대 표시(_T)"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "최대화 취소(_X)"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "설정 %r 항목은 섹션 이름이어야 함"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "%r 항목의 %r 값은 올바른 색상이 아니므로 무시"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "잘못된 위치 문자열 %r"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "키보드 바로 가기"
+
+#~ msgid "Action"
+#~ msgstr "동작"
+
+#~ msgid "Name"
+#~ msgstr "이름"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "프로파일 편집(_I)"
+
+#~ msgid "Group name:"
+#~ msgstr "그룹 이름:"
+
+#~ msgid "_New group"
+#~ msgstr "새 그룹(_N)"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr "이 %s에는 여러 개의 터미널이 열려 있습니다. %s을 닫으면 그 안의 모든 터미널이 닫힙니다."
+
+#~ msgid "_Group all"
+#~ msgstr "모두 그룹으로 묶기(_G)"
+
+#~ msgid "_Group"
+#~ msgstr "그룹(_G)"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "모두 그룹 해제하기(_U)"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr "deskbar 파이썬 바인딩을 찾을 수 없습니다. hide_window를 사용할 수 없습니다."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "hide_window 키를 연결할 수 없음"
