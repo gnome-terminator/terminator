@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-08-24 19:09+0000\n"
-"Last-Translator: lyyser <Unknown>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-01-21 09:12+0000\n"
+"Last-Translator: BloodDw <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-25 03:47+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:34+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Mitu terminaali ühes aknas"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
@@ -31,11 +31,11 @@ msgstr "Sulge?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr ""
+msgstr "Sulge _Terminaalid"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>Sulgen mitu terminaali?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -188,33 +188,105 @@ msgstr "Vietnami"
 msgid "Thai"
 msgstr "Tai"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "tabulaator"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Saki sulgemine"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Näita programmi versiooni"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Akna suurendamine"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Täida ekraan aknaga"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Keela akna ääred"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Peida aken käivitamisel"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Täpne pealkiri terminalile"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr "Sea soovituslik akna suurus ja positsioon (vaata X man lehekülge)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "Täpne käsklus et käivitada terminal"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr "Kasuta ülejäänud käsurida ja argumente et käivitada  käsk terminalis"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Töökataloogi määramine"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "Sea kohandatud WM_WINDOW_ROLE omadus aknale"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "Vali kujundus"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "Kasuta teist profiili tavalise sättena"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "Keela DBUS"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr "Luba veaanalüüsi informatsioon  (mitmekordne veaanalüüsi serveril )"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "Koma eraldab nimekirja klassidest veaanalüüsi limiidi"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "Koma edaldab nimekirjast veaanalüüsi limiidi meetod"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivyWatch lisand pole kättesaadav palun sisestage terminali install python-"
+"notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Vaata tegevusi"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Lõpeta tegevuste jälgimine"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Kohandatud käsud"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Kohandatud käskude konfigratsioon"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -245,15 +317,15 @@ msgstr "Nimi *%s* on juba olemast"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Terminali hetkepilt"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Uus profiil"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
-msgstr ""
+msgstr "Uus kujundus"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
@@ -276,31 +348,31 @@ msgstr "Eelmine"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Otsin ajaloost"
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr ""
+msgstr "Pole rohkem tulemusi"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr ""
+msgstr "Leidsin veerust"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Saada email ..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Kopeeri e-maili aadress"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "He_lista VoIP aadressile"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "_Kopeeri VoIP aadress"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -320,23 +392,23 @@ msgstr "Poolita V_ertikaalselt"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr ""
+msgstr "Ava vaheleht"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Ava veaanalüüsi vaheleht"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "_Suurenda terminaali"
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Ma_ksimiseeri terminaal"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "_Taasta kõik terminalid"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
@@ -344,7 +416,7 @@ msgstr "Rühmitamine"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Näita _kerimisriba"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
@@ -370,71 +442,71 @@ msgstr "Kasutaja määratav"
 msgid "Other Encodings"
 msgstr "Muud kodeeringud"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
-msgstr ""
+msgstr "Uus grupp"
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Pole"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "Eemalda %s grupp"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "G_rupeeri kõik vahelehed"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Vabasta grupist kõik vahelehed"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
-msgstr ""
+msgstr "Eemalda kõik gruppid"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:417
-msgid "Broadcast all"
-msgstr ""
+msgstr "Sulge %s grupp"
 
 #: ../terminatorlib/terminal.py:418
-msgid "Broadcast group"
-msgstr ""
+msgid "Broadcast all"
+msgstr "Levita kõiki"
 
 #: ../terminatorlib/terminal.py:419
+msgid "Broadcast group"
+msgstr "Levita gruppi"
+
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
-msgstr ""
+msgstr "Levitamine peatada"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
-msgstr ""
+msgstr "Jaga see grupp mitmeks"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Autopuhasta grupid"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Sisesta terminali number"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "Ei leitud shell-i"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Ei suudetud käivitada shell-i"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
@@ -448,4 +520,16 @@ msgstr "Kõik"
 #: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "Vaheleht %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Kopeeri e-postiaadress"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Saada e-sõnum..."
+
+#~ msgid "_Open Link"
+#~ msgstr "_Ava viit"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Kopeeri viida aadress"
