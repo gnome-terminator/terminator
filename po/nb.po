@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-05-13 16:12+0000\n"
-"Last-Translator: Tor Syversen <sol-moe@online.no>\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-02-04 17:22+0000\n"
+"Last-Translator: kamannen <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-05 04:34+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,13 +190,83 @@ msgstr "Vietnamesisk"
 msgid "Thai"
 msgstr "Thai"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "tabulator"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Lukk fane"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Maksimer vinduet"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Skjul vindu ved oppstart"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -249,11 +319,11 @@ msgstr "Navnet *%s* finnes allerede."
 msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Ny Profil"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Ny Side"
 
@@ -372,69 +442,69 @@ msgstr "Brukerdefinert"
 msgid "Other Encodings"
 msgstr "Andre tegnkodinger"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Ny gruppe..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Ingen"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Fjern gruppe %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "G_ruppe alle i tab"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr "Ugr_upper alle i tab"
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr "Fjern alle grupper"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr "Lukk gruppe %s"
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr "Broadcast alle"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr "Broadcast gruppe"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr "Broadcast off"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr "Splitt til denne gruppen"
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr "Automatisk rydd grupper"
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Sett inn terminal nummer"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Klarer ikke å finne et skall"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr "Kan ikke starte shell:"
 
@@ -451,3 +521,149 @@ msgstr "Alle"
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Kopier e-postadresse"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Send e-post til..."
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "Du må installere python bindingen for libvte (\"python-vte\" i debian/ubuntu)"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Åpne lenke"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Kopier lenkens adresse"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Klarer ikke å starte skall: "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Vis _tittelområde"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "Zoom _ut av terminal"
+
+#~ msgid "Configuration error"
+#~ msgstr "Konfigurasjonsfeil"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Uventet symbol"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Instilling uten en verdi"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Uavsluttet sitert streng"
+
+#~ msgid "Name"
+#~ msgstr "Navn"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Unma_ximise terminal"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Ugjyldig geometrisk string %r"
+
+#~ msgid "Action"
+#~ msgstr "Handling"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Tastatur snarvei"
+
+#~ msgid "Group name:"
+#~ msgstr "Gruppenavn:"
+
+#~ msgid "_Group"
+#~ msgstr "_Gruppe"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s må være en av: topp, venstre, høyre, bunn"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Denne %s har flere terminaler åpnet. Lukking av %s vil lukke alle de andre "
+#~ "terminalene."
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Del opp alle"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Innstillingen %r verdi %r ikke en gyldig farge; ignorer"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Åpne Topp-nivå Fane"
+
+#~ msgid "_New group"
+#~ msgstr "_Ny gruppe"
+
+#~ msgid "_Group all"
+#~ msgstr "_Gruppere alle"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ed_it profil"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Kan ikke finne python bindings for deskbar, hide_window er ikke tilgjengelig."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Kan ikke binde hide_window tast"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Den boolske innstillingen %s forventer en av: ja, nei, sant, usant, på, av"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>konfigurasjonsfeil</b></big>\n"
+#~ "\n"
+#~ "Feil ble oppdaget under lesing av terminator_config(5) file:\n"
+#~ "\n"
+#~ "<b>%s</b>\n"
+#~ "\n"
+#~ "%d linje(r) ignoreres."
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Du må installere python-bindingene for gobject, gtk og pango for å kjøre "
+#~ "Terminator."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Du må kjøre terminator i et X-miljø. Sjekk om variabelen DISPLAY er satt "
+#~ "korrekt."
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "Lesing av listeverdier fra terminator_config(5) er for tiden ikke støttet"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Innstilling %r bør være et seksjonsnavn"
