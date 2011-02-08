@@ -603,7 +603,14 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             if color:
                 palette.append(gtk.gdk.color_parse(color))
         self.vte.set_colors(fgcolor, bgcolor, palette)
-        if self.config['cursor_color'] != '':
+	if self.config['cursor_color'] == self.config['foreground_color']:
+            try:
+            	self.vte.set_color_cursor(None) 
+            except TypeError:
+                # FIXME: I think this is only necessary because of
+                # https://bugzilla.gnome.org/show_bug.cgi?id=614910
+                pass
+        elif self.config['cursor_color'] != '':
             self.vte.set_color_cursor(gtk.gdk.color_parse(
                                         self.config['cursor_color']))
         if hasattr(self.vte, 'set_cursor_shape'):
@@ -663,7 +670,10 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             dbg('setting background_transparent=False')
             self.vte.set_background_transparent(False)
 
-        self.vte.set_cursor_blinks(self.config['cursor_blink'])
+	if self.config['cursor_blink'] == True:
+		self.vte.set_cursor_blink_mode('VTE_CURSOR_BLINK_ON')
+	else:
+		self.vte.set_cursor_blink_mode('VTE_CURSOR_BLINK_OFF')
 
         if self.config['force_no_bell'] == True:
             self.vte.set_audible_bell(False)
