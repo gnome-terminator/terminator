@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2011-01-08 09:10+0000\n"
+"PO-Revision-Date: 2011-02-14 08:05+0000\n"
 "Last-Translator: John <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-09 04:34+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-15 04:31+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -246,7 +246,7 @@ msgstr "Nastavit pracovní adresář"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Nastavit vlastní WM_WINDOW_ROLE vlastnost okna"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
@@ -262,7 +262,7 @@ msgstr "Vypnout DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Povolit ladící informace (dvakrát pro ladící server)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
