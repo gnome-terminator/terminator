@@ -33,6 +33,9 @@ class Factory(Borg):
              'Notebook': 'notebook',
              'Container': 'container',
              'Window': 'window'}
+    types_keys = types.keys()
+    instance_types = {}
+    instance_types_keys = []
 
     def __init__(self):
         """Class initialiser"""
@@ -45,16 +48,25 @@ class Factory(Borg):
 
     def isinstance(self, product, classtype):
         """Check if a given product is a particular type of object"""
-        if classtype in self.types.keys():
-            # This is quite ugly, but we're importing from the current
-            # directory if that makes sense, otherwise falling back to
-            # terminatorlib. Someone with real Python skills should fix
-            # this to be less insane.
+        if classtype in self.types_keys:
+            # This is now very ugly, but now it's fast :-)
+            # Someone with real Python skills should fix this to be less insane.
+            # Optimisations:
+            # - swap order of imports, otherwise we throw ImportError
+            #   almost every time
+            # - cache everything we can
             try:
-                module = __import__(self.types[classtype], None, None, [''])
+                type_key = 'terminatorlib.%s' % self.types[classtype]
+                if type_key not in self.instance_types_keys:
+                    self.instance_types[type_key] = __import__(type_key, None, None, [''])
+                    self.instance_types_keys.append(type_key)
+                module = self.instance_types[type_key]
             except ImportError:
-                module = __import__('terminatorlib.%s' % self.types[classtype],
-                    None, None, [''])
+                type_key = self.types[classtype]
+                if type_key not in self.instance_types_keys:
+                    self.instance_types[type_key] = __import__(type_key, None, None, [''])
+                    self.instance_types_keys.append(type_key)
+                module = self.instance_types[type_key]
             return(isinstance(product, getattr(module, classtype)))
         else:
             err('Factory::isinstance: unknown class type: %s' % classtype)
