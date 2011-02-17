@@ -480,7 +480,9 @@ class Window(Container, gtk.Window):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
         terminals = {}
-        maker = Factory()
+        if not hasattr(self, 'cached_maker'):
+            self.cached_maker = Factory()
+        maker = self.cached_maker
         child = self.get_child()
 
         if not child:
@@ -511,7 +513,9 @@ class Window(Container, gtk.Window):
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
         many columns/rows we sort of have"""
-        maker = Factory()
+        if not hasattr(self, 'cached_maker'):
+            self.cached_maker = Factory()
+        maker = self.cached_maker
         if maker.isinstance(self.get_child(), 'Notebook'):
             dbg("We don't currently support geometry hinting with tabs")
             return

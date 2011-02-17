@@ -195,7 +195,9 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
     def get_visible_terminals(self):
         """Walk the widget tree to find all of the visible terminals. That is,
         any terminals which are not hidden in another Notebook pane"""
-        maker = Factory()
+        if not hasattr(self, 'cached_maker'):
+            self.cached_maker = Factory()
+        maker = self.cached_maker
         terminals = {}
 
         for child in self.get_offspring():
