@@ -50,7 +50,7 @@ class Terminator(Borg):
             self.terminals = []
         if not self.groups:
             self.groups = []
-        if not self.groupsend:
+        if self.groupsend == None:
             self.groupsend = self.groupsend_type['group']
         if not self.config:
             self.config = Config()
