@@ -322,8 +322,13 @@ class Terminator(Borg):
         else:
             numstr = '%d'
 
+        terminals = []
+        for window in self.windows:
+            containers, win_terminals = enumerate_descendants(window)
+            terminals.extend(win_terminals)
+
         for term in self.get_target_terms(widget):
-            idx = self.terminals.index(term)
+            idx = terminals.index(term)
             term.feed(numstr % (idx + 1))
 
     def get_target_terms(self, widget):
