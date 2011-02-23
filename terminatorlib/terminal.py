@@ -118,6 +118,8 @@ class Terminal(gtk.VBox):
         self.origcwd = self.terminator.origcwd
         self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 
+        self.pending_on_vte_size_allocate = False
+
         self.vte = vte.Terminal()
         self.vte.set_size(80, 24)
         self.vte._expose_data = None
@@ -335,7 +337,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.emit('title-change', self.get_window_title()))
         self.vte.connect('grab-focus', self.on_vte_focus)
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
-        self.vte.connect('size-allocate', self.on_vte_size_allocate)
+        self.vte.connect('size-allocate', self.deferred_on_vte_size_allocate)
 
         self.vte.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
         self.vte.connect('enter_notify_event',
@@ -1001,12 +1003,24 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
 
+    def deferred_on_vte_size_allocate(self, widget, allocation):
+        # widget & allocation are not used in on_vte_size_allocate, so we
+        # can use the on_vte_size_allocate instead of duplicating the code
+        if self.pending_on_vte_size_allocate == True:
+            return
+        self.pending_on_vte_size_allocate = True
+        gobject.idle_add(self.do_deferred_on_vte_size_allocate, widget, allocation)
+
+    def do_deferred_on_vte_size_allocate(self, widget, allocation):
+        self.pending_on_vte_size_allocate = False
+        self.on_vte_size_allocate(widget, allocation)
+
     def on_vte_size_allocate(self, widget, allocation):
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
         if self.vte.window and self.config['geometry_hinting']:
             window = self.get_toplevel()
-            window.set_rough_geometry_hints()
+            window.deferred_set_rough_geometry_hints()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""

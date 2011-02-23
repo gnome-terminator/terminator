@@ -81,6 +81,8 @@ class Window(Container, gtk.Window):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)
 
+        self.pending_set_rough_geometry_hint = False
+
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
         if prop.name in ['term_zoomed', 'term-zoomed']:
@@ -509,6 +511,18 @@ class Window(Container, gtk.Window):
             if terminal.vte.is_focus():
                 return(terminal)
         return(None)
+
+    def deferred_set_rough_geometry_hints(self):
+        # no parameters are used in set_rough_geometry_hints, so we can
+        # use the set_rough_geometry_hints
+        if self.pending_set_rough_geometry_hint == True:
+            return
+        self.pending_set_rough_geometry_hint = True
+        gobject.idle_add(self.do_deferred_set_rough_geometry_hints)
+
+    def do_deferred_set_rough_geometry_hints(self):
+        self.pending_set_rough_geometry_hint = False
+        self.set_rough_geometry_hints()
 
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
