@@ -89,14 +89,6 @@ def has_ancestor(widget, wtype):
             return(True)
     return(False)
 
-def get_top_window(widget):
-    """Return the Window instance a widget belongs to"""
-    parent = widget.get_parent()
-    while parent:
-        widget = parent
-        parent = widget.get_parent()
-    return(widget)
-
 def path_lookup(command):
     '''Find a command in our path'''
     if os.path.isabs(command):

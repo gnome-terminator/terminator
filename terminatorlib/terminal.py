@@ -15,7 +15,7 @@ import pango
 import subprocess
 import urllib
 
-from util import dbg, err, gerr, get_top_window
+from util import dbg, err, gerr
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -960,7 +960,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def ensure_visible_and_focussed(self):
         """Make sure that we're visible and focussed"""
-        window = util.get_top_window(self)
+        window = self.get_toplevel()
         topchild = window.get_child()
         maker = Factory()
 
@@ -1005,7 +1005,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
         if self.vte.window and self.config['geometry_hinting']:
-            window = util.get_top_window(self)
+            window = self.get_toplevel()
             window.set_rough_geometry_hints()
 
     def on_vte_notify_enter(self, term, event):
@@ -1078,7 +1078,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Determine if we are a zoomed terminal"""
         prop = None
         parent = self.get_parent()
-        window = get_top_window(self)
+        window = self.get_toplevel()
 
         try:
             prop = window.get_property('term-zoomed')
@@ -1312,7 +1312,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
     def on_beep(self, widget):
         """Set the urgency hint for our window"""
         if self.config['urgent_bell'] == True:
-            window = util.get_top_window(self)
+            window = self.get_toplevel()
             window.set_urgency_hint(True)
         if self.config['icon_bell'] == True:
             self.titlebar.icon_bell()
