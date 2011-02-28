@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-02 01:58+0000\n"
-"Last-Translator: Matheus de Araújo <Unknown>\n"
+"PO-Revision-Date: 2011-02-27 14:23+0000\n"
+"Last-Translator: rafael2710 <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-03 04:52+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-28 04:31+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -123,7 +123,7 @@ msgstr "Unicode"
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Armênico"
+msgstr "Armênio"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
@@ -526,3 +526,144 @@ msgstr "Todos"
 #, python-format
 msgid "Tab %d"
 msgstr "Aba %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Copiar Endereço de E-mail"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Abrir Link"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "Você precisa instalar as bibliotecas python para libvte (\"python-vte\" no "
+#~ "debian / ubuntu)"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Copiar Link"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Você precisa instalar Python bindings , Gobject, gtk e pando para executar o "
+#~ "Terminator"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Você precisará executar o terminator, em um ambiente X. Certifique-se de que "
+#~ "está devidamente estabelecido DISPLAY"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Incapaz de iniciar o shell: "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Mostrar _bara de titulo"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Abrir aba no nível superior"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Diminuir zoom do terminal"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Expressão citada não terminada"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "% s deve ser um dos: topo, esquerda, direita, rodapé"
+
+#~ msgid "Configuration error"
+#~ msgstr "Erro de configuração"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Token não esperado"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Definindo sem um valor"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Mi_nimizar terminal"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Erro de Configuração</b></big>\n"
+#~ "\n"
+#~ "Foram encontrados erros ao usar terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d Linha Ignorada"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr "Lista de valores do terminator_config(5) não é suportado"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Configuração %r Valor %r Não é uma cor valida ignorando"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Configurações %r precisa ser um desses , yes, no, true, false, on, off"
+
+#~ msgid "_New group"
+#~ msgstr "Novo Grupo"
+
+#~ msgid "_Group all"
+#~ msgstr "Todos os grupos"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Ungroup all"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Este %s tem vários terminais abertos. Fechar o %s também irá fechar todos os "
+#~ "terminais dele."
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "String de geometria inválida: %r"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Atalho de teclado"
+
+#~ msgid "Action"
+#~ msgstr "Ação"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Group name:"
+#~ msgstr "Nome do grupo:"
+
+#~ msgid "_Group"
+#~ msgstr "_Grupo"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ed_itar perfil"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "A opção %r deveria ser um nome de seção"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Enviar por e-mail para..."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Incapaz de vincular hide_windows a uma chave"
