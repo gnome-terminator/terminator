@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2011-01-04 10:02+0000\n"
-"Last-Translator: Νιάνιος Ρωμανός <Unknown>\n"
+"PO-Revision-Date: 2011-03-03 20:09+0000\n"
+"Last-Translator: Christos Spyroglou <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-05 04:31+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-03-04 04:34+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -200,7 +200,7 @@ msgstr "Κλείσιμο καρτέλας"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Προβολή έκδοσης προγράμματος"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
@@ -212,15 +212,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Απενεργοποίηση ορίων παραθύρου"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Απόκρυψη παραθύρου στην εκκίνηση"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Ορισμός τίτλου για το παράθυρο"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Ορισμός εντολής προς εκτέλεση στο τερματικό"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
@@ -238,7 +238,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Όρισμός του καταλόγου εργασίας"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -250,11 +250,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Χρήση ενός διαφορετικού προφίλ σαν προεπιλεγμένο"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Απενεργοποίηση DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -274,7 +274,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Παρακολούθηση δραστηριότητας"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
@@ -317,7 +317,7 @@ msgstr "Το όνομα *%s* υπάρχει ήδη"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Στιγμιότυπο οθόνης Τερματικού"
 
 #: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
@@ -408,7 +408,7 @@ msgstr "Με_γέθυνση τερματικού"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "Απο_κατάσταση όλων των τερματικών"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
