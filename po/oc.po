@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-04-17 09:01+0000\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-03-12 09:23+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-03-13 04:44+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,13 +190,83 @@ msgstr "Vietnamian"
 msgid "Thai"
 msgstr "Tai"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "tabulacion"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "Tampar l'onglet"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "Aficha la version del programa"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "Maximiza la fenèstra"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "Met la fenèstra en mòde ecran complet"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "Desactiva los bòrds de la fenèstra"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "Amaga la fenèstra a l'aviada"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "Especifica un títol per la fenèstra"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "Definís lo repertòri de trabalh"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "Selecciona un agençament"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "Desactiva DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -204,7 +274,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Seguir los eveniments"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
@@ -247,13 +317,13 @@ msgstr "Lo nom *%s* existís ja"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Captura d'ecran del terminal"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "Perfil novèl"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr "Agençament novèl"
 
@@ -294,15 +364,15 @@ msgstr "Mandar un corrièl a..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Copiar l'adreça email"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "Ape_lar l'adreça VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "_Copiar l'adreça VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -310,15 +380,15 @@ msgstr "D_obrir lo ligam"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "_Copiar l'adreça"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr ""
+msgstr "Devesor _orizontalament"
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr ""
+msgstr "Devesir v_erticalament"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
@@ -338,11 +408,11 @@ msgstr "Ag_randir lo terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "_Restablir totes los terminals"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Regropament"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
@@ -372,69 +442,69 @@ msgstr "Definit per l'utilizaire"
 msgid "Other Encodings"
 msgstr "Autres  Encodatges"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr "Grop novèl..."
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "Pas cap"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr "Suprimir lo grop %s"
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr "Ag_ropar dins un sol tablèau"
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
-msgstr ""
+msgstr "Suprimir totes los gropes"
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
-msgstr ""
-
-#: ../terminatorlib/terminal.py:417
-msgid "Broadcast all"
-msgstr ""
+msgstr "Tampar lo grop %s"
 
 #: ../terminatorlib/terminal.py:418
-msgid "Broadcast group"
-msgstr ""
+msgid "Broadcast all"
+msgstr "Difusar tot"
 
 #: ../terminatorlib/terminal.py:419
-msgid "Broadcast off"
-msgstr ""
+msgid "Broadcast group"
+msgstr "Difusar lo grop"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:420
+msgid "Broadcast off"
+msgstr "Arrestar la difusion"
+
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr "Inserir lo numèro de terminal"
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "Impossible de trobar un shell"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr ""
 
