@@ -131,8 +131,8 @@ class Searchbar(gtk.HBox):
                 self.searchrow = startrow
                 self.reslabel.set_text(_('No more results'))
                 return
-            buffer = self.vte.get_text_range(self.searchrow, 0, 
-                                             self.searchrow, -1,
+            buffer = self.vte.get_text_range(self.searchrow, 0,
+                                             self.searchrow+1, 0,
                                              self.search_character)
 
             index = buffer.find(self.searchstring)
@@ -153,7 +153,7 @@ class Searchbar(gtk.HBox):
                 self.reslabel.set_text(_('No more results'))
                 return
             buffer = self.vte.get_text_range(self.searchrow, 0,
-                                             self.searchrow, -1,
+                                             self.searchrow+1, 0,
                                              self.search_character)
 
             index = buffer.find(self.searchstring)
