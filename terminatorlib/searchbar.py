@@ -5,6 +5,7 @@
 
 import gtk
 import gobject
+import re
 
 from translation import _
 from config import Config
@@ -26,6 +27,7 @@ class Searchbar(gtk.HBox):
     config = None
 
     searchstring = None
+    searchre = None
     searchrow = None
 
     searchits = None
@@ -117,6 +119,7 @@ class Searchbar(gtk.HBox):
         if searchtext != self.searchstring:
             self.searchrow = self.get_vte_buffer_range()[0]
             self.searchstring = searchtext
+            self.searchre = re.compile(searchtext)
 
         self.reslabel.set_text(_("Searching scrollback"))
         self.next.set_sensitive(True)
@@ -135,8 +138,8 @@ class Searchbar(gtk.HBox):
                                              self.searchrow+1, 0,
                                              self.search_character)
 
-            index = buffer.find(self.searchstring)
-            if index != -1:
+            matches = self.searchre.search(buffer)
+            if matches:
                 self.search_hit(self.searchrow)
                 self.searchrow += 1
                 return
@@ -156,8 +159,8 @@ class Searchbar(gtk.HBox):
                                              self.searchrow+1, 0,
                                              self.search_character)
 
-            index = buffer.find(self.searchstring)
-            if index != -1:
+            matches = self.searchre.search(buffer)
+            if matches:
                 self.search_hit(self.searchrow)
                 self.searchrow -= 1
                 return
@@ -184,6 +187,7 @@ class Searchbar(gtk.HBox):
         """Trap and re-emit the end-search signal"""
         self.searchrow = 0
         self.searchstring = None
+        self.searchre = None
         self.reslabel.set_text('')
         self.emit('end-search')
 
