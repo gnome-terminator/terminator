@@ -127,7 +127,7 @@ class Searchbar(gtk.HBox):
         """Search forwards and jump to the next result, if any"""
         startrow,endrow = self.get_vte_buffer_range()
         while True:
-            if self.searchrow == endrow:
+            if self.searchrow >= endrow:
                 self.searchrow = startrow
                 self.reslabel.set_text(_('No more results'))
                 return
@@ -148,7 +148,7 @@ class Searchbar(gtk.HBox):
         """Jump back to the previous search"""
         startrow,endrow = self.get_vte_buffer_range()
         while True:
-            if self.searchrow == startrow:
+            if self.searchrow <= startrow:
                 self.searchrow = endrow
                 self.reslabel.set_text(_('No more results'))
                 return
@@ -177,7 +177,10 @@ class Searchbar(gtk.HBox):
     def get_vte_buffer_range(self):
         """Get the range of a vte widget"""
         column, endrow = self.vte.get_cursor_position()
-        startrow = max(0, endrow - self.config['scrollback_lines'])
+        if self.config['scrollback_lines'] < 0:
+            startrow = 0
+        else:
+            startrow = max(0, endrow - self.config['scrollback_lines'])
         return(startrow, endrow)
 
     def end_search(self, widget=None):
