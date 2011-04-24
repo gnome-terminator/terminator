@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-12-10 05:42+0000\n"
-"Last-Translator: lhquark <lhquark@yahoo.com.cn>\n"
+"PO-Revision-Date: 2011-04-24 03:55+0000\n"
+"Last-Translator: yuane <myewmyew@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-11 04:31+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-04-24 04:32+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -272,11 +272,11 @@ msgstr "ActivityWatch插件不可用: 请安装python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "察看活动的进程"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "停止察看活动的进程"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -366,11 +366,11 @@ msgstr "复制邮件地址(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "呼叫(_L) Voip 地址"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "复制(_C) Voip 地址"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -519,3 +519,138 @@ msgstr "全部"
 #, python-format
 msgid "Tab %d"
 msgstr "标签 %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "复制电子邮件地址(_C)"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "发送邮件给(_S)..."
+
+#~ msgid "_Open Link"
+#~ msgstr "打开链接(_O)"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "复制链接地址(_C)"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr "你需要安装libvte的python绑定（debian/ubuntu中的包名为“python-vte”）"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "显示标题栏"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "打开顶层标签"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "缩小终端(_U)"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "无法开启shell： "
+
+#~ msgid "Unexpected token"
+#~ msgstr "无法识别的分隔符"
+
+#~ msgid "Configuration error"
+#~ msgstr "配置错误"
+
+#~ msgid "Setting without a value"
+#~ msgstr "设定缺失一个数值"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "取消最大化(_x) 选中的页面"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr "从 terminator_config(5) 读取列表值现在还不支持"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr "布尔设置 %s 期望是 yes, no, true, false, on, off 中的一个"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "未结束的引用字符串"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>配置错误</b></big>\n"
+#~ "当解析 terminator_config(5) 文件时遇到错误: \n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d 行被略过。"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr "你需要安装gobject，gtk和pango的python绑定来运行Terminator。"
+
+#~ msgid "_Group"
+#~ msgstr "编组(_G)"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "修改档案(_d)"
+
+#~ msgid "Action"
+#~ msgstr "行为"
+
+#~ msgid "Name"
+#~ msgstr "名称"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "设置 %r 值 %r 不是有效颜色; 忽略"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s 必定是其中一个:顶部，左部，右部，底部"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "设置 %r 应该是一个区段名称"
+
+#~ msgid "_New group"
+#~ msgstr "新组(_N)"
+
+#~ msgid "_Group all"
+#~ msgstr "全部归组(_G)"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "无效的几何尺寸 %r"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr "%s 已打开多个终端。关闭 %s 的同时会关闭它打开的全部终端。"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "全部分散(_U)"
+
+#~ msgid "Group name:"
+#~ msgstr "分组名："
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr "你需要在一个X环境中运行terminator。请确保DISPLAY已正确设置"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr "找不到桌面栏的 python 绑定， hide_window 不可用。"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "快捷键"
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "不能绑定 hide_window 快捷键 (_W)"
