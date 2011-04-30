@@ -8,3 +8,9 @@ Type=Application
 Categories=GNOME;GTK;Utility;TerminalEmulator;
 StartupNotify=true
 X-Ubuntu-Gettext-Domain=terminator
+X-Ayatana-Desktop-Shortcuts=NewWindow;
+[NewWindow Shortcut Group]
+Name=Open a New Window
+Exec=terminator
+TargetEnvironment=Unity
+
