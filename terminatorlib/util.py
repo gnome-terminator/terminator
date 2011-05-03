@@ -128,7 +128,11 @@ def path_lookup(command):
 
 def shell_lookup():
     """Find an appropriate shell for the user"""
-    shells = [os.getenv('SHELL'), pwd.getpwuid(os.getuid())[6], 'bash',
+    try:
+        usershell = pwd.getpwuid(os.getuid())[6]
+    except KeyError:
+        usershell = None
+    shells = [os.getenv('SHELL'), usershell, 'bash',
             'zsh', 'tcsh', 'ksh', 'csh', 'sh']
 
     for shell in shells:
