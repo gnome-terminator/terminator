@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-01 05:03+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:33+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -526,3 +526,66 @@ msgstr "Sve"
 #, python-format
 msgid "Tab %d"
 msgstr "Kartica %d"
+
+#~ msgid "Configuration error"
+#~ msgstr "Konfiguracijska greška"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Postavljanje bez vrijednosti"
+
+#~ msgid "Action"
+#~ msgstr "Akcija"
+
+#~ msgid "Name"
+#~ msgstr "Ime"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Odzumiraj terminal"
+
+#~ msgid "_New group"
+#~ msgstr "_Nova groupa"
+
+#~ msgid "_Group"
+#~ msgstr "_Grupiraj"
+
+#~ msgid "Group name:"
+#~ msgstr "Ime grupe:"
+
+#~ msgid "_Group all"
+#~ msgstr "_Grupiraj sve"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Morate instalirati python vezove za gobject, gtk i pango da bi pokrenuli "
+#~ "Terminator."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Trebate pokrenuti terminator u X okruženju. Provjerite da li je DISPLAY "
+#~ "ispravno postavljen"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Neispravan geometrijski niz %r"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Kopiraj Adresu Epošte"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Pošalji Poštu Za..."
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Ne mogu pokrenuti ljusku: "
+
+#~ msgid "_Open Link"
+#~ msgstr "_Otvori poveznicu"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Kopiraj adresu poveznice"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ur_edi profil"

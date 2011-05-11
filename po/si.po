@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
 "PO-Revision-Date: 2009-06-09 10:08+0000\n"
 "Last-Translator: Janith Sampath Bandara <janith3000@gmail.com>\n"
 "Language-Team: Sinhalese <si@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:46+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:33+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -188,13 +188,83 @@ msgstr "වියට්නාම"
 msgid "Thai"
 msgstr "තායිලන්ත"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "ටැබය"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "ටැබය වසන්න"
+
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -247,11 +317,11 @@ msgstr ""
 msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
 msgstr ""
 
@@ -370,69 +440,69 @@ msgstr ""
 msgid "Other Encodings"
 msgstr "අනෙක් කේතීකරණයන්"
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr "කිසිවෙක් නැත"
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr "ෙෂලය සොයාගැනීමට නොහැකිය"
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr ""
 
@@ -449,3 +519,146 @@ msgstr "සමස්ත"
 #, python-format
 msgid "Tab %d"
 msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>ආකෘතික දෝෂය</b></big>\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "  <b>%s</b>\n"
+#~ "%d රේඛා(ව) නොසලකාහැර ඇත."
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "ඔබට X පාරිසරිකය තුල terminator ධාවනය කිරීමට අවශ්‍යය. ඔබගේ දර්ශනය නියම ලෙස "
+#~ "සකසා ඇතිදැයි තහවුරු කරගන්න"
+
+#~ msgid "Configuration error"
+#~ msgstr "ආකෘතික දෝෂය"
+
+#~ msgid "Unexpected token"
+#~ msgstr "අනපේක්ෂිත සංඥාව"
+
+#~ msgid "Setting without a value"
+#~ msgstr "අගය අතරතුර සැකසීම්"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "යතුරුපුවරු කෙටිමං"
+
+#~ msgid "Action"
+#~ msgstr "කටයුත්ත"
+
+#~ msgid "Name"
+#~ msgstr "නම"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "සැකසීම් %r අගය %r වලංගු වර්ණයක් නොවේ; ප්‍රතික්ෂේපිත"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "අවසන් නොකල වෙන්කල බැඳීම්"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "වීජයානු සැකසීම් %s yes, no, true, false, on, off : වලින් එකක් අපේක්ෂිතයි"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "gobject සඳහා ඔබට python බැඳීම් ප්‍රතිස්ථාපනය කිරීමට අවශ්‍යය. කෙලවරකිරීම සඳහා "
+#~ "gtk සහ pango ධාවනය කරන්න."
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_ඊ-මේල් ලිපිනය පිටපත්කරන්න"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_තැපෑලක් යැවීමට..."
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "ෂෙලය ආරම්භකිරීමට අපහසුය "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "ටයිටල්බාරය_පෙන්වන්න"
+
+#~ msgid "_Open Link"
+#~ msgstr "_ඇමිනුම විවෘතකරන්න"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_ඇමිනුම් ලිපිනය පිටපත්කරන්න"
+
+#~ msgid "Group name:"
+#~ msgstr "කණ්ඩායම් නාමය"
+
+#~ msgid "_Group all"
+#~ msgstr "_සියල්ලම එක්කරන්න"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_සියල්ලම වෙන්කරන්න"
+
+#~ msgid "_New group"
+#~ msgstr "_නව කාණ්ඩයක්"
+
+#~ msgid "_Group"
+#~ msgstr "_කාණ්ඩය"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "ප්‍රොෆයිලය සං_ස්කරණය"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%stop, left, right, bottom :වලින් එකක් විය යුතුයි"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "සැකසීම් %r නාම ඒකකයක් විය යුතුයි"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "වලංගු නොමැති ජ්‍යාමිතික අගයක් %r"
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "hide_window යතුර බැඳීමට නොහැකිය"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "ඉහල මට්ටමේ මැබය විවෘතකරන්න"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "ටර්මිනලය _කුඩාකරන්න"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "ටර්මිනලය _අවමකරන්න"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "ඔබට libvte (\"python-vte\" in debian/ubuntu) හඳහා python බඳීම් ස්ථාපනය "
+#~ "කිරීමට අවශ්‍යය"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "මෙම %s හි ටර්මිනල් කිහිපයක් විවෘත වී ඇත. මෙම %s වැසීමට අමතරව එහි ඇති "
+#~ "ටර්මිනල් සියල්ලම වසන්න."
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr "terminator_config(5) හි අගයන් ලැයිස්තුව කියවීම දැනට අධාර කරන්නේ නැත"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "ඩෙක්ස්බාරය සඳහා python බඳීම් සෙවීමට නොහැකිය. hide_window ප්‍රයෝජනය සඳහා නැත"

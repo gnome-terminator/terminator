@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-10 04:45+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:33+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -523,3 +523,149 @@ msgstr "All"
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Send Mail To..."
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Copy Email Address"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Open Link"
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Copy Link Address"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Unterminated quoted string"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s must be one of: top, left, right, bottom"
+
+#~ msgid "Configuration error"
+#~ msgstr "Configuration error"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Setting %r should be a section name"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Setting %r value %r not a valid colour; ignoring"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Setting without a value"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Unexpected token"
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "Invalid geometry string %r"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Keyboard shortcut"
+
+#~ msgid "Action"
+#~ msgstr "Action"
+
+#~ msgid "Name"
+#~ msgstr "Name"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Unable to start shell: "
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Open Top Level Tab"
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Show _titlebar"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Unzoom terminal"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Unma_ximise terminal"
+
+#~ msgid "_New group"
+#~ msgstr "_New group"
+
+#~ msgid "_Group"
+#~ msgstr "_Group"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ed_it profile"
+
+#~ msgid "_Group all"
+#~ msgstr "_Group all"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Ungroup all"
+
+#~ msgid "Group name:"
+#~ msgstr "Group name:"
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Unable to bind hide_window key"

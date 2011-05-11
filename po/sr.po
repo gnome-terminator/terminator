@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-11-12 13:10+0000\n"
-"Last-Translator: Rancher <Unknown>\n"
+"PO-Revision-Date: 2011-05-10 14:11+0000\n"
+"Last-Translator: boracasli <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-13 04:48+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:33+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -23,7 +23,7 @@ msgstr "Више терминала у једном прозору"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Терминатор"
+msgstr "Terminator"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
@@ -31,7 +31,7 @@ msgstr "Изаћи?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr "Затвори _терминале"
+msgstr "Zatvori _terminale"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -54,12 +54,12 @@ msgstr "Текући локалитет"
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Западни"
+msgstr "Zapadni"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Средњоевропски"
+msgstr "Srednjoevropski"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
@@ -80,55 +80,55 @@ msgstr "Ћирилица"
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "Арапски"
+msgstr "Arapski"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "Грчки"
+msgstr "Grčki"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Визуелни хебрејски"
+msgstr "Vizuelni hebrejski"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "Хебрејски"
+msgstr "Hebrejski"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "Турски"
+msgstr "Turski"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Нордијски"
+msgstr "Nordijski"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Келтски"
+msgstr "Keltski"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Румунски"
+msgstr "Rumunski"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Уникод"
+msgstr "Unikod"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Јерменски"
+msgstr "Jermenski"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Традиционални кинески"
+msgstr "Tradicionalni kineski"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -137,21 +137,21 @@ msgstr "Ћирилички/руски"
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Јапански"
+msgstr "Japanski"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "Корејски"
+msgstr "Korejski"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Поједностављени кинески"
+msgstr "Pojednostavljeni kineski"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Грузијски"
+msgstr "Gruzijski"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
@@ -159,133 +159,133 @@ msgstr "Ћирилички/украјински"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Хрватски"
+msgstr "Hrvatski"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Хинди"
+msgstr "Hindi"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "Персијски"
+msgstr "Persijski"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Гуџарати"
+msgstr "Gudžarati"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "Гермуки"
+msgstr "Germuki"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "Исландски"
+msgstr "Islandski"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Вијетнамски"
+msgstr "Vijetnamski"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Тајландски"
+msgstr "Tajlandski"
 
 #: ../terminatorlib/notebook.py:264
 msgid "tab"
-msgstr "језичак"
+msgstr "jezičak"
 
 #: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
-msgstr "Затвори језичак"
+msgstr "Zatvori jezičak"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr "Прикажи издање програма"
+msgstr "Prikaži izdanje programa"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr "Увећај прозор"
+msgstr "Uvećaj prozor"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr "Попуни екран прозором"
+msgstr "Popuni ekran prozorom"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr "Онемогући границе прозора"
+msgstr "Onemogući granice prozora"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr "Сакриј прозор на покретању"
+msgstr "Sakrij prozor na pokretanju"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr "Унеси наслов прозора"
+msgstr "Unesi naslov prozora"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
-msgstr "Подеси величину и положај прозора"
+msgstr "Podesi veličinu i položaj prozora"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr "Унеси наредбу за извршавање унутар терминала"
+msgstr "Unesi naredbu za izbrišavanje unutar terminala"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Користи остатак наредбене линије као наредбу за извршавање унутар терминала, "
-"и његове аргументе."
+"Koristi ostatak naredbene linije kao naredbu za izbrišavanje unutar "
+"terminala, i njegove argumente."
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr "Подеси фасциклу за рад"
+msgstr "Podesi fasciklu za rad"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Подеси прилагођену WM_WINDOW_ROLE својину на прозору"
+msgstr "Podesi prilagođenu WM_WINDOW_ROLE svojinu na prozoru"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr "Изабери распоред"
+msgstr "Izaberi raspored"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr "Користи другачији профил као подразумевано"
+msgstr "Koristi drugačiji profil kao podrazumevano"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr "Онемогући DBus"
+msgstr "Onemogući DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Омогући податке за отклањање грешака (двапут за сервере)"
+msgstr "Omogući podatke za otklanjanje grešaka (dvaput za servere)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Zarezom odvojena lista nastave da se ograniči na otklanjanje grešaka"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Zarezom odvojena lista metoda da se ograniči na otklanjanje grešaka"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
-"ActivityWatch додатак није доступан. Молимо, инсталирајте python-notify."
+"ActivityWatch dodatak nije dostupan. Molimo, instalirajte python-notify."
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr "Прати активност"
+msgstr "Prati aktivnost"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr "Престани да пратиш активност"
+msgstr "Prestani da pratiš aktivnost"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Прилагођене наредбе"
+msgstr "Prilagođene naredbe"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-19 04:48+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:33+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 "X-Poedit-Country: Portugal\n"
 "X-Poedit-Language: Portuguese\n"
 
@@ -526,3 +526,152 @@ msgstr "Tudo"
 #, python-format
 msgid "Tab %d"
 msgstr "Separador %d"
+
+#~ msgid "_Copy Email Address"
+#~ msgstr "_Copiar o Endereço de Email"
+
+#~ msgid "_Send Mail To..."
+#~ msgstr "_Enviar E-mail Para..."
+
+#~ msgid "_Copy Link Address"
+#~ msgstr "_Copiar Endereço de Ligação"
+
+#~ msgid ""
+#~ "You need to install python bindings for libvte (\"python-vte\" in "
+#~ "debian/ubuntu)"
+#~ msgstr ""
+#~ "É necessário instalar as associações python para libvte (\"python-vte\" no "
+#~ "debian/ubuntu)"
+
+#~ msgid "Unable to start shell: "
+#~ msgstr "Incapaz de iniciar shell: "
+
+#~ msgid "Show _titlebar"
+#~ msgstr "Apresentar _Barra de título"
+
+#~ msgid "_Unzoom terminal"
+#~ msgstr "_Unzoom terminal"
+
+#~ msgid "Unterminated quoted string"
+#~ msgstr "Expressão citada não terminada"
+
+#~ msgid "Configuration error"
+#~ msgstr "Erro de configuração"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Unma_ximise terminal"
+#~ msgstr "Restaurar Terminal"
+
+#~ msgid "Unexpected token"
+#~ msgstr "Símbolo inesperado"
+
+#~ msgid "Keyboard shortcut"
+#~ msgstr "Atalho do teclado"
+
+#~ msgid "Action"
+#~ msgstr "Acção"
+
+#~ msgid "Group name:"
+#~ msgstr "Nome do grupo:"
+
+#~ msgid "_New group"
+#~ msgstr "_Novo grupo"
+
+#~ msgid "_Group all"
+#~ msgstr "_Agrupar todos"
+
+#~ msgid "_Ungroup all"
+#~ msgstr "_Desagrupar todos"
+
+#~ msgid "_Group"
+#~ msgstr "_Agrupar"
+
+#, python-format
+#~ msgid ""
+#~ "<big><b>Configuration error</b></big>\n"
+#~ "\n"
+#~ "Errors were encountered while parsing terminator_config(5) file:\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d line(s) have been ignored."
+#~ msgstr ""
+#~ "<big><b>Erro de Configuração</b></big>\n"
+#~ "\n"
+#~ "Foram encontrados erros ao processar o ficheiro terminator_config(5):\n"
+#~ "\n"
+#~ "  <b>%s</b>\n"
+#~ "\n"
+#~ "%d linha(s) Ignorada(s)"
+
+#, python-format
+#~ msgid "Setting %r value %r not a valid colour; ignoring"
+#~ msgstr "Estabelecendo %r valor %r não é uma cor válida; ignorando"
+
+#, python-format
+#~ msgid "%s must be one of: top, left, right, bottom"
+#~ msgstr "%s Precisa ser um de: top, left, right, bottom"
+
+#, python-format
+#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
+#~ msgstr ""
+#~ "Configuração Booleana %r precisa ser um de: , yes, no, true, false, on, off"
+
+#~ msgid ""
+#~ "Reading list values from terminator_config(5) is not currently supported"
+#~ msgstr ""
+#~ "Leitura da lista de valores do terminator_config(5) não é correntemente "
+#~ "suportada"
+
+#, python-format
+#~ msgid "Setting %r should be a section name"
+#~ msgstr "Configuração %r precisa ser um nome de secção"
+
+#~ msgid "Setting without a value"
+#~ msgstr "Configuração sem valor atribuído"
+
+#~ msgid "_Open Link"
+#~ msgstr "_Abrir Endereço de Ligação"
+
+#~ msgid "Open Top Level Tab"
+#~ msgstr "Abrir Aba de Topo de Nível"
+
+#~ msgid "Ed_it profile"
+#~ msgstr "Ed_itar perfil"
+
+#~ msgid ""
+#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
+#~ "properly set"
+#~ msgstr ""
+#~ "Necessita de executar o terminator num ambiente X. Verifique se o DISPLAY "
+#~ "está configurado correctamente."
+
+#, python-format
+#~ msgid "Invalid geometry string %r"
+#~ msgstr "String geometricamente inválida %r"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open.  Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Esta (este) %s tem vários terminais abertos.  Fechando %s irá fechar todos "
+#~ "os terminais no seu interior."
+
+#~ msgid ""
+#~ "Unable to find python bindings for deskbar, hide_window is not available."
+#~ msgstr ""
+#~ "Não foi possível encontrar os vínculos do python para a deskbar, hide_window "
+#~ "não está disponível."
+
+#~ msgid "Unable to bind hide_window key"
+#~ msgstr "Não foi possível vincular a chave hide_windows"
+
+#~ msgid ""
+#~ "You need to install the python bindings for gobject, gtk and pango to run "
+#~ "Terminator."
+#~ msgstr ""
+#~ "Para executar o Terminator necessita de instalar as bibliotecas em python "
+#~ "para o gobject, gtk e pango."

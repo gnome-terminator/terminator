@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-03 22:04+0100\n"
-"PO-Revision-Date: 2010-06-16 14:13+0000\n"
+"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"PO-Revision-Date: 2011-05-10 13:55+0000\n"
 "Last-Translator: boracasli <Unknown>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-18 06:45+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-05-11 04:32+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "მრავალი ტერმინალები ერთ ფანჯარაში"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
@@ -27,15 +27,15 @@ msgstr "Terminator"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr ""
+msgstr "ახლო?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr ""
+msgstr "ახლო _ტერმინალები"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>ახლო რამდენიმე ტერმინალი?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"ამ %s უკვე რამდენიმე ტერმინალი ღია. დახურვის %s ასევე დახურვა ყველა "
+"ტერმინალი ფარგლებში იგი."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -188,91 +190,163 @@ msgstr "ვიეტნამური"
 msgid "Thai"
 msgstr "ტაილანდური"
 
-#: ../terminatorlib/notebook.py:259
+#: ../terminatorlib/notebook.py:264
 msgid "tab"
 msgstr "ჩანართი"
 
-#: ../terminatorlib/notebook.py:408
+#: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
 msgstr "ჩანართის დახურვა"
 
+#: ../terminatorlib/optionparse.py:47
+msgid "Display program version"
+msgstr "გამოტანის პროგრამის ვერსია"
+
+#: ../terminatorlib/optionparse.py:49
+msgid "Maximise the window"
+msgstr "მაქსიმალურად ფანჯარა"
+
+#: ../terminatorlib/optionparse.py:51
+msgid "Make the window fill the screen"
+msgstr "მარკა ფანჯარა შეავსეთ ეკრანზე"
+
+#: ../terminatorlib/optionparse.py:53
+msgid "Disable window borders"
+msgstr "გამორთე ფანჯარა საზღვრები"
+
+#: ../terminatorlib/optionparse.py:55
+msgid "Hide the window at startup"
+msgstr "დამალვა ფანჯარა დან ჩატვირთვის"
+
+#: ../terminatorlib/optionparse.py:56
+msgid "Specify a title for the window"
+msgstr "მიუთითეთ სათაური ფანჯარა"
+
+#: ../terminatorlib/optionparse.py:58
+msgid "Set the preferred size and position of the window (see X man page)"
+msgstr "დააყენეთ სასურველი ზომა და პოზიცია ფანჯარა (იხ. X man გვერდი)"
+
+#: ../terminatorlib/optionparse.py:60
+msgid "Specify a command to execute inside the terminal"
+msgstr "მიუთითეთ ბრძანება შესრულდეს შიგნით ტერმინალი"
+
+#: ../terminatorlib/optionparse.py:63
+msgid ""
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
+msgstr ""
+"გამოიყენეთ დანარჩენი ბრძანების როგორც ბრძანება შესრულდეს შიგნით ტერმინალის "
+"და მისი არგუმენტები"
+
+#: ../terminatorlib/optionparse.py:66
+msgid "Set the working directory"
+msgstr "კომპლექტი სამუშაო დირექტორია"
+
+#: ../terminatorlib/optionparse.py:67
+msgid "Set a custom WM_WINDOW_ROLE property on the window"
+msgstr "კომპლექტის საბაჟო WM_WINDOW_ROLE ქონების ფანჯარა"
+
+#: ../terminatorlib/optionparse.py:69
+msgid "Select a layout"
+msgstr "აირჩიეთ განლაგება"
+
+#: ../terminatorlib/optionparse.py:70
+msgid "Use a different profile as the default"
+msgstr "გამოყენება სხვადასხვა პროფაილი როგორც ნაგულისხმევი"
+
+#: ../terminatorlib/optionparse.py:73
+msgid "Disable DBus"
+msgstr "გამორთე DBus"
+
+#: ../terminatorlib/optionparse.py:75
+msgid "Enable debugging information (twice for debug server)"
+msgstr "ჩართე გამართვის ინფორმაციის (ორჯერ გამართვის სერვერი)"
+
+#: ../terminatorlib/optionparse.py:77
+msgid "Comma separated list of classes to limit debugging to"
+msgstr "მძიმეებით სია კლასების შეზღუდვა გამართვის რომ"
+
+#: ../terminatorlib/optionparse.py:79
+msgid "Comma separated list of methods to limit debugging to"
+msgstr "მძიმეებით სია მეთოდების შეზღუდოს გამართვის რომ"
+
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "ActivityWatch მოდული მიუწვდომელია: დააინსტალირეთ python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "უყურეთ საქმიანობის"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "გაჩერებით თვალს საქმიანობის"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "საბაჟო ბრძანენების"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "საბაჟო ბრძანებები კონფიგურაცია"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "ახალი სარდლობა"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "შეეძლოს:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "სახელი:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "ბრძანება:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "თქვენ უნდა განსაზღვროს სახელი და ბრძანება"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "სახელი *%s* უკვე არსებობს"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "ტერმინალის სურათი"
 
-#: ../terminatorlib/prefseditor.py:886 ../terminatorlib/prefseditor.py:891
+#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
 msgstr "ახალი პროფილი"
 
-#: ../terminatorlib/prefseditor.py:931 ../terminatorlib/prefseditor.py:936
+#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
-msgstr ""
+msgstr "ახალი განლაგება"
 
 #. Label
 #: ../terminatorlib/searchbar.py:48
 msgid "Search:"
-msgstr ""
+msgstr "ძებნა:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr ""
+msgstr "ახლო ძიება ბარი"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
 msgid "Next"
-msgstr ""
+msgstr "შემდეგი"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:75
 msgid "Prev"
-msgstr ""
+msgstr "წინა"
 
 #: ../terminatorlib/searchbar.py:121
 msgid "Searching scrollback"
@@ -370,69 +444,69 @@ msgstr ""
 msgid "Other Encodings"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:365
+#: ../terminatorlib/terminal.py:366
 msgid "New group..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:370
+#: ../terminatorlib/terminal.py:371
 msgid "None"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:386
+#: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:391
+#: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:396
+#: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:401
+#: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:408
+#: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:417
+#: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:437
+#: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:444
+#: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:448
+#: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1157
+#: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1174
+#: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
 msgstr ""
 
