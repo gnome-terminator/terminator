@@ -747,7 +747,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         #         maybe we can emit the key event and let Terminator() care?
         groupsend = self.terminator.groupsend
         groupsend_type = self.terminator.groupsend_type
-        if groupsend != groupsend_type['off'] and self.vte.is_focus():
+        window_focussed = get_top_window(self.vte).get_property('has-toplevel-focus')
+        if groupsend != groupsend_type['off'] and window_focussed and self.vte.is_focus():
             if self.group and groupsend == groupsend_type['group']:
                 self.terminator.group_emit(self, self.group, 'key-press-event',
                         event)
