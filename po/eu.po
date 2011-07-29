@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2010-06-21 23:56+0000\n"
-"Last-Translator: Victor Herrero <victorhera@gmail.com>\n"
+"PO-Revision-Date: 2011-07-28 16:13+0000\n"
+"Last-Translator: Mikel Alzibar <mikelalzibar@gmail.com>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:34+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-07-29 04:44+0000\n"
+"X-Generator: Launchpad (build 13405)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "Asko terminalak leio batean"
+msgstr "Terminal asko leiho batean"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "Bukaera"
+msgstr "Terminator"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
@@ -35,7 +35,7 @@ msgstr "Itxi_Terminalak"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Azko terminalak itxi?</b></big>"
+msgstr "Terminal anitz itxi?"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"%s honek terminal asko ditu irekita. %s ixtean bere terminal guztiak ere "
+"itxiko dira."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -52,16 +54,16 @@ msgstr "Uneko lokala"
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Mendebaldea"
+msgstr "Mendebaldekoa"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Europako Erdialdekoa"
+msgstr "Europako erdialdekoa"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Europako Hegoaldekoa"
+msgstr "Europako hegoaldekoa"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
@@ -109,12 +111,12 @@ msgstr "Zeltiarra"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr ""
+msgstr "Errumaniarra"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unikodea"
+msgstr "Unicode"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
@@ -145,7 +147,7 @@ msgstr "Korearra"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Txinatar Soildua"
+msgstr "Txinatar soildua"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -157,7 +159,7 @@ msgstr "Zirilikoa/Ukrainarra"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Kroatiarra"
+msgstr "Kroaziarra"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
@@ -186,105 +188,109 @@ msgstr "Vietnamdarra"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Thaiera"
+msgstr "Thailandiarra"
 
 #: ../terminatorlib/notebook.py:264
 msgid "tab"
-msgstr "tab"
+msgstr "fitxa"
 
 #: ../terminatorlib/notebook.py:425
 msgid "Close Tab"
-msgstr "Itxi tab"
+msgstr "Itxi fitxa"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "Bistaratu programaren bertsioa"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "Maximizatu leihoa"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Lehioa pantaila betetzera behartu"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Ezgaitu leihoaren ertzak"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Ezkutatu leihoa hasieraketan"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Zehaztu leihoarentzako izenburua"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
 msgstr ""
+"Ezarri leihoaren tamaina eta kokapen hobetsiak (ikusi X-en man orria)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Zehaztu terminal barruan exekutatzeko komando bat"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Erabili komando-lerroaren gainerakoa terminal barruan exekutatzeko komando "
+"bat bezala, bere argumentuekin"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Ezarri laneko direktorioa"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Ezarri WM_WINDOW_ROLE propietate pertsonalizatua"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Diseinu bat aukeratu"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Erabili profil desberdin bat lehenetsia bezala"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Ezgaitu DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Gaitu arazketa informazioa (bi aldiz arazketa zerbitzariarentzat)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Komaz banandutako klaseen lista arazketa mugatzeko"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Komaz banandutako metodoen lista arazketa mugatzeko"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch osagarria ez dago eskura: mesedez instalatu python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:41
 msgid "Watch for activity"
-msgstr ""
+msgstr "Monitorizatu aktibitatea"
 
 #: ../terminatorlib/plugins/activitywatch.py:44
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Utzi aktibitatea monitorizatzeari"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Ohitura komandoak"
+msgstr "Komando pertsonalizatuak"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Ohitura komandoak konfigurazioa"
+msgstr "Komando pertsonalizatuen ezarpena"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -292,7 +298,7 @@ msgstr "Komando berria"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr "Egokitu"
+msgstr "Gaituta:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -305,21 +311,21 @@ msgstr "Komandoa:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr "Izena eta komandoa zehaztu behar duzu"
+msgstr "Izena eta komandoa zehaztu behar dituzu"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "Izena *%s* existitzen da"
+msgstr "*%s* izena existetzen da jada"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Terminalaren argazkia"
 
 #: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
 msgid "New Profile"
-msgstr "Profila berria"
+msgstr "Profil berria"
 
 #: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
 msgid "New Layout"
@@ -332,7 +338,7 @@ msgstr "Bilatu:"
 
 #: ../terminatorlib/searchbar.py:64
 msgid "Close Search bar"
-msgstr "Itxi bilatzeko barra"
+msgstr "Itxi bilaketa barra"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:69
@@ -350,75 +356,75 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
 msgid "No more results"
-msgstr "Emaitza gehiago ez"
+msgstr "Ez dago emaitza gehiago"
 
 #: ../terminatorlib/searchbar.py:168
 msgid "Found at row"
-msgstr "Lerro aurkito"
+msgstr "Lerroan aurkitua"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "Bidali mezua..."
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr "_Bidali posta elektronikoa"
+msgstr "Kopiatuposta elektronikoko helbidea"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "Deitu VoIP helbidera"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "Kopiatu VoIP helbidea"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr "_Esteka ireki"
+msgstr "Esteka ireki"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr "_Kopiatu helbide"
+msgstr "Kopiatu helbidea"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr "Zatitu H_orizontalki"
+msgstr "Zatitu horizontalki"
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr "Zatitu V_ertikalki"
+msgstr "Zatitu bertikalki"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr "Ireki_Tab"
+msgstr "Ireki fitxa"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Ireki arazketa fitxa"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr "_Zoom terminala"
+msgstr "Zoom terminala"
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
-msgstr ""
+msgstr "Maximizatu terminala"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "Leheneratu terminal guztiak"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Taldekatzea"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Erakutsi scrollbar-a"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr "_Preferentziak"
+msgstr "Hobespenak"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
@@ -430,15 +436,15 @@ msgstr "Kodeketak"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr ""
+msgstr "Lehenetsia"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr ""
+msgstr "Erabiltzaileak definitua"
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
-msgstr "Beste kodeketen"
+msgstr "Beste kodeketak"
 
 #: ../terminatorlib/terminal.py:366
 msgid "New group..."
@@ -451,60 +457,60 @@ msgstr "Ezer ez"
 #: ../terminatorlib/terminal.py:387
 #, python-format
 msgid "Remove group %s"
-msgstr "Kendu talde %s"
+msgstr "Ezabatu taldea %s"
 
 #: ../terminatorlib/terminal.py:392
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "Taldekatu denak fitxa batean"
 
 #: ../terminatorlib/terminal.py:397
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Destaldekatu denak fitxa batean"
 
 #: ../terminatorlib/terminal.py:402
 msgid "Remove all groups"
-msgstr "Kendu talde guztiak"
+msgstr "Ezabatu talde guztiak"
 
 #: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Close group %s"
-msgstr "Itxi talde %s"
+msgstr "Itxi taldea %s"
 
 #: ../terminatorlib/terminal.py:418
 msgid "Broadcast all"
-msgstr "Dena bidalpen"
+msgstr "Denei bidali"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Broadcast group"
-msgstr "Talde bidalpen"
+msgstr "Taldeari bidali"
 
 #: ../terminatorlib/terminal.py:420
 msgid "Broadcast off"
-msgstr "Itzali bidalpen"
+msgstr "Itzali igorpenak"
 
 #: ../terminatorlib/terminal.py:433
 msgid "Split to this group"
-msgstr "Banatu talde honetan"
+msgstr "Banatu talde honetara"
 
 #: ../terminatorlib/terminal.py:438
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Garbitu taldeak automatikoki"
 
 #: ../terminatorlib/terminal.py:445
 msgid "Insert terminal number"
-msgstr "Sartu terminala zenbakia"
+msgstr "Idatzi terminal zenbakia"
 
 #: ../terminatorlib/terminal.py:449
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Idatzi marjinatik aldendutako terminalaren zenbakia"
 
 #: ../terminatorlib/terminal.py:1158
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "Ezinezkoa terminal bat topatzea"
 
 #: ../terminatorlib/terminal.py:1175
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Ezinezkoa terminal bat abiaratzea:"
 
 #: ../terminatorlib/window.py:224
 msgid "window"
@@ -513,12 +519,12 @@ msgstr "leihoa"
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:545
 msgid "All"
-msgstr "Guztia"
+msgstr "Denak"
 
 #: ../terminatorlib/window.py:566
 #, python-format
 msgid "Tab %d"
-msgstr "Tab %d"
+msgstr "Fitxa %d"
 
 #~ msgid "_Copy Email Address"
 #~ msgstr "_Kopiatu helbide elektronikoa"
