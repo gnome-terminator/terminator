@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-15 12:44+0100\n"
-"PO-Revision-Date: 2011-05-10 14:27+0000\n"
-"Last-Translator: boracasli <Unknown>\n"
+"PO-Revision-Date: 2011-08-04 21:11+0000\n"
+"Last-Translator: wariua <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-05 04:30+0000\n"
+"X-Generator: Launchpad (build 13604)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -198,73 +198,73 @@ msgstr "탭 닫기"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr "프로그램 버전"
+msgstr "프로그램 버전을 표시합니다"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr "창 최대화"
+msgstr "창을 최대화합니다."
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr "윈도우가 화면을 채우기 만들기"
+msgstr "창으로 화면을 채웁니다"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr "창테두리 비활성화"
+msgstr "창테두리를 감춥니다"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr "시작시 윈도우 보이지 않기"
+msgstr "시작시 창을 감춥니다"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr "윈도우 타이틀 보이기"
+msgstr "창 제목을 지정합니다"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
-msgstr "집합의 크기와 위치를 선호하는 창의 (X man 페이지 참조)"
+msgstr "원하는 창의 크기와 위치를 설정합니다 (X 매뉴얼 페이지 참조)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr "지정 명령을 터미널에서 실행"
+msgstr "터미널 안에서 실행할 명령을 지정합니다"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
-msgstr "터미널에서 실행하는 명령으로 커맨드 라인의 나머지 부분과 그 인수를 사용하여"
+msgstr "명령행의 나머지 부분을 터미널 안에서 실행할 명령 및 인자로 사용합니다"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr "작업폴더 설정"
+msgstr "현재 디렉터리를 설정합니다"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "창문에 설정 사용자 지정 WM_WINDOW_ROLE 속성"
+msgstr "창의 WM_WINDOW_ROLE 속성을 설정합니다"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr "레이아웃 선택"
+msgstr "레이아웃을 선택합니다"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr "다른 프로파일 사용"
+msgstr "기본으로 다른 프로파일을 사용합니다"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr "DBus 비활성화"
+msgstr "DBus를 비활성화 합니다"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr "(두 서버를 디버그에 대한) 정보를 디버깅 활성화"
+msgstr "정보를 디버깅 활성화 합니다 (디버그 서버를 위해선 두 번 지정)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "클래스의 쉼표로 구분된 목록에 디버깅 제한"
+msgstr "디버깅을 제한할 클래스들의 쉼표 구분 목록"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "방법의 쉼표로 구분된 목록에 디버깅 제한"
+msgstr "디버깅을 제한할 메소드들의 쉼표 구분 목록"
 
 #: ../terminatorlib/plugins/activitywatch.py:21
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -519,139 +519,3 @@ msgstr "전체"
 #, python-format
 msgid "Tab %d"
 msgstr "탭 %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "메일 주소 복사(_C)"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "메일 보내기(_S)..."
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr "libvte의 파이썬 바인딩(데비안/우분투에서는 \"python-vte\")을 설치해야 합니다."
-
-#~ msgid "_Open Link"
-#~ msgstr "링크 열기(_O)"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "링크 주소 복사(_C)"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "끝나지 않은 문자열"
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr "%s 항목은 불리언이므로 yes, no, true, false, on, off 중 하나여야 함"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr "터미네이터를 실행하기 위해선 gobject, gtk, pango의 파이썬 바인딩을 설치해야 합니다."
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr "터미네이터는 X 환경에서 실행해야 합니다. DISPLAY 변수가 올바로 설정돼 있는지 확인해 주십시오."
-
-#~ msgid "Setting without a value"
-#~ msgstr "설정값 없음"
-
-#~ msgid "Unexpected token"
-#~ msgstr "알 수 없는 추가 문자열"
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "최상위 탭 열기"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "확대 취소(_U)"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "셸을 시작할 수 없음: "
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "%s 항목은 top, left, right, bottom 중 하나여야 함"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>설정 오류</b></big>\n"
-#~ "\n"
-#~ "terminator_config(5) 파일을 파싱하는 중 오류가 발생했습니다:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d행을 무시하였습니다."
-
-#~ msgid "Configuration error"
-#~ msgstr "설정 오류"
-
-#~ msgid ""
-#~ "Reading list values from terminator_config(5) is not currently supported"
-#~ msgstr "terminator_config(5)에서 목록값을 읽는 기능은 아직 지원하지 않음"
-
-#~ msgid "Show _titlebar"
-#~ msgstr "제목 막대 표시(_T)"
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "최대화 취소(_X)"
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "설정 %r 항목은 섹션 이름이어야 함"
-
-#, python-format
-#~ msgid "Setting %r value %r not a valid colour; ignoring"
-#~ msgstr "%r 항목의 %r 값은 올바른 색상이 아니므로 무시"
-
-#, python-format
-#~ msgid "Invalid geometry string %r"
-#~ msgstr "잘못된 위치 문자열 %r"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "키보드 바로 가기"
-
-#~ msgid "Action"
-#~ msgstr "동작"
-
-#~ msgid "Name"
-#~ msgstr "이름"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "프로파일 편집(_I)"
-
-#~ msgid "Group name:"
-#~ msgstr "그룹 이름:"
-
-#~ msgid "_New group"
-#~ msgstr "새 그룹(_N)"
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open.  Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr "이 %s에는 여러 개의 터미널이 열려 있습니다. %s을 닫으면 그 안의 모든 터미널이 닫힙니다."
-
-#~ msgid "_Group all"
-#~ msgstr "모두 그룹으로 묶기(_G)"
-
-#~ msgid "_Group"
-#~ msgstr "그룹(_G)"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "모두 그룹 해제하기(_U)"
-
-#~ msgid ""
-#~ "Unable to find python bindings for deskbar, hide_window is not available."
-#~ msgstr "deskbar 파이썬 바인딩을 찾을 수 없습니다. hide_window를 사용할 수 없습니다."
-
-#~ msgid "Unable to bind hide_window key"
-#~ msgstr "hide_window 키를 연결할 수 없음"
