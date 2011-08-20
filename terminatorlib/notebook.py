@@ -105,6 +105,7 @@ class Notebook(Container, gtk.Notebook):
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
+        dbg('called for widget: %s' % widget)
         order = None
         page_num = self.page_num(widget)
         if page_num == -1:
@@ -143,6 +144,7 @@ class Notebook(Container, gtk.Notebook):
 
     def add(self, widget):
         """Add a widget to the container"""
+        dbg('adding a new tab')
         self.newtab(widget=widget)
 
     def remove(self, widget):
@@ -172,6 +174,7 @@ class Notebook(Container, gtk.Notebook):
 
     def newtab(self, debugtab=False, widget=None, cwd=None):
         """Add a new tab, optionally supplying a child widget"""
+        dbg('making a new tab')
         maker = Factory()
         top_window = self.get_toplevel()
 

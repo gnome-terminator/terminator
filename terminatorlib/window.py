@@ -228,6 +228,7 @@ class Window(Container, gtk.Window):
             cwd = widget.get_cwd()
         maker = Factory()
         if not self.is_child_notebook():
+            dbg('Making a new Notebook')
             notebook = maker.make('Notebook', window=self)
         self.get_child().newtab(debugtab, cwd=cwd)
 
@@ -770,6 +771,10 @@ class Window(Container, gtk.Window):
             self.split_axis(terminal, False)
         elif child['type'] == 'Notebook':
             self.tab_new()
+            i = 2
+            while i < len(child['children']):
+                self.tab_new()
+                i = i + 1
         elif child['type'] == 'Terminal':
             pass
         else:
