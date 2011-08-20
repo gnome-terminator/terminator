@@ -1,5 +1,6 @@
 terminator 0.96:
   * Unity support for opening new windows (Lucian Adrian Grijincu)
+	* Fix searching with infinite scrollback (Julien Thewys #755077)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
