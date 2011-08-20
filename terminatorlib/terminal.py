@@ -305,7 +305,11 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         srcvtetargets = [("vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE)]
         dsttargets = [("vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE), 
-                ('text/plain', 0, 0), ('STRING', 0, 0), ('COMPOUND_TEXT', 0, 0)]
+                      ('text/x-moz-url', 0, 0), 
+                      ('_NETSCAPE_URL', 0, 0)]
+        dsttargets = gtk.target_list_add_text_targets(dsttargets)
+        dsttargets = gtk.target_list_add_uri_targets(dsttargets)
+        dbg('Finalised drag targets: %s' % dsttargets)
 
         for (widget, mask) in [
             (self.vte, gtk.gdk.CONTROL_MASK | gtk.gdk.BUTTON3_MASK), 
@@ -314,7 +318,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
         self.vte.drag_dest_set(gtk.DEST_DEFAULT_MOTION |
                 gtk.DEST_DEFAULT_HIGHLIGHT | gtk.DEST_DEFAULT_DROP,
-                dsttargets, gtk.gdk.ACTION_MOVE)
+                dsttargets, gtk.gdk.ACTION_COPY | gtk.gdk.ACTION_MOVE)
 
         for widget in [self.vte, self.titlebar]:
             widget.connect('drag-begin', self.on_drag_begin, self)
@@ -831,7 +835,8 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
-        if 'text/plain' in drag_context.targets:
+        if gtk.targets_include_text(drag_context.targets) or \
+           gtk.targets_include_uri(drag_context.targets):
             # copy text from another widget
             return
         srcwidget = drag_context.get_source_widget()
@@ -900,7 +905,9 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             _info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
-        if selection_data.type == 'text/plain':
+        dbg('drag data received of type: %s' % selection_data.type)
+        if gtk.targets_include_text(drag_context.targets) or \
+           gtk.targets_include_uri(drag_context.targets):
             # copy text to destination
             txt = selection_data.data.strip()
             if txt[0:7] == 'file://':
