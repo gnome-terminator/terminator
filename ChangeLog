@@ -3,6 +3,8 @@ terminator 0.96:
 	* Fix searching with infinite scrollback (Julien Thewys #755077)
 	* Fix searching on Ubuntu 10.10 and 11.04, and implement searching
 	  by regular expression (Roberto Aguilar #709018)
+  * Optimise various low level components so they are dramatically
+	  faster (Stephen Boddy)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server

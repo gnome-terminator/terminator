@@ -7,7 +7,7 @@ variants"""
 import gobject
 import gtk
 
-from util import dbg, err, get_top_window
+from util import dbg, err
 from terminator import Terminator
 from factory import Factory
 from container import Container
@@ -86,7 +86,7 @@ class Paned(Container):
             raise ValueError('Paned widgets can only have two children')
 
         if maker.isinstance(widget, 'Terminal'):
-            top_window = get_top_window(self)
+            top_window = self.get_toplevel()
             signals = {'close-term': self.wrapcloseterm,
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
