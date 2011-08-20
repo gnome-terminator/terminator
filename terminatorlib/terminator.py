@@ -10,7 +10,7 @@ import gtk
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
-from util import dbg, err
+from util import dbg, err, enumerate_descendants
 from factory import Factory
 from cwd import get_pid_cwd
 from version import APP_NAME, APP_VERSION
@@ -50,7 +50,7 @@ class Terminator(Borg):
             self.terminals = []
         if not self.groups:
             self.groups = []
-        if not self.groupsend:
+        if self.groupsend == None:
             self.groupsend = self.groupsend_type['group']
         if not self.config:
             self.config = Config()
@@ -322,8 +322,13 @@ class Terminator(Borg):
         else:
             numstr = '%d'
 
+        terminals = []
+        for window in self.windows:
+            containers, win_terminals = enumerate_descendants(window)
+            terminals.extend(win_terminals)
+
         for term in self.get_target_terms(widget):
-            idx = self.terminals.index(term)
+            idx = terminals.index(term)
             term.feed(numstr % (idx + 1))
 
     def get_target_terms(self, widget):

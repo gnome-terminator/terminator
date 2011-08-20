@@ -5,6 +5,7 @@ terminator 0.96:
 	  by regular expression (Roberto Aguilar #709018)
   * Optimise various low level components so they are dramatically
 	  faster (Stephen Boddy)
+  * Fix various bugs (Stephen Boddy)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
