@@ -6,6 +6,7 @@ terminator 0.96:
   * Optimise various low level components so they are dramatically
 	  faster (Stephen Boddy)
   * Fix various bugs (Stephen Boddy)
+	* Fix cursor colours (#700969) and a cursor blink issue (Tony Baker)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
