@@ -65,6 +65,10 @@ class ActivityWatch(plugin.MenuItem):
         """Notify that a terminal did something"""
         show_notify = False
 
+        # Don't notify if the user is already looking at this terminal.
+        if terminal.vte.flags() & gtk.HAS_FOCUS:
+            return True
+
         note = pynotify.Notification('Terminator', 'Activity in: %s' % 
                                   terminal.get_window_title(), 'terminator')
 
@@ -80,7 +84,7 @@ class ActivityWatch(plugin.MenuItem):
             note.show()
             self.last_notifies[terminal] = this_time
 
-        return(True)
+        return True
 
 class InactivityWatch(plugin.MenuItem):
     """Add custom commands to notify when a terminal goes inactive"""
