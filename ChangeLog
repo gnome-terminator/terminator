@@ -4,9 +4,18 @@ terminator 0.96:
   * Fix searching on Ubuntu 10.10 and 11.04, and implement searching
     by regular expression (Roberto Aguilar #709018)
   * Optimise various low level components so they are dramatically
-	  faster (Stephen Boddy)
+    faster (Stephen Boddy)
   * Fix various bugs (Stephen Boddy)
   * Fix cursor colours (#700969) and a cursor blink issue (Tony Baker)
+  * Improve and extend drag&drop support to include more sources of
+    text, e.g. Gtk file chooser path buttons (#643425)
+  * Add a plugin to watch a terminal for inactvity (i.e. silence)
+  * Fix loading layouts with more than two tabs (#646826)
+  * Fix order of tabs created from saved layouts (#615930)
+  * Add configuration to remove terminal dimensions from titlebars
+    (patch from João Pinto #691213)
+  * Restore split positions more accurately (patch from Glenn Moss 
+    #797953)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
