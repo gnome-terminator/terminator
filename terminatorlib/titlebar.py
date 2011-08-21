@@ -98,7 +98,10 @@ class Titlebar(gtk.EventBox):
     def update(self, other=None):
         """Update our contents"""
         default_bg = False
-        self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+        if self.config['title_hide_sizetext']:
+            self.label.set_text("%s" % self.termtext)
+        else:
+            self.label.set_text("%s %s" % (self.termtext, self.sizetext))
 
         if other:
             term = self.terminal

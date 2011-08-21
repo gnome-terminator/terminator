@@ -298,7 +298,7 @@
                     <child>
                       <object class="GtkTable" id="global_config_table">
                         <property name="visible">True</property>
-                        <property name="n_rows">11</property>
+                        <property name="n_rows">12</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">6</property>
                         <child>
@@ -634,6 +634,37 @@
                             <property name="top_attach">6</property>
                             <property name="bottom_attach">7</property>
                             <property name="x_options">GTK_EXPAND</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label29">
+                            <property name="visible">True</property>
+                            <property name="xalign">0.50999999046325684</property>
+                            <property name="label" translatable="yes">Hide  size from title</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
+                            <property name="x_options"></property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="title_hide_sizetextcheck">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_title_hide_sizetextcheck_toggled"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
+                            <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
                         </child>
