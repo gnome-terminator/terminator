@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2011-03-18 07:17+0000\n"
 "Last-Translator: UaHummer <uahummer@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-21 04:31+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,11 +190,11 @@ msgstr "В'єтнамська"
 msgid "Thai"
 msgstr "Тайська"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "вкладка"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Закрити вкладку"
 
@@ -272,17 +272,25 @@ msgstr "Розділений комами список класів для об�
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Розділений комами список методів обмеження для налагодження"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr "Модуль ActivityWatch недоступний: встановіть пакунок python-notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Спостерігати за активністю"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Зупинити спостереження за активністю"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -323,42 +331,42 @@ msgstr "Ім'я *%s* вже існує"
 msgid "Terminal screenshot"
 msgstr "Знімок екрана терміналу"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Новий профіль"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Поточна локаль"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Знайти:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Закрити панель пошуку"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Наступне"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Попередн."
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "Пошук скролінгом"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Більше результатів немає"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Знайдено у рядку"
 
@@ -446,230 +454,82 @@ msgstr "Визначене користувачем"
 msgid "Other Encodings"
 msgstr "Інше кодування"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Нова група..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Немає"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Видалити групу %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "З_групувати все на вкладці"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Розг_рупувати все на вкладці"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Видалити усі групи"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Закрити групу %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Транслювати все"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Транслювати групу"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Виключити транслювання"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Роздільник на цю групу"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Автоматична чистка груп"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Введіть номер терміналу"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Вставити консольне число з цифрової клавіатури"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Не вдалося знайти командну оболонку"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Неможливо запустити оболонку"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "вікно"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Усе"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Вкладка %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Копіювати адресу ел.пошти"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Надіслати ел.пошту..."
-
-#~ msgid "Show _titlebar"
-#~ msgstr "Відображати заголовок"
-
-#~ msgid "_Open Link"
-#~ msgstr "_Відкрити посилання"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Копіювати адресу посилання"
-
-#, python-format
-#~ msgid "Setting %r value %r not a valid colour; ignoring"
-#~ msgstr "Встановлення %r значення %r неможливе; ігнорується"
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "%s має бути одним з: зверху, ліворуч, праворуч, знизу"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>Помилка конфігурації</b></big>\n"
-#~ "\n"
-#~ "Під час обробки файлу terminator_config(5) трапилася помилка:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d рядок(ів) було пропущено."
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Вам необхідно встановити прив'язки python до gobject, gtk  та pango для "
-#~ "того, щоб запустити Terminator."
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr ""
-#~ "Terminator необхідно запускати у середовищі X. Перевірте, чи змінна DISPLAY "
-#~ "встановлена правильно."
-
-#~ msgid "Configuration error"
-#~ msgstr "Помилка конфігурації"
-
-#~ msgid "Unexpected token"
-#~ msgstr "Неочікувана лексема"
-
-#~ msgid "Setting without a value"
-#~ msgstr "Параметр без значення"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "Незавершений текст у лапках"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "Комбінація клавіш"
-
-#~ msgid ""
-#~ "Reading list values from terminator_config(5) is not currently supported"
-#~ msgstr ""
-#~ "Читання параметрів-списків з terminator_config(5) наразі не підтримується"
-
-#~ msgid "Name"
-#~ msgstr "Ім'я"
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "Параметр %r має бути назвою розділу"
-
-#~ msgid "Action"
-#~ msgstr "Дія"
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open.  Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr ""
-#~ "%s має декілька відкритих терміналів.  Закриття %s також закриє всі "
-#~ "термінали в ньому."
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "Відкрити вкладку верхнього рівня"
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr ""
-#~ "Логічний параметр %s повинен мати одне з наступних значень: yes, no, true, "
-#~ "false, on, off"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "Не вдалося запустити командну оболонку: "
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "Необхідно встановити прив'язки python для libvte (\"python-vte\" в "
-#~ "debian/ubuntu)"
-
-#~ msgid ""
-#~ "Unable to find python bindings for deskbar, hide_window is not available."
-#~ msgstr ""
-#~ "Не вдалось знайти прив'язку deskbar до мови python, hide_window не доступний."
-
-#~ msgid "Unable to bind hide_window key"
-#~ msgstr "Не вдалось назначити клавішу для hide_window"
-
-#, python-format
-#~ msgid "Invalid geometry string %r"
-#~ msgstr "Неправильний рядок геометрії %r"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "Віддал_ити термінал"
-
-#~ msgid "Group name:"
-#~ msgstr "Назва групи:"
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "Повернути термінал"
-
-#~ msgid "_New group"
-#~ msgstr "Нова группа"
-
-#~ msgid "_Group all"
-#~ msgstr "З_групувати усе"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "Редагувати профіль"
-
-#~ msgid "_Group"
-#~ msgstr "З_групувати"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "_Розгрупувати усе"

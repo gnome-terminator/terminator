@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2011-05-10 15:42+0000\n"
 "Last-Translator: boracasli <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:34+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-21 04:30+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -189,11 +189,11 @@ msgstr "فيتنامي"
 msgid "Thai"
 msgstr "تايلندي"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "تبويب"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "إغلاق تبويب"
 
@@ -267,17 +267,25 @@ msgstr ""
 msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "المراقبة النشاط"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "إيقاف المراقبة للنشاط"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -318,42 +326,42 @@ msgstr "الاسم *%s* موجود"
 msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "ملف شخصي جديد"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "مظهر جديد"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "إبحث:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "إغلاق شريط البحث"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "التالي"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "السابق"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr ""
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "لا مزيد من النتائج"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "موجود في صف"
 
@@ -441,170 +449,82 @@ msgstr "المستخدم معرّف"
 msgid "Other Encodings"
 msgstr "ترميزات اخرى"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "مجموعة جديدة..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "لاشيء"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "حذف المجموعة %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "تجمي_ع كل التبويبات"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "تفري_ق كل التبويبات"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "حذف كل المجموعات"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "إغلاق المجموعة %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "إذاعة الجميع"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "إذاعة المجموعة"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "إغلاق الإذاعة"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "تقسيم على هذه المجموعة"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "إدراج رقم منفذ"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "تعثر العثور على قشرة"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "نافذة"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "الجميع"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "تبويب %d"
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "يجب عليك تثبيت حزمات python لـlibvte (\"python-vte\" في debian/ubuntu)"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "ا_نسخ عنوان البريد الإلكتروني"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "أر_سل رسالة إلى..."
-
-#~ msgid "_Open Link"
-#~ msgstr "ا_فتح الوصلة"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "ا_نسخ عنوان الوصلة"
-
-#~ msgid "Configuration error"
-#~ msgstr "خطأ في الإعدادات"
-
-#~ msgid "Setting without a value"
-#~ msgstr "من دون تحديد قيمة"
-
-#~ msgid "Action"
-#~ msgstr "إجراء"
-
-#~ msgid "Name"
-#~ msgstr "اسم"
-
-#~ msgid "Group name:"
-#~ msgstr "اسم المجموعة:"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>خطأ في الإعدادات</b></big>\n"
-#~ "تمت مصادفة أخطاء أثناء تحليل الملف terminator_config(5) :\n"
-#~ "\n"
-#~ "  <b>%s</b>  \n"
-#~ "\n"
-#~ "%d سطر قد تم تجاهلها."
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr "انت تحتاج إلى تشغيل terminator في بيئة X.تأكد من إعدادات العرض."
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "إختصار لوحة المفاتيح"
-
-#~ msgid ""
-#~ "Unable to find python bindings for deskbar, hide_window is not available."
-#~ msgstr ""
-#~ "تعذر العثور على إرتباطات python في سطح المكتب,اختيار إخفاء سطح المكتب غير "
-#~ "مفعل."
-
-#~ msgid "_New group"
-#~ msgstr "_مجموعة جديدة"
-
-#~ msgid "_Group all"
-#~ msgstr "_تجميع الكل"
-
-#~ msgid "_Group"
-#~ msgstr "_مجموعة"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "تحر_ير ملف تعريف"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "_تفريق الكل"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "تحتاد إلى تثبيت ارتباطات python<gtk و pango كي تستطيع تشغيل Terminator."
-
-#~ msgid "Show _titlebar"
-#~ msgstr "إظهار_شريط أدوات"

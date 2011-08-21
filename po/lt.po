@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2010-10-20 22:59+0000\n"
 "Last-Translator: Darius Kulikauskas <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-21 04:31+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -191,11 +191,11 @@ msgstr "Vietnamiečių"
 msgid "Thai"
 msgstr "Tajų"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "kortelė"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Užverti kortelę"
 
@@ -271,17 +271,25 @@ msgstr "Kableliu atskirtas klasių, apribotų derinimui, sąrašas"
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Kableliu atskirtas metodų, apribotų derinimui, sąrašas"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr "ActivityWatch įskiepis negalimas: prašome įdiegti python-notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Stebėti aktyvumą"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Sustabdyti aktyvumo stebėjimą"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -322,42 +330,42 @@ msgstr "Pavadinimas *%s* jau egzistuoja"
 msgid "Terminal screenshot"
 msgstr "Terminalo ekrano nuotrauka"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Naujas profilis"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Naujas išdėstymas"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Ieškoti:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Užverti paieškos juostą"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Kitas"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Ankstesnis"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "Ieškojimo atgalinis slinkimas"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Nėra daugiau rezultatų"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Rasta eilutėje"
 
@@ -445,99 +453,82 @@ msgstr "Naudotojo nustatyta"
 msgid "Other Encodings"
 msgstr "Kitos koduotės"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Nauja grupė..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Nėra"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Šalinti grupę %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "G_rupuoti visus kortelėje"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Negr_upuoti visų kortelėje"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Pašalinti visas grupes"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Uždaryti grupę %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Transliuoti visiems"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Transliuoti grupei"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Transliavimas išjungtas"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Išskaidyti į šią grupę"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Automatiškai valyti grupes"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Įterpti terminalo numerį"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Įterpti dengtą terminalo numerį"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Nepavyksta rasti komandų interpretatoriaus"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Nepavyksta paleisti komandų interpretatoriaus:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "langas"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Visi"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Kortelė %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Kopijuoti el. pašto adresą"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Siųsti laišką į..."
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr "Turite įdiegti Python modulį libvte (\"python-vte\" debian/ubuntu)"
-
-#~ msgid "_Open Link"
-#~ msgstr "_Atverti nuorodą"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Kopijuoti nuorodos adresą"

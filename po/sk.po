@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2010-12-06 01:53+0000\n"
 "Last-Translator: Stano Kobella <Stano110@azet.sk>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-21 04:31+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,11 +190,11 @@ msgstr "vietnamské"
 msgid "Thai"
 msgstr "thajské"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "záložka"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Zatvoriť záložku"
 
@@ -272,19 +272,27 @@ msgstr "Zoznam tried oddelených čiarkami pre obmedzenie odchrobáčkovania na"
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Zoznam metód oddelených čiarkami pre obmedzenie odchrobáčkovania na"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 "Nedostupný plugin sledovania aktivít ActivityWatch: prosím nainštaluj python-"
 "notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Sledovať aktivity"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Zastaviť sledovanie aktivity"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -325,42 +333,42 @@ msgstr "Meno *%s* už existuje"
 msgid "Terminal screenshot"
 msgstr "Snímka terminálu"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Nový profil"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Nový rozmiestnenie"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Hľadať:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Zavrieť vyhľadávací panel"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Ďalej"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Predošlé"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "Prehľadáva sa naspäť"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Žiadne ďalšie výsledky"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Nájdené v riadku"
 
@@ -448,227 +456,82 @@ msgstr "Definované užívateľom"
 msgid "Other Encodings"
 msgstr "Iné kódovania"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Nová skupina..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Žiadna"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Odobrať skupinu %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "Zoskupiť všetko na karte"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Rozskupiť všetko na karte"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Odobrať všetky skupiny"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Zatvoriť skupinu %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Vysielať všetko"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Vysielacia skupina"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Vysielanie vypnuté"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Rozdeliť po túto skupinu"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Automatické čistenie skupín"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Zadať číslo terminálu"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Vložiť vypchané číslo terminála"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Nepodarilo sa nájsť shell"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Nepodarilo sa spustiť shell:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "okno"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Všetky"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Karta %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Kopírovať adresu elektronickej pošty"
-
-#~ msgid "_Open Link"
-#~ msgstr "_Otvoriť odkaz"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Kopírovať adresu odkazu"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "Nepodarilo sa spustiť shell: "
-
-#~ msgid "Show _titlebar"
-#~ msgstr "Zobraziť _titulný pruh"
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "Otvoriť záložku najvyššej úrovne"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "_Oddialiť terminál"
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr ""
-#~ "Terminator musíte spúšťať v prostredí X. Uistite sa, že máte správne "
-#~ "nastavenú premennú DISPLAY."
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Poslať e-mail..."
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "Nastavenie %r má obsahovať názov sekcie"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "Neukončený citovaný reťazec"
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr ""
-#~ "pravdivostná hodnota %s musí obsahovať jednu z týchto hodnôt: yes, no, true, "
-#~ "false, on, off"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>Chyba v konfigurácii</b></big>\n"
-#~ "\n"
-#~ "Počas spracovania súboru terminator_config(5) sa vyskytli chyby:\n"
-#~ "\n"
-#~ "<b>%s</b>\n"
-#~ "\n"
-#~ "%d riadok(y) boli ignorovane"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Aby ste mohli spustiť Terminator, musíte nainštalovať väzby Pythonu na "
-#~ "gobject, gtk a pango."
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "%s musí byť jedna z nasledovných hodnôt: top, left, right, bottom"
-
-#~ msgid ""
-#~ "Reading list values from terminator_config(5) is not currently supported"
-#~ msgstr ""
-#~ "Načítanie zoznamu nastavení z terminator_config(5) nie je momentálne "
-#~ "podporované"
-
-#~ msgid "Configuration error"
-#~ msgstr "Chyba konfigurácie"
-
-#, python-format
-#~ msgid "Setting %r value %r not a valid colour; ignoring"
-#~ msgstr "Nastavenie %r hodnota %r nie je platná farba; ignoruje sa"
-
-#~ msgid "Unexpected token"
-#~ msgstr "Neočakávaný token"
-
-#~ msgid "Setting without a value"
-#~ msgstr "Nastavenie bez hodnôt"
-
-#, python-format
-#~ msgid "Invalid geometry string %r"
-#~ msgstr "Chybný reťazec geometrie %r"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "Klávesová skratka"
-
-#~ msgid "Action"
-#~ msgstr "Operácia"
-
-#~ msgid "Name"
-#~ msgstr "Názov"
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "Musíte nainštalovať väzby Pythonu na libvte („python-vte” v Debian/Ubuntu)."
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open.  Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr ""
-#~ "Tento %s má niekoľko otovorených terminálov. Zatvorením %s zatvoríte tiež v "
-#~ "ňom obsiahnuté terminály."
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "O_bnoviť terminál"
-
-#~ msgid "_New group"
-#~ msgstr "_Nová skupina"
-
-#~ msgid "_Group all"
-#~ msgstr "_Zoskupiť všetky"
-
-#~ msgid "_Group"
-#~ msgstr "_Skupina"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "Uprav_iť profil"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "_Odskupiť všetky"
-
-#~ msgid "Group name:"
-#~ msgstr "Názov skupiny:"
-
-#~ msgid ""
-#~ "Unable to find python bindings for deskbar, hide_window is not available."
-#~ msgstr ""
-#~ "Nepodarilo sa nájsť väzby Pythonu pre deskbar, hide_window nie je dostupné."

@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2011-05-10 14:31+0000\n"
 "Last-Translator: boracasli <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:34+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-21 04:30+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -192,11 +192,11 @@ msgstr "vietnamilainen"
 msgid "Thai"
 msgstr "thaimaalainen"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "sarkain"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Sulje välilehti"
 
@@ -274,17 +274,25 @@ msgstr ""
 "Pilkuilla eroteltu luettelo menetelmistä, joilla rajoitetaan virheenkorjaus "
 "ja"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr "ActivityWatch plug-in saatavilla: asenna python-notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Tarkkaile toiminta"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Lopeta tarkkailu aktiivisuuden"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -325,42 +333,42 @@ msgstr "Nimi *%s* on jo olemassa"
 msgid "Terminal screenshot"
 msgstr "Päätteen kuvakaappaus"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Uusi profiili"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Uusi pohja"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Etsi:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Sulje hakupalkki"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Seuraava"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Edellinen"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "Etsitään rivihistoriaa"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Ei enempää tuloksia"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Löytyi riviltä"
 
@@ -448,229 +456,82 @@ msgstr "Käyttäjän määrittelemä"
 msgid "Other Encodings"
 msgstr "Muut merkistöt"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Uusi ryhmä..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Ei mitään"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Poista ryhmä %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "R_yhmitä kaikki välilehdessä"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Poista ryhmittely välilehdessä"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Poista kaikki ryhmät"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Sulje ryhmä %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Lähetä kaikki"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Lähetys ryhmä"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Lähetys pois päältä"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Jaa tähän ryhmään"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Siivoa ryhmät automaattisesti"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Syötä päätteen numero"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Lisää sisennetty pääte numero"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Komentotulkkia ei löydy"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Komentotulkkia ei voitu käynnistää:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "ikkuna"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Kaikki"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Välilehti %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Kopioi sähköpostiosoite"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Lähetä sähköposti..."
-
-#~ msgid "_Open Link"
-#~ msgstr "_Avaa linkki"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Kopioi linkin osoite"
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "Sinun pitää asentaa python-liitännäiset libvte:lle (\"python-vte\" "
-#~ "Debianissa/Ubuntussa)"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Gobject, GTK ja Pango tulee olla asennettuna Terminatorin käyttämiseksi."
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr ""
-#~ "Terminatoria kuuluu käyttää X-ympäristössä. Varmista, että muuttuja DISPLAY "
-#~ "on oikein asetettu."
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "Avaa ylemmän tason välilehti"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "_Palauta pääte-näkymä"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "Komentotulkkia ei kyetä käynnistämään: "
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr ""
-#~ "Boolean-asetus %s odottaa arvoa joukosta: yes, no, true, false, on, off"
-
-#~ msgid "Setting without a value"
-#~ msgstr "Asetetaan ilman arvoa"
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "Pala_uta pääte"
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "%s täytyy olla yksi seuraavista: top, left, right, bottom"
-
-#~ msgid "Group name:"
-#~ msgstr "Ryhmän nimi:"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "Näppäinoikotie"
-
-#~ msgid "Action"
-#~ msgstr "Toiminto"
-
-#~ msgid "_Group"
-#~ msgstr "_Ryhmä"
-
-#~ msgid "_New group"
-#~ msgstr "_Uusi ryhmä"
-
-#, python-format
-#~ msgid "Invalid geometry string %r"
-#~ msgstr "Virheellinen geometria %r"
-
-#~ msgid "Name"
-#~ msgstr "Nimi"
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "Asetuksen %r pitäisi olla osion nimi"
-
-#, python-format
-#~ msgid "Setting %r value %r not a valid colour; ignoring"
-#~ msgstr "Asetuksen %r arvo %r on virheellinen väri; ei huomioida"
-
-#~ msgid "_Group all"
-#~ msgstr "_Ryhmitä kaikki"
-
-#~ msgid "Configuration error"
-#~ msgstr "Konfigurointivirhe"
-
-#~ msgid "Unexpected token"
-#~ msgstr "Odottamaton avainsana"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "Päättämätön lainaus"
-
-#~ msgid ""
-#~ "Reading list values from terminator_config(5) is not currently supported"
-#~ msgstr ""
-#~ "Listan arvojen lukemista tiedostosta terminator_config(5) ei tueta tällä "
-#~ "hetkellä"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>Konfigurointivirhe</b></big>\n"
-#~ " \n"
-#~ "terminator_config(5)-tiedostoa luettaessa löytyi virheitä:\n"
-#~ " \n"
-#~ "   <b>%s</b>\n"
-#~ " \n"
-#~ " %d rivi(ä) on jätetty huomiotta."
-
-#~ msgid ""
-#~ "Unable to find python bindings for deskbar, hide_window is not available."
-#~ msgstr ""
-#~ "Pythonin työpöytäpalkin sidontoja ei löydy, hide_window ei ole käytettävissä."
-
-#~ msgid "Unable to bind hide_window key"
-#~ msgstr "hide_window-näppäintä ei voida sitoa"
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open.  Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr ""
-#~ "Ohjelmalla %s on useita avoimia päätteitä. %s:n sulkeminen sulkee kaikki sen "
-#~ "päätteet."
-
-#~ msgid "Show _titlebar"
-#~ msgstr "Näytä _Otsikkopalkki"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "Muokkaa profiilia"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "_Pura ryhmä"
