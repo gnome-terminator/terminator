@@ -61,6 +61,17 @@ class Notebook(Container, gtk.Notebook):
 
     def create_layout(self, layout):
         """Apply layout configuration"""
+        def child_compare(a, b):
+            order_a = children[a]['order']
+            order_b = children[b]['order']
+
+            if (order_a == order_b):
+                return 0
+            if (order_a < order_b):
+                return -1
+            if (order_a > order_b):
+                return 1
+
         if not layout.has_key('children'):
             err('layout specifies no children: %s' % layout)
             return
@@ -73,13 +84,13 @@ class Notebook(Container, gtk.Notebook):
 
         num = 0
         keys = children.keys()
-        keys.sort()
+        keys.sort(child_compare)
 
         for child_key in keys:
             child = children[child_key]
             dbg('Making a child of type: %s' % child['type'])
             if child['type'] == 'Terminal':
-                continue
+                pass
             elif child['type'] == 'VPaned':
                 page = self.get_nth_page(num)
                 self.split_axis(page, True)
