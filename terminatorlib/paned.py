@@ -17,6 +17,8 @@ from container import Container
 class Paned(Container):
     """Base class for Paned Containers"""
 
+    position = None
+
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
@@ -30,13 +32,14 @@ class Paned(Container):
     # pylint: disable-msg=W0613
     def set_initial_position(self, widget, event):
         """Set the initial position of the widget"""
-        if isinstance(self, gtk.VPaned):
-            position = self.allocation.height / 2
-        else:
-            position = self.allocation.width / 2
+        if not self.position:
+            if isinstance(self, gtk.VPaned):
+                self.position = self.allocation.height / 2
+            else:
+                self.position = self.allocation.width / 2
 
-        dbg("Paned::set_initial_position: Setting position to: %d" % position)
-        self.set_position(position)
+        dbg("Paned::set_initial_position: Setting position to: %d" % self.position)
+        self.set_position(self.position)
         self.cnxids.remove_signal(self, 'expose-event')
 
     # pylint: disable-msg=W0613
@@ -248,9 +251,9 @@ class Paned(Container):
         self.get_child1().create_layout(children[keys[0]])
         self.get_child2().create_layout(children[keys[1]])
 
-        # FIXME: We need a delayed call to set_position, probably on realizing
-        # this widget, but it probably needs to start at the deepest widget and
-        # work back up. Fun.
+        # Store the position for later
+        if layout['position']:
+            self.position = int(layout['position'])
 
     def grab_focus(self):
         """We don't want focus, we want a Terminal to have it"""
