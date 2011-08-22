@@ -1,8 +1,8 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           terminator
-Version:        0.91
-Release:        3%{?dist}
+Version:        0.95
+Release:        1%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 
 Group:          User Interface/Desktops
@@ -12,7 +12,7 @@ Source0:        http://code.launchpad.net/terminator/trunk/%{version}/+download/
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
-BuildRequires:  python-devel gettext desktop-file-utils
+BuildRequires:  python-devel gettext desktop-file-utils intltool
 Requires:       vte gnome-python2-gconf GConf2 gtk2 desktop-file-utils
 
 %description
@@ -38,7 +38,7 @@ rm -rf %{buildroot}
 %find_lang %{name}
 rm -f %{buildroot}/%{_datadir}/icons/hicolor/icon-theme.cache
 rm -f %{buildroot}/%{_datadir}/applications/%{name}.desktop
-desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name}.desktop --vendor=""
+desktop-file-install --dir=${RPM_BUILD_ROOT}%{_datadir}/applications data/%{name}.desktop
 
 
 %clean
@@ -55,6 +55,7 @@ rm -rf %{buildroot}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}*.png
 %{_datadir}/icons/hicolor/*/*/%{name}*.svg
+%{_datadir}/icons/hicolor/16x16/status/terminal-bell.png
 %{_datadir}/pixmaps/%{name}.png
 
 
@@ -67,6 +68,11 @@ gtk-update-icon-cache -qf %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Aug 22 2011 Chris Jones <cmsj@tenshu.net> 0.96-1
+- Update for modern release to fix various build issues
+  by borrowing the specfile that Fedora uses
+    Note that this specfile is untested.
+
 * Wed Mar 31 2010 Chris Jones <cmsj@tenshu.net> 0.91-1
 - Update to fix some stupid release bugs in 0.90.
     Note that this specfile is untested.
