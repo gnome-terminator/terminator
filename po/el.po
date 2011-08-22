@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2011-05-10 15:38+0000\n"
 "Last-Translator: boracasli <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-22 04:30+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,11 +190,11 @@ msgstr "Βιετναμέζικα"
 msgid "Thai"
 msgstr "Ταϋλανδέζικα"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "στηλοθέτης"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Κλείσιμο καρτέλας"
 
@@ -276,18 +276,26 @@ msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
 "Διαχωρίζονται με κόμμα λίστα μεθόδους για τον περιορισμό αποσφαλμάτωσης να"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 "Πρόσθετο ActivityWatch διαθέσιμο: μπορείτε να εγκαταστήσετε python-notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Παρακολούθηση δραστηριότητας"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Παύση παρακολούθησης δραστηριότητας"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -328,42 +336,42 @@ msgstr "Το όνομα *%s* υπάρχει ήδη"
 msgid "Terminal screenshot"
 msgstr "Στιγμιότυπο οθόνης Τερματικού"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Νέο Προφίλ"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Νέα Διάταξη"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Αναζήτηση:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Κλείσιμο της μπάρας Αναζήτησης"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Επόμενο"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Προηγ"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "scrollback Αναζήτηση"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Δεν υπάρχουν άλλα αποτελέσματα"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Βρέθηκε στη σειρά"
 
@@ -451,193 +459,82 @@ msgstr "Ορισμένο από τον χρήστη"
 msgid "Other Encodings"
 msgstr "Άλλες Κωδικοποιήσεις"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Νέα ομάδα..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Κανένα"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Διαγραφή της ομάδας %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "Ομάδα όλα στην καρτέλα"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Κατάργηση ομαδοποίησης όλων στην καρτέλα"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Διαγραφή όλων των ομάδων"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Κλείσιμο της ομάδας %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Μεταδίδονται όλα"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Μεταδίδονται ομάδα"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Μεταδίδονται από"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Σπλιτ προς αυτή την ομάδα"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Αυτόματος καθαρισμός των ομάδων"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Εισάγετε τον αριθμό τερματικού"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Εισαγωγή επενδυμένη αριθμό τερματικού"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Αδυναμία εξεύρεσης περιβάλλοντος"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Αδύνατη η εκκίνηση κελύφους:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "παράθυρο"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Όλα"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Καρτέλα %d"
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "Πρέπει να εγκαταστήσετε τις ακόλουθες python συνδέσεις για το libvte "
-#~ "(\"python-vte\" στο debian/ubuntu)"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Αντιγραφή Διεύθυνσης Email"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Αποστολή Αλληλογραφίας Σε..."
-
-#~ msgid "Show _titlebar"
-#~ msgstr "Εμφάνισε _την  μπάρα τίτλων"
-
-#~ msgid "_Open Link"
-#~ msgstr "_Άνοιγμα Συνδέσμου"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Αντιγραφή Διεύθυνσης Συνδέσμου"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "_Απομάκρυνση τερματικού"
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr ""
-#~ "Πρέπει να εκτελέσετε  το terminator σε Χ περιβάλλον. Βεβαιωθείτε πως οι "
-#~ "ρυθμίσεις απεικόνισης είναι σωστές."
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "Αδυναμία έναρξης  περιβάλλοντος "
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr ""
-#~ "Η ρύθμιση %s του τελεστή αναμένει ένα από τα παρακάτω: ναι, όχι, αληθές, "
-#~ "ψευδές, ανοιχτό, κλειστό"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Πρέπει να εγκαταστήσετε τους συνδέσμους της python για το gobject, το gtk "
-#~ "και το pango για να εκτελέσετε τον Terminator."
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "Σμί_κρυνση τερματικού"
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "Άνοιγμα καρτέλας Ανώτερου Επιπέδου"
-
-#~ msgid "Configuration error"
-#~ msgstr "Σφάλμα ρυθμίσεων"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b> Σφάλμα Ρυθμίσεων </b><big>\n"
-#~ "\n"
-#~ "Σφάλματα εντοπίστηκαν κατά την μεταγλώττιση του αρχείου ρυθμίσεων "
-#~ "terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d ρυθμίσεις έχουν αγνοηθεί."
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "%s πρέπει να είναι ένα από τα: πάνω, κάτω, αριστερά, δεξιά"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "Συντόμευση πληκτρολογίου"
-
-#~ msgid "Name"
-#~ msgstr "Όνομα"
-
-#~ msgid "Action"
-#~ msgstr "Ενέργεια"
-
-#~ msgid "_Group"
-#~ msgstr "_Ομαδοποίηση"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "Επεξεργασία Προφίλ"
-
-#~ msgid "Group name:"
-#~ msgstr "Όνομα ομάδας:"
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "Η ρύθμιση %r θα έπρεπε να είναι ένα όνομα τμήματος"
-
-#~ msgid "Setting without a value"
-#~ msgstr "Ρύθμιση χωρίς τιμή"
-
-#~ msgid "_New group"
-#~ msgstr "_Νέα ομάδα"
-
-#~ msgid "_Group all"
-#~ msgstr "_Ομαδοποίηση"

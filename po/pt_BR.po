@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2011-02-27 14:23+0000\n"
 "Last-Translator: rafael2710 <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-22 04:31+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -190,11 +190,11 @@ msgstr "Vietinamita"
 msgid "Thai"
 msgstr "Tailandês"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "aba"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "Fechar Aba"
 
@@ -272,18 +272,26 @@ msgstr "Lista separada por vírgulas das classes para limitar a depuração"
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Lista separada por vírgulas dos métodos para limitar a depuração"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 "Plugin ActivityWatch não disponível: por favor instale o python-notify"
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr "Vigiar por atividade"
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
 msgstr "Parar de vigiar por atividade"
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -324,42 +332,42 @@ msgstr "Nome *%s* já existe"
 msgid "Terminal screenshot"
 msgstr "Screenshot do Terminal"
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "Novo Perfil"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "Novo Modelo"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "Pesquisar:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "Fechar Barra de Busca"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "Próximo"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "Ant"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr "Procurando scrollback"
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr "Sem mais resultados"
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr "Encontrado em linha"
 
@@ -447,223 +455,82 @@ msgstr "Definido pelo usuário"
 msgid "Other Encodings"
 msgstr "Outras Codificações"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "Novo grupo..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "Nenhum"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "Remover grupo %s"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "Ag_rupar tudo em uma aba"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "Desagr_upar em abas"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "Remover todos grupos"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "Fechar grupo %s"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr "Difundir tudo"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr "Grupo de broadcast"
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr "Broadcast Desligado"
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr "Jutar à este grupo"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "Auto-limpar grupos"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "Insira o número do terminal"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr "Insira o número de terminais acolchoados"
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "Incapaz de encontrar um shell"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "Incapaz de iniciar o shell:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr "janela"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "Todos"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "Aba %d"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "_Copiar Endereço de E-mail"
-
-#~ msgid "_Open Link"
-#~ msgstr "_Abrir Link"
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr ""
-#~ "Você precisa instalar as bibliotecas python para libvte (\"python-vte\" no "
-#~ "debian / ubuntu)"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "_Copiar Link"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Você precisa instalar Python bindings , Gobject, gtk e pando para executar o "
-#~ "Terminator"
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr ""
-#~ "Você precisará executar o terminator, em um ambiente X. Certifique-se de que "
-#~ "está devidamente estabelecido DISPLAY"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "Incapaz de iniciar o shell: "
-
-#~ msgid "Show _titlebar"
-#~ msgstr "Mostrar _bara de titulo"
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "Abrir aba no nível superior"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "_Diminuir zoom do terminal"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "Expressão citada não terminada"
-
-#, python-format
-#~ msgid "%s must be one of: top, left, right, bottom"
-#~ msgstr "% s deve ser um dos: topo, esquerda, direita, rodapé"
-
-#~ msgid "Configuration error"
-#~ msgstr "Erro de configuração"
-
-#~ msgid "Unexpected token"
-#~ msgstr "Token não esperado"
-
-#~ msgid "Setting without a value"
-#~ msgstr "Definindo sem um valor"
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "Mi_nimizar terminal"
-
-#, python-format
-#~ msgid ""
-#~ "<big><b>Configuration error</b></big>\n"
-#~ "\n"
-#~ "Errors were encountered while parsing terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d line(s) have been ignored."
-#~ msgstr ""
-#~ "<big><b>Erro de Configuração</b></big>\n"
-#~ "\n"
-#~ "Foram encontrados erros ao usar terminator_config(5) file:\n"
-#~ "\n"
-#~ "  <b>%s</b>\n"
-#~ "\n"
-#~ "%d Linha Ignorada"
-
-#~ msgid ""
-#~ "Reading list values from terminator_config(5) is not currently supported"
-#~ msgstr "Lista de valores do terminator_config(5) não é suportado"
-
-#, python-format
-#~ msgid "Setting %r value %r not a valid colour; ignoring"
-#~ msgstr "Configuração %r Valor %r Não é uma cor valida ignorando"
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr ""
-#~ "Configurações %r precisa ser um desses , yes, no, true, false, on, off"
-
-#~ msgid "_New group"
-#~ msgstr "Novo Grupo"
-
-#~ msgid "_Group all"
-#~ msgstr "Todos os grupos"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "_Ungroup all"
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open.  Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr ""
-#~ "Este %s tem vários terminais abertos. Fechar o %s também irá fechar todos os "
-#~ "terminais dele."
-
-#, python-format
-#~ msgid "Invalid geometry string %r"
-#~ msgstr "String de geometria inválida: %r"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "Atalho de teclado"
-
-#~ msgid "Action"
-#~ msgstr "Ação"
-
-#~ msgid "Name"
-#~ msgstr "Nome"
-
-#~ msgid "Group name:"
-#~ msgstr "Nome do grupo:"
-
-#~ msgid "_Group"
-#~ msgstr "_Grupo"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "Ed_itar perfil"
-
-#, python-format
-#~ msgid "Setting %r should be a section name"
-#~ msgstr "A opção %r deveria ser um nome de seção"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "_Enviar por e-mail para..."
-
-#~ msgid "Unable to bind hide_window key"
-#~ msgstr "Incapaz de vincular hide_windows a uma chave"

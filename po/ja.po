@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-10-15 12:44+0100\n"
+"POT-Creation-Date: 2011-08-21 01:31+0100\n"
 "PO-Revision-Date: 2010-12-19 04:17+0000\n"
 "Last-Translator: IMAI Kazuki <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-19 04:35+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-08-22 04:30+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -188,11 +188,11 @@ msgstr "ベトナム語"
 msgid "Thai"
 msgstr "タイ語"
 
-#: ../terminatorlib/notebook.py:264
+#: ../terminatorlib/notebook.py:278
 msgid "tab"
 msgstr "タブ"
 
-#: ../terminatorlib/notebook.py:425
+#: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
 msgstr "タブを閉じる"
 
@@ -266,16 +266,24 @@ msgstr "デバッグ対象のクラスをカンマで区切って指定"
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "デバッグ対象のメソッドをカンマで区切って指定"
 
-#: ../terminatorlib/plugins/activitywatch.py:21
+#: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:41
+#: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:44
+#: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:106
+msgid "Watch for silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:109
+msgid "Stop watching for silence"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
@@ -317,42 +325,42 @@ msgstr "*%s*は既に存在しています。"
 msgid "Terminal screenshot"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:902 ../terminatorlib/prefseditor.py:907
+#: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
 msgstr "新しいプロファイル"
 
-#: ../terminatorlib/prefseditor.py:947 ../terminatorlib/prefseditor.py:952
+#: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
 msgstr "新しいレイアウト"
 
 #. Label
-#: ../terminatorlib/searchbar.py:48
+#: ../terminatorlib/searchbar.py:50
 msgid "Search:"
 msgstr "検索:"
 
-#: ../terminatorlib/searchbar.py:64
+#: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
 msgstr "検索バーを閉じる"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:69
+#: ../terminatorlib/searchbar.py:71
 msgid "Next"
 msgstr "次へ"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:75
+#: ../terminatorlib/searchbar.py:77
 msgid "Prev"
 msgstr "前へ"
 
-#: ../terminatorlib/searchbar.py:121
+#: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
 msgstr ""
 
-#: ../terminatorlib/searchbar.py:132 ../terminatorlib/searchbar.py:153
+#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
 msgstr ""
 
-#: ../terminatorlib/searchbar.py:168
+#: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
 msgstr ""
 
@@ -440,165 +448,82 @@ msgstr ""
 msgid "Other Encodings"
 msgstr "その他のエンコーディング"
 
-#: ../terminatorlib/terminal.py:366
+#: ../terminatorlib/terminal.py:372
 msgid "New group..."
 msgstr "新しいグループ..."
 
-#: ../terminatorlib/terminal.py:371
+#: ../terminatorlib/terminal.py:377
 msgid "None"
 msgstr "なし"
 
-#: ../terminatorlib/terminal.py:387
+#: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
 msgstr "グループ%sを解除"
 
-#: ../terminatorlib/terminal.py:392
+#: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
 msgstr "全てのタブをグループ化(_r)"
 
-#: ../terminatorlib/terminal.py:397
+#: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
 msgstr "このタブの全てのグループ化を解除(_o)"
 
-#: ../terminatorlib/terminal.py:402
+#: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
 msgstr "全てのグループ化を解除"
 
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
 msgstr "グループ%sを閉じる"
 
-#: ../terminatorlib/terminal.py:418
+#: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:420
+#: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:433
+#: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
 msgstr "使われていないグループを削除"
 
-#: ../terminatorlib/terminal.py:445
+#: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
 msgstr "端末番号を挿入"
 
-#: ../terminatorlib/terminal.py:449
+#: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1158
+#: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
 msgstr "シェルが見つかりません"
 
-#: ../terminatorlib/terminal.py:1175
+#: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
 msgstr "シェルを起動できません:"
 
-#: ../terminatorlib/window.py:224
+#: ../terminatorlib/window.py:242
 msgid "window"
 msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:545
+#: ../terminatorlib/window.py:612
 msgid "All"
 msgstr "全て"
 
-#: ../terminatorlib/window.py:566
+#: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
 msgstr "タブ%d"
-
-#~ msgid "_Open Link"
-#~ msgstr "リンクを開く(_O)"
-
-#~ msgid "_Copy Link Address"
-#~ msgstr "リンク先のコピー(_C)"
-
-#~ msgid "_Copy Email Address"
-#~ msgstr "メールアドレスのコピー(_C)"
-
-#~ msgid "_Send Mail To..."
-#~ msgstr "メールを送信する(_S)..."
-
-#~ msgid ""
-#~ "You need to install python bindings for libvte (\"python-vte\" in "
-#~ "debian/ubuntu)"
-#~ msgstr "libvteをバインドするpythonのインストールが必要です (debian/ubuntuでは\"python-vte\" )"
-
-#~ msgid ""
-#~ "You need to run terminator in an X environment. Make sure DISPLAY is "
-#~ "properly set"
-#~ msgstr "TerminatorはX環境で実行して下さい。DISPLAYに適切な値が入っている事を確認して下さい。"
-
-#~ msgid "Open Top Level Tab"
-#~ msgstr "最上位タブを開く"
-
-#~ msgid "Show _titlebar"
-#~ msgstr "タイトルバーを表示(_T)"
-
-#~ msgid ""
-#~ "You need to install the python bindings for gobject, gtk and pango to run "
-#~ "Terminator."
-#~ msgstr ""
-#~ "Terminatorを実行するには、goject, gtk, pango のためのpythonバインディングをインストールする必要があります。"
-
-#~ msgid "Unable to start shell: "
-#~ msgstr "シェルを起動できません: "
-
-#, python-format
-#~ msgid "Boolean setting %s expecting one of: yes, no, true, false, on, off"
-#~ msgstr "ブール型の設定 %s は次の中からのみ指定できます: yes, no, true, false, on, off"
-
-#~ msgid "_Unzoom terminal"
-#~ msgstr "端末のズーム解除(_U)"
-
-#~ msgid "Unma_ximise terminal"
-#~ msgstr "端末の最大化解除(_X)"
-
-#~ msgid "Ed_it profile"
-#~ msgstr "プロファイルの編集(_I)"
-
-#~ msgid "_Group"
-#~ msgstr "グループ(_G)"
-
-#~ msgid "_New group"
-#~ msgstr "新規グループ(_N)"
-
-#~ msgid "_Group all"
-#~ msgstr "全てグループ化(_G)"
-
-#~ msgid "_Ungroup all"
-#~ msgstr "全てグループ化解除(_U)"
-
-#~ msgid "Group name:"
-#~ msgstr "グループの名前:"
-
-#~ msgid "Unterminated quoted string"
-#~ msgstr "文字列の引用符が閉じていません"
-
-#~ msgid "Configuration error"
-#~ msgstr "設定エラー"
-
-#~ msgid "Action"
-#~ msgstr "アクション"
-
-#~ msgid "Name"
-#~ msgstr "名前"
-
-#~ msgid "Keyboard shortcut"
-#~ msgstr "キーボードショートカット"
-
-#~ msgid "Unexpected token"
-#~ msgstr "想定外のトークン"
