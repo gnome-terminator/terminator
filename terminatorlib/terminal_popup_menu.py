@@ -117,7 +117,7 @@ class TerminalPopupMenu(object):
             menu.append(gtk.MenuItem())
 
         item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
-        item.connect('activate', lambda x: terminal.emit('close-term'))
+        item.connect('activate', lambda x: terminal.close())
         menu.append(item)
 
         menu.append(gtk.MenuItem())
