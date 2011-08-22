@@ -16,6 +16,12 @@ terminator 0.96:
     (patch from João Pinto #691213)
   * Restore split positions more accurately (patch from Glenn Moss 
     #797953)
+  * Fix activity notification in active terminals. (patch from Chris
+    Newton #748681)
+  * Stop leaking child processes if terminals are closed using the
+    context menu (#308025)
+  * Don't forget tab order and custom labels when closing terminals
+    in them (#711356)
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
