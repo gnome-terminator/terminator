@@ -355,7 +355,7 @@ class Window(Container, gtk.Window):
             self.hide()
 
 
-    def add(self, widget):
+    def add(self, widget, metadata=None):
         """Add a widget to the window by way of gtk.Window.add()"""
         maker = Factory()
         gtk.Window.add(self, widget)

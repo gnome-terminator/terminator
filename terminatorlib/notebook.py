@@ -153,10 +153,10 @@ class Notebook(Container, gtk.Notebook):
         self.show_all()
         terminal.grab_focus()
 
-    def add(self, widget):
+    def add(self, widget, metadata=None):
         """Add a widget to the container"""
         dbg('adding a new tab')
-        self.newtab(widget=widget)
+        self.newtab(widget=widget, metadata=metadata)
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -176,6 +176,18 @@ class Notebook(Container, gtk.Notebook):
         self.add(newwidget)
         self.reorder_child(newwidget, page_num)
 
+    def get_child_metadata(self, widget):
+        """Fetch the relevant metadata for a widget which we'd need
+        to recreate it when it's readded"""
+        metadata = {}
+        metadata['tabnum'] = self.page_num(widget)
+        label = self.get_tab_label(widget)
+        if not label:
+            dbg('unable to find label for widget: %s' % widget)
+        else:
+            metadata['label'] = label.get_label()
+        return metadata
+
     def get_children(self):
         """Return an ordered list of our children"""
         children = []
@@ -183,7 +195,7 @@ class Notebook(Container, gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, debugtab=False, widget=None, cwd=None):
+    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None):
         """Add a new tab, optionally supplying a child widget"""
         dbg('making a new tab')
         maker = Factory()
@@ -218,20 +230,29 @@ class Notebook(Container, gtk.Notebook):
                     handler = handler[0]
                 self.connect_child(widget, signal, handler, *args)
 
+        if metadata and metadata.has_key('tabnum'):
+            tabpos = metadata['tabnum']
+        else:
+            tabpos = -1
+
         label = TabLabel(self.window.get_title(), self)
+        if metadata and metadata.has_key('label'):
+            dbg('creating TabLabel with text: %s' % metadata['label'])
+            label.set_custom_label(metadata['label'])
         label.connect('close-clicked', self.closetab)
 
         label.show_all()
         widget.show_all()
 
-        self.append_page(widget, None)
+        dbg('inserting page at position: %s' % tabpos)
+        self.insert_page(widget, None, tabpos)
         self.set_tab_label(widget, label)
         self.set_tab_label_packing(widget, not self.config['scroll_tabbar'],
                                    not self.config['scroll_tabbar'],
                                    gtk.PACK_START)
 
         self.set_tab_reorderable(widget, True)
-        self.set_current_page(-1)
+        self.set_current_page(tabpos)
         self.show_all()
         if maker.isinstance(widget, 'Terminal'):
             widget.grab_focus()
@@ -394,6 +415,9 @@ class TabLabel(gtk.HBox):
     def set_label(self, text):
         """Update the text of our label"""
         self.label.set_text(text)
+
+    def get_label(self):
+        return self.label.get_text()
 
     def set_custom_label(self, text):
         """Set a permanent label as if the user had edited it"""

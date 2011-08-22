@@ -73,7 +73,7 @@ class Paned(Container):
 
         self.show_all()
 
-    def add(self, widget):
+    def add(self, widget, metadata=None):
         """Add a widget to the container"""
         if len(self.children) == 0:
             self.pack1(widget, True, True)
@@ -143,10 +143,13 @@ class Paned(Container):
             sibling = self.children[0]
             self.remove(sibling)
 
+            metadata = None
             parent = self.get_parent()
+            metadata = parent.get_child_metadata(self)
+            dbg('metadata obtained for %s: %s' % (self, metadata))
             parent.remove(self)
             self.cnxids.remove_all()
-            parent.add(sibling)
+            parent.add(sibling, metadata)
             sibling.grab_focus()
             del(self)
         else:

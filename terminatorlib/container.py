@@ -63,6 +63,11 @@ class Container(object):
         """Return a list of direct child widgets, if any"""
         return(self.children)
 
+    def get_child_metadata(self, widget):
+        """Return metadata that would be useful to recreate ourselves after our
+        child is .remove()d and .add()ed"""
+        return None
+
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
         return(self.split_axis(widget, True, cwd))
@@ -75,7 +80,7 @@ class Container(object):
         """Default axis splitter. This should be implemented by subclasses"""
         raise NotImplementedError('split_axis')
 
-    def add(self, widget):
+    def add(self, widget, metadata=None):
         """Add a widget to the container"""
         raise NotImplementedError('add')
 
