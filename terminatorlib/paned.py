@@ -18,10 +18,12 @@ class Paned(Container):
     """Base class for Paned Containers"""
 
     position = None
+    maker = None
 
     def __init__(self):
         """Class initialiser"""
         self.terminator = Terminator()
+        self.maker = Factory()
         Container.__init__(self)
         self.signals.append({'name': 'resize-term', 
                              'flags': gobject.SIGNAL_RUN_LAST,
@@ -48,8 +50,6 @@ class Paned(Container):
         """Default axis splitter. This should be implemented by subclasses"""
         order = None
 
-        maker = Factory()
-
         self.remove(widget)
         if vertical:
             container = VPaned()
@@ -57,7 +57,7 @@ class Paned(Container):
             container = HPaned()
 
         if not sibling:
-            sibling = maker.make('terminal')
+            sibling = self.maker.make('terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
 
@@ -75,7 +75,6 @@ class Paned(Container):
 
     def add(self, widget):
         """Add a widget to the container"""
-        maker = Factory()
         if len(self.children) == 0:
             self.pack1(widget, True, True)
             self.children.append(widget)
@@ -88,7 +87,7 @@ class Paned(Container):
         else:
             raise ValueError('Paned widgets can only have two children')
 
-        if maker.isinstance(widget, 'Terminal'):
+        if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
             signals = {'close-term': self.wrapcloseterm,
                     'split-horiz': self.split_horiz,
@@ -165,12 +164,11 @@ class Paned(Container):
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
-        maker = Factory()
         if keyname in ['up', 'down'] and isinstance(self, gtk.VPaned):
             # This is a key we can handle
             position = self.get_position()
 
-            if maker.isinstance(widget, 'Terminal'):
+            if self.maker.isinstance(widget, 'Terminal'):
                 fontheight = widget.vte.get_char_height()
             else:
                 fontheight = 10
@@ -183,7 +181,7 @@ class Paned(Container):
             # This is a key we can handle
             position = self.get_position()
 
-            if maker.isinstance(widget, 'Terminal'):
+            if self.maker.isinstance(widget, 'Terminal'):
                 fontwidth = widget.vte.get_char_width()
             else:
                 fontwidth = 10
