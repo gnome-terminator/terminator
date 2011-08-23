@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-05-10 15:38+0000\n"
-"Last-Translator: boracasli <Unknown>\n"
+"PO-Revision-Date: 2011-08-22 18:19+0000\n"
+"Last-Translator: Kostas Milonas <milonas.ko@gmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-22 04:30+0000\n"
+"X-Launchpad-Export-Date: 2011-08-23 04:34+0000\n"
 "X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -291,11 +291,11 @@ msgstr "Παύση παρακολούθησης δραστηριότητας"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
-msgstr ""
+msgstr "Παρακολούθηση σιγής"
 
 #: ../terminatorlib/plugins/activitywatch.py:109
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Διακοπή παρακολούθησης σιγής"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"

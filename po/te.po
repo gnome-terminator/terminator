@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2008-02-27 09:25+0000\n"
-"Last-Translator: వీవెన్ (Veeven) <Unknown>\n"
+"PO-Revision-Date: 2011-08-22 10:23+0000\n"
+"Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
 "Language-Team: Telugu <te@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-22 04:31+0000\n"
+"X-Launchpad-Export-Date: 2011-08-23 04:35+0000\n"
 "X-Generator: Launchpad (build 13697)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "ఒకే విండోలో బహుళ టెర్మినల్స్"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr ""
+msgstr "టెర్మినేటర్"
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
@@ -31,11 +31,11 @@ msgstr "మూసివేయాలా?"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr ""
+msgstr "టెర్మినల్స్ మూసివేయి (_T)"
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<big><b>బహుళ టెర్మినల్స్ మూసివేయాలా?</b></big>"
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -46,75 +46,75 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr ""
+msgstr "ప్రస్తుత స్థానికం"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr ""
+msgstr "పాశ్చాత్య"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr ""
+msgstr "మధ్య యూరోపియన్"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr ""
+msgstr "దక్షిణ యూరోపియన్"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr ""
+msgstr "బాల్టిక్"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr ""
+msgstr "సిరిలిక్"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr ""
+msgstr "అరబిక్"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr ""
+msgstr "గ్రీకు"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr ""
+msgstr "హిబ్రూ విజువల్"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr ""
+msgstr "హిబ్రూ"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr ""
+msgstr "టర్కిష్"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr ""
+msgstr "నోర్డిక్"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr ""
+msgstr "సెల్టిక్"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr ""
+msgstr "రోమేనియన్"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr ""
+msgstr "యునీకోడ్"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
@@ -126,79 +126,79 @@ msgstr ""
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "సంప్రదాయ చైనీస్"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "సిరిలిక్/రష్యన్"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr ""
+msgstr "జపనీస్"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr ""
+msgstr "కొరియన్"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "సరళీకృత చైనీస్"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "జార్జియన్"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "సిరిలిక్/ఉక్రైనియన్"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr ""
+msgstr "క్రోటియన్"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr ""
+msgstr "హిందీ"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "పర్షియన్"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr ""
+msgstr "గుజరాతీ"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr ""
+msgstr "గురుముఖి"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "ఐస్‌లాండిక్"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "వియెత్నామీస్"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr ""
+msgstr "థాయి"
 
 #: ../terminatorlib/notebook.py:278
 msgid "tab"
-msgstr ""
+msgstr "టాబ్"
 
 #: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
-msgstr ""
+msgstr "టాబ్‌ను మూసివెయ్యి"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr ""
+msgstr "ప్రోగ్రాము రూపాంతరాన్ని ప్రదర్శించు"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
@@ -214,11 +214,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "ప్రారంభములో విండోని దాయి"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "విండోకి ఒక శీర్షికను పేర్కొనండి"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "ఒక నమూనాని ఎంచుకొను"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
@@ -288,27 +288,27 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "అనురూపిత ఆదేశాలు"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "అనురూపిత ఆదేశాల స్వరూపణం"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "కొత్త ఆదేశము"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "చేతనమైంది:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "పేరు:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "ఆదేశము:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
@@ -323,34 +323,34 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "టెర్మినల్ తెరపట్టు"
 
 #: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
-msgstr ""
+msgstr "కొత్త ప్రొఫైల్"
 
 #: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
-msgstr ""
+msgstr "కొత్త నమూనా"
 
 #. Label
 #: ../terminatorlib/searchbar.py:50
 msgid "Search:"
-msgstr ""
+msgstr "శోధించు:"
 
 #: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
-msgstr ""
+msgstr "శోధన పట్టీని మూసివేయి"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:71
 msgid "Next"
-msgstr ""
+msgstr "తరువాత"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:77
 msgid "Prev"
-msgstr ""
+msgstr "ముందరి"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
@@ -370,23 +370,23 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "ఈమెయిల్ చిరునామాని నకలుతీయి (_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "VoIP చిరునామాను కాల్ చేయి (_l)"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "VoIP చిరునామాను నకలుతీయి (_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr ""
+msgstr "లింకును తెరువు (_O)"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "చిరునామాను నకలుతీయి (_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
@@ -398,7 +398,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr ""
+msgstr "ట్యాబ్ తెరువు (_T)"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
@@ -426,19 +426,19 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "ప్రాధాన్యతలు (_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "ప్రొఫైల్స్"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr ""
+msgstr "ఎన్‌కోడింగులు"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr ""
+msgstr "అప్రమేయం"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
@@ -450,11 +450,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:372
 msgid "New group..."
-msgstr ""
+msgstr "కొత్త గుంపు..."
 
 #: ../terminatorlib/terminal.py:377
 msgid "None"
-msgstr ""
+msgstr "ఏదీకాదు"
 
 #: ../terminatorlib/terminal.py:393
 #, python-format
@@ -516,12 +516,12 @@ msgstr ""
 
 #: ../terminatorlib/window.py:242
 msgid "window"
-msgstr ""
+msgstr "విండో"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:612
 msgid "All"
-msgstr ""
+msgstr "అన్నీ"
 
 #: ../terminatorlib/window.py:633
 #, python-format
