@@ -14,6 +14,7 @@ import gobject
 import pango
 import subprocess
 import urllib
+import uuid
 
 from util import dbg, err, gerr
 import util
@@ -85,6 +86,7 @@ class Terminal(gtk.VBox):
     command = None
     clipboard = None
     pid = None
+    uuid = None
 
     matches = None
     config = None
@@ -119,6 +121,9 @@ class Terminal(gtk.VBox):
         self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
 
         self.pending_on_vte_size_allocate = False
+
+        self.uuid = uuid.uuid4()
+        dbg('assigning Terminal a TERMINATOR_UUID of: %s' % self.uuid.urn)
 
         self.vte = vte.Terminal()
         self.vte.set_size(80, 24)
@@ -1199,9 +1204,12 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             pass
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
-        self.pid = self.vte.fork_command(command=shell, argv=args, envv=[],
-                loglastlog=login, logwtmp=update_records,
-                logutmp=update_records, directory=self.cwd)
+        self.pid = self.vte.fork_command(command=shell, argv=args,
+                                         envv=['TERMINATOR_UUID=%s' % self.uuid.urn],
+                                         loglastlog=login, 
+                                         logwtmp=update_records,
+                                         logutmp=update_records, 
+                                         directory=self.cwd)
         self.command = shell
 
         self.titlebar.update()

@@ -22,6 +22,9 @@ terminator 0.96:
     context menu (#308025)
   * Don't forget tab order and custom labels when closing terminals
     in them (#711356)
+	* Each terminal is assigned a unique identifier and this is exposed
+	  to the processes inside the terminal via the environment variable
+		TERMINATOR_UUID
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
