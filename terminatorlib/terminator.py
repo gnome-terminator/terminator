@@ -139,6 +139,15 @@ class Terminator(Borg):
             dbg('Terminator::deregister_terminal: %d terminals remain' %
                     len(self.terminals))
 
+    def find_terminal_by_uuid(self, uuid):
+        """Search our terminals for one matching the supplied UUID"""
+        dbg('searching self.terminals for: %s' % uuid)
+        for terminal in self.terminals:
+            dbg('checking: %s (%s)' % (terminal.uuid.urn, terminal))
+            if terminal.uuid.urn == uuid:
+                return terminal
+        return None
+
     def new_window(self, cwd=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
