@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+#    remotinator - send commands to Terminator via DBus
+#    Copyright (C) 2006-2010  cmsj@tenshu.net
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, version 2 only.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  
+#    USA
+
+"""remotinator by Chris Jones <cmsj@tenshu.net>"""
+
+import os
+import sys
+
+from terminatorlib import ipc
+from terminatorlib.util import dbg, err
+
+APP_NAME='remotinator'
+APP_VERSION='1.0'
+
+COMMANDS={
+        'hsplit': ['terminal_hsplit', 'Split the current terminal horizontally'],
+        'vsplit': ['terminal_vsplit', 'Split the current terminal vertically'],
+        }
+
+if __name__ == '__main__':
+    dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
+
+    if sys.argv[0].split('/')[-1] == APP_NAME:
+        if len(sys.argv) <2 or sys.argv[1] in ['-h', '--help']:
+            print "Usage: %s COMMAND" % sys.argv[0]
+            print "  Commands:"
+            for command in COMMANDS:
+                print "    %s : %s" % (command, COMMANDS[command][1])
+            sys.exit(1)
+        command = sys.argv[1]
+    else:
+        command = sys.argv[0].split('/')[-1]
+
+    if not command in COMMANDS or not hasattr(ipc, COMMANDS[command][0]):
+        err("Unknown command: %s" % command)
+        sys.exit(1)
+
+    func = getattr(ipc, COMMANDS[command][0])
+    func(os.environ['TERMINATOR_UUID'])  
+
