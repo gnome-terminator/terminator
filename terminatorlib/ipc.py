@@ -58,9 +58,32 @@ class DBusService(Borg, dbus.service.Object):
     @dbus.service.method(BUS_NAME)
     def new_window(self, layout='default'):
         """Create a new Window"""
-        dbg('dbus method called')
+        dbg('dbus method called: new_window')
         self.terminator.create_layout(layout)
         self.terminator.layout_done()
+
+    @dbus.service.method(BUS_NAME)
+    def terminal_hsplit(self, uuid=None):
+        """Split a terminal horizontally, by UUID"""
+        self.terminal_split(uuid, True)
+
+    @dbus.service.method(BUS_NAME)
+    def terminal_vsplit(self, uuid=None):
+        """Split a terminal vertically, by UUID"""
+        self.terminal_split(uuid, False)
+
+    def terminal_split(self, uuid, horiz):
+        """Split a terminal horizontally or vertically, by UUID"""
+        dbg('dbus method called: terminal_hsplit')
+        if not uuid:
+            return "ERROR: No UUID specified"
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        if not terminal:
+            return "ERROR: Terminal with supplied UUID not found"
+        if horiz:
+            terminal.key_split_horiz()
+        else:
+            terminal.key_split_vert()
 
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
@@ -75,4 +98,14 @@ def with_proxy(func):
 def new_window(session, layout='default'):
     """Call the dbus method to open a new window"""
     session.new_window(layout)
+
+@with_proxy
+def terminal_hsplit(session, uuid):
+    """Call the dbus method to horizontally split a terminal"""
+    session.terminal_hsplit(uuid)
+
+@with_proxy
+def terminal_vsplit(session, uuid):
+    """Call the dbus method to vertically split a terminal"""
+    session.terminal_vsplit(uuid)
 
