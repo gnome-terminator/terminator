@@ -25,6 +25,9 @@ terminator 0.96:
 	* Each terminal is assigned a unique identifier and this is exposed
 	  to the processes inside the terminal via the environment variable
 		TERMINATOR_UUID
+  * Expand dbus support to start covering useful methods. Also add
+    a commandline tool called 'remotinator' that can be used to control
+    Terminator from a terminal running inside it.
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
