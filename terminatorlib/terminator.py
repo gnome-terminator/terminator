@@ -163,7 +163,8 @@ class Terminator(Borg):
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
-            raise(KeyError)
+            self.new_window()
+            return
 
         # Wind the flat objects into a hierarchy
         hierarchy = {}
