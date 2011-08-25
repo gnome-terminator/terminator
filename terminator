@@ -46,6 +46,8 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg, err
 
 if __name__ == '__main__':
+    dbus_service = None
+
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
     OPTIONS = terminatorlib.optionparse.parse_options()
@@ -61,7 +63,7 @@ if __name__ == '__main__':
             raise ImportError
         from terminatorlib import ipc
         try:
-            ipc.DBusService()
+            dbus_service = ipc.DBusService()
         except ipc.DBusException:
             dbg('Unable to become master process, requesting a new window')
             ipc.new_window(OPTIONS.layout)
@@ -73,6 +75,7 @@ if __name__ == '__main__':
     MAKER = Factory()
     TERMINATOR = Terminator()
     TERMINATOR.set_origcwd(ORIGCWD)
+    TERMINATOR.set_dbus_data(dbus_service)
     TERMINATOR.reconfigure()
     try:
         dbg('Creating a terminal with layout: %s' % OPTIONS.layout)

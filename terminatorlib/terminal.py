@@ -1203,9 +1203,15 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         except AttributeError:
             pass
 
+        envv = []
+        envv.append('TERMINATOR_UUID=%s' % self.uuid.urn)
+        if self.terminator.dbus_name:
+            envv.append('TERMINATOR_DBUS_NAME=%s' % self.terminator.dbus_name)
+        if self.terminator.dbus_path:
+            envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
+
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
-        self.pid = self.vte.fork_command(command=shell, argv=args,
-                                         envv=['TERMINATOR_UUID=%s' % self.uuid.urn],
+        self.pid = self.vte.fork_command(command=shell, argv=args, envv=envv,
                                          loglastlog=login, 
                                          logwtmp=update_records,
                                          logutmp=update_records, 

@@ -30,6 +30,7 @@ except:
 class DBusService(Borg, dbus.service.Object):
     """DBus Server class. This is implemented as a Borg"""
     bus_name = None
+    bus_path = None
     terminator = None
 
     def __init__(self):
@@ -52,6 +53,8 @@ class DBusService(Borg, dbus.service.Object):
                     "Couldn't get DBus name %s: Name exists" % BUS_NAME)
             self.bus_name = dbus.service.BusName(BUS_NAME, 
                                                  bus=dbus.SessionBus())
+        if not self.bus_path:
+            self.bus_path = BUS_PATH
         if not self.terminator:
             self.terminator = Terminator()
 
@@ -65,12 +68,12 @@ class DBusService(Borg, dbus.service.Object):
     @dbus.service.method(BUS_NAME)
     def terminal_hsplit(self, uuid=None):
         """Split a terminal horizontally, by UUID"""
-        self.terminal_split(uuid, True)
+        return self.terminal_split(uuid, True)
 
     @dbus.service.method(BUS_NAME)
     def terminal_vsplit(self, uuid=None):
         """Split a terminal vertically, by UUID"""
-        self.terminal_split(uuid, False)
+        return self.terminal_split(uuid, False)
 
     def terminal_split(self, uuid, horiz):
         """Split a terminal horizontally or vertically, by UUID"""
@@ -84,6 +87,11 @@ class DBusService(Borg, dbus.service.Object):
             terminal.key_split_horiz()
         else:
             terminal.key_split_vert()
+
+    @dbus.service.method(BUS_NAME)
+    def get_terminals(self, uuid):
+        """Return a list of all the terminals"""
+        return [x.uuid.urn for x in self.terminator.terminals]
 
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
@@ -107,5 +115,10 @@ def terminal_hsplit(session, uuid):
 @with_proxy
 def terminal_vsplit(session, uuid):
     """Call the dbus method to vertically split a terminal"""
-    session.terminal_vsplit(uuid)
+    print session.terminal_vsplit(uuid)
+
+@with_proxy
+def get_terminals(session, uuid):
+    """Call the dbus method to return a list of all terminals"""
+    print '\n'.join(session.get_terminals(uuid))
 
