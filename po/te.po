@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-08-22 10:23+0000\n"
+"PO-Revision-Date: 2011-08-27 11:51+0000\n"
 "Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
 "Language-Team: Telugu <te@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-23 04:35+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2011-08-28 04:30+0000\n"
+"X-Generator: Launchpad (build 13794)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -121,7 +121,7 @@ msgstr "యునీకోడ్"
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr ""
+msgstr "ఆర్మేనియన్"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
@@ -202,15 +202,15 @@ msgstr "ప్రోగ్రాము రూపాంతరాన్ని ప�
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "విండోను పెద్దదిచేయి"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "తెరకు సరిపోయేట్టు విండోను నింపు"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "విండో సరిహద్దులను అచేతనపరుచు"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -252,7 +252,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "DBus అచేతనపరుచు"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -272,11 +272,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "క్రియాశీలత కొరకు వీక్షించు"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "క్రియాశీలత కొరకు వీక్షించుట ఆపు"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
@@ -313,13 +313,13 @@ msgstr "ఆదేశము:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "మీరు ఒక పేరును మరియు ఆదేశాన్ని నిర్వచించాల్సివుంటుంది"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "*%s* పేరు ఇదివరకే ఉన్నది"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
@@ -358,7 +358,7 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
-msgstr ""
+msgstr "ఇంక ఏ ఫలితాలు లేవు"
 
 #: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
@@ -366,7 +366,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "వీరికి మెయిల్ పంపు...(_S)"
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
