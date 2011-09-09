@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2010-10-18 09:14+0000\n"
-"Last-Translator: Sérgio Marques <Unknown>\n"
+"PO-Revision-Date: 2011-09-08 10:15+0000\n"
+"Last-Translator: David Gomes <davidrafagomes@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-23 04:34+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2011-09-09 04:31+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 "X-Poedit-Country: Portugal\n"
 "X-Poedit-Language: Portuguese\n"
 
@@ -287,11 +287,11 @@ msgstr "Parar de vigiar atividade"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
-msgstr ""
+msgstr "Monitorizar pausa"
 
 #: ../terminatorlib/plugins/activitywatch.py:109
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Parar de monitorizar pausa"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
