@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2010-12-19 04:17+0000\n"
+"PO-Revision-Date: 2011-09-11 18:41+0000\n"
 "Last-Translator: IMAI Kazuki <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-23 04:34+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2011-09-12 04:30+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -202,7 +202,7 @@ msgstr "バージョンを表示"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "ウィンドウを最大化する"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
@@ -236,7 +236,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "作業用ディレクトリを指定する"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -268,15 +268,15 @@ msgstr "デバッグ対象のメソッドをカンマで区切って指定"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "ActivityWatchプラグインが使用できません。python-notifyをインストールして下さい"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "アクティビティを監視する"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "アクティビティの監視を止める"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
@@ -296,7 +296,7 @@ msgstr "カスタムコマンド設定"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "新しいコマンド"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
@@ -323,7 +323,7 @@ msgstr "*%s*は既に存在しています。"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "端末のスクリーンショット"
 
 #: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
@@ -362,7 +362,7 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
-msgstr ""
+msgstr "次の行で見つかりました"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
@@ -374,11 +374,11 @@ msgstr "メールアドレスをコピー(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "VoIPアドレスに発信(_l)"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "VoIPアドレスをコピー(_C)"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -402,7 +402,7 @@ msgstr "タブを開く(_T)"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "デバッグタブを開く(_D)"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -414,7 +414,7 @@ msgstr "端末を最大化(_X)"
 
 #: ../terminatorlib/terminal_popup_menu.py:136
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "全ての端末を復元(_R)"
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
@@ -426,11 +426,11 @@ msgstr "スクロールバーを表示(_S)"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr ""
+msgstr "設定(_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "プロファイル"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
@@ -438,11 +438,11 @@ msgstr "エンコーディング"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr ""
+msgstr "既定値"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr ""
+msgstr "ユーザ定義"
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
