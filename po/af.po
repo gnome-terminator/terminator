@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-08-05 15:46+0000\n"
+"PO-Revision-Date: 2011-09-14 07:43+0000\n"
 "Last-Translator: JC Brand <Unknown>\n"
 "Language-Team: Afrikaans <af@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-23 04:34+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2011-09-15 04:33+0000\n"
+"X-Generator: Launchpad (build 13921)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"Hierdie %s bevat meer as een oop terminaal. Indien u dié %s wil sluit, sal "
+"alle terminale daarbinne ook gesluit word."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -223,24 +225,27 @@ msgstr "Verskaf 'n titel vir die venster"
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
 msgstr ""
+"Stel die gewenste grootte en posisie van die venster (sien X se man-bladsy)"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Gee 'n opdrag om in die terminaal uit te voer"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Gebruik die res van die opdragreël om as opdrag, en sy argumente, in die "
+"terminaal uit te voer."
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr ""
+msgstr "Stel die werkgids"
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Stel 'n aangepaste WM_WINDOW_ROLE eienskap op die venster"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
@@ -248,27 +253,28 @@ msgstr "Kies 'n uitleg"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Gebruik 'n ander profiel as die standaard"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Skakel DBus af"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Aktiveer ontfoutingsinformasie (twee maal vir ontfoutingsbediener)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Kommageskeide lys van klasse as ontfoutingslimiet"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Kommageskeide lys van metodes as ontfoutingslimiet"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch inprop module nie beskikbaar nie. Installeer python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
@@ -276,15 +282,15 @@ msgstr "Kyk vir aktiwiteit"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Staak monitor vir aktiwiteit"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
-msgstr ""
+msgstr "Monitor vir stilte"
 
 #: ../terminatorlib/plugins/activitywatch.py:109
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Staak monitor vir stilte"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -313,7 +319,7 @@ msgstr "Opdrag:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "U het die naam of opdrag nog nie ingevul nie"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
@@ -323,7 +329,7 @@ msgstr "Die naam *%s* bestaan reeds"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Terminaal skermskoot"
 
 #: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
@@ -354,7 +360,7 @@ msgstr "Vorige"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Deursoek terugrol buffer"
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
@@ -362,19 +368,19 @@ msgstr "Geen verdere resultate"
 
 #: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
-msgstr ""
+msgstr "Gevind op reël"
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Stuur e-pos aan…"
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Kopieer e-pos adres"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "Be_l VoIP-adres"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
@@ -402,7 +408,7 @@ msgstr "Nuwe _oortjie"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Open _ontfoutingsoortjie"
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
@@ -463,15 +469,15 @@ msgstr "Verwyder groep %s"
 
 #: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "G_roepeer alle in dié oortjie"
 
 #: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Ontgroepeer alle in dié oortjie"
 
 #: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
-msgstr ""
+msgstr "Verwyder alle groepe"
 
 #: ../terminatorlib/terminal.py:415
 #, python-format
@@ -480,50 +486,50 @@ msgstr "Sluit groep %s"
 
 #: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
-msgstr ""
+msgstr "Saai uit na alle terminale"
 
 #: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
-msgstr ""
+msgstr "Saai uit na groep"
 
 #: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
-msgstr ""
+msgstr "Staak uitsending"
 
 #: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
-msgstr ""
+msgstr "Verdeel na hierdie groep"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Maak groepe outomaties skoon"
 
 #: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Voeg terminaalnommer in"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Voeg aangevulde terminaalnommer in"
 
 #: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "Geen shell gevind nie"
 
 #: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Kan shell nie start nie"
 
 #: ../terminatorlib/window.py:242
 msgid "window"
-msgstr ""
+msgstr "venster"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:612
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "Oortjie %d"
