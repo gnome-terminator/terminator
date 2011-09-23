@@ -1,3 +1,9 @@
+terminator (0.96ppa2) natty; urgency=low
+
+  * No-change rebuild for natty
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 23 Sep 2011 22:02:58 +0100
+
 terminator (0.96ppa1) maverick; urgency=low
 
   * No-change rebuild for maverick
