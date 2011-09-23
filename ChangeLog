@@ -28,6 +28,7 @@ terminator 0.96:
   * Expand dbus support to start covering useful methods. Also add
     a commandline tool called 'remotinator' that can be used to control
     Terminator from a terminal running inside it.
+  * Fix terminal font settings for users of older Linux distributions
 
 terminator 0.95:
   * Add a configuration option to enable a DBus server
