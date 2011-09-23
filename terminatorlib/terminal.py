@@ -1337,9 +1337,15 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         """Set the font we want in VTE"""
         antialias = self.config['antialias']
         if antialias:
-            antialias = vte.ANTI_ALIAS_FORCE_ENABLE
+            try:
+                antialias = vte.ANTI_ALIAS_FORCE_ENABLE
+            except AttributeError:
+                antialias = 1
         else:
-            antialias = vte.ANTI_ALIAS_FORCE_DISABLE
+            try:
+                antialias = vte.ANTI_ALIAS_FORCE_DISABLE
+            except AttributeError:
+                antialias = 2
         self.vte.set_font_full(fontdesc, antialias)
 
     def get_cursor_position(self):
