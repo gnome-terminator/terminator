@@ -21,8 +21,12 @@
 import os
 import sys
 
-from terminatorlib import ipc
 from terminatorlib.util import dbg, err
+try:
+    from terminatorlib import ipc
+except ImportErrror:
+    err('Unable to initialise Terminator remote library. This probably means dbus is not available')
+    sys.exit(1)
 
 APP_NAME='remotinator'
 APP_VERSION='1.0'
