@@ -1,3 +1,9 @@
+terminator (0.96ppa3) natty; urgency=low
+
+  * Update packaging to include remotinator
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 28 Sep 2011 09:24:02 +0100
+
 terminator (0.96ppa2) natty; urgency=low
 
   * No-change rebuild for natty

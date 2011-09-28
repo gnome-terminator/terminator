@@ -12,6 +12,7 @@ DEB_PYTHON_INSTALL_ARGS_ALL +=--install-lib=/usr/share/terminator --install-scri
 binary-install/terminator::
 	dh_icons -pterminator
 	dh_link /usr/share/terminator/terminator /usr/bin/terminator
+	dh_link /usr/share/terminator/remotinator /usr/bin/remotinator
 
 clean::
 	rm -rf build/

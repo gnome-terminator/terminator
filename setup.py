@@ -162,7 +162,7 @@ setup(name=APP_NAME.capitalize(),
       author_email='cmsj@tenshu.net',
       url='http://www.tenshu.net/terminator/',
       license='GNU GPL v2',
-      scripts=['terminator'],
+      scripts=['terminator', 'remotinator'],
       data_files=[
                   ('share/applications', ['data/terminator.desktop']),
                   (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),

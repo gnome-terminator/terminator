@@ -51,6 +51,7 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man5/%{name}_config.*
 %{_bindir}/%{name}
+%{_bindir}/remotinator
 %{python_sitelib}/*
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}*.png
