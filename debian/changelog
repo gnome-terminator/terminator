@@ -1,3 +1,21 @@
+terminator (0.96ppa6) oneiric; urgency=low
+
+  * No-change rebuild for oneiric PPA
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 28 Sep 2011 09:31:37 +0100
+
+terminator (0.96ppa5) lucid; urgency=low
+
+  * No-change rebuild for lucid PPA
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 28 Sep 2011 09:31:09 +0100
+
+terminator (0.96ppa4) maverick; urgency=low
+
+  * No-change rebuild for maverick PPA
+
+ -- Chris Jones <cmsj@tenshu.net>  Wed, 28 Sep 2011 09:30:25 +0100
+
 terminator (0.96ppa3) natty; urgency=low
 
   * Update packaging to include remotinator
