@@ -1,3 +1,6 @@
+terminator 0.97:
+  * Allow font dimming in inactive terminals
+
 terminator 0.96:
   * Unity support for opening new windows (Lucian Adrian Grijincu)
   * Fix searching with infinite scrollback (Julien Thewys #755077)

@@ -56,6 +56,7 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_BOOLEAN, gobject.TYPE_OBJECT)),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'focus-in': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'focus-out': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'zoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'maximise': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'unzoom': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -94,6 +95,12 @@ class Terminal(gtk.VBox):
     custom_encoding = None
     custom_font_size = None
     layout_command = None
+
+    fgcolor_active = None
+    fgcolor_inactive = None
+    bgcolor = None
+    palette_active = None
+    palette_inactive = None
 
     composite_support = None
 
@@ -346,6 +353,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
             self.emit('title-change', self.get_window_title()))
         self.vte.connect('grab-focus', self.on_vte_focus)
         self.vte.connect('focus-in-event', self.on_vte_focus_in)
+        self.vte.connect('focus-out-event', self.on_vte_focus_out)
         self.vte.connect('size-allocate', self.deferred_on_vte_size_allocate)
 
         self.vte.add_events(gtk.gdk.ENTER_NOTIFY_MASK)
@@ -602,28 +610,34 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
         if self.config['use_theme_colors']:
-            fgcolor = self.vte.get_style().text[gtk.STATE_NORMAL]
-            bgcolor = self.vte.get_style().base[gtk.STATE_NORMAL]
+            self.fgcolor_active = self.vte.get_style().text[gtk.STATE_NORMAL]
+            self.bgcolor = self.vte.get_style().base[gtk.STATE_NORMAL]
         else:
-            fgcolor = gtk.gdk.color_parse(self.config['foreground_color'])
-            bgcolor = gtk.gdk.color_parse(self.config['background_color'])
+            self.fgcolor_active = gtk.gdk.color_parse(self.config['foreground_color'])
+            self.bgcolor = gtk.gdk.color_parse(self.config['background_color'])
+
+        factor = self.config['inactive_color_offset']
+        self.fgcolor_inactive = self.fgcolor_active.copy()
+
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.fgcolor_inactive, bit,
+                    getattr(self.fgcolor_inactive, bit) * factor)
 
         colors = self.config['palette'].split(':')
-        palette = []
+        self.palette_active = []
+        self.palette_inactive = []
         for color in colors:
             if color:
-                palette.append(gtk.gdk.color_parse(color))
-        self.vte.set_colors(fgcolor, bgcolor, palette)
-        if self.config['cursor_color'] == self.config['foreground_color']:
-            try:
-                self.vte.set_color_cursor(None) 
-            except TypeError:
-                # FIXME: I think this is only necessary because of
-                # https://bugzilla.gnome.org/show_bug.cgi?id=614910
-                pass
-        elif self.config['cursor_color'] != '':
-            self.vte.set_color_cursor(gtk.gdk.color_parse(
-                                        self.config['cursor_color']))
+                newcolor = gtk.gdk.color_parse(color)
+                newcolor_inactive = newcolor.copy()
+                for bit in ['red', 'green', 'blue']:
+                    setattr(newcolor_inactive, bit,
+                            getattr(newcolor_inactive, bit) * factor)
+                self.palette_active.append(newcolor)
+                self.palette_inactive.append(newcolor_inactive)
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         if hasattr(self.vte, 'set_cursor_shape'):
             self.vte.set_cursor_shape(getattr(vte, 'CURSOR_SHAPE_' +
                 self.config['cursor_shape'].upper()))
@@ -730,6 +744,19 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
         self.titlebar.update()
         self.vte.queue_draw()
 
+    def set_cursor_color(self):
+        """Set the cursor color appropriately"""
+        if self.config['cursor_color'] == self.config['foreground_color']:
+            try:
+                self.vte.set_color_cursor(None) 
+            except TypeError:
+                # FIXME: I think this is only necessary because of
+                # https://bugzilla.gnome.org/show_bug.cgi?id=614910
+                pass
+        elif self.config['cursor_color'] != '':
+            self.vte.set_color_cursor(gtk.gdk.color_parse(
+                                        self.config['cursor_color']))
+ 
     def get_window_title(self):
         """Return the window title"""
         return(self.vte.get_window_title() or str(self.command))
@@ -1009,7 +1036,17 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
 
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         self.emit('focus-in')
+
+    def on_vte_focus_out(self, _widget, _event):
+        """Inform other parts of the application when focus is lost"""
+        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                            self.palette_inactive)
+        self.set_cursor_color()
+        self.emit('focus-out')
 
     def on_window_focus_out(self):
         """Update our UI when the window loses focus"""

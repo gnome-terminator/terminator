@@ -457,6 +457,9 @@ class PrefsEditor:
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
             widget.set_color(gtk.gdk.Color(self.config[bit]))
+        # Inactive terminal shading 
+        widget = guiget('inactive_color_offset')
+        widget.set_value(float(self.config['inactive_color_offset']))
 
         ## Background tab
         # Radio values
@@ -879,6 +882,11 @@ class PrefsEditor:
     def on_title_transmit_fg_color_color_set(self, widget):
         """Title transmit foreground colour changed"""
         self.config['title_transmit_fg_color'] = color2hex(widget)
+        self.config.save()
+
+    def on_inactive_color_offset_change_value(self, widget, scroll, value):
+        """Inactive color offset setting changed"""
+        self.config['inactive_color_offset'] = round(value, 2)
         self.config.save()
 
     def on_handlesize_change_value(self, widget, scroll, value):

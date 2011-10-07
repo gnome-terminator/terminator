@@ -98,6 +98,7 @@ DEFAULTS = {
             'title_receive_bg_color' : '#0076c9',
             'title_inactive_fg_color' : '#000000',
             'title_inactive_bg_color' : '#c0bebf',
+            'inactive_color_offset': 0.8,
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],

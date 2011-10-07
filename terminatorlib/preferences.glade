@@ -1,81 +1,23 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy project-wide -->
-  <object class="GtkListStore" id="FocusListStore">
+  <object class="GtkListStore" id="BackspaceKeyListStore">
     <columns>
-      <!-- column-name focustype -->
+      <!-- column-name Result -->
       <column type="gchararray"/>
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">GNOME Default</col>
+        <col id="0" translatable="yes">Automatic</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Click to focus</col>
+        <col id="0" translatable="yes">Control-H</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Follow mouse pointer</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="WindowStateListStore">
-    <columns>
-      <!-- column-name state -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Normal</col>
+        <col id="0" translatable="yes">ASCII DEL</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Hidden</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Maximised</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Fullscreen</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="TabPositionListStore">
-    <columns>
-      <!-- column-name position -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Top</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Bottom</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Left</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Right</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Hidden</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="CursorShapeListStore">
-    <columns>
-      <!-- column-name Shape -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Block</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Underline</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">I-Beam</col>
+        <col id="0" translatable="yes">Escape sequence</col>
       </row>
     </data>
   </object>
@@ -128,40 +70,20 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="ScrollbarPositionListStore">
+  <object class="GtkListStore" id="CursorShapeListStore">
     <columns>
-      <!-- column-name Position -->
+      <!-- column-name Shape -->
       <column type="gchararray"/>
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">On the left side</col>
+        <col id="0" translatable="yes">Block</col>
       </row>
       <row>
-        <col id="0" translatable="yes">On the right side</col>
+        <col id="0" translatable="yes">Underline</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Disabled</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="BackspaceKeyListStore">
-    <columns>
-      <!-- column-name Result -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Automatic</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Control-H</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">ASCII DEL</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Escape sequence</col>
+        <col id="0" translatable="yes">I-Beam</col>
       </row>
     </data>
   </object>
@@ -185,6 +107,31 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="EncodingListStore">
+    <columns>
+      <!-- column-name Encoding -->
+      <column type="gchararray"/>
+      <!-- column-name config_value -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="FocusListStore">
+    <columns>
+      <!-- column-name focustype -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">GNOME Default</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Click to focus</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Follow mouse pointer</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="KeybindingsListStore">
     <columns>
       <!-- column-name Name -->
@@ -197,14 +144,6 @@
       <column type="guint"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="ProfilesListStore">
-    <columns>
-      <!-- column-name Profile -->
-      <column type="gchararray"/>
-      <!-- column-name editable -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="LayoutListStore">
     <columns>
       <!-- column-name Layout -->
@@ -212,17 +151,6 @@
       <!-- column-name editable -->
       <column type="gboolean"/>
     </columns>
-  </object>
-  <object class="GtkListStore" id="layoutprofilelist">
-    <columns>
-      <!-- column-name profile -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">default</col>
-      </row>
-    </data>
   </object>
   <object class="GtkTreeStore" id="LayoutTreeStore">
     <columns>
@@ -266,23 +194,176 @@
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="EncodingListStore">
+  <object class="GtkListStore" id="ProfilesListStore">
     <columns>
-      <!-- column-name Encoding -->
+      <!-- column-name Profile -->
       <column type="gchararray"/>
-      <!-- column-name config_value -->
-      <column type="gchararray"/>
+      <!-- column-name editable -->
+      <column type="gboolean"/>
     </columns>
   </object>
+  <object class="GtkAdjustment" id="ScrollbackAdjustmend">
+    <property name="upper">10000000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkListStore" id="ScrollbarPositionListStore">
+    <columns>
+      <!-- column-name Position -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">On the left side</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">On the right side</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Disabled</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="TabPositionListStore">
+    <columns>
+      <!-- column-name position -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Top</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Bottom</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Left</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Right</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Hidden</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="WindowStateListStore">
+    <columns>
+      <!-- column-name state -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Normal</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Hidden</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Maximised</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Fullscreen</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">-1</property>
+    <property name="upper">5</property>
+    <property name="value">-1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">2</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <property name="page_size">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment7">
+    <property name="upper">1</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">0.20000000000000001</property>
+  </object>
+  <object class="GtkAdjustment" id="background_darkness_scale">
+    <property name="upper">1</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">0.20000000000000001</property>
+  </object>
+  <object class="GtkListStore" id="layoutprofilelist">
+    <columns>
+      <!-- column-name profile -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">default</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="prefswin">
+    <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Terminator Preferences</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog_vbox1">
+      <object class="GtkBox" id="dialog_vbox1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog_action_area1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="okbutton">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_closebutton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkNotebook" id="notebook1">
             <property name="visible">True</property>
@@ -290,20 +371,24 @@
             <child>
               <object class="GtkAlignment" id="alignment2">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="left_padding">6</property>
                 <child>
                   <object class="GtkVBox" id="vbox5">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="spacing">18</property>
                     <child>
                       <object class="GtkTable" id="global_config_table">
                         <property name="visible">True</property>
-                        <property name="n_rows">12</property>
+                        <property name="can_focus">False</property>
+                        <property name="n_rows">13</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label8">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Window geometry hints</property>
                           </object>
                           <packing>
@@ -318,9 +403,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_wingeomcheck_toggled"/>
+                            <signal name="toggled" handler="on_wingeomcheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -334,6 +420,7 @@
                         <child>
                           <object class="GtkLabel" id="label9">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Window state</property>
                           </object>
                           <packing>
@@ -346,9 +433,10 @@
                         <child>
                           <object class="GtkComboBox" id="winstatecombo">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="model">WindowStateListStore</property>
                             <property name="active">0</property>
-                            <signal name="changed" handler="on_winstatecombo_changed"/>
+                            <signal name="changed" handler="on_winstatecombo_changed" swapped="no"/>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext1"/>
                               <attributes>
@@ -368,6 +456,7 @@
                         <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Window borders</property>
                           </object>
                           <packing>
@@ -382,9 +471,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_winbordercheck_toggled"/>
+                            <signal name="toggled" handler="on_winbordercheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -398,6 +488,7 @@
                         <child>
                           <object class="GtkLabel" id="label11">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Tab position</property>
                           </object>
                           <packing>
@@ -410,9 +501,10 @@
                         <child>
                           <object class="GtkComboBox" id="tabposcombo">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="model">TabPositionListStore</property>
                             <property name="active">0</property>
-                            <signal name="changed" handler="on_tabposcombo_changed"/>
+                            <signal name="changed" handler="on_tabposcombo_changed" swapped="no"/>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext2"/>
                               <attributes>
@@ -432,6 +524,7 @@
                         <child>
                           <object class="GtkLabel" id="label6">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Mouse focus</property>
                           </object>
                           <packing>
@@ -442,9 +535,10 @@
                         <child>
                           <object class="GtkComboBox" id="focuscombo">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="model">FocusListStore</property>
                             <property name="active">0</property>
-                            <signal name="changed" handler="on_focuscombo_changed"/>
+                            <signal name="changed" handler="on_focuscombo_changed" swapped="no"/>
                             <child>
                               <object class="GtkCellRendererText" id="focuscell"/>
                               <attributes>
@@ -462,6 +556,7 @@
                         <child>
                           <object class="GtkLabel" id="label7">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Terminal separator size</property>
                           </object>
                           <packing>
@@ -478,7 +573,7 @@
                             <property name="adjustment">adjustment1</property>
                             <property name="digits">0</property>
                             <property name="value_pos">left</property>
-                            <signal name="change_value" handler="on_handlesize_change_value"/>
+                            <signal name="change-value" handler="on_handlesize_change_value" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -492,6 +587,7 @@
                         <child>
                           <object class="GtkLabel" id="label24">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Hide from taskbar</property>
                           </object>
                           <packing>
@@ -506,9 +602,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_hidefromtaskbcheck_toggled"/>
+                            <signal name="toggled" handler="on_hidefromtaskbcheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -522,6 +619,7 @@
                         <child>
                           <object class="GtkLabel" id="label25">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Always on top</property>
                           </object>
                           <packing>
@@ -534,6 +632,7 @@
                         <child>
                           <object class="GtkLabel" id="label26">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Hide on lose focus</property>
                           </object>
                           <packing>
@@ -548,9 +647,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_alwaysontopcheck_toggled"/>
+                            <signal name="toggled" handler="on_alwaysontopcheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -566,9 +666,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_hideonlosefocuscheck_toggled"/>
+                            <signal name="toggled" handler="on_hideonlosefocuscheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -582,6 +683,7 @@
                         <child>
                           <object class="GtkLabel" id="label27">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Show on all workspaces</property>
                           </object>
                           <packing>
@@ -596,9 +698,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_stickycheck_toggled"/>
+                            <signal name="toggled" handler="on_stickycheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -612,6 +715,7 @@
                         <child>
                           <object class="GtkLabel" id="label28">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="label" translatable="yes">DBus server</property>
                           </object>
                           <packing>
@@ -624,9 +728,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_dbuscheck_toggled"/>
+                            <signal name="toggled" handler="on_dbuscheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -640,6 +745,7 @@
                         <child>
                           <object class="GtkLabel" id="label29">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="xalign">0.50999999046325684</property>
                             <property name="label" translatable="yes">Hide  size from title</property>
                           </object>
@@ -655,9 +761,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_title_hide_sizetextcheck_toggled"/>
+                            <signal name="toggled" handler="on_title_hide_sizetextcheck_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -668,18 +775,50 @@
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkLabel" id="label30">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Unfocused terminal font brightness</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHScale" id="inactive_color_offset">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="adjustment">adjustment7</property>
+                            <property name="show_fill_level">True</property>
+                            <property name="round_digits">1</property>
+                            <property name="value_pos">left</property>
+                            <signal name="change-value" handler="on_inactive_color_offset_change_value" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkVBox" id="vbox7">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkLabel" id="label15">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">&lt;b&gt;Titlebar&lt;/b&gt;</property>
                             <property name="use_markup">True</property>
@@ -693,10 +832,12 @@
                         <child>
                           <object class="GtkAlignment" id="alignment4">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <object class="GtkTable" id="table2">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="n_rows">3</property>
                                 <property name="n_columns">4</property>
                                 <property name="column_spacing">6</property>
@@ -706,8 +847,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_transmit_fg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_transmit_fg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -723,8 +865,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_inactive_fg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_inactive_fg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -740,8 +883,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_transmit_bg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_transmit_bg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -757,8 +901,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_inactive_bg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_inactive_bg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -774,8 +919,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_receive_fg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_receive_fg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -791,8 +937,9 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="color">#000000000000</property>
-                                    <signal name="color_set" handler="on_title_receive_bg_color_color_set"/>
+                                    <signal name="color-set" handler="on_title_receive_bg_color_color_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">3</property>
@@ -806,6 +953,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label20">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Receiving terminal</property>
                                   </object>
                                   <packing>
@@ -818,6 +966,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label18">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Focused terminal</property>
                                   </object>
                                   <packing>
@@ -830,6 +979,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label19">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Inactive terminal</property>
                                   </object>
                                   <packing>
@@ -842,6 +992,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label16">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Font colour</property>
                                   </object>
                                   <packing>
@@ -854,6 +1005,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="label" translatable="yes">Background</property>
                                   </object>
                                   <packing>
@@ -871,11 +1023,14 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
                       </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -886,6 +1041,7 @@
             <child type="tab">
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Global</property>
               </object>
               <packing>
@@ -895,25 +1051,30 @@
             <child>
               <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkTreeView" id="profilelist">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">ProfilesListStore</property>
                         <property name="hadjustment">adjustment2</property>
                         <property name="vadjustment">adjustment3</property>
+                        <property name="model">ProfilesListStore</property>
                         <property name="headers_clickable">False</property>
                         <property name="search_column">0</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection1"/>
+                        </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="profilecolumn">
                             <property name="title">Profile</property>
                             <property name="clickable">True</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext3">
-                                <signal name="edited" handler="on_profile_name_edited"/>
+                                <signal name="edited" handler="on_profile_name_edited" swapped="no"/>
                               </object>
                               <attributes>
                                 <attribute name="editable">1</attribute>
@@ -924,12 +1085,15 @@
                         </child>
                       </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkHBox" id="hbox3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <child>
                           <placeholder/>
                         </child>
@@ -939,8 +1103,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
-                            <signal name="clicked" handler="on_profileaddbutton_clicked"/>
+                            <signal name="clicked" handler="on_profileaddbutton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -954,8 +1119,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
-                            <signal name="clicked" handler="on_profileremovebutton_clicked"/>
+                            <signal name="clicked" handler="on_profileremovebutton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -966,11 +1132,14 @@
                       </object>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -982,6 +1151,7 @@
                     <child>
                       <object class="GtkVBox" id="vbox3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="border_width">12</property>
                         <property name="spacing">6</property>
                         <child>
@@ -990,9 +1160,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_system_font_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_system_font_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1003,14 +1174,17 @@
                         <child>
                           <object class="GtkAlignment" id="alignment10109">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
                               <object class="GtkHBox" id="font_hbox">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="spacing">12</property>
                                 <child>
                                   <object class="GtkLabel" id="font_selector_label">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Font:</property>
                                     <property name="use_underline">True</property>
@@ -1027,10 +1201,11 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="focus_on_click">False</property>
                                     <property name="title" translatable="yes">Choose A Terminal Font</property>
                                     <property name="use_font">True</property>
-                                    <signal name="font_set" handler="on_font_selector_font_set"/>
+                                    <signal name="font-set" handler="on_font_selector_font_set" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -1053,9 +1228,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_allow_bold_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_allow_bold_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1069,10 +1245,13 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_antialias_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_antialias_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
                             <property name="position">3</property>
                           </packing>
                         </child>
@@ -1082,8 +1261,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_show_titlebar_toggled"/>
+                            <signal name="toggled" handler="on_show_titlebar_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1097,20 +1277,25 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_copy_on_selection_toggled"/>
+                            <signal name="toggled" handler="on_copy_on_selection_toggled" swapped="no"/>
                           </object>
                           <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
                             <property name="position">5</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkHBox" id="hbox136">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">12</property>
                             <child>
                               <object class="GtkLabel" id="word_chars_entry_label">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">Select-by-_word characters:</property>
                                 <property name="use_underline">True</property>
@@ -1127,26 +1312,31 @@
                               <object class="GtkEntry" id="word_chars_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x2022;</property>
-                                <signal name="changed" handler="on_word_chars_entry_changed"/>
+                                <property name="invisible_char">•</property>
+                                <signal name="changed" handler="on_word_chars_entry_changed" swapped="no"/>
                               </object>
                               <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">6</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkVBox" id="vbox8">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label21">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Cursor&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -1160,16 +1350,20 @@
                             <child>
                               <object class="GtkAlignment" id="alignment5">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox9">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox4">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <child>
                                           <object class="GtkTable" id="table3">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="n_rows">2</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">12</property>
@@ -1177,9 +1371,10 @@
                                             <child>
                                               <object class="GtkComboBox" id="cursor_shape_combobox">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="model">CursorShapeListStore</property>
                                                 <property name="active">0</property>
-                                                <signal name="changed" handler="on_cursor_shape_combobox_changed"/>
+                                                <signal name="changed" handler="on_cursor_shape_combobox_changed" swapped="no"/>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext4"/>
                                                   <attributes>
@@ -1197,6 +1392,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label22">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Cursor colour:</property>
                                               </object>
                                               <packing>
@@ -1209,8 +1405,9 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
+                                                <property name="use_action_appearance">False</property>
                                                 <property name="color">#000000000000</property>
-                                                <signal name="color_set" handler="on_cursor_color_color_set"/>
+                                                <signal name="color-set" handler="on_cursor_color_color_set" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
@@ -1224,6 +1421,7 @@
                                             <child>
                                               <object class="GtkLabel" id="label480">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Cursor _shape:</property>
                                                 <property name="use_underline">True</property>
                                                 <property name="mnemonic_widget">cursor_shape_combobox</property>
@@ -1232,6 +1430,7 @@
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
+                                            <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
                                         </child>
@@ -1241,6 +1440,7 @@
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -1250,8 +1450,9 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_cursor_blink_toggled"/>
+                                        <signal name="toggled" handler="on_cursor_blink_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1264,6 +1465,7 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -1277,10 +1479,12 @@
                         <child>
                           <object class="GtkVBox" id="vbox10">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label23">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Terminal bell&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -1294,20 +1498,25 @@
                             <child>
                               <object class="GtkAlignment" id="alignment6">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox11">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <object class="GtkCheckButton" id="icon_bell_checkbutton">
                                         <property name="label" translatable="yes">Titlebar icon</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_icon_bell_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_icon_bell_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -1317,9 +1526,10 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_visual_bell_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_visual_bell_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1333,9 +1543,10 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_audible_bell_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_audible_bell_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1349,9 +1560,10 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_urgent_bell_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_urgent_bell_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1380,6 +1592,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label32">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">General</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
@@ -1391,6 +1604,7 @@
                     <child>
                       <object class="GtkAlignment" id="alignment1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="top_padding">6</property>
                         <property name="bottom_padding">6</property>
                         <property name="left_padding">6</property>
@@ -1398,10 +1612,12 @@
                         <child>
                           <object class="GtkVBox" id="vbox80">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label36">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Command&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -1415,13 +1631,16 @@
                             <child>
                               <object class="GtkAlignment" id="alignment10107">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox81">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <child>
                                       <object class="GtkVBox" id="vbox92">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="spacing">6</property>
                                         <child>
                                           <object class="GtkCheckButton" id="login_shell_checkbutton">
@@ -1429,9 +1648,10 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_login_shell_checkbutton_toggled"/>
+                                            <signal name="toggled" handler="on_login_shell_checkbutton_toggled" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1445,9 +1665,10 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_update_records_checkbutton_toggled"/>
+                                            <signal name="toggled" handler="on_update_records_checkbutton_toggled" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1461,9 +1682,10 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">False</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="use_underline">True</property>
                                             <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_use_custom_command_checkbutton_toggled"/>
+                                            <signal name="toggled" handler="on_use_custom_command_checkbutton_toggled" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1474,14 +1696,17 @@
                                         <child>
                                           <object class="GtkAlignment" id="custom_command_box">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="left_padding">12</property>
                                             <child>
                                               <object class="GtkHBox" id="hbox134">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="spacing">12</property>
                                                 <child>
                                                   <object class="GtkLabel" id="custom_command_entry_label">
                                                     <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
                                                     <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Custom co_mmand:</property>
                                                     <property name="use_underline">True</property>
@@ -1498,10 +1723,12 @@
                                                   <object class="GtkEntry" id="custom_command_entry">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
-                                                    <property name="invisible_char">&#x2022;</property>
-                                                    <signal name="changed" handler="on_custom_command_entry_changed"/>
+                                                    <property name="invisible_char">•</property>
+                                                    <signal name="changed" handler="on_custom_command_entry_changed" swapped="no"/>
                                                   </object>
                                                   <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
@@ -1510,16 +1737,19 @@
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
+                                            <property name="fill">True</property>
                                             <property name="position">3</property>
                                           </packing>
                                         </child>
                                         <child>
                                           <object class="GtkHBox" id="hbox27">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="spacing">12</property>
                                             <child>
                                               <object class="GtkLabel" id="exit_action_combobox_label">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="xalign">0</property>
                                                 <property name="label" translatable="yes">When command _exits:</property>
                                                 <property name="use_underline">True</property>
@@ -1535,9 +1765,10 @@
                                             <child>
                                               <object class="GtkComboBox" id="exit_action_combobox">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
                                                 <property name="model">ChildExitedListStore</property>
                                                 <property name="active">0</property>
-                                                <signal name="changed" handler="on_exit_action_combobox_changed"/>
+                                                <signal name="changed" handler="on_exit_action_combobox_changed" swapped="no"/>
                                                 <child>
                                                   <object class="GtkCellRendererText" id="cellrenderertext5"/>
                                                   <attributes>
@@ -1546,17 +1777,22 @@
                                                 </child>
                                               </object>
                                               <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
                                           </object>
                                           <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">4</property>
                                           </packing>
                                         </child>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -1565,6 +1801,7 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -1578,6 +1815,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label38">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Command</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
@@ -1590,15 +1828,18 @@
                     <child>
                       <object class="GtkVBox" id="vbox90">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="border_width">12</property>
                         <property name="spacing">18</property>
                         <child>
                           <object class="GtkVBox" id="vbox82">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label39">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Foreground and Background&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -1612,10 +1853,12 @@
                             <child>
                               <object class="GtkAlignment" id="alignment10105">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkTable" id="table24">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="n_rows">4</property>
                                     <property name="n_columns">2</property>
                                     <property name="column_spacing">12</property>
@@ -1623,6 +1866,7 @@
                                     <child>
                                       <object class="GtkLabel" id="foreground_colorpicker_label">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">_Text color:</property>
                                         <property name="use_underline">True</property>
@@ -1642,9 +1886,10 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_use_theme_colors_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_use_theme_colors_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="right_attach">2</property>
@@ -1655,6 +1900,7 @@
                                     <child>
                                       <object class="GtkLabel" id="background_colorpicker_label">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">_Background color:</property>
                                         <property name="use_underline">True</property>
@@ -1671,6 +1917,7 @@
                                     <child>
                                       <object class="GtkLabel" id="color_scheme_combobox_label">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Built-in sche_mes:</property>
                                         <property name="use_underline">True</property>
@@ -1687,14 +1934,16 @@
                                     <child>
                                       <object class="GtkHBox" id="hbox18">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <child>
                                           <object class="GtkColorButton" id="foreground_colorpicker">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="title" translatable="yes">Choose Terminal Text Color</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_foreground_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_foreground_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1718,14 +1967,16 @@
                                     <child>
                                       <object class="GtkHBox" id="hbox19">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <child>
                                           <object class="GtkColorButton" id="background_colorpicker">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="title" translatable="yes">Choose Terminal Background Color</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_background_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_background_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -1749,9 +2000,10 @@
                                     <child>
                                       <object class="GtkComboBox" id="color_scheme_combobox">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="model">ColourSchemeListStore</property>
                                         <property name="active">2</property>
-                                        <signal name="changed" handler="on_color_scheme_combobox_changed"/>
+                                        <signal name="changed" handler="on_color_scheme_combobox_changed" swapped="no"/>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext6"/>
                                           <attributes>
@@ -1772,22 +2024,26 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkVBox" id="vbox83">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label42">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Palette&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -1801,10 +2057,12 @@
                             <child>
                               <object class="GtkAlignment" id="alignment10106">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkTable" id="table25">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="n_rows">3</property>
                                     <property name="n_columns">2</property>
                                     <property name="column_spacing">12</property>
@@ -1812,6 +2070,7 @@
                                     <child>
                                       <object class="GtkLabel" id="palette_optionmenu_label">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Built-in _schemes:</property>
                                         <property name="use_underline">True</property>
@@ -1828,6 +2087,7 @@
                                     <child>
                                       <object class="GtkTable" id="palette_table">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="n_rows">2</property>
                                         <property name="n_columns">8</property>
                                         <property name="column_spacing">6</property>
@@ -1837,8 +2097,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="x_options"></property>
@@ -1850,8 +2111,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1865,8 +2127,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -1880,8 +2143,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -1895,8 +2159,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -1910,8 +2175,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -1925,8 +2191,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -1940,8 +2207,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -1955,8 +2223,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1972,8 +2241,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -1989,8 +2259,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -2006,8 +2277,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -2023,8 +2295,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -2040,8 +2313,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -2057,8 +2331,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -2072,8 +2347,9 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
+                                            <property name="use_action_appearance">False</property>
                                             <property name="color">#000000000000</property>
-                                            <signal name="color_set" handler="on_palette_colorpicker_color_set"/>
+                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -2097,6 +2373,7 @@
                                     <child>
                                       <object class="GtkLabel" id="label44">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Note:&lt;/b&gt; Terminal applications have these colors available to them.&lt;/i&gt;&lt;/small&gt;</property>
                                         <property name="use_markup">True</property>
@@ -2111,9 +2388,10 @@
                                     <child>
                                       <object class="GtkComboBox" id="palette_combobox">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="model">PaletteListStore</property>
                                         <property name="active">0</property>
-                                        <signal name="changed" handler="on_palette_combobox_changed"/>
+                                        <signal name="changed" handler="on_palette_combobox_changed" swapped="no"/>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext14"/>
                                           <attributes>
@@ -2132,6 +2410,7 @@
                                     <child>
                                       <object class="GtkLabel" id="label43">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="yalign">0</property>
                                         <property name="label" translatable="yes">Color p_alette:</property>
@@ -2151,12 +2430,14 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
@@ -2168,6 +2449,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label45">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Colors</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
@@ -2180,6 +2462,7 @@
                     <child>
                       <object class="GtkVBox" id="vbox86">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="border_width">12</property>
                         <property name="spacing">6</property>
                         <child>
@@ -2188,10 +2471,11 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_background_type_toggled"/>
+                            <signal name="toggled" handler="on_background_type_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2202,6 +2486,7 @@
                         <child>
                           <object class="GtkVBox" id="vbox87">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="image_radiobutton">
@@ -2209,10 +2494,11 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">solid_radiobutton</property>
-                                <signal name="toggled" handler="on_background_type_toggled"/>
+                                <signal name="toggled" handler="on_background_type_toggled" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2223,18 +2509,22 @@
                             <child>
                               <object class="GtkAlignment" id="alignment10103">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox89">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="spacing">6</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox2">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="spacing">12</property>
                                         <child>
                                           <object class="GtkLabel" id="background_image_filechooser_label">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="xalign">0</property>
                                             <property name="label" translatable="yes">Image _file:</property>
                                             <property name="use_underline">True</property>
@@ -2253,14 +2543,18 @@
                                             <property name="can_focus">True</property>
                                             <property name="create_folders">False</property>
                                             <property name="title" translatable="yes">Select Background Image</property>
-                                            <signal name="file_set" handler="on_background_image_filechooser_file_set"/>
+                                            <signal name="file-set" handler="on_background_image_filechooser_file_set" swapped="no"/>
                                           </object>
                                           <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </object>
                                       <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -2270,9 +2564,10 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
+                                        <property name="use_action_appearance">False</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_scroll_background_checkbutton_toggled"/>
+                                        <signal name="toggled" handler="on_scroll_background_checkbutton_toggled" swapped="no"/>
                                       </object>
                                       <packing>
                                         <property name="expand">False</property>
@@ -2285,12 +2580,14 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
@@ -2300,10 +2597,11 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">solid_radiobutton</property>
-                            <signal name="toggled" handler="on_background_type_toggled"/>
+                            <signal name="toggled" handler="on_background_type_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2314,10 +2612,12 @@
                         <child>
                           <object class="GtkVBox" id="darken_background_vbox">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="darken_background_scale_label">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">S_hade transparent or image background:</property>
                                 <property name="use_underline">True</property>
@@ -2333,9 +2633,11 @@
                             <child>
                               <object class="GtkHBox" id="hbox6">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkLabel" id="label64">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="xpad">6</property>
                                     <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;None&lt;/i&gt;&lt;/small&gt;</property>
@@ -2351,18 +2653,20 @@
                                   <object class="GtkHScale" id="darken_background_scale">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="update_policy">delayed</property>
                                     <property name="adjustment">background_darkness_scale</property>
                                     <property name="value_pos">bottom</property>
-                                    <signal name="change_value" handler="on_darken_background_scale_change_value"/>
+                                    <signal name="change-value" handler="on_darken_background_scale_change_value" swapped="no"/>
                                   </object>
                                   <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <object class="GtkLabel" id="label63">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">1</property>
                                     <property name="xpad">6</property>
                                     <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Maximum&lt;/i&gt;&lt;/small&gt;</property>
@@ -2385,6 +2689,7 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">3</property>
                           </packing>
                         </child>
@@ -2396,6 +2701,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label479">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Background</property>
                         <property name="use_markup">True</property>
@@ -2408,6 +2714,7 @@
                     <child>
                       <object class="GtkTable" id="table27">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="border_width">12</property>
                         <property name="n_rows">6</property>
                         <property name="n_columns">2</property>
@@ -2419,9 +2726,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_alternate_screen_scroll_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_alternate_screen_scroll_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
@@ -2436,9 +2744,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_scroll_on_keystroke_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_scroll_on_keystroke_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
@@ -2453,9 +2762,10 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_scroll_on_output_checkbutton_toggled"/>
+                            <signal name="toggled" handler="on_scroll_on_output_checkbutton_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="right_attach">2</property>
@@ -2467,12 +2777,14 @@
                         <child>
                           <object class="GtkHBox" id="hbox139">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <child>
                               <object class="GtkComboBox" id="scrollbar_position_combobox">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="model">ScrollbarPositionListStore</property>
                                 <property name="active">0</property>
-                                <signal name="changed" handler="on_scrollbar_position_combobox_changed"/>
+                                <signal name="changed" handler="on_scrollbar_position_combobox_changed" swapped="no"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext7"/>
                                   <attributes>
@@ -2482,6 +2794,7 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
@@ -2495,25 +2808,28 @@
                         <child>
                           <object class="GtkHBox" id="scrollback_box">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkSpinButton" id="scrollback_lines_spinbutton">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x2022;</property>
+                                <property name="invisible_char">•</property>
                                 <property name="adjustment">ScrollbackAdjustmend</property>
                                 <property name="climb_rate">1</property>
                                 <property name="numeric">True</property>
-                                <signal name="value_changed" handler="on_scrollback_lines_spinbutton_value_changed"/>
+                                <signal name="value-changed" handler="on_scrollback_lines_spinbutton_value_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkLabel" id="scrollback_lines_spinbutton_label">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">lines</property>
                                 <property name="use_markup">True</property>
@@ -2539,6 +2855,7 @@
                         <child>
                           <object class="GtkLabel" id="scrollbar_position_combobox_label">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">_Scrollbar is:</property>
                             <property name="use_underline">True</property>
@@ -2553,6 +2870,7 @@
                         <child>
                           <object class="GtkLabel" id="scrollback_label">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Scroll_back:</property>
                             <property name="use_underline">True</property>
@@ -2572,8 +2890,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_scrollback_infinite_toggled"/>
+                            <signal name="toggled" handler="on_scrollback_infinite_toggled" swapped="no"/>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -2595,6 +2914,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label60">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Scrolling</property>
                         <property name="use_underline">True</property>
                       </object>
@@ -2606,11 +2926,13 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="border_width">12</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkLabel" id="label51">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="yalign">7.4505801528346183e-09</property>
                             <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Note:&lt;/b&gt; These options may cause some applications to behave incorrectly.  They are only here to allow you to work around certain applications and operating systems that expect different terminal behavior.&lt;/i&gt;&lt;/small&gt;</property>
@@ -2619,12 +2941,14 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkTable" id="table30">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="n_rows">2</property>
                             <property name="n_columns">3</property>
                             <property name="column_spacing">12</property>
@@ -2632,6 +2956,7 @@
                             <child>
                               <object class="GtkLabel" id="delete_binding_combobox_label">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Delete key generates:</property>
                                 <property name="use_underline">True</property>
@@ -2648,6 +2973,7 @@
                             <child>
                               <object class="GtkLabel" id="backspace_binding_combobox_label">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">_Backspace key generates:</property>
                                 <property name="use_underline">True</property>
@@ -2662,9 +2988,10 @@
                             <child>
                               <object class="GtkComboBox" id="backspace_binding_combobox">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="model">BackspaceKeyListStore</property>
                                 <property name="active">1</property>
-                                <signal name="changed" handler="on_backspace_binding_combobox_changed"/>
+                                <signal name="changed" handler="on_backspace_binding_combobox_changed" swapped="no"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext8"/>
                                   <attributes>
@@ -2682,9 +3009,10 @@
                             <child>
                               <object class="GtkComboBox" id="delete_binding_combobox">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="model">DeleteKeyListStore</property>
                                 <property name="active">2</property>
-                                <signal name="changed" handler="on_delete_binding_combobox_changed"/>
+                                <signal name="changed" handler="on_delete_binding_combobox_changed" swapped="no"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext9"/>
                                   <attributes>
@@ -2704,12 +3032,14 @@
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkHButtonBox" id="hbuttonbox1">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="layout_style">start</property>
                             <child>
                               <object class="GtkButton" id="reset_compat_defaults_button">
@@ -2717,8 +3047,9 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
-                                <signal name="clicked" handler="on_reset_compatibility_clicked"/>
+                                <signal name="clicked" handler="on_reset_compatibility_clicked" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -2736,10 +3067,12 @@
                         <child>
                           <object class="GtkVBox" id="vbox12">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="label13">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="xalign">0</property>
                                 <property name="label" translatable="yes">&lt;b&gt;Encoding&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
@@ -2753,16 +3086,19 @@
                             <child>
                               <object class="GtkAlignment" id="alignment7">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="left_padding">12</property>
                                 <child>
                                   <object class="GtkTable" id="table4">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="n_columns">2</property>
                                     <property name="column_spacing">12</property>
                                     <property name="row_spacing">6</property>
                                     <child>
                                       <object class="GtkLabel" id="color_scheme_combobox_label1">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">Default:</property>
                                         <property name="use_underline">True</property>
@@ -2777,8 +3113,9 @@
                                     <child>
                                       <object class="GtkComboBox" id="encoding_combobox">
                                         <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
                                         <property name="model">EncodingListStore</property>
-                                        <signal name="changed" handler="on_encoding_combobox_changed"/>
+                                        <signal name="changed" handler="on_encoding_combobox_changed" swapped="no"/>
                                         <child>
                                           <object class="GtkCellRendererText" id="cellrenderertext17"/>
                                           <attributes>
@@ -2797,12 +3134,14 @@
                               </object>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">True</property>
                             <property name="position">3</property>
                           </packing>
                         </child>
@@ -2814,6 +3153,7 @@
                     <child type="tab">
                       <object class="GtkLabel" id="label54">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Compatibility</property>
                         <property name="use_underline">True</property>
                         <property name="justify">center</property>
@@ -2825,6 +3165,8 @@
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -2836,6 +3178,7 @@
             <child type="tab">
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Profiles</property>
               </object>
               <packing>
@@ -2846,24 +3189,29 @@
             <child>
               <object class="GtkHBox" id="layouthbox">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkVBox" id="vbox2">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkTreeView" id="layoutlist">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">LayoutListStore</property>
                         <property name="hadjustment">adjustment5</property>
                         <property name="vadjustment">adjustment6</property>
+                        <property name="model">LayoutListStore</property>
                         <property name="search_column">0</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection2"/>
+                        </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="layoutcolumn">
                             <property name="title">Layout</property>
                             <property name="clickable">True</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext12">
-                                <signal name="edited" handler="on_layout_name_edited"/>
+                                <signal name="edited" handler="on_layout_name_edited" swapped="no"/>
                               </object>
                               <attributes>
                                 <attribute name="editable">1</attribute>
@@ -2874,12 +3222,15 @@
                         </child>
                       </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkHBox" id="hbox5">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <child>
                           <placeholder/>
                         </child>
@@ -2889,8 +3240,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
-                            <signal name="clicked" handler="on_layoutaddbutton_clicked"/>
+                            <signal name="clicked" handler="on_layoutaddbutton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2904,8 +3256,9 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="use_stock">True</property>
-                            <signal name="clicked" handler="on_layoutremovebutton_clicked"/>
+                            <signal name="clicked" handler="on_layoutremovebutton_clicked" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2916,18 +3269,21 @@
                       </object>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkAlignment" id="canvasalignment">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="top_padding">6</property>
                     <property name="bottom_padding">6</property>
                     <property name="left_padding">6</property>
@@ -2937,7 +3293,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hscrollbar_policy">never</property>
-                        <property name="vscrollbar_policy">automatic</property>
                         <child>
                           <object class="GtkTreeView" id="LayoutTreeView">
                             <property name="visible">True</property>
@@ -2945,6 +3300,9 @@
                             <property name="model">LayoutTreeStore</property>
                             <property name="headers_clickable">False</property>
                             <property name="search_column">0</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection3"/>
+                            </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="LayoutTreeViewColumnName">
                                 <property name="title">Type</property>
@@ -2973,19 +3331,24 @@
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkVBox" id="vbox6">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <object class="GtkAlignment" id="alignment3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="left_padding">6</property>
                         <child>
                           <object class="GtkTable" id="table1">
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
                             <property name="n_rows">2</property>
                             <property name="n_columns">2</property>
                             <property name="column_spacing">12</property>
@@ -2993,6 +3356,7 @@
                             <child>
                               <object class="GtkLabel" id="label12">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Profile</property>
                               </object>
                               <packing>
@@ -3003,6 +3367,7 @@
                             <child>
                               <object class="GtkLabel" id="label14">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Custom command</property>
                               </object>
                               <packing>
@@ -3016,8 +3381,8 @@
                               <object class="GtkEntry" id="layout_profile_command">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">&#x2022;</property>
-                                <signal name="changed" handler="on_layout_profile_command_changed"/>
+                                <property name="invisible_char">•</property>
+                                <signal name="changed" handler="on_layout_profile_command_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -3031,9 +3396,10 @@
                             <child>
                               <object class="GtkComboBox" id="layout_profile_chooser">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <property name="model">layoutprofilelist</property>
                                 <property name="active">0</property>
-                                <signal name="changed" handler="on_layout_profile_chooser_changed"/>
+                                <signal name="changed" handler="on_layout_profile_chooser_changed" swapped="no"/>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext13"/>
                                   <attributes>
@@ -3063,6 +3429,7 @@
                   </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -3074,6 +3441,7 @@
             <child type="tab">
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Layouts</property>
               </object>
               <packing>
@@ -3087,7 +3455,6 @@
                 <property name="can_focus">True</property>
                 <property name="vadjustment">adjustment4</property>
                 <property name="hscrollbar_policy">never</property>
-                <property name="vscrollbar_policy">automatic</property>
                 <child>
                   <object class="GtkTreeView" id="keybindingtreeview">
                     <property name="visible">True</property>
@@ -3095,6 +3462,9 @@
                     <property name="model">KeybindingsListStore</property>
                     <property name="headers_clickable">False</property>
                     <property name="search_column">0</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection" id="treeview-selection4"/>
+                    </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn1">
                         <property name="title">Name</property>
@@ -3124,8 +3494,8 @@
                           <object class="GtkCellRendererAccel" id="cellrendereraccel1">
                             <property name="editable">True</property>
                             <property name="accel_mode">other</property>
-                            <signal name="accel_cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore"/>
-                            <signal name="accel_edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore"/>
+                            <signal name="accel-cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore" swapped="yes"/>
+                            <signal name="accel-edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore" swapped="yes"/>
                           </object>
                           <attributes>
                             <attribute name="accel-key">2</attribute>
@@ -3144,6 +3514,7 @@
             <child type="tab">
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Keybindings</property>
               </object>
               <packing>
@@ -3154,21 +3525,25 @@
             <child>
               <object class="GtkHBox" id="hbox7">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkTreeView" id="pluginlist">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="model">PluginListStore</property>
                     <property name="hadjustment">adjustment2</property>
                     <property name="vadjustment">adjustment3</property>
+                    <property name="model">PluginListStore</property>
                     <property name="search_column">0</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection" id="treeview-selection5"/>
+                    </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="plugincolumn1">
                         <property name="title">Plugin</property>
                         <property name="clickable">True</property>
                         <child>
                           <object class="GtkCellRendererToggle" id="cellrenderertext15">
-                            <signal name="toggled" handler="on_plugin_toggled"/>
+                            <signal name="toggled" handler="on_plugin_toggled" swapped="no"/>
                           </object>
                           <attributes>
                             <attribute name="active">1</attribute>
@@ -3184,15 +3559,20 @@
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="pluginpanelabel">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">This plugin has no configuration options</property>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -3204,6 +3584,7 @@
             <child type="tab">
               <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Plugins</property>
               </object>
               <packing>
@@ -3213,33 +3594,9 @@
             </child>
           </object>
           <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog_action_area1">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="okbutton">
-                <property name="label">gtk-close</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="on_closebutton_clicked"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
             <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -3247,52 +3604,5 @@
     <action-widgets>
       <action-widget response="0">okbutton</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="value">-1</property>
-    <property name="lower">-1</property>
-    <property name="upper">5</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">2</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment2">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment3">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkAdjustment" id="background_darkness_scale">
-    <property name="upper">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.20000000000000001</property>
-  </object>
-  <object class="GtkAdjustment" id="ScrollbackAdjustmend">
-    <property name="upper">10000000</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment4">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment5">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment6">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
   </object>
 </interface>

@@ -102,6 +102,11 @@ Default value: \fB'#000000'\fR
 Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#C0BEBF'\fR
 .TP
+.B inactive_color_offset
+Controls how much to reduce the colour values of fonts in terminals that do not have focus. It is a simple multiplication
+factor. A font colour that was RGB(200,200,200) with an inactive_color_offset of 0.5 would set inactive terminals to
+RGB(100,100,100).
+.TP
 .B enabled_plugins
 A list of plugins which should be loaded by default. All other plugin classes will be ignored. The default value includes two
 plugins related to Launchpad, which are enabled by default to provide continuity with earlier releases where these were the
