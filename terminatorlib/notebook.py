@@ -195,7 +195,7 @@ class Notebook(Container, gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None):
+    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None, profile=None):
         """Add a new tab, optionally supplying a child widget"""
         dbg('making a new tab')
         maker = Factory()
@@ -256,6 +256,8 @@ class Notebook(Container, gtk.Notebook):
         self.show_all()
         if maker.isinstance(widget, 'Terminal'):
             widget.grab_focus()
+        if profile:
+            widget.force_set_profile(None, profile)
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""

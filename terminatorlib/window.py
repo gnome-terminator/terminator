@@ -219,6 +219,7 @@ class Window(Container, gtk.Window):
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
         cwd = None
+        profile = None
 
         if self.get_property('term_zoomed') == True:
             err("You can't create a tab while a terminal is maximised/zoomed")
@@ -226,11 +227,13 @@ class Window(Container, gtk.Window):
 
         if widget:
             cwd = widget.get_cwd()
+            profile = widget.get_profile()
+
         maker = Factory()
         if not self.is_child_notebook():
             dbg('Making a new Notebook')
             notebook = maker.make('Notebook', window=self)
-        self.get_child().newtab(debugtab, cwd=cwd)
+        self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
@@ -425,6 +428,9 @@ class Window(Container, gtk.Window):
             sibling = maker.make('Terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+        if sibling:
+            sibling.force_set_profile(None, widget.get_profile())
+
         self.add(container)
         container.show_all()
 
