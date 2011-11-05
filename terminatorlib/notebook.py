@@ -136,6 +136,8 @@ class Notebook(Container, gtk.Notebook):
             sibling = maker.make('terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+        if sibling:
+            sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
         self.set_tab_reorderable(container, True)
