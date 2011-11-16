@@ -208,6 +208,8 @@ class Notebook(Container, gtk.Notebook):
             if cwd:
                 widget.set_cwd(cwd)
             widget.spawn_child(debugserver=debugtab)
+        if profile:
+            widget.force_set_profile(None, profile)
 
         signals = {'close-term': self.wrapcloseterm,
                    'split-horiz': self.split_horiz,
@@ -258,8 +260,6 @@ class Notebook(Container, gtk.Notebook):
         self.show_all()
         if maker.isinstance(widget, 'Terminal'):
             widget.grab_focus()
-        if profile:
-            widget.force_set_profile(None, profile)
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""
