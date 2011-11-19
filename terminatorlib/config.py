@@ -86,6 +86,7 @@ DEFAULTS = {
             'close_button_on_tab'   : True,
             'hide_tabbar'           : False,
             'scroll_tabbar'         : False,
+            'homogeneous_tabbar'    : True,
             'hide_from_taskbar'     : False,
             'always_on_top'         : False,
             'hide_on_lose_focus'    : False,
