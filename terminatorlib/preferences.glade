@@ -382,7 +382,7 @@
                       <object class="GtkTable" id="global_config_table">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="n_rows">13</property>
+                        <property name="n_rows">15</property>
                         <property name="n_columns">2</property>
                         <property name="column_spacing">6</property>
                         <child>
@@ -591,8 +591,8 @@
                             <property name="label" translatable="yes">Hide from taskbar</property>
                           </object>
                           <packing>
-                            <property name="top_attach">7</property>
-                            <property name="bottom_attach">8</property>
+                            <property name="top_attach">9</property>
+                            <property name="bottom_attach">10</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -610,8 +610,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">7</property>
-                            <property name="bottom_attach">8</property>
+                            <property name="top_attach">9</property>
+                            <property name="bottom_attach">10</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -623,8 +623,8 @@
                             <property name="label" translatable="yes">Always on top</property>
                           </object>
                           <packing>
-                            <property name="top_attach">8</property>
-                            <property name="bottom_attach">9</property>
+                            <property name="top_attach">10</property>
+                            <property name="bottom_attach">11</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -636,8 +636,8 @@
                             <property name="label" translatable="yes">Hide on lose focus</property>
                           </object>
                           <packing>
-                            <property name="top_attach">9</property>
-                            <property name="bottom_attach">10</property>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -655,8 +655,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">8</property>
-                            <property name="bottom_attach">9</property>
+                            <property name="top_attach">10</property>
+                            <property name="bottom_attach">11</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -674,8 +674,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">9</property>
-                            <property name="bottom_attach">10</property>
+                            <property name="top_attach">11</property>
+                            <property name="bottom_attach">12</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -687,8 +687,8 @@
                             <property name="label" translatable="yes">Show on all workspaces</property>
                           </object>
                           <packing>
-                            <property name="top_attach">10</property>
-                            <property name="bottom_attach">11</property>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -706,8 +706,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">10</property>
-                            <property name="bottom_attach">11</property>
+                            <property name="top_attach">12</property>
+                            <property name="bottom_attach">13</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -719,8 +719,8 @@
                             <property name="label" translatable="yes">DBus server</property>
                           </object>
                           <packing>
-                            <property name="top_attach">6</property>
-                            <property name="bottom_attach">7</property>
+                            <property name="top_attach">8</property>
+                            <property name="bottom_attach">9</property>
                           </packing>
                         </child>
                         <child>
@@ -736,8 +736,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">6</property>
-                            <property name="bottom_attach">7</property>
+                            <property name="top_attach">8</property>
+                            <property name="bottom_attach">9</property>
                             <property name="x_options">GTK_EXPAND</property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -750,8 +750,8 @@
                             <property name="label" translatable="yes">Hide  size from title</property>
                           </object>
                           <packing>
-                            <property name="top_attach">11</property>
-                            <property name="bottom_attach">12</property>
+                            <property name="top_attach">13</property>
+                            <property name="bottom_attach">14</property>
                             <property name="x_options"></property>
                             <property name="y_options"></property>
                           </packing>
@@ -769,8 +769,8 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">11</property>
-                            <property name="bottom_attach">12</property>
+                            <property name="top_attach">13</property>
+                            <property name="bottom_attach">14</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>
@@ -782,8 +782,8 @@
                             <property name="label" translatable="yes">Unfocused terminal font brightness</property>
                           </object>
                           <packing>
-                            <property name="top_attach">12</property>
-                            <property name="bottom_attach">13</property>
+                            <property name="top_attach">14</property>
+                            <property name="bottom_attach">15</property>
                           </packing>
                         </child>
                         <child>
@@ -799,8 +799,70 @@
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">12</property>
-                            <property name="bottom_attach">13</property>
+                            <property name="top_attach">14</property>
+                            <property name="bottom_attach">15</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label31">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Tabs scroll buttons</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="scrolltabbarcheck">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="xalign">0</property>
+                            <property name="yalign">0.55000001192092896</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_scroll_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">6</property>
+                            <property name="bottom_attach">7</property>
+                            <property name="x_options">GTK_EXPAND</property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label33">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Tabs homogeneous</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="homogeneouscheck">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="xalign">0</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <signal name="toggled" handler="on_homogeneous_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">7</property>
+                            <property name="bottom_attach">8</property>
+                            <property name="x_options">GTK_EXPAND</property>
+                            <property name="y_options">GTK_EXPAND</property>
                           </packing>
                         </child>
                       </object>
