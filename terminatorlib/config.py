@@ -102,6 +102,7 @@ DEFAULTS = {
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
+             'suppress_multiple_term_dialog': False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

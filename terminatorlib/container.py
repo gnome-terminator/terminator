@@ -151,6 +151,11 @@ class Container(object):
 
     def construct_confirm_close(self, window, reqtype):
         """Create a confirmation dialog for closing things"""
+        
+        # skip this dialog if applicable
+        if self.config['suppress_multiple_term_dialog']:
+            return gtk.RESPONSE_ACCEPT
+        
         dialog = gtk.Dialog(_('Close?'), window, gtk.DIALOG_MODAL)
         dialog.set_has_separator(False)
         dialog.set_resizable(False)
@@ -166,7 +171,7 @@ class Container(object):
         secondary = gtk.Label(_('This %s has several terminals open. Closing \
 the %s will also close all terminals within it.') % (reqtype, reqtype))
         secondary.set_line_wrap(True)
-    
+                    
         labels = gtk.VBox()
         labels.pack_start(primary, False, False, 6)
         labels.pack_start(secondary, False, False, 6)
@@ -179,9 +184,21 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         box.pack_start(image, False, False, 6)
         box.pack_start(labels, False, False, 6)
         dialog.vbox.pack_start(box, False, False, 12)
+
+        checkbox = gtk.CheckButton(_("Do not show this message next time"))
+        dialog.vbox.pack_end(checkbox)
     
         dialog.show_all()
-        return(dialog)
+
+        result = dialog.run()
+        
+        # set configuration
+        self.config['suppress_multiple_term_dialog'] = checkbox.get_active()
+        self.config.save()
+
+        dialog.destroy()
+                
+        return(result)
 
     def propagate_title_change(self, widget, title):
         """Pass a title change up the widget stack"""

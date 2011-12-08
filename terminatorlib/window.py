@@ -246,10 +246,8 @@ class Window(Container, gtk.Window):
     def confirm_close(self, window, type):
         """Display a confirmation dialog when the user is closing multiple
         terminals in one window"""
-        dialog = self.construct_confirm_close(window, type)
-        result = dialog.run()
-        dialog.destroy()
-        return(not (result == gtk.RESPONSE_ACCEPT))
+        
+        return(not (self.construct_confirm_close(window, type) == gtk.RESPONSE_ACCEPT))
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
