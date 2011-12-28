@@ -23,28 +23,39 @@ AVAILABLE = ['CustomCommandsMenu']
 class CustomCommandsMenu(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
     capabilities = ['terminal_menu']
-    cmd_list = []
+    cmd_list = {}
     conf_file = os.path.join(get_config_dir(),"custom_commands")
 
     def __init__( self):
-      config = Config()
-      sections = config.plugin_get_config(self.__class__.__name__)
-      if not isinstance(sections, dict):
-          return
-      for part in sections:
-        s = sections[part]
-        if not (s.has_key("name") and s.has_key("command")):
-          print "CustomCommandsMenu: Ignoring section %s" % s
-          continue
-        name = s["name"]
-        command = s["command"]
-        enabled = s["enabled"] and s["enabled"] or False
-        self.cmd_list.append(
+        config = Config()
+        sections = config.plugin_get_config(self.__class__.__name__)
+        if not isinstance(sections, dict):
+            return
+        noord_cmds = []
+        for part in sections:
+            s = sections[part]
+            if not (s.has_key("name") and s.has_key("command")):
+                print "CustomCommandsMenu: Ignoring section %s" % s
+                continue
+            name = s["name"]
+            command = s["command"]
+            enabled = s["enabled"] and s["enabled"] or False
+            if s.has_key("position"):
+                self.cmd_list[int(s["position"])] = {'enabled' : enabled,
+                                            'name' : name,
+                                            'command' : command
+                                            }
+            else:
+                noord_cmds.append(
                               {'enabled' : enabled,
                                 'name' : name,
                                 'command' : command
                               }
                             )
+        for cmd in noord_cmds:
+            self.cmd_list[len(self.cmd_list)] = cmd
+
+      
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
         item = gtk.MenuItem(_('Custom Commands'))
@@ -61,7 +72,7 @@ class CustomCommandsMenu(plugin.MenuItem):
         submenu.append(menuitem)
 
         theme = gtk.IconTheme()
-        for command in self.cmd_list:
+        for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ] :
           if not command['enabled']:
             continue
           exe = command['command'].split(' ')[0]
@@ -78,21 +89,22 @@ class CustomCommandsMenu(plugin.MenuItem):
         
     def _save_config(self):
       config = Config()
+      config.plugin_del_config(self.__class__.__name__)
       i = 0
-      length = len(self.cmd_list)
-      while i < length:
-        enabled = self.cmd_list[i]['enabled']
-        name = self.cmd_list[i]['name']
-        command = self.cmd_list[i]['command']
+      for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ] :
+        enabled = command['enabled']
+        name = command['name']
+        command = command['command']
        
         item = {}
         item['enabled'] = enabled
         item['name'] = name
         item['command'] = command
+        item['position'] = i
 
         config.plugin_set(self.__class__.__name__, name, item)
-        config.save()
         i = i + 1
+      config.save()
 
     def _execute(self, widget, data):
       command = data['command']
@@ -113,7 +125,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                     )
       store = gtk.ListStore(bool, str, str)
 
-      for command in self.cmd_list:
+      for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ]:
         store.append([command['enabled'], command['name'], command['command']])
  
       treeview = gtk.TreeView(store)
@@ -183,30 +195,32 @@ class CustomCommandsMenu(plugin.MenuItem):
       button.set_sensitive(False)
       ui['button_delete'] = button
 
-
-
       hbox.pack_start(button_box)
       dbox.show_all()
       res = dbox.run()
+
       if res == gtk.RESPONSE_ACCEPT:
-        #we save the config
+        self.update_cmd_list(store)
+        self._save_config()
+      dbox.destroy()
+      return
+
+
+    def update_cmd_list(self, store):
         iter = store.get_iter_first()
-        self.cmd_list = []
+        self.cmd_list = {}
+        i=0
         while iter:
           (enabled, name, command) = store.get(iter,
                                               CC_COL_ENABLED,
                                               CC_COL_NAME,
                                               CC_COL_COMMAND)
-          self.cmd_list.append(
-                            {'enabled' : enabled,
+          self.cmd_list[i] = {'enabled' : enabled,
                             'name': name,
                             'command' : command}
-                              )
           iter = store.iter_next(iter)
-        self._save_config()
+          i = i + 1
       
-      dbox.destroy()
-      return
 
     def on_toggled(self, widget, path, data):
       treeview = data['treeview']
@@ -218,10 +232,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                                     CC_COL_COMMAND
                                         )
       store.set_value(iter, CC_COL_ENABLED, not enabled)
-      for cmd in self.cmd_list:
-        if cmd['name'] == name:
-          cmd['enabled'] = not enabled
-          break
+
 
     def on_selection_changed(self,selection, data=None):
       treeview = selection.get_tree_view()
@@ -376,17 +387,14 @@ class CustomCommandsMenu(plugin.MenuItem):
       (store, iter) = selection.get_selected()
       if iter:
         store.remove(iter)
-      
       return
  
     def on_edit(self, button, data):
       treeview = data['treeview']
       selection = treeview.get_selection()
       (store, iter) = selection.get_selected()
-      
       if not iter:
         return
-       
       (dialog,enabled,name,command) = self._create_command_dialog(
                                                 enabled_var = store.get_value(iter, CC_COL_ENABLED),
                                                 name_var = store.get_value(iter, CC_COL_NAME),
