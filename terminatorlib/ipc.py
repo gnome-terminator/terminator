@@ -59,11 +59,16 @@ class DBusService(Borg, dbus.service.Object):
             self.terminator = Terminator()
 
     @dbus.service.method(BUS_NAME)
-    def new_window(self, layout='default'):
+    def new_window(self, layout, command=''):
         """Create a new Window"""
-        dbg('dbus method called: new_window')
+        dbg('dbus method called: new_window with parameters %s, %s'%(layout, command))
+        if command:
+            options = self.terminator.config.options_get()
+            options.command = command
+            self.terminator.config.options_set(options)
         self.terminator.create_layout(layout)
         self.terminator.layout_done()
+            
 
     @dbus.service.method(BUS_NAME)
     def terminal_hsplit(self, uuid=None):
@@ -103,9 +108,9 @@ def with_proxy(func):
     return _exec
 
 @with_proxy
-def new_window(session, layout='default'):
+def new_window(session, layout='default', command=''):
     """Call the dbus method to open a new window"""
-    session.new_window(layout)
+    session.new_window(layout, command)
 
 @with_proxy
 def terminal_hsplit(session, uuid):
