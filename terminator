@@ -76,7 +76,7 @@ if __name__ == '__main__':
                     val = ' '.join(val)
                 if val == True:
                     val = 'True'
-                optionslist[opt] = val or ''
+                optionslist[opt] = val and '%s'%val or ''
             optionslist = dbus.Dictionary(optionslist, signature='ss')
             ipc.new_window(optionslist)
             sys.exit()
