@@ -90,7 +90,7 @@ class Terminator(Borg):
             self.gnome_client.connect('save-yourself', self.save_yourself)
             self.gnome_client.connect('die', self.die)
             dbg('GNOME session support enabled and registered')
-        except ImportError:
+        except (ImportError, AttributeError):
             self.gnome_client = False
             dbg('GNOME session support not available')
 
