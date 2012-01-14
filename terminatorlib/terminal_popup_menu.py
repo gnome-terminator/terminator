@@ -10,7 +10,7 @@ from version import APP_NAME
 from translation import _
 from encoding import TerminatorEncoding
 from terminator import Terminator
-from util import err
+from util import err, dbg
 from config import Config
 from prefseditor import PrefsEditor
 import plugin
@@ -47,14 +47,41 @@ class TerminalPopupMenu(object):
             button = 3
 
         if url:
+            dbg("URL matches id: %d" % url[1])
+            if not url[1] in terminal.matches.values():
+                err("Unknown URL match id: %d" % url[1])
+                dbg("Available matches: %s" % terminal.matches)
+
+            nameopen = None
+            namecopy = None
             if url[1] == terminal.matches['email']:
                 nameopen = _('_Send email to...')
                 namecopy = _('_Copy email address')
             elif url[1] == terminal.matches['voip']:
                 nameopen = _('Ca_ll VoIP address')
                 namecopy = _('_Copy VoIP address')
-            else:
+            elif url[1] in terminal.matches.values():
+                # This is a plugin match
+                for pluginname in terminal.matches:
+                    if terminal.matches[pluginname] == url[1]:
+                        break
+
+                dbg("Found match ID (%d) in terminal.matches plugin %s" %
+                        (url[1], pluginname))
+                registry = plugin.PluginRegistry()
+                registry.load_plugins()
+                plugins = registry.get_plugins_by_capability('url_handler')
+                for urlplugin in plugins:
+                    if urlplugin.handler_name == pluginname:
+                        dbg("Identified matching plugin: %s" %
+                                urlplugin.handler_name)
+                        nameopen = _(urlplugin.nameopen)
+                        namecopy = _(urlplugin.namecopy)
+                        break
+
+            if not nameopen:
                 nameopen = _('_Open link')
+            if not namecopy:
                 namecopy = _('_Copy address')
 
             icon = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO,
@@ -66,7 +93,7 @@ class TerminalPopupMenu(object):
 
             item = gtk.MenuItem(namecopy)
             item.connect('activate', 
-                         lambda x: terminal.clipboard.set_text(url[0]))
+                         lambda x: terminal.clipboard.set_text(terminal.prepare_url(url)))
             menu.append(item)
 
             menu.append(gtk.MenuItem())

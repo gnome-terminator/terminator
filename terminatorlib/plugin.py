@@ -155,6 +155,8 @@ class URLHandler(Plugin):
     capabilities = ['url_handler']
     handler_name = None
     match = None
+    nameopen = None
+    namecopy = None
 
     def __init__(self):
         """Class initialiser"""

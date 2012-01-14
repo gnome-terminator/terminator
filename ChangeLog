@@ -1,5 +1,9 @@
 terminator 0.97:
   * Allow font dimming in inactive terminals
+  * Allow URL handler plugins to override label text for URL context
+    menus
+  * When copying a URL, run it through the URL handler first so the
+    resulting URL is copied, rather than the original text
 
 terminator 0.96:
   * Unity support for opening new windows (Lucian Adrian Grijincu)

@@ -284,14 +284,14 @@ class Terminal(gtk.VBox):
                     name = urlplugin.handler_name
                     match = urlplugin.match
                     if name in self.matches:
-                        dbg('Terminal::update_matches: refusing to add \
-duplicate match %s' % name)
+                        dbg('refusing to add duplicate match %s' % name)
                         continue
                     self.matches[name] = self.vte.match_add(match)
-                    dbg('Terminal::update_matches: added plugin URL handler \
-for %s (%s)' % (name, urlplugin.__class__.__name__))
+                    dbg('added plugin URL handler for %s (%s) as %d' % 
+                        (name, urlplugin.__class__.__name__,
+                        self.matches[name]))
             except Exception, ex:
-                err('Terminal::update_url_matches: %s' % ex)
+                err('Exception occurred adding plugin URL match: %s' % ex)
 
     def match_add(self, name, match):
         """Register a URL match"""
@@ -1293,7 +1293,7 @@ for %s (%s)' % (name, urlplugin.__class__.__name__))
                             url = newurl
                         break
             except Exception, ex:
-                err('Terminal::prepare_url: %s' % ex)
+                err('Exception occurred preparing URL: %s' % ex)
 
         return(url)
 

@@ -14,6 +14,8 @@ class LaunchpadBugURLHandler(plugin.URLHandler):
     capabilities = ['url_handler']
     handler_name = 'launchpad_bug'
     match = '\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b'
+    nameopen = "Open Launchpad bug"
+    namecopy = "Copy bug URL"
 
     def callback(self, url):
         """Look for the number in the supplied string and return it as a URL"""
@@ -26,6 +28,8 @@ class LaunchpadCodeURLHandler(plugin.URLHandler):
     branch entry then it should be transformed into a code.launchpad.net URL"""
     capabilities = ['url_handler']
     handler_name = 'launchpad_code'
+    nameopen = "Open Launchpad branch"
+    namecopy = "Copy branch URL"
     lpfilters = {}
     lpfilters['project'] = '[a-z0-9]{1}[a-z0-9\.\-\+]+'
     lpfilters['group'] = '~%s' % lpfilters['project']
@@ -45,6 +49,8 @@ class APTURLHandler(plugin.URLHandler):
     it appropriately"""
     capabilities = ['url_handler']
     handler_name = 'apturl'
+    nameopen = "Open software manager"
+    namecopy = "Copy package URI"
     match = '\\bapt:.*\\b'
 
     def callback(self, url):
