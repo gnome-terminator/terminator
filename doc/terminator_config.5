@@ -78,6 +78,14 @@ Default value: \fBFalse\fR
 If set to True, URL matching regexps will try to use POSIX style first, and fall back on GNU style on failure.  If you are on Linux but URL matches don't work, try setting this to True.  If you are not on Linux, but you get VTE warnings on startup saying "Error compiling regular expression", set this to False to silence them (they are otherwise harmless).
 Default value: \fBFalse\fR on Linux, \fBTrue\fR otherwise.
 .TP
+.B use_custom_url_handler \fR(boolean)
+If set to True, URL handling will be given over entirely to the program specified by 'custom_url_handler'.
+Default value: \fBFalse\fR
+.TP
+.B custom_url_handler \fR(string)
+Path to a program which accepts a URI as an argument and does something relevant with it. This option is ignored unless 'use_custom_url_handler' is set to True.
+Default value: unset
+.TP
 .B title_transmit_fg_color
 Sets the colour of the text shown in the titlebar of the active terminal.
 Default value: \fB'#FFFFFF'\fR

@@ -91,6 +91,8 @@ DEFAULTS = {
             'hide_on_lose_focus'    : False,
             'sticky'                : False,
             'try_posix_regexp'      : platform.system() != 'Linux',
+            'use_custom_url_handler': False,
+            'custom_url_handler'    : '',
             'title_hide_sizetext'   : False,
             'title_transmit_fg_color' : '#ffffff',
             'title_transmit_bg_color' : '#c80003',

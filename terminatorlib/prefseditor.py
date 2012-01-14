@@ -460,6 +460,13 @@ class PrefsEditor:
         # Inactive terminal shading 
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
+        # Use custom URL handler
+        widget = guiget('use_custom_url_handler_checkbox')
+        widget.set_active(self.config['use_custom_url_handler'])
+        self.on_use_custom_url_handler_checkbutton_toggled(widget)
+        # Custom URL handler
+        widget = guiget('custom_url_handler_entry')
+        widget.set_text(self.config['custom_url_handler'])
 
         ## Background tab
         # Radio values
@@ -822,6 +829,11 @@ class PrefsEditor:
         self.config['exit_action'] = value
         self.config.save()
 
+    def on_custom_url_handler_entry_changed(self, widget):
+        """Custom URL handler value changed"""
+        self.config['custom_url_handler'] = widget.get_text()
+        self.config.save()
+
     def on_custom_command_entry_changed(self, widget):
         """Custom command value changed"""
         self.config['custom_command'] = widget.get_text()
@@ -1025,6 +1037,17 @@ class PrefsEditor:
         self.config.del_layout(layout)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
+        self.config.save()
+
+    def on_use_custom_url_handler_checkbutton_toggled(self, checkbox):
+        """Toggling the use_custom_url_handler checkbox needs to alter the
+        sensitivity of the custom_url_handler entrybox"""
+        guiget = self.builder.get_object
+        widget = guiget('custom_url_handler_entry')
+        value = checkbox.get_active()
+
+        widget.set_sensitive(value)
+        self.config['use_custom_url_handler'] = value
         self.config.save()
 
     def on_use_custom_command_checkbutton_toggled(self, checkbox):

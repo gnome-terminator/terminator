@@ -1305,6 +1305,15 @@ class Terminal(gtk.VBox):
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
 
+        if self.config['use_custom_url_handler']:
+            dbg("Using custom URL handler: %s" %
+                self.config['custom_url_handler'])
+            try:
+                subprocess.Popen([self.config['custom_url_handler'], url])
+                return
+            except:
+                dbg('custom url handler did not work, falling back to defaults')
+
         if gtk.gtk_version < (2, 14, 0) or \
            not hasattr(gtk, 'show_uri') or \
            not hasattr(gtk.gdk, 'CURRENT_TIME'):
