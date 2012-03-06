@@ -367,7 +367,11 @@ class PrefsEditor:
         widget.set_active(self.config['cursor_blink'])
         # Cursor colour
         widget = guiget('cursor_color')
-        widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
+        try:
+            widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
+        except ValueError:
+            self.config['cursor_color'] = "#FFFFFF"
+            widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
 
         ## Command tab
         # Login shell
