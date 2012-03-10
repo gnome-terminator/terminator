@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-01-09 13:52+0000\n"
-"Last-Translator: Kristjan SCHMIDT <Unknown>\n"
+"PO-Revision-Date: 2012-03-09 11:29+0000\n"
+"Last-Translator: Michael Moroni <michael.moroni@mailoo.org>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-01-22 05:16+0000\n"
-"X-Generator: Launchpad (build 14700)\n"
+"X-Launchpad-Export-Date: 2012-03-10 04:38+0000\n"
+"X-Generator: Launchpad (build 14914)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -46,7 +46,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Aktuala Lokaĵaro"
+msgstr "Aktuala lokaĵaro"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -194,7 +194,7 @@ msgstr "langeto"
 
 #: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
-msgstr "Fermi la langeton"
+msgstr "Fermi langeton"
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
