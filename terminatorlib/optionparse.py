@@ -26,6 +26,8 @@ import config
 import version
 from translation import _
 
+options = None
+
 def execute_cb(option, opt, value, lparser):
     """Callback for use in parsing execute options"""
     assert value is None
@@ -40,7 +42,6 @@ def parse_options():
     """Parse the command line options"""
     usage = "usage: %prog [options]"
 
-    configobj = config.Config()
     parser = OptionParser(usage)
 
     parser.add_option('-v', '--version', action='store_true', dest='version',
@@ -55,6 +56,8 @@ def parse_options():
             help=_('Hide the window at startup'))
     parser.add_option('-T', '--title', dest='forcedtitle', help=_('Specify a \
 title for the window'))
+    parser.add_option('-c', '--config', dest='config', help=_('Specify a \
+config file'))
     parser.add_option('--geometry', dest='geometry', type='string', help=_('Set \
 the preferred size and position of the window (see X man page)'))
     parser.add_option('-e', '--command', dest='command', help=_('Specify a \
@@ -82,6 +85,7 @@ different profile as the default'))
         parser.add_option(item, dest='dummy', action='store',
                 help=SUPPRESS_HELP)
 
+    global options
     (options, args) = parser.parse_args()
     if len(args) != 0:
         parser.error('Additional unexpected arguments found: %s' % args)
@@ -118,6 +122,7 @@ different profile as the default'))
     if options.layout is None:
         options.layout = 'default'
 
+    configobj = config.Config()
     if options.profile and options.profile not in configobj.list_profiles():
         options.profile = None
 
