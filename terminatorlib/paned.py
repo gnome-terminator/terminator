@@ -19,6 +19,7 @@ class Paned(Container):
 
     position = None
     maker = None
+    ratio = 0.5
 
     def __init__(self):
         """Class initialiser"""
@@ -30,19 +31,6 @@ class Paned(Container):
                              'return_type': gobject.TYPE_NONE, 
                              'param_types': (gobject.TYPE_STRING,)})
 
-
-    # pylint: disable-msg=W0613
-    def set_initial_position(self, widget, event):
-        """Set the initial position of the widget"""
-        if not self.position:
-            if isinstance(self, gtk.VPaned):
-                self.position = self.allocation.height / 2
-            else:
-                self.position = self.allocation.width / 2
-
-        dbg("Paned::set_initial_position: Setting position to: %d" % self.position)
-        self.set_position(self.position)
-        self.cnxids.remove_signal(self, 'expose-event')
 
     # pylint: disable-msg=W0613
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None,
@@ -76,13 +64,13 @@ class Paned(Container):
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
         if len(self.children) == 0:
-            self.pack1(widget, True, True)
+            self.pack1(widget, False, True)
             self.children.append(widget)
         elif len(self.children) == 1:
             if self.get_child1():
-                self.pack2(widget, True, True)
+                self.pack2(widget, False, True)
             else:
-                self.pack1(widget, True, True)
+                self.pack1(widget, False, True)
             self.children.append(widget)
         else:
             raise ValueError('Paned widgets can only have two children')
@@ -94,6 +82,7 @@ class Paned(Container):
                     'split-vert': self.split_vert,
                     'title-change': self.propagate_title_change,
                     'resize-term': self.resizeterm,
+                    'size-allocate': self.new_size,
                     'zoom': top_window.zoom,
                     'tab-change': top_window.tab_change,
                     'group-all': top_window.group_all,
@@ -103,7 +92,9 @@ class Paned(Container):
                     'move-tab': top_window.move_tab,
                     'maximise': [top_window.zoom, False],
                     'tab-new': [top_window.tab_new, widget],
-                    'navigate': top_window.navigate_terminal}
+                    'navigate': top_window.navigate_terminal,
+                    'rotate-cw': [top_window.rotate, True],
+                    'rotate-ccw': [top_window.rotate, False]}
 
             for signal in signals:
                 args = []
@@ -118,6 +109,7 @@ class Paned(Container):
         elif isinstance(widget, gtk.Paned):
             try:
                 self.connect_child(widget, 'resize-term', self.resizeterm)
+                self.connect_child(widget, 'size-allocate', self.new_size)
             except TypeError:
                 err('Paned::add: %s has no signal resize-term' % widget)
 
@@ -260,6 +252,35 @@ class Paned(Container):
         """We don't want focus, we want a Terminal to have it"""
         self.get_child1().grab_focus()
 
+    def rotate(self, widget, clockwise):
+        """Default rotation. This should be implemented by subclasses"""
+        if isinstance(self, HPaned):
+            container = VPaned()
+            reverse = not clockwise
+        else:
+            container = HPaned()
+            reverse = clockwise
+
+        container.ratio = self.ratio
+
+        self.get_parent().replace(self, container)
+
+        children = self.get_children()
+        if reverse:
+            container.ratio = 1 - container.ratio
+            children.reverse()
+
+        for child in children:
+            self.remove(child)
+            container.add(child)
+
+    def new_size(self, widget, allocation):
+        self.set_pos(int(self.ratio*self.get_length()))
+
+    def set_position(self, pos):
+        self.ratio = float(pos) / self.get_length()
+        self.set_pos(pos)
+
 class HPaned(Paned, gtk.HPaned):
     """Merge gtk.HPaned into our base Paned Container"""
     def __init__(self):
@@ -267,7 +288,12 @@ class HPaned(Paned, gtk.HPaned):
         Paned.__init__(self)
         gtk.HPaned.__init__(self)
         self.register_signals(HPaned)
-        self.cnxids.new(self, 'expose-event', self.set_initial_position)
+
+    def get_length(self):
+        return(self.allocation.width)
+
+    def set_pos(self, pos):
+        gtk.HPaned.set_position(self, pos)
 
 class VPaned(Paned, gtk.VPaned):
     """Merge gtk.VPaned into our base Paned Container"""
@@ -276,7 +302,12 @@ class VPaned(Paned, gtk.VPaned):
         Paned.__init__(self)
         gtk.VPaned.__init__(self)
         self.register_signals(VPaned)
-        self.cnxids.new(self, 'expose-event', self.set_initial_position)
+
+    def get_length(self):
+        return(self.allocation.height)
+
+    def set_pos(self, pos):
+        gtk.VPaned.set_position(self, pos)
 
 gobject.type_register(HPaned)
 gobject.type_register(VPaned)

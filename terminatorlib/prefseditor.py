@@ -84,6 +84,8 @@ class PrefsEditor:
                         'go_down'          : 'Focus the terminal below',
                         'go_left'          : 'Focus the terminal left',
                         'go_right'         : 'Focus the terminal right',
+                        'rotate_cw'        : 'Rotate terminals clockwise',
+                        'rotate_ccw'        : 'Rotate terminals counter-clockwise',
                         'split_horiz'      : 'Split horizontally',
                         'split_vert'       : 'Split vertically',
                         'close_term'       : 'Close terminal',
