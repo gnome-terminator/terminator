@@ -133,7 +133,6 @@ class Terminal(gtk.VBox):
         dbg('assigning Terminal a TERMINATOR_UUID of: %s' % self.uuid.urn)
 
         self.vte = vte.Terminal()
-        self.vte.set_size(80, 24)
         self.vte._expose_data = None
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
@@ -173,6 +172,8 @@ class Terminal(gtk.VBox):
         if not env_proxy:
             if self.config['http_proxy'] and self.config['http_proxy'] != '':
                 os.putenv('http_proxy', self.config['http_proxy'])
+        self.reconfigure()
+        self.vte.set_size(80, 24)
 
     def get_vte(self):
         """This simply returns the vte widget we are using"""
