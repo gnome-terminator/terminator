@@ -198,13 +198,16 @@ class Terminal(gtk.VBox):
 
     def close(self):
         """Close ourselves"""
-        dbg('Terminal::close: emitting close-term')
+        dbg('close: called')
+        self.cnxids.remove_signal(self.vte, 'child-exited')
         self.emit('close-term')
         try:
+            dbg('close: killing %d' % self.pid)
             os.kill(self.pid, signal.SIGHUP)
-        except:
+        except Exception, ex:
             # We really don't want to care if this failed. Deep OS voodoo is
             # not what we should be doing.
+            dbg('os.kill failed: %s' % ex)
             pass
 
     def create_terminalbox(self):
