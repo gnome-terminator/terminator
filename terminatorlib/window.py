@@ -479,6 +479,24 @@ class Window(Container, gtk.Window):
         self.zoom_data = None
         self.set_property('term_zoomed', False)
 
+    def rotate(self, widget, clockwise):
+        """Rotate children in this window"""
+        maker = Factory()
+        # collect all paned children in breadth-first order
+        paned = []
+        for child in self.get_children():
+            if maker.isinstance(child, 'Paned'):
+                paned.append(child)
+        for p in paned:
+            for child in p.get_children():
+                if child not in paned and maker.isinstance(child, 'Paned'):
+                    paned.append(child)
+        # then propagate the rotation
+        for p in paned:
+            p.rotate(widget, clockwise)
+        self.show_all()
+        widget.grab_focus()
+
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""

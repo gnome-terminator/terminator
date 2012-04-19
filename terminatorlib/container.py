@@ -80,6 +80,10 @@ class Container(object):
         """Default axis splitter. This should be implemented by subclasses"""
         raise NotImplementedError('split_axis')
 
+    def rotate(self, widget, clockwise):
+        """Rotate children in this container"""
+        raise NotImplementedError('rotate')
+
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
         raise NotImplementedError('add')
@@ -264,5 +268,6 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
     def create_layout(self, layout):
         """Apply settings for our layout"""
         raise NotImplementedError('create_layout')
+
 
 # vim: set expandtab ts=4 sw=4:

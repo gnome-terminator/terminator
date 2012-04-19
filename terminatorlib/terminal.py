@@ -52,6 +52,8 @@ class Terminal(gtk.VBox):
             (gobject.TYPE_STRING,)),
         'split-vert': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_STRING,)),
+        'rotate-cw': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'rotate-ccw': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'tab-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_BOOLEAN, gobject.TYPE_OBJECT)),
         'tab-top-new': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
@@ -1511,6 +1513,12 @@ class Terminal(gtk.VBox):
 
     def key_split_vert(self):
         self.emit('split-vert', self.terminator.pid_cwd(self.pid))
+
+    def key_rotate_cw(self):
+        self.emit('rotate-cw')
+
+    def key_rotate_ccw(self):
+        self.emit('rotate-ccw')
 
     def key_close_term(self):
         self.close()
