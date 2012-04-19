@@ -487,6 +487,8 @@ class ConfigBase(Borg):
                 keytype = keymap[keytype]
             elif keytype == 'list':
                 value = 'list(%s)' % ','.join(value)
+            if key == 'background_image':
+                keytype = 'string'
             if keytype == 'string':
                 value = '"%s"' % value
 
