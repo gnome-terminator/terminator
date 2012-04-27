@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-09-20 15:35+0000\n"
-"Last-Translator: Ashutosh Kumar Singh <Unknown>\n"
+"PO-Revision-Date: 2012-04-26 18:23+0000\n"
+"Last-Translator: Varun Priolkar <varunpr97@gmail.com>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-20 04:34+0000\n"
-"X-Generator: Launchpad (build 15120)\n"
+"X-Launchpad-Export-Date: 2012-04-27 04:32+0000\n"
+"X-Generator: Launchpad (build 15149)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"यह %ss कई खुले टर्मिनलों है. %s को बंद भी यह सभी टर्मिनल के भीतर बंद हो "
+"जाएगा."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -52,7 +54,7 @@ msgstr "वर्तमान लोकेल"
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr ""
+msgstr "पश्चिमी"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
