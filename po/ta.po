@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2012-04-30 04:18+0000\n"
+"PO-Revision-Date: 2012-04-30 05:06+0000\n"
 "Last-Translator: Jackseen Jeyaluck <Unknown>\n"
 "Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-30 04:31+0000\n"
+"X-Launchpad-Export-Date: 2012-05-01 05:09+0000\n"
 "X-Generator: Launchpad (build 15171)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -43,6 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து "
+"முனையங்கள் மூடிவிடும்."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -327,7 +329,7 @@ msgstr "நீங்கள் ஒரு பெயர் மற்றும் �
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "பெயர் *%s * ஏற்கனவே"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
@@ -471,67 +473,67 @@ msgstr "குழுக்களை நீக்க %s"
 
 #: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "அனைத்து தாவலில் குழு"
 
 #: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "தாவலில் பிரி அனைத்து"
 
 #: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
-msgstr ""
+msgstr "அனைத்து குழுக்களை நீக்க"
 
 #: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "குழுவை மூடு  %s"
 
 #: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
-msgstr ""
+msgstr "அனைத்தையும்  ஒளிபரப்பு"
 
 #: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
-msgstr ""
+msgstr "குழுவை ஒளிபரப்பு"
 
 #: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
-msgstr ""
+msgstr "ஒளிபரப்பை அணை"
 
 #: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
-msgstr ""
+msgstr "இந்த குழுவை பிரிக்க"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
-msgstr ""
+msgstr "குழுக்களை தன்னியக்க சுத்தமாக்கி"
 
 #: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
-msgstr ""
+msgstr "முனையத்தில் எண்ணை சேர்க்க"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Padded முனைய எண்ணை சேர்க்க"
 
 #: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "நிரப்பட்ட முனைய எண்ணை சேர்க்க"
 
 #: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "ஓட்டை  ஆரம்பிக்க முடியவில்லை:"
 
 #: ../terminatorlib/window.py:242
 msgid "window"
-msgstr ""
+msgstr "சாளரம்"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:612
 msgid "All"
-msgstr ""
+msgstr "அனைத்து"
 
 #: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "தாவல் %d"
