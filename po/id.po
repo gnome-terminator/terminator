@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2011-04-14 18:18+0000\n"
-"Last-Translator: Ivan S. <ivan90112@gmail.com>\n"
+"PO-Revision-Date: 2012-05-12 03:25+0000\n"
+"Last-Translator: Indra BW <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-20 04:34+0000\n"
-"X-Generator: Launchpad (build 15120)\n"
+"X-Launchpad-Export-Date: 2012-05-12 05:09+0000\n"
+"X-Generator: Launchpad (build 15225)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -206,11 +206,11 @@ msgstr "Maksimalkan jendela"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Buat jendela mengisi layar"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Nonaktifkan perbatasan jendela"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -233,6 +233,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Gunakan sisa dari baris perintah sebagai perintah untuk mengeksekusi di "
+"dalam terminal, dan argumennya"
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
@@ -256,7 +258,7 @@ msgstr "Nonaktifkan DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Aktifkan informasi debug (dua kali untuk server debug)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Comma separated list of classes to limit debugging to"
@@ -268,23 +270,23 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "Plugin ActivityWatch tidak tersedia: silahkan install python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "Perhatikan aktivitas"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Berhenti memperhatikan aktivitas"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
-msgstr ""
+msgstr "Perhatikan kesunyian"
 
 #: ../terminatorlib/plugins/activitywatch.py:109
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Berhenti memperhatikan kesunyian"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
