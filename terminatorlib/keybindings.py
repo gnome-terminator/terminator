@@ -28,13 +28,6 @@ from util import err
 
 class KeymapError(Exception):
     """Custom exception for errors in keybinding configurations"""
-    def __init__(self, value):
-        Exception.__init__(self, value)
-        self.value = value
-        self.action = 'unknown'
-
-    def __str__(self):
-        return "Keybinding '%s' invalid: %s" % (self.action, self.value)
 
 MODIFIER = re.compile('<([^<]+)>')
 class Keybindings:
@@ -71,15 +64,15 @@ class Keybindings:
                 bindings = (bindings,)
 
             for binding in bindings:
-                if binding is None or binding == "None":
+                if not binding or binding == "None":
                     continue
 
                 try:
                     keyval, mask = self._parsebinding(binding)
                     # Does much the same, but with poorer error handling.
                     #keyval, mask = gtk.accelerator_parse(binding)
-                except KeymapError:
-                    continue
+                except KeymapError as e:
+                  err ("keybindings.reload failed to parse binding '%s': %s" % (binding, e))
                 else:
                     if mask & gtk.gdk.SHIFT_MASK:
                         if keyval == gtk.keysyms.Tab:
