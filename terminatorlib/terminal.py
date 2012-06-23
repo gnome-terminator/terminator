@@ -1627,12 +1627,15 @@ class Terminal(gtk.VBox):
 
     def key_broadcast_off(self):
         self.set_groupsend(None, self.terminator.groupsend_type['off'])
+        self.terminator.focus_changed(self)
 
     def key_broadcast_group(self):
         self.set_groupsend(None, self.terminator.groupsend_type['group'])
+        self.terminator.focus_changed(self)
 
     def key_broadcast_all(self):
         self.set_groupsend(None, self.terminator.groupsend_type['all'])
+        self.terminator.focus_changed(self)
 
 # End key events
 
