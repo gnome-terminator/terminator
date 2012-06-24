@@ -93,7 +93,7 @@ class Titlebar(gtk.EventBox):
 
     def connect_icon(self, func):
         """Connect the supplied function to clicking on the group icon"""
-        self.ebox.connect('button-release-event', func)
+        self.ebox.connect('button-press-event', func)
 
     def update(self, other=None):
         """Update our contents"""
@@ -252,7 +252,14 @@ class Titlebar(gtk.EventBox):
         groupname = self.groupentry.get_text()
         dbg('Titlebar::groupentry_activate: creating group: %s' % groupname)
         self.groupentry_cancel(None, None)
-        self.emit('create-group', groupname)
+        last_focused_term=self.terminator.last_focused_term
+        if self.terminal.targets_for_new_group:
+            [term.titlebar.emit('create-group', groupname) for term in self.terminal.targets_for_new_group]
+            self.terminal.targets_for_new_group = None
+        else:
+            self.emit('create-group', groupname)
+        last_focused_term.grab_focus()
+        self.terminator.focus_changed(last_focused_term)
 
     def groupentry_keypress(self, widget, event):
         """Handle keypresses on the entry widget"""

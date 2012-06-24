@@ -107,6 +107,7 @@ class Terminal(gtk.VBox):
     composite_support = None
 
     cnxids = None
+    targets_for_new_group = None
 
     def __init__(self):
         """Class initialiser"""
@@ -119,6 +120,7 @@ class Terminal(gtk.VBox):
         # FIXME: Surely these should happen in Terminator::register_terminal()?
         self.connect('enumerate', self.terminator.do_enumerate)
         self.connect('focus-in', self.terminator.focus_changed)
+        self.connect('focus-out', self.terminator.focus_left)
 
         self.matches = {}
         self.cnxids = Signalman()
