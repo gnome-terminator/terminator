@@ -233,6 +233,8 @@ class Titlebar(gtk.EventBox):
 
     def create_group(self):
         """Create a new group"""
+        if self.terminal.group:
+            self.groupentry.set_text(self.terminal.group)
         self.groupentry.show()
         self.grouplabel.hide()
         self.groupentry.grab_focus()
