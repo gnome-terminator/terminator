@@ -43,6 +43,8 @@ class Paned(Container):
             container = VPaned()
         else:
             container = HPaned()
+        
+        self.get_toplevel().set_pos_by_ratio = True
 
         if not sibling:
             sibling = self.maker.make('terminal')
@@ -60,6 +62,11 @@ class Paned(Container):
             container.add(terminal)
 
         self.show_all()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.get_toplevel().set_pos_by_ratio = False
+
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""

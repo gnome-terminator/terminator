@@ -419,6 +419,8 @@ class Window(Container, gtk.Window):
             container = maker.make('VPaned')
         else:
             container = maker.make('HPaned')
+        
+        self.set_pos_by_ratio = True
 
         if not sibling:
             sibling = maker.make('Terminal')
@@ -434,6 +436,11 @@ class Window(Container, gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.set_pos_by_ratio = False
+
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
