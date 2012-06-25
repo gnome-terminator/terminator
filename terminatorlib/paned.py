@@ -275,6 +275,12 @@ class Paned(Container):
             container.add(child)
 
     def new_size(self, widget, allocation):
+        if self.get_toplevel().set_pos_by_ratio:
+            self.set_position_by_ratio()
+        else:
+            self.set_position(self.get_position())
+    
+    def set_position_by_ratio(self):
         self.set_pos(int(self.ratio*self.get_length()))
 
     def set_position(self, pos):
