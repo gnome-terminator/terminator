@@ -161,7 +161,9 @@ DEFAULTS = {
             'new_terminator'   : '<Super>i',
             'broadcast_off'    : '',
             'broadcast_group'  : '',
-            'broadcast_all'    : ''
+            'broadcast_all'    : '',
+            'insert_number'    : '',
+            'insert_padded'    : ''
         },
         'profiles': {
             'default':  {
