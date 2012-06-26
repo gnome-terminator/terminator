@@ -126,7 +126,8 @@ class PrefsEditor:
                         'new_terminator'   : 'Spawn a new Terminator process',
                         'broadcast_off'    : 'Don\'t broadcast key presses',
                         'broadcast_group'  : 'Broadcast key presses to group',
-                        'broadcast_all'    : 'Broadcast key events to all'
+                        'broadcast_all'    : 'Broadcast key events to all',
+                        'edit_window_title': 'Edit window title'
             }
 
     def __init__ (self, term):
