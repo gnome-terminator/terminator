@@ -126,10 +126,12 @@ class Paned(Container):
             else:
                 recurse_down=False
             
-            self.do_redistribute(recurse_up, recurse_down)
-            while gtk.events_pending():
-                gtk.main_iteration_do(False)
-            self.do_redistribute(recurse_up, recurse_down)
+            # FIXME: These idle events are creating a lot of weird issues
+            for i in range(3):
+                while gtk.events_pending():
+                    gtk.main_iteration_do(False)
+                self.do_redistribute(recurse_up, recurse_down)
+            
             return True
         else:
             return False
