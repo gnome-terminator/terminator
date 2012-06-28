@@ -75,6 +75,9 @@ class Window(Container, gtk.Window):
 
             if options.role is not None:
                 self.set_role(options.role)
+            
+            if options.classname is not None:
+                self.set_wmclass(options.classname, self.wmclass_class)
 
             if options.geometry is not None:
                 if not self.parse_geometry(options.geometry):

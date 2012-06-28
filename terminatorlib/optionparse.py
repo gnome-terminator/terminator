@@ -66,6 +66,8 @@ command to execute inside the terminal, and its arguments'))
             dest='working_directory', help=_('Set the working directory'))
     parser.add_option('-r', '--role', dest='role', help=_('Set a custom \
 WM_WINDOW_ROLE property on the window'))
+    parser.add_option('-c', '--classname', dest='classname', help=_('Set a \
+custom name (WM_CLASS) property on the window'))
     parser.add_option('-l', '--layout', dest='layout', help=_('Select a layout'))
     parser.add_option('-p', '--profile', dest='profile', help=_('Use a \
 different profile as the default'))
