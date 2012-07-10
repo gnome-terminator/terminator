@@ -66,9 +66,13 @@ command to execute inside the terminal, and its arguments'))
             dest='working_directory', help=_('Set the working directory'))
     parser.add_option('-r', '--role', dest='role', help=_('Set a custom \
 WM_WINDOW_ROLE property on the window'))
+    parser.add_option('-c', '--classname', dest='classname', help=_('Set a \
+custom name (WM_CLASS) property on the window'))
     parser.add_option('-l', '--layout', dest='layout', help=_('Select a layout'))
     parser.add_option('-p', '--profile', dest='profile', help=_('Use a \
 different profile as the default'))
+    parser.add_option('-i', '--icon', dest='forcedicon', help=_('Set a custom \
+icon for the window (by file or name)'))
     parser.add_option('-u', '--no-dbus', action='store_true', dest='nodbus', 
             help=_('Disable DBus'))
     parser.add_option('-d', '--debug', action='count', dest='debug',

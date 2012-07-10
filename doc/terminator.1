@@ -56,9 +56,21 @@ Set the terminal's working directory
 .B \-r, \-\-role=ROLE
 Set a custom WM_WINDOW_ROLE property on the window
 .TP
+.B \-c, \-\-classname=CLASSNAME
+Set a custom name (WM_CLASS) property on the window
+.TP
 .B \-l, \-\-layout=LAYOUT
 Start Terminator with a specific layout. The argument here is the name
 of a saved layout.
+.TP
+.B \-p, \-\-profile=PROFILE
+Use a different profile as the default
+.TP
+.B \-i, \-\-icon=FORCEDICON
+Set a custom icon for the window (by file or name)
+.TP
+.B \-u, \-\-no-dbus
+Disable DBus
 .TP
 .B \-d, \-\-debug
 Enable debugging output (please use this when reporting bugs). This 
