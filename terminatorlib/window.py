@@ -37,6 +37,7 @@ class Window(Container, gtk.Window):
     losefocus_time = 0
     position = None
     ignore_startup_show = None
+    set_pos_by_ratio = None
 
     zoom_data = None
 
@@ -418,6 +419,8 @@ class Window(Container, gtk.Window):
             container = maker.make('VPaned')
         else:
             container = maker.make('HPaned')
+        
+        self.set_pos_by_ratio = True
 
         if not sibling:
             sibling = maker.make('Terminal')
@@ -433,6 +436,11 @@ class Window(Container, gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.set_pos_by_ratio = False
+
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
@@ -479,6 +487,7 @@ class Window(Container, gtk.Window):
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
+        self.set_pos_by_ratio = True
         maker = Factory()
         # collect all paned children in breadth-first order
         paned = []
@@ -494,6 +503,10 @@ class Window(Container, gtk.Window):
             p.rotate(widget, clockwise)
         self.show_all()
         widget.grab_focus()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.set_pos_by_ratio = False
 
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
