@@ -163,7 +163,8 @@ DEFAULTS = {
             'broadcast_group'  : '',
             'broadcast_all'    : '',
             'insert_number'    : '',
-            'insert_padded'    : ''
+            'insert_padded'    : '',
+            'edit_window_title': ''
         },
         'profiles': {
             'default':  {

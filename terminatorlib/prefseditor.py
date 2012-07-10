@@ -128,7 +128,8 @@ class PrefsEditor:
                         'broadcast_group'  : 'Broadcast key presses to group',
                         'broadcast_all'    : 'Broadcast key events to all',
                         'insert_number'    : 'Insert terminal number',
-                        'insert_padded'    : 'Insert zero padded terminal number'
+                        'insert_padded'    : 'Insert zero padded terminal number',
+                        'edit_window_title': 'Edit window title'
             }
 
     def __init__ (self, term):
