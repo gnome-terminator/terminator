@@ -1634,6 +1634,12 @@ class Terminal(gtk.VBox):
     def key_broadcast_all(self):
         self.set_groupsend(None, self.terminator.groupsend_type['all'])
 
+    def key_insert_number(self):
+        self.emit('enumerate', False)
+    
+    def key_insert_padded(self):
+        self.emit('enumerate', True)
+
 # End key events
 
 gobject.type_register(Terminal)
