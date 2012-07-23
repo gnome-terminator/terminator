@@ -31,7 +31,7 @@ class LaunchpadCodeURLHandler(plugin.URLHandler):
     nameopen = "Open Launchpad branch"
     namecopy = "Copy branch URL"
     lpfilters = {}
-    lpfilters['project'] = '[a-z0-9]{1}[a-z0-9\.\-\+]+'
+    lpfilters['project'] = '[a-z0-9]{1}[a-z0-9+.-]+'
     lpfilters['group'] = '~%s' % lpfilters['project']
     lpfilters['series'] = lpfilters['project']
     lpfilters['branch'] = '[a-zA-Z0-9]{1}[a-zA-Z0-9_+@.-]+'

@@ -1662,12 +1662,52 @@ class Terminal(gtk.VBox):
 
     def key_broadcast_off(self):
         self.set_groupsend(None, self.terminator.groupsend_type['off'])
+        self.terminator.focus_changed(self)
 
     def key_broadcast_group(self):
         self.set_groupsend(None, self.terminator.groupsend_type['group'])
+        self.terminator.focus_changed(self)
 
     def key_broadcast_all(self):
         self.set_groupsend(None, self.terminator.groupsend_type['all'])
+        self.terminator.focus_changed(self)
+
+    def key_insert_number(self):
+        self.emit('enumerate', False)
+    
+    def key_insert_padded(self):
+        self.emit('enumerate', True)
+
+    def key_edit_window_title(self):
+        window = self.get_toplevel()
+        dialog = gtk.Dialog(_('Rename Window'), window,
+                        gtk.DIALOG_MODAL,
+                        ( gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+                          gtk.STOCK_OK, gtk.RESPONSE_ACCEPT ))
+        dialog.set_default_response(gtk.RESPONSE_ACCEPT)
+        dialog.set_has_separator(False)
+        dialog.set_resizable(False)
+        dialog.set_border_width(8)
+        
+        label = gtk.Label(_('Enter a new title for the Terminator window...'))
+        name = gtk.Entry()
+        name.set_activates_default(True)
+        if window.title.text != self.vte.get_window_title():
+            name.set_text(self.get_toplevel().title.text)
+        
+        dialog.vbox.pack_start(label, False, False, 6)
+        dialog.vbox.pack_start(name, False, False, 6)
+
+        dialog.show_all()
+        res = dialog.run()
+        if res == gtk.RESPONSE_ACCEPT:
+            if name.get_text():
+                window.title.force_title(None)
+                window.title.force_title(name.get_text())
+            else:
+                window.title.force_title(None)
+        dialog.destroy()
+        return
 
 # End key events
 

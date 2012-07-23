@@ -1,41 +1,41 @@
-# Arabic translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Latin translation for terminator
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2012-07-10 19:05+0000\n"
-"Last-Translator: Youssef Habri <Unknown>\n"
-"Language-Team: Arabic <ar@li.org>\n"
+"PO-Revision-Date: 2012-07-15 14:09+0000\n"
+"Last-Translator: Janosch Richter <jari.weimar@googlemail.com>\n"
+"Language-Team: Latin <la@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-07-11 05:12+0000\n"
-"X-Generator: Launchpad (build 15593)\n"
+"X-Launchpad-Export-Date: 2012-07-16 05:11+0000\n"
+"X-Generator: Launchpad (build 15614)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
-msgstr "عدة طرفيات في نافذة واحدة"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Terminator"
-msgstr "الطرفية"
+msgstr ""
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr "أغلق ؟"
+msgstr ""
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
-msgstr "اغلاق_الطرفيات"
+msgstr ""
 
 #: ../terminatorlib/container.py:158
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>إغلاق طرفيات متعددة؟</b></big>"
+msgstr ""
 
 #: ../terminatorlib/container.py:161
 #, python-format
@@ -43,217 +43,216 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"%s لديه عدة طرفيات مفتوحة.إغلاق %s سيتسبب في إغلاق كل الطرفيات المضمنة."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "اللغة الحالية"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "غربي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "أوروبي وسطي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "أوروبي جنوبي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "بلطيقي"
+msgstr ""
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "سيريلي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "عربي"
+msgstr "Arabica"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "يوناني"
+msgstr "Lingua Graeca"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "العبرية البصرية"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "العبرية"
+msgstr "Lingua Hebraica"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "التركية"
+msgstr "Lingua Turcica"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "الشمالية"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "السلتية"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "الرومانية"
+msgstr "Lingua Dacoromana"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "يونيكود"
+msgstr "Unicode"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "أرمني"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "صيني تقليدي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "سيريالي/روسي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "ياباني"
+msgstr "Lingua Iaponica"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "كوري"
+msgstr "Lingua Coreana"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "صيني مبسّط"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "جورجي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "سيريالي/أوكراني"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "كرواتي"
+msgstr "Lingua Croatica"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "هندي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "فارسي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "كوجراتي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "غورموخي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "آيسلاندي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "فيتنامي"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "تايلندي"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:278
 msgid "tab"
-msgstr "تبويب"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:439
 msgid "Close Tab"
-msgstr "إغلاق تبويب"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:47
 msgid "Display program version"
-msgstr "إظهار اصدار البرنامج"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr "كبّر النافذة"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
-msgstr "جعل إطار ملء الشاشة"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr "تعطيل الحدود النافذة"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
-msgstr "أخف النافذة عند بدء التشغيل"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr "تحديد عنوان للإطار"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
-msgstr "يفضل تعيين حجم وموضع إطار (انظر صفحة العاشر رجل)"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr "تحديد الأوامر لتنفيذ داخل الصالة"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
-msgstr "استخدام ما تبقى من سطر الأوامر كما أمر لتنفيذ داخل الصالة ، ووسائطها"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:66
 msgid "Set the working directory"
-msgstr "اضبط دليل العمل"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "تعيين خاصية مخصصة WM_WINDOW_ROLE على النافذة"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr "حدد تخطيط"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr "استخدام سمات مختلفة كافتراض"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr "تعطيل DBus"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -273,11 +272,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr "المراقبة النشاط"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr "إيقاف المراقبة للنشاط"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
@@ -289,38 +288,38 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "تخصيص الأوامر"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "تخصيص إعدادات الأوامر"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr "أمر جديد"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr "تميكن:"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr "الإسم :"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr "الأمر:"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr "تحتاج إلى تعريف اسم للأمر"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "الاسم *%s* موجود"
+msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
@@ -328,30 +327,30 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
-msgstr "ملف شخصي جديد"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
-msgstr "مظهر جديد"
+msgstr ""
 
 #. Label
 #: ../terminatorlib/searchbar.py:50
 msgid "Search:"
-msgstr "إبحث:"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
-msgstr "إغلاق شريط البحث"
+msgstr ""
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:71
 msgid "Next"
-msgstr "التالي"
+msgstr ""
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:77
 msgid "Prev"
-msgstr "السابق"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
@@ -359,19 +358,19 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
-msgstr "لا مزيد من النتائج"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
-msgstr "موجود في صف"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:51
 msgid "_Send email to..."
-msgstr "_إرسال بريد إلكتروني إلى..."
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:52
 msgid "_Copy email address"
-msgstr "_نسخ بريد إلكتروني إلى..."
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
@@ -383,23 +382,23 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
-msgstr "_فتح رابط"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr "_نسخ عنوان"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
-msgstr "اقسم أف_قيا"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr "اقسم ع_موديا"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
-msgstr "افتح _لسان"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Open _Debug Tab"
@@ -407,7 +406,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:126
 msgid "_Zoom terminal"
-msgstr "ت_كبير الطرفية"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:130
 msgid "Ma_ximise terminal"
@@ -419,81 +418,81 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr "تجميع"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr "إظهار_شريط تمرير"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
-msgstr "_تفضيلات"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr "ملفات المستخدمين"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr "الترميزات"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
-msgstr "افتراضي"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr "المستخدم معرّف"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
-msgstr "ترميزات اخرى"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:372
 msgid "New group..."
-msgstr "مجموعة جديدة..."
+msgstr ""
 
 #: ../terminatorlib/terminal.py:377
 msgid "None"
-msgstr "لاشيء"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:393
 #, python-format
 msgid "Remove group %s"
-msgstr "حذف المجموعة %s"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:398
 msgid "G_roup all in tab"
-msgstr "تجمي_ع كل التبويبات"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:403
 msgid "Ungr_oup all in tab"
-msgstr "تفري_ق كل التبويبات"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:408
 msgid "Remove all groups"
-msgstr "حذف كل المجموعات"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:415
 #, python-format
 msgid "Close group %s"
-msgstr "إغلاق المجموعة %s"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
-msgstr "إذاعة الجميع"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
-msgstr "إذاعة المجموعة"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
-msgstr "إغلاق الإذاعة"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
-msgstr "تقسيم على هذه المجموعة"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
@@ -501,7 +500,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
-msgstr "إدراج رقم منفذ"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
@@ -509,7 +508,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1193
 msgid "Unable to find a shell"
-msgstr "تعثر العثور على قشرة"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1210
 msgid "Unable to start shell:"
@@ -517,14 +516,14 @@ msgstr ""
 
 #: ../terminatorlib/window.py:242
 msgid "window"
-msgstr "نافذة"
+msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:612
 msgid "All"
-msgstr "الجميع"
+msgstr ""
 
 #: ../terminatorlib/window.py:633
 #, python-format
 msgid "Tab %d"
-msgstr "تبويب %d"
+msgstr ""

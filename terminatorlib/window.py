@@ -37,6 +37,7 @@ class Window(Container, gtk.Window):
     losefocus_time = 0
     position = None
     ignore_startup_show = None
+    set_pos_by_ratio = None
 
     zoom_data = None
 
@@ -60,7 +61,7 @@ class Window(Container, gtk.Window):
         self.register_signals(Window)
 
         self.set_property('allow-shrink', True)
-        self.apply_icon()
+        icon_to_apply=''
 
         self.register_callbacks()
         self.apply_config()
@@ -75,12 +76,19 @@ class Window(Container, gtk.Window):
 
             if options.role is not None:
                 self.set_role(options.role)
+            
+            if options.classname is not None:
+                self.set_wmclass(options.classname, self.wmclass_class)
+            
+            if options.forcedicon is not None:
+                icon_to_apply = options.forcedicon
 
             if options.geometry is not None:
                 if not self.parse_geometry(options.geometry):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)
 
+        self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
 
     def do_get_property(self, prop):
@@ -155,15 +163,36 @@ class Window(Container, gtk.Window):
         else:
             self.set_iconified(hidden)
 
-    def apply_icon(self):
+    def apply_icon(self, requested_icon):
         """Set the window icon"""
         icon_theme = gtk.IconTheme()
-
-        try:
-            icon = icon_theme.load_icon(APP_NAME, 48, 0)
-        except (NameError, gobject.GError):
-            dbg('Unable to load 48px Terminator icon')
-            icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+        icon = None
+        
+        if requested_icon:
+            try:
+                self.set_icon_from_file(requested_icon)
+                icon = self.get_icon()
+            except (NameError, gobject.GError):
+                dbg('Unable to load 48px %s icon as file' % (repr(requested_icon)))
+        
+        if requested_icon and icon is None:
+            try:
+                icon = icon_theme.load_icon(requested_icon, 48, 0)
+            except (NameError, gobject.GError):
+                dbg('Unable to load 48px %s icon' % (repr(requested_icon)))
+        
+        if icon is None:
+            try:
+                icon = icon_theme.load_icon(self.wmclass_name, 48, 0)
+            except (NameError, gobject.GError):
+                dbg('Unable to load 48px %s icon' % (self.wmclass_name))
+        
+        if icon is None:
+            try:
+                icon = icon_theme.load_icon(APP_NAME, 48, 0)
+            except (NameError, gobject.GError):
+                dbg('Unable to load 48px Terminator icon')
+                icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
 
         self.set_icon(icon)
 
@@ -418,6 +447,8 @@ class Window(Container, gtk.Window):
             container = maker.make('VPaned')
         else:
             container = maker.make('HPaned')
+        
+        self.set_pos_by_ratio = True
 
         if not sibling:
             sibling = maker.make('Terminal')
@@ -433,6 +464,11 @@ class Window(Container, gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.set_pos_by_ratio = False
+
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
@@ -479,6 +515,7 @@ class Window(Container, gtk.Window):
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
+        self.set_pos_by_ratio = True
         maker = Factory()
         # collect all paned children in breadth-first order
         paned = []
@@ -494,6 +531,10 @@ class Window(Container, gtk.Window):
             p.rotate(widget, clockwise)
         self.show_all()
         widget.grab_focus()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.set_pos_by_ratio = False
 
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.

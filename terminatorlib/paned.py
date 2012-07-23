@@ -43,6 +43,8 @@ class Paned(Container):
             container = VPaned()
         else:
             container = HPaned()
+        
+        self.get_toplevel().set_pos_by_ratio = True
 
         if not sibling:
             sibling = self.maker.make('terminal')
@@ -60,6 +62,11 @@ class Paned(Container):
             container.add(terminal)
 
         self.show_all()
+        
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.get_toplevel().set_pos_by_ratio = False
+
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
@@ -112,6 +119,92 @@ class Paned(Container):
                 self.connect_child(widget, 'size-allocate', self.new_size)
             except TypeError:
                 err('Paned::add: %s has no signal resize-term' % widget)
+
+    def on_button_press(self, widget, event):
+        """Handle button presses on a Pane"""
+        if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
+            if event.state & gtk.gdk.MOD4_MASK == gtk.gdk.MOD4_MASK:
+                recurse_up=True
+            else:
+                recurse_up=False
+            
+            if event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
+                recurse_down=True
+            else:
+                recurse_down=False
+            
+            # FIXME: These idle events are creating a lot of weird issues
+            for i in range(3):
+                while gtk.events_pending():
+                    gtk.main_iteration_do(False)
+                self.do_redistribute(recurse_up, recurse_down)
+            
+            return True
+        else:
+            return False
+
+    def do_redistribute(self, recurse_up=False, recurse_down=False):
+        """Evenly divide available space between sibling panes"""
+        #1 Find highest ancestor of the same type => ha
+        highest_ancestor = self
+        while type(highest_ancestor.get_parent()) == type(highest_ancestor):
+            highest_ancestor = highest_ancestor.get_parent()
+        
+        # (1b) If Super modifier, redistribute higher sections too
+        if recurse_up:
+            grandfather=highest_ancestor.get_parent()
+            if grandfather != self.get_toplevel():
+                grandfather.do_redistribute(recurse_up, recurse_down)
+        
+        gobject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        gobject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+    
+    def _do_redistribute(self, recurse_up=False, recurse_down=False):
+        maker = Factory()
+        #2 Make a list of self + all children of same type
+        tree = [self, [], 0, None]
+        toproc = [tree]
+        number_splits = 1
+        while toproc:
+            curr = toproc.pop(0)
+            for child in curr[0].get_children():
+                if type(child) == type(curr[0]):
+                    childset = [child, [], 0, curr]
+                    curr[1].append(childset)
+                    toproc.append(childset)
+                    number_splits = number_splits+1
+                else:
+                    curr[1].append([None,[], 1, None])
+                    p = curr
+                    while p:
+                        p[2] = p[2] + 1
+                        p = p[3]
+                    # (1c) If Shift modifier, redistribute lower sections too
+                    if recurse_down and \
+                      (maker.isinstance(child, 'VPaned') or \
+                       maker.isinstance(child, 'HPaned')):
+                        gobject.idle_add(child.do_redistribute, False, True)
+                    
+        #3 Get ancestor x/y => a, and handle size => hs
+        avail_pixels=self.get_length()
+        handle_size = self.style_get_property('handle-size')
+        #4 Math! eek (a - (n * hs)) / (n + 1) = single size => s
+        single_size = (avail_pixels - (number_splits * handle_size)) / (number_splits + 1)
+        arr_sizes = [single_size]*(number_splits+1)
+        for i in range(avail_pixels % (number_splits + 1)):
+            arr_sizes[i] = arr_sizes[i] + 1
+        #5 Descend down setting the handle position to s
+        #  (Has to handle nesting properly)
+        toproc = [tree]
+        while toproc:
+            curr = toproc.pop(0)
+            for child in curr[1]:
+                toproc.append(child)
+                if curr[1].index(child) == 0:
+                    curr[0].set_position((child[2]*single_size)+((child[2]-1)*handle_size))
+                    gobject.idle_add(curr[0].set_position, child[2]*single_size)
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -275,6 +368,12 @@ class Paned(Container):
             container.add(child)
 
     def new_size(self, widget, allocation):
+        if self.get_toplevel().set_pos_by_ratio:
+            self.set_position_by_ratio()
+        else:
+            self.set_position(self.get_position())
+    
+    def set_position_by_ratio(self):
         self.set_pos(int(self.ratio*self.get_length()))
 
     def set_position(self, pos):
@@ -288,6 +387,7 @@ class HPaned(Paned, gtk.HPaned):
         Paned.__init__(self)
         gtk.HPaned.__init__(self)
         self.register_signals(HPaned)
+        self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
     def get_length(self):
         return(self.allocation.width)
@@ -302,6 +402,7 @@ class VPaned(Paned, gtk.VPaned):
         Paned.__init__(self)
         gtk.VPaned.__init__(self)
         self.register_signals(VPaned)
+        self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
     def get_length(self):
         return(self.allocation.height)
