@@ -474,6 +474,9 @@ class ConfigBase(Borg):
 
             keytype = '%s(default=%s)' % (keytype, value)
 
+            if key == 'custom_url_handler':
+                keytype = 'string(default="")'
+
             section[key] = keytype
         configspecdata['global_config'] = section
 
