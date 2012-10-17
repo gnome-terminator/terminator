@@ -107,6 +107,7 @@ class Terminal(gtk.VBox):
     composite_support = None
 
     cnxids = None
+    targets_for_new_group = None
 
     def __init__(self):
         """Class initialiser"""
@@ -119,6 +120,7 @@ class Terminal(gtk.VBox):
         # FIXME: Surely these should happen in Terminator::register_terminal()?
         self.connect('enumerate', self.terminator.do_enumerate)
         self.connect('focus-in', self.terminator.focus_changed)
+        self.connect('focus-out', self.terminator.focus_left)
 
         self.matches = {}
         self.cnxids = Signalman()
@@ -770,7 +772,40 @@ class Terminal(gtk.VBox):
     def on_group_button_press(self, widget, event):
         """Handler for the group button"""
         if event.button == 1:
-            self.create_popup_group_menu(widget, event)
+            if event.type == gtk.gdk._2BUTTON_PRESS or \
+               event.type == gtk.gdk._3BUTTON_PRESS:
+                # Ignore these, or they make the interaction bad
+                return False
+            # Super key applies interaction to all terms in group
+            include_siblings=event.state & gtk.gdk.MOD4_MASK == gtk.gdk.MOD4_MASK
+            if include_siblings:
+                targets=self.terminator.get_sibling_terms(self)
+            else:
+                targets=[self]
+            if event.state & gtk.gdk.CONTROL_MASK == gtk.gdk.CONTROL_MASK:
+                dbg('on_group_button_press: toggle terminal to focused terminals group')
+                focused=self.get_toplevel().get_focussed_terminal()
+                if focused in targets: targets.remove(focused)
+                if self != focused:
+                    if self.group==focused.group:
+                        new_group=None
+                    else:
+                        new_group=focused.group
+                    [term.set_group(None, new_group) for term in targets]
+                    [term.titlebar.update(focused) for term in targets]
+                return True
+            elif event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
+                dbg('on_group_button_press: rename of terminals group')
+                self.targets_for_new_group = targets
+                self.titlebar.create_group()
+                return True
+            elif event.type == gtk.gdk.BUTTON_PRESS:
+                # Single Click gives popup
+                dbg('on_group_button_press: group menu popup')
+                self.create_popup_group_menu(widget, event)
+                return True
+            else:
+                dbg('on_group_button_press: unknown group button interaction')
         return(False)
 
     def on_keypress(self, widget, event):
