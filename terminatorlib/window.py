@@ -373,8 +373,10 @@ class Window(Container, gtk.Window):
     
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
-        gtk.Window.show(self)
-        #Present is necessary to grab focus when window is hidden from taskbar
+        #Present is necessary to grab focus when window is hidden from taskbar.
+        #It is important to call present() before show(), otherwise the window
+        #won't be brought to front if an another application has the focus.
+        #Last note: present() will implicitly call gtk.Window.show()
         self.present()
 
         #Window must be shown, then hidden for the hotkeys to be registered
