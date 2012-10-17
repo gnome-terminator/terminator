@@ -4,6 +4,16 @@ terminator 0.97:
     menus
   * When copying a URL, run it through the URL handler first so the
     resulting URL is copied, rather than the original text
+  * Allow users to configure a custom URL handler, since the
+    default GTK library option is failing a lot of users in non-GNOME
+    environments.
+  * Allow rotation of a group of terminals (Andre Hilsendeger)
+  * Add a keyboard shortcut to insert a terminal's number (Stephen J 
+    Boddy)
+  * Add a keyboard shortcut to edit the window title (Stephen J Boddy)
+  * Add an easy way to balance terminals by double clicking on their
+    separator (Stephen J Boddy)
+  * Bug fixes
 
 terminator 0.96:
   * Unity support for opening new windows (Lucian Adrian Grijincu)
