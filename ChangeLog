@@ -13,6 +13,7 @@ terminator 0.97:
   * Add a keyboard shortcut to edit the window title (Stephen J Boddy)
   * Add an easy way to balance terminals by double clicking on their
     separator (Stephen J Boddy)
+  * Add a plugin by Sinan Nalkaya to log the contents of terminals.
   * Bug fixes
 
 terminator 0.96:
