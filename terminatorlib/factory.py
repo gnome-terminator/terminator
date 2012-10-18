@@ -20,7 +20,7 @@ True
 """
 
 from borg import Borg
-from util import dbg, err
+from util import dbg, err, inject_uuid
 
 # pylint: disable-msg=R0201
 # pylint: disable-msg=W0613
@@ -91,7 +91,9 @@ class Factory(Borg):
             return(None)
 
         dbg('Factory::make: created a %s' % product)
-        return(func(**kwargs))
+        output = func(**kwargs)
+        inject_uuid(output)
+        return(output)
 
     def make_window(self, **kwargs):
         """Make a Window"""
