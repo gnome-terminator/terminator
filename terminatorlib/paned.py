@@ -111,7 +111,10 @@ class Paned(Container):
                     handler = handler[0]
                 self.connect_child(widget, signal, handler, *args)
 
-            widget.grab_focus()
+            if metadata and \
+               metadata.has_key('had_focus') and \
+               metadata['had_focus'] == True:
+                    widget.grab_focus()
 
         elif isinstance(widget, gtk.Paned):
             try:
@@ -220,9 +223,15 @@ class Paned(Container):
         children.append(self.get_child2())
         return(children)
 
+    def get_child_metadata(self, widget):
+        """Return metadata about a child"""
+        metadata = {}
+        metadata['had_focus'] = widget.has_focus()
+
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         dbg('Paned::wrapcloseterm: Called on %s' % widget)
+
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
             sibling = self.children[0]
@@ -235,7 +244,6 @@ class Paned(Container):
             parent.remove(self)
             self.cnxids.remove_all()
             parent.add(sibling, metadata)
-            sibling.grab_focus()
             del(self)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
