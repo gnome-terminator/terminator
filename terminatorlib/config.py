@@ -351,9 +351,10 @@ class Config(object):
                 self.gconf = gconf.client_get_default()
 
             value = self.gconf.get('/apps/metacity/general/focus_mode')
-            self.system_focus = value.get_string()
-            self.gconf.notify_add('/apps/metacity/general/focus_mode',
-                    self.on_gconf_notify)
+            if value:
+                self.system_focus = value.get_string()
+                self.gconf.notify_add('/apps/metacity/general/focus_mode',
+                        self.on_gconf_notify)
             return(self.system_focus)
 
     def on_gconf_notify(self, _client, _cnxn_id, _entry, _what):
