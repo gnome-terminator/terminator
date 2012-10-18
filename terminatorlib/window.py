@@ -71,10 +71,10 @@ class Window(Container, gtk.Window):
 
         options = self.config.options_get()
         if options:
-            if options.forcedtitle is not None:
+            if options.forcedtitle:
                 self.title.force_title(options.forcedtitle)
 
-            if options.role is not None:
+            if options.role:
                 self.set_role(options.role)
             
             if options.classname is not None:
@@ -83,7 +83,7 @@ class Window(Container, gtk.Window):
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
 
-            if options.geometry is not None:
+            if options.geometry:
                 if not self.parse_geometry(options.geometry):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)

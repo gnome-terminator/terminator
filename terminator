@@ -62,11 +62,23 @@ if __name__ == '__main__':
             dbg('dbus disabled by command line')
             raise ImportError
         from terminatorlib import ipc
+        import dbus
         try:
             dbus_service = ipc.DBusService()
         except ipc.DBusException:
             dbg('Unable to become master process, requesting a new window')
-            ipc.new_window(OPTIONS.layout)
+            # get rid of the None and True types so dbus can handle them (empty
+            # and 'True' strings are used instead), also arrays are joined 
+            # (the -x argument for example)
+            optionslist = {}
+            for opt, val in OPTIONS.__dict__.items():
+                if type(val) == type([]):
+                    val = ' '.join(val)
+                if val == True:
+                    val = 'True'
+                optionslist[opt] = val and '%s'%val or ''
+            optionslist = dbus.Dictionary(optionslist, signature='ss')
+            ipc.new_window(optionslist)
             sys.exit()
     except ImportError:
         dbg('dbus not imported')
