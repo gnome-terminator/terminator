@@ -472,6 +472,8 @@ class TabLabel(gtk.HBox):
                 self.set_orientation(gtk.ORIENTATION_VERTICAL)
             self.label.set_angle(90)
         elif position == gtk.POS_RIGHT:
+            if hasattr(self, 'set_orientation'):
+                self.set_orientation(gtk.ORIENTATION_VERTICAL)
             self.label.set_angle(270)
         else:
             if hasattr(self, 'set_orientation'):
