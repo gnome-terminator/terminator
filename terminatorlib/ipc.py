@@ -10,6 +10,7 @@ import dbus.glib
 from borg import Borg
 from terminator import Terminator
 from config import Config
+from factory import Factory
 from util import dbg
 
 CONFIG = Config()
@@ -93,6 +94,26 @@ class DBusService(Borg, dbus.service.Object):
         """Return a list of all the terminals"""
         return [x.uuid.urn for x in self.terminator.terminals]
 
+    @dbus.service.method(BUS_NAME)
+    def get_terminal_tab(self, uuid):
+        """Return the UUID of the parent tab of a given terminal"""
+        maker = Factory()
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        window = terminal.get_toplevel()
+        root_widget = window.get_children()[0]
+        if maker.isinstance(root_widget, 'Notebook'):
+            return root_widget.uuid.urn
+
+    @dbus.service.method(BUS_NAME)
+    def get_terminal_tab_title(self, uuid):
+        """Return the title of a parent tab of a given terminal"""
+        maker = Factory()
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        window = terminal.get_toplevel()
+        root_widget = window.get_children()[0]
+        if maker.isinstance(root_widget, "Notebook"):
+            return root_widget.get_tab_label(terminal).get_label()
+
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
     dbg('dbus client call: %s' % func.func_name)
@@ -121,4 +142,14 @@ def terminal_vsplit(session, uuid):
 def get_terminals(session, uuid):
     """Call the dbus method to return a list of all terminals"""
     print '\n'.join(session.get_terminals(uuid))
+
+@with_proxy
+def get_terminal_tab(session, uuid):
+    """Call the dbus method to return the toplevel tab for a terminal"""
+    print session.get_terminal_tab(uuid)
+
+@with_proxy
+def get_terminal_tab_title(session, uuid):
+    """Call the dbus method to return the title of a tab"""
+    print session.get_terminal_tab_title(uuid)
 

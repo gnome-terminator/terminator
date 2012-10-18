@@ -24,7 +24,7 @@ import sys
 from terminatorlib.util import dbg, err
 try:
     from terminatorlib import ipc
-except ImportErrror:
+except ImportError:
     err('Unable to initialise Terminator remote library. This probably means dbus is not available')
     sys.exit(1)
 
@@ -35,6 +35,8 @@ COMMANDS={
         'hsplit': ['terminal_hsplit', 'Split the current terminal horizontally'],
         'vsplit': ['terminal_vsplit', 'Split the current terminal vertically'],
         'terminals': ['get_terminals', 'Get a list of all terminals'],
+        'terminal_tab': ['get_terminal_tab', 'Get the UUID of a parent tab'],
+        'terminal_tab_title': ['get_terminal_tab_title', 'Get the title of a parent tab'],
         }
 
 if __name__ == '__main__':
