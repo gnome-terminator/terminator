@@ -238,6 +238,9 @@ class PrefsEditor:
         #Hide size text from the title bar
         widget = guiget('title_hide_sizetextcheck')
         widget.set_active(self.config['title_hide_sizetext'])
+        #Always split with profile
+        widget = guiget('always_split_with_profile')
+        widget.set_active(self.config['always_split_with_profile'])
 
         ## Profile tab
         # Populate the profile list
@@ -609,6 +612,11 @@ class PrefsEditor:
         """Window geometry setting changed"""
         self.config['title_hide_sizetext'] = widget.get_active()
         self.config.save()        
+
+    def on_always_split_with_profile_toggled(self, widget):
+        """Always split with profile setting changed"""
+        self.config['always_split_with_profile'] = widget.get_active()
+        self.config.save()
 
     def on_allow_bold_checkbutton_toggled(self, widget):
         """Allow bold setting changed"""

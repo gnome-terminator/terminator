@@ -136,6 +136,8 @@ class Notebook(Container, gtk.Notebook):
             sibling = maker.make('terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+        if self.config['always_split_with_profile']:
+            sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
         self.set_tab_reorderable(container, True)
@@ -195,7 +197,7 @@ class Notebook(Container, gtk.Notebook):
             children.append(self.get_nth_page(page))
         return(children)
 
-    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None):
+    def newtab(self, debugtab=False, widget=None, cwd=None, metadata=None, profile=None):
         """Add a new tab, optionally supplying a child widget"""
         dbg('making a new tab')
         maker = Factory()
@@ -206,6 +208,8 @@ class Notebook(Container, gtk.Notebook):
             if cwd:
                 widget.set_cwd(cwd)
             widget.spawn_child(debugserver=debugtab)
+        if profile and self.config['always_split_with_profile']:
+            widget.force_set_profile(None, profile)
 
         signals = {'close-term': self.wrapcloseterm,
                    'split-horiz': self.split_horiz,

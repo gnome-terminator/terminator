@@ -50,6 +50,8 @@ class Paned(Container):
             sibling = self.maker.make('terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+        if self.config['always_split_with_profile']:
+            sibling.force_set_profile(None, widget.get_profile())
 
         self.add(container)
         self.show_all()

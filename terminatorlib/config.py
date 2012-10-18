@@ -105,6 +105,7 @@ DEFAULTS = {
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
              'suppress_multiple_term_dialog': False,
+             'always_split_with_profile': False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
