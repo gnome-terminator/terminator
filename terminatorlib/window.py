@@ -459,6 +459,8 @@ class Window(Container, gtk.Window):
             sibling = maker.make('Terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+            if widget.group and self.config['split_to_group']:
+                sibling.set_group(None, widget.group)
         if self.config['always_split_with_profile']:
             sibling.force_set_profile(None, widget.get_profile())
 
