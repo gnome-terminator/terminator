@@ -1,4 +1,4 @@
-terminator 0.97:
+terminator 1.0:
   * Allow font dimming in inactive terminals
   * Allow URL handler plugins to override label text for URL context
     menus
@@ -14,6 +14,10 @@ terminator 0.97:
   * Add an easy way to balance terminals by double clicking on their
     separator (Stephen J Boddy)
   * Add a plugin by Sinan Nalkaya to log the contents of terminals.
+  * Support configuration of TERM and COLORTERM, via a patch from
+    John Feuerstein
+  * Support reading configuration from alternate files, via a patch 
+    from Pavel Khlebovich
   * Bug fixes
 
 terminator 0.96:
