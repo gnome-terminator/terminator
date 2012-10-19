@@ -186,6 +186,8 @@ DEFAULTS = {
                 'cursor_shape'          : 'block',
                 'cursor_color'          : '#aaaaaa',
                 'emulation'             : 'xterm',
+                'term'                  : 'xterm',
+                'colorterm'             : 'gnome-terminal',
                 'font'                  : 'Mono 10',
                 'foreground_color'      : '#aaaaaa',
                 'show_titlebar'         : True,

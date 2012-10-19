@@ -164,8 +164,8 @@ class Terminal(gtk.VBox):
 
         self.connect_signals()
 
-        os.putenv('TERM', 'xterm')
-        os.putenv('COLORTERM', 'gnome-terminal')
+        os.putenv('TERM', self.config['term'])
+        os.putenv('COLORTERM', self.config['colorterm'])
 
         env_proxy = os.getenv('http_proxy')
         if not env_proxy:
@@ -1278,6 +1278,8 @@ class Terminal(gtk.VBox):
             pass
 
         envv = []
+        envv.append('TERM=%s' % self.config['term'])
+        envv.append('COLORTERM=%s' % self.config['colorterm'])
         envv.append('TERMINATOR_UUID=%s' % self.uuid.urn)
         if self.terminator.dbus_name:
             envv.append('TERMINATOR_DBUS_NAME=%s' % self.terminator.dbus_name)
