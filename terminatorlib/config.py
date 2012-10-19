@@ -431,6 +431,8 @@ class ConfigBase(Borg):
         Borg.__init__(self, self.__class__.__name__)
 
         self.prepare_attributes()
+        import optionparse
+        self.command_line_options = optionparse.options
         self.load()
 
     def prepare_attributes(self):
@@ -535,7 +537,10 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        filename = os.path.join(get_config_dir(), 'config')
+        if not self.command_line_options.config:
+            self.command_line_options.config = os.path.join(get_config_dir(), 'config')
+        filename = self.command_line_options.config
+
         dbg('looking for config file: %s' % filename)
         try:
             configfile = open(filename, 'r')
@@ -631,7 +636,7 @@ class ConfigBase(Borg):
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
         try:
-            parser.write(open(os.path.join(config_dir, 'config'), 'w'))
+            parser.write(open(self.command_line_options.config, 'w'))
         except Exception, ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 

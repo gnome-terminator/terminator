@@ -26,6 +26,8 @@ import config
 import version
 from translation import _
 
+options = None
+
 def execute_cb(option, opt, value, lparser):
     """Callback for use in parsing execute options"""
     assert value is None
@@ -40,7 +42,6 @@ def parse_options():
     """Parse the command line options"""
     usage = "usage: %prog [options]"
 
-    configobj = config.Config()
     parser = OptionParser(usage)
 
     parser.add_option('-v', '--version', action='store_true', dest='version',
@@ -60,6 +61,8 @@ def parse_options():
                              '(see X man page)'))
     parser.add_option('-e', '--command', dest='command', 
             help=_('Specify a command to execute inside the terminal'))
+    parser.add_option('-g', '--config', dest='config', 
+                      help=_('Specify a config file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
             callback=execute_cb, 
             help=_('Use the rest of the command line as a command to execute'
@@ -89,6 +92,7 @@ icon for the window (by file or name)'))
         parser.add_option(item, dest='dummy', action='store',
                 help=SUPPRESS_HELP)
 
+    global options
     (options, args) = parser.parse_args()
     if len(args) != 0:
         parser.error('Additional unexpected arguments found: %s' % args)
@@ -125,6 +129,7 @@ icon for the window (by file or name)'))
     if options.layout is None:
         options.layout = 'default'
 
+    configobj = config.Config()
     if options.profile and options.profile not in configobj.list_profiles():
         options.profile = None
 
