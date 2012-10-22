@@ -26,6 +26,8 @@ import config
 import version
 from translation import _
 
+options = None
+
 def execute_cb(option, opt, value, lparser):
     """Callback for use in parsing execute options"""
     assert value is None
@@ -40,7 +42,6 @@ def parse_options():
     """Parse the command line options"""
     usage = "usage: %prog [options]"
 
-    configobj = config.Config()
     parser = OptionParser(usage)
 
     parser.add_option('-v', '--version', action='store_true', dest='version',
@@ -53,26 +54,31 @@ def parse_options():
             dest='borderless', help=_('Disable window borders'))
     parser.add_option('-H', '--hidden', action='store_true', dest='hidden',
             help=_('Hide the window at startup'))
-    parser.add_option('-T', '--title', dest='forcedtitle', help=_('Specify a \
-title for the window'))
-    parser.add_option('--geometry', dest='geometry', type='string', help=_('Set \
-the preferred size and position of the window (see X man page)'))
-    parser.add_option('-e', '--command', dest='command', help=_('Specify a \
-command to execute inside the terminal'))
+    parser.add_option('-T', '--title', dest='forcedtitle', 
+                      help=_('Specify a title for the window'))
+    parser.add_option('--geometry', dest='geometry', type='string', 
+                      help=_('Set the preferred size and position of the window'
+                             '(see X man page)'))
+    parser.add_option('-e', '--command', dest='command', 
+            help=_('Specify a command to execute inside the terminal'))
+    parser.add_option('-g', '--config', dest='config', 
+                      help=_('Specify a config file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
-            callback=execute_cb, help=_('Use the rest of the command line as a \
-command to execute inside the terminal, and its arguments'))
+            callback=execute_cb, 
+            help=_('Use the rest of the command line as a command to execute'
+                   'nside the terminal, and its arguments'))
     parser.add_option('--working-directory', metavar='DIR',
             dest='working_directory', help=_('Set the working directory'))
-    parser.add_option('-r', '--role', dest='role', help=_('Set a custom \
-WM_WINDOW_ROLE property on the window'))
     parser.add_option('-c', '--classname', dest='classname', help=_('Set a \
 custom name (WM_CLASS) property on the window'))
-    parser.add_option('-l', '--layout', dest='layout', help=_('Select a layout'))
-    parser.add_option('-p', '--profile', dest='profile', help=_('Use a \
-different profile as the default'))
     parser.add_option('-i', '--icon', dest='forcedicon', help=_('Set a custom \
 icon for the window (by file or name)'))
+    parser.add_option('-r', '--role', dest='role', 
+            help=_('Set a custom WM_WINDOW_ROLE property on the window'))
+    parser.add_option('-l', '--layout', dest='layout', 
+                      help=_('Select a layout'))
+    parser.add_option('-p', '--profile', dest='profile', 
+            help=_('Use a different profile as the default'))
     parser.add_option('-u', '--no-dbus', action='store_true', dest='nodbus', 
             help=_('Disable DBus'))
     parser.add_option('-d', '--debug', action='count', dest='debug',
@@ -82,10 +88,11 @@ icon for the window (by file or name)'))
     parser.add_option('--debug-methods', action='store', dest='debug_methods',
             help=_('Comma separated list of methods to limit debugging to'))
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
-    '--no-gconf' ]:
+                 '--no-gconf' ]:
         parser.add_option(item, dest='dummy', action='store',
                 help=SUPPRESS_HELP)
 
+    global options
     (options, args) = parser.parse_args()
     if len(args) != 0:
         parser.error('Additional unexpected arguments found: %s' % args)
@@ -122,6 +129,7 @@ icon for the window (by file or name)'))
     if options.layout is None:
         options.layout = 'default'
 
+    configobj = config.Config()
     if options.profile and options.profile not in configobj.list_profiles():
         options.profile = None
 

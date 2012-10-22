@@ -105,6 +105,7 @@ DEFAULTS = {
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
              'suppress_multiple_term_dialog': False,
+             'always_split_with_profile': False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
@@ -185,6 +186,8 @@ DEFAULTS = {
                 'cursor_shape'          : 'block',
                 'cursor_color'          : '#aaaaaa',
                 'emulation'             : 'xterm',
+                'term'                  : 'xterm',
+                'colorterm'             : 'gnome-terminal',
                 'font'                  : 'Mono 10',
                 'foreground_color'      : '#aaaaaa',
                 'show_titlebar'         : True,
@@ -351,9 +354,10 @@ class Config(object):
                 self.gconf = gconf.client_get_default()
 
             value = self.gconf.get('/apps/metacity/general/focus_mode')
-            self.system_focus = value.get_string()
-            self.gconf.notify_add('/apps/metacity/general/focus_mode',
-                    self.on_gconf_notify)
+            if value:
+                self.system_focus = value.get_string()
+                self.gconf.notify_add('/apps/metacity/general/focus_mode',
+                        self.on_gconf_notify)
             return(self.system_focus)
 
     def on_gconf_notify(self, _client, _cnxn_id, _entry, _what):
@@ -427,6 +431,8 @@ class ConfigBase(Borg):
         Borg.__init__(self, self.__class__.__name__)
 
         self.prepare_attributes()
+        import optionparse
+        self.command_line_options = optionparse.options
         self.load()
 
     def prepare_attributes(self):
@@ -473,6 +479,9 @@ class ConfigBase(Borg):
                 value = 'list(%s)' % ','.join(value)
 
             keytype = '%s(default=%s)' % (keytype, value)
+
+            if key == 'custom_url_handler':
+                keytype = 'string(default="")'
 
             section[key] = keytype
         configspecdata['global_config'] = section
@@ -528,7 +537,10 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        filename = os.path.join(get_config_dir(), 'config')
+        if not self.command_line_options.config:
+            self.command_line_options.config = os.path.join(get_config_dir(), 'config')
+        filename = self.command_line_options.config
+
         dbg('looking for config file: %s' % filename)
         try:
             configfile = open(filename, 'r')
@@ -624,7 +636,7 @@ class ConfigBase(Borg):
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
         try:
-            parser.write(open(os.path.join(config_dir, 'config'), 'w'))
+            parser.write(open(self.command_line_options.config, 'w'))
         except Exception, ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 

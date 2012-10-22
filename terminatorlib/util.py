@@ -28,6 +28,7 @@ import gtk
 import os
 import pwd
 import inspect
+import uuid
 
 # set this to true to enable debugging output
 DEBUG = False
@@ -275,4 +276,17 @@ def enumerate_descendants(parent):
     dbg('%d containers and %d terminals fall beneath %s' % (len(containers), 
         len(terminals), parent))
     return(containers, terminals)
+
+def make_uuid():
+    """Generate a UUID for an object"""
+    return uuid.uuid4()
+
+def inject_uuid(target):
+    """Inject a UUID into an existing object"""
+    uuid = make_uuid()
+    if not hasattr(target, "uuid") or target.uuid == None:
+        dbg("Injecting UUID %s into: %s" % (uuid, target))
+        target.uuid = uuid
+    else:
+        dbg("Object already has a UUID: %s" % target)
 

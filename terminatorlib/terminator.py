@@ -349,19 +349,21 @@ class Terminator(Borg):
             idx = terminals.index(term)
             term.feed(numstr % (idx + 1))
 
+    def get_sibling_terms(self, widget):
+        termset = []
+        for term in self.terminals:
+            if term.group == widget.group:
+                termset.append(term)
+        return(termset)
+
     def get_target_terms(self, widget):
         """Get the terminals we should currently be broadcasting to"""
         if self.groupsend == self.groupsend_type['all']:
             return(self.terminals)
         elif self.groupsend == self.groupsend_type['group']:
-            termset = []
-            for term in self.terminals:
-                if term == widget or (term.group != None and term.group ==
-                        widget.group):
-                    termset.append(term)
-            return(termset)
-        else:
-            return([widget])
+            if widget.group != None:
+                return(self.get_sibling_terms(widget))
+        return([widget])
 
     def get_focussed_terminal(self):
         """iterate over all the terminals to find which, if any, has focus"""
@@ -375,6 +377,9 @@ class Terminator(Borg):
         for terminal in self.terminals:
             terminal.titlebar.update(widget)
         return
+
+    def focus_left(self, widget):
+        self.last_focused_term=widget
 
     def describe_layout(self):
         """Describe our current layout"""

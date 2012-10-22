@@ -71,10 +71,10 @@ class Window(Container, gtk.Window):
 
         options = self.config.options_get()
         if options:
-            if options.forcedtitle is not None:
+            if options.forcedtitle:
                 self.title.force_title(options.forcedtitle)
 
-            if options.role is not None:
+            if options.role:
                 self.set_role(options.role)
             
             if options.classname is not None:
@@ -83,7 +83,7 @@ class Window(Container, gtk.Window):
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
 
-            if options.geometry is not None:
+            if options.geometry:
                 if not self.parse_geometry(options.geometry):
                     err('Window::__init__: Unable to parse geometry: %s' % 
                             options.geometry)
@@ -248,6 +248,7 @@ class Window(Container, gtk.Window):
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
         cwd = None
+        profile = None
 
         if self.get_property('term_zoomed') == True:
             err("You can't create a tab while a terminal is maximised/zoomed")
@@ -255,11 +256,13 @@ class Window(Container, gtk.Window):
 
         if widget:
             cwd = widget.get_cwd()
+            profile = widget.get_profile()
+
         maker = Factory()
         if not self.is_child_notebook():
             dbg('Making a new Notebook')
             notebook = maker.make('Notebook', window=self)
-        self.get_child().newtab(debugtab, cwd=cwd)
+        self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
@@ -373,8 +376,10 @@ class Window(Container, gtk.Window):
     
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
-        gtk.Window.show(self)
-        #Present is necessary to grab focus when window is hidden from taskbar
+        #Present is necessary to grab focus when window is hidden from taskbar.
+        #It is important to call present() before show(), otherwise the window
+        #won't be brought to front if an another application has the focus.
+        #Last note: present() will implicitly call gtk.Window.show()
         self.present()
 
         #Window must be shown, then hidden for the hotkeys to be registered
@@ -454,6 +459,11 @@ class Window(Container, gtk.Window):
             sibling = maker.make('Terminal')
             sibling.set_cwd(cwd)
             sibling.spawn_child()
+            if widget.group and self.config['split_to_group']:
+                sibling.set_group(None, widget.group)
+        if self.config['always_split_with_profile']:
+            sibling.force_set_profile(None, widget.get_profile())
+
         self.add(container)
         container.show_all()
 

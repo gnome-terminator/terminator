@@ -1,3 +1,9 @@
+terminator (1.0) precise; urgency=low
+
+  * New upstream release of 1.0
+
+ -- Chris Jones <cmsj@tenshu.net>  Fri, 19 Oct 2012 12:57:42 -0700
+
 terminator (0.96ppa6) oneiric; urgency=low
 
   * No-change rebuild for oneiric PPA

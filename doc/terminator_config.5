@@ -115,6 +115,11 @@ Controls how much to reduce the colour values of fonts in terminals that do not 
 factor. A font colour that was RGB(200,200,200) with an inactive_color_offset of 0.5 would set inactive terminals to
 RGB(100,100,100).
 .TP
+.B always_split_with_profile
+Controls whether splits/tabs will continue to use the profile of their peer terminal. If set to False, they will always use
+the default profile.
+Default value: \fBFalse\fR
+.TP
 .B enabled_plugins
 A list of plugins which should be loaded by default. All other plugin classes will be ignored. The default value includes two
 plugins related to Launchpad, which are enabled by default to provide continuity with earlier releases where these were the
@@ -377,6 +382,14 @@ Default value: \fBblock\fR
 Sets what type of terminal should be emulated.
 Default value: \fBxterm\fR
 .TP
+.B xterm
+This translates into the value that will be set for TERM in the environment of your terminals.
+Default value: \fBxterm\fR
+.TP
+.B colorterm
+This translates into the value that will be set for COLORTERM in the environment of your terminals.
+Default value: \fBgnome-terminal\fR
+.TP
 .B use_system_font
 Whether or not to use the GNOME default monospace font for terminals.
 Default value: \fBTrue\fR
@@ -423,7 +436,7 @@ Default value: \fBFalse\fR
 .TP
 .B focus_on_close
 Sets which terminal should get the focus when another terminal is closed. Values can be "prev", "next" or "auto".
-Using "auto", if the closed terminal is within a splitted window, the focus will be on the sibling terminal rather than another tab.
+Using "auto", if the closed terminal is within a split window, the focus will be on the sibling terminal rather than another tab.
 Default value: \fBauto\fR
 .TP
 .B exit_action
