@@ -234,15 +234,18 @@ class Titlebar(gtk.EventBox):
 
     def create_group(self):
         """Create a new group"""
-        defaultgroups=set(['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
-                           'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
-                           'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
-                           'Chi','Psi','Omega'])
-        currentgroups=set(self.terminator.groups)
-        freegroups = list(defaultgroups-currentgroups)
-        random.shuffle(freegroups)
-        if self.groupentry.get_text()=='' and freegroups:
-            self.groupentry.set_text(freegroups.pop())
+        if self.terminal.group:
+            self.groupentry.set_text(self.terminal.group)
+        else:
+            defaultgroups=set(['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
+                               'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
+                               'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
+                               'Chi','Psi','Omega'])
+            currentgroups=set(self.terminator.groups)
+            freegroups = list(defaultgroups-currentgroups)
+            random.shuffle(freegroups)
+            if self.groupentry.get_text()=='' and freegroups:
+                self.groupentry.set_text(freegroups.pop())
         self.groupentry.show()
         self.groupentry.grab_focus()
         self.update_visibility()
