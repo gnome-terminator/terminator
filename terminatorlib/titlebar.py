@@ -6,6 +6,7 @@
 import gtk
 import gobject
 import random
+import itertools
 
 from version import APP_NAME
 from util import dbg
@@ -237,15 +238,20 @@ class Titlebar(gtk.EventBox):
         if self.terminal.group:
             self.groupentry.set_text(self.terminal.group)
         else:
-            defaultgroups=set(['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
-                               'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
-                               'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
-                               'Chi','Psi','Omega'])
+            defaultmembers=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
+                           'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
+                           'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
+                           'Chi','Psi','Omega']
             currentgroups=set(self.terminator.groups)
-            freegroups = list(defaultgroups-currentgroups)
-            random.shuffle(freegroups)
-            if self.groupentry.get_text()=='' and freegroups:
-                self.groupentry.set_text(freegroups.pop())
+            for i in range(1,4):
+                defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
+                freegroups = list(defaultgroups-currentgroups)
+                if freegroups:
+                    random.shuffle(freegroups)
+                    self.groupentry.set_text(freegroups.pop())
+                    break
+            else:
+                self.groupentry.set_text('')
         self.groupentry.show()
         self.grouplabel.hide()
         self.groupentry.grab_focus()
