@@ -216,6 +216,7 @@ class Titlebar(gtk.EventBox):
             self.grouplabel.set_text(name)
             self.grouplabel.show()
         else:
+            self.grouplabel.set_text('')
             self.grouplabel.hide()
         self.update_visibility()
 
