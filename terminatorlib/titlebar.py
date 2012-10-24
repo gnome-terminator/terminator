@@ -247,8 +247,7 @@ class Titlebar(gtk.EventBox):
                 defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
                 freegroups = list(defaultgroups-currentgroups)
                 if freegroups:
-                    random.shuffle(freegroups)
-                    self.groupentry.set_text(freegroups.pop())
+                    self.groupentry.set_text(random.choice(freegroups))
                     break
             else:
                 self.groupentry.set_text('')
