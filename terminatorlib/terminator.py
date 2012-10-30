@@ -104,6 +104,10 @@ class Terminator(Borg):
         dbg('session manager asked us to die')
         # FIXME: Implement this
 
+    def get_windows(self):
+        """Return a list of windows"""
+        return self.windows
+
     def register_window(self, window):
         """Register a new window widget"""
         if window not in self.windows:

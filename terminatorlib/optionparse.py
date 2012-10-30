@@ -87,6 +87,8 @@ icon for the window (by file or name)'))
             help=_('Comma separated list of classes to limit debugging to'))
     parser.add_option('--debug-methods', action='store', dest='debug_methods',
             help=_('Comma separated list of methods to limit debugging to'))
+    parser.add_option('--new-tab', action='store_true', dest='new_tab',
+            help=_('If Terminator is already running, just open a new tab'))
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
         parser.add_option(item, dest='dummy', action='store',

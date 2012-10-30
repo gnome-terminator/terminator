@@ -18,6 +18,7 @@ terminator 1.0:
     John Feuerstein
   * Support reading configuration from alternate files, via a patch 
     from Pavel Khlebovich
+  * Allow creation of new tabs in existing Terminators, via DBus
   * Bug fixes
 
 terminator 0.96:

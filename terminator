@@ -66,7 +66,7 @@ if __name__ == '__main__':
         try:
             dbus_service = ipc.DBusService()
         except ipc.DBusException:
-            dbg('Unable to become master process, requesting a new window')
+            dbg('Unable to become master process, operating via DBus')
             # get rid of the None and True types so dbus can handle them (empty
             # and 'True' strings are used instead), also arrays are joined 
             # (the -x argument for example)
@@ -78,7 +78,12 @@ if __name__ == '__main__':
                     val = 'True'
                 optionslist[opt] = val and '%s'%val or ''
             optionslist = dbus.Dictionary(optionslist, signature='ss')
-            ipc.new_window(optionslist)
+            if OPTIONS.new_tab:
+                dbg('Requesting a new tab')
+                ipc.new_tab(optionslist)
+            else:
+                dbg('Requesting a new window')
+                ipc.new_window(optionslist)
             sys.exit()
     except ImportError:
         dbg('dbus not imported')
