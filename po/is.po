@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2012-06-07 21:31+0000\n"
+"PO-Revision-Date: 2012-11-05 08:46+0000\n"
 "Last-Translator: Sigurpáll Sigurðsson <Icekhaos@hotmail.com>\n"
 "Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-10-25 05:08+0000\n"
-"X-Generator: Launchpad (build 16179)\n"
+"X-Launchpad-Export-Date: 2012-11-06 04:31+0000\n"
+"X-Generator: Launchpad (build 16232)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -44,7 +44,7 @@ msgid ""
 "terminals within it."
 msgstr ""
 "Þessi %s hefur nokkrar útstöðvar opnar. Lokun %s mun einnig loka öllum "
-"útstöðvum innan í því."
+"útstöðvum innan þess."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -204,7 +204,7 @@ msgstr "Sýna forritsútgáfu"
 
 #: ../terminatorlib/optionparse.py:49
 msgid "Maximise the window"
-msgstr ""
+msgstr "Fullstækka gluggann"
 
 #: ../terminatorlib/optionparse.py:51
 msgid "Make the window fill the screen"
@@ -212,7 +212,7 @@ msgstr "Lætur gluggann fylla skjáinn"
 
 #: ../terminatorlib/optionparse.py:53
 msgid "Disable window borders"
-msgstr ""
+msgstr "Slökkva á gluggaskilum"
 
 #: ../terminatorlib/optionparse.py:55
 msgid "Hide the window at startup"
@@ -220,7 +220,7 @@ msgstr "Fela gluggann við ræsingu"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Setja nafn á gluggann"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Set the preferred size and position of the window (see X man page)"
@@ -228,7 +228,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Setja inn skipun til að keyra í útstöðinni"
 
 #: ../terminatorlib/optionparse.py:63
 msgid ""
@@ -242,19 +242,19 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:67
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Stilla sérsniðinn WM_WINDOW_ROLE-eiginleika á gluggann"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Select a layout"
-msgstr ""
+msgstr "Veldu snið"
 
 #: ../terminatorlib/optionparse.py:70
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Nota aðra uppsetningu sem sjálfgefna"
 
 #: ../terminatorlib/optionparse.py:73
 msgid "Disable DBus"
-msgstr ""
+msgstr "Slökkva á DBus"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Enable debugging information (twice for debug server)"
@@ -270,31 +270,31 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
+msgstr "ActivityWatch ábót ekki tiltæk: vinsamlegast settu upp python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "Leita eftir virkni"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Hætta leit eftir virkni"
 
 #: ../terminatorlib/plugins/activitywatch.py:106
 msgid "Watch for silence"
-msgstr ""
+msgstr "Leita eftir þögn"
 
 #: ../terminatorlib/plugins/activitywatch.py:109
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Hætta leit eftir þögn"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Sérsniðnar Skipanir"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Stilling Sérsniðina Skipana"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -302,7 +302,7 @@ msgstr "Ný Skipun"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Virkt:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -315,7 +315,7 @@ msgstr "Skipun:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Þú þarft að skilgreina nafn og skipun"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
@@ -325,15 +325,15 @@ msgstr "Nafn '%s' nú þegar til"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Skjáskot af útstöð"
 
 #: ../terminatorlib/prefseditor.py:942 ../terminatorlib/prefseditor.py:947
 msgid "New Profile"
-msgstr ""
+msgstr "Ný Uppsetning"
 
 #: ../terminatorlib/prefseditor.py:987 ../terminatorlib/prefseditor.py:992
 msgid "New Layout"
-msgstr ""
+msgstr "Nýtt Snið"
 
 #. Label
 #: ../terminatorlib/searchbar.py:50
@@ -376,11 +376,11 @@ msgstr "_Afrita tölvupóstfáng"
 
 #: ../terminatorlib/terminal_popup_menu.py:54
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "_Hringja í VoIP-fang"
 
 #: ../terminatorlib/terminal_popup_menu.py:55
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "A_frita VoIP-fang"
 
 #: ../terminatorlib/terminal_popup_menu.py:57
 msgid "_Open link"
@@ -388,7 +388,7 @@ msgstr "_Opna slóð"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr ""
+msgstr "Af_rita fang"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
@@ -396,7 +396,7 @@ msgstr "Deila _Lárétt"
 
 #: ../terminatorlib/terminal_popup_menu.py:96
 msgid "Split V_ertically"
-msgstr "Deila Lóð_rétt"
+msgstr "Deila Lóðré_tt"
 
 #: ../terminatorlib/terminal_popup_menu.py:106
 msgid "Open _Tab"
@@ -420,11 +420,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Grouping"
-msgstr ""
+msgstr "Hópun"
 
 #: ../terminatorlib/terminal_popup_menu.py:150
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Sýna _skrunslá"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Preferences"
@@ -432,11 +432,11 @@ msgstr "_Kjörstillingar"
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "Profiles"
-msgstr ""
+msgstr "Uppsetning"
 
 #: ../terminatorlib/terminal_popup_menu.py:207
 msgid "Encodings"
-msgstr ""
+msgstr "Kóðanir"
 
 #: ../terminatorlib/terminal_popup_menu.py:222
 msgid "Default"
@@ -444,11 +444,11 @@ msgstr "Sjálfgefið"
 
 #: ../terminatorlib/terminal_popup_menu.py:225
 msgid "User defined"
-msgstr ""
+msgstr "Skilgreint af notanda"
 
 #: ../terminatorlib/terminal_popup_menu.py:241
 msgid "Other Encodings"
-msgstr ""
+msgstr "Aðrar kóðanir"
 
 #: ../terminatorlib/terminal.py:372
 msgid "New group..."
@@ -456,7 +456,7 @@ msgstr "Nýr hópur..."
 
 #: ../terminatorlib/terminal.py:377
 msgid "None"
-msgstr ""
+msgstr "Ekkert"
 
 #: ../terminatorlib/terminal.py:393
 #, python-format
@@ -482,27 +482,27 @@ msgstr "Loka hóp %s"
 
 #: ../terminatorlib/terminal.py:424
 msgid "Broadcast all"
-msgstr ""
+msgstr "Senda út allt"
 
 #: ../terminatorlib/terminal.py:425
 msgid "Broadcast group"
-msgstr ""
+msgstr "Senda út hóp"
 
 #: ../terminatorlib/terminal.py:426
 msgid "Broadcast off"
-msgstr ""
+msgstr "Slökkva á útsendingu"
 
 #: ../terminatorlib/terminal.py:439
 msgid "Split to this group"
-msgstr ""
+msgstr "Deila í þennan hóp"
 
 #: ../terminatorlib/terminal.py:444
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Sjálfhreinsa hópa"
 
 #: ../terminatorlib/terminal.py:451
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Settu inn númer útstöðvar"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Insert padded terminal number"
