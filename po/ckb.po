@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-21 01:31+0100\n"
-"PO-Revision-Date: 2012-12-18 06:55+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-01-27 15:58+0000\n"
+"Last-Translator: daniel <d.danial42@yahoo.com>\n"
 "Language-Team: Kurdish (Sorani) <ckb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-12-19 05:09+0000\n"
-"X-Generator: Launchpad (build 16378)\n"
+"X-Launchpad-Export-Date: 2013-01-28 05:07+0000\n"
+"X-Generator: Launchpad (build 16451)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Multiple terminals in one window"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:149
 msgid "Close?"
-msgstr ""
+msgstr "دابخرێتەوە؟"
 
 #: ../terminatorlib/container.py:156
 msgid "Close _Terminals"
@@ -78,7 +78,7 @@ msgstr ""
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr ""
+msgstr "عه‌ره‌بی"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
@@ -165,7 +165,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "فارسی"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
