@@ -394,7 +394,7 @@ msgstr "_Avaa linkki"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Copy address"
-msgstr "_Kopiois osoite"
+msgstr "_Kopioi osoite"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "Split H_orizontally"
