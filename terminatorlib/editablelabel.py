@@ -72,6 +72,8 @@ class EditableLabel(gtk.EventBox):
     def _on_click_text(self, widget, event):
         # pylint: disable-msg=W0613
         """event handling text edition"""
+        if event.button != 1:
+            return False
         if event.type == gtk.gdk._2BUTTON_PRESS:
             self.remove (self._label)
             self._entry = gtk.Entry ()
@@ -84,6 +86,9 @@ class EditableLabel(gtk.EventBox):
             self._entry_handler_id.append(sig)
             sig = self._entry.connect ("key-press-event",
                                          self._on_entry_keypress)
+            self._entry_handler_id.append(sig)
+            sig = self._entry.connect("button-press-event",
+                                      self._on_entry_buttonpress)
             self._entry_handler_id.append(sig)
             self._entry.grab_focus ()
             return(True)
@@ -125,6 +130,16 @@ class EditableLabel(gtk.EventBox):
         key = gtk.gdk.keyval_name (event.keyval)
         if key == 'Escape':
             self._entry_to_label (None, None)
+
+    def _on_entry_buttonpress (self, widget, event):
+        """handle button events in gtk.Entry."""
+        # Block right clicks to avoid a deadlock.
+        # The correct solution here would be for _entry_to_label to trigger a
+        # deferred execution handler and for that handler to check if focus is
+        # in a GtkMenu. The problem being that we are unable to get a context
+        # menu for the GtkEntry.
+        if event.button == 3:
+            return True
 
     def modify_fg(self, state, color):
         """Set the label foreground"""
