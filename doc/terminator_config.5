@@ -86,6 +86,10 @@ Default value: \fBFalse\fR
 Path to a program which accepts a URI as an argument and does something relevant with it. This option is ignored unless 'use_custom_url_handler' is set to True.
 Default value: unset
 .TP
+.B disable_real_transparency \fR(string)
+If this is set to True, Terminator will never try to use 'real' transparency if your windowing environment supports it. Instead it will use 'fake' transparency where a background image is shown, but other windows are not.
+Default value: False
+.TP
 .B title_transmit_fg_color
 Sets the colour of the text shown in the titlebar of the active terminal.
 Default value: \fB'#FFFFFF'\fR

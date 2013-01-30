@@ -680,7 +680,7 @@ class Terminal(gtk.VBox):
         # This is quite hairy, but the basic explanation is that we should
         # set_background_transparent(True) when we have no compositing and want
         # fake background transparency, otherwise it should be False.
-        if not self.composite_support:
+        if not self.composite_support or self.config['disable_real_transparency']:
             # We have no compositing support, fake background only
             background_transparent = True
         else:
