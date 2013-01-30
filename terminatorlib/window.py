@@ -117,18 +117,19 @@ class Window(Container, gtk.Window):
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
-        try:
-            self.hidebound = keybinder.bind(
-                self.config['keybindings']['hide_window'],
-                self.on_hide_window)
-        except (KeyError, NameError):
-            pass
+        if self.config['keybindings']['hide_window'] != None:
+            try:
+                self.hidebound = keybinder.bind(
+                    self.config['keybindings']['hide_window'],
+                    self.on_hide_window)
+            except (KeyError, NameError):
+                pass
 
-        if not self.hidebound:
-            err('Unable to bind hide_window key, another instance/window has it.')
-            self.hidefunc = self.iconify
-        else:
-            self.hidefunc = self.hide
+            if not self.hidebound:
+                err('Unable to bind hide_window key, another instance/window has it.')
+                self.hidefunc = self.iconify
+            else:
+                self.hidefunc = self.hide
 
     def apply_config(self):
         """Apply various configuration options"""
