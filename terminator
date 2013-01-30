@@ -20,7 +20,10 @@
 
 import sys
 import os
-ORIGCWD = os.getcwd()
+try:
+    ORIGCWD = os.getcwd()
+except OSError:
+    ORIGCWD = os.path.expanduser("~")
 
 # Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
