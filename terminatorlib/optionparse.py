@@ -65,8 +65,8 @@ def parse_options():
                       help=_('Specify a config file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
             callback=execute_cb, 
-            help=_('Use the rest of the command line as a command to execute'
-                   'nside the terminal, and its arguments'))
+            help=_('Use the rest of the command line as a command to execute '
+                   'inside the terminal, and its arguments'))
     parser.add_option('--working-directory', metavar='DIR',
             dest='working_directory', help=_('Set the working directory'))
     parser.add_option('-c', '--classname', dest='classname', help=_('Set a \
