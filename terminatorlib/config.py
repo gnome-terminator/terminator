@@ -538,9 +538,12 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        if not self.command_line_options.config:
-            self.command_line_options.config = os.path.join(get_config_dir(), 'config')
-        filename = self.command_line_options.config
+        if self.command_line_options:
+            if not self.command_line_options.config:
+                self.command_line_options.config = os.path.join(get_config_dir(), 'config')
+            filename = self.command_line_options.config
+        else:
+            filename = os.path.join(get_config_dir(), 'config')
 
         dbg('looking for config file: %s' % filename)
         try:
