@@ -5,6 +5,8 @@
 
 import gtk
 import gobject
+import random
+import itertools
 
 from version import APP_NAME
 from util import dbg
@@ -214,6 +216,7 @@ class Titlebar(gtk.EventBox):
             self.grouplabel.set_text(name)
             self.grouplabel.show()
         else:
+            self.grouplabel.set_text('')
             self.grouplabel.hide()
         self.update_visibility()
 
@@ -235,6 +238,20 @@ class Titlebar(gtk.EventBox):
         """Create a new group"""
         if self.terminal.group:
             self.groupentry.set_text(self.terminal.group)
+        else:
+            defaultmembers=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
+                           'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
+                           'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
+                           'Chi','Psi','Omega']
+            currentgroups=set(self.terminator.groups)
+            for i in range(1,4):
+                defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
+                freegroups = list(defaultgroups-currentgroups)
+                if freegroups:
+                    self.groupentry.set_text(random.choice(freegroups))
+                    break
+            else:
+                self.groupentry.set_text('')
         self.groupentry.show()
         self.grouplabel.hide()
         self.groupentry.grab_focus()
@@ -249,7 +266,7 @@ class Titlebar(gtk.EventBox):
 
     def groupentry_activate(self, widget):
         """Actually cause a group to be created"""
-        groupname = self.groupentry.get_text()
+        groupname = self.groupentry.get_text() or None
         dbg('Titlebar::groupentry_activate: creating group: %s' % groupname)
         self.groupentry_cancel(None, None)
         last_focused_term=self.terminator.last_focused_term
