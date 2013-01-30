@@ -1453,7 +1453,8 @@ class Terminal(gtk.VBox):
         """Set the urgency hint for our window"""
         if self.config['urgent_bell'] == True:
             window = self.get_toplevel()
-            window.set_urgency_hint(True)
+            if window.flags() & gtk.TOPLEVEL:
+                window.set_urgency_hint(True)
         if self.config['icon_bell'] == True:
             self.titlebar.icon_bell()
 
