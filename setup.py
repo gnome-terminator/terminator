@@ -150,7 +150,7 @@ class InstallData(install_data):
     return data_files
 
 
-if platform.system() == 'FreeBSD':
+if platform.system() in ['FreeBSD', 'OpenBSD']:
   man_dir = 'man'
 else:
   man_dir = 'share/man'
