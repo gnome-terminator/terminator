@@ -903,8 +903,9 @@ class Terminal(gtk.VBox):
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
-        if gtk.targets_include_text(drag_context.targets) or \
-           gtk.targets_include_uri(drag_context.targets):
+        if not drag_context.targets == ['vte'] and \
+           (gtk.targets_include_text(drag_context.targets) or \
+           gtk.targets_include_uri(drag_context.targets)):
             # copy text from another widget
             return
         srcwidget = drag_context.get_source_widget()
