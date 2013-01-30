@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-30 13:05+0000\n"
+"POT-Creation-Date: 2013-01-30 13:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,8 +238,8 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
-"Use the rest of the command line as a command to executenside the terminal, "
-"and its arguments"
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
 msgstr ""
 
 #: ../terminatorlib/optionparse.py:71
