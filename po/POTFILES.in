@@ -27,6 +27,7 @@ terminatorlib/plugins/custom_commands.py
 terminatorlib/plugins/terminalshot.py
 terminatorlib/plugins/testplugin.py
 terminatorlib/plugins/url_handlers.py
+terminatorlib/preferences.glade
 terminatorlib/prefseditor.py
 terminatorlib/searchbar.py
 terminatorlib/signalman.py
