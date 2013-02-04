@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-09-26 21:05+0000\n"
-"Last-Translator: tty <Unknown>\n"
+"PO-Revision-Date: 2013-02-03 10:19+0000\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-02-04 05:08+0000\n"
+"X-Generator: Launchpad (build 16462)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Slijedeći puta više ne prikazuj ovu poruku"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -120,7 +120,7 @@ msgstr "Rumunjski"
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Unikôd"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
@@ -132,11 +132,11 @@ msgstr "Armenski"
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Tradicionalni kineski"
+msgstr "Kineski tradicionalni"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Ćirilica/ruski"
+msgstr "Ćirilica/Ruski"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
@@ -151,7 +151,7 @@ msgstr "Korejski"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Pojednostavljeni Kineski"
+msgstr "Kineski pojednostavljeni"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -159,7 +159,7 @@ msgstr "Gruzijski"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Ćirilica/ukrajinski"
+msgstr "Ćirilica/Ukrajinski"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
@@ -229,6 +229,7 @@ msgstr "Odredite naslov prozora"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Postavite željenu veličinu i položaj prozora (pogledajte X man stranicu)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -236,7 +237,7 @@ msgstr "Odredite naredbu za izvršenje unutar terminala"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Odredite config datoteku"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
