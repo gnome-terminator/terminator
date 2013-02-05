@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-11-15 16:14+0000\n"
-"Last-Translator: Elisangela Moraes <lis.mrs@hotmail.com>\n"
+"PO-Revision-Date: 2013-02-04 13:20+0000\n"
+"Last-Translator: Paulo Márcio da Hora <paulohora@ufba.br>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-02-05 04:31+0000\n"
+"X-Generator: Launchpad (build 16468)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Não mostrar esta mensagem da próxima vez"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -228,7 +228,7 @@ msgstr "Especificar um título para a janela"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
+msgstr "Ajustar tamanho e posição preferido da janela(veja man page do X)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -236,7 +236,7 @@ msgstr "Especificar um comando para executar no terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Especifique um arquivo de configuração"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -256,7 +256,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Indique um ícone personalizado para a janela (por arquivo ou nome)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -289,7 +289,7 @@ msgstr "Lista separada por vírgulas dos métodos para limitar a depuração"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Se o Terminator já estiver sendo executado, apenas abrir nova aba"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -369,15 +369,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Sair do terminal"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Reiniciar o comando"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Manter o terminal aberto"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
@@ -385,23 +385,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Preto em branco"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Cinza em preto"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Verde em preto"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Branco em preto"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Laranja em preto"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
