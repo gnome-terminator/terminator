@@ -475,6 +475,7 @@ class Window(Container, gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
+        sibling.grab_focus()
         
         while gtk.events_pending():
             gtk.main_iteration_do(False)
