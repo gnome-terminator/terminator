@@ -66,6 +66,7 @@ class Paned(Container):
             container.add(terminal)
 
         self.show_all()
+        sibling.grab_focus()
         
         while gtk.events_pending():
             gtk.main_iteration_do(False)
@@ -248,7 +249,7 @@ class Paned(Container):
             parent.remove(self)
             self.cnxids.remove_all()
             parent.add(sibling, metadata)
-            del(self)
+            sibling.grab_focus()
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
 
