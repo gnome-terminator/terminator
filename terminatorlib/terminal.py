@@ -981,7 +981,8 @@ class Terminal(gtk.VBox):
             txt = selection_data.data.strip(' ')
             if txt[0:7] == 'file://':
                 txt = "'%s'" % urllib.unquote(txt[7:])
-            txt = selection_data.data.strip('\n')
+            else:
+                txt = txt.split('\n')[0]
             for term in self.terminator.get_target_terms(self):
                 term.feed(txt)
             return
