@@ -43,20 +43,25 @@ class PrefsEditor:
                          'white_on_black': 4,
                          'orange_on_black': 5,
                          'ambience': 6,
-                         'custom': 7}
+                         'solarized_light': 7,
+                         'solarized_dark': 8,
+                         'custom': 9}
     colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
                      'black_on_yellow': ['#000000', '#ffffdd'],
                      'black_on_white': ['#000000', '#ffffff'],
                      'white_on_black': ['#ffffff', '#000000'],
                      'green_on_black': ['#00ff00', '#000000'],
                      'orange_on_black': ['#e53c00', '#000000'],
-                     'ambience': ['#ffffff', '#300a24']}
+                     'ambience': ['#ffffff', '#300a24'],
+                     'solarized_light': ['#657b83', '#fdf6e3'],
+                     'solarized_dark': ['#839496', '#002b36']}
     palettevalues = {'tango': 0,
                      'linux': 1,
                      'xterm': 2,
                      'rxvt': 3,
                      'ambience': 4,
-                     'custom': 5}
+                     'solarized': 5,
+                     'custom': 6}
     palettes = {'tango': '#000000:#cc0000:#4e9a06:#c4a000:#3465a4:\
 #75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:\
 #ad7fa8:#34e2e2:#eeeeec',
@@ -71,7 +76,10 @@ class PrefsEditor:
 #ff00ff:#00ffff:#ffffff',
                 'ambience': '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
-#729fcf:#ad7fa8:#34e2e2:#eeeeec'}
+#729fcf:#ad7fa8:#34e2e2:#eeeeec',
+                'solarized': '#073642:#dc322f:#859900:#b58900:\
+#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:\
+#839496:#6c71c4:#93a1a1:#fdf6e3'}
     keybindingnames = { 'zoom_in'          : 'Increase font size',
                         'zoom_out'         : 'Decrease font size',
                         'zoom_normal'      : 'Restore original font size',
