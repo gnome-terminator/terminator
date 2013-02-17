@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-15 17:42+0000\n"
+"PO-Revision-Date: 2013-02-16 13:32+0000\n"
 "Last-Translator: Abdullah Ibraheem <19sa91@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-16 04:31+0000\n"
+"X-Launchpad-Export-Date: 2013-02-17 04:31+0000\n"
 "X-Generator: Launchpad (build 16491)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -235,7 +235,7 @@ msgstr "تحديد الأوامر لتنفيذ داخل الصالة"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "حدد ملف التهيئة"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -301,11 +301,11 @@ msgstr "إيقاف المراقبة للنشاط"
 
 #: ../terminatorlib/plugins/activitywatch.py:110
 msgid "Watch for silence"
-msgstr ""
+msgstr "تنبّه للتوقف"
 
 #: ../terminatorlib/plugins/activitywatch.py:113
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "أوقف التنبّه للتوقف"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -408,7 +408,7 @@ msgstr "مخصّص"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "حظر"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -420,7 +420,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "افتراضي جنوم"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -512,7 +512,7 @@ msgstr "حدود النافذة"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "مكان علامة التبويب"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
@@ -672,7 +672,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "_حدّث سجلّات تسجيل الدّخول عند إطلاق الأمر"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
@@ -720,7 +720,7 @@ msgstr "اختر لون خلفية الطرفيّة"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>لوح الألوان</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -736,7 +736,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "_لوح الألوان:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
@@ -820,11 +820,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "_زر DELETE يولد:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "_زر Backspace يولد:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
@@ -836,7 +836,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "الافتراضي:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
@@ -853,7 +853,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "أمر مخصّص"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
