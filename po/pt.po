@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-16 20:06+0000\n"
-"Last-Translator: Anderson Porto <Unknown>\n"
+"PO-Revision-Date: 2013-02-18 00:11+0000\n"
+"Last-Translator: David Pires <slickymaster@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-17 04:31+0000\n"
+"X-Launchpad-Export-Date: 2013-02-18 04:31+0000\n"
 "X-Generator: Launchpad (build 16491)\n"
 "X-Poedit-Country: Portugal\n"
 "X-Poedit-Language: Portuguese\n"
@@ -25,7 +25,7 @@ msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Múltiplos terminais numa só janela"
+msgstr "Múltiplos Terminais numa só janela"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -33,7 +33,7 @@ msgstr "Fechar?"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
-msgstr "Fechar _terminais"
+msgstr "Fechar _Terminais"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -157,7 +157,7 @@ msgstr "Chinês Simplificado"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Geórgio"
+msgstr "Georgiano"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
@@ -194,7 +194,7 @@ msgstr "Vietnamita"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Thai"
+msgstr "Tailandês"
 
 #: ../terminatorlib/notebook.py:305
 msgid "tab"
@@ -418,7 +418,7 @@ msgstr "Bloquear"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr "Sublinhar"
+msgstr "Sublinhado"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -430,7 +430,7 @@ msgstr "Padrão do GNOME"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr "Clique para obter foco"
+msgstr "Clicar para obter foco"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
@@ -450,27 +450,27 @@ msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr "Ao lado esquerdo"
+msgstr "No lado esquerdo"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr "Ao lado direito"
+msgstr "No lado direito"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr "Inativo"
+msgstr "Desabilitado"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr "Em cima"
+msgstr "Topo"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr "Base"
+msgstr "Em baixo"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
@@ -490,31 +490,31 @@ msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr "maximizar"
+msgstr "Maximizado"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr "Tela Cheia"
+msgstr "Ecrã completo"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr "padrão"
+msgstr "predefinido"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr "Configuracões"
+msgstr "Configuraçõs do Terminator"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Dicas de geometria da janela"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Estado da janela"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr "Bordas das janelas"
+msgstr "Limites da janela"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
@@ -522,15 +522,15 @@ msgstr "Posição do separador"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr "Mouse"
+msgstr "Foco do rato"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Tamanho do separador de terminal"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr "Ocultar na Bandeja"
+msgstr "Esconder da barra de tarefas"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
@@ -538,59 +538,59 @@ msgstr "Sempre visível"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr "Ocultar ao Perder o Foco"
+msgstr "Ocultar ao perder foco"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr "Mostrar Todas As Áreas de Trabalho"
+msgstr "Mostrar em todas as áreas de trabalho"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr "DBus servidor"
+msgstr "Servidor DBus"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Ocultar tamanho de título"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Brilho da fonte do terminal sem foco"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Utilize um manipulador de URL personalizado"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "Manipulador de URL personalizado"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr "Utilizar usuario antigo para novo terminal"
+msgstr "Reutilize perfis para novos terminais"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr "Titulo"
+msgstr "<b>Título</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Terminal de recepção"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Terminal com foco"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr "terminal inativo"
+msgstr "Terminal inativo"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr "Cor da Fonte"
+msgstr "Cor da fonte"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr "Papel de parede"
+msgstr "Plano de fundo"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
@@ -602,15 +602,15 @@ msgstr "_Utilizar a fonte de largura fixa do sistema"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr "Fonte"
+msgstr "_Fonte"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr "Escolher a Fonte do Console"
+msgstr "Selecione uma fonte de terminal"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Permitir texto negrito"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
