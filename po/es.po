@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-11-30 21:04+0000\n"
-"Last-Translator: Kito <Unknown>\n"
+"PO-Revision-Date: 2013-02-24 23:00+0000\n"
+"Last-Translator: Carlos Joel Delgado Pizarro <carlosj2585@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-02-25 04:31+0000\n"
+"X-Generator: Launchpad (build 16506)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "No mostrar este mensaje neuvamente"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -229,6 +229,7 @@ msgstr "Especificar un título para la ventana"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Establecer tamaño y posición preferidas para la ventana (ver el manual de X)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -236,7 +237,7 @@ msgstr "Especificar un comando a ejecutar dentro del terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Especificar un archivo de configuración"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -253,10 +254,13 @@ msgstr "Establecer el directorio de trabajo"
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
 msgstr ""
+"Establecer un nombre personalizado (WM_CLASS)  para la propiedad en la "
+"ventana"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
 msgstr ""
+"Establecer un icono personalizado para la ventana (por archivo o nombre)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -289,7 +293,7 @@ msgstr "Lista separada por comas de métodos para delimitar su depuración"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Si Terminator se está ejecutando, abrir una nueva pestaña"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -352,27 +356,27 @@ msgstr "Captura de terminal"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automático"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII SUPR"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Secuencia de escape"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Salir  del terminal"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Reiniciar el comando"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
@@ -380,31 +384,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Negro sobre amarillo suave"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Negro sobre blanco"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Gris sobre blanco"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Verde sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Blanco sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Anaranjado sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
