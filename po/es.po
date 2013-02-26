@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-24 23:00+0000\n"
-"Last-Translator: Carlos Joel Delgado Pizarro <carlosj2585@gmail.com>\n"
+"PO-Revision-Date: 2013-02-25 22:04+0000\n"
+"Last-Translator: Miguel Angel del Olmo <silinio45@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-25 04:31+0000\n"
+"X-Launchpad-Export-Date: 2013-02-26 04:31+0000\n"
 "X-Generator: Launchpad (build 16506)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -380,7 +380,7 @@ msgstr "Reiniciar el comando"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Mantener el terminal abierto"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
@@ -492,7 +492,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maximizado"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
@@ -528,7 +528,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Tamaño del separador del Terminal"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
@@ -552,7 +552,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Ocultar tamaño del título"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
@@ -572,7 +572,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>Barra de título</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
@@ -584,11 +584,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Terminal inactivo"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Color de la fuente"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
@@ -620,7 +620,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Mostrar barra de título"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
@@ -636,7 +636,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Color del cursor:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
