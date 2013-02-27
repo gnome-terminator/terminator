@@ -125,8 +125,7 @@ def shell_lookup():
         usershell = pwd.getpwuid(os.getuid())[6]
     except KeyError:
         usershell = None
-    shells = [os.getenv('SHELL'), usershell, 'bash',
-            'zsh', 'tcsh', 'ksh', 'csh', 'sh']
+    shells = [usershell, 'bash', 'zsh', 'tcsh', 'ksh', 'csh', 'sh']
 
     for shell in shells:
         if shell is None:
