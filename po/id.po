@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-05-12 03:25+0000\n"
-"Last-Translator: Indra BW <Unknown>\n"
+"PO-Revision-Date: 2013-02-28 04:00+0000\n"
+"Last-Translator: Jeffry <jeffry.a@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:31+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-02-28 04:31+0000\n"
+"X-Generator: Launchpad (build 16506)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -23,7 +23,7 @@ msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Banyak terminal dalam satu jendela"
+msgstr "Banyak terminal dalam satu window"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -35,7 +35,7 @@ msgstr "Tutup_Terminal"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Tutup multiple terminals?</b></big>"
+msgstr "<big><b>Tutup banyak terminal?</b></big>"
 
 #: ../terminatorlib/container.py:175
 #, python-format
@@ -43,14 +43,16 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"%s ini memiliki beberapa terminal terbuka. Menutup %s juga akan menutup "
+"semua terminal didalamnya"
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Jangan tampilkan pesan ini di kemudian waktu"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Lokal sekarang"
+msgstr "Lokal Saat Ini"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -82,21 +84,21 @@ msgstr "Cyrillic"
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "Bahasa Arab"
+msgstr "Arab"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "Bahasa Yunani"
+msgstr "Yunani"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Tampilan Ibrani"
+msgstr "Ibrani Visual"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "Bahasa Ibrani"
+msgstr "Ibrani"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
@@ -105,15 +107,15 @@ msgstr "Turki"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Nordic/Eropa Utara"
+msgstr "Nordic"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Celtik"
+msgstr "Keltik"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Bahasa Rumania"
+msgstr "Rumania"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
@@ -125,12 +127,12 @@ msgstr "Unicode"
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Bahasa Armenia"
+msgstr "Armenia"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Cina Tradisional"
+msgstr "Bahasa China Tradisional"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -139,12 +141,12 @@ msgstr "Cyrillic/Rusia"
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Bahasa Jepang"
+msgstr "Jepang"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "Bahasa Korea"
+msgstr "Korea"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
@@ -153,44 +155,44 @@ msgstr "Bahasa China Sederhana"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Bahasa Georgia"
+msgstr "Georgia"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Cyrillic/Ukrainia"
+msgstr "Sirilik/Ukraina"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Bahasa Kroasia"
+msgstr "Kroasia"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Bahasa India"
+msgstr "India"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "Bahasa Persia"
+msgstr "Persia"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Bahasa Gujarat"
+msgstr "Gujarat"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "Bahasa Gurmukhi"
+msgstr "Gurmukhi"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "Bahasa Islandia"
+msgstr "Islandia"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Bahasa Vietnam"
+msgstr "Vietnam"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Bahasa Thailand"
+msgstr "Thailand"
 
 #: ../terminatorlib/notebook.py:305
 msgid "tab"
@@ -227,6 +229,8 @@ msgstr "Tentukan judul untuk jendela"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Tetapkan ukuran dan posisi yang diinginkan dari jendela(lihat halaman manual "
+"X)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -234,7 +238,7 @@ msgstr "Tentukan perintah untuk mengeksekusi didalam terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Tetapkan berkas konfig"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -250,11 +254,11 @@ msgstr "Menentukan direktori kerja"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Tetapkan properti nama lazim (WM_CLASS) pada jendela"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Tetapkan ikon lazim"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -278,15 +282,15 @@ msgstr "Aktifkan informasi debug (dua kali untuk server debug)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "kelas yang dipisahkan dengan koma untuk membatasi debug"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "metode yang dipisahkan dengan koma untuk membatasi debug"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Jika Terminator sudah dijalankan, langsung buka tab baru"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -310,11 +314,11 @@ msgstr "Berhenti memperhatikan kesunyian"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Perintah Lazim"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Konfigurasi Perintah Lazim"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -349,95 +353,95 @@ msgstr "Tangkapan layar Terminal"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Otomatis"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Escape sequence"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Keluar dari terminal"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Menjalankan ulang perintah"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Pertahankan terminal tetap terbuka"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Hitam di atas kuning terang"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Hitam atas putih"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Abu-abu di atas hitam"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Hijau di atas hitam"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Putih di atas Hitam"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Jingga di atas hitam"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Lazim"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "Blok"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Garis bawah"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "I-Beam"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Standart GNOME"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "klik untuk fokus"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "ikuti pointer mouse"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
@@ -445,143 +449,143 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "Pada sisi kiri"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Pada sisi kanan"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Nonaktif"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Atas"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Bawah"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Kiri"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Kanan"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Tersembunyi"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maksimalkan"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Layar penuh"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "standar"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Preferensi Terminator"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Petunjuk geometri jendela"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Keadaan jendela"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Batas jendela"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Posisi tab"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Fokus mouse"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Ukuran separator terminal"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Sembunyikan dari taskbar"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Selalu di atas"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Sembunykan saat tidak difokus"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Tampilkan pada semua laman kerja"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "Server DBus"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Sembunyikan ukuran dari judul"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Jangan fokus kepada warna font terminal"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Gunakan pengelola URL yang lazim"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "Pengelola URL yang lazim"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "Gunakan kembali profil untuk terminal baru"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>Titlebar</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Menerima terminal"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Terminal yang difokuskan"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Terminal yang tidak aktif"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Warna huruf"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
