@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-28 04:00+0000\n"
-"Last-Translator: Jeffry <jeffry.a@gmail.com>\n"
+"PO-Revision-Date: 2013-03-01 03:42+0000\n"
+"Last-Translator: Erieck Saputra <erick.1383@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-28 04:31+0000\n"
-"X-Generator: Launchpad (build 16506)\n"
+"X-Launchpad-Export-Date: 2013-03-01 04:38+0000\n"
+"X-Generator: Launchpad (build 16514)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,11 +48,11 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr "Jangan tampilkan pesan ini di kemudian waktu"
+msgstr "Jangan tampilkan pesan ini lagi"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Lokal Saat Ini"
+msgstr "Lokal sekarang"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -72,7 +72,7 @@ msgstr "Eropa Selatan"
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Baltik"
+msgstr "Baltic"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
@@ -111,7 +111,7 @@ msgstr "Nordic"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Keltik"
+msgstr "Celtic"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
@@ -204,19 +204,19 @@ msgstr "Tutup Tab"
 
 #: ../terminatorlib/optionparse.py:48
 msgid "Display program version"
-msgstr "Perlihatkan versi program"
+msgstr "Tampilkan versi program"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
-msgstr "Maksimalkan jendela"
+msgstr "Maksimalkan ukuran jendela"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
-msgstr "Buat jendela mengisi layar"
+msgstr "Buat agar window memenuhi layar"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
-msgstr "Nonaktifkan perbatasan jendela"
+msgstr "Nonaktifkan batas window"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Hide the window at startup"
@@ -238,15 +238,15 @@ msgstr "Tentukan perintah untuk mengeksekusi didalam terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr "Tetapkan berkas konfig"
+msgstr "Tentukan file konfigurasi"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Gunakan sisa dari baris perintah sebagai perintah untuk mengeksekusi di "
-"dalam terminal, dan argumennya"
+"Gunakan jeda dari baris perintah sebagai perintah untuk mengeksekusi di "
+"dalam termunal dan argumennya"
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Set the working directory"
@@ -254,15 +254,15 @@ msgstr "Menentukan direktori kerja"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr "Tetapkan properti nama lazim (WM_CLASS) pada jendela"
+msgstr "Tentukan properti nama lazim (WM_CLASS) pada jendela"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Tetapkan ikon lazim"
+msgstr "Tentukan ikon lazim untuk window (oleh file atau nama)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Menentukan properti WM_WINDOW_ROLE pada jendela"
+msgstr "Tentukan properti WM_WINDOW_ROLE pada jendela"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
@@ -290,7 +290,7 @@ msgstr "metode yang dipisahkan dengan koma untuk membatasi debug"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr "Jika Terminator sudah dijalankan, langsung buka tab baru"
+msgstr "Jika Terminator telah dijalankan, coba buka tab baru"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -302,7 +302,7 @@ msgstr "Perhatikan aktivitas"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr "Berhenti memperhatikan aktivitas"
+msgstr "Hentikan aktifitas melihat"
 
 #: ../terminatorlib/plugins/activitywatch.py:110
 msgid "Watch for silence"
@@ -339,7 +339,7 @@ msgstr "Perintah:"
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr "Anda harus mendefinisikan nama dan perintah"
+msgstr "Anda perlu mendefinisikan nama dan perintah"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
@@ -349,7 +349,7 @@ msgstr "Nama *%s* telah digunakan"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr "Tangkapan layar Terminal"
+msgstr "Terminal screenshot"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -409,11 +409,11 @@ msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr "Lazim"
+msgstr "Sesuaikan"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr "Blok"
+msgstr "Blokir"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -425,11 +425,11 @@ msgstr "I-Beam"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr "Standart GNOME"
+msgstr "Standar GNOME"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr "klik untuk fokus"
+msgstr "Klik untuk fokus"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
@@ -445,7 +445,7 @@ msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
@@ -461,7 +461,7 @@ msgstr "Pada sisi kanan"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr "Nonaktif"
+msgstr "Nonaktifkan"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
@@ -589,229 +589,231 @@ msgstr "Warna huruf"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Latar belakang"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "_Gunakan lebar font sistem"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Huruf:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Pilih huruf untuk terminal"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "Perbolehk_an teks tebal"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Text anti-alias"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Tampilkan titlebar"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Salin pada pilihan"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "Pilih karakter _kata:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Cursor</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Warna cursor:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "Bentuk _kursor:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Cursor blink"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Terminal bell</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "ikon Titlebar"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "Flash visual"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Terdengar beep"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "Window list flash"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Umum"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Perintah</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Jalankan perintah dalam shell login"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "Perbar_ui catatan login saat perintah ini dijalankan"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "Jalankan perintah tertent_u dan bukan shell"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Perintah ta_mbahan:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "Saat perintah s_elesai dijalankan:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Perintah"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Latar Depan dan Latar Belakang</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "Warna _teks:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "G_unakan warna dari tema sistem"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "Warna latar _belakang:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "Ske_ma bawaan:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Pilih warna teks terminal"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Pilih warna latar belakang terminal"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palet</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Skema-_skema bawaan:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Catat:</b>Aplikasi terminal memiliki warna-warna ini yang "
+"tersedia bagi mereka.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "P_alet warna:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Warna"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "warna _Solid"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "Gambar latar _belakang"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "Berkas _gambar:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Pilih Gambar Latar Belakang"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "Gambar latar ikut _digulung"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "Latar belakang _transparan"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "Bayangan transparan atau gambar latar:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Nihil</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Maksimal</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "Gunakan rangkaian ketikan untuk menggulung pada layar lain"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Gulung pada saat tombol _ditekan"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Gulung saat ada _keluaran"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "baris"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Scrollbarnya:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Gulung _balik:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Gulung balik tak terbatas"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Menggulung"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -820,30 +822,34 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Catat:</b>Pilihan ini dapat menyebabkan ada program yang tidak "
+"jalan dengan semestinya. Pilihan ini disediakan hanya untuk menyiasati "
+"beberapa aplikasi dan sistem operasi tertentu yang memiliki perilaku berbeda "
+"pada aplikasi terminalnya.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "Tombol _delete membangkitkan:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "Tom_bol backspace membangkitkan:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Kembalikan pilihan kompatibilitas ke nilai bawaan"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
-msgstr ""
+msgstr "<b>Encoding</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Standar:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Kompatibilitas"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -852,27 +858,27 @@ msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Perintah Lazim"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Tata Letak"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Kaitan tombol"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Plugin ini tidak memiliki pilihan konfigurasi"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Plugins"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
@@ -903,7 +909,7 @@ msgstr "Sebelumnya"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Mencari scrollback"
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
@@ -1008,11 +1014,11 @@ msgstr "Hapus grup %s"
 
 #: ../terminatorlib/terminal.py:414
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "K_elompokan semua dalam tab"
 
 #: ../terminatorlib/terminal.py:419
 msgid "Ungr_oup all in tab"
-msgstr ""
+msgstr "Ungr_oup semua dalam tab"
 
 #: ../terminatorlib/terminal.py:424
 msgid "Remove all groups"
@@ -1025,15 +1031,15 @@ msgstr "Tutup grup %s"
 
 #: ../terminatorlib/terminal.py:440
 msgid "Broadcast all"
-msgstr ""
+msgstr "Sebarkan semua"
 
 #: ../terminatorlib/terminal.py:441
 msgid "Broadcast group"
-msgstr ""
+msgstr "Sebarkan group"
 
 #: ../terminatorlib/terminal.py:442
 msgid "Broadcast off"
-msgstr ""
+msgstr "Matikan Broadcast"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Split to this group"
@@ -1041,7 +1047,7 @@ msgstr "Belah ke kelompok ini"
 
 #: ../terminatorlib/terminal.py:460
 msgid "Autoclean groups"
-msgstr ""
+msgstr "Bersihkan group secara otomatis"
 
 #: ../terminatorlib/terminal.py:467
 msgid "Insert terminal number"
@@ -1049,7 +1055,7 @@ msgstr "SIsipkan nomor terminal"
 
 #: ../terminatorlib/terminal.py:471
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Masukkan nomor padded terminal"
 
 #: ../terminatorlib/terminal.py:1273
 msgid "Unable to find a shell"
@@ -1057,15 +1063,15 @@ msgstr "Tidak dapat menemukan sebuah shell."
 
 #: ../terminatorlib/terminal.py:1301
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Tidak dapat menjalankan shell:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Namai jendela"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Masukkan judul baru untuk terminal"
 
 #: ../terminatorlib/window.py:274
 msgid "window"
@@ -1074,7 +1080,7 @@ msgstr "jendela"
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/window.py:679
 msgid "All"
-msgstr "Semua"
+msgstr "Semuanya"
 
 #: ../terminatorlib/window.py:700
 #, python-format
