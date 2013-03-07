@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-05 16:56+0000\n"
-"Last-Translator: Yusuf Kayan <sam_fisher_06@hotmail.com>\n"
+"PO-Revision-Date: 2013-03-06 12:53+0000\n"
+"Last-Translator: Gökhan KILINÇ <gkilinc@yandex.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-06 05:08+0000\n"
-"X-Generator: Launchpad (build 16468)\n"
+"X-Launchpad-Export-Date: 2013-03-07 04:32+0000\n"
+"X-Generator: Launchpad (build 16514)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -409,7 +409,7 @@ msgstr "Ambiyans"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Özelleştirilmiş"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -417,7 +417,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Altı Çizili"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -425,7 +425,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Gnome Öntanımlısı"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -433,7 +433,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Fare işaretçisini izle"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
@@ -441,23 +441,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "Sol tarafta"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Sağ tarafta"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
@@ -473,11 +473,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Sol"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Sağ"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
@@ -485,7 +485,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
@@ -501,7 +501,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Terminator Tercihleri"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -513,7 +513,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Pencere kenarlıkları"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
@@ -585,7 +585,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Yazı tipi rengi"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
@@ -597,7 +597,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "Sistemin sabit genişlikteki yazı tipini kullan."
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
@@ -605,11 +605,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Bir Uçbirim Yazıtipi Seçin"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Kalın metne izin ver"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -629,11 +629,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>İmleç</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "İmleç rengi:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
@@ -665,15 +665,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Genel"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Komut</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Giriş kabuğu yerine komut çalıştır"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
@@ -693,7 +693,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Komut"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
@@ -717,15 +717,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Uçbirim Metin Rengi Seç"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Uçbirim Artalan Rengi Seç"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palet</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -743,7 +743,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Renkler"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
@@ -775,11 +775,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Hiçbiri</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Maksimum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
@@ -799,7 +799,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "Kaydırma çubuğu:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
@@ -811,7 +811,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Kaydırma"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -823,11 +823,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "Sil tuşuna basıldığında:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "Geri tuşuna basıldığında:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
@@ -843,7 +843,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Uyumluluk"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -852,7 +852,7 @@ msgstr "Profiller"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
@@ -872,7 +872,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Eklentiler"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
