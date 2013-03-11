@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-28 21:23+0000\n"
-"Last-Translator: Jim Chen <knh.jabbany@gmail.com>\n"
+"PO-Revision-Date: 2013-03-11 01:27+0000\n"
+"Last-Translator: 高必成 <volz.kz.g@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-01 04:38+0000\n"
-"X-Generator: Launchpad (build 16514)\n"
+"X-Launchpad-Export-Date: 2013-03-11 04:31+0000\n"
+"X-Generator: Launchpad (build 16523)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -399,11 +399,11 @@ msgstr "黑底橙字"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -411,7 +411,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "下划线"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME 默认"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -435,27 +435,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "在左侧"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "在右侧"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "禁用"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
