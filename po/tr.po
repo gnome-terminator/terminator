@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-03-06 12:53+0000\n"
-"Last-Translator: Gökhan KILINÇ <gkilinc@yandex.com>\n"
+"PO-Revision-Date: 2013-03-13 22:44+0000\n"
+"Last-Translator: Muhammet Kara <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-07 04:32+0000\n"
-"X-Generator: Launchpad (build 16514)\n"
+"X-Launchpad-Export-Date: 2013-03-14 04:31+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -429,7 +429,7 @@ msgstr "Gnome Öntanımlısı"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Odaklamak için tıkla"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
@@ -437,7 +437,7 @@ msgstr "Fare işaretçisini izle"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
@@ -461,7 +461,7 @@ msgstr "Sağ tarafta"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Devre dışı"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
@@ -481,7 +481,7 @@ msgstr "Sağ"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Gizli"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
@@ -493,11 +493,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Tam Ekran"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "öntanımlı"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
@@ -509,7 +509,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Pencere durumu"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
@@ -517,11 +517,11 @@ msgstr "Pencere kenarlıkları"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Sekme konumu"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Fare odağı"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
@@ -701,7 +701,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "_Metin rengi:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
