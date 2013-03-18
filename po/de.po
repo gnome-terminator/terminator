@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-03-13 16:49+0000\n"
+"PO-Revision-Date: 2013-03-17 17:36+0000\n"
 "Last-Translator: Spencer Young <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-14 04:31+0000\n"
+"X-Launchpad-Export-Date: 2013-03-18 04:31+0000\n"
 "X-Generator: Launchpad (build 16532)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -292,7 +292,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Wenn Terminator schon läuft nur einen neuen Tab öffnen"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -392,19 +392,19 @@ msgstr "Schwarz auf weiß"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Grau auf schwarz"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Grün auf schwarz"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Weiß auf schwarz"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Orange auf schwarz"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -412,7 +412,7 @@ msgstr "Ambiance"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Benutzerdefiniert"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -440,7 +440,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
@@ -448,11 +448,11 @@ msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
