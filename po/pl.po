@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-03-17 11:23+0000\n"
-"Last-Translator: Tomasz Detlaf <tomek.detlaf@gmail.com>\n"
+"PO-Revision-Date: 2013-03-24 21:04+0000\n"
+"Last-Translator: Piotr Łukomiak <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-18 04:31+0000\n"
-"X-Generator: Launchpad (build 16532)\n"
+"X-Launchpad-Export-Date: 2013-03-25 04:32+0000\n"
+"X-Generator: Launchpad (build 16540)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -288,7 +288,7 @@ msgstr "Oddzielonych przecinkami do ograniczania do debugowania"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Jeśli Terminator jest już uruchomiony, utwórz nową zakładkę"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -357,11 +357,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
@@ -381,11 +381,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Czarne na jasnożółtym"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Czarne na białym"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
@@ -445,7 +445,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
@@ -541,7 +541,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Pokazuj na wszystkich obszarach roboczych"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -585,7 +585,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Kolor czcionki"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
@@ -868,7 +868,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Ta wtyczka nie ma żadnych opcji konfiguracyjnych"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
