@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-09-25 13:38+0000\n"
-"Last-Translator: kamannen <Unknown>\n"
+"PO-Revision-Date: 2013-04-02 07:32+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-04-03 05:08+0000\n"
+"X-Generator: Launchpad (build 16546)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Ikke vis denne meldingen neste gang"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -232,11 +232,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Oppgi en kommando som skal utføres i terminalen"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Spesifiser en konfigurasjonsfil"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -246,11 +246,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Set the working directory"
-msgstr ""
+msgstr "Velg arbeidskatalog"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Gi vinduet (WM_CLASS) et egendefinert navn"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
@@ -262,15 +262,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
-msgstr ""
+msgstr "Velg utforming"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Bruk en annen profil som standard"
 
 #: ../terminatorlib/optionparse.py:83
 msgid "Disable DBus"
-msgstr ""
+msgstr "Deaktiver DBus"
 
 #: ../terminatorlib/optionparse.py:85
 msgid "Enable debugging information (twice for debug server)"
@@ -286,11 +286,12 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Åpne en ny fane hvis Terminator allerede kjører"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActicityWatch-tillegg er utilgjengelig. Vennligst installer python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
@@ -345,15 +346,15 @@ msgstr "Navnet *%s* finnes allerede."
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Ta skjermbilde av terminalen"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
@@ -361,43 +362,43 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Escape-sekvens"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Lukk terminalen"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Start kommandoen på nytt"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Hold terminalen åpen"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Svart på lysegult"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Svart på hvitt"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Grått på svart"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Grønt på svart"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Hvitt på svart"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Oransje på svart"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -405,7 +406,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Egendefinert"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -413,7 +414,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Understrek"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -421,27 +422,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME-standard"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Klikk for å fokusere"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Følg musepekeren"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
@@ -449,51 +450,51 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "På venstre side"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "På høyre side"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktivert"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Øverst"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Nederst"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Høyre"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Skjult"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maksimert"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Fullskjerm"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "forvalgt"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
@@ -517,19 +518,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Musepekerfokus"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Størrelse på terminalskiller"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Ikke vis på oppgavelinja"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Alltid øverst"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -537,11 +538,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Vis på alle arbeidsområder"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus-tjener"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
@@ -573,27 +574,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Terminal i fokus"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Inaktiv terminal"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Skriftfarge"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Bakgrunn"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Globalt"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "_Bruk systemets skrift med fast bredde"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
@@ -601,11 +602,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Velg en skrifttype for terminalen"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Tillat uthevet tekst"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -613,7 +614,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Vis tittellinje"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
@@ -625,11 +626,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Markør</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Farge på markør:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
@@ -665,11 +666,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Kommando</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Kjør kommandoen som et innloggingsskall"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
@@ -681,23 +682,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Egendefinert ko_mmando:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "Når kommandoen _avslutter:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Kommando"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Forgrunn og bakgrunn</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "_Tekstfarge:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
@@ -713,69 +714,71 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Velg tekstfarge for terminalen"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Velg bakgrunnsfarge for terminal"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palett</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Innebygde opp_sett:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Merk:</b> Disse fargene er tilgjengelige for terminalprogrammer "
+".</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "Fargep_alett:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Farger"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "_Helfylt farge"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "_Bakgrunnsbilde"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "Bilde_fil:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Velg bakgrunnsbilde"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "Bakgrunnsbildet _ruller"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "Gjennomsik_tig bakgrunn"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "S_kyggelegg gjennomsiktig bakgrunn eller bakgrunnsbilde:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Ingen</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Maksimum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
@@ -783,7 +786,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Rull ned ved tastetry_kk"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
@@ -791,15 +794,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "linjer"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Rullefeltet er:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Til_bakerulling:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
@@ -807,7 +810,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Rulling"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -819,7 +822,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "_Delete-tasten genererer:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
@@ -827,7 +830,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Sett kompatibilitetsalternativene til standard"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
@@ -835,11 +838,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Standardverdi:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Kompatibilitet"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -848,19 +851,19 @@ msgstr "Profiler"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Egendefinert kommando"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Utforminger"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Tastaturbindinger"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
@@ -868,7 +871,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Programtillegg"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
@@ -963,7 +966,7 @@ msgstr "_Gjenoppta alle terminaler"
 
 #: ../terminatorlib/terminal_popup_menu.py:170
 msgid "Grouping"
-msgstr ""
+msgstr "Gruppering"
 
 #: ../terminatorlib/terminal_popup_menu.py:177
 msgid "Show _scrollbar"
@@ -1057,11 +1060,11 @@ msgstr "Kan ikke starte shell:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Gi nytt navn til vinduet"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Skriv en ny tittel på Terminator-vinduet..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
