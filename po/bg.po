@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-06-11 14:41+0000\n"
-"Last-Translator: Galin - <Unknown>\n"
+"PO-Revision-Date: 2013-04-19 13:06+0000\n"
+"Last-Translator: Radoslav Petrov <rrpetrov@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:31+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-04-20 05:06+0000\n"
+"X-Generator: Launchpad (build 16567)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -23,7 +23,7 @@ msgstr "Терминатор"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Няколко терминала в един прозорец"
+msgstr "Множество терминали в един прозорец"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -31,7 +31,7 @@ msgstr "Затваряне?"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
-msgstr ""
+msgstr "Затваряне на _Терминали"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -43,14 +43,16 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
+"Този %s има няколко отворени терминала. Затварянето на %s ще затвори всички "
+"съдържани терминали в него."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Не показвай това съобщение отново"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr ""
+msgstr "Текуща локализация"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -202,7 +204,7 @@ msgstr "Затваряне на подпрозореца"
 
 #: ../terminatorlib/optionparse.py:48
 msgid "Display program version"
-msgstr ""
+msgstr "Показване на програмната версия"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
@@ -214,15 +216,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
-msgstr ""
+msgstr "Изключване на рамката на прозореца"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Не показвай прозореца при стартиране"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Задаване на заглавие на прозореца"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
@@ -230,11 +232,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Задаване на командата, която да бъде изпълнена в командния ред"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Задаване на конфигурационнен файл"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -245,6 +247,8 @@ msgstr ""
 #: ../terminatorlib/optionparse.py:71
 msgid "Set the working directory"
 msgstr ""
+"Задаване на работната папка на\n"
+"                                            терминала"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
@@ -252,7 +256,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Задаване на икона по избор за прозореца (по файл или име)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -264,7 +268,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Използване на друг профил по подразбиране"
 
 #: ../terminatorlib/optionparse.py:83
 msgid "Disable DBus"
@@ -277,10 +281,14 @@ msgstr ""
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
 msgstr ""
+"Списък с класове разделен със запетайка за ограничаване на диагностичната "
+"информация"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
+"Списък с методи разделен със запетайка за ограничаване на диагностичната "
+"информация"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
@@ -293,54 +301,54 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "Наблюдаване за събития"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Спиране наблюдението за събития"
 
 #: ../terminatorlib/plugins/activitywatch.py:110
 msgid "Watch for silence"
-msgstr ""
+msgstr "Наблюдаване за тишина"
 
 #: ../terminatorlib/plugins/activitywatch.py:113
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Спиране наблюдението за тишина"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr ""
+msgstr "Команди по избор"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Конфигуриране на командите по избор"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr ""
+msgstr "Нова команда"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Действащи:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
-msgstr ""
+msgstr "Име (на английски):"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr ""
+msgstr "Команда:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
 msgid "You need to define a name and command"
-msgstr ""
+msgstr "Нужно е задаване на име и команда"
 
 #: ../terminatorlib/plugins/custom_commands.py:313
 #: ../terminatorlib/plugins/custom_commands.py:425
 #, python-format
 msgid "Name *%s* already exist"
-msgstr ""
+msgstr "Наименование *%s* вече съществува"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
@@ -348,55 +356,55 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Автоматично"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Ctrl-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Екранираща последователност"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Изход от командния ред"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Рестартиране на командата"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Терминалът да остане отворен"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Черно на светложълто"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Черно на бяло"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Сиво на черно"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Зелено на черно"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Бяло на черно"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Оранжево на черно"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -404,7 +412,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Персонализиран"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -412,39 +420,39 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Подчертан"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "Вертикална черта"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Стандартните настройки на GNOME"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Натискане за фокус"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Следвай показалеца на мишката"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Танго"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Линукс"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
@@ -452,91 +460,91 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Отдясно"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Изключен"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Отгоре"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Отдолу"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Отляво"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Отдясно"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Скрит"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Нормален"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Максимално уголемен"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "На цял екран"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "по подразбиране"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Настройки на Терминатор"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Подсказки за геометрията на прозореца"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Състояние на прозореца"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Рамка на прозореца"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Позиция на подпрозореца"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Фокус на мишката"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Размер на разделителя в командния ред"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Скриване от лентата със задачите"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Винаги най-отгоре"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Скриване при загуба на фокуса"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Показване на всички работни площи"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -544,11 +552,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Не показвай размера в заглавието"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Яркост на команден ред без фокус"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
@@ -568,55 +576,55 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Приемащ команден ред"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Команден ред на фокус"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Неактивен команден ред"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Цвят на шрифта"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Фон"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Общи"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "Използване на _системния шрифт с фиксирана ширина на буквите"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Шрифт:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Избор на шрифт за терминала"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "Позволяване на полу_чер текст"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Визуално изглаждане на текста"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Показване на заглавната лента"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Копиране при избиране"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -624,19 +632,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Показалец</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Цват на показалеца:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "_Форма на показалеца:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Мигане на показалеца"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
@@ -644,7 +652,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "Икона на заглавната лента"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
@@ -660,153 +668,155 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Общи"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Команда</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Изпълнение на команда като обвивка при влизане"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "_Обновяване на utmp/wtmp записите при изпълнение на команда"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "Изпълнение на команда _вместо стандартната обвивка"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Потребителска _команда:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "_При приключване на командата:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Команда"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Преден план и фон</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "Цвят на _текста:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "_Използване на цветовете от системната тема"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Цвят на фона:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "_Вградени схеми:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Избор на цвета на текста на терминала"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Избор на цвета на фона на терминала"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Палитра</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Вградени _схеми:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Бележка:</b> Приложенията в терминала разполагат с тези "
+"цветове.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "_Цветова палитра:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Цветове"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "_Плътен цвят"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "_Изображение за фон"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "_Файл с изображение:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Избор на фоново изображение"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "Придвижване на _фоновото изображение"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "Про_зрачен фон"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "_Непрозрачност на изображението или фона:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Минимална</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Максимална</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "Използване на клавиши за превъртане в _алтернативен екран"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Придвижване при _натискане на клавиш"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Придвижване при _извеждане на текст"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "редове"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Лентата за придвижване е:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Придвижване _назад:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Безкрайно придвижване назад"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Придвижване"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -815,67 +825,71 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Бележка:</b> Тези настройки могат да доведат до некоректна "
+"работа на някои програми.\n"
+"Те са тук, само за да ви позволят да работите с някои програми и операционни "
+"системи, които очакват различно поведение на терминала.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "Клавишът „Delete“ _генерира:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "_Клавишът „Backspace“ генерира:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Връщане настройките за съвместимост към стандартните"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
-msgstr ""
+msgstr "<b>Кодировка</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Стандартно:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Съвместимост"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
 msgid "Profiles"
-msgstr ""
+msgstr "Профили"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Профил"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Потребителска команда"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Подредби"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Клавишни комбинации"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Тази приставка няма опции за конфигуриране"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Приставки"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
-msgstr ""
+msgstr "Нов потребителски профил"
 
 #: ../terminatorlib/prefseditor.py:1024 ../terminatorlib/prefseditor.py:1029
 msgid "New Layout"
-msgstr ""
+msgstr "Нова подредба"
 
 #. Label
 #: ../terminatorlib/searchbar.py:50
@@ -884,7 +898,7 @@ msgstr "Търсене:"
 
 #: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
-msgstr ""
+msgstr "Затваряне на лентата за търсене"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:71
@@ -894,7 +908,7 @@ msgstr "Следващ"
 #. Previous Button
 #: ../terminatorlib/searchbar.py:77
 msgid "Prev"
-msgstr ""
+msgstr "Предх"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
@@ -902,19 +916,19 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
-msgstr ""
+msgstr "Няма повече резултати"
 
 #: ../terminatorlib/searchbar.py:171
 msgid "Found at row"
-msgstr ""
+msgstr "Търси ред"
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Изпрати електронна поща до..."
 
 #: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Копиране на адрес на електронна поща"
 
 #: ../terminatorlib/terminal_popup_menu.py:61
 msgid "Ca_ll VoIP address"
@@ -926,7 +940,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:83
 msgid "_Open link"
-msgstr ""
+msgstr "_Отваряне на връзка"
 
 #: ../terminatorlib/terminal_popup_menu.py:85
 msgid "_Copy address"
@@ -934,7 +948,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:113
 msgid "Split H_orizontally"
-msgstr "Раздели х_оризонално"
+msgstr "Разделяне х_оризонално"
 
 #: ../terminatorlib/terminal_popup_menu.py:123
 msgid "Split V_ertically"
@@ -958,19 +972,19 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:163
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "_Възстановяване на всички командни редове"
 
 #: ../terminatorlib/terminal_popup_menu.py:170
 msgid "Grouping"
-msgstr ""
+msgstr "Групиране"
 
 #: ../terminatorlib/terminal_popup_menu.py:177
 msgid "Show _scrollbar"
-msgstr "Покажи _скролбар"
+msgstr "Показване на лентата за придвижване"
 
 #: ../terminatorlib/terminal_popup_menu.py:183
 msgid "_Preferences"
-msgstr ""
+msgstr "_Настройки"
 
 #: ../terminatorlib/terminal_popup_menu.py:234
 msgid "Encodings"
@@ -978,11 +992,11 @@ msgstr "Кодова таблица"
 
 #: ../terminatorlib/terminal_popup_menu.py:249
 msgid "Default"
-msgstr ""
+msgstr "По подразбиране"
 
 #: ../terminatorlib/terminal_popup_menu.py:252
 msgid "User defined"
-msgstr ""
+msgstr "Потребителски"
 
 #: ../terminatorlib/terminal_popup_menu.py:268
 msgid "Other Encodings"
@@ -990,7 +1004,7 @@ msgstr "Други кодирания"
 
 #: ../terminatorlib/terminal.py:388
 msgid "New group..."
-msgstr ""
+msgstr "Нова група..."
 
 #: ../terminatorlib/terminal.py:393
 msgid "None"
@@ -999,7 +1013,7 @@ msgstr "Нищо"
 #: ../terminatorlib/terminal.py:409
 #, python-format
 msgid "Remove group %s"
-msgstr ""
+msgstr "Премахване на група %s"
 
 #: ../terminatorlib/terminal.py:414
 msgid "G_roup all in tab"
@@ -1011,24 +1025,24 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:424
 msgid "Remove all groups"
-msgstr ""
+msgstr "Премахване на всички групи"
 
 #: ../terminatorlib/terminal.py:431
 #, python-format
 msgid "Close group %s"
-msgstr ""
+msgstr "Затваряне на група %s"
 
 #: ../terminatorlib/terminal.py:440
 msgid "Broadcast all"
-msgstr ""
+msgstr "Излъчване до всички"
 
 #: ../terminatorlib/terminal.py:441
 msgid "Broadcast group"
-msgstr ""
+msgstr "Излъчване до група"
 
 #: ../terminatorlib/terminal.py:442
 msgid "Broadcast off"
-msgstr ""
+msgstr "Спиране на излъчването"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Split to this group"
@@ -1052,15 +1066,15 @@ msgstr "Не е намерен Шел"
 
 #: ../terminatorlib/terminal.py:1301
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Неуспешно стартиране на обвивката на командния ред"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Преименуване на прозорец"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Въведете ново заглавие за прозореца на Terminator..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
