@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-03-08 10:59+0000\n"
-"Last-Translator: lann <lann@worldonline.fr>\n"
+"PO-Revision-Date: 2013-04-20 12:56+0000\n"
+"Last-Translator: Aurelien MÜH <aurelmuh@hotmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-09 04:32+0000\n"
-"X-Generator: Launchpad (build 16523)\n"
+"X-Launchpad-Export-Date: 2013-04-21 04:33+0000\n"
+"X-Generator: Launchpad (build 16567)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -456,11 +456,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "Sur le côté gauche"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Sur le côté droit"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
@@ -468,11 +468,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "En haut"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "En bas"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
@@ -484,11 +484,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Masqué"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
@@ -496,7 +496,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Plein écran"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
@@ -536,7 +536,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Toujours au premier plan"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -548,7 +548,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "Serveur DBus"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
@@ -572,7 +572,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>Barre de titre</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
@@ -584,7 +584,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Terminal inactif"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
@@ -632,11 +632,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Curseur</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Couleur du curseur"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
@@ -644,7 +644,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Clignotement du curseur"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
@@ -696,7 +696,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Commande"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
@@ -1064,7 +1064,7 @@ msgstr "Impossible de démarrer le shell :"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Renommer la fenêtre"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
