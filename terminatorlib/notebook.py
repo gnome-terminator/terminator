@@ -59,6 +59,11 @@ class Notebook(Container, gtk.Notebook):
             label = self.get_tab_label(self.get_nth_page(tab))
             label.update_angle()
 
+        style = gtk.RcStyle()
+        style.xthickness = 0
+        style.ythickness = 0
+        self.modify_style(style)
+
     def create_layout(self, layout):
         """Apply layout configuration"""
         def child_compare(a, b):
