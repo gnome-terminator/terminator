@@ -29,7 +29,7 @@ except ImportError:
     sys.exit(1)
 
 APP_NAME='remotinator'
-APP_VERSION='1.0'
+APP_VERSION='0.97'
 
 COMMANDS={
         'hsplit': ['terminal_hsplit', 'Split the current terminal horizontally'],

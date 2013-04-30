@@ -1,8 +1,8 @@
-terminator (1.0) precise; urgency=low
+terminator (0.97) precise; urgency=low
 
-  * New upstream release of 1.0
+  * New upstream release of 0.97
 
- -- Chris Jones <cmsj@tenshu.net>  Fri, 19 Oct 2012 12:57:42 -0700
+ -- Chris Jones <cmsj@tenshu.net>  Tue, 30 Apr 2013 08:54:00 +0100
 
 terminator (0.96ppa6) oneiric; urgency=low
 

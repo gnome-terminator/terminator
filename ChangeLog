@@ -1,4 +1,4 @@
-terminator 1.0:
+terminator 0.97:
   * Allow font dimming in inactive terminals
   * Allow URL handler plugins to override label text for URL context
     menus
@@ -19,6 +19,9 @@ terminator 1.0:
   * Support reading configuration from alternate files, via a patch 
     from Pavel Khlebovich
   * Allow creation of new tabs in existing Terminators, via DBus
+	* Support the Solarized palettes (Juan Francisco Cantero Hutardo)
+	* Translation support for the Preferences window.
+	* Lots of translation updates (thanks to everyone who helped!)
   * Bug fixes
 
 terminator 0.96:
