@@ -923,6 +923,8 @@ class PrefsEditor:
 
     def on_inactive_color_offset_change_value(self, widget, scroll, value):
         """Inactive color offset setting changed"""
+        if value > 1.0:
+          value = 1.0
         self.config['inactive_color_offset'] = round(value, 2)
         self.config.save()
 

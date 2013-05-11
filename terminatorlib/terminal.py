@@ -621,11 +621,17 @@ class Terminal(gtk.VBox):
 
         factor = self.config['inactive_color_offset']
         self.fgcolor_inactive = self.fgcolor_active.copy()
+        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
+                                                      getattr(self.fgcolor_inactive, "green"),
+                                                      getattr(self.fgcolor_inactive, "blue")))
 
         for bit in ['red', 'green', 'blue']:
             setattr(self.fgcolor_inactive, bit,
                     getattr(self.fgcolor_inactive, bit) * factor)
 
+        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
+                                                      getattr(self.fgcolor_inactive, "green"),
+                                                      getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
         self.palette_inactive = []
