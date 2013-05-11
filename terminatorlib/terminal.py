@@ -620,6 +620,8 @@ class Terminal(gtk.VBox):
             self.bgcolor = gtk.gdk.color_parse(self.config['background_color'])
 
         factor = self.config['inactive_color_offset']
+        if factor > 1.0:
+          factor = 1.0
         self.fgcolor_inactive = self.fgcolor_active.copy()
         dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
                                                       getattr(self.fgcolor_inactive, "green"),
