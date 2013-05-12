@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-03-04 17:51+0000\n"
-"Last-Translator: Miguel Angel del Olmo <silinio45@gmail.com>\n"
+"PO-Revision-Date: 2013-05-11 13:42+0000\n"
+"Last-Translator: Javi Sol <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-05 04:33+0000\n"
-"X-Generator: Launchpad (build 16514)\n"
+"X-Launchpad-Export-Date: 2013-05-12 05:09+0000\n"
+"X-Generator: Launchpad (build 16598)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr "No mostrar este mensaje neuvamente"
+msgstr "No mostrar este mensaje nuevamente"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
