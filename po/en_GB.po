@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-05-04 21:55+0000\n"
-"Last-Translator: Andi Chandler <Unknown>\n"
+"PO-Revision-Date: 2013-05-30 20:50+0000\n"
+"Last-Translator: Sid Roberts <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-05 05:13+0000\n"
-"X-Generator: Launchpad (build 16598)\n"
+"X-Launchpad-Export-Date: 2013-05-31 05:10+0000\n"
+"X-Generator: Launchpad (build 16660)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -439,11 +439,11 @@ msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
@@ -451,43 +451,43 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "On the left side"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "On the right side"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Disabled"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Top"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Bottom"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Left"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Right"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Hidden"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maximised"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
@@ -495,35 +495,35 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "default"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Terminator Preferences"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Window geometry hints"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Window state"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Window borders"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Tab position"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Mouse focus"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Terminal separator size"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
@@ -531,35 +531,35 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Always on top"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Hide on lose focus"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Show on all workspaces"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus server"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Hide  size from title"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Unfocused terminal font brightness"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Use custom URL handler"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "Custom URL handler"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
@@ -571,43 +571,43 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Receiving terminal"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Focused terminal"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Inactive terminal"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Font colour"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Background"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "_Use the system fixed width font"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Font:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Choose A Terminal Font"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Allow bold text"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -619,7 +619,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Copy on selection"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -627,23 +627,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Cursor</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Cursor colour:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "Cursor _shape:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Cursor blink"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Terminal bell</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
@@ -651,23 +651,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "Visual flash"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Audible beep"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "Window list flash"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Command</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
@@ -683,31 +683,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Custom co_mmand:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "When command _exits:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Command"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Foreground and Background</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "_Text colour:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "_Use colours from system theme"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Background colour:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
@@ -715,11 +715,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Choose Terminal Text Colour"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Choose Terminal Background Colour"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
@@ -734,50 +734,52 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Note:</b> Terminal applications have these colours available to "
+"them.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "Colour p_alette:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Colours"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "_Solid colour"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "_Background image"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "Image _file:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Select Background Image"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "Background image _scrolls"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "_Transparent background"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "S_hade transparent or image background:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>None</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Maximum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
@@ -785,15 +787,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Scroll on _keystroke"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Scroll on _output"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "lines"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
@@ -809,7 +811,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Scrolling"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -818,30 +820,34 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Note:</b> These options may cause some applications to behave "
+"incorrectly.  They are only here to allow you to work around certain "
+"applications and operating systems that expect different terminal "
+"behaviour.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "_Delete key generates:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "_Backspace key generates:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Reset Compatibility Options to Defaults"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
-msgstr ""
+msgstr "<b>Encoding</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Default:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Compatibility"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -850,15 +856,15 @@ msgstr "Profiles"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Profile"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Custom command"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Layouts"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
@@ -1059,11 +1065,11 @@ msgstr "Unable to start shell:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Rename Window"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Enter a new title for the Terminator window..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
