@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-05-30 20:50+0000\n"
-"Last-Translator: Sid Roberts <Unknown>\n"
+"PO-Revision-Date: 2013-06-12 10:54+0000\n"
+"Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-31 05:10+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-13 05:07+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -447,7 +447,7 @@ msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
@@ -491,7 +491,7 @@ msgstr "Maximised"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Fullscreen"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
@@ -527,7 +527,7 @@ msgstr "Terminal separator size"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Hide from taskbar"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
@@ -563,11 +563,11 @@ msgstr "Custom URL handler"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "Re-use profiles for new terminals"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>Titlebar</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
@@ -611,11 +611,11 @@ msgstr "_Allow bold text"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Anti-alias text"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Show titlebar"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
@@ -623,7 +623,7 @@ msgstr "Copy on selection"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "Select-by-_word characters:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -647,7 +647,7 @@ msgstr "<b>Terminal bell</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "Titlebar icon"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
@@ -671,15 +671,15 @@ msgstr "<b>Command</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Run command as a login shell"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "_Update login records when command is launched"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "Ru_n a custom command instead of my shell"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
@@ -711,7 +711,7 @@ msgstr "_Background colour:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "Built-in sche_mes:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
@@ -723,11 +723,11 @@ msgstr "Choose Terminal Background Colour"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palette</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Built-in _schemes:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
@@ -783,7 +783,7 @@ msgstr "<small><i>Maximum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "Use keystrokes to scroll on _alternate screen"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
@@ -799,15 +799,15 @@ msgstr "lines"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Scrollbar is:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Scroll_back:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Infinite Scrollback"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
@@ -868,15 +868,15 @@ msgstr "Layouts"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Keybindings"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "This plug-in has no configuration options"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Plug-ins"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
