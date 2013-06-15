@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-04-30 05:06+0000\n"
-"Last-Translator: Jackseen Jeyaluck <jackseen1988@gmail.com>\n"
+"PO-Revision-Date: 2013-06-14 12:22+0000\n"
+"Last-Translator: rktcool <rktcool@gmail.com>\n"
 "Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-06-15 04:33+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -357,7 +357,7 @@ msgstr "முனை திரை"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "தானியங்கு"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
@@ -377,7 +377,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "கட்டளையை மறுதுவக்கு"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
@@ -385,23 +385,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "மென்மஞ்சள் மேல் கறுப்பு"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "வெள்ளையின்மேல்  கறுப்பு"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "கருப்பின்மேல் சாம்பல்"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "கருப்பின்மேல் பச்சை"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "கருப்பின்மேல்  வெள்ளை"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
@@ -409,7 +409,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "சூழல்"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
@@ -417,11 +417,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "தடுக்க"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "அடிக்கோடிடுக"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -445,7 +445,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "லினக்ஸ்"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
@@ -465,23 +465,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "செயல்நீக்கப்பட்டது"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "மேல்(Top)"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "கீழே(Bottom)"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "இடது(Left)"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "வலது(Right)"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
