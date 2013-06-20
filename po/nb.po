@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-06-17 07:13+0000\n"
+"PO-Revision-Date: 2013-06-19 18:38+0000\n"
 "Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-18 05:25+0000\n"
+"X-Launchpad-Export-Date: 2013-06-20 05:11+0000\n"
 "X-Generator: Launchpad (build 16673)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -229,6 +229,7 @@ msgstr "Spesifiser en tittel for vinduet"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Velg foretrukket størrelse og posisjon for vinduet (se «man»-siden for X)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -243,6 +244,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
+"Bruk resten av kommandolinja som en kommando som - inkludert argumenter - "
+"skal kjøres i terminalen"
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Set the working directory"
@@ -279,10 +282,12 @@ msgstr "Aktiver feilsøkingsinformasjon (to ganger for feilsøkingstjener)"
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
 msgstr ""
+"Kommaseparert liste over klasser som feilsøkingen skal forholde seg til"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
+"Kommaseparert liste over metoder som feilsøkingen skal forholde seg til"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
@@ -303,11 +308,11 @@ msgstr "Ikke se etter aktivitet"
 
 #: ../terminatorlib/plugins/activitywatch.py:110
 msgid "Watch for silence"
-msgstr ""
+msgstr "Se etter inaktivitet"
 
 #: ../terminatorlib/plugins/activitywatch.py:113
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Slutt å se etter inaktivitet"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -358,7 +363,7 @@ msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
@@ -410,7 +415,7 @@ msgstr "Egendefinert"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "Blokker"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -418,7 +423,7 @@ msgstr "Understrek"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "I-Beam"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
@@ -446,7 +451,7 @@ msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
@@ -502,7 +507,7 @@ msgstr "Terminator-brukervalg"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Hint for vindugeometri"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
@@ -598,7 +603,7 @@ msgstr "_Bruk systemets skrift med fast bredde"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "Skri_fttype:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
@@ -618,7 +623,7 @@ msgstr "Vis tittellinje"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Kopier ved utvalg"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -662,7 +667,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
@@ -674,11 +679,11 @@ msgstr "_Kjør kommandoen som et innloggingsskall"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "Oppdater påloggingsoppføringer når kommandoen startes"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "Kjør en ege_ndefinert kommando i stedet for skallet"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
@@ -702,11 +707,11 @@ msgstr "_Tekstfarge:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "Br_uk farger fra systemtemaet"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Bakgrunnsfarge:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
@@ -790,7 +795,7 @@ msgstr "Rull ned ved tastetry_kk"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Rull når noe skjer i terminalen"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
@@ -839,7 +844,7 @@ msgstr "_Sett kompatibilitetsalternativene til standard"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
-msgstr ""
+msgstr "<b>Koding</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
@@ -1053,7 +1058,7 @@ msgstr "Sett inn terminal nummer"
 
 #: ../terminatorlib/terminal.py:471
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Sett inn utfylt terminalnummer"
 
 #: ../terminatorlib/terminal.py:1273
 msgid "Unable to find a shell"
