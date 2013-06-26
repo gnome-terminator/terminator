@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-09-11 17:57+0000\n"
-"Last-Translator: Shane_Wayne <Unknown>\n"
+"PO-Revision-Date: 2013-06-25 15:33+0000\n"
+"Last-Translator: Po-Chun Huang <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-01-31 04:32+0000\n"
-"X-Generator: Launchpad (build 16455)\n"
+"X-Launchpad-Export-Date: 2013-06-26 05:09+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -46,7 +46,7 @@ msgstr "%s 已經開啟多個終端機，關閉 %s 將關閉其中的所有終�
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "下次不再顯示此訊息"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -347,7 +347,7 @@ msgstr "終端機螢幕擷圖"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "自動"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
@@ -363,7 +363,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "結束終端機"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
@@ -371,7 +371,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "保持終端機開啟"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "自訂"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -411,7 +411,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "底線"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME 預設值"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -435,27 +435,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "位於左邊"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "位於右邊"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "已停用"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
@@ -475,11 +475,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "隱藏"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "正常"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
@@ -487,15 +487,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "全螢幕"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "預設值"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "終端機偏好設定"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -511,7 +511,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "分頁位置"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
@@ -527,7 +527,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "永遠顯示在最上層"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -579,31 +579,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "字型色彩"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "背景"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "全域"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "使用系統的固定寬度字型 (_U)"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "字型 (_F)："
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "請選取終端機字型"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "可使用粗體文字 (_A)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -623,19 +623,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>游標</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "游標色彩："
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "游標形狀(_S):"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "游標閃爍"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
@@ -659,7 +659,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "一般"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
@@ -679,7 +679,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "自訂指令 (_M)："
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
