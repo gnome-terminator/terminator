@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-04-25 11:57+0000\n"
-"Last-Translator: Milo Casagrande <milo.casagrande@gmail.com>\n"
+"PO-Revision-Date: 2013-06-29 08:59+0000\n"
+"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-04-26 05:07+0000\n"
-"X-Generator: Launchpad (build 16580)\n"
+"X-Launchpad-Export-Date: 2013-06-30 05:13+0000\n"
+"X-Generator: Launchpad (build 16692)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -43,8 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Questo %s ha diversi terminali aperti. La chiusura del %s chiuderà anche "
-"tutti i terminali senza di esso."
+"Questa %s ha diversi terminali aperti. La chiusura della %s chiuderà anche "
+"tutti i terminali."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -63,7 +63,7 @@ msgstr "Occidentale"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Europa Centrale"
+msgstr "Europa centrale"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
@@ -212,7 +212,7 @@ msgstr "Massimizza la finestra"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
-msgstr "Ingrandisci la finestra a tutto schermo"
+msgstr "Ingrandisce la finestra a schermo intero"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
@@ -220,7 +220,7 @@ msgstr "Disabilita i bordi della finestra"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Hide the window at startup"
-msgstr "Nascondi la finestra all'avvio"
+msgstr "Nasconde la finestra all'avvio"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Specify a title for the window"
@@ -238,14 +238,14 @@ msgstr "Specifica un comando da eseguire nel terminale"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr "Specificare un file di configurazione"
+msgstr "Specifica un file di configurazione"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Usa il resto della riga di comando cone un comando da eseguire nel terminale "
+"Usa il resto della riga di comando come un comando da eseguire nel terminale "
 "e i suoi argomenti"
 
 #: ../terminatorlib/optionparse.py:71
@@ -262,7 +262,7 @@ msgstr "Imposta un'icona personalizzata per la finestra (per file o nome)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "imposta una proprietà WM_WINDOW_ROLE personalizzata alla finestra"
+msgstr "Imposta una proprietà WM_WINDOW_ROLE personalizzata alla finestra"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
@@ -270,7 +270,7 @@ msgstr "Seleziona una disposizione"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Use a different profile as the default"
-msgstr "Usare un profilo differente come predefinito"
+msgstr "Usa un profilo differente come predefinito"
 
 #: ../terminatorlib/optionparse.py:83
 msgid "Disable DBus"
@@ -279,7 +279,7 @@ msgstr "Disabilita DBus"
 #: ../terminatorlib/optionparse.py:85
 msgid "Enable debugging information (twice for debug server)"
 msgstr ""
-"Abilita informazioni di debu (due volte per fare il debug del server)"
+"Abilita informazioni di debug (due volte per fare il debug del server)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
@@ -406,7 +406,7 @@ msgstr "Arancione su nero"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr "Ambience"
+msgstr "Ambiance"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
@@ -466,23 +466,23 @@ msgstr "Disabilitato"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr "Alto"
+msgstr "In alto"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr "Basso"
+msgstr "In basso"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr "Sinistra"
+msgstr "A sinistra"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr "Destra"
+msgstr "A destra"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr "Nascosto"
+msgstr "Nascosta"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
@@ -490,7 +490,7 @@ msgstr "Normale"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr "Massimizzato"
+msgstr "Massimizzata"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
@@ -498,7 +498,7 @@ msgstr "Schermo intero"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr "predefinito"
+msgstr "Predefinito"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
@@ -530,7 +530,7 @@ msgstr "Dimensione del separatore di terminali"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Nascondere dall'area di notifica"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
@@ -566,7 +566,7 @@ msgstr "Gestore URL personalizzato"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr "Riutilizza i profili per i nuovi terminali"
+msgstr "Riutilizzare i profili per i nuovi terminali"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
@@ -574,7 +574,7 @@ msgstr "<b>Barra del titolo</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Terminale ricevente"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
@@ -594,7 +594,7 @@ msgstr "Sfondo"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr "Globale"
+msgstr "Globali"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
@@ -602,7 +602,7 @@ msgstr "_Usare il tipo di carattere a larghezza fissa di sistema"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr "Caratt_ere:"
+msgstr "Tipo di _carattere"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
@@ -646,27 +646,27 @@ msgstr "Lampeggiamento del cursore"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Avviso</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr "Icona della barra del titolo"
+msgstr "Icona nella barra del titolo"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "Segnale luminoso"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Segnale acustico"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "Illuminazione elenco finestre"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr "Generale"
+msgstr "Generali"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
@@ -810,11 +810,11 @@ msgstr "Sc_orrimento all'indietro:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Illimitato"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Scorrimento"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -846,7 +846,7 @@ msgstr "<b>Codifica</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr "Predefinito:"
+msgstr "Predefinita:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
@@ -875,7 +875,7 @@ msgstr "Associazione tasti"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr "Questa estensione non ha opzioni di configurazione"
+msgstr "Questo plugin non ha opzioni di configurazione"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
@@ -910,7 +910,7 @@ msgstr "Precedente"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
-msgstr "Ricercare nello scrollback"
+msgstr "Ricerca nello scorrimento all'indietro"
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"

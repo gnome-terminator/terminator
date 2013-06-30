@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-06-01 15:54+0000\n"
-"Last-Translator: ymadec <ymadec@myopera.com>\n"
+"PO-Revision-Date: 2013-06-29 14:43+0000\n"
+"Last-Translator: Hélion du Mas des Bourboux <helion331990@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-02 04:33+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-30 05:13+0000\n"
+"X-Generator: Launchpad (build 16692)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -712,7 +712,7 @@ msgstr "_Utiliser les couleurs du thème système"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Couleur d'arrière-plan :"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
@@ -728,7 +728,7 @@ msgstr "Choisissez la couleur d'arrière-plan du terminal"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palette</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -875,7 +875,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Greffons"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
@@ -1068,7 +1068,7 @@ msgstr "Renommer la fenêtre"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Saisir un nouveau titre pour la fenêtre Terminator..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
