@@ -249,6 +249,8 @@ class Terminator(Borg):
                 winy = int(parts[1])
                 if winx > 1 and winy > 1:
                     window.resize(winx, winy)
+            if layout[windef].has_key('title'):
+                window.title.force_title(layout[windef]['title'])
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""

@@ -260,6 +260,9 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if hasattr(self, 'get_size'):
             layout['size'] = self.get_size()
 
+        if hasattr(self, 'title'):
+            layout['title'] = self.title.text
+
         labels = []
         if mytype == 'Notebook':
             for tabnum in xrange(0, self.get_n_pages()):
