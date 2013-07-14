@@ -1503,6 +1503,23 @@ class Terminal(gtk.VBox):
         if layout.has_key('title') and layout['title'] != '':
             self.titlebar.set_custom_string(layout['title'])
 
+    def scroll_by_page(self, pages):
+        """Scroll up or down in pages"""
+        amount = pages * self.vte.get_adjustment().get_page_increment()
+        self.scroll_by(int(amount))
+
+    def scroll_by_line(self, lines):
+        """Scroll up or down in lines"""
+        amount = lines * self.vte.get_adjustment().get_step_increment()
+        self.scroll_by(int(amount))
+
+    def scroll_by(self, amount):
+        """Scroll up or down by an amount of lines"""
+        adjustment = self.vte.get_adjustment()
+        bottom = adjustment.upper - adjustment.page_size
+        value = adjustment.get_value() + amount
+        adjustment.set_value(min(value, bottom))
+
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
         self.zoom_in()
@@ -1717,6 +1734,24 @@ class Terminal(gtk.VBox):
                 window.title.force_title(None)
         dialog.destroy()
         return
+
+    def key_page_up(self):
+        self.scroll_by_page(-1)
+
+    def key_page_down(self):
+        self.scroll_by_page(1)
+
+    def key_page_up_half(self):
+        self.scroll_by_page(-0.5)
+
+    def key_page_down_half(self):
+        self.scroll_by_page(0.5)
+
+    def key_line_up(self):
+        self.scroll_by_line(-1)
+
+    def key_line_down(self):
+        self.scroll_by_line(1)
 
 # End key events
 
