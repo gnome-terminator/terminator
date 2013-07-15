@@ -300,7 +300,7 @@ class Terminator(Borg):
 
     def closegroupedterms(self, group):
         """Close all terminals in a group"""
-        for terminal in self.terminals:
+        for terminal in self.terminals[:]:
             if terminal.group == group:
                 terminal.close()
 
