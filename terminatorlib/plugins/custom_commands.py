@@ -27,26 +27,26 @@ class CustomCommandsMenu(plugin.MenuItem):
     conf_file = os.path.join(get_config_dir(),"custom_commands")
 
     def __init__( self):
-        config = Config()
-        sections = config.plugin_get_config(self.__class__.__name__)
-        if not isinstance(sections, dict):
-            return
-        noord_cmds = []
-        for part in sections:
-            s = sections[part]
-            if not (s.has_key("name") and s.has_key("command")):
-                print "CustomCommandsMenu: Ignoring section %s" % s
-                continue
-            name = s["name"]
-            command = s["command"]
-            enabled = s["enabled"] and s["enabled"] or False
-            if s.has_key("position"):
-                self.cmd_list[int(s["position"])] = {'enabled' : enabled,
-                                            'name' : name,
-                                            'command' : command
-                                            }
-            else:
-                noord_cmds.append(
+      config = Config()
+      sections = config.plugin_get_config(self.__class__.__name__)
+      if not isinstance(sections, dict):
+          return
+      noord_cmds = []
+      for part in sections:
+        s = sections[part]
+        if not (s.has_key("name") and s.has_key("command")):
+          print "CustomCommandsMenu: Ignoring section %s" % s
+          continue
+        name = s["name"]
+        command = s["command"]
+        enabled = s["enabled"] and s["enabled"] or False
+        if s.has_key("position"):
+          self.cmd_list[int(s["position"])] = {'enabled' : enabled,
+                                               'name' : name,
+                                               'command' : command
+                                              }
+        else:
+          noord_cmds.append(
                               {'enabled' : enabled,
                                 'name' : name,
                                 'command' : command
@@ -55,7 +55,6 @@ class CustomCommandsMenu(plugin.MenuItem):
         for cmd in noord_cmds:
             self.cmd_list[len(self.cmd_list)] = cmd
 
-      
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
         item = gtk.MenuItem(_('Custom Commands'))
@@ -195,10 +194,11 @@ class CustomCommandsMenu(plugin.MenuItem):
       button.set_sensitive(False)
       ui['button_delete'] = button
 
+
+
       hbox.pack_start(button_box)
       dbox.show_all()
       res = dbox.run()
-
       if res == gtk.RESPONSE_ACCEPT:
         self.update_cmd_list(store)
         self._save_config()
@@ -387,14 +387,17 @@ class CustomCommandsMenu(plugin.MenuItem):
       (store, iter) = selection.get_selected()
       if iter:
         store.remove(iter)
+      
       return
  
     def on_edit(self, button, data):
       treeview = data['treeview']
       selection = treeview.get_selection()
       (store, iter) = selection.get_selected()
+      
       if not iter:
         return
+       
       (dialog,enabled,name,command) = self._create_command_dialog(
                                                 enabled_var = store.get_value(iter, CC_COL_ENABLED),
                                                 name_var = store.get_value(iter, CC_COL_NAME),
