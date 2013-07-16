@@ -412,6 +412,10 @@ class Config(object):
         """Set a whole config tree for a given plugin"""
         return(self.base.set_plugin(plugin, tree))
 
+    def plugin_del_config(self, plugin):
+        """Delete a whole config tree for a given plugin"""
+        return(self.base.del_plugin(plugin))
+
     def layout_get_config(self, layout):
         """Return a layout"""
         return(self.base.get_layout(layout))
@@ -701,6 +705,11 @@ class ConfigBase(Borg):
     def set_plugin(self, plugin, tree):
         """Set a whole tree for a plugin"""
         self.plugins[plugin] = tree
+
+    def del_plugin(self, plugin):
+        """Delete a whole tree for a plugin"""
+        if plugin in self.plugins:
+            del self.plugins[plugin]
 
     def add_profile(self, profile):
         """Add a new profile"""
