@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-05-11 13:42+0000\n"
-"Last-Translator: Javi Sol <Unknown>\n"
+"PO-Revision-Date: 2013-07-29 09:13+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-12 05:09+0000\n"
-"X-Generator: Launchpad (build 16598)\n"
+"X-Launchpad-Export-Date: 2013-07-30 04:34+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -151,7 +151,7 @@ msgstr "Coreano"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Chino Simplificado"
+msgstr "Chino simplificado"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -317,19 +317,19 @@ msgstr "Dejar de monitorizar falta de actividad"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Comandos Personalizados"
+msgstr "Órdenes personalizadas"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Configuración de Comandos Personalizados"
+msgstr "Configuración de órdenes personalizadas"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
-msgstr "Nuevo Comando"
+msgstr "Orden nueva"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr "Habilitado:"
+msgstr "Activada:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -337,7 +337,7 @@ msgstr "Nombre:"
 
 #: ../terminatorlib/plugins/custom_commands.py:260
 msgid "Command:"
-msgstr "Comando:"
+msgstr "Orden:"
 
 #: ../terminatorlib/plugins/custom_commands.py:296
 #: ../terminatorlib/plugins/custom_commands.py:406
@@ -952,11 +952,11 @@ msgstr "_Copiar dirección"
 
 #: ../terminatorlib/terminal_popup_menu.py:113
 msgid "Split H_orizontally"
-msgstr "Dividir H_orizontalmente"
+msgstr "Dividir h_orizontalmente"
 
 #: ../terminatorlib/terminal_popup_menu.py:123
 msgid "Split V_ertically"
-msgstr "Dividir V_erticalmente"
+msgstr "Dividir v_erticalmente"
 
 #: ../terminatorlib/terminal_popup_menu.py:133
 msgid "Open _Tab"
