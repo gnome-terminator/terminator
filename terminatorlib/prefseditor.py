@@ -567,7 +567,14 @@ class PrefsEditor:
 
     def on_homogeneous_toggled(self, widget):
         """homogeneous_tabbar setting changed"""
+        guiget = self.builder.get_object
         self.config['homogeneous_tabbar'] = widget.get_active()
+        scroll_toggled = guiget('scrolltabbarcheck')
+        if widget.get_active():
+            scroll_toggled.set_sensitive(True)
+        else:
+            scroll_toggled.set_active(True)
+            scroll_toggled.set_sensitive(False)
         self.config.save()
 
     def on_scroll_toggled(self, widget):
