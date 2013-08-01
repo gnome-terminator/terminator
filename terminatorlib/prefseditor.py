@@ -1142,7 +1142,7 @@ class PrefsEditor:
         else:
             guiget('background_image_filechooser').set_sensitive(False)
             guiget('scroll_background_checkbutton').set_sensitive(False)
-        if backtype == 'transparent':
+        if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)
         else:
             guiget('darken_background_scale').set_sensitive(False)
