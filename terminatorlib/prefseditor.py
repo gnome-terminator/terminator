@@ -234,6 +234,12 @@ class PrefsEditor:
         else:
             active = 0
         widget.set_active(active)
+        # scroll_tabbar
+        widget = guiget('scrolltabbarcheck')
+        widget.set_active(self.config['scroll_tabbar'])
+        # homogeneous_tabbar
+        widget = guiget('homogeneouscheck')
+        widget.set_active(self.config['homogeneous_tabbar'])
         # DBus Server
         widget = guiget('dbuscheck')
         widget.set_active(self.config['dbus'])
@@ -590,6 +596,23 @@ class PrefsEditor:
     def on_wingeomcheck_toggled(self, widget):
         """Window geometry setting changed"""
         self.config['geometry_hinting'] = widget.get_active()
+        self.config.save()
+
+    def on_homogeneous_toggled(self, widget):
+        """homogeneous_tabbar setting changed"""
+        guiget = self.builder.get_object
+        self.config['homogeneous_tabbar'] = widget.get_active()
+        scroll_toggled = guiget('scrolltabbarcheck')
+        if widget.get_active():
+            scroll_toggled.set_sensitive(True)
+        else:
+            scroll_toggled.set_active(True)
+            scroll_toggled.set_sensitive(False)
+        self.config.save()
+
+    def on_scroll_toggled(self, widget):
+        """scroll_tabbar setting changed"""
+        self.config['scroll_tabbar'] = widget.get_active()
         self.config.save()
 
     def on_dbuscheck_toggled(self, widget):

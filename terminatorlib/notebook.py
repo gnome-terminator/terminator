@@ -45,7 +45,7 @@ class Notebook(Container, gtk.Notebook):
         # the new order of terminals. We probably need to preserve this for
         # navigation to next/prev terminals.
         #self.connect('page-reordered', self.on_page_reordered)
-        self.set_property('homogeneous', True)
+        self.set_property('homogeneous', self.config['homogeneous_tabbar'])
         self.set_scrollable(self.config['scroll_tabbar'])
 
         if self.config['tab_position'] == 'hidden' or self.config['hide_tabbar']:
