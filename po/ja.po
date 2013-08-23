@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-08-22 03:32+0000\n"
+"PO-Revision-Date: 2013-08-22 08:11+0000\n"
 "Last-Translator: ub <xenolith0bytetestcomgreen@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-08-22 04:36+0000\n"
-"X-Generator: Launchpad (build 16734)\n"
+"X-Launchpad-Export-Date: 2013-08-23 04:32+0000\n"
+"X-Generator: Launchpad (build 16737)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -619,7 +619,7 @@ msgstr "選択をコピー"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "単語単位で選択する文字(_W):"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -655,7 +655,7 @@ msgstr "ビープ音"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "ウィンドウリスト点滅"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
@@ -757,7 +757,7 @@ msgstr "背景画像を選択"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "背景画像もスクロール(_s)"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
@@ -765,7 +765,7 @@ msgstr "背景を透過(_T)"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "透過や背景画像の濃淡(_h):"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
@@ -781,15 +781,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "キー入力でボトムにスクロール(_k)"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "出力でボトムにスクロール(_k)"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "行"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
