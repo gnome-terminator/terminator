@@ -95,6 +95,7 @@ class Terminal(gtk.VBox):
     custom_encoding = None
     custom_font_size = None
     layout_command = None
+    directory = None
 
     fgcolor_active = None
     fgcolor_inactive = None
@@ -1259,7 +1260,11 @@ class Terminal(gtk.VBox):
                 details[1]))
             command = 'telnet %s %s' % (details[0], details[1])
 
-        if options and options.working_directory and \
+        # working directory set in layout config
+        if self.directory:
+            self.set_cwd(self.directory)
+        # working directory given as argument
+        elif options and options.working_directory and \
            options.working_directory != '':
             self.set_cwd(options.working_directory)
             options.working_directory = ''
@@ -1502,6 +1507,8 @@ class Terminal(gtk.VBox):
             self.really_create_group(self.titlebar, layout['group'])
         if layout.has_key('title') and layout['title'] != '':
             self.titlebar.set_custom_string(layout['title'])
+        if layout.has_key('directory') and layout['directory'] != '':
+            self.directory = layout['directory']
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
