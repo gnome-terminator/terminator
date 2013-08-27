@@ -42,7 +42,7 @@ def parse_options():
     """Parse the command line options"""
     usage = "usage: %prog [options]"
 
-    is_X_terminal_emulator = os.path.basename(sys.argv[0]) == 'x-terminal-emulator'
+    is_x_terminal_emulator = os.path.basename(sys.argv[0]) == 'x-terminal-emulator'
 
     parser = OptionParser(usage)
 
@@ -61,18 +61,16 @@ def parse_options():
     parser.add_option('--geometry', dest='geometry', type='string', 
                       help=_('Set the preferred size and position of the window'
                              '(see X man page)'))
-
-    if not is_X_terminal_emulator :
+    if not is_x_terminal_emulator:
         parser.add_option('-e', '--command', dest='command', 
                 help=_('Specify a command to execute inside the terminal'))
-    else :
+    else:
         parser.add_option('--command', dest='command', 
                 help=_('Specify a command to execute inside the terminal'))
         parser.add_option('-e', '--execute2', dest='execute', action='callback',
                 callback=execute_cb, 
-                help=_('Use the rest of the command line as a command to  '
+                help=_('Use the rest of the command line as a command to '
                        'execute inside the terminal, and its arguments'))
-
     parser.add_option('-g', '--config', dest='config', 
                       help=_('Specify a config file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
