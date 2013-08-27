@@ -1265,6 +1265,10 @@ class PrefsEditor:
         """A different command has been entered for this item"""
         self.layouteditor.on_layout_profile_command_activate(widget)
 
+    def on_layout_profile_workingdir_changed(self, widget):
+        """A different working directory has been entered for this item"""
+        self.layouteditor.on_layout_profile_workingdir_activate(widget)
+
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
         oldname = cell.get_property('text')
@@ -1458,6 +1462,13 @@ class LayoutEditor:
         else:
             widget.set_sensitive(True)
 
+        command = self.builder.get_object('layout_profile_command')
+        chooser = self.builder.get_object('layout_profile_chooser')
+        workdir = self.builder.get_object('layout_profile_workingdir')
+        command.set_sensitive(False)
+        chooser.set_sensitive(False)
+        workdir.set_sensitive(False)
+
     def on_layout_item_selection_changed(self, selection):
         """A different item in the layout was selected"""
         (treemodel, rowiter) = selection.get_selected()
@@ -1473,14 +1484,17 @@ class LayoutEditor:
         layout_item = layout[self.layout_item]
         command = self.builder.get_object('layout_profile_command')
         chooser = self.builder.get_object('layout_profile_chooser')
+        workdir = self.builder.get_object('layout_profile_workingdir')
 
         if layout_item['type'] != 'Terminal':
             command.set_sensitive(False)
             chooser.set_sensitive(False)
+            workdir.set_sensitive(False)
             return
 
         command.set_sensitive(True)
         chooser.set_sensitive(True)
+        workdir.set_sensitive(True)
         if layout_item.has_key('command') and layout_item['command'] != '':
             command.set_text(layout_item['command'])
         else:
@@ -1490,6 +1504,11 @@ class LayoutEditor:
             chooser.set_active(self.profile_profile_to_ids[layout_item['profile']])
         else:
             chooser.set_active(0)
+
+        if layout_item.has_key('directory') and layout_item['directory'] != '':
+            workdir.set_text(layout_item['directory'])
+        else:
+            workdir.set_text('')
 
     def on_layout_profile_chooser_changed(self, widget):
         """A new profile has been selected for this item"""
@@ -1505,6 +1524,13 @@ class LayoutEditor:
         command = widget.get_text()
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['command'] = command
+        self.config.save()
+
+    def on_layout_profile_workingdir_activate(self, widget):
+        """A new working directory has been entered for this item"""
+        workdir = widget.get_text()
+        layout = self.config.layout_get_config(self.layout_name)
+        layout[self.layout_item]['directory'] = workdir
         self.config.save()
 
 if __name__ == '__main__':
