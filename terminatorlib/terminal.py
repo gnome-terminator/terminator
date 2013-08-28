@@ -15,7 +15,7 @@ import pango
 import subprocess
 import urllib
 
-from util import dbg, err, gerr
+from util import dbg, err, gerr, spawn_new_terminator
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -27,6 +27,7 @@ from searchbar import Searchbar
 from translation import _
 from signalman import Signalman
 import plugin
+from terminatorlib.layoutlauncher import LayoutLauncher
 
 try:
     import vte
@@ -1680,18 +1681,7 @@ class Terminal(gtk.VBox):
         self.terminator.new_window(self.terminator.pid_cwd(self.pid))
 
     def key_new_terminator(self):
-        cmd = sys.argv[0]
-    
-        if not os.path.isabs(cmd):
-            # Command is not an absolute path. Figure out where we are
-            cmd = os.path.join (self.origcwd, sys.argv[0])
-            if not os.path.isfile(cmd):
-                # we weren't started as ./terminator in a path. Give up
-                err('Terminal::key_new_window: Unable to locate Terminator')
-                return False
-          
-        dbg("Terminal::key_new_window: Spawning: %s" % cmd)
-        subprocess.Popen([cmd, '-u'])
+        spawn_new_terminator(self.origcwd, ['-u'])
 
     def key_broadcast_off(self):
         self.set_groupsend(None, self.terminator.groupsend_type['off'])
@@ -1741,6 +1731,9 @@ class Terminal(gtk.VBox):
                 window.title.force_title(None)
         dialog.destroy()
         return
+
+    def key_layout_launcher(self):
+        LAYOUTLAUNCHER=LayoutLauncher()
 
     def key_page_up(self):
         self.scroll_by_page(-1)

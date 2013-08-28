@@ -173,7 +173,8 @@ DEFAULTS = {
             'broadcast_all'    : '',
             'insert_number'    : '',
             'insert_padded'    : '',
-            'edit_window_title': ''
+            'edit_window_title': '',
+            'layout_launcher'  : ''
         },
         'profiles': {
             'default':  {

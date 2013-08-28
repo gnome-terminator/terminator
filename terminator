@@ -47,6 +47,7 @@ from terminatorlib.terminator import Terminator
 from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg, err
+from terminatorlib.layoutlauncher import LayoutLauncher
 
 if __name__ == '__main__':
     dbus_service = None
@@ -97,13 +98,17 @@ if __name__ == '__main__':
     TERMINATOR.set_origcwd(ORIGCWD)
     TERMINATOR.set_dbus_data(dbus_service)
     TERMINATOR.reconfigure()
-    try:
-        dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
-        TERMINATOR.create_layout(OPTIONS.layout)
-    except (KeyError,ValueError), ex:
-        err('layout creation failed, creating a window ("%s")' % ex)
-        TERMINATOR.new_window()
-    TERMINATOR.layout_done()
+    if OPTIONS.select:
+        # launch gui, return selection
+        LAYOUTLAUNCHER=LayoutLauncher()
+    else:
+        try:
+            dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
+            TERMINATOR.create_layout(OPTIONS.layout)
+        except (KeyError,ValueError), ex:
+            err('layout creation failed, creating a window ("%s")' % ex)
+            TERMINATOR.new_window()
+        TERMINATOR.layout_done()
 
     if OPTIONS.debug > 2:
         import terminatorlib.debugserver as debugserver

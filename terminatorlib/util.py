@@ -29,6 +29,7 @@ import os
 import pwd
 import inspect
 import uuid
+import subprocess
 
 # set this to true to enable debugging output
 DEBUG = False
@@ -289,3 +290,17 @@ def inject_uuid(target):
     else:
         dbg("Object already has a UUID: %s" % target)
 
+def spawn_new_terminator(cwd, args):
+    """Start a new terminator instance with the given arguments"""
+    cmd = sys.argv[0]
+
+    if not os.path.isabs(cmd):
+        # Command is not an absolute path. Figure out where we are
+        cmd = os.path.join (cwd, sys.argv[0])
+        if not os.path.isfile(cmd):
+            # we weren't started as ./terminator in a path. Give up
+            err('Unable to locate Terminator')
+            return False
+      
+    dbg("Spawning: %s" % cmd)
+    subprocess.Popen([cmd]+args)
