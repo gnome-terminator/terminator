@@ -149,6 +149,7 @@ class PrefsEditor:
 
     def __init__ (self, term):
         self.config = config.Config()
+        self.config.base.reload()
         self.term = term
         self.builder = gtk.Builder()
         self.keybindings = Keybindings()

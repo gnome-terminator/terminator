@@ -620,6 +620,11 @@ class ConfigBase(Borg):
                             section_name)
 
         self.loaded = True
+
+    def reload(self):
+        """Force a reload of the base config"""
+        self.loaded = False
+        self.load()
         
     def save(self):
         """Save the config to a file"""
