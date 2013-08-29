@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-06-14 12:22+0000\n"
-"Last-Translator: rktcool <rktcool@gmail.com>\n"
+"PO-Revision-Date: 2013-08-28 07:54+0000\n"
+"Last-Translator: சதீஸ் குமார் வ <Unknown>\n"
 "Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-15 04:33+0000\n"
-"X-Generator: Launchpad (build 16667)\n"
+"X-Launchpad-Export-Date: 2013-08-29 04:32+0000\n"
+"X-Generator: Launchpad (build 16738)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "இந்த செய்தியை அடுத்த முறை காண்பிக்க வேண்டாம்"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -293,6 +293,7 @@ msgstr ""
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
 msgstr ""
+"முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -369,11 +370,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "விடுபடு தொடர்"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "முனையத்திலிருந்து வெளியேறு"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
