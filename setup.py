@@ -180,7 +180,7 @@ setup(name=APP_NAME.capitalize(),
                  ],
       packages=['terminatorlib', 'terminatorlib.configobj',
       'terminatorlib.plugins'],
-      package_data={'terminatorlib': ['preferences.glade']},
+      package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
       cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
       distclass=TerminatorDist
      )
