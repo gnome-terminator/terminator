@@ -350,9 +350,10 @@ class Paned(Container):
         self.get_child1().create_layout(children[keys[0]])
         self.get_child2().create_layout(children[keys[1]])
 
-        # Store the position for later
-        if layout['position']:
-            self.position = int(layout['position'])
+        # Set the position with ratio. For some reason more reliable than by pos.
+        if layout.has_key('ratio'):
+            self.ratio = float(layout['ratio'])
+            self.set_position_by_ratio()
 
     def grab_focus(self):
         """We don't want focus, we want a Terminal to have it"""

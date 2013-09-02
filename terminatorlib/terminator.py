@@ -262,7 +262,6 @@ class Terminator(Borg):
                 raise(ValueError)
             dbg('Creating a window')
             window, terminal = self.new_window()
-            window.create_layout(layout[windef])
             if layout[windef].has_key('position'):
                 parts = layout[windef]['position'].split(':')
                 if len(parts) == 2:
@@ -275,6 +274,7 @@ class Terminator(Borg):
                     window.resize(winx, winy)
             if layout[windef].has_key('title'):
                 window.title.force_title(layout[windef]['title'])
+            window.create_layout(layout[windef])
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""
