@@ -1,10 +1,7 @@
 #!/usr/bin/python
-"""Layout Launcher for Terminator. 
-
-Load a UIBuilder config file, display it, populate it with our current layouts,
-then allow launching it as a new instance
-
-"""
+# Terminator by Chris Jones <cmsj@tenshu.net>
+# GPL v2 only
+"""layoutlauncher.py - class for the Layout Launcher window"""
 
 import os
 import gtk
@@ -27,16 +24,14 @@ class LayoutLauncher:
     layouttreeview = None
     layouttreestore = None
 
-    def __init__ (self):	#, term):
+    def __init__ (self):
         self.terminator = Terminator()
         self.terminator.register_launcher_window(self)
 
         self.config = config.Config()
-        #self.term = term
         self.builder = gtk.Builder()
-        #self.keybindings = Keybindings()
         try:
-            # Figure out where our library is on-disk so we can open our 
+            # Figure out where our library is on-disk so we can open our UI
             (head, _tail) = os.path.split(config.__file__)
             librarypath = os.path.join(head, 'layoutlauncher.glade')
             gladefile = open(librarypath, 'r')
@@ -48,21 +43,12 @@ class LayoutLauncher:
 
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('layoutlauncherwin')
-        #self.layouteditor = LayoutEditor(self.builder)
         self.builder.connect_signals(self)
         self.window.connect('destroy', self.on_destroy_event)
-        #self.layouteditor.prepare()
         self.window.show_all()
         self.layouttreeview = self.builder.get_object('layoutlist')
         self.layouttreestore = self.builder.get_object('layoutstore')
         self.update_layouts()
-        try:
-            #self.config.inhibit_save()
-            #self.set_values()
-            pass
-        except Exception, e:
-            err('Unable to set values: %s' % e)
-        #self.config.uninhibit_save()
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
