@@ -82,6 +82,14 @@ class LayoutLauncher:
                 self.layouttreestore.prepend([layout])
 
     def on_launchbutton_clicked(self, widget):
+        """Handle button click"""
+        self.launch_layout()
+
+    def on_row_activated(self, widget,  path,  view_column):
+        """Handle item double-click and return"""
+        self.launch_layout()
+
+    def launch_layout(self):
         """Launch the selected layout as new instance"""
         dbg('We have takeoff!')
         selection=self.layouttreeview.get_selection()
