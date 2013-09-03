@@ -597,6 +597,8 @@ class Window(Container, gtk.Window):
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
         many columns/rows we sort of have"""
+        if self.ismaximised == True:
+            return
         if not hasattr(self, 'cached_maker'):
             self.cached_maker = Factory()
         maker = self.cached_maker
