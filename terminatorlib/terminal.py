@@ -779,7 +779,7 @@ class Terminal(gtk.VBox):
             if event.type == gtk.gdk._2BUTTON_PRESS or \
                event.type == gtk.gdk._3BUTTON_PRESS:
                 # Ignore these, or they make the interaction bad
-                return False
+                return True
             # Super key applies interaction to all terms in group
             include_siblings=event.state & gtk.gdk.MOD4_MASK == gtk.gdk.MOD4_MASK
             if include_siblings:

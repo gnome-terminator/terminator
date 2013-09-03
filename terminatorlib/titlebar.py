@@ -225,7 +225,6 @@ class Titlebar(gtk.EventBox):
         self.show()
         self.label.show()
         self.emit('clicked')
-        return True
 
     def on_edit_done(self, widget):
         """Re-emit an edit-done signal from an EditableLabel"""
