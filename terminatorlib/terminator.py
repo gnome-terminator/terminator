@@ -19,6 +19,7 @@ class Terminator(Borg):
     """master object for the application"""
 
     windows = None
+    launcher_windows = None
     windowtitle = None
     terminals = None
     groups = None
@@ -48,6 +49,8 @@ class Terminator(Borg):
 
         if not self.windows:
             self.windows = []
+        if not self.launcher_windows:
+            self.launcher_windows = []
         if not self.terminals:
             self.terminals = []
         if not self.groups:
@@ -125,6 +128,27 @@ class Terminator(Borg):
             err('%s is not in registered window list' % window)
 
         if len(self.windows) == 0:
+            # We have no windows left, we should exit
+            dbg('no windows remain, quitting')
+            gtk.main_quit()
+
+    def register_launcher_window(self, window):
+        """Register a new launcher window widget"""
+        if window not in self.launcher_windows:
+            dbg('Terminator::register_launcher_window: registering %s:%s' % (id(window),
+                type(window)))
+            self.launcher_windows.append(window)
+
+    def deregister_launcher_window(self, window):
+        """de-register a launcher window widget"""
+        dbg('Terminator::deregister_launcher_window: de-registering %s:%s' %
+                (id(window), type(window)))
+        if window in self.launcher_windows:
+            self.launcher_windows.remove(window)
+        else:
+            err('%s is not in registered window list' % window)
+
+        if len(self.launcher_windows) == 0 and len(self.windows) == 0:
             # We have no windows left, we should exit
             dbg('no windows remain, quitting')
             gtk.main_quit()
@@ -238,7 +262,6 @@ class Terminator(Borg):
                 raise(ValueError)
             dbg('Creating a window')
             window, terminal = self.new_window()
-            window.create_layout(layout[windef])
             if layout[windef].has_key('position'):
                 parts = layout[windef]['position'].split(':')
                 if len(parts) == 2:
@@ -251,6 +274,7 @@ class Terminator(Borg):
                     window.resize(winx, winy)
             if layout[windef].has_key('title'):
                 window.title.force_title(layout[windef]['title'])
+            window.create_layout(layout[windef])
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""

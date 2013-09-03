@@ -173,7 +173,8 @@ DEFAULTS = {
             'broadcast_all'    : '',
             'insert_number'    : '',
             'insert_padded'    : '',
-            'edit_window_title': ''
+            'edit_window_title': '',
+            'layout_launcher'  : ''
         },
         'profiles': {
             'default':  {
@@ -619,6 +620,11 @@ class ConfigBase(Borg):
                             section_name)
 
         self.loaded = True
+
+    def reload(self):
+        """Force a reload of the base config"""
+        self.loaded = False
+        self.load()
         
     def save(self):
         """Save the config to a file"""

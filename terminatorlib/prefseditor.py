@@ -143,11 +143,13 @@ class PrefsEditor:
                         'broadcast_all'    : 'Broadcast key events to all',
                         'insert_number'    : 'Insert terminal number',
                         'insert_padded'    : 'Insert zero padded terminal number',
-                        'edit_window_title': 'Edit window title'
+                        'edit_window_title': 'Edit window title',
+                        'layout_launcher'  : 'Open layout launcher window'
             }
 
     def __init__ (self, term):
         self.config = config.Config()
+        self.config.base.reload()
         self.term = term
         self.builder = gtk.Builder()
         self.keybindings = Keybindings()

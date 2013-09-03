@@ -45,7 +45,9 @@ based on the wishes of the child shell.
 Specifies the preferred size and position of Terminator's window; see X(7).
 .TP
 .B \-e, \-\-command=COMMAND
-Runs the specified command instead of your default shell or profile specified command
+Runs the specified command instead of your default shell or profile specified command. Note: if
+Terminator is launched as x-terminal-emulator \-e behaves like \-x, and the longform becomes
+\-\-execute2=COMMAND
 .TP 
 .B \-x, \-\-execute COMMAND [ARGS]
 Runs \fBthe rest of the command line\fR instead of your default shell or profile specified command.
@@ -62,6 +64,9 @@ Set a custom name (WM_CLASS) property on the window
 .B \-l, \-\-layout=LAYOUT
 Start Terminator with a specific layout. The argument here is the name
 of a saved layout.
+.TP
+.B \-s, \-\-select-layout=LAYOUT
+Open the layout launcher window instead of the normal terminal.
 .TP
 .B \-p, \-\-profile=PROFILE
 Use a different profile as the default
@@ -94,10 +99,10 @@ used to spawn a new tab in the first Terminator window.
 The following keybindings can be used to control Terminator:
 .TP 
 .B Super+R
-\fBR\fotate terminals clockwise.
+\fBR\fRotate terminals clockwise.
 .TP 
 .B Super+Shift+R
-\fBR\fotate terminals counter-clockwise.
+\fBR\fRotate terminals counter-clockwise.
 .TP 
 .B Ctrl+Shift+O
 Split terminals H\fBo\fRrizontally.

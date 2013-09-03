@@ -256,6 +256,9 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
             if hasattr(position, '__iter__'):
                 position = ':'.join([str(x) for x in position])
             layout['position'] = position
+        
+        if hasattr(self, 'ratio'):
+            layout['ratio'] = self.ratio
 
         if hasattr(self, 'get_size'):
             layout['size'] = self.get_size()

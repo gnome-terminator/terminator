@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="layoutlauncherwin">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Terminator Layout Launcher</property>
+    <signal name="destroy-event" handler="on_destroy_event" swapped="no"/>
+    <child>
+      <object class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">7</property>
+        <property name="spacing">7</property>
+        <child>
+          <object class="GtkFrame" id="frame1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label_xalign">0</property>
+            <property name="label_yalign">0</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTreeView" id="layoutlist">
+                <property name="width_request">150</property>
+                <property name="height_request">200</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="model">layoutstore</property>
+                <property name="headers_clickable">False</property>
+                <property name="search_column">0</property>
+                <signal name="row-activated" handler="on_row_activated" swapped="no"/>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                    <property name="title" translatable="yes">Layout</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label_item">
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="launchbutton">
+                <property name="label" translatable="yes">Launch</property>
+                <property name="width_request">100</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="on_launchbutton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="layoutstore">
+    <columns>
+      <!-- column-name layoutname -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+</interface>

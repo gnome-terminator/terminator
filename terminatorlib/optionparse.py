@@ -86,7 +86,9 @@ icon for the window (by file or name)'))
     parser.add_option('-r', '--role', dest='role', 
             help=_('Set a custom WM_WINDOW_ROLE property on the window'))
     parser.add_option('-l', '--layout', dest='layout', 
-                      help=_('Select a layout'))
+            help=_('Launch with the given layout'))
+    parser.add_option('-s', '--select-layout', action='store_true',
+            dest='select', help=_('Select a layout from a list'))
     parser.add_option('-p', '--profile', dest='profile', 
             help=_('Use a different profile as the default'))
     parser.add_option('-u', '--no-dbus', action='store_true', dest='nodbus', 
