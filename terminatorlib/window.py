@@ -304,6 +304,12 @@ class Window(Container, gtk.Window):
             if self.position:
                 self.move(self.position[0], self.position[1])
             self.show()
+            self.grab_focus()
+            try:
+                t = gtk.gdk.x11_get_server_time(self.window)
+            except AttributeError:
+                t = 0
+            self.window.focus(t)
         else:
             self.position = self.get_position()
             self.hidefunc()
