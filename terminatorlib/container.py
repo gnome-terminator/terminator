@@ -257,6 +257,11 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
                 position = ':'.join([str(x) for x in position])
             layout['position'] = position
         
+        if hasattr(self, 'ismaximised'):
+            layout['maximised'] = self.ismaximised
+        
+        if hasattr(self, 'isfullscreen'):
+            layout['fullscreen'] = self.isfullscreen
         if hasattr(self, 'ratio'):
             layout['ratio'] = self.ratio
 

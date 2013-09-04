@@ -274,6 +274,18 @@ class Terminator(Borg):
                     window.resize(winx, winy)
             if layout[windef].has_key('title'):
                 window.title.force_title(layout[windef]['title'])
+            if layout[windef].has_key('maximised'):
+                if layout[windef]['maximised'] == 'True':
+                    window.ismaximised = True
+                else:
+                    window.ismaximised = False
+                window.set_maximised(window.ismaximised)
+            if layout[windef].has_key('fullscreen'):
+                if layout[windef]['fullscreen'] == 'True':
+                    window.isfullscreen = True
+                else:
+                    window.isfullscreen = False
+                window.set_fullscreen(window.isfullscreen)
             window.create_layout(layout[windef])
 
     def layout_done(self):
