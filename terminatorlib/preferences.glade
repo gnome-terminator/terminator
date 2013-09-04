@@ -3561,7 +3561,7 @@
                               <object class="GtkLabel" id="label40">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Working directoy</property>
+                                <property name="label" translatable="yes">Working directory</property>
                               </object>
                               <packing>
                                 <property name="top_attach">2</property>
