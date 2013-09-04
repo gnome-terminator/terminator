@@ -119,6 +119,11 @@ class Notebook(Container, gtk.Notebook):
             page.create_layout(children[child_key])
             num = num + 1
 
+        if layout.has_key('active_page'):
+            self.set_current_page(int(layout['active_page']))
+        else:
+            self.set_current_page(0)
+
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the axis of a terminal inside us"""
         dbg('called for widget: %s' % widget)

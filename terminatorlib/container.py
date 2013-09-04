@@ -277,6 +277,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
+            layout['active_page'] = self.get_current_page()
         if len(labels) > 0:
             layout['labels'] = labels
 
