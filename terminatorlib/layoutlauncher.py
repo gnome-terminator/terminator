@@ -29,6 +29,7 @@ class LayoutLauncher:
         self.terminator.register_launcher_window(self)
 
         self.config = config.Config()
+        self.config.base.reload()
         self.builder = gtk.Builder()
         try:
             # Figure out where our library is on-disk so we can open our UI
