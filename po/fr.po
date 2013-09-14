@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-06-29 14:43+0000\n"
-"Last-Translator: londumas <helion331990@gmail.com>\n"
+"PO-Revision-Date: 2013-09-13 21:50+0000\n"
+"Last-Translator: ymadec <ymadec@myopera.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 04:39+0000\n"
+"X-Launchpad-Export-Date: 2013-09-14 04:33+0000\n"
 "X-Generator: Launchpad (build 16761)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -252,7 +252,7 @@ msgstr "Définit le répertoire de travail"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Définissez un nom personnalisé à la propriété WM_CLASS de la fenêtre"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
@@ -508,7 +508,7 @@ msgstr "Option de Terminator"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Conseils sur la géométrie de la fenêtre"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
@@ -540,7 +540,7 @@ msgstr "Toujours au premier plan"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Cacher si la fenêtre passe en arrière-plan"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
@@ -576,11 +576,11 @@ msgstr "<b>Barre de titre</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Terminal de réception"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Terminal actif"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
@@ -616,7 +616,7 @@ msgstr "_Activer le texte en gras"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Anti-crénelage du texte"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
@@ -648,7 +648,7 @@ msgstr "Clignotement du curseur"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Bip du terminal</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
@@ -656,7 +656,7 @@ msgstr "Icône de la barre de titre"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "Flash visuel"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
