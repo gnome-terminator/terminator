@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-18 00:11+0000\n"
-"Last-Translator: David Pires <Unknown>\n"
+"PO-Revision-Date: 2013-09-24 14:26+0000\n"
+"Last-Translator: Francisco Cunha <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 04:39+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-09-25 05:11+0000\n"
+"X-Generator: Launchpad (build 16771)\n"
 "X-Poedit-Country: Portugal\n"
 "X-Poedit-Language: Portuguese\n"
 
@@ -618,11 +618,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Mostrar barra de título"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Copiar na seleção"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -630,27 +630,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Cursor</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Cor do cursor:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "Forma do cursor:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Intermitência do cursor"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Notificação sonora do terminal</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "ícone da barra de título"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
@@ -658,7 +658,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Notificação sonora"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
@@ -726,7 +726,7 @@ msgstr "Seleccione a Cor de Fundo da Consola"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Paleta de cores</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -800,7 +800,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Barra de deslocamento é:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
@@ -840,11 +840,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Padrão:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Compatibilidade"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -853,11 +853,11 @@ msgstr "Perfis"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Comando Personalizado"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
@@ -869,7 +869,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Esta extensão não apresenta possibilidade de ser costumizada"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
@@ -1062,11 +1062,11 @@ msgstr "Incapaz de iniciar a \\\"shell\\\":"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Renomear janela"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Introduza o novo título para a janela Terminator..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
