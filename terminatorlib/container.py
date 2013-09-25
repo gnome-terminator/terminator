@@ -197,6 +197,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         result = dialog.run()
         
         # set configuration
+        self.config.base.reload()
         self.config['suppress_multiple_term_dialog'] = checkbox.get_active()
         self.config.save()
 
