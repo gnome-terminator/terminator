@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-09-27 16:27+0000\n"
-"Last-Translator: Sérgio Marques <Unknown>\n"
+"PO-Revision-Date: 2013-10-07 16:00+0000\n"
+"Last-Translator: David Pires <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-28 05:13+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"X-Launchpad-Export-Date: 2013-10-08 05:10+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 "Language: pt_PT\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -325,7 +325,7 @@ msgstr "Novo comando"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr "Ativo:"
+msgstr "Ativado:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -460,7 +460,7 @@ msgstr "No lado direito"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr "Inativo"
+msgstr "Desativado"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
@@ -468,7 +468,7 @@ msgstr "Topo"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr "Base"
+msgstr "Inferior"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
@@ -624,7 +624,7 @@ msgstr "Copiar na seleção"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "Seleccionar _caracteres da palavra:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -680,7 +680,7 @@ msgstr "At_ualizar registos ao executar o comando"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "_Executar um comando personalizado em vez da minha consola"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
@@ -735,6 +735,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Nota:</b> Aplicações de terminal têm estas cores "
+"disponíveis.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
@@ -774,23 +776,23 @@ msgstr "Transparente som_breado ou imagem de fundo:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Nenhum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Máximo</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "Utilizar toques de teclas para navegar no ecrã _alternativo"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Deslocar ao premir o _teclado"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Deslocar na _saída de"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
@@ -802,7 +804,7 @@ msgstr "Barra de _deslocação é:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Deslocamento para _trás:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
@@ -810,7 +812,7 @@ msgstr "Deslocação infinita"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Deslocamento"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -819,6 +821,10 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Note:</b> Estas opções podem fazer com que algumas aplicações "
+"se comportem de forma incorreta. Elas estão aqui apenas para permitir "
+"contornar determinadas aplicações e sistemas operativos que esperam um "
+"comportamento diferente do terminal.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
