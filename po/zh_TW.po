@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-08-28 09:00+0000\n"
-"Last-Translator: elleryq <elleryq@gmail.com>\n"
+"PO-Revision-Date: 2013-10-11 07:50+0000\n"
+"Last-Translator: Dylandy <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 04:40+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-10-12 04:34+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -431,7 +431,7 @@ msgstr "完全跟著滑鼠"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
@@ -459,19 +459,19 @@ msgstr "已停用"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "上緣"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "下緣"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "左端"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "右端"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
@@ -503,11 +503,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "視窗狀態"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "視窗邊界"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
@@ -515,7 +515,7 @@ msgstr "分頁位置"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "滑鼠選定"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
@@ -535,11 +535,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "顯示在所有工作區"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus server"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
@@ -547,7 +547,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "非正在關注的終端機字體亮度"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
@@ -563,7 +563,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>標題列</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
@@ -571,11 +571,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "正在關注的終端機"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "活動中的終端機"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
@@ -611,15 +611,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "顯示標題列"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "選擇即複製"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "用滑鼠連按兩下選取字詞時會包括以下字元(_W):"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -643,7 +643,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "標題列圖示"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
@@ -663,7 +663,7 @@ msgstr "一般"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>指令</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
@@ -683,15 +683,15 @@ msgstr "自訂指令 (_M)："
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "當完成執行指令後(_E):"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "指令"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>前景與背景</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
