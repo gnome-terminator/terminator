@@ -8,34 +8,34 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-02-16 13:32+0000\n"
-"Last-Translator: Abdullah Ibraheem <19sa91@gmail.com>\n"
+"PO-Revision-Date: 2013-10-13 18:30+0000\n"
+"Last-Translator: popo <popo49_abdo@hotmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 04:38+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-10-14 05:11+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
-msgstr "الطرفية"
+msgstr "المُتَطَرِف"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "عدة طرفيات في نافذة واحدة"
+msgstr "عده طرفيات فى نافذه واحده"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
-msgstr "أغلق ؟"
+msgstr "أمتأكد من رغبتك فى اﻹغلاق؟"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
-msgstr "اغلاق_الطرفيات"
+msgstr "اغلق_الطرفيات"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>إغلاق طرفيات متعددة؟</b></big>"
+msgstr "<big><b>أمتأكد من رغبتك فى إغلاق جميع الطرفيات؟</b></big>"
 
 #: ../terminatorlib/container.py:175
 #, python-format
@@ -43,7 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"%s لديه عدة طرفيات مفتوحة.إغلاق %s سيتسبب في إغلاق كل الطرفيات المضمنة."
+"هذا الـ %s لديه العديد من الطرفيات المفتوحه. إغلاق %s سيتسبب في إغلاق كل "
+"الطرفيات المُضمَنه"
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -51,44 +52,44 @@ msgstr "لا تعرض هذه الرسالة مرة أخرى"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "اللغة الحالية"
+msgstr "اللغه الحاليه"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "غربي"
+msgstr "الغربيه"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "أوروبي وسطي"
+msgstr "الاوروبيه الوسطيه"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "أوروبي جنوبي"
+msgstr "الاوروبيه الجنوبيه"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "بلطيقي"
+msgstr "البلطيقيه"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "سيريلي"
+msgstr "السيريليه"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "عربي"
+msgstr "العربيه"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "يوناني"
+msgstr "اليونانيه"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
@@ -97,36 +98,36 @@ msgstr "العبرية البصرية"
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "العبرية"
+msgstr "العبريه"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "التركية"
+msgstr "التركيه"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "الشمالية"
+msgstr "الشماليه"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "السلتية"
+msgstr "السلتيه"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "الرومانية"
+msgstr "الرومانيه"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "يونيكود"
+msgstr "الترميز"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "أرمني"
+msgstr "الارمينى"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
@@ -135,30 +136,30 @@ msgstr "صيني تقليدي"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "سيريالي/روسي"
+msgstr "السيرياليه/الروسيه"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "ياباني"
+msgstr "اليابانيه"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "كوري"
+msgstr "الكوريه"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "صيني مبسّط"
+msgstr "الصينيه المُبَسَطه"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "جورجي"
+msgstr "الجورجيه"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "سيريالي/أوكراني"
+msgstr "السيرياليه/الاكرانيه"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
