@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-04-26 18:23+0000\n"
-"Last-Translator: Varun Priolkar <varunpr97@gmail.com>\n"
+"PO-Revision-Date: 2013-10-21 18:18+0000\n"
+"Last-Translator: Siddhant Pathak <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 04:39+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-10-22 04:38+0000\n"
+"X-Generator: Launchpad (build 16807)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -23,7 +23,7 @@ msgstr "टर्मिनेटर"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "एक विंडो में मल्टीपल टर्मिनल"
+msgstr "एक विंडो में अनेक  टर्मिनल"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -43,12 +43,12 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"यह %ss कई खुले टर्मिनलों है. %s को बंद भी यह सभी टर्मिनल के भीतर बंद हो "
-"जाएगा."
+"%s में कई खुले  टर्मिनल हैं।%s को बंद करने पर इसके भीतर के सभी टर्मिनल बंद "
+"हो जायेंगे ।"
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "यह संदेश अगली बार ना दिखायें"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
