@@ -142,6 +142,8 @@ class Notebook(Container, gtk.Notebook):
         else:
             container = maker.make('hpaned')
 
+        self.get_toplevel().set_pos_by_ratio = True
+
         if not sibling:
             sibling = maker.make('terminal')
             sibling.set_cwd(cwd)
@@ -166,6 +168,10 @@ class Notebook(Container, gtk.Notebook):
 
         self.show_all()
         terminal.grab_focus()
+
+        while gtk.events_pending():
+            gtk.main_iteration_do(False)
+        self.get_toplevel().set_pos_by_ratio = False
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
