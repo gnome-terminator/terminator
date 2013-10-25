@@ -1088,6 +1088,7 @@ class Terminal(gtk.VBox):
         self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                             self.palette_active)
         self.set_cursor_color()
+        self.terminator.last_focused_term = self
         self.emit('focus-in')
 
     def on_vte_focus_out(self, _widget, _event):
