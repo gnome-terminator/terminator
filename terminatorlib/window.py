@@ -691,11 +691,13 @@ class Window(Container, gtk.Window):
         self.terminator.create_group(group)
         for terminal in self.terminator.terminals:
             terminal.set_group(None, group)
+        self.terminator.focus_changed(self.terminator.last_focused_term)
 
     def ungroup_all(self, widget):
         """Ungroup all terminals"""
         for terminal in self.terminator.terminals:
             terminal.set_group(None, None)
+        self.terminator.focus_changed(self.terminator.last_focused_term)
 
     def group_tab(self, widget):
         """Group all terminals in the current tab"""
@@ -714,6 +716,7 @@ class Window(Container, gtk.Window):
             pagenum += 1
         for terminal in self.get_visible_terminals():
             terminal.set_group(None, group)
+        self.terminator.focus_changed(self.terminator.last_focused_term)
 
     def ungroup_tab(self, widget):
         """Ungroup all terminals in the current tab"""
@@ -726,6 +729,7 @@ class Window(Container, gtk.Window):
         
         for terminal in self.get_visible_terminals():
             terminal.set_group(None, None)
+        self.terminator.focus_changed(self.terminator.last_focused_term)
 
     def move_tab(self, widget, direction):
         """Handle a keyboard shortcut for moving tab positions"""
