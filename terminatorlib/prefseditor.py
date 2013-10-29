@@ -9,6 +9,7 @@ write it to a config file
 
 import os
 import gtk
+import gobject
 
 from util import dbg, err
 import config
@@ -166,6 +167,15 @@ class PrefsEditor:
 
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('prefswin')
+
+        icon_theme = gtk.IconTheme()
+        try:
+            icon = icon_theme.load_icon('terminator-preferences', 48, 0)
+        except (NameError, gobject.GError):
+            dbg('Unable to load 48px Terminator preferences icon')
+            icon = self.window.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+        self.window.set_icon(icon)
+
         self.layouteditor = LayoutEditor(self.builder)
         self.builder.connect_signals(self)
         self.layouteditor.prepare()
