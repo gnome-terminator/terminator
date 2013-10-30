@@ -1490,6 +1490,7 @@ class Terminal(gtk.VBox):
         title = self.titlebar.get_custom_string()
         if title:
             layout['title'] = title
+        layout['uuid'] = self.uuid
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
@@ -1511,6 +1512,8 @@ class Terminal(gtk.VBox):
             self.titlebar.set_custom_string(layout['title'])
         if layout.has_key('directory') and layout['directory'] != '':
             self.directory = layout['directory']
+        if layout.has_key('uuid') and layout['uuid'] != '':
+            self.uuid = make_uuid(layout['uuid'])
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
