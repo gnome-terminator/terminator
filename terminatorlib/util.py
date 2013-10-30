@@ -277,8 +277,10 @@ def enumerate_descendants(parent):
         len(terminals), parent))
     return(containers, terminals)
 
-def make_uuid():
+def make_uuid(str_uuid=None):
     """Generate a UUID for an object"""
+    if str_uuid:
+        return uuid.UUID(str_uuid)
     return uuid.uuid4()
 
 def inject_uuid(target):
