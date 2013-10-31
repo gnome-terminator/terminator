@@ -15,7 +15,7 @@ import pango
 import subprocess
 import urllib
 
-from util import dbg, err, gerr, spawn_new_terminator
+from util import dbg, err, gerr, spawn_new_terminator, make_uuid
 import util
 from config import Config
 from cwd import get_default_cwd
