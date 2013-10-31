@@ -10,10 +10,11 @@ if __name__ == '__main__':
   sys.path.append( os.path.join(os.path.dirname(__file__), "../.."))
 
 import gtk
+import gobject
 import terminatorlib.plugin as plugin
 from terminatorlib.config import Config
 from terminatorlib.translation import _
-from terminatorlib.util import get_config_dir
+from terminatorlib.util import get_config_dir, err, dbg
 
 (CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = range(0,3)
 
@@ -122,6 +123,15 @@ class CustomCommandsMenu(plugin.MenuItem):
                         gtk.STOCK_OK, gtk.RESPONSE_ACCEPT
                       )
                     )
+
+      icon_theme = gtk.IconTheme()
+      try:
+        icon = icon_theme.load_icon('terminator-custom-commands', 48, 0)
+      except (NameError, gobject.GError):
+        dbg('Unable to load 48px Terminator preferences icon')
+        icon = dbox.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+      dbox.set_icon(icon)
+
       store = gtk.ListStore(bool, str, str)
 
       for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ]:
