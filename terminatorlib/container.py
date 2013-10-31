@@ -282,6 +282,12 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if len(labels) > 0:
             layout['labels'] = labels
 
+        if mytype == 'Window':
+            if self.uuid == self.terminator.last_active_window:
+                layout['last_active_window'] = True
+            else:
+                layout['last_active_window'] = False
+
         name = 'child%d' % count
         count = count + 1
 

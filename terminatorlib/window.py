@@ -239,6 +239,7 @@ class Window(Container, gtk.Window):
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
+        self.terminator.last_active_window = self.uuid
         # FIXME: Cause the terminal titlebars to update here
 
     def is_child_notebook(self):
@@ -864,6 +865,9 @@ class Window(Container, gtk.Window):
             return
 
         self.get_children()[0].create_layout(child)
+
+        if layout.has_key('last_active_window') and layout['last_active_window'] == 'True':
+            self.terminator.last_active_window = self.uuid
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

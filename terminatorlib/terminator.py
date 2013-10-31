@@ -34,6 +34,7 @@ class Terminator(Borg):
     debug_address = None
 
     doing_layout = None
+    last_active_window = None
 
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
@@ -291,6 +292,10 @@ class Terminator(Borg):
     def layout_done(self):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
+
+        for window in self.windows:
+            if window.uuid == self.last_active_window:
+                window.show()
 
         for terminal in self.terminals:
             if not terminal.pid:
