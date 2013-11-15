@@ -263,6 +263,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         
         if hasattr(self, 'isfullscreen'):
             layout['fullscreen'] = self.isfullscreen
+        
         if hasattr(self, 'ratio'):
             layout['ratio'] = self.ratio
 
@@ -272,16 +273,15 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if hasattr(self, 'title'):
             layout['title'] = self.title.text
 
-        labels = []
         if mytype == 'Notebook':
+            labels = []
             for tabnum in xrange(0, self.get_n_pages()):
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
-            layout['active_page'] = self.get_current_page()
-        if len(labels) > 0:
             layout['labels'] = labels
-
+            layout['active_page'] = self.get_current_page()
+            
         if mytype == 'Window':
             if self.uuid == self.terminator.last_active_window:
                 layout['last_active_window'] = True
