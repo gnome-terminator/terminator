@@ -281,7 +281,10 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
                 labels.append(label.get_custom_label())
             layout['labels'] = labels
             layout['active_page'] = self.get_current_page()
-            
+        else:
+            if hasattr(self, 'last_active_term') and self.last_active_term is not None:
+                layout['last_active_term'] = self.last_active_term
+        
         if mytype == 'Window':
             if self.uuid == self.terminator.last_active_window:
                 layout['last_active_window'] = True

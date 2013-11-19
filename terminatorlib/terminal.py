@@ -1088,7 +1088,13 @@ class Terminal(gtk.VBox):
         self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                             self.palette_active)
         self.set_cursor_color()
-        self.terminator.last_focused_term = self
+        if not self.terminator.doing_layout:
+            self.terminator.last_focused_term = self
+            if self.get_toplevel().is_child_notebook():
+                # TODO: Will need some code for the tabs active terms to work
+                self.get_toplevel().last_active_term = None
+            else:
+                self.get_toplevel().last_active_term = self.uuid
         self.emit('focus-in')
 
     def on_vte_focus_out(self, _widget, _event):

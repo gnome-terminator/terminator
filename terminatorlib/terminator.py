@@ -293,13 +293,24 @@ class Terminator(Borg):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
 
+        window_last_active_term_mapping={}
         for window in self.windows:
-            if window.uuid == self.last_active_window:
-                window.show()
+            # TODO: Will need some code for the tabs active terms to work
+            window_last_active_term_mapping[window]=copy.deepcopy(window.last_active_term)
 
         for terminal in self.terminals:
             if not terminal.pid:
                 terminal.spawn_child()
+
+        for window in self.windows:
+            if window.last_active_term:
+                # TODO: Will need some code for the tabs active terms to work
+                term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
+                term.ensure_visible_and_focussed()
+
+        for window in self.windows:
+            if window.uuid == self.last_active_window:
+                window.show()
 
     def reconfigure(self):
         """Update configuration for the whole application"""
