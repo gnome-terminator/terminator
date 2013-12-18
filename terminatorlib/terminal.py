@@ -1069,13 +1069,12 @@ class Terminal(gtk.VBox):
         maker = Factory()
 
         if maker.isinstance(topchild, 'Notebook'):
-            prevtmp = None
-            tmp = self.get_parent()
-            while tmp != topchild:
-                prevtmp = tmp
-                tmp = tmp.get_parent() 
-            page = topchild.page_num(prevtmp)
-            topchild.set_current_page(page)
+            # Find which page number this term is on
+            tabnum = topchild.page_num_descendant(self)
+            # If terms page number is not the current one, switch to it
+            current_page = topchild.get_current_page()
+            if tabnum != current_page:
+                topchild.set_current_page(tabnum)
 
         self.grab_focus()
 
@@ -1091,7 +1090,9 @@ class Terminal(gtk.VBox):
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
-                # TODO: Will need some code for the tabs active terms to work
+                notebook = self.get_toplevel().get_children()[0]
+                notebook.set_last_active_term(self.uuid)
+                notebook.clean_last_active_term()
                 self.get_toplevel().last_active_term = None
             else:
                 self.get_toplevel().last_active_term = self.uuid
