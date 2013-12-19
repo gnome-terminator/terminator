@@ -242,14 +242,6 @@ class Window(Container, gtk.Window):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
         term = None
-        if self.is_child_notebook():
-            # TODO: Will need some code for the tabs active terms to work
-            pass
-        else:
-            if isinstance(self.last_active_term, uuid.UUID):
-                term = self.terminator.find_terminal_by_uuid(self.last_active_term.urn)
-        if term:
-            gobject.idle_add(term.ensure_visible_and_focussed)
         if not self.terminator.doing_layout:
             self.terminator.last_active_window = self.uuid
         # FIXME: Cause the terminal titlebars to update here
