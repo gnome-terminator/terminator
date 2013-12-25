@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-11-02 22:22+0000\n"
-"Last-Translator: fri <pavelfric@seznam.cz>\n"
+"PO-Revision-Date: 2013-12-24 23:37+0000\n"
+"Last-Translator: Tomáš Dohnálek <dohnto@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-03 05:16+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-12-25 05:11+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -35,9 +35,7 @@ msgstr "Zavřít _terminály"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
-"Copy text   \t\r\n"
-"<big><b>Zavřít více terminálů?</b></big>"
+msgstr "<big><b>Zavřít více terminálů?</b></big>"
 
 #: ../terminatorlib/container.py:175
 #, python-format
@@ -910,7 +908,7 @@ msgstr "Předchozí"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
-msgstr "Vyledávací scrollback"
+msgstr "Vyhledávací scrollback"
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
