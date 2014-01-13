@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-09-13 21:50+0000\n"
+"PO-Revision-Date: 2014-01-12 08:10+0000\n"
 "Last-Translator: ymadec <ymadec@myopera.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-02 05:13+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2014-01-13 05:15+0000\n"
+"X-Generator: Launchpad (build 16890)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -556,7 +556,7 @@ msgstr "Cachez la taille du titre"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Luminosité de la police d'un terminal en arrière-plan"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
@@ -660,7 +660,7 @@ msgstr "Flash visuel"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Bip sonore"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
@@ -668,7 +668,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Général"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
@@ -681,6 +681,8 @@ msgstr "_Lancer la commande en tant que shell de connexion"
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
 msgstr ""
+"_Mettre à jour les enregistrements de connexion lorsqu'une commande est "
+"lancée"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
