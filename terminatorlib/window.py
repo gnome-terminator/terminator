@@ -241,7 +241,6 @@ class Window(Container, gtk.Window):
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
-        term = None
         if not self.terminator.doing_layout:
             self.terminator.last_active_window = self.uuid
         # FIXME: Cause the terminal titlebars to update here
