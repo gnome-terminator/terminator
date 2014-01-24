@@ -15,7 +15,7 @@ import pango
 import subprocess
 import urllib
 
-from util import dbg, err, gerr, spawn_new_terminator
+from util import dbg, err, gerr, spawn_new_terminator, make_uuid
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -1069,13 +1069,12 @@ class Terminal(gtk.VBox):
         maker = Factory()
 
         if maker.isinstance(topchild, 'Notebook'):
-            prevtmp = None
-            tmp = self.get_parent()
-            while tmp != topchild:
-                prevtmp = tmp
-                tmp = tmp.get_parent() 
-            page = topchild.page_num(prevtmp)
-            topchild.set_current_page(page)
+            # Find which page number this term is on
+            tabnum = topchild.page_num_descendant(self)
+            # If terms page number is not the current one, switch to it
+            current_page = topchild.get_current_page()
+            if tabnum != current_page:
+                topchild.set_current_page(tabnum)
 
         self.grab_focus()
 
@@ -1088,7 +1087,15 @@ class Terminal(gtk.VBox):
         self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                             self.palette_active)
         self.set_cursor_color()
-        self.terminator.last_focused_term = self
+        if not self.terminator.doing_layout:
+            self.terminator.last_focused_term = self
+            if self.get_toplevel().is_child_notebook():
+                notebook = self.get_toplevel().get_children()[0]
+                notebook.set_last_active_term(self.uuid)
+                notebook.clean_last_active_term()
+                self.get_toplevel().last_active_term = None
+            else:
+                self.get_toplevel().last_active_term = self.uuid
         self.emit('focus-in')
 
     def on_vte_focus_out(self, _widget, _event):
@@ -1490,6 +1497,7 @@ class Terminal(gtk.VBox):
         title = self.titlebar.get_custom_string()
         if title:
             layout['title'] = title
+        layout['uuid'] = self.uuid
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
@@ -1511,6 +1519,8 @@ class Terminal(gtk.VBox):
             self.titlebar.set_custom_string(layout['title'])
         if layout.has_key('directory') and layout['directory'] != '':
             self.directory = layout['directory']
+        if layout.has_key('uuid') and layout['uuid'] != '':
+            self.uuid = make_uuid(layout['uuid'])
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""

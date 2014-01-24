@@ -12,11 +12,14 @@ from factory import Factory
 from container import Container
 from editablelabel import EditableLabel
 from translation import _
-from util import err, dbg, enumerate_descendants
+from util import err, dbg, enumerate_descendants, make_uuid
 
 class Notebook(Container, gtk.Notebook):
     """Class implementing a gtk.Notebook container"""
     window = None
+    last_active_term = None
+    pending_on_tab_switch = None
+    pending_on_tab_switch_args = None
 
     def __init__(self, window):
         """Class initialiser"""
@@ -30,12 +33,16 @@ class Notebook(Container, gtk.Notebook):
         self.window = window
         gobject.type_register(Notebook)
         self.register_signals(Notebook)
+        self.connect('switch-page', self.deferred_on_tab_switch)
         self.configure()
 
         child = window.get_child()
         window.remove(child)
         window.add(self)
         self.newtab(widget=child)
+        if window.last_active_term:
+            self.set_last_active_term(window.last_active_term)
+            window.last_active_term = None
 
         self.show_all()
 
@@ -63,6 +70,7 @@ class Notebook(Container, gtk.Notebook):
         style.xthickness = 0
         style.ythickness = 0
         self.modify_style(style)
+        self.last_active_term = {}
 
     def create_layout(self, layout):
         """Apply layout configuration"""
@@ -117,10 +125,14 @@ class Notebook(Container, gtk.Notebook):
                     label = self.get_tab_label(page)
                     label.set_custom_label(labeltext)
             page.create_layout(children[child_key])
+
+            if  layout.get('last_active_term',  None):
+                self.last_active_term[page] = make_uuid(layout['last_active_term'][num])
             num = num + 1
 
         if layout.has_key('active_page'):
-            self.set_current_page(int(layout['active_page']))
+            # Need to do it later, or layout changes result
+            gobject.idle_add(self.set_current_page, int(layout['active_page']))
         else:
             self.set_current_page(0)
 
@@ -167,11 +179,12 @@ class Notebook(Container, gtk.Notebook):
         self.set_current_page(page_num)
 
         self.show_all()
-        terminal.grab_focus()
 
         while gtk.events_pending():
             gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
+
+        gobject.idle_add(terminal.ensure_visible_and_focussed)
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
@@ -268,15 +281,22 @@ class Notebook(Container, gtk.Notebook):
 
         dbg('inserting page at position: %s' % tabpos)
         self.insert_page(widget, None, tabpos)
-        self.set_tab_label(widget, label)
-        self.set_tab_label_packing(widget, not self.config['scroll_tabbar'],
-                                   not self.config['scroll_tabbar'],
-                                   gtk.PACK_START)
+        child_widgets = [widget]
+        child_widgets .extend(enumerate_descendants(widget))
+        term_widget = None
+        for term_widget in child_widgets:
+            if maker.isinstance(term_widget, 'Terminal'):
+                self.set_last_active_term(term_widget.uuid)
+                self.set_tab_label(term_widget, label)
+                self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
+                                           not self.config['scroll_tabbar'],
+                                           gtk.PACK_START)
+                break
 
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
         self.show_all()
-        if maker.isinstance(widget, 'Terminal'):
+        if maker.isinstance(term_widget, 'Terminal'):
             widget.grab_focus()
 
     def wrapcloseterm(self, widget):
@@ -311,6 +331,7 @@ class Notebook(Container, gtk.Notebook):
 
         if maker.isinstance(child, 'Terminal'):
             dbg('Notebook::closetab: child is a single Terminal')
+            del nb.last_active_term[child]
             child.close()
             # FIXME: We only do this del and return here to avoid removing the
             # page below, which child.close() implicitly does
@@ -318,9 +339,7 @@ class Notebook(Container, gtk.Notebook):
             return
         elif maker.isinstance(child, 'Container'):
             dbg('Notebook::closetab: child is a Container')
-            dialog = self.construct_confirm_close(self.window, _('tab'))
-            result = dialog.run()
-            dialog.destroy()
+            result = self.construct_confirm_close(self.window, _('tab'))
 
             if result == gtk.RESPONSE_ACCEPT:
                 containers = None
@@ -339,9 +358,6 @@ class Notebook(Container, gtk.Notebook):
         else:
             err('Notebook::closetab: child is unknown type %s' % child)
             return
-
-        nb.remove_page(tabnum)
-        del(label)
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
@@ -402,6 +418,65 @@ class Notebook(Container, gtk.Notebook):
             # Find the last terminal in the new parent and give it focus
             terms = parent.get_visible_terminals()
             terms.keys()[-1].grab_focus()
+
+    def page_num_descendant(self, widget):
+        """Find the tabnum of the tab containing a widget at any level"""
+        tabnum = self.page_num(widget)
+        dbg("widget is direct child if not equal -1 - tabnum: %d" % tabnum)
+        while tabnum == -1 and widget.get_parent():
+            widget = widget.get_parent()
+            tabnum = self.page_num(widget)
+        dbg("found tabnum containing widget: %d" % tabnum)
+        return tabnum
+
+    def set_last_active_term(self, uuid):
+        """Set the last active term for uuid"""
+        widget = self.terminator.find_terminal_by_uuid(uuid.urn)
+        if not widget:
+            err("Cannot find terminal with uuid: %s, so cannot make it active" % (uuid.urn))
+            return
+        tabnum = self.page_num_descendant(widget)
+        if tabnum == -1:
+            err("No tabnum found for terminal with uuid: %s" % (uuid.urn))
+            return
+        nth_page = self.get_nth_page(tabnum)
+        self.last_active_term[nth_page] = uuid
+
+    def clean_last_active_term(self):
+        """Clean up old entries in last_active_term"""
+        if self.terminator.doing_layout == True:
+            return
+        last_active_term = {}
+        for tabnum in xrange(0, self.get_n_pages()):
+            nth_page = self.get_nth_page(tabnum)
+            if nth_page in self.last_active_term:
+                last_active_term[nth_page] = self.last_active_term[nth_page]
+        self.last_active_term = last_active_term
+
+    def deferred_on_tab_switch(self, notebook, page,  page_num,  data=None):
+        """Prime a single idle tab switch signal, using the most recent set of params"""
+        tabs_last_active_term = self.last_active_term.get(self.get_nth_page(page_num),  None)
+        data = {'tabs_last_active_term':tabs_last_active_term}
+        
+        self.pending_on_tab_switch_args = (notebook, page,  page_num,  data)
+        if self.pending_on_tab_switch == True:
+            return
+        gobject.idle_add(self.do_deferred_on_tab_switch)
+        self.pending_on_tab_switch = True
+
+    def do_deferred_on_tab_switch(self):
+        """Perform the latest tab switch signal, and resetting the pending flag"""
+        self.on_tab_switch(*self.pending_on_tab_switch_args)
+        self.pending_on_tab_switch = False
+        self.pending_on_tab_switch_args = None
+
+    def on_tab_switch(self, notebook, page,  page_num,  data=None):
+        """Do the real work for a tab switch"""
+        tabs_last_active_term = data['tabs_last_active_term']
+        if tabs_last_active_term:
+            term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
+            gobject.idle_add(term.ensure_visible_and_focussed)
+        return True
 
 class TabLabel(gtk.HBox):
     """Class implementing a label widget for Notebook tabs"""

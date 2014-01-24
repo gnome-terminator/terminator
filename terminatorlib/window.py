@@ -5,12 +5,13 @@
 
 import copy
 import time
+import uuid
 import pygtk
 pygtk.require('2.0')
 import gobject
 import gtk
 
-from util import dbg, err
+from util import dbg, err, make_uuid
 import util
 from translation import _
 from version import APP_NAME
@@ -38,6 +39,7 @@ class Window(Container, gtk.Window):
     position = None
     ignore_startup_show = None
     set_pos_by_ratio = None
+    last_active_term = None
 
     zoom_data = None
 
@@ -239,6 +241,17 @@ class Window(Container, gtk.Window):
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
+        term = None
+        if self.is_child_notebook():
+            # TODO: Will need some code for the tabs active terms to work
+            pass
+        else:
+            if isinstance(self.last_active_term, uuid.UUID):
+                term = self.terminator.find_terminal_by_uuid(self.last_active_term.urn)
+        if term:
+            gobject.idle_add(term.ensure_visible_and_focussed)
+        if not self.terminator.doing_layout:
+            self.terminator.last_active_window = self.uuid
         # FIXME: Cause the terminal titlebars to update here
 
     def is_child_notebook(self):
@@ -864,6 +877,12 @@ class Window(Container, gtk.Window):
             return
 
         self.get_children()[0].create_layout(child)
+
+        if layout.has_key('last_active_term') and layout['last_active_term'] not in ['', None]:
+            self.last_active_term = make_uuid(layout['last_active_term'])
+
+        if layout.has_key('last_active_window') and layout['last_active_window'] == 'True':
+            self.terminator.last_active_window = self.uuid
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

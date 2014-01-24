@@ -263,6 +263,7 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         
         if hasattr(self, 'isfullscreen'):
             layout['fullscreen'] = self.isfullscreen
+        
         if hasattr(self, 'ratio'):
             layout['ratio'] = self.ratio
 
@@ -272,15 +273,26 @@ the %s will also close all terminals within it.') % (reqtype, reqtype))
         if hasattr(self, 'title'):
             layout['title'] = self.title.text
 
-        labels = []
         if mytype == 'Notebook':
+            labels = []
+            last_active_term = []
             for tabnum in xrange(0, self.get_n_pages()):
                 page = self.get_nth_page(tabnum)
                 label = self.get_tab_label(page)
                 labels.append(label.get_custom_label())
-            layout['active_page'] = self.get_current_page()
-        if len(labels) > 0:
+                last_active_term.append(self.last_active_term[self.get_nth_page(tabnum)])
             layout['labels'] = labels
+            layout['last_active_term'] = last_active_term
+            layout['active_page'] = self.get_current_page()
+        else:
+            if hasattr(self, 'last_active_term') and self.last_active_term is not None:
+                layout['last_active_term'] = self.last_active_term
+
+        if mytype == 'Window':
+            if self.uuid == self.terminator.last_active_window:
+                layout['last_active_window'] = True
+            else:
+                layout['last_active_window'] = False
 
         name = 'child%d' % count
         count = count + 1
