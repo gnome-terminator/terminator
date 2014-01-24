@@ -159,7 +159,6 @@ class Terminator(Borg):
             dbg('Terminator::register_terminal: registering %s:%s' %
                     (id(terminal), type(terminal)))
             self.terminals.append(terminal)
-            terminal.connect('ungroup-all', self.ungroup_all)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
@@ -327,12 +326,6 @@ class Terminator(Borg):
         if name not in self.groups:
             dbg('Terminator::create_group: registering group %s' % name)
             self.groups.append(name)
-
-    def ungroup_all(self, widget):
-        """Remove all groups"""
-        for terminal in self.terminals:
-            terminal.set_group(None, None)
-        self.groups = []
 
     def closegroupedterms(self, group):
         """Close all terminals in a group"""
