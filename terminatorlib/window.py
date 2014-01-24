@@ -411,8 +411,10 @@ class Window(Container, gtk.Window):
                        'unzoom': self.unzoom,
                        'tab-change': self.tab_change,
                        'group-all': self.group_all,
+                       'group-all-toggle': self.group_all_toggle,
                        'ungroup-all': self.ungroup_all,
                        'group-tab': self.group_tab,
+                       'group-tab-toggle': self.group_tab_toggle,
                        'ungroup-tab': self.ungroup_tab,
                        'move-tab': self.move_tab,
                        'tab-new': [self.tab_new, widget],
@@ -687,21 +689,29 @@ class Window(Container, gtk.Window):
         # change
         child.set_current_page(child.get_current_page())
 
-    # FIXME: All of these (un)group_(all|tab) methods need refactoring work
+    def set_groups(self, new_group,  term_list):
+        """Set terminals in term_list to new_group"""
+        for terminal in term_list:
+            terminal.set_group(None, new_group)
+        self.terminator.focus_changed(self.terminator.last_focused_term)
+
     def group_all(self, widget):
         """Group all terminals"""
         # FIXME: Why isn't this being done by Terminator() ?
         group = _('All')
         self.terminator.create_group(group)
-        for terminal in self.terminator.terminals:
-            terminal.set_group(None, group)
-        self.terminator.focus_changed(self.terminator.last_focused_term)
+        self.set_groups(group, self.terminator.terminals)
+
+    def group_all_toggle(self, widget):
+        """Toggle grouping to all"""
+        if widget.group == 'All':
+            self.ungroup_all(widget)
+        else:
+            self.group_all(widget)
 
     def ungroup_all(self, widget):
         """Ungroup all terminals"""
-        for terminal in self.terminator.terminals:
-            terminal.set_group(None, None)
-        self.terminator.focus_changed(self.terminator.last_focused_term)
+        self.set_groups(None, self.terminator.terminals)
 
     def group_tab(self, widget):
         """Group all terminals in the current tab"""
@@ -718,9 +728,14 @@ class Window(Container, gtk.Window):
             if group not in self.terminator.groups:
                 break
             pagenum += 1
-        for terminal in self.get_visible_terminals():
-            terminal.set_group(None, group)
-        self.terminator.focus_changed(self.terminator.last_focused_term)
+        self.set_groups(group, self.get_visible_terminals())
+
+    def group_tab_toggle(self, widget):
+        """Blah"""
+        if widget.group and widget.group[:4] == 'Tab ':
+            self.ungroup_tab(widget)
+        else:
+            self.group_tab(widget)
 
     def ungroup_tab(self, widget):
         """Ungroup all terminals in the current tab"""
@@ -731,9 +746,7 @@ class Window(Container, gtk.Window):
             dbg('note in a notebook, refusing to ungroup tab')
             return
         
-        for terminal in self.get_visible_terminals():
-            terminal.set_group(None, None)
-        self.terminator.focus_changed(self.terminator.last_focused_term)
+        self.set_groups(None, self.get_visible_terminals())
 
     def move_tab(self, widget, direction):
         """Handle a keyboard shortcut for moving tab positions"""

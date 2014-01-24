@@ -46,6 +46,7 @@ class Terminal(gtk.VBox):
         'enumerate': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_INT,)),
         'group-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'group-tab-toggle': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'ungroup-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'split-horiz': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -69,6 +70,7 @@ class Terminal(gtk.VBox):
         'tab-change': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_INT,)),
         'group-all': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'group-all-toggle': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
         'move-tab': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, 
             (gobject.TYPE_STRING,)),
     }
@@ -1679,12 +1681,18 @@ class Terminal(gtk.VBox):
     def key_group_all(self):
         self.emit('group-all')
 
+    def key_group_all_toggle(self):
+        self.emit('group-all-toggle')
+
     def key_ungroup_all(self):
         self.emit('ungroup-all')
 
     def key_group_tab(self):
         self.emit('group-tab')
-    
+
+    def key_group_tab_toggle(self):
+        self.emit('group-tab-toggle')
+
     def key_ungroup_tab(self):
         self.emit('ungroup-tab')
 
