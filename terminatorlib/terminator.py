@@ -57,7 +57,7 @@ class Terminator(Borg):
         if not self.groups:
             self.groups = []
         if self.groupsend == None:
-            self.groupsend = self.groupsend_type['group']
+            self.groupsend = self.groupsend_type['off']
         if not self.config:
             self.config = Config()
         if not self.keybindings:
