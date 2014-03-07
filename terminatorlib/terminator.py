@@ -56,10 +56,10 @@ class Terminator(Borg):
             self.terminals = []
         if not self.groups:
             self.groups = []
-        if self.groupsend == None:
-            self.groupsend = self.groupsend_type['off']
         if not self.config:
             self.config = Config()
+        if self.groupsend == None:
+            self.groupsend = self.groupsend_type[self.config['broadcast_group']]
         if not self.keybindings:
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
@@ -369,6 +369,9 @@ class Terminator(Borg):
             child = window.get_child()
             if maker.isinstance(child, 'Notebook'):
                 child.configure()
+
+        # Set broadcasting group
+        self.groupsend = self.groupsend_type[self.config['broadcast_group']]
 
     def create_group(self, name):
         """Create a new group"""

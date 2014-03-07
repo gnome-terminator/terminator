@@ -83,6 +83,7 @@ DEFAULTS = {
             'window_state'          : 'normal',
             'borderless'            : False,
             'tab_position'          : 'top',
+            'broadcast_group'       : 'group',
             'close_button_on_tab'   : True,
             'hide_tabbar'           : False,
             'scroll_tabbar'         : False,
