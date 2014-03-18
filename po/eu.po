@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-11-01 12:47+0000\n"
+"PO-Revision-Date: 2014-03-17 23:06+0000\n"
 "Last-Translator: Asier Iturralde Sarasola <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-03-18 05:30+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -236,7 +236,7 @@ msgstr "Zehaztu terminal barruan exekutatzeko komando bat"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Zehaztu konfigurazio-fitxategi bat"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -257,6 +257,8 @@ msgstr ""
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
 msgstr ""
+"Ezarri leihoarentzako ikono pertsonalizatu bat (fitxategi edo izenaren "
+"arabera)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -288,7 +290,7 @@ msgstr "Komaz banandutako metodoen zerrenda arazketa mugatzeko"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Terminator dagoeneko martxan badago, ireki fitxa berri bat"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -352,55 +354,55 @@ msgstr "Terminalaren argazkia"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automatikoa"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Ktrl+H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII EZAB"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Ihes-sekuentzia"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Irten terminaletik"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Berrabiarazi komandoa"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Utzi terminala irekita"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Beltza hori argiaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Beltza zuriaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Grisa beltzaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Berdea beltzaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Txuria beltzaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Laranja beltzaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -408,7 +410,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Pertsonalizatua"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -424,7 +426,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Gnomeren lehenetsia"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -436,71 +438,71 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "Ezkerreko aldean"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Eskuineko aldean"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Desgaituta"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Goian"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Behean"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Ezkerrean"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Eskuinean"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Ezkutatua"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normala"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maximizatua"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Pantaila osoa"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "lehenetsia"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Terminator hobespenak"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -508,31 +510,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Leihoaren egoera"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Leihoaren ertzak"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Fitxen kokalekua"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Saguaren fokoa"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Terminalen banatzailearen tamaina"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Ezkutatu ataza-barratik"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Beti gainean"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -544,7 +546,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus zerbitzaria"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
@@ -568,7 +570,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
-msgstr ""
+msgstr "<b>Titulu-barra</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
@@ -580,31 +582,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Terminal inaktiboa"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Letra-tipoaren kolorea"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Atzeko planoa"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Globala"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "_Erabili sistemaren zabalera finkoko letra-tipoa"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Letra-tipoa:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Aukeratu terminalaren letra-tipoa"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
@@ -616,11 +618,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Erakutsi izenburu-barra"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Kopiatu hautatzean"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -628,15 +630,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Kurtsorea</b>"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Kurtsorearen kolorea:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr ""
+msgstr "Kurtsorearen _forma:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
@@ -648,7 +650,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
-msgstr ""
+msgstr "Izenburu-barraren ikonoa"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
@@ -664,11 +666,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Orokorra"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr ""
+msgstr "<b>Komandoa</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
@@ -684,7 +686,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Ko_mando pertsonalizatua:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
@@ -692,23 +694,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Komandoa"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Aurreko eta atzeko planoa</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "_Testuaren kolorea:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "Erabili _sistemaren gaiaren koloreak"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Atzeko planoaren kolorea:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
@@ -716,15 +718,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Aukeratu terminalaren testuaren kolorea"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Aukeratu terminalaren atzeko planoko kolorea"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Paleta</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -742,7 +744,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Koloreak"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
@@ -750,23 +752,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "_Atzeko planoko irudia"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "_Irudi fitxategia:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Hautatu atzeko planoko irudia"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "_Atzeko planoko irudia korritzen da"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "Atzeko plano _gardena"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
