@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-03-17 23:06+0000\n"
+"PO-Revision-Date: 2014-03-25 20:32+0000\n"
 "Last-Translator: Asier Iturralde Sarasola <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-18 05:30+0000\n"
-"X-Generator: Launchpad (build 16963)\n"
+"X-Launchpad-Export-Date: 2014-03-26 05:39+0000\n"
+"X-Generator: Launchpad (build 16967)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Ez erakutsi mezu hau hurrengo aldian"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -229,6 +229,7 @@ msgstr "Zehaztu leihoaren izenburua"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Ezarri hobetsitako leihoaren tamaina eta kokapena (ikusi X man orria)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -252,7 +253,7 @@ msgstr "Ezarri laneko direktorioa"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Ezarri leihoaren izen pertsonalizatuko (WM_CLASS) propietate bat"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
@@ -430,11 +431,11 @@ msgstr "Gnomeren lehenetsia"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Klikatu fokuratzeko"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Jarraitu saguaren erakuslea"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
@@ -538,11 +539,11 @@ msgstr "Beti gainean"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Ezkutatu fokua galtzean"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Erakutsi laneko area guztietan"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -550,23 +551,23 @@ msgstr "DBus zerbitzaria"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Ezkutatu tamaina izenburutik"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr ""
+msgstr "Fokurik gabeko terminalaren letra-tipoaren distira"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Erabili URL maneiatzaile pertsonalizatua"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "URL maneiatzaile pertsonalizatua"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "Berrerabili profilak terminal berrietan"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
@@ -610,7 +611,7 @@ msgstr "Aukeratu terminalaren letra-tipoa"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Onartu testu lodia"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -642,7 +643,7 @@ msgstr "Kurtsorearen _forma:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "Kurtsorearen keinua"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
@@ -740,7 +741,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "Kolore-_paleta:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
@@ -748,7 +749,7 @@ msgstr "Koloreak"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "_Kolore solidoa"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
@@ -776,11 +777,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Bat ere ez</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Maximoa</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
@@ -788,15 +789,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Korritu _tekla sakatutakoan"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Korritu _irteeran"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
-msgstr ""
+msgstr "lerro"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
@@ -804,15 +805,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "_Atzera korritu:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Atzera korritze infinitua"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
-msgstr ""
+msgstr "Korritzea"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid ""
@@ -821,30 +822,34 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Oharra:</b> aukera hauek aplikazio batzuen funtzionamendua "
+"oztopa dezakete. Terminaletan beste portaera bat espero duten zenbait "
+"aplikazio eta sistema eragilerekin lan egin ahal izateko bakarrik eskaintzen "
+"dira.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "'_Ezabatu' tekla sakatutakoan:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "'_Atzera-tekla' sakatutakoan:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Berrezarri bateragarritasun-aukerak lehenetsietara"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
-msgstr ""
+msgstr "<b>Kodeketa</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "Lehenetsia:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Bateragarritasuna"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -853,27 +858,27 @@ msgstr "Profilak"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "Profila"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Komando pertsonalizatua"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Diseinuak"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Laster-teklak"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Plugin honek ez dauka konfigurazioko aukerarik"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginak"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
@@ -1062,11 +1067,11 @@ msgstr "Ezin izan da shell-ik abiarazi:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Berrizendatu leihoa"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Sartu Terminator leihoaren izenburu berria..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
