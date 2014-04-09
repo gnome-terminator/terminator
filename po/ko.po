@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-09-01 09:00+0000\n"
-"Last-Translator: Seonghun Lim <Unknown>\n"
+"PO-Revision-Date: 2014-04-08 07:59+0000\n"
+"Last-Translator: Chang Geon Kang <kangha02@naver.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-04-09 05:37+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -46,7 +46,7 @@ msgstr "이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "다음번에는 이 메시지를 표시하지 않기"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -284,7 +284,7 @@ msgstr "디버깅을 제한할 메소드들의 쉼표 구분 목록"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "만약 Terminator가 이미 실행중이라면, 새 탭을 여는것을 추천합니다"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -363,15 +363,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "터미널 끝내기"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "명령어 다시 시작"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "터미널을 열린 채로 유지"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
@@ -419,7 +419,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME 기본값"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -435,7 +435,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "리눅스"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
