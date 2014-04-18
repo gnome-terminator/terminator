@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-08-22 18:19+0000\n"
-"Last-Translator: Kostas Milonas <milonas.ko@gmail.com>\n"
+"PO-Revision-Date: 2014-04-17 15:03+0000\n"
+"Last-Translator: James Spentzos <jamesspentzos@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-04-18 05:31+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Μην δείξεις αυτό το μήνυμα την επόμενη φορά"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -229,6 +229,7 @@ msgstr "Ορισμός τίτλου για το παράθυρο"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Ορίστε το προτιμώμενο μέγεθος και θέση του παραθύρου (βλ. τη σελίδα X man)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
