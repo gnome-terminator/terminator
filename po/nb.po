@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-08-21 01:24+0000\n"
+"PO-Revision-Date: 2014-04-22 23:32+0000\n"
 "Last-Translator: Magnus Meyer Hustveit <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-04-23 05:37+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -43,8 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Denne %s har flere terminaler åpne. Lukk %s vil også lukke alle terminaler "
-"inni den."
+"Denne %s har flere terminaler åpne. Lukkes %s vil også alle terminaler inni "
+"den lukkes."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -67,7 +67,7 @@ msgstr "Sentral-Europeisk"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Syd-Europeisk"
+msgstr "Syd-europeisk"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
@@ -212,7 +212,7 @@ msgstr "Maksimer vinduet"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
-msgstr "Vinduet skal fylle hele skjermen"
+msgstr "La vinduet fylle skjermen"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
@@ -257,7 +257,7 @@ msgstr "Gi vinduet (WM_CLASS) et egendefinert navn"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Velg et egendefinert ikon for vinduet"
+msgstr "Velg et egendefinert ikon for vinduet (ved fil eller navn)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -316,11 +316,11 @@ msgstr "Slutt å se etter inaktivitet"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Dine Kommandoer"
+msgstr "Tilpassede kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Din Kommando Konfigurasjon"
+msgstr "Konfigurering for tilpassede kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
