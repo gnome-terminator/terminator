@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2010-03-19 14:47+0000\n"
-"Last-Translator: Yoavk <Unknown>\n"
+"PO-Revision-Date: 2014-05-01 13:05+0000\n"
+"Last-Translator: levi <levi0x0x@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-05-02 05:29+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
-msgstr ""
+msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "אל תראה הודעה זאת בפעם הבאה"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -174,24 +174,24 @@ msgstr "פרסית"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr ""
+msgstr "גוג׳ראטית"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr ""
+msgstr "גורמוקי"
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "איסלנדית"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "וייטנאמית"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr ""
+msgstr "תאית"
 
 #: ../terminatorlib/notebook.py:305
 msgid "tab"
@@ -203,39 +203,39 @@ msgstr "סגור לשוניות"
 
 #: ../terminatorlib/optionparse.py:48
 msgid "Display program version"
-msgstr ""
+msgstr "הצגת גרסת תוכנה"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
-msgstr ""
+msgstr "הגדל את החלון"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "הפוך את החלון למסך מלא"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
-msgstr ""
+msgstr "השבת את גבולות החלון"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "הסתר את החלון בהפעלה"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "ציין את כותרת החלון"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
+msgstr "הגדר את הגודל והמיקום המועדף של החלון (ראה X דף man)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "ציין פקודה להרצה במסוף"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "ציין את קובץ ההגדרות"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -245,15 +245,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Set the working directory"
-msgstr ""
+msgstr "הגדר את תיקיית העבודה"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "הגדר שם מותאם (WM_CLASS) בשטח החלון"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "הגדר אייקון מותאם לחלון (על ידי קובץ או שם)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
