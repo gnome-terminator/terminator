@@ -241,7 +241,7 @@ class Titlebar(gtk.EventBox):
         else:
             defaultmembers=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
                            'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
-                           'Omnicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
+                           'Omicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
                            'Chi','Psi','Omega']
             currentgroups=set(self.terminator.groups)
             for i in range(1,4):
