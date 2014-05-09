@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-04-22 23:32+0000\n"
+"PO-Revision-Date: 2014-05-08 11:23+0000\n"
 "Last-Translator: Magnus Meyer Hustveit <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-23 05:37+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-09 05:37+0000\n"
+"X-Generator: Launchpad (build 16996)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -196,7 +196,7 @@ msgstr "Thai"
 
 #: ../terminatorlib/notebook.py:305
 msgid "tab"
-msgstr "tabulator"
+msgstr "fane"
 
 #: ../terminatorlib/notebook.py:469
 msgid "Close Tab"
@@ -281,13 +281,11 @@ msgstr "Aktiver feilsøkingsinformasjon (to ganger for feilsøkingstjener)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
-"Kommaseparert liste over klasser som feilsøkingen skal forholde seg til"
+msgstr "Kommaseparert liste over klasser som feilsøkinga skal begrenses til"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
-"Kommaseparert liste over metoder som feilsøkingen skal forholde seg til"
+msgstr "Kommaseparert liste over metoder som feilsøkinga skal begrenses til"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
@@ -407,7 +405,7 @@ msgstr "Oransje på svart"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr "Stemningseffekt"
+msgstr "Atmosfære"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
