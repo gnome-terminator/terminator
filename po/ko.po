@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-05-04 05:12+0000\n"
-"Last-Translator: Chang Geon Kang <kangha02@naver.com>\n"
+"PO-Revision-Date: 2014-05-16 06:02+0000\n"
+"Last-Translator: Hur, Seok <ludishur@whitehorizon.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-05 05:34+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-05-17 05:33+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -379,7 +379,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "흰 바탕에 검정 글씨"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
@@ -387,15 +387,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "검정 바탕에 녹색 글씨"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "검정 바탕에 흰 글씨"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "검정 바탕에 주황 글씨"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "사용자정의"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -411,7 +411,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "밑줄"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
