@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-05-16 06:02+0000\n"
+"PO-Revision-Date: 2014-05-20 02:52+0000\n"
 "Last-Translator: Hur, Seok <ludishur@whitehorizon.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-17 05:33+0000\n"
-"X-Generator: Launchpad (build 17007)\n"
+"X-Launchpad-Export-Date: 2014-05-20 05:35+0000\n"
+"X-Generator: Launchpad (build 17009)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -351,15 +351,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "<Control-H>"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "아스키 DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "이스케이프 시퀀스"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
@@ -375,7 +375,7 @@ msgstr "터미널을 열린 채로 유지"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "연노란 바탕에 검정 글씨"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
@@ -383,7 +383,7 @@ msgstr "흰 바탕에 검정 글씨"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "검정 바탕에 회색 글씨"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
@@ -415,7 +415,7 @@ msgstr "밑줄"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "I 빔"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
@@ -443,19 +443,19 @@ msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "왼쪽 옆에"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "오른쪽 옆에"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "사용하지 않음"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
@@ -471,15 +471,15 @@ msgstr "왼쪽"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "오른쪽"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "숨김"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "표준"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
@@ -487,15 +487,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "전체화면"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "기본값"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "터미네이터 설정"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -503,11 +503,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "창 상태"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "창 테두리"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
@@ -519,7 +519,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "창 분할 두께"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
@@ -527,7 +527,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "항상 맨 위에"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -833,11 +833,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr ""
+msgstr "기본값:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "호환성"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -846,23 +846,23 @@ msgstr "프로파일"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Profile"
-msgstr ""
+msgstr "프로파일"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "사용자 정의 명령"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "레이아웃"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "키 설정"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "이 플러그인은 옵션 설정이 없음"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
