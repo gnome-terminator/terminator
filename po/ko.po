@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-05-26 06:00+0000\n"
+"PO-Revision-Date: 2014-05-27 05:48+0000\n"
 "Last-Translator: Hur, Seok <ludishur@whitehorizon.net>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-27 05:27+0000\n"
+"X-Launchpad-Export-Date: 2014-05-28 05:29+0000\n"
 "X-Generator: Launchpad (build 17017)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -234,7 +234,7 @@ msgstr "터미널 안에서 실행할 명령을 지정합니다"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "설정파일을 지정합니다"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -407,7 +407,7 @@ msgstr "사용자정의"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "차단"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -511,7 +511,7 @@ msgstr "창 테두리"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "탭위치"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
@@ -535,7 +535,7 @@ msgstr "비활성화 되면 숨기기"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "모든 워크스페이스 보기"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -551,15 +551,15 @@ msgstr "비활성 터미널 폰트 밝기"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "사용자 URL 연결프로그램 사용하기"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "사용자 URL 연결프로그램"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "새로운 터미널에서 프로파일 재사용"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "<b>Titlebar</b>"
@@ -587,7 +587,7 @@ msgstr "배경색"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "일반설정"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
@@ -635,7 +635,7 @@ msgstr "커서 모양(_S):"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
-msgstr ""
+msgstr "커서 깜박이기"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
