@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-01-21 18:06+0000\n"
-"Last-Translator: Oleg Baykov <krimdono@yandex.ru>\n"
+"PO-Revision-Date: 2014-06-08 12:59+0000\n"
+"Last-Translator: Vyacheslav Sharmanov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-06-09 05:28+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
-msgstr "Terminator — работа с командной строкой"
+msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
