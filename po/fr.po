@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-01-12 08:10+0000\n"
-"Last-Translator: ymadec <ymadec@myopera.com>\n"
+"PO-Revision-Date: 2014-06-24 10:13+0000\n"
+"Last-Translator: puppetmaster <driquezbenjamin@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-06-25 05:29+0000\n"
+"X-Generator: Launchpad (build 17065)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -31,11 +31,11 @@ msgstr "Fermer ?"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
-msgstr "Close Terminals?"
+msgstr "Fermer les _terminaux"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Fermer plusieurs terminaux?</b></big>"
+msgstr "<big><b>Fermer tous les terminaux ?</b></big>"
 
 #: ../terminatorlib/container.py:175
 #, python-format
@@ -43,8 +43,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Ce %s a plusieurs terminaux ouverts. Fermer le %s fermera tout les terminaux "
-"qui en dépend."
+"Ce %s a plusieurs terminaux ouverts. Fermer le %s fermera tous les terminaux "
+"qui en dépendent."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -72,7 +72,7 @@ msgstr "Europe du Sud"
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Balte"
+msgstr "Baltique"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
@@ -628,7 +628,7 @@ msgstr "Copier la sélection"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "Sélectionner par caractères des _mots"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -664,7 +664,7 @@ msgstr "Bip sonore"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "Liste de fenêtres instantanée"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
@@ -686,15 +686,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "Exécuter une comma_nde personnalisée au lieu de mon shell"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Co_mmande personnalisée :"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "Quand la commande se _termine :"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
@@ -702,7 +702,7 @@ msgstr "Commande"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Premier et arrière plans</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
@@ -718,7 +718,7 @@ msgstr "_Couleur d'arrière-plan :"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "_Palettes prédéfinies :"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
@@ -734,17 +734,19 @@ msgstr "<b>Palette</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Pa_lettes prédéfinies :"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Remarque :</b> Les terminaux ont ces couleurs à leur "
+"disposition.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "P_alette de couleurs :"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
@@ -752,15 +754,15 @@ msgstr "Couleurs"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "Couleur _unie"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "Image d'arrière-plan"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "_Fichier image :"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
@@ -768,7 +770,7 @@ msgstr "Sélectionner une image d'arrière-plan"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr ""
+msgstr "L'image d'arrière-plan _défile"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
@@ -776,7 +778,7 @@ msgstr "Arrière-plan _transparent"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "_Ombrage transparent ou image d'arrière-plan :"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
@@ -789,14 +791,16 @@ msgstr "<small><i>Maximum</i></small>"
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
 msgstr ""
+"Utiliser des combinaisons de touches pour le défilement sur un écrans "
+"_alternatif"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "Défilement sur _pression d'une touche"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Défilement sur la _sortie"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
@@ -804,15 +808,15 @@ msgstr "lignes"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "La _barre de défilement est :"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr ""
+msgstr "Défilement récursif"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Défilement infini"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Scrolling"
@@ -825,14 +829,19 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Remarque:</b> Ces options peuvent perturber le bon "
+"fonctionnement de certaines applications. Elles sont ici uniquement pour "
+"vous permettre de contourner certaines applications ou systèmes "
+"d'exploitation qui prévoient des comportements différents pour le "
+"terminal.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "La touche _Supprime émet :"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "La touche _Retour arrière génère :"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
@@ -861,19 +870,19 @@ msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr ""
+msgstr "Commande personnalisée"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
-msgstr ""
+msgstr "Dispositions"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Raccourcis clavier"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Ce greffon n'a pas d'options de configuration"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
