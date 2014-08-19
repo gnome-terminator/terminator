@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-05-27 05:48+0000\n"
-"Last-Translator: Hur, Seok <ludishur@whitehorizon.net>\n"
+"PO-Revision-Date: 2014-08-19 00:09+0000\n"
+"Last-Translator: Seunghyo Chun <seunghyo.chun@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-28 05:29+0000\n"
-"X-Generator: Launchpad (build 17017)\n"
+"X-Launchpad-Export-Date: 2014-08-19 05:44+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -226,7 +226,7 @@ msgstr "창 제목을 지정합니다"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
+msgstr "윈도우의 크기와 위치를 조정하세요. (X man 페이지 참고)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -248,11 +248,11 @@ msgstr "현재 디렉터리를 설정합니다"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "윈도우에 사용자 정의 이름 설정 (WM_CLASS)"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "윈도우에 사용자 정의 아이콘 설정"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -399,7 +399,7 @@ msgstr "검정 바탕에 주황 글씨"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "앰비언스"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
@@ -499,7 +499,7 @@ msgstr "터미네이터 설정"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "윈도우 위치/크기 힌트"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
@@ -539,11 +539,11 @@ msgstr "모든 워크스페이스 보기"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus 서버"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "타이틀 바에서 크기를 표시하지 않기"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
@@ -567,7 +567,7 @@ msgstr "<b>타이틀바</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "수신 터미널"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
@@ -575,7 +575,7 @@ msgstr "활성화된 터미널"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "비활성화 터미널"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
@@ -639,7 +639,7 @@ msgstr "커서 깜박이기"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>터미널 벨</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
@@ -647,11 +647,11 @@ msgstr "타이틀바 아이콘"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "화면 깜빡 거림"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "비프 음"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
@@ -777,7 +777,7 @@ msgstr "<small><i>최대</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "_alternate 화면에서 키 입력을 사용해 스크롤"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
