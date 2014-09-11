@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-06-08 12:59+0000\n"
-"Last-Translator: Vyacheslav Sharmanov <Unknown>\n"
+"PO-Revision-Date: 2014-09-10 15:11+0000\n"
+"Last-Translator: Павел Рощин <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-09 05:28+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-09-11 05:48+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -208,7 +208,7 @@ msgstr "Версия программы"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
-msgstr "Рзвернуть окно"
+msgstr "Развернуть окно"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
@@ -414,7 +414,7 @@ msgstr "Пользовательский"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr "Заблокировать"
+msgstr "Прямоугольник"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -454,51 +454,51 @@ msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "С левой стороны"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "С правой стороны"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Выключена"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Сверху"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Снизу"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Слева"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Справа"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Скрывать"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Стандартное"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr "Максимальная"
+msgstr "Развёрнутое"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr "Полноэкранный  режим"
+msgstr "Полноэкранный режим"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr "по  умолчанию"
+msgstr "по умолчанию"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
@@ -518,7 +518,7 @@ msgstr "Рамки окон"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr "Положение  вкладок"
+msgstr "Положение вкладок"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
@@ -542,7 +542,7 @@ msgstr "Скрыть потери фокуса"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr "Показать на всех рабочих"
+msgstr "Отображать на всех рабочих столах"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -554,7 +554,7 @@ msgstr "Скрыть размер из названия"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
-msgstr "Яркость несфокусированного шрифта терминала"
+msgstr "Яркость шрифта неактивного терминала"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
@@ -586,7 +586,7 @@ msgstr "Неактивный терминал"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr "Цвет  шрифта"
+msgstr "Цвет шрифта"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
@@ -638,7 +638,7 @@ msgstr "Цвет курсора:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
-msgstr "_Форма  курсора:"
+msgstr "_Форма курсора:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Cursor blink"
@@ -654,7 +654,7 @@ msgstr "Иконка заголовка"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr "Видимый сигнал(мигание)"
+msgstr "Видимый сигнал (мигание)"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
@@ -670,11 +670,11 @@ msgstr "Общий"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
-msgstr "<b>Команда </b>"
+msgstr "<b>Команда</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr "За_пускать команду  как оболочку входа"
+msgstr "За_пускать команду как оболочку входа"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
@@ -682,7 +682,7 @@ msgstr "_Обновление записи регистрации, когда з
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr "Зап_ускать  другую команду вместо моей оболочки"
+msgstr "Зап_ускать другую команду вместо моей оболочки"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
@@ -702,35 +702,35 @@ msgstr "<b>Переднего и заднего плана</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr "Цвет  _текста:"
+msgstr "Цвет _текста:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr "_Использовать цвета  из системной темы"
+msgstr "_Использовать цвета из системной темы"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr "_Цвет  фона:"
+msgstr "_Цвет фона:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr "Встроенные  с_хемы:"
+msgstr "Встроенные с_хемы:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr "Выбрать цвет  текста терминала"
+msgstr "Выбрать цвет текста терминала"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr "Выбрать цвет  фона терминала"
+msgstr "Выбрать цвет фона терминала"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr "<b>Палитра </b>"
+msgstr "<b>Палитра</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr "Встроенные  сх_емы:"
+msgstr "Встроенные сх_емы:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
@@ -754,27 +754,27 @@ msgstr "_Сплошной цвет"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr "Ф_оновое  изображение"
+msgstr "Ф_оновое изображение"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr "_Файл  изображения:"
+msgstr "_Файл изображения:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr "Выбрать  фоновое изображение"
+msgstr "Выбрать фоновое изображение"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
-msgstr "Прокр_учивать  изображение фона"
+msgstr "Прокр_учивать изображение фона"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr "_Прозрачный  фон"
+msgstr "_Прозрачный фон"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr "За_темнять  прозрачность или изображение фона:"
+msgstr "За_темнять прозрачность или изображение фона:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
@@ -791,11 +791,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
-msgstr "Прок_ручивать  при нажатии клавиши"
+msgstr "Прок_ручивать при нажатии клавиши"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Scroll on _output"
-msgstr "Прокру_чивать  при выводе"
+msgstr "Прокру_чивать при выводе"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "lines"
@@ -803,11 +803,11 @@ msgstr "строки"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr "_Полоса  прокрутки:"
+msgstr "_Полоса прокрутки:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
-msgstr "О_братная  прокрутка:"
+msgstr "О_братная прокрутка:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Infinite Scrollback"
@@ -839,7 +839,7 @@ msgstr "Клавиша _Backspace генерирует:"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "_Reset Compatibility Options to Defaults"
-msgstr "_Восстановить  параметры совместимости по умолчанию"
+msgstr "_Восстановить параметры совместимости по умолчанию"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<b>Encoding</b>"
@@ -847,7 +847,7 @@ msgstr "<b>Кодирование</b>"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "Default:"
-msgstr "По  умолчанию:"
+msgstr "По умолчанию:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
@@ -864,7 +864,7 @@ msgstr "Профиль"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr "Команда  пользователя"
+msgstr "Команда пользователя"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
@@ -872,7 +872,7 @@ msgstr "Шаблоны"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr "Комбинации  клавиш"
+msgstr "Комбинации клавиш"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
