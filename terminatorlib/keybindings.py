@@ -23,7 +23,7 @@ keyboard shortcuts.
 """
 
 import re
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from util import err
 
 class KeymapError(Exception):
@@ -39,7 +39,7 @@ class Keybindings:
         'primary':  Gdk.ModifierType.CONTROL_MASK,
         'shift':    Gdk.ModifierType.SHIFT_MASK,
         'alt':      Gdk.ModifierType.MOD1_MASK,
-        'super':    Gdk.EventMask.SUPER_MASK,
+        'super':    Gdk.ModifierType.SUPER_MASK,
     }
 
     empty = {}
@@ -48,7 +48,7 @@ class Keybindings:
     _lookup = None
 
     def __init__(self):
-        self.keymap = Gdk.keymap_get_default()
+        self.keymap = Gdk.Keymap.get_default()
         self.configure({})
 
     def configure(self, bindings):
@@ -115,9 +115,9 @@ class Keybindings:
     def lookup(self, event):
         """Translate a keyboard event into a mapped key"""
         try:
-            keyval, _egp, _lvl, consumed = self.keymap.translate_keyboard_state(
+            _found, keyval, _egp, _lvl, consumed = self.keymap.translate_keyboard_state(
                                               event.hardware_keycode, 
-                                              event.get_state() & ~Gdk.ModifierType.LOCK_MASK, 
+                                              Gdk.ModifierType(event.get_state() & ~Gdk.ModifierType.LOCK_MASK),
                                               event.group)
         except TypeError:
             err ("keybindings.lookup failed to translate keyboard event: %s" % 

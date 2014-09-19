@@ -110,7 +110,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       command = data['command']
       if command[len(command)-1] != '\n':
         command = command + '\n'
-      data['terminal'].vte.feed_child(command)
+      data['terminal'].vte.feed_child(command, len(command))
 
     def configure(self, widget, data = None):
       ui = {}

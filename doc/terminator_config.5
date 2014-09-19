@@ -314,16 +314,8 @@ Each profile should be its own subsection with a header in the format \fB[[name]
 If true, allow applications in the terminal to make text boldface.
 Default value: \fBTrue\fR
 .TP
-.B antialias\fR (boolean)
-If false, do not apply anti-aliasing to fonts in the terminal.
-Default value: \fBTrue\fR
-.TP
 .B audible_bell\fR (boolean)
 If true, make a noise when applications send the escape sequence for the terminal bell.
-Default value: \fBFalse\fR
-.TP
-.B visible_bell\fR (boolean)
-If true, flash the terminal when applications send the escape sequence for the terminal bell.
 Default value: \fBFalse\fR
 .TP
 .B urgent_bell\fR (boolean)
@@ -351,12 +343,8 @@ A value between 0.0 and 1.0 indicating how much to darken the background image. 
 Default value: \fB0.5\fR
 .TP
 .B background_type
-Type of terminal background. May be "solid" for a solid colour, "image" for an image, or "transparent" for full transparency in compositing window managers, otherwise pseudo transparency.
+Type of terminal background. May be "solid" for a solid colour or "transparent" for full transparency in compositing window managers.
 Default value: \fBsolid\fR
-.TP
-.B background_image
-Path to an image file to be used for the background of terminals.
-Default value: Nothing
 .TP
 .B backspace_binding
 Sets what code the backspace key generates. Possible values are "ascii-del" for the ASCII DEL character, "control-h" for Control-H (AKA the ASCII BS character), "escape-sequence" for the escape sequence typically bound to backspace or delete. "ascii-del" is normally considered the correct setting for the Backspace key.
@@ -381,10 +369,6 @@ Default value: Current value of \fBforeground_color\fR
 .B cursor_shape
 Default shape of cursor. Possibilities are "block", "ibeam", and "underline".
 Default value: \fBblock\fR
-.TP
-.B emulation
-Sets what type of terminal should be emulated.
-Default value: \fBxterm\fR
 .TP
 .B xterm
 This translates into the value that will be set for TERM in the environment of your terminals.
@@ -426,10 +410,6 @@ Default value: \fBTrue\fR
 If true, whenever there's new output the terminal will scroll to the bottom.
 Default value: \fBTrue\fR
 .TP
-.B alternate_screen_scroll \fR(boolean)
-Whether or not the mouse wheel scrolls alternate screen buffers (man, vim, mutt, etc). This is the default behavior of VTE, however Ubuntu and possbly other distributions feature patched versions of VTE where this functionality is optional. The option only effects the patched versions of VTE, otherwise it is ignored.
-Default value: \fBTrue\fR
-.TP
 .B scrollback_lines
 Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Be careful with this setting; it's the primary factor in determining how much memory the terminal will use.
 Default value: \fB500\fR
@@ -449,10 +429,6 @@ Default value: \fBclose\fR
 .TP
 .B palette
 Terminals have a 16-colour palette that applications inside the terminal can use. This is that palette, in the form of a colon-separated list of colour names. Colour names should be in hex format e.g. "#FF00FF".
-.TP
-.B word_chars
-When selecting text by word, sequences of these characters are considered single words. Ranges can be given as "A-Z". Literal hyphen (not expressing a range) should be the first character given.
-Default value: \fB'\-A\-Za\-z0\-9,./?%&#:_'\fR
 .TP
 .B mouse_autohide \fR(boolean)
 Controls whether the mouse cursor should be hidden while typing.

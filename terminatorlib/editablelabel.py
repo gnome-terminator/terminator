@@ -18,8 +18,7 @@
 #    , Boston, MA  02110-1301  USA
 
 """ Editable Label class"""
-from gi.repository import Gtk
-from gi.repository import GObject
+from gi.repository import GLib, GObject, Gtk, Gdk
 
 class EditableLabel(Gtk.EventBox):
     # pylint: disable-msg=W0212
@@ -42,7 +41,6 @@ class EditableLabel(Gtk.EventBox):
     def __init__(self, text = ""):
         """ Class initialiser"""
         GObject.GObject.__init__(self) 
-        self.__gobject_init__()
 
         self._entry_handler_id = []
         self._label = Gtk.Label(label=text)
@@ -74,7 +72,7 @@ class EditableLabel(Gtk.EventBox):
         """event handling text edition"""
         if event.button != 1:
             return False
-        if event.type == Gdk._2BUTTON_PRESS:
+        if event.type == Gdk.EventType._2BUTTON_PRESS:
             self.remove (self._label)
             self._entry = Gtk.Entry ()
             self._entry.set_text (self._label.get_text ())

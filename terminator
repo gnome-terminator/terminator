@@ -28,9 +28,8 @@ except OSError:
 # Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
     import gi
-    pyGtk.require ("2.0")
     # pylint: disable-msg=W0611
-    import gtk, pango, gobject
+    from gi.repository import Gtk, Gdk
 
     if Gdk.Display.get_default() == None:
         print('You need to run terminator in an X environment. ' \
@@ -66,7 +65,7 @@ if __name__ == '__main__':
             dbg('dbus disabled by command line')
             raise ImportError
         from terminatorlib import ipc
-        import dbus
+        from gi import DBus  # VERIFY FOR GTK3
         try:
             dbus_service = ipc.DBusService()
         except ipc.DBusException:
@@ -81,7 +80,7 @@ if __name__ == '__main__':
                 if val == True:
                     val = 'True'
                 optionslist[opt] = val and '%s'%val or ''
-            optionslist = dbus.Dictionary(optionslist, signature='ss')
+            optionslist = DBus.Dictionary(optionslist, signature='ss')  # VERIFY FOR GTK3
             if OPTIONS.new_tab:
                 dbg('Requesting a new tab')
                 ipc.new_tab(optionslist)

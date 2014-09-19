@@ -52,24 +52,23 @@ class Notebook(Container, Gtk.Notebook):
         # the new order of terminals. We probably need to preserve this for
         # navigation to next/prev terminals.
         #self.connect('page-reordered', self.on_page_reordered)
-        self.set_property('homogeneous', self.config['homogeneous_tabbar'])
         self.set_scrollable(self.config['scroll_tabbar'])
 
         if self.config['tab_position'] == 'hidden' or self.config['hide_tabbar']:
             self.set_show_tabs(False)
         else:
             self.set_show_tabs(True)
-            pos = getattr(gtk, 'POS_%s' % self.config['tab_position'].upper())
+            pos = getattr(Gtk.PositionType, self.config['tab_position'].upper())
             self.set_tab_pos(pos)
 
         for tab in xrange(0, self.get_n_pages()):
             label = self.get_tab_label(self.get_nth_page(tab))
             label.update_angle()
 
-        style = Gtk.RcStyle()
-        style.xthickness = 0
-        style.ythickness = 0
-        self.modify_style(style)
+#        style = Gtk.RcStyle()  # FIXME FOR GTK3 how to do it there? actually do we really want to override the theme?
+#        style.xthickness = 0
+#        style.ythickness = 0
+#        self.modify_style(style)
         self.last_active_term = {}
 
     def create_layout(self, layout):
@@ -166,6 +165,8 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
+        self.child_set_property(container, 'tab-expand', True)
+        self.child_set_property(container, 'tab-fill', True)
         self.set_tab_reorderable(container, True)
         self.set_tab_label(container, label)
         self.show_all()
@@ -290,11 +291,13 @@ class Notebook(Container, Gtk.Notebook):
             if maker.isinstance(term_widget, 'Terminal'):
                 self.set_last_active_term(term_widget.uuid)
                 self.set_tab_label(term_widget, label)
-                self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
-                                           not self.config['scroll_tabbar'],
-                                           Gtk.PACK_START)
+#                self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],  # FIXME FOR GTK3 how to do it there?
+#                                           not self.config['scroll_tabbar'],
+#                                           Gtk.PACK_START)
                 break
 
+        self.child_set_property(widget, 'tab-expand', True)
+        self.child_set_property(widget, 'tab-fill', True)
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
         self.show_all()
@@ -497,7 +500,6 @@ class TabLabel(Gtk.HBox):
     def __init__(self, title, notebook):
         """Class initialiser"""
         GObject.GObject.__init__(self)
-        self.__gobject_init__()
 
         self.notebook = notebook
         self.terminator = Terminator()
@@ -506,7 +508,7 @@ class TabLabel(Gtk.HBox):
         self.label = EditableLabel(title)
         self.update_angle()
 
-        self.pack_start(self.label, True, True)
+        self.pack_start(self.label, True, True, 0)
 
         self.update_button()
         self.show_all()
@@ -551,16 +553,16 @@ class TabLabel(Gtk.HBox):
 
         self.button.set_focus_on_click(False)
         self.button.set_relief(Gtk.ReliefStyle.NONE)
-        style = Gtk.RcStyle()
-        style.xthickness = 0
-        style.ythickness = 0
-        self.button.modify_style(style)
+#        style = Gtk.RcStyle()  # FIXME FOR GTK3 how to do it there? actually do we really want to override the theme?
+#        style.xthickness = 0
+#        style.ythickness = 0
+#        self.button.modify_style(style)
         self.button.add(self.icon)
         self.button.connect('clicked', self.on_close)
         self.button.set_name('terminator-tab-close-button')
         if hasattr(self.button, 'set_tooltip_text'):
             self.button.set_tooltip_text(_('Close Tab'))
-        self.pack_start(self.button, False, False)
+        self.pack_start(self.button, False, False, 0)
         self.show_all()
 
     def update_angle(self):

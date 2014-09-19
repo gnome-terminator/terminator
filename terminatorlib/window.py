@@ -7,9 +7,9 @@ import copy
 import time
 import uuid
 import gi
-gi.require_version('Gtk', '3.0')
 from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
+from gi.repository import Keybinder
 
 from util import dbg, err, make_uuid
 import util
@@ -20,7 +20,7 @@ from factory import Factory
 from terminator import Terminator
 
 try:
-    import keybinder
+    from gi.repository import Keybinder
 except ImportError:
     err('Warning: python-keybinder is not installed. This means the \
 hide_window shortcut will be unavailable')
@@ -62,7 +62,7 @@ class Window(Container, Gtk.Window):
         GObject.type_register(Window)
         self.register_signals(Window)
 
-        self.set_property('allow-shrink', True)
+#        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
         icon_to_apply=''
 
         self.register_callbacks()
@@ -121,7 +121,7 @@ class Window(Container, Gtk.Window):
         # If we fail, we'll never hide the window, iconifying instead.
         if self.config['keybindings']['hide_window'] != None:
             try:
-                self.hidebound = keybinder.bind(
+                self.hidebound = Keybinder.bind(
                     self.config['keybindings']['hide_window'],
                     self.on_hide_window)
             except (KeyError, NameError):
@@ -184,11 +184,11 @@ class Window(Container, Gtk.Window):
             except (NameError, GObject.GError):
                 dbg('Unable to load 48px %s icon' % (repr(requested_icon)))
         
-        if icon is None:
-            try:
-                icon = icon_theme.load_icon(self.wmclass_name, 48, 0)
-            except (NameError, GObject.GError):
-                dbg('Unable to load 48px %s icon' % (self.wmclass_name))
+#        if icon is None:
+#            try:
+#                icon = icon_theme.load_icon(self.wmclass_name, 48, 0)  # FIXME FOR GTK3
+#            except (NameError, GObject.GError):
+#                dbg('Unable to load 48px %s icon' % (self.wmclass_name))
         
         if icon is None:
             try:
@@ -376,14 +376,11 @@ class Window(Container, Gtk.Window):
 
         screen = self.get_screen()
         if value:
-            dbg('setting rgba colormap')
-            colormap = screen.get_rgba_colormap()
-        else:
-            dbg('setting rgb colormap')
-            colormap = screen.get_rgb_colormap()
+            dbg('setting rgba visual')
+            visual = screen.get_rgba_visual()
 
-        if colormap:
-            self.set_colormap(colormap)
+        if visual:
+            self.set_visual(visual)
     
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
@@ -652,8 +649,12 @@ class Window(Container, Gtk.Window):
         dbg('setting geometry hints: (ewidth:%s)(eheight:%s),\
 (fwidth:%s)(fheight:%s)' % (extra_width, extra_height, 
                             font_width, font_height))
-        self.set_geometry_hints(self, -1, -1, -1, -1, extra_width,
-                extra_height, font_width, font_height, -1.0, -1.0)
+        geometry = Gdk.Geometry()
+        geometry.base_width = extra_width
+        geometry.base_height = extra_height
+        geometry.width_inc = font_width
+        geometry.height_inc = font_height
+        self.set_geometry_hints(self, geometry, Gdk.WindowHints.BASE_SIZE | Gdk.WindowHints.RESIZE_INC)
 
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""

@@ -3,7 +3,7 @@
 # GPL v2 only
 """titlebar.py - classes necessary to provide a terminal title bar"""
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from gi.repository import GObject
 import random
 import itertools
@@ -41,7 +41,6 @@ class Titlebar(Gtk.EventBox):
     def __init__(self, terminal):
         """Class initialiser"""
         GObject.GObject.__init__(self)
-        self.__gobject_init__()
 
         self.terminator = Terminator()
         self.terminal = terminal
@@ -82,8 +81,8 @@ class Titlebar(Gtk.EventBox):
         self.bellicon.set_from_icon_name('terminal-bell', Gtk.IconSize.MENU)
         hbox = Gtk.HBox()
         hbox.pack_start(self.ebox, False, True, 0)
-        hbox.pack_start(Gtk.VSeparator(, True, True, 0), False, True, 0)
-        hbox.pack_start(self.label, True, True)
+        hbox.pack_start(Gtk.VSeparator(), False, True, 0)
+        hbox.pack_start(self.label, True, True, 0)
         hbox.pack_end(self.bellicon, False, False, 2)
 
         self.add(hbox)
@@ -160,7 +159,7 @@ class Titlebar(Gtk.EventBox):
                     Gdk.color_parse(title_bg))
             if not self.get_desired_visibility():
                 if default_bg == True:
-                    color = term.get_style().bg[Gtk.StateType.NORMAL]
+                    color = term.get_style_context().get_background_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3
                 else:
                     color = Gdk.color_parse(title_bg)
             self.update_visibility()

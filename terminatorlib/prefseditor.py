@@ -8,8 +8,7 @@ write it to a config file
 """
 
 import os
-from gi.repository import Gtk
-from gi.repository import GObject
+from gi.repository import GObject, Gtk, Gdk
 
 from util import dbg, err
 import config
@@ -371,15 +370,9 @@ class PrefsEditor:
         # Allow bold text
         widget = guiget('allow_bold_checkbutton')
         widget.set_active(self.config['allow_bold'])
-        # Anti-alias
-        widget = guiget('antialias_checkbutton')
-        widget.set_active(self.config['antialias'])
         # Icon terminal bell
         widget = guiget('icon_bell_checkbutton')
         widget.set_active(self.config['icon_bell'])
-        # Visual terminal bell
-        widget = guiget('visual_bell_checkbutton')
-        widget.set_active(self.config['visible_bell'])
         # Audible terminal bell
         widget = guiget('audible_bell_checkbutton')
         widget.set_active(self.config['audible_bell'])
@@ -392,9 +385,6 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
-        # Word chars
-        widget = guiget('word_chars_entry')
-        widget.set_text(self.config['word_chars'])
         # Cursor shape
         widget = guiget('cursor_shape_combobox')
         if self.config['cursor_shape'] == 'underline':
@@ -410,10 +400,10 @@ class PrefsEditor:
         # Cursor colour
         widget = guiget('cursor_color')
         try:
-            widget.set_color(Gdk.Color(self.config['cursor_color']))
+            widget.set_color(Gdk.color_parse(self.config['cursor_color']))
         except ValueError:
             self.config['cursor_color'] = "#FFFFFF"
-            widget.set_color(Gdk.Color(self.config['cursor_color']))
+            widget.set_color(Gdk.color_parse(self.config['cursor_color']))
 
         ## Command tab
         # Login shell
@@ -462,14 +452,14 @@ class PrefsEditor:
         # NOTE: The scheme is set in the GUI widget after the fore/back colours
         # Foreground color
         widget = guiget('foreground_colorpicker')
-        widget.set_color(Gdk.Color(self.config['foreground_color']))
+        widget.set_color(Gdk.color_parse(self.config['foreground_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
         # Background color
         widget = guiget('background_colorpicker')
-        widget.set_color(Gdk.Color(self.config['background_color']))
+        widget.set_color(Gdk.color_parse(self.config['background_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
@@ -493,7 +483,7 @@ class PrefsEditor:
         colourpalette = self.config['palette'].split(':')
         for i in xrange(1, 17):
             widget = guiget('palette_colorpicker_%d' % i)
-            widget.set_color(Gdk.Color(colourpalette[i - 1]))
+            widget.set_color(Gdk.color_parse(colourpalette[i - 1]))
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
         widget.set_active(self.palettevalues[palette])
@@ -502,7 +492,7 @@ class PrefsEditor:
             'title_receive_fg_color', 'title_receive_bg_color',
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
-            widget.set_color(Gdk.Color(self.config[bit]))
+            widget.set_color(Gdk.color_parse(self.config[bit]))
         # Inactive terminal shading 
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
@@ -518,20 +508,9 @@ class PrefsEditor:
         # Radio values
         if self.config['background_type'] == 'solid':
             guiget('solid_radiobutton').set_active(True)
-        elif self.config['background_type'] == 'image':
-            guiget('image_radiobutton').set_active(True)
         elif self.config['background_type'] == 'transparent':
             guiget('transparent_radiobutton').set_active(True)
         self.update_background_tab()
-        # Background image file
-        if self.config['background_image'] != '':
-            widget = guiget('background_image_filechooser')
-            if self.config['background_image'] is not None and \
-               self.config['background_image'] != '':
-                widget.set_filename(self.config['background_image'])
-        # Background image scrolls
-        widget = guiget('scroll_background_checkbutton')
-        widget.set_active(self.config['scroll_background'])
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
@@ -558,9 +537,6 @@ class PrefsEditor:
         # Scroll on keystroke
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
-        # Scroll in alternate mode
-        widget = guiget('alternate_screen_scroll_checkbutton')
-        widget.set_active(self.config['alternate_screen_scroll'])
 
         ## Compatibility tab
         # Backspace key
@@ -674,11 +650,6 @@ class PrefsEditor:
         self.config['allow_bold'] = widget.get_active()
         self.config.save()
 
-    def on_antialias_checkbutton_toggled(self, widget):
-        """Anti-alias setting changed"""
-        self.config['antialias'] = widget.get_active()
-        self.config.save()
-
     def on_show_titlebar_toggled(self, widget):
         """Show titlebar setting changed"""
         self.config['show_titlebar'] = widget.get_active()
@@ -697,11 +668,6 @@ class PrefsEditor:
     def on_icon_bell_checkbutton_toggled(self, widget):
         """Icon bell setting changed"""
         self.config['icon_bell'] = widget.get_active()
-        self.config.save()
-
-    def on_visual_bell_checkbutton_toggled(self, widget):
-        """Visual bell setting changed"""
-        self.config['visible_bell'] = widget.get_active()
         self.config.save()
 
     def on_audible_bell_checkbutton_toggled(self, widget):
@@ -727,11 +693,6 @@ class PrefsEditor:
     def on_scroll_background_checkbutton_toggled(self, widget):
         """Scroll background setting changed"""
         self.config['scroll_background'] = widget.get_active()
-        self.config.save()
-
-    def on_alternate_screen_scroll_checkbutton_toggled(self, widget):
-        """Scroll in alt-mode setting changed"""
-        self.config['alternate_screen_scroll'] = widget.get_active()
         self.config.save()
 
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
@@ -815,11 +776,6 @@ class PrefsEditor:
         self.config['background_darkness'] = round(value, 2)
         self.config.save()
 
-    def on_background_image_filechooser_file_set(self, widget):
-        """Background image setting changed"""
-        self.config['background_image'] = widget.get_filename()
-        self.config.save()
-
     def on_palette_combobox_changed(self, widget):
         """Palette selector changed"""
         value = None
@@ -845,7 +801,7 @@ class PrefsEditor:
             for num in xrange(1, 17):
                 # Update the visible elements
                 picker = guiget('palette_colorpicker_%d' % num)
-                picker.set_color(Gdk.Color(palettebits[num - 1]))
+                picker.set_color(Gdk.color_parse(palettebits[num - 1]))
         elif value == 'custom':
             palettebits = []
             for num in xrange(1, 17):
@@ -922,11 +878,6 @@ class PrefsEditor:
         else:
             value = 'block'
         self.config['cursor_shape'] = value
-        self.config.save()
-
-    def on_word_chars_entry_changed(self, widget):
-        """Word characters changed"""
-        self.config['word_chars'] = widget.get_text()
         self.config.save()
 
     def on_font_selector_font_set(self, widget):
@@ -1166,19 +1117,11 @@ class PrefsEditor:
         transwidget = guiget('transparent_radiobutton')
         if transwidget.get_active() == True:
             backtype = 'transparent'
-        elif imagewidget.get_active() == True:
-            backtype = 'image'
         else:
             backtype = 'solid'
         self.config['background_type'] = backtype
         self.config.save()
 
-        if backtype == 'image':
-            guiget('background_image_filechooser').set_sensitive(True)
-            guiget('scroll_background_checkbutton').set_sensitive(True)
-        else:
-            guiget('background_image_filechooser').set_sensitive(False)
-            guiget('scroll_background_checkbutton').set_sensitive(False)
         if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)
         else:
@@ -1334,8 +1277,8 @@ class PrefsEditor:
             err('Unknown colourscheme value: %s' % value)
             return
 
-        fore.set_color(Gdk.Color(forecol))
-        back.set_color(Gdk.Color(backcol))
+        fore.set_color(Gdk.color_parse(forecol))
+        back.set_color(Gdk.color_parse(backcol))
 
         self.config['foreground_color'] = forecol
         self.config['background_color'] = backcol

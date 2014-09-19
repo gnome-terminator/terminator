@@ -5,15 +5,29 @@
 
 import copy
 import os
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
 from util import dbg, err, enumerate_descendants
 from factory import Factory
-from cwd import get_pid_cwd
 from version import APP_NAME, APP_VERSION
+
+def eventkey2gdkevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of casting from specific EventKey to generic (union) GdkEvent?
+    gdkevent = Gdk.Event(eventkey.type)
+    gdkevent.key.type = eventkey.type
+    gdkevent.key.window = eventkey.window
+    gdkevent.key.send_event = eventkey.send_event
+    gdkevent.key.time = eventkey.time
+    gdkevent.key.state = eventkey.state
+    gdkevent.key.keyval = eventkey.keyval
+    gdkevent.key.length = eventkey.length
+    gdkevent.key.string = eventkey.string
+    gdkevent.key.hardware_keycode = eventkey.hardware_keycode
+    gdkevent.key.group = eventkey.group
+    gdkevent.key.is_modifier = eventkey.is_modifier
+    return gdkevent
 
 class Terminator(Borg):
     """master object for the application"""
@@ -29,7 +43,6 @@ class Terminator(Borg):
     origcwd = None
     dbus_path = None
     dbus_name = None
-    pid_cwd = None
     gnome_client = None
     debug_address = None
 
@@ -65,8 +78,6 @@ class Terminator(Borg):
             self.keybindings.configure(self.config['keybindings'])
         if not self.doing_layout:
             self.doing_layout = False
-        if not self.pid_cwd:
-            self.pid_cwd = get_pid_cwd()
         if self.gnome_client is None:
             self.attempt_gnome_client()
 
@@ -86,10 +97,9 @@ class Terminator(Borg):
     def attempt_gnome_client(self):
         """Attempt to find a GNOME Session to register with"""
         try:
-            import gnome
-            import gnome.ui
-            self.gnome_program = gnome.init(APP_NAME, APP_VERSION)
-            self.gnome_client = gnome.ui.master_client()
+            from gi.repository import Gnome
+            self.gnome_program = Gnome.init(APP_NAME, APP_VERSION)  # VERIFY FOR GTK3
+            self.gnome_client = Gnome.Ui.master_client()  # VERIFY FOR GTK3
             self.gnome_client.connect_to_session_manager()
             self.gnome_client.connect('save-yourself', self.save_yourself)
             self.gnome_client.connect('die', self.die)
@@ -409,13 +419,13 @@ class Terminator(Borg):
                 group)
         for term in self.terminals:
             if term != terminal and term.group == group:
-                term.vte.emit(type, event)
+                term.vte.emit(type, eventkey2gdkevent(event))
 
     def all_emit(self, terminal, type, event):
         """Emit to all terminals"""
         for term in self.terminals:
             if term != terminal:
-                term.vte.emit(type, event)
+                term.vte.emit(type, eventkey2gdkevent(event))
 
     def do_enumerate(self, widget, pad):
         """Insert the number of each terminal in a group, into that terminal"""

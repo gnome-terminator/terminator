@@ -181,22 +181,18 @@ DEFAULTS = {
         'profiles': {
             'default':  {
                 'allow_bold'            : True,
-                'antialias'             : True,
                 'audible_bell'          : False,
-                'visible_bell'          : False,
                 'urgent_bell'           : False,
                 'icon_bell'             : True,
                 'background_color'      : '#000000',
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
-                'background_image'      : None,
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'escape-sequence',
                 'color_scheme'          : 'grey_on_black',
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
                 'cursor_color'          : '#aaaaaa',
-                'emulation'             : 'xterm',
                 'term'                  : 'xterm',
                 'colorterm'             : 'gnome-terminal',
                 'font'                  : 'Mono 10',
@@ -212,7 +208,6 @@ DEFAULTS = {
                 'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
-                'word_chars'            : '-A-Za-z0-9,./?%&#:_',
                 'mouse_autohide'        : True,
                 'update_records'        : True,
                 'login_shell'           : False,
@@ -226,7 +221,6 @@ DEFAULTS = {
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
                 'copy_on_selection'     : False,
-                'alternate_screen_scroll': True,
                 'split_to_group'        : False,
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',
@@ -517,8 +511,6 @@ class ConfigBase(Borg):
                 keytype = keymap[keytype]
             elif keytype == 'list':
                 value = 'list(%s)' % ','.join(value)
-            if key == 'background_image':
-                keytype = 'string'
             if keytype == 'string':
                 value = '"%s"' % value
 

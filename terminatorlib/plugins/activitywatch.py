@@ -52,13 +52,13 @@ class ActivityWatch(plugin.MenuItem):
     def watch(self, _widget, terminal):
         """Watch a terminal"""
         vte = terminal.get_vte()
-        self.watches[terminal] = vte.connect('contents-changed', 
+        self.watches[terminal] = Vte.connect('contents-changed', 
                                              self.notify, terminal)
 
     def unwatch(self, _widget, terminal):
         """Stop watching a terminal"""
         vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
+        Vte.disconnect(self.watches[terminal])
         del(self.watches[terminal])
 
     def notify(self, _vte, terminal):
@@ -118,7 +118,7 @@ class InactivityWatch(plugin.MenuItem):
     def watch(self, _widget, terminal):
         """Watch a terminal"""
         vte = terminal.get_vte()
-        self.watches[terminal] = vte.connect('contents-changed',
+        self.watches[terminal] = Vte.connect('contents-changed',
                                              self.reset_timer, terminal)
         timeout_id = GObject.timeout_add(5000, self.check_times, terminal)
         self.timers[terminal] = timeout_id
@@ -127,7 +127,7 @@ class InactivityWatch(plugin.MenuItem):
     def unwatch(self, _vte, terminal):
         """Unwatch a terminal"""
         vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
+        Vte.disconnect(self.watches[terminal])
         del(self.watches[terminal])
         GObject.source_remove(self.timers[terminal])
         del(self.timers[terminal])

@@ -4,8 +4,7 @@
 """paned.py - a base Paned container class and the vertical/horizontal
 variants"""
 
-from gi.repository import GObject
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk, Gdk
 
 from util import dbg, err
 from terminator import Terminator
@@ -132,7 +131,7 @@ class Paned(Container):
 
     def on_button_press(self, widget, event):
         """Handle button presses on a Pane"""
-        if event.button == 1 and event.type == Gdk._2BUTTON_PRESS:
+        if event.button == 1 and event.type == Gdk.EventType._2BUTTON_PRESS:
             if event.get_state() & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
                 recurse_up=True
             else:
@@ -406,7 +405,7 @@ class HPaned(Paned, Gtk.HPaned):
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
     def get_length(self):
-        return(self.allocation.width)
+        return(self.get_allocated_width())
 
     def set_pos(self, pos):
         Gtk.HPaned.set_position(self, pos)
@@ -421,7 +420,7 @@ class VPaned(Paned, Gtk.VPaned):
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
     def get_length(self):
-        return(self.allocation.height)
+        return(self.get_allocated_height())
 
     def set_pos(self, pos):
         Gtk.VPaned.set_position(self, pos)

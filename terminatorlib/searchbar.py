@@ -35,7 +35,6 @@ class Searchbar(Gtk.HBox):
     def __init__(self):
         """Class initialiser"""
         GObject.GObject.__init__(self)
-        self.__gobject_init__()
 
         self.config = Config()
 
@@ -79,12 +78,12 @@ class Searchbar(Gtk.HBox):
         self.prev.set_sensitive(False)
         self.prev.connect('clicked', self.prev_search)
 
-        self.pack_start(label, False)
+        self.pack_start(label, False, True, 0)
         self.pack_start(self.entry, True, True, 0)
-        self.pack_start(self.reslabel, False)
-        self.pack_start(self.prev, False, False)
-        self.pack_start(self.next, False, False)
-        self.pack_end(close, False, False)
+        self.pack_start(self.reslabel, False, True, 0)
+        self.pack_start(self.prev, False, False, 0)
+        self.pack_start(self.next, False, False, 0)
+        self.pack_end(close, False, False, 0)
 
         self.hide()
         self.set_no_show_all(True)

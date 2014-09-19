@@ -4,9 +4,7 @@
 """ipc.py - DBus server and API calls"""
 
 from gi.repository import Gtk
-import dbus.service
-from dbus.exceptions import DBusException
-import dbus.glib
+from gi.repository import DBus, DBusGLib  # VERIFY/FIXME FOR GTK3: DBusException?? Replace all "dbus" with "DBus" in this file, and stuff??
 from borg import Borg
 from terminator import Terminator
 from config import Config
