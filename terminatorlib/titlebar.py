@@ -3,8 +3,8 @@
 # GPL v2 only
 """titlebar.py - classes necessary to provide a terminal title bar"""
 
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 import random
 import itertools
 
@@ -15,7 +15,7 @@ from editablelabel import EditableLabel
 
 # pylint: disable-msg=R0904
 # pylint: disable-msg=W0613
-class Titlebar(gtk.EventBox):
+class Titlebar(Gtk.EventBox):
     """Class implementing the Titlebar widget"""
 
     terminator = None
@@ -32,15 +32,15 @@ class Titlebar(gtk.EventBox):
     bellicon = None
 
     __gsignals__ = {
-            'clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-            'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
-            'create-group': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-                (gobject.TYPE_STRING,)),
+            'clicked': (GObject.SignalFlags.RUN_LAST, None, ()),
+            'edit-done': (GObject.SignalFlags.RUN_LAST, None, ()),
+            'create-group': (GObject.SignalFlags.RUN_LAST, None,
+                (GObject.TYPE_STRING,)),
     }
 
     def __init__(self, terminal):
         """Class initialiser"""
-        gtk.EventBox.__init__(self)
+        GObject.GObject.__init__(self)
         self.__gobject_init__()
 
         self.terminator = Terminator()
@@ -49,14 +49,14 @@ class Titlebar(gtk.EventBox):
 
         self.label = EditableLabel()
         self.label.connect('edit-done', self.on_edit_done)
-        self.ebox = gtk.EventBox()
-        grouphbox = gtk.HBox()
-        self.grouplabel = gtk.Label()
-        self.groupicon = gtk.Image()
-        self.bellicon = gtk.Image()
+        self.ebox = Gtk.EventBox()
+        grouphbox = Gtk.HBox()
+        self.grouplabel = Gtk.Label()
+        self.groupicon = Gtk.Image()
+        self.bellicon = Gtk.Image()
         self.bellicon.set_no_show_all(True)
 
-        self.groupentry = gtk.Entry()
+        self.groupentry = Gtk.Entry()
         self.groupentry.set_no_show_all(True)
         self.groupentry.connect('focus-out-event', self.groupentry_cancel)
         self.groupentry.connect('activate', self.groupentry_activate)
@@ -70,7 +70,7 @@ class Titlebar(gtk.EventBox):
         elif self.terminator.groupsend == groupsend_type['off']:
             icon_name = 'off'
         self.set_from_icon_name('_active_broadcast_%s' % icon_name, 
-                gtk.ICON_SIZE_MENU)
+                Gtk.IconSize.MENU)
 
         grouphbox.pack_start(self.groupicon, False, True, 2)
         grouphbox.pack_start(self.grouplabel, False, True, 2)
@@ -79,10 +79,10 @@ class Titlebar(gtk.EventBox):
         self.ebox.add(grouphbox)
         self.ebox.show_all()
 
-        self.bellicon.set_from_icon_name('terminal-bell', gtk.ICON_SIZE_MENU)
-        hbox = gtk.HBox()
+        self.bellicon.set_from_icon_name('terminal-bell', Gtk.IconSize.MENU)
+        hbox = Gtk.HBox()
         hbox.pack_start(self.ebox, False, True, 0)
-        hbox.pack_start(gtk.VSeparator(), False, True, 0)
+        hbox.pack_start(Gtk.VSeparator(, True, True, 0), False, True, 0)
         hbox.pack_start(self.label, True, True)
         hbox.pack_end(self.bellicon, False, False, 2)
 
@@ -152,21 +152,21 @@ class Titlebar(gtk.EventBox):
                 group_fg = self.config['title_transmit_fg_color']
                 group_bg = self.config['title_transmit_bg_color']
 
-            self.label.modify_fg(gtk.STATE_NORMAL,
-                    gtk.gdk.color_parse(title_fg))
-            self.grouplabel.modify_fg(gtk.STATE_NORMAL,
-                    gtk.gdk.color_parse(group_fg))
-            self.modify_bg(gtk.STATE_NORMAL, 
-                    gtk.gdk.color_parse(title_bg))
+            self.label.modify_fg(Gtk.StateType.NORMAL,
+                    Gdk.color_parse(title_fg))
+            self.grouplabel.modify_fg(Gtk.StateType.NORMAL,
+                    Gdk.color_parse(group_fg))
+            self.modify_bg(Gtk.StateType.NORMAL, 
+                    Gdk.color_parse(title_bg))
             if not self.get_desired_visibility():
                 if default_bg == True:
-                    color = term.get_style().bg[gtk.STATE_NORMAL]
+                    color = term.get_style().bg[Gtk.StateType.NORMAL]
                 else:
-                    color = gtk.gdk.color_parse(title_bg)
+                    color = Gdk.color_parse(title_bg)
             self.update_visibility()
-            self.ebox.modify_bg(gtk.STATE_NORMAL,
-                    gtk.gdk.color_parse(group_bg))
-            self.set_from_icon_name(icon, gtk.ICON_SIZE_MENU)
+            self.ebox.modify_bg(Gtk.StateType.NORMAL,
+                    Gdk.color_parse(group_bg))
+            self.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
     def update_visibility(self):
         """Make the titlebar be visible or not"""
@@ -189,7 +189,7 @@ class Titlebar(gtk.EventBox):
             dbg('configured visibility: %s' % self.config['show_titlebar'])
             return(self.config['show_titlebar'])
 
-    def set_from_icon_name(self, name, size = gtk.ICON_SIZE_MENU):
+    def set_from_icon_name(self, name, size = Gtk.IconSize.MENU):
         """Set an icon for the group label"""
         if not name:
             self.groupicon.hide()
@@ -280,14 +280,14 @@ class Titlebar(gtk.EventBox):
 
     def groupentry_keypress(self, widget, event):
         """Handle keypresses on the entry widget"""
-        key = gtk.gdk.keyval_name(event.keyval)
+        key = Gdk.keyval_name(event.keyval)
         if key == 'Escape':
             self.groupentry_cancel(None, None)
 
     def icon_bell(self):
         """A bell signal requires we display our bell icon"""
         self.bellicon.show()
-        gobject.timeout_add(1000, self.icon_bell_hide)
+        GObject.timeout_add(1000, self.icon_bell_hide)
 
     def icon_bell_hide(self):
         """Handle a timeout which means we now hide the bell icon"""
@@ -306,4 +306,4 @@ class Titlebar(gtk.EventBox):
         self.label.set_text(string)
         self.label.set_custom()
 
-gobject.type_register(Titlebar)
+GObject.type_register(Titlebar)

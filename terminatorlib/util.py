@@ -24,7 +24,7 @@
 """
 
 import sys
-import gtk
+from gi.repository import Gtk
 import os
 import pwd
 import inspect
@@ -78,8 +78,8 @@ def gerr(message = None):
     """Display a graphical error. This should only be used for serious
     errors as it will halt execution"""
 
-    dialog = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
-            gtk.MESSAGE_ERROR, gtk.BUTTONS_OK, message)
+    dialog = Gtk.MessageDialog(None, Gtk.DialogFlags.MODAL,
+            Gtk.MessageType.ERROR, Gtk.ButtonsType.OK, message)
     dialog.run()
     dialog.destroy()
 
@@ -142,12 +142,12 @@ def shell_lookup():
 
 def widget_pixbuf(widget, maxsize=None):
     """Generate a pixbuf of a widget"""
-    if gtk.gtk_version < (2, 14):
+    if Gtk.gtk_version < (2, 14):
         return(None)
 
     pixmap = widget.get_snapshot()
     (width, height) = pixmap.get_size()
-    pixbuf = gtk.gdk.Pixbuf(gtk.gdk.COLORSPACE_RGB, False, 8, width, height)
+    pixbuf = GdkPixbuf.Pixbuf(GdkPixbuf.Colorspace.RGB, False, 8, width, height)
     pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width,
             height)
 
@@ -159,7 +159,7 @@ def widget_pixbuf(widget, maxsize=None):
     if not maxsize or (width * factor) > width or (height * factor) > height:
         factor = 1
 
-    scaledpixbuf = pixbuf.scale_simple(int(width * factor), int(height * factor), gtk.gdk.INTERP_BILINEAR)
+    scaledpixbuf = pixbuf.scale_simple(int(width * factor), int(height * factor), GdkPixbuf.InterpType.BILINEAR)
 
     return(scaledpixbuf)
 

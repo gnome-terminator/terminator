@@ -3,7 +3,7 @@
 # GPL v2 only
 """ipc.py - DBus server and API calls"""
 
-import gtk
+from gi.repository import Gtk
 import dbus.service
 from dbus.exceptions import DBusException
 import dbus.glib
@@ -23,7 +23,7 @@ BUS_BASE = 'net.tenshu.Terminator'
 BUS_PATH = '/net/tenshu/Terminator'
 try:
     # Try and include the X11 display name in the dbus bus name
-    DISPLAY  = hex(hash(gtk.gdk.get_display())).replace('-', '_')
+    DISPLAY  = hex(hash(Gdk.get_display())).replace('-', '_')
     BUS_NAME = '%s%s' % (BUS_BASE, DISPLAY)
 except:
     BUS_NAME = BUS_BASE

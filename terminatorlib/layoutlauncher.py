@@ -4,8 +4,8 @@
 """layoutlauncher.py - class for the Layout Launcher window"""
 
 import os
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 
 from util import dbg, err, spawn_new_terminator
 import config
@@ -31,7 +31,7 @@ class LayoutLauncher:
 
         self.config = config.Config()
         self.config.base.reload()
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         try:
             # Figure out where our library is on-disk so we can open our UI
             (head, _tail) = os.path.split(config.__file__)
@@ -46,12 +46,12 @@ class LayoutLauncher:
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('layoutlauncherwin')
 
-        icon_theme = gtk.IconTheme()
+        icon_theme = Gtk.IconTheme()
         try:
             icon = icon_theme.load_icon('terminator-layout', 48, 0)
-        except (NameError, gobject.GError):
+        except (NameError, GObject.GError):
             dbg('Unable to load 48px Terminator preferences icon')
-            icon = self.window.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+            icon = self.window.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
         self.window.set_icon(icon)
 
         self.builder.connect_signals(self)
@@ -105,4 +105,4 @@ if __name__ == '__main__':
     import terminal
     LAYOUTLAUNCHER = LayoutLauncher()
 
-    gtk.main()
+    Gtk.main()

@@ -8,8 +8,8 @@ write it to a config file
 """
 
 import os
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 
 from util import dbg, err
 import config
@@ -154,7 +154,7 @@ class PrefsEditor:
         self.config = config.Config()
         self.config.base.reload()
         self.term = term
-        self.builder = gtk.Builder()
+        self.builder = Gtk.Builder()
         self.keybindings = Keybindings()
         try:
             # Figure out where our library is on-disk so we can open our 
@@ -170,12 +170,12 @@ class PrefsEditor:
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('prefswin')
 
-        icon_theme = gtk.IconTheme()
+        icon_theme = Gtk.IconTheme()
         try:
             icon = icon_theme.load_icon('terminator-preferences', 48, 0)
-        except (NameError, gobject.GError):
+        except (NameError, GObject.GError):
             dbg('Unable to load 48px Terminator preferences icon')
-            icon = self.window.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+            icon = self.window.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
         self.window.set_icon(icon)
 
         self.layouteditor = LayoutEditor(self.builder)
@@ -314,7 +314,7 @@ class PrefsEditor:
         ## Keybindings tab
         widget = guiget('keybindingtreeview')
         liststore = widget.get_model()
-        liststore.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         keybindings = self.config['keybindings']
         for keybinding in keybindings:
             keyval = 0
@@ -410,10 +410,10 @@ class PrefsEditor:
         # Cursor colour
         widget = guiget('cursor_color')
         try:
-            widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
+            widget.set_color(Gdk.Color(self.config['cursor_color']))
         except ValueError:
             self.config['cursor_color'] = "#FFFFFF"
-            widget.set_color(gtk.gdk.Color(self.config['cursor_color']))
+            widget.set_color(Gdk.Color(self.config['cursor_color']))
 
         ## Command tab
         # Login shell
@@ -462,14 +462,14 @@ class PrefsEditor:
         # NOTE: The scheme is set in the GUI widget after the fore/back colours
         # Foreground color
         widget = guiget('foreground_colorpicker')
-        widget.set_color(gtk.gdk.Color(self.config['foreground_color']))
+        widget.set_color(Gdk.Color(self.config['foreground_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
         # Background color
         widget = guiget('background_colorpicker')
-        widget.set_color(gtk.gdk.Color(self.config['background_color']))
+        widget.set_color(Gdk.Color(self.config['background_color']))
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
@@ -493,7 +493,7 @@ class PrefsEditor:
         colourpalette = self.config['palette'].split(':')
         for i in xrange(1, 17):
             widget = guiget('palette_colorpicker_%d' % i)
-            widget.set_color(gtk.gdk.Color(colourpalette[i - 1]))
+            widget.set_color(Gdk.Color(colourpalette[i - 1]))
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
         widget.set_active(self.palettevalues[palette])
@@ -502,7 +502,7 @@ class PrefsEditor:
             'title_receive_fg_color', 'title_receive_bg_color',
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
-            widget.set_color(gtk.gdk.Color(self.config[bit]))
+            widget.set_color(Gdk.Color(self.config[bit]))
         # Inactive terminal shading 
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
@@ -845,7 +845,7 @@ class PrefsEditor:
             for num in xrange(1, 17):
                 # Update the visible elements
                 picker = guiget('palette_colorpicker_%d' % num)
-                picker.set_color(gtk.gdk.Color(palettebits[num - 1]))
+                picker.set_color(Gdk.Color(palettebits[num - 1]))
         elif value == 'custom':
             palettebits = []
             for num in xrange(1, 17):
@@ -1334,8 +1334,8 @@ class PrefsEditor:
             err('Unknown colourscheme value: %s' % value)
             return
 
-        fore.set_color(gtk.gdk.Color(forecol))
-        back.set_color(gtk.gdk.Color(backcol))
+        fore.set_color(Gdk.Color(forecol))
+        back.set_color(Gdk.Color(backcol))
 
         self.config['foreground_color'] = forecol
         self.config['background_color'] = backcol
@@ -1366,7 +1366,7 @@ class PrefsEditor:
         liststore.set(celliter, 2, key, 3, mods)
 
         binding = liststore.get_value(liststore.get_iter(path), 0)
-        accel = gtk.accelerator_name(key, mods)
+        accel = Gtk.accelerator_name(key, mods)
         self.config['keybindings'][binding] = accel
         self.config.save()
 
@@ -1554,4 +1554,4 @@ if __name__ == '__main__':
     TERM = terminal.Terminal()
     PREFEDIT = PrefsEditor(TERM)
 
-    gtk.main()
+    Gtk.main()

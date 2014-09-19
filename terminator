@@ -27,12 +27,12 @@ except OSError:
 
 # Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
-    import pygtk
-    pygtk.require ("2.0")
+    import gi
+    pyGtk.require ("2.0")
     # pylint: disable-msg=W0611
     import gtk, pango, gobject
 
-    if gtk.gdk.display_get_default() == None:
+    if Gdk.Display.get_default() == None:
         print('You need to run terminator in an X environment. ' \
               'Make sure $DISPLAY is properly set')
         sys.exit(1)
@@ -115,12 +115,12 @@ if __name__ == '__main__':
         # pylint: disable-msg=W0611
         import threading
 
-        gtk.gdk.threads_init()
+        Gdk.threads_init()
         (DEBUGTHREAD, DEBUGSVR) = debugserver.spawn(locals())
         TERMINATOR.debug_address = DEBUGSVR.server_address
 
     try:
-        gtk.main()
+        Gtk.main()
     except KeyboardInterrupt:
         pass
 

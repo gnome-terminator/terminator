@@ -18,14 +18,14 @@
 #    , Boston, MA  02110-1301  USA
 
 """ Editable Label class"""
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 
-class EditableLabel(gtk.EventBox):
+class EditableLabel(Gtk.EventBox):
     # pylint: disable-msg=W0212
     # pylint: disable-msg=R0904
     """
-    An eventbox that partialy emulate a gtk.Label
+    An eventbox that partialy emulate a Gtk.Label
     On double-click, the label is editable, entering an empty will revert back to automatic text
     """
     _label = None
@@ -36,16 +36,16 @@ class EditableLabel(gtk.EventBox):
     _entry_handler_id = None
 
     __gsignals__ = {
-            'edit-done': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+            'edit-done': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
     def __init__(self, text = ""):
         """ Class initialiser"""
-        gtk.EventBox.__init__(self) 
+        GObject.GObject.__init__(self) 
         self.__gobject_init__()
 
         self._entry_handler_id = []
-        self._label = gtk.Label(text)
+        self._label = Gtk.Label(label=text)
         self._custom = False
         self.set_visible_window (False)
         self.add (self._label)  
@@ -74,9 +74,9 @@ class EditableLabel(gtk.EventBox):
         """event handling text edition"""
         if event.button != 1:
             return False
-        if event.type == gtk.gdk._2BUTTON_PRESS:
+        if event.type == Gdk._2BUTTON_PRESS:
             self.remove (self._label)
-            self._entry = gtk.Entry ()
+            self._entry = Gtk.Entry ()
             self._entry.set_text (self._label.get_text ())
             self._entry.show ()
             self.add (self._entry)
@@ -96,7 +96,7 @@ class EditableLabel(gtk.EventBox):
 
     def _entry_to_label (self, widget, event):
         # pylint: disable-msg=W0613
-        """replace gtk.Entry by the gtk.Label"""
+        """replace Gtk.Entry by the Gtk.Label"""
         if self._entry and self._entry in self.get_children():
             #disconnect signals to avoid segfault :s
             for sig in self._entry_handler_id:
@@ -113,7 +113,7 @@ class EditableLabel(gtk.EventBox):
 
     def _on_entry_activated (self, widget):
         # pylint: disable-msg=W0613
-        """get the text entered in gtk.Entry"""
+        """get the text entered in Gtk.Entry"""
         entry = self._entry.get_text ()
         label = self._label.get_text ()
         if entry == '':
@@ -126,13 +126,13 @@ class EditableLabel(gtk.EventBox):
 
     def _on_entry_keypress (self, widget, event):
         # pylint: disable-msg=W0613
-        """handle keypressed in gtk.Entry"""
-        key = gtk.gdk.keyval_name (event.keyval)
+        """handle keypressed in Gtk.Entry"""
+        key = Gdk.keyval_name (event.keyval)
         if key == 'Escape':
             self._entry_to_label (None, None)
 
     def _on_entry_buttonpress (self, widget, event):
-        """handle button events in gtk.Entry."""
+        """handle button events in Gtk.Entry."""
         # Block right clicks to avoid a deadlock.
         # The correct solution here would be for _entry_to_label to trigger a
         # deferred execution handler and for that handler to check if focus is
@@ -152,4 +152,4 @@ class EditableLabel(gtk.EventBox):
     def set_custom(self):
         """Set the customness of the string to True"""
         self._custom = True
-gobject.type_register(EditableLabel)
+GObject.type_register(EditableLabel)

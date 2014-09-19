@@ -3,19 +3,19 @@
 # GPL v2 only
 """searchbar.py - classes necessary to provide a terminal search bar"""
 
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 import re
 
 from translation import _
 from config import Config
 
 # pylint: disable-msg=R0904
-class Searchbar(gtk.HBox):
+class Searchbar(Gtk.HBox):
     """Class implementing the Searchbar widget"""
 
     __gsignals__ = {
-        'end-search': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, ()),
+        'end-search': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
     entry = None
@@ -34,32 +34,32 @@ class Searchbar(gtk.HBox):
 
     def __init__(self):
         """Class initialiser"""
-        gtk.HBox.__init__(self)
+        GObject.GObject.__init__(self)
         self.__gobject_init__()
 
         self.config = Config()
 
         # Search text
-        self.entry = gtk.Entry()
+        self.entry = Gtk.Entry()
         self.entry.set_activates_default(True)
         self.entry.show()
         self.entry.connect('activate', self.do_search)
         self.entry.connect('key-press-event', self.search_keypress)
 
         # Label
-        label = gtk.Label(_('Search:'))
+        label = Gtk.Label(label=_('Search:'))
         label.show()
 
         # Result label
-        self.reslabel = gtk.Label('')
+        self.reslabel = Gtk.Label(label='')
         self.reslabel.show()
 
         # Close Button
-        close = gtk.Button()
-        close.set_relief(gtk.RELIEF_NONE)
+        close = Gtk.Button()
+        close.set_relief(Gtk.ReliefStyle.NONE)
         close.set_focus_on_click(False)
-        icon = gtk.Image()
-        icon.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
+        icon = Gtk.Image()
+        icon.set_from_stock(Gtk.STOCK_CLOSE, Gtk.IconSize.MENU)
         close.add(icon)
         close.set_name('terminator-search-close-button')
         if hasattr(close, 'set_tooltip_text'):
@@ -68,19 +68,19 @@ class Searchbar(gtk.HBox):
         close.show_all()
 
         # Next Button
-        self.next = gtk.Button(_('Next'))
+        self.next = Gtk.Button(_('Next'))
         self.next.show()
         self.next.set_sensitive(False)
         self.next.connect('clicked', self.next_search)
 
         # Previous Button
-        self.prev = gtk.Button(_('Prev'))
+        self.prev = Gtk.Button(_('Prev'))
         self.prev.show()
         self.prev.set_sensitive(False)
         self.prev.connect('clicked', self.prev_search)
 
         self.pack_start(label, False)
-        self.pack_start(self.entry)
+        self.pack_start(self.entry, True, True, 0)
         self.pack_start(self.reslabel, False)
         self.pack_start(self.prev, False, False)
         self.pack_start(self.next, False, False)
@@ -98,7 +98,7 @@ class Searchbar(gtk.HBox):
     # pylint: disable-msg=W0613
     def search_keypress(self, widget, event):
         """Handle keypress events"""
-        key = gtk.gdk.keyval_name(event.keyval)
+        key = Gdk.keyval_name(event.keyval)
         if key == 'Escape':
             self.end_search()
 
@@ -198,4 +198,4 @@ class Searchbar(gtk.HBox):
         """Return the currently set search term"""
         return(self.entry.get_text())
 
-gobject.type_register(Searchbar)
+GObject.type_register(Searchbar)

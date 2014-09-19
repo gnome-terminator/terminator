@@ -9,8 +9,8 @@ import os
 if __name__ == '__main__':
   sys.path.append( os.path.join(os.path.dirname(__file__), "../.."))
 
-import gtk
-import gobject
+from gi.repository import Gtk
+from gi.repository import GObject
 import terminatorlib.plugin as plugin
 from terminatorlib.config import Config
 from terminatorlib.translation import _
@@ -58,32 +58,32 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = gtk.MenuItem(_('Custom Commands'))
+        item = Gtk.MenuItem(_('Custom Commands'))
         menuitems.append(item)
 
-        submenu = gtk.Menu()
+        submenu = Gtk.Menu()
         item.set_submenu(submenu)
 
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
+        menuitem = Gtk.ImageMenuItem(Gtk.STOCK_PREFERENCES)
         menuitem.connect("activate", self.configure)
         submenu.append(menuitem)
 
-        menuitem = gtk.SeparatorMenuItem()
+        menuitem = Gtk.SeparatorMenuItem()
         submenu.append(menuitem)
 
-        theme = gtk.IconTheme()
+        theme = Gtk.IconTheme()
         for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ] :
           if not command['enabled']:
             continue
           exe = command['command'].split(' ')[0]
-          iconinfo = theme.choose_icon([exe], gtk.ICON_SIZE_MENU, gtk.ICON_LOOKUP_USE_BUILTIN)
+          iconinfo = theme.choose_icon([exe], Gtk.IconSize.MENU, Gtk.IconLookupFlags.USE_BUILTIN)
           if iconinfo:
-            image = gtk.Image()
-            image.set_from_icon_name(exe, gtk.ICON_SIZE_MENU)
-            menuitem = gtk.ImageMenuItem(command['name'])
+            image = Gtk.Image()
+            image.set_from_icon_name(exe, Gtk.IconSize.MENU)
+            menuitem = Gtk.ImageMenuItem(command['name'])
             menuitem.set_image(image)
           else:
-            menuitem = gtk.MenuItem(command["name"])
+            menuitem = Gtk.MenuItem(command["name"])
           menuitem.connect("activate", self._execute, {'terminal' : terminal, 'command' : command['command'] })
           submenu.append(menuitem)
         
@@ -114,91 +114,91 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def configure(self, widget, data = None):
       ui = {}
-      dbox = gtk.Dialog(
+      dbox = Gtk.Dialog(
                       _("Custom Commands Configuration"),
                       None,
-                      gtk.DIALOG_MODAL,
+                      Gtk.DialogFlags.MODAL,
                       (
-                        gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                        gtk.STOCK_OK, gtk.RESPONSE_ACCEPT
+                        Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
+                        Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT
                       )
                     )
 
-      icon_theme = gtk.IconTheme()
+      icon_theme = Gtk.IconTheme()
       try:
         icon = icon_theme.load_icon('terminator-custom-commands', 48, 0)
-      except (NameError, gobject.GError):
+      except (NameError, GObject.GError):
         dbg('Unable to load 48px Terminator preferences icon')
-        icon = dbox.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+        icon = dbox.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
       dbox.set_icon(icon)
 
-      store = gtk.ListStore(bool, str, str)
+      store = Gtk.ListStore(bool, str, str)
 
       for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ]:
         store.append([command['enabled'], command['name'], command['command']])
  
-      treeview = gtk.TreeView(store)
+      treeview = Gtk.TreeView(store)
       #treeview.connect("cursor-changed", self.on_cursor_changed, ui)
       selection = treeview.get_selection()
-      selection.set_mode(gtk.SELECTION_SINGLE)
+      selection.set_mode(Gtk.SelectionMode.SINGLE)
       selection.connect("changed", self.on_selection_changed, ui)
       ui['treeview'] = treeview
 
-      renderer = gtk.CellRendererToggle()
+      renderer = Gtk.CellRendererToggle()
       renderer.connect('toggled', self.on_toggled, ui)
-      column = gtk.TreeViewColumn("Enabled", renderer, active=CC_COL_ENABLED)
+      column = Gtk.TreeViewColumn("Enabled", renderer, active=CC_COL_ENABLED)
       treeview.append_column(column)
 
-      renderer = gtk.CellRendererText()
-      column = gtk.TreeViewColumn("Name", renderer, text=CC_COL_NAME)
+      renderer = Gtk.CellRendererText()
+      column = Gtk.TreeViewColumn("Name", renderer, text=CC_COL_NAME)
       treeview.append_column(column)
 
-      renderer = gtk.CellRendererText()
-      column = gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
+      renderer = Gtk.CellRendererText()
+      column = Gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
-      hbox = gtk.HBox()
-      hbox.pack_start(treeview)
-      dbox.vbox.pack_start(hbox)
+      hbox = Gtk.HBox()
+      hbox.pack_start(treeview, True, True, 0)
+      dbox.vbox.pack_start(hbox, True, True, 0)
 
-      button_box = gtk.VBox()
+      button_box = Gtk.VBox()
 
-      button = gtk.Button(stock=gtk.STOCK_GOTO_TOP)
+      button = Gtk.Button(stock=Gtk.STOCK_GOTO_TOP)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_goto_top, ui) 
       button.set_sensitive(False)
       ui['button_top'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_GO_UP)
+      button = Gtk.Button(stock=Gtk.STOCK_GO_UP)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_go_up, ui)
       button.set_sensitive(False)
       ui['button_up'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_GO_DOWN)
+      button = Gtk.Button(stock=Gtk.STOCK_GO_DOWN)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_go_down, ui) 
       button.set_sensitive(False)
       ui['button_down'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_GOTO_LAST)
+      button = Gtk.Button(stock=Gtk.STOCK_GOTO_LAST)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_goto_last, ui) 
       button.set_sensitive(False)
       ui['button_last'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_NEW)
+      button = Gtk.Button(stock=Gtk.STOCK_NEW)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_new, ui) 
       ui['button_new'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_EDIT)
+      button = Gtk.Button(stock=Gtk.STOCK_EDIT)
       button_box.pack_start(button, False, True)
       button.set_sensitive(False)
       button.connect("clicked", self.on_edit, ui) 
       ui['button_edit'] = button
 
-      button = gtk.Button(stock=gtk.STOCK_DELETE)
+      button = Gtk.Button(stock=Gtk.STOCK_DELETE)
       button_box.pack_start(button, False, True)
       button.connect("clicked", self.on_delete, ui) 
       button.set_sensitive(False)
@@ -206,10 +206,10 @@ class CustomCommandsMenu(plugin.MenuItem):
 
 
 
-      hbox.pack_start(button_box)
+      hbox.pack_start(button_box, True, True, 0)
       dbox.show_all()
       res = dbox.run()
-      if res == gtk.RESPONSE_ACCEPT:
+      if res == Gtk.ResponseType.ACCEPT:
         self.update_cmd_list(store)
         self._save_config()
       dbox.destroy()
@@ -255,44 +255,44 @@ class CustomCommandsMenu(plugin.MenuItem):
       data['button_delete'].set_sensitive(iter is not None)
 
     def _create_command_dialog(self, enabled_var = False, name_var = "", command_var = ""):
-      dialog = gtk.Dialog(
+      dialog = Gtk.Dialog(
                         _("New Command"),
                         None,
-                        gtk.DIALOG_MODAL,
+                        Gtk.DialogFlags.MODAL,
                         (
-                          gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                          gtk.STOCK_OK, gtk.RESPONSE_ACCEPT
+                          Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
+                          Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT
                         )
                       )
-      table = gtk.Table(3, 2)
+      table = Gtk.Table(3, 2)
 
-      label = gtk.Label(_("Enabled:"))
+      label = Gtk.Label(label=_("Enabled:"))
       table.attach(label, 0, 1, 0, 1)
-      enabled = gtk.CheckButton()
+      enabled = Gtk.CheckButton()
       enabled.set_active(enabled_var)
       table.attach(enabled, 1, 2, 0, 1)
 
-      label = gtk.Label(_("Name:"))
+      label = Gtk.Label(label=_("Name:"))
       table.attach(label, 0, 1, 1, 2)
-      name = gtk.Entry()
+      name = Gtk.Entry()
       name.set_text(name_var)
       table.attach(name, 1, 2, 1, 2)
       
-      label = gtk.Label(_("Command:"))
+      label = Gtk.Label(label=_("Command:"))
       table.attach(label, 0, 1, 2, 3)
-      command = gtk.Entry()
+      command = Gtk.Entry()
       command.set_text(command_var)
       table.attach(command, 1, 2, 2, 3)
 
-      dialog.vbox.pack_start(table)
+      dialog.vbox.pack_start(table, True, True, 0)
       dialog.show_all()
       return (dialog,enabled,name,command)
 
     def _error(self, msg):
-      err = gtk.MessageDialog(dialog,
-                              gtk.DIALOG_MODAL,
-                              gtk.MESSAGE_ERROR,
-                              gtk.BUTTONS_CLOSE,
+      err = Gtk.MessageDialog(dialog,
+                              Gtk.DialogFlags.MODAL,
+                              Gtk.MessageType.ERROR,
+                              Gtk.ButtonsType.CLOSE,
                               msg
                             )
       err.run()
@@ -305,15 +305,15 @@ class CustomCommandsMenu(plugin.MenuItem):
       (dialog,enabled,name,command) = self._create_command_dialog()
       res = dialog.run()
       item = {}
-      if res == gtk.RESPONSE_ACCEPT:
+      if res == Gtk.ResponseType.ACCEPT:
         item['enabled'] = enabled.get_active()
         item['name'] = name.get_text()
         item['command'] = command.get_text()
         if item['name'] == '' or item['command'] == '':
-          err = gtk.MessageDialog(dialog,
-                                  gtk.DIALOG_MODAL,
-                                  gtk.MESSAGE_ERROR,
-                                  gtk.BUTTONS_CLOSE,
+          err = Gtk.MessageDialog(dialog,
+                                  Gtk.DialogFlags.MODAL,
+                                  Gtk.MessageType.ERROR,
+                                  Gtk.ButtonsType.CLOSE,
                                   _("You need to define a name and command")
                                 )
           err.run()
@@ -415,15 +415,15 @@ class CustomCommandsMenu(plugin.MenuItem):
                                                                   )
       res = dialog.run()
       item = {}
-      if res == gtk.RESPONSE_ACCEPT:
+      if res == Gtk.ResponseType.ACCEPT:
         item['enabled'] = enabled.get_active()
         item['name'] = name.get_text()
         item['command'] = command.get_text()
         if item['name'] == '' or item['command'] == '':
-          err = gtk.MessageDialog(dialog,
-                                  gtk.DIALOG_MODAL,
-                                  gtk.MESSAGE_ERROR,
-                                  gtk.BUTTONS_CLOSE,
+          err = Gtk.MessageDialog(dialog,
+                                  Gtk.DialogFlags.MODAL,
+                                  Gtk.MessageType.ERROR,
+                                  Gtk.ButtonsType.CLOSE,
                                   _("You need to define a name and command")
                                 )
           err.run()
@@ -451,5 +451,5 @@ class CustomCommandsMenu(plugin.MenuItem):
 if __name__ == '__main__':
   c = CustomCommandsMenu()
   c.configure(None, None)
-  gtk.main()
+  Gtk.main()
 

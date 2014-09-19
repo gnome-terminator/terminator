@@ -8,7 +8,7 @@ terminals """
 
 import os
 import sys
-import gtk
+from gi.repository import Gtk
 import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 
@@ -18,9 +18,9 @@ class Logger(plugin.MenuItem):
     """ Add custom command to the terminal menu"""
     capabilities = ['terminal_menu']
     loggers = None
-    dialog_action = gtk.FILE_CHOOSER_ACTION_SAVE
-    dialog_buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                      gtk.STOCK_SAVE, gtk.RESPONSE_OK)
+    dialog_action = Gtk.FileChooserAction.SAVE
+    dialog_buttons = (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                      Gtk.STOCK_SAVE, Gtk.ResponseType.OK)
 
     def __init__(self):
         plugin.MenuItem.__init__(self)
@@ -31,10 +31,10 @@ class Logger(plugin.MenuItem):
         """ Add save menu item to the menu"""
         vte_terminal = terminal.get_vte()
         if not self.loggers.has_key(vte_terminal):
-            item = gtk.MenuItem(_('Start Logger'))
+            item = Gtk.MenuItem(_('Start Logger'))
             item.connect("activate", self.start_logger, terminal)
         else:
-            item = gtk.MenuItem(_('Stop Logger'))
+            item = Gtk.MenuItem(_('Stop Logger'))
             item.connect("activate", self.stop_logger, terminal)
             item.set_has_tooltip(True)
             item.set_tooltip_text("Saving at '" + self.loggers[vte_terminal]["filepath"] + "'")
@@ -63,14 +63,14 @@ class Logger(plugin.MenuItem):
         
     def start_logger(self, _widget, Terminal):
         """ Handle menu item callback by saving text to a file"""
-        savedialog = gtk.FileChooserDialog(title="Save Log File As",
+        savedialog = Gtk.FileChooserDialog(title="Save Log File As",
                                            action=self.dialog_action,
                                            buttons=self.dialog_buttons)
         savedialog.set_do_overwrite_confirmation(True)
         savedialog.set_local_only(True)
         savedialog.show_all()
         response = savedialog.run()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             try:
                 logfile = os.path.join(savedialog.get_current_folder(),
                                        savedialog.get_filename())
@@ -88,8 +88,8 @@ class Logger(plugin.MenuItem):
                 self.loggers[vte_terminal]["handler_id"] = vte_terminal.connect('contents-changed', self.save)
             except:
                 e = sys.exc_info()[1]
-                error = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_ERROR,
-                                          gtk.BUTTONS_OK, e.strerror)
+                error = Gtk.MessageDialog(None, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR,
+                                          Gtk.ButtonsType.OK, e.strerror)
                 error.run()
                 error.destroy()
         savedialog.destroy()

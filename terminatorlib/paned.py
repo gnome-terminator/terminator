@@ -4,8 +4,8 @@
 """paned.py - a base Paned container class and the vertical/horizontal
 variants"""
 
-import gobject
-import gtk
+from gi.repository import GObject
+from gi.repository import Gtk
 
 from util import dbg, err
 from terminator import Terminator
@@ -27,9 +27,9 @@ class Paned(Container):
         self.maker = Factory()
         Container.__init__(self)
         self.signals.append({'name': 'resize-term', 
-                             'flags': gobject.SIGNAL_RUN_LAST,
-                             'return_type': gobject.TYPE_NONE, 
-                             'param_types': (gobject.TYPE_STRING,)})
+                             'flags': GObject.SignalFlags.RUN_LAST,
+                             'return_type': None, 
+                             'param_types': (GObject.TYPE_STRING,)})
 
 
     # pylint: disable-msg=W0613
@@ -68,8 +68,8 @@ class Paned(Container):
         self.show_all()
         sibling.grab_focus()
         
-        while gtk.events_pending():
-            gtk.main_iteration_do(False)
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
 
 
@@ -123,7 +123,7 @@ class Paned(Container):
                metadata['had_focus'] == True:
                     widget.grab_focus()
 
-        elif isinstance(widget, gtk.Paned):
+        elif isinstance(widget, Gtk.Paned):
             try:
                 self.connect_child(widget, 'resize-term', self.resizeterm)
                 self.connect_child(widget, 'size-allocate', self.new_size)
@@ -132,21 +132,21 @@ class Paned(Container):
 
     def on_button_press(self, widget, event):
         """Handle button presses on a Pane"""
-        if event.button == 1 and event.type == gtk.gdk._2BUTTON_PRESS:
-            if event.state & gtk.gdk.MOD4_MASK == gtk.gdk.MOD4_MASK:
+        if event.button == 1 and event.type == Gdk._2BUTTON_PRESS:
+            if event.get_state() & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
                 recurse_up=True
             else:
                 recurse_up=False
             
-            if event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
+            if event.get_state() & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
                 recurse_down=True
             else:
                 recurse_down=False
             
             # FIXME: These idle events are creating a lot of weird issues
             for i in range(3):
-                while gtk.events_pending():
-                    gtk.main_iteration_do(False)
+                while Gtk.events_pending():
+                    Gtk.main_iteration_do(False)
                 self.do_redistribute(recurse_up, recurse_down)
             
             return True
@@ -166,10 +166,10 @@ class Paned(Container):
             if grandfather != self.get_toplevel():
                 grandfather.do_redistribute(recurse_up, recurse_down)
         
-        gobject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
-        while gtk.events_pending():
-            gtk.main_iteration_do(False)
-        gobject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+        GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
+        GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()
@@ -195,7 +195,7 @@ class Paned(Container):
                     if recurse_down and \
                       (maker.isinstance(child, 'VPaned') or \
                        maker.isinstance(child, 'HPaned')):
-                        gobject.idle_add(child.do_redistribute, False, True)
+                        GObject.idle_add(child.do_redistribute, False, True)
                     
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
@@ -214,11 +214,11 @@ class Paned(Container):
                 toproc.append(child)
                 if curr[1].index(child) == 0:
                     curr[0].set_position((child[2]*single_size)+((child[2]-1)*handle_size))
-                    gobject.idle_add(curr[0].set_position, child[2]*single_size)
+                    GObject.idle_add(curr[0].set_position, child[2]*single_size)
 
     def remove(self, widget):
         """Remove a widget from the container"""
-        gtk.Paned.remove(self, widget)
+        Gtk.Paned.remove(self, widget)
         self.disconnect_child(widget)
         self.children.remove(widget)
         return(True)
@@ -267,7 +267,7 @@ class Paned(Container):
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
-        if keyname in ['up', 'down'] and isinstance(self, gtk.VPaned):
+        if keyname in ['up', 'down'] and isinstance(self, Gtk.VPaned):
             # This is a key we can handle
             position = self.get_position()
 
@@ -280,7 +280,7 @@ class Paned(Container):
                 self.set_position(position - fontheight)
             else:
                 self.set_position(position + fontheight)
-        elif keyname in ['left', 'right'] and isinstance(self, gtk.HPaned):
+        elif keyname in ['left', 'right'] and isinstance(self, Gtk.HPaned):
             # This is a key we can handle
             position = self.get_position()
 
@@ -396,12 +396,12 @@ class Paned(Container):
         self.ratio = float(pos) / self.get_length()
         self.set_pos(pos)
 
-class HPaned(Paned, gtk.HPaned):
-    """Merge gtk.HPaned into our base Paned Container"""
+class HPaned(Paned, Gtk.HPaned):
+    """Merge Gtk.HPaned into our base Paned Container"""
     def __init__(self):
         """Class initialiser"""
         Paned.__init__(self)
-        gtk.HPaned.__init__(self)
+        GObject.GObject.__init__(self)
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
@@ -409,14 +409,14 @@ class HPaned(Paned, gtk.HPaned):
         return(self.allocation.width)
 
     def set_pos(self, pos):
-        gtk.HPaned.set_position(self, pos)
+        Gtk.HPaned.set_position(self, pos)
 
-class VPaned(Paned, gtk.VPaned):
-    """Merge gtk.VPaned into our base Paned Container"""
+class VPaned(Paned, Gtk.VPaned):
+    """Merge Gtk.VPaned into our base Paned Container"""
     def __init__(self):
         """Class initialiser"""
         Paned.__init__(self)
-        gtk.VPaned.__init__(self)
+        GObject.GObject.__init__(self)
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
 
@@ -424,8 +424,8 @@ class VPaned(Paned, gtk.VPaned):
         return(self.allocation.height)
 
     def set_pos(self, pos):
-        gtk.VPaned.set_position(self, pos)
+        Gtk.VPaned.set_position(self, pos)
 
-gobject.type_register(HPaned)
-gobject.type_register(VPaned)
+GObject.type_register(HPaned)
+GObject.type_register(VPaned)
 # vim: set expandtab ts=4 sw=4:

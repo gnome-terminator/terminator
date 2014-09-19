@@ -5,7 +5,7 @@
 
 import copy
 import os
-import gtk
+from gi.repository import Gtk
 
 from borg import Borg
 from config import Config
@@ -131,7 +131,7 @@ class Terminator(Borg):
         if len(self.windows) == 0:
             # We have no windows left, we should exit
             dbg('no windows remain, quitting')
-            gtk.main_quit()
+            Gtk.main_quit()
 
     def register_launcher_window(self, window):
         """Register a new launcher window widget"""
@@ -152,7 +152,7 @@ class Terminator(Borg):
         if len(self.launcher_windows) == 0 and len(self.windows) == 0:
             # We have no windows left, we should exit
             dbg('no windows remain, quitting')
-            gtk.main_quit()
+            Gtk.main_quit()
 
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
@@ -348,13 +348,13 @@ class Terminator(Borg):
         """Update configuration for the whole application"""
 
         if self.config['handle_size'] in xrange(0, 6):
-            gtk.rc_parse_string("""
+            Gtk.rc_parse_string("""
                 style "terminator-paned-style" {
                     GtkPaned::handle_size = %s 
                 }
                 class "GtkPaned" style "terminator-paned-style" 
                 """ % self.config['handle_size'])
-            gtk.rc_reset_styles(gtk.settings_get_default())
+            Gtk.rc_reset_styles(Gtk.Settings.get_default())
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
@@ -452,7 +452,7 @@ class Terminator(Borg):
     def get_focussed_terminal(self):
         """iterate over all the terminals to find which, if any, has focus"""
         for terminal in self.terminals:
-            if terminal.flags()&gtk.HAS_FOCUS:
+            if terminal.flags()&Gtk.HAS_FOCUS:
                 return(terminal)
         return(None)
 

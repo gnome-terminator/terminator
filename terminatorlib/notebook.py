@@ -3,8 +3,8 @@
 # GPL v2 only
 """notebook.py - classes for the notebook widget"""
 
-import gobject
-import gtk
+from gi.repository import GObject
+from gi.repository import Gtk
 
 from terminator import Terminator
 from config import Config
@@ -14,8 +14,8 @@ from editablelabel import EditableLabel
 from translation import _
 from util import err, dbg, enumerate_descendants, make_uuid
 
-class Notebook(Container, gtk.Notebook):
-    """Class implementing a gtk.Notebook container"""
+class Notebook(Container, Gtk.Notebook):
+    """Class implementing a Gtk.Notebook container"""
     window = None
     last_active_term = None
     pending_on_tab_switch = None
@@ -23,15 +23,15 @@ class Notebook(Container, gtk.Notebook):
 
     def __init__(self, window):
         """Class initialiser"""
-        if isinstance(window.get_child(), gtk.Notebook):
+        if isinstance(window.get_child(), Gtk.Notebook):
             err('There is already a Notebook at the top of this window')
             raise(ValueError)
 
         Container.__init__(self)
-        gtk.Notebook.__init__(self)
+        GObject.GObject.__init__(self)
         self.terminator = Terminator()
         self.window = window
-        gobject.type_register(Notebook)
+        GObject.type_register(Notebook)
         self.register_signals(Notebook)
         self.connect('switch-page', self.deferred_on_tab_switch)
         self.configure()
@@ -66,7 +66,7 @@ class Notebook(Container, gtk.Notebook):
             label = self.get_tab_label(self.get_nth_page(tab))
             label.update_angle()
 
-        style = gtk.RcStyle()
+        style = Gtk.RcStyle()
         style.xthickness = 0
         style.ythickness = 0
         self.modify_style(style)
@@ -132,7 +132,7 @@ class Notebook(Container, gtk.Notebook):
 
         if layout.has_key('active_page'):
             # Need to do it later, or layout changes result
-            gobject.idle_add(self.set_current_page, int(layout['active_page']))
+            GObject.idle_add(self.set_current_page, int(layout['active_page']))
         else:
             self.set_current_page(0)
 
@@ -180,11 +180,11 @@ class Notebook(Container, gtk.Notebook):
 
         self.show_all()
 
-        while gtk.events_pending():
-            gtk.main_iteration_do(False)
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
 
-        gobject.idle_add(terminal.ensure_visible_and_focussed)
+        GObject.idle_add(terminal.ensure_visible_and_focussed)
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
@@ -292,7 +292,7 @@ class Notebook(Container, gtk.Notebook):
                 self.set_tab_label(term_widget, label)
                 self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
                                            not self.config['scroll_tabbar'],
-                                           gtk.PACK_START)
+                                           Gtk.PACK_START)
                 break
 
         self.set_tab_reorderable(widget, True)
@@ -343,7 +343,7 @@ class Notebook(Container, gtk.Notebook):
             dbg('Notebook::closetab: child is a Container')
             result = self.construct_confirm_close(self.window, _('tab'))
 
-            if result == gtk.RESPONSE_ACCEPT:
+            if result == Gtk.ResponseType.ACCEPT:
                 containers = None
                 objects = None
                 containers, objects = enumerate_descendants(child)
@@ -351,8 +351,8 @@ class Notebook(Container, gtk.Notebook):
                 while len(objects) > 0:
                     descendant = objects.pop()
                     descendant.close()
-                    while gtk.events_pending():
-                        gtk.main_iteration()
+                    while Gtk.events_pending():
+                        Gtk.main_iteration()
                 return
             else:
                 dbg('Notebook::closetab: user cancelled request')
@@ -463,7 +463,7 @@ class Notebook(Container, gtk.Notebook):
         self.pending_on_tab_switch_args = (notebook, page,  page_num,  data)
         if self.pending_on_tab_switch == True:
             return
-        gobject.idle_add(self.do_deferred_on_tab_switch)
+        GObject.idle_add(self.do_deferred_on_tab_switch)
         self.pending_on_tab_switch = True
 
     def do_deferred_on_tab_switch(self):
@@ -477,10 +477,10 @@ class Notebook(Container, gtk.Notebook):
         tabs_last_active_term = data['tabs_last_active_term']
         if tabs_last_active_term:
             term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
-            gobject.idle_add(term.ensure_visible_and_focussed)
+            GObject.idle_add(term.ensure_visible_and_focussed)
         return True
 
-class TabLabel(gtk.HBox):
+class TabLabel(Gtk.HBox):
     """Class implementing a label widget for Notebook tabs"""
     notebook = None
     terminator = None
@@ -490,13 +490,13 @@ class TabLabel(gtk.HBox):
     button = None
 
     __gsignals__ = {
-            'close-clicked': (gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-                (gobject.TYPE_OBJECT,)),
+            'close-clicked': (GObject.SignalFlags.RUN_LAST, None,
+                (GObject.TYPE_OBJECT,)),
     }
 
     def __init__(self, title, notebook):
         """Class initialiser"""
-        gtk.HBox.__init__(self)
+        GObject.GObject.__init__(self)
         self.__gobject_init__()
 
         self.notebook = notebook
@@ -543,15 +543,15 @@ class TabLabel(gtk.HBox):
             return
 
         if not self.button:
-            self.button = gtk.Button()
+            self.button = Gtk.Button()
         if not self.icon:
-            self.icon = gtk.Image()
-            self.icon.set_from_stock(gtk.STOCK_CLOSE,
-                                     gtk.ICON_SIZE_MENU)
+            self.icon = Gtk.Image()
+            self.icon.set_from_stock(Gtk.STOCK_CLOSE,
+                                     Gtk.IconSize.MENU)
 
         self.button.set_focus_on_click(False)
-        self.button.set_relief(gtk.RELIEF_NONE)
-        style = gtk.RcStyle()
+        self.button.set_relief(Gtk.ReliefStyle.NONE)
+        style = Gtk.RcStyle()
         style.xthickness = 0
         style.ythickness = 0
         self.button.modify_style(style)
@@ -566,17 +566,17 @@ class TabLabel(gtk.HBox):
     def update_angle(self):
         """Update the angle of a label"""
         position = self.notebook.get_tab_pos()
-        if position == gtk.POS_LEFT:
+        if position == Gtk.PositionType.LEFT:
             if hasattr(self, 'set_orientation'):
-                self.set_orientation(gtk.ORIENTATION_VERTICAL)
+                self.set_orientation(Gtk.Orientation.VERTICAL)
             self.label.set_angle(90)
-        elif position == gtk.POS_RIGHT:
+        elif position == Gtk.PositionType.RIGHT:
             if hasattr(self, 'set_orientation'):
-                self.set_orientation(gtk.ORIENTATION_VERTICAL)
+                self.set_orientation(Gtk.Orientation.VERTICAL)
             self.label.set_angle(270)
         else:
             if hasattr(self, 'set_orientation'):
-                self.set_orientation(gtk.ORIENTATION_HORIZONTAL)
+                self.set_orientation(Gtk.Orientation.HORIZONTAL)
             self.label.set_angle(0)
 
     def on_close(self, _widget):

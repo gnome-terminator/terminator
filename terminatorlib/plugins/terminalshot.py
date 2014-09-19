@@ -5,7 +5,7 @@
 terminals"""
 
 import os
-import gtk
+from gi.repository import Gtk
 import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 from terminatorlib.util import widget_pixbuf
@@ -16,16 +16,16 @@ AVAILABLE = ['TerminalShot']
 class TerminalShot(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
     capabilities = ['terminal_menu']
-    dialog_action = gtk.FILE_CHOOSER_ACTION_SAVE
-    dialog_buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                      gtk.STOCK_SAVE, gtk.RESPONSE_OK)
+    dialog_action = Gtk.FileChooserAction.SAVE
+    dialog_buttons = (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                      Gtk.STOCK_SAVE, Gtk.ResponseType.OK)
 
     def __init__(self):
         plugin.MenuItem.__init__(self)
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = gtk.MenuItem(_('Terminal screenshot'))
+        item = Gtk.MenuItem(_('Terminal screenshot'))
         item.connect("activate", self.terminalshot, terminal)
         menuitems.append(item)
 
@@ -34,7 +34,7 @@ class TerminalShot(plugin.MenuItem):
         # Grab a pixbuf of the terminal
         orig_pixbuf = widget_pixbuf(terminal)
 
-        savedialog = gtk.FileChooserDialog(title="Save image",
+        savedialog = Gtk.FileChooserDialog(title="Save image",
                                            action=self.dialog_action,
                                            buttons=self.dialog_buttons)
         savedialog.set_do_overwrite_confirmation(True)
@@ -42,14 +42,14 @@ class TerminalShot(plugin.MenuItem):
 
         pixbuf = orig_pixbuf.scale_simple(orig_pixbuf.get_width() / 2, 
                                      orig_pixbuf.get_height() / 2,
-                                     gtk.gdk.INTERP_BILINEAR)
-        image = gtk.image_new_from_pixbuf(pixbuf)
+                                     GdkPixbuf.InterpType.BILINEAR)
+        image = Gtk.image_new_from_pixbuf(pixbuf)
         savedialog.set_preview_widget(image)
 
         savedialog.show_all()
         response = savedialog.run()
         path = None
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             path = os.path.join(savedialog.get_current_folder(),
                                 savedialog.get_filename())
             orig_pixbuf.save(path, 'png')

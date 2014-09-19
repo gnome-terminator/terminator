@@ -3,8 +3,8 @@
 # GPL v2 only
 """container.py - classes necessary to contain Terminal widgets"""
 
-import gobject
-import gtk
+from gi.repository import GObject
+from gi.repository import Gtk
 
 from factory import Factory
 from config import Config
@@ -32,7 +32,7 @@ class Container(object):
 
     def register_signals(self, widget):
         """Register gobject signals in a way that avoids multiple inheritance"""
-        existing = gobject.signal_list_names(widget)
+        existing = GObject.signal_list_names(widget)
         for signal in self.signals:
             if signal['name'] in existing:
                 dbg('Container:: skipping signal %s for %s, already exists' % (
@@ -41,7 +41,7 @@ class Container(object):
                 dbg('Container:: registering signal for %s on %s' % 
                         (signal['name'], widget))
                 try:
-                    gobject.signal_new(signal['name'],
+                    GObject.signal_new(signal['name'],
                                        widget,
                                        signal['flags'],
                                        signal['return_type'],
@@ -158,39 +158,39 @@ class Container(object):
         
         # skip this dialog if applicable
         if self.config['suppress_multiple_term_dialog']:
-            return gtk.RESPONSE_ACCEPT
+            return Gtk.ResponseType.ACCEPT
         
-        dialog = gtk.Dialog(_('Close?'), window, gtk.DIALOG_MODAL)
+        dialog = Gtk.Dialog(_('Close?'), window, Gtk.DialogFlags.MODAL)
         dialog.set_has_separator(False)
         dialog.set_resizable(False)
     
-        dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT)
-        c_all = dialog.add_button(gtk.STOCK_CLOSE, gtk.RESPONSE_ACCEPT)
+        dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
+        c_all = dialog.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.ACCEPT)
         c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
                 _('Close _Terminals'))
     
-        primary = gtk.Label(_('<big><b>Close multiple terminals?</b></big>'))
+        primary = Gtk.Label(label=_('<big><b>Close multiple terminals?</b></big>'))
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
-        secondary = gtk.Label(_('This %s has several terminals open. Closing \
+        secondary = Gtk.Label(label=_('This %s has several terminals open. Closing \
 the %s will also close all terminals within it.') % (reqtype, reqtype))
         secondary.set_line_wrap(True)
                     
-        labels = gtk.VBox()
+        labels = Gtk.VBox()
         labels.pack_start(primary, False, False, 6)
         labels.pack_start(secondary, False, False, 6)
     
-        image = gtk.image_new_from_stock(gtk.STOCK_DIALOG_WARNING,
-                                         gtk.ICON_SIZE_DIALOG)
+        image = Gtk.Image.new_from_stock(Gtk.STOCK_DIALOG_WARNING,
+                                         Gtk.IconSize.DIALOG)
         image.set_alignment(0.5, 0)
     
-        box = gtk.HBox()
+        box = Gtk.HBox()
         box.pack_start(image, False, False, 6)
         box.pack_start(labels, False, False, 6)
         dialog.vbox.pack_start(box, False, False, 12)
 
-        checkbox = gtk.CheckButton(_("Do not show this message next time"))
-        dialog.vbox.pack_end(checkbox)
+        checkbox = Gtk.CheckButton(_("Do not show this message next time"))
+        dialog.vbox.pack_end(checkbox, True, True, 0)
     
         dialog.show_all()
 

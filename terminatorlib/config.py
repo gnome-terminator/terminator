@@ -70,7 +70,7 @@ from borg import Borg
 from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
 try:
-    import gconf
+    from gi.repository import GConf
 except ImportError:
     dbg('Unable to import gconf, GNOME defaults unavailable')
 
@@ -344,12 +344,12 @@ class Config(object):
             return
         else:
             if self.gconf is None:
-                self.gconf = gconf.client_get_default()
+                self.gconf = GConf.Client.get_default()
 
-            value = self.gconf.get(
+            value = self.GConf.get(
                         '/desktop/gnome/interface/monospace_font_name')
             self.system_font = value.get_string()
-            self.gconf.notify_add(
+            self.GConf.notify_add(
                         '/desktop/gnome/interface/monospace_font_name', 
                         self.on_gconf_notify)
             return(self.system_font)
@@ -362,12 +362,12 @@ class Config(object):
             return
         else:
             if self.gconf is None:
-                self.gconf = gconf.client_get_default()
+                self.gconf = GConf.Client.get_default()
 
-            value = self.gconf.get('/apps/metacity/general/focus_mode')
+            value = self.GConf.get('/apps/metacity/general/focus_mode')
             if value:
                 self.system_focus = value.get_string()
-                self.gconf.notify_add('/apps/metacity/general/focus_mode',
+                self.GConf.notify_add('/apps/metacity/general/focus_mode',
                         self.on_gconf_notify)
             return(self.system_focus)
 

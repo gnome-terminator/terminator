@@ -4,7 +4,7 @@
 """terminal_popup_menu.py - classes necessary to provide a terminal context 
 menu"""
 
-import gtk
+from gi.repository import Gtk
 
 from version import APP_NAME
 from translation import _
@@ -31,7 +31,7 @@ class TerminalPopupMenu(object):
         """Display the context menu"""
         terminal = self.terminal
 
-        menu = gtk.Menu()
+        menu = Gtk.Menu()
         url = None
         button = None
         time = None
@@ -84,35 +84,35 @@ class TerminalPopupMenu(object):
             if not namecopy:
                 namecopy = _('_Copy address')
 
-            icon = gtk.image_new_from_stock(gtk.STOCK_JUMP_TO,
-                                            gtk.ICON_SIZE_MENU)
-            item = gtk.ImageMenuItem(nameopen)
+            icon = Gtk.Image.new_from_stock(Gtk.STOCK_JUMP_TO,
+                                            Gtk.IconSize.MENU)
+            item = Gtk.ImageMenuItem(nameopen)
             item.set_property('image', icon)
             item.connect('activate', lambda x: terminal.open_url(url, True))
             menu.append(item)
 
-            item = gtk.MenuItem(namecopy)
+            item = Gtk.MenuItem(namecopy)
             item.connect('activate', 
                          lambda x: terminal.clipboard.set_text(terminal.prepare_url(url)))
             menu.append(item)
 
-            menu.append(gtk.MenuItem())
+            menu.append(Gtk.MenuItem())
 
-        item = gtk.ImageMenuItem(gtk.STOCK_COPY)
+        item = Gtk.ImageMenuItem(Gtk.STOCK_COPY)
         item.connect('activate', lambda x: terminal.vte.copy_clipboard())
         item.set_sensitive(terminal.vte.get_has_selection())
         menu.append(item)
 
-        item = gtk.ImageMenuItem(gtk.STOCK_PASTE)
+        item = Gtk.ImageMenuItem(Gtk.STOCK_PASTE)
         item.connect('activate', lambda x: terminal.paste_clipboard())
         menu.append(item)
 
-        menu.append(gtk.MenuItem())
+        menu.append(Gtk.MenuItem())
 
         if not terminal.is_zoomed():
-            item = gtk.ImageMenuItem(_('Split H_orizontally'))
-            image = gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_horiz', gtk.ICON_SIZE_MENU)
+            item = Gtk.ImageMenuItem(_('Split H_orizontally'))
+            image = Gtk.Image()
+            image.set_from_icon_name(APP_NAME + '_horiz', Gtk.IconSize.MENU)
             item.set_image(image)
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
@@ -120,9 +120,9 @@ class TerminalPopupMenu(object):
                 self.terminator.pid_cwd(self.terminal.pid)))
             menu.append(item)
 
-            item = gtk.ImageMenuItem(_('Split V_ertically'))
-            image = gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_vert', gtk.ICON_SIZE_MENU)
+            item = Gtk.ImageMenuItem(_('Split V_ertically'))
+            image = Gtk.Image()
+            image.set_from_icon_name(APP_NAME + '_vert', Gtk.IconSize.MENU)
             item.set_image(image)
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
@@ -130,65 +130,65 @@ class TerminalPopupMenu(object):
                 self.terminator.pid_cwd(self.terminal.pid)))
             menu.append(item)
 
-            item = gtk.MenuItem(_('Open _Tab'))
+            item = Gtk.MenuItem(_('Open _Tab'))
             item.connect('activate', lambda x: terminal.emit('tab-new', False,
                 terminal))
             menu.append(item)
 
             if self.terminator.debug_address is not None:
-                item = gtk.MenuItem(_('Open _Debug Tab'))
+                item = Gtk.MenuItem(_('Open _Debug Tab'))
                 item.connect('activate', lambda x:
                         terminal.emit('tab-new', True, terminal))
                 menu.append(item)
 
-            menu.append(gtk.MenuItem())
+            menu.append(Gtk.MenuItem())
 
-        item = gtk.ImageMenuItem(gtk.STOCK_CLOSE)
+        item = Gtk.ImageMenuItem(Gtk.STOCK_CLOSE)
         item.connect('activate', lambda x: terminal.close())
         menu.append(item)
 
-        menu.append(gtk.MenuItem())
+        menu.append(Gtk.MenuItem())
 
         if not terminal.is_zoomed():
-            item = gtk.MenuItem(_('_Zoom terminal'))
+            item = Gtk.MenuItem(_('_Zoom terminal'))
             item.connect('activate', terminal.zoom)
             menu.append(item)
 
-            item = gtk.MenuItem(_('Ma_ximise terminal'))
+            item = Gtk.MenuItem(_('Ma_ximise terminal'))
             item.connect('activate', terminal.maximise)
             menu.append(item)
 
-            menu.append(gtk.MenuItem())
+            menu.append(Gtk.MenuItem())
         else:
-            item = gtk.MenuItem(_('_Restore all terminals'))
+            item = Gtk.MenuItem(_('_Restore all terminals'))
             item.connect('activate', terminal.unzoom)
             menu.append(item)
 
-            menu.append(gtk.MenuItem())
+            menu.append(Gtk.MenuItem())
 
         if self.config['show_titlebar'] == False:
-            item = gtk.MenuItem(_('Grouping'))
+            item = Gtk.MenuItem(_('Grouping'))
             submenu = self.terminal.populate_group_menu()
             submenu.show_all()
             item.set_submenu(submenu)
             menu.append(item)
-            menu.append(gtk.MenuItem())
+            menu.append(Gtk.MenuItem())
 
-        item = gtk.CheckMenuItem(_('Show _scrollbar'))
+        item = Gtk.CheckMenuItem(_('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
         if hasattr(gtk, 'Builder'):
-            item = gtk.MenuItem(_('_Preferences'))
+            item = Gtk.MenuItem(_('_Preferences'))
             item.connect('activate', lambda x: PrefsEditor(self.terminal))
             menu.append(item)
 
         profilelist = self.config.list_profiles()
 
         if len(profilelist) > 1:
-            item = gtk.MenuItem(_('Profiles'))
-            submenu = gtk.Menu()
+            item = Gtk.MenuItem(_('Profiles'))
+            submenu = Gtk.Menu()
             item.set_submenu(submenu)
             menu.append(item)
 
@@ -197,7 +197,7 @@ class TerminalPopupMenu(object):
             group = None
 
             for profile in profilelist:
-                item = gtk.RadioMenuItem(group, profile.capitalize())
+                item = Gtk.RadioMenuItem(group, profile.capitalize())
                 if profile == current:
                     item.set_active(True)
                 item.connect('activate', terminal.force_set_profile, profile)
@@ -214,7 +214,7 @@ class TerminalPopupMenu(object):
                 menuplugin.callback(menuitems, menu, terminal)
             
             if len(menuitems) > 0:
-                menu.append(gtk.MenuItem())
+                menu.append(Gtk.MenuItem())
 
             for menuitem in menuitems:
                 menu.append(menuitem)
@@ -231,9 +231,9 @@ class TerminalPopupMenu(object):
         """Add the encoding list to the menu"""
         terminal = self.terminal
         active_encodings = terminal.config['active_encodings']
-        item = gtk.MenuItem (_("Encodings"))
+        item = Gtk.MenuItem (_("Encodings"))
         menu.append (item)
-        submenu = gtk.Menu ()
+        submenu = Gtk.Menu ()
         item.set_submenu (submenu)
         encodings = TerminatorEncoding ().get_list ()
         encodings.sort (lambda x, y: cmp (x[2].lower (), y[2].lower ()))
@@ -253,7 +253,7 @@ class TerminalPopupMenu(object):
             else:
                 extratext = ""
     
-            radioitem = gtk.RadioMenuItem (group, _(encoding) + extratext)
+            radioitem = Gtk.RadioMenuItem (group, _(encoding) + extratext)
     
             if encoding == current_encoding:
                 radioitem.set_active (True)
@@ -265,11 +265,11 @@ class TerminalPopupMenu(object):
                                encoding)
             submenu.append (radioitem)
     
-        item = gtk.MenuItem (_("Other Encodings"))
+        item = Gtk.MenuItem (_("Other Encodings"))
         submenu.append (item)
         #second level
     
-        submenu = gtk.Menu ()
+        submenu = Gtk.Menu ()
         item.set_submenu (submenu)
         group = None
     
@@ -282,7 +282,7 @@ class TerminalPopupMenu(object):
             else:
                 label = "%s %s" % (encoding[2], encoding[1])
     
-            radioitem = gtk.RadioMenuItem (group, label)
+            radioitem = Gtk.RadioMenuItem (group, label)
             if group is None:
                 group = radioitem
     

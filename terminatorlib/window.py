@@ -6,10 +6,10 @@
 import copy
 import time
 import uuid
-import pygtk
-pygtk.require('2.0')
-import gobject
-import gtk
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import GObject
+from gi.repository import Gtk
 
 from util import dbg, err, make_uuid
 import util
@@ -26,7 +26,7 @@ except ImportError:
 hide_window shortcut will be unavailable')
 
 # pylint: disable-msg=R0904
-class Window(Container, gtk.Window):
+class Window(Container, Gtk.Window):
     """Class implementing a top-level Terminator window"""
 
     terminator = None
@@ -45,11 +45,11 @@ class Window(Container, gtk.Window):
 
     term_zoomed = False
     __gproperties__ = {
-            'term_zoomed': (gobject.TYPE_BOOLEAN,
+            'term_zoomed': (GObject.TYPE_BOOLEAN,
                             'terminal zoomed',
                             'whether the terminal is zoomed',
                             False,
-                            gobject.PARAM_READWRITE)
+                            GObject.PARAM_READWRITE)
     }
 
     def __init__(self):
@@ -58,8 +58,8 @@ class Window(Container, gtk.Window):
         self.terminator.register_window(self)
 
         Container.__init__(self)
-        gtk.Window.__init__(self)
-        gobject.type_register(Window)
+        GObject.GObject.__init__(self)
+        GObject.type_register(Window)
         self.register_signals(Window)
 
         self.set_property('allow-shrink', True)
@@ -168,34 +168,34 @@ class Window(Container, gtk.Window):
 
     def apply_icon(self, requested_icon):
         """Set the window icon"""
-        icon_theme = gtk.IconTheme()
+        icon_theme = Gtk.IconTheme()
         icon = None
         
         if requested_icon:
             try:
                 self.set_icon_from_file(requested_icon)
                 icon = self.get_icon()
-            except (NameError, gobject.GError):
+            except (NameError, GObject.GError):
                 dbg('Unable to load 48px %s icon as file' % (repr(requested_icon)))
         
         if requested_icon and icon is None:
             try:
                 icon = icon_theme.load_icon(requested_icon, 48, 0)
-            except (NameError, gobject.GError):
+            except (NameError, GObject.GError):
                 dbg('Unable to load 48px %s icon' % (repr(requested_icon)))
         
         if icon is None:
             try:
                 icon = icon_theme.load_icon(self.wmclass_name, 48, 0)
-            except (NameError, gobject.GError):
+            except (NameError, GObject.GError):
                 dbg('Unable to load 48px %s icon' % (self.wmclass_name))
         
         if icon is None:
             try:
                 icon = icon_theme.load_icon(APP_NAME, 48, 0)
-            except (NameError, gobject.GError):
+            except (NameError, GObject.GError):
                 dbg('Unable to load 48px Terminator icon')
-                icon = self.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
+                icon = self.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
 
         self.set_icon(icon)
 
@@ -213,9 +213,9 @@ class Window(Container, gtk.Window):
                 self.set_fullscreen(not self.isfullscreen)
             elif mapping == 'close_window':
                 if not self.on_delete_event(window,
-                        gtk.gdk.Event(gtk.gdk.DELETE)):
+                        Gdk.Event(Gdk.DELETE)):
                     self.on_destroy_event(window,
-                            gtk.gdk.Event(gtk.gdk.DESTROY))
+                            Gdk.Event(Gdk.DESTROY))
             elif mapping == 'new_tab':
                 self.tab_new(self.get_focussed_terminal())
             else:
@@ -284,7 +284,7 @@ class Window(Container, gtk.Window):
         """Display a confirmation dialog when the user is closing multiple
         terminals in one window"""
         
-        return(not (self.construct_confirm_close(window, type) == gtk.RESPONSE_ACCEPT))
+        return(not (self.construct_confirm_close(window, type) == Gtk.ResponseType.ACCEPT))
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
@@ -310,7 +310,7 @@ class Window(Container, gtk.Window):
             self.show()
             self.grab_focus()
             try:
-                t = gtk.gdk.x11_get_server_time(self.window)
+                t = GdkX11.x11_get_server_time(self.window)
             except AttributeError:
                 t = 0
             self.window.focus(t)
@@ -322,9 +322,9 @@ class Window(Container, gtk.Window):
     def on_window_state_changed(self, window, event):
         """Handle the state of the window changing"""
         self.isfullscreen = bool(event.new_window_state & 
-                                 gtk.gdk.WINDOW_STATE_FULLSCREEN)
+                                 Gdk.WindowState.FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
-                                 gtk.gdk.WINDOW_STATE_MAXIMIZED)
+                                 Gdk.WindowState.MAXIMIZED)
         dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' \
                 % (self.isfullscreen, self.ismaximised))
 
@@ -390,7 +390,7 @@ class Window(Container, gtk.Window):
         #Present is necessary to grab focus when window is hidden from taskbar.
         #It is important to call present() before show(), otherwise the window
         #won't be brought to front if an another application has the focus.
-        #Last note: present() will implicitly call gtk.Window.show()
+        #Last note: present() will implicitly call Gtk.Window.show()
         self.present()
 
         #Window must be shown, then hidden for the hotkeys to be registered
@@ -400,9 +400,9 @@ class Window(Container, gtk.Window):
 
 
     def add(self, widget, metadata=None):
-        """Add a widget to the window by way of gtk.Window.add()"""
+        """Add a widget to the window by way of Gtk.Window.add()"""
         maker = Factory()
-        gtk.Window.add(self, widget)
+        Gtk.Window.add(self, widget)
         if maker.isinstance(widget, 'Terminal'):
             signals = {'close-term': self.closeterm,
                        'title-change': self.title.set_title,
@@ -431,8 +431,8 @@ class Window(Container, gtk.Window):
             widget.grab_focus()
 
     def remove(self, widget):
-        """Remove our child widget by way of gtk.Window.remove()"""
-        gtk.Window.remove(self, widget)
+        """Remove our child widget by way of Gtk.Window.remove()"""
+        Gtk.Window.remove(self, widget)
         self.disconnect_child(widget)
         return(True)
 
@@ -490,8 +490,8 @@ class Window(Container, gtk.Window):
         container.show_all()
         sibling.grab_focus()
         
-        while gtk.events_pending():
-            gtk.main_iteration_do(False)
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
         self.set_pos_by_ratio = False
 
 
@@ -557,8 +557,8 @@ class Window(Container, gtk.Window):
         self.show_all()
         widget.grab_focus()
         
-        while gtk.events_pending():
-            gtk.main_iteration_do(False)
+        while Gtk.events_pending():
+            Gtk.main_iteration_do(False)
         self.set_pos_by_ratio = False
 
     def get_visible_terminals(self):
@@ -601,7 +601,7 @@ class Window(Container, gtk.Window):
         if self.pending_set_rough_geometry_hint == True:
             return
         self.pending_set_rough_geometry_hint = True
-        gobject.idle_add(self.do_deferred_set_rough_geometry_hints)
+        GObject.idle_add(self.do_deferred_set_rough_geometry_hints)
 
     def do_deferred_set_rough_geometry_hints(self):
         self.pending_set_rough_geometry_hint = False
