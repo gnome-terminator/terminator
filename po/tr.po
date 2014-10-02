@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-11-22 10:58+0000\n"
-"Last-Translator: ubunturk <ozdamar.volkan@gmail.com>\n"
+"PO-Revision-Date: 2014-10-01 21:25+0000\n"
+"Last-Translator: Ahmet Sezgin DURAN <marjinalist1@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:19+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-10-02 05:34+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -413,7 +413,7 @@ msgstr "Özelleştirilmiş"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "Engelle"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -421,7 +421,7 @@ msgstr "Altı Çizili"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "I-Beam"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
@@ -465,11 +465,11 @@ msgstr "Devre dışı"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Üst"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Alt"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
@@ -525,7 +525,7 @@ msgstr "Fare odağı"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Uçbirim ayraç büyüklüğü"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
@@ -533,7 +533,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Her zaman üstte"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -541,7 +541,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Tüm çalışma alanlarında göster"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
