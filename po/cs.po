@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-12-24 23:37+0000\n"
-"Last-Translator: Tomáš Dohnálek <dohnto@gmail.com>\n"
+"PO-Revision-Date: 2014-10-22 22:55+0000\n"
+"Last-Translator: Zdeněk Kopš <zdenekkops@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-10-23 05:37+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -516,7 +516,7 @@ msgstr "Ohraničení okna"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr "Umístění karty"
+msgstr "Umístění panelu"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
