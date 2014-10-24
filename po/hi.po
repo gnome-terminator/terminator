@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2013-10-21 18:18+0000\n"
-"Last-Translator: Siddhant Pathak <Unknown>\n"
+"PO-Revision-Date: 2014-10-23 12:59+0000\n"
+"Last-Translator: Mousum Kumar <mkumarofficial01@gmail.com>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-10-24 05:33+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -1041,7 +1041,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:467
 msgid "Insert terminal number"
-msgstr ""
+msgstr "टर्मिनल सँख्यां डालें"
 
 #: ../terminatorlib/terminal.py:471
 msgid "Insert padded terminal number"
