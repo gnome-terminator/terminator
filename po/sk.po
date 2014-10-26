@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-10-22 23:36+0000\n"
+"PO-Revision-Date: 2014-10-26 02:00+0000\n"
 "Last-Translator: Zdeněk Kopš <zdenekkops@gmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-23 05:37+0000\n"
+"X-Launchpad-Export-Date: 2014-10-26 05:26+0000\n"
 "X-Generator: Launchpad (build 17203)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -366,7 +366,7 @@ msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Escapovať sekvenciu"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
@@ -406,7 +406,7 @@ msgstr "Oranžová na čiernej"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Prostredie"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
@@ -422,11 +422,11 @@ msgstr "Podčiarknutie"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "I-Beam"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME východzie"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -1067,11 +1067,11 @@ msgstr "Nepodarilo sa spustiť shell:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Premenovať okno"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Zadajte nový názov pre okno Terminator..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
