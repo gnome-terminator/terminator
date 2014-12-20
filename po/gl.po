@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-08-23 13:28+0000\n"
-"Last-Translator: Ivan <Unknown>\n"
+"PO-Revision-Date: 2014-12-19 09:20+0000\n"
+"Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-24 05:52+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2014-12-20 05:28+0000\n"
+"X-Generator: Launchpad (build 17286)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
-msgstr "Terminator"
+msgstr "Terminador"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Varios terminais nunha única xanela"
+msgstr "Múltiples terminales nunha ventá"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
-msgstr "Pechar?"
+msgstr "¿Pechar?"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
@@ -63,11 +63,11 @@ msgstr "Occidental"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Centroeuropeo"
+msgstr "Central Europeo"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Sureuropeo"
+msgstr "Sur de Europa"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
@@ -132,7 +132,7 @@ msgstr "Armenio"
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Chinés tradicional"
+msgstr "Chino Tradicional"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -151,7 +151,7 @@ msgstr "Coreano"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Chinés simplificado"
+msgstr "Chino Simplificado"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -167,7 +167,7 @@ msgstr "Croata"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Hindú"
+msgstr "Hindi"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
@@ -175,7 +175,7 @@ msgstr "Persa"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Guxaratí"
+msgstr "Gujarati"
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
@@ -204,7 +204,7 @@ msgstr "Pechar lapela"
 
 #: ../terminatorlib/optionparse.py:48
 msgid "Display program version"
-msgstr "Mostrar a versión do aplicativo"
+msgstr "Mostrar a versión do programa"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
@@ -232,11 +232,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
-msgstr "Especificar a orde para executar no terminal"
+msgstr "Especificar un comando a executar dentro do terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Especifique un ficheiro de configuración"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -252,11 +252,12 @@ msgstr "Definir o directorio de traballo"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Define un nome personalizado (WM_CLASS) propiedade na xanela"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
 msgstr ""
+"Estableza un icono personalizado para o diálogo (por ficheiro ou nome)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -264,7 +265,7 @@ msgstr "Definir unha propiedade WM_WINDOW_ROLE personalizada na xanela"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
-msgstr "Seleccione a disposición"
+msgstr "Seleccione un esquema"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Use a different profile as the default"
