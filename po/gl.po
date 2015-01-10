@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-12-19 09:20+0000\n"
+"PO-Revision-Date: 2015-01-09 08:11+0000\n"
 "Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-12-20 05:28+0000\n"
-"X-Generator: Launchpad (build 17286)\n"
+"X-Launchpad-Export-Date: 2015-01-10 05:29+0000\n"
+"X-Generator: Launchpad (build 17298)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -289,7 +289,7 @@ msgstr "Métodos separados por vírgulas para limitar a depuración a"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Se Terminator xa está en execución, pode abrir un novo separador"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -352,11 +352,11 @@ msgstr "Captura de pantalla do terminal"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automático"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
@@ -364,11 +364,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Secuencia de escape"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Saír da terminal"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
@@ -376,15 +376,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Deixar o terminal aberto"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Negro sobre amarelo claro"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Negro sobre branco"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
@@ -392,23 +392,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Verde sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Branco sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Laranxa sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ambiente"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Persoalizado"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -416,7 +416,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Subliñar"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -424,7 +424,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Predeterminado do Gnome"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -432,31 +432,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Seguir o cursor"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "No lado esquerdo"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "No lado dereito"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
@@ -464,7 +464,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Arriba"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
@@ -472,23 +472,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Esquerda"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Dereita"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Oculto"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maximizada"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
