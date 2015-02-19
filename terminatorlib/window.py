@@ -378,9 +378,8 @@ class Window(Container, Gtk.Window):
         if value:
             dbg('setting rgba visual')
             visual = screen.get_rgba_visual()
-
-        if visual:
-            self.set_visual(visual)
+            if visual:
+                self.set_visual(visual)
     
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
