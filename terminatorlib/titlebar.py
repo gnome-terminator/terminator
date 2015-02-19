@@ -50,7 +50,7 @@ class Titlebar(Gtk.EventBox):
         self.label.connect('edit-done', self.on_edit_done)
         self.ebox = Gtk.EventBox()
         grouphbox = Gtk.HBox()
-        self.grouplabel = Gtk.Label()
+        self.grouplabel = Gtk.Label(ellipsize='end')
         self.groupicon = Gtk.Image()
         self.bellicon = Gtk.Image()
         self.bellicon.set_no_show_all(True)
@@ -85,8 +85,10 @@ class Titlebar(Gtk.EventBox):
         hbox.pack_start(self.label, True, True, 0)
         hbox.pack_end(self.bellicon, False, False, 2)
 
-        self.add(hbox)
-        hbox.show_all()
+        viewport = Gtk.Viewport(hscroll_policy='natural')
+        viewport.add(hbox)
+        self.add (viewport)
+        viewport.show_all()
         self.set_no_show_all(True)
         self.show()
 
