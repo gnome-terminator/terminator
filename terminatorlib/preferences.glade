@@ -1209,26 +1209,32 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkTreeView" id="profilelist">
+                      <object class="GtkScrolledWindow" id="scrolledwindow3">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hadjustment">adjustment2</property>
-                        <property name="vadjustment">adjustment3</property>
-                        <property name="model">ProfilesListStore</property>
-                        <property name="headers_clickable">False</property>
-                        <property name="search_column">0</property>
+                        <property name="hscrollbar_policy">never</property>
                         <child>
-                          <object class="GtkTreeViewColumn" id="profilecolumn">
-                            <property name="title">Profile</property>
-                            <property name="clickable">True</property>
+                          <object class="GtkTreeView" id="profilelist">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hadjustment">adjustment2</property>
+                            <property name="vadjustment">adjustment3</property>
+                            <property name="model">ProfilesListStore</property>
+                            <property name="headers_clickable">False</property>
+                            <property name="search_column">0</property>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext3">
-                                <signal name="edited" handler="on_profile_name_edited" swapped="no"/>
+                              <object class="GtkTreeViewColumn" id="profilecolumn">
+                                <property name="title">Profile</property>
+                                <property name="clickable">True</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext3">
+                                    <signal name="edited" handler="on_profile_name_edited" swapped="no"/>
+                                  </object>
+                                  <attributes>
+                                    <attribute name="editable">1</attribute>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
-                              <attributes>
-                                <attribute name="editable">1</attribute>
-                                <attribute name="text">0</attribute>
-                              </attributes>
                             </child>
                           </object>
                         </child>
@@ -3344,25 +3350,31 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkTreeView" id="layoutlist">
+                      <object class="GtkScrolledWindow" id="scrolledwindow4">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hadjustment">adjustment5</property>
-                        <property name="vadjustment">adjustment6</property>
-                        <property name="model">LayoutListStore</property>
-                        <property name="search_column">0</property>
+                        <property name="hscrollbar_policy">never</property>
                         <child>
-                          <object class="GtkTreeViewColumn" id="layoutcolumn">
-                            <property name="title">Layout</property>
-                            <property name="clickable">True</property>
+                          <object class="GtkTreeView" id="layoutlist">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="hadjustment">adjustment5</property>
+                            <property name="vadjustment">adjustment6</property>
+                            <property name="model">LayoutListStore</property>
+                            <property name="search_column">0</property>
                             <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext12">
-                                <signal name="edited" handler="on_layout_name_edited" swapped="no"/>
+                              <object class="GtkTreeViewColumn" id="layoutcolumn">
+                                <property name="title">Layout</property>
+                                <property name="clickable">True</property>
+                                <child>
+                                  <object class="GtkCellRendererText" id="cellrenderertext12">
+                                    <signal name="edited" handler="on_layout_name_edited" swapped="no"/>
+                                  </object>
+                                  <attributes>
+                                    <attribute name="editable">1</attribute>
+                                    <attribute name="text">0</attribute>
+                                  </attributes>
+                                </child>
                               </object>
-                              <attributes>
-                                <attribute name="editable">1</attribute>
-                                <attribute name="text">0</attribute>
-                              </attributes>
                             </child>
                           </object>
                         </child>
