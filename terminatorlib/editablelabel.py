@@ -43,7 +43,7 @@ class EditableLabel(Gtk.EventBox):
         GObject.GObject.__init__(self) 
 
         self._entry_handler_id = []
-        self._label = Gtk.Label(label=text)
+        self._label = Gtk.Label(label=text, ellipsize='end')
         self._custom = False
         self.set_visible_window (False)
         self.add (self._label)  
