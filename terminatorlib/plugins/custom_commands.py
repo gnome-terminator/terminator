@@ -84,7 +84,8 @@ class CustomCommandsMenu(plugin.MenuItem):
             menuitem.set_image(image)
           else:
             menuitem = gtk.MenuItem(command["name"])
-          menuitem.connect("activate", self._execute, {'terminal' : terminal, 'command' : command['command'] })
+          terminals = terminal.terminator.get_target_terms(terminal)
+          menuitem.connect("activate", self._execute, {'terminals' : terminals, 'command' : command['command'] })
           submenu.append(menuitem)
         
     def _save_config(self):
@@ -108,9 +109,10 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def _execute(self, widget, data):
       command = data['command']
-      if command[len(command)-1] != '\n':
+      if command[-1] != '\n':
         command = command + '\n'
-      data['terminal'].vte.feed_child(command)
+      for terminal in data['terminals']:
+        terminal.vte.feed_child(command)
 
     def configure(self, widget, data = None):
       ui = {}
@@ -157,8 +159,13 @@ class CustomCommandsMenu(plugin.MenuItem):
       column = gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
+      scroll_window = gtk.ScrolledWindow()
+      scroll_window.set_size_request(500, 250)
+      scroll_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+      scroll_window.add_with_viewport(treeview)
+
       hbox = gtk.HBox()
-      hbox.pack_start(treeview)
+      hbox.pack_start(scroll_window, True, True)
       dbox.vbox.pack_start(hbox)
 
       button_box = gtk.VBox()
@@ -206,7 +213,7 @@ class CustomCommandsMenu(plugin.MenuItem):
 
 
 
-      hbox.pack_start(button_box)
+      hbox.pack_start(button_box, False, True)
       dbox.show_all()
       res = dbox.run()
       if res == gtk.RESPONSE_ACCEPT:
