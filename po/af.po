@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-09-14 07:43+0000\n"
-"Last-Translator: JC Brand <Unknown>\n"
+"PO-Revision-Date: 2014-10-06 19:40+0000\n"
+"Last-Translator: Deavmi <deavmi@gmail.com>\n"
 "Language-Team: Afrikaans <af@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2014-10-07 05:35+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -31,7 +31,7 @@ msgstr "Sluit?"
 
 #: ../terminatorlib/container.py:170
 msgid "Close _Terminals"
-msgstr "Sluit _terminale"
+msgstr "Sluit_Terminale"
 
 #: ../terminatorlib/container.py:172
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Huidige lokaliteit"
+msgstr "Huldige Lokaliteit"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -93,7 +93,7 @@ msgstr "Grieks"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Hebreeus visueel"
+msgstr "Hebreeus Visueel"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
@@ -120,7 +120,7 @@ msgstr "Romeens"
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Unikode"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
@@ -132,7 +132,7 @@ msgstr "Armeens"
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Sjinees tradisioneel"
+msgstr "Sjinees Tradisioneel"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -151,7 +151,7 @@ msgstr "Koriaans"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Sjinees vereenvoudig"
+msgstr "Sjinees Vereenvoudig"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
