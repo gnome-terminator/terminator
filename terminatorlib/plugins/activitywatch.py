@@ -7,6 +7,7 @@ import time
 from gi.repository import Gtk
 from gi.repository import GObject
 
+from terminatorlib.config import Config
 import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 from terminatorlib.util import err, dbg
@@ -20,6 +21,12 @@ try:
     AVAILABLE = ['ActivityWatch', 'InactivityWatch']
 except ImportError:
     err(_('ActivityWatch plugin unavailable: please install python-notify'))
+
+config = Config()
+inactive_period = float(config.plugin_get('ActivityWatch', 'inactive_period',
+                                        10.0))
+watch_interval = int(config.plugin_get('ActivityWatch', 'watch_interval',
+                                       5000))
 
 class ActivityWatch(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
@@ -40,25 +47,26 @@ class ActivityWatch(plugin.MenuItem):
         Notify.init(APP_NAME.capitalize())
 
     def callback(self, menuitems, menu, terminal):
-        """Add our menu items to the menu"""
-        if not self.watches.has_key(terminal):
-            item = Gtk.MenuItem(_('Watch for activity'))
-            item.connect("activate", self.watch, terminal)
-        else:
-            item = Gtk.MenuItem(_('Stop watching for activity'))
+        """Add our menu item to the menu"""
+        item = Gtk.CheckMenuItem(_('Watch for activity'))
+        item.set_active(self.watches.has_key(terminal))
+        if item.get_active():
             item.connect("activate", self.unwatch, terminal)
+        else:
+            item.connect("activate", self.watch, terminal)
         menuitems.append(item)
+        dbg('Menu item appended')
 
     def watch(self, _widget, terminal):
         """Watch a terminal"""
         vte = terminal.get_vte()
-        self.watches[terminal] = Vte.connect('contents-changed', 
+        self.watches[terminal] = vte.connect('contents-changed', 
                                              self.notify, terminal)
 
     def unwatch(self, _widget, terminal):
         """Stop watching a terminal"""
         vte = terminal.get_vte()
-        Vte.disconnect(self.watches[terminal])
+        vte.disconnect(self.watches[terminal])
         del(self.watches[terminal])
 
     def notify(self, _vte, terminal):
@@ -66,10 +74,10 @@ class ActivityWatch(plugin.MenuItem):
         show_notify = False
 
         # Don't notify if the user is already looking at this terminal.
-        if terminal.vte.flags() & Gtk.HAS_FOCUS:
+        if terminal.vte.has_focus():
             return True
 
-        note = Notify.Notification('Terminator', 'Activity in: %s' % 
+        note = Notify.Notification.new('Terminator', 'Activity in: %s' % 
                                   terminal.get_window_title(), 'terminator')
 
         this_time = time.mktime(time.gmtime())
@@ -105,29 +113,29 @@ class InactivityWatch(plugin.MenuItem):
         Notify.init(APP_NAME.capitalize())
 
     def callback(self, menuitems, menu, terminal):
-        """Add our menu items to the menu"""
-        if not self.watches.has_key(terminal):
-            item = Gtk.MenuItem(_("Watch for silence"))
-            item.connect("activate", self.watch, terminal)
-        else:
-            item = Gtk.MenuItem(_("Stop watching for silence"))
+        """Add our menu item to the menu"""
+        item = Gtk.CheckMenuItem(_("Watch for silence"))
+        item.set_active(self.watches.has_key(terminal))
+        if item.get_active():
             item.connect("activate", self.unwatch, terminal)
+        else:
+            item.connect("activate", self.watch, terminal)
         menuitems.append(item)
         dbg('Menu items appended')
 
     def watch(self, _widget, terminal):
         """Watch a terminal"""
         vte = terminal.get_vte()
-        self.watches[terminal] = Vte.connect('contents-changed',
+        self.watches[terminal] = vte.connect('contents-changed',
                                              self.reset_timer, terminal)
-        timeout_id = GObject.timeout_add(5000, self.check_times, terminal)
+        timeout_id = GObject.timeout_add(watch_interval, self.check_times, terminal)
         self.timers[terminal] = timeout_id
         dbg('timer %s added for %s' %(timeout_id, terminal))
 
     def unwatch(self, _vte, terminal):
         """Unwatch a terminal"""
         vte = terminal.get_vte()
-        Vte.disconnect(self.watches[terminal])
+        vte.disconnect(self.watches[terminal])
         del(self.watches[terminal])
         GObject.source_remove(self.timers[terminal])
         del(self.timers[terminal])
@@ -146,9 +154,9 @@ class InactivityWatch(plugin.MenuItem):
             return True
 
         dbg('seconds since last activity: %f (%s)' % (time_now - self.last_activities[terminal], terminal))
-        if time_now - self.last_activities[terminal] >= 10.0:
+        if time_now - self.last_activities[terminal] >= inactive_period:
             del(self.last_activities[terminal])
-            note = Notify.Notification('Terminator', 'Silence in: %s' % 
+            note = Notify.Notification.new('Terminator', 'Silence in: %s' % 
                                          terminal.get_window_title(), 'terminator')
             note.show()
 

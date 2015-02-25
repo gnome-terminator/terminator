@@ -44,6 +44,16 @@ Classes relating to configuration
 {'foo': 'bar'}
 >>> config.plugin_get('testplugin', 'foo')
 'bar'
+>>> config.plugin_get('testplugin', 'foo', 'new')
+'bar'
+>>> config.plugin_get('testplugin', 'algo')
+Traceback (most recent call last):
+...
+KeyError: 'ConfigBase::get_item: unknown key algo'
+>>> config.plugin_get('testplugin', 'algo', 1)
+1
+>>> config.plugin_get('anothertestplugin', 'algo', 500)
+500
 >>> config.get_profile()
 'default'
 >>> config.set_profile('my_first_new_testing_profile')
@@ -257,9 +267,9 @@ class Config(object):
         self.set_profile(profile)
         self.inhibited = False
 
-    def __getitem__(self, key):
+    def __getitem__(self, key, default=None):
         """Look up a configuration item"""
-        return(self.base.get_item(key, self.profile))
+        return(self.base.get_item(key, self.profile, default=default))
 
     def __setitem__(self, key, value):
         """Set a particular configuration item"""
@@ -394,9 +404,11 @@ class Config(object):
         """Get the command line options"""
         return(self.base.command_line_options)
 
-    def plugin_get(self, pluginname, key):
-        """Get a plugin config value"""
-        return(self.base.get_item(key, plugin=pluginname))
+    def plugin_get(self, pluginname, key, default=None):
+        """Get a plugin config value, if doesn't exist
+            return default if specified
+        """
+        return(self.base.get_item(key, plugin=pluginname, default=default))
 
     def plugin_set(self, pluginname, key, value):
         """Set a plugin config value"""
@@ -655,7 +667,7 @@ class ConfigBase(Borg):
         except Exception, ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
-    def get_item(self, key, profile='default', plugin=None):
+    def get_item(self, key, profile='default', plugin=None, default=None):
         """Look up a configuration item"""
         if not self.profiles.has_key(profile):
             # Hitting this generally implies a bug
@@ -671,10 +683,12 @@ class ConfigBase(Borg):
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
-        elif plugin is not None and self.plugins[plugin].has_key(key):
+        elif plugin and plugin in self.plugins and key in self.plugins[plugin]:
             dbg('ConfigBase::get_item: %s found in plugin %s: %s' % (
                     key, plugin, self.plugins[plugin][key]))
             return(self.plugins[plugin][key])
+        elif default:
+            return default
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
 
