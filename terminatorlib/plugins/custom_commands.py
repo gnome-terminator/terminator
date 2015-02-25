@@ -84,7 +84,8 @@ class CustomCommandsMenu(plugin.MenuItem):
             menuitem.set_image(image)
           else:
             menuitem = Gtk.MenuItem(command["name"])
-          menuitem.connect("activate", self._execute, {'terminal' : terminal, 'command' : command['command'] })
+          terminals = terminal.terminator.get_target_terms(terminal)
+          menuitem.connect("activate", self._execute, {'terminals' : terminals, 'command' : command['command'] })
           submenu.append(menuitem)
         
     def _save_config(self):
@@ -108,9 +109,10 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def _execute(self, widget, data):
       command = data['command']
-      if command[len(command)-1] != '\n':
+      if command[-1] != '\n':
         command = command + '\n'
-      data['terminal'].vte.feed_child(command, len(command))
+      for terminal in data['terminals']:
+        terminal.vte.feed_child(command,  len(command))
 
     def configure(self, widget, data = None):
       ui = {}
