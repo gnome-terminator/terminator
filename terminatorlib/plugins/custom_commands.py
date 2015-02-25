@@ -64,7 +64,7 @@ class CustomCommandsMenu(plugin.MenuItem):
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
 
-        menuitem = Gtk.ImageMenuItem(Gtk.STOCK_PREFERENCES)
+        menuitem = Gtk.MenuItem(_('Preferences'))
         menuitem.connect("activate", self.configure)
         submenu.append(menuitem)
 
@@ -157,56 +157,61 @@ class CustomCommandsMenu(plugin.MenuItem):
       column = Gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
+      scroll_window = Gtk.ScrolledWindow()
+      scroll_window.set_size_request(500, 250)
+      scroll_window.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+      scroll_window.add_with_viewport(treeview)
+
       hbox = Gtk.HBox()
-      hbox.pack_start(treeview, True, True, 0)
+      hbox.pack_start(scroll_window, True, True, 0)
       dbox.vbox.pack_start(hbox, True, True, 0)
 
       button_box = Gtk.VBox()
 
       button = Gtk.Button(stock=Gtk.STOCK_GOTO_TOP)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_goto_top, ui) 
       button.set_sensitive(False)
       ui['button_top'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_GO_UP)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_go_up, ui)
       button.set_sensitive(False)
       ui['button_up'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_GO_DOWN)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_go_down, ui) 
       button.set_sensitive(False)
       ui['button_down'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_GOTO_LAST)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_goto_last, ui) 
       button.set_sensitive(False)
       ui['button_last'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_NEW)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_new, ui) 
       ui['button_new'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_EDIT)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.set_sensitive(False)
       button.connect("clicked", self.on_edit, ui) 
       ui['button_edit'] = button
 
       button = Gtk.Button(stock=Gtk.STOCK_DELETE)
-      button_box.pack_start(button, False, True)
+      button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_delete, ui) 
       button.set_sensitive(False)
       ui['button_delete'] = button
 
 
 
-      hbox.pack_start(button_box, True, True, 0)
+      hbox.pack_start(button_box, False, True, 0)
       dbox.show_all()
       res = dbox.run()
       if res == Gtk.ResponseType.ACCEPT:
