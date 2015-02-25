@@ -1017,8 +1017,8 @@ class Terminal(Gtk.VBox):
 
     def grab_focus(self):
         """Steal focus for this terminal"""
-#        if not self.vte.flags()&Gtk.HAS_FOCUS:  # VERIFY FOR GTK3: how to do this? or should we just simply omit this and grab unconditionally?
-        self.vte.grab_focus()
+        if not self.vte.has_focus():
+            self.vte.grab_focus()
 
     def ensure_visible_and_focussed(self):
         """Make sure that we're visible and focussed"""
