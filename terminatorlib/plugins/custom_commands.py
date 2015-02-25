@@ -157,8 +157,13 @@ class CustomCommandsMenu(plugin.MenuItem):
       column = gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
+      scroll_window = gtk.ScrolledWindow()
+      scroll_window.set_size_request(500, 250)
+      scroll_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+      scroll_window.add_with_viewport(treeview)
+
       hbox = gtk.HBox()
-      hbox.pack_start(treeview)
+      hbox.pack_start(scroll_window, True, True)
       dbox.vbox.pack_start(hbox)
 
       button_box = gtk.VBox()
@@ -206,7 +211,7 @@ class CustomCommandsMenu(plugin.MenuItem):
 
 
 
-      hbox.pack_start(button_box)
+      hbox.pack_start(button_box, False, True)
       dbox.show_all()
       res = dbox.run()
       if res == gtk.RESPONSE_ACCEPT:
