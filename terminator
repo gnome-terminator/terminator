@@ -61,6 +61,8 @@ if __name__ == '__main__':
     # being False will cause us to continue without the dbus server and open a
     # window.
     try:
+        dbg('dbus not fixed for GTK3 yet')
+        raise ImportError
         if OPTIONS.nodbus:
             dbg('dbus disabled by command line')
             raise ImportError
