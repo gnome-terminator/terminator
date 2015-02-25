@@ -7,6 +7,7 @@ import time
 import gtk
 import gobject
 
+from terminatorlib.config import Config
 import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 from terminatorlib.util import err, dbg
@@ -20,6 +21,12 @@ try:
     AVAILABLE = ['ActivityWatch', 'InactivityWatch']
 except ImportError:
     err(_('ActivityWatch plugin unavailable: please install python-notify'))
+
+config = Config()
+inactive_period = float(config.plugin_get('ActivityWatch', 'inactive_period',
+                                        10.0))
+watch_interval = int(config.plugin_get('ActivityWatch', 'watch_interval',
+                                       5000))
 
 class ActivityWatch(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
@@ -40,14 +47,15 @@ class ActivityWatch(plugin.MenuItem):
         pynotify.init(APP_NAME.capitalize())
 
     def callback(self, menuitems, menu, terminal):
-        """Add our menu items to the menu"""
-        if not self.watches.has_key(terminal):
-            item = gtk.MenuItem(_('Watch for activity'))
-            item.connect("activate", self.watch, terminal)
-        else:
-            item = gtk.MenuItem(_('Stop watching for activity'))
+        """Add our menu item to the menu"""
+        item = gtk.CheckMenuItem(_('Watch for activity'))
+        item.set_active(self.watches.has_key(terminal))
+        if item.get_active():
             item.connect("activate", self.unwatch, terminal)
+        else:
+            item.connect("activate", self.watch, terminal)
         menuitems.append(item)
+        dbg('Menu item appended')
 
     def watch(self, _widget, terminal):
         """Watch a terminal"""
@@ -105,13 +113,13 @@ class InactivityWatch(plugin.MenuItem):
         pynotify.init(APP_NAME.capitalize())
 
     def callback(self, menuitems, menu, terminal):
-        """Add our menu items to the menu"""
-        if not self.watches.has_key(terminal):
-            item = gtk.MenuItem(_("Watch for silence"))
-            item.connect("activate", self.watch, terminal)
-        else:
-            item = gtk.MenuItem(_("Stop watching for silence"))
+        """Add our menu item to the menu"""
+        item = gtk.CheckMenuItem(_("Watch for silence"))
+        item.set_active(self.watches.has_key(terminal))
+        if item.get_active():
             item.connect("activate", self.unwatch, terminal)
+        else:
+            item.connect("activate", self.watch, terminal)
         menuitems.append(item)
         dbg('Menu items appended')
 
@@ -120,7 +128,7 @@ class InactivityWatch(plugin.MenuItem):
         vte = terminal.get_vte()
         self.watches[terminal] = vte.connect('contents-changed',
                                              self.reset_timer, terminal)
-        timeout_id = gobject.timeout_add(5000, self.check_times, terminal)
+        timeout_id = gobject.timeout_add(watch_interval, self.check_times, terminal)
         self.timers[terminal] = timeout_id
         dbg('timer %s added for %s' %(timeout_id, terminal))
 
@@ -146,7 +154,7 @@ class InactivityWatch(plugin.MenuItem):
             return True
 
         dbg('seconds since last activity: %f (%s)' % (time_now - self.last_activities[terminal], terminal))
-        if time_now - self.last_activities[terminal] >= 10.0:
+        if time_now - self.last_activities[terminal] >= inactive_period:
             del(self.last_activities[terminal])
             note = pynotify.Notification('Terminator', 'Silence in: %s' % 
                                          terminal.get_window_title(), 'terminator')
