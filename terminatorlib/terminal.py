@@ -320,6 +320,7 @@ class Terminal(gtk.VBox):
 
         self.vte.connect('key-press-event', self.on_keypress)
         self.vte.connect('button-press-event', self.on_buttonpress)
+        self.vte.connect('scroll-event', self.on_mousewheel)
         self.vte.connect('popup-menu', self.popup_menu)
 
         srcvtetargets = [("vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE)]
@@ -879,6 +880,26 @@ class Terminal(gtk.VBox):
 
         return(False)
     
+    def on_mousewheel(self, widget, event):
+        """Handler for modifier + mouse wheel scroll events"""
+        if event.state & gtk.gdk.CONTROL_MASK == gtk.gdk.CONTROL_MASK:
+            # Ctrl + mouse wheel up/down
+            if event.direction == gtk.gdk.SCROLL_UP:
+                self.zoom_in()
+                return (True)
+            elif event.direction == gtk.gdk.SCROLL_DOWN:
+                self.zoom_out()
+                return (True)
+        if event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
+            # Shift + mouse wheel up/down
+            if event.direction == gtk.gdk.SCROLL_UP:
+                self.scroll_by_page(-1)
+                return (True)
+            elif event.direction == gtk.gdk.SCROLL_DOWN:
+                self.scroll_by_page(1)
+                return (True)
+        return(False)
+
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
         menu = TerminalPopupMenu(self)
