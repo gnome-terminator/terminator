@@ -1461,18 +1461,18 @@ class Terminal(Gtk.VBox):
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
-        amount = pages * self.vte.get_adjustment().get_page_increment()
+        amount = pages * self.vte.get_vadjustment().get_page_increment()
         self.scroll_by(int(amount))
 
     def scroll_by_line(self, lines):
         """Scroll up or down in lines"""
-        amount = lines * self.vte.get_adjustment().get_step_increment()
+        amount = lines * self.vte.get_vadjustment().get_step_increment()
         self.scroll_by(int(amount))
 
     def scroll_by(self, amount):
         """Scroll up or down by an amount of lines"""
-        adjustment = self.vte.get_adjustment()
-        bottom = adjustment.upper - adjustment.page_size
+        adjustment = self.vte.get_vadjustment()
+        bottom = adjustment.get_upper() - adjustment.get_page_size()
         value = adjustment.get_value() + amount
         adjustment.set_value(min(value, bottom))
 
