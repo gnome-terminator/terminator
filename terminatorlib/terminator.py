@@ -462,7 +462,7 @@ class Terminator(Borg):
     def get_focussed_terminal(self):
         """iterate over all the terminals to find which, if any, has focus"""
         for terminal in self.terminals:
-            if terminal.flags()&Gtk.HAS_FOCUS:
+            if terminal.has_focus():
                 return(terminal)
         return(None)
 
