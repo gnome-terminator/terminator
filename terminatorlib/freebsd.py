@@ -43,7 +43,7 @@ class kinfo_file(Structure):
       ('kf_sa_peer',       sockaddr_storage),
   ]
 
-libc = CDLL('libc.so')
+libc = CDLL('libc.so.7')
 
 uintlen = c_size_t(sizeof(c_uint))
 ver = c_uint(0)
