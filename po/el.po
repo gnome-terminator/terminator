@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-04-17 15:03+0000\n"
-"Last-Translator: James Spentzos <jamesspentzos@hotmail.com>\n"
+"PO-Revision-Date: 2015-03-10 11:28+0000\n"
+"Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-04-18 05:31+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2015-03-11 05:08+0000\n"
+"X-Generator: Launchpad (build 17389)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -229,7 +229,7 @@ msgstr "Ορισμός τίτλου για το παράθυρο"
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
-"Ορίστε το προτιμώμενο μέγεθος και θέση του παραθύρου (βλ. τη σελίδα X man)"
+"Ορισμός προτιμώμενου μέγεθους και θέσης του παραθύρου (βλ. τη σελίδα X man)"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -294,7 +294,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Εάν το Terminator εκτελείται ήδη, απλά ανοίξτε μια νέα καρτέλα"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -374,7 +374,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Έξοδος από το τερματικό"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
@@ -382,7 +382,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Διατήρηση του τερματικού ανοικτού"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
@@ -422,7 +422,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Υπογράμμιση"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -434,7 +434,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Κλικ για εστίαση"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
@@ -446,47 +446,47 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "Στην αριστερή πλευρά"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "Στη δεξιά πλευρά"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Απενεργοποιημένο"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Πάνω"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Κάτω"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Αριστερα"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Δεξιά"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Κρυφό"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
@@ -494,11 +494,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Μεγιστοποιημένο"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Πλήρης οθόνη"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
@@ -506,7 +506,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Προτιμήσεις terminator"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -514,27 +514,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Κατάσταση παραθύρου"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Περιγράμματα παραθύρου"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Θέση καρτέλας"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Εστίαση ποντικιού"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Μέγεθος διαχωριστή παραθύρου"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Απόκρυψη από την γραμμή εργασιών"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
@@ -546,7 +546,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Εμφάνιση σε όλους τους χωρους εργασίας"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
@@ -554,7 +554,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Απόκρυψη μεγέθους από τίτλο"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
@@ -562,11 +562,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Χρήση προσαρμοσμένου χειριστή URL"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr ""
+msgstr "Προσαρμοσμένος χειριστής URL"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
@@ -586,15 +586,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
-msgstr ""
+msgstr "Ανενεργό τερματικό"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Font colour"
-msgstr ""
+msgstr "Χρώμα γραμματοσειράς"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Φόντο"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
@@ -638,7 +638,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cursor colour:"
-msgstr ""
+msgstr "Χρώμα δρομέα:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cursor _shape:"
@@ -698,11 +698,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
-msgstr ""
+msgstr "Εντολή"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Προσκήνιο και παρασκήνιο</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
@@ -722,11 +722,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Επιλογή χρώματος κειμένου τερματικού"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Επιλογή χρώματος φόντου τερματικού"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
@@ -748,7 +748,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
-msgstr ""
+msgstr "Χρώματα"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
@@ -764,7 +764,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
-msgstr ""
+msgstr "Επιλογή εικόνας φόντου"
 
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Background image _scrolls"
@@ -848,7 +848,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Compatibility"
-msgstr ""
+msgstr "Συμβατότητα"
 
 #: ../terminatorlib/preferences.glade.h:123
 #: ../terminatorlib/terminal_popup_menu.py:190
@@ -869,15 +869,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Keybindings"
-msgstr ""
+msgstr "Συνδυασμοί πλήκτρων"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Το πρόσθετο δεν έχει επιλογές παραμετροποίησης"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "Plugins"
-msgstr ""
+msgstr "Πρόσθετα"
 
 #: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
 msgid "New Profile"
@@ -1066,11 +1066,11 @@ msgstr "Αδύνατη η εκκίνηση κελύφους:"
 
 #: ../terminatorlib/terminal.py:1683
 msgid "Rename Window"
-msgstr ""
+msgstr "Μετονομασία παραθύρου"
 
 #: ../terminatorlib/terminal.py:1692
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Πληκτρολόγηση νέου τίτλου για το παράθυρο του Terminator..."
 
 #: ../terminatorlib/window.py:274
 msgid "window"
