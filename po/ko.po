@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-08-19 00:09+0000\n"
-"Last-Translator: Seunghyo Chun <seunghyo.chun@gmail.com>\n"
+"PO-Revision-Date: 2015-03-24 07:27+0000\n"
+"Last-Translator: B. W. Knight <kbd0651@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-20 05:36+0000\n"
-"X-Generator: Launchpad (build 17163)\n"
+"X-Launchpad-Export-Date: 2015-03-25 05:08+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -655,7 +655,7 @@ msgstr "비프 음"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "창 목록 반짝임"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"

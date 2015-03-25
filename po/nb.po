@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-05-08 11:23+0000\n"
-"Last-Translator: Magnus Meyer Hustveit <Unknown>\n"
+"PO-Revision-Date: 2015-03-24 12:21+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-09 05:37+0000\n"
-"X-Generator: Launchpad (build 16996)\n"
+"X-Launchpad-Export-Date: 2015-03-25 05:08+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -253,15 +253,15 @@ msgstr "Velg arbeidskatalog"
 
 #: ../terminatorlib/optionparse.py:72
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr "Gi vinduet (WM_CLASS) et egendefinert navn"
+msgstr "Gi vinduet (WM_CLASS) et selvvalgt navn"
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Velg et egendefinert ikon for vinduet (ved fil eller navn)"
+msgstr "Gi vinduet selvvalgt ikon (ved fil eller navn)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Gi vinduet en egendefinert verdi for WM_WINDOW_ROLE"
+msgstr "Gi vinduet selvvalgt verdi for WM_WINDOW_ROLE"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
@@ -314,11 +314,11 @@ msgstr "Slutt å se etter inaktivitet"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
-msgstr "Tilpassede kommandoer"
+msgstr "Selvvalgte kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr "Konfigurering for tilpassede kommandoer"
+msgstr "Oppsett av selvvalgte kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -409,11 +409,11 @@ msgstr "Atmosfære"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr "Egendefinert"
+msgstr "Selvvalgt"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr "Blokkér"
+msgstr "Blokker"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
@@ -557,11 +557,11 @@ msgstr "Lysstyrke på skrift ved ufokusert terminal"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Use custom URL handler"
-msgstr "Bruk egendefinert URL-håndtering"
+msgstr "Bruk selvvalgt behandling av nettadresser"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Custom URL handler"
-msgstr "Egendefindert URL-håndtering"
+msgstr "Selvvalgt nettadresse-behandling"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
@@ -681,11 +681,11 @@ msgstr "Oppdater påloggingsoppføringer når kommandoen startes"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr "Kjør en ege_ndefinert kommando i stedet for skallet"
+msgstr "Kjør sel_vvalgt kommando i stedet for skallet"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr "Egendefinert ko_mmando:"
+msgstr "Selvvalgt ko_mmando:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
@@ -863,7 +863,7 @@ msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Custom command"
-msgstr "Egendefinert kommando"
+msgstr "Selvvalgt kommando"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "Layouts"
