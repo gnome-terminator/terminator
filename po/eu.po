@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-03-25 20:32+0000\n"
-"Last-Translator: Asier Iturralde Sarasola <Unknown>\n"
+"PO-Revision-Date: 2015-03-26 18:45+0000\n"
+"Last-Translator: Andoni Ezeiza <andoniezeiza@gmail.com>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-26 05:39+0000\n"
-"X-Generator: Launchpad (build 16967)\n"
+"X-Launchpad-Export-Date: 2015-03-27 05:09+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -407,7 +407,7 @@ msgstr "Laranja beltzaren gainean"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ingurunea"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
@@ -415,15 +415,15 @@ msgstr "Pertsonalizatua"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "Blokeatu"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Azpimarratu"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
-msgstr ""
+msgstr "Marra bertikala"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
@@ -507,7 +507,7 @@ msgstr "Terminator hobespenak"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
-msgstr ""
+msgstr "Leiho geometria aholkuak"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
@@ -575,11 +575,11 @@ msgstr "<b>Titulu-barra</b>"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Receiving terminal"
-msgstr ""
+msgstr "Terminal hartzailea"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Focused terminal"
-msgstr ""
+msgstr "Terminal aukeratua"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Inactive terminal"
@@ -615,7 +615,7 @@ msgstr "_Onartu testu lodia"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Testu leuntzailea"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
@@ -627,7 +627,7 @@ msgstr "Kopiatu hautatzean"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
-msgstr ""
+msgstr "_Hitz gisa hautatzeko karaktereak:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "<b>Cursor</b>"
@@ -647,7 +647,7 @@ msgstr "Kurtsorearen keinua"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Terminal kanpaia</b>"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Titlebar icon"
@@ -655,15 +655,15 @@ msgstr "Izenburu-barraren ikonoa"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Visual flash"
-msgstr ""
+msgstr "Distira bisuala"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Audible beep"
-msgstr ""
+msgstr "Txistu entzungarria"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Window list flash"
-msgstr ""
+msgstr "Leiho zerrenda distira"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
@@ -675,15 +675,15 @@ msgstr "<b>Komandoa</b>"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "_Exekutatu komandoa saioa hasteko shell gisa"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "_Update login records when command is launched"
-msgstr ""
+msgstr "_Eguneratu saio-hasierako erregistroak komando bat abiarazten denean"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "E_xekutatu komando pertsonalizatua shell-aren ordez"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
@@ -691,7 +691,7 @@ msgstr "Ko_mando pertsonalizatua:"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
-msgstr ""
+msgstr "Ko_mandoak amaitzen duenean:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Command"
@@ -715,7 +715,7 @@ msgstr "_Atzeko planoaren kolorea:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "_Eskema inkorporatuak:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Choose Terminal Text Color"
@@ -731,13 +731,15 @@ msgstr "<b>Paleta</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "Eskema _inkorporatuak:"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
+"<small><i><b>Oharra:</b> terminaletan kolore hauek erabil "
+"daitezke.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
@@ -773,7 +775,7 @@ msgstr "Atzeko plano _gardena"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
-msgstr ""
+msgstr "_Itzaleztatu atzeko plano gardena edo irudiduna:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "<small><i>None</i></small>"
@@ -785,7 +787,7 @@ msgstr "<small><i>Maximoa</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "Use keystrokes to scroll on _alternate screen"
-msgstr ""
+msgstr "Erabili joaldiak korritzeko _ordezko pantailan"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Scroll on _keystroke"
@@ -801,7 +803,7 @@ msgstr "lerro"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "_Korritze-barraren posizioa:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Scroll_back:"
@@ -909,7 +911,7 @@ msgstr "Aurrekoa"
 
 #: ../terminatorlib/searchbar.py:124
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Bilaketarako desplazamendu barra"
 
 #: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
 msgid "No more results"
