@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2014-11-16 14:42+0000\n"
-"Last-Translator: Anony <adam_adam@hmamail.com>\n"
+"PO-Revision-Date: 2015-03-28 15:13+0000\n"
+"Last-Translator: Sercan GEZER <sercangezer@yandex.com.tr>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-11-17 05:30+0000\n"
-"X-Generator: Launchpad (build 17241)\n"
+"X-Launchpad-Export-Date: 2015-03-29 05:06+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
-msgstr "Terminator"
+msgstr "Uçbirim"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
@@ -58,7 +58,7 @@ msgstr "Şimdiki Yerel"
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Batı"
+msgstr "Batılı"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
@@ -589,11 +589,11 @@ msgstr "Yazı tipi rengi"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Background"
-msgstr ""
+msgstr "Arkaplan"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Global"
-msgstr ""
+msgstr "Evrensel"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "_Use the system fixed width font"
@@ -601,7 +601,7 @@ msgstr "Sistemin sabit genişlikteki yazı tipini kullan."
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Yazı tipi:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
@@ -685,7 +685,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "Komutu özelleştir"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "When command _exits:"
@@ -697,7 +697,7 @@ msgstr "Komut"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Önplan ve Arkaplan</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
@@ -705,11 +705,11 @@ msgstr "_Metin rengi:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "_Sistem temasının renklerini kullan"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Arkaplan rengi:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
