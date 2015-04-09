@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2012-03-19 18:55+0000\n"
-"Last-Translator: Aputsiaq Niels Janussen <aj@isit.gl>\n"
+"PO-Revision-Date: 2015-04-08 14:13+0000\n"
+"Last-Translator: Steffen Christensen <mail@steffenc.me>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2015-04-09 05:11+0000\n"
+"X-Generator: Launchpad (build 17413)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Vis ikke denne besked næste gang"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -204,11 +204,11 @@ msgstr "Luk faneblad"
 
 #: ../terminatorlib/optionparse.py:48
 msgid "Display program version"
-msgstr ""
+msgstr "Vis program version"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Maximise the window"
-msgstr ""
+msgstr "Maksimér vinduet"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Make the window fill the screen"
@@ -216,7 +216,7 @@ msgstr "Få vinduet til at fylde hele skærmen"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Disable window borders"
-msgstr ""
+msgstr "Deaktivér vindueskanter"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Hide the window at startup"
@@ -232,11 +232,11 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Angiv en kommando som skal udføres inde i terminalen"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "Angiv en konfigurationsfil"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -254,15 +254,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:74
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Vælg et brugerdefineret ikon til vinduet (med fil eller navn)"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Vælg et brugerdefineret VM_WINDOW_ROLE egenskab på vinduet"
 
 #: ../terminatorlib/optionparse.py:79
 msgid "Select a layout"
-msgstr ""
+msgstr "Vælg et layout"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Use a different profile as the default"
@@ -274,39 +274,40 @@ msgstr "Deaktivér DBus"
 
 #: ../terminatorlib/optionparse.py:85
 msgid "Enable debugging information (twice for debug server)"
-msgstr ""
+msgstr "Aktivér fejlsøgningsinformation"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
+msgstr "Begræns fejlsøgning med en kommaseperarede klasseliste"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Begræns fejlsøgning med en kommaseperarede metodeliste"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Hvis Terminator allerede er åben, blot åbn en ny fane"
 
 #: ../terminatorlib/plugins/activitywatch.py:22
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
+"ActivityWatch tilføjelsen er utilgængelig: installer venligst python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:45
 msgid "Watch for activity"
-msgstr ""
+msgstr "Overvåg aktivitet"
 
 #: ../terminatorlib/plugins/activitywatch.py:48
 msgid "Stop watching for activity"
-msgstr ""
+msgstr "Stop overvågning af aktivitet"
 
 #: ../terminatorlib/plugins/activitywatch.py:110
 msgid "Watch for silence"
-msgstr ""
+msgstr "Overvåg stilhed"
 
 #: ../terminatorlib/plugins/activitywatch.py:113
 msgid "Stop watching for silence"
-msgstr ""
+msgstr "Stop overvågning af stilhed"
 
 #: ../terminatorlib/plugins/custom_commands.py:50
 msgid "Custom Commands"
@@ -314,7 +315,7 @@ msgstr "Brugerdefinerede kommandoer"
 
 #: ../terminatorlib/plugins/custom_commands.py:106
 msgid "Custom Commands Configuration"
-msgstr ""
+msgstr "Brugerdefineret kommando konfiguration"
 
 #: ../terminatorlib/plugins/custom_commands.py:238
 msgid "New Command"
@@ -322,7 +323,7 @@ msgstr "Ny kommando"
 
 #: ../terminatorlib/plugins/custom_commands.py:248
 msgid "Enabled:"
-msgstr ""
+msgstr "Aktiveret:"
 
 #: ../terminatorlib/plugins/custom_commands.py:254
 msgid "Name:"
@@ -345,75 +346,75 @@ msgstr "Navnet *%s* findes allerede"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
-msgstr ""
+msgstr "Skærmbillede af terminal"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Undslip sekvens"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Afslut terminalen"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Genstart kommandoen"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Hold terminalen åben"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Sort på lysegul"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Sort på hvidt"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Grå på sort"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Grønt på sort"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Hvidt på sort"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Orange på sort"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
-msgstr ""
+msgstr "Ambiance"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Brugerdefineret"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
-msgstr ""
+msgstr "Blokér"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Underline"
-msgstr ""
+msgstr "Understreget"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "I-Beam"
@@ -421,83 +422,83 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME Standard"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
-msgstr ""
+msgstr "Klik for at fokusere"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Følg markør"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "On the left side"
-msgstr ""
+msgstr "På venstre side"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "On the right side"
-msgstr ""
+msgstr "På højre side"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Disabled"
-msgstr ""
+msgstr "Slået fra"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Top"
-msgstr ""
+msgstr "Øverst"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Bottom"
-msgstr ""
+msgstr "Nederst"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Left"
-msgstr ""
+msgstr "Venstre"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Right"
-msgstr ""
+msgstr "Højre"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Hidden"
-msgstr ""
+msgstr "Skjult"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Maximised"
-msgstr ""
+msgstr "Maksimeret"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Fullscreen"
-msgstr ""
+msgstr "Fuldskærm"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "default"
-msgstr ""
+msgstr "standard"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Terminator Præferencer"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -505,31 +506,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Vinduestilstand"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Vindueskanter"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
-msgstr ""
+msgstr "Position for faneblade"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Mouse focus"
-msgstr ""
+msgstr "Fokus for markør"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminal separator size"
-msgstr ""
+msgstr "Terminal seperations størrelse"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Skjul fra opgavelinjen"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Altid øverst"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
@@ -537,15 +538,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Vis på alle arbejdsområder"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "DBus server"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
-msgstr ""
+msgstr "Skjuld størrelse fra titlen"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Unfocused terminal font brightness"
@@ -911,11 +912,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Send email to..."
-msgstr ""
+msgstr "_Send email til..."
 
 #: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Copy email address"
-msgstr ""
+msgstr "_Kopiér email adresse"
 
 #: ../terminatorlib/terminal_popup_menu.py:61
 msgid "Ca_ll VoIP address"
