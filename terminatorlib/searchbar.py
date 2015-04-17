@@ -22,6 +22,7 @@ class Searchbar(gtk.HBox):
     reslabel = None
     next = None
     prev = None
+    wrap = None
 
     vte = None
     config = None
@@ -79,15 +80,30 @@ class Searchbar(gtk.HBox):
         self.prev.set_sensitive(False)
         self.prev.connect('clicked', self.prev_search)
 
+        # Wrap checkbox
+        self.wrap = gtk.CheckButton(_('Wrap'))
+        self.wrap.show()
+        self.wrap.set_sensitive(True)
+        self.wrap.connect('toggled', self.wrap_toggled)
+
         self.pack_start(label, False)
         self.pack_start(self.entry)
         self.pack_start(self.reslabel, False)
         self.pack_start(self.prev, False, False)
         self.pack_start(self.next, False, False)
+        self.pack_start(self.wrap, False, False)
         self.pack_end(close, False, False)
 
         self.hide()
         self.set_no_show_all(True)
+
+    def wrap_toggled(self, toggled):
+        if self.searchrow is None:
+            self.prev.set_sensitive(False)
+            self.next.set_sensitive(False)
+        elif toggled:
+            self.prev.set_sensitive(True)
+            self.next.set_sensitive(True)
 
     def get_vte(self):
         """Find our parent widget"""
@@ -101,6 +117,9 @@ class Searchbar(gtk.HBox):
         key = gtk.gdk.keyval_name(event.keyval)
         if key == 'Escape':
             self.end_search()
+        else:
+            self.prev.set_sensitive(False)
+            self.next.set_sensitive(False)
 
     def start_search(self):
         """Show ourselves"""
@@ -117,7 +136,7 @@ class Searchbar(gtk.HBox):
             return
 
         if searchtext != self.searchstring:
-            self.searchrow = self.get_vte_buffer_range()[0]
+            self.searchrow = self.get_vte_buffer_range()[0] - 1
             self.searchstring = searchtext
             self.searchre = re.compile(searchtext)
 
@@ -129,42 +148,50 @@ class Searchbar(gtk.HBox):
     def next_search(self, widget):
         """Search forwards and jump to the next result, if any"""
         startrow,endrow = self.get_vte_buffer_range()
+        found = startrow <= self.searchrow and self.searchrow < endrow
+        row = self.searchrow
         while True:
-            if self.searchrow >= endrow:
-                self.searchrow = startrow
-                self.reslabel.set_text(_('No more results'))
-                return
-            buffer = self.vte.get_text_range(self.searchrow, 0,
-                                             self.searchrow+1, 0,
-                                             self.search_character)
+            row += 1
+            if row >= endrow:
+                if found and self.wrap.get_active():
+                    row = startrow - 1
+                else:
+                    self.prev.set_sensitive(found)
+                    self.next.set_sensitive(False)
+                    self.reslabel.set_text(_('No more results'))
+                    return
+            buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
 
             matches = self.searchre.search(buffer)
             if matches:
+                self.searchrow = row
+                self.prev.set_sensitive(True)
                 self.search_hit(self.searchrow)
-                self.searchrow += 1
                 return
-            self.searchrow += 1
 
-    # FIXME: There is an issue in switching search direction, probably because
-    # we increment/decrement self.searchrow after each search iteration
     def prev_search(self, widget):
         """Jump back to the previous search"""
         startrow,endrow = self.get_vte_buffer_range()
+        found = startrow <= self.searchrow and self.searchrow < endrow
+        row = self.searchrow
         while True:
-            if self.searchrow <= startrow:
-                self.searchrow = endrow
-                self.reslabel.set_text(_('No more results'))
-                return
-            buffer = self.vte.get_text_range(self.searchrow, 0,
-                                             self.searchrow+1, 0,
-                                             self.search_character)
+            row -= 1
+            if row <= startrow:
+                if found and self.wrap.get_active():
+                    row = endrow
+                else:
+                    self.next.set_sensitive(found)
+                    self.prev.set_sensitive(False)
+                    self.reslabel.set_text(_('No more results'))
+                    return
+            buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
 
             matches = self.searchre.search(buffer)
             if matches:
+                self.searchrow = row
+                self.next.set_sensitive(True)
                 self.search_hit(self.searchrow)
-                self.searchrow -= 1
                 return
-            self.searchrow -= 1
 
     def search_hit(self, row):
         """Update the UI for a search hit"""
