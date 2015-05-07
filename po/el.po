@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2015-04-23 13:15+0000\n"
-"Last-Translator: Aggelos Arnaoutis <angelosarn@hotmail.com>\n"
+"PO-Revision-Date: 2015-05-06 09:47+0000\n"
+"Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-24 05:07+0000\n"
-"X-Generator: Launchpad (build 17430)\n"
+"X-Launchpad-Export-Date: 2015-05-07 05:07+0000\n"
+"X-Generator: Launchpad (build 17474)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -358,19 +358,19 @@ msgstr "Στιγμιότυπο οθόνης Τερματικού"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Αυτόματα"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Ακολουθία διαφυγής"
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
@@ -378,7 +378,7 @@ msgstr "Έξοδος από το τερματικό"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Επανέναρξη της εντολής"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
@@ -386,27 +386,27 @@ msgstr "Διατήρηση του τερματικού ανοικτού"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Μαύρο σε ανοιχτό κίτρινο"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Μαύρο σε άσπρο"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Γκρι σε μαύρο"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Πράσινο σε μαύρο"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
-msgstr ""
+msgstr "Άσπρο σε μαύρο"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Orange on black"
-msgstr ""
+msgstr "Πορτοκαλί σε μαύρο"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Ambience"
@@ -414,7 +414,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "Custom"
-msgstr ""
+msgstr "Προσαρμοσμένο"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Block"
@@ -430,7 +430,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "GNOME Default"
-msgstr ""
+msgstr "Προεπιλογή GNOME"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Click to focus"
@@ -438,7 +438,7 @@ msgstr "Κλικ για εστίαση"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Ακολούθηση δείκτη του ποντικιού"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Tango"
@@ -538,11 +538,11 @@ msgstr "Απόκρυψη από την γραμμή εργασιών"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Πάντα σε πρώτο πλάνο"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
-msgstr ""
+msgstr "Απόκρυψη όταν χάνει την εστίαση"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
@@ -550,7 +550,7 @@ msgstr "Εμφάνιση σε όλους τους χωρους εργασίας"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "DBus server"
-msgstr ""
+msgstr "Εξυπηρετητής DBus"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide  size from title"
@@ -606,15 +606,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "_Font:"
-msgstr ""
+msgstr "_Γραμματοσειρά:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Επιλογή γραμματοσειράς τερματικού"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Να επιτρέπεται η χρήση έντονου κειμένου"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Anti-alias text"
@@ -622,11 +622,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Show titlebar"
-msgstr ""
+msgstr "Εμφάνιση μπάρας τίτλων"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Copy on selection"
-msgstr ""
+msgstr "Αντιγραφή στην επιλογή"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Select-by-_word characters:"
@@ -670,7 +670,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "General"
-msgstr ""
+msgstr "Γενικά"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "<b>Command</b>"
@@ -706,7 +706,7 @@ msgstr "<b>Προσκήνιο και παρασκήνιο</b>"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Text color:"
-msgstr ""
+msgstr "Χρώμα _κειμένου:"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Use colors from system theme"
@@ -714,7 +714,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "_Background color:"
-msgstr ""
+msgstr "_Χρώμα παρασκηνίου:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Built-in sche_mes:"
@@ -730,7 +730,7 @@ msgstr "Επιλογή χρώματος φόντου τερματικού"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Παλέτα</b>"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Built-in _schemes:"
@@ -744,7 +744,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Color p_alette:"
-msgstr ""
+msgstr "Πα_λέτα χρωμάτων:"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "Colors"
@@ -752,15 +752,15 @@ msgstr "Χρώματα"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Solid color"
-msgstr ""
+msgstr "_Συμπαγές χρώμα"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "_Background image"
-msgstr ""
+msgstr "_Εικόνα παρασκηνίου"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Image _file:"
-msgstr ""
+msgstr "Αρ_χείο εικόνας:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "Select Background Image"
@@ -772,7 +772,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Transparent background"
-msgstr ""
+msgstr "_Διαφανές παρασκήνιο"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "S_hade transparent or image background:"
@@ -1030,15 +1030,15 @@ msgstr "Κλείσιμο της ομάδας %s"
 
 #: ../terminatorlib/terminal.py:440
 msgid "Broadcast all"
-msgstr "Μεταδίδονται όλα"
+msgstr "Μετάδοση σε όλα τα τερματικά"
 
 #: ../terminatorlib/terminal.py:441
 msgid "Broadcast group"
-msgstr "Μεταδίδονται ομάδα"
+msgstr "Μετάδοση στην τρέχουσα ομάδα τερματικών"
 
 #: ../terminatorlib/terminal.py:442
 msgid "Broadcast off"
-msgstr "Μεταδίδονται από"
+msgstr "Μετάδοση σε αυτό το τερματικό μόνο"
 
 #: ../terminatorlib/terminal.py:455
 msgid "Split to this group"
