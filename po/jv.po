@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2011-05-24 16:18+0000\n"
-"Last-Translator: zaenalarifin <Unknown>\n"
+"PO-Revision-Date: 2015-05-12 17:39+0000\n"
+"Last-Translator: dwi purnomo <dwipurnomo.yk@gmail.com>\n"
 "Language-Team: Javanese <jv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
-"X-Generator: Launchpad (build 16916)\n"
+"X-Launchpad-Export-Date: 2015-05-13 05:06+0000\n"
+"X-Generator: Launchpad (build 17493)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Ojo tampilke pesan meneh"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
