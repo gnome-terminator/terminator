@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2015-05-12 17:39+0000\n"
+"PO-Revision-Date: 2015-05-16 12:15+0000\n"
 "Last-Translator: dwi purnomo <dwipurnomo.yk@gmail.com>\n"
 "Language-Team: Javanese <jv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-05-13 05:06+0000\n"
+"X-Launchpad-Export-Date: 2015-05-17 05:05+0000\n"
 "X-Generator: Launchpad (build 17493)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -228,7 +228,7 @@ msgstr "Spesifike sakwijine judul kanggo jendelo"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
+msgstr "atur ukuran sik dipilih karo posisine jendela(delok halaman man X )"
 
 #: ../terminatorlib/optionparse.py:63
 msgid "Specify a command to execute inside the terminal"
@@ -236,7 +236,7 @@ msgstr "Rinciane sakwijine printah kanggo eksekusi ning njerone terminal"
 
 #: ../terminatorlib/optionparse.py:65
 msgid "Specify a config file"
-msgstr ""
+msgstr "pilih file config"
 
 #: ../terminatorlib/optionparse.py:68
 msgid ""
@@ -353,11 +353,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
@@ -365,31 +365,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:5
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Metu seko terminal"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Restart the command"
-msgstr ""
+msgstr "Baleni perintahe"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Tahan terminal tetep buka"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Ireng neng duwur kuning terang"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Black on white"
-msgstr ""
+msgstr "Ireng neng duwur putih"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Grey on black"
-msgstr ""
+msgstr "Abu-abu neng duwur ireng"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Green on black"
-msgstr ""
+msgstr "Ijo neng duwur ireng"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "White on black"
