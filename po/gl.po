@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-01-30 13:17+0000\n"
-"PO-Revision-Date: 2015-01-09 08:11+0000\n"
+"PO-Revision-Date: 2015-05-26 16:53+0000\n"
 "Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-01-10 05:29+0000\n"
-"X-Generator: Launchpad (build 17298)\n"
+"X-Launchpad-Export-Date: 2015-05-27 05:08+0000\n"
+"X-Generator: Launchpad (build 17514)\n"
 
 #: ../data/terminator.desktop.in.h:1
 msgid "Terminator"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Preferencias de Terminator"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Window geometry hints"
@@ -508,11 +508,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Window state"
-msgstr ""
+msgstr "Estado da xanela"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Window borders"
-msgstr ""
+msgstr "Bordos da xanela"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Tab position"
@@ -532,7 +532,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Always on top"
-msgstr ""
+msgstr "Sempre enriba"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Hide on lose focus"
