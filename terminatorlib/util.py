@@ -224,11 +224,11 @@ def get_nav_offset(edge, allocation, direction):
     if direction == 'left':
         return(edge - (allocation.x + allocation.width))
     elif direction == 'right':
-        return(edge + allocation.x)
+        return(allocation.x - edge)
     elif direction == 'up':
-        return(edge - (allocation.y - allocation.height))
+        return(edge - (allocation.y + allocation.height))
     elif direction == 'down':
-        return(edge + allocation.y)
+        return(allocation.y - edge)
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
