@@ -108,7 +108,9 @@ class EditableLabel(gtk.EventBox):
             self._entry = None
             self.show_all ()
             self.emit('edit-done')
-            return(True)
+            # Returning False will ensure that focus out event will be sent to
+            # GtkEntry so it will disconnect 'state-changed' handler
+            return(False)
         return(False)
 
     def _on_entry_activated (self, widget):
