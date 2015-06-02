@@ -69,8 +69,8 @@ class PrefsEditor:
                 'linux': '#000000:#aa0000:#00aa00:#aa5500:#0000aa:\
 #aa00aa:#00aaaa:#aaaaaa:#555555:#ff5555:#55ff55:#ffff55:#5555ff:\
 #ff55ff:#55ffff:#ffffff',
-                'xterm': '#000000:#cd0000:#00cd00:#cdcd00:#1e90ff:\
-#cd00cd:#00cdcd:#e5e5e5:#4c4c4c:#ff0000:#00ff00:#ffff00:#4682b4:\
+                'xterm': '#000000:#cd0000:#00cd00:#cdcd00:#0000ee:\
+#cd00cd:#00cdcd:#e5e5e5:#7f7f7f:#ff0000:#00ff00:#ffff00:#5c5cff:\
 #ff00ff:#00ffff:#ffffff',
                 'rxvt': '#000000:#cd0000:#00cd00:#cdcd00:#0000cd:\
 #cd00cd:#00cdcd:#faebd7:#404040:#ff0000:#00ff00:#ffff00:#0000ff:\
