@@ -1506,6 +1506,12 @@ class Terminal(Gtk.VBox):
         value = adjustment.get_value() + amount
         adjustment.set_value(min(value, bottom))
 
+    def get_allocation(self):
+        """Get a real allocation which includes the bloody x and y coordinates (grumble, grumble)"""
+        alloc = super(Terminal, self).get_allocation()
+        alloc.x, alloc.y = self.translate_coordinates(self.get_toplevel(), 0, 0)
+        return alloc
+
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
         self.zoom_in()
