@@ -36,7 +36,7 @@ class PrefsEditor:
     layouteditor = None
     previous_layout_selection = None
     previous_profile_selection = None
-    colorschemevalues = {'black_on_yellow': 0, 
+    colorschemevalues = {'black_on_yellow': 0,
                          'black_on_white': 1,
                          'grey_on_black': 2,
                          'green_on_black': 3,
@@ -156,7 +156,7 @@ class PrefsEditor:
         self.builder = Gtk.Builder()
         self.keybindings = Keybindings()
         try:
-            # Figure out where our library is on-disk so we can open our 
+            # Figure out where our library is on-disk so we can open our
             (head, _tail) = os.path.split(config.__file__)
             librarypath = os.path.join(head, 'preferences.glade')
             gladefile = open(librarypath, 'r')
@@ -324,7 +324,7 @@ class PrefsEditor:
                     (keyval, mask) = self.keybindings._parsebinding(value)
                 except KeymapError:
                     pass
-            liststore.append([keybinding, self.keybindingnames[keybinding], 
+            liststore.append([keybinding, self.keybindingnames[keybinding],
                              keyval, mask])
 
         ## Plugins tab
@@ -493,7 +493,7 @@ class PrefsEditor:
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
             widget.set_color(Gdk.color_parse(self.config[bit]))
-        # Inactive terminal shading 
+        # Inactive terminal shading
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
         # Use custom URL handler
@@ -572,7 +572,7 @@ class PrefsEditor:
         for encoding in encodings:
             if encoding[1] is None:
                 continue
-            
+
             label = "%s %s" % (encoding[2], encoding[1])
             rowiter = encodingstore.append([label, encoding[1]])
 
@@ -638,7 +638,7 @@ class PrefsEditor:
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""
         self.config['title_hide_sizetext'] = widget.get_active()
-        self.config.save()        
+        self.config.save()
 
     def on_always_split_with_profile_toggled(self, widget):
         """Always split with profile setting changed"""
@@ -932,7 +932,7 @@ class PrefsEditor:
 
     def on_focuscombo_changed(self, widget):
         """Focus type changed"""
-        selected  = widget.get_active()
+        selected = widget.get_active()
         if selected == 1:
             value = 'click'
         elif selected == 2:
@@ -991,7 +991,7 @@ class PrefsEditor:
             res = model.append([newprofile, True])
             if res:
                 path = model.get_path(res)
-                treeview.set_cursor(path, focus_column=treeview.get_column(0), 
+                treeview.set_cursor(path, focus_column=treeview.get_column(0),
                                     start_editing=True)
 
         self.layouteditor.update_profiles()
@@ -1197,7 +1197,7 @@ class PrefsEditor:
         (oldname, newtext))
         self.config.rename_profile(oldname, newtext)
         self.config.save()
-        
+
         widget = self.builder.get_object('profilelist')
         model = widget.get_model()
         itera = model.get_iter(path)
@@ -1234,7 +1234,7 @@ class PrefsEditor:
         dbg('Changing %s to %s' % (oldname, newtext))
         self.config.rename_layout(oldname, newtext)
         self.config.save()
-        
+
         widget = self.builder.get_object('layoutlist')
         model = widget.get_model()
         itera = model.get_iter(path)
