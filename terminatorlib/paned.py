@@ -198,7 +198,9 @@ class Paned(Container):
                     
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
-        handle_size = self.style_get_property('handle-size')
+        value = GObject.Value(int)
+        self.style_get_property('handle-size',  value)
+        handle_size = value.get_int()
         #4 Math! eek (a - (n * hs)) / (n + 1) = single size => s
         single_size = (avail_pixels - (number_splits * handle_size)) / (number_splits + 1)
         arr_sizes = [single_size]*(number_splits+1)
