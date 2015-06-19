@@ -864,7 +864,7 @@ class Terminal(gtk.VBox):
         # Any button event should grab focus
         widget.grab_focus()
 
-        if type(widget) == gtk.VScrollbar:
+        if type(widget) == gtk.VScrollbar and event.type == gtk.gdk._2BUTTON_PRESS:
             # Suppress double-click behavior
             return True
 
