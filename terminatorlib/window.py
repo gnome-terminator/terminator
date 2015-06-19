@@ -268,6 +268,7 @@ class Window(Container, gtk.Window):
             dbg('Making a new Notebook')
             notebook = maker.make('Notebook', window=self)
         self.show()
+        self.present()
         return self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
 
     def on_delete_event(self, window, event, data=None):
