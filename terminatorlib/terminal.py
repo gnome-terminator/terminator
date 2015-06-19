@@ -330,6 +330,8 @@ class Terminal(Gtk.VBox):
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
+        self.scrollbar.connect('button-press-event', self.on_buttonpress)
+
         self.vte.connect('key-press-event', self.on_keypress)
         self.vte.connect('button-press-event', self.on_buttonpress)
         self.vte.connect('scroll-event', self.on_mousewheel)
@@ -816,6 +818,10 @@ class Terminal(Gtk.VBox):
         """Handler for mouse events"""
         # Any button event should grab focus
         widget.grab_focus()
+
+        if type(widget) == Gtk.VScrollbar and event.type == Gdk.EventType._2BUTTON_PRESS:
+            # Suppress double-click behavior
+            return True
 
         if event.button == 1:
             # Ctrl+leftclick on a URL should open it
