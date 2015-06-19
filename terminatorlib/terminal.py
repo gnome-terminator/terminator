@@ -910,7 +910,7 @@ class Terminal(Gtk.VBox):
             # on self
             return
 
-        alloc = widget.allocation
+        alloc = widget.get_allocation()
         rect = (0, 0, alloc.width, alloc.height)
 
         if self.config['use_theme_colors']:
@@ -1021,10 +1021,11 @@ class Terminal(Gtk.VBox):
         """Get our location within the terminal"""
         pos = ''
         #get the diagonales function for the receiving widget
-        coef1 = float(term.allocation.height)/float(term.allocation.width)
-        coef2 = -float(term.allocation.height)/float(term.allocation.width)
+        term_alloc = term.get_allocation()
+        coef1 = float(term_alloc.height)/float(term_alloc.width)
+        coef2 = -float(term_alloc.height)/float(term_alloc.width)
         b1 = 0
-        b2 = term.allocation.height
+        b2 = term_alloc.height
         #determine position in rectangle
         #--------
         #|\    /|
