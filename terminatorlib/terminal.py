@@ -190,7 +190,9 @@ class Terminal(Gtk.VBox):
 
     def get_cwd(self):
         """Return our cwd"""
-        return(GLib.filename_from_uri(self.vte.get_current_directory_uri())[0])
+        # Disabled and reverted to revert to old style cwd detection as only returns None.
+        # return(GLib.filename_from_uri(self.vte.get_current_directory_uri())[0])
+        return(self.terminator.pid_cwd(self.pid))
 
     def close(self):
         """Close ourselves"""
@@ -1563,10 +1565,10 @@ class Terminal(Gtk.VBox):
         self.emit('navigate', 'right')
 
     def key_split_horiz(self):
-        self.emit('split-horiz', self.get_cwd)
+        self.emit('split-horiz', self.get_cwd())
 
     def key_split_vert(self):
-        self.emit('split-vert', self.get_cwd)
+        self.emit('split-vert', self.get_cwd())
 
     def key_rotate_cw(self):
         self.emit('rotate-cw')
@@ -1668,7 +1670,7 @@ class Terminal(Gtk.VBox):
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window(self.get_cwd)
+        self.terminator.new_window(self.get_cwd())
 
     def key_new_terminator(self):
         spawn_new_terminator(self.origcwd, ['-u'])
