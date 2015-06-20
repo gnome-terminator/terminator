@@ -193,28 +193,34 @@ def get_edge(allocation, direction):
     directional navigation"""
     if direction == 'left':
         edge = allocation.x
+        p1, p2 = allocation.y, allocation.y + allocation.height
     elif direction == 'up':
         edge = allocation.y
+        p1, p2 = allocation.x, allocation.x + allocation.width
     elif direction == 'right':
         edge = allocation.x + allocation.width
+        p1, p2 = allocation.y, allocation.y + allocation.height
     elif direction == 'down':
         edge = allocation.y + allocation.height
+        p1, p2 = allocation.x, allocation.x + allocation.width
     else:
         raise ValueError('unknown direction %s' % direction)
     
-    return(edge)
+    return(edge, p1, p2)
 
-def get_nav_possible(edge, allocation, direction):
+def get_nav_possible(edge, allocation, direction, p1, p2):
     """Check if the supplied allocation is in the right direction of the
     supplied edge"""
+    x1, x2 = allocation.x, allocation.x + allocation.width
+    y1, y2 = allocation.y, allocation.y + allocation.height
     if direction == 'left':
-        return((allocation.x + allocation.width) <= edge)
+        return(x2 <= edge and y1 <= p2 and y2 >= p1)
     elif direction == 'right':
-        return(allocation.x >= edge)
+        return(x1 >= edge and y1 <= p2 and y2 >= p1)
     elif direction == 'up':
-        return((allocation.y + allocation.height) <= edge)
+        return(y2 <= edge and x1 <= p2 and x2 >= p1)
     elif direction == 'down':
-        return(allocation.y >= edge)
+        return(y1 >= edge and x1 <= p2 and x2 >= p1)
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
