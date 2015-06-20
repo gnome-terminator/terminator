@@ -811,12 +811,13 @@ class Window(Container, Gtk.Window):
             possibles = []
 
             # Get the co-ordinate of the appropriate edge for this direction
-            edge = util.get_edge(allocation, direction)
+            edge, p1, p2 = util.get_edge(allocation, direction)
             # Find all visible terminals which are, in their entirity, in the
-            # direction we want to move
+            # direction we want to move, and are at least partially spanning
+            # p1 to p2
             for term in layout:
                 rect = layout[term]
-                if util.get_nav_possible(edge, rect, direction):
+                if util.get_nav_possible(edge, rect, direction, p1, p2):
                     possibles.append(term)
 
             if len(possibles) == 0:
