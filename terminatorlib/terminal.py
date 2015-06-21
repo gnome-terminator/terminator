@@ -1511,7 +1511,9 @@ class Terminal(Gtk.VBox):
     def get_allocation(self):
         """Get a real allocation which includes the bloody x and y coordinates (grumble, grumble)"""
         alloc = super(Terminal, self).get_allocation()
-        alloc.x, alloc.y = self.translate_coordinates(self.get_toplevel(), 0, 0)
+        rv = self.translate_coordinates(self.get_toplevel(), 0, 0)
+        if rv:
+            alloc.x, alloc.y = rv
         return alloc
 
     # There now begins a great list of keyboard event handlers
