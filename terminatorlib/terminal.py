@@ -848,12 +848,20 @@ class Terminal(Gtk.VBox):
         SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
         SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
         if event.state & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-            # Ctrl + mouse wheel up/down
+            # Ctrl + mouse wheel up/down with Shift and Super additions
+            if event.state & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
+                targets=self.terminator.terminals
+            elif event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
+                targets=self.terminator.get_target_terms(self)
+            else:
+                targets=[self]
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
-                self.zoom_in()
+                for target in targets:
+                    target.zoom_in()
                 return (True)
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
-                self.zoom_out()
+                for target in targets:
+                    target.zoom_out()
                 return (True)
         if event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
             # Shift + mouse wheel up/down
