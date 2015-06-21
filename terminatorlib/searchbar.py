@@ -162,6 +162,7 @@ class Searchbar(gtk.HBox):
                     return
             buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
 
+            buffer = buffer[:buffer.find('\n')]
             matches = self.searchre.search(buffer)
             if matches:
                 self.searchrow = row
@@ -186,6 +187,7 @@ class Searchbar(gtk.HBox):
                     return
             buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
 
+            buffer = buffer[:buffer.find('\n')]
             matches = self.searchre.search(buffer)
             if matches:
                 self.searchrow = row
