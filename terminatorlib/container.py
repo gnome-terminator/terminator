@@ -161,7 +161,6 @@ class Container(object):
             return Gtk.ResponseType.ACCEPT
         
         dialog = Gtk.Dialog(_('Close?'), window, Gtk.DialogFlags.MODAL)
-        dialog.set_has_separator(False)
         dialog.set_resizable(False)
     
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
