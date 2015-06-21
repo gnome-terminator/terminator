@@ -3,7 +3,7 @@
 # GPL v2 only
 """searchbar.py - classes necessary to provide a terminal search bar"""
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from gi.repository import GObject
 import re
 
@@ -137,6 +137,8 @@ class Searchbar(Gtk.HBox):
                                              self.searchrow+1, 0,
                                              self.search_character)
 
+            buffer = buffer[0]
+            buffer = buffer[:buffer.find('\n')]
             matches = self.searchre.search(buffer)
             if matches:
                 self.search_hit(self.searchrow)
@@ -158,6 +160,8 @@ class Searchbar(Gtk.HBox):
                                              self.searchrow+1, 0,
                                              self.search_character)
 
+            buffer = buffer[0]
+            buffer = buffer[:buffer.find('\n')]
             matches = self.searchre.search(buffer)
             if matches:
                 self.search_hit(self.searchrow)
@@ -172,7 +176,7 @@ class Searchbar(Gtk.HBox):
         self.next.show()
         self.prev.show()
 
-    def search_character(self, widget, col, row, junk):
+    def search_character(self, widget, col, row):
         """We have to have a callback for each character"""
         return(True)
 
