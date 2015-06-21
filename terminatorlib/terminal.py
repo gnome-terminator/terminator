@@ -889,12 +889,20 @@ class Terminal(gtk.VBox):
     def on_mousewheel(self, widget, event):
         """Handler for modifier + mouse wheel scroll events"""
         if event.state & gtk.gdk.CONTROL_MASK == gtk.gdk.CONTROL_MASK:
-            # Ctrl + mouse wheel up/down
+            # Ctrl + mouse wheel up/down with Shift and Super additions
+            if event.state & gtk.gdk.MOD4_MASK == gtk.gdk.MOD4_MASK:
+                targets=self.terminator.terminals
+            elif event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
+                targets=self.terminator.get_target_terms(self)
+            else:
+                targets=[self]
             if event.direction == gtk.gdk.SCROLL_UP:
-                self.zoom_in()
+                for target in targets:
+                    target.zoom_in()
                 return (True)
             elif event.direction == gtk.gdk.SCROLL_DOWN:
-                self.zoom_out()
+                for target in targets:
+                    target.zoom_out()
                 return (True)
         if event.state & gtk.gdk.SHIFT_MASK == gtk.gdk.SHIFT_MASK:
             # Shift + mouse wheel up/down
