@@ -71,10 +71,10 @@ class Terminator(Borg):
             self.terminals = []
         if not self.groups:
             self.groups = []
-        if self.groupsend == None:
-            self.groupsend = self.groupsend_type['group']
         if not self.config:
             self.config = Config()
+        if self.groupsend == None:
+            self.groupsend = self.groupsend_type[self.config['broadcast_default']]
         if not self.keybindings:
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
