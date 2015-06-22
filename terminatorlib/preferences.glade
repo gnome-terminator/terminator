@@ -256,6 +256,23 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="BroadcastDefaultListStore">
+    <columns>
+      <!-- column-name position -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">All</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Group</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">None</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="WindowStateListStore">
     <columns>
       <!-- column-name state -->
@@ -526,6 +543,42 @@
                             <property name="right_attach">2</property>
                             <property name="top_attach">5</property>
                             <property name="bottom_attach">6</property>
+                            <property name="x_options"></property>
+                            <property name="y_options">GTK_EXPAND</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label41">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Broadcast default</property>
+                          </object>
+                          <packing>
+                            <property name="top_attach">18</property>
+                            <property name="bottom_attach">19</property>
+                            <property name="x_options"></property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBox" id="broadcastdefault">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="model">BroadcastDefaultListStore</property>
+                            <property name="active">0</property>
+                            <signal name="changed" handler="on_broadcastdefault_changed" swapped="no"/>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext18"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">18</property>
+                            <property name="bottom_attach">19</property>
                             <property name="x_options"></property>
                             <property name="y_options">GTK_EXPAND</property>
                           </packing>

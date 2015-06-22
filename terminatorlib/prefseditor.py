@@ -248,6 +248,16 @@ class PrefsEditor:
         else:
             active = 0
         widget.set_active(active)
+        # Broadcast default
+        option = self.config['broadcast_default']
+        widget = guiget('broadcastdefault')
+        if option == 'all':
+            active = 0
+        elif option == 'off':
+            active = 2
+        else:
+            active = 1
+        widget.set_active(active)
         # scroll_tabbar
         widget = guiget('scrolltabbarcheck')
         widget.set_active(self.config['scroll_tabbar'])
@@ -1005,6 +1015,18 @@ class PrefsEditor:
         else:
             value = 'top'
         self.config['tab_position'] = value
+        self.config.save()
+
+    def on_broadcastdefault_changed(self, widget):
+        """Broadcast default changed"""
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'all'
+        elif selected == 2:
+            value = 'off'
+        else:
+            value = 'group'
+        self.config['broadcast_default'] = value
         self.config.save()
 
     def on_winstatecombo_changed(self, widget):
