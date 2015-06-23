@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for t in tests/test*; do
+    echo $t
+    file_type=$(file -b $t)
+    case ${file_type} in
+        *[Pp]ython*) python ${t} ;;
+        *Bourne*) bash ${t} ;;
+        *bash*)   bash ${t} ;;
+        *perl*)   perl ${t} ;;
+        *) echo "Unknown" ;;
+    esac
+    echo
+done
