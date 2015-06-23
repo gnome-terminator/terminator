@@ -149,6 +149,20 @@ class InstallData(install_data):
 
     return data_files
 
+class Test(Command):
+  user_options = []
+  def initialize_options(self):
+    pass
+
+  def finalize_options(self):
+    pass
+
+  def run(self):
+    import subprocess
+    import sys
+    errno = subprocess.call(['bash', 'run_tests'])
+    raise SystemExit(errno)
+
 
 if platform.system() in ['FreeBSD', 'OpenBSD']:
   man_dir = 'man'
@@ -181,7 +195,7 @@ setup(name=APP_NAME.capitalize(),
       packages=['terminatorlib', 'terminatorlib.configobj',
       'terminatorlib.plugins'],
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
-      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
+      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall, 'test':Test},
       distclass=TerminatorDist
      )
 
