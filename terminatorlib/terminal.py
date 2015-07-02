@@ -1376,7 +1376,11 @@ class Terminal(Gtk.VBox):
             except:
                 dbg('custom url handler did not work, falling back to defaults')
 
-        Gtk.show_uri(None, url, Gdk.CURRENT_TIME)
+        try:
+            Gtk.show_uri(None, url, Gdk.CURRENT_TIME)
+            return
+        except:
+            dbg('Gtk.show_uri did not work, falling through to xdg-open')
 
         try:
             subprocess.Popen(["xdg-open", url])
