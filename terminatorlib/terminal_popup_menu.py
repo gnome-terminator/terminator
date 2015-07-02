@@ -32,7 +32,7 @@ class TerminalPopupMenu(object):
         terminal = self.terminal
 
         menu = Gtk.Menu()
-        self.popup_menu = menu  # from http://stackoverflow.com/questions/21960298/python-gtk3-right-click-menu -- is this the right way?
+        self.popup_menu = menu
         url = None
         button = None
         time = None

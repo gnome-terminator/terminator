@@ -403,7 +403,7 @@ class Terminal(Gtk.VBox):
     def populate_group_menu(self):
         """Fill out a group menu"""
         menu = Gtk.Menu()
-        self.group_menu = menu  # from http://stackoverflow.com/questions/21960298/python-gtk3-right-click-menu -- is this the right way?
+        self.group_menu = menu
         groupitem = None
 
         item = Gtk.MenuItem(_('New group...'))
