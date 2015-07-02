@@ -111,7 +111,7 @@ if __name__ == '__main__':
             TERMINATOR.new_window()
         TERMINATOR.layout_done()
 
-    if OPTIONS.debug > 2:
+    if OPTIONS.debug >= 2:
         import terminatorlib.debugserver as debugserver
         # pylint: disable-msg=W0611
         import threading
