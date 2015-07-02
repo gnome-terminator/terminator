@@ -50,6 +50,9 @@ from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
 
 if __name__ == '__main__':
+    # Not used in the 0.2x versions of VTE and can cause unwanted chars in console.
+    if os.environ.has_key('VTE_VERSION'):
+        del os.environ['VTE_VERSION']
     dbus_service = None
 
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
