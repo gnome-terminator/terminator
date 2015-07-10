@@ -154,4 +154,9 @@ class EditableLabel(gtk.EventBox):
     def set_custom(self):
         """Set the customness of the string to True"""
         self._custom = True
+
+    def modify_font(self, fontdesc):
+        """Set the label font using a pango.FontDescription"""
+        self._label.modify_font(fontdesc)
+
 gobject.type_register(EditableLabel)

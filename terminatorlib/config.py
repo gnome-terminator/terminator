@@ -117,8 +117,10 @@ DEFAULTS = {
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
-             'suppress_multiple_term_dialog': False,
-             'always_split_with_profile': False,
+            'suppress_multiple_term_dialog': False,
+            'always_split_with_profile': False,
+            'title_use_system_font' : True,
+            'title_font'            : 'Sans 9',
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
@@ -265,7 +267,8 @@ class Config(object):
     base = None
     profile = None
     gconf = None
-    system_font = None
+    system_mono_font = None
+    system_prop_font = None
     system_focus = None
     inhibited = None
     
@@ -347,10 +350,28 @@ class Config(object):
         """List all configured layouts"""
         return(self.base.layouts.keys())
 
-    def get_system_font(self):
+    def get_system_prop_font(self):
         """Look up the system font"""
-        if self.system_font is not None:
-            return(self.system_font)
+        if self.system_prop_font is not None:
+            return(self.system_prop_font)
+        elif 'gconf' not in globals():
+            return
+        else:
+            if self.gconf is None:
+                self.gconf = gconf.client_get_default()
+
+            value = self.gconf.get(
+                        '/desktop/gnome/interface/font_name')
+            self.system_prop_font = value.get_string()
+            self.gconf.notify_add(
+                        '/desktop/gnome/interface/font_name', 
+                        self.on_gconf_notify)
+            return(self.system_prop_font)
+
+    def get_system_mono_font(self):
+        """Look up the system font"""
+        if self.system_mono_font is not None:
+            return(self.system_mono_font)
         elif 'gconf' not in globals():
             return
         else:
@@ -359,11 +380,11 @@ class Config(object):
 
             value = self.gconf.get(
                         '/desktop/gnome/interface/monospace_font_name')
-            self.system_font = value.get_string()
+            self.system_mono_font = value.get_string()
             self.gconf.notify_add(
                         '/desktop/gnome/interface/monospace_font_name', 
                         self.on_gconf_notify)
-            return(self.system_font)
+            return(self.system_mono_font)
 
     def get_system_focus(self):
         """Look up the system focus setting"""

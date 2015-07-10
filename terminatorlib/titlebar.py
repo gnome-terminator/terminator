@@ -7,6 +7,7 @@ import gtk
 import gobject
 import random
 import itertools
+import pango
 
 from version import APP_NAME
 from util import dbg
@@ -104,6 +105,13 @@ class Titlebar(gtk.EventBox):
             self.label.set_text("%s" % self.termtext)
         else:
             self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+
+        if (not self.config['title_use_system_font']) and self.config['title_font']:
+            title_font = pango.FontDescription(self.config['title_font'])
+        else:
+            title_font = pango.FontDescription(self.config.get_system_prop_font())
+        self.label.modify_font(title_font)
+        self.grouplabel.modify_font(title_font)
 
         if other:
             term = self.terminal
