@@ -118,6 +118,14 @@ Default value: \fB'#000000'\fR
 Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#C0BEBF'\fR
 .TP
+.B title_use_system_font \fR(boolean)
+Whether or not to use the GNOME default proportional font for titlebars.
+Default value: \fBTrue\fR
+.TP
+.B title_font \fR(string)
+An Pango font name. Examples are "Sans 12" or "Monospace Bold 14".
+Default value: \fB"Sans 9"\fR
+.TP
 .B inactive_color_offset
 Controls how much to reduce the colour values of fonts in terminals that do not have focus. It is a simple multiplication
 factor. A font colour that was RGB(200,200,200) with an inactive_color_offset of 0.5 would set inactive terminals to
@@ -388,7 +396,7 @@ Default value: \fBTrue\fR
 .TP
 .B font
 An Pango font name. Examples are "Sans 12" or "Monospace Bold 14".
-Default value: \fBMono 8\fR
+Default value: \fBMono 10\fR
 .TP
 .B foreground_color
 Default colour of text in the terminal, as a colour specification (can be HTML-style hex digits, or a colour name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.

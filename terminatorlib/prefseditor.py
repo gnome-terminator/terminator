@@ -284,6 +284,19 @@ class PrefsEditor:
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
+        #Titlebar font selector
+        # Use system font
+        widget = guiget('title_system_font_checkbutton')
+        widget.set_active(self.config['title_use_system_font'])
+        self.on_title_system_font_checkbutton_toggled(widget)
+        # Font selector
+        widget = guiget('title_font_selector')
+        if self.config['title_use_system_font'] == True:
+            fontname = self.config.get_system_prop_font()
+            if fontname is not None:
+                widget.set_font_name(fontname)
+        else:
+            widget.set_font_name(self.config['title_font'])
 
         ## Profile tab
         # Populate the profile list
@@ -372,7 +385,7 @@ class PrefsEditor:
         widget = guiget('font_selector')
 
         if self.config['use_system_font'] == True:
-            fontname = self.config.get_system_font()
+            fontname = self.config.get_system_mono_font()
             if fontname is not None:
                 widget.set_font_name(fontname)
         else:
@@ -895,6 +908,11 @@ class PrefsEditor:
         self.config['font'] = widget.get_font_name()
         self.config.save()
 
+    def on_title_font_selector_font_set(self, widget):
+        """Titlebar Font changed"""
+        self.config['title_font'] = widget.get_font_name()
+        self.config.save()
+
     def on_title_receive_bg_color_color_set(self, widget):
         """Title receive background colour changed"""
         self.config['title_receive_bg_color'] = color2hex(widget)
@@ -1114,6 +1132,31 @@ class PrefsEditor:
         widget.set_sensitive(not value)
         self.config['use_system_font'] = value
         self.config.save()
+        
+        if self.config['use_system_font'] == True:
+            fontname = self.config.get_system_mono_font()
+            if fontname is not None:
+                widget.set_font_name(fontname)
+        else:
+            widget.set_font_name(self.config['font'])
+
+    def on_title_system_font_checkbutton_toggled(self, checkbox):
+        """Toggling the title_use_system_font checkbox needs to alter the
+        sensitivity of the font selector"""
+        guiget = self.builder.get_object
+        widget = guiget('title_font_selector')
+        value = checkbox.get_active()
+
+        widget.set_sensitive(not value)
+        self.config['title_use_system_font'] = value
+        self.config.save()
+
+        if self.config['title_use_system_font'] == True:
+            fontname = self.config.get_system_prop_font()
+            if fontname is not None:
+                widget.set_font_name(fontname)
+        else:
+            widget.set_font_name(self.config['title_font'])
 
     def on_reset_compatibility_clicked(self, widget):
         """Reset the confusing and annoying backspace/delete options to the

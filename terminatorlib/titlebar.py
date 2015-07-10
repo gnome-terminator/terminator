@@ -5,6 +5,7 @@
 
 from gi.repository import Gtk, Gdk
 from gi.repository import GObject
+from gi.repository import Pango
 import random
 import itertools
 
@@ -105,6 +106,13 @@ class Titlebar(Gtk.EventBox):
             self.label.set_text("%s" % self.termtext)
         else:
             self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+
+        if (not self.config['title_use_system_font']) and self.config['title_font']:
+            title_font = Pango.FontDescription(self.config['title_font'])
+        else:
+            title_font = Pango.FontDescription(self.config.get_system_prop_font())
+        self.label.modify_font(title_font)
+        self.grouplabel.modify_font(title_font)
 
         if other:
             term = self.terminal

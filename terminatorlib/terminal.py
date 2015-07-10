@@ -623,7 +623,7 @@ class Terminal(Gtk.VBox):
         if not self.custom_font_size:
             try:
                 if self.config['use_system_font'] == True:
-                    font = self.config.get_system_font()
+                    font = self.config.get_system_mono_font()
                 else:
                     font = self.config['font']
                 self.set_font(Pango.FontDescription(font))
@@ -1427,7 +1427,7 @@ class Terminal(Gtk.VBox):
     def zoom_orig(self):
         """Restore original font size"""
         if self.config['use_system_font'] == True:
-            font = self.config.get_system_font()
+            font = self.config.get_system_mono_font()
         else:
             font = self.config['font']
         dbg("Terminal::zoom_orig: restoring font to: %s" % font)
