@@ -146,7 +146,9 @@ class PrefsEditor:
                         'insert_number'    : 'Insert terminal number',
                         'insert_padded'    : 'Insert zero padded terminal number',
                         'edit_window_title': 'Edit window title',
-                        'layout_launcher'  : 'Open layout launcher window'
+                        'layout_launcher'  : 'Open layout launcher window',
+                        'next_profile'     : 'Switch to next profile',
+                        'previous_profile' : 'Switch to previous profile'
             }
 
     def __init__ (self, term):
