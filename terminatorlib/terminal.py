@@ -196,6 +196,26 @@ class Terminal(gtk.VBox):
         """Return our profile name"""
         return(self.config.profile)
 
+    def switch_to_next_profile(self):
+        profilelist = self.config.list_profiles()
+        list_length = len(profilelist)
+
+        if list_length > 1:
+            if profilelist.index(self.get_profile()) + 1 == list_length:
+                self.force_set_profile(False, profilelist[0])
+            else:
+                self.force_set_profile(False, profilelist[profilelist.index(self.get_profile()) + 1])
+
+    def switch_to_previous_profile(self):
+        profilelist = self.config.list_profiles()
+        list_length = len(profilelist)
+
+        if list_length > 1:
+            if profilelist.index(self.get_profile()) == 0:
+                self.force_set_profile(False, profilelist[list_length - 1])
+            else:
+                self.force_set_profile(False, profilelist[profilelist.index(self.get_profile()) - 1])
+
     def get_cwd(self):
         """Return our cwd"""
         return(self.terminator.pid_cwd(self.pid))
@@ -1579,6 +1599,12 @@ class Terminal(gtk.VBox):
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
         self.zoom_in()
+
+    def key_next_profile(self):
+        self.switch_to_next_profile()
+
+    def key_previous_profile(self):
+        self.switch_to_previous_profile()
 
     def key_zoom_out(self):
         self.zoom_out()

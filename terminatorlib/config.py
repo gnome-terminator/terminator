@@ -189,7 +189,9 @@ DEFAULTS = {
             'insert_number'    : '',
             'insert_padded'    : '',
             'edit_window_title': '',
-            'layout_launcher'  : ''
+            'layout_launcher'  : '',
+            'next_profile'     : '',
+            'previous_profile' : ''
         },
         'profiles': {
             'default':  {
