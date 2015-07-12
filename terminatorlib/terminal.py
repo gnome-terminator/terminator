@@ -1012,19 +1012,21 @@ class Terminal(gtk.VBox):
            gtk.targets_include_uri(drag_context.targets):
             # copy text with no modification yet to destination
             txt = selection_data.data
-            if txt[0:7] == 'file://':
-                # It is a list of crlf terminated file:// URL. let's iterate
-                # over all elements.
-                str=''
-                for fname in txt.split( "\r\n" ):
-                    dbg('drag data fname: %s' % fname)
-                    if fname == '':
-                        break # last elem is empty since each URL is terminated bye crlf
-                    fname = "'%s'" % urllib.unquote(fname[7:].replace( "'", '\'\\\'\''))
-                    str += fname + ' '
-                txt=str
-            else:
-                txt = txt.strip(' ').split('\n')[0]
+            txt_lines = txt.split( "\r\n" )
+            if txt_lines[-1] == '':
+                for line in txt_lines[:-1]:
+                    if line[0:7] != 'file://':
+                        break
+                else:
+                    # It is a list of crlf terminated file:// URL. let's
+                    # iterate over all elements except the last one.
+                    str=''
+                    for fname in txt_lines[:-1]:
+                        dbg('drag data fname: %s' % fname)
+                        fname = "'%s'" % urllib.unquote(fname[7:].replace("'",
+                                                                    '\'\\\'\''))
+                        str += fname + ' '
+                    txt=str
             for term in self.terminator.get_target_terms(self):
                 term.feed(txt)
             return
