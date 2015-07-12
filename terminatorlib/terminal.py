@@ -8,7 +8,7 @@ import sys
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk, cairo
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
@@ -128,7 +128,7 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
-        self.vte._expose_data = None
+        self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
             self.composite_support = False
@@ -363,18 +363,40 @@ class Terminal(Gtk.VBox):
         dsttargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE), 
                       ('text/x-moz-url', 0, 0), 
                       ('_NETSCAPE_URL', 0, 0)]
-#        dsttargets = Gtk.target_list_add_text_targets(dsttargets)  # FIXME FOR GTK3
-#        dsttargets = Gtk.target_list_add_uri_targets(dsttargets)
+        '''
+        The following should work, but on my system it corrupts the returned
+        TargetEntry's in the newdstargets with binary crap, causing "Segmentation
+        fault (core dumped)" when the later drag_dest_set gets called.
+        
+        dsttargetlist = Gtk.TargetList.new([])
+        dsttargetlist.add_text_targets(0)
+        dsttargetlist.add_uri_targets(0)
+        dsttargetlist.add_table(dsttargets)
+        
+        newdsttargets = Gtk.target_table_new_from_list(dsttargetlist)
+        '''
+        # FIXME: Temporary workaround for the problems with the correct way of doing things
+        dsttargets.extend([('text/plain', 0, 0),
+                           ('text/plain;charset=utf-8', 0, 0),
+                           ('TEXT', 0, 0),
+                           ('STRING', 0, 0),
+                           ('UTF8_STRING', 0, 0),
+                           ('COMPOUND_TEXT', 0, 0),
+                           ('text/uri-list', 0, 0)])
+        # Convert to target entries
+        srcvtetargets = [Gtk.TargetEntry.new(*tgt) for tgt in srcvtetargets]
+        dsttargets = [Gtk.TargetEntry.new(*tgt) for tgt in dsttargets]
+
         dbg('Finalised drag targets: %s' % dsttargets)
 
-#        for (widget, mask) in [
-#            (self.vte, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.BUTTON3_MASK), 
-#            (self.titlebar, Gdk.ModifierType.BUTTON1_MASK)]:
-#            widget.drag_source_set(mask, srcvtetargets, Gdk.DragAction.MOVE)  # FIXME FOR GTK3
-#
-#        self.vte.drag_dest_set(Gtk.DestDefaults.MOTION |
-#                Gtk.DestDefaults.HIGHLIGHT | Gtk.DestDefaults.DROP,
-#                dsttargets, Gdk.DragAction.COPY | Gdk.DragAction.MOVE)  # FIXME FOR GTK3
+        for (widget, mask) in [
+            (self.vte, Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.BUTTON3_MASK), 
+            (self.titlebar, Gdk.ModifierType.BUTTON1_MASK)]:
+            widget.drag_source_set(mask, srcvtetargets, Gdk.DragAction.MOVE)
+
+        self.vte.drag_dest_set(Gtk.DestDefaults.MOTION |
+                Gtk.DestDefaults.HIGHLIGHT | Gtk.DestDefaults.DROP,
+                dsttargets, Gdk.DragAction.COPY | Gdk.DragAction.MOVE)
 
         for widget in [self.vte, self.titlebar]:
             widget.connect('drag-begin', self.on_drag_begin, self)
@@ -919,29 +941,28 @@ class Terminal(Gtk.VBox):
 
     def on_drag_begin(self, widget, drag_context, _data):
         """Handle the start of a drag event"""
-        widget.drag_source_set_icon_pixbuf(util.widget_pixbuf(self, 512))
+        Gtk.drag_set_icon_pixbuf(drag_context, util.widget_pixbuf(self, 512), 0, 0)
 
     def on_drag_data_get(self, _widget, _drag_context, selection_data, info, 
             _time, data):
         """I have no idea what this does, drag and drop is a mystery. sorry."""
-        selection_data.set('vte', info,
+        selection_data.set(Gdk.atom_intern('vte', False), info,
                 str(data.terminator.terminals.index(self)))
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
-        if not drag_context.targets == ['vte'] and \
-           (Gtk.targets_include_text(drag_context.targets) or \
-           Gtk.targets_include_uri(drag_context.targets)):
+        if not drag_context.list_targets() == [Gdk.atom_intern('vte', False)] and \
+           (Gtk.targets_include_text(drag_context.list_targets()) or \
+           Gtk.targets_include_uri(drag_context.list_targets())):
             # copy text from another widget
             return
-        srcwidget = drag_context.get_source_widget()
+        srcwidget = Gtk.drag_get_source_widget(drag_context)
         if(isinstance(srcwidget, Gtk.EventBox) and 
            srcwidget == self.titlebar) or widget == srcwidget:
             # on self
             return
 
         alloc = widget.get_allocation()
-        rect = (0, 0, alloc.width, alloc.height)
 
         if self.config['use_theme_colors']:
             color = self.vte.get_style_context().get_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3 as above
@@ -970,24 +991,23 @@ class Terminal(Gtk.VBox):
             coord = (bottomleft, bottomright, middleright , middleleft) 
 
         #here, we define some widget internal values
-        widget._expose_data = { 'color': color, 'coord' : coord }
+        widget._draw_data = { 'color': color, 'coord' : coord }
         #redraw by forcing an event
-        connec = widget.connect_after('expose-event', self.on_expose_event)
-        widget.window.invalidate_rect(rect, True)
-        widget.window.process_updates(True)
+        connec = widget.connect_after('draw', self.on_draw)
+        widget.queue_draw_area(0, 0, alloc.width, alloc.height)
+        widget.get_window().process_updates(True)
         #finaly reset the values
         widget.disconnect(connec)
-        widget._expose_data = None
+        widget._draw_data = None
 
-    def on_expose_event(self, widget, _event):
+    def on_draw(self, widget, context):
         """Handle an expose event while dragging"""
-        if not widget._expose_data:
+        if not widget._draw_data:
             return(False)
 
-        color = widget._expose_data['color']
-        coord = widget._expose_data['coord']
+        color = widget._draw_data['color']
+        coord = widget._draw_data['coord']
 
-        context = widget.window.cairo_create()
         context.set_source_rgba(color.red, color.green, color.blue, 0.5)
         if len(coord) > 0 :
             context.move_to(coord[len(coord)-1][0], coord[len(coord)-1][1])
@@ -1001,11 +1021,11 @@ class Terminal(Gtk.VBox):
             _info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
-        dbg('drag data received of type: %s' % selection_data.type)
-        if Gtk.targets_include_text(drag_context.targets) or \
-           Gtk.targets_include_uri(drag_context.targets):
+        dbg('drag data received of type: %s' % (selection_data.get_data_type()))
+        if Gtk.targets_include_text(drag_context.list_targets()) or \
+           Gtk.targets_include_uri(drag_context.list_targets()):
             # copy text to destination
-            txt = selection_data.data.strip(' ')
+            txt = selection_data.get_data().strip(' ')
             if txt[0:7] == 'file://':
                 txt = "'%s'" % urllib.unquote(txt[7:])
             else:
@@ -1014,8 +1034,8 @@ class Terminal(Gtk.VBox):
                 term.feed(txt)
             return
         
-        widgetsrc = data.terminator.terminals[int(selection_data.data)]
-        srcvte = drag_context.get_source_widget()
+        widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
+        srcvte = Gtk.drag_get_source_widget(drag_context)
         #check if computation requireds
         if (isinstance(srcvte, Gtk.EventBox) and 
                 srcvte == self.titlebar) or srcvte == widget:

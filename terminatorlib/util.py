@@ -24,7 +24,8 @@
 """
 
 import sys
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
+import cairo
 import os
 import pwd
 import inspect
@@ -142,11 +143,9 @@ def shell_lookup():
 
 def widget_pixbuf(widget, maxsize=None):
     """Generate a pixbuf of a widget"""
-    pixmap = widget.get_snapshot()
-    (width, height) = pixmap.get_size()
-    pixbuf = GdkPixbuf.Pixbuf(GdkPixbuf.Colorspace.RGB, False, 8, width, height)
-    pixbuf.get_from_drawable(pixmap, pixmap.get_colormap(), 0, 0, 0, 0, width,
-            height)
+    # FIXME: Can this be changed from using "import cairo" to "from gi.repository import cairo"?
+    window = widget.get_window()
+    width, height = window.get_width(), window.get_height()
 
     longest = max(width, height)
 
@@ -156,8 +155,18 @@ def widget_pixbuf(widget, maxsize=None):
     if not maxsize or (width * factor) > width or (height * factor) > height:
         factor = 1
 
-    scaledpixbuf = pixbuf.scale_simple(int(width * factor), int(height * factor), GdkPixbuf.InterpType.BILINEAR)
+    preview_width, preview_height = int(width * factor), int(height * factor)
 
+    preview_surface = Gdk.Window.create_similar_surface(window,
+        cairo.CONTENT_COLOR, preview_width, preview_height)
+
+    cairo_context = cairo.Context(preview_surface)
+    cairo_context.scale(factor, factor)
+    Gdk.cairo_set_source_window(cairo_context, window, 0, 0)
+    cairo_context.paint()
+
+    scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height);
+    
     return(scaledpixbuf)
 
 def get_config_dir():
