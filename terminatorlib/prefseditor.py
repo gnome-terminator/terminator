@@ -1083,6 +1083,20 @@ class PrefsEditor:
 
         self.config.save()
 
+    def on_layoutrefreshbutton_clicked(self, _button):
+        """Refresh the terminals status and update"""
+        terminator = Terminator()
+        current_layout = terminator.describe_layout()
+
+        guiget = self.builder.get_object
+        treeview = guiget('layoutlist')
+        selected = treeview.get_selection()
+        (model, rowiter) = selected.get_selected()
+        name = model.get_value(rowiter, 0)
+        
+        if self.config.replace_layout(name, current_layout):
+            treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
+
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
         guiget = self.builder.get_object

@@ -330,6 +330,10 @@ class Config(object):
     def add_layout(self, name, layout):
         """Add a new layout"""
         return(self.base.add_layout(name, layout))
+    
+    def replace_layout(self, name, layout):
+        """Replace an existing layout"""
+        return(self.base.replace_layout(name, layout)) 
 
     def del_layout(self, layout):
         """Delete a layout"""
@@ -760,6 +764,13 @@ class ConfigBase(Borg):
     def add_layout(self, name, layout):
         """Add a new layout"""
         if name in self.layouts:
+            return(False)
+        self.layouts[name] = layout
+        return(True)
+
+    def replace_layout(self, name, layout):
+        """Replaces a layout with the given name"""
+        if not name in self.layouts:
             return(False)
         self.layouts[name] = layout
         return(True)
