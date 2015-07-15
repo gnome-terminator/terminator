@@ -390,10 +390,12 @@ class Paned(Container):
             self.set_position(self.get_position())
     
     def set_position_by_ratio(self):
-        self.set_pos(int(self.ratio*self.get_length()))
+        handle_size = self.style_get_property('handle-size')
+        self.set_pos(int((self.ratio*self.get_length())-(handle_size/2.0)))
 
     def set_position(self, pos):
-        self.ratio = float(pos) / self.get_length()
+        handle_size = self.style_get_property('handle-size')
+        self.ratio = float(pos + (handle_size/2.0)) / self.get_length()
         self.set_pos(pos)
 
 class HPaned(Paned, gtk.HPaned):
