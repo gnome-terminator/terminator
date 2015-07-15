@@ -49,6 +49,7 @@ class Terminator(Borg):
     debug_address = None
 
     doing_layout = None
+    layoutname = None
     last_active_window = None
 
     groupsend = None
@@ -301,6 +302,8 @@ class Terminator(Borg):
                     window.isfullscreen = False
                 window.set_fullscreen(window.isfullscreen)
             window.create_layout(layout[windef])
+
+        self.layoutname = layoutname
 
     def layout_done(self):
         """Layout operations have finished, record that fact"""

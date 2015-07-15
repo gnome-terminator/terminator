@@ -330,7 +330,7 @@ class Config(object):
     def add_layout(self, name, layout):
         """Add a new layout"""
         return(self.base.add_layout(name, layout))
-    
+
     def replace_layout(self, name, layout):
         """Replace an existing layout"""
         return(self.base.replace_layout(name, layout)) 

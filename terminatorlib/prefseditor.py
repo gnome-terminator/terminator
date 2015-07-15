@@ -329,7 +329,12 @@ class PrefsEditor:
             self.layoutiters[layout] = liststore.append([layout, editable])
         selection = widget.get_selection()
         selection.connect('changed', self.on_layout_selection_changed)
-        selection.select_iter(self.layoutiters['default'])
+        terminator = Terminator()
+        if terminator.layoutname:
+            layout_to_highlight = terminator.layoutname
+        else:
+            layout_to_highlight = 'default'
+        selection.select_iter(self.layoutiters[layout_to_highlight])
         # Now set up the selection changed handler for the layout itself
         widget = guiget('LayoutTreeView')
         selection = widget.get_selection()
@@ -1093,9 +1098,10 @@ class PrefsEditor:
         selected = treeview.get_selection()
         (model, rowiter) = selected.get_selected()
         name = model.get_value(rowiter, 0)
-        
+
         if self.config.replace_layout(name, current_layout):
             treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
+        self.config.save()
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
