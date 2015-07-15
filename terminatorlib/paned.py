@@ -198,9 +198,7 @@ class Paned(Container):
                     
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
-        value = GObject.Value(int)
-        self.style_get_property('handle-size',  value)
-        handle_size = value.get_int()
+        handle_size = self.get_handlesize()
         #4 Math! eek (a - (n * hs)) / (n + 1) = single size => s
         single_size = (avail_pixels - (number_splits * handle_size)) / (number_splits + 1)
         arr_sizes = [single_size]*(number_splits+1)
@@ -235,6 +233,15 @@ class Paned(Container):
         """Return metadata about a child"""
         metadata = {}
         metadata['had_focus'] = widget.has_focus()
+
+    def get_handlesize(self):
+        """Why oh why, gtk3?"""
+        try:
+            value = GObject.Value(int)
+            self.style_get_property('handle-size',  value)
+            return(value.get_int())
+        except:
+            return 0
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
@@ -391,10 +398,12 @@ class Paned(Container):
             self.set_position(self.get_position())
     
     def set_position_by_ratio(self):
-        self.set_pos(int(self.ratio*self.get_length()))
+        handle_size = handle_size = self.get_handlesize()
+        self.set_pos(int((self.ratio*self.get_length())-(handle_size/2.0)))
 
     def set_position(self, pos):
-        self.ratio = float(pos) / self.get_length()
+        handle_size = handle_size = self.get_handlesize()
+        self.ratio = float(pos + (handle_size/2.0)) / self.get_length()
         self.set_pos(pos)
 
 class HPaned(Paned, Gtk.HPaned):
