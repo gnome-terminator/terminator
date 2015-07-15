@@ -1947,7 +1947,7 @@
                               <object class="GtkLabel" id="custom_command_entry_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
+                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">Custom co_mmand:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">center</property>
@@ -1964,7 +1964,7 @@
                               <object class="GtkLabel" id="exit_action_combobox_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
+                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">When command _exits:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">center</property>
@@ -2961,7 +2961,7 @@
                               <object class="GtkLabel" id="scrollbar_position_combobox_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
+                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">_Scrollbar is:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">center</property>
@@ -2976,7 +2976,7 @@
                               <object class="GtkLabel" id="scrollback_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
+                                <property name="xalign">1</property>
                                 <property name="label" translatable="yes">Scroll_back:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">center</property>
@@ -3083,7 +3083,7 @@
                                   <object class="GtkLabel" id="delete_binding_combobox_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
+                                    <property name="xalign">1</property>
                                     <property name="label" translatable="yes">_Delete key generates:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">center</property>
@@ -3100,7 +3100,7 @@
                                   <object class="GtkLabel" id="backspace_binding_combobox_label">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
+                                    <property name="xalign">1</property>
                                     <property name="label" translatable="yes">_Backspace key generates:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">center</property>
