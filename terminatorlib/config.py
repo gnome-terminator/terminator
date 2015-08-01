@@ -362,7 +362,10 @@ class Config(object):
 
             value = self.gconf.get(
                         '/desktop/gnome/interface/font_name')
-            self.system_prop_font = value.get_string()
+            if value:
+                self.system_prop_font = value.get_string()
+            else:
+                self.system_prop_font = "Sans 10"
             self.gconf.notify_add(
                         '/desktop/gnome/interface/font_name', 
                         self.on_gconf_notify)
@@ -380,7 +383,10 @@ class Config(object):
 
             value = self.gconf.get(
                         '/desktop/gnome/interface/monospace_font_name')
-            self.system_mono_font = value.get_string()
+            if value:
+                self.system_mono_font = value.get_string()
+            else:
+                self.system_mono_font = "Mono 10"
             self.gconf.notify_add(
                         '/desktop/gnome/interface/monospace_font_name', 
                         self.on_gconf_notify)
