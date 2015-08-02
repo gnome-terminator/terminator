@@ -71,7 +71,7 @@ class CustomCommandsMenu(plugin.MenuItem):
         menuitem = gtk.SeparatorMenuItem()
         submenu.append(menuitem)
 
-        theme = gtk.IconTheme()
+        theme = gtk.icon_theme_get_default()
         for command in [ self.cmd_list[key] for key in sorted(self.cmd_list.keys()) ] :
           if not command['enabled']:
             continue
@@ -126,13 +126,13 @@ class CustomCommandsMenu(plugin.MenuItem):
                       )
                     )
 
-      icon_theme = gtk.IconTheme()
-      try:
-        icon = icon_theme.load_icon('terminator-custom-commands', 48, 0)
-      except (NameError, gobject.GError):
-        dbg('Unable to load 48px Terminator preferences icon')
+      icon_theme = gtk.icon_theme_get_default()
+      if icon_theme.lookup_icon('terminator-custom-commands', 48, 0):
+        dbox.set_icon_name('terminator-custom-commands')
+      else:
+        dbg('Unable to load Terminator custom command icon')
         icon = dbox.render_icon(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_BUTTON)
-      dbox.set_icon(icon)
+        dbox.set_icon(icon)
 
       store = gtk.ListStore(bool, str, str)
 
