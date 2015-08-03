@@ -168,35 +168,27 @@ class Window(Container, Gtk.Window):
 
     def apply_icon(self, requested_icon):
         """Set the window icon"""
-        icon_theme = Gtk.IconTheme()
-        icon = None
-        
+        icon_theme = Gtk.IconTheme.get_default()
+        icon_name_list = [APP_NAME]   # disable self.wmclass_name, n/a in GTK3
+
         if requested_icon:
             try:
                 self.set_icon_from_file(requested_icon)
-                icon = self.get_icon()
+                return
             except (NameError, GObject.GError):
-                dbg('Unable to load 48px %s icon as file' % (repr(requested_icon)))
-        
-        if requested_icon and icon is None:
-            try:
-                icon = icon_theme.load_icon(requested_icon, 48, 0)
-            except (NameError, GObject.GError):
-                dbg('Unable to load 48px %s icon' % (repr(requested_icon)))
-        
-#        if icon is None:
-#            try:
-#                icon = icon_theme.load_icon(self.wmclass_name, 48, 0)  # FIXME FOR GTK3
-#            except (NameError, GObject.GError):
-#                dbg('Unable to load 48px %s icon' % (self.wmclass_name))
-        
-        if icon is None:
-            try:
-                icon = icon_theme.load_icon(APP_NAME, 48, 0)
-            except (NameError, GObject.GError):
-                dbg('Unable to load 48px Terminator icon')
-                icon = self.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
+                dbg('Unable to load %s icon as file' % (repr(requested_icon)))
 
+            icon_name_list.insert(0, requested_icon)
+
+        for icon_name in icon_name_list:
+            # Test if the icon is available first
+            if icon_theme.lookup_icon(icon_name, 48, 0):
+                self.set_icon_name(icon_name)
+                return # Success! We're done.
+            else:
+                dbg('Unable to load %s icon' % (icon_name))
+
+        icon = self.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.ICON_SIZE_BUTTON)
         self.set_icon(icon)
 
     def on_key_press(self, window, event):

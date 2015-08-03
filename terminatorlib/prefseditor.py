@@ -17,6 +17,7 @@ from translation import _
 from encoding import TerminatorEncoding
 from terminator import Terminator
 from plugin import PluginRegistry
+from version import APP_NAME
 
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
@@ -156,6 +157,7 @@ class PrefsEditor:
         self.config.base.reload()
         self.term = term
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
         try:
             # Figure out where our library is on-disk so we can open our

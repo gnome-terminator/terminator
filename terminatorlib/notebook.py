@@ -5,6 +5,7 @@
 
 from gi.repository import GObject
 from gi.repository import Gtk
+from gi.repository import Gio
 
 from terminator import Terminator
 from config import Config
@@ -547,10 +548,9 @@ class TabLabel(Gtk.HBox):
         if not self.button:
             self.button = Gtk.Button()
         if not self.icon:
-            self.icon = Gtk.Image()
-            self.icon.set_from_stock(Gtk.STOCK_CLOSE,
-                                     Gtk.IconSize.MENU)
-
+            self.icon = Gio.ThemedIcon.new_with_default_fallbacks("window-close-symbolic")
+            self.icon = Gtk.Image.new_from_gicon(self.icon, Gtk.IconSize.MENU)
+            
         self.button.set_focus_on_click(False)
         self.button.set_relief(Gtk.ReliefStyle.NONE)
 #        style = Gtk.RcStyle()  # FIXME FOR GTK3 how to do it there? actually do we really want to override the theme?
