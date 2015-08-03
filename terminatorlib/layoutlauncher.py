@@ -46,13 +46,13 @@ class LayoutLauncher:
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('layoutlauncherwin')
 
-        icon_theme = Gtk.IconTheme()
-        try:
-            icon = icon_theme.load_icon('terminator-layout', 48, 0)
-        except (NameError, GObject.GError):
-            dbg('Unable to load 48px Terminator preferences icon')
+        icon_theme = Gtk.IconTheme.get_default()
+        if icon_theme.lookup_icon('terminator-layout', 48, 0):
+            self.window.set_icon_name('terminator-layout')
+        else:
+            dbg('Unable to load Terminator layout launcher icon')
             icon = self.window.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
-        self.window.set_icon(icon)
+            self.window.set_icon(icon)
 
         self.builder.connect_signals(self)
         self.window.connect('destroy', self.on_destroy_event)
