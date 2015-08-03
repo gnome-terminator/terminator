@@ -18,12 +18,16 @@ terminatorlib/factory.py
 terminatorlib/freebsd.py
 terminatorlib/__init__.py
 terminatorlib/keybindings.py
+terminatorlib/layoutlauncher.glade
+terminatorlib/layoutlauncher.py
 terminatorlib/notebook.py
 terminatorlib/optionparse.py
 terminatorlib/paned.py
 terminatorlib/plugin.py
 terminatorlib/plugins/activitywatch.py
 terminatorlib/plugins/custom_commands.py
+terminatorlib/plugins/logger.py
+terminatorlib/plugins/maven.py
 terminatorlib/plugins/terminalshot.py
 terminatorlib/plugins/testplugin.py
 terminatorlib/plugins/url_handlers.py
@@ -34,10 +38,6 @@ terminatorlib/signalman.py
 terminatorlib/terminal_popup_menu.py
 terminatorlib/terminal.py
 terminatorlib/terminator.py
-terminatorlib/tests/__init__.py
-terminatorlib/tests/testborg.py
-terminatorlib/tests/test_doctests.py
-terminatorlib/tests/testsignalman.py
 terminatorlib/titlebar.py
 terminatorlib/translation.py
 terminatorlib/util.py

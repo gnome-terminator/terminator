@@ -63,7 +63,7 @@ class Logger(plugin.MenuItem):
         
     def start_logger(self, _widget, Terminal):
         """ Handle menu item callback by saving text to a file"""
-        savedialog = Gtk.FileChooserDialog(title="Save Log File As",
+        savedialog = Gtk.FileChooserDialog(title=_("Save Log File As"),
                                            action=self.dialog_action,
                                            buttons=self.dialog_buttons)
         savedialog.set_do_overwrite_confirmation(True)

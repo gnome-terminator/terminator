@@ -64,7 +64,7 @@ class CustomCommandsMenu(plugin.MenuItem):
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
 
-        menuitem = Gtk.MenuItem(_('Preferences'))
+        menuitem = Gtk.MenuItem(_('_Preferences'))
         menuitem.connect("activate", self.configure)
         submenu.append(menuitem)
 

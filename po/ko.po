@@ -6,18 +6,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-01-30 13:17+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-03 21:03+0200\n"
 "PO-Revision-Date: 2014-08-19 00:09+0000\n"
 "Last-Translator: Seunghyo Chun <seunghyo.chun@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2014-08-20 05:36+0000\n"
 "X-Generator: Launchpad (build 17163)\n"
 
-#: ../data/terminator.desktop.in.h:1
+#: ../data/terminator.desktop.in.h:1 ../terminatorlib/preferences.glade.h:136
 msgid "Terminator"
 msgstr "터미네이터"
 
@@ -29,22 +30,24 @@ msgstr "창 하나에 터미널 여러 개 쓰기"
 msgid "Close?"
 msgstr "닫기 확인"
 
-#: ../terminatorlib/container.py:170
+#: ../terminatorlib/container.py:169
 msgid "Close _Terminals"
 msgstr "터미널 닫기(_T)"
 
-#: ../terminatorlib/container.py:172
+#: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
 msgstr "<big><b>여러 개의 터미널을 닫을까요?</b></big>"
 
-#: ../terminatorlib/container.py:175
+#: ../terminatorlib/container.py:174
 #, python-format
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr "이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그 안의 터미널 모두가 함께 닫힙니다."
+msgstr ""
+"이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그 안의 터미널 모두가 함께 "
+"닫힙니다."
 
-#: ../terminatorlib/container.py:192
+#: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
 msgstr "다음번에는 이 메시지를 표시하지 않기"
 
@@ -192,158 +195,190 @@ msgstr "베트남어"
 msgid "Thai"
 msgstr "타이어"
 
-#: ../terminatorlib/notebook.py:305
+#: ../terminatorlib/layoutlauncher.glade.h:1
+msgid "Terminator Layout Launcher"
+msgstr ""
+
+#: ../terminatorlib/layoutlauncher.glade.h:2
+msgid "Layout"
+msgstr ""
+
+#: ../terminatorlib/layoutlauncher.glade.h:3
+msgid "Launch"
+msgstr ""
+
+#: ../terminatorlib/notebook.py:348
 msgid "tab"
 msgstr "탭"
 
-#: ../terminatorlib/notebook.py:469
+#: ../terminatorlib/notebook.py:564
 msgid "Close Tab"
 msgstr "탭 닫기"
 
-#: ../terminatorlib/optionparse.py:48
+#: ../terminatorlib/optionparse.py:50
 msgid "Display program version"
 msgstr "프로그램 버전을 표시합니다"
 
-#: ../terminatorlib/optionparse.py:50
+#: ../terminatorlib/optionparse.py:52
 msgid "Maximise the window"
 msgstr "창을 최대화합니다."
 
-#: ../terminatorlib/optionparse.py:52
+#: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
 msgstr "창으로 화면을 채웁니다"
 
-#: ../terminatorlib/optionparse.py:54
+#: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
 msgstr "창테두리를 감춥니다"
 
-#: ../terminatorlib/optionparse.py:56
+#: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
 msgstr "시작시 창을 감춥니다"
 
-#: ../terminatorlib/optionparse.py:58
+#: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
 msgstr "창 제목을 지정합니다"
 
-#: ../terminatorlib/optionparse.py:60
+#: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr "윈도우의 크기와 위치를 조정하세요. (X man 페이지 참고)"
 
-#: ../terminatorlib/optionparse.py:63
+#: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
 msgstr "터미널 안에서 실행할 명령을 지정합니다"
 
-#: ../terminatorlib/optionparse.py:65
-msgid "Specify a config file"
-msgstr "설정파일을 지정합니다"
-
-#: ../terminatorlib/optionparse.py:68
+#: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr "명령행의 나머지 부분을 터미널 안에서 실행할 명령 및 인자로 사용합니다"
 
-#: ../terminatorlib/optionparse.py:71
+#: ../terminatorlib/optionparse.py:75
+msgid "Specify a config file"
+msgstr "설정파일을 지정합니다"
+
+#: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
 msgstr "현재 디렉터리를 설정합니다"
 
-#: ../terminatorlib/optionparse.py:72
+#: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
 msgstr "윈도우에 사용자 정의 이름 설정 (WM_CLASS)"
 
-#: ../terminatorlib/optionparse.py:74
+#: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
 msgstr "윈도우에 사용자 정의 아이콘 설정"
 
-#: ../terminatorlib/optionparse.py:77
+#: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
 msgstr "창의 WM_WINDOW_ROLE 속성을 설정합니다"
 
-#: ../terminatorlib/optionparse.py:79
-msgid "Select a layout"
-msgstr "레이아웃을 선택합니다"
+#: ../terminatorlib/optionparse.py:89
+msgid "Launch with the given layout"
+msgstr ""
 
-#: ../terminatorlib/optionparse.py:81
+#: ../terminatorlib/optionparse.py:91
+msgid "Select a layout from a list"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
 msgstr "기본으로 다른 프로파일을 사용합니다"
 
-#: ../terminatorlib/optionparse.py:83
+#: ../terminatorlib/optionparse.py:95
 msgid "Disable DBus"
 msgstr "DBus를 비활성화 합니다"
 
-#: ../terminatorlib/optionparse.py:85
+#: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
 msgstr "정보를 디버깅 활성화 합니다 (디버그 서버를 위해선 두 번 지정)"
 
-#: ../terminatorlib/optionparse.py:87
+#: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
 msgstr "디버깅을 제한할 클래스들의 쉼표 구분 목록"
 
-#: ../terminatorlib/optionparse.py:89
+#: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "디버깅을 제한할 메소드들의 쉼표 구분 목록"
 
-#: ../terminatorlib/optionparse.py:91
+#: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
 msgstr "만약 Terminator가 이미 실행중이라면, 새 탭을 여는것을 추천합니다"
 
-#: ../terminatorlib/plugins/activitywatch.py:22
+#: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr "ActivityWatch 플러그인을 사용할 수 없습니다. python-notify 패키지를 설치해 주십시오."
+msgstr ""
+"ActivityWatch 플러그인을 사용할 수 없습니다. python-notify 패키지를 설치해 주"
+"십시오."
 
-#: ../terminatorlib/plugins/activitywatch.py:45
+#: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for activity"
 msgstr "출력 기다리기"
 
-#: ../terminatorlib/plugins/activitywatch.py:48
-msgid "Stop watching for activity"
-msgstr "출력 기다리기 중단"
-
-#: ../terminatorlib/plugins/activitywatch.py:110
+#: ../terminatorlib/plugins/activitywatch.py:119
 msgid "Watch for silence"
 msgstr "출력 정지 기다리기"
 
-#: ../terminatorlib/plugins/activitywatch.py:113
-msgid "Stop watching for silence"
-msgstr "출력 정지 기다리기 중단"
-
-#: ../terminatorlib/plugins/custom_commands.py:50
+#: ../terminatorlib/plugins/custom_commands.py:61
 msgid "Custom Commands"
 msgstr "실행 명령"
 
-#: ../terminatorlib/plugins/custom_commands.py:106
+#. VERIFY FOR GTK3: is this ever false?
+#: ../terminatorlib/plugins/custom_commands.py:67
+#: ../terminatorlib/terminal_popup_menu.py:184
+msgid "_Preferences"
+msgstr "환경 설정(_P)"
+
+#: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
 msgstr "실행 명령 설정"
 
-#: ../terminatorlib/plugins/custom_commands.py:238
+#: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
 msgstr "새 명령"
 
-#: ../terminatorlib/plugins/custom_commands.py:248
+#: ../terminatorlib/plugins/custom_commands.py:276
 msgid "Enabled:"
 msgstr "사용:"
 
-#: ../terminatorlib/plugins/custom_commands.py:254
+#: ../terminatorlib/plugins/custom_commands.py:282
 msgid "Name:"
 msgstr "이름:"
 
-#: ../terminatorlib/plugins/custom_commands.py:260
+#: ../terminatorlib/plugins/custom_commands.py:288
 msgid "Command:"
 msgstr "명령:"
 
-#: ../terminatorlib/plugins/custom_commands.py:296
-#: ../terminatorlib/plugins/custom_commands.py:406
+#: ../terminatorlib/plugins/custom_commands.py:324
+#: ../terminatorlib/plugins/custom_commands.py:434
 msgid "You need to define a name and command"
 msgstr "이름과 명령을 설정해주십시오."
 
-#: ../terminatorlib/plugins/custom_commands.py:313
-#: ../terminatorlib/plugins/custom_commands.py:425
+#: ../terminatorlib/plugins/custom_commands.py:341
+#: ../terminatorlib/plugins/custom_commands.py:453
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "이름 *%s*이(가) 이미 있습니다"
 
+#: ../terminatorlib/plugins/logger.py:34
+msgid "Start Logger"
+msgstr ""
+
+#: ../terminatorlib/plugins/logger.py:37
+msgid "Stop Logger"
+msgstr ""
+
+#: ../terminatorlib/plugins/logger.py:66
+msgid "Save Log File As"
+msgstr ""
+
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal screenshot"
 msgstr "터미널 스크린샷"
+
+#: ../terminatorlib/plugins/terminalshot.py:37
+msgid "Save image"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -361,520 +396,846 @@ msgstr "아스키 DEL"
 msgid "Escape sequence"
 msgstr "이스케이프 시퀀스"
 
-#: ../terminatorlib/preferences.glade.h:5
+#. FIXME: Why isn't this being done by Terminator() ?
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+msgid "All"
+msgstr "전체"
+
+#: ../terminatorlib/preferences.glade.h:6
+msgid "Group"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:460
+msgid "None"
+msgstr "없음"
+
+#: ../terminatorlib/preferences.glade.h:8
 msgid "Exit the terminal"
 msgstr "터미널 끝내기"
 
-#: ../terminatorlib/preferences.glade.h:6
+#: ../terminatorlib/preferences.glade.h:9
 msgid "Restart the command"
 msgstr "명령어 다시 시작"
 
-#: ../terminatorlib/preferences.glade.h:7
+#: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
 msgstr "터미널을 열린 채로 유지"
 
-#: ../terminatorlib/preferences.glade.h:8
+#: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
 msgstr "연노란 바탕에 검정 글씨"
 
-#: ../terminatorlib/preferences.glade.h:9
+#: ../terminatorlib/preferences.glade.h:12
 msgid "Black on white"
 msgstr "흰 바탕에 검정 글씨"
 
-#: ../terminatorlib/preferences.glade.h:10
+#: ../terminatorlib/preferences.glade.h:13
 msgid "Grey on black"
 msgstr "검정 바탕에 회색 글씨"
 
-#: ../terminatorlib/preferences.glade.h:11
+#: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
 msgstr "검정 바탕에 녹색 글씨"
 
-#: ../terminatorlib/preferences.glade.h:12
+#: ../terminatorlib/preferences.glade.h:15
 msgid "White on black"
 msgstr "검정 바탕에 흰 글씨"
 
-#: ../terminatorlib/preferences.glade.h:13
+#: ../terminatorlib/preferences.glade.h:16
 msgid "Orange on black"
 msgstr "검정 바탕에 주황 글씨"
 
-#: ../terminatorlib/preferences.glade.h:14
+#: ../terminatorlib/preferences.glade.h:17
 msgid "Ambience"
 msgstr "앰비언스"
 
-#: ../terminatorlib/preferences.glade.h:15
+#: ../terminatorlib/preferences.glade.h:18
+msgid "Solarized light"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:19
+msgid "Solarized dark"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
 msgstr "사용자정의"
 
-#: ../terminatorlib/preferences.glade.h:16
+#: ../terminatorlib/preferences.glade.h:21
 msgid "Block"
 msgstr "차단"
 
-#: ../terminatorlib/preferences.glade.h:17
+#: ../terminatorlib/preferences.glade.h:22
 msgid "Underline"
 msgstr "밑줄"
 
-#: ../terminatorlib/preferences.glade.h:18
+#: ../terminatorlib/preferences.glade.h:23
 msgid "I-Beam"
 msgstr "I 빔"
 
-#: ../terminatorlib/preferences.glade.h:19
+#: ../terminatorlib/preferences.glade.h:24
 msgid "GNOME Default"
 msgstr "GNOME 기본값"
 
-#: ../terminatorlib/preferences.glade.h:20
+#: ../terminatorlib/preferences.glade.h:25
 msgid "Click to focus"
 msgstr "클릭으로 활성화"
 
-#: ../terminatorlib/preferences.glade.h:21
+#: ../terminatorlib/preferences.glade.h:26
 msgid "Follow mouse pointer"
 msgstr "마우스 위치로 활성화"
 
-#: ../terminatorlib/preferences.glade.h:22
+#: ../terminatorlib/preferences.glade.h:27
 msgid "Tango"
 msgstr "탱고 (Tango)"
 
-#: ../terminatorlib/preferences.glade.h:23
+#: ../terminatorlib/preferences.glade.h:28
 msgid "Linux"
 msgstr "리눅스"
 
-#: ../terminatorlib/preferences.glade.h:24
+#: ../terminatorlib/preferences.glade.h:29
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ../terminatorlib/preferences.glade.h:25
+#: ../terminatorlib/preferences.glade.h:30
 msgid "Rxvt"
 msgstr "Rxvt"
 
-#: ../terminatorlib/preferences.glade.h:26
+#: ../terminatorlib/preferences.glade.h:31
+msgid "Solarized"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:32
 msgid "On the left side"
 msgstr "왼쪽 옆에"
 
-#: ../terminatorlib/preferences.glade.h:27
+#: ../terminatorlib/preferences.glade.h:33
 msgid "On the right side"
 msgstr "오른쪽 옆에"
 
-#: ../terminatorlib/preferences.glade.h:28
+#: ../terminatorlib/preferences.glade.h:34
 msgid "Disabled"
 msgstr "사용하지 않음"
 
-#: ../terminatorlib/preferences.glade.h:29
+#: ../terminatorlib/preferences.glade.h:35
 msgid "Top"
 msgstr "상단"
 
-#: ../terminatorlib/preferences.glade.h:30
+#: ../terminatorlib/preferences.glade.h:36
 msgid "Bottom"
 msgstr "하단"
 
-#: ../terminatorlib/preferences.glade.h:31
+#: ../terminatorlib/preferences.glade.h:37
 msgid "Left"
 msgstr "왼쪽"
 
-#: ../terminatorlib/preferences.glade.h:32
+#: ../terminatorlib/preferences.glade.h:38
 msgid "Right"
 msgstr "오른쪽"
 
-#: ../terminatorlib/preferences.glade.h:33
+#: ../terminatorlib/preferences.glade.h:39
 msgid "Hidden"
 msgstr "숨김"
 
-#: ../terminatorlib/preferences.glade.h:34
+#: ../terminatorlib/preferences.glade.h:40
 msgid "Normal"
 msgstr "표준"
 
-#: ../terminatorlib/preferences.glade.h:35
+#: ../terminatorlib/preferences.glade.h:41
 msgid "Maximised"
 msgstr "최대화"
 
-#: ../terminatorlib/preferences.glade.h:36
+#: ../terminatorlib/preferences.glade.h:42
 msgid "Fullscreen"
 msgstr "전체화면"
 
-#: ../terminatorlib/preferences.glade.h:37
+#: ../terminatorlib/preferences.glade.h:43
 msgid "default"
 msgstr "기본값"
 
-#: ../terminatorlib/preferences.glade.h:38
+#: ../terminatorlib/preferences.glade.h:44
 msgid "Terminator Preferences"
 msgstr "터미네이터 설정"
 
-#: ../terminatorlib/preferences.glade.h:39
-msgid "Window geometry hints"
-msgstr "윈도우 위치/크기 힌트"
-
-#: ../terminatorlib/preferences.glade.h:40
-msgid "Window state"
-msgstr "창 상태"
-
-#: ../terminatorlib/preferences.glade.h:41
-msgid "Window borders"
-msgstr "창 테두리"
-
-#: ../terminatorlib/preferences.glade.h:42
-msgid "Tab position"
-msgstr "탭위치"
-
-#: ../terminatorlib/preferences.glade.h:43
-msgid "Mouse focus"
-msgstr "마우스로 활성화하기"
-
-#: ../terminatorlib/preferences.glade.h:44
-msgid "Terminal separator size"
-msgstr "창 분할 두께"
-
 #: ../terminatorlib/preferences.glade.h:45
-msgid "Hide from taskbar"
-msgstr "태스크바에서 숨기기"
+msgid "<b>Behavior</b>"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
-msgid "Always on top"
-msgstr "항상 맨 위에"
+msgid "Window state:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:47
-msgid "Hide on lose focus"
-msgstr "비활성화 되면 숨기기"
+msgid "Always on top"
+msgstr "항상 맨 위에"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
 msgstr "모든 워크스페이스 보기"
 
 #: ../terminatorlib/preferences.glade.h:49
-msgid "DBus server"
-msgstr "DBus 서버"
+msgid "Hide on lose focus"
+msgstr "비활성화 되면 숨기기"
 
 #: ../terminatorlib/preferences.glade.h:50
-msgid "Hide  size from title"
-msgstr "타이틀 바에서 크기를 표시하지 않기"
+msgid "Hide from taskbar"
+msgstr "태스크바에서 숨기기"
 
 #: ../terminatorlib/preferences.glade.h:51
-msgid "Unfocused terminal font brightness"
-msgstr "비활성 터미널 폰트 밝기"
+msgid "Window geometry hints"
+msgstr "윈도우 위치/크기 힌트"
 
 #: ../terminatorlib/preferences.glade.h:52
-msgid "Use custom URL handler"
-msgstr "사용자 URL 연결프로그램 사용하기"
+msgid "Mouse focus:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:53
-msgid "Custom URL handler"
-msgstr "사용자 URL 연결프로그램"
+msgid "Broadcast default:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
 msgstr "새로운 터미널에서 프로파일 재사용"
 
 #: ../terminatorlib/preferences.glade.h:55
-msgid "<b>Titlebar</b>"
-msgstr "<b>타이틀바</b>"
+msgid "Use custom URL handler"
+msgstr "사용자 URL 연결프로그램 사용하기"
 
 #: ../terminatorlib/preferences.glade.h:56
-msgid "Receiving terminal"
-msgstr "수신 터미널"
+msgid "Custom URL handler:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:57
-msgid "Focused terminal"
-msgstr "활성화된 터미널"
+msgid "DBus server"
+msgstr "DBus 서버"
 
 #: ../terminatorlib/preferences.glade.h:58
-msgid "Inactive terminal"
-msgstr "비활성화 터미널"
+msgid "<b>Appearance</b>"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:59
-msgid "Font colour"
-msgstr "글자색"
+msgid "Terminal separator size:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:60
-msgid "Background"
-msgstr "배경색"
+msgid "Unfocused terminal font brightness:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:61
-msgid "Global"
-msgstr "일반설정"
+msgid "Window borders"
+msgstr "창 테두리"
 
 #: ../terminatorlib/preferences.glade.h:62
-msgid "_Use the system fixed width font"
-msgstr "시스템 고정폭 글꼴 사용(_U)"
+msgid "Tab position:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:63
+msgid "Tabs homogeneous"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:64
+msgid "Tabs scroll buttons"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:65
+msgid "<b>Terminal Titlebar</b>"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:66
+msgid "Receiving"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:67
+msgid "Focused"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:68
+msgid "Inactive"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:69
+msgid "Font color:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:70
+msgid "Background:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:71
+msgid "Hide size from title"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:72
+msgid "_Use the system font"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:73
 msgid "_Font:"
 msgstr "글꼴(_F):"
 
-#: ../terminatorlib/preferences.glade.h:64
+#: ../terminatorlib/preferences.glade.h:74
+msgid "Choose A Titlebar Font"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:75
+msgid "Global"
+msgstr "일반설정"
+
+#: ../terminatorlib/preferences.glade.h:76
+msgid "_Use the system fixed width font"
+msgstr "시스템 고정폭 글꼴 사용(_U)"
+
+#: ../terminatorlib/preferences.glade.h:77
 msgid "Choose A Terminal Font"
 msgstr "터미널 글꼴 선택"
 
-#: ../terminatorlib/preferences.glade.h:65
+#: ../terminatorlib/preferences.glade.h:78
 msgid "_Allow bold text"
 msgstr "굵은 글씨 허용(_A)"
 
-#: ../terminatorlib/preferences.glade.h:66
-msgid "Anti-alias text"
-msgstr "안티알리아스 텍스트"
-
-#: ../terminatorlib/preferences.glade.h:67
+#: ../terminatorlib/preferences.glade.h:79
 msgid "Show titlebar"
 msgstr "타이틀바 보이기"
 
-#: ../terminatorlib/preferences.glade.h:68
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Copy on selection"
 msgstr "선택하면 클립보드로"
 
-#: ../terminatorlib/preferences.glade.h:69
-msgid "Select-by-_word characters:"
-msgstr "단어 단위 선택 문자(_W):"
-
-#: ../terminatorlib/preferences.glade.h:70
+#: ../terminatorlib/preferences.glade.h:81
 msgid "<b>Cursor</b>"
 msgstr "<b>커서</b>"
 
-#: ../terminatorlib/preferences.glade.h:71
-msgid "Cursor colour:"
-msgstr "커서 색상"
+#: ../terminatorlib/preferences.glade.h:82
+msgid "Color:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:72
-msgid "Cursor _shape:"
-msgstr "커서 모양(_S):"
+#: ../terminatorlib/preferences.glade.h:83
+msgid "_Shape:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:73
-msgid "Cursor blink"
-msgstr "커서 깜박이기"
+#: ../terminatorlib/preferences.glade.h:84
+msgid "Blink"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:74
+#: ../terminatorlib/preferences.glade.h:85
 msgid "<b>Terminal bell</b>"
 msgstr "<b>터미널 벨</b>"
 
-#: ../terminatorlib/preferences.glade.h:75
+#: ../terminatorlib/preferences.glade.h:86
 msgid "Titlebar icon"
 msgstr "타이틀바 아이콘"
 
-#: ../terminatorlib/preferences.glade.h:76
-msgid "Visual flash"
-msgstr "화면 깜빡 거림"
-
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Audible beep"
 msgstr "비프 음"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:88
 msgid "Window list flash"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:89
 msgid "General"
 msgstr "일반 설정"
 
-#: ../terminatorlib/preferences.glade.h:80
-msgid "<b>Command</b>"
-msgstr "<b>명령</b>"
-
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:90
 msgid "_Run command as a login shell"
 msgstr "로그인 쉘로 명령 실행(_R)"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:91
 msgid "_Update login records when command is launched"
 msgstr "명령을 실행하면 로그인 기록을 업데이트(_U)"
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Ru_n a custom command instead of my shell"
 msgstr "쉘 대신에 사용자 지정 명령 실행(_N)"
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:93
 msgid "Custom co_mmand:"
 msgstr "사용자 지정 명령(_M):"
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:94
 msgid "When command _exits:"
 msgstr "명령이 끝날 때(_E):"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Command"
 msgstr "명령어"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:96
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>글자색 및 바탕색</b>"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:97
 msgid "_Text color:"
 msgstr "글자색(_T):"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:98
 msgid "_Use colors from system theme"
 msgstr "시스템 테마 색 사용(_U)"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Background color:"
 msgstr "배경색(_B):"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:100
 msgid "Built-in sche_mes:"
 msgstr "내장 색상(_M):"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Choose Terminal Text Color"
 msgstr "터미널 글자색 선택"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:102
 msgid "Choose Terminal Background Color"
 msgstr "터미널 배경색 선택"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:103
 msgid "<b>Palette</b>"
 msgstr "<b>팔레트</b>"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:104
 msgid "Built-in _schemes:"
 msgstr "내장 색상표(_S):"
 
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:105
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
-msgstr "<small><i><b>알림:</b> 터미널 프로그램에서 다음 색을 사용할 수 있습니다.</i></small>"
+msgstr ""
+"<small><i><b>알림:</b> 터미널 프로그램에서 다음 색을 사용할 수 있습니다.</"
+"i></small>"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:106
 msgid "Color p_alette:"
 msgstr "색상표(_A)"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:107
 msgid "Colors"
 msgstr "색상"
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:108
 msgid "_Solid color"
 msgstr "단색(_S)"
 
-#: ../terminatorlib/preferences.glade.h:100
-msgid "_Background image"
-msgstr "배경 그림(_B)"
-
-#: ../terminatorlib/preferences.glade.h:101
-msgid "Image _file:"
-msgstr "그림 파일(_F):"
-
-#: ../terminatorlib/preferences.glade.h:102
-msgid "Select Background Image"
-msgstr "배경 이미지 선택"
-
-#: ../terminatorlib/preferences.glade.h:103
-msgid "Background image _scrolls"
-msgstr "배경 그림 스크롤(_S)"
-
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:109
 msgid "_Transparent background"
 msgstr "투명한 배경 효과"
 
-#: ../terminatorlib/preferences.glade.h:105
-msgid "S_hade transparent or image background:"
-msgstr "바탕 그림을 어둡게 합니다(_H):"
+#: ../terminatorlib/preferences.glade.h:110
+msgid "S_hade transparent background:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:111
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>없음</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:112
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>최대</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:108
-msgid "Use keystrokes to scroll on _alternate screen"
-msgstr "_alternate 화면에서 키 입력을 사용해 스크롤"
+#: ../terminatorlib/preferences.glade.h:113
+msgid "Background"
+msgstr "배경색"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Scroll on _keystroke"
 msgstr "키를 누르면 스크롤(_K)"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Scroll on _output"
 msgstr "출력이 있으면 스크롤(_O)"
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:116
 msgid "lines"
 msgstr "줄"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:117
 msgid "_Scrollbar is:"
 msgstr "스크롤 막대 위치(_S):"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:118
 msgid "Scroll_back:"
 msgstr "스크롤 범위(_B):"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:119
 msgid "Infinite Scrollback"
 msgstr "무제한 스크롤"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Scrolling"
 msgstr "스크롤"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:121
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
-"<small><i><b>알림:</b> 다음 옵션을 켜면 일부 프로그램이 제대로 작동하지 않을 수도 있습니다. 다음 옵션은 터미널 기능을 "
-"다르게 이용하는 일부 프로그램과 운영체제의 문제를 피해가는 기능일 뿐입니다.</i></small>"
+"<small><i><b>알림:</b> 다음 옵션을 켜면 일부 프로그램이 제대로 작동하지 않을 "
+"수도 있습니다. 다음 옵션은 터미널 기능을 다르게 이용하는 일부 프로그램과 운영"
+"체제의 문제를 피해가는 기능일 뿐입니다.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:122
 msgid "_Delete key generates:"
 msgstr "Delete 키를 누르면(_D):"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Backspace key generates:"
 msgstr "백스페이스 키를 누르면(_B):"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:124
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "호환성 옵션을 기본값으로 되돌림(_R)"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:125
 msgid "<b>Encoding</b>"
 msgstr "<b>문자인코딩</b>"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:126
 msgid "Default:"
 msgstr "기본값:"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Compatibility"
 msgstr "호환성"
 
-#: ../terminatorlib/preferences.glade.h:123
-#: ../terminatorlib/terminal_popup_menu.py:190
+#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Profiles"
 msgstr "프로파일"
 
-#: ../terminatorlib/preferences.glade.h:124
-msgid "Profile"
-msgstr "프로파일"
+#: ../terminatorlib/preferences.glade.h:129
+msgid "Profile:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:125
-msgid "Custom command"
-msgstr "사용자 정의 명령"
+#: ../terminatorlib/preferences.glade.h:130
+msgid "Custom command:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:131
+msgid "Working directory:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:132
 msgid "Layouts"
 msgstr "레이아웃"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Keybindings"
 msgstr "키 설정"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:134
 msgid "This plugin has no configuration options"
 msgstr "이 플러그인은 옵션 설정이 없음"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Plugins"
 msgstr "플러그인"
 
-#: ../terminatorlib/prefseditor.py:979 ../terminatorlib/prefseditor.py:984
+#: ../terminatorlib/preferences.glade.h:137
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:138
+msgid ""
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
+"<a href=\"https://launchpad.net/terminator\">Development</a>"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+msgid ""
+"The goal of this project is to produce a useful tool for arranging "
+"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
+"etc. in that the main focus is arranging terminals in grids (tabs is the "
+"most common default method, which Terminator also supports).\n"
+"\n"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users. If you have any suggestions, please file wishlist bugs! (see left for "
+"the Development link)"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:144
+msgid "About"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:84
+msgid "Increase font size"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:85
+msgid "Decrease font size"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:86
+msgid "Restore original font size"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:87
+msgid "Create a new tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:88 ../terminatorlib/prefseditor.py:90
+msgid "Focus the next terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
+msgid "Focus the previous terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:92
+msgid "Focus the terminal above"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:93
+msgid "Focus the terminal below"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:94
+msgid "Focus the terminal left"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:95
+msgid "Focus the terminal right"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:96
+msgid "Rotate terminals clockwise"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:97
+msgid "Rotate terminals counter-clockwise"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:98
+msgid "Split horizontally"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:99
+msgid "Split vertically"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:100
+msgid "Close terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:101
+msgid "Copy selected text"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:102
+msgid "Paste clipboard"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:103
+msgid "Show/Hide the scrollbar"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:104
+msgid "Search terminal scrollback"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:105
+msgid "Scroll upwards one page"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:106
+msgid "Scroll downwards one page"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:107
+msgid "Scroll upwards half a page"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:108
+msgid "Scroll downwards half a page"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:109
+msgid "Scroll upwards one line"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:110
+msgid "Scroll downwards one line"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:111
+msgid "Close window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:112
+msgid "Resize the terminal up"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:113
+msgid "Resize the terminal down"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:114
+msgid "Resize the terminal left"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:115
+msgid "Resize the terminal right"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:116
+msgid "Move the tab right"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:117
+msgid "Move the tab left"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:118
+msgid "Maximise terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:119
+msgid "Zoom terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:120
+msgid "Switch to the next tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:121
+msgid "Switch to the previous tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:122
+msgid "Switch to the first tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:123
+msgid "Switch to the second tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:124
+msgid "Switch to the third tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:125
+msgid "Switch to the fourth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:126
+msgid "Switch to the fifth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:127
+msgid "Switch to the sixth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:128
+msgid "Switch to the seventh tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:129
+msgid "Switch to the eighth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:130
+msgid "Switch to the ninth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:131
+msgid "Switch to the tenth tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:132
+msgid "Toggle fullscreen"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:133
+msgid "Reset the terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:134
+msgid "Reset and clear the terminal"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:135
+msgid "Toggle window visibility"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:136
+msgid "Group all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:137
+msgid "Group/Ungroup all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:138
+msgid "Ungroup all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:139
+msgid "Group terminals in tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:140
+msgid "Group/Ungroup terminals in tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:141
+msgid "Ungroup terminals in tab"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:142
+msgid "Create a new window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:143
+msgid "Spawn a new Terminator process"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:144
+msgid "Don't broadcast key presses"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:145
+msgid "Broadcast key presses to group"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:146
+msgid "Broadcast key events to all"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:534
+msgid "Insert terminal number"
+msgstr "터미널 번호 붙여넣기"
+
+#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:538
+msgid "Insert padded terminal number"
+msgstr "0으로 채운 터미널 번호 붙여넣기"
+
+#: ../terminatorlib/prefseditor.py:149
+msgid "Edit window title"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:150
+msgid "Open layout launcher window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:151
+msgid "Switch to next profile"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:152
+msgid "Switch to previous profile"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:1032 ../terminatorlib/prefseditor.py:1037
 msgid "New Profile"
 msgstr "새 프로파일"
 
-#: ../terminatorlib/prefseditor.py:1024 ../terminatorlib/prefseditor.py:1029
+#: ../terminatorlib/prefseditor.py:1077 ../terminatorlib/prefseditor.py:1082
 msgid "New Layout"
 msgstr "새 레이아웃"
 
@@ -897,182 +1258,268 @@ msgstr "다음"
 msgid "Prev"
 msgstr "이전"
 
-#: ../terminatorlib/searchbar.py:124
+#. Wrap checkbox
+#: ../terminatorlib/searchbar.py:83
+msgid "Wrap"
+msgstr ""
+
+#: ../terminatorlib/searchbar.py:142
 msgid "Searching scrollback"
 msgstr "찾는 중"
 
-#: ../terminatorlib/searchbar.py:135 ../terminatorlib/searchbar.py:156
+#: ../terminatorlib/searchbar.py:160 ../terminatorlib/searchbar.py:186
 msgid "No more results"
 msgstr "결과가 더 없음"
 
-#: ../terminatorlib/searchbar.py:171
+#: ../terminatorlib/searchbar.py:201
 msgid "Found at row"
 msgstr "찾은 위치"
 
-#: ../terminatorlib/terminal_popup_menu.py:58
+#: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Send email to..."
 msgstr "이메일 보내기(_S)..."
 
-#: ../terminatorlib/terminal_popup_menu.py:59
+#: ../terminatorlib/terminal_popup_menu.py:60
 msgid "_Copy email address"
 msgstr "이메일 주소 복사하기(_C)"
 
-#: ../terminatorlib/terminal_popup_menu.py:61
+#: ../terminatorlib/terminal_popup_menu.py:62
 msgid "Ca_ll VoIP address"
 msgstr "VoIP 주소로 전화하기(_L)"
 
-#: ../terminatorlib/terminal_popup_menu.py:62
+#: ../terminatorlib/terminal_popup_menu.py:63
 msgid "_Copy VoIP address"
 msgstr "VoIP 주소 복사하기(_C)"
 
-#: ../terminatorlib/terminal_popup_menu.py:83
+#: ../terminatorlib/terminal_popup_menu.py:84
 msgid "_Open link"
 msgstr "링크 열기(_O)"
 
-#: ../terminatorlib/terminal_popup_menu.py:85
+#: ../terminatorlib/terminal_popup_menu.py:86
 msgid "_Copy address"
 msgstr "주소 복사하기(_C)"
 
-#: ../terminatorlib/terminal_popup_menu.py:113
+#: ../terminatorlib/terminal_popup_menu.py:102
+msgid "_Copy"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:107
+msgid "_Paste"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
 msgstr "상하로 나누기(_O)"
 
-#: ../terminatorlib/terminal_popup_menu.py:123
+#: ../terminatorlib/terminal_popup_menu.py:124
 msgid "Split V_ertically"
 msgstr "좌우로 나누기(_E)"
 
-#: ../terminatorlib/terminal_popup_menu.py:133
+#: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
 msgstr "탭 열기(_T)"
 
-#: ../terminatorlib/terminal_popup_menu.py:139
+#: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
 msgstr "디버깅 탭 열기(_D)"
 
-#: ../terminatorlib/terminal_popup_menu.py:153
+#: ../terminatorlib/terminal_popup_menu.py:147
+msgid "_Close"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:154
 msgid "_Zoom terminal"
 msgstr "터미널 확대(_Z)"
 
-#: ../terminatorlib/terminal_popup_menu.py:157
+#: ../terminatorlib/terminal_popup_menu.py:158
 msgid "Ma_ximise terminal"
 msgstr "터미널 최대화(_X)"
 
-#: ../terminatorlib/terminal_popup_menu.py:163
+#: ../terminatorlib/terminal_popup_menu.py:164
 msgid "_Restore all terminals"
 msgstr "모든 터미널 복원하기(_R)"
 
-#: ../terminatorlib/terminal_popup_menu.py:170
+#: ../terminatorlib/terminal_popup_menu.py:171
 msgid "Grouping"
 msgstr "그룹화"
 
-#: ../terminatorlib/terminal_popup_menu.py:177
+#: ../terminatorlib/terminal_popup_menu.py:178
 msgid "Show _scrollbar"
 msgstr "스크롤 막대 표시(_S)"
 
-#: ../terminatorlib/terminal_popup_menu.py:183
-msgid "_Preferences"
-msgstr "환경 설정(_P)"
-
-#: ../terminatorlib/terminal_popup_menu.py:234
+#: ../terminatorlib/terminal_popup_menu.py:235
 msgid "Encodings"
 msgstr "인코딩"
 
-#: ../terminatorlib/terminal_popup_menu.py:249
+#: ../terminatorlib/terminal_popup_menu.py:250
 msgid "Default"
 msgstr "기본"
 
-#: ../terminatorlib/terminal_popup_menu.py:252
+#: ../terminatorlib/terminal_popup_menu.py:253
 msgid "User defined"
 msgstr "사용자 정의"
 
-#: ../terminatorlib/terminal_popup_menu.py:268
+#: ../terminatorlib/terminal_popup_menu.py:269
 msgid "Other Encodings"
 msgstr "기타 인코딩"
 
-#: ../terminatorlib/terminal.py:388
+#: ../terminatorlib/terminal.py:455
 msgid "New group..."
 msgstr "새 그룹..."
 
-#: ../terminatorlib/terminal.py:393
-msgid "None"
-msgstr "없음"
-
-#: ../terminatorlib/terminal.py:409
+#: ../terminatorlib/terminal.py:476
 #, python-format
 msgid "Remove group %s"
 msgstr "그룹 %s 지우기"
 
-#: ../terminatorlib/terminal.py:414
+#: ../terminatorlib/terminal.py:481
 msgid "G_roup all in tab"
 msgstr "탭 안의 모두를 그룹으로 묶기(_G)"
 
-#: ../terminatorlib/terminal.py:419
+#: ../terminatorlib/terminal.py:486
 msgid "Ungr_oup all in tab"
 msgstr "탭 안의 모두를 그룹 해제하기(_O)"
 
-#: ../terminatorlib/terminal.py:424
+#: ../terminatorlib/terminal.py:491
 msgid "Remove all groups"
 msgstr "모든 그룹 지우기"
 
-#: ../terminatorlib/terminal.py:431
+#: ../terminatorlib/terminal.py:498
 #, python-format
 msgid "Close group %s"
 msgstr "그룹 %s 닫기"
 
-#: ../terminatorlib/terminal.py:440
+#: ../terminatorlib/terminal.py:507
 msgid "Broadcast all"
 msgstr "모든 터미널로 뿌리기"
 
-#: ../terminatorlib/terminal.py:441
+#: ../terminatorlib/terminal.py:508
 msgid "Broadcast group"
 msgstr "같은 그룹에 뿌리기"
 
-#: ../terminatorlib/terminal.py:442
+#: ../terminatorlib/terminal.py:509
 msgid "Broadcast off"
 msgstr "뿌리지 않기"
 
-#: ../terminatorlib/terminal.py:455
+#: ../terminatorlib/terminal.py:522
 msgid "Split to this group"
 msgstr "이 그룹으로 나누기"
 
-#: ../terminatorlib/terminal.py:460
+#: ../terminatorlib/terminal.py:527
 msgid "Autoclean groups"
 msgstr "그룹 자동으로 지우기"
 
-#: ../terminatorlib/terminal.py:467
-msgid "Insert terminal number"
-msgstr "터미널 번호 붙여넣기"
-
-#: ../terminatorlib/terminal.py:471
-msgid "Insert padded terminal number"
-msgstr "0으로 채운 터미널 번호 붙여넣기"
-
-#: ../terminatorlib/terminal.py:1273
+#: ../terminatorlib/terminal.py:1350
 msgid "Unable to find a shell"
 msgstr "셸을 찾을 수 없음"
 
-#: ../terminatorlib/terminal.py:1301
+#: ../terminatorlib/terminal.py:1381
 msgid "Unable to start shell:"
 msgstr "셸을 시작할 수 없음:"
 
-#: ../terminatorlib/terminal.py:1683
+#: ../terminatorlib/terminal.py:1774
 msgid "Rename Window"
 msgstr "윈도우 이름 바꾸기"
 
-#: ../terminatorlib/terminal.py:1692
+#: ../terminatorlib/terminal.py:1783
 msgid "Enter a new title for the Terminator window..."
 msgstr "터미네이터 윈도우 타이틀바의 새 이름을 입력하시요"
 
-#: ../terminatorlib/window.py:274
+#: ../terminatorlib/window.py:273
 msgid "window"
 msgstr "창"
 
-#. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/window.py:679
-msgid "All"
-msgstr "전체"
-
-#: ../terminatorlib/window.py:700
+#: ../terminatorlib/window.py:721
 #, python-format
 msgid "Tab %d"
 msgstr "탭 %d"
+
+#~ msgid "Select a layout"
+#~ msgstr "레이아웃을 선택합니다"
+
+#~ msgid "Stop watching for activity"
+#~ msgstr "출력 기다리기 중단"
+
+#~ msgid "Stop watching for silence"
+#~ msgstr "출력 정지 기다리기 중단"
+
+#~ msgid "Window state"
+#~ msgstr "창 상태"
+
+#~ msgid "Tab position"
+#~ msgstr "탭위치"
+
+#~ msgid "Mouse focus"
+#~ msgstr "마우스로 활성화하기"
+
+#~ msgid "Terminal separator size"
+#~ msgstr "창 분할 두께"
+
+#~ msgid "Hide  size from title"
+#~ msgstr "타이틀 바에서 크기를 표시하지 않기"
+
+#~ msgid "Unfocused terminal font brightness"
+#~ msgstr "비활성 터미널 폰트 밝기"
+
+#~ msgid "Custom URL handler"
+#~ msgstr "사용자 URL 연결프로그램"
+
+#~ msgid "<b>Titlebar</b>"
+#~ msgstr "<b>타이틀바</b>"
+
+#~ msgid "Receiving terminal"
+#~ msgstr "수신 터미널"
+
+#~ msgid "Focused terminal"
+#~ msgstr "활성화된 터미널"
+
+#~ msgid "Inactive terminal"
+#~ msgstr "비활성화 터미널"
+
+#~ msgid "Font colour"
+#~ msgstr "글자색"
+
+#~ msgid "Anti-alias text"
+#~ msgstr "안티알리아스 텍스트"
+
+#~ msgid "Select-by-_word characters:"
+#~ msgstr "단어 단위 선택 문자(_W):"
+
+#~ msgid "Cursor colour:"
+#~ msgstr "커서 색상"
+
+#~ msgid "Cursor _shape:"
+#~ msgstr "커서 모양(_S):"
+
+#~ msgid "Cursor blink"
+#~ msgstr "커서 깜박이기"
+
+#~ msgid "Visual flash"
+#~ msgstr "화면 깜빡 거림"
+
+#~ msgid "<b>Command</b>"
+#~ msgstr "<b>명령</b>"
+
+#~ msgid "_Background image"
+#~ msgstr "배경 그림(_B)"
+
+#~ msgid "Image _file:"
+#~ msgstr "그림 파일(_F):"
+
+#~ msgid "Select Background Image"
+#~ msgstr "배경 이미지 선택"
+
+#~ msgid "Background image _scrolls"
+#~ msgstr "배경 그림 스크롤(_S)"
+
+#~ msgid "S_hade transparent or image background:"
+#~ msgstr "바탕 그림을 어둡게 합니다(_H):"
+
+#~ msgid "Use keystrokes to scroll on _alternate screen"
+#~ msgstr "_alternate 화면에서 키 입력을 사용해 스크롤"
+
+#~ msgid "Profile"
+#~ msgstr "프로파일"
+
+#~ msgid "Custom command"
+#~ msgstr "사용자 정의 명령"

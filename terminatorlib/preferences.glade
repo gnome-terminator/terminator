@@ -410,7 +410,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Behaviour&lt;/b&gt;</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Behavior&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
                       </object>
                       <packing>
@@ -1196,7 +1196,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Font colour:</property>
+                                        <property name="label" translatable="yes">Font color:</property>
                                       </object>
                                       <packing>
                                         <property name="top_attach">1</property>
@@ -1674,7 +1674,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Colour:</property>
+                                            <property name="label" translatable="yes">Color:</property>
                                           </object>
                                           <packing>
                                             <property name="top_attach">1</property>
@@ -3893,7 +3893,7 @@
                             <property name="yalign">0</property>
                             <property name="label" translatable="yes">The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).
 
-Much of the behaviour of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)</property>
+Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)</property>
                             <property name="wrap">True</property>
                             <property name="width_chars">55</property>
                           </object>
