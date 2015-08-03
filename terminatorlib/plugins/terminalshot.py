@@ -34,7 +34,7 @@ class TerminalShot(plugin.MenuItem):
         # Grab a pixbuf of the terminal
         orig_pixbuf = widget_pixbuf(terminal)
 
-        savedialog = gtk.FileChooserDialog(title="Save image",
+        savedialog = gtk.FileChooserDialog(title=_("Save image"),
                                            action=self.dialog_action,
                                            buttons=self.dialog_buttons)
         savedialog.set_do_overwrite_confirmation(True)
