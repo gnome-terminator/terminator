@@ -23,10 +23,12 @@ except ImportError:
     err(_('ActivityWatch plugin unavailable: please install python-notify'))
 
 config = Config()
-inactive_period = float(config.plugin_get('ActivityWatch', 'inactive_period',
+inactive_period = float(config.plugin_get('InactivityWatch', 'inactive_period',
                                         10.0))
-watch_interval = int(config.plugin_get('ActivityWatch', 'watch_interval',
+watch_interval = int(config.plugin_get('InactivityWatch', 'watch_interval',
                                        5000))
+hush_period = float(config.plugin_get('ActivityWatch', 'hush_period',
+                                        10.0))
 
 class ActivityWatch(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
@@ -85,7 +87,7 @@ class ActivityWatch(plugin.MenuItem):
             show_notify = True
         else:
             last_time = self.last_notifies[terminal]
-            if this_time - last_time > 10:
+            if this_time - last_time > hush_period:
                 show_notify = True
 
         if show_notify == True:
