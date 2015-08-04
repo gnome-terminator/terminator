@@ -25,7 +25,7 @@ class TerminalShot(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = gtk.MenuItem(_('Terminal screenshot'))
+        item = gtk.MenuItem(_('Terminal _screenshot'))
         item.connect("activate", self.terminalshot, terminal)
         menuitems.append(item)
 

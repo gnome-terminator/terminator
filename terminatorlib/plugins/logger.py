@@ -31,10 +31,10 @@ class Logger(plugin.MenuItem):
         """ Add save menu item to the menu"""
         vte_terminal = terminal.get_vte()
         if not self.loggers.has_key(vte_terminal):
-            item = gtk.MenuItem(_('Start Logger'))
+            item = gtk.MenuItem(_('Start _Logger'))
             item.connect("activate", self.start_logger, terminal)
         else:
-            item = gtk.MenuItem(_('Stop Logger'))
+            item = gtk.MenuItem(_('Stop _Logger'))
             item.connect("activate", self.stop_logger, terminal)
             item.set_has_tooltip(True)
             item.set_tooltip_text("Saving at '" + self.loggers[vte_terminal]["filepath"] + "'")

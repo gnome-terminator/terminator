@@ -58,13 +58,13 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = gtk.MenuItem(_('Custom Commands'))
+        item = gtk.MenuItem(_('_Custom Commands'))
         menuitems.append(item)
 
         submenu = gtk.Menu()
         item.set_submenu(submenu)
 
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
+        menuitem = gtk.ImageMenuItem(_('_Preferences'))
         menuitem.connect("activate", self.configure)
         submenu.append(menuitem)
 
@@ -148,15 +148,15 @@ class CustomCommandsMenu(plugin.MenuItem):
 
       renderer = gtk.CellRendererToggle()
       renderer.connect('toggled', self.on_toggled, ui)
-      column = gtk.TreeViewColumn("Enabled", renderer, active=CC_COL_ENABLED)
+      column = gtk.TreeViewColumn(_("Enabled"), renderer, active=CC_COL_ENABLED)
       treeview.append_column(column)
 
       renderer = gtk.CellRendererText()
-      column = gtk.TreeViewColumn("Name", renderer, text=CC_COL_NAME)
+      column = gtk.TreeViewColumn(_("Name"), renderer, text=CC_COL_NAME)
       treeview.append_column(column)
 
       renderer = gtk.CellRendererText()
-      column = gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
+      column = gtk.TreeViewColumn(_("Command"), renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
       scroll_window = gtk.ScrolledWindow()

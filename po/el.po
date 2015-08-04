@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 16:52+0200\n"
+"POT-Creation-Date: 2015-08-04 03:11+0200\n"
 "PO-Revision-Date: 2015-05-06 09:47+0000\n"
 "Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
@@ -18,7 +18,10 @@ msgstr ""
 "X-Launchpad-Export-Date: 2015-07-18 05:12+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
-#: ../data/terminator.desktop.in.h:1 ../terminatorlib/preferences.glade.h:144
+#: ../data/terminator.desktop.in.h:1
+#: ../terminatorlib/plugins/activitywatch.py:82
+#: ../terminatorlib/plugins/activitywatch.py:161
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -200,6 +203,7 @@ msgid "Terminator Layout Launcher"
 msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Layout"
 msgstr ""
 
@@ -319,20 +323,49 @@ msgstr ""
 "Πρόσθετο ActivityWatch διαθέσιμο: μπορείτε να εγκαταστήσετε python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
-msgid "Watch for activity"
-msgstr "Παρακολούθηση δραστηριότητας"
+msgid "Watch for _activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:82
+#, python-format
+msgid "Activity in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:119
-msgid "Watch for silence"
-msgstr "Παρακολούθηση σιγής"
+msgid "Watch for _silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:161
+#, python-format
+msgid "Silence in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
-msgid "Custom Commands"
-msgstr "Προσαρμοσμένες Εντολές"
+msgid "_Custom Commands"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:67
+#: ../terminatorlib/terminal_popup_menu.py:183
+msgid "_Preferences"
+msgstr "_Προτιμήσεις"
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
 msgstr "Διαμόρφωση Προσαρμοσμένων Εντολών"
+
+#: ../terminatorlib/plugins/custom_commands.py:151
+msgid "Enabled"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/preferences.glade.h:99
+msgid "Command"
+msgstr "Εντολή"
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
@@ -362,11 +395,11 @@ msgid "Name *%s* already exist"
 msgstr "Το όνομα *%s* υπάρχει ήδη"
 
 #: ../terminatorlib/plugins/logger.py:34
-msgid "Start Logger"
+msgid "Start _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
-msgid "Stop Logger"
+msgid "Stop _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
@@ -374,8 +407,8 @@ msgid "Save Log File As"
 msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
-msgid "Terminal screenshot"
-msgstr "Στιγμιότυπο οθόνης Τερματικού"
+msgid "Terminal _screenshot"
+msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -683,220 +716,220 @@ msgid "Global"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:76
-msgid "_Use the system fixed width font"
+msgid "Profile"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:77
+msgid "_Use the system fixed width font"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Terminal Font"
 msgstr "Επιλογή γραμματοσειράς τερματικού"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:79
 msgid "_Allow bold text"
 msgstr "_Να επιτρέπεται η χρήση έντονου κειμένου"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Anti-alias text"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Show titlebar"
 msgstr "Εμφάνιση μπάρας τίτλων"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:82
 msgid "Copy on selection"
 msgstr "Αντιγραφή στην επιλογή"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Select-by-_word characters:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:84
 msgid "<b>Cursor</b>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Color:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:86
 msgid "_Shape:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Blink"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:88
 msgid "<b>Terminal bell</b>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Titlebar icon"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:90
 msgid "Visual flash"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:91
 msgid "Audible beep"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Window list flash"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:93
 msgid "General"
 msgstr "Γενικά"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:94
 msgid "_Run command as a login shell"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:95
 msgid "_Update login records when command is launched"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:96
 msgid "Ru_n a custom command instead of my shell"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:97
 msgid "Custom co_mmand:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:98
 msgid "When command _exits:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:98
-msgid "Command"
-msgstr "Εντολή"
-
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:100
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>Προσκήνιο και παρασκήνιο</b>"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:101
 msgid "_Text color:"
 msgstr "Χρώμα _κειμένου:"
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:102
 msgid "_Use colors from system theme"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:103
 msgid "_Background color:"
 msgstr "_Χρώμα παρασκηνίου:"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:104
 msgid "Built-in sche_mes:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:105
 msgid "Choose Terminal Text Color"
 msgstr "Επιλογή χρώματος κειμένου τερματικού"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:106
 msgid "Choose Terminal Background Color"
 msgstr "Επιλογή χρώματος φόντου τερματικού"
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:107
 msgid "<b>Palette</b>"
 msgstr "<b>Παλέτα</b>"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Built-in _schemes:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:109
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Color p_alette:"
 msgstr "Πα_λέτα χρωμάτων:"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:111
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:112
 msgid "_Solid color"
 msgstr "_Συμπαγές χρώμα"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:113
 msgid "_Background image"
 msgstr "_Εικόνα παρασκηνίου"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Image _file:"
 msgstr "Αρ_χείο εικόνας:"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Select Background Image"
 msgstr "Επιλογή εικόνας φόντου"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Background image _scrolls"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:117
 msgid "_Transparent background"
 msgstr "_Διαφανές παρασκήνιο"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:118
 msgid "S_hade transparent or image background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:119
 msgid "<small><i>None</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:120
 msgid "<small><i>Maximum</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:121
 msgid "Background"
 msgstr "Φόντο"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:122
 msgid "Use keystrokes to scroll on _alternate screen"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:123
 msgid "Scroll on _keystroke"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:124
 msgid "Scroll on _output"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:125
 msgid "lines"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:126
 msgid "_Scrollbar is:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scroll_back:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:128
 msgid "Infinite Scrollback"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 msgid "Scrolling"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:130
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -904,68 +937,84 @@ msgid ""
 "i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:131
 msgid "_Delete key generates:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Backspace key generates:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:133
 msgid "_Reset Compatibility Options to Defaults"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:134
 msgid "<b>Encoding</b>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Default:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Compatibility"
 msgstr "Συμβατότητα"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:137
 #: ../terminatorlib/terminal_popup_menu.py:190
 msgid "Profiles"
 msgstr "Προφίλ"
 
-#: ../terminatorlib/preferences.glade.h:137
-msgid "Profile:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:138
-msgid "Custom command:"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:139
-msgid "Working directory:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:140
-msgid "Layouts"
+msgid "Type"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:141
-msgid "Keybindings"
-msgstr "Συνδυασμοί πλήκτρων"
+msgid "Profile:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:142
-msgid "This plugin has no configuration options"
-msgstr "Το πρόσθετο δεν έχει επιλογές παραμετροποίησης"
+msgid "Custom command:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:143
-msgid "Plugins"
-msgstr "Πρόσθετα"
+msgid "Working directory:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:144
+msgid "Layouts"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
-msgid "The robot future of terminals"
+msgid "Action"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:146
+msgid "Keybinding"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:147
+msgid "Keybindings"
+msgstr "Συνδυασμοί πλήκτρων"
+
+#: ../terminatorlib/preferences.glade.h:148
+msgid "Plugin"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:149
+msgid "This plugin has no configuration options"
+msgstr "Το πρόσθετο δεν έχει επιλογές παραμετροποίησης"
+
+#: ../terminatorlib/preferences.glade.h:150
+msgid "Plugins"
+msgstr "Πρόσθετα"
+
+#: ../terminatorlib/preferences.glade.h:152
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:153
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -979,7 +1028,7 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:156
 msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
 "\">Homepage</a>\n"
@@ -987,7 +1036,7 @@ msgid ""
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:159
 msgid "About"
 msgstr ""
 
@@ -1363,10 +1412,6 @@ msgstr "Ομαδοποίηση"
 msgid "Show _scrollbar"
 msgstr "Εμφάνισε _την  μπάρα κύλισης"
 
-#: ../terminatorlib/terminal_popup_menu.py:183
-msgid "_Preferences"
-msgstr "_Προτιμήσεις"
-
 #: ../terminatorlib/terminal_popup_menu.py:234
 msgid "Encodings"
 msgstr "Κωδικοποιήσεις"
@@ -1453,6 +1498,18 @@ msgstr "παράθυρο"
 #, python-format
 msgid "Tab %d"
 msgstr "Καρτέλα %d"
+
+#~ msgid "Watch for activity"
+#~ msgstr "Παρακολούθηση δραστηριότητας"
+
+#~ msgid "Watch for silence"
+#~ msgstr "Παρακολούθηση σιγής"
+
+#~ msgid "Custom Commands"
+#~ msgstr "Προσαρμοσμένες Εντολές"
+
+#~ msgid "Terminal screenshot"
+#~ msgstr "Στιγμιότυπο οθόνης Τερματικού"
 
 #~ msgid "Select a layout"
 #~ msgstr "Επιλέξτε μια διάταξη"
