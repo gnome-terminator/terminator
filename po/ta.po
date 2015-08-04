@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-04 03:58+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-04 20:48+0200\n"
 "PO-Revision-Date: 2013-10-08 15:36+0000\n"
 "Last-Translator: svishnunithyasoundhar <svishnunithyasoundhar@gmail.com>\n"
 "Language-Team: Tamil <ta@li.org>\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,8 +47,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து "
-"முனையங்கள் மூடிவிடும்."
+"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து முனையங்கள் "
+"மூடிவிடும்."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -255,8 +256,7 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை "
-"பயன்படுத்த"
+"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை பயன்படுத்த"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -300,26 +300,20 @@ msgstr "பிழைத்திருத்த தகவலை இயக்க�
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
-"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் "
-"பிரிக்கப்பட்ட பட்டியல்"
+msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
-"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட "
-"பட்டியல்"
+msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
-"முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
+msgstr "முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
-"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  "
-"நிறுவுக"
+"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  நிறுவுக"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -438,7 +432,7 @@ msgstr "அனைத்து"
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:420
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "எதுவுமில்லை"
 
@@ -932,8 +926,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:131
@@ -1029,9 +1023,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1284,11 +1277,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:494
+#: ../terminatorlib/prefseditor.py:148
 msgid "Insert terminal number"
 msgstr "முனையத்தில் எண்ணை சேர்க்க"
 
-#: ../terminatorlib/prefseditor.py:149 ../terminatorlib/terminal.py:498
+#: ../terminatorlib/prefseditor.py:149
 msgid "Insert padded terminal number"
 msgstr "Padded முனைய எண்ணை சேர்க்க"
 
@@ -1429,8 +1422,12 @@ msgid "Other Encodings"
 msgstr "ஏனைய குறியாக்கம்"
 
 #: ../terminatorlib/terminal.py:415
-msgid "New group..."
-msgstr "புதிய குழு"
+msgid "N_ew group..."
+msgstr ""
+
+#: ../terminatorlib/terminal.py:420
+msgid "_None"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:436
 #, python-format
@@ -1442,8 +1439,8 @@ msgid "G_roup all in tab"
 msgstr "அனைத்து தாவலில் குழு"
 
 #: ../terminatorlib/terminal.py:446
-msgid "Ungr_oup all in tab"
-msgstr "தாவலில் பிரி அனைத்து"
+msgid "Ungro_up all in tab"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:451
 msgid "Remove all groups"
@@ -1455,24 +1452,32 @@ msgid "Close group %s"
 msgstr "குழுவை மூடு  %s"
 
 #: ../terminatorlib/terminal.py:467
-msgid "Broadcast all"
-msgstr "அனைத்தையும்  ஒளிபரப்பு"
+msgid "Broadcast _all"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:468
-msgid "Broadcast group"
-msgstr "குழுவை ஒளிபரப்பு"
+msgid "Broadcast _group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:469
-msgid "Broadcast off"
-msgstr "ஒளிபரப்பை அணை"
+msgid "Broadcast _off"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:482
-msgid "Split to this group"
-msgstr "இந்த குழுவை பிரிக்க"
+msgid "_Split to this group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:487
-msgid "Autoclean groups"
-msgstr "குழுக்களை தன்னியக்க சுத்தமாக்கி"
+msgid "Auto_clean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:494
+msgid "_Insert terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:498
+msgid "Insert _padded terminal number"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1364
 msgid "Unable to find a shell"
@@ -1490,6 +1495,102 @@ msgstr ""
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
+#: ../terminatorlib/titlebar.py:251
+msgid "Alpha"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Beta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Gamma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Delta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Epsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Zeta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Eta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Theta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Iota"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Kappa"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Lambda"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Mu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Nu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Xi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Omicron"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Pi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Rho"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Sigma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Tau"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Upsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Phi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Chi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Psi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Omega"
+msgstr ""
+
 #: ../terminatorlib/window.py:273
 msgid "window"
 msgstr "சாளரம்"
@@ -1498,6 +1599,27 @@ msgstr "சாளரம்"
 #, python-format
 msgid "Tab %d"
 msgstr "தாவல் %d"
+
+#~ msgid "New group..."
+#~ msgstr "புதிய குழு"
+
+#~ msgid "Ungr_oup all in tab"
+#~ msgstr "தாவலில் பிரி அனைத்து"
+
+#~ msgid "Broadcast all"
+#~ msgstr "அனைத்தையும்  ஒளிபரப்பு"
+
+#~ msgid "Broadcast group"
+#~ msgstr "குழுவை ஒளிபரப்பு"
+
+#~ msgid "Broadcast off"
+#~ msgstr "ஒளிபரப்பை அணை"
+
+#~ msgid "Split to this group"
+#~ msgstr "இந்த குழுவை பிரிக்க"
+
+#~ msgid "Autoclean groups"
+#~ msgstr "குழுக்களை தன்னியக்க சுத்தமாக்கி"
 
 #~ msgid "Watch for silence"
 #~ msgstr "அமைதி கவனிக்க"

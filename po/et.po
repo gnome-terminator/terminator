@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-04 03:58+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-04 20:48+0200\n"
 "PO-Revision-Date: 2011-01-21 09:12+0000\n"
 "Last-Translator: BloodDw <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -429,7 +430,7 @@ msgstr "Kõik"
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:420
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "Pole"
 
@@ -923,8 +924,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:131
@@ -1020,9 +1021,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1275,11 +1275,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:494
+#: ../terminatorlib/prefseditor.py:148
 msgid "Insert terminal number"
 msgstr "Sisesta terminali number"
 
-#: ../terminatorlib/prefseditor.py:149 ../terminatorlib/terminal.py:498
+#: ../terminatorlib/prefseditor.py:149
 msgid "Insert padded terminal number"
 msgstr ""
 
@@ -1420,8 +1420,12 @@ msgid "Other Encodings"
 msgstr "Muud kodeeringud"
 
 #: ../terminatorlib/terminal.py:415
-msgid "New group..."
-msgstr "Uus grupp"
+msgid "N_ew group..."
+msgstr ""
+
+#: ../terminatorlib/terminal.py:420
+msgid "_None"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:436
 #, python-format
@@ -1433,8 +1437,8 @@ msgid "G_roup all in tab"
 msgstr "G_rupeeri kõik vahelehed"
 
 #: ../terminatorlib/terminal.py:446
-msgid "Ungr_oup all in tab"
-msgstr "Vabasta grupist kõik vahelehed"
+msgid "Ungro_up all in tab"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:451
 msgid "Remove all groups"
@@ -1446,24 +1450,32 @@ msgid "Close group %s"
 msgstr "Sulge %s grupp"
 
 #: ../terminatorlib/terminal.py:467
-msgid "Broadcast all"
-msgstr "Levita kõiki"
+msgid "Broadcast _all"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:468
-msgid "Broadcast group"
-msgstr "Levita gruppi"
+msgid "Broadcast _group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:469
-msgid "Broadcast off"
-msgstr "Levitamine peatada"
+msgid "Broadcast _off"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:482
-msgid "Split to this group"
-msgstr "Jaga see grupp mitmeks"
+msgid "_Split to this group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:487
-msgid "Autoclean groups"
-msgstr "Autopuhasta grupid"
+msgid "Auto_clean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:494
+msgid "_Insert terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:498
+msgid "Insert _padded terminal number"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1364
 msgid "Unable to find a shell"
@@ -1481,6 +1493,102 @@ msgstr ""
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
+#: ../terminatorlib/titlebar.py:251
+msgid "Alpha"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Beta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Gamma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Delta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Epsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Zeta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Eta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Theta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Iota"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Kappa"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Lambda"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Mu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Nu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Xi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Omicron"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Pi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Rho"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Sigma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Tau"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Upsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Phi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Chi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Psi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Omega"
+msgstr ""
+
 #: ../terminatorlib/window.py:273
 msgid "window"
 msgstr "aken"
@@ -1489,6 +1597,27 @@ msgstr "aken"
 #, python-format
 msgid "Tab %d"
 msgstr "Vaheleht %d"
+
+#~ msgid "New group..."
+#~ msgstr "Uus grupp"
+
+#~ msgid "Ungr_oup all in tab"
+#~ msgstr "Vabasta grupist kõik vahelehed"
+
+#~ msgid "Broadcast all"
+#~ msgstr "Levita kõiki"
+
+#~ msgid "Broadcast group"
+#~ msgstr "Levita gruppi"
+
+#~ msgid "Broadcast off"
+#~ msgstr "Levitamine peatada"
+
+#~ msgid "Split to this group"
+#~ msgstr "Jaga see grupp mitmeks"
+
+#~ msgid "Autoclean groups"
+#~ msgstr "Autopuhasta grupid"
 
 #~ msgid "Custom Commands"
 #~ msgstr "Kohandatud käsud"

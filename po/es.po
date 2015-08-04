@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 03:58+0200\n"
+"POT-Creation-Date: 2015-08-04 20:48+0200\n"
 "PO-Revision-Date: 2015-08-03 21:13+0000\n"
 "Last-Translator: Hector A. Mantellini <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -436,7 +437,7 @@ msgstr "Todo"
 msgid "Group"
 msgstr "Grupo"
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:420
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "Ninguno"
 
@@ -790,8 +791,7 @@ msgstr "_Ejecutar el comando como un intérprete de conexión"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "_Update login records when command is launched"
-msgstr ""
-"_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
+msgstr "_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid "Ru_n a custom command instead of my shell"
@@ -935,8 +935,8 @@ msgstr "Desplazamiento"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Nota:</b> Estas opciones pueden causar que algunas aplicaciones "
 "se comporten incorrectamente. Sólo están aquí para permitirle trabajar con "
@@ -1037,9 +1037,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1292,11 +1291,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:494
+#: ../terminatorlib/prefseditor.py:148
 msgid "Insert terminal number"
 msgstr "Insertar número de terminal"
 
-#: ../terminatorlib/prefseditor.py:149 ../terminatorlib/terminal.py:498
+#: ../terminatorlib/prefseditor.py:149
 msgid "Insert padded terminal number"
 msgstr "Insertar número de terminal separado del margen"
 
@@ -1437,8 +1436,12 @@ msgid "Other Encodings"
 msgstr "Otras codificaciones"
 
 #: ../terminatorlib/terminal.py:415
-msgid "New group..."
-msgstr "Nuevo grupo..."
+msgid "N_ew group..."
+msgstr ""
+
+#: ../terminatorlib/terminal.py:420
+msgid "_None"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:436
 #, python-format
@@ -1450,8 +1453,8 @@ msgid "G_roup all in tab"
 msgstr "Ag_rupar todos en una solapa"
 
 #: ../terminatorlib/terminal.py:446
-msgid "Ungr_oup all in tab"
-msgstr "Desagrupar t_odos en una solapa"
+msgid "Ungro_up all in tab"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:451
 msgid "Remove all groups"
@@ -1463,24 +1466,32 @@ msgid "Close group %s"
 msgstr "Cerrar grupo %s"
 
 #: ../terminatorlib/terminal.py:467
-msgid "Broadcast all"
-msgstr "Retransmitir a todos"
+msgid "Broadcast _all"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:468
-msgid "Broadcast group"
-msgstr "Retransmitir grupo"
+msgid "Broadcast _group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:469
-msgid "Broadcast off"
-msgstr "Retransmisión apagada"
+msgid "Broadcast _off"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:482
-msgid "Split to this group"
-msgstr "Dividir a este grupo"
+msgid "_Split to this group"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:487
-msgid "Autoclean groups"
-msgstr "Autolimpiar grupos"
+msgid "Auto_clean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:494
+msgid "_Insert terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:498
+msgid "Insert _padded terminal number"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1364
 msgid "Unable to find a shell"
@@ -1498,6 +1509,102 @@ msgstr "Renombrar ventana"
 msgid "Enter a new title for the Terminator window..."
 msgstr "Introduzca un nuevo título para la ventana de Terminator..."
 
+#: ../terminatorlib/titlebar.py:251
+msgid "Alpha"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Beta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Gamma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Delta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Epsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Zeta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Eta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Theta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Iota"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Kappa"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Lambda"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Mu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Nu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Xi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Omicron"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Pi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Rho"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Sigma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Tau"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Upsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Phi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Chi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Psi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Omega"
+msgstr ""
+
 #: ../terminatorlib/window.py:273
 msgid "window"
 msgstr "ventana"
@@ -1506,6 +1613,27 @@ msgstr "ventana"
 #, python-format
 msgid "Tab %d"
 msgstr "Solapa %d"
+
+#~ msgid "New group..."
+#~ msgstr "Nuevo grupo..."
+
+#~ msgid "Ungr_oup all in tab"
+#~ msgstr "Desagrupar t_odos en una solapa"
+
+#~ msgid "Broadcast all"
+#~ msgstr "Retransmitir a todos"
+
+#~ msgid "Broadcast group"
+#~ msgstr "Retransmitir grupo"
+
+#~ msgid "Broadcast off"
+#~ msgstr "Retransmisión apagada"
+
+#~ msgid "Split to this group"
+#~ msgstr "Dividir a este grupo"
+
+#~ msgid "Autoclean groups"
+#~ msgstr "Autolimpiar grupos"
 
 #~ msgid "Custom Commands"
 #~ msgstr "Órdenes personalizadas"

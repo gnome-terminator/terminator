@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 03:58+0200\n"
+"POT-Creation-Date: 2015-08-04 20:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -427,7 +427,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:420
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr ""
 
@@ -1272,11 +1272,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:494
+#: ../terminatorlib/prefseditor.py:148
 msgid "Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:149 ../terminatorlib/terminal.py:498
+#: ../terminatorlib/prefseditor.py:149
 msgid "Insert padded terminal number"
 msgstr ""
 
@@ -1417,7 +1417,11 @@ msgid "Other Encodings"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:415
-msgid "New group..."
+msgid "N_ew group..."
+msgstr ""
+
+#: ../terminatorlib/terminal.py:420
+msgid "_None"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:436
@@ -1430,7 +1434,7 @@ msgid "G_roup all in tab"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:446
-msgid "Ungr_oup all in tab"
+msgid "Ungro_up all in tab"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:451
@@ -1443,23 +1447,31 @@ msgid "Close group %s"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:467
-msgid "Broadcast all"
+msgid "Broadcast _all"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:468
-msgid "Broadcast group"
+msgid "Broadcast _group"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:469
-msgid "Broadcast off"
+msgid "Broadcast _off"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:482
-msgid "Split to this group"
+msgid "_Split to this group"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:487
-msgid "Autoclean groups"
+msgid "Auto_clean groups"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:494
+msgid "_Insert terminal number"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:498
+msgid "Insert _padded terminal number"
 msgstr ""
 
 #: ../terminatorlib/terminal.py:1364
@@ -1476,6 +1488,102 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1806
 msgid "Enter a new title for the Terminator window..."
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Alpha"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Beta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Gamma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Delta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Epsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Zeta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:251
+msgid "Eta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Theta"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Iota"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Kappa"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Lambda"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Mu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Nu"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:252
+msgid "Xi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Omicron"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Pi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Rho"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Sigma"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Tau"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Upsilon"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:253
+msgid "Phi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Chi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Psi"
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:254
+msgid "Omega"
 msgstr ""
 
 #: ../terminatorlib/window.py:273
