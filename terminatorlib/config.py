@@ -185,7 +185,7 @@ DEFAULTS = {
             'new_terminator'   : '<Super>i',
             'broadcast_off'    : '<Alt>o',
             'broadcast_group'  : '<Alt>g',
-            'broadcast_all'    : '<Alt<a>',
+            'broadcast_all'    : '<Alt>a',
             'insert_number'    : '<Super>1',
             'insert_padded'    : '<Super>0',
             'edit_window_title': '<Alt>t',
