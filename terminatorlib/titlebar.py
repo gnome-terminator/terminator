@@ -13,6 +13,7 @@ from version import APP_NAME
 from util import dbg
 from terminator import Terminator
 from editablelabel import EditableLabel
+from translation import _
 
 # pylint: disable-msg=R0904
 # pylint: disable-msg=W0613
@@ -248,10 +249,10 @@ class Titlebar(Gtk.EventBox):
         if self.terminal.group:
             self.groupentry.set_text(self.terminal.group)
         else:
-            defaultmembers=['Alpha','Beta','Gamma','Delta','Epsilon','Zeta','Eta',
-                           'Theta','Iota','Kappa','Lambda','Mu','Nu','Xi',
-                           'Omicron','Pi','Rho','Sigma','Tau','Upsilon','Phi',
-                           'Chi','Psi','Omega']
+            defaultmembers=[_('Alpha'),_('Beta'),_('Gamma'),_('Delta'),_('Epsilon'),_('Zeta'),_('Eta'),
+                            _('Theta'),_('Iota'),_('Kappa'),_('Lambda'),_('Mu'),_('Nu'),_('Xi'),
+                            _('Omicron'),_('Pi'),_('Rho'),_('Sigma'),_('Tau'),_('Upsilon'),_('Phi'),
+                            _('Chi'),_('Psi'),_('Omega')]
             currentgroups=set(self.terminator.groups)
             for i in range(1,4):
                 defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
