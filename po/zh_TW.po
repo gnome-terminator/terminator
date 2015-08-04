@@ -6,17 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 03:11+0200\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-08-04 03:58+0200\n"
 "PO-Revision-Date: 2013-12-26 19:45+0000\n"
 "Last-Translator: Dylandy <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-18 05:13+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-04 05:13+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -922,8 +921,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:131
@@ -1019,8 +1018,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1491,62 +1491,11 @@ msgstr "分頁 %d"
 #~ msgid "Watch for activity"
 #~ msgstr "觀察活動"
 
-#~ msgid "Watch for silence"
-#~ msgstr "等待相应"
+#~ msgid "Terminal screenshot"
+#~ msgstr "終端機螢幕擷圖"
 
 #~ msgid "Custom Commands"
 #~ msgstr "自訂指令"
 
-#~ msgid "Terminal screenshot"
-#~ msgstr "終端機螢幕擷圖"
-
-#~ msgid "Select a layout"
-#~ msgstr "選擇配置"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "停止觀察活動"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "停下来等待相应"
-
-#~ msgid "Window state"
-#~ msgstr "視窗狀態"
-
-#~ msgid "Tab position"
-#~ msgstr "分頁位置"
-
-#~ msgid "Mouse focus"
-#~ msgstr "滑鼠選定"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "終端機分隔線大小"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "標題列不顯示檔案大小"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "非正在關注的終端機字體亮度"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>標題列</b>"
-
-#~ msgid "Focused terminal"
-#~ msgstr "正在關注的終端機"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "活動中的終端機"
-
-#~ msgid "Font colour"
-#~ msgstr "字型色彩"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "游標色彩："
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "游標形狀(_S):"
-
-#~ msgid "Cursor blink"
-#~ msgstr "游標閃爍"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>指令</b>"
+#~ msgid "Watch for silence"
+#~ msgstr "等待相应"

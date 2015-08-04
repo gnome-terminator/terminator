@@ -6,17 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 03:11+0200\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-08-04 03:58+0200\n"
 "PO-Revision-Date: 2013-12-31 08:57+0000\n"
 "Last-Translator: Wylmer Wang <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-18 05:13+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-08-04 05:13+0000\n"
+"X-Generator: Launchpad (build 17656)\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -922,11 +921,11 @@ msgstr "滚动"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允"
-"许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
+"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允许您在一些应用程序和操作系统中作调整以获得不同的终端行为。<"
+"/i></small>"
 
 #: ../terminatorlib/preferences.glade.h:131
 msgid "_Delete key generates:"
@@ -1021,8 +1020,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1490,74 +1490,14 @@ msgstr "窗口"
 msgid "Tab %d"
 msgstr "标签 %d"
 
-#~ msgid "Watch for activity"
-#~ msgstr "察看活动的进程"
-
-#~ msgid "Watch for silence"
-#~ msgstr "查看协议"
-
 #~ msgid "Custom Commands"
 #~ msgstr "自定义命令"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "终端截图"
 
-#~ msgid "Select a layout"
-#~ msgstr "选择一个窗口布局"
+#~ msgid "Watch for activity"
+#~ msgstr "察看活动的进程"
 
-#~ msgid "Stop watching for activity"
-#~ msgstr "停止察看活动的进程"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "停止查看协议"
-
-#~ msgid "Window state"
-#~ msgstr "窗口状态"
-
-#~ msgid "Tab position"
-#~ msgstr "标签页位置"
-
-#~ msgid "Mouse focus"
-#~ msgstr "鼠标焦点"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "终端间隔大小"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "在标题栏中隐藏窗口大小"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "无焦点窗口的字体亮度"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "自定义URL处理程序"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "标题栏"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "接收终端"
-
-#~ msgid "Focused terminal"
-#~ msgstr "当前终端"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "非活动终端"
-
-#~ msgid "Font colour"
-#~ msgstr "字体颜色"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "光标颜色"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "光标形状(_S)："
-
-#~ msgid "Cursor blink"
-#~ msgstr "光标闪烁"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>命令</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "自定义命令"
+#~ msgid "Watch for silence"
+#~ msgstr "查看协议"
