@@ -50,7 +50,7 @@ class ActivityWatch(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu item to the menu"""
-        item = Gtk.CheckMenuItem(_('Watch for activity'))
+        item = Gtk.CheckMenuItem.new_with_mnemonic(_('Watch for _activity'))
         item.set_active(self.watches.has_key(terminal))
         if item.get_active():
             item.connect("activate", self.unwatch, terminal)
@@ -79,7 +79,7 @@ class ActivityWatch(plugin.MenuItem):
         if terminal.vte.has_focus():
             return True
 
-        note = Notify.Notification.new('Terminator', 'Activity in: %s' % 
+        note = Notify.Notification.new(_('Terminator'), _('Activity in: %s') % 
                                   terminal.get_window_title(), 'terminator')
 
         this_time = time.mktime(time.gmtime())
@@ -116,7 +116,7 @@ class InactivityWatch(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu item to the menu"""
-        item = Gtk.CheckMenuItem(_("Watch for silence"))
+        item = Gtk.CheckMenuItem.new_with_mnemonic(_("Watch for _silence"))
         item.set_active(self.watches.has_key(terminal))
         if item.get_active():
             item.connect("activate", self.unwatch, terminal)
@@ -158,7 +158,7 @@ class InactivityWatch(plugin.MenuItem):
         dbg('seconds since last activity: %f (%s)' % (time_now - self.last_activities[terminal], terminal))
         if time_now - self.last_activities[terminal] >= inactive_period:
             del(self.last_activities[terminal])
-            note = Notify.Notification.new('Terminator', 'Silence in: %s' % 
+            note = Notify.Notification.new(_('Terminator'), _('Silence in: %s') % 
                                          terminal.get_window_title(), 'terminator')
             note.show()
 

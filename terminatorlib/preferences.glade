@@ -1397,7 +1397,7 @@
                             <property name="search_column">0</property>
                             <child>
                               <object class="GtkTreeViewColumn" id="profilecolumn">
-                                <property name="title">Profile</property>
+                                <property name="title" translatable="yes">Profile</property>
                                 <property name="clickable">True</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext3">
@@ -3346,7 +3346,7 @@
                             <property name="search_column">0</property>
                             <child>
                               <object class="GtkTreeViewColumn" id="layoutcolumn">
-                                <property name="title">Layout</property>
+                                <property name="title" translatable="yes">Layout</property>
                                 <property name="clickable">True</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="cellrenderertext12">
@@ -3455,7 +3455,7 @@
                             <property name="search_column">0</property>
                             <child>
                               <object class="GtkTreeViewColumn" id="LayoutTreeViewColumnName">
-                                <property name="title">Type</property>
+                                <property name="title" translatable="yes">Type</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="CellTextType"/>
                                   <attributes>
@@ -3466,7 +3466,7 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="LayoutTreeViewColumnType">
-                                <property name="title">Name</property>
+                                <property name="title" translatable="yes">Name</property>
                                 <child>
                                   <object class="GtkCellRendererText" id="CellTextName"/>
                                   <attributes>
@@ -3635,7 +3635,7 @@
                     <property name="search_column">0</property>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-                        <property name="title">Name</property>
+                        <property name="title" translatable="yes">Name</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext10"/>
                           <attributes>
@@ -3646,7 +3646,7 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn2">
-                        <property name="title">Action</property>
+                        <property name="title" translatable="yes">Action</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext11"/>
                           <attributes>
@@ -3657,7 +3657,7 @@
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="treeviewcolumn3">
-                        <property name="title">Keybinding</property>
+                        <property name="title" translatable="yes">Keybinding</property>
                         <child>
                           <object class="GtkCellRendererAccel" id="cellrendereraccel1">
                             <property name="editable">True</property>
@@ -3713,7 +3713,7 @@
                         <property name="search_column">0</property>
                         <child>
                           <object class="GtkTreeViewColumn" id="plugincolumn1">
-                            <property name="title">Plugin</property>
+                            <property name="title" translatable="yes">Plugin</property>
                             <property name="clickable">True</property>
                             <child>
                               <object class="GtkCellRendererToggle" id="cellrenderertext15">

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 21:03+0200\n"
+"POT-Creation-Date: 2015-08-04 03:09+0200\n"
 "PO-Revision-Date: 2013-11-05 14:29+0000\n"
 "Last-Translator: sony al qamer <sonypro40@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
@@ -18,7 +18,10 @@ msgstr ""
 "X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
-#: ../data/terminator.desktop.in.h:1 ../terminatorlib/preferences.glade.h:136
+#: ../data/terminator.desktop.in.h:1
+#: ../terminatorlib/plugins/activitywatch.py:82
+#: ../terminatorlib/plugins/activitywatch.py:161
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Terminator"
 msgstr "المتطرف"
 
@@ -200,6 +203,7 @@ msgid "Terminator Layout Launcher"
 msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
+#: ../terminatorlib/preferences.glade.h:130
 msgid "Layout"
 msgstr ""
 
@@ -310,16 +314,26 @@ msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr "لا توجد تطبيقات مساعدة نشطة: ثبت python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
-msgid "Watch for activity"
-msgstr "المراقبة النشاط"
+msgid "Watch for _activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:82
+#, python-format
+msgid "Activity in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:119
-msgid "Watch for silence"
-msgstr "تنبّه للتوقف"
+msgid "Watch for _silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:161
+#, python-format
+msgid "Silence in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
-msgid "Custom Commands"
-msgstr "تخصيص الأوامر"
+msgid "_Custom Commands"
+msgstr ""
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -330,6 +344,61 @@ msgstr "_تفضيلات"
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
 msgstr "تخصيص إعدادات الأوامر"
+
+#: ../terminatorlib/plugins/custom_commands.py:124
+#: ../terminatorlib/plugins/custom_commands.py:270
+#: ../terminatorlib/plugins/logger.py:22
+#: ../terminatorlib/plugins/terminalshot.py:20
+msgid "_Cancel"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:125
+#: ../terminatorlib/plugins/custom_commands.py:271
+msgid "_OK"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:151
+msgid "Enabled"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/preferences.glade.h:132
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/preferences.glade.h:96
+msgid "Command"
+msgstr "أمر"
+
+#: ../terminatorlib/plugins/custom_commands.py:173
+#: ../terminatorlib/preferences.glade.h:35
+msgid "Top"
+msgstr "قي القمة"
+
+#: ../terminatorlib/plugins/custom_commands.py:179
+msgid "Up"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:185
+msgid "Down"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:191
+msgid "Last"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:197
+msgid "New"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:202
+msgid "Edit"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:208
+msgid "Delete"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
@@ -358,12 +427,17 @@ msgstr "تحتاج إلى تعريف اسم للأمر"
 msgid "Name *%s* already exist"
 msgstr "الاسم *%s* موجود"
 
+#: ../terminatorlib/plugins/logger.py:23
+#: ../terminatorlib/plugins/terminalshot.py:21
+msgid "_Save"
+msgstr ""
+
 #: ../terminatorlib/plugins/logger.py:34
-msgid "Start Logger"
+msgid "Start _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
-msgid "Stop Logger"
+msgid "Stop _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
@@ -371,8 +445,8 @@ msgid "Save Log File As"
 msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
-msgid "Terminal screenshot"
-msgstr "لقطة تصوير للطرفية"
+msgid "Terminal _screenshot"
+msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -403,7 +477,7 @@ msgstr "الجميع"
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:460
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "لاشيء"
 
@@ -514,10 +588,6 @@ msgstr "على الجانب الأيمن"
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Disabled"
 msgstr "معطّل"
-
-#: ../terminatorlib/preferences.glade.h:35
-msgid "Top"
-msgstr "قي القمة"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Bottom"
@@ -680,189 +750,189 @@ msgid "Global"
 msgstr "شامل"
 
 #: ../terminatorlib/preferences.glade.h:76
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: ../terminatorlib/preferences.glade.h:77
 msgid "_Use the system fixed width font"
 msgstr "_استخدم خط النظام ذو العرض الثابت"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Terminal Font"
 msgstr "اختر خط الطرفية"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:79
 msgid "_Allow bold text"
 msgstr "_اسمح بالنص العريض"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Show titlebar"
 msgstr "أظهر شريط العنوان"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Copy on selection"
 msgstr "أنسخ عند التحديد"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:82
 msgid "<b>Cursor</b>"
 msgstr "<b>المؤشر</b>"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Color:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:84
 msgid "_Shape:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Blink"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:86
 msgid "<b>Terminal bell</b>"
 msgstr "<b>جرس الطرفيّة</b>"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Titlebar icon"
 msgstr "أيقونة شريط العنوان"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:88
 msgid "Audible beep"
 msgstr "رنّة مسموعة"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Window list flash"
 msgstr "نافذة القائمة الومضية"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:90
 msgid "General"
 msgstr "عامّ"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:91
 msgid "_Run command as a login shell"
 msgstr "_شغل الأمر كمفتاح لتسجيل الدخول"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:92
 msgid "_Update login records when command is launched"
 msgstr "_حدّث سجلّات تسجيل الدّخول عند إطلاق الأمر"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:93
 msgid "Ru_n a custom command instead of my shell"
 msgstr "_شغل أمراً مخصّصاُ عوضاً عن الأمر الهيكلي"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Custom co_mmand:"
 msgstr "ال_أمر المخصّص:"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:95
 msgid "When command _exits:"
 msgstr "عند _وجود الأمر:"
 
-#: ../terminatorlib/preferences.glade.h:95
-msgid "Command"
-msgstr "أمر"
-
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:97
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>المقدمة و الخلفية</b>"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:98
 msgid "_Text color:"
 msgstr "لون النص:"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Use colors from system theme"
 msgstr "استخدم ألوان سمة النظام"
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:100
 msgid "_Background color:"
 msgstr "_لون الخلفية:"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Built-in sche_mes:"
 msgstr "المخططات م_ضمنة:"
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:102
 msgid "Choose Terminal Text Color"
 msgstr "اختر لون النص في الطرفيّة"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:103
 msgid "Choose Terminal Background Color"
 msgstr "إختر لون الخلفية"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Palette</b>"
 msgstr "<b>لوح الألوان</b>"
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:105
 msgid "Built-in _schemes:"
 msgstr "ال_مخططات المضمنة:"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:106
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
 "<small><i><b>ملاحظة:</b> الألوان التالية متاحة لتطبيقات الطرفيّة. </i></small>"
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
 msgstr "_لوح الألوان:"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Colors"
 msgstr "اﻷلوان"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:109
 msgid "_Solid color"
 msgstr "لون _جامد"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:110
 msgid "_Transparent background"
 msgstr "خلفية _شفافة"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:111
 msgid "S_hade transparent background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:112
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>لا شيء</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:113
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>الأقصى</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Background"
 msgstr "الخلفية"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Scroll on _keystroke"
 msgstr "لف عند _نقر مفتاح"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Scroll on _output"
 msgstr "لف عند ال_خرْج"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:117
 msgid "lines"
 msgstr "سطور"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:118
 msgid "_Scrollbar is:"
 msgstr "_شريط التمرير:"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:119
 msgid "Scroll_back:"
 msgstr "ا_لف إلى الوراء:"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Infinite Scrollback"
 msgstr "رجوع العجلة للوراء بدون جد معين"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:121
 msgid "Scrolling"
 msgstr "التمرير"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:122
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -874,68 +944,84 @@ msgstr ""
 "الخيارات موجودة فقط لتجعلك تتخطّى عددا من التطبيقات و أنظمة التشغيل التي "
 "تتوقّع سلوكا مختلفا من الطرفيّة.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
 msgstr "_زر DELETE يولد:"
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:124
 msgid "_Backspace key generates:"
 msgstr "_زر Backspace يولد:"
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:125
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_أعد ضبط خيارات التوافق لقيمها الافتراضية"
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:126
 msgid "<b>Encoding</b>"
 msgstr "<b>الترميز</b>"
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Default:"
 msgstr "الافتراضي:"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:128
 msgid "Compatibility"
 msgstr "التوافق"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 #: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Profiles"
 msgstr "ملفات المستخدمين"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:131
+msgid "Type"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Profile:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:134
 msgid "Custom command:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Working directory:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Layouts"
 msgstr "المخططات"
 
-#: ../terminatorlib/preferences.glade.h:133
-msgid "Keybindings"
-msgstr "ارتباطات المفاتيح"
-
-#: ../terminatorlib/preferences.glade.h:134
-msgid "This plugin has no configuration options"
-msgstr "هذه الإضافة ليس لها خيارات ضبط"
-
-#: ../terminatorlib/preferences.glade.h:135
-msgid "Plugins"
-msgstr "الإضافات"
-
 #: ../terminatorlib/preferences.glade.h:137
-msgid "The robot future of terminals"
+msgid "Action"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
+msgid "Keybinding"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:139
+msgid "Keybindings"
+msgstr "ارتباطات المفاتيح"
+
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Plugin"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+msgid "This plugin has no configuration options"
+msgstr "هذه الإضافة ليس لها خيارات ضبط"
+
+#: ../terminatorlib/preferences.glade.h:142
+msgid "Plugins"
+msgstr "الإضافات"
+
+#: ../terminatorlib/preferences.glade.h:144
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:145
 msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
 "\">Homepage</a>\n"
@@ -943,7 +1029,7 @@ msgid ""
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:148
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -957,7 +1043,7 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:151
 msgid "About"
 msgstr ""
 
@@ -1205,11 +1291,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:534
+#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:539
 msgid "Insert terminal number"
 msgstr "إدراج رقم منفذ"
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:538
+#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:543
 msgid "Insert padded terminal number"
 msgstr "ادخال رقم الطرفية المضمن"
 
@@ -1362,64 +1448,68 @@ msgid "Other Encodings"
 msgstr "ترميزات اخرى"
 
 #: ../terminatorlib/terminal.py:455
-msgid "New group..."
-msgstr "مجموعة جديدة..."
+msgid "_New group..."
+msgstr ""
 
-#: ../terminatorlib/terminal.py:476
+#: ../terminatorlib/terminal.py:461
+msgid "N_one"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:481
 #, python-format
 msgid "Remove group %s"
 msgstr "حذف المجموعة %s"
 
-#: ../terminatorlib/terminal.py:481
+#: ../terminatorlib/terminal.py:486
 msgid "G_roup all in tab"
 msgstr "تجمي_ع كل التبويبات"
 
-#: ../terminatorlib/terminal.py:486
+#: ../terminatorlib/terminal.py:491
 msgid "Ungr_oup all in tab"
 msgstr "تفري_ق كل التبويبات"
 
-#: ../terminatorlib/terminal.py:491
+#: ../terminatorlib/terminal.py:496
 msgid "Remove all groups"
 msgstr "حذف كل المجموعات"
 
-#: ../terminatorlib/terminal.py:498
+#: ../terminatorlib/terminal.py:503
 #, python-format
 msgid "Close group %s"
 msgstr "إغلاق المجموعة %s"
 
-#: ../terminatorlib/terminal.py:507
+#: ../terminatorlib/terminal.py:512
 msgid "Broadcast all"
 msgstr "إذاعة الجميع"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:513
 msgid "Broadcast group"
 msgstr "إذاعة المجموعة"
 
-#: ../terminatorlib/terminal.py:509
+#: ../terminatorlib/terminal.py:514
 msgid "Broadcast off"
 msgstr "إغلاق الإذاعة"
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:527
 msgid "Split to this group"
 msgstr "تقسيم على هذه المجموعة"
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:532
 msgid "Autoclean groups"
 msgstr "تنظيف المجموعات تلقائياً"
 
-#: ../terminatorlib/terminal.py:1350
+#: ../terminatorlib/terminal.py:1355
 msgid "Unable to find a shell"
 msgstr "تعثر العثور على قشرة"
 
-#: ../terminatorlib/terminal.py:1381
+#: ../terminatorlib/terminal.py:1386
 msgid "Unable to start shell:"
 msgstr "لا يمكن تمكين الهيكل"
 
-#: ../terminatorlib/terminal.py:1774
+#: ../terminatorlib/terminal.py:1779
 msgid "Rename Window"
 msgstr "أعد تسمية النافذة"
 
-#: ../terminatorlib/terminal.py:1783
+#: ../terminatorlib/terminal.py:1788
 msgid "Enter a new title for the Terminator window..."
 msgstr "ضع عنواناً جديداً لنافذة المنهي...."
 
@@ -1431,6 +1521,21 @@ msgstr "نافذة"
 #, python-format
 msgid "Tab %d"
 msgstr "تبويب %d"
+
+#~ msgid "Watch for activity"
+#~ msgstr "المراقبة النشاط"
+
+#~ msgid "Watch for silence"
+#~ msgstr "تنبّه للتوقف"
+
+#~ msgid "Custom Commands"
+#~ msgstr "تخصيص الأوامر"
+
+#~ msgid "Terminal screenshot"
+#~ msgstr "لقطة تصوير للطرفية"
+
+#~ msgid "New group..."
+#~ msgstr "مجموعة جديدة..."
 
 #~ msgid "Select a layout"
 #~ msgstr "حدد تخطيط"
@@ -1515,9 +1620,6 @@ msgstr "تبويب %d"
 
 #~ msgid "Use keystrokes to scroll on _alternate screen"
 #~ msgstr "استخدم ضغطات لوحة المفاتيح لدحرجة محتوى الشاشة البديلة"
-
-#~ msgid "Profile"
-#~ msgstr "الملف الشخصي"
 
 #~ msgid "Custom command"
 #~ msgstr "أمر مخصّص"

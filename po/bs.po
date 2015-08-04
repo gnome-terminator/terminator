@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 21:03+0200\n"
+"POT-Creation-Date: 2015-08-04 03:09+0200\n"
 "PO-Revision-Date: 2013-10-02 18:42+0000\n"
 "Last-Translator: Ilija Ćulap <ilija.culap14@gmail.com>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -18,7 +18,10 @@ msgstr ""
 "X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
-#: ../data/terminator.desktop.in.h:1 ../terminatorlib/preferences.glade.h:136
+#: ../data/terminator.desktop.in.h:1
+#: ../terminatorlib/plugins/activitywatch.py:82
+#: ../terminatorlib/plugins/activitywatch.py:161
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -200,6 +203,7 @@ msgid "Terminator Layout Launcher"
 msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
+#: ../terminatorlib/preferences.glade.h:130
 msgid "Layout"
 msgstr ""
 
@@ -313,16 +317,26 @@ msgstr ""
 "ActivityWatch dodatak nedostupan : molimo Vas instalirajte python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
-msgid "Watch for activity"
-msgstr "Pogledaj radnje"
+msgid "Watch for _activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:82
+#, python-format
+msgid "Activity in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:119
-msgid "Watch for silence"
+msgid "Watch for _silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:161
+#, python-format
+msgid "Silence in: %s"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
-msgid "Custom Commands"
-msgstr "Vlastite komande"
+msgid "_Custom Commands"
+msgstr ""
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -333,6 +347,61 @@ msgstr "_Podešavanja"
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
 msgstr "Konfiguracija vlastiti komandi"
+
+#: ../terminatorlib/plugins/custom_commands.py:124
+#: ../terminatorlib/plugins/custom_commands.py:270
+#: ../terminatorlib/plugins/logger.py:22
+#: ../terminatorlib/plugins/terminalshot.py:20
+msgid "_Cancel"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:125
+#: ../terminatorlib/plugins/custom_commands.py:271
+msgid "_OK"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:151
+msgid "Enabled"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/preferences.glade.h:132
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/preferences.glade.h:96
+msgid "Command"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:173
+#: ../terminatorlib/preferences.glade.h:35
+msgid "Top"
+msgstr "Vrh"
+
+#: ../terminatorlib/plugins/custom_commands.py:179
+msgid "Up"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:185
+msgid "Down"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:191
+msgid "Last"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:197
+msgid "New"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:202
+msgid "Edit"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:208
+msgid "Delete"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
@@ -361,12 +430,17 @@ msgstr "Trebate definirati ime i komandu"
 msgid "Name *%s* already exist"
 msgstr "Ime *%s* već postoji"
 
+#: ../terminatorlib/plugins/logger.py:23
+#: ../terminatorlib/plugins/terminalshot.py:21
+msgid "_Save"
+msgstr ""
+
 #: ../terminatorlib/plugins/logger.py:34
-msgid "Start Logger"
+msgid "Start _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
-msgid "Stop Logger"
+msgid "Stop _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
@@ -374,8 +448,8 @@ msgid "Save Log File As"
 msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
-msgid "Terminal screenshot"
-msgstr "Screenshot terminala"
+msgid "Terminal _screenshot"
+msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -406,7 +480,7 @@ msgstr ""
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:460
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "Nijedan"
 
@@ -517,10 +591,6 @@ msgstr "Na desnoj strani"
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Disabled"
 msgstr "Onemogućeno"
-
-#: ../terminatorlib/preferences.glade.h:35
-msgid "Top"
-msgstr "Vrh"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Bottom"
@@ -683,188 +753,188 @@ msgid "Global"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:76
-msgid "_Use the system fixed width font"
+msgid "Profile"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:77
-msgid "Choose A Terminal Font"
+msgid "_Use the system fixed width font"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:78
-msgid "_Allow bold text"
+msgid "Choose A Terminal Font"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
-msgid "Show titlebar"
+msgid "_Allow bold text"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:80
-msgid "Copy on selection"
+msgid "Show titlebar"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:81
-msgid "<b>Cursor</b>"
+msgid "Copy on selection"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:82
-msgid "Color:"
+msgid "<b>Cursor</b>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:83
-msgid "_Shape:"
+msgid "Color:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:84
-msgid "Blink"
+msgid "_Shape:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:85
-msgid "<b>Terminal bell</b>"
+msgid "Blink"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
-msgid "Titlebar icon"
+msgid "<b>Terminal bell</b>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:87
-msgid "Audible beep"
+msgid "Titlebar icon"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:88
-msgid "Window list flash"
+msgid "Audible beep"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:89
-msgid "General"
+msgid "Window list flash"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:90
-msgid "_Run command as a login shell"
+msgid "General"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:91
-msgid "_Update login records when command is launched"
+msgid "_Run command as a login shell"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:92
-msgid "Ru_n a custom command instead of my shell"
+msgid "_Update login records when command is launched"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:93
-msgid "Custom co_mmand:"
+msgid "Ru_n a custom command instead of my shell"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:94
-msgid "When command _exits:"
+msgid "Custom co_mmand:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:95
-msgid "Command"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:96
-msgid "<b>Foreground and Background</b>"
+msgid "When command _exits:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:97
-msgid "_Text color:"
+msgid "<b>Foreground and Background</b>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:98
-msgid "_Use colors from system theme"
+msgid "_Text color:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:99
-msgid "_Background color:"
+msgid "_Use colors from system theme"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:100
-msgid "Built-in sche_mes:"
+msgid "_Background color:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:101
-msgid "Choose Terminal Text Color"
+msgid "Built-in sche_mes:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:102
-msgid "Choose Terminal Background Color"
+msgid "Choose Terminal Text Color"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:103
-msgid "<b>Palette</b>"
+msgid "Choose Terminal Background Color"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:104
-msgid "Built-in _schemes:"
+msgid "<b>Palette</b>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:105
+msgid "Built-in _schemes:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:106
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Colors"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:109
 msgid "_Solid color"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:110
 msgid "_Transparent background"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:111
 msgid "S_hade transparent background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:112
 msgid "<small><i>None</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:113
 msgid "<small><i>Maximum</i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Background"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Scroll on _keystroke"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Scroll on _output"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:117
 msgid "lines"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:118
 msgid "_Scrollbar is:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:119
 msgid "Scroll_back:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Infinite Scrollback"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:121
 msgid "Scrolling"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:122
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -872,68 +942,84 @@ msgid ""
 "i></small>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:124
 msgid "_Backspace key generates:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:125
 msgid "_Reset Compatibility Options to Defaults"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:126
 msgid "<b>Encoding</b>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Default:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:128
 msgid "Compatibility"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 #: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Profiles"
 msgstr "Profili"
 
-#: ../terminatorlib/preferences.glade.h:129
-msgid "Profile:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:130
-msgid "Custom command:"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:131
-msgid "Working directory:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:132
-msgid "Layouts"
+msgid "Type"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:133
-msgid "Keybindings"
+msgid "Profile:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:134
-msgid "This plugin has no configuration options"
+msgid "Custom command:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:135
-msgid "Plugins"
+msgid "Working directory:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:136
+msgid "Layouts"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:137
-msgid "The robot future of terminals"
+msgid "Action"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
+msgid "Keybinding"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:139
+msgid "Keybindings"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Plugin"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+msgid "This plugin has no configuration options"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:142
+msgid "Plugins"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:144
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:145
 msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
 "\">Homepage</a>\n"
@@ -941,7 +1027,7 @@ msgid ""
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:148
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -955,7 +1041,7 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:151
 msgid "About"
 msgstr ""
 
@@ -1203,11 +1289,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:534
+#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:539
 msgid "Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:538
+#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:543
 msgid "Insert padded terminal number"
 msgstr ""
 
@@ -1360,64 +1446,68 @@ msgid "Other Encodings"
 msgstr "Ostala kodiranja"
 
 #: ../terminatorlib/terminal.py:455
-msgid "New group..."
-msgstr "Nova grupa..."
+msgid "_New group..."
+msgstr ""
 
-#: ../terminatorlib/terminal.py:476
+#: ../terminatorlib/terminal.py:461
+msgid "N_one"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:481
 #, python-format
 msgid "Remove group %s"
 msgstr "Ukloni grupu %s"
 
-#: ../terminatorlib/terminal.py:481
+#: ../terminatorlib/terminal.py:486
 msgid "G_roup all in tab"
 msgstr "G_rupiraj sve u kratici"
 
-#: ../terminatorlib/terminal.py:486
+#: ../terminatorlib/terminal.py:491
 msgid "Ungr_oup all in tab"
 msgstr "Razgr_upriaj sve u kratici"
 
-#: ../terminatorlib/terminal.py:491
+#: ../terminatorlib/terminal.py:496
 msgid "Remove all groups"
 msgstr "Ukloni sve grupe"
 
-#: ../terminatorlib/terminal.py:498
+#: ../terminatorlib/terminal.py:503
 #, python-format
 msgid "Close group %s"
 msgstr "Zatvori grupu %s"
 
-#: ../terminatorlib/terminal.py:507
+#: ../terminatorlib/terminal.py:512
 msgid "Broadcast all"
 msgstr "Emituj sve"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:513
 msgid "Broadcast group"
 msgstr "Emituj grupu"
 
-#: ../terminatorlib/terminal.py:509
+#: ../terminatorlib/terminal.py:514
 msgid "Broadcast off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:527
 msgid "Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:532
 msgid "Autoclean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1350
+#: ../terminatorlib/terminal.py:1355
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1381
+#: ../terminatorlib/terminal.py:1386
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1774
+#: ../terminatorlib/terminal.py:1779
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1783
+#: ../terminatorlib/terminal.py:1788
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
@@ -1429,6 +1519,18 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr ""
+
+#~ msgid "Watch for activity"
+#~ msgstr "Pogledaj radnje"
+
+#~ msgid "Custom Commands"
+#~ msgstr "Vlastite komande"
+
+#~ msgid "Terminal screenshot"
+#~ msgstr "Screenshot terminala"
+
+#~ msgid "New group..."
+#~ msgstr "Nova grupa..."
 
 #~ msgid "Select a layout"
 #~ msgstr "Izaberite izgled"

@@ -19,8 +19,8 @@ class Logger(plugin.MenuItem):
     capabilities = ['terminal_menu']
     loggers = None
     dialog_action = Gtk.FileChooserAction.SAVE
-    dialog_buttons = (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                      Gtk.STOCK_SAVE, Gtk.ResponseType.OK)
+    dialog_buttons = (_("_Cancel"), Gtk.ResponseType.CANCEL,
+                      _("_Save"), Gtk.ResponseType.OK)
 
     def __init__(self):
         plugin.MenuItem.__init__(self)
@@ -31,10 +31,10 @@ class Logger(plugin.MenuItem):
         """ Add save menu item to the menu"""
         vte_terminal = terminal.get_vte()
         if not self.loggers.has_key(vte_terminal):
-            item = Gtk.MenuItem(_('Start Logger'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('Start _Logger'))
             item.connect("activate", self.start_logger, terminal)
         else:
-            item = Gtk.MenuItem(_('Stop Logger'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('Stop _Logger'))
             item.connect("activate", self.stop_logger, terminal)
             item.set_has_tooltip(True)
             item.set_tooltip_text("Saving at '" + self.loggers[vte_terminal]["filepath"] + "'")

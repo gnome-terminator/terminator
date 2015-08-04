@@ -58,13 +58,13 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = Gtk.MenuItem(_('Custom Commands'))
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Custom Commands'))
         menuitems.append(item)
 
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
 
-        menuitem = Gtk.MenuItem(_('_Preferences'))
+        menuitem = Gtk.MenuItem.new_with_mnemonic(_('_Preferences'))
         menuitem.connect("activate", self.configure)
         submenu.append(menuitem)
 
@@ -121,8 +121,8 @@ class CustomCommandsMenu(plugin.MenuItem):
                       None,
                       Gtk.DialogFlags.MODAL,
                       (
-                        Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
-                        Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT
+                        _("_Cancel"), Gtk.ResponseType.REJECT,
+                        _("_OK"), Gtk.ResponseType.ACCEPT
                       )
                     )
 
@@ -148,15 +148,15 @@ class CustomCommandsMenu(plugin.MenuItem):
 
       renderer = Gtk.CellRendererToggle()
       renderer.connect('toggled', self.on_toggled, ui)
-      column = Gtk.TreeViewColumn("Enabled", renderer, active=CC_COL_ENABLED)
+      column = Gtk.TreeViewColumn(_("Enabled"), renderer, active=CC_COL_ENABLED)
       treeview.append_column(column)
 
       renderer = Gtk.CellRendererText()
-      column = Gtk.TreeViewColumn("Name", renderer, text=CC_COL_NAME)
+      column = Gtk.TreeViewColumn(_("Name"), renderer, text=CC_COL_NAME)
       treeview.append_column(column)
 
       renderer = Gtk.CellRendererText()
-      column = Gtk.TreeViewColumn("Command", renderer, text=CC_COL_COMMAND)
+      column = Gtk.TreeViewColumn(_("Command"), renderer, text=CC_COL_COMMAND)
       treeview.append_column(column)
 
       scroll_window = Gtk.ScrolledWindow()
@@ -170,42 +170,42 @@ class CustomCommandsMenu(plugin.MenuItem):
 
       button_box = Gtk.VBox()
 
-      button = Gtk.Button(stock=Gtk.STOCK_GOTO_TOP)
+      button = Gtk.Button(_("Top"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_goto_top, ui) 
       button.set_sensitive(False)
       ui['button_top'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_GO_UP)
+      button = Gtk.Button(_("Up"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_go_up, ui)
       button.set_sensitive(False)
       ui['button_up'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_GO_DOWN)
+      button = Gtk.Button(_("Down"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_go_down, ui) 
       button.set_sensitive(False)
       ui['button_down'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_GOTO_LAST)
+      button = Gtk.Button(_("Last"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_goto_last, ui) 
       button.set_sensitive(False)
       ui['button_last'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_NEW)
+      button = Gtk.Button(_("New"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_new, ui) 
       ui['button_new'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_EDIT)
+      button = Gtk.Button(_("Edit"))
       button_box.pack_start(button, False, True, 0)
       button.set_sensitive(False)
       button.connect("clicked", self.on_edit, ui) 
       ui['button_edit'] = button
 
-      button = Gtk.Button(stock=Gtk.STOCK_DELETE)
+      button = Gtk.Button(_("Delete"))
       button_box.pack_start(button, False, True, 0)
       button.connect("clicked", self.on_delete, ui) 
       button.set_sensitive(False)
@@ -267,8 +267,8 @@ class CustomCommandsMenu(plugin.MenuItem):
                         None,
                         Gtk.DialogFlags.MODAL,
                         (
-                          Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
-                          Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT
+                          _("_Cancel"), Gtk.ResponseType.REJECT,
+                          _("_OK"), Gtk.ResponseType.ACCEPT
                         )
                       )
       table = Gtk.Table(3, 2)

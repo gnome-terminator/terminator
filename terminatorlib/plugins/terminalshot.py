@@ -17,15 +17,15 @@ class TerminalShot(plugin.MenuItem):
     """Add custom commands to the terminal menu"""
     capabilities = ['terminal_menu']
     dialog_action = Gtk.FileChooserAction.SAVE
-    dialog_buttons = (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                      Gtk.STOCK_SAVE, Gtk.ResponseType.OK)
+    dialog_buttons = (_("_Cancel"), Gtk.ResponseType.CANCEL,
+                      _("_Save"), Gtk.ResponseType.OK)
 
     def __init__(self):
         plugin.MenuItem.__init__(self)
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
-        item = Gtk.MenuItem(_('Terminal screenshot'))
+        item = Gtk.MenuItem.new_with_mnemonic(_('Terminal _screenshot'))
         item.connect("activate", self.terminalshot, terminal)
         menuitems.append(item)
 

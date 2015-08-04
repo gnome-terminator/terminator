@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 21:03+0200\n"
+"POT-Creation-Date: 2015-08-04 03:09+0200\n"
 "PO-Revision-Date: 2013-12-26 19:43+0000\n"
 "Last-Translator: Dylandy <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -18,7 +18,10 @@ msgstr ""
 "X-Launchpad-Export-Date: 2014-02-01 05:18+0000\n"
 "X-Generator: Launchpad (build 16916)\n"
 
-#: ../data/terminator.desktop.in.h:1 ../terminatorlib/preferences.glade.h:136
+#: ../data/terminator.desktop.in.h:1
+#: ../terminatorlib/plugins/activitywatch.py:82
+#: ../terminatorlib/plugins/activitywatch.py:161
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -200,6 +203,7 @@ msgid "Terminator Layout Launcher"
 msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
+#: ../terminatorlib/preferences.glade.h:130
 msgid "Layout"
 msgstr ""
 
@@ -312,16 +316,26 @@ msgstr ""
 "い"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
-msgid "Watch for activity"
-msgstr "アクティビティ(出力)を監視"
+msgid "Watch for _activity"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:82
+#, python-format
+msgid "Activity in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:119
-msgid "Watch for silence"
-msgstr "サイレンス(無出力)を監視"
+msgid "Watch for _silence"
+msgstr ""
+
+#: ../terminatorlib/plugins/activitywatch.py:161
+#, python-format
+msgid "Silence in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
-msgid "Custom Commands"
-msgstr "カスタムコマンド"
+msgid "_Custom Commands"
+msgstr ""
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -332,6 +346,61 @@ msgstr "設定(_P)"
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
 msgstr "カスタムコマンド設定"
+
+#: ../terminatorlib/plugins/custom_commands.py:124
+#: ../terminatorlib/plugins/custom_commands.py:270
+#: ../terminatorlib/plugins/logger.py:22
+#: ../terminatorlib/plugins/terminalshot.py:20
+msgid "_Cancel"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:125
+#: ../terminatorlib/plugins/custom_commands.py:271
+msgid "_OK"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:151
+msgid "Enabled"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/preferences.glade.h:132
+msgid "Name"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/preferences.glade.h:96
+msgid "Command"
+msgstr "コマンド"
+
+#: ../terminatorlib/plugins/custom_commands.py:173
+#: ../terminatorlib/preferences.glade.h:35
+msgid "Top"
+msgstr "上"
+
+#: ../terminatorlib/plugins/custom_commands.py:179
+msgid "Up"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:185
+msgid "Down"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:191
+msgid "Last"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:197
+msgid "New"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:202
+msgid "Edit"
+msgstr ""
+
+#: ../terminatorlib/plugins/custom_commands.py:208
+msgid "Delete"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
@@ -360,12 +429,17 @@ msgstr "コマンド名を指定する必要があります"
 msgid "Name *%s* already exist"
 msgstr "*%s*は既に存在しています。"
 
+#: ../terminatorlib/plugins/logger.py:23
+#: ../terminatorlib/plugins/terminalshot.py:21
+msgid "_Save"
+msgstr ""
+
 #: ../terminatorlib/plugins/logger.py:34
-msgid "Start Logger"
+msgid "Start _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
-msgid "Stop Logger"
+msgid "Stop _Logger"
 msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
@@ -373,8 +447,8 @@ msgid "Save Log File As"
 msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:28
-msgid "Terminal screenshot"
-msgstr "端末のスクリーンショット"
+msgid "Terminal _screenshot"
+msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -405,7 +479,7 @@ msgstr "全て"
 msgid "Group"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:7 ../terminatorlib/terminal.py:460
+#: ../terminatorlib/preferences.glade.h:7
 msgid "None"
 msgstr "なし"
 
@@ -516,10 +590,6 @@ msgstr "右側"
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Disabled"
 msgstr "無効"
-
-#: ../terminatorlib/preferences.glade.h:35
-msgid "Top"
-msgstr "上"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Bottom"
@@ -682,188 +752,188 @@ msgid "Global"
 msgstr "一般"
 
 #: ../terminatorlib/preferences.glade.h:76
+msgid "Profile"
+msgstr "プロファイル"
+
+#: ../terminatorlib/preferences.glade.h:77
 msgid "_Use the system fixed width font"
 msgstr "システムの固定幅フォントを使う(_U)"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Terminal Font"
 msgstr "端末フォントの選択"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:79
 msgid "_Allow bold text"
 msgstr "太字フォントを有効にする(_A)"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Show titlebar"
 msgstr "タイトルバー表示"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Copy on selection"
 msgstr "選択をコピー"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:82
 msgid "<b>Cursor</b>"
 msgstr "<b>カーソル</b>"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Color:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:84
 msgid "_Shape:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Blink"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:86
 msgid "<b>Terminal bell</b>"
 msgstr "<b>端末のベル</b>"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Titlebar icon"
 msgstr "タイトルバー・アイコン"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:88
 msgid "Audible beep"
 msgstr "ビープ音"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Window list flash"
 msgstr "ウィンドウリスト点滅"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:90
 msgid "General"
 msgstr "一般"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:91
 msgid "_Run command as a login shell"
 msgstr "ログイン・シェルを実行(_R)"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:92
 msgid "_Update login records when command is launched"
 msgstr "ログインの記録(_U)"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:93
 msgid "Ru_n a custom command instead of my shell"
 msgstr "ログイン・シェルではなくカスタムコマンドを実行(_n)"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Custom co_mmand:"
 msgstr "カスタムコマンド(_m):"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:95
 msgid "When command _exits:"
 msgstr "exitコマンドの動作(_e):"
 
-#: ../terminatorlib/preferences.glade.h:95
-msgid "Command"
-msgstr "コマンド"
-
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:97
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>文字と背景</b>"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:98
 msgid "_Text color:"
 msgstr "文字の色(_T):"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Use colors from system theme"
 msgstr "システムテーマを使う(_U)"
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:100
 msgid "_Background color:"
 msgstr "背景色(_B):"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Built-in sche_mes:"
 msgstr "既定の設定(_m):"
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:102
 msgid "Choose Terminal Text Color"
 msgstr "端末の文字色の選択"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:103
 msgid "Choose Terminal Background Color"
 msgstr "端末の背景色の選択"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Palette</b>"
 msgstr "<b>パレット</b>"
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:105
 msgid "Built-in _schemes:"
 msgstr "既定の設定(_s):"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:106
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr "<small><i><b>注意:</b> 端末アプリにはこの色が使えます。</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
 msgstr "カラーパレット(_a):"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Colors"
 msgstr "色"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:109
 msgid "_Solid color"
 msgstr "単色(_S)"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:110
 msgid "_Transparent background"
 msgstr "背景を透過(_T)"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:111
 msgid "S_hade transparent background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:112
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>なし</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:113
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>最大</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Background"
 msgstr "背景"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Scroll on _keystroke"
 msgstr "キー入力でボトムにスクロール(_k)"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Scroll on _output"
 msgstr "出力でボトムにスクロール(_k)"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:117
 msgid "lines"
 msgstr "行"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:118
 msgid "_Scrollbar is:"
 msgstr "スクロールバー(_S):"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:119
 msgid "Scroll_back:"
 msgstr "スクロールバック(_b):"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Infinite Scrollback"
 msgstr "無限のスクロールバック"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:121
 msgid "Scrolling"
 msgstr "スクロール"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:122
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -875,68 +945,84 @@ msgstr ""
 "OS 上で異なった動作になってしまう問題を解決するために提供されています。</i></"
 "small>"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
 msgstr "[DEL] キーが生成するコード(_D):"
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:124
 msgid "_Backspace key generates:"
 msgstr "[BS] キーが生成するコード(_B):"
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:125
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "互換性オプションを既定値に戻す(_R)"
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:126
 msgid "<b>Encoding</b>"
 msgstr "<b>エンコード</b>"
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Default:"
 msgstr "既定値:"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:128
 msgid "Compatibility"
 msgstr "互換性"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 #: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Profiles"
 msgstr "プロファイル"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:131
+msgid "Type"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Profile:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:134
 msgid "Custom command:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Working directory:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Layouts"
 msgstr "レイアウト"
 
-#: ../terminatorlib/preferences.glade.h:133
-msgid "Keybindings"
-msgstr "キーの割り当て"
-
-#: ../terminatorlib/preferences.glade.h:134
-msgid "This plugin has no configuration options"
-msgstr "このプラグインにオプション設定はありません"
-
-#: ../terminatorlib/preferences.glade.h:135
-msgid "Plugins"
-msgstr "プラグイン"
-
 #: ../terminatorlib/preferences.glade.h:137
-msgid "The robot future of terminals"
+msgid "Action"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
+msgid "Keybinding"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:139
+msgid "Keybindings"
+msgstr "キーの割り当て"
+
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Plugin"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+msgid "This plugin has no configuration options"
+msgstr "このプラグインにオプション設定はありません"
+
+#: ../terminatorlib/preferences.glade.h:142
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: ../terminatorlib/preferences.glade.h:144
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:145
 msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
 "\">Homepage</a>\n"
@@ -944,7 +1030,7 @@ msgid ""
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:148
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -958,7 +1044,7 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:151
 msgid "About"
 msgstr ""
 
@@ -1206,11 +1292,11 @@ msgstr ""
 msgid "Broadcast key events to all"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:534
+#: ../terminatorlib/prefseditor.py:147 ../terminatorlib/terminal.py:539
 msgid "Insert terminal number"
 msgstr "端末番号を挿入"
 
-#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:538
+#: ../terminatorlib/prefseditor.py:148 ../terminatorlib/terminal.py:543
 msgid "Insert padded terminal number"
 msgstr ""
 
@@ -1363,64 +1449,68 @@ msgid "Other Encodings"
 msgstr "その他のエンコーディング"
 
 #: ../terminatorlib/terminal.py:455
-msgid "New group..."
-msgstr "新しいグループ..."
+msgid "_New group..."
+msgstr ""
 
-#: ../terminatorlib/terminal.py:476
+#: ../terminatorlib/terminal.py:461
+msgid "N_one"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:481
 #, python-format
 msgid "Remove group %s"
 msgstr "グループ%sを解除"
 
-#: ../terminatorlib/terminal.py:481
+#: ../terminatorlib/terminal.py:486
 msgid "G_roup all in tab"
 msgstr "全てのタブをグループ化(_r)"
 
-#: ../terminatorlib/terminal.py:486
+#: ../terminatorlib/terminal.py:491
 msgid "Ungr_oup all in tab"
 msgstr "このタブの全てのグループ化を解除(_o)"
 
-#: ../terminatorlib/terminal.py:491
+#: ../terminatorlib/terminal.py:496
 msgid "Remove all groups"
 msgstr "全てのグループ化を解除"
 
-#: ../terminatorlib/terminal.py:498
+#: ../terminatorlib/terminal.py:503
 #, python-format
 msgid "Close group %s"
 msgstr "グループ%sを閉じる"
 
-#: ../terminatorlib/terminal.py:507
+#: ../terminatorlib/terminal.py:512
 msgid "Broadcast all"
 msgstr "全部にブロードキャスト"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:513
 msgid "Broadcast group"
 msgstr "グループにブロードキャスト"
 
-#: ../terminatorlib/terminal.py:509
+#: ../terminatorlib/terminal.py:514
 msgid "Broadcast off"
 msgstr "ブロードキャストなし"
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:527
 msgid "Split to this group"
 msgstr "このグループで分割"
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:532
 msgid "Autoclean groups"
 msgstr "使われていないグループを削除"
 
-#: ../terminatorlib/terminal.py:1350
+#: ../terminatorlib/terminal.py:1355
 msgid "Unable to find a shell"
 msgstr "シェルが見つかりません"
 
-#: ../terminatorlib/terminal.py:1381
+#: ../terminatorlib/terminal.py:1386
 msgid "Unable to start shell:"
 msgstr "シェルを起動できません:"
 
-#: ../terminatorlib/terminal.py:1774
+#: ../terminatorlib/terminal.py:1779
 msgid "Rename Window"
 msgstr "ウィンドウ名の変更"
 
-#: ../terminatorlib/terminal.py:1783
+#: ../terminatorlib/terminal.py:1788
 msgid "Enter a new title for the Terminator window..."
 msgstr "新しいウィンドウのタイトルを入力..."
 
@@ -1432,6 +1522,21 @@ msgstr "ウィンドウ"
 #, python-format
 msgid "Tab %d"
 msgstr "タブ%d"
+
+#~ msgid "Watch for activity"
+#~ msgstr "アクティビティ(出力)を監視"
+
+#~ msgid "Watch for silence"
+#~ msgstr "サイレンス(無出力)を監視"
+
+#~ msgid "Custom Commands"
+#~ msgstr "カスタムコマンド"
+
+#~ msgid "Terminal screenshot"
+#~ msgstr "端末のスクリーンショット"
+
+#~ msgid "New group..."
+#~ msgstr "新しいグループ..."
 
 #~ msgid "Select a layout"
 #~ msgstr "レイアウトを選択"
@@ -1513,9 +1618,6 @@ msgstr "タブ%d"
 
 #~ msgid "S_hade transparent or image background:"
 #~ msgstr "透過や背景画像の濃淡(_h):"
-
-#~ msgid "Profile"
-#~ msgstr "プロファイル"
 
 #~ msgid "Custom command"
 #~ msgstr "カスタムコマンド"
