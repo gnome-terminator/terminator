@@ -412,12 +412,12 @@ class Terminal(gtk.VBox):
         menu = gtk.Menu()
         groupitem = None
 
-        item = gtk.MenuItem(_('New group...'))
+        item = gtk.MenuItem(_('N_ew group...'))
         item.connect('activate', self.create_group)
         menu.append(item)
 
         if len(self.terminator.groups) > 0:
-            groupitem = gtk.RadioMenuItem(groupitem, _('None'))
+            groupitem = gtk.RadioMenuItem(groupitem, _('_None'))
             groupitem.set_active(self.group == None)
             groupitem.connect('activate', self.set_group, None)
             menu.append(groupitem)
@@ -443,7 +443,7 @@ class Terminal(gtk.VBox):
             menu.append(item)
 
             if len(self.terminator.groups) > 0:
-                item = gtk.MenuItem(_('Ungr_oup all in tab'))
+                item = gtk.MenuItem(_('Ungro_up all in tab'))
                 item.connect('activate', lambda x: self.emit('ungroup_tab'))
                 menu.append(item)
 
@@ -464,9 +464,9 @@ class Terminal(gtk.VBox):
 
         groupitem = None
 
-        for key, value in {_('Broadcast all'):'all', 
-                          _('Broadcast group'):'group',
-                          _('Broadcast off'):'off'}.items():
+        for key, value in {_('Broadcast _all'):'all', 
+                          _('Broadcast _group'):'group',
+                          _('Broadcast _off'):'off'}.items():
             groupitem = gtk.RadioMenuItem(groupitem, key)
             dbg('Terminal::populate_group_menu: %s active: %s' %
                     (key, self.terminator.groupsend ==
@@ -479,23 +479,23 @@ class Terminal(gtk.VBox):
 
         menu.append(gtk.MenuItem())
 
-        item = gtk.CheckMenuItem(_('Split to this group'))
+        item = gtk.CheckMenuItem(_('_Split to this group'))
         item.set_active(self.config['split_to_group'])
         item.connect('toggled', lambda x: self.do_splittogroup_toggle())
         menu.append(item)
 
-        item = gtk.CheckMenuItem(_('Autoclean groups'))
+        item = gtk.CheckMenuItem(_('Auto_clean groups'))
         item.set_active(self.config['autoclean_groups'])
         item.connect('toggled', lambda x: self.do_autocleangroups_toggle())
         menu.append(item)
 
         menu.append(gtk.MenuItem())
 
-        item = gtk.MenuItem(_('Insert terminal number'))
+        item = gtk.MenuItem(_('_Insert terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', False))
         menu.append(item)
 
-        item = gtk.MenuItem(_('Insert padded terminal number'))
+        item = gtk.MenuItem(_('Insert _padded terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', True))
         menu.append(item)
 
