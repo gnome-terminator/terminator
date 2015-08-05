@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:36+0000\n"
 "Last-Translator: Anony <adam_adam@hmamail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
-"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: tr\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -939,8 +939,8 @@ msgstr "Kaydırma"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1022,8 +1022,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1625,30 +1626,6 @@ msgstr "pencere"
 msgid "Tab %d"
 msgstr "Sekme %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Hepsini sekmeden da_ğıt"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Tümünü yayınla"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Yayın grubu"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Yayın kapalı"
-
-#~ msgid "Split to this group"
-#~ msgstr "Bu gruba böl"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Grupları kendiliğinden temizle"
-
-#~ msgid "New group..."
-#~ msgstr "Yeni grup..."
-
-#~ msgid "Custom Commands"
-#~ msgstr "Özel Komutlar"
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Uçbirim ekran görüntüsü"
 
@@ -1657,15 +1634,6 @@ msgstr "Sekme %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "sessiz bekle"
-
-#~ msgid "Select a layout"
-#~ msgstr "Bir düzen seçin"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Etkinlik için izlemeyi durdur"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "sessiz beklemeyi durdur"
 
 #~ msgid "Window state"
 #~ msgstr "Pencere durumu"

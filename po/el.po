@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:32+0000\n"
 "Last-Translator: James Spentzos <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
-"Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: el\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -944,8 +944,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1027,8 +1027,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1630,44 +1631,11 @@ msgstr "παράθυρο"
 msgid "Tab %d"
 msgstr "Καρτέλα %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Κατάργηση ομαδοποίησης όλων στην καρτέλα"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Μετάδοση σε όλα τα τερματικά"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Μετάδοση στην τρέχουσα ομάδα τερματικών"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Μετάδοση σε αυτό το τερματικό μόνο"
-
-#~ msgid "Split to this group"
-#~ msgstr "Σπλιτ προς αυτή την ομάδα"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Αυτόματος καθαρισμός των ομάδων"
-
-#~ msgid "New group..."
-#~ msgstr "Νέα ομάδα..."
-
 #~ msgid "Watch for activity"
 #~ msgstr "Παρακολούθηση δραστηριότητας"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Προσαρμοσμένες Εντολές"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "Στιγμιότυπο οθόνης Τερματικού"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Παρακολούθηση σιγής"
-
-#~ msgid "Select a layout"
-#~ msgstr "Επιλέξτε μια διάταξη"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Παύση παρακολούθησης δραστηριότητας"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Διακοπή παρακολούθησης σιγής"

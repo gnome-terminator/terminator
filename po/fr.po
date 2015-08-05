@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:32+0000\n"
 "Last-Translator: puppetmaster <driquezbenjamin@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:45+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: fr\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -946,14 +946,14 @@ msgstr "Défilement"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Remarque:</b> Ces options peuvent perturber le bon "
 "fonctionnement de certaines applications. Elles sont ici uniquement pour "
 "vous permettre de contourner certaines applications ou systèmes "
-"d'exploitation qui prévoient des comportements différents pour le terminal.</"
-"i></small>"
+"d'exploitation qui prévoient des comportements différents pour le "
+"terminal.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
@@ -1034,8 +1034,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1637,30 +1638,6 @@ msgstr "fenêtre"
 msgid "Tab %d"
 msgstr "Onglet %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Dégr_ouper dans l'onglet"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Diffuser tout"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Diffuser le groupe"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Arréter la diffusion"
-
-#~ msgid "Split to this group"
-#~ msgstr "Séparer dans ce groupe"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Autonettoyage des groupes"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Commandes personnalisées"
-
-#~ msgid "New group..."
-#~ msgstr "Nouveau groupe..."
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Capture d'écran du terminal"
 
@@ -1669,15 +1646,6 @@ msgstr "Onglet %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Observer le silence"
-
-#~ msgid "Select a layout"
-#~ msgstr "Sélectionne un agencement"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Arrêter de suivre les évènements"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Arreter d'observer le silence"
 
 #~ msgid "Window state"
 #~ msgstr "état de la fenêtre"

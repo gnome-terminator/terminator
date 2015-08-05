@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:35+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
-"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: pt_PT\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -872,8 +872,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
-"<small><i><b>Nota:</b> Aplicações de terminal têm estas cores disponíveis.</"
-"i></small>"
+"<small><i><b>Nota:</b> Aplicações de terminal têm estas cores "
+"disponíveis.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
@@ -939,8 +939,8 @@ msgstr "Deslocamento"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Note:</b> Estas opções podem fazer com que algumas aplicações "
 "se comportem de forma incorreta. Elas estão aqui apenas para permitir "
@@ -1026,8 +1026,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1629,30 +1630,6 @@ msgstr "janela"
 msgid "Tab %d"
 msgstr "Separador %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Desagrupar tud_o num separador"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Difundir todos"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Difundir grupo"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Desligar a difusão"
-
-#~ msgid "Split to this group"
-#~ msgstr "Dividir para este grupo"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Limpeza automática de grupos"
-
-#~ msgid "New group..."
-#~ msgstr "Novo grupo..."
-
-#~ msgid "Custom Commands"
-#~ msgstr "Comandos personalizados"
-
 #~ msgid "Watch for activity"
 #~ msgstr "Vigiar atividade"
 
@@ -1661,15 +1638,6 @@ msgstr "Separador %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Monitorizar pausa"
-
-#~ msgid "Select a layout"
-#~ msgstr "Selecione a disposição"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Parar de vigiar atividade"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Parar de monitorizar pausa"
 
 #~ msgid "Window state"
 #~ msgstr "Estado da janela"

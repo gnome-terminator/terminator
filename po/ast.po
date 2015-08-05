@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:31+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
-"Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:45+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: ast\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -939,8 +939,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1022,8 +1022,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1625,38 +1626,8 @@ msgstr "ventana"
 msgid "Tab %d"
 msgstr "llingüeta %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Desag_rupar tolo de la llingüeta"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Tresmitilo too"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Tresmitir grupu"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Desactivar tresmisión"
-
-#~ msgid "Split to this group"
-#~ msgstr "Partir nesti grupu"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Llimpiar grupos automáticamente"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Comandos personalizaos"
-
 #~ msgid "Watch for activity"
 #~ msgstr "Vixilar actividá"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "Semeya del terminal"
-
-#~ msgid "New group..."
-#~ msgstr "Grupu nuevu..."
-
-#~ msgid "Select a layout"
-#~ msgstr "Escoyer una disposición"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Dexar de vixilar actividá"

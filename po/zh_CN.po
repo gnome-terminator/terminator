@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:36+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:47+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: \n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -933,11 +933,11 @@ msgstr "滚动"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允"
-"许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
+"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允许您在一些应用程序和操作系统中作调整以获得不同的终端行为。<"
+"/i></small>"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
@@ -1018,8 +1018,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1621,30 +1622,6 @@ msgstr "窗口"
 msgid "Tab %d"
 msgstr "标签 %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "取消标签页中的所有分组"
-
-#~ msgid "Broadcast all"
-#~ msgstr "广播所有的"
-
-#~ msgid "Broadcast group"
-#~ msgstr "广播组"
-
-#~ msgid "Broadcast off"
-#~ msgstr "广播关闭"
-
-#~ msgid "Split to this group"
-#~ msgstr "分离到这个组"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "自动清理分组"
-
-#~ msgid "Custom Commands"
-#~ msgstr "自定义命令"
-
-#~ msgid "New group..."
-#~ msgstr "新建组"
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "终端截图"
 
@@ -1653,15 +1630,6 @@ msgstr "标签 %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "查看协议"
-
-#~ msgid "Select a layout"
-#~ msgstr "选择一个窗口布局"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "停止察看活动的进程"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "停止查看协议"
 
 #~ msgid "Window state"
 #~ msgstr "窗口状态"

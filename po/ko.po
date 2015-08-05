@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:34+0000\n"
 "Last-Translator: Seunghyo Chun <seunghyo.chun@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
-"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: ko\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -46,9 +46,7 @@ msgstr "<big><b>여러 개의 터미널을 닫을까요?</b></big>"
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr ""
-"이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그 안의 터미널 모두가 함께 "
-"닫힙니다."
+msgstr "이 %s에는 여러 터미널이 열려있습니다. %s을 닫으면 그 안의 터미널 모두가 함께 닫힙니다."
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
@@ -311,9 +309,7 @@ msgstr "만약 Terminator가 이미 실행중이라면, 새 탭을 여는것을 
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
-"ActivityWatch 플러그인을 사용할 수 없습니다. python-notify 패키지를 설치해 주"
-"십시오."
+msgstr "ActivityWatch 플러그인을 사용할 수 없습니다. python-notify 패키지를 설치해 주십시오."
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -871,9 +867,7 @@ msgstr "내장 색상표(_S):"
 msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
-msgstr ""
-"<small><i><b>알림:</b> 터미널 프로그램에서 다음 색을 사용할 수 있습니다.</"
-"i></small>"
+msgstr "<small><i><b>알림:</b> 터미널 프로그램에서 다음 색을 사용할 수 있습니다.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
@@ -939,12 +933,11 @@ msgstr "스크롤"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>알림:</b> 다음 옵션을 켜면 일부 프로그램이 제대로 작동하지 않을 "
-"수도 있습니다. 다음 옵션은 터미널 기능을 다르게 이용하는 일부 프로그램과 운영"
-"체제의 문제를 피해가는 기능일 뿐입니다.</i></small>"
+"<small><i><b>알림:</b> 다음 옵션을 켜면 일부 프로그램이 제대로 작동하지 않을 수도 있습니다. 다음 옵션은 터미널 기능을 "
+"다르게 이용하는 일부 프로그램과 운영체제의 문제를 피해가는 기능일 뿐입니다.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
@@ -1025,8 +1018,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1628,30 +1622,6 @@ msgstr "창"
 msgid "Tab %d"
 msgstr "탭 %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "탭 안의 모두를 그룹 해제하기(_O)"
-
-#~ msgid "Broadcast all"
-#~ msgstr "모든 터미널로 뿌리기"
-
-#~ msgid "Broadcast group"
-#~ msgstr "같은 그룹에 뿌리기"
-
-#~ msgid "Broadcast off"
-#~ msgstr "뿌리지 않기"
-
-#~ msgid "Split to this group"
-#~ msgstr "이 그룹으로 나누기"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "그룹 자동으로 지우기"
-
-#~ msgid "Custom Commands"
-#~ msgstr "실행 명령"
-
-#~ msgid "New group..."
-#~ msgstr "새 그룹..."
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "터미널 스크린샷"
 
@@ -1660,15 +1630,6 @@ msgstr "탭 %d"
 
 #~ msgid "Watch for activity"
 #~ msgstr "출력 기다리기"
-
-#~ msgid "Select a layout"
-#~ msgstr "레이아웃을 선택합니다"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "출력 기다리기 중단"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "출력 정지 기다리기 중단"
 
 #~ msgid "Window state"
 #~ msgstr "창 상태"

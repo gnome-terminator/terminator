@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:31+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Bengali <bn@li.org>\n"
-"Language: bn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:45+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: bn\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -47,8 +47,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"এই %s এ একাধিক টার্মিনাল খোলা আছে। %s বন্ধ করলে এর অন্তর্ভুক্ত সকল টার্মিনাল বন্ধ "
-"হয়ে যাবে।"
+"এই %s এ একাধিক টার্মিনাল খোলা আছে। %s বন্ধ করলে এর অন্তর্ভুক্ত সকল টার্মিনাল "
+"বন্ধ হয়ে যাবে।"
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
@@ -935,8 +935,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1018,8 +1018,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1621,32 +1622,8 @@ msgstr "উইন্ডো"
 msgid "Tab %d"
 msgstr "%d ট্যাব"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "ট্যাবে সবগুলো আ_নগ্রুপ কর"
-
-#~ msgid "Broadcast all"
-#~ msgstr "সব ব্রডকাস্ট কর"
-
-#~ msgid "Broadcast group"
-#~ msgstr "ব্রডকাস্ট গ্রুপ"
-
-#~ msgid "Broadcast off"
-#~ msgstr "ব্রডকাস্ট বন্ধ"
-
-#~ msgid "Custom Commands"
-#~ msgstr "কাস্টম কমান্ড সমূহ"
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "টার্মিনাল স্ক্রীণশট"
 
-#~ msgid "New group..."
-#~ msgstr "নতুন গ্রুপ"
-
 #~ msgid "Watch for activity"
 #~ msgstr "কর্মতৎপরতার উপর লক্ষ্য রাখ"
-
-#~ msgid "Select a layout"
-#~ msgstr "একটি লে-আউট নির্বাচন করুন"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "কর্মতৎপরতার উপর লক্ষ্য রাখবে না"

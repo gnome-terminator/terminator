@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:36+0000\n"
 "Last-Translator: Roman Koshkin <mar2008m@rambler.ru>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: uk\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -299,7 +299,8 @@ msgstr "Вимкнути DBus"
 
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Увімкнути інформацію налагодження (два рази для сервера налагодження)"
+msgstr ""
+"Увімкнути інформацію налагодження (два рази для сервера налагодження)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
@@ -874,8 +875,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
-"<small><i><b>Note: </b>Програмам у терміналі будуть доступними ці кольори.</"
-"i></small>"
+"<small><i><b>Note: </b>Програмам у терміналі будуть доступними ці "
+"кольори.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "Color p_alette:"
@@ -941,8 +942,8 @@ msgstr "Прокрутка"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Note:</b> Ці параметри можуть викликати некоректну роботу "
 "деяких додатків. Вони представлені тільки для того, щоб дозволити працювати "
@@ -1028,8 +1029,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1631,30 +1633,6 @@ msgstr "вікно"
 msgid "Tab %d"
 msgstr "Вкладка %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Розг_рупувати все на вкладці"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Транслювати все"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Транслювати групу"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Вимкнути транслювання"
-
-#~ msgid "Split to this group"
-#~ msgstr "Роздільник на цю групу"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Автоматична чистка груп"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Команди користувача"
-
-#~ msgid "New group..."
-#~ msgstr "Нова група..."
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Знімок екрана терміналу"
 
@@ -1663,15 +1641,6 @@ msgstr "Вкладка %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Спосерігати за тишою"
-
-#~ msgid "Select a layout"
-#~ msgstr "Виберіть макет"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Зупинити спостереження за активністю"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Припинити спостерігання за тишою"
 
 #~ msgid "Window state"
 #~ msgstr "Стан вікна"

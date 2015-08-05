@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:33+0000\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
-"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: hr\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -314,7 +314,8 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr "ActivityWatch dodatak nije dostupan: molim instalirajte python-notify"
+msgstr ""
+"ActivityWatch dodatak nije dostupan: molim instalirajte python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -938,8 +939,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1021,8 +1022,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1624,30 +1626,6 @@ msgstr "prozor"
 msgid "Tab %d"
 msgstr "Kartica %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "_Razgrupiraj sve u kartici"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Emitiraj sve"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Emitiraj grupu"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Isključi emitiranje"
-
-#~ msgid "Split to this group"
-#~ msgstr "Razdjeli na ovu grupu"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Automatski očisti grupe"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Prilagođene naredbe"
-
-#~ msgid "New group..."
-#~ msgstr "Nova grupa..."
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Slika zaslona terminala"
 
@@ -1656,12 +1634,3 @@ msgstr "Kartica %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Prati za tišinu"
-
-#~ msgid "Select a layout"
-#~ msgstr "Odaberite raspored"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Zaustavi praćenje aktivnosti"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Prestani pratiti za tišinom"

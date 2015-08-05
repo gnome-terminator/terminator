@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:33+0000\n"
 "Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: gl\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -273,7 +273,8 @@ msgstr "Define un nome personalizado (WM_CLASS) propiedade na xanela"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Estableza un icono personalizado para o diálogo (por ficheiro ou nome)"
+msgstr ""
+"Estableza un icono personalizado para o diálogo (por ficheiro ou nome)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -937,8 +938,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1020,8 +1021,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1623,30 +1625,6 @@ msgstr "xanela"
 msgid "Tab %d"
 msgstr "Lapela %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Desa_grupar nunha lapela"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Transmitir todo"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Transmitir grupo"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Transmisión apagada"
-
-#~ msgid "Split to this group"
-#~ msgstr "Dividir a este grupo"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Autolimpar grupos"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Comandos persoalizados"
-
-#~ msgid "New group..."
-#~ msgstr "Novo grupo..."
-
 #~ msgid "Watch for silence"
 #~ msgstr "Monitorizar pausa"
 
@@ -1655,12 +1633,3 @@ msgstr "Lapela %d"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "Captura de pantalla do terminal"
-
-#~ msgid "Select a layout"
-#~ msgstr "Seleccione un esquema"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Deixar de vixiar actividade"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Deixar de monitorizar pausa"

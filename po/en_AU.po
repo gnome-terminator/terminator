@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:32+0000\n"
 "Last-Translator: Jackson Doak <noskcaj@ubuntu.com>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:47+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: \n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -937,8 +937,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1020,8 +1020,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1623,30 +1624,6 @@ msgstr "window"
 msgid "Tab %d"
 msgstr "Tab %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Ungr_oup all in tab"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Broadcast all"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Broadcast group"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Broadcast off"
-
-#~ msgid "Split to this group"
-#~ msgstr "Split to this group"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Autoclean groups"
-
-#~ msgid "Custom Commands"
-#~ msgstr "Custom Commands"
-
-#~ msgid "New group..."
-#~ msgstr "New group..."
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Terminal screenshot"
 
@@ -1655,12 +1632,3 @@ msgstr "Tab %d"
 
 #~ msgid "Watch for silence"
 #~ msgstr "Watch for silence"
-
-#~ msgid "Select a layout"
-#~ msgstr "Select a layout"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Stop watching for activity"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Stop watching for silence"

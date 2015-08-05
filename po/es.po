@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:32+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: \n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -366,12 +366,12 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:132
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:96
@@ -822,7 +822,8 @@ msgstr "_Ejecutar el comando como un intérprete de conexión"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "_Update login records when command is launched"
-msgstr "_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
+msgstr ""
+"_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Ru_n a custom command instead of my shell"
@@ -944,8 +945,8 @@ msgstr "Desplazamiento"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Nota:</b> Estas opciones pueden causar que algunas aplicaciones "
 "se comporten incorrectamente. Sólo están aquí para permitirle trabajar con "
@@ -984,7 +985,7 @@ msgstr "Perfiles"
 
 #: ../terminatorlib/preferences.glade.h:131
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: ../terminatorlib/preferences.glade.h:133
 msgid "Profile:"
@@ -992,11 +993,11 @@ msgstr "Perfil:"
 
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Custom command:"
-msgstr ""
+msgstr "Comando personalizado:"
 
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Working directory:"
-msgstr ""
+msgstr "Carpeta de trabajo:"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Layouts"
@@ -1004,11 +1005,11 @@ msgstr "Diseños"
 
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Action"
-msgstr ""
+msgstr "Acción"
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Keybinding"
-msgstr ""
+msgstr "Combinación de teclas"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Keybindings"
@@ -1016,7 +1017,7 @@ msgstr "Asociaciones de teclas"
 
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Plugin"
-msgstr ""
+msgstr "Complementos"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "This plugin has no configuration options"
@@ -1028,12 +1029,13 @@ msgstr "Plugins"
 
 #: ../terminatorlib/preferences.glade.h:144
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "El futuro robot de terminales"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1058,7 +1060,7 @@ msgstr "Acerca de"
 
 #: ../terminatorlib/prefseditor.py:84
 msgid "Increase font size"
-msgstr ""
+msgstr "Incrementar tamaño de letra"
 
 #: ../terminatorlib/prefseditor.py:85
 msgid "Decrease font size"
@@ -1462,7 +1464,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:461
 msgid "_None"
-msgstr ""
+msgstr "_Ninguno"
 
 #: ../terminatorlib/terminal.py:481
 #, python-format
@@ -1532,35 +1534,35 @@ msgstr "Introduzca un nuevo título para la ventana de Terminator..."
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Gamma"
-msgstr ""
+msgstr "Gama"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Zeta"
-msgstr ""
+msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Eta"
-msgstr ""
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Theta"
-msgstr ""
+msgstr "Theta"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Iota"
@@ -1568,11 +1570,11 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Kappa"
-msgstr ""
+msgstr "Kappa"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Mu"
@@ -1592,7 +1594,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Rho"
@@ -1600,7 +1602,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Tau"
@@ -1612,11 +1614,11 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Phi"
-msgstr ""
+msgstr "Phi"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Chi"
-msgstr ""
+msgstr "Chi"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Psi"
@@ -1635,30 +1637,6 @@ msgstr "ventana"
 msgid "Tab %d"
 msgstr "Solapa %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Desagrupar t_odos en una solapa"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Retransmitir a todos"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Retransmitir grupo"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Retransmisión apagada"
-
-#~ msgid "Split to this group"
-#~ msgstr "Dividir a este grupo"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Autolimpiar grupos"
-
-#~ msgid "New group..."
-#~ msgstr "Nuevo grupo..."
-
-#~ msgid "Custom Commands"
-#~ msgstr "Órdenes personalizadas"
-
 #~ msgid "Watch for activity"
 #~ msgstr "Monitorear actividad"
 
@@ -1667,21 +1645,6 @@ msgstr "Solapa %d"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "Captura de terminal"
-
-#~ msgid "Start Logger"
-#~ msgstr "Iniciar registro"
-
-#~ msgid "Stop Logger"
-#~ msgstr "Detener Registro"
-
-#~ msgid "Select a layout"
-#~ msgstr "Seleccionar una estructura"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Dejar de monitorear actividad"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Dejar de monitorizar falta de actividad"
 
 #~ msgid "Window state"
 #~ msgstr "Estado de la ventana"

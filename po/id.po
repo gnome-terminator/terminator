@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:33+0000\n"
 "Last-Translator: Erieck Saputra <erick.1383@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: id\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -941,8 +941,8 @@ msgstr "Menggulung"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Catat:</b>Pilihan ini dapat menyebabkan ada program yang tidak "
 "jalan dengan semestinya. Pilihan ini disediakan hanya untuk menyiasati "
@@ -1028,8 +1028,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1631,47 +1632,14 @@ msgstr "jendela"
 msgid "Tab %d"
 msgstr "Tab %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Ungr_oup semua dalam tab"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Sebarkan semua"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Sebarkan group"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Matikan Broadcast"
-
-#~ msgid "Split to this group"
-#~ msgstr "Belah ke kelompok ini"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Bersihkan group secara otomatis"
-
-#~ msgid "New group..."
-#~ msgstr "Grup baru"
-
 #~ msgid "Watch for silence"
 #~ msgstr "Perhatikan kesunyian"
 
 #~ msgid "Watch for activity"
 #~ msgstr "Perhatikan aktivitas"
 
-#~ msgid "Custom Commands"
-#~ msgstr "Perintah Lazim"
-
 #~ msgid "Terminal screenshot"
 #~ msgstr "Terminal screenshot"
-
-#~ msgid "Select a layout"
-#~ msgstr "Pilih layout"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Hentikan aktifitas melihat"
-
-#~ msgid "Stop watching for silence"
-#~ msgstr "Berhenti memperhatikan kesunyian"
 
 #~ msgid "Window state"
 #~ msgstr "Keadaan jendela"

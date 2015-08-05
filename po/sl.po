@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-04 02:35+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
-"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-04 05:46+0000\n"
+"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
+"Language: sl\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -937,8 +937,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1020,8 +1020,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1623,38 +1624,8 @@ msgstr "okno"
 msgid "Tab %d"
 msgstr "Zavihek %d"
 
-#~ msgid "Ungr_oup all in tab"
-#~ msgstr "Razdr_uži vse v zavihku"
-
-#~ msgid "Broadcast all"
-#~ msgstr "Oddajaj vse"
-
-#~ msgid "Broadcast group"
-#~ msgstr "Oddajaj skupini"
-
-#~ msgid "Broadcast off"
-#~ msgstr "Oddajanje izključeno"
-
-#~ msgid "Split to this group"
-#~ msgstr "Razdeli v to skupino"
-
-#~ msgid "Autoclean groups"
-#~ msgstr "Samodejno počisti skupine"
-
-#~ msgid "New group..."
-#~ msgstr "Nova skupina..."
-
-#~ msgid "Custom Commands"
-#~ msgstr "Ukazi po meri"
-
 #~ msgid "Watch for activity"
 #~ msgstr "Glej dejavnost"
 
 #~ msgid "Terminal screenshot"
 #~ msgstr "Posnetek terminala"
-
-#~ msgid "Select a layout"
-#~ msgstr "Izberite razporeditev"
-
-#~ msgid "Stop watching for activity"
-#~ msgstr "Prenehaj gledati dejavnosti"
