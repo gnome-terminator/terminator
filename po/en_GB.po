@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:32+0000\n"
+"PO-Revision-Date: 2015-08-05 12:22+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:52+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: \n"
 
@@ -1644,63 +1644,3 @@ msgstr "window"
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Terminal screenshot"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Watch for activity"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Watch for silence"
-
-#~ msgid "Window state"
-#~ msgstr "Window state"
-
-#~ msgid "Tab position"
-#~ msgstr "Tab position"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Mouse focus"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Terminal separator size"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Hide  size from title"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Unfocused terminal font brightness"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "Custom URL handler"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>Titlebar</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "Receiving terminal"
-
-#~ msgid "Focused terminal"
-#~ msgstr "Focused terminal"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Inactive terminal"
-
-#~ msgid "Font colour"
-#~ msgstr "Font colour"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Cursor colour:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "Cursor _shape:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Cursor blink"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Command</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Custom command"

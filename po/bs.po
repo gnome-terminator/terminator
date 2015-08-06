@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:31+0000\n"
+"PO-Revision-Date: 2015-08-05 12:28+0000\n"
 "Last-Translator: Ilija Ćulap <ilija.culap14@gmail.com>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:51+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: bs\n"
 
@@ -1624,21 +1624,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr ""
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Screenshot terminala"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Pogledaj radnje"
-
-#~ msgid "Window state"
-#~ msgstr "Stanje prozora"
-
-#~ msgid "Tab position"
-#~ msgstr "Pozicija tabulatora"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Fokus pokazivača miša"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Veličina razdjelnika terminala"

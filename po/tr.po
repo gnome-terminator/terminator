@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:36+0000\n"
+"PO-Revision-Date: 2015-08-05 12:42+0000\n"
 "Last-Translator: Anony <adam_adam@hmamail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:52+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: tr\n"
 
@@ -1625,33 +1625,3 @@ msgstr "pencere"
 #, python-format
 msgid "Tab %d"
 msgstr "Sekme %d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Uçbirim ekran görüntüsü"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Etkinlik için izle"
-
-#~ msgid "Watch for silence"
-#~ msgstr "sessiz bekle"
-
-#~ msgid "Window state"
-#~ msgstr "Pencere durumu"
-
-#~ msgid "Tab position"
-#~ msgstr "Sekme konumu"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Fare odağı"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Uçbirim ayraç büyüklüğü"
-
-#~ msgid "Font colour"
-#~ msgstr "Yazı tipi rengi"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "İmleç rengi:"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Komut</b>"

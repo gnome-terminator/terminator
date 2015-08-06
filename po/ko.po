@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:34+0000\n"
+"PO-Revision-Date: 2015-08-05 12:40+0000\n"
 "Last-Translator: Seunghyo Chun <seunghyo.chun@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:51+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: ko\n"
 
@@ -1621,63 +1621,3 @@ msgstr "창"
 #, python-format
 msgid "Tab %d"
 msgstr "탭 %d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "터미널 스크린샷"
-
-#~ msgid "Watch for silence"
-#~ msgstr "출력 정지 기다리기"
-
-#~ msgid "Watch for activity"
-#~ msgstr "출력 기다리기"
-
-#~ msgid "Window state"
-#~ msgstr "창 상태"
-
-#~ msgid "Tab position"
-#~ msgstr "탭위치"
-
-#~ msgid "Mouse focus"
-#~ msgstr "마우스로 활성화하기"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "창 분할 두께"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "타이틀 바에서 크기를 표시하지 않기"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "비활성 터미널 폰트 밝기"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "사용자 URL 연결프로그램"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>타이틀바</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "수신 터미널"
-
-#~ msgid "Focused terminal"
-#~ msgstr "활성화된 터미널"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "비활성화 터미널"
-
-#~ msgid "Font colour"
-#~ msgstr "글자색"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "커서 색상"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "커서 모양(_S):"
-
-#~ msgid "Cursor blink"
-#~ msgstr "커서 깜박이기"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>명령</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "사용자 정의 명령"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:31+0000\n"
+"PO-Revision-Date: 2015-08-05 12:23+0000\n"
 "Last-Translator: sony al qamer <sonypro40@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:50+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: ar\n"
 
@@ -1627,63 +1627,3 @@ msgstr "نافذة"
 #, python-format
 msgid "Tab %d"
 msgstr "تبويب %d"
-
-#~ msgid "Watch for activity"
-#~ msgstr "المراقبة النشاط"
-
-#~ msgid "Watch for silence"
-#~ msgstr "تنبّه للتوقف"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "لقطة تصوير للطرفية"
-
-#~ msgid "Window state"
-#~ msgstr "حالة النافذة"
-
-#~ msgid "Tab position"
-#~ msgstr "مكان علامة التبويب"
-
-#~ msgid "Mouse focus"
-#~ msgstr "تركيز الفارة"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "حجم فواصل الطرفيّة"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "أخفِ الحجم من العنوان"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "شدة سطوع حطوط الطرفية الغير نشطة"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "معالج عناوين مخصص"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>شريط العنوان</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "الطرفية المتسلمة"
-
-#~ msgid "Focused terminal"
-#~ msgstr "طرفية ظاهرة"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "طرفية غير مفعّلة"
-
-#~ msgid "Font colour"
-#~ msgstr "لون الخط"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "لون المؤشر:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "شكل المؤشر:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "وميض المؤشر"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>الأمر</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "أمر مخصّص"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:32+0000\n"
+"PO-Revision-Date: 2015-08-05 12:36+0000\n"
 "Last-Translator: puppetmaster <driquezbenjamin@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:51+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: fr\n"
 
@@ -1637,63 +1637,3 @@ msgstr "fenêtre"
 #, python-format
 msgid "Tab %d"
 msgstr "Onglet %d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Capture d'écran du terminal"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Suivre les évènements"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Observer le silence"
-
-#~ msgid "Window state"
-#~ msgstr "état de la fenêtre"
-
-#~ msgid "Tab position"
-#~ msgstr "Position de l'onglet"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Click de la souris"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Taille du séparateur entre les terminaux"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Cachez la taille du titre"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Luminosité de la police d'un terminal en arrière-plan"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "Gestionnaire d'URL personnalisée"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>Barre de titre</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "Terminal de réception"
-
-#~ msgid "Focused terminal"
-#~ msgstr "Terminal actif"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Terminal inactif"
-
-#~ msgid "Font colour"
-#~ msgstr "Couleur de texte"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Couleur du curseur"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "Forme du cur_seur :"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Clignotement du curseur"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Commande</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Commande personnalisée"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:32+0000\n"
+"PO-Revision-Date: 2015-08-05 12:33+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:51+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: eu\n"
 
@@ -1633,57 +1633,3 @@ msgstr "leihoa"
 #, python-format
 msgid "Tab %d"
 msgstr "Fitxa %d"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Monitorizatu aktibitatea"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Terminalaren argazkia"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Monitorizatu isiltasuna"
-
-#~ msgid "Window state"
-#~ msgstr "Leihoaren egoera"
-
-#~ msgid "Tab position"
-#~ msgstr "Fitxen kokalekua"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Saguaren fokoa"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Terminalen banatzailearen tamaina"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Ezkutatu tamaina izenburutik"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Fokurik gabeko terminalaren letra-tipoaren distira"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "URL maneiatzaile pertsonalizatua"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>Titulu-barra</b>"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Terminal inaktiboa"
-
-#~ msgid "Font colour"
-#~ msgstr "Letra-tipoaren kolorea"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Kurtsorearen kolorea:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "Kurtsorearen _forma:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Kurtsorearen keinua"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Komandoa</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Komando pertsonalizatua"

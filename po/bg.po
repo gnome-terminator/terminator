@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:31+0000\n"
+"PO-Revision-Date: 2015-08-05 12:29+0000\n"
 "Last-Translator: Radoslav Petrov <rrpetrov@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:05+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:51+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: bg\n"
 
@@ -1634,54 +1634,3 @@ msgstr "прозорец"
 #, python-format
 msgid "Tab %d"
 msgstr ""
-
-#~ msgid "Watch for silence"
-#~ msgstr "Наблюдаване за тишина"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Наблюдаване за събития"
-
-#~ msgid "Window state"
-#~ msgstr "Състояние на прозореца"
-
-#~ msgid "Tab position"
-#~ msgstr "Позиция на подпрозореца"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Фокус на мишката"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Размер на разделителя в командния ред"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Не показвай размера в заглавието"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Яркост на команден ред без фокус"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "Приемащ команден ред"
-
-#~ msgid "Focused terminal"
-#~ msgstr "Команден ред на фокус"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Неактивен команден ред"
-
-#~ msgid "Font colour"
-#~ msgstr "Цвят на шрифта"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Цват на показалеца:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "_Форма на показалеца:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Мигане на показалеца"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Команда</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Потребителска команда"

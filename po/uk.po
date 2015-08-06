@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:36+0000\n"
+"PO-Revision-Date: 2015-08-05 12:42+0000\n"
 "Last-Translator: Roman Koshkin <mar2008m@rambler.ru>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:52+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: uk\n"
 
@@ -1632,63 +1632,3 @@ msgstr "вікно"
 #, python-format
 msgid "Tab %d"
 msgstr "Вкладка %d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Знімок екрана терміналу"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Спостерігати за активністю"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Спосерігати за тишою"
-
-#~ msgid "Window state"
-#~ msgstr "Стан вікна"
-
-#~ msgid "Tab position"
-#~ msgstr "Позиція  вкладок"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Фокус мишки"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Термінал розмір роздільника"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Сховати розмір з назви"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Яскравість несфокусірованного шрифту терміналу"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "Користувальницький обробник URL"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>Заголовок</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "Приймальний термінал"
-
-#~ msgid "Focused terminal"
-#~ msgstr "орієнтований термінал"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Неактивний термінал"
-
-#~ msgid "Font colour"
-#~ msgstr "Колір шрифту"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Колір курсора:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "_Форма  курсору:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Блимання курсору"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Команда </b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Команда користувача"

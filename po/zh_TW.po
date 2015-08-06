@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:36+0000\n"
+"PO-Revision-Date: 2015-08-05 12:42+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:07+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:52+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: \n"
 
@@ -1619,54 +1619,3 @@ msgstr "視窗"
 #, python-format
 msgid "Tab %d"
 msgstr "分頁 %d"
-
-#~ msgid "Watch for activity"
-#~ msgstr "觀察活動"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "終端機螢幕擷圖"
-
-#~ msgid "Watch for silence"
-#~ msgstr "等待相应"
-
-#~ msgid "Window state"
-#~ msgstr "視窗狀態"
-
-#~ msgid "Tab position"
-#~ msgstr "分頁位置"
-
-#~ msgid "Mouse focus"
-#~ msgstr "滑鼠選定"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "終端機分隔線大小"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "標題列不顯示檔案大小"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "非正在關注的終端機字體亮度"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>標題列</b>"
-
-#~ msgid "Focused terminal"
-#~ msgstr "正在關注的終端機"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "活動中的終端機"
-
-#~ msgid "Font colour"
-#~ msgstr "字型色彩"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "游標色彩："
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "游標形狀(_S):"
-
-#~ msgid "Cursor blink"
-#~ msgstr "游標閃爍"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>指令</b>"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-04 20:49+0200\n"
-"PO-Revision-Date: 2015-08-04 02:32+0000\n"
+"PO-Revision-Date: 2015-08-05 12:33+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 06:06+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:52+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: \n"
 
@@ -690,7 +690,7 @@ msgstr "<b>Apariencia</b>"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Tamaño del Separador del Terminal:"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Unfocused terminal font brightness:"
@@ -1053,6 +1053,18 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"El objetivo de este proyecto es crear una herramienta útil para organizar "
+"terminales. Esta inspirado por programas como gnome-multi-term, quadkonsole, "
+"etc. los cuales están enfocados principalmente en organizar terminales en "
+"cuadriculas (el método más común por defecto es el de pestañas, el cual "
+"Terminator también le da soporte).\n"
+"\n"
+"Mucho del comportamiento de Terminator esta basado en el Terminal GNOME, y "
+"estamos agregando más opciones a medida que pasa el tiempo, pero también "
+"deseamos extendernos en diferentes direcciones con opciones útiles para "
+"administradores de sistemas y otros usuarios. Si tienes algunas sugerencias, "
+"por favor repórtalas en nuestro archivo de lista de deseos y de errores (ver "
+"a la izquierda para el enlace de Desarrollo)"
 
 #: ../terminatorlib/preferences.glade.h:151
 msgid "About"
@@ -1076,35 +1088,35 @@ msgstr "Crear una pestaña nueva"
 
 #: ../terminatorlib/prefseditor.py:88 ../terminatorlib/prefseditor.py:90
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Enfocar el terminal siguiente"
 
 #: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Enfocar el terminal anterior"
 
 #: ../terminatorlib/prefseditor.py:92
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Enfocar el terminal superior"
 
 #: ../terminatorlib/prefseditor.py:93
 msgid "Focus the terminal below"
-msgstr ""
+msgstr "Enfocar el terminal inferior"
 
 #: ../terminatorlib/prefseditor.py:94
 msgid "Focus the terminal left"
-msgstr ""
+msgstr "Enfocar el terminal izquierdo"
 
 #: ../terminatorlib/prefseditor.py:95
 msgid "Focus the terminal right"
-msgstr ""
+msgstr "Enfocar el terminal derecho"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Rotar los terminales en sentido de las agujas del reloj"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Rotate terminals counter-clockwise"
-msgstr ""
+msgstr "Rotar los terminales en sentido contrario de las agujas del reloj"
 
 #: ../terminatorlib/prefseditor.py:98
 msgid "Split horizontally"
@@ -1188,11 +1200,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Maximise terminal"
-msgstr ""
+msgstr "Maximizar terminal"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Zoom terminal"
-msgstr ""
+msgstr "Ampliar terminal"
 
 #: ../terminatorlib/prefseditor.py:120
 msgid "Switch to the next tab"
@@ -1260,15 +1272,15 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Group all terminals"
-msgstr ""
+msgstr "Agrupar todos los terminales"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Group/Ungroup all terminals"
-msgstr ""
+msgstr "Agrupar/Desagrupar todos los terminales"
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Ungroup all terminals"
-msgstr ""
+msgstr "Desagrupar todos los terminales"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Group terminals in tab"
@@ -1636,63 +1648,3 @@ msgstr "ventana"
 #, python-format
 msgid "Tab %d"
 msgstr "Solapa %d"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Monitorear actividad"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Monitorizar falta de actividad"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Captura de terminal"
-
-#~ msgid "Window state"
-#~ msgstr "Estado de la ventana"
-
-#~ msgid "Tab position"
-#~ msgstr "Posición de la pestaña"
-
-#~ msgid "Mouse focus"
-#~ msgstr "Enfoque del ratón"
-
-#~ msgid "Terminal separator size"
-#~ msgstr "Tamaño del separador del Terminal"
-
-#~ msgid "Hide  size from title"
-#~ msgstr "Ocultar tamaño del título"
-
-#~ msgid "Unfocused terminal font brightness"
-#~ msgstr "Brillo de la tipografía desenfocada de la terminal"
-
-#~ msgid "Custom URL handler"
-#~ msgstr "Operario de URL predefinido"
-
-#~ msgid "<b>Titlebar</b>"
-#~ msgstr "<b>Barra de título</b>"
-
-#~ msgid "Receiving terminal"
-#~ msgstr "Terminal receptor"
-
-#~ msgid "Focused terminal"
-#~ msgstr "Terminal enfocada"
-
-#~ msgid "Inactive terminal"
-#~ msgstr "Terminal inactivo"
-
-#~ msgid "Font colour"
-#~ msgstr "Color de la fuente"
-
-#~ msgid "Cursor colour:"
-#~ msgstr "Color del cursor:"
-
-#~ msgid "Cursor _shape:"
-#~ msgstr "_Forma del cursor:"
-
-#~ msgid "Cursor blink"
-#~ msgstr "Parpadeo del cursor"
-
-#~ msgid "<b>Command</b>"
-#~ msgstr "<b>Comando</b>"
-
-#~ msgid "Custom command"
-#~ msgstr "Comando personalizado"
