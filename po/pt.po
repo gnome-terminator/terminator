@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-04 20:48+0200\n"
-"PO-Revision-Date: 2013-10-07 16:00+0000\n"
-"Last-Translator: David Pires <Unknown>\n"
+"PO-Revision-Date: 2015-08-06 00:06+0000\n"
+"Last-Translator: Paulo Henriques <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 05:13+0000\n"
+"X-Launchpad-Export-Date: 2015-08-06 05:12+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 "Language: pt_PT\n"
 
@@ -27,7 +27,7 @@ msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Múltiplos terminais numa só janela"
+msgstr "Terminais múltiplos numa janela"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -1608,12 +1608,3 @@ msgstr "janela"
 #, python-format
 msgid "Tab %d"
 msgstr "Separador %d"
-
-#~ msgid "Watch for activity"
-#~ msgstr "Vigiar atividade"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "Capurar imagem do terminal"
-
-#~ msgid "Watch for silence"
-#~ msgstr "Monitorizar pausa"
