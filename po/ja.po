@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-04 20:48+0200\n"
-"PO-Revision-Date: 2013-12-26 19:43+0000\n"
-"Last-Translator: Dylandy <Unknown>\n"
+"PO-Revision-Date: 2015-08-06 11:57+0000\n"
+"Last-Translator: ub <xenolith0bytetestcomgreen@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-05 05:13+0000\n"
+"X-Launchpad-Export-Date: 2015-08-07 05:13+0000\n"
 "X-Generator: Launchpad (build 17656)\n"
 
 #: ../data/terminator.desktop.in.h:1
@@ -268,11 +268,11 @@ msgstr "ウィンドウプロパティ (WM_CLASS) にカスタム名を使う"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "ウインドウのカスタムアイコンを設定する(名前またはファイル)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "ウインドウにカスタムWM_WINDOW_ROLE値を設定する"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "リストからレイアウトを選ぶ"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -312,7 +312,7 @@ msgstr "ActivityWatchプラグインが使用できません。python-notifyを�
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
-msgstr ""
+msgstr "アクティビティの監視(_A)"
 
 #: ../terminatorlib/plugins/activitywatch.py:82
 #, python-format
@@ -330,7 +330,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "カスタムコマンド(_C)"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -401,7 +401,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "画像を保存"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -611,7 +611,7 @@ msgstr "ウィンドウ・ジオメトリー・ヒント"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Mouse focus:"
-msgstr ""
+msgstr "マウスフォーカス:"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Broadcast default:"
@@ -651,7 +651,7 @@ msgstr "ウィンドウの枠"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Tab position:"
-msgstr ""
+msgstr "タブの位置:"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Tabs homogeneous"
@@ -679,7 +679,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Font color:"
-msgstr ""
+msgstr "フォント色:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Background:"
@@ -691,7 +691,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "_Use the system font"
-msgstr ""
+msgstr "システムフォントを使う(_U)"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "_Font:"
@@ -743,7 +743,7 @@ msgstr "<b>カーソル</b>"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Color:"
-msgstr ""
+msgstr "色:"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "_Shape:"
@@ -973,7 +973,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Working directory:"
-msgstr ""
+msgstr "作業ディレクトリ:"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Layouts"
@@ -985,7 +985,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Keybinding"
-msgstr ""
+msgstr "キーバインド"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Keybindings"
@@ -993,7 +993,7 @@ msgstr "キーの割り当て"
 
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Plugin"
-msgstr ""
+msgstr "プラグイン"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "This plugin has no configuration options"
@@ -1048,7 +1048,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:87
 msgid "Create a new tab"
-msgstr ""
+msgstr "新しいタブを作成"
 
 #: ../terminatorlib/prefseditor.py:88 ../terminatorlib/prefseditor.py:90
 msgid "Focus the next terminal"
@@ -1104,7 +1104,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:103
 msgid "Show/Hide the scrollbar"
-msgstr ""
+msgstr "スクロールバーの表示/非表示"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Search terminal scrollback"
@@ -1136,7 +1136,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Close window"
-msgstr ""
+msgstr "ウィンドウを閉じる"
 
 #: ../terminatorlib/prefseditor.py:112
 msgid "Resize the terminal up"
@@ -1172,11 +1172,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:120
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "次のタブに切り替えます"
 
 #: ../terminatorlib/prefseditor.py:121
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "前のタブに切り替えます"
 
 #: ../terminatorlib/prefseditor.py:122
 msgid "Switch to the first tab"
@@ -1220,7 +1220,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "全画面表示"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Reset the terminal"
@@ -1600,12 +1600,3 @@ msgstr "ウィンドウ"
 #, python-format
 msgid "Tab %d"
 msgstr "タブ%d"
-
-#~ msgid "Terminal screenshot"
-#~ msgstr "端末のスクリーンショット"
-
-#~ msgid "Watch for silence"
-#~ msgstr "サイレンス(無出力)を監視"
-
-#~ msgid "Watch for activity"
-#~ msgstr "アクティビティ(出力)を監視"
