@@ -87,13 +87,14 @@ def has_ancestor(widget, wtype):
 def manual_lookup():
     '''Choose the manual to open based on LANGUAGE'''
     prefix = os.path.join(os.sep, 'usr', 'share', 'doc', 'terminator')
-    languages = os.environ['LANGUAGE'].split(':')
-    for language in languages:
-        full_path = os.path.join(prefix, 'html_%s' % (language), 'index.html')
-        if os.path.isfile(full_path):
-            dbg('Found %s manual' % (language))
-            return full_path
-        dbg('Couldn\'t find manual for %s language' % (language))
+    if 'LANGUAGE' in os.environ:
+        languages = os.environ['LANGUAGE'].split(':')
+        for language in languages:
+            full_path = os.path.join(prefix, 'html_%s' % (language), 'index.html')
+            if os.path.isfile(full_path):
+                dbg('Found %s manual' % (language))
+                return full_path
+            dbg('Couldn\'t find manual for %s language' % (language))
 
     full_path = os.path.join(prefix, 'html', 'index.html')
     if os.path.isfile(full_path):
