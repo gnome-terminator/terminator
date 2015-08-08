@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.plugins.activitywatch &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.plugins.activitywatch</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.plugins.activitywatch</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;activitywatch.py - Terminator Plugin to watch a terminal for activity&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">import</span> <span class="nn">gobject</span>
+
+<span class="kn">from</span> <span class="nn">terminatorlib.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">import</span> <span class="nn">terminatorlib.plugin</span> <span class="kn">as</span> <span class="nn">plugin</span>
+<span class="kn">from</span> <span class="nn">terminatorlib.translation</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">terminatorlib.util</span> <span class="kn">import</span> <span class="n">err</span><span class="p">,</span> <span class="n">dbg</span>
+<span class="kn">from</span> <span class="nn">terminatorlib.version</span> <span class="kn">import</span> <span class="n">APP_NAME</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">pynotify</span>
+    <span class="c"># Every plugin you want Terminator to load *must* be listed in &#39;AVAILABLE&#39;</span>
+    <span class="c"># This is inside this try so we only make the plugin available if pynotify</span>
+    <span class="c">#  is present on this computer.</span>
+    <span class="n">AVAILABLE</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ActivityWatch&#39;</span><span class="p">,</span> <span class="s">&#39;InactivityWatch&#39;</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">err</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;ActivityWatch plugin unavailable: please install python-notify&#39;</span><span class="p">))</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+<span class="n">inactive_period</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugin_get</span><span class="p">(</span><span class="s">&#39;InactivityWatch&#39;</span><span class="p">,</span> <span class="s">&#39;inactive_period&#39;</span><span class="p">,</span>
+                                        <span class="mf">10.0</span><span class="p">))</span>
+<span class="n">watch_interval</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugin_get</span><span class="p">(</span><span class="s">&#39;InactivityWatch&#39;</span><span class="p">,</span> <span class="s">&#39;watch_interval&#39;</span><span class="p">,</span>
+                                       <span class="mi">5000</span><span class="p">))</span>
+<span class="n">hush_period</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugin_get</span><span class="p">(</span><span class="s">&#39;ActivityWatch&#39;</span><span class="p">,</span> <span class="s">&#39;hush_period&#39;</span><span class="p">,</span>
+                                        <span class="mf">10.0</span><span class="p">))</span>
+
+<div class="viewcode-block" id="ActivityWatch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch">[docs]</a><span class="k">class</span> <span class="nc">ActivityWatch</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add custom commands to the terminal menu&quot;&quot;&quot;</span>
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;terminal_menu&#39;</span><span class="p">]</span>
+    <span class="n">watches</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">last_notifies</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">timers</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="ActivityWatch.__init__"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">MenuItem</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watches</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_notifies</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_notifies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timers</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">pynotify</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">APP_NAME</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="ActivityWatch.callback"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menuitems</span><span class="p">,</span> <span class="n">menu</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add our menu item to the menu&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">CheckMenuItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Watch for _activity&#39;</span><span class="p">))</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">set_active</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">terminal</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get_active</span><span class="p">():</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;activate&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unwatch</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;activate&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="n">menuitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Menu item appended&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ActivityWatch.watch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch.watch">[docs]</a>    <span class="k">def</span> <span class="nf">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_widget</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Watch a terminal&quot;&quot;&quot;</span>
+        <span class="n">vte</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_vte</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">=</span> <span class="n">vte</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;contents-changed&#39;</span><span class="p">,</span> 
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">notify</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ActivityWatch.unwatch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch.unwatch">[docs]</a>    <span class="k">def</span> <span class="nf">unwatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_widget</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Stop watching a terminal&quot;&quot;&quot;</span>
+        <span class="n">vte</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_vte</span><span class="p">()</span>
+        <span class="n">vte</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="ActivityWatch.notify"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.ActivityWatch.notify">[docs]</a>    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_vte</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Notify that a terminal did something&quot;&quot;&quot;</span>
+        <span class="n">show_notify</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="c"># Don&#39;t notify if the user is already looking at this terminal.</span>
+        <span class="k">if</span> <span class="n">terminal</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">flags</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">gtk</span><span class="o">.</span><span class="n">HAS_FOCUS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">note</span> <span class="o">=</span> <span class="n">pynotify</span><span class="o">.</span><span class="n">Notification</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Terminator&#39;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Activity in: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> 
+                                  <span class="n">terminal</span><span class="o">.</span><span class="n">get_window_title</span><span class="p">(),</span> <span class="s">&#39;terminator&#39;</span><span class="p">)</span>
+
+        <span class="n">this_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_notifies</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">terminal</span><span class="p">):</span>
+            <span class="n">show_notify</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">last_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_notifies</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">this_time</span> <span class="o">-</span> <span class="n">last_time</span> <span class="o">&gt;</span> <span class="n">hush_period</span><span class="p">:</span>
+                <span class="n">show_notify</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="n">show_notify</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">note</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_notifies</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_time</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+</div></div>
+<div class="viewcode-block" id="InactivityWatch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch">[docs]</a><span class="k">class</span> <span class="nc">InactivityWatch</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add custom commands to notify when a terminal goes inactive&quot;&quot;&quot;</span>
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;terminal_menu&#39;</span><span class="p">]</span>
+    <span class="n">watches</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">last_activities</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">timers</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="InactivityWatch.__init__"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">MenuItem</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">watches</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timers</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">pynotify</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">APP_NAME</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="InactivityWatch.callback"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menuitems</span><span class="p">,</span> <span class="n">menu</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add our menu item to the menu&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">CheckMenuItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Watch for _silence&quot;</span><span class="p">))</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">set_active</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">terminal</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get_active</span><span class="p">():</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;activate&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unwatch</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&quot;activate&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">watch</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="n">menuitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Menu items appended&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="InactivityWatch.watch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.watch">[docs]</a>    <span class="k">def</span> <span class="nf">watch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_widget</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Watch a terminal&quot;&quot;&quot;</span>
+        <span class="n">vte</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_vte</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">=</span> <span class="n">vte</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;contents-changed&#39;</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">reset_timer</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="n">timeout_id</span> <span class="o">=</span> <span class="n">gobject</span><span class="o">.</span><span class="n">timeout_add</span><span class="p">(</span><span class="n">watch_interval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_times</span><span class="p">,</span> <span class="n">terminal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">=</span> <span class="n">timeout_id</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;timer </span><span class="si">%s</span><span class="s"> added for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">timeout_id</span><span class="p">,</span> <span class="n">terminal</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="InactivityWatch.unwatch"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.unwatch">[docs]</a>    <span class="k">def</span> <span class="nf">unwatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_vte</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unwatch a terminal&quot;&quot;&quot;</span>
+        <span class="n">vte</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_vte</span><span class="p">()</span>
+        <span class="n">vte</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">watches</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+        <span class="n">gobject</span><span class="o">.</span><span class="n">source_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="InactivityWatch.reset_timer"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.reset_timer">[docs]</a>    <span class="k">def</span> <span class="nf">reset_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_vte</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reset the last-changed time for a terminal&quot;&quot;&quot;</span>
+        <span class="n">time_now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_now</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;reset activity time for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">terminal</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="InactivityWatch.check_times"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.activitywatch.InactivityWatch.check_times">[docs]</a>    <span class="k">def</span> <span class="nf">check_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check if this terminal has gone silent&quot;&quot;&quot;</span>
+        <span class="n">time_now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">terminal</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Terminal </span><span class="si">%s</span><span class="s"> has no last activity&#39;</span> <span class="o">%</span> <span class="n">terminal</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;seconds since last activity: </span><span class="si">%f</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time_now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="p">[</span><span class="n">terminal</span><span class="p">],</span> <span class="n">terminal</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">time_now</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="p">[</span><span class="n">terminal</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">inactive_period</span><span class="p">:</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_activities</span><span class="p">[</span><span class="n">terminal</span><span class="p">])</span>
+            <span class="n">note</span> <span class="o">=</span> <span class="n">pynotify</span><span class="o">.</span><span class="n">Notification</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Terminator&#39;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Silence in: </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> 
+                                         <span class="n">terminal</span><span class="o">.</span><span class="n">get_window_title</span><span class="p">(),</span> <span class="s">&#39;terminator&#39;</span><span class="p">)</span>
+            <span class="n">note</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">True</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

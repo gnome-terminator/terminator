@@ -1191,12 +1191,6 @@ class ConfigObj(Section):
                  write_empty_values=False, _inspec=False):
         """
         Parse a config file or create a config file object.
-        
-        ``ConfigObj(infile=None, configspec=None, encoding=None,
-                    interpolation=True, raise_errors=False, list_values=True,
-                    create_empty=False, file_error=False, stringify=True,
-                    indent_type=None, default_encoding=None, unrepr=False,
-                    write_empty_values=False, _inspec=False)``
         """
         self._inspec = _inspec
         # init the superclass

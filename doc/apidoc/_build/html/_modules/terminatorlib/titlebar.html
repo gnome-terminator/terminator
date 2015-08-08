@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.titlebar &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.titlebar</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.titlebar</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;titlebar.py - classes necessary to provide a terminal title bar&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">import</span> <span class="nn">gobject</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">pango</span>
+
+<span class="kn">from</span> <span class="nn">version</span> <span class="kn">import</span> <span class="n">APP_NAME</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">dbg</span>
+<span class="kn">from</span> <span class="nn">terminator</span> <span class="kn">import</span> <span class="n">Terminator</span>
+<span class="kn">from</span> <span class="nn">editablelabel</span> <span class="kn">import</span> <span class="n">EditableLabel</span>
+<span class="kn">from</span> <span class="nn">translation</span> <span class="kn">import</span> <span class="n">_</span>
+
+<span class="c"># pylint: disable-msg=R0904</span>
+<span class="c"># pylint: disable-msg=W0613</span>
+<div class="viewcode-block" id="Titlebar"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar">[docs]</a><span class="k">class</span> <span class="nc">Titlebar</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">EventBox</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing the Titlebar widget&quot;&quot;&quot;</span>
+
+    <span class="n">terminator</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">terminal</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">oldtitle</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">termtext</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">sizetext</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">ebox</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">groupicon</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">grouplabel</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">groupentry</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">bellicon</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">__gsignals__</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;clicked&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">SIGNAL_RUN_LAST</span><span class="p">,</span> <span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_NONE</span><span class="p">,</span> <span class="p">()),</span>
+            <span class="s">&#39;edit-done&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">SIGNAL_RUN_LAST</span><span class="p">,</span> <span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_NONE</span><span class="p">,</span> <span class="p">()),</span>
+            <span class="s">&#39;create-group&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">SIGNAL_RUN_LAST</span><span class="p">,</span> <span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_NONE</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_STRING</span><span class="p">,)),</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="Titlebar.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="n">gtk</span><span class="o">.</span><span class="n">EventBox</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__gobject_init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span> <span class="o">=</span> <span class="n">Terminator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span> <span class="o">=</span> <span class="n">terminal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">config</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">EditableLabel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;edit-done&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_edit_done</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebox</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">EventBox</span><span class="p">()</span>
+        <span class="n">grouphbox</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Label</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupicon</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span><span class="o">.</span><span class="n">set_no_show_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Entry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">set_no_show_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;focus-out-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupentry_cancel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;activate&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupentry_activate</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;key-press-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupentry_keypress</span><span class="p">)</span>
+
+        <span class="n">groupsend_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groupsend_type</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">]:</span>
+            <span class="n">icon_name</span> <span class="o">=</span> <span class="s">&#39;all&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;group&#39;</span><span class="p">]:</span>
+            <span class="n">icon_name</span> <span class="o">=</span> <span class="s">&#39;group&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;off&#39;</span><span class="p">]:</span>
+            <span class="n">icon_name</span> <span class="o">=</span> <span class="s">&#39;off&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_from_icon_name</span><span class="p">(</span><span class="s">&#39;_active_broadcast_</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">icon_name</span><span class="p">,</span> 
+                <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_MENU</span><span class="p">)</span>
+
+        <span class="n">grouphbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groupicon</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">grouphbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">grouphbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebox</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">grouphbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebox</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span><span class="o">.</span><span class="n">set_from_icon_name</span><span class="p">(</span><span class="s">&#39;terminal-bell&#39;</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_MENU</span><span class="p">)</span>
+        <span class="n">hbox</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="n">hbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ebox</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">hbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">VSeparator</span><span class="p">(),</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">hbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="n">hbox</span><span class="o">.</span><span class="n">pack_end</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">hbox</span><span class="p">)</span>
+        <span class="n">hbox</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_no_show_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;button-press-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_clicked</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.connect_icon"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.connect_icon">[docs]</a>    <span class="k">def</span> <span class="nf">connect_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Connect the supplied function to clicking on the group icon&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ebox</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;button-press-event&#39;</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.update"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update our contents&quot;&quot;&quot;</span>
+        <span class="n">default_bg</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_hide_sizetext&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">termtext</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">termtext</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizetext</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_use_system_font&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_font&#39;</span><span class="p">]:</span>
+            <span class="n">title_font</span> <span class="o">=</span> <span class="n">pango</span><span class="o">.</span><span class="n">FontDescription</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_font&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">title_font</span> <span class="o">=</span> <span class="n">pango</span><span class="o">.</span><span class="n">FontDescription</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get_system_prop_font</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">modify_font</span><span class="p">(</span><span class="n">title_font</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">modify_font</span><span class="p">(</span><span class="n">title_font</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">other</span><span class="p">:</span>
+            <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span>
+            <span class="n">terminator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span>
+            <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="s">&#39;window-focus-out&#39;</span><span class="p">:</span>
+                <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_bg_color&#39;</span><span class="p">]</span>
+                <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_receive_off&#39;</span>
+                <span class="n">default_bg</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">group_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">group_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_bg_color&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">term</span> <span class="o">!=</span> <span class="n">other</span> <span class="ow">and</span> <span class="n">term</span><span class="o">.</span><span class="n">group</span> <span class="ow">and</span> <span class="n">term</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">group</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;off&#39;</span><span class="p">]:</span>
+                    <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_fg_color&#39;</span><span class="p">]</span>
+                    <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_bg_color&#39;</span><span class="p">]</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_receive_off&#39;</span>
+                    <span class="n">default_bg</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_fg_color&#39;</span><span class="p">]</span>
+                    <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_bg_color&#39;</span><span class="p">]</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_receive_on&#39;</span>
+                <span class="n">group_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">group_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_bg_color&#39;</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">term</span> <span class="o">!=</span> <span class="n">other</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">term</span><span class="o">.</span><span class="n">group</span> <span class="ow">or</span> <span class="n">term</span><span class="o">.</span><span class="n">group</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">group</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">]:</span>
+                    <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_fg_color&#39;</span><span class="p">]</span>
+                    <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_receive_bg_color&#39;</span><span class="p">]</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_receive_on&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_fg_color&#39;</span><span class="p">]</span>
+                    <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_bg_color&#39;</span><span class="p">]</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_receive_off&#39;</span>
+                    <span class="n">default_bg</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">group_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">group_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_inactive_bg_color&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># We&#39;re the active terminal</span>
+                <span class="n">title_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_transmit_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">title_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_transmit_bg_color&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;all&#39;</span><span class="p">]:</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_active_broadcast_all&#39;</span>
+                <span class="k">elif</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend</span> <span class="o">==</span> <span class="n">terminator</span><span class="o">.</span><span class="n">groupsend_type</span><span class="p">[</span><span class="s">&#39;group&#39;</span><span class="p">]:</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_active_broadcast_group&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">icon</span> <span class="o">=</span> <span class="s">&#39;_active_broadcast_off&#39;</span>
+                <span class="n">group_fg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_transmit_fg_color&#39;</span><span class="p">]</span>
+                <span class="n">group_bg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;title_transmit_bg_color&#39;</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">modify_fg</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STATE_NORMAL</span><span class="p">,</span>
+                    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">color_parse</span><span class="p">(</span><span class="n">title_fg</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">modify_fg</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STATE_NORMAL</span><span class="p">,</span>
+                    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">color_parse</span><span class="p">(</span><span class="n">group_fg</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">modify_bg</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STATE_NORMAL</span><span class="p">,</span> 
+                    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">color_parse</span><span class="p">(</span><span class="n">title_bg</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_desired_visibility</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">default_bg</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">term</span><span class="o">.</span><span class="n">get_style</span><span class="p">()</span><span class="o">.</span><span class="n">bg</span><span class="p">[</span><span class="n">gtk</span><span class="o">.</span><span class="n">STATE_NORMAL</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">color_parse</span><span class="p">(</span><span class="n">title_bg</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_visibility</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ebox</span><span class="o">.</span><span class="n">modify_bg</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STATE_NORMAL</span><span class="p">,</span>
+                    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">color_parse</span><span class="p">(</span><span class="n">group_bg</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_from_icon_name</span><span class="p">(</span><span class="n">icon</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_MENU</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.update_visibility"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.update_visibility">[docs]</a>    <span class="k">def</span> <span class="nf">update_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make the titlebar be visible or not&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_desired_visibility</span><span class="p">():</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;hiding titlebar&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;showing titlebar&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.get_desired_visibility"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.get_desired_visibility">[docs]</a>    <span class="k">def</span> <span class="nf">get_desired_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns True if the titlebar is supposed to be visible. False if</span>
+<span class="sd">        not&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">editing</span><span class="p">()</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">group</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;implicit desired visibility&#39;</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;configured visibility: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;show_titlebar&#39;</span><span class="p">])</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;show_titlebar&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Titlebar.set_from_icon_name"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.set_from_icon_name">[docs]</a>    <span class="k">def</span> <span class="nf">set_from_icon_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_MENU</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set an icon for the group label&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">groupicon</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+            <span class="k">return</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupicon</span><span class="o">.</span><span class="n">set_from_icon_name</span><span class="p">(</span><span class="n">APP_NAME</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupicon</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.update_terminal_size"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.update_terminal_size">[docs]</a>    <span class="k">def</span> <span class="nf">update_terminal_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the displayed terminal size&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizetext</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">x</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.set_terminal_title"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.set_terminal_title">[docs]</a>    <span class="k">def</span> <span class="nf">set_terminal_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the terminal title&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">termtext</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="c"># Return False so we don&#39;t interrupt any chains of signal handling</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Titlebar.set_group_label"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.set_group_label">[docs]</a>    <span class="k">def</span> <span class="nf">set_group_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the name of the group&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_visibility</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.on_clicked"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.on_clicked">[docs]</a>    <span class="k">def</span> <span class="nf">on_clicked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a click on the label&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;clicked&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.on_edit_done"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.on_edit_done">[docs]</a>    <span class="k">def</span> <span class="nf">on_edit_done</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Re-emit an edit-done signal from an EditableLabel&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;edit-done&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.editing"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.editing">[docs]</a>    <span class="k">def</span> <span class="nf">editing</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Determine if we&#39;re currently editing a group name or title&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;visible&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">editing</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Titlebar.create_group"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.create_group">[docs]</a>    <span class="k">def</span> <span class="nf">create_group</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a new group&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">group</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">defaultmembers</span><span class="o">=</span><span class="p">[</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Alpha&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Beta&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Gamma&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Delta&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Epsilon&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Zeta&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Eta&#39;</span><span class="p">),</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s">&#39;Theta&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Iota&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Kappa&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Lambda&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Mu&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Nu&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Xi&#39;</span><span class="p">),</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s">&#39;Omicron&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Pi&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Rho&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Sigma&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Tau&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Upsilon&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Phi&#39;</span><span class="p">),</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s">&#39;Chi&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Psi&#39;</span><span class="p">),</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Omega&#39;</span><span class="p">)]</span>
+            <span class="n">currentgroups</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groups</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">defaultgroups</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">defaultmembers</span><span class="p">,</span><span class="n">repeat</span><span class="o">=</span><span class="n">i</span><span class="p">))))</span>
+                <span class="n">freegroups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">defaultgroups</span><span class="o">-</span><span class="n">currentgroups</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">freegroups</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">freegroups</span><span class="p">))</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_visibility</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.groupentry_cancel"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.groupentry_cancel">[docs]</a>    <span class="k">def</span> <span class="nf">groupentry_cancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Hide the group name entry&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grouplabel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Titlebar.groupentry_activate"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.groupentry_activate">[docs]</a>    <span class="k">def</span> <span class="nf">groupentry_activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Actually cause a group to be created&quot;&quot;&quot;</span>
+        <span class="n">groupname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groupentry</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">None</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Titlebar::groupentry_activate: creating group: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">groupname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groupentry_cancel</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">last_focused_term</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">last_focused_term</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">targets_for_new_group</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">term</span><span class="o">.</span><span class="n">titlebar</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;create-group&#39;</span><span class="p">,</span> <span class="n">groupname</span><span class="p">)</span> <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">targets_for_new_group</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terminal</span><span class="o">.</span><span class="n">targets_for_new_group</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;create-group&#39;</span><span class="p">,</span> <span class="n">groupname</span><span class="p">)</span>
+        <span class="n">last_focused_term</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">focus_changed</span><span class="p">(</span><span class="n">last_focused_term</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.groupentry_keypress"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.groupentry_keypress">[docs]</a>    <span class="k">def</span> <span class="nf">groupentry_keypress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle keypresses on the entry widget&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keyval_name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">keyval</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;Escape&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">groupentry_cancel</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.icon_bell"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.icon_bell">[docs]</a>    <span class="k">def</span> <span class="nf">icon_bell</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A bell signal requires we display our bell icon&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">gobject</span><span class="o">.</span><span class="n">timeout_add</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon_bell_hide</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.icon_bell_hide"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.icon_bell_hide">[docs]</a>    <span class="k">def</span> <span class="nf">icon_bell_hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a timeout which means we now hide the bell icon&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bellicon</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.get_custom_string"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.get_custom_string">[docs]</a>    <span class="k">def</span> <span class="nf">get_custom_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If we have a custom string set, return it, otherwise None&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">is_custom</span><span class="p">():</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Titlebar.set_custom_string"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.titlebar.Titlebar.set_custom_string">[docs]</a>    <span class="k">def</span> <span class="nf">set_custom_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a custom string&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_custom</span><span class="p">()</span>
+</div></div>
+<span class="n">gobject</span><span class="o">.</span><span class="n">type_register</span><span class="p">(</span><span class="n">Titlebar</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

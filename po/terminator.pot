@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 20:48+0200\n"
+"POT-Creation-Date: 2015-08-08 04:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1017,6 +1017,10 @@ msgid ""
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
+msgid "The Manual"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:157
 msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
 "\">Homepage</a>\n"
@@ -1024,7 +1028,7 @@ msgid ""
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:159
+#: ../terminatorlib/preferences.glade.h:160
 msgid "About"
 msgstr ""
 
@@ -1296,11 +1300,15 @@ msgstr ""
 msgid "Switch to previous profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1081 ../terminatorlib/prefseditor.py:1086
+#: ../terminatorlib/prefseditor.py:154
+msgid "Open the manual"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:1082 ../terminatorlib/prefseditor.py:1087
 msgid "New Profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1126 ../terminatorlib/prefseditor.py:1131
+#: ../terminatorlib/prefseditor.py:1127 ../terminatorlib/prefseditor.py:1132
 msgid "New Layout"
 msgstr ""
 

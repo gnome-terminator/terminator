@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.container &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.container</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.container</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;container.py - classes necessary to contain Terminal widgets&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">gobject</span>
+<span class="kn">import</span> <span class="nn">gtk</span>
+
+<span class="kn">from</span> <span class="nn">factory</span> <span class="kn">import</span> <span class="n">Factory</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">err</span>
+<span class="kn">from</span> <span class="nn">translation</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">signalman</span> <span class="kn">import</span> <span class="n">Signalman</span>
+
+<span class="c"># pylint: disable-msg=R0921</span>
+<div class="viewcode-block" id="Container"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container">[docs]</a><span class="k">class</span> <span class="nc">Container</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for Terminator Containers&quot;&quot;&quot;</span>
+
+    <span class="n">terminator</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">immutable</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">children</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">signals</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">signalman</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Container.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnxids</span> <span class="o">=</span> <span class="n">Signalman</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Container.register_signals"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.register_signals">[docs]</a>    <span class="k">def</span> <span class="nf">register_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Register gobject signals in a way that avoids multiple inheritance&quot;&quot;&quot;</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="n">gobject</span><span class="o">.</span><span class="n">signal_list_names</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">signals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signal</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">existing</span><span class="p">:</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Container:: skipping signal </span><span class="si">%s</span><span class="s"> for </span><span class="si">%s</span><span class="s">, already exists&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">signal</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">widget</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Container:: registering signal for </span><span class="si">%s</span><span class="s"> on </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> 
+                        <span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">widget</span><span class="p">))</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">gobject</span><span class="o">.</span><span class="n">signal_new</span><span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span>
+                                       <span class="n">widget</span><span class="p">,</span>
+                                       <span class="n">signal</span><span class="p">[</span><span class="s">&#39;flags&#39;</span><span class="p">],</span>
+                                       <span class="n">signal</span><span class="p">[</span><span class="s">&#39;return_type&#39;</span><span class="p">],</span>
+                                        <span class="n">signal</span><span class="p">[</span><span class="s">&#39;param_types&#39;</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                    <span class="n">err</span><span class="p">(</span><span class="s">&#39;Container:: registering signal for </span><span class="si">%s</span><span class="s"> on </span><span class="si">%s</span><span class="s"> failed&#39;</span> <span class="o">%</span>
+                            <span class="p">(</span><span class="n">signal</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="n">widget</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Container.connect_child"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.connect_child">[docs]</a>    <span class="k">def</span> <span class="nf">connect_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Register the requested signal and record its connection ID&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnxids</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Container.disconnect_child"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.disconnect_child">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;De-register the signals for a child&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnxids</span><span class="o">.</span><span class="n">remove_widget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.get_offspring"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.get_offspring">[docs]</a>    <span class="k">def</span> <span class="nf">get_offspring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of direct child widgets, if any&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.get_child_metadata"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.get_child_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">get_child_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return metadata that would be useful to recreate ourselves after our</span>
+<span class="sd">        child is .remove()d and .add()ed&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="Container.split_horiz"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.split_horiz">[docs]</a>    <span class="k">def</span> <span class="nf">split_horiz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split this container horizontally&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="n">cwd</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Container.split_vert"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.split_vert">[docs]</a>    <span class="k">def</span> <span class="nf">split_vert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split this container vertically&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="n">cwd</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Container.split_axis"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.split_axis">[docs]</a>    <span class="k">def</span> <span class="nf">split_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">vertical</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sibling</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">siblinglast</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Default axis splitter. This should be implemented by subclasses&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;split_axis&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.rotate"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rotate children in this container&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;rotate&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.add"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a widget to the container&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;add&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.remove"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove a widget from the container&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;remove&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.replace"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.replace">[docs]</a>    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldwidget</span><span class="p">,</span> <span class="n">newwidget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace the child oldwidget with newwidget. This is the bare minimum</span>
+<span class="sd">        required for this operation. Containers should override it if they have</span>
+<span class="sd">        more complex requirements&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">oldwidget</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> is not a child of </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">oldwidget</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">oldwidget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">newwidget</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.hoover"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.hoover">[docs]</a>    <span class="k">def</span> <span class="nf">hoover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ensure we still have a reason to exist&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;hoover&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.get_children"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.get_children">[docs]</a>    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return an ordered list of the children of this Container&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;get_children&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.closeterm"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.closeterm">[docs]</a>    <span class="k">def</span> <span class="nf">closeterm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle the closure of a terminal&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">):</span>
+                <span class="c"># We&#39;re zoomed, so unzoom and then start closing again</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Container::closeterm: terminal zoomed, unzooming&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unzoom</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+                <span class="n">widget</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">widget</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Container::closeterm: self.remove() failed for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">widget</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">deregister_terminal</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">group_hoover</span><span class="p">()</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.resizeterm"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.resizeterm">[docs]</a>    <span class="k">def</span> <span class="nf">resizeterm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">keyname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a keyboard event requesting a terminal resize&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;resizeterm&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.toggle_zoom"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.toggle_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">fontscale</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Toggle the existing zoom state&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unzoom</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">fontscale</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Container::toggle_zoom: </span><span class="si">%s</span><span class="s"> is unable to handle zooming, for </span><span class="se">\</span>
+<span class="s">            </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Container.zoom"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.zoom">[docs]</a>    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">fontscale</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Zoom a terminal&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;zoom&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.unzoom"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.unzoom">[docs]</a>    <span class="k">def</span> <span class="nf">unzoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unzoom a terminal&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;unzoom&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.construct_confirm_close"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.construct_confirm_close">[docs]</a>    <span class="k">def</span> <span class="nf">construct_confirm_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">reqtype</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create a confirmation dialog for closing things&quot;&quot;&quot;</span>
+        
+        <span class="c"># skip this dialog if applicable</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;suppress_multiple_term_dialog&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">gtk</span><span class="o">.</span><span class="n">RESPONSE_ACCEPT</span>
+        
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Dialog</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Close?&#39;</span><span class="p">),</span> <span class="n">window</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">DIALOG_MODAL</span><span class="p">)</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">set_has_separator</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">set_resizable</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    
+        <span class="n">dialog</span><span class="o">.</span><span class="n">add_button</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STOCK_CANCEL</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">RESPONSE_REJECT</span><span class="p">)</span>
+        <span class="n">c_all</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">add_button</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STOCK_CLOSE</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">RESPONSE_ACCEPT</span><span class="p">)</span>
+        <span class="n">c_all</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s">&#39;Close _Terminals&#39;</span><span class="p">))</span>
+    
+        <span class="n">primary</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;&lt;big&gt;&lt;b&gt;Close multiple terminals?&lt;/b&gt;&lt;/big&gt;&#39;</span><span class="p">))</span>
+        <span class="n">primary</span><span class="o">.</span><span class="n">set_use_markup</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">primary</span><span class="o">.</span><span class="n">set_alignment</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">secondary</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;This </span><span class="si">%s</span><span class="s"> has several terminals open. Closing </span><span class="se">\</span>
+<span class="s">the </span><span class="si">%s</span><span class="s"> will also close all terminals within it.&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">reqtype</span><span class="p">,</span> <span class="n">reqtype</span><span class="p">))</span>
+        <span class="n">secondary</span><span class="o">.</span><span class="n">set_line_wrap</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                    
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">VBox</span><span class="p">()</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">primary</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">secondary</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+    
+        <span class="n">image</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">image_new_from_stock</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STOCK_DIALOG_WARNING</span><span class="p">,</span>
+                                         <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_DIALOG</span><span class="p">)</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">set_alignment</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    
+        <span class="n">box</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">HBox</span><span class="p">()</span>
+        <span class="n">box</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="n">box</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">vbox</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">box</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+        <span class="n">checkbox</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Do not show this message next time&quot;</span><span class="p">))</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">vbox</span><span class="o">.</span><span class="n">pack_end</span><span class="p">(</span><span class="n">checkbox</span><span class="p">)</span>
+    
+        <span class="n">dialog</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        
+        <span class="c"># set configuration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;suppress_multiple_term_dialog&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">checkbox</span><span class="o">.</span><span class="n">get_active</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="n">dialog</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+                
+        <span class="k">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.propagate_title_change"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.propagate_title_change">[docs]</a>    <span class="k">def</span> <span class="nf">propagate_title_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pass a title change up the widget stack&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_window_title</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_tab_label_text</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;Window&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+            <span class="n">parent</span><span class="o">.</span><span class="n">propagate_title_change</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.get_visible_terminals"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.get_visible_terminals">[docs]</a>    <span class="k">def</span> <span class="nf">get_visible_terminals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Walk the widget tree to find all of the visible terminals. That is,</span>
+<span class="sd">        any terminals which are not hidden in another Notebook pane&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;cached_maker&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span>
+        <span class="n">terminals</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_offspring</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+                <span class="n">terminals</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+                <span class="n">terminals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unknown child type </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">))</span>
+
+        <span class="k">return</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.describe_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.describe_layout">[docs]</a>    <span class="k">def</span> <span class="nf">describe_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">global_layout</span><span class="p">,</span> <span class="n">child_order</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Describe our current layout&quot;&quot;&quot;</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">mytype</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mytype</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;unable to detemine own type. </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">({})</span>
+
+        <span class="n">layout</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mytype</span>
+        <span class="n">layout</span><span class="p">[</span><span class="s">&#39;parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="n">layout</span><span class="p">[</span><span class="s">&#39;order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">child_order</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;get_position&#39;</span><span class="p">):</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="s">&#39;__iter__&#39;</span><span class="p">):</span>
+                <span class="n">position</span> <span class="o">=</span> <span class="s">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">position</span><span class="p">])</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">position</span>
+        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ismaximised&#39;</span><span class="p">):</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;maximised&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ismaximised</span>
+        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;isfullscreen&#39;</span><span class="p">):</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;fullscreen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">isfullscreen</span>
+        
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;ratio&#39;</span><span class="p">):</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;ratio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ratio</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;get_size&#39;</span><span class="p">):</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">):</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="k">if</span> <span class="n">mytype</span> <span class="o">==</span> <span class="s">&#39;Notebook&#39;</span><span class="p">:</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">last_active_term</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">tabnum</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_n_pages</span><span class="p">()):</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nth_page</span><span class="p">(</span><span class="n">tabnum</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tab_label</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+                <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">get_custom_label</span><span class="p">())</span>
+                <span class="n">last_active_term</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_active_term</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_nth_page</span><span class="p">(</span><span class="n">tabnum</span><span class="p">)])</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_active_term</span>
+            <span class="n">layout</span><span class="p">[</span><span class="s">&#39;active_page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;last_active_term&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_active_term</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_active_term</span>
+
+        <span class="k">if</span> <span class="n">mytype</span> <span class="o">==</span> <span class="s">&#39;Window&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">last_active_window</span><span class="p">:</span>
+                <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_window&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_window&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;child</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">count</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="n">global_layout</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span>
+
+        <span class="n">child_order</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;describe_layout&#39;</span><span class="p">):</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">describe_layout</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">global_layout</span><span class="p">,</span> <span class="n">child_order</span><span class="p">)</span>
+            <span class="n">child_order</span> <span class="o">=</span> <span class="n">child_order</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">return</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Container.create_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.container.Container.create_layout">[docs]</a>    <span class="k">def</span> <span class="nf">create_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply settings for our layout&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&#39;create_layout&#39;</span><span class="p">)</span>
+
+
+<span class="c"># vim: set expandtab ts=4 sw=4:</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

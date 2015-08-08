@@ -1,0 +1,556 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.util &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.util</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.util</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c">#    Terminator.util - misc utility functions</span>
+<span class="c">#    Copyright (C) 2006-2010  cmsj@tenshu.net</span>
+<span class="c">#</span>
+<span class="c">#  This program is free software; you can redistribute it and/or modify</span>
+<span class="c">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c">#  the Free Software Foundation, version 2 only.</span>
+<span class="c">#</span>
+<span class="c">#  This program is distributed in the hope that it will be useful,</span>
+<span class="c">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">#  GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#  You should have received a copy of the GNU General Public License</span>
+<span class="c">#  along with this program; if not, write to the Free Software</span>
+<span class="c">#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA</span>
+<span class="sd">&quot;&quot;&quot;Terminator.util - misc utility functions&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pwd</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="c"># set this to true to enable debugging output</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="c"># set this to true to additionally list filenames in debugging</span>
+<span class="n">DEBUGFILES</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="c"># list of classes to show debugging for. empty list means show all classes</span>
+<span class="n">DEBUGCLASSES</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c"># list of methods to show debugging for. empty list means show all methods</span>
+<span class="n">DEBUGMETHODS</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="dbg"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.dbg">[docs]</a><span class="k">def</span> <span class="nf">dbg</span><span class="p">(</span><span class="n">log</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print a message if debugging is enabled&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">DEBUG</span><span class="p">:</span>
+        <span class="n">stackitem</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">parent_frame</span> <span class="o">=</span> <span class="n">stackitem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">parent_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+        <span class="n">names</span><span class="p">,</span> <span class="n">varargs</span><span class="p">,</span> <span class="n">keywords</span><span class="p">,</span> <span class="n">local_vars</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargvalues</span><span class="p">(</span><span class="n">parent_frame</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">self_name</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">classname</span> <span class="o">=</span> <span class="n">local_vars</span><span class="p">[</span><span class="n">self_name</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">classname</span> <span class="o">=</span> <span class="s">&quot;noclass&quot;</span>
+        <span class="k">if</span> <span class="n">DEBUGFILES</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">stackitem</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">parent_frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="s">&quot; (</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">DEBUGCLASSES</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">classname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DEBUGCLASSES</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">DEBUGMETHODS</span> <span class="o">!=</span> <span class="p">[]</span> <span class="ow">and</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">DEBUGMETHODS</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">::</span><span class="si">%s</span><span class="s">: </span><span class="si">%s%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">log</span><span class="p">,</span> <span class="n">extra</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="err"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.err">[docs]</a><span class="k">def</span> <span class="nf">err</span><span class="p">(</span><span class="n">log</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Print an error message&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">log</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="gerr"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.gerr">[docs]</a><span class="k">def</span> <span class="nf">gerr</span><span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display a graphical error. This should only be used for serious</span>
+<span class="sd">    errors as it will halt execution&quot;&quot;&quot;</span>
+
+    <span class="n">dialog</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">DIALOG_MODAL</span><span class="p">,</span>
+            <span class="n">gtk</span><span class="o">.</span><span class="n">MESSAGE_ERROR</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">BUTTONS_OK</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="n">dialog</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+    <span class="n">dialog</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="has_ancestor"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.has_ancestor">[docs]</a><span class="k">def</span> <span class="nf">has_ancestor</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">wtype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Walk up the family tree of widget to see if any ancestors are of type&quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="n">widget</span><span class="p">:</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">wtype</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="manual_lookup"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.manual_lookup">[docs]</a><span class="k">def</span> <span class="nf">manual_lookup</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Choose the manual to open based on LANGUAGE&#39;&#39;&#39;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s">&#39;usr&#39;</span><span class="p">,</span> <span class="s">&#39;share&#39;</span><span class="p">,</span> <span class="s">&#39;doc&#39;</span><span class="p">,</span> <span class="s">&#39;terminator&#39;</span><span class="p">)</span>
+    <span class="n">languages</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;LANGUAGE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">language</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+        <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&#39;html_</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">language</span><span class="p">),</span> <span class="s">&#39;index.html&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_path</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Found </span><span class="si">%s</span><span class="s"> manual&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">language</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">full_path</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Couldn</span><span class="se">\&#39;</span><span class="s">t find manual for </span><span class="si">%s</span><span class="s"> language&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">language</span><span class="p">))</span>
+
+    <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="s">&#39;html&#39;</span><span class="p">,</span> <span class="s">&#39;index.html&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_path</span><span class="p">):</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Falling back to the default manual&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">full_path</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;I can</span><span class="se">\&#39;</span><span class="s">t find any suitable manual&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="path_lookup"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.path_lookup">[docs]</a><span class="k">def</span> <span class="nf">path_lookup</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Find a command in our path&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">command</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;./&#39;</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;path_lookup: Relative filename </span><span class="si">%s</span><span class="s"> found in cwd&#39;</span> <span class="o">%</span> <span class="n">command</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;PATH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;:&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+            <span class="k">raise</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">):</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;path_lookup: PATH not set in environment, using fallbacks&#39;</span><span class="p">)</span>
+        <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;/usr/local/bin&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/bin&#39;</span><span class="p">,</span> <span class="s">&#39;/bin&#39;</span><span class="p">]</span>
+
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;path_lookup: Using </span><span class="si">%d</span><span class="s"> paths: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">),</span> <span class="n">paths</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;path_lookup: found </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">target</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;path_lookup: Unable to locate </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">command</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="shell_lookup"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.shell_lookup">[docs]</a><span class="k">def</span> <span class="nf">shell_lookup</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Find an appropriate shell for the user&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">usershell</span> <span class="o">=</span> <span class="n">pwd</span><span class="o">.</span><span class="n">getpwuid</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">())[</span><span class="mi">6</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">usershell</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">shells</span> <span class="o">=</span> <span class="p">[</span><span class="n">usershell</span><span class="p">,</span> <span class="s">&#39;bash&#39;</span><span class="p">,</span> <span class="s">&#39;zsh&#39;</span><span class="p">,</span> <span class="s">&#39;tcsh&#39;</span><span class="p">,</span> <span class="s">&#39;ksh&#39;</span><span class="p">,</span> <span class="s">&#39;csh&#39;</span><span class="p">,</span> <span class="s">&#39;sh&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">shell</span> <span class="ow">in</span> <span class="n">shells</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">shell</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rshell</span> <span class="o">=</span> <span class="n">path_lookup</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rshell</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;shell_lookup: Found </span><span class="si">%s</span><span class="s"> at </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shell</span><span class="p">,</span> <span class="n">rshell</span><span class="p">))</span>
+                <span class="k">return</span><span class="p">(</span><span class="n">rshell</span><span class="p">)</span>
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;shell_lookup: Unable to locate a shell&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="widget_pixbuf"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.widget_pixbuf">[docs]</a><span class="k">def</span> <span class="nf">widget_pixbuf</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a pixbuf of a widget&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gtk_version</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">14</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="n">pixmap</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_snapshot</span><span class="p">()</span>
+    <span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="o">=</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+    <span class="n">pixbuf</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">Pixbuf</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">COLORSPACE_RGB</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+    <span class="n">pixbuf</span><span class="o">.</span><span class="n">get_from_drawable</span><span class="p">(</span><span class="n">pixmap</span><span class="p">,</span> <span class="n">pixmap</span><span class="o">.</span><span class="n">get_colormap</span><span class="p">(),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span>
+            <span class="n">height</span><span class="p">)</span>
+
+    <span class="n">longest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">maxsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxsize</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">longest</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">maxsize</span> <span class="ow">or</span> <span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">width</span> <span class="ow">or</span> <span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">height</span><span class="p">:</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">scaledpixbuf</span> <span class="o">=</span> <span class="n">pixbuf</span><span class="o">.</span><span class="n">scale_simple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">factor</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span> <span class="o">*</span> <span class="n">factor</span><span class="p">),</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">INTERP_BILINEAR</span><span class="p">)</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">scaledpixbuf</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="get_config_dir"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.get_config_dir">[docs]</a><span class="k">def</span> <span class="nf">get_config_dir</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Expand all the messy nonsense for finding where ~/.config/terminator</span>
+<span class="sd">    really is&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">configdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;XDG_CONFIG_HOME&#39;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">configdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s">&#39;~&#39;</span><span class="p">),</span> <span class="s">&#39;.config&#39;</span><span class="p">)</span>
+
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Found config dir: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">configdir</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">configdir</span><span class="p">,</span> <span class="s">&#39;terminator&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="dict_diff"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.dict_diff">[docs]</a><span class="k">def</span> <span class="nf">dict_diff</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">working</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Examine the values in the supplied working set and return a new dict</span>
+<span class="sd">    that only contains those values which are different from those in the</span>
+<span class="sd">    reference dictionary</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; a = {&#39;foo&#39;: &#39;bar&#39;, &#39;baz&#39;: &#39;bjonk&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; b = {&#39;foo&#39;: &#39;far&#39;, &#39;baz&#39;: &#39;bjonk&#39;}</span>
+<span class="sd">    &gt;&gt;&gt; dict_diff(a, b)</span>
+<span class="sd">    {&#39;foo&#39;: &#39;far&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">reference</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">reference</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">!=</span> <span class="n">working</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">working</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c"># Helper functions for directional navigation</span></div>
+<div class="viewcode-block" id="get_edge"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.get_edge">[docs]</a><span class="k">def</span> <span class="nf">get_edge</span><span class="p">(</span><span class="n">allocation</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the edge of the supplied allocation that we will care about for</span>
+<span class="sd">    directional navigation&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;left&#39;</span><span class="p">:</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">height</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;up&#39;</span><span class="p">:</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">width</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;right&#39;</span><span class="p">:</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">height</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;down&#39;</span><span class="p">:</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">height</span>
+        <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">width</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;unknown direction </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+    
+    <span class="k">return</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="get_nav_possible"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.get_nav_possible">[docs]</a><span class="k">def</span> <span class="nf">get_nav_possible</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">allocation</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if the supplied allocation is in the right direction of the</span>
+<span class="sd">    supplied edge&quot;&quot;&quot;</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">height</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;left&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">x2</span> <span class="o">&lt;=</span> <span class="n">edge</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">&lt;=</span> <span class="n">p2</span> <span class="ow">and</span> <span class="n">y2</span> <span class="o">&gt;=</span> <span class="n">p1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;right&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">x1</span> <span class="o">&gt;=</span> <span class="n">edge</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">&lt;=</span> <span class="n">p2</span> <span class="ow">and</span> <span class="n">y2</span> <span class="o">&gt;=</span> <span class="n">p1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;up&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">y2</span> <span class="o">&lt;=</span> <span class="n">edge</span> <span class="ow">and</span> <span class="n">x1</span> <span class="o">&lt;=</span> <span class="n">p2</span> <span class="ow">and</span> <span class="n">x2</span> <span class="o">&gt;=</span> <span class="n">p1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;down&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">y1</span> <span class="o">&gt;=</span> <span class="n">edge</span> <span class="ow">and</span> <span class="n">x1</span> <span class="o">&lt;=</span> <span class="n">p2</span> <span class="ow">and</span> <span class="n">x2</span> <span class="o">&gt;=</span> <span class="n">p1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unknown direction: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="get_nav_offset"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.get_nav_offset">[docs]</a><span class="k">def</span> <span class="nf">get_nav_offset</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">allocation</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Work out how far edge is from a particular point on the allocation</span>
+<span class="sd">    rectangle, in the given direction&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;left&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">edge</span> <span class="o">-</span> <span class="p">(</span><span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;right&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">allocation</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;up&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">edge</span> <span class="o">-</span> <span class="p">(</span><span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">allocation</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;down&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">allocation</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unknown direction: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="get_nav_tiebreak"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.get_nav_tiebreak">[docs]</a><span class="k">def</span> <span class="nf">get_nav_tiebreak</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor_x</span><span class="p">,</span> <span class="n">cursor_y</span><span class="p">,</span> <span class="n">rect</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;We have multiple candidate terminals. Pick the closest by cursor</span>
+<span class="sd">    position&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">,</span> <span class="s">&#39;right&#39;</span><span class="p">]:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">cursor_y</span> <span class="o">&gt;=</span> <span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">cursor_y</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">rect</span><span class="o">.</span><span class="n">height</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;up&#39;</span><span class="p">,</span> <span class="s">&#39;down&#39;</span><span class="p">]:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">cursor_x</span> <span class="o">&gt;=</span> <span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">cursor_x</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">rect</span><span class="o">.</span><span class="n">width</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unknown direction: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="enumerate_descendants"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.enumerate_descendants">[docs]</a><span class="k">def</span> <span class="nf">enumerate_descendants</span><span class="p">(</span><span class="n">parent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Walk all our children and build up a list of containers and</span>
+<span class="sd">    terminals&quot;&quot;&quot;</span>
+    <span class="c"># FIXME: Does having to import this here mean we should move this function</span>
+    <span class="c"># back to Container?</span>
+    <span class="kn">from</span> <span class="nn">factory</span> <span class="kn">import</span> <span class="n">Factory</span>
+
+    <span class="n">containerstmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">containers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">terminals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">err</span><span class="p">(</span><span class="s">&#39;no parent widget specified&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">for</span> <span class="n">descendant</span> <span class="ow">in</span> <span class="n">parent</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">descendant</span><span class="p">,</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+            <span class="n">containerstmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">descendant</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">descendant</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+            <span class="n">terminals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">descendant</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">containerstmp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="n">containerstmp</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">descendant</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">descendant</span><span class="p">,</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+                    <span class="n">containerstmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">descendant</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">descendant</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+                    <span class="n">terminals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">descendant</span><span class="p">)</span>
+            <span class="n">containers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s"> containers and </span><span class="si">%d</span><span class="s"> terminals fall beneath </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">containers</span><span class="p">),</span> 
+        <span class="nb">len</span><span class="p">(</span><span class="n">terminals</span><span class="p">),</span> <span class="n">parent</span><span class="p">))</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">containers</span><span class="p">,</span> <span class="n">terminals</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="make_uuid"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.make_uuid">[docs]</a><span class="k">def</span> <span class="nf">make_uuid</span><span class="p">(</span><span class="n">str_uuid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate a UUID for an object&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">str_uuid</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span><span class="p">(</span><span class="n">str_uuid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="inject_uuid"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.inject_uuid">[docs]</a><span class="k">def</span> <span class="nf">inject_uuid</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inject a UUID into an existing object&quot;&quot;&quot;</span>
+    <span class="n">uuid</span> <span class="o">=</span> <span class="n">make_uuid</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s">&quot;uuid&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">target</span><span class="o">.</span><span class="n">uuid</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;Injecting UUID </span><span class="si">%s</span><span class="s"> into: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">uuid</span><span class="p">,</span> <span class="n">target</span><span class="p">))</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">uuid</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;Object already has a UUID: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">target</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="spawn_new_terminator"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.util.spawn_new_terminator">[docs]</a><span class="k">def</span> <span class="nf">spawn_new_terminator</span><span class="p">(</span><span class="n">cwd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Start a new terminator instance with the given arguments&quot;&quot;&quot;</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+        <span class="c"># Command is not an absolute path. Figure out where we are</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span> <span class="p">(</span><span class="n">cwd</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
+            <span class="c"># we weren&#39;t started as ./terminator in a path. Give up</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unable to locate Terminator&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+      
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;Spawning: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">cmd</span><span class="p">)</span>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">cmd</span><span class="p">]</span><span class="o">+</span><span class="n">args</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.plugins.maven &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.plugins.maven</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.plugins.maven</h1><div class="highlight"><pre>
+<span class="c"># Copyright (c) 2010 Julien Nicoulaud &lt;julien.nicoulaud@gmail.com&gt;</span>
+<span class="c">#</span>
+<span class="c"># This program is free software; you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, version 2 only.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with this program; if not, write to the Free Software</span>
+<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor</span>
+<span class="c"># , Boston, MA  02110-1301  USA</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">terminatorlib.plugin</span> <span class="kn">as</span> <span class="nn">plugin</span>
+
+<span class="n">AVAILABLE</span> <span class="o">=</span> <span class="p">[</span> <span class="s">&#39;MavenPluginURLHandler&#39;</span> <span class="p">]</span>
+
+<div class="viewcode-block" id="MavenPluginURLHandler"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.maven.MavenPluginURLHandler">[docs]</a><span class="k">class</span> <span class="nc">MavenPluginURLHandler</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">URLHandler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Maven plugin handler. If the name of a Maven plugin is</span>
+<span class="sd">    detected, it is turned into a link to its documentation site.</span>
+<span class="sd">    If a Maven plugin goal is detected, the link points to the</span>
+<span class="sd">    particular goal page. Only Apache (org.apache.maven.plugins)</span>
+<span class="sd">    and Codehaus (org.codehaus.mojo) plugins are supported.&quot;&quot;&quot;</span>
+
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;url_handler&#39;</span><span class="p">]</span>
+    <span class="n">handler_name</span> <span class="o">=</span> <span class="s">&#39;maven_plugin&#39;</span>
+
+    <span class="n">maven_filters</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;apache_maven_plugin_shortname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea&#39;</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;codehaus_maven_plugin_shortname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc&#39;</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;apache_maven_plugin_artifact_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;maven\-(</span><span class="si">%(apache_maven_plugin_shortname)s</span><span class="s">)\-plugin&#39;</span> <span class="o">%</span> <span class="n">maven_filters</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;codehaus_maven_plugin_artifact_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;(</span><span class="si">%(codehaus_maven_plugin_shortname)s</span><span class="s">)\-maven\-plugin&#39;</span> <span class="o">%</span> <span class="n">maven_filters</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;maven_plugin_version&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;[a-zA-Z0-9\.-]+&#39;</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;maven_plugin_goal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;[a-zA-Z-]+&#39;</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;maven_plugin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;(</span><span class="si">%(apache_maven_plugin_artifact_id)s</span><span class="s">|</span><span class="si">%(codehaus_maven_plugin_artifact_id)s</span><span class="s">)(:</span><span class="si">%(maven_plugin_version)s</span><span class="s">:</span><span class="si">%(maven_plugin_goal)s</span><span class="s">)?&#39;</span> <span class="o">%</span> <span class="n">maven_filters</span>
+    <span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;maven_plugin_named_groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;(?P&lt;artifact_id&gt;</span><span class="si">%(apache_maven_plugin_artifact_id)s</span><span class="s">|</span><span class="si">%(codehaus_maven_plugin_artifact_id)s</span><span class="s">)(:</span><span class="si">%(maven_plugin_version)s</span><span class="s">:(?P&lt;goal&gt;</span><span class="si">%(maven_plugin_goal)s</span><span class="s">))?&#39;</span> <span class="o">%</span> <span class="n">maven_filters</span>
+
+    <span class="n">match</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">b</span><span class="si">%(maven_plugin)s</span><span class="se">\\</span><span class="s">b&#39;</span> <span class="o">%</span> <span class="n">maven_filters</span>
+
+<div class="viewcode-block" id="MavenPluginURLHandler.callback"><a class="viewcode-back" href="../../../terminatorlib.plugins.html#terminatorlib.plugins.maven.MavenPluginURLHandler.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">MavenPluginURLHandler</span><span class="o">.</span><span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;maven_plugin_named_groups&#39;</span><span class="p">],</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">artifactid</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;artifact_id&#39;</span><span class="p">)</span>
+            <span class="n">goal</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;goal&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">artifactid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">MavenPluginURLHandler</span><span class="o">.</span><span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;apache_maven_plugin_artifact_id&#39;</span><span class="p">],</span> <span class="n">artifactid</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">goal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">&#39;http://maven.apache.org/plugins/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">-mojo.html&#39;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">artifactid</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">&#39;http://maven.apache.org/plugins/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">artifactid</span>
+                <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">MavenPluginURLHandler</span><span class="o">.</span><span class="n">maven_filters</span><span class="p">[</span><span class="s">&#39;codehaus_maven_plugin_artifact_id&#39;</span><span class="p">],</span> <span class="n">artifactid</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">goal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">&#39;http://mojo.codehaus.org/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">-mojo.html&#39;</span> <span class="o">%</span> <span class="p">(</span> <span class="n">artifactid</span><span class="p">,</span> <span class="n">goal</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="s">&#39;http://mojo.codehaus.org/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">artifactid</span>
+
+        <span class="n">plugin</span><span class="o">.</span><span class="n">err</span><span class="p">(</span><span class="s">&quot;Wrong match &#39;</span><span class="si">%s</span><span class="s">&#39; for MavenPluginURLHandler.&quot;</span> <span class="o">%</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;&#39;</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

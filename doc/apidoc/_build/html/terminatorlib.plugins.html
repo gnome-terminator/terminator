@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.plugins package &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="index.html"/>
+        <link rel="up" title="terminatorlib package" href="terminatorlib.html"/>
+        <link rel="prev" title="terminatorlib.configobj package" href="terminatorlib.configobj.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="terminatorlib.html">terminatorlib package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="terminatorlib.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="terminatorlib.html">terminatorlib package</a> &raquo;</li>
+      
+    <li>terminatorlib.plugins package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/terminatorlib.plugins.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="terminatorlib-plugins-package">
+<h1>terminatorlib.plugins package<a class="headerlink" href="#terminatorlib-plugins-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-terminatorlib.plugins.activitywatch">
+<span id="terminatorlib-plugins-activitywatch-module"></span><h2>terminatorlib.plugins.activitywatch module<a class="headerlink" href="#module-terminatorlib.plugins.activitywatch" title="Permalink to this headline">¶</a></h2>
+<p>activitywatch.py - Terminator Plugin to watch a terminal for activity</p>
+<dl class="class">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.activitywatch.</code><code class="descname">ActivityWatch</code><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.MenuItem" title="terminatorlib.plugin.MenuItem"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.MenuItem</span></code></a></p>
+<p>Add custom commands to the terminal menu</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>menuitems</em>, <em>menu</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add our menu item to the menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.notify">
+<code class="descname">notify</code><span class="sig-paren">(</span><em>_vte</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch.notify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.notify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify that a terminal did something</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.unwatch">
+<code class="descname">unwatch</code><span class="sig-paren">(</span><em>_widget</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch.unwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.unwatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop watching a terminal</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.watch">
+<code class="descname">watch</code><span class="sig-paren">(</span><em>_widget</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#ActivityWatch.watch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.watch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Watch a terminal</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['terminal_menu']</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.last_notifies">
+<code class="descname">last_notifies</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.last_notifies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.timers">
+<code class="descname">timers</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.timers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.ActivityWatch.watches">
+<code class="descname">watches</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.ActivityWatch.watches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.activitywatch.</code><code class="descname">InactivityWatch</code><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.MenuItem" title="terminatorlib.plugin.MenuItem"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.MenuItem</span></code></a></p>
+<p>Add custom commands to notify when a terminal goes inactive</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>menuitems</em>, <em>menu</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add our menu item to the menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.check_times">
+<code class="descname">check_times</code><span class="sig-paren">(</span><em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.check_times"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.check_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this terminal has gone silent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.reset_timer">
+<code class="descname">reset_timer</code><span class="sig-paren">(</span><em>_vte</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.reset_timer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.reset_timer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the last-changed time for a terminal</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.unwatch">
+<code class="descname">unwatch</code><span class="sig-paren">(</span><em>_vte</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.unwatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.unwatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unwatch a terminal</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.watch">
+<code class="descname">watch</code><span class="sig-paren">(</span><em>_widget</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/activitywatch.html#InactivityWatch.watch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.watch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Watch a terminal</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['terminal_menu']</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.last_activities">
+<code class="descname">last_activities</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.last_activities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.timers">
+<code class="descname">timers</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.timers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.activitywatch.InactivityWatch.watches">
+<code class="descname">watches</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.activitywatch.InactivityWatch.watches" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.custom_commands">
+<span id="terminatorlib-plugins-custom-commands-module"></span><h2>terminatorlib.plugins.custom_commands module<a class="headerlink" href="#module-terminatorlib.plugins.custom_commands" title="Permalink to this headline">¶</a></h2>
+<p>custom_commands.py - Terminator Plugin to add custom command menu entries</p>
+<dl class="class">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.custom_commands.</code><code class="descname">CustomCommandsMenu</code><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.MenuItem" title="terminatorlib.plugin.MenuItem"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.MenuItem</span></code></a></p>
+<p>Add custom commands to the terminal menu</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu._create_command_dialog">
+<code class="descname">_create_command_dialog</code><span class="sig-paren">(</span><em>enabled_var=False</em>, <em>name_var=''</em>, <em>command_var=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu._create_command_dialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu._create_command_dialog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu._error">
+<code class="descname">_error</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu._error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu._error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu._execute">
+<code class="descname">_execute</code><span class="sig-paren">(</span><em>widget</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu._execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu._execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu._save_config">
+<code class="descname">_save_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu._save_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu._save_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>menuitems</em>, <em>menu</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add our menu items to the menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.configure">
+<code class="descname">configure</code><span class="sig-paren">(</span><em>widget</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.configure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_delete">
+<code class="descname">on_delete</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_edit">
+<code class="descname">on_edit</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_edit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_edit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_go_down">
+<code class="descname">on_go_down</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_go_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_go_down" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_go_up">
+<code class="descname">on_go_up</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_go_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_go_up" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_goto_last">
+<code class="descname">on_goto_last</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_goto_last"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_goto_last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_goto_top">
+<code class="descname">on_goto_top</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_goto_top"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_goto_top" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_new">
+<code class="descname">on_new</code><span class="sig-paren">(</span><em>button</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_new" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_selection_changed">
+<code class="descname">on_selection_changed</code><span class="sig-paren">(</span><em>selection</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_selection_changed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_selection_changed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_toggled">
+<code class="descname">on_toggled</code><span class="sig-paren">(</span><em>widget</em>, <em>path</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.on_toggled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.on_toggled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.update_cmd_list">
+<code class="descname">update_cmd_list</code><span class="sig-paren">(</span><em>store</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/custom_commands.html#CustomCommandsMenu.update_cmd_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.update_cmd_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['terminal_menu']</em><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.cmd_list">
+<code class="descname">cmd_list</code><em class="property"> = {}</em><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.cmd_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.custom_commands.CustomCommandsMenu.conf_file">
+<code class="descname">conf_file</code><em class="property"> = '/home/sboddy/.config/terminator/custom_commands'</em><a class="headerlink" href="#terminatorlib.plugins.custom_commands.CustomCommandsMenu.conf_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.logger">
+<span id="terminatorlib-plugins-logger-module"></span><h2>terminatorlib.plugins.logger module<a class="headerlink" href="#module-terminatorlib.plugins.logger" title="Permalink to this headline">¶</a></h2>
+<p>logger.py - Terminator Plugin to log &#8216;content&#8217; of individual
+terminals</p>
+<dl class="class">
+<dt id="terminatorlib.plugins.logger.Logger">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.logger.</code><code class="descname">Logger</code><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.MenuItem" title="terminatorlib.plugin.MenuItem"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.MenuItem</span></code></a></p>
+<p>Add custom command to the terminal menu</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>menuitems</em>, <em>menu</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add save menu item to the menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8216;contents-changed&#8217; callback</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.start_logger">
+<code class="descname">start_logger</code><span class="sig-paren">(</span><em>_widget</em>, <em>Terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.start_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.start_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle menu item callback by saving text to a file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.stop_logger">
+<code class="descname">stop_logger</code><span class="sig-paren">(</span><em>_widget</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.stop_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.stop_logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.logger.Logger.write_content">
+<code class="descname">write_content</code><span class="sig-paren">(</span><em>terminal</em>, <em>row_start</em>, <em>col_start</em>, <em>row_end</em>, <em>col_end</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/logger.html#Logger.write_content"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.write_content" title="Permalink to this definition">¶</a></dt>
+<dd><p>Final function to write a file</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.logger.Logger.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['terminal_menu']</em><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.logger.Logger.dialog_action">
+<code class="descname">dialog_action</code><em class="property"> = &lt;enum GTK_FILE_CHOOSER_ACTION_SAVE of type GtkFileChooserAction&gt;</em><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.dialog_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.logger.Logger.dialog_buttons">
+<code class="descname">dialog_buttons</code><em class="property"> = ('gtk-cancel', &lt;enum GTK_RESPONSE_CANCEL of type GtkResponseType&gt;, 'gtk-save', &lt;enum GTK_RESPONSE_OK of type GtkResponseType&gt;)</em><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.dialog_buttons" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.logger.Logger.loggers">
+<code class="descname">loggers</code><em class="property"> = None</em><a class="headerlink" href="#terminatorlib.plugins.logger.Logger.loggers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.maven">
+<span id="terminatorlib-plugins-maven-module"></span><h2>terminatorlib.plugins.maven module<a class="headerlink" href="#module-terminatorlib.plugins.maven" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.maven.</code><code class="descname">MavenPluginURLHandler</code><a class="reference internal" href="_modules/terminatorlib/plugins/maven.html#MavenPluginURLHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.URLHandler" title="terminatorlib.plugin.URLHandler"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.URLHandler</span></code></a></p>
+<p>Maven plugin handler. If the name of a Maven plugin is
+detected, it is turned into a link to its documentation site.
+If a Maven plugin goal is detected, the link points to the
+particular goal page. Only Apache (org.apache.maven.plugins)
+and Codehaus (org.codehaus.mojo) plugins are supported.</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/maven.html#MavenPluginURLHandler.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler.callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['url_handler']</em><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler.handler_name">
+<code class="descname">handler_name</code><em class="property"> = 'maven_plugin'</em><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler.handler_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler.match">
+<code class="descname">match</code><em class="property"> = '\\b(maven\\-(clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea)\\-plugin|(jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc)\\-maven\\-plugin)(:[a-zA-Z0-9\\.-]+:[a-zA-Z-]+)?\\b'</em><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler.match" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.maven.MavenPluginURLHandler.maven_filters">
+<code class="descname">maven_filters</code><em class="property"> = {'codehaus_maven_plugin_shortname': 'jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc', 'maven_plugin_named_groups': '(?P&lt;artifact_id&gt;maven\\-(clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea)\\-plugin|(jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc)\\-maven\\-plugin)(:[a-zA-Z0-9\\.-]+:(?P&lt;goal&gt;[a-zA-Z-]+))?', 'apache_maven_plugin_artifact_id': 'maven\\-(clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea)\\-plugin', 'maven_plugin': '(maven\\-(clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea)\\-plugin|(jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc)\\-maven\\-plugin)(:[a-zA-Z0-9\\.-]+:[a-zA-Z-]+)?', 'apache_maven_plugin_shortname': 'clean|compiler|deploy|failsafe|install|resources|site|surefire|verifier|ear|ejb|jar|rar|war|shade|changelog|changes|checkstyle|clover|doap|docck|javadoc|jxr|linkcheck|pmd|project-info-reports|surefire-report|ant|antrun|archetype|assembly|dependency|enforcer|gpg|help|invoker|jarsigner|one|patch|pdf|plugin|release|reactor|remote-resources|repository|scm|source|stage|toolchains|eclipse|idea', 'maven_plugin_goal': '[a-zA-Z-]+', 'codehaus_maven_plugin_artifact_id': '(jboss|jboss-packaging|tomcat|was6|antlr|antlr3|aspectj|axistools|castor|commons-attributes|gwt|hibernate3|idlj|javacc|jaxb2|jpox|jspc|openjpa|rmic|sablecc|sqlj|sysdeo-tomcat|xmlbeans|xdoclet|netbeans-freeform|nbm|clirr|cobertura|taglist|scmchangelog|findbugs|fitnesse|selenium|animal-sniffer|appassembler|build-helper|exec|keytool|latex|ounce|rpm|sql|versions|apt|cbuilds|jspc|native|retrotranslator|springws|smc|ideauidesigner|dita|docbook|javancss|jdepend|dashboard|emma|sonar|jruby|dbunit|shitty|batik|buildnumber|ianal|jalopy|jasperreports|l10n|minijar|native2ascii|osxappbundle|properties|solaris|truezip|unix|virtualization|wagon|webstart|xml|argouml|dbupgrade|chronos|ckjm|codenarc|deb|ec2|enchanter|ejbdoclet|graphing|j2me|javascript tools|jardiff|kodo|macker|springbeandoc|mock-repository|nsis|pomtools|setup|simian-report|syslog|visibroker|weblogic|webdoclet|xjc|xsltc)\\-maven\\-plugin', 'maven_plugin_version': '[a-zA-Z0-9\\.-]+'}</em><a class="headerlink" href="#terminatorlib.plugins.maven.MavenPluginURLHandler.maven_filters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.terminalshot">
+<span id="terminatorlib-plugins-terminalshot-module"></span><h2>terminatorlib.plugins.terminalshot module<a class="headerlink" href="#module-terminatorlib.plugins.terminalshot" title="Permalink to this headline">¶</a></h2>
+<p>terminalshot.py - Terminator Plugin to take &#8216;screenshots&#8217; of individual
+terminals</p>
+<dl class="class">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.terminalshot.</code><code class="descname">TerminalShot</code><a class="reference internal" href="_modules/terminatorlib/plugins/terminalshot.html#TerminalShot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.MenuItem" title="terminatorlib.plugin.MenuItem"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.MenuItem</span></code></a></p>
+<p>Add custom commands to the terminal menu</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/terminalshot.html#TerminalShot.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>menuitems</em>, <em>menu</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/terminalshot.html#TerminalShot.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add our menu items to the menu</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.terminalshot">
+<code class="descname">terminalshot</code><span class="sig-paren">(</span><em>_widget</em>, <em>terminal</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/terminalshot.html#TerminalShot.terminalshot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.terminalshot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the taking, prompting and saving of a terminalshot</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['terminal_menu']</em><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.dialog_action">
+<code class="descname">dialog_action</code><em class="property"> = &lt;enum GTK_FILE_CHOOSER_ACTION_SAVE of type GtkFileChooserAction&gt;</em><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.dialog_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.terminalshot.TerminalShot.dialog_buttons">
+<code class="descname">dialog_buttons</code><em class="property"> = ('gtk-cancel', &lt;enum GTK_RESPONSE_CANCEL of type GtkResponseType&gt;, 'gtk-save', &lt;enum GTK_RESPONSE_OK of type GtkResponseType&gt;)</em><a class="headerlink" href="#terminatorlib.plugins.terminalshot.TerminalShot.dialog_buttons" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.testplugin">
+<span id="terminatorlib-plugins-testplugin-module"></span><h2>terminatorlib.plugins.testplugin module<a class="headerlink" href="#module-terminatorlib.plugins.testplugin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="terminatorlib.plugins.testplugin.TestPlugin">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.testplugin.</code><code class="descname">TestPlugin</code><a class="reference internal" href="_modules/terminatorlib/plugins/testplugin.html#TestPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.testplugin.TestPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.Plugin" title="terminatorlib.plugin.Plugin"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.Plugin</span></code></a></p>
+<dl class="method">
+<dt id="terminatorlib.plugins.testplugin.TestPlugin.do_test">
+<code class="descname">do_test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/testplugin.html#TestPlugin.do_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.testplugin.TestPlugin.do_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.testplugin.TestPlugin.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['test']</em><a class="headerlink" href="#terminatorlib.plugins.testplugin.TestPlugin.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins.url_handlers">
+<span id="terminatorlib-plugins-url-handlers-module"></span><h2>terminatorlib.plugins.url_handlers module<a class="headerlink" href="#module-terminatorlib.plugins.url_handlers" title="Permalink to this headline">¶</a></h2>
+<p>url_handlers.py - Default plugins for URL handling</p>
+<dl class="class">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.url_handlers.</code><code class="descname">APTURLHandler</code><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#APTURLHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.URLHandler" title="terminatorlib.plugin.URLHandler"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.URLHandler</span></code></a></p>
+<p>APT URL handler. If there is a URL that looks like an apturl, handle
+it appropriately</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#APTURLHandler.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actually we don&#8217;t need to do anything for this to work</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['url_handler']</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.handler_name">
+<code class="descname">handler_name</code><em class="property"> = 'apturl'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.handler_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.match">
+<code class="descname">match</code><em class="property"> = '\\bapt:.*\\b'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.match" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.namecopy">
+<code class="descname">namecopy</code><em class="property"> = 'Copy package URI'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.namecopy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.APTURLHandler.nameopen">
+<code class="descname">nameopen</code><em class="property"> = 'Open software manager'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.APTURLHandler.nameopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.url_handlers.</code><code class="descname">LaunchpadBugURLHandler</code><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#LaunchpadBugURLHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.URLHandler" title="terminatorlib.plugin.URLHandler"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.URLHandler</span></code></a></p>
+<p>Launchpad Bug URL handler. If the URL looks like a Launchpad changelog
+closure entry... &#8216;LP: #12345&#8217; then it should be transformed into a 
+Launchpad Bug URL</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#LaunchpadBugURLHandler.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for the number in the supplied string and return it as a URL</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['url_handler']</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.handler_name">
+<code class="descname">handler_name</code><em class="property"> = 'launchpad_bug'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.handler_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.match">
+<code class="descname">match</code><em class="property"> = '\\b(lp|LP):?\\s?#?[0-9]+(,\\s*#?[0-9]+)*\\b'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.match" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.namecopy">
+<code class="descname">namecopy</code><em class="property"> = 'Copy bug URL'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.namecopy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.nameopen">
+<code class="descname">nameopen</code><em class="property"> = 'Open Launchpad bug'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadBugURLHandler.nameopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler">
+<em class="property">class </em><code class="descclassname">terminatorlib.plugins.url_handlers.</code><code class="descname">LaunchpadCodeURLHandler</code><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#LaunchpadCodeURLHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="terminatorlib.html#terminatorlib.plugin.URLHandler" title="terminatorlib.plugin.URLHandler"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.plugin.URLHandler</span></code></a></p>
+<p>Launchpad Code URL handler. If the URL looks like a Launchpad project or
+branch entry then it should be transformed into a code.launchpad.net URL</p>
+<dl class="method">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.callback">
+<code class="descname">callback</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/plugins/url_handlers.html#LaunchpadCodeURLHandler.callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Look for the number in the supplied string and return it as a URL</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.capabilities">
+<code class="descname">capabilities</code><em class="property"> = ['url_handler']</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.capabilities" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.handler_name">
+<code class="descname">handler_name</code><em class="property"> = 'launchpad_code'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.handler_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.lpfilters">
+<code class="descname">lpfilters</code><em class="property"> = {'project': '[a-z0-9]{1}[a-z0-9+.-]+', 'series': '[a-z0-9]{1}[a-z0-9+.-]+', 'group': '~[a-z0-9]{1}[a-z0-9+.-]+', 'branch': '[a-zA-Z0-9]{1}[a-zA-Z0-9_+&#64;.-]+'}</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.lpfilters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.match">
+<code class="descname">match</code><em class="property"> = '\\b((lp|LP):[a-z0-9]{1}[a-z0-9+.-]+(/[a-z0-9]{1}[a-z0-9+.-]+)?|(lp|LP):~[a-z0-9]{1}[a-z0-9+.-]+/([a-z0-9]{1}[a-z0-9+.-]+|\\+junk)/[a-zA-Z0-9]{1}[a-zA-Z0-9_+&#64;.-]+)\\b'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.match" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.namecopy">
+<code class="descname">namecopy</code><em class="property"> = 'Copy branch URL'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.namecopy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.nameopen">
+<code class="descname">nameopen</code><em class="property"> = 'Open Launchpad branch'</em><a class="headerlink" href="#terminatorlib.plugins.url_handlers.LaunchpadCodeURLHandler.nameopen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.plugins">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-terminatorlib.plugins" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="terminatorlib.configobj.html" class="btn btn-neutral" title="terminatorlib.configobj package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

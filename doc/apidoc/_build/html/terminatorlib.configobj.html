@@ -1,0 +1,1675 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.configobj package &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="index.html"/>
+        <link rel="up" title="terminatorlib package" href="terminatorlib.html"/>
+        <link rel="next" title="terminatorlib.plugins package" href="terminatorlib.plugins.html"/>
+        <link rel="prev" title="terminatorlib package" href="terminatorlib.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="terminatorlib.html">terminatorlib package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="terminatorlib.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="terminatorlib.html">terminatorlib package</a> &raquo;</li>
+      
+    <li>terminatorlib.configobj package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/terminatorlib.configobj.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="terminatorlib-configobj-package">
+<h1>terminatorlib.configobj package<a class="headerlink" href="#terminatorlib-configobj-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-terminatorlib.configobj.configobj">
+<span id="terminatorlib-configobj-configobj-module"></span><h2>terminatorlib.configobj.configobj module<a class="headerlink" href="#module-terminatorlib.configobj.configobj" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.ConfigObjError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">ConfigObjError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObjError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObjError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.SyntaxError</span></code></p>
+<p>This is the base class for all errors that ConfigObj raises.
+It is a subclass of SyntaxError.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObjError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObjError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObjError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.NestingError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">NestingError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#NestingError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.NestingError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>This error indicates a level of nesting that doesn&#8217;t match.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.ParseError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">ParseError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ParseError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>This error indicates that a line is badly written.
+It is neither a valid <code class="docutils literal"><span class="pre">key</span> <span class="pre">=</span> <span class="pre">value</span></code> line,
+nor a valid section marker line.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.DuplicateError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">DuplicateError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#DuplicateError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.DuplicateError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>The keyword or section specified already exists.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.ConfigspecError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">ConfigspecError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigspecError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigspecError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>An error occured whilst parsing a configspec.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.InterpolationError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">InterpolationError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#InterpolationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.InterpolationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>Base class for the two interpolation errors.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.InterpolationLoopError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">InterpolationLoopError</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#InterpolationLoopError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.InterpolationLoopError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.InterpolationError" title="terminatorlib.configobj.configobj.InterpolationError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.InterpolationError</span></code></a></p>
+<p>Maximum interpolation depth exceeded in string interpolation.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.InterpolationLoopError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#InterpolationLoopError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.InterpolationLoopError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.MissingInterpolationOption">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">MissingInterpolationOption</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#MissingInterpolationOption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.MissingInterpolationOption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.InterpolationError" title="terminatorlib.configobj.configobj.InterpolationError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.InterpolationError</span></code></a></p>
+<p>A value specified for interpolation was missing.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.MissingInterpolationOption.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>option</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#MissingInterpolationOption.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.MissingInterpolationOption.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.RepeatSectionError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">RepeatSectionError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#RepeatSectionError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.RepeatSectionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>This error indicates additional sections in a section with a
+<code class="docutils literal"><span class="pre">__many__</span></code> (repeated) section.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.ReloadError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">ReloadError</code><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ReloadError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ReloadError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.IOError</span></code></p>
+<p>A &#8216;reload&#8217; operation failed.
+This exception is a subclass of <code class="docutils literal"><span class="pre">IOError</span></code>.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ReloadError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ReloadError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ReloadError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.UnreprError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">UnreprError</code><span class="sig-paren">(</span><em>message=''</em>, <em>line_number=None</em>, <em>line=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#UnreprError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.UnreprError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.configobj.ConfigObjError" title="terminatorlib.configobj.configobj.ConfigObjError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.ConfigObjError</span></code></a></p>
+<p>An error parsing in unrepr mode.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.configobj.UnknownType">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">UnknownType</code><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#UnknownType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.UnknownType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.configobj.configobj.ConfigObj">
+<em class="property">class </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">ConfigObj</code><span class="sig-paren">(</span><em>infile=None</em>, <em>options=None</em>, <em>configspec=None</em>, <em>encoding=None</em>, <em>interpolation=True</em>, <em>raise_errors=False</em>, <em>list_values=True</em>, <em>create_empty=False</em>, <em>file_error=False</em>, <em>stringify=True</em>, <em>indent_type=None</em>, <em>default_encoding=None</em>, <em>unrepr=False</em>, <em>write_empty_values=False</em>, <em>_inspec=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.configobj.Section</span></code></p>
+<p>An object to read, create, and write config files.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>infile=None</em>, <em>options=None</em>, <em>configspec=None</em>, <em>encoding=None</em>, <em>interpolation=True</em>, <em>raise_errors=False</em>, <em>list_values=True</em>, <em>create_empty=False</em>, <em>file_error=False</em>, <em>stringify=True</em>, <em>indent_type=None</em>, <em>default_encoding=None</em>, <em>unrepr=False</em>, <em>write_empty_values=False</em>, <em>_inspec=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a config file or create a config file object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._a_to_u">
+<code class="descname">_a_to_u</code><span class="sig-paren">(</span><em>aString</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._a_to_u"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._a_to_u" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode ASCII strings to unicode if a self.encoding is specified.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._decode">
+<code class="descname">_decode</code><span class="sig-paren">(</span><em>infile</em>, <em>encoding</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode infile to unicode. Using the specified encoding.</p>
+<p>if is a string, it also needs converting to a list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._decode_element">
+<code class="descname">_decode_element</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._decode_element"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._decode_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode element to unicode if necessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._get_single_quote">
+<code class="descname">_get_single_quote</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._get_single_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._get_single_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._get_triple_quote">
+<code class="descname">_get_triple_quote</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._get_triple_quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._get_triple_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._handle_bom">
+<code class="descname">_handle_bom</code><span class="sig-paren">(</span><em>infile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._handle_bom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._handle_bom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle any BOM, and decode if necessary.</p>
+<p>If an encoding is specified, that <em>must</em> be used - but the BOM should
+still be removed (and the BOM attribute set).</p>
+<p>(If the encoding is wrongly specified, then a BOM for an alternative
+encoding won&#8217;t be discovered or removed.)</p>
+<p>If an encoding is not specified, UTF8 or UTF16 BOM will be detected and
+removed. The BOM attribute will be set. UTF16 will be decoded to
+unicode.</p>
+<p>NOTE: This method must not be called with an empty <code class="docutils literal"><span class="pre">infile</span></code>.</p>
+<p>Specifying the <em>wrong</em> encoding is likely to cause a
+<code class="docutils literal"><span class="pre">UnicodeDecodeError</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">infile</span></code> must always be returned as a list of lines, but may be
+passed in as a single string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._handle_comment">
+<code class="descname">_handle_comment</code><span class="sig-paren">(</span><em>comment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._handle_comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._handle_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deal with a comment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._handle_configspec">
+<code class="descname">_handle_configspec</code><span class="sig-paren">(</span><em>configspec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._handle_configspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._handle_configspec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the configspec.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._handle_error">
+<code class="descname">_handle_error</code><span class="sig-paren">(</span><em>text</em>, <em>ErrorClass</em>, <em>infile</em>, <em>cur_index</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._handle_error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._handle_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an error according to the error settings.</p>
+<p>Either raise the error or store it.
+The error will have occured at <code class="docutils literal"><span class="pre">cur_index</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._handle_value">
+<code class="descname">_handle_value</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._handle_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._handle_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a value string, unquote, remove comment,
+handle lists. (including empty and single member lists)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._initialise">
+<code class="descname">_initialise</code><span class="sig-paren">(</span><em>options=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._initialise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._initialise" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._load">
+<code class="descname">_load</code><span class="sig-paren">(</span><em>infile</em>, <em>configspec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._match_depth">
+<code class="descname">_match_depth</code><span class="sig-paren">(</span><em>sect</em>, <em>depth</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._match_depth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._match_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a section and a depth level, walk back through the sections
+parents to see if the depth level matches a previous section.</p>
+<p>Return a reference to the right section,
+or raise a SyntaxError.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._multiline">
+<code class="descname">_multiline</code><span class="sig-paren">(</span><em>value</em>, <em>infile</em>, <em>cur_index</em>, <em>maxline</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._multiline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._multiline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the value, where we are in a multiline situation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._parse">
+<code class="descname">_parse</code><span class="sig-paren">(</span><em>infile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Actually parse the config file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._quote">
+<code class="descname">_quote</code><span class="sig-paren">(</span><em>value</em>, <em>multiline=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._quote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a safely quoted version of a value.</p>
+<p>Raise a ConfigObjError if the value cannot be safely quoted.
+If multiline is <code class="docutils literal"><span class="pre">True</span></code> (default) then use triple quotes
+if necessary.</p>
+<ul class="simple">
+<li>Don&#8217;t quote values that don&#8217;t need it.</li>
+<li>Recursively quote members of a list and return a comma joined list.</li>
+<li>Multiline is <code class="docutils literal"><span class="pre">False</span></code> for lists.</li>
+<li>Obey list syntax for empty and single member lists.</li>
+</ul>
+<p>If <code class="docutils literal"><span class="pre">list_values=False</span></code> then the value is only quoted if it contains
+a <code class="docutils literal"><span class="pre">\n</span></code> (is multiline) or &#8216;#&#8217;.</p>
+<p>If <code class="docutils literal"><span class="pre">write_empty_values</span></code> is set, and the value is an empty string, it
+won&#8217;t be quoted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._set_configspec">
+<code class="descname">_set_configspec</code><span class="sig-paren">(</span><em>section</em>, <em>copy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._set_configspec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._set_configspec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called by validate. Handles setting the configspec on subsections
+including sections to be validated by __many__</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._str">
+<code class="descname">_str</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used by <code class="docutils literal"><span class="pre">stringify</span></code> within validate, to turn non-string values
+into strings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._unquote">
+<code class="descname">_unquote</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._unquote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._unquote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an unquoted version of a value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._write_line">
+<code class="descname">_write_line</code><span class="sig-paren">(</span><em>indent_string</em>, <em>entry</em>, <em>this_entry</em>, <em>comment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._write_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._write_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write an individual line, for the write method</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._write_marker">
+<code class="descname">_write_marker</code><span class="sig-paren">(</span><em>indent_string</em>, <em>depth</em>, <em>entry</em>, <em>comment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj._write_marker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._write_marker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a section marker line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.reload">
+<code class="descname">reload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.reload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reload a ConfigObj from file.</p>
+<p>This method raises a <code class="docutils literal"><span class="pre">ReloadError</span></code> if the ConfigObj doesn&#8217;t have
+a filename attribute pointing to a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear ConfigObj instance and restore to &#8216;freshly created&#8217; state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.validate">
+<code class="descname">validate</code><span class="sig-paren">(</span><em>validator</em>, <em>preserve_errors=False</em>, <em>copy=False</em>, <em>section=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the ConfigObj against a configspec.</p>
+<p>It uses the <code class="docutils literal"><span class="pre">validator</span></code> object from <em>validate.py</em>.</p>
+<p>To run <code class="docutils literal"><span class="pre">validate</span></code> on the current ConfigObj, call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">test</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(Normally having previously passed in the configspec when the ConfigObj
+was created - you can dynamically assign a dictionary of checks to the
+<code class="docutils literal"><span class="pre">configspec</span></code> attribute of a section though).</p>
+<p>It returns <code class="docutils literal"><span class="pre">True</span></code> if everything passes, or a dictionary of
+pass/fails (True/False). If every member of a subsection passes, it
+will just have the value <code class="docutils literal"><span class="pre">True</span></code>. (It also returns <code class="docutils literal"><span class="pre">False</span></code> if all
+members fail).</p>
+<p>In addition, it converts the values from strings to their native
+types if their checks pass (and <code class="docutils literal"><span class="pre">stringify</span></code> is set).</p>
+<p>If <code class="docutils literal"><span class="pre">preserve_errors</span></code> is <code class="docutils literal"><span class="pre">True</span></code> (<code class="docutils literal"><span class="pre">False</span></code> is default) then instead
+of a marking a fail with a <code class="docutils literal"><span class="pre">False</span></code>, it will preserve the actual
+exception object. This can contain info about the reason for failure.
+For example the <code class="docutils literal"><span class="pre">VdtValueTooSmallError</span></code> indicates that the value
+supplied was too small. If a value (or section) is missing it will
+still be marked as <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p>You must have the validate module to use <code class="docutils literal"><span class="pre">preserve_errors=True</span></code>.</p>
+<p>You can then use the <code class="docutils literal"><span class="pre">flatten_errors</span></code> function to turn your nested
+results dictionary into a flattened list of failures - useful for
+displaying meaningful error messages.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.ConfigObj.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>outfile=None</em>, <em>section=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#ConfigObj.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the current ConfigObj as a file</p>
+<p>tekNico: FIXME: use StringIO instead of real files</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">filename</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="s">&#39;test.ini&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">write</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">==</span> <span class="n">ConfigObj</span><span class="p">(</span><span class="s">&#39;test.ini&#39;</span><span class="p">,</span> <span class="n">raise_errors</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;test.ini&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._bools">
+<code class="descname">_bools</code><em class="property"> = {'1': True, 'on': True, 'off': False, '0': False, 'no': False, 'false': False, 'yes': True, 'true': True}</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._bools" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._keyword">
+<code class="descname">_keyword</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._keyword" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._listvalueexp">
+<code class="descname">_listvalueexp</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._listvalueexp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._multi_line_double">
+<code class="descname">_multi_line_double</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._multi_line_double" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._multi_line_single">
+<code class="descname">_multi_line_single</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._multi_line_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._nolistvalue">
+<code class="descname">_nolistvalue</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._nolistvalue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._sectionmarker">
+<code class="descname">_sectionmarker</code><em class="property"> = &lt;_sre.SRE_Pattern object at 0x8f8c8b0&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._sectionmarker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._single_line_double">
+<code class="descname">_single_line_double</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._single_line_double" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._single_line_single">
+<code class="descname">_single_line_single</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._single_line_single" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._triple_quote">
+<code class="descname">_triple_quote</code><em class="property"> = {&quot;'''&quot;: (&lt;_sre.SRE_Pattern object at 0x42de2138&gt;, &lt;_sre.SRE_Pattern object at 0x42ab4e20&gt;), '&quot;&quot;&quot;': (&lt;_sre.SRE_Pattern object at 0x42de2250&gt;, &lt;_sre.SRE_Pattern object at 0x42ab4c20&gt;)}</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._triple_quote" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.configobj.ConfigObj._valueexp">
+<code class="descname">_valueexp</code><em class="property"> = &lt;_sre.SRE_Pattern object at 0x8fef6f8&gt;</em><a class="headerlink" href="#terminatorlib.configobj.configobj.ConfigObj._valueexp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.configobj.configobj.SimpleVal">
+<em class="property">class </em><code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">SimpleVal</code><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#SimpleVal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.SimpleVal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A simple validator.
+Can be used to check that all members expected are present.</p>
+<p>To use it, provide a configspec with all your members in (the value given
+will be ignored). Pass an instance of <code class="docutils literal"><span class="pre">SimpleVal</span></code> to the <code class="docutils literal"><span class="pre">validate</span></code>
+method of your <code class="docutils literal"><span class="pre">ConfigObj</span></code>. <code class="docutils literal"><span class="pre">validate</span></code> will return <code class="docutils literal"><span class="pre">True</span></code> if all
+members are present, or a dictionary with True/False meaning
+present/missing. (Whole missing sections will be replaced with <code class="docutils literal"><span class="pre">False</span></code>)</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.SimpleVal.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#SimpleVal.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.SimpleVal.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.configobj.SimpleVal.check">
+<code class="descname">check</code><span class="sig-paren">(</span><em>check</em>, <em>member</em>, <em>missing=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#SimpleVal.check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.SimpleVal.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dummy check method, always returns the value unchanged.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.configobj.flatten_errors">
+<code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">flatten_errors</code><span class="sig-paren">(</span><em>cfg</em>, <em>res</em>, <em>levels=None</em>, <em>results=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#flatten_errors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.flatten_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>An example function that will turn a nested dictionary of results
+(as returned by <code class="docutils literal"><span class="pre">ConfigObj.validate</span></code>) into a flat list.</p>
+<p><code class="docutils literal"><span class="pre">cfg</span></code> is the ConfigObj instance being checked, <code class="docutils literal"><span class="pre">res</span></code> is the results
+dictionary returned by <code class="docutils literal"><span class="pre">validate</span></code>.</p>
+<p>(This is a recursive function, so you shouldn&#8217;t use the <code class="docutils literal"><span class="pre">levels</span></code> or
+<code class="docutils literal"><span class="pre">results</span></code> arguments - they are used by the function.)</p>
+<p>Returns a list of keys that failed. Each member of the list is a tuple:</p>
+<div class="highlight-python"><div class="highlight"><pre>([list of sections...], key, result)
+</pre></div>
+</div>
+<p>If <code class="docutils literal"><span class="pre">validate</span></code> was called with <code class="docutils literal"><span class="pre">preserve_errors=False</span></code> (the default)
+then <code class="docutils literal"><span class="pre">result</span></code> will always be <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p><em>list of sections</em> is a flattened list of sections that the key was found
+in.</p>
+<p>If the section was missing (or a section was expected and a scalar provided
+- or vice-versa) then key will be <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<p>If the value (or section) was missing then <code class="docutils literal"><span class="pre">result</span></code> will be <code class="docutils literal"><span class="pre">False</span></code>.</p>
+<p>If <code class="docutils literal"><span class="pre">validate</span></code> was called with <code class="docutils literal"><span class="pre">preserve_errors=True</span></code> and a value
+was present, but failed the check, then <code class="docutils literal"><span class="pre">result</span></code> will be the exception
+object returned. You can use this as a string that describes the failure.</p>
+<p>For example <em>The value &#8220;3&#8221; is of the wrong type</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.configobj.get_extra_values">
+<code class="descclassname">terminatorlib.configobj.configobj.</code><code class="descname">get_extra_values</code><span class="sig-paren">(</span><em>conf</em>, <em>_prepend=()</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/configobj.html#get_extra_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.configobj.get_extra_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find all the values and sections not in the configspec from a validated
+ConfigObj.</p>
+<p><code class="docutils literal"><span class="pre">get_extra_values</span></code> returns a list of tuples where each tuple represents
+either an extra section, or an extra value.</p>
+<p>The tuples contain two values, a tuple representing the section the value 
+is in and the name of the extra values. For extra values in the top level
+section the first member will be an empty tuple. For values in the &#8216;foo&#8217;
+section the first member will be <code class="docutils literal"><span class="pre">('foo',)</span></code>. For members in the &#8216;bar&#8217;
+subsection of the &#8216;foo&#8217; section the first member will be <code class="docutils literal"><span class="pre">('foo',</span> <span class="pre">'bar')</span></code>.</p>
+<p>NOTE: If you call <code class="docutils literal"><span class="pre">get_extra_values</span></code> on a ConfigObj instance that hasn&#8217;t
+been validated it will return an empty list.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.configobj.validate">
+<span id="terminatorlib-configobj-validate-module"></span><h2>terminatorlib.configobj.validate module<a class="headerlink" href="#module-terminatorlib.configobj.validate" title="Permalink to this headline">¶</a></h2>
+<p>The Validator object is used to check that supplied values 
+conform to a specification.</p>
+<p>The value can be supplied as a string - e.g. from a config file.
+In this case the check will also <em>convert</em> the value to
+the required type. This allows you to add validation
+as a transparent layer to access data stored as strings.
+The validation checks that the data is correct <em>and</em>
+converts it to the expected type.</p>
+<p>Some standard checks are provided for basic data types.
+Additional checks are easy to write. They can be
+provided when the <code class="docutils literal"><span class="pre">Validator</span></code> is instantiated or
+added afterwards.</p>
+<p>The standard functions work with the following basic data types :</p>
+<ul class="simple">
+<li>integers</li>
+<li>floats</li>
+<li>booleans</li>
+<li>strings</li>
+<li>ip_addr</li>
+</ul>
+<p>plus lists of these datatypes</p>
+<p>Adding additional checks is done through coding simple functions.</p>
+<p>The full set of standard checks are :</p>
+<ul>
+<li><dl class="first docutils">
+<dt>&#8216;integer&#8217;: matches integer values (including negative)</dt>
+<dd><p class="first">Takes optional &#8216;min&#8217; and &#8216;max&#8217; arguments :</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">integer</span><span class="p">()</span>
+<span class="n">integer</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>  <span class="c"># any value from 3 to 9</span>
+<span class="n">integer</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c"># any positive value</span>
+<span class="n">integer</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;float&#8217;: matches float values</dt>
+<dd><p class="first last">Has the same parameters as the integer check.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;boolean&#8217;: matches boolean values - <code class="docutils literal"><span class="pre">True</span></code> or <code class="docutils literal"><span class="pre">False</span></code></dt>
+<dd><dl class="first docutils">
+<dt>Acceptable string values for True are :</dt>
+<dd><p class="first last">true, on, yes, 1</p>
+</dd>
+<dt>Acceptable string values for False are :</dt>
+<dd><p class="first last">false, off, no, 0</p>
+</dd>
+</dl>
+<p class="last">Any other value raises an error.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;ip_addr&#8217;: matches an Internet Protocol address, v.4, represented</dt>
+<dd><p class="first last">by a dotted-quad string, i.e. &#8216;1.2.3.4&#8217;.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;string&#8217;: matches any string.</dt>
+<dd><p class="first last">Takes optional keyword args &#8216;min&#8217; and &#8216;max&#8217;
+to specify min and max lengths of the string.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;list&#8217;: matches any list.</dt>
+<dd><p class="first last">Takes optional keyword args &#8216;min&#8217;, and &#8216;max&#8217; to specify min and
+max sizes of the list. (Always returns a list.)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;tuple&#8217;: matches any tuple.</dt>
+<dd><p class="first last">Takes optional keyword args &#8216;min&#8217;, and &#8216;max&#8217; to specify min and
+max sizes of the tuple. (Always returns a tuple.)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;int_list&#8217;: Matches a list of integers.</dt>
+<dd><p class="first last">Takes the same arguments as list.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;float_list&#8217;: Matches a list of floats.</dt>
+<dd><p class="first last">Takes the same arguments as list.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;bool_list&#8217;: Matches a list of boolean values.</dt>
+<dd><p class="first last">Takes the same arguments as list.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;ip_addr_list&#8217;: Matches a list of IP addresses.</dt>
+<dd><p class="first last">Takes the same arguments as list.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;string_list&#8217;: Matches a list of strings.</dt>
+<dd><p class="first last">Takes the same arguments as list.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;mixed_list&#8217;: Matches a list with different types in </dt>
+<dd><p class="first">specific positions. List size must match
+the number of arguments.</p>
+<p>Each position can be one of :
+&#8216;integer&#8217;, &#8216;float&#8217;, &#8216;ip_addr&#8217;, &#8216;string&#8217;, &#8216;boolean&#8217;</p>
+<p>So to specify a list with two strings followed
+by two integers, you write the check as :</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">mixed_list</span><span class="p">(</span><span class="s">&#39;string&#39;</span><span class="p">,</span> <span class="s">&#39;string&#39;</span><span class="p">,</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;integer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;pass&#8217;: This check matches everything ! It never fails</dt>
+<dd><p class="first">and the value is unchanged.</p>
+<p class="last">It is also the default if no check is specified.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;option&#8217;: This check matches any from a list of options.</dt>
+<dd><p class="first">You specify this check with :</p>
+<div class="last highlight-python"><div class="highlight"><pre><span class="n">option</span><span class="p">(</span><span class="s">&#39;option 1&#39;</span><span class="p">,</span> <span class="s">&#39;option 2&#39;</span><span class="p">,</span> <span class="s">&#39;option 3&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<p>You can supply a default value (returned if no value is supplied)
+using the default keyword argument.</p>
+<p>You specify a list argument for default using a list constructor syntax in
+the check :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">checkname</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="s">&#39;val 1&#39;</span><span class="p">,</span> <span class="s">&#39;val 2&#39;</span><span class="p">,</span> <span class="s">&#39;val 3&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>A badly formatted set of arguments will raise a <code class="docutils literal"><span class="pre">VdtParamError</span></code>.</p>
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.ValidateError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">ValidateError</code><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#ValidateError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.ValidateError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>This error indicates that the check failed.
+It can be the base class for more specific errors.</p>
+<p>Any check function that fails ought to raise this error.
+(or a subclass)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">ValidateError</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValidateError</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtUnknownCheckError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtUnknownCheckError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtUnknownCheckError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtUnknownCheckError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.ValidateError" title="terminatorlib.configobj.validate.ValidateError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.ValidateError</span></code></a></p>
+<p>An unknown check function was requested</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtUnknownCheckError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtUnknownCheckError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtUnknownCheckError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtUnknownCheckError</span><span class="p">(</span><span class="s">&#39;yoda&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtUnknownCheckError</span>: <span class="n">the check &quot;yoda&quot; is unknown.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtParamError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtParamError</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtParamError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtParamError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.SyntaxError</span></code></p>
+<p>An incorrect parameter was passed</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtParamError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtParamError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtParamError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtParamError</span><span class="p">(</span><span class="s">&#39;yoda&#39;</span><span class="p">,</span> <span class="s">&#39;jedi&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtParamError</span>: <span class="n">passed an incorrect value &quot;jedi&quot; for parameter &quot;yoda&quot;.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtTypeError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtTypeError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtTypeError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.ValidateError" title="terminatorlib.configobj.validate.ValidateError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.ValidateError</span></code></a></p>
+<p>The value supplied was of the wrong type</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtTypeError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtTypeError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtTypeError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="s">&#39;jedi&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;jedi&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtValueError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtValueError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.ValidateError" title="terminatorlib.configobj.validate.ValidateError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.ValidateError</span></code></a></p>
+<p>The value supplied was of the correct type, but was not an allowed value.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtValueError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtValueError</span><span class="p">(</span><span class="s">&#39;jedi&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueError</span>: <span class="n">the value &quot;jedi&quot; is unacceptable.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtValueTooSmallError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtValueTooSmallError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooSmallError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooSmallError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.VdtValueError" title="terminatorlib.configobj.validate.VdtValueError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.VdtValueError</span></code></a></p>
+<p>The value supplied was of the correct type, but was too small.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtValueTooSmallError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooSmallError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooSmallError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtValueTooSmallError</span><span class="p">(</span><span class="s">&#39;0&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooSmallError</span>: <span class="n">the value &quot;0&quot; is too small.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtValueTooBigError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtValueTooBigError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooBigError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooBigError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.VdtValueError" title="terminatorlib.configobj.validate.VdtValueError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.VdtValueError</span></code></a></p>
+<p>The value supplied was of the correct type, but was too big.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtValueTooBigError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooBigError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooBigError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtValueTooBigError</span><span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooBigError</span>: <span class="n">the value &quot;1&quot; is too big.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtValueTooShortError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtValueTooShortError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooShortError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooShortError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.VdtValueError" title="terminatorlib.configobj.validate.VdtValueError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.VdtValueError</span></code></a></p>
+<p>The value supplied was of the correct type, but was too short.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtValueTooShortError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooShortError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooShortError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtValueTooShortError</span><span class="p">(</span><span class="s">&#39;jed&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooShortError</span>: <span class="n">the value &quot;jed&quot; is too short.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtValueTooLongError">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtValueTooLongError</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooLongError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooLongError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.VdtValueError" title="terminatorlib.configobj.validate.VdtValueError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.VdtValueError</span></code></a></p>
+<p>The value supplied was of the correct type, but was too long.</p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.VdtValueTooLongError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtValueTooLongError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtValueTooLongError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">VdtValueTooLongError</span><span class="p">(</span><span class="s">&#39;jedie&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooLongError</span>: <span class="n">the value &quot;jedie&quot; is too long.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="terminatorlib.configobj.validate.VdtMissingValue">
+<em class="property">exception </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">VdtMissingValue</code><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#VdtMissingValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.VdtMissingValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#terminatorlib.configobj.validate.ValidateError" title="terminatorlib.configobj.validate.ValidateError"><code class="xref py py-class docutils literal"><span class="pre">terminatorlib.configobj.validate.ValidateError</span></code></a></p>
+<p>No value was supplied to a check that needed one.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="terminatorlib.configobj.validate.Validator">
+<em class="property">class </em><code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">Validator</code><span class="sig-paren">(</span><em>functions=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Validator is an object that allows you to register a set of &#8216;checks&#8217;.
+These checks take input and test that it conforms to the check.</p>
+<p>This can also involve converting the value from a string into
+the correct datatype.</p>
+<p>The <code class="docutils literal"><span class="pre">check</span></code> method takes an input string which configures which
+check is to be used and applies that check to a supplied value.</p>
+<p>An example input string would be:
+&#8216;int_range(param1, param2)&#8217;</p>
+<p>You would then provide something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">int_range_check</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c"># turn min and max from strings to integers</span>
+<span class="gp">... </span>    <span class="nb">min</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c"># check that value is of the correct type.</span>
+<span class="gp">... </span>    <span class="c"># possible valid inputs are integers or strings</span>
+<span class="gp">... </span>    <span class="c"># that represent integers</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+<span class="gp">... </span>        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="c"># if we are given a string</span>
+<span class="gp">... </span>        <span class="c"># attempt to convert to an integer</span>
+<span class="gp">... </span>        <span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">raise</span> <span class="n">VdtValueError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="c"># check the value is between our constraints</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">min</span> <span class="o">&lt;=</span> <span class="n">value</span><span class="p">:</span>
+<span class="gp">... </span>         <span class="k">raise</span> <span class="n">VdtValueTooSmallError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">:</span>
+<span class="gp">... </span>         <span class="k">raise</span> <span class="n">VdtValueTooBigError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">value</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fdict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;int_range&#39;</span><span class="p">:</span> <span class="n">int_range_check</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtr1</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">(</span><span class="n">fdict</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtr1</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_range(20, 40)&#39;</span><span class="p">,</span> <span class="s">&#39;30&#39;</span><span class="p">)</span>
+<span class="go">30</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtr1</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_range(20, 40)&#39;</span><span class="p">,</span> <span class="s">&#39;60&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooBigError</span>: <span class="n">the value &quot;60&quot; is too big.</span>
+</pre></div>
+</div>
+<p>New functions can be added with :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtr2</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">()</span>       
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtr2</span><span class="o">.</span><span class="n">functions</span><span class="p">[</span><span class="s">&#39;int_range&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">int_range_check</span>
+</pre></div>
+</div>
+<p>Or by passing in a dictionary of functions when Validator 
+is instantiated.</p>
+<p>Your functions <em>can</em> use keyword arguments,
+but the first argument should always be &#8216;value&#8217;.</p>
+<p>If the function doesn&#8217;t take additional arguments,
+the parentheses are optional in the check.
+It can be written with either of :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">keyword</span> <span class="o">=</span> <span class="n">function_name</span>
+<span class="n">keyword</span> <span class="o">=</span> <span class="n">function_name</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The first program to utilise Validator() was Michael Foord&#8217;s
+ConfigObj, an alternative to ConfigParser which supports lists and
+can validate a config file using a config schema.
+For more details on using Validator with ConfigObj see:
+<a class="reference external" href="http://www.voidspace.org.uk/python/configobj.html">http://www.voidspace.org.uk/python/configobj.html</a></p>
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>functions=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtri</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._check_value">
+<code class="descname">_check_value</code><span class="sig-paren">(</span><em>value</em>, <em>fun_name</em>, <em>fun_args</em>, <em>fun_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._check_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._check_value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._handle_none">
+<code class="descname">_handle_none</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._handle_none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._handle_none" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._list_handle">
+<code class="descname">_list_handle</code><span class="sig-paren">(</span><em>listmatch</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._list_handle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._list_handle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Take apart a <code class="docutils literal"><span class="pre">keyword=list('val,</span> <span class="pre">'val')</span></code> type string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._parse_check">
+<code class="descname">_parse_check</code><span class="sig-paren">(</span><em>check</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._parse_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._parse_check" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._parse_with_caching">
+<code class="descname">_parse_with_caching</code><span class="sig-paren">(</span><em>check</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._parse_with_caching"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._parse_with_caching" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._pass">
+<code class="descname">_pass</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._pass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._pass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dummy check that always passes</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator._unquote">
+<code class="descname">_unquote</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator._unquote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._unquote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unquote a value if necessary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator.check">
+<code class="descname">check</code><span class="sig-paren">(</span><em>check</em>, <em>value</em>, <em>missing=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator.check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Usage: check(check, value)</p>
+<dl class="docutils">
+<dt>Arguments:</dt>
+<dd>check: string representing check to apply (including arguments)
+value: object to be checked</dd>
+</dl>
+<p>Returns value, converted to correct type if necessary</p>
+<p>If the check fails, raises a <code class="docutils literal"><span class="pre">ValidateError</span></code> subclass.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;yoda&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtUnknownCheckError</span>: <span class="n">the check &quot;yoda&quot; is unknown.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;yoda()&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtUnknownCheckError</span>: <span class="n">the check &quot;yoda&quot; is unknown.</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string(default=&quot;&quot;)&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="terminatorlib.configobj.validate.Validator.get_default_value">
+<code class="descname">get_default_value</code><span class="sig-paren">(</span><em>check</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#Validator.get_default_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.Validator.get_default_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a check, return the default value for the check
+(converted to the right type).</p>
+<p>If the check doesn&#8217;t specify a default value then a
+<code class="docutils literal"><span class="pre">KeyError</span></code> will be raised.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._func_re">
+<code class="descname">_func_re</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._func_re" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._key_arg">
+<code class="descname">_key_arg</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._key_arg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._list_arg">
+<code class="descname">_list_arg</code><em class="property"> = &lt;_sre.SRE_Pattern object at 0x8f72290&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._list_arg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._list_members">
+<code class="descname">_list_members</code><em class="property"> = &lt;_sre.SRE_Pattern object&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._list_members" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._matchfinder">
+<code class="descname">_matchfinder</code><em class="property"> = &lt;_sre.SRE_Pattern object at 0x8f96278&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._matchfinder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="terminatorlib.configobj.validate.Validator._paramfinder">
+<code class="descname">_paramfinder</code><em class="property"> = &lt;_sre.SRE_Pattern object at 0x8ff51d0&gt;</em><a class="headerlink" href="#terminatorlib.configobj.validate.Validator._paramfinder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.dottedQuadToNum">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">dottedQuadToNum</code><span class="sig-paren">(</span><em>ip</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#dottedQuadToNum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.dottedQuadToNum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert decimal dotted quad string to long integer</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39;1 &#39;</span><span class="p">))</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39; 1.2&#39;</span><span class="p">))</span>
+<span class="go">16777218</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39; 1.2.3 &#39;</span><span class="p">))</span>
+<span class="go">16908291</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">int</span><span class="p">(</span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p">))</span>
+<span class="go">16909060</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39;1.2.3. 4&#39;</span><span class="p">)</span>
+<span class="go">16909060</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39;255.255.255.255&#39;</span><span class="p">)</span>
+<span class="go">4294967295L</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dottedQuadToNum</span><span class="p">(</span><span class="s">&#39;255.255.255.256&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValueError</span>: <span class="n">Not a good dotted-quad IP: 255.255.255.256</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.numToDottedQuad">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">numToDottedQuad</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#numToDottedQuad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.numToDottedQuad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert long int to dotted quad string</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="o">-</span><span class="il">1L</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValueError</span>: <span class="n">Not a good numeric IP: -1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">1L</span><span class="p">)</span>
+<span class="go">&#39;0.0.0.1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">16777218L</span><span class="p">)</span>
+<span class="go">&#39;1.0.0.2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">16908291L</span><span class="p">)</span>
+<span class="go">&#39;1.2.0.3&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">16909060L</span><span class="p">)</span>
+<span class="go">&#39;1.2.3.4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">4294967295L</span><span class="p">)</span>
+<span class="go">&#39;255.255.255.255&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">numToDottedQuad</span><span class="p">(</span><span class="il">4294967296L</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">ValueError</span>: <span class="n">Not a good numeric IP: 4294967296</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_integer">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_integer</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>A check that tests that a given value is an integer (int, or long)
+and optionally, between bounds. A negative value is accepted, while
+a float will fail.</p>
+<p>If the value is a string, then the conversion is done - if possible.
+Otherwise a VdtError is raised.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;-1&#39;</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="go">9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;a&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer&#39;</span><span class="p">,</span> <span class="s">&#39;2.2&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;2.2&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(10)&#39;</span><span class="p">,</span> <span class="s">&#39;20&#39;</span><span class="p">)</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(max=20)&#39;</span><span class="p">,</span> <span class="s">&#39;15&#39;</span><span class="p">)</span>
+<span class="go">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(10)&#39;</span><span class="p">,</span> <span class="s">&#39;9&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooSmallError</span>: <span class="n">the value &quot;9&quot; is too small.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(10)&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooSmallError</span>: <span class="n">the value &quot;9&quot; is too small.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(max=20)&#39;</span><span class="p">,</span> <span class="s">&#39;35&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooBigError</span>: <span class="n">the value &quot;35&quot; is too big.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(max=20)&#39;</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooBigError</span>: <span class="n">the value &quot;35&quot; is too big.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;integer(0, 9)&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_float">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_float</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_float" title="Permalink to this definition">¶</a></dt>
+<dd><p>A check that tests that a given value is a float
+(an integer will be accepted), and optionally - that it is between bounds.</p>
+<p>If the value is a string, then the conversion is done - if possible.
+Otherwise a VdtError is raised.</p>
+<p>This can accept negative values.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;2&#39;</span><span class="p">)</span>
+<span class="go">2.0</span>
+</pre></div>
+</div>
+<p>From now on we multiply the value to avoid comparing decimals</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;-6.8&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="go">-68.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;12.2&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="go">122.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="mf">8.4</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="go">84.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;a&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float(10.1)&#39;</span><span class="p">,</span> <span class="s">&#39;10.2&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="go">102.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float(max=20.2)&#39;</span><span class="p">,</span> <span class="s">&#39;15.1&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="go">151.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float(10.0)&#39;</span><span class="p">,</span> <span class="s">&#39;9.0&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooSmallError</span>: <span class="n">the value &quot;9.0&quot; is too small.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float(max=20.0)&#39;</span><span class="p">,</span> <span class="s">&#39;35.0&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooBigError</span>: <span class="n">the value &quot;35.0&quot; is too big.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_boolean">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_boolean</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_boolean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_boolean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the value represents a boolean.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;off&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;false&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;no&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;nO&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;NO&#39;</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;true&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;Yes&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;YES&#39;</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;boolean&#39;</span><span class="p">,</span> <span class="s">&#39;up&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;up&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of values.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>It does no check on list members.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">[1, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">[1, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list(3)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooShortError</span>: <span class="n">the value &quot;(1, 2)&quot; is too short.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list(max=5)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooLongError</span>: <span class="n">the value &quot;(1, 2, 3, 4, 5, 6)&quot; is too long.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list(min=3, max=5)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">[1, 2, 3, 4]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="s">&#39;12&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;12&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_tuple">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_tuple</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a tuple of values.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>It does no check on members.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">(1, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">(1, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(3)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooShortError</span>: <span class="n">the value &quot;(1, 2)&quot; is too short.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(max=5)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooLongError</span>: <span class="n">the value &quot;(1, 2, 3, 4, 5, 6)&quot; is too long.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple(min=3, max=5)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="go">(1, 2, 3, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;tuple&#39;</span><span class="p">,</span> <span class="s">&#39;12&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;12&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_ip_addr">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_ip_addr</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_ip_addr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_ip_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the supplied value is an Internet Protocol address, v.4,
+represented by a dotted-quad string, i.e. &#8216;1.2.3.4&#8217;.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;1 &#39;</span><span class="p">)</span>
+<span class="go">&#39;1&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39; 1.2&#39;</span><span class="p">)</span>
+<span class="go">&#39;1.2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39; 1.2.3 &#39;</span><span class="p">)</span>
+<span class="go">&#39;1.2.3&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">)</span>
+<span class="go">&#39;1.2.3.4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;0.0.0.0&#39;</span><span class="p">)</span>
+<span class="go">&#39;0.0.0.0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;255.255.255.255&#39;</span><span class="p">)</span>
+<span class="go">&#39;255.255.255.255&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;255.255.255.256&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueError</span>: <span class="n">the value &quot;255.255.255.256&quot; is unacceptable.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="s">&#39;1.2.3.4.5&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueError</span>: <span class="n">the value &quot;1.2.3.4.5&quot; is unacceptable.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_string">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_string</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the supplied value is a string.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+<span class="go">&#39;0&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string(2)&#39;</span><span class="p">,</span> <span class="s">&#39;12&#39;</span><span class="p">)</span>
+<span class="go">&#39;12&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string(2)&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooShortError</span>: <span class="n">the value &quot;1&quot; is too short.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string(min=2, max=3)&#39;</span><span class="p">,</span> <span class="s">&#39;123&#39;</span><span class="p">)</span>
+<span class="go">&#39;123&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string(min=2, max=3)&#39;</span><span class="p">,</span> <span class="s">&#39;1234&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooLongError</span>: <span class="n">the value &quot;1234&quot; is too long.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_int_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_int_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_int_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_int_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of integers.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>Each list member is checked that it is an integer.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="go">[1, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="go">[1, 2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;int_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;a&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_bool_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_bool_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_bool_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_bool_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of booleans.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>Each list member is checked that it is a boolean.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;bool_list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;bool_list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">=</span> <span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;bool_list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">==</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">=</span> <span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;bool_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">==</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;bool_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;a&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_float_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_float_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_float_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_float_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of floats.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>Each list member is checked that it is a float.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float_list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float_list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float_list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+<span class="go">[1.0, 2.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="go">[1.0, 2.0]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;float_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;a&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_string_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_string_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_string_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_string_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of strings.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>Each list member is checked that it is a string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string_list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string_list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string_list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;1&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;string_list&#39;</span><span class="p">,</span> <span class="s">&#39;hello&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;hello&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_ip_addr_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_ip_addr_list</code><span class="sig-paren">(</span><em>value</em>, <em>min=None</em>, <em>max=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_ip_addr_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_ip_addr_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list of IP addresses.</p>
+<p>You can optionally specify the minimum and maximum number of members.</p>
+<p>Each list member is checked that it is an IP address.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr_list&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr_list&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr_list&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;5.6.7.8&#39;</span><span class="p">))</span>
+<span class="go">[&#39;1.2.3.4&#39;, &#39;5.6.7.8&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;ip_addr_list&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">])</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueError</span>: <span class="n">the value &quot;a&quot; is unacceptable.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_mixed_list">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_mixed_list</code><span class="sig-paren">(</span><em>value</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_mixed_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_mixed_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the value is a list.
+Allow specifying the type of each member.
+Work on lists of specific lengths.</p>
+<p>You specify each member as a positional argument specifying type</p>
+<dl class="docutils">
+<dt>Each type should be one of the following strings :</dt>
+<dd>&#8216;integer&#8217;, &#8216;float&#8217;, &#8216;ip_addr&#8217;, &#8216;string&#8217;, &#8216;boolean&#8217;</dd>
+</dl>
+<p>So you can specify a list of two strings, followed by
+two integers as :</p>
+<blockquote>
+<div>mixed_list(&#8216;string&#8217;, &#8216;string&#8217;, &#8216;integer&#8217;, &#8216;integer&#8217;)</div></blockquote>
+<p>The length of the list must match the number of positional
+arguments you supply.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mix_str</span> <span class="o">=</span> <span class="s">&quot;mixed_list(&#39;integer&#39;, &#39;float&#39;, &#39;ip_addr&#39;, &#39;string&#39;, &#39;boolean&#39;)&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">=</span> <span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">=</span> <span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;2.0&#39;</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;True&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_res</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;b&quot; is of the wrong type.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooShortError</span>: <span class="n">the value &quot;(1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;)&quot; is too short.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="s">&#39;1.2.3.4&#39;</span><span class="p">,</span> <span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">))</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueTooLongError</span>: <span class="n">the value &quot;(1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, 1, &#39;b&#39;)&quot; is too long.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">mix_str</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+<p>This test requires an elaborate setup, because of a change in error string
+output from the interpreter between Python 2.2 and 2.3 .</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">res_seq</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">... </span>    <span class="s">&#39;passed an incorrect value &quot;&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s">&#39;yoda&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s">&#39;&quot; for parameter &quot;mixed_list&quot;.&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res_str</span> <span class="o">=</span> <span class="s">&quot;&#39;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res_seq</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;mixed_list(&quot;yoda&quot;)&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">))</span>
+<span class="gp">... </span><span class="k">except</span> <span class="n">VdtParamError</span><span class="p">,</span> <span class="n">err</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">==</span> <span class="n">res_str</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="terminatorlib.configobj.validate.is_option">
+<code class="descclassname">terminatorlib.configobj.validate.</code><code class="descname">is_option</code><span class="sig-paren">(</span><em>value</em>, <em>*options</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/configobj/validate.html#is_option"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.configobj.validate.is_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>This check matches the value to any of a set of options.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;</span><span class="p">,</span> <span class="s">&#39;yoda&#39;</span><span class="p">)</span>
+<span class="go">&#39;yoda&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;</span><span class="p">,</span> <span class="s">&#39;jed&#39;</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtValueError</span>: <span class="n">the value &quot;jed&quot; is unacceptable.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vtor</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="s">&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gt">Traceback (most recent call last):</span>
+<span class="gr">VdtTypeError</span>: <span class="n">the value &quot;0&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-terminatorlib.configobj">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-terminatorlib.configobj" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="terminatorlib.plugins.html" class="btn btn-neutral float-right" title="terminatorlib.plugins package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="terminatorlib.html" class="btn btn-neutral" title="terminatorlib package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

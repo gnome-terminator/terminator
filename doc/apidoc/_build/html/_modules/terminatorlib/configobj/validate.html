@@ -1,0 +1,1686 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.configobj.validate &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.configobj.validate</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.configobj.validate</h1><div class="highlight"><pre>
+<span class="c"># validate.py</span>
+<span class="c"># A Validator object</span>
+<span class="c"># Copyright (C) 2005-2010 Michael Foord, Mark Andrews, Nicola Larosa</span>
+<span class="c"># E-mail: fuzzyman AT voidspace DOT org DOT uk</span>
+<span class="c">#         mark AT la-la DOT com</span>
+<span class="c">#         nico AT tekNico DOT net</span>
+
+<span class="c"># This software is licensed under the terms of the BSD license.</span>
+<span class="c"># http://www.voidspace.org.uk/python/license.shtml</span>
+<span class="c"># Basically you&#39;re free to copy, modify, distribute and relicense it,</span>
+<span class="c"># So long as you keep a copy of the license with it.</span>
+
+<span class="c"># Scripts maintained at http://www.voidspace.org.uk/python/index.shtml</span>
+<span class="c"># For information about bugfixes, updates and support, please join the</span>
+<span class="c"># ConfigObj mailing list:</span>
+<span class="c"># http://lists.sourceforge.net/lists/listinfo/configobj-develop</span>
+<span class="c"># Comments, suggestions and bug reports welcome.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Validator object is used to check that supplied values </span>
+<span class="sd">    conform to a specification.</span>
+<span class="sd">    </span>
+<span class="sd">    The value can be supplied as a string - e.g. from a config file.</span>
+<span class="sd">    In this case the check will also *convert* the value to</span>
+<span class="sd">    the required type. This allows you to add validation</span>
+<span class="sd">    as a transparent layer to access data stored as strings.</span>
+<span class="sd">    The validation checks that the data is correct *and*</span>
+<span class="sd">    converts it to the expected type.</span>
+<span class="sd">    </span>
+<span class="sd">    Some standard checks are provided for basic data types.</span>
+<span class="sd">    Additional checks are easy to write. They can be</span>
+<span class="sd">    provided when the ``Validator`` is instantiated or</span>
+<span class="sd">    added afterwards.</span>
+<span class="sd">    </span>
+<span class="sd">    The standard functions work with the following basic data types :</span>
+<span class="sd">    </span>
+<span class="sd">    * integers</span>
+<span class="sd">    * floats</span>
+<span class="sd">    * booleans</span>
+<span class="sd">    * strings</span>
+<span class="sd">    * ip_addr</span>
+<span class="sd">    </span>
+<span class="sd">    plus lists of these datatypes</span>
+<span class="sd">    </span>
+<span class="sd">    Adding additional checks is done through coding simple functions.</span>
+<span class="sd">    </span>
+<span class="sd">    The full set of standard checks are : </span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;integer&#39;: matches integer values (including negative)</span>
+<span class="sd">                 Takes optional &#39;min&#39; and &#39;max&#39; arguments : ::</span>
+<span class="sd">    </span>
+<span class="sd">                   integer()</span>
+<span class="sd">                   integer(3, 9)  # any value from 3 to 9</span>
+<span class="sd">                   integer(min=0) # any positive value</span>
+<span class="sd">                   integer(max=9)</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;float&#39;: matches float values</span>
+<span class="sd">               Has the same parameters as the integer check.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;boolean&#39;: matches boolean values - ``True`` or ``False``</span>
+<span class="sd">                 Acceptable string values for True are :</span>
+<span class="sd">                   true, on, yes, 1</span>
+<span class="sd">                 Acceptable string values for False are :</span>
+<span class="sd">                   false, off, no, 0</span>
+<span class="sd">    </span>
+<span class="sd">                 Any other value raises an error.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;ip_addr&#39;: matches an Internet Protocol address, v.4, represented</span>
+<span class="sd">                 by a dotted-quad string, i.e. &#39;1.2.3.4&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;string&#39;: matches any string.</span>
+<span class="sd">                Takes optional keyword args &#39;min&#39; and &#39;max&#39;</span>
+<span class="sd">                to specify min and max lengths of the string.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;list&#39;: matches any list.</span>
+<span class="sd">              Takes optional keyword args &#39;min&#39;, and &#39;max&#39; to specify min and</span>
+<span class="sd">              max sizes of the list. (Always returns a list.)</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;tuple&#39;: matches any tuple.</span>
+<span class="sd">              Takes optional keyword args &#39;min&#39;, and &#39;max&#39; to specify min and</span>
+<span class="sd">              max sizes of the tuple. (Always returns a tuple.)</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;int_list&#39;: Matches a list of integers.</span>
+<span class="sd">                  Takes the same arguments as list.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;float_list&#39;: Matches a list of floats.</span>
+<span class="sd">                    Takes the same arguments as list.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;bool_list&#39;: Matches a list of boolean values.</span>
+<span class="sd">                   Takes the same arguments as list.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;ip_addr_list&#39;: Matches a list of IP addresses.</span>
+<span class="sd">                     Takes the same arguments as list.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;string_list&#39;: Matches a list of strings.</span>
+<span class="sd">                     Takes the same arguments as list.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;mixed_list&#39;: Matches a list with different types in </span>
+<span class="sd">                    specific positions. List size must match</span>
+<span class="sd">                    the number of arguments.</span>
+<span class="sd">    </span>
+<span class="sd">                    Each position can be one of :</span>
+<span class="sd">                    &#39;integer&#39;, &#39;float&#39;, &#39;ip_addr&#39;, &#39;string&#39;, &#39;boolean&#39;</span>
+<span class="sd">    </span>
+<span class="sd">                    So to specify a list with two strings followed</span>
+<span class="sd">                    by two integers, you write the check as : ::</span>
+<span class="sd">    </span>
+<span class="sd">                      mixed_list(&#39;string&#39;, &#39;string&#39;, &#39;integer&#39;, &#39;integer&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;pass&#39;: This check matches everything ! It never fails</span>
+<span class="sd">              and the value is unchanged.</span>
+<span class="sd">    </span>
+<span class="sd">              It is also the default if no check is specified.</span>
+<span class="sd">    </span>
+<span class="sd">    * &#39;option&#39;: This check matches any from a list of options.</span>
+<span class="sd">                You specify this check with : ::</span>
+<span class="sd">    </span>
+<span class="sd">                  option(&#39;option 1&#39;, &#39;option 2&#39;, &#39;option 3&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    You can supply a default value (returned if no value is supplied)</span>
+<span class="sd">    using the default keyword argument.</span>
+<span class="sd">    </span>
+<span class="sd">    You specify a list argument for default using a list constructor syntax in</span>
+<span class="sd">    the check : ::</span>
+<span class="sd">    </span>
+<span class="sd">        checkname(arg1, arg2, default=list(&#39;val 1&#39;, &#39;val 2&#39;, &#39;val 3&#39;))</span>
+<span class="sd">    </span>
+<span class="sd">    A badly formatted set of arguments will raise a ``VdtParamError``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s">&#39;1.0.1&#39;</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">&#39;__version__&#39;</span><span class="p">,</span>
+    <span class="s">&#39;dottedQuadToNum&#39;</span><span class="p">,</span>
+    <span class="s">&#39;numToDottedQuad&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ValidateError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtUnknownCheckError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtParamError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtTypeError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtValueError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtValueTooSmallError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtValueTooBigError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtValueTooShortError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtValueTooLongError&#39;</span><span class="p">,</span>
+    <span class="s">&#39;VdtMissingValue&#39;</span><span class="p">,</span>
+    <span class="s">&#39;Validator&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_integer&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_float&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_boolean&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_tuple&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_ip_addr&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_string&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_int_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_bool_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_float_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_string_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_ip_addr_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_mixed_list&#39;</span><span class="p">,</span>
+    <span class="s">&#39;is_option&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="n">_list_arg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&#39;&#39;</span>
+<span class="s">    (?:</span>
+<span class="s">        ([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*list\(</span>
+<span class="s">            (</span>
+<span class="s">                (?:</span>
+<span class="s">                    \s*</span>
+<span class="s">                    (?:</span>
+<span class="s">                        (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                        (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                        (?:[^&#39;&quot;,\s\)][^,\)]*?)  # unquoted</span>
+<span class="s">                    )</span>
+<span class="s">                    \s*,\s*</span>
+<span class="s">                )*</span>
+<span class="s">                (?:</span>
+<span class="s">                    (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                    (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                    (?:[^&#39;&quot;,\s\)][^,\)]*?)  # unquoted</span>
+<span class="s">                )?                          # last one</span>
+<span class="s">            )</span>
+<span class="s">        \)</span>
+<span class="s">    )</span>
+<span class="s">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>    <span class="c"># two groups</span>
+
+<span class="n">_list_members</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&#39;&#39;</span>
+<span class="s">    (</span>
+<span class="s">        (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">        (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">        (?:[^&#39;&quot;,\s=][^,=]*?)       # unquoted</span>
+<span class="s">    )</span>
+<span class="s">    (?:</span>
+<span class="s">    (?:\s*,\s*)|(?:\s*$)            # comma</span>
+<span class="s">    )</span>
+<span class="s">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>    <span class="c"># one group</span>
+
+<span class="n">_paramstring</span> <span class="o">=</span> <span class="s">r&#39;&#39;&#39;</span>
+<span class="s">    (?:</span>
+<span class="s">        (</span>
+<span class="s">            (?:</span>
+<span class="s">                [a-zA-Z_][a-zA-Z0-9_]*\s*=\s*list\(</span>
+<span class="s">                    (?:</span>
+<span class="s">                        \s*</span>
+<span class="s">                        (?:</span>
+<span class="s">                            (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                            (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                            (?:[^&#39;&quot;,\s\)][^,\)]*?)       # unquoted</span>
+<span class="s">                        )</span>
+<span class="s">                        \s*,\s*</span>
+<span class="s">                    )*</span>
+<span class="s">                    (?:</span>
+<span class="s">                        (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                        (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                        (?:[^&#39;&quot;,\s\)][^,\)]*?)       # unquoted</span>
+<span class="s">                    )?                              # last one</span>
+<span class="s">                \)</span>
+<span class="s">            )|</span>
+<span class="s">            (?:</span>
+<span class="s">                (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                (?:[^&#39;&quot;,\s=][^,=]*?)|       # unquoted</span>
+<span class="s">                (?:                         # keyword argument</span>
+<span class="s">                    [a-zA-Z_][a-zA-Z0-9_]*\s*=\s*</span>
+<span class="s">                    (?:</span>
+<span class="s">                        (?:&quot;.*?&quot;)|              # double quotes</span>
+<span class="s">                        (?:&#39;.*?&#39;)|              # single quotes</span>
+<span class="s">                        (?:[^&#39;&quot;,\s=][^,=]*?)       # unquoted</span>
+<span class="s">                    )</span>
+<span class="s">                )</span>
+<span class="s">            )</span>
+<span class="s">        )</span>
+<span class="s">        (?:</span>
+<span class="s">            (?:\s*,\s*)|(?:\s*$)            # comma</span>
+<span class="s">        )</span>
+<span class="s">    )</span>
+<span class="s">    &#39;&#39;&#39;</span>
+
+<span class="n">_matchstring</span> <span class="o">=</span> <span class="s">&#39;^</span><span class="si">%s</span><span class="s">*&#39;</span> <span class="o">%</span> <span class="n">_paramstring</span>
+
+<span class="c"># Python pre 2.2.1 doesn&#39;t have bool</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">bool</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">bool</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simple boolean equivalent function. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="dottedQuadToNum"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.dottedQuadToNum">[docs]</a><span class="k">def</span> <span class="nf">dottedQuadToNum</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert decimal dotted quad string to long integer</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; int(dottedQuadToNum(&#39;1 &#39;))</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; int(dottedQuadToNum(&#39; 1.2&#39;))</span>
+<span class="sd">    16777218</span>
+<span class="sd">    &gt;&gt;&gt; int(dottedQuadToNum(&#39; 1.2.3 &#39;))</span>
+<span class="sd">    16908291</span>
+<span class="sd">    &gt;&gt;&gt; int(dottedQuadToNum(&#39;1.2.3.4&#39;))</span>
+<span class="sd">    16909060</span>
+<span class="sd">    &gt;&gt;&gt; dottedQuadToNum(&#39;1.2.3. 4&#39;)</span>
+<span class="sd">    16909060</span>
+<span class="sd">    &gt;&gt;&gt; dottedQuadToNum(&#39;255.255.255.255&#39;)</span>
+<span class="sd">    4294967295L</span>
+<span class="sd">    &gt;&gt;&gt; dottedQuadToNum(&#39;255.255.255.256&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ValueError: Not a good dotted-quad IP: 255.255.255.256</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c"># import here to avoid it when ip_addr values are not used</span>
+    <span class="kn">import</span> <span class="nn">socket</span><span class="o">,</span> <span class="nn">struct</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s">&#39;!L&#39;</span><span class="p">,</span>
+            <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">strip</span><span class="p">()))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+        <span class="c"># bug in inet_aton, corrected in Python 2.3</span>
+        <span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;255.255.255.255&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mh">0xFFFFFFFF</span><span class="n">L</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Not a good dotted-quad IP: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ip</span><span class="p">)</span>
+    <span class="k">return</span>
+
+</div>
+<div class="viewcode-block" id="numToDottedQuad"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.numToDottedQuad">[docs]</a><span class="k">def</span> <span class="nf">numToDottedQuad</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert long int to dotted quad string</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(-1L)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ValueError: Not a good numeric IP: -1</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(1L)</span>
+<span class="sd">    &#39;0.0.0.1&#39;</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(16777218L)</span>
+<span class="sd">    &#39;1.0.0.2&#39;</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(16908291L)</span>
+<span class="sd">    &#39;1.2.0.3&#39;</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(16909060L)</span>
+<span class="sd">    &#39;1.2.3.4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(4294967295L)</span>
+<span class="sd">    &#39;255.255.255.255&#39;</span>
+<span class="sd">    &gt;&gt;&gt; numToDottedQuad(4294967296L)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ValueError: Not a good numeric IP: 4294967296</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="c"># import here to avoid it when ip_addr values are not used</span>
+    <span class="kn">import</span> <span class="nn">socket</span><span class="o">,</span> <span class="nn">struct</span>
+    
+    <span class="c"># no need to intercept here, 4294967295L is fine</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="il">4294967295L</span> <span class="ow">or</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Not a good numeric IP: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">num</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">socket</span><span class="o">.</span><span class="n">inet_ntoa</span><span class="p">(</span>
+            <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s">&#39;!L&#39;</span><span class="p">,</span> <span class="nb">long</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">struct</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Not a good numeric IP: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">num</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ValidateError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.ValidateError">[docs]</a><span class="k">class</span> <span class="nc">ValidateError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This error indicates that the check failed.</span>
+<span class="sd">    It can be the base class for more specific errors.</span>
+<span class="sd">    </span>
+<span class="sd">    Any check function that fails ought to raise this error.</span>
+<span class="sd">    (or a subclass)</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; raise ValidateError</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ValidateError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="VdtMissingValue"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtMissingValue">[docs]</a><span class="k">class</span> <span class="nc">VdtMissingValue</span><span class="p">(</span><span class="n">ValidateError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;No value was supplied to a check that needed one.&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="VdtUnknownCheckError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtUnknownCheckError">[docs]</a><span class="k">class</span> <span class="nc">VdtUnknownCheckError</span><span class="p">(</span><span class="n">ValidateError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An unknown check function was requested&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtUnknownCheckError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtUnknownCheckError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtUnknownCheckError(&#39;yoda&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtUnknownCheckError: the check &quot;yoda&quot; is unknown.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the check &quot;</span><span class="si">%s</span><span class="s">&quot; is unknown.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtParamError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtParamError">[docs]</a><span class="k">class</span> <span class="nc">VdtParamError</span><span class="p">(</span><span class="ne">SyntaxError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An incorrect parameter was passed&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtParamError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtParamError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtParamError(&#39;yoda&#39;, &#39;jedi&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtParamError: passed an incorrect value &quot;jedi&quot; for parameter &quot;yoda&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="ne">SyntaxError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;passed an incorrect value &quot;</span><span class="si">%s</span><span class="s">&quot; for parameter &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtTypeError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtTypeError">[docs]</a><span class="k">class</span> <span class="nc">VdtTypeError</span><span class="p">(</span><span class="n">ValidateError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the wrong type&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtTypeError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtTypeError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtTypeError(&#39;jedi&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtTypeError: the value &quot;jedi&quot; is of the wrong type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is of the wrong type.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtValueError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueError">[docs]</a><span class="k">class</span> <span class="nc">VdtValueError</span><span class="p">(</span><span class="n">ValidateError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the correct type, but was not an allowed value.&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="VdtValueError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtValueError(&#39;jedi&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtValueError: the value &quot;jedi&quot; is unacceptable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is unacceptable.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtValueTooSmallError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooSmallError">[docs]</a><span class="k">class</span> <span class="nc">VdtValueTooSmallError</span><span class="p">(</span><span class="n">VdtValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the correct type, but was too small.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtValueTooSmallError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooSmallError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtValueTooSmallError(&#39;0&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtValueTooSmallError: the value &quot;0&quot; is too small.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is too small.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtValueTooBigError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooBigError">[docs]</a><span class="k">class</span> <span class="nc">VdtValueTooBigError</span><span class="p">(</span><span class="n">VdtValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the correct type, but was too big.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtValueTooBigError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooBigError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtValueTooBigError(&#39;1&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtValueTooBigError: the value &quot;1&quot; is too big.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is too big.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtValueTooShortError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooShortError">[docs]</a><span class="k">class</span> <span class="nc">VdtValueTooShortError</span><span class="p">(</span><span class="n">VdtValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the correct type, but was too short.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtValueTooShortError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooShortError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtValueTooShortError(&#39;jed&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtValueTooShortError: the value &quot;jed&quot; is too short.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is too short.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="VdtValueTooLongError"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooLongError">[docs]</a><span class="k">class</span> <span class="nc">VdtValueTooLongError</span><span class="p">(</span><span class="n">VdtValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The value supplied was of the correct type, but was too long.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="VdtValueTooLongError.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.VdtValueTooLongError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; raise VdtValueTooLongError(&#39;jedie&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtValueTooLongError: the value &quot;jedie&quot; is too long.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ValidateError</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;the value &quot;</span><span class="si">%s</span><span class="s">&quot; is too long.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">value</span><span class="p">,))</span>
+
+</div></div>
+<div class="viewcode-block" id="Validator"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator">[docs]</a><span class="k">class</span> <span class="nc">Validator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validator is an object that allows you to register a set of &#39;checks&#39;.</span>
+<span class="sd">    These checks take input and test that it conforms to the check.</span>
+<span class="sd">    </span>
+<span class="sd">    This can also involve converting the value from a string into</span>
+<span class="sd">    the correct datatype.</span>
+<span class="sd">    </span>
+<span class="sd">    The ``check`` method takes an input string which configures which</span>
+<span class="sd">    check is to be used and applies that check to a supplied value.</span>
+<span class="sd">    </span>
+<span class="sd">    An example input string would be:</span>
+<span class="sd">    &#39;int_range(param1, param2)&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    You would then provide something like:</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; def int_range_check(value, min, max):</span>
+<span class="sd">    ...     # turn min and max from strings to integers</span>
+<span class="sd">    ...     min = int(min)</span>
+<span class="sd">    ...     max = int(max)</span>
+<span class="sd">    ...     # check that value is of the correct type.</span>
+<span class="sd">    ...     # possible valid inputs are integers or strings</span>
+<span class="sd">    ...     # that represent integers</span>
+<span class="sd">    ...     if not isinstance(value, (int, long, basestring)):</span>
+<span class="sd">    ...         raise VdtTypeError(value)</span>
+<span class="sd">    ...     elif isinstance(value, basestring):</span>
+<span class="sd">    ...         # if we are given a string</span>
+<span class="sd">    ...         # attempt to convert to an integer</span>
+<span class="sd">    ...         try:</span>
+<span class="sd">    ...             value = int(value)</span>
+<span class="sd">    ...         except ValueError:</span>
+<span class="sd">    ...             raise VdtValueError(value)</span>
+<span class="sd">    ...     # check the value is between our constraints</span>
+<span class="sd">    ...     if not min &lt;= value:</span>
+<span class="sd">    ...          raise VdtValueTooSmallError(value)</span>
+<span class="sd">    ...     if not value &lt;= max:</span>
+<span class="sd">    ...          raise VdtValueTooBigError(value)</span>
+<span class="sd">    ...     return value</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; fdict = {&#39;int_range&#39;: int_range_check}</span>
+<span class="sd">    &gt;&gt;&gt; vtr1 = Validator(fdict)</span>
+<span class="sd">    &gt;&gt;&gt; vtr1.check(&#39;int_range(20, 40)&#39;, &#39;30&#39;)</span>
+<span class="sd">    30</span>
+<span class="sd">    &gt;&gt;&gt; vtr1.check(&#39;int_range(20, 40)&#39;, &#39;60&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooBigError: the value &quot;60&quot; is too big.</span>
+<span class="sd">    </span>
+<span class="sd">    New functions can be added with : ::</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtr2 = Validator()       </span>
+<span class="sd">    &gt;&gt;&gt; vtr2.functions[&#39;int_range&#39;] = int_range_check</span>
+<span class="sd">    </span>
+<span class="sd">    Or by passing in a dictionary of functions when Validator </span>
+<span class="sd">    is instantiated.</span>
+<span class="sd">    </span>
+<span class="sd">    Your functions *can* use keyword arguments,</span>
+<span class="sd">    but the first argument should always be &#39;value&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    If the function doesn&#39;t take additional arguments,</span>
+<span class="sd">    the parentheses are optional in the check.</span>
+<span class="sd">    It can be written with either of : ::</span>
+<span class="sd">    </span>
+<span class="sd">        keyword = function_name</span>
+<span class="sd">        keyword = function_name()</span>
+<span class="sd">    </span>
+<span class="sd">    The first program to utilise Validator() was Michael Foord&#39;s</span>
+<span class="sd">    ConfigObj, an alternative to ConfigParser which supports lists and</span>
+<span class="sd">    can validate a config file using a config schema.</span>
+<span class="sd">    For more details on using Validator with ConfigObj see:</span>
+<span class="sd">    http://www.voidspace.org.uk/python/configobj.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># this regex does the initial parsing of the checks</span>
+    <span class="n">_func_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;(.+?)\((.*)\)&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+    <span class="c"># this regex takes apart keyword arguments</span>
+    <span class="n">_key_arg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$&#39;</span><span class="p">,</span>  <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+
+    <span class="c"># this regex finds keyword=list(....) type values</span>
+    <span class="n">_list_arg</span> <span class="o">=</span> <span class="n">_list_arg</span>
+
+    <span class="c"># this regex takes individual values out of lists - in one pass</span>
+    <span class="n">_list_members</span> <span class="o">=</span> <span class="n">_list_members</span>
+
+    <span class="c"># These regexes check a set of arguments for validity</span>
+    <span class="c"># and then pull the members out</span>
+    <span class="n">_paramfinder</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">_paramstring</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+    <span class="n">_matchfinder</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">_matchstring</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Validator.__init__"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">functions</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; vtri = Validator()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">functions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass</span><span class="p">,</span>
+            <span class="s">&#39;integer&#39;</span><span class="p">:</span> <span class="n">is_integer</span><span class="p">,</span>
+            <span class="s">&#39;float&#39;</span><span class="p">:</span> <span class="n">is_float</span><span class="p">,</span>
+            <span class="s">&#39;boolean&#39;</span><span class="p">:</span> <span class="n">is_boolean</span><span class="p">,</span>
+            <span class="s">&#39;ip_addr&#39;</span><span class="p">:</span> <span class="n">is_ip_addr</span><span class="p">,</span>
+            <span class="s">&#39;string&#39;</span><span class="p">:</span> <span class="n">is_string</span><span class="p">,</span>
+            <span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">is_list</span><span class="p">,</span>
+            <span class="s">&#39;tuple&#39;</span><span class="p">:</span> <span class="n">is_tuple</span><span class="p">,</span>
+            <span class="s">&#39;int_list&#39;</span><span class="p">:</span> <span class="n">is_int_list</span><span class="p">,</span>
+            <span class="s">&#39;float_list&#39;</span><span class="p">:</span> <span class="n">is_float_list</span><span class="p">,</span>
+            <span class="s">&#39;bool_list&#39;</span><span class="p">:</span> <span class="n">is_bool_list</span><span class="p">,</span>
+            <span class="s">&#39;ip_addr_list&#39;</span><span class="p">:</span> <span class="n">is_ip_addr_list</span><span class="p">,</span>
+            <span class="s">&#39;string_list&#39;</span><span class="p">:</span> <span class="n">is_string_list</span><span class="p">,</span>
+            <span class="s">&#39;mixed_list&#39;</span><span class="p">:</span> <span class="n">is_mixed_list</span><span class="p">,</span>
+            <span class="s">&#39;pass&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass</span><span class="p">,</span>
+            <span class="s">&#39;option&#39;</span><span class="p">:</span> <span class="n">is_option</span><span class="p">,</span>
+            <span class="s">&#39;force_list&#39;</span><span class="p">:</span> <span class="n">force_list</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">functions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">functions</span><span class="p">)</span>
+        <span class="c"># tekNico: for use by ConfigObj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">baseErrorClass</span> <span class="o">=</span> <span class="n">ValidateError</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{}</span>
+
+</div>
+<div class="viewcode-block" id="Validator.check"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator.check">[docs]</a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Usage: check(check, value)</span>
+<span class="sd">        </span>
+<span class="sd">        Arguments:</span>
+<span class="sd">            check: string representing check to apply (including arguments)</span>
+<span class="sd">            value: object to be checked</span>
+<span class="sd">        </span>
+<span class="sd">        Returns value, converted to correct type if necessary</span>
+<span class="sd">        </span>
+<span class="sd">        If the check fails, raises a ``ValidateError`` subclass.</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; vtor.check(&#39;yoda&#39;, &#39;&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtUnknownCheckError: the check &quot;yoda&quot; is unknown.</span>
+<span class="sd">        &gt;&gt;&gt; vtor.check(&#39;yoda()&#39;, &#39;&#39;)</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        VdtUnknownCheckError: the check &quot;yoda&quot; is unknown.</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; vtor.check(&#39;string(default=&quot;&quot;)&#39;, &#39;&#39;, missing=True)</span>
+<span class="sd">        &#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_with_caching</span><span class="p">(</span><span class="n">check</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># no information needed here - to be handled by caller</span>
+                <span class="k">raise</span> <span class="n">VdtMissingValue</span><span class="p">()</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_none</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+                
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Validator._handle_none"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._handle_none">[docs]</a>    <span class="k">def</span> <span class="nf">_handle_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;&#39;None&#39;&quot;</span><span class="p">,</span> <span class="s">&#39;&quot;None&quot;&#39;</span><span class="p">):</span>
+            <span class="c"># Special case a quoted None</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unquote</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="Validator._parse_with_caching"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._parse_with_caching">[docs]</a>    <span class="k">def</span> <span class="nf">_parse_with_caching</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">check</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span>
+            <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">check</span><span class="p">]</span>
+            <span class="c"># We call list and dict below to work with *copies* of the data</span>
+            <span class="c"># rather than the original (which are mutable of course)</span>
+            <span class="n">fun_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fun_args</span><span class="p">)</span>
+            <span class="n">fun_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fun_kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_check</span><span class="p">(</span><span class="n">check</span><span class="p">)</span>
+            <span class="n">fun_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">fun_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">check</span><span class="p">]</span> <span class="o">=</span> <span class="n">fun_name</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">fun_args</span><span class="p">),</span> <span class="nb">dict</span><span class="p">(</span><span class="n">fun_kwargs</span><span class="p">),</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span>
+        
+        </div>
+<div class="viewcode-block" id="Validator._check_value"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._check_value">[docs]</a>    <span class="k">def</span> <span class="nf">_check_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fun</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">functions</span><span class="p">[</span><span class="n">fun_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VdtUnknownCheckError</span><span class="p">(</span><span class="n">fun_name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fun</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">fun_args</span><span class="p">,</span> <span class="o">**</span><span class="n">fun_kwargs</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Validator._parse_check"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._parse_check">[docs]</a>    <span class="k">def</span> <span class="nf">_parse_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check</span><span class="p">):</span>
+        <span class="n">fun_match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func_re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">check</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fun_match</span><span class="p">:</span>
+            <span class="n">fun_name</span> <span class="o">=</span> <span class="n">fun_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">arg_string</span> <span class="o">=</span> <span class="n">fun_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">arg_match</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matchfinder</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">arg_string</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arg_match</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># Bad syntax</span>
+                <span class="k">raise</span> <span class="n">VdtParamError</span><span class="p">(</span><span class="s">&#39;Bad syntax in check &quot;</span><span class="si">%s</span><span class="s">&quot;.&#39;</span> <span class="o">%</span> <span class="n">check</span><span class="p">)</span>
+            <span class="n">fun_args</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">fun_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c"># pull out args of group 2</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_paramfinder</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">arg_string</span><span class="p">):</span>
+                <span class="c"># args may need whitespace removing (before removing quotes)</span>
+                <span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">listmatch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_arg</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">listmatch</span><span class="p">:</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_handle</span><span class="p">(</span><span class="n">listmatch</span><span class="p">)</span>
+                    <span class="n">fun_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="k">continue</span>
+                <span class="n">keymatch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_key_arg</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">keymatch</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">keymatch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;&#39;None&#39;&quot;</span><span class="p">,</span> <span class="s">&#39;&quot;None&quot;&#39;</span><span class="p">):</span>
+                        <span class="c"># Special case a quoted None</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unquote</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                    <span class="n">fun_kwargs</span><span class="p">[</span><span class="n">keymatch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">val</span>
+                    <span class="k">continue</span>
+                
+                <span class="n">fun_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unquote</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># allows for function names without (args)</span>
+            <span class="k">return</span> <span class="n">check</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{},</span> <span class="bp">None</span>
+
+        <span class="c"># Default must be deleted if the value is specified too,</span>
+        <span class="c"># otherwise the check function will get a spurious &quot;default&quot; keyword arg</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="n">fun_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c"># Python 2.2 compatibility</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">default</span> <span class="o">=</span> <span class="n">fun_kwargs</span><span class="p">[</span><span class="s">&#39;default&#39;</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">fun_kwargs</span><span class="p">[</span><span class="s">&#39;default&#39;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            
+        <span class="k">return</span> <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span>
+
+</div>
+<div class="viewcode-block" id="Validator._unquote"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._unquote">[docs]</a>    <span class="k">def</span> <span class="nf">_unquote</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Unquote a value if necessary.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s">&#39;&quot;&#39;</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+</div>
+<div class="viewcode-block" id="Validator._list_handle"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._list_handle">[docs]</a>    <span class="k">def</span> <span class="nf">_list_handle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">listmatch</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Take apart a ``keyword=list(&#39;val, &#39;val&#39;)`` type string.&quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">listmatch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">listmatch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_list_members</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unquote</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">out</span>
+
+</div>
+<div class="viewcode-block" id="Validator._pass"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator._pass">[docs]</a>    <span class="k">def</span> <span class="nf">_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dummy check that always passes</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; vtor.check(&#39;&#39;, 0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; vtor.check(&#39;&#39;, &#39;0&#39;)</span>
+<span class="sd">        &#39;0&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">value</span>
+    
+    </div>
+<div class="viewcode-block" id="Validator.get_default_value"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.Validator.get_default_value">[docs]</a>    <span class="k">def</span> <span class="nf">get_default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a check, return the default value for the check</span>
+<span class="sd">        (converted to the right type).</span>
+<span class="sd">        </span>
+<span class="sd">        If the check doesn&#39;t specify a default value then a</span>
+<span class="sd">        ``KeyError`` will be raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_with_caching</span><span class="p">(</span><span class="n">check</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&#39;Check &quot;</span><span class="si">%s</span><span class="s">&quot; has no default value.&#39;</span> <span class="o">%</span> <span class="n">check</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_none</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">fun_name</span><span class="p">,</span> <span class="n">fun_args</span><span class="p">,</span> <span class="n">fun_kwargs</span><span class="p">)</span>
+
+</div></div>
+<span class="k">def</span> <span class="nf">_is_num_param</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">to_float</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return numbers from inputs or raise VdtParamError.</span>
+<span class="sd">    </span>
+<span class="sd">    Lets ``None`` pass through.</span>
+<span class="sd">    Pass in keyword argument ``to_float=True`` to</span>
+<span class="sd">    use float for the conversion rather than int.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; _is_num_param((&#39;&#39;, &#39;&#39;), (0, 1.0))</span>
+<span class="sd">    [0, 1]</span>
+<span class="sd">    &gt;&gt;&gt; _is_num_param((&#39;&#39;, &#39;&#39;), (0, 1.0), to_float=True)</span>
+<span class="sd">    [0.0, 1.0]</span>
+<span class="sd">    &gt;&gt;&gt; _is_num_param((&#39;a&#39;), (&#39;a&#39;))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtParamError: passed an incorrect value &quot;a&quot; for parameter &quot;a&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="n">to_float</span> <span class="ow">and</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span>
+    <span class="n">out_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">out_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">out_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">VdtParamError</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VdtParamError</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out_params</span>
+
+
+<span class="c"># built in checks</span>
+<span class="c"># you can override these by setting the appropriate name</span>
+<span class="c"># in Validator.functions</span>
+<span class="c"># note: if the params are specified wrongly in your input string,</span>
+<span class="c">#       you will also raise errors.</span>
+
+<div class="viewcode-block" id="is_integer"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_integer">[docs]</a><span class="k">def</span> <span class="nf">is_integer</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A check that tests that a given value is an integer (int, or long)</span>
+<span class="sd">    and optionally, between bounds. A negative value is accepted, while</span>
+<span class="sd">    a float will fail.</span>
+<span class="sd">    </span>
+<span class="sd">    If the value is a string, then the conversion is done - if possible.</span>
+<span class="sd">    Otherwise a VdtError is raised.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer&#39;, &#39;-1&#39;)</span>
+<span class="sd">    -1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer&#39;, &#39;0&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer&#39;, 9)</span>
+<span class="sd">    9</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer&#39;, &#39;a&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;a&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer&#39;, &#39;2.2&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;2.2&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(10)&#39;, &#39;20&#39;)</span>
+<span class="sd">    20</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(max=20)&#39;, &#39;15&#39;)</span>
+<span class="sd">    15</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(10)&#39;, &#39;9&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooSmallError: the value &quot;9&quot; is too small.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(10)&#39;, 9)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooSmallError: the value &quot;9&quot; is too small.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(max=20)&#39;, &#39;35&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooBigError: the value &quot;35&quot; is too big.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(max=20)&#39;, 35)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooBigError: the value &quot;35&quot; is too big.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;integer(0, 9)&#39;, False)</span>
+<span class="sd">    0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span> <span class="o">=</span> <span class="n">_is_num_param</span><span class="p">((</span><span class="s">&#39;min&#39;</span><span class="p">,</span> <span class="s">&#39;max&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="c"># if it&#39;s a string - does it represent an integer ?</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">min_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">min_val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooSmallError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">max_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooBigError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="is_float"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_float">[docs]</a><span class="k">def</span> <span class="nf">is_float</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A check that tests that a given value is a float</span>
+<span class="sd">    (an integer will be accepted), and optionally - that it is between bounds.</span>
+<span class="sd">    </span>
+<span class="sd">    If the value is a string, then the conversion is done - if possible.</span>
+<span class="sd">    Otherwise a VdtError is raised.</span>
+<span class="sd">    </span>
+<span class="sd">    This can accept negative values.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float&#39;, &#39;2&#39;)</span>
+<span class="sd">    2.0</span>
+<span class="sd">    </span>
+<span class="sd">    From now on we multiply the value to avoid comparing decimals</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float&#39;, &#39;-6.8&#39;) * 10</span>
+<span class="sd">    -68.0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float&#39;, &#39;12.2&#39;) * 10</span>
+<span class="sd">    122.0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float&#39;, 8.4) * 10</span>
+<span class="sd">    84.0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float&#39;, &#39;a&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;a&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float(10.1)&#39;, &#39;10.2&#39;) * 10</span>
+<span class="sd">    102.0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float(max=20.2)&#39;, &#39;15.1&#39;) * 10</span>
+<span class="sd">    151.0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float(10.0)&#39;, &#39;9.0&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooSmallError: the value &quot;9.0&quot; is too small.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float(max=20.0)&#39;, &#39;35.0&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooBigError: the value &quot;35.0&quot; is too big.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span> <span class="o">=</span> <span class="n">_is_num_param</span><span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;min&#39;</span><span class="p">,</span> <span class="s">&#39;max&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">),</span> <span class="n">to_float</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="c"># if it&#39;s a string - does it represent a float ?</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">min_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">min_val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooSmallError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">max_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">max_val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooBigError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<span class="n">bool_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="bp">True</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;on&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;true&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&#39;yes&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span> 
+    <span class="bp">False</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;off&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;false&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;no&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="is_boolean"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_boolean">[docs]</a><span class="k">def</span> <span class="nf">is_boolean</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if the value represents a boolean.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, 0)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, False)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;0&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;off&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;false&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;no&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;nO&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;NO&#39;)</span>
+<span class="sd">    0</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, 1)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, True)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;1&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;on&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;true&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;yes&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;Yes&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;YES&#39;)</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;boolean&#39;, &#39;up&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;up&quot; is of the wrong type.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bool_dict</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="c"># we do an equality test rather than an identity test</span>
+    <span class="c"># this ensures Python 2.2 compatibilty</span>
+    <span class="c"># and allows 0 and 1 to represent True and False</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="is_ip_addr"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_ip_addr">[docs]</a><span class="k">def</span> <span class="nf">is_ip_addr</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the supplied value is an Internet Protocol address, v.4,</span>
+<span class="sd">    represented by a dotted-quad string, i.e. &#39;1.2.3.4&#39;.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;1 &#39;)</span>
+<span class="sd">    &#39;1&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39; 1.2&#39;)</span>
+<span class="sd">    &#39;1.2&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39; 1.2.3 &#39;)</span>
+<span class="sd">    &#39;1.2.3&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;1.2.3.4&#39;)</span>
+<span class="sd">    &#39;1.2.3.4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;0.0.0.0&#39;)</span>
+<span class="sd">    &#39;0.0.0.0&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;255.255.255.255&#39;)</span>
+<span class="sd">    &#39;255.255.255.255&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;255.255.255.256&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueError: the value &quot;255.255.255.256&quot; is unacceptable.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, &#39;1.2.3.4.5&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueError: the value &quot;1.2.3.4.5&quot; is unacceptable.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr&#39;, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dottedQuadToNum</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="is_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_list">[docs]</a><span class="k">def</span> <span class="nf">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of values.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    It does no check on list members.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, (1, 2))</span>
+<span class="sd">    [1, 2]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, [1, 2])</span>
+<span class="sd">    [1, 2]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list(3)&#39;, (1, 2))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooShortError: the value &quot;(1, 2)&quot; is too short.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list(max=5)&#39;, (1, 2, 3, 4, 5, 6))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooLongError: the value &quot;(1, 2, 3, 4, 5, 6)&quot; is too long.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list(min=3, max=5)&#39;, (1, 2, 3, 4))</span>
+<span class="sd">    [1, 2, 3, 4]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;list&#39;, &#39;12&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;12&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="p">(</span><span class="n">min_len</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span> <span class="o">=</span> <span class="n">_is_num_param</span><span class="p">((</span><span class="s">&#39;min&#39;</span><span class="p">,</span> <span class="s">&#39;max&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">num_members</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">min_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">num_members</span> <span class="o">&lt;</span> <span class="n">min_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooShortError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">num_members</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooLongError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="is_tuple"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_tuple">[docs]</a><span class="k">def</span> <span class="nf">is_tuple</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a tuple of values.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    It does no check on members.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, ())</span>
+<span class="sd">    ()</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, [])</span>
+<span class="sd">    ()</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, (1, 2))</span>
+<span class="sd">    (1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, [1, 2])</span>
+<span class="sd">    (1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple(3)&#39;, (1, 2))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooShortError: the value &quot;(1, 2)&quot; is too short.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple(max=5)&#39;, (1, 2, 3, 4, 5, 6))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooLongError: the value &quot;(1, 2, 3, 4, 5, 6)&quot; is too long.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple(min=3, max=5)&#39;, (1, 2, 3, 4))</span>
+<span class="sd">    (1, 2, 3, 4)</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;tuple&#39;, &#39;12&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;12&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="is_string"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_string">[docs]</a><span class="k">def</span> <span class="nf">is_string</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the supplied value is a string.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string&#39;, &#39;0&#39;)</span>
+<span class="sd">    &#39;0&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string&#39;, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(2)&#39;, &#39;12&#39;)</span>
+<span class="sd">    &#39;12&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(2)&#39;, &#39;1&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooShortError: the value &quot;1&quot; is too short.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(min=2, max=3)&#39;, &#39;123&#39;)</span>
+<span class="sd">    &#39;123&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(min=2, max=3)&#39;, &#39;1234&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooLongError: the value &quot;1234&quot; is too long.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">min_len</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span> <span class="o">=</span> <span class="n">_is_num_param</span><span class="p">((</span><span class="s">&#39;min&#39;</span><span class="p">,</span> <span class="s">&#39;max&#39;</span><span class="p">),</span> <span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">num_members</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">min_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">num_members</span> <span class="o">&lt;</span> <span class="n">min_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooShortError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">num_members</span> <span class="o">&gt;</span> <span class="n">max_len</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooLongError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<div class="viewcode-block" id="is_int_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_int_list">[docs]</a><span class="k">def</span> <span class="nf">is_int_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of integers.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    Each list member is checked that it is an integer.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;int_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;int_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;int_list&#39;, (1, 2))</span>
+<span class="sd">    [1, 2]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;int_list&#39;, [1, 2])</span>
+<span class="sd">    [1, 2]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;int_list&#39;, [1, &#39;a&#39;])</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;a&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">is_integer</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="k">for</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)]</span>
+
+</div>
+<div class="viewcode-block" id="is_bool_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_bool_list">[docs]</a><span class="k">def</span> <span class="nf">is_bool_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of booleans.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    Each list member is checked that it is a boolean.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;bool_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;bool_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; check_res = vtor.check(&#39;bool_list&#39;, (True, False))</span>
+<span class="sd">    &gt;&gt;&gt; check_res == [True, False]</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; check_res = vtor.check(&#39;bool_list&#39;, [True, False])</span>
+<span class="sd">    &gt;&gt;&gt; check_res == [True, False]</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;bool_list&#39;, [True, &#39;a&#39;])</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;a&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">is_boolean</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="k">for</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)]</span>
+
+</div>
+<div class="viewcode-block" id="is_float_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_float_list">[docs]</a><span class="k">def</span> <span class="nf">is_float_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of floats.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    Each list member is checked that it is a float.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float_list&#39;, (1, 2.0))</span>
+<span class="sd">    [1.0, 2.0]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float_list&#39;, [1, 2.0])</span>
+<span class="sd">    [1.0, 2.0]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;float_list&#39;, [1, &#39;a&#39;])</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;a&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">is_float</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="k">for</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)]</span>
+
+</div>
+<div class="viewcode-block" id="is_string_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_string_list">[docs]</a><span class="k">def</span> <span class="nf">is_string_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of strings.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    Each list member is checked that it is a string.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string_list&#39;, (&#39;a&#39;, &#39;b&#39;))</span>
+<span class="sd">    [&#39;a&#39;, &#39;b&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string_list&#39;, [&#39;a&#39;, 1])</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;1&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string_list&#39;, &#39;hello&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;hello&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">is_string</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="k">for</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)]</span>
+
+</div>
+<div class="viewcode-block" id="is_ip_addr_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_ip_addr_list">[docs]</a><span class="k">def</span> <span class="nf">is_ip_addr_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list of IP addresses.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    </span>
+<span class="sd">    Each list member is checked that it is an IP address.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr_list&#39;, (&#39;1.2.3.4&#39;, &#39;5.6.7.8&#39;))</span>
+<span class="sd">    [&#39;1.2.3.4&#39;, &#39;5.6.7.8&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;ip_addr_list&#39;, [&#39;a&#39;])</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueError: the value &quot;a&quot; is unacceptable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">is_ip_addr</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="k">for</span> <span class="n">mem</span> <span class="ow">in</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)]</span>
+
+</div>
+<span class="k">def</span> <span class="nf">force_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that a value is a list, coercing strings into</span>
+<span class="sd">    a list with one member. Useful where users forget the</span>
+<span class="sd">    trailing comma that turns a single value into a list.</span>
+<span class="sd">    </span>
+<span class="sd">    You can optionally specify the minimum and maximum number of members.</span>
+<span class="sd">    A minumum of greater than one will fail if the user only supplies a</span>
+<span class="sd">    string.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;force_list&#39;, ())</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;force_list&#39;, [])</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;force_list&#39;, &#39;hello&#39;)</span>
+<span class="sd">    [&#39;hello&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">is_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+    
+    
+
+<span class="n">fun_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">&#39;integer&#39;</span><span class="p">:</span> <span class="n">is_integer</span><span class="p">,</span>
+    <span class="s">&#39;float&#39;</span><span class="p">:</span> <span class="n">is_float</span><span class="p">,</span>
+    <span class="s">&#39;ip_addr&#39;</span><span class="p">:</span> <span class="n">is_ip_addr</span><span class="p">,</span>
+    <span class="s">&#39;string&#39;</span><span class="p">:</span> <span class="n">is_string</span><span class="p">,</span>
+    <span class="s">&#39;boolean&#39;</span><span class="p">:</span> <span class="n">is_boolean</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="is_mixed_list"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_mixed_list">[docs]</a><span class="k">def</span> <span class="nf">is_mixed_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check that the value is a list.</span>
+<span class="sd">    Allow specifying the type of each member.</span>
+<span class="sd">    Work on lists of specific lengths.</span>
+<span class="sd">    </span>
+<span class="sd">    You specify each member as a positional argument specifying type</span>
+<span class="sd">    </span>
+<span class="sd">    Each type should be one of the following strings :</span>
+<span class="sd">      &#39;integer&#39;, &#39;float&#39;, &#39;ip_addr&#39;, &#39;string&#39;, &#39;boolean&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    So you can specify a list of two strings, followed by</span>
+<span class="sd">    two integers as :</span>
+<span class="sd">    </span>
+<span class="sd">      mixed_list(&#39;string&#39;, &#39;string&#39;, &#39;integer&#39;, &#39;integer&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    The length of the list must match the number of positional</span>
+<span class="sd">    arguments you supply.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; mix_str = &quot;mixed_list(&#39;integer&#39;, &#39;float&#39;, &#39;ip_addr&#39;, &#39;string&#39;, &#39;boolean&#39;)&quot;</span>
+<span class="sd">    &gt;&gt;&gt; check_res = vtor.check(mix_str, (1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, True))</span>
+<span class="sd">    &gt;&gt;&gt; check_res == [1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, True]</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; check_res = vtor.check(mix_str, (&#39;1&#39;, &#39;2.0&#39;, &#39;1.2.3.4&#39;, &#39;a&#39;, &#39;True&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; check_res == [1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, True]</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(mix_str, (&#39;b&#39;, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, True))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;b&quot; is of the wrong type.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(mix_str, (1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooShortError: the value &quot;(1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;)&quot; is too short.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(mix_str, (1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, 1, &#39;b&#39;))</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueTooLongError: the value &quot;(1, 2.0, &#39;1.2.3.4&#39;, &#39;a&#39;, 1, &#39;b&#39;)&quot; is too long.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(mix_str, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    </span>
+<span class="sd">    This test requires an elaborate setup, because of a change in error string</span>
+<span class="sd">    output from the interpreter between Python 2.2 and 2.3 .</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; res_seq = (</span>
+<span class="sd">    ...     &#39;passed an incorrect value &quot;&#39;,</span>
+<span class="sd">    ...     &#39;yoda&#39;,</span>
+<span class="sd">    ...     &#39;&quot; for parameter &quot;mixed_list&quot;.&#39;,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; res_str = &quot;&#39;&quot;.join(res_seq)</span>
+<span class="sd">    &gt;&gt;&gt; try:</span>
+<span class="sd">    ...     vtor.check(&#39;mixed_list(&quot;yoda&quot;)&#39;, (&#39;a&#39;))</span>
+<span class="sd">    ... except VdtParamError, err:</span>
+<span class="sd">    ...     str(err) == res_str</span>
+<span class="sd">    1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooShortError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtValueTooLongError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">fun_dict</span><span class="p">[</span><span class="n">arg</span><span class="p">](</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">value</span><span class="p">)]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtParamError</span><span class="p">(</span><span class="s">&#39;mixed_list&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="is_option"><a class="viewcode-back" href="../../../terminatorlib.configobj.html#terminatorlib.configobj.validate.is_option">[docs]</a><span class="k">def</span> <span class="nf">is_option</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">options</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This check matches the value to any of a set of options.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;, &#39;yoda&#39;)</span>
+<span class="sd">    &#39;yoda&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;, &#39;jed&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtValueError: the value &quot;jed&quot; is unacceptable.</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;option(&quot;yoda&quot;, &quot;jedi&quot;)&#39;, 0)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    VdtTypeError: the value &quot;0&quot; is of the wrong type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">VdtTypeError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VdtValueError</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_test</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">keywargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A function that exists for test purposes.</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; checks = [</span>
+<span class="sd">    ...     &#39;3, 6, min=1, max=3, test=list(a, b, c)&#39;,</span>
+<span class="sd">    ...     &#39;3&#39;,</span>
+<span class="sd">    ...     &#39;3, 6&#39;,</span>
+<span class="sd">    ...     &#39;3,&#39;,</span>
+<span class="sd">    ...     &#39;min=1, test=&quot;a b c&quot;&#39;,</span>
+<span class="sd">    ...     &#39;min=5, test=&quot;a, b, c&quot;&#39;,</span>
+<span class="sd">    ...     &#39;min=1, max=3, test=&quot;a, b, c&quot;&#39;,</span>
+<span class="sd">    ...     &#39;min=-100, test=-99&#39;,</span>
+<span class="sd">    ...     &#39;min=1, max=3&#39;,</span>
+<span class="sd">    ...     &#39;3, 6, test=&quot;36&quot;&#39;,</span>
+<span class="sd">    ...     &#39;3, 6, test=&quot;a, b, c&quot;&#39;,</span>
+<span class="sd">    ...     &#39;3, max=3, test=list(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)&#39;,</span>
+<span class="sd">    ...     &#39;&#39;&#39;3, max=3, test=list(&quot;&#39;a&#39;&quot;, &#39;b&#39;, &quot;x=(c)&quot;)&#39;&#39;&#39;,</span>
+<span class="sd">    ...     &quot;test=&#39;x=fish(3)&#39;&quot;,</span>
+<span class="sd">    ...    ]</span>
+<span class="sd">    &gt;&gt;&gt; v = Validator({&#39;test&#39;: _test})</span>
+<span class="sd">    &gt;&gt;&gt; for entry in checks:</span>
+<span class="sd">    ...     print v.check((&#39;test(%s)&#39; % entry), 3)</span>
+<span class="sd">    (3, (&#39;3&#39;, &#39;6&#39;), {&#39;test&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], &#39;max&#39;: &#39;3&#39;, &#39;min&#39;: &#39;1&#39;})</span>
+<span class="sd">    (3, (&#39;3&#39;,), {})</span>
+<span class="sd">    (3, (&#39;3&#39;, &#39;6&#39;), {})</span>
+<span class="sd">    (3, (&#39;3&#39;,), {})</span>
+<span class="sd">    (3, (), {&#39;test&#39;: &#39;a b c&#39;, &#39;min&#39;: &#39;1&#39;})</span>
+<span class="sd">    (3, (), {&#39;test&#39;: &#39;a, b, c&#39;, &#39;min&#39;: &#39;5&#39;})</span>
+<span class="sd">    (3, (), {&#39;test&#39;: &#39;a, b, c&#39;, &#39;max&#39;: &#39;3&#39;, &#39;min&#39;: &#39;1&#39;})</span>
+<span class="sd">    (3, (), {&#39;test&#39;: &#39;-99&#39;, &#39;min&#39;: &#39;-100&#39;})</span>
+<span class="sd">    (3, (), {&#39;max&#39;: &#39;3&#39;, &#39;min&#39;: &#39;1&#39;})</span>
+<span class="sd">    (3, (&#39;3&#39;, &#39;6&#39;), {&#39;test&#39;: &#39;36&#39;})</span>
+<span class="sd">    (3, (&#39;3&#39;, &#39;6&#39;), {&#39;test&#39;: &#39;a, b, c&#39;})</span>
+<span class="sd">    (3, (&#39;3&#39;,), {&#39;test&#39;: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;], &#39;max&#39;: &#39;3&#39;})</span>
+<span class="sd">    (3, (&#39;3&#39;,), {&#39;test&#39;: [&quot;&#39;a&#39;&quot;, &#39;b&#39;, &#39;x=(c)&#39;], &#39;max&#39;: &#39;3&#39;})</span>
+<span class="sd">    (3, (), {&#39;test&#39;: &#39;x=fish(3)&#39;})</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&#39;integer(default=6)&#39;, &#39;3&#39;)</span>
+<span class="sd">    3</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&#39;integer(default=6)&#39;, None, True)</span>
+<span class="sd">    6</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;integer(default=6)&#39;)</span>
+<span class="sd">    6</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;float(default=6)&#39;)</span>
+<span class="sd">    6.0</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;pass(default=None)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&quot;string(default=&#39;None&#39;)&quot;)</span>
+<span class="sd">    &#39;None&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;pass&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    KeyError: &#39;Check &quot;pass&quot; has no default value.&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;pass(default=list(1, 2, 3, 4))&#39;)</span>
+<span class="sd">    [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&quot;pass(default=None)&quot;, None, True)</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&quot;pass(default=&#39;None&#39;)&quot;, None, True)</span>
+<span class="sd">    &#39;None&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&#39;pass(default=&quot;None&quot;)&#39;, None, True)</span>
+<span class="sd">    &#39;None&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.check(&#39;pass(default=list(1, 2, 3, 4))&#39;, None, True)</span>
+<span class="sd">    [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;]</span>
+<span class="sd">    </span>
+<span class="sd">    Bug test for unicode arguments</span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; v.check(u&#39;string(min=4)&#39;, u&#39;test&#39;)</span>
+<span class="sd">    u&#39;test&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(u&#39;string(min=4, default=&quot;1234&quot;)&#39;)</span>
+<span class="sd">    u&#39;1234&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.check(u&#39;string(min=4, default=&quot;1234&quot;)&#39;, u&#39;test&#39;)</span>
+<span class="sd">    u&#39;test&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; default = v.get_default_value(&#39;string(default=None)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; default == None</span>
+<span class="sd">    1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">keywargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_test2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &gt;&gt;&gt; v = Validator()</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;string(default=&quot;#ff00dd&quot;)&#39;)</span>
+<span class="sd">    &#39;#ff00dd&#39;</span>
+<span class="sd">    &gt;&gt;&gt; v.get_default_value(&#39;integer(default=3) # comment&#39;)</span>
+<span class="sd">    3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">_test3</span><span class="p">():</span>
+    <span class="sd">r&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(default=&quot;&quot;)&#39;, &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(default=&quot;\n&quot;)&#39;, &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39;\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; print vtor.check(&#39;string(default=&quot;\n&quot;)&#39;, &#39;&#39;, missing=True),</span>
+<span class="sd">    &lt;BLANKLINE&gt;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string()&#39;, &#39;\n&#39;)</span>
+<span class="sd">    &#39;\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(default=&quot;\n\n\n&quot;)&#39;, &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39;\n\n\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string()&#39;, &#39;random \n text goes here\n\n&#39;)</span>
+<span class="sd">    &#39;random \n text goes here\n\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&#39;string(default=&quot; \nrandom text\ngoes \n here\n\n &quot;)&#39;,</span>
+<span class="sd">    ... &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39; \nrandom text\ngoes \n here\n\n &#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&quot;string(default=&#39;\n\n\n&#39;)&quot;, &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39;\n\n\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&quot;option(&#39;\n&#39;,&#39;a&#39;,&#39;b&#39;,default=&#39;\n&#39;)&quot;, &#39;&#39;, missing=True)</span>
+<span class="sd">    &#39;\n&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&quot;string_list()&quot;, [&#39;foo&#39;, &#39;\n&#39;, &#39;bar&#39;])</span>
+<span class="sd">    [&#39;foo&#39;, &#39;\n&#39;, &#39;bar&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; vtor.check(&quot;string_list(default=list(&#39;\n&#39;))&quot;, &#39;&#39;, missing=True)</span>
+<span class="sd">    [&#39;\n&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c"># run the code tests in doctest format</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;__main__&#39;</span><span class="p">)</span>
+    <span class="n">globs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">globs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+        <span class="s">&#39;vtor&#39;</span><span class="p">:</span> <span class="n">Validator</span><span class="p">(),</span>
+    <span class="p">})</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">globs</span><span class="o">=</span><span class="n">globs</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

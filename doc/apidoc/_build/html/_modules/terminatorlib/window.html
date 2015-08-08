@@ -1,0 +1,1148 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.window &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.window</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.window</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;window.py - class for the main Terminator window&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">pygtk</span>
+<span class="n">pygtk</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s">&#39;2.0&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">gobject</span>
+<span class="kn">import</span> <span class="nn">gtk</span>
+
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">make_uuid</span>
+<span class="kn">import</span> <span class="nn">util</span>
+<span class="kn">from</span> <span class="nn">translation</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">version</span> <span class="kn">import</span> <span class="n">APP_NAME</span>
+<span class="kn">from</span> <span class="nn">container</span> <span class="kn">import</span> <span class="n">Container</span>
+<span class="kn">from</span> <span class="nn">factory</span> <span class="kn">import</span> <span class="n">Factory</span>
+<span class="kn">from</span> <span class="nn">terminator</span> <span class="kn">import</span> <span class="n">Terminator</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">keybinder</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">err</span><span class="p">(</span><span class="s">&#39;Warning: python-keybinder is not installed. This means the </span><span class="se">\</span>
+<span class="s">hide_window shortcut will be unavailable&#39;</span><span class="p">)</span>
+
+<span class="c"># pylint: disable-msg=R0904</span>
+<div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">(</span><span class="n">Container</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Window</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing a top-level Terminator window&quot;&quot;&quot;</span>
+
+    <span class="n">terminator</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">isfullscreen</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">ismaximised</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">hidebound</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">hidefunc</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">losefocus_time</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">ignore_startup_show</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">set_pos_by_ratio</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">last_active_term</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">zoom_data</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">term_zoomed</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__gproperties__</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;term_zoomed&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_BOOLEAN</span><span class="p">,</span>
+                            <span class="s">&#39;terminal zoomed&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;whether the terminal is zoomed&#39;</span><span class="p">,</span>
+                            <span class="bp">False</span><span class="p">,</span>
+                            <span class="n">gobject</span><span class="o">.</span><span class="n">PARAM_READWRITE</span><span class="p">)</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="Window.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span> <span class="o">=</span> <span class="n">Terminator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">register_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">Container</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">gtk</span><span class="o">.</span><span class="n">Window</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">gobject</span><span class="o">.</span><span class="n">type_register</span><span class="p">(</span><span class="n">Window</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_signals</span><span class="p">(</span><span class="n">Window</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s">&#39;allow-shrink&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="n">icon_to_apply</span><span class="o">=</span><span class="s">&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_callbacks</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_config</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">WindowTitle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">options_get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">options</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">forcedtitle</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">force_title</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">forcedtitle</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">role</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_role</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">role</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">classname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_wmclass</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">classname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wmclass_class</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">forcedicon</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">icon_to_apply</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">forcedicon</span>
+
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">geometry</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_geometry</span><span class="p">(</span><span class="n">options</span><span class="o">.</span><span class="n">geometry</span><span class="p">):</span>
+                    <span class="n">err</span><span class="p">(</span><span class="s">&#39;Window::__init__: Unable to parse geometry: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> 
+                            <span class="n">options</span><span class="o">.</span><span class="n">geometry</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply_icon</span><span class="p">(</span><span class="n">icon_to_apply</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pending_set_rough_geometry_hint</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Window.do_get_property"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.do_get_property">[docs]</a>    <span class="k">def</span> <span class="nf">do_get_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle gobject getting a property&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">,</span> <span class="s">&#39;term-zoomed&#39;</span><span class="p">]:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">term_zoomed</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;unknown property </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.do_set_property"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.do_set_property">[docs]</a>    <span class="k">def</span> <span class="nf">do_set_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prop</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle gobject setting a property&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">,</span> <span class="s">&#39;term-zoomed&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">term_zoomed</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s">&#39;unknown property </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">prop</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.register_callbacks"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.register_callbacks">[docs]</a>    <span class="k">def</span> <span class="nf">register_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Connect the GTK+ signals we care about&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;key-press-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_key_press</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;button-press-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_button_press</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;delete_event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_delete_event</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;destroy&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_destroy_event</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;window-state-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_window_state_changed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;focus-out-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_focus_out</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;focus-in-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_focus_in</span><span class="p">)</span>
+
+        <span class="c"># Attempt to grab a global hotkey for hiding the window.</span>
+        <span class="c"># If we fail, we&#39;ll never hide the window, iconifying instead.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">][</span><span class="s">&#39;hide_window&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hidebound</span> <span class="o">=</span> <span class="n">keybinder</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">][</span><span class="s">&#39;hide_window&#39;</span><span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">on_hide_window</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">NameError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidebound</span><span class="p">:</span>
+                <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unable to bind hide_window key, another instance/window has it.&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hidefunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iconify</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">hidefunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hide</span>
+</div>
+<div class="viewcode-block" id="Window.apply_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.apply_config">[docs]</a>    <span class="k">def</span> <span class="nf">apply_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply various configuration options&quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">options_get</span><span class="p">()</span>
+        <span class="n">maximise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;window_state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;maximise&#39;</span>
+        <span class="n">fullscreen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;window_state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;fullscreen&#39;</span>
+        <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;window_state&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;hidden&#39;</span>
+        <span class="n">borderless</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;borderless&#39;</span><span class="p">]</span>
+        <span class="n">skiptaskbar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;hide_from_taskbar&#39;</span><span class="p">]</span>
+        <span class="n">alwaysontop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;always_on_top&#39;</span><span class="p">]</span>
+        <span class="n">sticky</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;sticky&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">options</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">maximise</span><span class="p">:</span>
+                <span class="n">maximise</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">fullscreen</span><span class="p">:</span>
+                <span class="n">fullscreen</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">hidden</span><span class="p">:</span>
+                <span class="n">hidden</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">borderless</span><span class="p">:</span>
+                <span class="n">borderless</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_fullscreen</span><span class="p">(</span><span class="n">fullscreen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_maximised</span><span class="p">(</span><span class="n">maximise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_borderless</span><span class="p">(</span><span class="n">borderless</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_always_on_top</span><span class="p">(</span><span class="n">alwaysontop</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_real_transparency</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_sticky</span><span class="p">(</span><span class="n">sticky</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidebound</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_hidden</span><span class="p">(</span><span class="n">hidden</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_skip_taskbar_hint</span><span class="p">(</span><span class="n">skiptaskbar</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_iconified</span><span class="p">(</span><span class="n">hidden</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.apply_icon"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.apply_icon">[docs]</a>    <span class="k">def</span> <span class="nf">apply_icon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requested_icon</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the window icon&quot;&quot;&quot;</span>
+        <span class="n">icon_theme</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">icon_theme_get_default</span><span class="p">()</span>
+        <span class="n">icon_name_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">wmclass_name</span><span class="p">,</span> <span class="n">APP_NAME</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">requested_icon</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_icon_from_file</span><span class="p">(</span><span class="n">requested_icon</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">NameError</span><span class="p">,</span> <span class="n">gobject</span><span class="o">.</span><span class="n">GError</span><span class="p">):</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Unable to load </span><span class="si">%s</span><span class="s"> icon as file&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">requested_icon</span><span class="p">)))</span>
+
+            <span class="n">icon_name_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">requested_icon</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">icon_name</span> <span class="ow">in</span> <span class="n">icon_name_list</span><span class="p">:</span>
+            <span class="c"># Test if the icon is available first</span>
+            <span class="k">if</span> <span class="n">icon_theme</span><span class="o">.</span><span class="n">lookup_icon</span><span class="p">(</span><span class="n">icon_name</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_icon_name</span><span class="p">(</span><span class="n">icon_name</span><span class="p">)</span>
+                <span class="k">return</span> <span class="c"># Success! We&#39;re done.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Unable to load </span><span class="si">%s</span><span class="s"> icon&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">icon_name</span><span class="p">))</span>
+
+        <span class="n">icon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_icon</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STOCK_DIALOG_INFO</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_BUTTON</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_icon</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.on_key_press"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_key_press">[docs]</a>    <span class="k">def</span> <span class="nf">on_key_press</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a keyboard event&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_urgency_hint</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="n">mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">keybindings</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mapping</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Window::on_key_press: looked up </span><span class="si">%r</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">mapping</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mapping</span> <span class="o">==</span> <span class="s">&#39;full_screen&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_fullscreen</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isfullscreen</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">mapping</span> <span class="o">==</span> <span class="s">&#39;close_window&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">on_delete_event</span><span class="p">(</span><span class="n">window</span><span class="p">,</span>
+                        <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">DELETE</span><span class="p">)):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">on_destroy_event</span><span class="p">(</span><span class="n">window</span><span class="p">,</span>
+                            <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">DESTROY</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">mapping</span> <span class="o">==</span> <span class="s">&#39;new_tab&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tab_new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_focussed_terminal</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.on_button_press"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_button_press">[docs]</a>    <span class="k">def</span> <span class="nf">on_button_press</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a mouse button event. Mainly this is just a clean way to</span>
+<span class="sd">        cancel any urgency hints that are set.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_urgency_hint</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.on_focus_out"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_focus_out">[docs]</a>    <span class="k">def</span> <span class="nf">on_focus_out</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Focus has left the window&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">():</span>
+            <span class="n">terminal</span><span class="o">.</span><span class="n">on_window_focus_out</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">losefocus_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;hide_on_lose_focus&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;visible&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidefunc</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.on_focus_in"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_focus_in">[docs]</a>    <span class="k">def</span> <span class="nf">on_focus_in</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Focus has entered the window&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_urgency_hint</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">doing_layout</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">last_active_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="c"># FIXME: Cause the terminal titlebars to update here</span>
+</div>
+<div class="viewcode-block" id="Window.is_child_notebook"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.is_child_notebook">[docs]</a>    <span class="k">def</span> <span class="nf">is_child_notebook</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns True if this Window&#39;s child is a Notebook&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(),</span> <span class="s">&#39;Notebook&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Window.tab_new"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.tab_new">[docs]</a>    <span class="k">def</span> <span class="nf">tab_new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">debugtab</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">_param1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">_param2</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Make a new tab&quot;&quot;&quot;</span>
+        <span class="n">cwd</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&quot;You can&#39;t create a tab while a terminal is maximised/zoomed&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">widget</span><span class="p">:</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_cwd</span><span class="p">()</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_profile</span><span class="p">()</span>
+
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_child_notebook</span><span class="p">():</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Making a new Notebook&#39;</span><span class="p">)</span>
+            <span class="n">notebook</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s">&#39;Notebook&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">present</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span><span class="o">.</span><span class="n">newtab</span><span class="p">(</span><span class="n">debugtab</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="n">cwd</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.on_delete_event"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_delete_event">[docs]</a>    <span class="k">def</span> <span class="nf">on_delete_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a window close request&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(),</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Window::on_delete_event: Only one child, closing is fine&#39;</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(),</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">confirm_close</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;window&#39;</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;unknown child: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Window.confirm_close"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.confirm_close">[docs]</a>    <span class="k">def</span> <span class="nf">confirm_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Display a confirmation dialog when the user is closing multiple</span>
+<span class="sd">        terminals in one window&quot;&quot;&quot;</span>
+        
+        <span class="k">return</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">construct_confirm_close</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="o">==</span> <span class="n">gtk</span><span class="o">.</span><span class="n">RESPONSE_ACCEPT</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Window.on_destroy_event"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_destroy_event">[docs]</a>    <span class="k">def</span> <span class="nf">on_destroy_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle window destruction&quot;&quot;&quot;</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;destroying self&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">():</span>
+            <span class="n">terminal</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cnxids</span><span class="o">.</span><span class="n">remove_all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">deregister_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.on_hide_window"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_hide_window">[docs]</a>    <span class="k">def</span> <span class="nf">on_hide_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a request to hide/show the window&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;visible&#39;</span><span class="p">):</span>
+            <span class="c">#Don&#39;t show if window has just been hidden because of</span>
+            <span class="c">#lost focus</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">losefocus_time</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">)</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;hide_on_lose_focus&#39;</span><span class="p">]:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">x11_get_server_time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">focus</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hidefunc</span><span class="p">()</span>
+
+    <span class="c"># pylint: disable-msg=W0613</span></div>
+<div class="viewcode-block" id="Window.on_window_state_changed"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.on_window_state_changed">[docs]</a>    <span class="k">def</span> <span class="nf">on_window_state_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle the state of the window changing&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isfullscreen</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_window_state</span> <span class="o">&amp;</span> 
+                                 <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">WINDOW_STATE_FULLSCREEN</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ismaximised</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">new_window_state</span> <span class="o">&amp;</span>
+                                 <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">WINDOW_STATE_MAXIMIZED</span><span class="p">)</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Window::on_window_state_changed: fullscreen=</span><span class="si">%s</span><span class="s">, maximised=</span><span class="si">%s</span><span class="s">&#39;</span> \
+                <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">isfullscreen</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ismaximised</span><span class="p">))</span>
+
+        <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.set_maximised"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_maximised">[docs]</a>    <span class="k">def</span> <span class="nf">set_maximised</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the maximised state of the window from the supplied value&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maximize</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unmaximize</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.set_fullscreen"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_fullscreen">[docs]</a>    <span class="k">def</span> <span class="nf">set_fullscreen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the fullscreen state of the window from the supplied value&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fullscreen</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unfullscreen</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.set_borderless"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_borderless">[docs]</a>    <span class="k">def</span> <span class="nf">set_borderless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the state of the window border from the supplied value&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_decorated</span> <span class="p">(</span><span class="ow">not</span> <span class="n">value</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.set_hidden"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_hidden">[docs]</a>    <span class="k">def</span> <span class="nf">set_hidden</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the visibility of the window from the supplied value&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ignore_startup_show</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ignore_startup_show</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Window.set_iconified"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_iconified">[docs]</a>    <span class="k">def</span> <span class="nf">set_iconified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the minimised state of the window from the supplied value&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">iconify</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.set_always_on_top"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_always_on_top">[docs]</a>    <span class="k">def</span> <span class="nf">set_always_on_top</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the always on top window hint from the supplied value&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_keep_above</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.set_sticky"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_sticky">[docs]</a>    <span class="k">def</span> <span class="nf">set_sticky</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the sticky hint from the supplied value&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stick</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.set_real_transparency"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_real_transparency">[docs]</a>    <span class="k">def</span> <span class="nf">set_real_transparency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enable RGBA if supported on the current screen&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_composited</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="n">screen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_screen</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;setting rgba colormap&#39;</span><span class="p">)</span>
+            <span class="n">colormap</span> <span class="o">=</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_rgba_colormap</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;setting rgb colormap&#39;</span><span class="p">)</span>
+            <span class="n">colormap</span> <span class="o">=</span> <span class="n">screen</span><span class="o">.</span><span class="n">get_rgb_colormap</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">colormap</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_colormap</span><span class="p">(</span><span class="n">colormap</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="Window.show"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startup</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Undo the startup show request if started in hidden mode&quot;&quot;&quot;</span>
+        <span class="c">#Present is necessary to grab focus when window is hidden from taskbar.</span>
+        <span class="c">#It is important to call present() before show(), otherwise the window</span>
+        <span class="c">#won&#39;t be brought to front if an another application has the focus.</span>
+        <span class="c">#Last note: present() will implicitly call gtk.Window.show()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">present</span><span class="p">()</span>
+
+        <span class="c">#Window must be shown, then hidden for the hotkeys to be registered</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ignore_startup_show</span> <span class="ow">and</span> <span class="n">startup</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Window.add"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a widget to the window by way of gtk.Window.add()&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">gtk</span><span class="o">.</span><span class="n">Window</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+            <span class="n">signals</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;close-term&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">closeterm</span><span class="p">,</span>
+                       <span class="s">&#39;title-change&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">set_title</span><span class="p">,</span>
+                       <span class="s">&#39;split-horiz&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_horiz</span><span class="p">,</span>
+                       <span class="s">&#39;split-vert&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_vert</span><span class="p">,</span>
+                       <span class="s">&#39;unzoom&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unzoom</span><span class="p">,</span>
+                       <span class="s">&#39;tab-change&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tab_change</span><span class="p">,</span>
+                       <span class="s">&#39;group-all&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_all</span><span class="p">,</span>
+                       <span class="s">&#39;group-all-toggle&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_all_toggle</span><span class="p">,</span>
+                       <span class="s">&#39;ungroup-all&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ungroup_all</span><span class="p">,</span>
+                       <span class="s">&#39;group-tab&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_tab</span><span class="p">,</span>
+                       <span class="s">&#39;group-tab-toggle&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_tab_toggle</span><span class="p">,</span>
+                       <span class="s">&#39;ungroup-tab&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ungroup_tab</span><span class="p">,</span>
+                       <span class="s">&#39;move-tab&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">move_tab</span><span class="p">,</span>
+                       <span class="s">&#39;tab-new&#39;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">tab_new</span><span class="p">,</span> <span class="n">widget</span><span class="p">],</span>
+                       <span class="s">&#39;navigate&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">navigate_terminal</span><span class="p">}</span>
+
+            <span class="k">for</span> <span class="n">signal</span> <span class="ow">in</span> <span class="n">signals</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">handler</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[</span><span class="n">signal</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="n">handler</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                    <span class="n">handler</span> <span class="o">=</span> <span class="n">handler</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">connect_child</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">handler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="n">widget</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.remove"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove our child widget by way of gtk.Window.remove()&quot;&quot;&quot;</span>
+        <span class="n">gtk</span><span class="o">.</span><span class="n">Window</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_child</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.get_children"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.get_children">[docs]</a>    <span class="k">def</span> <span class="nf">get_children</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a single list of our child&quot;&quot;&quot;</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">())</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">children</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.hoover"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.hoover">[docs]</a>    <span class="k">def</span> <span class="nf">hoover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ensure we still have a reason to exist&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;destroy&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.closeterm"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.closeterm">[docs]</a>    <span class="k">def</span> <span class="nf">closeterm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a terminal closing&quot;&quot;&quot;</span>
+        <span class="n">Container</span><span class="o">.</span><span class="n">closeterm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hoover</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.split_axis"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.split_axis">[docs]</a>    <span class="k">def</span> <span class="nf">split_axis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">vertical</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sibling</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">widgetfirst</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Split the window&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&quot;You can&#39;t split while a terminal is maximised/zoomed&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">order</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">vertical</span><span class="p">:</span>
+            <span class="n">container</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s">&#39;VPaned&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">container</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s">&#39;HPaned&#39;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_pos_by_ratio</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sibling</span><span class="p">:</span>
+            <span class="n">sibling</span> <span class="o">=</span> <span class="n">maker</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="s">&#39;Terminal&#39;</span><span class="p">)</span>
+            <span class="n">sibling</span><span class="o">.</span><span class="n">set_cwd</span><span class="p">(</span><span class="n">cwd</span><span class="p">)</span>
+            <span class="n">sibling</span><span class="o">.</span><span class="n">spawn_child</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">widget</span><span class="o">.</span><span class="n">group</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;split_to_group&#39;</span><span class="p">]:</span>
+                <span class="n">sibling</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">widget</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;always_split_with_profile&#39;</span><span class="p">]:</span>
+            <span class="n">sibling</span><span class="o">.</span><span class="n">force_set_profile</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_profile</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
+        <span class="n">container</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+
+        <span class="n">order</span> <span class="o">=</span> <span class="p">[</span><span class="n">widget</span><span class="p">,</span> <span class="n">sibling</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">widgetfirst</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">order</span><span class="p">:</span>
+            <span class="n">container</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+        <span class="n">container</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+        <span class="n">sibling</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+        
+        <span class="k">while</span> <span class="n">gtk</span><span class="o">.</span><span class="n">events_pending</span><span class="p">():</span>
+            <span class="n">gtk</span><span class="o">.</span><span class="n">main_iteration_do</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_pos_by_ratio</span> <span class="o">=</span> <span class="bp">False</span>
+
+</div>
+<div class="viewcode-block" id="Window.zoom"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.zoom">[docs]</a>    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Zoom a terminal widget&quot;&quot;&quot;</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">widget</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+            <span class="c"># This widget is a direct child of ours and we&#39;re a Window</span>
+            <span class="c"># so zooming is a no-op</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">get_zoom_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;widget&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_child&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;font_scale&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">font_scale</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_child&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_parent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">font_scale</span><span class="p">:</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">cnxids</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="s">&#39;size-allocate&#39;</span><span class="p">,</span> 
+                    <span class="n">widget</span><span class="o">.</span><span class="n">zoom_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">)</span>
+
+        <span class="n">widget</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.unzoom"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.unzoom">[docs]</a>    <span class="k">def</span> <span class="nf">unzoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Restore normal terminal layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">):</span>
+            <span class="c"># We&#39;re not zoomed anyway</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Window::unzoom: not zoomed, no-op&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;widget&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;font_scale&#39;</span><span class="p">]:</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">set_font</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_font&#39;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_child&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span><span class="p">[</span><span class="s">&#39;old_parent&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">widget</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">zoom_data</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_property</span><span class="p">(</span><span class="s">&#39;term_zoomed&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.rotate"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rotate children in this window&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_pos_by_ratio</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="c"># collect all paned children in breadth-first order</span>
+        <span class="n">paned</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Paned&#39;</span><span class="p">):</span>
+                <span class="n">paned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paned</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">paned</span> <span class="ow">and</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Paned&#39;</span><span class="p">):</span>
+                    <span class="n">paned</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="c"># then propagate the rotation</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paned</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">clockwise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+        <span class="n">widget</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+        
+        <span class="k">while</span> <span class="n">gtk</span><span class="o">.</span><span class="n">events_pending</span><span class="p">():</span>
+            <span class="n">gtk</span><span class="o">.</span><span class="n">main_iteration_do</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_pos_by_ratio</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Window.get_visible_terminals"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.get_visible_terminals">[docs]</a>    <span class="k">def</span> <span class="nf">get_visible_terminals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Walk down the widget tree to find all of the visible terminals.</span>
+<span class="sd">        Mostly using Container::get_visible_terminals()&quot;&quot;&quot;</span>
+        <span class="n">terminals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;cached_maker&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">child</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">([])</span>
+
+        <span class="c"># If our child is a Notebook, reset to work from its visible child</span>
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">pagenum</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_nth_page</span><span class="p">(</span><span class="n">pagenum</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Container&#39;</span><span class="p">):</span>
+            <span class="n">terminals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+            <span class="n">terminals</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unknown child type </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">child</span><span class="p">))</span>
+
+        <span class="k">return</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.get_focussed_terminal"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.get_focussed_terminal">[docs]</a>    <span class="k">def</span> <span class="nf">get_focussed_terminal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find which terminal we want to have focus&quot;&quot;&quot;</span>
+        <span class="n">terminals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="n">terminals</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">terminal</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">is_focus</span><span class="p">():</span>
+                <span class="k">return</span><span class="p">(</span><span class="n">terminal</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.deferred_set_rough_geometry_hints"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.deferred_set_rough_geometry_hints">[docs]</a>    <span class="k">def</span> <span class="nf">deferred_set_rough_geometry_hints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># no parameters are used in set_rough_geometry_hints, so we can</span>
+        <span class="c"># use the set_rough_geometry_hints</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pending_set_rough_geometry_hint</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pending_set_rough_geometry_hint</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">gobject</span><span class="o">.</span><span class="n">idle_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">do_deferred_set_rough_geometry_hints</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.do_deferred_set_rough_geometry_hints"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.do_deferred_set_rough_geometry_hints">[docs]</a>    <span class="k">def</span> <span class="nf">do_deferred_set_rough_geometry_hints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pending_set_rough_geometry_hint</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_rough_geometry_hints</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.set_rough_geometry_hints"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_rough_geometry_hints">[docs]</a>    <span class="k">def</span> <span class="nf">set_rough_geometry_hints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Walk all the terminals along the top and left edges to fake up how</span>
+<span class="sd">        many columns/rows we sort of have&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ismaximised</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;cached_maker&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cached_maker</span>
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">(),</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;We don&#39;t currently support geometry hinting with tabs&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">terminals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">()</span>
+        <span class="n">column_sum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">row_sum</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="n">terminals</span><span class="p">:</span>
+            <span class="n">rect</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rect</span><span class="o">.</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+                <span class="n">row_sum</span> <span class="o">=</span> <span class="n">row_sum</span> <span class="o">+</span> <span class="n">rows</span>
+            <span class="k">if</span> <span class="n">rect</span><span class="o">.</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">cols</span><span class="p">,</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+                <span class="n">column_sum</span> <span class="o">=</span> <span class="n">column_sum</span> <span class="o">+</span> <span class="n">cols</span>
+
+        <span class="k">if</span> <span class="n">column_sum</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">row_sum</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;column_sum=</span><span class="si">%s</span><span class="s">,row_sum=</span><span class="si">%s</span><span class="s">. No terminals found in &gt;=1 axis&#39;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">column_sum</span><span class="p">,</span> <span class="n">row_sum</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="c"># FIXME: I don&#39;t think we should just use whatever font size info is on</span>
+        <span class="c"># the last terminal we inspected. Looking up the default profile font</span>
+        <span class="c"># size and calculating its character sizes would be rather expensive</span>
+        <span class="c"># though.</span>
+        <span class="n">font_width</span><span class="p">,</span> <span class="n">font_height</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_font_size</span><span class="p">()</span>
+        <span class="n">total_font_width</span> <span class="o">=</span> <span class="n">font_width</span> <span class="o">*</span> <span class="n">column_sum</span>
+        <span class="n">total_font_height</span> <span class="o">=</span> <span class="n">font_height</span> <span class="o">*</span> <span class="n">row_sum</span>
+
+        <span class="n">win_width</span><span class="p">,</span> <span class="n">win_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span>
+        <span class="n">extra_width</span> <span class="o">=</span> <span class="n">win_width</span> <span class="o">-</span> <span class="n">total_font_width</span>
+        <span class="n">extra_height</span> <span class="o">=</span> <span class="n">win_height</span> <span class="o">-</span> <span class="n">total_font_height</span>
+
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;setting geometry hints: (ewidth:</span><span class="si">%s</span><span class="s">)(eheight:</span><span class="si">%s</span><span class="s">),</span><span class="se">\</span>
+<span class="s">(fwidth:</span><span class="si">%s</span><span class="s">)(fheight:</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">extra_width</span><span class="p">,</span> <span class="n">extra_height</span><span class="p">,</span> 
+                            <span class="n">font_width</span><span class="p">,</span> <span class="n">font_height</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_geometry_hints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">extra_width</span><span class="p">,</span>
+                <span class="n">extra_height</span><span class="p">,</span> <span class="n">font_width</span><span class="p">,</span> <span class="n">font_height</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.tab_change"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.tab_change">[docs]</a>    <span class="k">def</span> <span class="nf">tab_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Change to a specific tab&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;must specify a tab to change to&#39;</span><span class="p">)</span>
+
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;child is not a notebook, nothing to change to&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="c"># Go to the next tab</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+            <span class="n">pages</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_n_pages</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="o">==</span> <span class="n">pages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="n">cur</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">num</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span>
+            <span class="c"># Go to the previous tab</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="n">cur</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">get_n_pages</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="n">child</span><span class="o">.</span><span class="n">set_current_page</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+        <span class="c"># Work around strange bug in gtk-2.12.11 and pygtk-2.12.1</span>
+        <span class="c"># Without it, the selection changes, but the displayed page doesn&#39;t</span>
+        <span class="c"># change</span>
+        <span class="n">child</span><span class="o">.</span><span class="n">set_current_page</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Window.set_groups"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.set_groups">[docs]</a>    <span class="k">def</span> <span class="nf">set_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_group</span><span class="p">,</span>  <span class="n">term_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set terminals in term_list to new_group&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="n">term_list</span><span class="p">:</span>
+            <span class="n">terminal</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">new_group</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">focus_changed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">last_focused_term</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.group_all"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.group_all">[docs]</a>    <span class="k">def</span> <span class="nf">group_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Group all terminals&quot;&quot;&quot;</span>
+        <span class="c"># FIXME: Why isn&#39;t this being done by Terminator() ?</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;All&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">create_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_groups</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">terminals</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.group_all_toggle"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.group_all_toggle">[docs]</a>    <span class="k">def</span> <span class="nf">group_all_toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Toggle grouping to all&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">widget</span><span class="o">.</span><span class="n">group</span> <span class="o">==</span> <span class="s">&#39;All&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ungroup_all</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">group_all</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.ungroup_all"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.ungroup_all">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ungroup all terminals&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_groups</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">terminals</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.group_tab"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.group_tab">[docs]</a>    <span class="k">def</span> <span class="nf">group_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Group all terminals in the current tab&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">notebook</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">notebook</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;not in a notebook, refusing to group tab&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">pagenum</span> <span class="o">=</span> <span class="n">notebook</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;Tab </span><span class="si">%d</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">pagenum</span>
+            <span class="k">if</span> <span class="n">group</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">pagenum</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_groups</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Window.group_tab_toggle"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.group_tab_toggle">[docs]</a>    <span class="k">def</span> <span class="nf">group_tab_toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Blah&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">widget</span><span class="o">.</span><span class="n">group</span> <span class="ow">and</span> <span class="n">widget</span><span class="o">.</span><span class="n">group</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Tab &#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ungroup_tab</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">group_tab</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.ungroup_tab"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.ungroup_tab">[docs]</a>    <span class="k">def</span> <span class="nf">ungroup_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Ungroup all terminals in the current tab&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">notebook</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">notebook</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;note in a notebook, refusing to ungroup tab&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_groups</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Window.move_tab"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.move_tab">[docs]</a>    <span class="k">def</span> <span class="nf">move_tab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a keyboard shortcut for moving tab positions&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
+        <span class="n">notebook</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">notebook</span><span class="p">,</span> <span class="s">&#39;Notebook&#39;</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;not in a notebook, refusing to move tab </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;moving tab </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+        <span class="n">numpages</span> <span class="o">=</span> <span class="n">notebook</span><span class="o">.</span><span class="n">get_n_pages</span><span class="p">()</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">notebook</span><span class="o">.</span><span class="n">get_current_page</span><span class="p">()</span>
+        <span class="n">child</span> <span class="o">=</span> <span class="n">notebook</span><span class="o">.</span><span class="n">get_nth_page</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;left&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">numpages</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">page</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;right&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="n">numpages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">page</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;unknown direction: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">notebook</span><span class="o">.</span><span class="n">reorder_child</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Window.navigate_terminal"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.navigate_terminal">[docs]</a>    <span class="k">def</span> <span class="nf">navigate_terminal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">terminal</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Navigate around terminals&quot;&quot;&quot;</span>
+        <span class="n">_containers</span><span class="p">,</span> <span class="n">terminals</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">enumerate_descendants</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">visibles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">()</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">terminals</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">terminal</span><span class="p">)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span>
+        <span class="nb">next</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">visibles</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;next&#39;</span><span class="p">,</span> <span class="s">&#39;prev&#39;</span><span class="p">]:</span>
+            <span class="n">tmpterms</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">terminals</span><span class="p">)</span>
+            <span class="n">tmpterms</span> <span class="o">=</span> <span class="n">tmpterms</span><span class="p">[</span><span class="n">current</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">tmpterms</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">terminals</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">current</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s">&#39;next&#39;</span><span class="p">:</span>
+                <span class="n">tmpterms</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+            <span class="nb">next</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmpterms</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmpitem</span> <span class="o">=</span> <span class="n">tmpterms</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">tmpitem</span> <span class="ow">in</span> <span class="n">visibles</span><span class="p">:</span>
+                    <span class="nb">next</span> <span class="o">=</span> <span class="n">terminals</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tmpitem</span><span class="p">)</span>
+                    <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;left&#39;</span><span class="p">,</span> <span class="s">&#39;right&#39;</span><span class="p">,</span> <span class="s">&#39;up&#39;</span><span class="p">,</span> <span class="s">&#39;down&#39;</span><span class="p">]:</span>
+            <span class="n">layout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_visible_terminals</span><span class="p">()</span>
+            <span class="n">allocation</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
+            <span class="n">possibles</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c"># Get the co-ordinate of the appropriate edge for this direction</span>
+            <span class="n">edge</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">get_edge</span><span class="p">(</span><span class="n">allocation</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="c"># Find all visible terminals which are, in their entirity, in the</span>
+            <span class="c"># direction we want to move, and are at least partially spanning</span>
+            <span class="c"># p1 to p2</span>
+            <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">layout</span><span class="p">:</span>
+                <span class="n">rect</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">get_nav_possible</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">rect</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+                    <span class="n">possibles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">possibles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span>
+
+            <span class="c"># Find out how far away each of the possible terminals is, then</span>
+            <span class="c"># find the smallest distance. The winning terminals are all of</span>
+            <span class="c"># those who are that distance away.</span>
+            <span class="n">offsets</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">possibles</span><span class="p">:</span>
+                <span class="n">rect</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+                <span class="n">offsets</span><span class="p">[</span><span class="n">term</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">get_nav_offset</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">rect</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">offsets</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+            <span class="n">keys</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="n">winners</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">offsets</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="nb">next</span> <span class="o">=</span> <span class="n">terminals</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">winners</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">winners</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c"># Break an n-way tie using the cursor position</span>
+                <span class="n">term_alloc</span> <span class="o">=</span> <span class="n">terminal</span><span class="o">.</span><span class="n">allocation</span>
+                <span class="n">cursor_x</span> <span class="o">=</span> <span class="n">term_alloc</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">term_alloc</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="n">cursor_y</span> <span class="o">=</span> <span class="n">term_alloc</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">term_alloc</span><span class="o">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span>
+
+                <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">winners</span><span class="p">:</span>
+                    <span class="n">rect</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">get_nav_tiebreak</span><span class="p">(</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor_x</span><span class="p">,</span> <span class="n">cursor_y</span><span class="p">,</span>
+                            <span class="n">rect</span><span class="p">):</span>
+                        <span class="nb">next</span> <span class="o">=</span> <span class="n">terminals</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+                        <span class="k">break</span><span class="p">;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unknown navigation direction: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">direction</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">next</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">terminals</span><span class="p">[</span><span class="nb">next</span><span class="p">]</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Window.create_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.Window.create_layout">[docs]</a>    <span class="k">def</span> <span class="nf">create_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply any config items from our layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">layout</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;children&#39;</span><span class="p">):</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;layout describes no children: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">layout</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="n">layout</span><span class="p">[</span><span class="s">&#39;children&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">children</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># We&#39;re a Window, we can only have one child</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;incorrect number of children for Window: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">layout</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">child</span> <span class="o">=</span> <span class="n">children</span><span class="p">[</span><span class="n">children</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">terminal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Making a child of type: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;VPaned&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">terminal</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;HPaned&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">terminal</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Notebook&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tab_new</span><span class="p">()</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">child</span><span class="p">[</span><span class="s">&#39;children&#39;</span><span class="p">]):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tab_new</span><span class="p">()</span>
+                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;Terminal&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;unknown child type: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">child</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_children</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">create_layout</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layout</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;last_active_term&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_term&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_active_term</span> <span class="o">=</span> <span class="n">make_uuid</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_term&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">layout</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;last_active_window&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">layout</span><span class="p">[</span><span class="s">&#39;last_active_window&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;True&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">last_active_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span>
+</div></div>
+<div class="viewcode-block" id="WindowTitle"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.WindowTitle">[docs]</a><span class="k">class</span> <span class="nc">WindowTitle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to handle the setting of the window title&quot;&quot;&quot;</span>
+
+    <span class="n">window</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">forced</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="WindowTitle.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.WindowTitle.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forced</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="WindowTitle.set_title"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.WindowTitle.set_title">[docs]</a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the title&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">forced</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="WindowTitle.force_title"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.WindowTitle.force_title">[docs]</a>    <span class="k">def</span> <span class="nf">force_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newtext</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Force a specific title&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">newtext</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">newtext</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forced</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forced</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="WindowTitle.update"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.window.WindowTitle.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the title automatically&quot;&quot;&quot;</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="c"># FIXME: What the hell is this for?!</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">forced</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+
+<span class="c"># vim: set expandtab ts=4 sw=4:</span></div></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

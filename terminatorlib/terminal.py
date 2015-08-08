@@ -15,7 +15,7 @@ import pango
 import subprocess
 import urllib
 
-from util import dbg, err, gerr, spawn_new_terminator, make_uuid
+from util import dbg, err, gerr, spawn_new_terminator, make_uuid,  manual_lookup
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -1843,6 +1843,11 @@ class Terminal(gtk.VBox):
 
     def key_line_down(self):
         self.scroll_by_line(1)
+
+    def key_help(self):
+        manual_index_page = manual_lookup()
+        if manual_index_page:
+            self.open_url('file://%s' % (manual_index_page))
 
 # End key events
 

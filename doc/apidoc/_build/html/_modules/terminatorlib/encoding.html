@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.encoding &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.encoding</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.encoding</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c">#    TerminatorEncoding - charset encoding classes</span>
+<span class="c">#    Copyright (C) 2006-2010  chantra@debuntu.org</span>
+<span class="c">#</span>
+<span class="c">#  This program is free software; you can redistribute it and/or modify</span>
+<span class="c">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c">#  the Free Software Foundation, version 2 only.</span>
+<span class="c">#</span>
+<span class="c">#  This program is distributed in the hope that it will be useful,</span>
+<span class="c">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">#  GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#  You should have received a copy of the GNU General Public License</span>
+<span class="c">#  along with this program; if not, write to the Free Software</span>
+<span class="c">#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA</span>
+
+<span class="sd">&quot;&quot;&quot;TerminatorEncoding by Emmanuel Bretelle &lt;chantra@debuntu.org&gt;</span>
+
+<span class="sd">TerminatorEncoding supplies a list of possible encoding</span>
+<span class="sd"> values.</span>
+<span class="sd">This list is taken from gnome-terminal&#39;s src/terminal-encoding.c</span>
+<span class="sd"> and src/encoding.c</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">translation</span> <span class="kn">import</span> <span class="n">_</span>
+
+<span class="c">#pylint: disable-msg=R0903</span>
+<div class="viewcode-block" id="TerminatorEncoding"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.encoding.TerminatorEncoding">[docs]</a><span class="k">class</span> <span class="nc">TerminatorEncoding</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class to store encoding details&quot;&quot;&quot;</span>
+
+<span class="c"># The commented out entries below are so marked because gnome-terminal has done</span>
+<span class="c">#  the same.</span>
+    <span class="n">encodings</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Current Locale&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-1&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Western&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-2&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Central European&quot;</span><span class="p">)],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-3&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;South European&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-4&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Baltic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-5&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-6&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Arabic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-7&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Greek&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-8&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hebrew Visual&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-8-I&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hebrew&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-9&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Turkish&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-10&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Nordic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-13&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Baltic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-14&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Celtic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-15&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Western&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-8859-16&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Romanian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="c">#    [False, &quot;UTF-7&quot;, _(&quot;Unicode&quot;) ],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;UTF-8&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Unicode&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="c">#    [False, &quot;UTF-16&quot;, _(&quot;Unicode&quot;) ],</span>
+        <span class="c">#    [False, &quot;UCS-2&quot;, _(&quot;Unicode&quot;) ],</span>
+        <span class="c">#    [False, &quot;UCS-4&quot;, _(&quot;Unicode&quot;) ],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ARMSCII-8&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Armenian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;BIG5&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Traditional&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;BIG5-HKSCS&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Traditional&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;CP866&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic/Russian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;EUC-JP&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Japanese&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;EUC-KR&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Korean&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;EUC-TW&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Traditional&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;GB18030&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Simplified&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;GB2312&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Simplified&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;GBK&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Simplified&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;GEORGIAN-PS&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Georgian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;HZ&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Chinese Simplified&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM850&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Western&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM852&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Central European&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM855&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM857&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Turkish&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM862&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hebrew&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;IBM864&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Arabic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-2022-JP&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Japanese&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-2022-KR&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Korean&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;ISO-IR-111&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="c">#    [False, &quot;JOHAB&quot;, _(&quot;Korean&quot;) ],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;KOI8-R&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;KOI8-U&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic/Ukrainian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_ARABIC&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Arabic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_CE&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Central European&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_CROATIAN&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Croatian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC-CYRILLIC&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_DEVANAGARI&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hindi&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_FARSI&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Persian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_GREEK&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Greek&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_GUJARATI&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Gujarati&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_GURMUKHI&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Gurmukhi&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_HEBREW&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hebrew&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_ICELANDIC&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Icelandic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_ROMAN&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Western&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_ROMANIAN&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Romanian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_TURKISH&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Turkish&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;MAC_UKRAINIAN&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic/Ukrainian&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;SHIFT-JIS&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Japanese&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;TCVN&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Vietnamese&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;TIS-620&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Thai&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;UHC&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Korean&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;VISCII&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Vietnamese&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1250&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Central European&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1251&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Cyrillic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1252&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Western&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1253&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Greek&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1254&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Turkish&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1255&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Hebrew&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1256&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Arabic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1257&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Baltic&quot;</span><span class="p">)</span> <span class="p">],</span>
+        <span class="p">[</span><span class="bp">False</span><span class="p">,</span> <span class="s">&quot;WINDOWS-1258&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s">&quot;Vietnamese&quot;</span><span class="p">)</span> <span class="p">]</span>
+        <span class="p">]</span>
+
+<div class="viewcode-block" id="TerminatorEncoding.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.encoding.TerminatorEncoding.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="TerminatorEncoding.get_list"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.encoding.TerminatorEncoding.get_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_list</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of supported encodings&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">TerminatorEncoding</span><span class="o">.</span><span class="n">encodings</span>
+</div>
+    <span class="n">get_list</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">get_list</span><span class="p">)</span>
+</pre></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

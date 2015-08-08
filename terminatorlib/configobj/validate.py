@@ -160,7 +160,6 @@ __all__ = (
     'is_ip_addr_list',
     'is_mixed_list',
     'is_option',
-    '__docformat__',
 )
 
 
@@ -481,7 +480,7 @@ class Validator(object):
     ...     if not value <= max:
     ...          raise VdtValueTooBigError(value)
     ...     return value
-    
+    ...
     >>> fdict = {'int_range': int_range_check}
     >>> vtr1 = Validator(fdict)
     >>> vtr1.check('int_range(20, 40)', '30')
@@ -571,6 +570,7 @@ class Validator(object):
         Arguments:
             check: string representing check to apply (including arguments)
             value: object to be checked
+        
         Returns value, converted to correct type if necessary
         
         If the check fails, raises a ``ValidateError`` subclass.

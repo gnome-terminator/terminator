@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.plugin &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.plugin</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.plugin</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;plugin.py - Base plugin system</span>
+<span class="sd">   Inspired by Armin Ronacher&#39;s post at</span>
+<span class="sd">   http://lucumr.pocoo.org/2006/7/3/python-plugin-system</span>
+<span class="sd">   Used with permission (the code in that post is to be</span>
+<span class="sd">   considered BSD licenced, per the authors wishes)</span>
+
+<span class="sd">&gt;&gt;&gt; registry = PluginRegistry()</span>
+<span class="sd">&gt;&gt;&gt; registry.instances</span>
+<span class="sd">{}</span>
+<span class="sd">&gt;&gt;&gt; registry.load_plugins(True)</span>
+<span class="sd">&gt;&gt;&gt; plugins = registry.get_plugins_by_capability(&#39;test&#39;)</span>
+<span class="sd">&gt;&gt;&gt; len(plugins)</span>
+<span class="sd">1</span>
+<span class="sd">&gt;&gt;&gt; plugins[0] #doctest: +ELLIPSIS</span>
+<span class="sd">&lt;testplugin.TestPlugin object at 0x...&gt;</span>
+<span class="sd">&gt;&gt;&gt; registry.get_plugins_by_capability(&#39;this_should_not_ever_exist&#39;)</span>
+<span class="sd">[]</span>
+<span class="sd">&gt;&gt;&gt; plugins[0].do_test()</span>
+<span class="sd">&#39;TestPluginWin&#39;</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">borg</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">get_config_dir</span>
+<span class="kn">from</span> <span class="nn">terminator</span> <span class="kn">import</span> <span class="n">Terminator</span>
+
+<div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.Plugin">[docs]</a><span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Definition of our base plugin class&quot;&quot;&quot;</span>
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Plugin.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.Plugin.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Plugin.unload"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.Plugin.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prepare to be unloaded&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</div></div>
+<div class="viewcode-block" id="PluginRegistry"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry">[docs]</a><span class="k">class</span> <span class="nc">PluginRegistry</span><span class="p">(</span><span class="n">borg</span><span class="o">.</span><span class="n">Borg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Definition of a class to store plugin instances&quot;&quot;&quot;</span>
+    <span class="n">available_plugins</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">instances</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">done</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="PluginRegistry.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="n">borg</span><span class="o">.</span><span class="n">Borg</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepare_attributes</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.prepare_attributes"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.prepare_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prepare our attributes&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">instances</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="n">_tail</span><span class="p">)</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">borg</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">head</span><span class="p">,</span> <span class="s">&#39;plugins&#39;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_config_dir</span><span class="p">(),</span> <span class="s">&#39;plugins&#39;</span><span class="p">))</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;PluginRegistry::prepare_attributes: Plugin path: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> 
+                <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span> <span class="o">=</span> <span class="p">{}</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.load_plugins"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.load_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">load_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load all plugins present in the plugins/ directory in our module&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;PluginRegistry::load_plugins: Already loaded&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">plugindir</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">plugindir</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">plugindir</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">plugindir</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="n">pluginpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugindir</span><span class="p">,</span> <span class="n">plugin</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">pluginpath</span><span class="p">)</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s">&#39;.py&#39;</span><span class="p">:</span>
+                    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;PluginRegistry::load_plugins: Importing plugin </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> 
+                        <span class="n">plugin</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">plugin</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">])</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s">&#39;AVAILABLE&#39;</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                                <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">testing</span> <span class="ow">and</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="p">[</span><span class="s">&#39;enabled_plugins&#39;</span><span class="p">]:</span>
+                                <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;plugin </span><span class="si">%s</span><span class="s"> not enabled, skipping&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
+                                <span class="k">continue</span>
+                            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">item</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+                        <span class="n">err</span><span class="p">(</span><span class="s">&#39;PluginRegistry::load_plugins: Importing plugin </span><span class="si">%s</span><span class="s"> </span><span class="se">\</span>
+<span class="s">failed: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">ex</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.get_plugins_by_capability"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.get_plugins_by_capability">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugins_by_capability</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capability</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of plugins with a particular capability&quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;PluginRegistry::get_plugins_by_capability: searching </span><span class="si">%d</span><span class="s"> plugins </span><span class="se">\</span>
+<span class="s">for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">),</span> <span class="n">capability</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">capability</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span><span class="o">.</span><span class="n">capabilities</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">plugin</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.get_all_plugins"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.get_all_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return all plugins&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.get_available_plugins"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.get_available_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">get_available_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of all available plugins whether they are enabled or</span>
+<span class="sd">        disabled&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.is_enabled"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.is_enabled">[docs]</a>    <span class="k">def</span> <span class="nf">is_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a boolean value indicating whether a plugin is enabled or</span>
+<span class="sd">        not&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.enable"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.enable">[docs]</a>    <span class="k">def</span> <span class="nf">enable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enable a plugin&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&quot;Cannot enable plugin </span><span class="si">%s</span><span class="s">, already enabled&quot;</span> <span class="o">%</span> <span class="n">plugin</span><span class="p">)</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;Enabling </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">plugin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">available_plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]()</span>
+</div>
+<div class="viewcode-block" id="PluginRegistry.disable"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.PluginRegistry.disable">[docs]</a>    <span class="k">def</span> <span class="nf">disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Disable a plugin&quot;&quot;&quot;</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&quot;Disabling </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">plugin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instances</span><span class="p">[</span><span class="n">plugin</span><span class="p">])</span>
+
+<span class="c"># This is where we should define a base class for each type of plugin we</span>
+<span class="c"># support</span>
+
+<span class="c"># URLHandler - This adds a regex match to the Terminal widget and provides a</span>
+<span class="c">#               callback to turn that into a URL.</span></div></div>
+<div class="viewcode-block" id="URLHandler"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.URLHandler">[docs]</a><span class="k">class</span> <span class="nc">URLHandler</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for URL handlers&quot;&quot;&quot;</span>
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;url_handler&#39;</span><span class="p">]</span>
+    <span class="n">handler_name</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">nameopen</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">namecopy</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="URLHandler.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.URLHandler.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="n">Plugin</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">terminator</span> <span class="o">=</span> <span class="n">Terminator</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="n">terminator</span><span class="o">.</span><span class="n">terminals</span><span class="p">:</span>
+            <span class="n">terminal</span><span class="o">.</span><span class="n">match_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">match</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="URLHandler.callback"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.URLHandler.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Callback to transform the enclosed URL&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</div>
+<div class="viewcode-block" id="URLHandler.unload"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.URLHandler.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle being removed&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">match</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;unload called without self.handler_name being set&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">terminator</span> <span class="o">=</span> <span class="n">Terminator</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">terminal</span> <span class="ow">in</span> <span class="n">terminator</span><span class="o">.</span><span class="n">terminals</span><span class="p">:</span>
+            <span class="n">terminal</span><span class="o">.</span><span class="n">match_remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler_name</span><span class="p">)</span>
+
+<span class="c"># MenuItem - This is able to execute code during the construction of the</span>
+<span class="c">#             context menu of a Terminal.</span></div></div>
+<div class="viewcode-block" id="MenuItem"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.MenuItem">[docs]</a><span class="k">class</span> <span class="nc">MenuItem</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for menu items&quot;&quot;&quot;</span>
+    <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;terminal_menu&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="MenuItem.callback"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.plugin.MenuItem.callback">[docs]</a>    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menuitems</span><span class="p">,</span> <span class="n">menu</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Callback to transform the enclosed URL&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</pre></div></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

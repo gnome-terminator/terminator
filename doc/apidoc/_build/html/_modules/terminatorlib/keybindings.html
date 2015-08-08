@@ -1,0 +1,351 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.keybindings &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.keybindings</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.keybindings</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c">#  Terminator - multiple gnome terminals in one window</span>
+<span class="c">#   Copyright (C) 2006-2010  cmsj@tenshu.net</span>
+<span class="c">#</span>
+<span class="c"># This program is free software; you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation, version 2 only.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful,</span>
+<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c"># GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License</span>
+<span class="c"># along with this program; if not, write to the Free Software</span>
+<span class="c"># Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA</span>
+
+<span class="sd">&quot;&quot;&quot;Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+
+<span class="sd">Validator and functions for dealing with Terminator&#39;s customisable </span>
+<span class="sd">keyboard shortcuts.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">err</span>
+
+<div class="viewcode-block" id="KeymapError"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.KeymapError">[docs]</a><span class="k">class</span> <span class="nc">KeymapError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom exception for errors in keybinding configurations&quot;&quot;&quot;</span>
+</div>
+<span class="n">MODIFIER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;&lt;([^&lt;]+)&gt;&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Keybindings"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings">[docs]</a><span class="k">class</span> <span class="nc">Keybindings</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Class to handle loading and lookup of Terminator keybindings&quot;&quot;&quot;</span>
+
+    <span class="n">modifiers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;ctrl&#39;</span><span class="p">:</span>     <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">CONTROL_MASK</span><span class="p">,</span>
+        <span class="s">&#39;control&#39;</span><span class="p">:</span>  <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">CONTROL_MASK</span><span class="p">,</span>
+        <span class="s">&#39;primary&#39;</span><span class="p">:</span>  <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">CONTROL_MASK</span><span class="p">,</span>
+        <span class="s">&#39;shift&#39;</span><span class="p">:</span>    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">SHIFT_MASK</span><span class="p">,</span>
+        <span class="s">&#39;alt&#39;</span><span class="p">:</span>      <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">MOD1_MASK</span><span class="p">,</span>
+        <span class="s">&#39;super&#39;</span><span class="p">:</span>    <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">SUPER_MASK</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">empty</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_masks</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">_lookup</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Keybindings.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keymap</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keymap_get_default</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">({})</span>
+</div>
+<div class="viewcode-block" id="Keybindings.configure"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings.configure">[docs]</a>    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Accept new bindings and reconfigure with them&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="n">bindings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Keybindings.reload"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse bindings and mangle into an appropriate form&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_masks</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">bindings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bindings</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">bindings</span> <span class="o">=</span> <span class="p">(</span><span class="n">bindings</span><span class="p">,)</span>
+
+            <span class="k">for</span> <span class="n">binding</span> <span class="ow">in</span> <span class="n">bindings</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">binding</span> <span class="ow">or</span> <span class="n">binding</span> <span class="o">==</span> <span class="s">&quot;None&quot;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">keyval</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parsebinding</span><span class="p">(</span><span class="n">binding</span><span class="p">)</span>
+                    <span class="c"># Does much the same, but with poorer error handling.</span>
+                    <span class="c">#keyval, mask = gtk.accelerator_parse(binding)</span>
+                <span class="k">except</span> <span class="n">KeymapError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                  <span class="n">err</span> <span class="p">(</span><span class="s">&quot;keybindings.reload failed to parse binding &#39;</span><span class="si">%s</span><span class="s">&#39;: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">binding</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">SHIFT_MASK</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">keyval</span> <span class="o">==</span> <span class="n">gtk</span><span class="o">.</span><span class="n">keysyms</span><span class="o">.</span><span class="n">Tab</span><span class="p">:</span>
+                            <span class="n">keyval</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">keysyms</span><span class="o">.</span><span class="n">ISO_Left_Tab</span>
+                            <span class="n">mask</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">SHIFT_MASK</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">keyvals</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keyval_convert_case</span><span class="p">(</span><span class="n">keyval</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">keyvals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">keyvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                                <span class="n">keyval</span> <span class="o">=</span> <span class="n">keyvals</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                                <span class="n">mask</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">SHIFT_MASK</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">keyval</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keyval_to_lower</span><span class="p">(</span><span class="n">keyval</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="p">{})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="p">[</span><span class="n">mask</span><span class="p">][</span><span class="n">keyval</span><span class="p">]</span> <span class="o">=</span> <span class="n">action</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_masks</span> <span class="o">|=</span> <span class="n">mask</span>
+</div>
+<div class="viewcode-block" id="Keybindings._parsebinding"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings._parsebinding">[docs]</a>    <span class="k">def</span> <span class="nf">_parsebinding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">binding</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse an individual binding using gtk&#39;s binding function&quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">modifiers</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">MODIFIER</span><span class="p">,</span> <span class="n">binding</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">modifiers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">modifier</span> <span class="ow">in</span> <span class="n">modifiers</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">|=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup_modifier</span><span class="p">(</span><span class="n">modifier</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">MODIFIER</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">binding</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KeymapError</span><span class="p">(</span><span class="s">&#39;No key found&#39;</span><span class="p">)</span>
+        <span class="n">keyval</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keyval_from_name</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">keyval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KeymapError</span><span class="p">(</span><span class="s">&quot;Key &#39;</span><span class="si">%s</span><span class="s">&#39; is unrecognised&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">keyval</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Keybindings._lookup_modifier"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings._lookup_modifier">[docs]</a>    <span class="k">def</span> <span class="nf">_lookup_modifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modifier</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Map modifier names to gtk values&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">modifiers</span><span class="p">[</span><span class="n">modifier</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KeymapError</span><span class="p">(</span><span class="s">&quot;Unhandled modifier &#39;&lt;</span><span class="si">%s</span><span class="s">&gt;&#39;&quot;</span> <span class="o">%</span> <span class="n">modifier</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Keybindings.lookup"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.keybindings.Keybindings.lookup">[docs]</a>    <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Translate a keyboard event into a mapped key&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">keyval</span><span class="p">,</span> <span class="n">_egp</span><span class="p">,</span> <span class="n">_lvl</span><span class="p">,</span> <span class="n">consumed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keymap</span><span class="o">.</span><span class="n">translate_keyboard_state</span><span class="p">(</span>
+                                              <span class="n">event</span><span class="o">.</span><span class="n">hardware_keycode</span><span class="p">,</span> 
+                                              <span class="n">event</span><span class="o">.</span><span class="n">state</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">LOCK_MASK</span><span class="p">,</span> 
+                                              <span class="n">event</span><span class="o">.</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="n">err</span> <span class="p">(</span><span class="s">&quot;keybindings.lookup failed to translate keyboard event: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> 
+                     <span class="nb">dir</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">state</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">consumed</span><span class="p">)</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_masks</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keyval</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

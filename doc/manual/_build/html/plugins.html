@@ -1,0 +1,822 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Plugins &mdash; Terminator 1.0 alpha documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Terminator 1.0 alpha documentation" href="index.html"/>
+        <link rel="next" title="Advanced Usage" href="advancedusage.html"/>
+        <link rel="prev" title="The Grouping Menu" href="grouping.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> Terminator
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="licensing.html">Licensing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Document history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#the-context-menu">The Context Menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#navigating-around">Navigating around</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gettingstarted.html#click-able-items">Click-able items</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#changing-the-current-layout">Changing the current layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gettingstarted.html#using-the-splitters">Using the splitters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gettingstarted.html#dragging-and-dropping-a-terminal">Dragging and dropping a terminal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gettingstarted.html#using-the-keyboard">Using the keyboard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#resetting-the-terminal">Resetting the terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#the-scrollbar-and-scrollback-buffer">The scrollbar and scrollback buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#search-the-buffer">Search the buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#zooming-the-terminal">Zooming the terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#setting-titles">Setting Titles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#insert-terminal-number">Insert terminal number</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#next-prev-profile">Next/Prev profile</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preferences Window</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#global">Global</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#behaviour">Behaviour</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#appearance">Appearance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#terminal-titlebar">Terminal Titlebar</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#profiles">Profiles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#general">General</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#cursor">Cursor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#terminal-bell">Terminal bell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#not-in-terminator">Not in Terminator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#command">Command</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#id1">Not in Terminator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#colours">Colours</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#foreground-and-background">Foreground and Background</a></li>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#palette">Palette</a></li>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#id2">Not in Terminator</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#background">Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#scrolling">Scrolling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="preferences.html#compatibility">Compatibility</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="preferences.html#encoding">Encoding</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#layouts">Layouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#keybindings">Keybindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#plugins">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preferences.html#about">About</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="layouts.html">Layouts and the Layout Launcher</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="layouts.html#the-layout-launcher">The Layout Launcher</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="grouping.html">The Grouping Menu</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="grouping.html#manipulating-terminal-groups">Manipulating terminal groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grouping.html#broadcasting-input-to-multiple-terminals">Broadcasting input to multiple terminals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="grouping.html#insert-terminal-number">Insert terminal number</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#included-plugins">Included plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#activity-watch">Activity Watch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#apt-url-handler">APT URL Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-commands-menu">Custom Commands Menu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inactivity-watch">Inactivity Watch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#launchpad-bug-url-handler">Launchpad Bug URL Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#launchpad-code-url-handler">Launchpad Code URL Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logger">Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maven-plugin-url-handler">Maven Plugin URL Handler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#terminal-shot">Terminal Shot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#test-plugin">Test Plugin</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#third-party-plugins">Third party plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-a-plugin">Installing a plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-your-own-plugins">Creating your own plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-basics-of-a-plugin">The basics of a plugin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#url-handlers">URL Handlers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#context-menu-items">Context menu items</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrap-up">Wrap up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advancedusage.html">Advanced Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advancedusage.html#command-line-options">Command line options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#general-options">General options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#window-options">Window options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#shell-options">Shell options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#layout-options">Layout options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#custom-window-manager-options">Custom Window Manager options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advancedusage.html#debugging-options">Debugging options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="advancedusage.html#the-config-file">The Config file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advancedusage.html#debugging">Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advancedusage.html#dbus">DBus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advancedusage.html#remotinator">Remotinator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#why">Why...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#write-in-python-it-s-slow-bloated-bad">...write in Python? It&#8217;s slow/bloated/bad?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#performance">Performance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-dumb-way">Memory use - The dumb way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-sensible-way">Memory use - The sensible way</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#python-sucks">&#8220;Python sucks!&#8221;</a></li>
+<li class="toctree-l4"><a class="reference internal" href="faq.html#in-summary">In summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-do-i">How do I...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#make-terminator-work-like-quake-style-terminals">...make Terminator work like Quake style terminals?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gettinginvolved.html">Getting involved</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#translations">Translations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#improve-icons-artwork">Improve icons/artwork</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#terminator-action-shots">Terminator action shots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#manual-updates">Manual updates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#bugs">Bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#plugins">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#main-application-development">Main Application Development</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#gtk3-port">GTK3 Port</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#api-docs">API Docs</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Terminator</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Plugins</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/plugins.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <img alt="I have the POWWWWWWEEEEERRRRRRR!!!!!!" class="align-right" src="_images/icon_plugins.png" />
+<div class="section" id="plugins">
+<span id="id1"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
+<p>Terminator can be expanded using plugins. Additional features can
+be created outside of the main application, and added in at runtime.</p>
+<p>In theory you should be able to implement fairly powerful plugins,
+although so far the included ones we have are fairly small in scope.</p>
+<p>The current plugins do not have configuration options in the
+<a class="reference internal" href="preferences.html#prefs-plugins"><span>Plugins</span></a> tab of the <a class="reference internal" href="preferences.html#preferences"><span>Preferences Window</span></a>. The plugin
+architecture was created before I (Steve Boddy) became maintainer,
+and so far I haven&#8217;t had reason to figure out the detail. I&#8217;m not
+entirely sure if/how a plugin can add options to the configuration
+options in the <a class="reference internal" href="preferences.html#prefs-plugins"><span>Plugins</span></a> tab. What plugins can definitely
+do, because examples are below, is to:</p>
+<ul class="simple">
+<li>add menu items to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a>,</li>
+<li>create their own windows,</li>
+<li>create handlers for strings that match a pattern.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<img alt="_images/plugins_links.png" class="align-center" src="_images/plugins_links.png" />
+<p class="last">Several of the included plugins create <a class="reference internal" href="gettingstarted.html#clickable-items"><span>Click-able items</span></a> in
+the terminal. These are made apparent by underlining the
+item when the mouse hovers over it.</p>
+</div>
+<div class="section" id="included-plugins">
+<h2>Included plugins<a class="headerlink" href="#included-plugins" title="Permalink to this headline">¶</a></h2>
+<p>The following plugins are distributed by default with Terminator.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unless otherwise stated, the included plugins are under the
+<a class="reference internal" href="licensing.html#licencing"><span>Licensing</span></a> as Terminator, GNU GPL v2.</p>
+</div>
+<div class="section" id="activity-watch">
+<h3>Activity Watch<a class="headerlink" href="#activity-watch" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<img alt="_images/activitywatch_notification.png" class="align-right" src="_images/activitywatch_notification.png" />
+<p>Adds a menu item, <strong>Watch for activity</strong>, to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a> which
+will create a notification, as seen to the right, when there is output
+to the terminal. This is useful when you have a long running command
+and wish to know when it has completed, or output an update.</p>
+<p>There is one option for this plugin:</p>
+<p><strong>hush_period</strong> (default: 10.0)</p>
+<blockquote>
+<div>How long in seconds until the next notification of activity is
+presented.</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>There is currently no way to edit these options in the GUI,
+it must be done directly in <a class="reference internal" href="advancedusage.html#config-file"><span>The Config file</span></a>.</p>
+<p>An extract of this item being set would be:</p>
+<div class="highlight-python"><div class="highlight"><pre>[plugins]
+  [[ActivityWatch]]
+    hush_period = 30.0
+</pre></div>
+</div>
+<p class="last">Which would wait 30 seconds before showing another
+notification of activity.</p>
+</div>
+</div>
+<div class="section" id="apt-url-handler">
+<h3>APT URL Handler<a class="headerlink" href="#apt-url-handler" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<p>Text matching <code class="docutils literal"><span class="pre">apt:.*</span></code> will be converted into a click-able item that
+when triggered with <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code> will launch the default
+package manager for software on a debian system.</p>
+<p><code class="docutils literal"><span class="pre">right-click</span></code> over the URL will add two entries to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a>:</p>
+<ul class="simple">
+<li><em>Open software manager</em> - Same as <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code></li>
+<li><em>Copy package URI</em> - Just copies the URI to the clipboard</li>
+</ul>
+</div>
+<div class="section" id="custom-commands-menu">
+<h3>Custom Commands Menu<a class="headerlink" href="#custom-commands-menu" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<p>Adds a menu item, <strong>Custom Commands</strong>, to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a> which
+has a sub-menu containing its own <strong>Preferences</strong> item that launches
+the window show below. Below that is a list of user configured
+commands that can be chosen.</p>
+<img alt="_images/custom_commands.png" class="align-center" src="_images/custom_commands.png" />
+<p>In this window you can create a <strong>New</strong> item, and <strong>Edit</strong> or
+<strong>Delete</strong> existing ones. The selected item can be repositioned in
+the sub-menu order using the <strong>Top</strong>, <strong>Up</strong>, <strong>Down</strong> and <strong>Last</strong>
+buttons.</p>
+<p>Clicking <em>New</em> or <em>Edit</em> gives the smaller window. An <strong>Enabled</strong>
+item is shown in sub-menu, and a disabled one is not. The <strong>Name</strong> is
+used for the sub-menu item text. The <strong>Command</strong> is the text that will
+be entered into the current terminal with a <code class="docutils literal"><span class="pre">Return</span></code> at the end to
+execute/enter it. You <em>do not</em> get a chance to edit the text first.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If other terminals are receiving, they too will receive and
+execute the <em>Command</em>.</p>
+</div>
+</div>
+<div class="section" id="inactivity-watch">
+<h3>Inactivity Watch<a class="headerlink" href="#inactivity-watch" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<img alt="_images/inactivitywatch_notification.png" class="align-right" src="_images/inactivitywatch_notification.png" />
+<p>Adds a menu item, <strong>Watch for silence</strong>, to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a> which
+will create a notification, as seen to the right, when a terminal has
+been quiet for a given period. This is useful when you have a long
+running process that outputs constantly (i.e. compiling a kernel) and
+you wish to know when it has ended. This notification will only show
+once, unless there is some activity in the terminal after the initial
+notification.</p>
+<p>There are two options for this plugin:</p>
+<p><strong>inactive_period</strong> (default: 10.0)</p>
+<blockquote>
+<div>How long in seconds until a terminal is considered inactive.</div></blockquote>
+<p><strong>watch_interval</strong> (default: 5000)</p>
+<blockquote>
+<div>How long in milliseconds between checks for inactivity.</div></blockquote>
+<p>Be aware that this combination will result in some uncertainty as to
+the exact timing of the notification. In the worst case, with the
+values given, the notification may take 14.9 seconds to appear.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>There is currently no way to edit these options in the GUI,
+it must be done directly in <a class="reference internal" href="advancedusage.html#config-file"><span>The Config file</span></a>.</p>
+<p>An extract of these items being set would be:</p>
+<div class="highlight-python"><div class="highlight"><pre>[plugins]
+  [[InactivityWatch]]
+    inactive_period = 30.0
+    watch_interval = 1000
+</pre></div>
+</div>
+<p class="last">Which would check every second if the terminal had been
+silent for 30 seconds.</p>
+</div>
+</div>
+<div class="section" id="launchpad-bug-url-handler">
+<h3>Launchpad Bug URL Handler<a class="headerlink" href="#launchpad-bug-url-handler" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<p>Text matching <code class="docutils literal"><span class="pre">lp:</span> <span class="pre">#12345</span></code> where 12345 is a bug number in launchpad,
+will be converted into a click-able item that when triggered with
+<code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code> will launch a browser to the bug report in
+launchpad.</p>
+<p>Additionally the plugin will accept variants where the prefix is in
+capitals, i.e. <code class="docutils literal"><span class="pre">LP</span></code>, and the <code class="docutils literal"><span class="pre">:</span></code>, white-space, and <code class="docutils literal"><span class="pre">#</span></code> are
+optional.</p>
+<p>The item can also be more than one bug number, and each will be opened,
+for example:</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">lp:</span> <span class="pre">#12345.</span> <span class="pre">#67890,</span> <span class="pre">54321,#9876</span></code></div></blockquote>
+<p><code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code> on this will open four pages; one for each bug
+number.</p>
+<p><code class="docutils literal"><span class="pre">right-click</span></code> over the URL will add two entries to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a>:</p>
+<ul class="simple">
+<li><em>Open Launchpad bug</em> - Same as <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code></li>
+<li><em>Copy bug URL</em> - Just copies the URL to the clipboard</li>
+</ul>
+</div>
+<div class="section" id="launchpad-code-url-handler">
+<h3>Launchpad Code URL Handler<a class="headerlink" href="#launchpad-code-url-handler" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<p>Text matching <code class="docutils literal"><span class="pre">lp:string</span></code> will be converted into a click-able item
+that when triggered with <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code> will launch a browser
+to the page in launchpad, where string is one of the following:</p>
+<ul class="simple">
+<li><em>project</em> - i.e. lp:terminator</li>
+<li><em>project/series</em> - i.e. lp:terminator/gtk3</li>
+<li><em>group/project/branch</em> - i.e. lp:~sparkstar/terminator/terminator</li>
+<li><em>group/+junk/branch</em> - i.e. lp:~&lt;yourname&gt;/+junk/terminator</li>
+</ul>
+<p>Additionally the plugin will accept variants where the prefix is in
+capitals, i.e. <code class="docutils literal"><span class="pre">LP</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">right-click</span></code> over the URL will add two entries to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a>:</p>
+<ul class="simple">
+<li><em>Open Launchpad branch</em> - Same as <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code></li>
+<li><em>Copy branch URL</em> - Just copies the URL to the clipboard</li>
+</ul>
+</div>
+<div class="section" id="logger">
+<h3>Logger<a class="headerlink" href="#logger" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Sinan Nalkaya</p>
+<p>Adds a menu item, <strong>Start Logger</strong>, to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a> which will
+popup a window for selecting a file name to save as. Any content then
+written to the terminal will be written to the file too. Once started
+the menu item will change to <strong>Stop Logger</strong> which does precisely what
+you would expect.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There appears to be problems when applications switch
+to/from alternate mode (i.e. vi, mc, etc.) The obvious
+one is that the alternate screen is not &#8220;logged&#8221;
+although it is not clear how this <em>could</em> be logged. The
+second issue is that some of the output after the
+alternate screen is not logged. See <a class="reference external" href="https://bugs.launchpad.net/terminator/+bug/1477386">LP#1477386</a> for
+more info and progress.</p>
+</div>
+</div>
+<div class="section" id="maven-plugin-url-handler">
+<h3>Maven Plugin URL Handler<a class="headerlink" href="#maven-plugin-url-handler" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Julien Nicoulaud</p>
+<p>Ummmm..... I&#8217;m not entirely sure what this will do, as I don&#8217;t use
+Maven. Updates on a postcard, please...</p>
+<p>From the source:</p>
+<blockquote>
+<div>Maven plugin handler. If the name of a Maven plugin is
+detected, it is turned into a link to its documentation site.
+If a Maven plugin goal is detected, the link points to the
+particular goal page. Only Apache (org.apache.maven.plugins)
+and Codehaus (org.codehaus.mojo) plugins are supported.</div></blockquote>
+</div>
+<div class="section" id="terminal-shot">
+<h3>Terminal Shot<a class="headerlink" href="#terminal-shot" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones</p>
+<p>Adds a menu item, <strong>Terminal screenshot</strong>, to <a class="reference internal" href="gettingstarted.html#context-menu"><span>The Context Menu</span></a>
+that will take a screenshot of the underlying terminal, and present
+a dialog for where to save it.</p>
+</div>
+<div class="section" id="test-plugin">
+<h3>Test Plugin<a class="headerlink" href="#test-plugin" title="Permalink to this headline">¶</a></h3>
+<p>Original Author: Chris Jones (most likely)</p>
+<p>An almost comically stripped down example.</p>
+</div>
+</div>
+<div class="section" id="third-party-plugins">
+<h2>Third party plugins<a class="headerlink" href="#third-party-plugins" title="Permalink to this headline">¶</a></h2>
+<p>As I find (or I&#8217;m told about) plugins that are available elsewhere,
+I&#8217;ll add links here. I&#8217;ve done a preliminary search, and.. Wow! I
+never knew there were so many out there.</p>
+<p>If any of the authors would like to get their plugins added to the
+main Terminator package, or they would prefer not to be listed here
+for some reason, they can reach out to me through the project site
+on Launchpad and we can sort it out.</p>
+<p>I&#8217;m unsure of how these plugins are perceived. They are specific to
+Terminator, but does that make them derivative in the eyes of GPL v2,
+and therefore allow me to include them? If I want to include one in
+the main package, do I have to hope the creator is still active?
+Answers on a postcard...</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">I have done no testing or checking of these plugins. You
+use at your own risk, and you are responsible for
+evaluating the code for bugs, issues, and security.</p>
+</div>
+<p>In absolutely no order at all...</p>
+<dl class="docutils">
+<dt><a class="reference external" href="https://github.com/rail/dotfiles/blob/master/terminator_bugzilla_handler.py">https://github.com/rail/dotfiles/blob/master/terminator_bugzilla_handler.py</a></dt>
+<dd><ul class="first last simple">
+<li>terminator_bugzilla_handler: Link &#8220;bug:12345&#8221; to the Mozilla bugzilla.
+(As it is for Mozilla, it seems a bit misnamed.)</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/ilgarm/terminator_plugins">https://github.com/ilgarm/terminator_plugins</a></dt>
+<dd><ul class="first last simple">
+<li>clone_session: Split and clone ssh session</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/arnaudh/terminator-plugins">https://github.com/arnaudh/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>open_any_file_plugin: Open any file with it&#8217;s default application</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/dr1s/terminator-plugins">https://github.com/dr1s/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>cluster_connect: A way to connect to multiple machines as a cluster</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/mchelem/terminator-editor-plugin">https://github.com/mchelem/terminator-editor-plugin</a></dt>
+<dd><ul class="first last simple">
+<li>editor_plugin: Click on file:line style links to launch a text editor</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/camillo/TerminatorPlugins">https://github.com/camillo/TerminatorPlugins</a></dt>
+<dd><ul class="first last simple">
+<li>LayoutManager: Saves and restores Layouts (which is built-in now, possibly redundant)</li>
+<li>TerminalExporter: Export contents to file</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/choffee/terminator-plugins">https://github.com/choffee/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>searchplugin: Search Google for the selected text in a terminal</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/papajoker/editor_terminator">https://github.com/papajoker/editor_terminator</a></dt>
+<dd><ul class="first last simple">
+<li>editor_plugin: Another text editor launcher</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/papajoker/git_terminator">https://github.com/papajoker/git_terminator</a></dt>
+<dd><ul class="first last simple">
+<li>git_plugin: adds commands for git when it detects a .git folder</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/iambibhas/terminator-plugins">https://github.com/iambibhas/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>hastebin: Uploads selected text to Hastebin and opens browser on it</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/abourget/abourget-terminator">https://github.com/abourget/abourget-terminator</a></dt>
+<dd><ul class="first last simple">
+<li>TenscoresPlugin: Seems to be for launching set of tabs (which is built-in now, possibly redundant)</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/mikeadkison/terminator-google">https://github.com/mikeadkison/terminator-google</a></dt>
+<dd><ul class="first last simple">
+<li>google: Another google-the-text plugin</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/mariolameiras/ssh-menu-terminator">https://github.com/mariolameiras/ssh-menu-terminator</a></dt>
+<dd><ul class="first last simple">
+<li>ssh_menu: I&#8217;m guessing a bit, but I think it works with SSH Menu ;-) the code is quite big to understand at a glance.</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/alesegdia/terminator-plugins">https://github.com/alesegdia/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>Session: Save/load sessions (which is built-in now, possibly redundant)</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/Theer108/colorize">https://github.com/Theer108/colorize</a></dt>
+<dd><ul class="first last simple">
+<li>colorize: Colour titlebar of each terminal separately</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/ju1ius/clisnips">https://github.com/ju1ius/clisnips</a></dt>
+<dd><ul class="first last simple">
+<li>clisnips: Snippets for the command line.</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/GratefulTony/TerminatorHostWatch">https://github.com/GratefulTony/TerminatorHostWatch</a></dt>
+<dd><ul class="first last simple">
+<li>hostWatch: Attempts to figure out your current host, and apply a certain theme.</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://github.com/kmoppel/dumptofile">https://github.com/kmoppel/dumptofile</a></dt>
+<dd><ul class="first last simple">
+<li>dump_to_file: Dump console contents to a text file.</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://bitbucket.org/pgularski/terminator-plugins">https://bitbucket.org/pgularski/terminator-plugins</a></dt>
+<dd><ul class="first last simple">
+<li>show_titlebar: Menu item to show/hide the titlebar.</li>
+<li>searchplugin: Yup, another Googler.</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://bitbucket.org/johnsanchezc/terminator-applauncher">https://bitbucket.org/johnsanchezc/terminator-applauncher</a></dt>
+<dd><ul class="first last simple">
+<li>applauncher: A launcher/set-up tool (which is built-in now, possibly redundant)</li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://www.snip2code.com/Snippet/58595/Terminator-plugin----log-the-output-of-t">https://www.snip2code.com/Snippet/58595/Terminator-plugin&#8212;-log-the-output-of-t</a></dt>
+<dd><ul class="first last simple">
+<li>my_logger: Log the output to a file with a time-stamp as the name, and prefix each line with the time.
+(Seems to be similar to, or derived from, the included one)</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="installing-a-plugin">
+<h2>Installing a plugin<a class="headerlink" href="#installing-a-plugin" title="Permalink to this headline">¶</a></h2>
+<p>A plugin can be installed by adding the main python file (along with
+any additional files) in one of two locations:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">/usr/[local/]share/terminator/terminatorlib/plugins/</span></code></dt>
+<dd>This will need root permissions to do.   The optional <code class="docutils literal"><span class="pre">local/</span></code> is
+usually for packages installed by hand, rather  than through the
+package manager, and this depends on how Terminator was installed
+on your system.</dd>
+<dt><code class="docutils literal"><span class="pre">~/.config/terminator/plugins/</span></code></dt>
+<dd>This allows you to use plugins without needing root.</dd>
+</dl>
+</div>
+<div class="section" id="creating-your-own-plugins">
+<h2>Creating your own plugins<a class="headerlink" href="#creating-your-own-plugins" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following guide is initially sourced from a <a class="reference external" href="http://www.tenshu.net/2010/04/writing-terminator-plugins.html">tutorial</a>
+written by Chris Jones back in April 2010. I&#8217;m reproducing
+it here as a precaution, although I don&#8217;t expect the
+original will disappear. It will get rewritten and expanded
+as more knowledge and information is added.</p>
+</div>
+<p>One of the features of the new 0.9x series of Terminator releases
+that hasn&#8217;t had a huge amount of announcement/discussion yet is the
+plugin system. I&#8217;ve posted previously about the decisions that went
+into the design of the plugin framework, but I figured now would be
+a good time to look at how to actually take advantage of it.</p>
+<p>While the plugin system is really generic, so far there are only two
+points in the Terminator code that actually look for plugins - the
+Terminal context menu and the default URL opening code. If you find
+you&#8217;d like to write a plugin that interacts with a different part of
+Terminator, please let me know, I&#8217;d love to see some clever uses of
+plugins and I definitely want to expand the number of points that
+plugins can hook into.</p>
+<div class="section" id="the-basics-of-a-plugin">
+<h3>The basics of a plugin<a class="headerlink" href="#the-basics-of-a-plugin" title="Permalink to this headline">¶</a></h3>
+<p>A plugin is a class in a <code class="docutils literal"><span class="pre">.py</span></code> file in <code class="docutils literal"><span class="pre">terminatorlib/plugins</span></code> or
+<code class="docutils literal"><span class="pre">~/.config/terminator/plugins</span></code>, but not all classes are automatically
+treated as plugins. Terminator will examine each of the .py files it
+finds for a list called <code class="docutils literal"><span class="pre">available</span></code> and it will load each of the
+classes mentioned therein.</p>
+<p>Additionally, it would be a good idea to import <code class="docutils literal"><span class="pre">terminatorlib.plugin</span></code>
+as that contains the base classes that other plugins should be derived
+from.</p>
+<p>A quick example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">terminatorlib.plugin</span> <span class="kn">as</span> <span class="nn">plugin</span>
+<span class="n">available</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;myfirstplugin&#39;</span><span class="p">]</span>
+<span class="k">class</span> <span class="nc">myfirstplugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">SomeBasePluginClass</span><span class="p">):</span>
+  <span class="c"># etc.</span>
+</pre></div>
+</div>
+<p>So now let&#8217;s move on to the simplest type of plugin currently available
+in Terminator, a URL handler.</p>
+</div>
+<div class="section" id="url-handlers">
+<h3>URL Handlers<a class="headerlink" href="#url-handlers" title="Permalink to this headline">¶</a></h3>
+<p>This type of plugin adds new regular expressions to match text in the
+terminal that should be handled as URLs. We ship an example of this
+with Terminator, it&#8217;s a handler that adds support for the commonly
+used format for Launchpad. Ignoring the comments and the basics above,
+this is ultimately all it is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">LaunchpadBugURLHandler</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">URLHandler</span><span class="p">):</span>
+  <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;url_handler&#39;</span><span class="p">]</span>
+  <span class="n">handler_name</span> <span class="o">=</span> <span class="s">&#39;launchpad_bug&#39;</span>
+  <span class="n">match</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*</span><span class="se">\\</span><span class="s">b&#39;</span>
+
+  <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+      <span class="k">return</span><span class="p">(</span><span class="s">&#39;https://bugs.launchpad.net/bugs/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That&#8217;s it! Let&#8217;s break it down a little to see the important things
+here:</p>
+<ul class="simple">
+<li>inherit from plugin.URLHandler if you want to handle URLs.</li>
+<li>include &#8216;url_handler&#8217; in your capabilities list</li>
+<li>URL handlers must specify a unique handler_name (no enforcement of
+uniqueness is performed by Terminator, so use some common sense with
+the namespace)</li>
+<li>Terminator will call a method in your class called callback() and
+pass it the text that was matched. You must return a valid URL
+which will probably be based on this text.</li>
+</ul>
+<p>And that&#8217;s all there is to it really. Next time you start terminator
+you should find the pattern you added gets handled as a URL!</p>
+</div>
+<div class="section" id="context-menu-items">
+<h3>Context menu items<a class="headerlink" href="#context-menu-items" title="Permalink to this headline">¶</a></h3>
+<p>This type of plugin is a little more involved, but not a huge amount
+and as with URLHandler we ship an example in
+<code class="docutils literal"><span class="pre">terminatorlib/plugins/custom_commands.py</span></code> which is a plugin that
+allows users to add custom commands to be sent to the terminal when
+selected. This also brings a second aspect of making more complex
+plugins - storing configuration. Terminator&#8217;s shiny new configuration
+system (based on the excellent ConfigObj) exposes some API for plugins
+to use for loading and storing their configuration. The nuts and bolts
+here are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">terminatorlib.plugin</span> <span class="kn">as</span> <span class="nn">plugin</span>
+<span class="kn">from</span> <span class="nn">terminatorlib.config</span> <span class="kn">import</span> <span class="n">Config</span>
+<span class="n">available</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;CustomCommandsMenu&#39;</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">CustomCommandsMenu</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">):</span>
+  <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;terminal_menu&#39;</span><span class="p">]</span>
+  <span class="n">config</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+    <span class="n">myconfig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">plugin_get_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+    <span class="c"># Now extract valid data from sections{}</span>
+
+  <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menuitems</span><span class="p">,</span> <span class="n">menu</span><span class="p">,</span> <span class="n">terminal</span><span class="p">):</span>
+    <span class="n">menuitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="s">&#39;some jazz&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This is a pretty simplified example, but it&#8217;s sufficient to insert a
+menu item that says &#8220;some jazz&#8221;. I&#8217;m not going to go into the detail
+of hooking up a handler to the &#8216;activate&#8217; event of the MenuItem or
+other PyGTK mechanics, but this gives you the basic detail. The method
+that Terminator will call from your class is again &#8220;callback()&#8221; and
+you get passed a list you should add your menu structure to, along
+with references to the main menu object and the related Terminal. As
+the plugin system expands and matures I&#8217;d like to be more formal about
+the API that plugins should expect to be able to rely on, rather than
+having them poke around inside classes like Config and Terminal.
+Suggestions are welcome :)</p>
+<p>Regarding the configuration storage API - the value returned by
+Config.plugin_get_config() is just a dict, it&#8217;s whatever is currently
+configured for your plugin&#8217;s name in the Terminator config file.
+There&#8217;s no validation of this data, so you should pay attention to it
+containing valid data. You can then set whatever you want in this
+dict and pass it to Config().plugin_set_config() with the name of
+your class and then call Config().save() to flush this out to disk
+(I recommend that you be quite liberal about calling save()).</p>
+</div>
+<div class="section" id="wrap-up">
+<h3>Wrap up<a class="headerlink" href="#wrap-up" title="Permalink to this headline">¶</a></h3>
+<p>Right now that&#8217;s all there is to it. Please get in touch if you have
+any suggestions or questions - I&#8217;d love to ship more plugins with
+Terminator itself, and I can think of some great ideas. Probably the
+most useful thing would be something to help customise Terminator for
+heavy ssh users (see the earlier fork of Terminator called
+&#8216;ssherminator&#8217;)</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advancedusage.html" class="btn btn-neutral float-right" title="Advanced Usage" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="grouping.html" class="btn btn-neutral" title="The Grouping Menu" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0 alpha',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

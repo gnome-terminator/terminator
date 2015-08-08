@@ -1,0 +1,454 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.searchbar &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.searchbar</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.searchbar</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c"># Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+<span class="c"># GPL v2 only</span>
+<span class="sd">&quot;&quot;&quot;searchbar.py - classes necessary to provide a terminal search bar&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">gtk</span>
+<span class="kn">import</span> <span class="nn">gobject</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">translation</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="c"># pylint: disable-msg=R0904</span>
+<div class="viewcode-block" id="Searchbar"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar">[docs]</a><span class="k">class</span> <span class="nc">Searchbar</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">HBox</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class implementing the Searchbar widget&quot;&quot;&quot;</span>
+
+    <span class="n">__gsignals__</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;end-search&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gobject</span><span class="o">.</span><span class="n">SIGNAL_RUN_LAST</span><span class="p">,</span> <span class="n">gobject</span><span class="o">.</span><span class="n">TYPE_NONE</span><span class="p">,</span> <span class="p">()),</span>
+    <span class="p">}</span>
+
+    <span class="n">entry</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">reslabel</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="nb">next</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">wrap</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">vte</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">searchstring</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">searchre</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">searchrow</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">searchits</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Searchbar.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+        <span class="n">gtk</span><span class="o">.</span><span class="n">HBox</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__gobject_init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
+
+        <span class="c"># Search text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Entry</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">set_activates_default</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;activate&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_search</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;key-press-event&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_keypress</span><span class="p">)</span>
+
+        <span class="c"># Label</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Search:&#39;</span><span class="p">))</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c"># Result label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="c"># Close Button</span>
+        <span class="n">close</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Button</span><span class="p">()</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">set_relief</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">RELIEF_NONE</span><span class="p">)</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">set_focus_on_click</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Image</span><span class="p">()</span>
+        <span class="n">icon</span><span class="o">.</span><span class="n">set_from_stock</span><span class="p">(</span><span class="n">gtk</span><span class="o">.</span><span class="n">STOCK_CLOSE</span><span class="p">,</span> <span class="n">gtk</span><span class="o">.</span><span class="n">ICON_SIZE_MENU</span><span class="p">)</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">icon</span><span class="p">)</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="s">&#39;terminator-search-close-button&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">close</span><span class="p">,</span> <span class="s">&#39;set_tooltip_text&#39;</span><span class="p">):</span>
+            <span class="n">close</span><span class="o">.</span><span class="n">set_tooltip_text</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Close Search bar&#39;</span><span class="p">))</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;clicked&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_search</span><span class="p">)</span>
+        <span class="n">close</span><span class="o">.</span><span class="n">show_all</span><span class="p">()</span>
+
+        <span class="c"># Next Button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Next&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;clicked&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_search</span><span class="p">)</span>
+
+        <span class="c"># Previous Button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Prev&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;clicked&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_search</span><span class="p">)</span>
+
+        <span class="c"># Wrap checkbox</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Wrap&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s">&#39;toggled&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap_toggled</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pack_end</span><span class="p">(</span><span class="n">close</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_no_show_all</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.wrap_toggled"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.wrap_toggled">[docs]</a>    <span class="k">def</span> <span class="nf">wrap_toggled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">toggled</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">toggled</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.get_vte"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.get_vte">[docs]</a>    <span class="k">def</span> <span class="nf">get_vte</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find our parent widget&quot;&quot;&quot;</span>
+        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vte</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">vte</span>
+
+    <span class="c"># pylint: disable-msg=W0613</span></div>
+<div class="viewcode-block" id="Searchbar.search_keypress"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.search_keypress">[docs]</a>    <span class="k">def</span> <span class="nf">search_keypress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle keypress events&quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">keyval_name</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">keyval</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;Escape&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">end_search</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.start_search"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.start_search">[docs]</a>    <span class="k">def</span> <span class="nf">start_search</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Show ourselves&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_vte</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">grab_focus</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Searchbar.do_search"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.do_search">[docs]</a>    <span class="k">def</span> <span class="nf">do_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Trap and re-emit the clicked signal&quot;&quot;&quot;</span>
+        <span class="n">searchtext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">searchtext</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">searchtext</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchstring</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vte_buffer_range</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">searchstring</span> <span class="o">=</span> <span class="n">searchtext</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">searchre</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">searchtext</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&quot;Searching scrollback&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_search</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.next_search"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.next_search">[docs]</a>    <span class="k">def</span> <span class="nf">next_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Search forwards and jump to the next result, if any&quot;&quot;&quot;</span>
+        <span class="n">startrow</span><span class="p">,</span><span class="n">endrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vte_buffer_range</span><span class="p">()</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="n">startrow</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">&lt;</span> <span class="n">endrow</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="n">endrow</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">found</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="o">.</span><span class="n">get_active</span><span class="p">():</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="n">startrow</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;No more results&#39;</span><span class="p">))</span>
+                    <span class="k">return</span>
+            <span class="nb">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_text_range</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_character</span><span class="p">)</span>
+
+            <span class="nb">buffer</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[:</span><span class="nb">buffer</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)]</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchre</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_hit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span><span class="p">)</span>
+                <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Searchbar.prev_search"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.prev_search">[docs]</a>    <span class="k">def</span> <span class="nf">prev_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Jump back to the previous search&quot;&quot;&quot;</span>
+        <span class="n">startrow</span><span class="p">,</span><span class="n">endrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vte_buffer_range</span><span class="p">()</span>
+        <span class="n">found</span> <span class="o">=</span> <span class="n">startrow</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">&lt;</span> <span class="n">endrow</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;=</span> <span class="n">startrow</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">found</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrap</span><span class="o">.</span><span class="n">get_active</span><span class="p">():</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="n">endrow</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="n">found</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;No more results&#39;</span><span class="p">))</span>
+                    <span class="k">return</span>
+            <span class="nb">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_text_range</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_character</span><span class="p">)</span>
+
+            <span class="nb">buffer</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[:</span><span class="nb">buffer</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)]</span>
+            <span class="n">matches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchre</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="nb">buffer</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">set_sensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">search_hit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span><span class="p">)</span>
+                <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="Searchbar.search_hit"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.search_hit">[docs]</a>    <span class="k">def</span> <span class="nf">search_hit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the UI for a search hit&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%s</span><span class="s"> </span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;Found at row&#39;</span><span class="p">),</span> <span class="n">row</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span><span class="o">.</span><span class="n">scrollbar_jump</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Searchbar.search_character"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.search_character">[docs]</a>    <span class="k">def</span> <span class="nf">search_character</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">junk</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;We have to have a callback for each character&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.get_vte_buffer_range"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.get_vte_buffer_range">[docs]</a>    <span class="k">def</span> <span class="nf">get_vte_buffer_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the range of a vte widget&quot;&quot;&quot;</span>
+        <span class="n">column</span><span class="p">,</span> <span class="n">endrow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_cursor_position</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scrollback_lines&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">startrow</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">startrow</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">endrow</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scrollback_lines&#39;</span><span class="p">])</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">startrow</span><span class="p">,</span> <span class="n">endrow</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.end_search"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.end_search">[docs]</a>    <span class="k">def</span> <span class="nf">end_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Trap and re-emit the end-search signal&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">searchrow</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">searchstring</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">searchre</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reslabel</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s">&#39;end-search&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Searchbar.get_search_term"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.searchbar.Searchbar.get_search_term">[docs]</a>    <span class="k">def</span> <span class="nf">get_search_term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the currently set search term&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">entry</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+</div></div>
+<span class="n">gobject</span><span class="o">.</span><span class="n">type_register</span><span class="p">(</span><span class="n">Searchbar</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,1026 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>terminatorlib.config &mdash; terminatorlib 0.98 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="terminatorlib 0.98 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> terminatorlib
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../terminatorlib.html">terminatorlib package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.configobj.html">terminatorlib.configobj package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.configobj">terminatorlib.configobj.configobj module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj.validate">terminatorlib.configobj.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.configobj.html#module-terminatorlib.configobj">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../terminatorlib.plugins.html">terminatorlib.plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.activitywatch">terminatorlib.plugins.activitywatch module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.custom_commands">terminatorlib.plugins.custom_commands module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.logger">terminatorlib.plugins.logger module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.maven">terminatorlib.plugins.maven module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.terminalshot">terminatorlib.plugins.terminalshot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.testplugin">terminatorlib.plugins.testplugin module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins.url_handlers">terminatorlib.plugins.url_handlers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../terminatorlib.plugins.html#module-terminatorlib.plugins">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.borg">terminatorlib.borg module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.config">terminatorlib.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.container">terminatorlib.container module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.cwd">terminatorlib.cwd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.debugserver">terminatorlib.debugserver module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.editablelabel">terminatorlib.editablelabel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.encoding">terminatorlib.encoding module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.factory">terminatorlib.factory module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.freebsd">terminatorlib.freebsd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.ipc">terminatorlib.ipc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.keybindings">terminatorlib.keybindings module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.layoutlauncher">terminatorlib.layoutlauncher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.notebook">terminatorlib.notebook module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.optionparse">terminatorlib.optionparse module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.paned">terminatorlib.paned module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.plugin">terminatorlib.plugin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.prefseditor">terminatorlib.prefseditor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.searchbar">terminatorlib.searchbar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.signalman">terminatorlib.signalman module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal">terminatorlib.terminal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminal_popup_menu">terminatorlib.terminal_popup_menu module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.terminator">terminatorlib.terminator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.titlebar">terminatorlib.titlebar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.translation">terminatorlib.translation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.util">terminatorlib.util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.version">terminatorlib.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib.window">terminatorlib.window module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminatorlib.html#module-terminatorlib">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">terminatorlib</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>terminatorlib.config</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for terminatorlib.config</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/python</span>
+<span class="c">#    TerminatorConfig - layered config classes</span>
+<span class="c">#    Copyright (C) 2006-2010  cmsj@tenshu.net</span>
+<span class="c">#</span>
+<span class="c">#  This program is free software; you can redistribute it and/or modify</span>
+<span class="c">#  it under the terms of the GNU General Public License as published by</span>
+<span class="c">#  the Free Software Foundation, version 2 only.</span>
+<span class="c">#</span>
+<span class="c">#  This program is distributed in the hope that it will be useful,</span>
+<span class="c">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">#  GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#  You should have received a copy of the GNU General Public License</span>
+<span class="c">#  along with this program; if not, write to the Free Software</span>
+<span class="c">#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA</span>
+
+<span class="sd">&quot;&quot;&quot;Terminator by Chris Jones &lt;cmsj@tenshu.net&gt;</span>
+
+<span class="sd">Classes relating to configuration</span>
+
+<span class="sd">&gt;&gt;&gt; DEFAULTS[&#39;global_config&#39;][&#39;focus&#39;]</span>
+<span class="sd">&#39;click&#39;</span>
+<span class="sd">&gt;&gt;&gt; config = Config()</span>
+<span class="sd">&gt;&gt;&gt; config[&#39;focus&#39;] = &#39;sloppy&#39;</span>
+<span class="sd">&gt;&gt;&gt; config[&#39;focus&#39;]</span>
+<span class="sd">&#39;sloppy&#39;</span>
+<span class="sd">&gt;&gt;&gt; DEFAULTS[&#39;global_config&#39;][&#39;focus&#39;]</span>
+<span class="sd">&#39;click&#39;</span>
+<span class="sd">&gt;&gt;&gt; config2 = Config()</span>
+<span class="sd">&gt;&gt;&gt; config2[&#39;focus&#39;]</span>
+<span class="sd">&#39;sloppy&#39;</span>
+<span class="sd">&gt;&gt;&gt; config2[&#39;focus&#39;] = &#39;click&#39;</span>
+<span class="sd">&gt;&gt;&gt; config2[&#39;focus&#39;]</span>
+<span class="sd">&#39;click&#39;</span>
+<span class="sd">&gt;&gt;&gt; config[&#39;focus&#39;]</span>
+<span class="sd">&#39;click&#39;</span>
+<span class="sd">&gt;&gt;&gt; config[&#39;geometry_hinting&#39;].__class__.__name__</span>
+<span class="sd">&#39;bool&#39;</span>
+<span class="sd">&gt;&gt;&gt; plugintest = {}</span>
+<span class="sd">&gt;&gt;&gt; plugintest[&#39;foo&#39;] = &#39;bar&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_set_config(&#39;testplugin&#39;, plugintest)</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get_config(&#39;testplugin&#39;)</span>
+<span class="sd">{&#39;foo&#39;: &#39;bar&#39;}</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get(&#39;testplugin&#39;, &#39;foo&#39;)</span>
+<span class="sd">&#39;bar&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get(&#39;testplugin&#39;, &#39;foo&#39;, &#39;new&#39;)</span>
+<span class="sd">&#39;bar&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get(&#39;testplugin&#39;, &#39;algo&#39;)</span>
+<span class="sd">Traceback (most recent call last):</span>
+<span class="sd">...</span>
+<span class="sd">KeyError: &#39;ConfigBase::get_item: unknown key algo&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get(&#39;testplugin&#39;, &#39;algo&#39;, 1)</span>
+<span class="sd">1</span>
+<span class="sd">&gt;&gt;&gt; config.plugin_get(&#39;anothertestplugin&#39;, &#39;algo&#39;, 500)</span>
+<span class="sd">500</span>
+<span class="sd">&gt;&gt;&gt; config.get_profile()</span>
+<span class="sd">&#39;default&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.set_profile(&#39;my_first_new_testing_profile&#39;)</span>
+<span class="sd">&gt;&gt;&gt; config.get_profile()</span>
+<span class="sd">&#39;my_first_new_testing_profile&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.del_profile(&#39;my_first_new_testing_profile&#39;)</span>
+<span class="sd">&gt;&gt;&gt; config.get_profile()</span>
+<span class="sd">&#39;default&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.list_profiles().__class__.__name__</span>
+<span class="sd">&#39;list&#39;</span>
+<span class="sd">&gt;&gt;&gt; config.options_set({})</span>
+<span class="sd">&gt;&gt;&gt; config.options_get()</span>
+<span class="sd">{}</span>
+<span class="sd">&gt;&gt;&gt; </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">configobj.configobj</span> <span class="kn">import</span> <span class="n">ConfigObj</span><span class="p">,</span> <span class="n">flatten_errors</span>
+<span class="kn">from</span> <span class="nn">configobj.validate</span> <span class="kn">import</span> <span class="n">Validator</span>
+<span class="kn">from</span> <span class="nn">borg</span> <span class="kn">import</span> <span class="n">Borg</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">DEBUG</span><span class="p">,</span> <span class="n">get_config_dir</span><span class="p">,</span> <span class="n">dict_diff</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">gconf</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Unable to import gconf, GNOME defaults unavailable&#39;</span><span class="p">)</span>
+
+<span class="n">DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;global_config&#39;</span><span class="p">:</span>   <span class="p">{</span>
+            <span class="s">&#39;dbus&#39;</span>                  <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;focus&#39;</span>                 <span class="p">:</span> <span class="s">&#39;click&#39;</span><span class="p">,</span>
+            <span class="s">&#39;handle_size&#39;</span>           <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s">&#39;geometry_hinting&#39;</span>      <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;window_state&#39;</span>          <span class="p">:</span> <span class="s">&#39;normal&#39;</span><span class="p">,</span>
+            <span class="s">&#39;borderless&#39;</span>            <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;tab_position&#39;</span>          <span class="p">:</span> <span class="s">&#39;top&#39;</span><span class="p">,</span>
+            <span class="s">&#39;broadcast_default&#39;</span>     <span class="p">:</span> <span class="s">&#39;group&#39;</span><span class="p">,</span>
+            <span class="s">&#39;close_button_on_tab&#39;</span>   <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;hide_tabbar&#39;</span>           <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;scroll_tabbar&#39;</span>         <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;homogeneous_tabbar&#39;</span>    <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;hide_from_taskbar&#39;</span>     <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;always_on_top&#39;</span>         <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;hide_on_lose_focus&#39;</span>    <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;sticky&#39;</span>                <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;try_posix_regexp&#39;</span>      <span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;Linux&#39;</span><span class="p">,</span>
+            <span class="s">&#39;use_custom_url_handler&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;custom_url_handler&#39;</span>    <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;disable_real_transparency&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;title_hide_sizetext&#39;</span>   <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;title_transmit_fg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#ffffff&#39;</span><span class="p">,</span>
+            <span class="s">&#39;title_transmit_bg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#c80003&#39;</span><span class="p">,</span>
+            <span class="s">&#39;title_receive_fg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#ffffff&#39;</span><span class="p">,</span>
+            <span class="s">&#39;title_receive_bg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#0076c9&#39;</span><span class="p">,</span>
+            <span class="s">&#39;title_inactive_fg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#000000&#39;</span><span class="p">,</span>
+            <span class="s">&#39;title_inactive_bg_color&#39;</span> <span class="p">:</span> <span class="s">&#39;#c0bebf&#39;</span><span class="p">,</span>
+            <span class="s">&#39;inactive_color_offset&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span>
+            <span class="s">&#39;enabled_plugins&#39;</span>       <span class="p">:</span> <span class="p">[</span><span class="s">&#39;LaunchpadBugURLHandler&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;LaunchpadCodeURLHandler&#39;</span><span class="p">,</span>
+                                       <span class="s">&#39;APTURLHandler&#39;</span><span class="p">],</span>
+            <span class="s">&#39;suppress_multiple_term_dialog&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;always_split_with_profile&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="s">&#39;title_use_system_font&#39;</span> <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+            <span class="s">&#39;title_font&#39;</span>            <span class="p">:</span> <span class="s">&#39;Sans 9&#39;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s">&#39;keybindings&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;zoom_in&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;plus&#39;</span><span class="p">,</span>
+            <span class="s">&#39;zoom_out&#39;</span>         <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;minus&#39;</span><span class="p">,</span>
+            <span class="s">&#39;zoom_normal&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;0&#39;</span><span class="p">,</span>
+            <span class="s">&#39;new_tab&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;t&#39;</span><span class="p">,</span>
+            <span class="s">&#39;cycle_next&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;Tab&#39;</span><span class="p">,</span>
+            <span class="s">&#39;cycle_prev&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Tab&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_next&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;n&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_prev&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;p&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_up&#39;</span>            <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;Up&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_down&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;Down&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_left&#39;</span>          <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;Left&#39;</span><span class="p">,</span>
+            <span class="s">&#39;go_right&#39;</span>         <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;Right&#39;</span><span class="p">,</span>
+            <span class="s">&#39;rotate_cw&#39;</span>        <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;r&#39;</span><span class="p">,</span>
+            <span class="s">&#39;rotate_ccw&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;&lt;Shift&gt;r&#39;</span><span class="p">,</span>
+            <span class="s">&#39;split_horiz&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;o&#39;</span><span class="p">,</span>
+            <span class="s">&#39;split_vert&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;e&#39;</span><span class="p">,</span>
+            <span class="s">&#39;close_term&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;w&#39;</span><span class="p">,</span>
+            <span class="s">&#39;copy&#39;</span>             <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;c&#39;</span><span class="p">,</span>
+            <span class="s">&#39;paste&#39;</span>            <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;v&#39;</span><span class="p">,</span>
+            <span class="s">&#39;toggle_scrollbar&#39;</span> <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;s&#39;</span><span class="p">,</span>
+            <span class="s">&#39;search&#39;</span>           <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;f&#39;</span><span class="p">,</span>
+            <span class="s">&#39;page_up&#39;</span>          <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;page_down&#39;</span>        <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;page_up_half&#39;</span>     <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;page_down_half&#39;</span>   <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;line_up&#39;</span>          <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;line_down&#39;</span>        <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;close_window&#39;</span>     <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;q&#39;</span><span class="p">,</span>
+            <span class="s">&#39;resize_up&#39;</span>        <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Up&#39;</span><span class="p">,</span>
+            <span class="s">&#39;resize_down&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Down&#39;</span><span class="p">,</span>
+            <span class="s">&#39;resize_left&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Left&#39;</span><span class="p">,</span>
+            <span class="s">&#39;resize_right&#39;</span>     <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Right&#39;</span><span class="p">,</span>
+            <span class="s">&#39;move_tab_right&#39;</span>   <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Page_Down&#39;</span><span class="p">,</span>
+            <span class="s">&#39;move_tab_left&#39;</span>    <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;Page_Up&#39;</span><span class="p">,</span>
+            <span class="s">&#39;toggle_zoom&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;x&#39;</span><span class="p">,</span>
+            <span class="s">&#39;scaled_zoom&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;z&#39;</span><span class="p">,</span>
+            <span class="s">&#39;next_tab&#39;</span>         <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;Page_Down&#39;</span><span class="p">,</span>
+            <span class="s">&#39;prev_tab&#39;</span>         <span class="p">:</span> <span class="s">&#39;&lt;Control&gt;Page_Up&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_1&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_2&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_3&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_4&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_5&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_6&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_7&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_8&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_9&#39;</span>  <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;switch_to_tab_10&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;full_screen&#39;</span>      <span class="p">:</span> <span class="s">&#39;F11&#39;</span><span class="p">,</span>
+            <span class="s">&#39;reset&#39;</span>            <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;r&#39;</span><span class="p">,</span>
+            <span class="s">&#39;reset_clear&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;g&#39;</span><span class="p">,</span>
+            <span class="s">&#39;hide_window&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;&lt;Alt&gt;a&#39;</span><span class="p">,</span>
+            <span class="s">&#39;group_all&#39;</span>        <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;g&#39;</span><span class="p">,</span>
+            <span class="s">&#39;group_all_toggle&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;ungroup_all&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Super&gt;g&#39;</span><span class="p">,</span>
+            <span class="s">&#39;group_tab&#39;</span>        <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;t&#39;</span><span class="p">,</span>
+            <span class="s">&#39;group_tab_toggle&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;ungroup_tab&#39;</span>      <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Super&gt;t&#39;</span><span class="p">,</span>
+            <span class="s">&#39;new_window&#39;</span>       <span class="p">:</span> <span class="s">&#39;&lt;Shift&gt;&lt;Control&gt;i&#39;</span><span class="p">,</span>
+            <span class="s">&#39;new_terminator&#39;</span>   <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;i&#39;</span><span class="p">,</span>
+            <span class="s">&#39;broadcast_off&#39;</span>    <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;o&#39;</span><span class="p">,</span>
+            <span class="s">&#39;broadcast_group&#39;</span>  <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;g&#39;</span><span class="p">,</span>
+            <span class="s">&#39;broadcast_all&#39;</span>    <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;a&#39;</span><span class="p">,</span>
+            <span class="s">&#39;insert_number&#39;</span>    <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;1&#39;</span><span class="p">,</span>
+            <span class="s">&#39;insert_padded&#39;</span>    <span class="p">:</span> <span class="s">&#39;&lt;Super&gt;0&#39;</span><span class="p">,</span>
+            <span class="s">&#39;edit_window_title&#39;</span><span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;t&#39;</span><span class="p">,</span>
+            <span class="s">&#39;layout_launcher&#39;</span>  <span class="p">:</span> <span class="s">&#39;&lt;Alt&gt;l&#39;</span><span class="p">,</span>
+            <span class="s">&#39;next_profile&#39;</span>     <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+            <span class="s">&#39;previous_profile&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> 
+            <span class="s">&#39;help&#39;</span>             <span class="p">:</span> <span class="s">&#39;F1&#39;</span>
+        <span class="p">},</span>
+        <span class="s">&#39;profiles&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">&#39;default&#39;</span><span class="p">:</span>  <span class="p">{</span>
+                <span class="s">&#39;allow_bold&#39;</span>            <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;antialias&#39;</span>             <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;audible_bell&#39;</span>          <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;visible_bell&#39;</span>          <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;urgent_bell&#39;</span>           <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;icon_bell&#39;</span>             <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;background_color&#39;</span>      <span class="p">:</span> <span class="s">&#39;#000000&#39;</span><span class="p">,</span>
+                <span class="s">&#39;background_darkness&#39;</span>   <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                <span class="s">&#39;background_type&#39;</span>       <span class="p">:</span> <span class="s">&#39;solid&#39;</span><span class="p">,</span>
+                <span class="s">&#39;background_image&#39;</span>      <span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="s">&#39;backspace_binding&#39;</span>     <span class="p">:</span> <span class="s">&#39;ascii-del&#39;</span><span class="p">,</span>
+                <span class="s">&#39;delete_binding&#39;</span>        <span class="p">:</span> <span class="s">&#39;escape-sequence&#39;</span><span class="p">,</span>
+                <span class="s">&#39;color_scheme&#39;</span>          <span class="p">:</span> <span class="s">&#39;grey_on_black&#39;</span><span class="p">,</span>
+                <span class="s">&#39;cursor_blink&#39;</span>          <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;cursor_shape&#39;</span>          <span class="p">:</span> <span class="s">&#39;block&#39;</span><span class="p">,</span>
+                <span class="s">&#39;cursor_color&#39;</span>          <span class="p">:</span> <span class="s">&#39;#aaaaaa&#39;</span><span class="p">,</span>
+                <span class="s">&#39;emulation&#39;</span>             <span class="p">:</span> <span class="s">&#39;xterm&#39;</span><span class="p">,</span>
+                <span class="s">&#39;term&#39;</span>                  <span class="p">:</span> <span class="s">&#39;xterm&#39;</span><span class="p">,</span>
+                <span class="s">&#39;colorterm&#39;</span>             <span class="p">:</span> <span class="s">&#39;gnome-terminal&#39;</span><span class="p">,</span>
+                <span class="s">&#39;font&#39;</span>                  <span class="p">:</span> <span class="s">&#39;Mono 10&#39;</span><span class="p">,</span>
+                <span class="s">&#39;foreground_color&#39;</span>      <span class="p">:</span> <span class="s">&#39;#aaaaaa&#39;</span><span class="p">,</span>
+                <span class="s">&#39;show_titlebar&#39;</span>         <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;scrollbar_position&#39;</span>    <span class="p">:</span> <span class="s">&quot;right&quot;</span><span class="p">,</span>
+                <span class="s">&#39;scroll_background&#39;</span>     <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;scroll_on_keystroke&#39;</span>   <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;scroll_on_output&#39;</span>      <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;scrollback_lines&#39;</span>      <span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+                <span class="s">&#39;scrollback_infinite&#39;</span>   <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;exit_action&#39;</span>           <span class="p">:</span> <span class="s">&#39;close&#39;</span><span class="p">,</span>
+                <span class="s">&#39;palette&#39;</span>               <span class="p">:</span> <span class="s">&#39;#2e3436:#cc0000:#4e9a06:#c4a000:</span><span class="se">\</span>
+<span class="s">#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:</span><span class="se">\</span>
+<span class="s">#729fcf:#ad7fa8:#34e2e2:#eeeeec&#39;</span><span class="p">,</span>
+                <span class="s">&#39;word_chars&#39;</span>            <span class="p">:</span> <span class="s">&#39;-A-Za-z0-9,./?%&amp;#:_&#39;</span><span class="p">,</span>
+                <span class="s">&#39;mouse_autohide&#39;</span>        <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;update_records&#39;</span>        <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;login_shell&#39;</span>           <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;use_custom_command&#39;</span>    <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;custom_command&#39;</span>        <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="s">&#39;use_system_font&#39;</span>       <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;use_theme_colors&#39;</span>      <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;encoding&#39;</span>              <span class="p">:</span> <span class="s">&#39;UTF-8&#39;</span><span class="p">,</span>
+                <span class="s">&#39;active_encodings&#39;</span>      <span class="p">:</span> <span class="p">[</span><span class="s">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="s">&#39;ISO-8859-1&#39;</span><span class="p">],</span>
+                <span class="s">&#39;focus_on_close&#39;</span>        <span class="p">:</span> <span class="s">&#39;auto&#39;</span><span class="p">,</span>
+                <span class="s">&#39;force_no_bell&#39;</span>         <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;cycle_term_tab&#39;</span>        <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;copy_on_selection&#39;</span>     <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;alternate_screen_scroll&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;split_to_group&#39;</span>        <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                <span class="s">&#39;autoclean_groups&#39;</span>      <span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;http_proxy&#39;</span>            <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+                <span class="s">&#39;ignore_hosts&#39;</span>          <span class="p">:</span> <span class="p">[</span><span class="s">&#39;localhost&#39;</span><span class="p">,</span><span class="s">&#39;127.0.0.0/8&#39;</span><span class="p">,</span><span class="s">&#39;*.local&#39;</span><span class="p">],</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+        <span class="s">&#39;layouts&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s">&#39;window0&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;Window&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;parent&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span>
+                        <span class="p">},</span>
+                    <span class="s">&#39;child1&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;Terminal&#39;</span><span class="p">,</span>
+                        <span class="s">&#39;parent&#39;</span><span class="p">:</span> <span class="s">&#39;window0&#39;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+        <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="p">},</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to provide a slightly richer config API above ConfigBase&quot;&quot;&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">profile</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">gconf</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">system_mono_font</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">system_prop_font</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">system_focus</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">inhibited</span> <span class="o">=</span> <span class="bp">None</span>
+    
+<div class="viewcode-block" id="Config.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">ConfigBase</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inhibited</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Config.__getitem__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.__getitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Look up a configuration item&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.__setitem__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.__setitem__">[docs]</a>    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a particular configuration item&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.get_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.get_profile">[docs]</a>    <span class="k">def</span> <span class="nf">get_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get our profile&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.set_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.set_profile">[docs]</a>    <span class="k">def</span> <span class="nf">set_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set our profile (which usually means change it)&quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options_get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">force</span> <span class="ow">and</span> <span class="n">options</span> <span class="ow">and</span> <span class="n">options</span><span class="o">.</span><span class="n">profile</span> <span class="ow">and</span> <span class="n">profile</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;overriding default profile to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">options</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">profile</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Config::set_profile: Changing profile to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">profile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">profile</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">profile</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Config::set_profile: </span><span class="si">%s</span><span class="s"> does not exist, creating&#39;</span> <span class="o">%</span> <span class="n">profile</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Config.add_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.add_profile">[docs]</a>    <span class="k">def</span> <span class="nf">add_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a new profile&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">add_profile</span><span class="p">(</span><span class="n">profile</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.del_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.del_profile">[docs]</a>    <span class="k">def</span> <span class="nf">del_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a profile&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">:</span>
+            <span class="c"># FIXME: We should solve this problem by updating terminals when we</span>
+            <span class="c"># remove a profile</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Config::del_profile: Deleting in-use profile </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">profile</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_profile</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">profile</span><span class="p">):</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">])</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">options_get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">options</span> <span class="ow">and</span> <span class="n">options</span><span class="o">.</span><span class="n">profile</span> <span class="o">==</span> <span class="n">profile</span><span class="p">:</span>
+            <span class="n">options</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">options_set</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.rename_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.rename_profile">[docs]</a>    <span class="k">def</span> <span class="nf">rename_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rename a profile&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">profile</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">profile</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">newname</span>
+</div>
+<div class="viewcode-block" id="Config.list_profiles"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.list_profiles">[docs]</a>    <span class="k">def</span> <span class="nf">list_profiles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List all configured profiles&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Config.add_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.add_layout">[docs]</a>    <span class="k">def</span> <span class="nf">add_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a new layout&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">add_layout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.replace_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.replace_layout">[docs]</a>    <span class="k">def</span> <span class="nf">replace_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace an existing layout&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">replace_layout</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">))</span> 
+</div>
+<div class="viewcode-block" id="Config.del_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.del_layout">[docs]</a>    <span class="k">def</span> <span class="nf">del_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">layout</span><span class="p">):</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Config.rename_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.rename_layout">[docs]</a>    <span class="k">def</span> <span class="nf">rename_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rename a layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">layout</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span>
+            <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Config.list_layouts"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.list_layouts">[docs]</a>    <span class="k">def</span> <span class="nf">list_layouts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List all configured layouts&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Config.get_system_prop_font"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.get_system_prop_font">[docs]</a>    <span class="k">def</span> <span class="nf">get_system_prop_font</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Look up the system font&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system_prop_font</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prop_font</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s">&#39;gconf&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="o">=</span> <span class="n">gconf</span><span class="o">.</span><span class="n">client_get_default</span><span class="p">()</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s">&#39;/desktop/gnome/interface/font_name&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system_prop_font</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">get_string</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system_prop_font</span> <span class="o">=</span> <span class="s">&quot;Sans 10&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">notify_add</span><span class="p">(</span>
+                        <span class="s">&#39;/desktop/gnome/interface/font_name&#39;</span><span class="p">,</span> 
+                        <span class="bp">self</span><span class="o">.</span><span class="n">on_gconf_notify</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_prop_font</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.get_system_mono_font"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.get_system_mono_font">[docs]</a>    <span class="k">def</span> <span class="nf">get_system_mono_font</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Look up the system font&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system_mono_font</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_mono_font</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s">&#39;gconf&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="o">=</span> <span class="n">gconf</span><span class="o">.</span><span class="n">client_get_default</span><span class="p">()</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s">&#39;/desktop/gnome/interface/monospace_font_name&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system_mono_font</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">get_string</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system_mono_font</span> <span class="o">=</span> <span class="s">&quot;Mono 10&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">notify_add</span><span class="p">(</span>
+                        <span class="s">&#39;/desktop/gnome/interface/monospace_font_name&#39;</span><span class="p">,</span> 
+                        <span class="bp">self</span><span class="o">.</span><span class="n">on_gconf_notify</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_mono_font</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.get_system_focus"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.get_system_focus">[docs]</a>    <span class="k">def</span> <span class="nf">get_system_focus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Look up the system focus setting&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system_focus</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_focus</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s">&#39;gconf&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span> <span class="o">=</span> <span class="n">gconf</span><span class="o">.</span><span class="n">client_get_default</span><span class="p">()</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/apps/metacity/general/focus_mode&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">system_focus</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">get_string</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">gconf</span><span class="o">.</span><span class="n">notify_add</span><span class="p">(</span><span class="s">&#39;/apps/metacity/general/focus_mode&#39;</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">on_gconf_notify</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system_focus</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.on_gconf_notify"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.on_gconf_notify">[docs]</a>    <span class="k">def</span> <span class="nf">on_gconf_notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_client</span><span class="p">,</span> <span class="n">_cnxn_id</span><span class="p">,</span> <span class="n">_entry</span><span class="p">,</span> <span class="n">_what</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Handle a gconf watch changing&quot;&quot;&quot;</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;GConf notification received. Invalidating caches&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system_focus</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">system_font</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="Config.save"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Cause ConfigBase to save our config to file&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inhibited</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">save</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="Config.inhibit_save"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.inhibit_save">[docs]</a>    <span class="k">def</span> <span class="nf">inhibit_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prevent calls to save() being honoured&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inhibited</span> <span class="o">=</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="Config.uninhibit_save"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.uninhibit_save">[docs]</a>    <span class="k">def</span> <span class="nf">uninhibit_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Allow calls to save() to be honoured&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inhibited</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Config.options_set"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.options_set">[docs]</a>    <span class="k">def</span> <span class="nf">options_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the command line options&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">command_line_options</span> <span class="o">=</span> <span class="n">options</span>
+</div>
+<div class="viewcode-block" id="Config.options_get"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.options_get">[docs]</a>    <span class="k">def</span> <span class="nf">options_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the command line options&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">command_line_options</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Config.plugin_get"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.plugin_get">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pluginname</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a plugin config value, if doesn&#39;t exist</span>
+<span class="sd">            return default if specified</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="n">pluginname</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.plugin_set"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.plugin_set">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pluginname</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a plugin config value&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set_item</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="n">pluginname</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.plugin_get_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.plugin_get_config">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a whole config tree for a given plugin&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.plugin_set_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.plugin_set_config">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a whole config tree for a given plugin&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">tree</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.plugin_del_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.plugin_del_config">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_del_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a whole config tree for a given plugin&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">del_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.layout_get_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.layout_get_config">[docs]</a>    <span class="k">def</span> <span class="nf">layout_get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a layout&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">get_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Config.layout_set_config"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.Config.layout_set_config">[docs]</a>    <span class="k">def</span> <span class="nf">layout_set_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a layout&quot;&quot;&quot;</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">set_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">tree</span><span class="p">))</span>
+</div></div>
+<div class="viewcode-block" id="ConfigBase"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase">[docs]</a><span class="k">class</span> <span class="nc">ConfigBase</span><span class="p">(</span><span class="n">Borg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to provide access to our user configuration&quot;&quot;&quot;</span>
+    <span class="n">loaded</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">whined</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">global_config</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">profiles</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">keybindings</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">plugins</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">layouts</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">command_line_options</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="ConfigBase.__init__"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Class initialiser&quot;&quot;&quot;</span>
+
+        <span class="n">Borg</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">prepare_attributes</span><span class="p">()</span>
+        <span class="kn">import</span> <span class="nn">optionparse</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span> <span class="o">=</span> <span class="n">optionparse</span><span class="o">.</span><span class="n">options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.prepare_attributes"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.prepare_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set up our borg environment&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">whined</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">whined</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">,</span> <span class="s">&#39;keybindings&#39;</span><span class="p">,</span> <span class="s">&#39;profiles&#39;</span><span class="p">,</span>
+                             <span class="s">&#39;layouts&#39;</span><span class="p">,</span> <span class="s">&#39;plugins&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="s">&#39;default&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keybindings</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keybindings</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">][</span><span class="n">layout</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.defaults_to_configspec"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.defaults_to_configspec">[docs]</a>    <span class="k">def</span> <span class="nf">defaults_to_configspec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert our tree of default values into a ConfigObj validation</span>
+<span class="sd">        specification&quot;&quot;&quot;</span>
+        <span class="n">configspecdata</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">keymap</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;int&#39;</span><span class="p">:</span> <span class="s">&#39;integer&#39;</span><span class="p">,</span>
+                <span class="s">&#39;str&#39;</span><span class="p">:</span> <span class="s">&#39;string&#39;</span><span class="p">,</span>
+                <span class="s">&#39;bool&#39;</span><span class="p">:</span> <span class="s">&#39;boolean&#39;</span><span class="p">,</span>
+                <span class="p">}</span>
+
+        <span class="n">section</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">]:</span>
+            <span class="n">keytype</span> <span class="o">=</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">keytype</span> <span class="ow">in</span> <span class="n">keymap</span><span class="p">:</span>
+                <span class="n">keytype</span> <span class="o">=</span> <span class="n">keymap</span><span class="p">[</span><span class="n">keytype</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">keytype</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+            <span class="n">keytype</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">(default=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">keytype</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;custom_url_handler&#39;</span><span class="p">:</span>
+                <span class="n">keytype</span> <span class="o">=</span> <span class="s">&#39;string(default=&quot;&quot;)&#39;</span>
+
+            <span class="n">section</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">keytype</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">section</span>
+
+        <span class="n">section</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">]:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">value</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">section</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string(default=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">value</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;keybindings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">section</span>
+
+        <span class="n">section</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">]:</span>
+            <span class="n">keytype</span> <span class="o">=</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">][</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">keytype</span> <span class="ow">in</span> <span class="n">keymap</span><span class="p">:</span>
+                <span class="n">keytype</span> <span class="o">=</span> <span class="n">keymap</span><span class="p">[</span><span class="n">keytype</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">keytype</span> <span class="o">==</span> <span class="s">&#39;list&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;list(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;background_image&#39;</span><span class="p">:</span>
+                <span class="n">keytype</span> <span class="o">=</span> <span class="s">&#39;string&#39;</span>
+            <span class="k">if</span> <span class="n">keytype</span> <span class="o">==</span> <span class="s">&#39;string&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;&quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="n">value</span>
+
+            <span class="n">keytype</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">(default=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">keytype</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+            <span class="n">section</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">keytype</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;__many__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">section</span>
+
+        <span class="n">section</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string&#39;</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string&#39;</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;profile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string(default=default)&#39;</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;command&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string(default=&quot;&quot;)&#39;</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;string(default=&quot;&quot;)&#39;</span>
+        <span class="n">section</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;list(default=list(-1,-1))&#39;</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">][</span><span class="s">&#39;__many__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">][</span><span class="s">&#39;__many__&#39;</span><span class="p">][</span><span class="s">&#39;__many__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">section</span>
+
+        <span class="n">configspecdata</span><span class="p">[</span><span class="s">&#39;plugins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">configspec</span> <span class="o">=</span> <span class="n">ConfigObj</span><span class="p">(</span><span class="n">configspecdata</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">DEBUG</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">configspec</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;/tmp/terminator_configspec_debug.txt&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">configspec</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.load"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load configuration data from our various sources&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: config already loaded&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_config_dir</span><span class="p">(),</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span><span class="o">.</span><span class="n">config</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_config_dir</span><span class="p">(),</span> <span class="s">&#39;config&#39;</span><span class="p">)</span>
+
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;looking for config file: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">configfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">whined</span><span class="p">:</span>
+                <span class="n">err</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: Unable to open </span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ex</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">whined</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">return</span>
+        <span class="c"># If we have successfully loaded a config, allow future whining</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">whined</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">configspec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaults_to_configspec</span><span class="p">()</span>
+            <span class="n">parser</span> <span class="o">=</span> <span class="n">ConfigObj</span><span class="p">(</span><span class="n">configfile</span><span class="p">,</span> <span class="n">configspec</span><span class="o">=</span><span class="n">configspec</span><span class="p">)</span>
+            <span class="n">validator</span> <span class="o">=</span> <span class="n">Validator</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">preserve_errors</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;Unable to load configuration: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ex</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">result</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: config format is not valid&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">section_list</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_other</span><span class="p">)</span> <span class="ow">in</span> <span class="n">flatten_errors</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">err</span><span class="p">(</span><span class="s">&#39;[</span><span class="si">%s</span><span class="s">]: </span><span class="si">%s</span><span class="s"> is invalid&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">section_list</span><span class="p">),</span> <span class="n">key</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">err</span><span class="p">(</span><span class="s">&#39;[</span><span class="si">%s</span><span class="s">] missing&#39;</span> <span class="o">%</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">section_list</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;config validated successfully&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">section_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: Processing section: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">section_name</span><span class="p">)</span>
+            <span class="n">section</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">section_name</span> <span class="o">==</span> <span class="s">&#39;profiles&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">]:</span>
+                    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: Processing profile: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">profile</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">section</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">section_name</span><span class="p">):</span>
+                        <span class="c"># FIXME: Should this be outside the loop?</span>
+                        <span class="n">section</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">])</span>
+                    <span class="n">section</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">][</span><span class="n">profile</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="n">section_name</span> <span class="o">==</span> <span class="s">&#39;plugins&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">parser</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">section_name</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">]:</span>
+                    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: Processing </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">section_name</span><span class="p">,</span>
+                                                                 <span class="n">part</span><span class="p">))</span>
+                    <span class="n">section</span><span class="p">[</span><span class="n">part</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">][</span><span class="n">part</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">section_name</span> <span class="o">==</span> <span class="s">&#39;layouts&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">]:</span>
+                    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: Processing </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">section_name</span><span class="p">,</span>
+                                                                 <span class="n">layout</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span> <span class="ow">and</span> \
+                       <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">][</span><span class="n">layout</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>
+                           <span class="k">continue</span>
+                    <span class="n">section</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">][</span><span class="n">layout</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">section</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::load: skipping missing section </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+                            <span class="n">section_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="o">=</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.reload"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Force a reload of the base config&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="ConfigBase.save"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save the config to a file&quot;&quot;&quot;</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: saving config&#39;</span><span class="p">)</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">ConfigObj</span><span class="p">()</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">indent_type</span> <span class="o">=</span> <span class="s">&#39;  &#39;</span>
+
+        <span class="k">for</span> <span class="n">section_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;global_config&#39;</span><span class="p">,</span> <span class="s">&#39;keybindings&#39;</span><span class="p">]:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: Processing section: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">section_name</span><span class="p">)</span>
+            <span class="n">section</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section_name</span><span class="p">)</span>
+            <span class="n">parser</span><span class="p">[</span><span class="n">section_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_diff</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="n">section_name</span><span class="p">],</span> <span class="n">section</span><span class="p">)</span>
+
+        <span class="n">parser</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">profile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: Processing profile: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">profile</span><span class="p">)</span>
+            <span class="n">parser</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="n">profile</span><span class="p">]</span> <span class="o">=</span> <span class="n">dict_diff</span><span class="p">(</span>
+                    <span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">])</span>
+
+        <span class="n">parser</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: Processing layout: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">layout</span><span class="p">)</span>
+            <span class="n">parser</span><span class="p">[</span><span class="s">&#39;layouts&#39;</span><span class="p">][</span><span class="n">layout</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span>
+
+        <span class="n">parser</span><span class="p">[</span><span class="s">&#39;plugins&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: Processing plugin: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">plugin</span><span class="p">)</span>
+            <span class="n">parser</span><span class="p">[</span><span class="s">&#39;plugins&#39;</span><span class="p">][</span><span class="n">plugin</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span>
+
+        <span class="n">config_dir</span> <span class="o">=</span> <span class="n">get_config_dir</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">config_dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">config_dir</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parser</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_line_options</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;ConfigBase::save: Unable to save config: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ex</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.get_item"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.get_item">[docs]</a>    <span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Look up a configuration item&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">profile</span><span class="p">):</span>
+            <span class="c"># Hitting this generally implies a bug</span>
+            <span class="n">profile</span> <span class="o">=</span> <span class="s">&#39;default&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::get_item: </span><span class="si">%s</span><span class="s"> found in globals: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span><span class="p">[</span><span class="n">key</span><span class="p">]))</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">global_config</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::get_item: </span><span class="si">%s</span><span class="s"> found in profile </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">][</span><span class="n">key</span><span class="p">]))</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;keybindings&#39;</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">keybindings</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">plugin</span> <span class="ow">and</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span> <span class="ow">and</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::get_item: </span><span class="si">%s</span><span class="s"> found in plugin </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">][</span><span class="n">key</span><span class="p">]))</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">][</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">default</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&#39;ConfigBase::get_item: unknown key </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.set_item"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.set_item">[docs]</a>    <span class="k">def</span> <span class="nf">set_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">profile</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="n">plugin</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a configuration item&quot;&quot;&quot;</span>
+        <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;ConfigBase::set_item: Setting </span><span class="si">%s</span><span class="s">=</span><span class="si">%s</span><span class="s"> (profile=</span><span class="si">%s</span><span class="s">, plugin=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">plugin</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">global_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;keybindings&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keybindings</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s">&#39;ConfigBase::set_item: unknown key </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.get_plugin"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.get_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a whole tree for a plugin&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.set_plugin"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.set_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">set_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a whole tree for a plugin&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span> <span class="o">=</span> <span class="n">tree</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.del_plugin"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.del_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">del_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete a whole tree for a plugin&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="n">plugin</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.add_profile"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.add_profile">[docs]</a>    <span class="k">def</span> <span class="nf">add_profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a new profile&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">profile</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="n">profile</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">DEFAULTS</span><span class="p">[</span><span class="s">&#39;profiles&#39;</span><span class="p">][</span><span class="s">&#39;default&#39;</span><span class="p">])</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.add_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.add_layout">[docs]</a>    <span class="k">def</span> <span class="nf">add_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a new layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.replace_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.replace_layout">[docs]</a>    <span class="k">def</span> <span class="nf">replace_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replaces a layout with the given name&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">:</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout</span>
+        <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.get_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.get_layout">[docs]</a>    <span class="k">def</span> <span class="nf">get_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a layout&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">layout</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err</span><span class="p">(</span><span class="s">&#39;layout does not exist: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">layout</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ConfigBase.set_layout"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.config.ConfigBase.set_layout">[docs]</a>    <span class="k">def</span> <span class="nf">set_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set a layout&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layouts</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span> <span class="o">=</span> <span class="n">tree</span>
+</pre></div></div></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Stephen Boddy, licensed under the CC-BY-SA..
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.98',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
