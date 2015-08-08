@@ -219,7 +219,7 @@ Yeah, whatever. The fact is that I'm a helluva lot more productive in
 Python than I ever was, am, or will be, in C. In my totally biased
 and uninformed opinion, I also think certain things are *much* easier
 to get working in Python because you can iterate faster. With the
-:ref:``debugging`` option to run an interactive terminal you even
+:ref:`debugging` option to run an interactive terminal you even
 have the ability to try out ideas and explore the running instance
 directly. Results don't get more immediate than that!
 

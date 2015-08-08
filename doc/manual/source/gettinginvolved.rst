@@ -15,7 +15,7 @@ Translations
 Sprechen Sie Deutsch?
 
 Awesome! I've been getting my head around the whole translation
-bit (English polyglot I'm afraid), and as a result there has been
+bit (English monoglot I'm afraid), and as a result there has been
 a lot of churn in the translations. So what are you waiting for?
 
 Speak some other language? Take a look at
@@ -54,7 +54,7 @@ discovering new particles (CERN? Hello?), boldly going (NASA? Come
 in Houston), or wrangle 2 more frames per second from Half-Life 3
 (Valve? Confirmed?)
 
-Here's the ones spotted and noted (I've seen quite a few others
+Here's the ones I've spotted and noted (I've seen quite a few others
 previously, but never thought to note them)
 
 - `MindMaze`_ - VR / mind-reading.
