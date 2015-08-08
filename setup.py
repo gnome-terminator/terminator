@@ -22,12 +22,14 @@ DOC_DIR = 'doc'
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
-    ("with-documentation", None, "Build/install the documentation"),
+    ("build-documentation", None, "Build the documentation"),
+    ("install-documentation", None, "Install the documentation"),
     ("without-gettext", None, "Don't build/install gettext .mo files"),
     ("without-icon-cache", None, "Don't attempt to run gtk-update-icon-cache")]
 
   def __init__ (self, *args):
-    self.with_documentation = False
+    self.build_documentation = False
+    self.install_documentation = True
     self.without_gettext = False
     self.without_icon_cache = False
     Distribution.__init__(self, *args)
@@ -67,7 +69,7 @@ class BuildData(build):
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  desktop_in + " " + desktop_data)
 
-    if self.distribution.with_documentation:
+    if self.distribution.build_documentation:
       # Build the documentation
       for doc_folder in (glob.glob (os.path.join (DOC_DIR, 'manual*')) + [os.path.join (DOC_DIR, 'apidoc')]):
         if os.path.isfile(os.path.join(doc_folder, 'Makefile')):
@@ -165,7 +167,7 @@ class InstallData(install_data):
   def _find_doc_files (self):
     data_files = []
 
-    if self.distribution.with_documentation:
+    if self.distribution.install_documentation:
       for doc_folder in (glob.glob (os.path.join (DOC_DIR, 'manual*')) + [os.path.join (DOC_DIR, 'apidoc')]):
         # construct new path
         src = os.path.join(doc_folder, '_build', 'html')
