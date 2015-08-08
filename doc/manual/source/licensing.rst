@@ -23,8 +23,8 @@ licensing, so it is assumed that they fall under the applications
 `GNU GPL v2 licence`_ insofar as it can be said to apply to
 non-source code files.
 
-The main **Terminator icon** created by *Cory Kontros*, and provided
-under the `CC-BY-SA licence`_.
+The main **Terminator icon** was created by *Cory Kontros*, and
+provided under the `CC-BY-SA licence`_.
 
 This **Manual** and **API documentation** are wholly new pieces
 created by the current maintainer *Steve Boddy*, and are distributed

@@ -114,10 +114,11 @@ So this is going to try:
           version, and I'll relegate it to the en_US folder. The
           default will remain British English.
 
-In order to create the html for manual, you must have the sphinx_rtd_theme
-package installed. This does not appear to be packaged for Ubuntu
-14.04 LTS as far as I can tell. This means you must install it using
-the pip tool. This may need installing on your system too with::
+In order to create the html for the manual, you must have the
+sphinx_rtd_theme package installed. This does not appear to be
+packaged for Ubuntu 14.04 LTS as far as I can tell. This means you
+must install it using the pip tool. This may need installing on your
+system too with::
 
     sudo apt-get install python-pip
 
