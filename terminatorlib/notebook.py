@@ -283,17 +283,22 @@ class Notebook(Container, gtk.Notebook):
 
         dbg('inserting page at position: %s' % tabpos)
         self.insert_page(widget, None, tabpos)
-        child_widgets = [widget]
-        child_widgets .extend(enumerate_descendants(widget))
+
+        if maker.isinstance(widget, 'Terminal'):
+            containers, objects = ([], [widget])
+        else:
+            containers, objects = enumerate_descendants(widget)
+
         term_widget = None
-        for term_widget in child_widgets:
+        for term_widget in objects:
             if maker.isinstance(term_widget, 'Terminal'):
                 self.set_last_active_term(term_widget.uuid)
-                self.set_tab_label(term_widget, label)
-                self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
-                                           not self.config['scroll_tabbar'],
-                                           gtk.PACK_START)
                 break
+
+        self.set_tab_label(widget, label)
+        self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
+                                   not self.config['scroll_tabbar'],
+                                   gtk.PACK_START)
 
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
