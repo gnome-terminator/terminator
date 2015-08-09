@@ -285,20 +285,22 @@ class Notebook(Container, Gtk.Notebook):
 
         dbg('inserting page at position: %s' % tabpos)
         self.insert_page(widget, None, tabpos)
-        child_widgets = [widget]
-        child_widgets .extend(enumerate_descendants(widget))
+
+        if maker.isinstance(widget, 'Terminal'):
+            containers, objects = ([], [widget])
+        else:
+            containers, objects = enumerate_descendants(widget)
+
         term_widget = None
-        for term_widget in child_widgets:
+        for term_widget in objects:
             if maker.isinstance(term_widget, 'Terminal'):
                 self.set_last_active_term(term_widget.uuid)
-                self.set_tab_label(term_widget, label)
-#                self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],  # FIXME FOR GTK3 how to do it there?
-#                                           not self.config['scroll_tabbar'],
-#                                           Gtk.PACK_START)
                 break
 
+        self.set_tab_label(widget, label)
         self.child_set_property(widget, 'tab-expand', True)
         self.child_set_property(widget, 'tab-fill', True)
+
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
         self.show_all()
