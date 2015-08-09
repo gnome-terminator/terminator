@@ -864,7 +864,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">adjustment7</property>
-                                    <property name="show_fill_level">True</property>
                                     <property name="round_digits">1</property>
                                     <property name="value_pos">left</property>
                                     <signal name="change-value" handler="on_inactive_color_offset_change_value" swapped="no"/>
