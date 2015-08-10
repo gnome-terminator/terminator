@@ -49,6 +49,11 @@ from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
 
 if __name__ == '__main__':
+    # Workaround for IBus intefering with broadcast when using dead keys
+    # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
+    # in the receivers.
+    os.environ['IBUS_DISABLE_SNOOPER']='1'
+
     dbus_service = None
 
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
