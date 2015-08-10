@@ -154,6 +154,7 @@ class Paned(Container):
 
     def do_redistribute(self, recurse_up=False, recurse_down=False):
         """Evenly divide available space between sibling panes"""
+        maker = Factory()
         #1 Find highest ancestor of the same type => ha
         highest_ancestor = self
         while type(highest_ancestor.get_parent()) == type(highest_ancestor):
@@ -162,7 +163,8 @@ class Paned(Container):
         # (1b) If Super modifier, redistribute higher sections too
         if recurse_up:
             grandfather=highest_ancestor.get_parent()
-            if grandfather != self.get_toplevel():
+            if maker.isinstance(grandfather, 'VPaned') or \
+               maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
         
         GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
