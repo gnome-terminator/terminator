@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-08 04:08+0200\n"
-"PO-Revision-Date: 2015-08-06 11:57+0000\n"
+"PO-Revision-Date: 2015-08-10 14:45+0000\n"
 "Last-Translator: ub <xenolith0bytetestcomgreen@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-09 05:13+0000\n"
-"X-Generator: Launchpad (build 17656)\n"
+"X-Launchpad-Export-Date: 2015-08-11 05:13+0000\n"
+"X-Generator: Launchpad (build 17686)\n"
 
 #: ../data/terminator.desktop.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -202,11 +202,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Layout"
-msgstr ""
+msgstr "レイアウト"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "実行"
 
 #: ../terminatorlib/notebook.py:344
 msgid "tab"
@@ -276,7 +276,7 @@ msgstr "ウインドウにカスタムWM_WINDOW_ROLE値を設定する"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "指定したレイアウトで実行"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
@@ -388,15 +388,15 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "ログを停止(_L)"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "名前をつけてログを保存"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "ターミナルのスクリーンショット(_S)"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
