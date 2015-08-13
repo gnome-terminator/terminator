@@ -324,17 +324,9 @@ looks like this::
     Issues encountered which may, or may not, already have an LP bug
     ================================================================
 
-    BUG: Issue if initial window (no tabs) has any splits, then creating new tab causes the first tab to be misnamed, gtk2 & gtk3.
-         Also on GTK3 only (but cannot reproduce now): it also causes a problem if using the "Menu" key to open the context menu
-         on the unamed tab; it does not dissappear by clicking out of it.
-
-    BUG: Ctrl+right-click-drag does not work. Can initiate drag, but no targets work.
-
     BUG: Zoom and maximise do not work if single terminal in a tab, gtk2 & gtk3.
 
     BUG: If first tab is split the tabs label width increases and pushes others off window gtk3 (in gtk2, the label shifts right, but other tabs OK)
-
-    BUG: With longer translations the buttons in the prefs sidebars can get chopped off.
 
     BUG: Groups: Create two tabs with splits. Super+G (group all), move to other tab and Super+T (group tabs), move back and type
         Output in tab group too. Also for custom groups.

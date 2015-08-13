@@ -313,8 +313,10 @@ The above action results in the following:
 
 .. image:: imgs/dragterminal_02.png
 
-The other way to drag a terminal can be done from within the terminal with 
-``Ctrl``\ +\ ``right-click-drag``\ .
+The other way to drag a terminal can be done from within the terminal with
+``Ctrl``\ +\ ``right-click-drag``\ . With this method once you start the
+grag, you *must* release the ``Ctrl`` key *before* releasing the
+``right-mouse-button``. If you do not the drag will cancel.
 
 You can drag between tabs by initiating a drag and hovering over the tab.
 Terminator will switch to the tab under the cursor, and the terminal can be

@@ -255,7 +255,7 @@ How do I...
   - Hide on lose focus: On
   - Hide from taskbar
   - Window borders: Off (use ``Alt``\ +\ ``click-drag`` and 
-    ``Alt``\ +\ ``right-click-drag`` to position and size window.)
+    ``Alt``\ +\ ``middle-click-drag`` to position and size window.)
   - Set the Toggle window visibility shortcut to your preference
 
   .. note:: It must be the first Terminator instance started, because
