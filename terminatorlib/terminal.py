@@ -1227,11 +1227,11 @@ class Terminal(Gtk.VBox):
     def get_zoom_data(self):
         """Return a dict of information for Window"""
         data = {}
-        data['old_font'] = self.vte.get_font()
+        data['old_font'] = self.vte.get_font().copy()
         data['old_char_height'] = self.vte.get_char_height()
         data['old_char_width'] = self.vte.get_char_width()
         data['old_allocation'] = self.vte.get_allocation()
-        data['old_padding'] = self.vte.get_padding()
+        # data['old_padding'] = self.vte.get_padding()   # FIXME FOR GTK3
         data['old_columns'] = self.vte.get_column_count()
         data['old_rows'] = self.vte.get_row_count()
         data['old_parent'] = self.get_parent()
@@ -1249,10 +1249,14 @@ class Terminal(Gtk.VBox):
         new_font = self.vte.get_font()
         new_allocation = self.vte.get_allocation()
 
-        old_alloc = {'x': old_data['old_allocation'].width - \
-                          old_data['old_padding'][0],
-                     'y': old_data['old_allocation'].height - \
-                          old_data['old_padding'][1]
+        # FIXME FOR GTK3 padding not in GTK3, purpose/use in GTK2?
+        #old_alloc = {'x': old_data['old_allocation'].width - \
+        #                  old_data['old_padding'][0],
+        #             'y': old_data['old_allocation'].height - \
+        #                  old_data['old_padding'][1]
+        #            }
+        old_alloc = {'x': old_data['old_allocation'].width,
+                     'y': old_data['old_allocation'].height
                     }
 
         dbg('Terminal::zoom_scale: Resized from %dx%d to %dx%d' % (
