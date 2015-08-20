@@ -1337,7 +1337,18 @@ class PrefsEditor:
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""
-        oldname = cell.get_property('text')
+        oldname_broken = cell.get_property('text')
+        
+        guiget = self.builder.get_object
+        treeview = guiget('profilelist')
+        treeselection = treeview.get_selection()
+        treeselection.select_path(path)
+        (model, pathlist) = treeselection.get_selected_rows()
+        tree_iter = model.get_iter(pathlist[0])
+        oldname = model.get_value(tree_iter,0)
+        if oldname != oldname_broken:
+            dbg('edited signal provides the wrong cell: %s != %s' %(oldname, oldname_broken))
+
         if oldname == newtext or oldname == 'default':
             return
         dbg('PrefsEditor::on_profile_name_edited: Changing %s to %s' %
@@ -1375,7 +1386,18 @@ class PrefsEditor:
 
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
-        oldname = cell.get_property('text')
+        oldname_broken = cell.get_property('text')
+
+        guiget = self.builder.get_object
+        treeview = guiget('layoutlist')
+        treeselection = treeview.get_selection()
+        treeselection.select_path(path)
+        (model, pathlist) = treeselection.get_selected_rows()
+        tree_iter = model.get_iter(pathlist[0])
+        oldname = model.get_value(tree_iter,0)
+        if oldname != oldname_broken:
+            dbg('edited signal provides the wrong cell: %s != %s' %(oldname, oldname_broken))
+
         if oldname == newtext or oldname == 'default':
             return
         dbg('Changing %s to %s' % (oldname, newtext))
