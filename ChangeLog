@@ -66,6 +66,10 @@ terminator trunk:
       will require additional work by translators (Steve Boddy)
     * Make the menu mnemonics a bit more consistent, or add them where
       they were missing (Steve Boddy)
+    * Add fallback to psutils to discover the cwd of a terminal (Heon
+      Jeong, LP#1261293) with additional fixup (Steve Boddy)
+    * Slight improvement (IMO) to the zoom terminal font scaling (Steve
+      Boddy, LP#329158)
   * Bug fixes
     * Fix <Mod>+double-click to not rebalance splitters (Steve Boddy,
       LP#1192679)
@@ -113,6 +117,22 @@ terminator trunk:
       this will make previously saved layouts off by a few pixels (Steve
       Boddy, LP#1089162)
     * Man page typo (Michael Eller, LP#1296725)
+    * Fix new tab labels when adding a tab to a window with splits (Steve
+      Boddy)
+    * Minor visual fix for slider in prefs filling whole trough (Steve
+      Boddy)
+    * Buttons in Prefs>Layouts tab cannot be hidden by slider (Steve
+      Boddy)
+    * Fix Super+double-click on splitter within tabs (Steve Boddy)
+    * Fix composed characters for receivers (Takao Fujiwara, LP#1463704)
+    * Fix launcher opening after a dbus enabled window is already open
+      (Steve Boddy, LP#1283002)
+    * Sort entries in config file, so they don't jump around every time
+      config is saved for easier troubleshooting (Steve Boddy)
+    * Start 'New Layout #' from 1. Looked strange starting at 2 (Steve
+      Boddy)
+    * Fix the renaming of Layouts/Profiles sometimes corrupting what
+      appears in the config file (Steve Boddy, LP#1262709)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
