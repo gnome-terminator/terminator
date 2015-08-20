@@ -4,17 +4,16 @@
 """terminal.py - classes necessary to provide Terminal widgets"""
 
 from __future__ import division
-import sys
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk, cairo
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
 import urllib
 
-from util import dbg, err, gerr, spawn_new_terminator, make_uuid
+from util import dbg, err, spawn_new_terminator, make_uuid
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -1231,7 +1230,6 @@ class Terminal(Gtk.VBox):
         data['old_char_height'] = self.vte.get_char_height()
         data['old_char_width'] = self.vte.get_char_width()
         data['old_allocation'] = self.vte.get_allocation()
-        # data['old_padding'] = self.vte.get_padding()   # FIXME FOR GTK3
         data['old_columns'] = self.vte.get_column_count()
         data['old_rows'] = self.vte.get_row_count()
         data['old_parent'] = self.get_parent()
@@ -1247,17 +1245,6 @@ class Terminal(Gtk.VBox):
         new_columns = self.vte.get_column_count()
         new_rows = self.vte.get_row_count()
         new_font = self.vte.get_font()
-        new_allocation = self.vte.get_allocation()
-
-        # FIXME FOR GTK3 padding not in GTK3, purpose/use in GTK2?
-        #old_alloc = {'x': old_data['old_allocation'].width - \
-        #                  old_data['old_padding'][0],
-        #             'y': old_data['old_allocation'].height - \
-        #                  old_data['old_padding'][1]
-        #            }
-        old_alloc = {'x': old_data['old_allocation'].width,
-                     'y': old_data['old_allocation'].height
-                    }
 
         dbg('Terminal::zoom_scale: Resized from %dx%d to %dx%d' % (
              old_data['old_columns'],
@@ -1285,7 +1272,6 @@ class Terminal(Gtk.VBox):
     def is_zoomed(self):
         """Determine if we are a zoomed terminal"""
         prop = None
-        parent = self.get_parent()
         window = self.get_toplevel()
 
         try:
