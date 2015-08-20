@@ -1236,7 +1236,6 @@ class Terminal(gtk.VBox):
         data['old_char_height'] = self.vte.get_char_height()
         data['old_char_width'] = self.vte.get_char_width()
         data['old_allocation'] = self.vte.get_allocation()
-        data['old_padding'] = self.vte.get_padding()
         data['old_columns'] = self.vte.get_column_count()
         data['old_rows'] = self.vte.get_row_count()
         data['old_parent'] = self.get_parent()
@@ -1252,13 +1251,6 @@ class Terminal(gtk.VBox):
         new_columns = self.vte.get_column_count()
         new_rows = self.vte.get_row_count()
         new_font = self.vte.get_font()
-        new_allocation = self.vte.get_allocation()
-
-        old_alloc = {'x': old_data['old_allocation'].width - \
-                          old_data['old_padding'][0],
-                     'y': old_data['old_allocation'].height - \
-                          old_data['old_padding'][1]
-                    }
 
         dbg('Terminal::zoom_scale: Resized from %dx%d to %dx%d' % (
              old_data['old_columns'],
@@ -1286,7 +1278,6 @@ class Terminal(gtk.VBox):
     def is_zoomed(self):
         """Determine if we are a zoomed terminal"""
         prop = None
-        parent = self.get_parent()
         window = self.get_toplevel()
 
         try:
