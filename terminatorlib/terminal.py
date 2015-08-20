@@ -1257,11 +1257,10 @@ class Terminal(Gtk.VBox):
             dbg('Terminal::zoom_scale: One axis unchanged, not scaling')
             return
 
-        old_area = old_data['old_columns'] * old_data['old_rows']
-        new_area = new_columns * new_rows
-        area_factor = (new_area / old_area) / 2
+        scale_factor = min ( (new_columns / old_data['old_columns'] * 0.97),
+                             (new_rows / old_data['old_rows'] * 1.05) )
 
-        new_size = int(old_data['old_font'].get_size() * area_factor)
+        new_size = int(old_data['old_font'].get_size() * scale_factor)
         if new_size == 0:
             err('refusing to set a zero sized font')
             return
