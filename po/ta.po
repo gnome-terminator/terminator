@@ -6,27 +6,93 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-08 04:08+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-22 01:55+0200\n"
 "PO-Revision-Date: 2013-10-08 15:36+0000\n"
 "Last-Translator: svishnunithyasoundhar <svishnunithyasoundhar@gmail.com>\n"
 "Language-Team: Tamil <ta@li.org>\n"
+"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-08-21 05:10+0000\n"
 "X-Generator: Launchpad (build 17690)\n"
 
-#: ../data/terminator.desktop.in.h:1
+#: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
 #: ../terminatorlib/plugins/activitywatch.py:161
 #: ../terminatorlib/preferences.glade.h:151
 msgid "Terminator"
 msgstr "முனையம்"
 
-#: ../data/terminator.desktop.in.h:2
+#: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
 msgstr "ஒரு  சாளரத்தில் பல முனையங்கள்"
+
+#: ../data/terminator.appdata.xml.in.h:3
+#: ../terminatorlib/preferences.glade.h:152
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:4
+msgid ""
+"A power-user tool for arranging terminals. It is inspired by programs such "
+"as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
+"terminals in grids (tabs is the most common default method, which Terminator "
+"also supports)."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:5
+msgid ""
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:6
+msgid "Some highlights:"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:7
+msgid "Arrange terminals in a grid"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:8
+msgid "Tabs"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:9
+msgid "Drag and drop re-ordering of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:10
+msgid "Lots of keyboard shortcuts"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:11
+msgid "Save multiple layouts and profiles via GUI preferences editor"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:12
+msgid "Simultaneous typing to arbitrary groups of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:13
+msgid "And lots more..."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:14
+msgid "The main window showing the application in action"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:15
+msgid "Getting a little crazy with the terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:16
+msgid "The preferences window where you can change the defaults"
+msgstr ""
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -46,8 +112,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து "
-"முனையங்கள் மூடிவிடும்."
+"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து முனையங்கள் "
+"மூடிவிடும்."
 
 #: ../terminatorlib/container.py:192
 msgid "Do not show this message next time"
@@ -210,11 +276,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:344
+#: ../terminatorlib/notebook.py:349
 msgid "tab"
 msgstr "தத்தல்"
 
-#: ../terminatorlib/notebook.py:562
+#: ../terminatorlib/notebook.py:567
 msgid "Close Tab"
 msgstr "தத்தலை மூடுக"
 
@@ -255,8 +321,7 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை "
-"பயன்படுத்த"
+"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை பயன்படுத்த"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -300,26 +365,20 @@ msgstr "பிழைத்திருத்த தகவலை இயக்க�
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
-"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் "
-"பிரிக்கப்பட்ட பட்டியல்"
+msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
-"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட "
-"பட்டியல்"
+msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
-"முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
+msgstr "முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
-"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  "
-"நிறுவுக"
+"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  நிறுவுக"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -932,8 +991,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:131
@@ -1009,10 +1068,6 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:152
-msgid "The robot future of terminals"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:153
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
@@ -1033,9 +1088,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1494,19 +1548,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1364
+#: ../terminatorlib/terminal.py:1361
 msgid "Unable to find a shell"
 msgstr "நிரப்பட்ட முனைய எண்ணை சேர்க்க"
 
-#: ../terminatorlib/terminal.py:1392
+#: ../terminatorlib/terminal.py:1389
 msgid "Unable to start shell:"
 msgstr "ஓட்டை  ஆரம்பிக்க முடியவில்லை:"
 
-#: ../terminatorlib/terminal.py:1797
+#: ../terminatorlib/terminal.py:1794
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1806
+#: ../terminatorlib/terminal.py:1803
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 

@@ -70,6 +70,8 @@ terminator trunk:
       Jeong, LP#1261293) with additional fixup (Steve Boddy)
     * Slight improvement (IMO) to the zoom terminal font scaling (Steve
       Boddy, LP#329158)
+    * Add an internationalised AppData file for software installers
+      (Steve Boddy, LP#1323785)
   * Bug fixes
     * Fix <Mod>+double-click to not rebalance splitters (Steve Boddy,
       LP#1192679)

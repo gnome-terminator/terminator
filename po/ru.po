@@ -6,27 +6,93 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-08 04:08+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-22 01:55+0200\n"
 "PO-Revision-Date: 2014-09-10 15:11+0000\n"
 "Last-Translator: Павел Рощин <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-08-21 05:09+0000\n"
 "X-Generator: Launchpad (build 17690)\n"
 
-#: ../data/terminator.desktop.in.h:1
+#: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
 #: ../terminatorlib/plugins/activitywatch.py:161
 #: ../terminatorlib/preferences.glade.h:151
 msgid "Terminator"
 msgstr "Terminator"
 
-#: ../data/terminator.desktop.in.h:2
+#: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
 msgstr "Несколько терминалов в одном окне"
+
+#: ../data/terminator.appdata.xml.in.h:3
+#: ../terminatorlib/preferences.glade.h:152
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:4
+msgid ""
+"A power-user tool for arranging terminals. It is inspired by programs such "
+"as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
+"terminals in grids (tabs is the most common default method, which Terminator "
+"also supports)."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:5
+msgid ""
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:6
+msgid "Some highlights:"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:7
+msgid "Arrange terminals in a grid"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:8
+msgid "Tabs"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:9
+msgid "Drag and drop re-ordering of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:10
+msgid "Lots of keyboard shortcuts"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:11
+msgid "Save multiple layouts and profiles via GUI preferences editor"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:12
+msgid "Simultaneous typing to arbitrary groups of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:13
+msgid "And lots more..."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:14
+msgid "The main window showing the application in action"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:15
+msgid "Getting a little crazy with the terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:16
+msgid "The preferences window where you can change the defaults"
+msgstr ""
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -210,11 +276,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:344
+#: ../terminatorlib/notebook.py:349
 msgid "tab"
 msgstr "вкладка"
 
-#: ../terminatorlib/notebook.py:562
+#: ../terminatorlib/notebook.py:567
 msgid "Close Tab"
 msgstr "Закрыть вкладку"
 
@@ -273,8 +339,7 @@ msgstr "Установить пользовательское имя (WM_CLASS) 
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
-"Установить пользовательский значок для этого окна (по файлу или имени)"
+msgstr "Установить пользовательский значок для этого окна (по файлу или имени)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -314,8 +379,7 @@ msgstr "Если Терминатор уже запущен, просто отк
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
-"Плагин ActivityWatch отсутствует: пожалуйста, установите python-notify"
+msgstr "Плагин ActivityWatch отсутствует: пожалуйста, установите python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -843,8 +907,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
-"<small><i><b>Замечание:</b> Приложениям в терминале будут доступны эти "
-"цвета.</i></small>"
+"<small><i><b>Замечание:</b> Приложениям в терминале будут доступны эти цвета."
+"</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Color p_alette:"
@@ -931,8 +995,8 @@ msgstr "Прокрутка"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Замечание:</b> Эти параметры могут вызвать некорректную работу "
 "некоторых приложений. Они представлены только для того, чтобы позволить "
@@ -1012,10 +1076,6 @@ msgstr "Этот плагин не имеет параметров конфиг�
 msgid "Plugins"
 msgstr "Плагины"
 
-#: ../terminatorlib/preferences.glade.h:152
-msgid "The robot future of terminals"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:153
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
@@ -1036,9 +1096,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1497,19 +1556,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1364
+#: ../terminatorlib/terminal.py:1361
 msgid "Unable to find a shell"
 msgstr "Не удается найти оболочку (shell)"
 
-#: ../terminatorlib/terminal.py:1392
+#: ../terminatorlib/terminal.py:1389
 msgid "Unable to start shell:"
 msgstr "Не удается запустить оболочку:"
 
-#: ../terminatorlib/terminal.py:1797
+#: ../terminatorlib/terminal.py:1794
 msgid "Rename Window"
 msgstr "Переименование окна"
 
-#: ../terminatorlib/terminal.py:1806
+#: ../terminatorlib/terminal.py:1803
 msgid "Enter a new title for the Terminator window..."
 msgstr "Введите новое название для окна Terminator..."
 

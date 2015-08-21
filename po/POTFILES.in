@@ -4,6 +4,7 @@
 [encoding: UTF-8]
 terminator
 data/terminator.desktop.in
+data/terminator.appdata.xml.in
 terminatorlib/borg.py
 terminatorlib/configobj/configobj.py
 terminatorlib/configobj/__init__.py

@@ -68,6 +68,11 @@ class BuildData(build):
       os.system ("C_ALL=C " + INTLTOOL_MERGE + " -d -u -c " + TOP_BUILDDIR +
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  desktop_in + " " + desktop_data)
+      appdata_in='data/terminator.appdata.xml.in'
+      appdata_data='data/terminator.appdata.xml'
+      os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
+                 "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
+                 appdata_in + " " + appdata_data)
 
     if self.distribution.build_documentation:
       # Build the documentation
@@ -214,6 +219,7 @@ setup(name=APP_NAME.capitalize(),
       license='GNU GPL v2',
       scripts=['terminator', 'remotinator'],
       data_files=[
+                  ('share/appdata', ['data/terminator.appdata.xml']),
                   ('share/applications', ['data/terminator.desktop']),
                   (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),
                   (os.path.join(man_dir, 'man5'), ['doc/terminator_config.5']),
