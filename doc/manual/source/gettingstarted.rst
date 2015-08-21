@@ -36,6 +36,9 @@ the two primary menus showing:
 
 .. image:: imgs/window_breakdown.png
 
+.. note:: You will never see a window that looks like this, as it is
+          impossible to have both menus up at the same time.
+
 #. :ref:`context-menu` - 
    This is the main menu reached with ``right-click`` over a terminal, and
    will let you access all the settings, profiles, shortcuts and 
@@ -47,8 +50,9 @@ the two primary menus showing:
    terminals we will cover this properly. For now it is enough to know
    where it is and how to trigger it.
 
-.. note:: You will never see a window that looks like this, as it is
-          impossible to have both menus up at the same time.
+   .. note:: By default titlebars are shown. If the titlebar has been
+             hidden :ref:`grouping-menu` functions will be added as a
+             sub-menu to :ref:`context-menu`.
 
 .. _context-menu:
 

@@ -201,7 +201,14 @@ Here you will see the port number, and you can simply use::
              into this terminal, even though it is already there in
              the launching terminal. This can get rather annoying,
              and seems counter-productive to me,  so a way to turn
-             off the output in the debug console may be added.
+             off the output in the debug console may be added. In
+             the meantime you can use::
+             
+               >>> from terminatorlib import util
+               ... util.DEBUG=False
+               
+             This should turn off the output, and let you explore the
+             internal structure more easily.
 
 The debug options and their usage are detailed
 :ref:`here <command-line-options-debugging>`.

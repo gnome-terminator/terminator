@@ -213,7 +213,8 @@
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#main-application-development">Main Application Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#gtk3-port">GTK3 Port</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#api-docs">API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#terminator-api-docs">Terminator API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#other-docs-for-developers">Other Docs for Developers</a></li>
 </ul>
 </li>
 </ul>
@@ -409,11 +410,18 @@ Here you will see the port number, and you can simply use:</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Whichever method you use the debug output is also dumped
+<p>Whichever method you use the debug output is also dumped
 into this terminal, even though it is already there in
 the launching terminal. This can get rather annoying,
 and seems counter-productive to me,  so a way to turn
-off the output in the debug console may be added.</p>
+off the output in the debug console may be added. In
+the meantime you can use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">terminatorlib</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="gp">... </span><span class="n">util</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">=</span><span class="bp">False</span>
+</pre></div>
+</div>
+<p class="last">This should turn off the output, and let you explore the
+internal structure more easily.</p>
 </div>
 <p>The debug options and their usage are detailed
 <a class="reference internal" href="#command-line-options-debugging"><span>here</span></a>.</p>

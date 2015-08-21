@@ -213,7 +213,8 @@
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#main-application-development">Main Application Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#gtk3-port">GTK3 Port</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#api-docs">API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#terminator-api-docs">Terminator API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#other-docs-for-developers">Other Docs for Developers</a></li>
 </ul>
 </li>
 </ul>
@@ -574,8 +575,17 @@ or with <a class="reference internal" href="advancedusage.html#command-line-opti
 shell.</div></blockquote>
 <p><strong>Custom command</strong> (default: inactive, empty)</p>
 <blockquote>
-<div>If enabled and set, the users default shell will be replaced with
-the command specified here.</div></blockquote>
+<div><p>If enabled and set, the users default shell will be replaced with
+the command specified here.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you place an entry here note that there is no <code class="docutils literal"><span class="pre">bash</span></code> or
+other shell underneath it. When the command ends, there
+is no chance to drop to a shell or other program. This can
+be worked around by using the shell line seperator <code class="docutils literal"><span class="pre">;</span></code>
+and a following <code class="docutils literal"><span class="pre">bash</span></code> command.</p>
+</div>
+</div></blockquote>
 <p><strong>When command exits</strong> (default: Exit the terminal)</p>
 <blockquote>
 <div><p>When the running command exits (default or custom) what action
@@ -810,9 +820,18 @@ layout.</p>
 <a class="reference internal" href="#prefs-profiles"><span>Profiles</span></a> tab.</div></blockquote>
 <p><strong>Custom command</strong></p>
 <blockquote>
-<div>Override the command run in the terminal,  same as in a profile,
+<div><p>Override the command run in the terminal,  same as in a profile,
 but this one has a higher priority. If empty, it will run the command
-in the profile, or the default user shell.</div></blockquote>
+in the profile, or the default user shell.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you place an entry here note that there is no <code class="docutils literal"><span class="pre">bash</span></code> or
+other shell underneath it. When the command ends, there
+is no chance to drop to a shell or other program. This can
+be worked around by using the shell line seperator <code class="docutils literal"><span class="pre">;</span></code>
+and a following <code class="docutils literal"><span class="pre">bash</span></code> command.</p>
+</div>
+</div></blockquote>
 <p><strong>Working directory</strong></p>
 <blockquote>
 <div>Whatever command is run (from layout, profile, or user default) it

@@ -114,10 +114,11 @@ So this is going to try:
           version, and I'll relegate it to the en_US folder. The
           default will remain British English.
 
-In order to create the html for manual, you must have the sphinx_rtd_theme
-package installed. This does not appear to be packaged for Ubuntu
-14.04 LTS as far as I can tell. This means you must install it using
-the pip tool. This may need installing on your system too with::
+In order to create the html for the manual, you must have the
+sphinx_rtd_theme package installed. This does not appear to be
+packaged for Ubuntu 14.04 LTS as far as I can tell. This means you
+must install it using the pip tool. This may need installing on your
+system too with::
 
     sudo apt-get install python-pip
 
@@ -204,136 +205,130 @@ Some of these wishlist items are also in my own text file of "Things
 to do" / "Big bag of crazy", which as of August 2015, revision 1598,
 looks like this::
 
-    Enhancements which may, or may not, have a wishlist item
-    ========================================================
-    Finish the WIP window icons
+    Enhancements which may or may not have a wishlist item
+    ======================================================
+    Completely new features
+        Add libunity quicklist of saved layouts
+            https://wiki.ubuntu.com/Unity/LauncherAPI#Python_Example
+            http://www.techques.com/question/24-64436/Refreshing-of-Dynamic-Quicklist-doesn%27t-work-after-initialization
+            http://people.canonical.com/~dpm/api/devel/GIR/python/Unity-3.0.html
+            Possibly use the progress bar and or counter for something too.
+        Add an appindicator menu for launching sessions.
 
-    Add a list of the default keybindings to the Preferences -> Keybindings window?
+    Layouts
+        Layout Launcher
+            Could bind the shortcut as a global toggle to hide show
+            Could save
+                window position/size
+                hidden status
+                always on top
+                pin to visible workspace
+        Layout needs to save/load more settings
+            Per layout?
+                Group mode status (all, group, off)
+                Split to this group
+                Autoclean groups
+            Per window
+                always on top
+                pin to visible workspace
+            Per tab
+            Per terminal
+                Store the custom command and working directory when we load a layout, so making small changes and saving doesn't lose everything.
+                It could be possible to detect the current command and working directory with psutil, but could be tricky. (i.e. do we ignore bash?)
+        A per layout "save on exit" option to always remember last setup/positions etc. Probably requires above to be done first.
 
-    Add libunity quicklist of saved layouts
-        https://wiki.ubuntu.com/Unity/LauncherAPI#Python_Example
-        http://www.techques.com/question/24-64436/Refreshing-of-Dynamic-Quicklist-doesn%27t-work-after-initialization
-        http://people.canonical.com/~dpm/api/devel/GIR/python/Unity-3.0.html
-        Possibly use the progress bar and or counter for something too.
+    Missing shortcuts:
+        Just shortcut:
+            Context menu (in addition to Windows menu button - not always available on all keyboards)
+            Group menu
+            Open preferences
+            Change tab text (#1054300-patch), titlebar text, group name
+            Toggle titlebar visibility
+            Equalise the splitters (siblings/siblings+children/siblings+parents,all)
+            Zoom +receiver in/out/reset
+            Zoom all in/out/reset
+        New code:
+            Open a shortcut help overlay (Ctrl-F1?)
+            Insert tab text, titlebar text, group name value into terminal(s)
+            Last terminal / tab / window(again to jump back to original) #1440049
+            Limit broadcast group/all to current tab / window (toggle)
+            Broadcast temporarily off when maximised or zoomed to single term (toggle)
 
-    Add an appindicator menu for launching sessions.
+    Titlebar
+        Add large action/status icons for when titlebar is bigger.
+        Improve the look/spacing of the titlebar, i.e. the spacing around/between elements
 
-    Layout Launcher
-        Could bind the shortcut as a global toggle to hide show
-        Could save
-            window position/size
-            hidden status
-            always on top
-            pin to visible workspace
+    Tabs
+        right-click menu replicating GNOME-Terminals (move left/right, close, rename)
 
-    Layout needs to save/load more settings
-        Per layout?
-            Group mode status (all, group, off)
-            Split to this group
-            Autoclean groups
-        Per window
-            always on top
-            pin to visible workspace
-        Per tab
-        Per terminal
-            Store the custom command and working directory when we load a layout, so making small changes and saving doesn't lose everything.
-            It could be possible to detect the current command and working directory with psutil, but could be tricky. (i.e. do we ignore bash?)
-
-    A per layout "save on exit" option to always remember last setup/positions etc. Probably requires above to be done first.
+    Menus
+        Add acellerators (i.e. "Shift+Ctr+O") might look too cluttered.
 
     Preferences
+        Profiles
+            Add preselection to the profile tab
         Layouts
             Have changing widgets depending on what is selected in the tree
             Terminal title editable
+            Button in prefs to duplicate a layout
+            Ordering in list
+        Keybindings
+            Add a list of the default keybindings to the Preferences -> Keybindings window?
+        Option for close_button_on_tab in prefs. (needs tab right-click menu first
+        Option to rebalance siblings on a split (don't think children or ancestors make sense)
+        Figure out how to get the tree view to jump to selected row for prefseditor
 
-    Config
+    Config file
         Items should be sorted for saving. Easier for comparing and spotting changes.
 
-    Give plugins ability to register shortcuts
-
-    Missing shortcuts:
-        Context menu (in addition to Windows menu button - not always available on all keyboards)
-        Group menu
-        Open preferences
-        Open a shortcut help overlay
-        Change tab text (#1054300-patch), titlebar text, group name
-        Toggle titlebar visibility
-        Equalise the splitters
-        Launch help (F1)
-        Zoom +receiver in/out/reset
-        Zoom all in/out/reset
-        Last terminal (again to jump back to original) #1440049
+    Plugins
+        Give plugins ability to register shortcuts
+        Custom Commands is blocking, perhaps make non-blocking
 
     Drag and Drop
         Terminal without target opens new window
         Tab to different/new window depending on target
 
-    Improve DBus interface, add coordination between sessions, i.e.:
-        multiple DBus ports? register them with a master DBus session, be able to query these, etc
-        be able to drive them more with command line commands, and not just from within own shell
-        Remotinator improvements
-
-    Abstract out the session/layout allowing multiple logical layouts in the same process to reduce resource used
-        This is a big piece of work, as a lot of the Terminator class would need seperating out.
-
-    Hide window should find the last focussed window and hide that. Second hit unhides and focusses it
-        Add a power hide to hide all of shortcut bound instances windows
-        Use the dbus if available to hide the current active window, then unhide it on second shortcut press
-        If the dbus is available:
-            The hide will go to the focussed instance, instead of the first to grab the shortcut
-            Add a super power hide to hide all Terminator windows
-            In both cases a second shortcut unhides whatever was hidden
+    Major architectural
+        Improve DBus interface, add coordination between sessions, i.e.:
+            multiple DBus ports? register them with a master DBus session, be able to query these, etc
+            be able to drive them more with command line commands, and not just from within own shell
+            Remotinator improvements
+        Abstract out the session/layout allowing multiple logical layouts in the same process to reduce resource used
+            This is a big piece of work, as a lot of the Terminator class would need seperating out.
+        Hide window should find the last focussed window and hide that. Second hit unhides and focusses it
+            Add a power hide to hide all of shortcut bound instances windows
+            Use the dbus if available to hide the current active window, then unhide it on second shortcut press
+            If the dbus is available:
+                The hide will go to the focussed instance, instead of the first to grab the shortcut
+                Add a super power hide to hide all Terminator windows
+                In both cases a second shortcut unhides whatever was hidden
 
     Split with command / Inherit command/workdir/groups etc
 
     Somehow make Layout Launcher, Preferences, & poss. Custom Commands singleton/borg (possibly use dbus)
 
-    Custom Commands is blocking, perhaps make non-blocking
-
-    Button in prefs to duplicate a layout
-
-    Check widget for close_button_on_tab in prefs.
-
     When in zoomed/maximised mode
         Perhaps the menu could contain a quick switch sub menu, rather than having to Restore, right-click, maximise
         Shortcuts for next/prev,up/down/left/right, etc. How should they behave
 
-    Limit broadcast group/all to current tab
-
-    Broadcast off when maximised or zoomed to single term
-
     All non main windows to be changed to glade files
 
     For me the two different sets of next/prev shortcuts are a bit of a mystery.
-
-    Add preselection to the profile tab
-
-    Figure out how to get the tree view to jump to selected row for prefseditor
-
-    Ability to insert window, titlebar, or group value into terminal(s)
 
     Let window title = terminal titlebar - perhaps other combos. Some kind of %T %G %W substitution?
 
     If we can figure out how to do arbritrary highlighting, perhaps we can get a "highlight differences" mode like used to exist in ClusTerm.
         This could also be limted to highlighting diffs between those in the same group.
 
-    Add large action/status icons for when titlebar is bigger.
 
+    Issues encountered where not aware of any LP bug
+    ================================================
 
-    Issues encountered which may, or may not, already have an LP bug
-    ================================================================
+    BUG: Zoom and maximise do not work if single terminal in a tab, gtk2 & gtk3. Intentional?
 
-    BUG: Issue if initial window (no tabs) has any splits, then creating new tab causes the first tab to be misnamed, gtk2 & gtk3.
-         Also on GTK3 only (but cannot reproduce now): it also causes a problem if using the "Menu" key to open the context menu
-         on the unamed tab; it does not dissappear by clicking out of it.
-
-    BUG: Ctrl+right-click-drag does not work. Can initiate drag, but no targets work.
-
-    BUG: Zoom and maximise do not work if single terminal in a tab, gtk2 & gtk3.
-
-    BUG: If first tab is split the tabs label width increases and pushes others off window gtk3 (in gtk2, the label shifts right, but other tabs OK)
-
-    BUG: With longer translations the buttons in the prefs sidebars can get chopped off.
+    BUG: Zoom on a split non-maximised window on just one terminal causes window size changes if zoomed terminal font is
+         bigger that the non-zoomed window.
 
     BUG: Groups: Create two tabs with splits. Super+G (group all), move to other tab and Super+T (group tabs), move back and type
         Output in tab group too. Also for custom groups.
@@ -345,7 +340,8 @@ looks like this::
         If one of our own windows/menus pops up, an inhibit flag is set.
         When the window/menu is closed we call a deferred hide on the main window
         In the deferred function, we check if we now have focus, and do not hide
-        In the deferred function, we check if inhibit is set and do not hide.
+        In the deferred function, we check if inhibit is set and do not hide
+        Could create a popup_menu subclass that sets the inhibiter
 
 So as you can see, still lots of room for improvements, and plenty of
 ideas if you are trying to find small starter tasks.
@@ -390,20 +386,20 @@ For the record, as of August 2015, with the `gtk3 branch`_ at revision
 
     Outstanding GTK3 tasks/items/reviews etc remaining
     ===================================================
-    Outstanding trunk revisions: 
+    Outstanding trunk revisions: 1599-1602 (minus manual, that comes later), 1613-1615, 1617
     If titlebar text wider than window, the visual bell icon does not appear
     If editing label in titlebar, the whole layout gets distorted until finished, then snaps back to mostly correct layout
     In High contrast mode the titlebar background only works over the group button
     In High contrast mode the titles are invisible for terminals with a group
-    Fix/reimplment the DBUS for GTK3. GI seems incomplete with no Server. Try to get old style working again.
+    Fix/reimplement the DBUS for GTK3. GI seems incomplete with no Server. Try to get old style working again.
     Need to go through all the Gtk.STOCK_* items and remove. Deprecated.
     Homogeneous_tabbar removed? Why?
     Need to set the version requirements - how? needed?
     terminal.py:on_vte_size_allocate, check for self.vte.window missing. Consequences?
     terminal.py:understand diff in args between old fork and new spawn of bash. Consequences?
-    VERIFY(8)/FIXME(8) FOR GTK3 items to be dealt with
+    VERIFY(8)/FIXME(7) FOR GTK3 items to be dealt with
 
-    For future with vte0.40+ - reimplment/restore the word_chars stuff.
+    For future with vte0.40+ - reimplement/restore the word_chars stuff.
 
     Not fixable so far as I can see
     ===============================
@@ -419,7 +415,7 @@ us for a long time yet, but this should serve as a warning.
 .. _gtk3 branch: https://code.launchpad.net/~gnome-terminator/terminator/gtk3
 
 --------------------------
-API Docs
+Terminator API Docs
 --------------------------
 
 Strictly speaking this isn't an API as such, because it is just using
@@ -442,3 +438,62 @@ then even less is displayed in the sidebar.) If you can help, join
 the A-Team... Or better yet, send me some changes that fix this.
 
 .. _Terminator API docs: ../apidoc/index.html
+
+--------------------------
+Other Docs for Developers
+--------------------------
+
+Here is a list of some useful sets of documentation:
+
++---------------------------+-------------------------------------------------------------------+
+| **General**                                                                                   |
++---------------------------+-------------------------------------------------------------------+
+| Python                    | https://docs.python.org/release/2.7/index.html                    |
++---------------------------+-------------------------------------------------------------------+
+| GNOME Dev. Center         | https://developer.gnome.org/                                      |
++---------------------------+-------------------------------------------------------------------+
+| Bazaar DVCS               | http://doc.bazaar.canonical.com/en/                               |
++---------------------------+-------------------------------------------------------------------+
+| **GTK 2**                                                                                     |
++---------------------------+-------------------------------------------------------------------+
+| PyGTK                     | https://developer.gnome.org/pygtk/stable/                         |
++---------------------------+-------------------------------------------------------------------+
+| VTE for GTK 2             | https://developer.gnome.org/vte/0.28/                             |
++---------------------------+-------------------------------------------------------------------+
+| **GTK 3**                                                                                     |
++---------------------------+-------------------------------------------------------------------+
+| GObject Introspection     | https://wiki.gnome.org/Projects/GObjectIntrospection              |
++---------------------------+-------------------------------------------------------------------+
+| GObject                   | https://developer.gnome.org/gobject/stable/                       |
++---------------------------+-------------------------------------------------------------------+
+| PyGObject Introspection   | https://wiki.gnome.org/Projects/PyGObject                         |
++---------------------------+-------------------------------------------------------------------+
+| PyGObject                 | https://developer.gnome.org/pygobject/stable/                     |
++---------------------------+-------------------------------------------------------------------+
+| Many PIGO autodocs        | http://lazka.github.io/pgi-docs/                                  |
++---------------------------+-------------------------------------------------------------------+
+| GDK3 Ref. Manual          | https://developer.gnome.org/gdk3/stable/                          |
++---------------------------+-------------------------------------------------------------------+
+| GTK3 Ref. Manual          | https://developer.gnome.org/gtk3/stable/index.html                |
++---------------------------+-------------------------------------------------------------------+
+| Python GTK+ 3 Tutorial    | http://python-gtk-3-tutorial.readthedocs.org/en/latest/index.html |
++---------------------------+-------------------------------------------------------------------+
+| VTE for GTK 3             | https://developer.gnome.org/vte/0.38/                             |
++---------------------------+-------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

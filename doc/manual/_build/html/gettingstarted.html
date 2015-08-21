@@ -213,7 +213,8 @@
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#main-application-development">Main Application Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#gtk3-port">GTK3 Port</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#api-docs">API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#terminator-api-docs">Terminator API Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#other-docs-for-developers">Other Docs for Developers</a></li>
 </ul>
 </li>
 </ul>
@@ -274,23 +275,31 @@ some of Terminators more powerful features if you do.</p>
 completely abandoned. Lets look again at the basic interface, but with
 the two primary menus showing:</p>
 <img alt="_images/window_breakdown.png" src="_images/window_breakdown.png" />
-<ol class="arabic simple">
-<li><a class="reference internal" href="#context-menu"><span>The Context Menu</span></a> -
-This is the main menu reached with <code class="docutils literal"><span class="pre">right-click</span></code> over a terminal, and
-will let you access all the settings, profiles, shortcuts and
-configurations. It is however kept brief to avoid the mega-menus that
-sometimes grow unchecked.</li>
-<li><a class="reference internal" href="grouping.html#grouping-menu"><span>The Grouping Menu</span></a> -
-This is reached with a <code class="docutils literal"><span class="pre">click</span></code> on the trio of coloured boxes in the
-titlebar. Later, when we cover Grouping and broadcasting to multiple
-terminals we will cover this properly. For now it is enough to know
-where it is and how to trigger it.</li>
-</ol>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">You will never see a window that looks like this, as it is
 impossible to have both menus up at the same time.</p>
 </div>
+<ol class="arabic">
+<li><p class="first"><a class="reference internal" href="#context-menu"><span>The Context Menu</span></a> -
+This is the main menu reached with <code class="docutils literal"><span class="pre">right-click</span></code> over a terminal, and
+will let you access all the settings, profiles, shortcuts and
+configurations. It is however kept brief to avoid the mega-menus that
+sometimes grow unchecked.</p>
+</li>
+<li><p class="first"><a class="reference internal" href="grouping.html#grouping-menu"><span>The Grouping Menu</span></a> -
+This is reached with a <code class="docutils literal"><span class="pre">click</span></code> on the trio of coloured boxes in the
+titlebar. Later, when we cover Grouping and broadcasting to multiple
+terminals we will cover this properly. For now it is enough to know
+where it is and how to trigger it.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default titlebars are shown. If the titlebar has been
+hidden <a class="reference internal" href="grouping.html#grouping-menu"><span>The Grouping Menu</span></a> functions will be added as a
+sub-menu to <a class="reference internal" href="#context-menu"><span>The Context Menu</span></a>.</p>
+</div>
+</li>
+</ol>
 <div class="section" id="the-context-menu">
 <span id="context-menu"></span><h2>The Context Menu<a class="headerlink" href="#the-context-menu" title="Permalink to this headline">¶</a></h2>
 <p>The context menu is split into five parts. The first part is the standard
@@ -594,7 +603,9 @@ an existing terminal.</p>
 <p>The above action results in the following:</p>
 <img alt="_images/dragterminal_02.png" src="_images/dragterminal_02.png" />
 <p>The other way to drag a terminal can be done from within the terminal with
-<code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">right-click-drag</span></code>.</p>
+<code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">right-click-drag</span></code>. With this method once you start the
+grag, you <em>must</em> release the <code class="docutils literal"><span class="pre">Ctrl</span></code> key <em>before</em> releasing the
+<code class="docutils literal"><span class="pre">right-mouse-button</span></code>. If you do not the drag will cancel.</p>
 <p>You can drag between tabs by initiating a drag and hovering over the tab.
 Terminator will switch to the tab under the cursor, and the terminal can be
 dropped.</p>

@@ -97,8 +97,3 @@ Here's a brief run-down of keyboard and mouse use:
 | Launch a layout          | ``double-click`` | ``Return``          |
 +--------------------------+------------------+---------------------+
 
-.. note:: If an instance of Terminator is already running with DBus
-          active, you must either use the shortcut, or disable DBus
-          for the instance by also passing ``-u``. This needs to be
-          fixed.
-

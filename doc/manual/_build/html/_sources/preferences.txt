@@ -349,6 +349,12 @@ Command
 
   If enabled and set, the users default shell will be replaced with
   the command specified here.
+  
+  .. note:: If you place an entry here note that there is no ``bash`` or
+            other shell underneath it. When the command ends, there
+            is no chance to drop to a shell or other program. This can
+            be worked around by using the shell line seperator ``;``
+            and a following ``bash`` command.
 
 **When command exits** (default: Exit the terminal)
 
@@ -610,6 +616,12 @@ the right become enabled, and can be changed.
   Override the command run in the terminal,  same as in a profile,
   but this one has a higher priority. If empty, it will run the command
   in the profile, or the default user shell.
+  
+  .. note:: If you place an entry here note that there is no ``bash`` or
+            other shell underneath it. When the command ends, there
+            is no chance to drop to a shell or other program. This can
+            be worked around by using the shell line seperator ``;``
+            and a following ``bash`` command.
 
 **Working directory**
 
