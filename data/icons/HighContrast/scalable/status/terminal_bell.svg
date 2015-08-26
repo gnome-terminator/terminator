@@ -30,10 +30,10 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#828282"
+     pagecolor="#848484"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.50980392"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="32"
      inkscape:cx="12.010232"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -97,7 +97,7 @@
        sodipodi:cy="7"
        sodipodi:rx="5"
        sodipodi:ry="5"
-       d="M 13,7 A 5,5 0 1 1 3,7 5,5 0 1 1 13,7 z"
+       d="M 13,7 C 13,9.7614237 10.761424,12 8,12 5.2385763,12 3,9.7614237 3,7 3,4.2385763 5.2385763,2 8,2 c 2.761424,0 5,2.2385763 5,5 z"
        transform="matrix(1.2,0,0,1.2,-1.6,1033.9622)" />
     <path
        sodipodi:type="arc"
@@ -107,7 +107,7 @@
        sodipodi:cy="7"
        sodipodi:rx="5"
        sodipodi:ry="5"
-       d="M 13,7 A 5,5 0 1 1 3,7 5,5 0 1 1 13,7 z"
+       d="M 13,7 C 13,9.7614237 10.761424,12 8,12 5.2385763,12 3,9.7614237 3,7 3,4.2385763 5.2385763,2 8,2 c 2.761424,0 5,2.2385763 5,5 z"
        transform="translate(0,1035.3622)" />
     <path
        sodipodi:type="arc"
@@ -117,7 +117,7 @@
        sodipodi:cy="7"
        sodipodi:rx="5"
        sodipodi:ry="5"
-       d="M 13,7 A 5,5 0 1 1 3,7 5,5 0 1 1 13,7 z"
+       d="M 13,7 C 13,9.7614237 10.761424,12 8,12 5.2385763,12 3,9.7614237 3,7 3,4.2385763 5.2385763,2 8,2 c 2.761424,0 5,2.2385763 5,5 z"
        transform="matrix(0.8,0,0,0.8,1.6,1036.7622)" />
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:none"

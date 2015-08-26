@@ -15,8 +15,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="terminator-preferences_A.svg"
-   inkscape:export-filename="/home/sboddy/Development/terminator/terminator-trunk-ssh/data/icons/HighContrast/16x16/apps/terminator-preferences_48.png"
+   sodipodi:docname="terminator-preferences.svg"
+   inkscape:export-filename="/home/sboddy/Development/terminator/terminator-trunk-ssh/data/icons/HighContrast/48x48/apps/terminator-preferences.png"
    inkscape:export-xdpi="270"
    inkscape:export-ydpi="270">
   <defs
@@ -81,15 +81,6 @@
          offset="1"
          id="stop3894" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3924">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.085167695"
-         id="feGaussianBlur3926" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3900"
@@ -111,15 +102,6 @@
          offset="1"
          id="stop3904" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3916">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.063989819"
-         id="feGaussianBlur3918" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3930"
@@ -161,15 +143,6 @@
          offset="1"
          id="stop3934-3" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3976">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.043378915"
-         id="feGaussianBlur3978" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4024"
@@ -196,15 +169,6 @@
          offset="1"
          style="stop-color:#000000;stop-opacity:0;" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3976-2">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.043378915"
-         id="feGaussianBlur3978-3" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4034"
@@ -231,24 +195,6 @@
          offset="1"
          id="stop4038" />
     </linearGradient>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4108">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.15811967"
-         id="feGaussianBlur4110" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter4100">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.16900571"
-         id="feGaussianBlur4102" />
-    </filter>
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient4034"
@@ -306,10 +252,10 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#828282"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.50980392"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.313709"
      inkscape:cx="20.697916"
