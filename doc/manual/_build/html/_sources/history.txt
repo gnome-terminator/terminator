@@ -22,6 +22,8 @@ All contributions and improvements are welcome.
 | 0.97, r1621  | 2015-08-21 | Stephen Boddy   | Minor changes/corrections |br| |
 |              |            |                 | Added links to dev docs        |
 +--------------+------------+-----------------+--------------------------------+
+| 0.98         | 2015-08-26 | Stephen Boddy   | Stick a fork in it, it's done  |
++--------------+------------+-----------------+--------------------------------+
 
 .. note:: Ideally this documentation should be kept up-to-date with
           the changes as they go in. This way things don't get missed.
