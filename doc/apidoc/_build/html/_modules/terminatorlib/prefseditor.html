@@ -1291,7 +1291,7 @@
 
         <span class="n">name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s">&#39;New Layout&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">while</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s">&#39;New Layout&#39;</span><span class="p">),</span> <span class="n">i</span><span class="p">)</span>
@@ -1502,7 +1502,18 @@
 </div>
 <div class="viewcode-block" id="PrefsEditor.on_profile_name_edited"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.prefseditor.PrefsEditor.on_profile_name_edited">[docs]</a>    <span class="k">def</span> <span class="nf">on_profile_name_edited</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">newtext</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update a profile name&quot;&quot;&quot;</span>
-        <span class="n">oldname</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+        <span class="n">oldname_broken</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+        
+        <span class="n">guiget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">get_object</span>
+        <span class="n">treeview</span> <span class="o">=</span> <span class="n">guiget</span><span class="p">(</span><span class="s">&#39;profilelist&#39;</span><span class="p">)</span>
+        <span class="n">treeselection</span> <span class="o">=</span> <span class="n">treeview</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()</span>
+        <span class="n">treeselection</span><span class="o">.</span><span class="n">select_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pathlist</span><span class="p">)</span> <span class="o">=</span> <span class="n">treeselection</span><span class="o">.</span><span class="n">get_selected_rows</span><span class="p">()</span>
+        <span class="n">tree_iter</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_iter</span><span class="p">(</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">oldname</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">tree_iter</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">oldname</span> <span class="o">!=</span> <span class="n">oldname_broken</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;edited signal provides the wrong cell: </span><span class="si">%s</span><span class="s"> != </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">oldname</span><span class="p">,</span> <span class="n">oldname_broken</span><span class="p">))</span>
+
         <span class="k">if</span> <span class="n">oldname</span> <span class="o">==</span> <span class="n">newtext</span> <span class="ow">or</span> <span class="n">oldname</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;PrefsEditor::on_profile_name_edited: Changing </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
@@ -1540,7 +1551,18 @@
 </div>
 <div class="viewcode-block" id="PrefsEditor.on_layout_name_edited"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.prefseditor.PrefsEditor.on_layout_name_edited">[docs]</a>    <span class="k">def</span> <span class="nf">on_layout_name_edited</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">newtext</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Update a layout name&quot;&quot;&quot;</span>
-        <span class="n">oldname</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+        <span class="n">oldname_broken</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">get_property</span><span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">)</span>
+
+        <span class="n">guiget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">get_object</span>
+        <span class="n">treeview</span> <span class="o">=</span> <span class="n">guiget</span><span class="p">(</span><span class="s">&#39;layoutlist&#39;</span><span class="p">)</span>
+        <span class="n">treeselection</span> <span class="o">=</span> <span class="n">treeview</span><span class="o">.</span><span class="n">get_selection</span><span class="p">()</span>
+        <span class="n">treeselection</span><span class="o">.</span><span class="n">select_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">pathlist</span><span class="p">)</span> <span class="o">=</span> <span class="n">treeselection</span><span class="o">.</span><span class="n">get_selected_rows</span><span class="p">()</span>
+        <span class="n">tree_iter</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_iter</span><span class="p">(</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">oldname</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">tree_iter</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">oldname</span> <span class="o">!=</span> <span class="n">oldname_broken</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;edited signal provides the wrong cell: </span><span class="si">%s</span><span class="s"> != </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">oldname</span><span class="p">,</span> <span class="n">oldname_broken</span><span class="p">))</span>
+
         <span class="k">if</span> <span class="n">oldname</span> <span class="o">==</span> <span class="n">newtext</span> <span class="ow">or</span> <span class="n">oldname</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Changing </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">oldname</span><span class="p">,</span> <span class="n">newtext</span><span class="p">))</span>

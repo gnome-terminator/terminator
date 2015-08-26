@@ -257,7 +257,7 @@
   <img alt="Because this is the symbol learner drivers use in the UK." class="align-right" src="_images/icon_gettingstarted.png" />
 <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>This page is an introduction and tutorial, that will get you familiar
+<p>This page is an introduction and tutorial that will get you familiar
 with Terminator&#8217;s features. Additional functional areas are explored
 in other pages, but at the end of this page you&#8217;ll be getting a good
 idea of the power of Terminator.</p>
@@ -604,13 +604,17 @@ an existing terminal.</p>
 <img alt="_images/dragterminal_02.png" src="_images/dragterminal_02.png" />
 <p>The other way to drag a terminal can be done from within the terminal with
 <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">right-click-drag</span></code>. With this method once you start the
-grag, you <em>must</em> release the <code class="docutils literal"><span class="pre">Ctrl</span></code> key <em>before</em> releasing the
+drag, you <em>must</em> release the <code class="docutils literal"><span class="pre">Ctrl</span></code> key <em>before</em> releasing the
 <code class="docutils literal"><span class="pre">right-mouse-button</span></code>. If you do not the drag will cancel.</p>
 <p>You can drag between tabs by initiating a drag and hovering over the tab.
-Terminator will switch to the tab under the cursor, and the terminal can be
-dropped.</p>
+Terminator will switch to the tab under the cursor, you can then drag to the
+desired position, and the terminal can be dropped.</p>
 <p>You can also drag between Terminator windows <em>provided the windows are part
-of the same process</em>. By default all windows will be part of the same process.</p>
+of the same process</em>. By default all windows will be part of the same process.
+Windows will not be part of the same process if you deliberately turn off
+the <a class="reference internal" href="advancedusage.html#dbus"><span>DBus</span></a> interface with the <a class="reference internal" href="preferences.html#preferences"><span>Preferences</span></a> or the
+<a class="reference internal" href="advancedusage.html#command-line-options"><span>Command line options</span></a> when starting Terminator up. <a class="reference internal" href="layouts.html#layouts"><span>Layouts</span></a>
+are also currently isolated at a process level for technical reasons.</p>
 </div>
 <div class="section" id="using-the-keyboard">
 <span id="layout-shortcuts"></span><h3>Using the keyboard<a class="headerlink" href="#using-the-keyboard" title="Permalink to this headline">¶</a></h3>

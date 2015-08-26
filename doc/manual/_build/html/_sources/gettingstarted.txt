@@ -12,7 +12,7 @@
 Getting Started
 ===============
 
-This page is an introduction and tutorial, that will get you familiar
+This page is an introduction and tutorial that will get you familiar
 with Terminator's features. Additional functional areas are explored
 in other pages, but at the end of this page you'll be getting a good
 idea of the power of Terminator.
@@ -319,15 +319,19 @@ The above action results in the following:
 
 The other way to drag a terminal can be done from within the terminal with
 ``Ctrl``\ +\ ``right-click-drag``\ . With this method once you start the
-grag, you *must* release the ``Ctrl`` key *before* releasing the
+drag, you *must* release the ``Ctrl`` key *before* releasing the
 ``right-mouse-button``. If you do not the drag will cancel.
 
 You can drag between tabs by initiating a drag and hovering over the tab.
-Terminator will switch to the tab under the cursor, and the terminal can be
-dropped.
+Terminator will switch to the tab under the cursor, you can then drag to the
+desired position, and the terminal can be dropped.
 
 You can also drag between Terminator windows *provided the windows are part
 of the same process*. By default all windows will be part of the same process.
+Windows will not be part of the same process if you deliberately turn off
+the :ref:`DBus` interface with the :ref:`Preferences <preferences>` or the
+:ref:`command-line-options` when starting Terminator up. :ref:`Layouts <layouts>`
+are also currently isolated at a process level for technical reasons.
 
 .. _layout-shortcuts:
 

@@ -448,17 +448,22 @@
 
         <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;inserting page at position: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tabpos</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">insert_page</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tabpos</span><span class="p">)</span>
-        <span class="n">child_widgets</span> <span class="o">=</span> <span class="p">[</span><span class="n">widget</span><span class="p">]</span>
-        <span class="n">child_widgets</span> <span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">enumerate_descendants</span><span class="p">(</span><span class="n">widget</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
+            <span class="n">containers</span><span class="p">,</span> <span class="n">objects</span> <span class="o">=</span> <span class="p">([],</span> <span class="p">[</span><span class="n">widget</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">containers</span><span class="p">,</span> <span class="n">objects</span> <span class="o">=</span> <span class="n">enumerate_descendants</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+
         <span class="n">term_widget</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">for</span> <span class="n">term_widget</span> <span class="ow">in</span> <span class="n">child_widgets</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">term_widget</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">term_widget</span><span class="p">,</span> <span class="s">&#39;Terminal&#39;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_last_active_term</span><span class="p">(</span><span class="n">term_widget</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_tab_label</span><span class="p">(</span><span class="n">term_widget</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">set_tab_label_packing</span><span class="p">(</span><span class="n">term_widget</span><span class="p">,</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scroll_tabbar&#39;</span><span class="p">],</span>
-                                           <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scroll_tabbar&#39;</span><span class="p">],</span>
-                                           <span class="n">gtk</span><span class="o">.</span><span class="n">PACK_START</span><span class="p">)</span>
                 <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_tab_label</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_tab_label_packing</span><span class="p">(</span><span class="n">term_widget</span><span class="p">,</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scroll_tabbar&#39;</span><span class="p">],</span>
+                                   <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;scroll_tabbar&#39;</span><span class="p">],</span>
+                                   <span class="n">gtk</span><span class="o">.</span><span class="n">PACK_START</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_tab_reorderable</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_current_page</span><span class="p">(</span><span class="n">tabpos</span><span class="p">)</span>

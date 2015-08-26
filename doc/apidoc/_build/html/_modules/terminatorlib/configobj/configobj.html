@@ -2196,6 +2196,18 @@
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 
         <span class="n">indent_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indent_type</span> <span class="o">*</span> <span class="n">section</span><span class="o">.</span><span class="n">depth</span>
+
+        <span class="c"># Do a little sorting for convenience</span>
+        <span class="n">section</span><span class="o">.</span><span class="n">scalars</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">scalars</span><span class="p">)</span>
+        <span class="n">section</span><span class="o">.</span><span class="n">sections</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">sections</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;default&#39;</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">scalars</span><span class="p">:</span>
+            <span class="c"># pop it and move to front</span>
+            <span class="n">section</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">)</span>
+            <span class="n">section</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;default&#39;</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">sections</span><span class="p">:</span>
+            <span class="n">section</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">)</span>
+            <span class="n">section</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;default&#39;</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="p">(</span><span class="n">section</span><span class="o">.</span><span class="n">scalars</span> <span class="o">+</span> <span class="n">section</span><span class="o">.</span><span class="n">sections</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">section</span><span class="o">.</span><span class="n">defaults</span><span class="p">:</span>
                 <span class="c"># don&#39;t write out default values</span>

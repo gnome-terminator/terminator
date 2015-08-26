@@ -320,6 +320,7 @@
 </div>
 <div class="viewcode-block" id="Paned.do_redistribute"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.paned.Paned.do_redistribute">[docs]</a>    <span class="k">def</span> <span class="nf">do_redistribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recurse_up</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">recurse_down</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evenly divide available space between sibling panes&quot;&quot;&quot;</span>
+        <span class="n">maker</span> <span class="o">=</span> <span class="n">Factory</span><span class="p">()</span>
         <span class="c">#1 Find highest ancestor of the same type =&gt; ha</span>
         <span class="n">highest_ancestor</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="k">while</span> <span class="nb">type</span><span class="p">(</span><span class="n">highest_ancestor</span><span class="o">.</span><span class="n">get_parent</span><span class="p">())</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">highest_ancestor</span><span class="p">):</span>
@@ -328,7 +329,8 @@
         <span class="c"># (1b) If Super modifier, redistribute higher sections too</span>
         <span class="k">if</span> <span class="n">recurse_up</span><span class="p">:</span>
             <span class="n">grandfather</span><span class="o">=</span><span class="n">highest_ancestor</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">grandfather</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_toplevel</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">grandfather</span><span class="p">,</span> <span class="s">&#39;VPaned&#39;</span><span class="p">)</span> <span class="ow">or</span> \
+               <span class="n">maker</span><span class="o">.</span><span class="n">isinstance</span><span class="p">(</span><span class="n">grandfather</span><span class="p">,</span> <span class="s">&#39;HPaned&#39;</span><span class="p">)</span> <span class="p">:</span>
                 <span class="n">grandfather</span><span class="o">.</span><span class="n">do_redistribute</span><span class="p">(</span><span class="n">recurse_up</span><span class="p">,</span> <span class="n">recurse_down</span><span class="p">)</span>
         
         <span class="n">gobject</span><span class="o">.</span><span class="n">idle_add</span><span class="p">(</span><span class="n">highest_ancestor</span><span class="o">.</span><span class="n">_do_redistribute</span><span class="p">,</span> <span class="n">recurse_up</span><span class="p">,</span> <span class="n">recurse_down</span><span class="p">)</span>

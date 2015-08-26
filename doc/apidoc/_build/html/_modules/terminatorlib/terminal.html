@@ -1009,6 +1009,13 @@
             <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Terminal::on_keypress: Called on </span><span class="si">%s</span><span class="s"> with no event&#39;</span> <span class="o">%</span> <span class="n">widget</span><span class="p">)</span>
             <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
+        <span class="c"># Workaround for IBus intefering with broadcast when using dead keys</span>
+        <span class="c"># Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear</span>
+        <span class="c"># in the receivers.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">state</span> <span class="o">|</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">MODIFIER_MASK</span> <span class="p">)</span> <span class="o">^</span> <span class="n">gtk</span><span class="o">.</span><span class="n">gdk</span><span class="o">.</span><span class="n">MODIFIER_MASK</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Terminal::on_keypress: Ingore processed event with event.state </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">event</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
         <span class="c"># FIXME: Does keybindings really want to live in Terminator()?</span>
         <span class="n">mapping</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminator</span><span class="o">.</span><span class="n">keybindings</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
@@ -1394,7 +1401,6 @@
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_char_height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_char_height</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_char_width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_char_width</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_allocation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
-        <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_padding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_padding</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_columns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_column_count</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_rows&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_row_count</span><span class="p">()</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;old_parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
@@ -1410,13 +1416,6 @@
         <span class="n">new_columns</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_column_count</span><span class="p">()</span>
         <span class="n">new_rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_row_count</span><span class="p">()</span>
         <span class="n">new_font</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_font</span><span class="p">()</span>
-        <span class="n">new_allocation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vte</span><span class="o">.</span><span class="n">get_allocation</span><span class="p">()</span>
-
-        <span class="n">old_alloc</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_allocation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> \
-                          <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_padding&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
-                     <span class="s">&#39;y&#39;</span><span class="p">:</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_allocation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> \
-                          <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_padding&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="p">}</span>
 
         <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Terminal::zoom_scale: Resized from </span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s"> to </span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
              <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_columns&#39;</span><span class="p">],</span>
@@ -1429,11 +1428,10 @@
             <span class="n">dbg</span><span class="p">(</span><span class="s">&#39;Terminal::zoom_scale: One axis unchanged, not scaling&#39;</span><span class="p">)</span>
             <span class="k">return</span>
 
-        <span class="n">old_area</span> <span class="o">=</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_columns&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_rows&#39;</span><span class="p">]</span>
-        <span class="n">new_area</span> <span class="o">=</span> <span class="n">new_columns</span> <span class="o">*</span> <span class="n">new_rows</span>
-        <span class="n">area_factor</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_area</span> <span class="o">/</span> <span class="n">old_area</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">scale_factor</span> <span class="o">=</span> <span class="nb">min</span> <span class="p">(</span> <span class="p">(</span><span class="n">new_columns</span> <span class="o">/</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_columns&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.97</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">new_rows</span> <span class="o">/</span> <span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_rows&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1.05</span><span class="p">)</span> <span class="p">)</span>
 
-        <span class="n">new_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_font&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="o">*</span> <span class="n">area_factor</span><span class="p">)</span>
+        <span class="n">new_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">old_data</span><span class="p">[</span><span class="s">&#39;old_font&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get_size</span><span class="p">()</span> <span class="o">*</span> <span class="n">scale_factor</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">err</span><span class="p">(</span><span class="s">&#39;refusing to set a zero sized font&#39;</span><span class="p">)</span>
             <span class="k">return</span>
@@ -1444,7 +1442,6 @@
 <div class="viewcode-block" id="Terminal.is_zoomed"><a class="viewcode-back" href="../../terminatorlib.html#terminatorlib.terminal.Terminal.is_zoomed">[docs]</a>    <span class="k">def</span> <span class="nf">is_zoomed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Determine if we are a zoomed terminal&quot;&quot;&quot;</span>
         <span class="n">prop</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent</span><span class="p">()</span>
         <span class="n">window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_toplevel</span><span class="p">()</span>
 
         <span class="k">try</span><span class="p">:</span>

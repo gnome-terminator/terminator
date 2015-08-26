@@ -906,6 +906,12 @@ insert it into, e.g. /proc/%s/cwd</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="terminatorlib.cwd.psutil_cwd">
+<code class="descclassname">terminatorlib.cwd.</code><code class="descname">psutil_cwd</code><span class="sig-paren">(</span><em>pid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/cwd.html#psutil_cwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.cwd.psutil_cwd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the cwd using psutil which also supports Darwin</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="terminatorlib.cwd.sunos_get_pid_cwd">
 <code class="descclassname">terminatorlib.cwd.</code><code class="descname">sunos_get_pid_cwd</code><span class="sig-paren">(</span><em>pid</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/terminatorlib/cwd.html#sunos_get_pid_cwd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#terminatorlib.cwd.sunos_get_pid_cwd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine the cwd for a given PID on SunOS kernels</p>
@@ -1464,7 +1470,7 @@ or None on failure.</p>
 
 <dl class="attribute">
 <dt id="terminatorlib.ipc.DBusService._dbus_class_table">
-<code class="descname">_dbus_class_table</code><em class="property"> = {'dbus.service.Interface': {}, 'dbus.service.FallbackObject': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x4330cb8c&gt;}}, 'dbus.service.Object': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x4330cb8c&gt;}}, 'terminatorlib.ipc.DBusService': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x4330cb8c&gt;}, 'net.tenshu.Terminator_0x3bcbf226': {'get_terminal_tab': &lt;function get_terminal_tab at 0x4334448c&gt;, 'terminal_hsplit': &lt;function terminal_hsplit at 0x4334456c&gt;, 'terminal_vsplit': &lt;function terminal_vsplit at 0x43344534&gt;, 'new_window': &lt;function new_window at 0x433445dc&gt;, 'get_terminals': &lt;function get_terminals at 0x433444c4&gt;, 'new_tab': &lt;function new_tab at 0x433445a4&gt;, 'get_terminal_tab_title': &lt;function get_terminal_tab_title at 0x433446bc&gt;}}}</em><a class="headerlink" href="#terminatorlib.ipc.DBusService._dbus_class_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_dbus_class_table</code><em class="property"> = {'dbus.service.Interface': {}, 'dbus.service.FallbackObject': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x43533534&gt;}}, 'dbus.service.Object': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x43533534&gt;}}, 'terminatorlib.ipc.DBusService': {'org.freedesktop.DBus.Introspectable': {'Introspect': &lt;function Introspect at 0x43533534&gt;}, 'net.tenshu.Terminator_0x3bcad31e': {'get_terminal_tab': &lt;function get_terminal_tab at 0x436f1144&gt;, 'terminal_hsplit': &lt;function terminal_hsplit at 0x436f1064&gt;, 'terminal_vsplit': &lt;function terminal_vsplit at 0x436f109c&gt;, 'new_window': &lt;function new_window at 0x43519fb4&gt;, 'get_terminals': &lt;function get_terminals at 0x436f110c&gt;, 'new_tab': &lt;function new_tab at 0x436f102c&gt;, 'get_terminal_tab_title': &lt;function get_terminal_tab_title at 0x436f117c&gt;}}}</em><a class="headerlink" href="#terminatorlib.ipc.DBusService._dbus_class_table" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
