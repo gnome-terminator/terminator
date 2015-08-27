@@ -244,6 +244,21 @@ class Paned(Container):
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
             sibling = self.children[0]
+
+            focus_sibling = True
+            if self.get_toplevel().is_child_notebook():
+                notebook = self.get_toplevel().get_children()[0]
+                tabnum = notebook.page_num_descendant(widget)
+                nth_page = notebook.get_nth_page(tabnum)
+                if notebook.last_active_term[nth_page] == widget.uuid:
+                    notebook.set_last_active_term(sibling.uuid)
+                    notebook.clean_last_active_term()
+                    self.get_toplevel().last_active_term = None
+                if notebook.get_current_page() != tabnum:
+                    focus_sibling = False
+            elif self.get_toplevel().last_active_term != widget.uuid:
+                focus_sibling = False
+
             self.remove(sibling)
 
             metadata = None
@@ -253,7 +268,8 @@ class Paned(Container):
             parent.remove(self)
             self.cnxids.remove_all()
             parent.add(sibling, metadata)
-            sibling.grab_focus()
+            if focus_sibling:
+                sibling.grab_focus()
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
 

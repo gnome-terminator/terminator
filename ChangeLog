@@ -137,6 +137,8 @@ terminator trunk:
       appears in the config file (Steve Boddy, LP#1262709)
     * Fix the way alternatives are set up that cures blurry/incorrect
       icons in task switchers (Steve Boddy, LP#1067287)
+    * Fix the tab switching if a terminal on another tab exits (Steve
+      Boddy, LP#943311)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
