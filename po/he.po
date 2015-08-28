@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-22 01:55+0200\n"
-"PO-Revision-Date: 2014-05-01 13:05+0000\n"
-"Last-Translator: levi <levi0x0x@gmail.com>\n"
+"PO-Revision-Date: 2015-08-27 14:10+0000\n"
+"Last-Translator: maor <maor309@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-23 05:10+0000\n"
+"X-Launchpad-Export-Date: 2015-08-28 05:12+0000\n"
 "X-Generator: Launchpad (build 17690)\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "סדר טרמינלים בטבלה"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
