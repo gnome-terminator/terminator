@@ -14,18 +14,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-16 05:04+0000\n"
-"X-Generator: Launchpad (build 17686)\n"
+"X-Launchpad-Export-Date: 2015-08-28 05:54+0000\n"
+"X-Generator: Launchpad (build 17690)\n"
 "Language: \n"
 
-#: ../data/terminator.desktop.in.h:1
+#: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
 #: ../terminatorlib/plugins/activitywatch.py:161
 #: ../terminatorlib/preferences.glade.h:151
 msgid "Terminator"
 msgstr ""
 
-#: ../data/terminator.desktop.in.h:2
+#: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
 msgstr ""
 
@@ -209,11 +209,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:344
+#: ../terminatorlib/notebook.py:349
 msgid "tab"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:562
+#: ../terminatorlib/notebook.py:567
 msgid "Close Tab"
 msgstr ""
 
@@ -1008,6 +1008,7 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
+#: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:152
 msgid "The robot future of terminals"
 msgstr ""
@@ -1497,19 +1498,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1364
+#: ../terminatorlib/terminal.py:1361
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1392
+#: ../terminatorlib/terminal.py:1389
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1797
+#: ../terminatorlib/terminal.py:1794
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1806
+#: ../terminatorlib/terminal.py:1803
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
