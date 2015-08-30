@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-22 01:55+0200\n"
-"PO-Revision-Date: 2015-03-19 22:17+0000\n"
-"Last-Translator: Frédéric Grosshans <frederic.grosshans@gmail.com>\n"
+"PO-Revision-Date: 2015-08-29 11:56+0000\n"
+"Last-Translator: Jocelyn <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-23 05:10+0000\n"
+"X-Launchpad-Export-Date: 2015-08-30 05:09+0000\n"
 "X-Generator: Launchpad (build 17690)\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
@@ -59,7 +59,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Onglets"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -474,7 +474,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Enregistrer l'image"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -499,7 +499,7 @@ msgstr "Tous"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Groupe"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -655,7 +655,7 @@ msgstr "Option de Terminator"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Comportement</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
@@ -707,7 +707,7 @@ msgstr "Serveur DBus"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Apparence</b>"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Terminal separator size:"
@@ -723,7 +723,7 @@ msgstr "Bordures de fenêtre"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Tab position:"
-msgstr ""
+msgstr "Position de l'onglet :"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Tabs homogeneous"
@@ -747,7 +747,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Inactive"
-msgstr ""
+msgstr "Inactif"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Font color:"
@@ -755,7 +755,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Background:"
-msgstr ""
+msgstr "Arrière-plan :"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Hide size from title"
@@ -815,7 +815,7 @@ msgstr "<b>Curseur</b>"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Color:"
-msgstr ""
+msgstr "Couleur :"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "_Shape:"
@@ -1045,7 +1045,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Profile:"
-msgstr ""
+msgstr "Profil :"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Custom command:"
@@ -1053,7 +1053,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Working directory:"
-msgstr ""
+msgstr "Dossier de travail :"
 
 #: ../terminatorlib/preferences.glade.h:144
 msgid "Layouts"
@@ -1065,7 +1065,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "Keybinding"
-msgstr ""
+msgstr "Raccourci clavier"
 
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Keybindings"
@@ -1099,7 +1099,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid "The Manual"
-msgstr ""
+msgstr "Manuel"
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
@@ -1112,7 +1112,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:160
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: ../terminatorlib/prefseditor.py:85
 msgid "Increase font size"
@@ -1128,7 +1128,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:88
 msgid "Create a new tab"
-msgstr ""
+msgstr "Créer un nouvel onglet"
 
 #: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
 msgid "Focus the next terminal"
@@ -1176,7 +1176,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:102
 msgid "Copy selected text"
-msgstr ""
+msgstr "Copier le texte sélectionné"
 
 #: ../terminatorlib/prefseditor.py:103
 msgid "Paste clipboard"
@@ -1240,7 +1240,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Move the tab left"
-msgstr ""
+msgstr "Déplacer l'onglet à gauche"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Maximise terminal"
@@ -1252,11 +1252,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:121
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Basculer vers l'onglet suivant"
 
 #: ../terminatorlib/prefseditor.py:122
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Basculer vers l'onglet précédent"
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Switch to the first tab"
@@ -1300,15 +1300,15 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "Basculer en mode plein écran"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Reset the terminal"
-msgstr ""
+msgstr "Réinitialiser le terminal"
 
 #: ../terminatorlib/prefseditor.py:135
 msgid "Reset and clear the terminal"
-msgstr ""
+msgstr "Réinitialiser et effacer le terminal"
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Toggle window visibility"
@@ -1340,11 +1340,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Create a new window"
-msgstr ""
+msgstr "Créer une nouvelle fenêtre"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Spawn a new Terminator process"
-msgstr ""
+msgstr "Démarrer un nouveau processus Terminator"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Don't broadcast key presses"
@@ -1368,7 +1368,7 @@ msgstr "Insérer le numéro du terminal, avec des zéros"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit window title"
-msgstr ""
+msgstr "Modifier le titre de la fenêtre"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Open layout launcher window"
@@ -1512,7 +1512,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:420
 msgid "_None"
-msgstr ""
+msgstr "Aucu_n"
 
 #: ../terminatorlib/terminal.py:436
 #, python-format
@@ -1558,7 +1558,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:494
 msgid "_Insert terminal number"
-msgstr ""
+msgstr "_Insérer le numéro du terminal"
 
 #: ../terminatorlib/terminal.py:498
 msgid "Insert _padded terminal number"
@@ -1582,99 +1582,99 @@ msgstr "Saisir un nouveau titre pour la fenêtre Terminator..."
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Alpha"
-msgstr ""
+msgstr "Alpha"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Beta"
-msgstr ""
+msgstr "Béta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Zeta"
-msgstr ""
+msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Eta"
-msgstr ""
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Theta"
-msgstr ""
+msgstr "Theta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Iota"
-msgstr ""
+msgstr "Iota"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Kappa"
-msgstr ""
+msgstr "Kappa"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Mu"
-msgstr ""
+msgstr "Mu"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Nu"
-msgstr ""
+msgstr "Nu"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Xi"
-msgstr ""
+msgstr "Xi"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Omicron"
-msgstr ""
+msgstr "Omicron"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Rho"
-msgstr ""
+msgstr "Rho"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Tau"
-msgstr ""
+msgstr "Tau"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Upsilon"
-msgstr ""
+msgstr "Upsilon"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Phi"
-msgstr ""
+msgstr "Phi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Chi"
-msgstr ""
+msgstr "Chi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Psi"
-msgstr ""
+msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Omega"
-msgstr ""
+msgstr "Omega"
 
 #: ../terminatorlib/window.py:273
 msgid "window"
