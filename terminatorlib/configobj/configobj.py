@@ -2031,6 +2031,18 @@ class ConfigObj(Section):
                 out.append(line)
                 
         indent_string = self.indent_type * section.depth
+
+        # Do a little sorting for convenience
+        section.scalars = sorted(section.scalars)
+        section.sections = sorted(section.sections)
+        if 'default' in section.scalars:
+            # pop it and move to front
+            section.scalars.remove('default')
+            section.scalars.insert(0, 'default')
+        if 'default' in section.sections:
+            section.sections.remove('default')
+            section.sections.insert(0, 'default')
+
         for entry in (section.scalars + section.sections):
             if entry in section.defaults:
                 # don't write out default values
