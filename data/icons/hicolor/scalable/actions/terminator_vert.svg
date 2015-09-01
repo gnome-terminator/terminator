@@ -14,8 +14,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="terminator_receive_on.svg"
-   inkscape:export-filename="/home/sboddy/Development/terminator/terminator-trunk-ssh/data/icons/HighContrast/16x16/actions/terminator_receive_on.png"
+   sodipodi:docname="terminator_vert.svg"
+   inkscape:export-filename="/home/sboddy/Development/terminator/terminator-trunk-ssh/data/icons/HighContrast/16x16/actions/terminator_vert.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -35,9 +35,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.627417"
-     inkscape:cx="28.373088"
-     inkscape:cy="7.4989073"
+     inkscape:zoom="16"
+     inkscape:cx="22.525073"
+     inkscape:cy="10.102324"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -73,64 +73,20 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1036.3622)">
-    <path
-       style="fill:#ffffff;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
-       d="m 1,1 15,0 0,9 -6,0 0,6 -9,0 z"
-       id="path3022"
-       inkscape:connector-curvature="0"
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="rect3003"
+       width="6"
+       height="14"
+       x="1"
+       y="1"
        transform="translate(0,1036.3622)" />
     <rect
        style="fill:#000000;fill-opacity:1;stroke:none"
-       id="rect3797"
-       width="7"
-       height="7"
-       x="2"
-       y="2"
-       transform="translate(0,1036.3622)" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       id="rect3797-1"
-       width="7"
-       height="7"
-       x="8"
-       y="1038.3622" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       id="rect3797-5"
-       width="7"
-       height="7"
-       x="2"
-       y="1044.3622" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="rect3849"
-       width="5"
-       height="5"
-       x="3"
-       y="9"
-       transform="translate(0,1036.3622)" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       d="m 3,1039.3622 5,0 -5,5 z"
-       id="path3851"
-       inkscape:connector-curvature="0" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       d="m 9,1046.3622 7,0 0,3 -2,2 -3,0 -2,-2 z"
-       id="path3855"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccc" />
-    <path
-       style="fill:#000000;fill-opacity:1;stroke:none"
-       d="m 10,1047.3622 0,1 2,2 1,0 2,-2 0,-1 z"
-       id="path3853"
-       inkscape:connector-curvature="0" />
-    <rect
-       style="fill:#ffffff;fill-opacity:1;stroke:none"
-       id="rect3849-2"
-       width="5"
-       height="5"
+       id="rect3003-5"
+       width="6"
+       height="14"
        x="9"
-       y="1039.3622" />
+       y="1037.3622" />
   </g>
 </svg>
