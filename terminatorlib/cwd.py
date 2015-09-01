@@ -17,6 +17,13 @@ import os
 import pwd
 from util import dbg, err
 
+try:
+    import psutil
+    psutil_avail = True
+except (ImportError):
+    dbg('psutil not found')
+    psutil_avail = False
+
 def get_default_cwd():
     """Determine a reasonable default cwd"""
     cwd = os.getcwd()
@@ -47,6 +54,8 @@ def get_pid_cwd():
     elif system == 'SunOS':
         dbg('Using SunOS get_pid_cwd')
         func = sunos_get_pid_cwd
+    elif psutil_avail:
+        func = psutil_cwd
     else:
         dbg('Unable to determine a get_pid_cwd for OS: %s' % system)
 
@@ -70,5 +79,9 @@ def linux_get_pid_cwd(pid):
 def sunos_get_pid_cwd(pid):
     """Determine the cwd for a given PID on SunOS kernels"""
     return(proc_get_pid_cwd(pid, '/proc/%s/path/cwd'))
+
+def psutil_cwd(pid):
+    """Determine the cwd using psutil which also supports Darwin"""
+    return psutil.Process(pid).as_dict()['cwd']
 
 # vim: set expandtab ts=4 sw=4:
