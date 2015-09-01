@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2013 Stephen Boddy <stephen.j.boddy@gmail.com> -->
+<component type="desktop">
+ <id>terminator.desktop</id>
+ <metadata_license>CC0-1.0</metadata_license>
+ <project_license>GPL-2.0 only</project_license>
+ <_name>Terminator</_name>
+ <_summary>Multiple terminals in one window</_summary>
+ <description>
+  <_p>
+   The robot future of terminals
+  </_p>
+  <_p>
+   A power-user tool for arranging terminals. It is inspired by programs such as
+   gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals
+   in grids (tabs is the most common default method, which Terminator also supports).
+  </_p>
+  <_p>
+   Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
+   more features from that as time goes by, but we also want to extend out in different
+   directions with useful features for sysadmins and other users.
+  </_p>
+  <_p>Some highlights:</_p>
+  <ul>
+   <_li>Arrange terminals in a grid</_li>
+   <_li>Tabs</_li>
+   <_li>Drag and drop re-ordering of terminals</_li>
+   <_li>Lots of keyboard shortcuts</_li>
+   <_li>Save multiple layouts and profiles via GUI preferences editor</_li>
+   <_li>Simultaneous typing to arbitrary groups of terminals</_li>
+  </ul>
+  <_p>And lots more...</_p>
+ </description>
+ <screenshots>
+  <screenshot type="default">
+   <image>http://4.bp.blogspot.com/-xt4Tja1TMQ0/Vdemmf8wYSI/AAAAAAAAA9A/uROTre0PMls/s1600/terminator_main_basic.png</image>
+   <_caption>The main window showing the application in action</_caption>
+  </screenshot>
+  <screenshot>
+   <image>http://4.bp.blogspot.com/-rRxALSpEEZw/Vdeu58JgpnI/AAAAAAAAA9o/XewWKJ5HNo4/s1600/terminator_main_complex.png</image>
+   <_caption>Getting a little crazy with the terminals</_caption>
+  </screenshot>
+  <screenshot>
+   <image>http://2.bp.blogspot.com/-t_8oRyMXUls/VdemmRVnZnI/AAAAAAAAA88/rHIr8L1X7Ho/s1600/terminator_prefs_global.png</image>
+   <_caption>The preferences window where you can change the defaults</_caption>
+  </screenshot>
+ </screenshots>
+ <url type="homepage">http://gnometerminator.blogspot.com/p/introduction.html</url>
+ <updatecontact>stephen.j.boddy@gmail.com</updatecontact>
+</component>

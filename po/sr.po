@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 22:49+0200\n"
+"POT-Creation-Date: 2015-09-01 23:15+0200\n"
 "PO-Revision-Date: 2015-08-05 12:41+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Serbian <sr@li.org>\n"
@@ -18,16 +18,81 @@ msgstr ""
 "X-Launchpad-Export-Date: 2015-08-28 05:55+0000\n"
 "X-Generator: Launchpad (build 17690)\n"
 
-#: ../data/terminator.desktop.in.h:1
+#: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
 #: ../terminatorlib/plugins/activitywatch.py:161
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Terminator"
 msgstr "Терминатор"
 
-#: ../data/terminator.desktop.in.h:2
+#: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
 msgstr "Више терминала у једном прозору"
+
+#: ../data/terminator.appdata.xml.in.h:3
+#: ../terminatorlib/preferences.glade.h:144
+msgid "The robot future of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:4
+msgid ""
+"A power-user tool for arranging terminals. It is inspired by programs such "
+"as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
+"terminals in grids (tabs is the most common default method, which Terminator "
+"also supports)."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:5
+msgid ""
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:6
+msgid "Some highlights:"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:7
+msgid "Arrange terminals in a grid"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:8
+msgid "Tabs"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:9
+msgid "Drag and drop re-ordering of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:10
+msgid "Lots of keyboard shortcuts"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:11
+msgid "Save multiple layouts and profiles via GUI preferences editor"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:12
+msgid "Simultaneous typing to arbitrary groups of terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:13
+msgid "And lots more..."
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:14
+msgid "The main window showing the application in action"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:15
+msgid "Getting a little crazy with the terminals"
+msgstr ""
+
+#: ../data/terminator.appdata.xml.in.h:16
+msgid "The preferences window where you can change the defaults"
+msgstr ""
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -1013,10 +1078,6 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Plugins"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:144
-msgid "The robot future of terminals"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
