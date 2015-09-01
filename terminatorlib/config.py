@@ -191,7 +191,8 @@ DEFAULTS = {
             'edit_window_title': '<Alt>t',
             'layout_launcher'  : '<Alt>l',
             'next_profile'     : '',
-            'previous_profile' : ''
+            'previous_profile' : '', 
+            'help'             : 'F1'
         },
         'profiles': {
             'default':  {

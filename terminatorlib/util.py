@@ -14,14 +14,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
-"""Terminator.util - misc utility functions
-
->>> a = {'foo': 'bar', 'baz': 'bjonk'}
->>> b = {'foo': 'far', 'baz': 'bjonk'}
->>> dict_diff(a, b)
-{'foo': 'far'}
-
-"""
+"""Terminator.util - misc utility functions"""
 
 import sys
 from gi.repository import Gtk, Gdk
@@ -91,6 +84,26 @@ def has_ancestor(widget, wtype):
         if isinstance(widget, wtype):
             return(True)
     return(False)
+
+def manual_lookup():
+    '''Choose the manual to open based on LANGUAGE'''
+    prefix = os.path.join(os.sep, 'usr', 'share', 'doc', 'terminator')
+    if 'LANGUAGE' in os.environ:
+        languages = os.environ['LANGUAGE'].split(':')
+        for language in languages:
+            full_path = os.path.join(prefix, 'html_%s' % (language), 'index.html')
+            if os.path.isfile(full_path):
+                dbg('Found %s manual' % (language))
+                return full_path
+            dbg('Couldn\'t find manual for %s language' % (language))
+
+    full_path = os.path.join(prefix, 'html', 'index.html')
+    if os.path.isfile(full_path):
+        dbg('Falling back to the default manual')
+        return full_path
+    else:
+        dbg('I can\'t find any suitable manual')
+        return None
 
 def path_lookup(command):
     '''Find a command in our path'''
@@ -183,7 +196,13 @@ def get_config_dir():
 def dict_diff(reference, working):
     """Examine the values in the supplied working set and return a new dict
     that only contains those values which are different from those in the
-    reference dictionary"""
+    reference dictionary
+    
+    >>> a = {'foo': 'bar', 'baz': 'bjonk'}
+    >>> b = {'foo': 'far', 'baz': 'bjonk'}
+    >>> dict_diff(a, b)
+    {'foo': 'far'}
+    """
 
     result = {}
 

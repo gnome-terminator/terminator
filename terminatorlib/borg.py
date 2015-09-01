@@ -2,10 +2,11 @@
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """borg.py - We are the borg. Resistance is futile.
-   http://code.activestate.com/recipes/66531/
-   ActiveState's policy appears to be that snippets
-   exist to encourage re-use, but I can not find any
-   specific licencing terms.
+
+http://code.activestate.com/recipes/66531/
+ActiveState's policy appears to be that snippets
+exist to encourage re-use, but I can not find any
+specific licencing terms.
 """
 
 from util import dbg
@@ -16,20 +17,18 @@ class Borg:
     """Definition of a class that can never be duplicated. Correct usage is
     thus:
         
-        from borg import Borg
-        class foo(Borg):
-            # All attributes on a borg class *must* = None
-            attribute = None
-
-            def __init__(self):
-                Borg.__init__(self, self.__class__.__name__)
-
-            def prepare_attributes(self):
-                if not self.attribute:
-                    self.attribute = []
-
-        bar = foo()
-        bar.prepare_attributes()
+    >>> from borg import Borg
+    >>> class foo(Borg):
+    ...     # All attributes on a borg class *must* = None
+    ...     attribute = None
+    ...     def __init__(self):
+    ...         Borg.__init__(self, self.__class__.__name__)
+    ...     def prepare_attributes(self):
+    ...         if not self.attribute:
+    ...             self.attribute = []
+    ...
+    >>> bar = foo()
+    >>> bar.prepare_attributes()
     
     The important thing to note is that all attributes of borg classes *must* be
     declared as being None. If you attempt to use static class attributes you

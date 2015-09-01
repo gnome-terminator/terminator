@@ -3865,25 +3865,6 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label29">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="xalign">1</property>
-                            <property name="yalign">0</property>
-                            <property name="label" translatable="yes">&lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Homepage&lt;/a&gt;
-&lt;a href="http://gnometerminator.blogspot.com/"&gt;Blog / News&lt;/a&gt;
-&lt;a href="https://launchpad.net/terminator"&gt;Development&lt;/a&gt;</property>
-                            <property name="use_markup">True</property>
-                            <property name="justify">right</property>
-                          </object>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options">GTK_FILL</property>
-                          </packing>
-                        </child>
-                        <child>
                           <object class="GtkLabel" id="label27">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -3902,6 +3883,50 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                             <property name="bottom_attach">2</property>
                             <property name="x_options"/>
                             <property name="y_options">GTK_FILL</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkVBox" id="vbox19">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="spacing">12</property>
+                            <child>
+                              <object class="GtkButton" id="button1">
+                                <property name="label" translatable="yes">The Manual</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="use_action_appearance">False</property>
+                                <signal name="clicked" handler="on_open_manual" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label29">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="yalign">0</property>
+                                <property name="label" translatable="yes">&lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Homepage&lt;/a&gt;
+&lt;a href="http://gnometerminator.blogspot.com/"&gt;Blog / News&lt;/a&gt;
+&lt;a href="https://launchpad.net/terminator"&gt;Development&lt;/a&gt;</property>
+                                <property name="use_markup">True</property>
+                                <property name="justify">center</property>
+                              </object>
+                              <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="x_options"/>
                           </packing>
                         </child>
                       </object>

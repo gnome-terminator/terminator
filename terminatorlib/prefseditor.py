@@ -149,7 +149,8 @@ class PrefsEditor:
                         'edit_window_title': _('Edit window title'),
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
-                        'previous_profile' : _('Switch to previous profile')
+                        'previous_profile' : _('Switch to previous profile'), 
+                        'help'             : _('Open the manual')
             }
 
     def __init__ (self, term):
@@ -1410,6 +1411,10 @@ class PrefsEditor:
         binding = liststore.get_value(liststore.get_iter(path), 0)
         self.config['keybindings'][binding] = None
         self.config.save()
+
+    def on_open_manual(self,  widget):
+        """Open the fine manual"""
+        self.term.key_help()
 
 class LayoutEditor:
     profile_ids_to_profile = None

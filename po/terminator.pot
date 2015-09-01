@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 20:49+0200\n"
+"POT-Creation-Date: 2015-09-01 22:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,11 +208,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:348
+#: ../terminatorlib/notebook.py:350
 msgid "tab"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:564
+#: ../terminatorlib/notebook.py:566
 msgid "Close Tab"
 msgstr ""
 
@@ -1015,14 +1015,6 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
-"<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
-"<a href=\"https://launchpad.net/terminator\">Development</a>"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:148
-msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
 "etc. in that the main focus is arranging terminals in grids (tabs is the "
@@ -1035,7 +1027,19 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:148
+msgid "The Manual"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:149
+msgid ""
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
+"<a href=\"https://launchpad.net/terminator\">Development</a>"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:152
 msgid "About"
 msgstr ""
 
@@ -1307,11 +1311,15 @@ msgstr ""
 msgid "Switch to previous profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1032 ../terminatorlib/prefseditor.py:1037
+#: ../terminatorlib/prefseditor.py:153
+msgid "Open the manual"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:1033 ../terminatorlib/prefseditor.py:1038
 msgid "New Profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1077 ../terminatorlib/prefseditor.py:1082
+#: ../terminatorlib/prefseditor.py:1078 ../terminatorlib/prefseditor.py:1083
 msgid "New Layout"
 msgstr ""
 
@@ -1439,77 +1447,77 @@ msgstr ""
 msgid "Other Encodings"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:455
+#: ../terminatorlib/terminal.py:454
 msgid "N_ew group..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:461
+#: ../terminatorlib/terminal.py:460
 msgid "_None"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:481
+#: ../terminatorlib/terminal.py:480
 #, python-format
 msgid "Remove group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:486
+#: ../terminatorlib/terminal.py:485
 msgid "G_roup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:491
+#: ../terminatorlib/terminal.py:490
 msgid "Ungro_up all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:496
+#: ../terminatorlib/terminal.py:495
 msgid "Remove all groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:503
+#: ../terminatorlib/terminal.py:502
 #, python-format
 msgid "Close group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:513
+#: ../terminatorlib/terminal.py:512
 msgid "Broadcast _all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:514
+#: ../terminatorlib/terminal.py:513
 msgid "Broadcast _group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:515
+#: ../terminatorlib/terminal.py:514
 msgid "Broadcast _off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:531
+#: ../terminatorlib/terminal.py:530
 msgid "_Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:536
+#: ../terminatorlib/terminal.py:535
 msgid "Auto_clean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:543
+#: ../terminatorlib/terminal.py:542
 msgid "_Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:547
+#: ../terminatorlib/terminal.py:546
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1359
+#: ../terminatorlib/terminal.py:1355
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1390
+#: ../terminatorlib/terminal.py:1386
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1783
+#: ../terminatorlib/terminal.py:1779
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1792
+#: ../terminatorlib/terminal.py:1788
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
