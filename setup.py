@@ -219,6 +219,7 @@ setup(name=APP_NAME.capitalize(),
       license='GNU GPL v2',
       scripts=['terminator', 'remotinator'],
       data_files=[
+                  ('bin', ['terminator.wrapper']),
                   ('share/appdata', ['data/terminator.appdata.xml']),
                   ('share/applications', ['data/terminator.desktop']),
                   (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),
