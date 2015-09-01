@@ -1077,7 +1077,7 @@ class PrefsEditor:
 
         name = _('New Layout')
         if name in values:
-            i = 1
+            i = 0
             while name in values:
                 i = i + 1
                 name = '%s %d' % (_('New Layout'), i)
