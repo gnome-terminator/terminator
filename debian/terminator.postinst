@@ -8,4 +8,10 @@ if [ "$1" = "configure" ]; then
                 x-terminal-emulator.1.gz /usr/share/man/man1/terminator.1.gz
 fi
 
+for dname in `find /usr/share/doc/terminator/html*/_static/fonts/ -type d` /usr/share/doc/terminator/apidoc/_static/fonts/; do
+        if [ -d ${dname} ]; then
+                gunzip -f ${dname}/*.gz
+        fi
+done
+
 #DEBHELPER#
