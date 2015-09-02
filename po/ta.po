@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-05 12:38+0000\n"
 "Last-Translator: svishnunithyasoundhar <svishnunithyasoundhar@gmail.com>\n"
 "Language-Team: Tamil <ta@li.org>\n"
-"Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-28 05:55+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:55+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
+"Language: ta\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -112,8 +112,8 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து முனையங்கள் "
-"மூடிவிடும்."
+"இந்த% s திறந்த பல முனையங்கள் உண்டு. % s முடி கூட அதற்குள்ளாக அனைத்து "
+"முனையங்கள் மூடிவிடும்."
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
@@ -321,7 +321,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை பயன்படுத்த"
+"முனையத்தில் உள்ள இயக்க ஒரு கட்டளை கட்டளை வரி பாக்கி, மற்றும் அதன் வாதங்களை "
+"பயன்படுத்த"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -365,20 +366,26 @@ msgstr "பிழைத்திருத்த தகவலை இயக்க�
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
+msgstr ""
+"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த வகுப்புகள் கமாவால் "
+"பிரிக்கப்பட்ட பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட பட்டியல்"
+msgstr ""
+"என்று பிழைத்திருத்தங்களுக்கும் கட்டுப்படுத்த முறைகள் கமாவால் பிரிக்கப்பட்ட "
+"பட்டியல்"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr "முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
+msgstr ""
+"முனையம் ஏற்கனவே இயக்கத்தில் இருந்தால், ஒரு புதிய தாவலை மட்டும் திறக்கவும்"
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
-"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  நிறுவுக"
+"ActivityWatch செருகுநிரல் கிடைக்கவில்லை : தயவு செய்து  python-notify ஐ  "
+"நிறுவுக"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -1002,8 +1009,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
@@ -1099,8 +1106,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""

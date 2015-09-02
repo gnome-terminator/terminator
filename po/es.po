@@ -11,12 +11,12 @@ msgstr ""
 "PO-Revision-Date: 2015-08-05 12:33+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-28 05:55+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-02 05:55+0000\n"
+"X-Generator: Launchpad (build 17706)\n"
+"Language: \n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -60,7 +60,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Pestañas"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -887,7 +887,8 @@ msgstr "_Ejecutar el comando como un intérprete de conexión"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "_Update login records when command is launched"
-msgstr "_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
+msgstr ""
+"_Actualizar registros de inicio de sesión cuando se ejecuta un comando"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Ru_n a custom command instead of my shell"
@@ -1009,8 +1010,8 @@ msgstr "Desplazamiento"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Nota:</b> Estas opciones pueden causar que algunas aplicaciones "
 "se comporten incorrectamente. Sólo están aquí para permitirle trabajar con "
@@ -1119,12 +1120,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The Manual"
-msgstr ""
+msgstr "EL Manual"
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
