@@ -1,4 +1,4 @@
-terminator trunk:
+terminator 0.98:
   * Features
     * Layout launcher with option or shortcut (Steve Boddy)
     * An all-new manual! Default to F1 key (Steve Boddy)
