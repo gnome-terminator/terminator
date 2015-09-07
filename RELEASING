@@ -27,6 +27,11 @@ Here are the steps to follow to create a new terminator release:
     + Create a matching Release
     + Upload the tarball and gpg signature to the Release
 
+7.  Tag the release in trunk
+
+    $ bzr tag 0.98
+    $ bzr push
+
 8.  Post announcements
 
     + Write a blog post
