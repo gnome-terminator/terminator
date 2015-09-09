@@ -1,3 +1,9 @@
+terminator (0.98) trusty; urgency=low
+
+  * New upstream release of 0.98
+
+ -- Stephen Boddy <stephen.j.boddy@gmail.com>  Wed, 26 Aug 2015 20:28:10 +0200
+
 terminator (0.97~ppa3) saucy; urgency=low
 
   * No-change upload for saucy
