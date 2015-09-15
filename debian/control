@@ -14,7 +14,7 @@ Homepage: http://www.tenshu.net/terminator/
 
 Package: terminator
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gobject, python-gtk2 (>= 2.14.0), gconf2, libgtk2.0-bin, hicolor-icon-theme
+Depends: ${python:Depends}, ${misc:Depends}, python-vte, python-gobject, python-gtk2 (>= 2.14.0), python-psutil, gconf2, libgtk2.0-bin, hicolor-icon-theme
 XB-Python-Version: ${python:Versions}
 Provides: x-terminal-emulator
 Recommends: xdg-utils, python-gnome2, python-keybinder

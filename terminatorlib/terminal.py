@@ -844,13 +844,14 @@ class Terminal(gtk.VBox):
             dbg('Terminal::on_keypress: Called on %s with no event' % widget)
             return(False)
 
-        # Workaround for IBus intefering with broadcast when using dead keys
+        # Workaround for IBus interfering with broadcast when using dead keys
         # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
         # in the receivers.
-        if (event.state | gtk.gdk.MODIFIER_MASK ) ^ gtk.gdk.MODIFIER_MASK != 0:
-            dbg('Terminal::on_keypress: Ingore processed event with event.state %d' % event.state)
-            return(False)
-
+        if self.terminator.ibus_running:
+            if (event.state | gtk.gdk.MODIFIER_MASK ) ^ gtk.gdk.MODIFIER_MASK != 0:
+                dbg('Terminal::on_keypress: Ignore processed event with event.state %d' % event.state)
+                return(False)
+        
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
 

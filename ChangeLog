@@ -1,3 +1,11 @@
+terminator trunk:
+  * Features
+  * Enhancements
+  * Bug fixes
+    * Fix for those not running IBus, where the IBus workaround caused
+      broken keys in other keymaps set with non-IBus tools (Steve
+      Boddy, LP#1494606)
+
 terminator 0.98:
   * Features
     * Layout launcher with option or shortcut (Steve Boddy)
