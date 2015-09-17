@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-08-22 01:55+0200\n"
-"PO-Revision-Date: 2015-09-15 18:26+0000\n"
+"PO-Revision-Date: 2015-09-16 12:59+0000\n"
 "Last-Translator: Flávio Vinícius de Castro Alves "
 "<flavioviniciuscmp@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-16 05:15+0000\n"
+"X-Launchpad-Export-Date: 2015-09-17 05:13+0000\n"
 "X-Generator: Launchpad (build 17737)\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
@@ -32,7 +32,7 @@ msgstr "Múltiplos terminais em uma janela"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:144
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "O robo do futuro dos terminais"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -41,6 +41,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Uma poderosa ferramenta para agrupamento de terminais. Foi inspirada por "
+"programas como gnome-multi-term, quadkonsole, etc. em que o objetivo "
+"principal é o agrupamento de terminais em grades (guia é o meio mais comum, "
+"o qual o terminal suporta)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -49,6 +53,10 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"O comportamento do Terminator é baseado no Terminal GNOME, e nós adicionamos "
+"mais recursos ao passar do tempo, mas também queremos estender para áreas "
+"distintas, oferecendo recursos uteis para administradores de sistema e "
+"outros usuários."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -88,7 +96,7 @@ msgstr "A janela principal mostrando a aplicação em ação"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Ficando um pouco louco com terminais"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
@@ -265,7 +273,7 @@ msgstr "Tailandês"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Lançador de grupo de terminais"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:130
@@ -384,21 +392,21 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Tempo para _atividade"
 
 #: ../terminatorlib/plugins/activitywatch.py:82
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Atividade em: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:119
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Tempo para _silêncio"
 
 #: ../terminatorlib/plugins/activitywatch.py:161
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Silêncio em: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
@@ -457,11 +465,11 @@ msgstr "Nome *%s* já existe"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Iniciar_Registro"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Parar_Registro"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
@@ -469,7 +477,7 @@ msgstr "Salvar Log Como Arquivo"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "Terminal _imagem da tela"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -546,11 +554,11 @@ msgstr "Ambiente"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Solarizado leve"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Solarizado escuro"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
@@ -683,7 +691,7 @@ msgstr "Dicas de geometria da janela"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Mouse focus:"
-msgstr ""
+msgstr "Foco do Mouse"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Broadcast default:"
@@ -691,7 +699,7 @@ msgstr "Transmissão padrão"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "Reutilizar perfis para novos terminais"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Use custom URL handler"
@@ -715,7 +723,7 @@ msgstr "Tamanho do separador de terminal"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Unfocused terminal font brightness:"
-msgstr ""
+msgstr "Desfocar brilho da fonte do terminal"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Window borders"
@@ -739,7 +747,7 @@ msgstr "<b>Barra de Títulos do Terminal</b>"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Receiving"
-msgstr ""
+msgstr "Recebendo"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Focused"
@@ -1091,6 +1099,16 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"O objetivo deste projeto é fornecer uma ferramenta útil para organização de "
+"terminais. Esta foi inspirada por programas como gnome-multi-term, "
+"quadkonsole, etc. em que o objetivo principal é organizar terminais em "
+"grades (abas é o método mais comum, o qual o Terminal também suporte).\n"
+"O comportamento do Terminal é baseado no Terminal do Gnome, e estamos "
+"adicionando mais recursos com o passar do tempo, mas também queremos "
+"estender isso em diferentes recursos para administradores e sistemas e "
+"outros usuários. Se você tem alguma sugestão, por favor, relate os bugs e "
+"possíveis melhorias na lista de desejo! (Veja a esquerda para o link para "
+"desenvolvimento)"
 
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The Manual"
@@ -1188,31 +1206,31 @@ msgstr "Mostrar/Esconder a barra de rolagem"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Procurar por barra de rolagem atrás no terminal"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Scroll upwards one page"
-msgstr ""
+msgstr "Rolar uma página acima"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Scroll downwards one page"
-msgstr ""
+msgstr "Rolar uma página abaixo"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Scroll upwards half a page"
-msgstr ""
+msgstr "Rolar meia página acima"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Scroll downwards half a page"
-msgstr ""
+msgstr "Rolar meia página abaixo"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Scroll upwards one line"
-msgstr ""
+msgstr "Rolar uma linha acima"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Scroll downwards one line"
-msgstr ""
+msgstr "Rolar uma linha abaixo"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Close window"
@@ -1538,7 +1556,7 @@ msgstr "Fechar grupo %s"
 
 #: ../terminatorlib/terminal.py:512
 msgid "Broadcast _all"
-msgstr ""
+msgstr "Transmissão _todos"
 
 #: ../terminatorlib/terminal.py:513
 msgid "Broadcast _group"
@@ -1610,7 +1628,7 @@ msgstr "Tempo Restante Estimado"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Theta"
-msgstr ""
+msgstr "Theta"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Iota"
