@@ -87,7 +87,7 @@ class DBusService(Borg, dbus.service.Object):
         terminals_after = set(self.get_terminals())
         new_terminal_set = list(terminals_after - terminals_before)
         if len(new_terminal_set) != 1:
-            "ERROR: Cannot determine the UUID of the added terminal"
+            return "ERROR: Cannot determine the UUID of the added terminal"
         else:
             return new_terminal_set[0]
 
