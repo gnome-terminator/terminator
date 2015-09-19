@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-22 01:55+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-19 05:33+0200\n"
 "PO-Revision-Date: 2013-04-19 13:06+0000\n"
 "Last-Translator: Radoslav Petrov <rrpetrov@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -275,11 +276,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:349
+#: ../terminatorlib/notebook.py:350
 msgid "tab"
 msgstr "табулация"
 
-#: ../terminatorlib/notebook.py:567
+#: ../terminatorlib/notebook.py:568
 msgid "Close Tab"
 msgstr "Затваряне на подпрозореца"
 
@@ -445,13 +446,13 @@ msgstr "Име (на английски):"
 msgid "Command:"
 msgstr "Команда:"
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr "Нужно е задаване на име и команда"
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "Наименование *%s* вече съществува"
@@ -493,7 +494,7 @@ msgid "Escape sequence"
 msgstr "Екранираща последователност"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr "Всичко"
 
@@ -910,8 +911,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
-"<small><i><b>Бележка:</b> Приложенията в терминала разполагат с тези "
-"цветове.</i></small>"
+"<small><i><b>Бележка:</b> Приложенията в терминала разполагат с тези цветове."
+"</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Color p_alette:"
@@ -997,8 +998,8 @@ msgstr "Придвижване"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Бележка:</b> Тези настройки могат да доведат до некоректна "
 "работа на някои програми.\n"
@@ -1098,9 +1099,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1567,11 +1567,11 @@ msgstr "Не е намерен Шел"
 msgid "Unable to start shell:"
 msgstr "Неуспешно стартиране на обвивката на командния ред"
 
-#: ../terminatorlib/terminal.py:1794
+#: ../terminatorlib/terminal.py:1797
 msgid "Rename Window"
 msgstr "Преименуване на прозорец"
 
-#: ../terminatorlib/terminal.py:1803
+#: ../terminatorlib/terminal.py:1806
 msgid "Enter a new title for the Terminator window..."
 msgstr "Въведете ново заглавие за прозореца на Terminator..."
 
@@ -1671,11 +1671,11 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr "прозорец"
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr ""

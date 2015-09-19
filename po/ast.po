@@ -6,11 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2015-08-22 01:55+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-19 05:33+0200\n"
 "PO-Revision-Date: 2010-10-31 00:24+0000\n"
 "Last-Translator: Xuacu Saturio <xuacusk8@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
+"Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -275,11 +276,11 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:349
+#: ../terminatorlib/notebook.py:350
 msgid "tab"
 msgstr "llingüeta"
 
-#: ../terminatorlib/notebook.py:567
+#: ../terminatorlib/notebook.py:568
 msgid "Close Tab"
 msgstr "Zarrar llingüeta"
 
@@ -442,13 +443,13 @@ msgstr "Nome:"
 msgid "Command:"
 msgstr "Comandu:"
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr "Tienes de conseñar un nome y un comandu"
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "El nome *%s* yá esiste"
@@ -490,7 +491,7 @@ msgid "Escape sequence"
 msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr "Too"
 
@@ -992,8 +993,8 @@ msgstr ""
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:131
@@ -1089,9 +1090,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1558,11 +1558,11 @@ msgstr "Nun se pue alcontrar una shell"
 msgid "Unable to start shell:"
 msgstr "Nun se pue aniciar la shell:"
 
-#: ../terminatorlib/terminal.py:1794
+#: ../terminatorlib/terminal.py:1797
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1803
+#: ../terminatorlib/terminal.py:1806
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
@@ -1662,11 +1662,11 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr "ventana"
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr "llingüeta %d"
