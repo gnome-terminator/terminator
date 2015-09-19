@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 23:15+0200\n"
+"POT-Creation-Date: 2015-09-19 05:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -478,13 +478,13 @@ msgstr ""
 msgid "Command:"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr ""
@@ -531,7 +531,7 @@ msgid "Escape sequence"
 msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr ""
 
@@ -1566,19 +1566,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1355
+#: ../terminatorlib/terminal.py:1354
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1386
+#: ../terminatorlib/terminal.py:1385
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1779
+#: ../terminatorlib/terminal.py:1781
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1788
+#: ../terminatorlib/terminal.py:1790
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
@@ -1678,11 +1678,11 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr ""
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr ""

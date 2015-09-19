@@ -2,6 +2,7 @@
 # Please keep this file sorted alphabetically.
 #
 [encoding: UTF-8]
+remotinator
 terminator
 data/terminator.desktop.in
 data/terminator.appdata.xml.in

@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 23:15+0200\n"
+"POT-Creation-Date: 2015-09-19 05:34+0200\n"
 "PO-Revision-Date: 2015-08-16 04:10+0000\n"
 "Last-Translator: ub <xenolith0bytetestcomgreen@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-09-02 05:55+0000\n"
 "X-Generator: Launchpad (build 17706)\n"
-"Language: ja\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -111,7 +111,9 @@ msgstr "<big><b>複数の端末を閉じますか?</b></big>"
 msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
-msgstr "この%sはいくつかの端末を開いています。%sを閉じると、全ての端末が閉じられます。"
+msgstr ""
+"この%sはいくつかの端末を開いています。%sを閉じると、全ての端末が閉じられま"
+"す。"
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
@@ -374,7 +376,9 @@ msgstr "Terminator が起動していたら新しいタブを開きます"
 
 #: ../terminatorlib/plugins/activitywatch.py:23
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr "ActivityWatchプラグインが使用できません。python-notifyをインストールして下さい"
+msgstr ""
+"ActivityWatchプラグインが使用できません。python-notifyをインストールして下さ"
+"い"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
@@ -479,13 +483,13 @@ msgstr "名前:"
 msgid "Command:"
 msgstr "コマンド："
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr "コマンド名を指定する必要があります"
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "*%s*は既に存在しています。"
@@ -532,7 +536,7 @@ msgid "Escape sequence"
 msgstr "Escape sequence"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr "全て"
 
@@ -998,12 +1002,13 @@ msgstr "スクロール"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
-"<small><i><b>注意:</b> "
-"これらのオプションが影響して、いくつかのアプリケーションが正常に動作しなくなるかもしれません。これらのオプションは特定のアプリや OS "
-"上で異なった動作になってしまう問題を解決するために提供されています。</i></small>"
+"<small><i><b>注意:</b> これらのオプションが影響して、いくつかのアプリケーショ"
+"ンが正常に動作しなくなるかもしれません。これらのオプションは特定のアプリや "
+"OS 上で異なった動作になってしまう問題を解決するために提供されています。</i></"
+"small>"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
@@ -1098,9 +1103,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1571,19 +1575,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1355
+#: ../terminatorlib/terminal.py:1354
 msgid "Unable to find a shell"
 msgstr "シェルが見つかりません"
 
-#: ../terminatorlib/terminal.py:1386
+#: ../terminatorlib/terminal.py:1385
 msgid "Unable to start shell:"
 msgstr "シェルを起動できません:"
 
-#: ../terminatorlib/terminal.py:1779
+#: ../terminatorlib/terminal.py:1781
 msgid "Rename Window"
 msgstr "ウィンドウ名の変更"
 
-#: ../terminatorlib/terminal.py:1788
+#: ../terminatorlib/terminal.py:1790
 msgid "Enter a new title for the Terminator window..."
 msgstr "新しいウィンドウのタイトルを入力..."
 
@@ -1683,11 +1687,11 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr "ウィンドウ"
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr "タブ%d"

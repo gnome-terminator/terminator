@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 23:15+0200\n"
+"POT-Creation-Date: 2015-09-19 05:34+0200\n"
 "PO-Revision-Date: 2015-08-05 12:36+0000\n"
 "Last-Translator: puppetmaster <driquezbenjamin@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-09-02 05:54+0000\n"
 "X-Generator: Launchpad (build 17706)\n"
-"Language: fr\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -488,13 +488,13 @@ msgstr "Nom :"
 msgid "Command:"
 msgstr "Commande :"
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr "Vous devez définir un nom et une commande"
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "Le nom *%s* existe déjà"
@@ -541,7 +541,7 @@ msgid "Escape sequence"
 msgstr "Séquence d'échappement"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr "Tous"
 
@@ -1011,14 +1011,14 @@ msgstr "Défilement"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Remarque:</b> Ces options peuvent perturber le bon "
 "fonctionnement de certaines applications. Elles sont ici uniquement pour "
 "vous permettre de contourner certaines applications ou systèmes "
-"d'exploitation qui prévoient des comportements différents pour le "
-"terminal.</i></small>"
+"d'exploitation qui prévoient des comportements différents pour le terminal.</"
+"i></small>"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "_Delete key generates:"
@@ -1113,9 +1113,8 @@ msgstr "Manuel"
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1586,19 +1585,19 @@ msgstr "_Insérer le numéro du terminal"
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1355
+#: ../terminatorlib/terminal.py:1354
 msgid "Unable to find a shell"
 msgstr "Impossible de trouver un shell"
 
-#: ../terminatorlib/terminal.py:1386
+#: ../terminatorlib/terminal.py:1385
 msgid "Unable to start shell:"
 msgstr "Impossible de démarrer le shell :"
 
-#: ../terminatorlib/terminal.py:1779
+#: ../terminatorlib/terminal.py:1781
 msgid "Rename Window"
 msgstr "Renommer la fenêtre"
 
-#: ../terminatorlib/terminal.py:1788
+#: ../terminatorlib/terminal.py:1790
 msgid "Enter a new title for the Terminator window..."
 msgstr "Saisir un nouveau titre pour la fenêtre Terminator..."
 
@@ -1698,11 +1697,11 @@ msgstr "Psi"
 msgid "Omega"
 msgstr "Omega"
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr "fenêtre"
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr "Onglet %d"

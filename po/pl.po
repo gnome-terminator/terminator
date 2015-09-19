@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-01 23:15+0200\n"
+"POT-Creation-Date: 2015-09-19 05:34+0200\n"
 "PO-Revision-Date: 2015-08-05 12:41+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2015-09-02 05:55+0000\n"
 "X-Generator: Launchpad (build 17706)\n"
-"Language: pl\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -485,13 +485,13 @@ msgstr "Nazwa:"
 msgid "Command:"
 msgstr "Polecenie:"
 
-#: ../terminatorlib/plugins/custom_commands.py:324
-#: ../terminatorlib/plugins/custom_commands.py:434
+#: ../terminatorlib/plugins/custom_commands.py:311
+#: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
 msgstr "Musisz określić nazwę lub polecenie"
 
-#: ../terminatorlib/plugins/custom_commands.py:341
-#: ../terminatorlib/plugins/custom_commands.py:453
+#: ../terminatorlib/plugins/custom_commands.py:328
+#: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "Nazwa *%s* jest już używana"
@@ -538,7 +538,7 @@ msgid "Escape sequence"
 msgstr "Sekwencja sterująca"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:695
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:693
 msgid "All"
 msgstr "Wszystko"
 
@@ -1006,8 +1006,8 @@ msgstr "Przewijanie"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Uwaga:</b> Zmiana poniższych opcji może spowodować niepoprawne "
 "zachowanie pewnych programów. Istnieją one tylko w celu obejścia problemów z "
@@ -1107,9 +1107,8 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid ""
-"<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-"\n"
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+"\">Homepage</a>\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
@@ -1580,19 +1579,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1355
+#: ../terminatorlib/terminal.py:1354
 msgid "Unable to find a shell"
 msgstr "Nie można odnaleźć powłoki"
 
-#: ../terminatorlib/terminal.py:1386
+#: ../terminatorlib/terminal.py:1385
 msgid "Unable to start shell:"
 msgstr "Nie można włączyć powłoki:"
 
-#: ../terminatorlib/terminal.py:1779
+#: ../terminatorlib/terminal.py:1781
 msgid "Rename Window"
 msgstr "Zmiana nazwy okna"
 
-#: ../terminatorlib/terminal.py:1788
+#: ../terminatorlib/terminal.py:1790
 msgid "Enter a new title for the Terminator window..."
 msgstr "Wpisz nowy tytuł dla okna Terminatora..."
 
@@ -1692,11 +1691,11 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:273
+#: ../terminatorlib/window.py:271
 msgid "window"
 msgstr "okno"
 
-#: ../terminatorlib/window.py:721
+#: ../terminatorlib/window.py:719
 #, python-format
 msgid "Tab %d"
 msgstr "Zakładka %d"
