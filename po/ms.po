@@ -6,17 +6,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 05:33+0200\n"
-"PO-Revision-Date: 2013-03-09 03:27+0000\n"
+"PO-Revision-Date: 2015-09-18 08:28+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
-"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-08-23 05:10+0000\n"
-"X-Generator: Launchpad (build 17690)\n"
+"X-Launchpad-Export-Date: 2015-09-19 05:12+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
@@ -32,7 +31,7 @@ msgstr "Kesemua terminal dalam satu tetingkap"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:152
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Terminal dari robot masa hadapan"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -41,6 +40,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Alat pengguna-mahir untuk menyusun terminal. Ia diilham dari program seperti "
+"gnome-multi-term, quadkonsole, dan lain-lain yang mana fokus utama ialah "
+"menyusun terminal dalam grid (tab adalah kaedah lalai paling umum, yang mana "
+"Terminator juga menyokongnya)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -49,50 +52,55 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"Kebanyakan kelakuan Terminal adalah berdasarkan dari Terminal GNOME, dan "
+"kami telah menambah lagi beberapa fitur. Selain itu, kami juga melanjutkan "
+"arah yang berlainan dan berguna untuk pentadbir sistem dan juga pengguna "
+"biasa."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Beberapa sorotan:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Susun terminal dalam grid"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Tab"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Seret dan lepas penertiban-semula terminal"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Lebih banyak pintasan papan kekunci"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
 msgstr ""
+"Simpan bentangan dan profil berbilang melalui penyunting keutamaan GUI"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Ketukan ke kumpulan arbitari terminal secara serentak"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "Dan banyak lagi..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Tetingkap utama menunjukkan aplikasi sedang bertindak"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Buat sesuatu yang gila-gila dengan terminal"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Tetingkap keutamaan yang mana anda boleh ubah lalai"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -265,16 +273,16 @@ msgstr "Bahasa Thailand"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Pelancar Bentangan Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Layout"
-msgstr ""
+msgstr "Bentangan"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Lancar"
 
 #: ../terminatorlib/notebook.py:350
 msgid "tab"
@@ -347,11 +355,11 @@ msgstr "Tetapkan ciri WM_WINDOW_ROLE suai bagi tetingkap"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Lancar dengan bentangan yang diberii"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Pilih satu bentangan menerusi senarai"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -363,7 +371,8 @@ msgstr "Lumpuhkan DBas"
 
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Benarkan maklumat penyahpepijatan (dua kali untuk pelayan nyahpepijat)"
+msgstr ""
+"Benarkan maklumat penyahpepijatan (dua kali untuk pelayan nyahpepijat)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
@@ -383,25 +392,25 @@ msgstr "Pemalam Aktiviti/Pantau tidak tersedia: sila pasang python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:53
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Pantau _aktiviti"
 
 #: ../terminatorlib/plugins/activitywatch.py:82
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Aktiviti dalam tempoh: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:119
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Pantau kemela_huan"
 
 #: ../terminatorlib/plugins/activitywatch.py:161
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Melahu dalam tempoh: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "Perintah _Suai"
 
 #: ../terminatorlib/plugins/custom_commands.py:67
 #: ../terminatorlib/terminal_popup_menu.py:183
@@ -414,12 +423,12 @@ msgstr "Konfigurasi Perintah Suai"
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Dibenarkan"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:99
@@ -455,23 +464,23 @@ msgstr "Nama *%s* sudah wujud"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Mula Penge_log"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Henti Penge_log"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Simpan Fail Log Sebagai"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "_Cekupan skrin terminal"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Simpan imej"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -496,7 +505,7 @@ msgstr "Semua"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Kumpulan"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -544,11 +553,11 @@ msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Cerah tersuria"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Gelap tersuria"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
@@ -596,7 +605,7 @@ msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Solarized"
-msgstr ""
+msgstr "Tersuria"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "On the left side"
@@ -652,11 +661,11 @@ msgstr "Keutamaan Terminator"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Kelakuan</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
-msgstr ""
+msgstr "Keadaan tetingkap:"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Always on top"
@@ -680,11 +689,11 @@ msgstr "Pembayang geometri tetingkap"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Mouse focus:"
-msgstr ""
+msgstr "Fokus tetikus:"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Broadcast default:"
-msgstr ""
+msgstr "Lalai siaran:"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Re-use profiles for new terminals"
@@ -696,7 +705,7 @@ msgstr "Guna pengendali URL suai"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Custom URL handler:"
-msgstr ""
+msgstr "Pengendali URL suai:"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "DBus server"
@@ -704,15 +713,15 @@ msgstr "Pelayan DBus"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Penampilan</b>"
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Saiz pemisah terminal:"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Unfocused terminal font brightness:"
-msgstr ""
+msgstr "Kecerahan fon terminal tidak fokus:"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Window borders"
@@ -720,47 +729,47 @@ msgstr "Sempadan tetingkap"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Tab position:"
-msgstr ""
+msgstr "Kedudukan tab:"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Tabs homogeneous"
-msgstr ""
+msgstr "Kehomogenan tab"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Tabs scroll buttons"
-msgstr ""
+msgstr "Butang tatal tab"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "<b>Terminal Titlebar</b>"
-msgstr ""
+msgstr "<b>Palang Tajuk Terminal</b>"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Receiving"
-msgstr ""
+msgstr "Penerimaan"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Focused"
-msgstr ""
+msgstr "Terfokus"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Inactive"
-msgstr ""
+msgstr "Tidak Aktif"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Font color:"
-msgstr ""
+msgstr "Warna fon:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Background:"
-msgstr ""
+msgstr "Latar Belakang:"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Hide size from title"
-msgstr ""
+msgstr "Sembunyi saiz dari tajuk"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "_Use the system font"
-msgstr ""
+msgstr "G_una fon sistem"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "_Font:"
@@ -768,7 +777,7 @@ msgstr "_Fon:"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Choose A Titlebar Font"
-msgstr ""
+msgstr "Pilih Fon Palang Tajuk"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Global"
@@ -812,15 +821,15 @@ msgstr "<b>Kursor</b>"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Color:"
-msgstr ""
+msgstr "Warna:"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "_Shape:"
-msgstr ""
+msgstr "_Bentuk:"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "Blink"
-msgstr ""
+msgstr "Kelip"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "<b>Terminal bell</b>"
@@ -907,8 +916,8 @@ msgid ""
 "<small><i><b>Note:</b> Terminal applications have these colors available to "
 "them.</i></small>"
 msgstr ""
-"<small><i><b>Nota:</b> Aplikasi terminal mempunyai warna ini di dalamnya.</"
-"i></small>"
+"<small><i><b>Nota:</b> Aplikasi terminal mempunyai warna ini di "
+"dalamnya.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Color p_alette:"
@@ -994,8 +1003,8 @@ msgstr "Penatalan"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Nota:</b> Pilihan ini akan menyebabkan sebahagian applikasi "
 "tidak berfungsi dengan sempurna. Ia membolehkan anda untuk bekerja di "
@@ -1033,19 +1042,19 @@ msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Type"
-msgstr ""
+msgstr "Jenis"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Profile:"
-msgstr ""
+msgstr "Profil:"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Custom command:"
-msgstr ""
+msgstr "Perintah suai:"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Working directory:"
-msgstr ""
+msgstr "Direktori kerja:"
 
 #: ../terminatorlib/preferences.glade.h:144
 msgid "Layouts"
@@ -1053,11 +1062,11 @@ msgstr "Bentangan"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid "Action"
-msgstr ""
+msgstr "Tindakan"
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "Keybinding"
-msgstr ""
+msgstr "Pengikatan kekunci"
 
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Keybindings"
@@ -1065,7 +1074,7 @@ msgstr "Pengikatan kekunci"
 
 #: ../terminatorlib/preferences.glade.h:148
 msgid "Plugin"
-msgstr ""
+msgstr "Pemalam"
 
 #: ../terminatorlib/preferences.glade.h:149
 msgid "This plugin has no configuration options"
@@ -1088,266 +1097,282 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"Matlamat projek ini adalah untuk menghasilkan satu alat yang berguna untuk "
+"penyusunan terminal. Ia diilham dariy program seperti gnome-multi-term, "
+"quadkonsole, dan lain-lain. dan fokus utama adalah menyusun terminal dalam "
+"bentuk grid (tab masih menjadi kaedah lalai paling umum, yang juga disokong "
+"oleh Terminator).\n"
+"\n"
+"Kebanyakan kelakuan Terminator adalah berdasarkan dari Terminal GNOME, dan "
+"kami telah menambah lagi fiitur serta melanjutkan dalam arah berbeza bersama-"
+"sama fitur berguna untuk pentadbir dan pengguna biasa. Jika anda mempunyai "
+"apa juag cadangan, sila failkan pepijat senarai idaman! (sila rujuk ke "
+"pautan Pembangunan)"
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid "The Manual"
-msgstr ""
+msgstr "Panduan"
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
-"\">Homepage</a>\n"
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+"\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Laman "
+"Utama</a>\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">Blog / Berita</a>\n"
+"<a href=\"https://launchpad.net/terminator\">Pembangunan</a>"
 
 #: ../terminatorlib/preferences.glade.h:160
 msgid "About"
-msgstr ""
+msgstr "Perihal"
 
 #: ../terminatorlib/prefseditor.py:85
 msgid "Increase font size"
-msgstr ""
+msgstr "Besarkan saiz fon"
 
 #: ../terminatorlib/prefseditor.py:86
 msgid "Decrease font size"
-msgstr ""
+msgstr "Kecilkan saiz fon"
 
 #: ../terminatorlib/prefseditor.py:87
 msgid "Restore original font size"
-msgstr ""
+msgstr "Pulih saiz fon asal"
 
 #: ../terminatorlib/prefseditor.py:88
 msgid "Create a new tab"
-msgstr ""
+msgstr "Cipta tab baharu"
 
 #: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Fokus terminal berikutnya"
 
 #: ../terminatorlib/prefseditor.py:90 ../terminatorlib/prefseditor.py:92
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Fokus terminal terdahulu"
 
 #: ../terminatorlib/prefseditor.py:93
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Fokus terminal di atas"
 
 #: ../terminatorlib/prefseditor.py:94
 msgid "Focus the terminal below"
-msgstr ""
+msgstr "Fokus terminal di bawah"
 
 #: ../terminatorlib/prefseditor.py:95
 msgid "Focus the terminal left"
-msgstr ""
+msgstr "Fokus terminal di kiri"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Focus the terminal right"
-msgstr ""
+msgstr "Fokus terminal di kanan"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Putar terminal mengikut jam"
 
 #: ../terminatorlib/prefseditor.py:98
 msgid "Rotate terminals counter-clockwise"
-msgstr ""
+msgstr "Putar terminal melawan jam"
 
 #: ../terminatorlib/prefseditor.py:99
 msgid "Split horizontally"
-msgstr ""
+msgstr "Pisah secara mengufuk"
 
 #: ../terminatorlib/prefseditor.py:100
 msgid "Split vertically"
-msgstr ""
+msgstr "Pisah secara menegak"
 
 #: ../terminatorlib/prefseditor.py:101
 msgid "Close terminal"
-msgstr ""
+msgstr "Tutup terminal"
 
 #: ../terminatorlib/prefseditor.py:102
 msgid "Copy selected text"
-msgstr ""
+msgstr "Salin teks terpilih"
 
 #: ../terminatorlib/prefseditor.py:103
 msgid "Paste clipboard"
-msgstr ""
+msgstr "Tampal papan keratan"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Show/Hide the scrollbar"
-msgstr ""
+msgstr "Tunjuk/Sembunyi palang tatal"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Gelintar tatal balik terminal"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Scroll upwards one page"
-msgstr ""
+msgstr "Tatal menaik satu halaman"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Scroll downwards one page"
-msgstr ""
+msgstr "Tatal menurun satu halaman"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Scroll upwards half a page"
-msgstr ""
+msgstr "Tatal menaik separa halaman"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Scroll downwards half a page"
-msgstr ""
+msgstr "Tatal menurun separa halaman"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Scroll upwards one line"
-msgstr ""
+msgstr "Tatal menaik satu baris"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Scroll downwards one line"
-msgstr ""
+msgstr "Tatal menurun satu baris"
 
 #: ../terminatorlib/prefseditor.py:112
 msgid "Close window"
-msgstr ""
+msgstr "Tutup tetingkap"
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Resize the terminal up"
-msgstr ""
+msgstr "Saiz semula terminal atas"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Resize the terminal down"
-msgstr ""
+msgstr "Saiz semula terminal bawah"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Resize the terminal left"
-msgstr ""
+msgstr "Saiz semula terminal kiri"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Resize the terminal right"
-msgstr ""
+msgstr "Saiz semula terminal kanan"
 
 #: ../terminatorlib/prefseditor.py:117
 msgid "Move the tab right"
-msgstr ""
+msgstr "Alih tab ke kanan"
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Move the tab left"
-msgstr ""
+msgstr "Alih tab ke kiri"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Maximise terminal"
-msgstr ""
+msgstr "Maksimumkan terminal"
 
 #: ../terminatorlib/prefseditor.py:120
 msgid "Zoom terminal"
-msgstr ""
+msgstr "Zum terminal"
 
 #: ../terminatorlib/prefseditor.py:121
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Tukar ke tab berikutnya"
 
 #: ../terminatorlib/prefseditor.py:122
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Tukar ke tab terdahulu"
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Switch to the first tab"
-msgstr ""
+msgstr "Tukar ke tab pertama"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Switch to the second tab"
-msgstr ""
+msgstr "Tukar ke tab kedua"
 
 #: ../terminatorlib/prefseditor.py:125
 msgid "Switch to the third tab"
-msgstr ""
+msgstr "Tukar ke tab ketiga"
 
 #: ../terminatorlib/prefseditor.py:126
 msgid "Switch to the fourth tab"
-msgstr ""
+msgstr "Tukar ke tab keempat"
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Switch to the fifth tab"
-msgstr ""
+msgstr "Tukar ke tab kelima"
 
 #: ../terminatorlib/prefseditor.py:128
 msgid "Switch to the sixth tab"
-msgstr ""
+msgstr "Tukar ke tab ke enam"
 
 #: ../terminatorlib/prefseditor.py:129
 msgid "Switch to the seventh tab"
-msgstr ""
+msgstr "Tukar ke tab ke tujuh"
 
 #: ../terminatorlib/prefseditor.py:130
 msgid "Switch to the eighth tab"
-msgstr ""
+msgstr "Tukar ke tab ke lapan"
 
 #: ../terminatorlib/prefseditor.py:131
 msgid "Switch to the ninth tab"
-msgstr ""
+msgstr "Tukar ke tab ke sembilan"
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the tenth tab"
-msgstr ""
+msgstr "Tukar ke tab ke sepuluh"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "Togol skrin penuh"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Reset the terminal"
-msgstr ""
+msgstr "Tetap semula terminal"
 
 #: ../terminatorlib/prefseditor.py:135
 msgid "Reset and clear the terminal"
-msgstr ""
+msgstr "Tetap semula dan kosongkan terminal"
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Toggle window visibility"
-msgstr ""
+msgstr "Togol ketampakan tetingkap"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Group all terminals"
-msgstr ""
+msgstr "Kumpulkan semua terminal"
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Group/Ungroup all terminals"
-msgstr ""
+msgstr "Kumpul/Nyahkumpul semua terminal"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Ungroup all terminals"
-msgstr ""
+msgstr "Nyahkumpul semua terminal"
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Group terminals in tab"
-msgstr ""
+msgstr "Kumpul terminal dalam tab"
 
 #: ../terminatorlib/prefseditor.py:141
 msgid "Group/Ungroup terminals in tab"
-msgstr ""
+msgstr "Kumpul/Nyahkumpul terminal dalam tab"
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Ungroup terminals in tab"
-msgstr ""
+msgstr "Nyahkumpul terminal dalam tab"
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Create a new window"
-msgstr ""
+msgstr "Cipta tetingkap baharu"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Spawn a new Terminator process"
-msgstr ""
+msgstr "Wujudkan proses Terminator baharu"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Don't broadcast key presses"
-msgstr ""
+msgstr "Jangan siarkan ketukan kekunci"
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Broadcast key presses to group"
-msgstr ""
+msgstr "Siarkan ketukan kekunci ke kumpulan"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "Siarkan peristiwa kekunci kepada semua"
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Insert terminal number"
@@ -1359,23 +1384,23 @@ msgstr "Sisip nombor terminal beralas"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit window title"
-msgstr ""
+msgstr "Sunting tajuk tetingkap"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "Buka tetingkap pelancar bentangan"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Switch to next profile"
-msgstr ""
+msgstr "Tukar ke profil berikutnya"
 
 #: ../terminatorlib/prefseditor.py:153
 msgid "Switch to previous profile"
-msgstr ""
+msgstr "Tukar ke profil terdahulu"
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Open the manual"
-msgstr ""
+msgstr "Buka panduan"
 
 #: ../terminatorlib/prefseditor.py:1082 ../terminatorlib/prefseditor.py:1087
 msgid "New Profile"
@@ -1407,7 +1432,7 @@ msgstr "Terdahulu"
 #. Wrap checkbox
 #: ../terminatorlib/searchbar.py:84
 msgid "Wrap"
-msgstr ""
+msgstr "Lilit"
 
 #: ../terminatorlib/searchbar.py:143
 msgid "Searching scrollback"
@@ -1499,11 +1524,11 @@ msgstr "Pengenkodan Lain"
 
 #: ../terminatorlib/terminal.py:415
 msgid "N_ew group..."
-msgstr ""
+msgstr "Kumpulan _baharu..."
 
 #: ../terminatorlib/terminal.py:420
 msgid "_None"
-msgstr ""
+msgstr "_Tiada"
 
 #: ../terminatorlib/terminal.py:436
 #, python-format
@@ -1516,7 +1541,7 @@ msgstr "K_umpul semua dalam tab"
 
 #: ../terminatorlib/terminal.py:446
 msgid "Ungro_up all in tab"
-msgstr ""
+msgstr "N_yahkumpul semua dalam tab"
 
 #: ../terminatorlib/terminal.py:451
 msgid "Remove all groups"
@@ -1529,31 +1554,31 @@ msgstr "Tutup kumpulan %s"
 
 #: ../terminatorlib/terminal.py:467
 msgid "Broadcast _all"
-msgstr ""
+msgstr "Siar semu_a"
 
 #: ../terminatorlib/terminal.py:468
 msgid "Broadcast _group"
-msgstr ""
+msgstr "Siar _kumpulan"
 
 #: ../terminatorlib/terminal.py:469
 msgid "Broadcast _off"
-msgstr ""
+msgstr "Siaran _mati"
 
 #: ../terminatorlib/terminal.py:482
 msgid "_Split to this group"
-msgstr ""
+msgstr "_Pisah ke kumpulan ini"
 
 #: ../terminatorlib/terminal.py:487
 msgid "Auto_clean groups"
-msgstr ""
+msgstr "Auto-k_osongkan kumpulan"
 
 #: ../terminatorlib/terminal.py:494
 msgid "_Insert terminal number"
-msgstr ""
+msgstr "S_isip bilangan terminal"
 
 #: ../terminatorlib/terminal.py:498
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Sisip bilangan terminal ter_padat"
 
 #: ../terminatorlib/terminal.py:1361
 msgid "Unable to find a shell"
@@ -1573,99 +1598,99 @@ msgstr "Masukkan tajuk baru untuk tetingkap Terminator..."
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Gamma"
-msgstr ""
+msgstr "Gama"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Zeta"
-msgstr ""
+msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:251
 msgid "Eta"
-msgstr ""
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Theta"
-msgstr ""
+msgstr "Theta"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Iota"
-msgstr ""
+msgstr "Iota"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Kappa"
-msgstr ""
+msgstr "Kappa"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Mu"
-msgstr ""
+msgstr "Mu"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Nu"
-msgstr ""
+msgstr "Nu"
 
 #: ../terminatorlib/titlebar.py:252
 msgid "Xi"
-msgstr ""
+msgstr "Xi"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Omicron"
-msgstr ""
+msgstr "Omicron"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Rho"
-msgstr ""
+msgstr "Rho"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Tau"
-msgstr ""
+msgstr "Tau"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Upsilon"
-msgstr ""
+msgstr "Upsilon"
 
 #: ../terminatorlib/titlebar.py:253
 msgid "Phi"
-msgstr ""
+msgstr "Phi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Chi"
-msgstr ""
+msgstr "Chi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Psi"
-msgstr ""
+msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Omega"
-msgstr ""
+msgstr "Omega"
 
 #: ../terminatorlib/window.py:271
 msgid "window"
