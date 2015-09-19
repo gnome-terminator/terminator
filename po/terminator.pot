@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-19 05:34+0200\n"
+"POT-Creation-Date: 2015-09-19 17:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,61 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. Command         uuid req.    Description
+#: ../remotinator.py:38
+msgid "Open a new window"
+msgstr ""
+
+#: ../remotinator.py:39
+msgid "Open a new tab"
+msgstr ""
+
+#: ../remotinator.py:40
+msgid "Split the current terminal horizontally"
+msgstr ""
+
+#: ../remotinator.py:41
+msgid "Split the current terminal vertically"
+msgstr ""
+
+#: ../remotinator.py:42
+msgid "Get a list of all terminals"
+msgstr ""
+
+#: ../remotinator.py:43
+msgid "Get the UUID of a parent window"
+msgstr ""
+
+#: ../remotinator.py:44
+msgid "Get the title of a parent window"
+msgstr ""
+
+#: ../remotinator.py:45
+msgid "Get the UUID of a parent tab"
+msgstr ""
+
+#: ../remotinator.py:46
+msgid "Get the title of a parent tab"
+msgstr ""
+
+#: ../remotinator.py:63
+#, python-format
+msgid ""
+"Run one of the following Terminator DBus commands:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../remotinator.py:64
+msgid ""
+"* These entries require either TERMINATOR_UUID environment var,\n"
+"  or the --uuid option must be used."
+msgstr ""
+
+#: ../remotinator.py:66
+msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
