@@ -849,8 +849,7 @@ class Terminal(Gtk.VBox):
             return(False)
 
         if mapping and mapping not in ['close_window', 
-                                       'full_screen', 
-                                       'new_tab']:
+                                       'full_screen']:
             dbg('Terminal::on_keypress: lookup found: %r' % mapping)
             # handle the case where user has re-bound copy to ctrl+<key>
             # we only copy if there is a selection otherwise let it fall through
@@ -1752,6 +1751,9 @@ class Terminal(Gtk.VBox):
 
     def key_new_window(self):
         self.terminator.new_window(self.get_cwd())
+
+    def key_new_tab(self):
+        self.get_toplevel().tab_new(self)
 
     def key_new_terminator(self):
         spawn_new_terminator(self.origcwd, ['-u'])

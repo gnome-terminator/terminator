@@ -79,8 +79,8 @@ class Window(Container, Gtk.Window):
             if options.role:
                 self.set_role(options.role)
             
-            if options.classname is not None:
-                self.set_wmclass(options.classname, self.wmclass_class)
+#            if options.classname is not None:
+#                self.set_wmclass(options.classname, self.wmclass_class)
             
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
@@ -208,8 +208,6 @@ class Window(Container, Gtk.Window):
                         Gdk.Event(Gdk.DELETE)):
                     self.on_destroy_event(window,
                             Gdk.Event(Gdk.DESTROY))
-            elif mapping == 'new_tab':
-                self.tab_new(self.get_focussed_terminal())
             else:
                 return(False)
             return(True)

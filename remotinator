@@ -20,6 +20,7 @@
 
 import os
 import sys
+import argparse
 
 from terminatorlib.util import dbg, err
 try:
@@ -27,40 +28,60 @@ try:
 except ImportError:
     err('Unable to initialise Terminator remote library. This probably means dbus is not available')
     sys.exit(1)
+from terminatorlib.translation import _
 
 APP_NAME='remotinator'
 APP_VERSION='0.97'
 
 COMMANDS={
-        'hsplit': ['terminal_hsplit', 'Split the current terminal horizontally'],
-        'vsplit': ['terminal_vsplit', 'Split the current terminal vertically'],
-        'terminals': ['get_terminals', 'Get a list of all terminals'],
-        'terminal_tab': ['get_terminal_tab', 'Get the UUID of a parent tab'],
-        'terminal_tab_title': ['get_terminal_tab_title', 'Get the title of a parent tab'],
-        }
+    #  Command         uuid req.    Description
+    'new_window':       [False, _('Open a new window')],
+    'new_tab':          [True,  _('Open a new tab')],
+    'hsplit':           [True,  _('Split the current terminal horizontally')],
+    'vsplit':           [True,  _('Split the current terminal vertically')],
+    'get_terminals':    [False, _('Get a list of all terminals')],
+    'get_window':       [True,  _('Get the UUID of a parent window')],
+    'get_window_title': [True,  _('Get the title of a parent window')],
+    'get_tab':          [True,  _('Get the UUID of a parent tab')],
+    'get_tab_title':    [True,  _('Get the title of a parent tab')],
+    }
 
 if __name__ == '__main__':
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
 
-    if sys.argv[0].split('/')[-1] == APP_NAME:
-        if len(sys.argv) <2 or sys.argv[1] in ['-h', '--help']:
-            print "Usage: %s COMMAND" % sys.argv[0]
-            print "  Commands:"
-            for command in COMMANDS:
-                print "    %s : %s" % (command, COMMANDS[command][1])
+    command_desc=''
+    for command in sorted(COMMANDS.keys()):
+        command_desc += "  %-*s  %s %s\n" % (max([len(x) for x in COMMANDS.keys()]),
+                                             command,
+                                             COMMANDS[command][0] and '*' or ' ',
+                                             COMMANDS[command][1])
+
+    # Parse args
+    parser = argparse.ArgumentParser(
+                formatter_class=argparse.RawDescriptionHelpFormatter,
+                usage='%(prog)s command [options]', 
+                description=_('Run one of the following Terminator DBus commands:\n\n%s') % (command_desc), 
+                epilog=_('* These entries require either TERMINATOR_UUID environment var,\n  or the --uuid option must be used.'))
+    parser.add_argument('-u', '--uuid', dest='uuid', type=str, metavar='UUID', default=argparse.SUPPRESS, 
+                help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
+    parser.add_argument('command', type=str, nargs=1, choices=sorted(COMMANDS.keys()),
+                help=argparse.SUPPRESS)
+    parser.add_argument('-v', '--version', action='version', version='%%(prog)s %s' %(APP_VERSION))
+    options = vars(parser.parse_args())     # Straight to dict
+
+    # Pull out the command
+    command = options['command'][0]
+    del options['command']
+
+    func = getattr(ipc, command)
+
+    uuid_required = COMMANDS[command][0]
+    if uuid_required:
+        uuid = options.get('uuid', os.environ.get('TERMINATOR_UUID'))
+        if uuid:
+            func(uuid, options)
+        else:
+            err("$TERMINATOR_UUID is not set, or passed as an option.")
             sys.exit(1)
-        command = sys.argv[1]
     else:
-        command = sys.argv[0].split('/')[-1]
-
-    if not command in COMMANDS or not hasattr(ipc, COMMANDS[command][0]):
-        err("Unknown command: %s" % command)
-        sys.exit(1)
-
-    if not os.environ.has_key('TERMINATOR_UUID'):
-        err("$TERMINATOR_UUID is not set. Are you definitely running inside Terminator?")
-        sys.exit(1)
-
-    func = getattr(ipc, COMMANDS[command][0])
-    func(os.environ['TERMINATOR_UUID'])  
-
+        func(options)

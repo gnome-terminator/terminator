@@ -70,13 +70,11 @@ if __name__ == '__main__':
         # being False will cause us to continue without the dbus server and open a
         # window.
         try:
-            dbg('dbus not fixed for GTK3 yet')
-            raise ImportError
             if OPTIONS.nodbus:
                 dbg('dbus disabled by command line')
                 raise ImportError
             from terminatorlib import ipc
-            from gi import DBus  # VERIFY FOR GTK3
+            import dbus
             try:
                 dbus_service = ipc.DBusService()
             except ipc.DBusException:
@@ -91,13 +89,13 @@ if __name__ == '__main__':
                     if val == True:
                         val = 'True'
                     optionslist[opt] = val and '%s'%val or ''
-                optionslist = DBus.Dictionary(optionslist, signature='ss')  # VERIFY FOR GTK3
+                optionslist = dbus.Dictionary(optionslist, signature='ss')
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
-                    ipc.new_tab(optionslist)
+                    ipc.new_tab_cmdline(optionslist)
                 else:
                     dbg('Requesting a new window')
-                    ipc.new_window(optionslist)
+                    ipc.new_window_cmdline(optionslist)
                 sys.exit()
         except ImportError:
             dbg('dbus not imported')

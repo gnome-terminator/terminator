@@ -3,8 +3,10 @@
 # GPL v2 only
 """ipc.py - DBus server and API calls"""
 
-from gi.repository import Gtk
-from gi.repository import DBus, DBusGLib  # VERIFY/FIXME FOR GTK3: DBusException?? Replace all "dbus" with "DBus" in this file, and stuff??
+from gi.repository import Gdk
+import dbus.service
+from dbus.exceptions import DBusException
+import dbus.glib
 from borg import Borg
 from terminator import Terminator
 from config import Config
@@ -17,8 +19,8 @@ if not CONFIG['dbus']:
     dbg('dbus disabled')
     raise ImportError
 
-BUS_BASE = 'net.tenshu.Terminator'
-BUS_PATH = '/net/tenshu/Terminator'
+BUS_BASE = 'net.tenshu.Terminator2'
+BUS_PATH = '/net/tenshu/Terminator2'
 try:
     # Try and include the X11 display name in the dbus bus name
     DISPLAY  = hex(hash(Gdk.get_display())).replace('-', '_')
@@ -58,7 +60,7 @@ class DBusService(Borg, dbus.service.Object):
             self.terminator = Terminator()
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
-    def new_window(self, options=dbus.Dictionary()):
+    def new_window_cmdline(self, options=dbus.Dictionary()):
         """Create a new Window"""
         dbg('dbus method called: new_window with parameters %s'%(options))
         oldopts = self.terminator.config.options_get()
@@ -68,7 +70,7 @@ class DBusService(Borg, dbus.service.Object):
         self.terminator.layout_done()
             
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
-    def new_tab(self, options=dbus.Dictionary()):
+    def new_tab_cmdline(self, options=dbus.Dictionary()):
         """Create a new tab"""
         dbg('dbus method called: new_tab with parameters %s'%(options))
         oldopts = self.terminator.config.options_get()
@@ -78,35 +80,78 @@ class DBusService(Borg, dbus.service.Object):
         window.tab_new()
 
     @dbus.service.method(BUS_NAME)
-    def terminal_hsplit(self, uuid=None):
-        """Split a terminal horizontally, by UUID"""
-        return self.terminal_split(uuid, True)
+    def new_window(self):
+        """Create a new Window"""
+        terminals_before = set(self.get_terminals())
+        self.terminator.new_window()
+        terminals_after = set(self.get_terminals())
+        new_terminal_set = list(terminals_after - terminals_before)
+        if len(new_terminal_set) != 1:
+            "ERROR: Cannot determine the UUID of the added terminal"
+        else:
+            return new_terminal_set[0]
 
     @dbus.service.method(BUS_NAME)
-    def terminal_vsplit(self, uuid=None):
-        """Split a terminal vertically, by UUID"""
-        return self.terminal_split(uuid, False)
+    def new_tab(self, uuid=None):
+        """Create a new tab"""
+        return self.new_terminal(uuid, 'tab')
 
-    def terminal_split(self, uuid, horiz):
+    @dbus.service.method(BUS_NAME)
+    def hsplit(self, uuid=None):
+        """Split a terminal horizontally, by UUID"""
+        return self.new_terminal(uuid, 'hsplit')
+
+    @dbus.service.method(BUS_NAME)
+    def vsplit(self, uuid=None):
+        """Split a terminal vertically, by UUID"""
+        return self.new_terminal(uuid, 'vsplit')
+
+    def new_terminal(self, uuid, type):
         """Split a terminal horizontally or vertically, by UUID"""
-        dbg('dbus method called: terminal_hsplit')
+        dbg('dbus method called: %s' % type)
         if not uuid:
             return "ERROR: No UUID specified"
         terminal = self.terminator.find_terminal_by_uuid(uuid)
+        terminals_before = set(self.get_terminals())
         if not terminal:
             return "ERROR: Terminal with supplied UUID not found"
-        if horiz:
+        elif type == 'tab':
+            terminal.key_new_tab()
+        elif type == 'hsplit':
             terminal.key_split_horiz()
-        else:
+        elif type == 'vsplit':
             terminal.key_split_vert()
+        else:
+            return "ERROR: Unknown type \"%s\" specified" % (type)
+        terminals_after = set(self.get_terminals())
+        # Detect the new terminal UUID
+        new_terminal_set = list(terminals_after - terminals_before)
+        if len(new_terminal_set) != 1:
+            return "ERROR: Cannot determine the UUID of the added terminal"
+        else:
+            return new_terminal_set[0]
 
     @dbus.service.method(BUS_NAME)
-    def get_terminals(self, uuid):
+    def get_terminals(self):
         """Return a list of all the terminals"""
         return [x.uuid.urn for x in self.terminator.terminals]
 
     @dbus.service.method(BUS_NAME)
-    def get_terminal_tab(self, uuid):
+    def get_window(self, uuid=None):
+        """Return the UUID of the parent window of a given terminal"""
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        window = terminal.get_toplevel()
+        return window.uuid.urn
+
+    @dbus.service.method(BUS_NAME)
+    def get_window_title(self, uuid=None):
+        """Return the title of a parent window of a given terminal"""
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        window = terminal.get_toplevel()
+        return window.get_title()
+
+    @dbus.service.method(BUS_NAME)
+    def get_tab(self, uuid=None):
         """Return the UUID of the parent tab of a given terminal"""
         maker = Factory()
         terminal = self.terminator.find_terminal_by_uuid(uuid)
@@ -116,7 +161,7 @@ class DBusService(Borg, dbus.service.Object):
             return root_widget.uuid.urn
 
     @dbus.service.method(BUS_NAME)
-    def get_terminal_tab_title(self, uuid):
+    def get_tab_title(self, uuid=None):
         """Return the title of a parent tab of a given terminal"""
         maker = Factory()
         terminal = self.terminator.find_terminal_by_uuid(uuid)
@@ -135,37 +180,57 @@ def with_proxy(func):
     return _exec
 
 @with_proxy
+def new_window_cmdline(session, options):
+    """Call the dbus method to open a new window"""
+    session.new_window_cmdline(options)
+
+@with_proxy
+def new_tab_cmdline(session, options):
+    """Call the dbus method to open a new tab in the first window"""
+    session.new_tab_cmdline(options)
+
+@with_proxy
 def new_window(session, options):
     """Call the dbus method to open a new window"""
-    session.new_window(options)
+    print session.new_window()
 
 @with_proxy
-def new_tab(session, options):
+def new_tab(session, uuid, options):
     """Call the dbus method to open a new tab in the first window"""
-    session.new_tab(options)
+    print session.new_tab(uuid)
 
 @with_proxy
-def terminal_hsplit(session, uuid):
+def hsplit(session, uuid, options):
     """Call the dbus method to horizontally split a terminal"""
-    session.terminal_hsplit(uuid)
+    print session.hsplit(uuid)
 
 @with_proxy
-def terminal_vsplit(session, uuid):
+def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
-    print session.terminal_vsplit(uuid)
+    print session.vsplit(uuid)
 
 @with_proxy
-def get_terminals(session, uuid):
+def get_terminals(session, options):
     """Call the dbus method to return a list of all terminals"""
-    print '\n'.join(session.get_terminals(uuid))
+    print '\n'.join(session.get_terminals())
 
 @with_proxy
-def get_terminal_tab(session, uuid):
+def get_window(session, uuid, options):
     """Call the dbus method to return the toplevel tab for a terminal"""
-    print session.get_terminal_tab(uuid)
+    print session.get_window(uuid)
 
 @with_proxy
-def get_terminal_tab_title(session, uuid):
+def get_window_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
-    print session.get_terminal_tab_title(uuid)
+    print session.get_window_title(uuid)
+
+@with_proxy
+def get_tab(session, uuid, options):
+    """Call the dbus method to return the toplevel tab for a terminal"""
+    print session.get_tab(uuid)
+
+@with_proxy
+def get_tab_title(session, uuid, options):
+    """Call the dbus method to return the title of a tab"""
+    print session.get_tab_title(uuid)
 
