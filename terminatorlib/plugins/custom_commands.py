@@ -14,7 +14,7 @@ from gi.repository import GObject
 import terminatorlib.plugin as plugin
 from terminatorlib.config import Config
 from terminatorlib.translation import _
-from terminatorlib.util import get_config_dir, err, dbg
+from terminatorlib.util import get_config_dir, err, dbg, gerr
 
 (CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = range(0,3)
 
@@ -295,19 +295,6 @@ class CustomCommandsMenu(plugin.MenuItem):
       dialog.show_all()
       return (dialog,enabled,name,command)
 
-    def _error(self, msg):
-      err = Gtk.MessageDialog(dialog,
-                              Gtk.DialogFlags.MODAL,
-                              Gtk.MessageType.ERROR,
-                              Gtk.ButtonsType.CLOSE,
-                              msg
-                            )
-      err.run()
-      err.destroy()
-
-      
-
-
     def on_new(self, button, data):
       (dialog,enabled,name,command) = self._create_command_dialog()
       res = dialog.run()
@@ -338,7 +325,7 @@ class CustomCommandsMenu(plugin.MenuItem):
           if not name_exist:
             store.append((item['enabled'], item['name'], item['command']))
           else:
-            self._err(_("Name *%s* already exist") % item['name'])
+            gerr(_("Name *%s* already exist") % item['name'])
       dialog.destroy()
 
     def on_goto_top(self, button, data):
@@ -450,7 +437,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                       CC_COL_COMMAND, item['command']
                       )
           else:
-            self._err(_("Name *%s* already exist") % item['name'])
+            gerr(_("Name *%s* already exist") % item['name'])
 
       dialog.destroy()
  
