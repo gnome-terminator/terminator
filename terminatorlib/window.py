@@ -208,8 +208,6 @@ class Window(Container, gtk.Window):
                         gtk.gdk.Event(gtk.gdk.DELETE)):
                     self.on_destroy_event(window,
                             gtk.gdk.Event(gtk.gdk.DESTROY))
-            elif mapping == 'new_tab':
-                self.tab_new(self.get_focussed_terminal())
             else:
                 return(False)
             return(True)

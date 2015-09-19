@@ -1,10 +1,24 @@
 terminator trunk:
   * Features
   * Enhancements
+    * As part of GTK3 fixup, some backported improvements to the DBus
+      interface, and remotinator (Steve Boddy)
+      * Can now open a window or tab using remotinator
+      * Can get the window uuid, or title using remotinator
+      * Moved new tab key handling into the terminal for consistency
+      * Standardise response when a new term is created (split, win
+        or tab) to reply with new terms uuid
+      * For GTK3 gave the DBus a slightly different name so they it
+        can run at same time as GTK2
+      * remotinator now uses argparse for commandline option handling,
+        vastly improving the option handling
+      * remotinator help strings are translatable now
   * Bug fixes
     * Fix for those not running IBus, where the IBus workaround caused
       broken keys in other keymaps set with non-IBus tools (Steve
       Boddy, LP#1494606)
+    * Fix custom commands to use the standard gerr function instead
+      of the broken local one (Steve Boddy)
 
 terminator 0.98:
   * Features
