@@ -1,8 +1,13 @@
-terminator (0.98) trusty; urgency=low
+terminator (0.98) precise; urgency=medium
 
   * New upstream release of 0.98
+  * Sync up with Debian packaging
+    + Update homepage
+    + Revise copyright file
+    + Use canonical URIs for Vcs-* fields
+    + Update regular expression in watch
 
- -- Stephen Boddy <stephen.j.boddy@gmail.com>  Wed, 26 Aug 2015 20:28:10 +0200
+ -- Bryce Harrington <bryce@ubuntu.com>  Sat, 19 Sep 2015 18:41:57 -0700
 
 terminator (0.97~ppa3) saucy; urgency=low
 
