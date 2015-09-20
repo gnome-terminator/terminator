@@ -6,6 +6,12 @@ terminator (0.98) precise; urgency=medium
     + Revise copyright file
     + Use canonical URIs for Vcs-* fields
     + Update regular expression in watch
+    + Bump Standards-Version to 3.9.5 (no changes).
+    + Migrate from cdbs to dh.
+    + Add python-dbus to Depends.
+    + Bump Standards Version to 3.9.4.
+    + Bump debhelper version to 9.
+    + Bump compat level 5 to 9.
 
  -- Bryce Harrington <bryce@ubuntu.com>  Sat, 19 Sep 2015 18:41:57 -0700
 

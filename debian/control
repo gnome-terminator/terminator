@@ -5,11 +5,10 @@ Maintainer: Nicolas Valcárcel Scerpella <nvalcarcel@gmail.com>
 Uploaders: Rudy Godoy Guillén <rudy@debian.org>,
  Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>,
  Julián Moreno Patiño <julian@debian.org>
-Build-Depends: debhelper (>= 5.0.62), cdbs (>= 0.4.49),
+Build-Depends: debhelper (>= 9),
  intltool,
- python
+ python (>= 2.6.6-3~)
 X-Python-Version: >= 2.5
-Build-Depends-Indep: python-support (>= 0.5.3) 
 Standards-Version: 3.9.5
 Vcs-Svn: svn://anonscm.debian.org/python-apps/packages/terminator/trunk/
 Vcs-Browser: http://anonscm.debian.org/viewvc/python-apps/packages/terminator/trunk/
@@ -18,15 +17,14 @@ Homepage: http://gnometerminator.blogspot.com/p/introduction.html
 Package: terminator
 Architecture: all
 Depends: gconf2,
- python-psutil, libgtk2.0-bin, hicolor-icon-theme,
+ python-dbus,
  python-gobject,
  python-gtk2 (>= 2.14.0),
  python-vte,
  ${misc:Depends},
  ${python:Depends}
-XB-Python-Version: ${python:Versions}
 Provides: x-terminal-emulator
-Recommends: python-gnome2, python-keybinder, xdg-utils
+Recommends: python-gnome2, python-keybinder, python-notify, xdg-utils
 Description: multiple GNOME terminals in one window
  Terminator is a little project to produce an efficient way of
  filling a large area of screen space with terminals.

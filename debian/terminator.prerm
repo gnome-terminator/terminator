@@ -5,8 +5,6 @@ set -e
 if [ "$1" = remove ]; then
         update-alternatives --remove terminator /usr/bin/terminator || true
         update-alternatives --remove x-terminal-emulator /usr/bin/terminator
-        update-alternatives --remove terminator.wrapper /usr/bin/terminator.wrapper || true
-        update-alternatives --remove x-terminal-emulator /usr/bin/terminator.wrapper
 fi
 
 #DEBHELPER#
