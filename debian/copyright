@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: terminator
-Upstream-Contact: Chris Jones <cmsj@tenshu.net>
+Upstream-Contact: Stephen Boddy <stephen.j.boddy@googlemail.com>
 Source: https://launchpad.net/terminator/+download
 
 Files: *

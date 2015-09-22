@@ -1,6 +1,27 @@
+terminator (0.98~ppa8) wily; urgency=medium
+
+  * No-change upload for wily
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Mon, 21 Sep 2015 22:09:34 -0700
+
+terminator (0.98~ppa7) vivid; urgency=medium
+
+  * No-change upload for vivid
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Mon, 21 Sep 2015 22:08:58 -0700
+
+terminator (0.98~ppa6) trusty; urgency=medium
+
+  * copyright: Change upstream maintainer to Stephen Boddy
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Sun, 20 Sep 2015 14:21:38 -0700
+
 terminator (0.98) precise; urgency=medium
 
-  * New upstream release of 0.98
+  * New upstream release of 0.98.  Remaining changes:
+    + Add missing dependency on psutil to check for IBus running.
+    + Workaround debian compression of font files.
+    + Add terminator.wrapper to fix blurry/incorrect icons in task switchers.
   * Sync up with Debian packaging
     + Update homepage
     + Revise copyright file
