@@ -18,6 +18,7 @@ Package: terminator
 Architecture: all
 Depends: gconf2,
  python-dbus,
+ python-psutil,
  python-gobject,
  python-gtk2 (>= 2.14.0),
  python-vte,
