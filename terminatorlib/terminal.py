@@ -77,6 +77,10 @@ class Terminal(gtk.VBox):
 
     TARGET_TYPE_VTE = 8
 
+    LEFT_CLICK = 1
+    MIDDLE_CLICK = 2
+    RIGHT_CLICK = 3    
+
     terminator = None
     vte = None
     terminalbox = None
@@ -896,17 +900,25 @@ class Terminal(gtk.VBox):
             # Suppress double-click behavior
             return True
 
-        if event.button == 1:
+        if self.config['putty_paste_style']:
+            btn_to_paste        = self.RIGHT_CLICK
+            btn_to_context_menu = self.MIDDLE_CLICK
+        else:
+            btn_to_paste        = self.MIDDLE_CLICK
+            btn_to_context_menu = self.RIGHT_CLICK
+
+
+        if event.button == self.LEFT_CLICK:
             # Ctrl+leftclick on a URL should open it
             if event.state & gtk.gdk.CONTROL_MASK == gtk.gdk.CONTROL_MASK:
                 url = self.check_for_url(event)
                 if url:
                     self.open_url(url, prepare=True)
-        elif event.button == 2:
+        elif event.button == btn_to_paste:
             # middleclick should paste the clipboard
             self.paste_clipboard(True)
             return(True)
-        elif event.button == 3:
+        elif event.button == btn_to_context_menu:
             # rightclick should display a context menu if Ctrl is not pressed
             if event.state & gtk.gdk.CONTROL_MASK == 0:
                 self.popup_menu(widget, event)

@@ -242,6 +242,7 @@ DEFAULTS = {
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
                 'copy_on_selection'     : False,
+                'putty_paste_style'     : False,
                 'alternate_screen_scroll': True,
                 'split_to_group'        : False,
                 'autoclean_groups'      : True,
