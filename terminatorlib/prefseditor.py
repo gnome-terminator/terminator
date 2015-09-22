@@ -425,6 +425,9 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
+        # Putty paste style
+        widget = guiget('putty_paste_style')
+        widget.set_active(self.config['putty_paste_style'])
         # Word chars
         widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
@@ -720,6 +723,11 @@ class PrefsEditor:
     def on_copy_on_selection_toggled(self, widget):
         """Copy on selection setting changed"""
         self.config['copy_on_selection'] = widget.get_active()
+        self.config.save()
+
+    def on_putty_paste_style_toggled(self, widget):
+        """Putty paste style setting changed"""
+        self.config['putty_paste_style'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):

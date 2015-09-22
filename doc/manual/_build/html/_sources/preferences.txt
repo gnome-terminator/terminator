@@ -256,6 +256,11 @@ a separate window launched from the menu bar.
   This puts the selection into the copy/paste buffer, as well as being
   available on middle-click.
 
+**Putty paste style** (default: off)
+
+  Make right mouse button in Putty-style: right button - paste from 
+  clipboard, middle - open popup (for ex-Putty users).
+
 **Select-by-word characters** (default: ``-A-Za-z0-9,./?%&#:_``)
 
   Using double-click to select text will use this pattern to define
