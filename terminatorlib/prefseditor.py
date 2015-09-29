@@ -406,6 +406,9 @@ class PrefsEditor:
         # Icon terminal bell
         widget = guiget('icon_bell_checkbutton')
         widget.set_active(self.config['icon_bell'])
+        # Visual terminal bell
+        widget = guiget('visual_bell_checkbutton')
+        widget.set_active(self.config['visible_bell'])
         # Audible terminal bell
         widget = guiget('audible_bell_checkbutton')
         widget.set_active(self.config['audible_bell'])
@@ -701,6 +704,11 @@ class PrefsEditor:
     def on_icon_bell_checkbutton_toggled(self, widget):
         """Icon bell setting changed"""
         self.config['icon_bell'] = widget.get_active()
+        self.config.save()
+
+    def on_visual_bell_checkbutton_toggled(self, widget):
+        """Visual bell setting changed"""
+        self.config['visible_bell'] = widget.get_active()
         self.config.save()
 
     def on_audible_bell_checkbutton_toggled(self, widget):

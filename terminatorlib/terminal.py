@@ -744,7 +744,8 @@ class Terminal(Gtk.VBox):
             self.vte.set_audible_bell(self.config['audible_bell'])
             self.cnxids.remove_signal(self.vte, 'bell')
             if self.config['urgent_bell'] == True or \
-               self.config['icon_bell'] == True:
+               self.config['icon_bell'] == True or \
+               self.config['visible_bell'] == True:
                 try:
                     self.cnxids.new(self.vte, 'bell', self.on_bell)
                 except TypeError:
@@ -1515,13 +1516,43 @@ class Terminal(Gtk.VBox):
         return((self.vte.get_column_count(), self.vte.get_row_count()))
 
     def on_bell(self, widget):
-        """Set the urgency hint for our window"""
+        """Set the urgency hint/icon/flash for our window"""
         if self.config['urgent_bell'] == True:
             window = self.get_toplevel()
             if window.is_toplevel():
                 window.set_urgency_hint(True)
         if self.config['icon_bell'] == True:
             self.titlebar.icon_bell()
+        if self.config['visible_bell'] == True:
+            # Repurposed the code used for drag and drop overlay to provide a visual terminal flash
+            alloc = widget.get_allocation()
+
+            if self.config['use_theme_colors']:
+                color = self.vte.get_style_context().get_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3 as above
+            else:
+                color = Gdk.RGBA()
+                color.parse(self.config['foreground_color'])  # VERIFY FOR GTK3
+
+            coord = ( (0, 0), (alloc.width, 0), (alloc.width, alloc.height), (0, alloc.height))
+
+            #here, we define some widget internal values
+            widget._draw_data = { 'color': color, 'coord' : coord }
+            #redraw by forcing an event
+            connec = widget.connect_after('draw', self.on_draw)
+            widget.queue_draw_area(0, 0, alloc.width, alloc.height)
+            widget.get_window().process_updates(True)
+            #finaly reset the values
+            widget.disconnect(connec)
+            widget._draw_data = None
+
+            # Add timeout to clean up display
+            GObject.timeout_add(100, self.on_bell_cleanup, widget, alloc)
+
+    def on_bell_cleanup(self, widget, alloc):
+        '''Queue a redraw to clear the visual flash overlay'''
+        widget.queue_draw_area(0, 0, alloc.width, alloc.height)
+        widget.get_window().process_updates(True)
+        return False
 
     def describe_layout(self, count, parent, global_layout, child_order):
         """Describe our layout"""
