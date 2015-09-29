@@ -93,6 +93,12 @@ Behaviour
       receive keystrokes.
     - *None* - Only the current terminal receives keystrokes.
 
+  **PuTTY style paste** (default: off)
+
+    Make the right mouse button operate like in PuTTY, so ``right-click``
+    will paste the Primary selection, and ``middle-click`` will open
+    the :ref:`Context Menu <context-menu>`. (For ex-PuTTY users).
+
   **Re-use profiles for new terminals** (default: off)
 
     When creating a new terminal with splitting or new tabs, if this is

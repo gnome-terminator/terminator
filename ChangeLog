@@ -13,12 +13,16 @@ terminator trunk:
       * remotinator now uses argparse for commandline option handling,
         vastly improving the option handling
       * remotinator help strings are translatable now
+      * PuTTY paste mode (Nemilya, LP#1416682) with some alterations
+        (Steve Boddy)
   * Bug fixes
     * Fix for those not running IBus, where the IBus workaround caused
       broken keys in other keymaps set with non-IBus tools (Steve
       Boddy, LP#1494606)
     * Fix custom commands to use the standard gerr function instead
       of the broken local one (Steve Boddy)
+    * Workaround for intltool not handling Python files without an
+      extension (Steve Boddy)
 
 terminator 0.98:
   * Features
