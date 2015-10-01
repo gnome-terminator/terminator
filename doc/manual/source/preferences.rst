@@ -61,7 +61,7 @@ Behaviour
     The first window opened will not be displayed in the taskbar.
     Subsequent windows will show in the taskbar (bug?).
 
-  **Window geometry hints** (default: on)
+  **Window geometry hints** (default: off)
 
     If this is checked, then when resizing Terminator will attempt to
     step the sizing by the current font, and display a small box with the
@@ -107,7 +107,7 @@ Behaviour
 
   **Use custom URL handler** (default: off)
 
-    If this is enabled then Ctrl+left-mouse-click on a URL will try to use
+    If this is enabled then ``Ctrl``\ +\ ``click`` on a URL will try to use
     the command defined in *Custom URL handler* to open the link. If not
     enabled, Terminator will attempt to open the link with its internal
     logic.
@@ -264,7 +264,7 @@ a separate window launched from the menu bar.
 
 **Select-by-word characters** (default: ``-A-Za-z0-9,./?%&#:_``)
 
-  Using double-click to select text will use this pattern to define
+  Using ``double-click`` to select text will use this pattern to define
   what characters are considered part of the word.
 
 """"""
@@ -645,7 +645,7 @@ Keybindings
 This is a list of all available keyboard shortcuts in the application.
 
 To change a keybinding, first highlight the entry you wish to change.
-Next click on the *Keybinding* column again. The entry should change
+Next ``click`` on the *Keybinding* column again. The entry should change
 to **New accelerator...**. Simply perform the shortcut you wish to
 set. If you change your mind use ``Esc`` (Escape) key to revert back
 to the existing shortcut. If you wish to delete a shortcut, use the

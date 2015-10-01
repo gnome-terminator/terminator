@@ -210,6 +210,10 @@ Here you will see the port number, and you can simply use::
              This should turn off the output, and let you explore the
              internal structure more easily.
 
+.. warning:: Using the ``-dd`` option will make the :ref:`dbus`
+             interface problematic. Any attempt to use :ref:`remotinator`
+             will hang the main application.
+
 The debug options and their usage are detailed
 :ref:`here <command-line-options-debugging>`.
 
@@ -258,24 +262,56 @@ Remotinator is a minimal wrapper around making DBus calls, and is
 typically run from *within* a Terminator terminal. This is not
 strictly necessary, but if not you will have to do some extra work
 to determine the valid UUID of a current terminal and pass it as the
-``TERMINATOR_UUID`` environment variable. Remotinator is called with::
+``TERMINATOR_UUID`` environment variable, or as the value to the
+``-u``\ /\ ``--uuid`` option. Remotinator is called within Terminator
+with::
 
   $ remotinator <command>
 
+or with one of the following::
+
+  $ remotinator --uuid <UUID> <command>
+  $ TERMINATOR_UUID=<UUID> remotinator <command>
+  $ export TERMINATOR_UUID=<UUID>; remotinator <command>
+
+to force the UUID, or call it from outside Terminator.
+
 The following commands are currently enabled:
 
-- **hsplit** - Split the current terminal horizontally
-- **vsplit** - Split the current terminal vertically
-- **terminals** - Get a list of all terminals
-- **terminal_tab** - Get the UUID of a parent tab
-- **terminal_tab_title** - Get the title of a parent tab
++-----------------------+-----------------------------------------+
+| Command               | Action                                  |
++=======================+=========================================+
+| get_tab [1]_          | Get the UUID of a parent tab            |
++-----------------------+-----------------------------------------+
+| get_tab_title [1]_    | Get the title of a parent tab           |
++-----------------------+-----------------------------------------+
+| get_terminals         | Get a list of all terminals             |
++-----------------------+-----------------------------------------+
+| get_window [1]_       | Get the UUID of a parent window         |
++-----------------------+-----------------------------------------+
+| get_window_title [1]_ | Get the title of a parent window        |
++-----------------------+-----------------------------------------+
+| hsplit [1]_           | Split the current terminal horizontally |
++-----------------------+-----------------------------------------+
+| new_tab [1]_          | Open a new tab                          |
++-----------------------+-----------------------------------------+
+| new_window            | Open a new window                       |
++-----------------------+-----------------------------------------+
+| vsplit [1]_           | Split the current terminal vertically   |
++-----------------------+-----------------------------------------+
 
-Calling Remotinator without a command will print the options to the
-terminal.
+.. [1] These entries require either TERMINATOR_UUID environment var,
+       or the --uuid option must be used.
+
+Calling Remotinator without a command or with the ``-h`` will print
+the options and available commands to the terminal.
 
 .. note:: Because a layout (unless launched from the command line as
           as the first instance) is normally launched as a separate
           instance requiring the ``-u``, Remotinator will not work
           within layouts. As mentioned in the :ref:`dbus` section,
           this has the potential to be improved upon.
+
+There is a lot of scope for expanding this feature, and it is relatively
+simple to do, so is an ideal task for dipping ones toes.
 

@@ -424,12 +424,18 @@ scrollback buffer with more flexibility:
 +---------------------+----------+-------------------------------------+
 | Half page [TS]_     | Up, Down |                                     |
 +---------------------+----------+-------------------------------------+
-| Line [TS]_          | Up, Down |                                     |
+| Line [TS]_ [MS]_    | Up, Down |                                     |
 +---------------------+----------+-------------------------------------+
 
-.. [VS] Default actions from VTE that are not configurable.
-.. [XL] Where X may vary depending on distribution. On mine it is 4.
-.. [TS] Additional movement options from Terminator that are configurable.
+.. [VS] **VTE Shortcuts:** Default actions from VTE that are not configurable.
+.. [XL] **X Lines:** Where X may vary depending on distribution. On mine
+        it is 4.
+.. [TS] **Terminator Shortcuts:** Additional movement options from Terminator
+        that are configurable.
+.. [MS] **Masked Shortcuts:** VTE provides default shortcuts for line up/down,
+        on ``Shift``\ +\ ``Ctrl``\ +\ ``Arrow Up/Dn``, but they are masked
+        by shortcuts for resizing terminals. You can disable or reassign
+        the resizing shortcuts to regain access to the VTE default.
 
 -----------------------------------
 Search the buffer

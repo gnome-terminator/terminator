@@ -158,6 +158,11 @@ something is an issue, such as:
 Bugs
 -----------------------------
 
+Bugs (and feature requests) are raised and dealt with in the Launchpad
+`bugs`_ page.
+
+.. _bugs: https://bugs.launchpad.net/terminator
+
 - **Fixing** - OK, so yeah, this is coding.
 - **Reproduce and improving** - Sometimes bugs are lacking info to
   reproduce, or my system is too different. Or perhaps the original
@@ -167,8 +172,119 @@ Bugs
   gotta do it. Shepherd bugs to the point where it has a priority,
   a milestone, reproduction steps, confirmation, submitted patches
   validated, and so on.
+- **Raising** - If you have searched and cannot find your bug, you
+  can raise a new one.
 
-See https://bugs.launchpad.net/terminator
+Feature requests are initially raised as bugs, and if it passes the
+rather undefined criteria, it will be marked as a **wishlist** item.
+
+Bug handling
+^^^^^^^^^^^^
+I have had one person (possibly others) who are hesitant to use the
+status' because they've been "told off" by the developers of other
+projects, and people/projects are often different in how they want to
+handle bugs. So, with that in mind, let me present my idea of how a
+bug should be handled. First a pretty picture:
+
+.. image:: imgs/launchpad_bugflow.png
+
+So, the darker blue states are the ones available in Launchpad that
+can be manually set. The two marked with a red outline require bug
+supervisor role to set, which means a member of the Terminator team.
+The pale blue states are ones that I personally feel should be there,
+but are missing. I'll explain my intention with those in the
+appropriate sections below. The grey state is set automatically only,
+and cannot be set by anyone.
+
+Initial/New
+~~~~~~~~~~~
+When you the user create a bug it goes into **New**. If another user
+clicks the *This bug affects you* link, this gets moved to **Confirmed**.
+
+Investigation
+~~~~~~~~~~~~~
+If I (or indeed someone else) go to a *New* or *Confirmed* bug, and
+are unable to reproduce it then it will be marked **Incomplete**, and
+someone (preferably the original raiser, but it can be someone else
+affected) needs to revisit and provide the requested additional info.
+Ideally when that is added there would be a *New Info* (or similar)
+state that the user would set the bug to, and then the dashed line
+would be taken.
+
+Because we don't have this state, we "skip" straight through and abuse
+the **Confirmed** state. Set the bug (back) to **Confirmed**, and
+assign the official tag *new-info*. Once the ticket is reviewed the
+tag will be removed, and a new state assigned, possibly even
+*Incomplete* again.
+
+Note that I am aware of the two *Incomplete* options for with and
+without response, but the way it works is unclear, and I can't switch
+between the two myself, and it is not clear when Launchpad switches
+it. So, I'll be ignoring them and treating *Incomplete* as a single
+state.
+
+Acceptance
+~~~~~~~~~~
+At this point the bug should provide enough information to be
+reproducible. Only a supervisor can set an issue to **Triaged**. This
+state says, "Yes, the information provided either permits me to
+reproduce myself, or see what went wrong from provided logs, config,
+etc." Typically they go here when I don't have the time to start
+working on an immediate fix.
+
+Alternatively I (or anyone) could start working on a bug. Ideally the
+issue should be set to **In Progress**, and assigned to the person
+picking it up. That way, two people don't work on the same issue.
+
+Sometimes, for trivial or interesting bugs, they might get looked at
+and fixed so fast that they skip all *Acceptance* categories, and go
+straight to one of the *Resolved* states.
+
+Resolved
+~~~~~~~~
+**Fix Committed** is for when a fix is pushed to the main Launchpad
+bazaar repository and typically I do this. If you create a contribution
+via a branch, and commit to your branch, do not set to this yourself.
+Instead associate the bug with the branch, and request a merge. When
+I do the merge I will also set the bug to *Fix Committed*.
+
+An **Invalid** bug is usually because the user didn't understand
+something, or it is in fact a support request.
+
+Only a bug supervisor can set an issue to **Won't Fix**. It is the
+supervisors way of ending the discussion when it is felt that a bug
+does not fit the projects plans, but someone can't `let it go`_.
+
+**Opinion** is typically when the user and I have a different
+expectation about behaviour or a new feature, or I think that something
+being proposed would actually be a negative for Terminator. Unlike
+*Won't Fix*, this can still be discussed within the ticket.
+
+**Not Responsible** is our second missing virtual state. For me this
+is when, for example, an issue actually resides in *libvte*, or *GTK*.
+Again, there is a new official tag *not-responsible*, and the bug
+will actually end up set to *Invalid*.
+
+The final virtual state is **No Action**, which is for various reasons.
+Sometimes other work has resolved an issue already, or the user was
+using an old version, and the fix is already in trunk or released.
+Again there is a new official tag *no-action*. These will then be put
+in one of the following: *Invalid*, *Fix Committed*, or *Fix Released*,
+depending on circumstance.
+
+Our last Resolved state is the automatically set **Expired** one.
+
+Available
+~~~~~~~~~
+The last state is **Fix Released**, indicating that there has been a
+release containing a fix to the issue.
+
+Of course this flow and states are not set in stone. A bug can be
+brought out of *Expired* if necessary. Or back from *In Progress* to
+*Confirmed* or *Triaged* if the assignee decides to stop working on
+the bug for some reason.
+
+.. _let it go: https://www.youtube.com/watch?v=L0MK7qz13bU#t=1m05s
 
 -----------------------------
 Plugins
@@ -188,7 +304,7 @@ Oh come on... Coding? Again!
 I see lots of people say how Terminator is really good, and it is,
 but like anything, it could be better!
 
-To give an idea, as I write this manual in July 2015, there are 83
+To give an idea, as of October 2015, revision 1663, there are 86
 `wishlist items`_.
 
 .. note:: Just because an item is marked as wishlist, it doesn't
@@ -202,7 +318,7 @@ To give an idea, as I write this manual in July 2015, there are 83
           merged.
 
 Some of these wishlist items are also in my own text file of "Things
-to do" / "Big bag of crazy", which as of August 2015, revision 1598,
+to do" / "Big bag of crazy", which as of October 2015, revision 1663,
 looks like this::
 
     Enhancements which may or may not have a wishlist item
@@ -214,6 +330,15 @@ looks like this::
             http://people.canonical.com/~dpm/api/devel/GIR/python/Unity-3.0.html
             Possibly use the progress bar and or counter for something too.
         Add an appindicator menu for launching sessions.
+        If we can figure out how to do arbritrary highlighting, perhaps we can get a "highlight differences" mode like used to exist in ClusTerm.
+            This could also be limted to highlighting diffs between those in the same group.
+        Synchronised scroll based on groups
+        Triggers (actions) based on regex for received text
+        A "swap" mode for drag and drop
+        Encrypted dumping/logging to disk
+
+    Search
+        Might be able to missuse the ClusTerm method of overwriting to "highlight" (gtk2 only)
 
     Layouts
         Layout Launcher
@@ -236,6 +361,7 @@ looks like this::
                 Store the custom command and working directory when we load a layout, so making small changes and saving doesn't lose everything.
                 It could be possible to detect the current command and working directory with psutil, but could be tricky. (i.e. do we ignore bash?)
         A per layout "save on exit" option to always remember last setup/positions etc. Probably requires above to be done first.
+        A per layout shortcut launch hotkey
 
     Missing shortcuts:
         Just shortcut:
@@ -262,7 +388,7 @@ looks like this::
         right-click menu replicating GNOME-Terminals (move left/right, close, rename)
 
     Menus
-        Add acellerators (i.e. "Shift+Ctr+O") might look too cluttered.
+        Add accelerators (i.e. "Shift+Ctr+O") might look too cluttered.
 
     Preferences
         Profiles
@@ -272,22 +398,20 @@ looks like this::
             Terminal title editable
             Button in prefs to duplicate a layout
             Ordering in list
+            Working directory - add dialog too, see http://stackoverflow.com/questions/10868167/make-filechooserdialog-allow-user-to-select-a-folder-directory
         Keybindings
             Add a list of the default keybindings to the Preferences -> Keybindings window?
         Option for close_button_on_tab in prefs. (needs tab right-click menu first
         Option to rebalance siblings on a split (don't think children or ancestors make sense)
         Figure out how to get the tree view to jump to selected row for prefseditor
 
-    Config file
-        Items should be sorted for saving. Easier for comparing and spotting changes.
-
     Plugins
         Give plugins ability to register shortcuts
         Custom Commands is blocking, perhaps make non-blocking
 
     Drag and Drop
-        Terminal without target opens new window
-        Tab to different/new window depending on target
+        LP#0768520: Terminal without target opens new window
+        LP#1471009: Tab to different/new window depending on target
 
     Major architectural
         Improve DBus interface, add coordination between sessions, i.e.:
@@ -317,31 +441,6 @@ looks like this::
     For me the two different sets of next/prev shortcuts are a bit of a mystery.
 
     Let window title = terminal titlebar - perhaps other combos. Some kind of %T %G %W substitution?
-
-    If we can figure out how to do arbritrary highlighting, perhaps we can get a "highlight differences" mode like used to exist in ClusTerm.
-        This could also be limted to highlighting diffs between those in the same group.
-
-
-    Issues encountered where not aware of any LP bug
-    ================================================
-
-    BUG: Zoom and maximise do not work if single terminal in a tab, gtk2 & gtk3. Intentional?
-
-    BUG: Zoom on a split non-maximised window on just one terminal causes window size changes if zoomed terminal font is
-         bigger that the non-zoomed window.
-
-    BUG: Groups: Create two tabs with splits. Super+G (group all), move to other tab and Super+T (group tabs), move back and type
-        Output in tab group too. Also for custom groups.
-        Ungrouping all also nukes changed groups. Right?
-        Also with Super+T and changing one terms group, still receives input, and loses custom group when turning off tab group.
-
-    BUG: Hide on lose focus broken. LP#843674
-        focus-out signal callback defers (idle_add) the call to hide.
-        If one of our own windows/menus pops up, an inhibit flag is set.
-        When the window/menu is closed we call a deferred hide on the main window
-        In the deferred function, we check if we now have focus, and do not hide
-        In the deferred function, we check if inhibit is set and do not hide
-        Could create a popup_menu subclass that sets the inhibiter
 
 So as you can see, still lots of room for improvements, and plenty of
 ideas if you are trying to find small starter tasks.
@@ -377,41 +476,39 @@ thing lit up with a smorgasbord of items where my installed packages
 were not new enough.
 
 If you are feeling brave and adventurous, there are some instructions
-in `comment #15`_ of the `porting bug`_ that will help you get the
-GTK3 version running. Assistance knocking off the remaining rough
-edges will be very much appreciated.
+in this `blog post`_ that will help you get the GTK3 version running.
+Assistance knocking off the remaining rough edges will be very much
+appreciated.
 
-For the record, as of August 2015, with the `gtk3 branch`_ at revision
-1577, these are the outstanding items::
+For the record, as of October 2015, with the `gtk3 branch`_ at revision
+1612, these are the outstanding items::
 
-    Outstanding GTK3 tasks/items/reviews etc remaining
-    ===================================================
-    Outstanding trunk revisions: 1599-1602 (minus manual, that comes later), 1613-1615, 1617
-    If titlebar text wider than window, the visual bell icon does not appear
-    If editing label in titlebar, the whole layout gets distorted until finished, then snaps back to mostly correct layout
-    In High contrast mode the titlebar background only works over the group button
-    In High contrast mode the titles are invisible for terminals with a group
-    Fix/reimplement the DBUS for GTK3. GI seems incomplete with no Server. Try to get old style working again.
-    Need to go through all the Gtk.STOCK_* items and remove. Deprecated.
+    Outstanding GTK3 port tasks/items/reviews etc.
+    ==============================================
+    Outstanding trunk revisions: 1634 & 1637, 1647 (assuming all is good), 1663
+
+    Need to go through all the Gtk.STOCK_* items and remove. Deprecated in 3.10. Very low priority as won't be problem till 4.0.
     Homogeneous_tabbar removed? Why?
-    Need to set the version requirements - how? needed?
     terminal.py:on_vte_size_allocate, check for self.vte.window missing. Consequences?
     terminal.py:understand diff in args between old fork and new spawn of bash. Consequences?
-    VERIFY(8)/FIXME(7) FOR GTK3 items to be dealt with
+    VERIFY(8)/FIXME(6) FOR GTK3 items to be dealt with
 
-    For future with vte0.40+ - reimplement/restore the word_chars stuff.
-
-    Not fixable so far as I can see
-    ===============================
-    [Function N/A in 0.38+, will it return?] visible_bell - removed and not mentioned. Check capability not possible, or can be faked.
+    Outstanding GTK3 port tasks/items/reviews etc. for future release
+    =================================================================
+    vte 0.40+
+        Reimplement/restore the word_chars stuff.
 
 Once the GTK3 port is done there is also a long overdue port to
 Python3, especially in light of some distributions trying to
 eliminate Python2 from the base installs. Yes, Python2 will be with
 us for a long time yet, but this should serve as a warning.
 
-.. _comment #15: https://bugs.launchpad.net/terminator/+bug/1030562/comments/15
-.. _porting bug: https://bugs.launchpad.net/terminator/+bug/1030562
+I even have some new items specifically for the GTK3 branch which I'm
+still thinking about, but I'm not ready to declare. I suspect I might
+get a bit of unwanted pressure if I were to mention these, so for now
+they are under NDA. 😃
+
+.. _blog post: http://gnometerminator.blogspot.com/2015/09/so-you-want-to-try-terminator-gtk3.html
 .. _gtk3 branch: https://code.launchpad.net/~gnome-terminator/terminator/gtk3
 
 --------------------------
@@ -453,6 +550,8 @@ Here is a list of some useful sets of documentation:
 | GNOME Dev. Center         | https://developer.gnome.org/                                      |
 +---------------------------+-------------------------------------------------------------------+
 | Bazaar DVCS               | http://doc.bazaar.canonical.com/en/                               |
++---------------------------+-------------------------------------------------------------------+
+| Launchpad Help            | https://help.launchpad.net/                                       |
 +---------------------------+-------------------------------------------------------------------+
 | **GTK 2**                                                                                     |
 +---------------------------+-------------------------------------------------------------------+

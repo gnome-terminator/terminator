@@ -187,6 +187,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#why">Why...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#is-there-another-terminal-program-called-terminator">...is there another terminal program called Terminator?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="faq.html#write-in-python-it-s-slow-bloated-bad">...write in Python? It&#8217;s slow/bloated/bad?</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-dumb-way">Memory use - The dumb way</a></li>
@@ -423,6 +424,12 @@ the meantime you can use:</p>
 <p class="last">This should turn off the output, and let you explore the
 internal structure more easily.</p>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Using the <code class="docutils literal"><span class="pre">-dd</span></code> option will make the <a class="reference internal" href="#dbus"><span>DBus</span></a>
+interface problematic. Any attempt to use <a class="reference internal" href="#remotinator"><span>Remotinator</span></a>
+will hang the main application.</p>
+</div>
 <p>The debug options and their usage are detailed
 <a class="reference internal" href="#command-line-options-debugging"><span>here</span></a>.</p>
 </div>
@@ -462,20 +469,69 @@ layouts.</p>
 typically run from <em>within</em> a Terminator terminal. This is not
 strictly necessary, but if not you will have to do some extra work
 to determine the valid UUID of a current terminal and pass it as the
-<code class="docutils literal"><span class="pre">TERMINATOR_UUID</span></code> environment variable. Remotinator is called with:</p>
+<code class="docutils literal"><span class="pre">TERMINATOR_UUID</span></code> environment variable, or as the value to the
+<code class="docutils literal"><span class="pre">-u</span></code>/<code class="docutils literal"><span class="pre">--uuid</span></code> option. Remotinator is called within Terminator
+with:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ remotinator &lt;command&gt;
 </pre></div>
 </div>
+<p>or with one of the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ remotinator --uuid &lt;UUID&gt; &lt;command&gt;
+$ TERMINATOR_UUID=&lt;UUID&gt; remotinator &lt;command&gt;
+$ export TERMINATOR_UUID=&lt;UUID&gt;; remotinator &lt;command&gt;
+</pre></div>
+</div>
+<p>to force the UUID, or call it from outside Terminator.</p>
 <p>The following commands are currently enabled:</p>
-<ul class="simple">
-<li><strong>hsplit</strong> - Split the current terminal horizontally</li>
-<li><strong>vsplit</strong> - Split the current terminal vertically</li>
-<li><strong>terminals</strong> - Get a list of all terminals</li>
-<li><strong>terminal_tab</strong> - Get the UUID of a parent tab</li>
-<li><strong>terminal_tab_title</strong> - Get the title of a parent tab</li>
-</ul>
-<p>Calling Remotinator without a command will print the options to the
-terminal.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Command</th>
+<th class="head">Action</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>get_tab <a class="footnote-reference" href="#id12" id="id5">[1]</a></td>
+<td>Get the UUID of a parent tab</td>
+</tr>
+<tr class="row-odd"><td>get_tab_title <a class="footnote-reference" href="#id12" id="id6">[1]</a></td>
+<td>Get the title of a parent tab</td>
+</tr>
+<tr class="row-even"><td>get_terminals</td>
+<td>Get a list of all terminals</td>
+</tr>
+<tr class="row-odd"><td>get_window <a class="footnote-reference" href="#id12" id="id7">[1]</a></td>
+<td>Get the UUID of a parent window</td>
+</tr>
+<tr class="row-even"><td>get_window_title <a class="footnote-reference" href="#id12" id="id8">[1]</a></td>
+<td>Get the title of a parent window</td>
+</tr>
+<tr class="row-odd"><td>hsplit <a class="footnote-reference" href="#id12" id="id9">[1]</a></td>
+<td>Split the current terminal horizontally</td>
+</tr>
+<tr class="row-even"><td>new_tab <a class="footnote-reference" href="#id12" id="id10">[1]</a></td>
+<td>Open a new tab</td>
+</tr>
+<tr class="row-odd"><td>new_window</td>
+<td>Open a new window</td>
+</tr>
+<tr class="row-even"><td>vsplit <a class="footnote-reference" href="#id12" id="id11">[1]</a></td>
+<td>Split the current terminal vertically</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id6">2</a>, <a class="fn-backref" href="#id7">3</a>, <a class="fn-backref" href="#id8">4</a>, <a class="fn-backref" href="#id9">5</a>, <a class="fn-backref" href="#id10">6</a>, <a class="fn-backref" href="#id11">7</a>)</em> These entries require either TERMINATOR_UUID environment var,
+or the &#8211;uuid option must be used.</td></tr>
+</tbody>
+</table>
+<p>Calling Remotinator without a command or with the <code class="docutils literal"><span class="pre">-h</span></code> will print
+the options and available commands to the terminal.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Because a layout (unless launched from the command line as
@@ -484,6 +540,8 @@ instance requiring the <code class="docutils literal"><span class="pre">-u</span
 within layouts. As mentioned in the <a class="reference internal" href="#dbus"><span>DBus</span></a> section,
 this has the potential to be improved upon.</p>
 </div>
+<p>There is a lot of scope for expanding this feature, and it is relatively
+simple to do, so is an ideal task for dipping ones toes.</p>
 </div>
 </div>
 

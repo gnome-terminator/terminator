@@ -12,6 +12,24 @@ Here I'll try to list some common questions that get asked for.
 Why...
 ------
 
+...is there another terminal program called Terminator?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There is `another terminal`_ project programmed in Java. It was begun a
+bit before this project, but when this projects creator searched the
+name I guess the other project did not come up. I don't know the details,
+but this project was always Terminator to me. I haven't received
+complaints from the other project, although they do get some people
+asking in their Groups for support on this project. Please don't do that
+folks.
+
+I have contemplated a name change, although this project has a lot of
+visibility with it's current name, and it is hard to come up with a decent
+`alternative`_.
+
+.. _another terminal: https://code.google.com/p/jessies/wiki/Terminator
+.. _alternative: http://gnometerminator.blogspot.com/2015/09/whats-in-name.html
+
 ...write in Python? It's slow/bloated/bad?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

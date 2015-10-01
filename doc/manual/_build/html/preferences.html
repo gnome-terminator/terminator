@@ -187,6 +187,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#why">Why...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#is-there-another-terminal-program-called-terminator">...is there another terminal program called Terminator?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="faq.html#write-in-python-it-s-slow-bloated-bad">...write in Python? It&#8217;s slow/bloated/bad?</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-dumb-way">Memory use - The dumb way</a></li>
@@ -209,7 +210,17 @@
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#terminator-action-shots">Terminator action shots</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#manual-updates">Manual updates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#testing">Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#bugs">Bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#bugs">Bugs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gettinginvolved.html#bug-handling">Bug handling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="gettinginvolved.html#initial-new">Initial/New</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gettinginvolved.html#investigation">Investigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gettinginvolved.html#acceptance">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gettinginvolved.html#resolved">Resolved</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gettinginvolved.html#available">Available</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#main-application-development">Main Application Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gettinginvolved.html#gtk3-port">GTK3 Port</a></li>
@@ -299,7 +310,7 @@ window to lose focus and disappear.</p>
 <blockquote>
 <div>The first window opened will not be displayed in the taskbar.
 Subsequent windows will show in the taskbar (bug?).</div></blockquote>
-<p><strong>Window geometry hints</strong> (default: on)</p>
+<p><strong>Window geometry hints</strong> (default: off)</p>
 <blockquote>
 <div><p>If this is checked, then when resizing Terminator will attempt to
 step the sizing by the current font, and display a small box with the
@@ -335,6 +346,11 @@ receive keystrokes.</li>
 <li><em>None</em> - Only the current terminal receives keystrokes.</li>
 </ul>
 </div></blockquote>
+<p><strong>PuTTY style paste</strong> (default: off)</p>
+<blockquote>
+<div>Make the right mouse button operate like in PuTTY, so <code class="docutils literal"><span class="pre">right-click</span></code>
+will paste the Primary selection, and <code class="docutils literal"><span class="pre">middle-click</span></code> will open
+the <a class="reference internal" href="gettingstarted.html#context-menu"><span>Context Menu</span></a>. (For ex-PuTTY users).</div></blockquote>
 <p><strong>Re-use profiles for new terminals</strong> (default: off)</p>
 <blockquote>
 <div>When creating a new terminal with splitting or new tabs, if this is
@@ -342,7 +358,7 @@ enabled, then the profile from the previously focussed terminal will
 also be used for the new one.</div></blockquote>
 <p><strong>Use custom URL handler</strong> (default: off)</p>
 <blockquote>
-<div>If this is enabled then Ctrl+left-mouse-click on a URL will try to use
+<div>If this is enabled then <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">click</span></code> on a URL will try to use
 the command defined in <em>Custom URL handler</em> to open the link. If not
 enabled, Terminator will attempt to open the link with its internal
 logic.</div></blockquote>
@@ -498,7 +514,7 @@ longer possible in GNOME Terminator.</div></blockquote>
 available on middle-click.</div></blockquote>
 <p><strong>Select-by-word characters</strong> (default: <code class="docutils literal"><span class="pre">-A-Za-z0-9,./?%&amp;#:_</span></code>)</p>
 <blockquote>
-<div>Using double-click to select text will use this pattern to define
+<div>Using <code class="docutils literal"><span class="pre">double-click</span></code> to select text will use this pattern to define
 what characters are considered part of the word.</div></blockquote>
 <div class="section" id="cursor">
 <h4>Cursor<a class="headerlink" href="#cursor" title="Permalink to this headline">¶</a></h4>
@@ -844,7 +860,7 @@ was launched from, or the users home directory.</div></blockquote>
 <img alt="_images/prefs_keybindings.png" src="_images/prefs_keybindings.png" />
 <p>This is a list of all available keyboard shortcuts in the application.</p>
 <p>To change a keybinding, first highlight the entry you wish to change.
-Next click on the <em>Keybinding</em> column again. The entry should change
+Next <code class="docutils literal"><span class="pre">click</span></code> on the <em>Keybinding</em> column again. The entry should change
 to <strong>New accelerator...</strong>. Simply perform the shortcut you wish to
 set. If you change your mind use <code class="docutils literal"><span class="pre">Esc</span></code> (Escape) key to revert back
 to the existing shortcut. If you wish to delete a shortcut, use the

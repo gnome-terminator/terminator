@@ -187,6 +187,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#why">Why...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#is-there-another-terminal-program-called-terminator">...is there another terminal program called Terminator?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="faq.html#write-in-python-it-s-slow-bloated-bad">...write in Python? It&#8217;s slow/bloated/bad?</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-dumb-way">Memory use - The dumb way</a></li>
@@ -773,7 +774,7 @@ scrollback buffer with more flexibility:</p>
 <td>Up, Down</td>
 <td>&nbsp;</td>
 </tr>
-<tr class="row-odd"><td>Line <a class="reference internal" href="#ts" id="id13">[TS]</a></td>
+<tr class="row-odd"><td>Line <a class="reference internal" href="#ts" id="id13">[TS]</a> <a class="reference internal" href="#ms" id="id14">[MS]</a></td>
 <td>Up, Down</td>
 <td>&nbsp;</td>
 </tr>
@@ -782,19 +783,30 @@ scrollback buffer with more flexibility:</p>
 <table class="docutils citation" frame="void" id="vs" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[VS]</td><td><em>(<a class="fn-backref" href="#id8">1</a>, <a class="fn-backref" href="#id9">2</a>)</em> Default actions from VTE that are not configurable.</td></tr>
+<tr><td class="label">[VS]</td><td><em>(<a class="fn-backref" href="#id8">1</a>, <a class="fn-backref" href="#id9">2</a>)</em> <strong>VTE Shortcuts:</strong> Default actions from VTE that are not configurable.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="xl" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[XL]</a></td><td>Where X may vary depending on distribution. On mine it is 4.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id10">[XL]</a></td><td><strong>X Lines:</strong> Where X may vary depending on distribution. On mine
+it is 4.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="ts" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[TS]</td><td><em>(<a class="fn-backref" href="#id11">1</a>, <a class="fn-backref" href="#id12">2</a>, <a class="fn-backref" href="#id13">3</a>)</em> Additional movement options from Terminator that are configurable.</td></tr>
+<tr><td class="label">[TS]</td><td><em>(<a class="fn-backref" href="#id11">1</a>, <a class="fn-backref" href="#id12">2</a>, <a class="fn-backref" href="#id13">3</a>)</em> <strong>Terminator Shortcuts:</strong> Additional movement options from Terminator
+that are configurable.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="ms" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[MS]</a></td><td><strong>Masked Shortcuts:</strong> VTE provides default shortcuts for line up/down,
+on <code class="docutils literal"><span class="pre">Shift</span></code>+<code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">Arrow</span> <span class="pre">Up/Dn</span></code>, but they are masked
+by shortcuts for resizing terminals. You can disable or reassign
+the resizing shortcuts to regain access to the VTE default.</td></tr>
 </tbody>
 </table>
 </div>
@@ -839,7 +851,7 @@ terminal.</p>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>Target in <a class="footnote-reference" href="#id15" id="id14">[4]</a></td>
+<tr class="row-even"><td>Target in <a class="footnote-reference" href="#id16" id="id15">[4]</a></td>
 <td><code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">+</span></code>/<code class="docutils literal"><span class="pre">wheelup</span></code></td>
 </tr>
 <tr class="row-odd"><td>Target out</td>
@@ -868,10 +880,10 @@ terminal.</p>
 </tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id15" rules="none">
+<table class="docutils footnote" frame="void" id="id16" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[4]</a></td><td>Target terminal is the current terminal when using the
+<tr><td class="label"><a class="fn-backref" href="#id15">[4]</a></td><td>Target terminal is the current terminal when using the
 keyboard shortcuts, or the terminal under the mouse when using
 the <code class="docutils literal"><span class="pre">wheelup</span></code>/<code class="docutils literal"><span class="pre">wheeldown</span></code>.</td></tr>
 </tbody>

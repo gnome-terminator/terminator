@@ -186,6 +186,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="faq.html#why">Why...</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#is-there-another-terminal-program-called-terminator">...is there another terminal program called Terminator?</a></li>
 <li class="toctree-l3"><a class="reference internal" href="faq.html#write-in-python-it-s-slow-bloated-bad">...write in Python? It&#8217;s slow/bloated/bad?</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#performance">Performance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="faq.html#memory-use-the-dumb-way">Memory use - The dumb way</a></li>
@@ -208,7 +209,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#terminator-action-shots">Terminator action shots</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#manual-updates">Manual updates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bugs">Bugs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bugs">Bugs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bug-handling">Bug handling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-new">Initial/New</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#investigation">Investigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#acceptance">Acceptance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#resolved">Resolved</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available">Available</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#plugins">Plugins</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#main-application-development">Main Application Development</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gtk3-port">GTK3 Port</a></li>
@@ -393,6 +404,8 @@ on-screen keyboards, text-to-speech, speech-to-text, and so on.</li>
 </div>
 <div class="section" id="bugs">
 <h2>Bugs<a class="headerlink" href="#bugs" title="Permalink to this headline">¶</a></h2>
+<p>Bugs (and feature requests) are raised and dealt with in the Launchpad
+<a class="reference external" href="https://bugs.launchpad.net/terminator">bugs</a> page.</p>
 <ul class="simple">
 <li><strong>Fixing</strong> - OK, so yeah, this is coding.</li>
 <li><strong>Reproduce and improving</strong> - Sometimes bugs are lacking info to
@@ -403,8 +416,104 @@ enough.</li>
 gotta do it. Shepherd bugs to the point where it has a priority,
 a milestone, reproduction steps, confirmation, submitted patches
 validated, and so on.</li>
+<li><strong>Raising</strong> - If you have searched and cannot find your bug, you
+can raise a new one.</li>
 </ul>
-<p>See <a class="reference external" href="https://bugs.launchpad.net/terminator">https://bugs.launchpad.net/terminator</a></p>
+<p>Feature requests are initially raised as bugs, and if it passes the
+rather undefined criteria, it will be marked as a <strong>wishlist</strong> item.</p>
+<div class="section" id="bug-handling">
+<h3>Bug handling<a class="headerlink" href="#bug-handling" title="Permalink to this headline">¶</a></h3>
+<p>I have had one person (possibly others) who are hesitant to use the
+status&#8217; because they&#8217;ve been &#8220;told off&#8221; by the developers of other
+projects, and people/projects are often different in how they want to
+handle bugs. So, with that in mind, let me present my idea of how a
+bug should be handled. First a pretty picture:</p>
+<img alt="_images/launchpad_bugflow.png" src="_images/launchpad_bugflow.png" />
+<p>So, the darker blue states are the ones available in Launchpad that
+can be manually set. The two marked with a red outline require bug
+supervisor role to set, which means a member of the Terminator team.
+The pale blue states are ones that I personally feel should be there,
+but are missing. I&#8217;ll explain my intention with those in the
+appropriate sections below. The grey state is set automatically only,
+and cannot be set by anyone.</p>
+<div class="section" id="initial-new">
+<h4>Initial/New<a class="headerlink" href="#initial-new" title="Permalink to this headline">¶</a></h4>
+<p>When you the user create a bug it goes into <strong>New</strong>. If another user
+clicks the <em>This bug affects you</em> link, this gets moved to <strong>Confirmed</strong>.</p>
+</div>
+<div class="section" id="investigation">
+<h4>Investigation<a class="headerlink" href="#investigation" title="Permalink to this headline">¶</a></h4>
+<p>If I (or indeed someone else) go to a <em>New</em> or <em>Confirmed</em> bug, and
+are unable to reproduce it then it will be marked <strong>Incomplete</strong>, and
+someone (preferably the original raiser, but it can be someone else
+affected) needs to revisit and provide the requested additional info.
+Ideally when that is added there would be a <em>New Info</em> (or similar)
+state that the user would set the bug to, and then the dashed line
+would be taken.</p>
+<p>Because we don&#8217;t have this state, we &#8220;skip&#8221; straight through and abuse
+the <strong>Confirmed</strong> state. Set the bug (back) to <strong>Confirmed</strong>, and
+assign the official tag <em>new-info</em>. Once the ticket is reviewed the
+tag will be removed, and a new state assigned, possibly even
+<em>Incomplete</em> again.</p>
+<p>Note that I am aware of the two <em>Incomplete</em> options for with and
+without response, but the way it works is unclear, and I can&#8217;t switch
+between the two myself, and it is not clear when Launchpad switches
+it. So, I&#8217;ll be ignoring them and treating <em>Incomplete</em> as a single
+state.</p>
+</div>
+<div class="section" id="acceptance">
+<h4>Acceptance<a class="headerlink" href="#acceptance" title="Permalink to this headline">¶</a></h4>
+<p>At this point the bug should provide enough information to be
+reproducible. Only a supervisor can set an issue to <strong>Triaged</strong>. This
+state says, &#8220;Yes, the information provided either permits me to
+reproduce myself, or see what went wrong from provided logs, config,
+etc.&#8221; Typically they go here when I don&#8217;t have the time to start
+working on an immediate fix.</p>
+<p>Alternatively I (or anyone) could start working on a bug. Ideally the
+issue should be set to <strong>In Progress</strong>, and assigned to the person
+picking it up. That way, two people don&#8217;t work on the same issue.</p>
+<p>Sometimes, for trivial or interesting bugs, they might get looked at
+and fixed so fast that they skip all <em>Acceptance</em> categories, and go
+straight to one of the <em>Resolved</em> states.</p>
+</div>
+<div class="section" id="resolved">
+<h4>Resolved<a class="headerlink" href="#resolved" title="Permalink to this headline">¶</a></h4>
+<p><strong>Fix Committed</strong> is for when a fix is pushed to the main Launchpad
+bazaar repository and typically I do this. If you create a contribution
+via a branch, and commit to your branch, do not set to this yourself.
+Instead associate the bug with the branch, and request a merge. When
+I do the merge I will also set the bug to <em>Fix Committed</em>.</p>
+<p>An <strong>Invalid</strong> bug is usually because the user didn&#8217;t understand
+something, or it is in fact a support request.</p>
+<p>Only a bug supervisor can set an issue to <strong>Won&#8217;t Fix</strong>. It is the
+supervisors way of ending the discussion when it is felt that a bug
+does not fit the projects plans, but someone can&#8217;t <a class="reference external" href="https://www.youtube.com/watch?v=L0MK7qz13bU#t=1m05s">let it go</a>.</p>
+<p><strong>Opinion</strong> is typically when the user and I have a different
+expectation about behaviour or a new feature, or I think that something
+being proposed would actually be a negative for Terminator. Unlike
+<em>Won&#8217;t Fix</em>, this can still be discussed within the ticket.</p>
+<p><strong>Not Responsible</strong> is our second missing virtual state. For me this
+is when, for example, an issue actually resides in <em>libvte</em>, or <em>GTK</em>.
+Again, there is a new official tag <em>not-responsible</em>, and the bug
+will actually end up set to <em>Invalid</em>.</p>
+<p>The final virtual state is <strong>No Action</strong>, which is for various reasons.
+Sometimes other work has resolved an issue already, or the user was
+using an old version, and the fix is already in trunk or released.
+Again there is a new official tag <em>no-action</em>. These will then be put
+in one of the following: <em>Invalid</em>, <em>Fix Committed</em>, or <em>Fix Released</em>,
+depending on circumstance.</p>
+<p>Our last Resolved state is the automatically set <strong>Expired</strong> one.</p>
+</div>
+<div class="section" id="available">
+<h4>Available<a class="headerlink" href="#available" title="Permalink to this headline">¶</a></h4>
+<p>The last state is <strong>Fix Released</strong>, indicating that there has been a
+release containing a fix to the issue.</p>
+<p>Of course this flow and states are not set in stone. A bug can be
+brought out of <em>Expired</em> if necessary. Or back from <em>In Progress</em> to
+<em>Confirmed</em> or <em>Triaged</em> if the assignee decides to stop working on
+the bug for some reason.</p>
+</div>
+</div>
 </div>
 <div class="section" id="plugins">
 <h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
@@ -417,7 +526,7 @@ an idea for a neat plugin no-one else has done.</p>
 <p>Oh come on... Coding? Again!</p>
 <p>I see lots of people say how Terminator is really good, and it is,
 but like anything, it could be better!</p>
-<p>To give an idea, as I write this manual in July 2015, there are 83
+<p>To give an idea, as of October 2015, revision 1663, there are 86
 <a class="reference external" href="https://bugs.launchpad.net/terminator/+bugs?field.searchtext=&amp;orderby=-importance&amp;search=Search&amp;field.status%3Alist=NEW&amp;field.status%3Alist=CONFIRMED&amp;field.status%3Alist=TRIAGED&amp;field.status%3Alist=INPROGRESS&amp;field.status%3Alist=INCOMPLETE_WITH_RESPONSE&amp;field.status%3Alist=INCOMPLETE_WITHOUT_RESPONSE&amp;field.importance%3Alist=WISHLIST&amp;assignee_option=any&amp;field.assignee=&amp;field.bug_reporter=&amp;field.bug_commenter=&amp;field.subscriber=&amp;field.structural_subscriber=&amp;field.tag=&amp;field.tags_combinator=ANY&amp;field.has_cve.used=&amp;field.omit_dupes.used=&amp;field.omit_dupes=on&amp;field.affects_me.used=&amp;field.has_patch.used=&amp;field.has_branches.used=&amp;field.has_branches=on&amp;field.has_no_branches.used=&amp;field.has_no_branches=on&amp;field.has_blueprints.used=&amp;field.has_blueprints=on&amp;field.has_no_blueprints.used=&amp;field.has_no_blueprints=on">wishlist items</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -432,7 +541,7 @@ your approach is good, and has a realistic chance of being
 merged.</p>
 </div>
 <p>Some of these wishlist items are also in my own text file of &#8220;Things
-to do&#8221; / &#8220;Big bag of crazy&#8221;, which as of August 2015, revision 1598,
+to do&#8221; / &#8220;Big bag of crazy&#8221;, which as of October 2015, revision 1663,
 looks like this:</p>
 <div class="highlight-python"><div class="highlight"><pre>Enhancements which may or may not have a wishlist item
 ======================================================
@@ -443,6 +552,15 @@ Completely new features
         http://people.canonical.com/~dpm/api/devel/GIR/python/Unity-3.0.html
         Possibly use the progress bar and or counter for something too.
     Add an appindicator menu for launching sessions.
+    If we can figure out how to do arbritrary highlighting, perhaps we can get a &quot;highlight differences&quot; mode like used to exist in ClusTerm.
+        This could also be limted to highlighting diffs between those in the same group.
+    Synchronised scroll based on groups
+    Triggers (actions) based on regex for received text
+    A &quot;swap&quot; mode for drag and drop
+    Encrypted dumping/logging to disk
+
+Search
+    Might be able to missuse the ClusTerm method of overwriting to &quot;highlight&quot; (gtk2 only)
 
 Layouts
     Layout Launcher
@@ -465,6 +583,7 @@ Layouts
             Store the custom command and working directory when we load a layout, so making small changes and saving doesn&#39;t lose everything.
             It could be possible to detect the current command and working directory with psutil, but could be tricky. (i.e. do we ignore bash?)
     A per layout &quot;save on exit&quot; option to always remember last setup/positions etc. Probably requires above to be done first.
+    A per layout shortcut launch hotkey
 
 Missing shortcuts:
     Just shortcut:
@@ -491,7 +610,7 @@ Tabs
     right-click menu replicating GNOME-Terminals (move left/right, close, rename)
 
 Menus
-    Add acellerators (i.e. &quot;Shift+Ctr+O&quot;) might look too cluttered.
+    Add accelerators (i.e. &quot;Shift+Ctr+O&quot;) might look too cluttered.
 
 Preferences
     Profiles
@@ -501,22 +620,20 @@ Preferences
         Terminal title editable
         Button in prefs to duplicate a layout
         Ordering in list
+        Working directory - add dialog too, see http://stackoverflow.com/questions/10868167/make-filechooserdialog-allow-user-to-select-a-folder-directory
     Keybindings
         Add a list of the default keybindings to the Preferences -&gt; Keybindings window?
     Option for close_button_on_tab in prefs. (needs tab right-click menu first
     Option to rebalance siblings on a split (don&#39;t think children or ancestors make sense)
     Figure out how to get the tree view to jump to selected row for prefseditor
 
-Config file
-    Items should be sorted for saving. Easier for comparing and spotting changes.
-
 Plugins
     Give plugins ability to register shortcuts
     Custom Commands is blocking, perhaps make non-blocking
 
 Drag and Drop
-    Terminal without target opens new window
-    Tab to different/new window depending on target
+    LP#0768520: Terminal without target opens new window
+    LP#1471009: Tab to different/new window depending on target
 
 Major architectural
     Improve DBus interface, add coordination between sessions, i.e.:
@@ -546,31 +663,6 @@ All non main windows to be changed to glade files
 For me the two different sets of next/prev shortcuts are a bit of a mystery.
 
 Let window title = terminal titlebar - perhaps other combos. Some kind of %T %G %W substitution?
-
-If we can figure out how to do arbritrary highlighting, perhaps we can get a &quot;highlight differences&quot; mode like used to exist in ClusTerm.
-    This could also be limted to highlighting diffs between those in the same group.
-
-
-Issues encountered where not aware of any LP bug
-================================================
-
-BUG: Zoom and maximise do not work if single terminal in a tab, gtk2 &amp; gtk3. Intentional?
-
-BUG: Zoom on a split non-maximised window on just one terminal causes window size changes if zoomed terminal font is
-     bigger that the non-zoomed window.
-
-BUG: Groups: Create two tabs with splits. Super+G (group all), move to other tab and Super+T (group tabs), move back and type
-    Output in tab group too. Also for custom groups.
-    Ungrouping all also nukes changed groups. Right?
-    Also with Super+T and changing one terms group, still receives input, and loses custom group when turning off tab group.
-
-BUG: Hide on lose focus broken. LP#843674
-    focus-out signal callback defers (idle_add) the call to hide.
-    If one of our own windows/menus pops up, an inhibit flag is set.
-    When the window/menu is closed we call a deferred hide on the main window
-    In the deferred function, we check if we now have focus, and do not hide
-    In the deferred function, we check if inhibit is set and do not hide
-    Could create a popup_menu subclass that sets the inhibiter
 </pre></div>
 </div>
 <p>So as you can see, still lots of room for improvements, and plenty of
@@ -598,37 +690,35 @@ Even getting &#8220;Joe Bloggs&#8221; to add a PPA can be a struggle.</p>
 thing lit up with a smorgasbord of items where my installed packages
 were not new enough.</p>
 <p>If you are feeling brave and adventurous, there are some instructions
-in <a class="reference external" href="https://bugs.launchpad.net/terminator/+bug/1030562/comments/15">comment #15</a> of the <a class="reference external" href="https://bugs.launchpad.net/terminator/+bug/1030562">porting bug</a> that will help you get the
-GTK3 version running. Assistance knocking off the remaining rough
-edges will be very much appreciated.</p>
-<p>For the record, as of August 2015, with the <a class="reference external" href="https://code.launchpad.net/~gnome-terminator/terminator/gtk3">gtk3 branch</a> at revision
-1577, these are the outstanding items:</p>
-<div class="highlight-python"><div class="highlight"><pre>Outstanding GTK3 tasks/items/reviews etc remaining
-===================================================
-Outstanding trunk revisions: 1599-1602 (minus manual, that comes later), 1613-1615, 1617
-If titlebar text wider than window, the visual bell icon does not appear
-If editing label in titlebar, the whole layout gets distorted until finished, then snaps back to mostly correct layout
-In High contrast mode the titlebar background only works over the group button
-In High contrast mode the titles are invisible for terminals with a group
-Fix/reimplement the DBUS for GTK3. GI seems incomplete with no Server. Try to get old style working again.
-Need to go through all the Gtk.STOCK_* items and remove. Deprecated.
+in this <a class="reference external" href="http://gnometerminator.blogspot.com/2015/09/so-you-want-to-try-terminator-gtk3.html">blog post</a> that will help you get the GTK3 version running.
+Assistance knocking off the remaining rough edges will be very much
+appreciated.</p>
+<p>For the record, as of October 2015, with the <a class="reference external" href="https://code.launchpad.net/~gnome-terminator/terminator/gtk3">gtk3 branch</a> at revision
+1612, these are the outstanding items:</p>
+<div class="highlight-python"><div class="highlight"><pre>Outstanding GTK3 port tasks/items/reviews etc.
+==============================================
+Outstanding trunk revisions: 1634 &amp; 1637, 1647 (assuming all is good), 1663
+
+Need to go through all the Gtk.STOCK_* items and remove. Deprecated in 3.10. Very low priority as won&#39;t be problem till 4.0.
 Homogeneous_tabbar removed? Why?
-Need to set the version requirements - how? needed?
 terminal.py:on_vte_size_allocate, check for self.vte.window missing. Consequences?
 terminal.py:understand diff in args between old fork and new spawn of bash. Consequences?
-VERIFY(8)/FIXME(7) FOR GTK3 items to be dealt with
+VERIFY(8)/FIXME(6) FOR GTK3 items to be dealt with
 
-For future with vte0.40+ - reimplement/restore the word_chars stuff.
-
-Not fixable so far as I can see
-===============================
-[Function N/A in 0.38+, will it return?] visible_bell - removed and not mentioned. Check capability not possible, or can be faked.
+Outstanding GTK3 port tasks/items/reviews etc. for future release
+=================================================================
+vte 0.40+
+    Reimplement/restore the word_chars stuff.
 </pre></div>
 </div>
 <p>Once the GTK3 port is done there is also a long overdue port to
 Python3, especially in light of some distributions trying to
 eliminate Python2 from the base installs. Yes, Python2 will be with
 us for a long time yet, but this should serve as a warning.</p>
+<p>I even have some new items specifically for the GTK3 branch which I&#8217;m
+still thinking about, but I&#8217;m not ready to declare. I suspect I might
+get a bit of unwanted pressure if I were to mention these, so for now
+they are under NDA. 😃</p>
 </div>
 <div class="section" id="terminator-api-docs">
 <h2>Terminator API Docs<a class="headerlink" href="#terminator-api-docs" title="Permalink to this headline">¶</a></h2>
@@ -668,41 +758,44 @@ the A-Team... Or better yet, send me some changes that fix this.</p>
 <tr class="row-even"><td>Bazaar DVCS</td>
 <td><a class="reference external" href="http://doc.bazaar.canonical.com/en/">http://doc.bazaar.canonical.com/en/</a></td>
 </tr>
-<tr class="row-odd"><td colspan="2"><strong>GTK 2</strong></td>
+<tr class="row-odd"><td>Launchpad Help</td>
+<td><a class="reference external" href="https://help.launchpad.net/">https://help.launchpad.net/</a></td>
 </tr>
-<tr class="row-even"><td>PyGTK</td>
+<tr class="row-even"><td colspan="2"><strong>GTK 2</strong></td>
+</tr>
+<tr class="row-odd"><td>PyGTK</td>
 <td><a class="reference external" href="https://developer.gnome.org/pygtk/stable/">https://developer.gnome.org/pygtk/stable/</a></td>
 </tr>
-<tr class="row-odd"><td>VTE for GTK 2</td>
+<tr class="row-even"><td>VTE for GTK 2</td>
 <td><a class="reference external" href="https://developer.gnome.org/vte/0.28/">https://developer.gnome.org/vte/0.28/</a></td>
 </tr>
-<tr class="row-even"><td colspan="2"><strong>GTK 3</strong></td>
+<tr class="row-odd"><td colspan="2"><strong>GTK 3</strong></td>
 </tr>
-<tr class="row-odd"><td>GObject Introspection</td>
+<tr class="row-even"><td>GObject Introspection</td>
 <td><a class="reference external" href="https://wiki.gnome.org/Projects/GObjectIntrospection">https://wiki.gnome.org/Projects/GObjectIntrospection</a></td>
 </tr>
-<tr class="row-even"><td>GObject</td>
+<tr class="row-odd"><td>GObject</td>
 <td><a class="reference external" href="https://developer.gnome.org/gobject/stable/">https://developer.gnome.org/gobject/stable/</a></td>
 </tr>
-<tr class="row-odd"><td>PyGObject Introspection</td>
+<tr class="row-even"><td>PyGObject Introspection</td>
 <td><a class="reference external" href="https://wiki.gnome.org/Projects/PyGObject">https://wiki.gnome.org/Projects/PyGObject</a></td>
 </tr>
-<tr class="row-even"><td>PyGObject</td>
+<tr class="row-odd"><td>PyGObject</td>
 <td><a class="reference external" href="https://developer.gnome.org/pygobject/stable/">https://developer.gnome.org/pygobject/stable/</a></td>
 </tr>
-<tr class="row-odd"><td>Many PIGO autodocs</td>
+<tr class="row-even"><td>Many PIGO autodocs</td>
 <td><a class="reference external" href="http://lazka.github.io/pgi-docs/">http://lazka.github.io/pgi-docs/</a></td>
 </tr>
-<tr class="row-even"><td>GDK3 Ref. Manual</td>
+<tr class="row-odd"><td>GDK3 Ref. Manual</td>
 <td><a class="reference external" href="https://developer.gnome.org/gdk3/stable/">https://developer.gnome.org/gdk3/stable/</a></td>
 </tr>
-<tr class="row-odd"><td>GTK3 Ref. Manual</td>
+<tr class="row-even"><td>GTK3 Ref. Manual</td>
 <td><a class="reference external" href="https://developer.gnome.org/gtk3/stable/index.html">https://developer.gnome.org/gtk3/stable/index.html</a></td>
 </tr>
-<tr class="row-even"><td>Python GTK+ 3 Tutorial</td>
+<tr class="row-odd"><td>Python GTK+ 3 Tutorial</td>
 <td><a class="reference external" href="http://python-gtk-3-tutorial.readthedocs.org/en/latest/index.html">http://python-gtk-3-tutorial.readthedocs.org/en/latest/index.html</a></td>
 </tr>
-<tr class="row-odd"><td>VTE for GTK 3</td>
+<tr class="row-even"><td>VTE for GTK 3</td>
 <td><a class="reference external" href="https://developer.gnome.org/vte/0.38/">https://developer.gnome.org/vte/0.38/</a></td>
 </tr>
 </tbody>
