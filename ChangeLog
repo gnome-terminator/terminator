@@ -15,6 +15,7 @@ terminator trunk:
       * remotinator help strings are translatable now
       * PuTTY paste mode (Nemilya, LP#1416682) with some alterations
         (Steve Boddy)
+      * Updated and grouped default shortcuts in man page (Steve Boddy)
   * Bug fixes
     * Fix for those not running IBus, where the IBus workaround caused
       broken keys in other keymaps set with non-IBus tools (Steve
