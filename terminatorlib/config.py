@@ -122,6 +122,7 @@ DEFAULTS = {
             'title_use_system_font' : True,
             'title_font'            : 'Sans 9',
             'putty_paste_style'     : False,
+            'smart_copy'            : True,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

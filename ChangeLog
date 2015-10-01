@@ -16,6 +16,7 @@ terminator trunk:
       * PuTTY paste mode (Nemilya, LP#1416682) with some alterations
         (Steve Boddy)
       * Updated and grouped default shortcuts in man page (Steve Boddy)
+      * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
   * Bug fixes
     * Fix for those not running IBus, where the IBus workaround caused
       broken keys in other keymaps set with non-IBus tools (Steve

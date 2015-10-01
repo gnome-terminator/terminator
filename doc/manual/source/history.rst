@@ -30,6 +30,8 @@ All contributions and improvements are welcome.
 |              |            |                 | Add Bug handling flow        |br| |
 |              |            |                 | Minor changes/corrections         |
 +--------------+------------+-----------------+-----------------------------------+
+| 0.98, r1667  | 2015-10-01 | Stephen Boddy   | Add the new Smart copy mode  |br| |
++--------------+------------+-----------------+-----------------------------------+
 
 .. note:: Ideally this documentation should be kept up-to-date with
           the changes as they go in. This way things don't get missed.

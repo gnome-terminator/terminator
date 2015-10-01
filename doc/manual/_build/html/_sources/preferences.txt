@@ -74,6 +74,11 @@ Behaviour
                  get into an argument over what size the window should
                  be.
 
+  **DBus server** (default: on)
+
+    If a Terminator :ref:`dbus` server is not already on the session
+    bus, try to start one.
+
   **Mouse focus** (default: Click to focus)
 
     By what method the mouse pointer sets the focus on a terminal.
@@ -99,6 +104,14 @@ Behaviour
     will paste the Primary selection, and ``middle-click`` will open
     the :ref:`Context Menu <context-menu>`. (For ex-PuTTY users).
 
+  **Smart copy** (default: on)
+
+    If enabled and there is no selection, the shortcut is allowed to
+    pass through. This is useful for overloading ``Ctrl``\ +\ ``C``
+    to copy a selection, or send the SIGINT to the current process if
+    there is no selection. If not enabled the shortcut does not pass
+    through at all, and the SIGINT does not get sent.
+
   **Re-use profiles for new terminals** (default: off)
 
     When creating a new terminal with splitting or new tabs, if this is
@@ -117,10 +130,6 @@ Behaviour
     If active and set, then URL's will be passed as a command-line parameter
     to the given command.
 
-  **DBus server** (default: on)
-
-    If a Terminator :ref:`dbus` server is not already on the session
-    bus, try to start one.
 
 ^^^^^^^^^^
 Appearance

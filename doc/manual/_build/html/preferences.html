@@ -325,6 +325,10 @@ get into an argument over what size the window should
 be.</p>
 </div>
 </div></blockquote>
+<p><strong>DBus server</strong> (default: on)</p>
+<blockquote>
+<div>If a Terminator <a class="reference internal" href="advancedusage.html#dbus"><span>DBus</span></a> server is not already on the session
+bus, try to start one.</div></blockquote>
 <p><strong>Mouse focus</strong> (default: Click to focus)</p>
 <blockquote>
 <div><p>By what method the mouse pointer sets the focus on a terminal.</p>
@@ -351,6 +355,13 @@ receive keystrokes.</li>
 <div>Make the right mouse button operate like in PuTTY, so <code class="docutils literal"><span class="pre">right-click</span></code>
 will paste the Primary selection, and <code class="docutils literal"><span class="pre">middle-click</span></code> will open
 the <a class="reference internal" href="gettingstarted.html#context-menu"><span>Context Menu</span></a>. (For ex-PuTTY users).</div></blockquote>
+<p><strong>Smart copy</strong> (default: on)</p>
+<blockquote>
+<div>If enabled and there is no selection, the shortcut is allowed to
+pass through. This is useful for overloading <code class="docutils literal"><span class="pre">Ctrl</span></code>+<code class="docutils literal"><span class="pre">C</span></code>
+to copy a selection, or send the SIGINT to the current process if
+there is no selection. If not enabled the shortcut does not pass
+through at all, and the SIGINT does not get sent.</div></blockquote>
 <p><strong>Re-use profiles for new terminals</strong> (default: off)</p>
 <blockquote>
 <div>When creating a new terminal with splitting or new tabs, if this is
@@ -366,10 +377,6 @@ logic.</div></blockquote>
 <blockquote>
 <div>If active and set, then URL&#8217;s will be passed as a command-line parameter
 to the given command.</div></blockquote>
-<p><strong>DBus server</strong> (default: on)</p>
-<blockquote>
-<div>If a Terminator <a class="reference internal" href="advancedusage.html#dbus"><span>DBus</span></a> server is not already on the session
-bus, try to start one.</div></blockquote>
 </div></blockquote>
 </div>
 <div class="section" id="appearance">
