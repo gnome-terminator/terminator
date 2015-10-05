@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 17:24+0200\n"
-"PO-Revision-Date: 2015-09-24 15:48+0000\n"
+"PO-Revision-Date: 2015-10-05 00:18+0000\n"
 "Last-Translator: Nybble <wuxb45@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-25 05:11+0000\n"
-"X-Generator: Launchpad (build 17754)\n"
+"X-Launchpad-Export-Date: 2015-10-05 05:10+0000\n"
+"X-Generator: Launchpad (build 17783)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -70,10 +70,12 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* 这些项需要 TERMINATOR_UUID环境变量，\n"
+"  或者使用 --uuid指定。"
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr ""
+msgstr "终端UUID如果未设置TERMINATOR_UUID环境变量"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
