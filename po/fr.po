@@ -14,46 +14,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-20 04:57+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-06 06:23+0000\n"
+"X-Generator: Launchpad (build 17796)\n"
 "Language: fr\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Ouvrir une nouvelle fenêtre"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Ouvrir un nouvel onglet"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Diviser horizontalement le terminal actuel"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Diviser verticalement le terminal actuel"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Avoir la liste de tous les terminaux."
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Obtenir le UUID d'une fenêtre parente."
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Obtenir le titre de la fenêtre parente"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Obtenir le UUID d'une table parente"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Obtenir le titre d'une table parente"
 
 #: ../remotinator.py:63
 #, python-format
@@ -87,7 +87,7 @@ msgstr "Permet d'avoir plusieurs terminaux en une seule fenêtre"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:144
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Le futur robot des terminaux."
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -96,6 +96,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Un outil puissance utilisateur pour arranger les terminaux. Il est inspiré "
+"des programmes tels que gnome-multi-term, quadkonsole, etc. Dans le "
+"principal terminal arranger en grille (onglets dans la méthode par défaut "
+"duquel Terminator supporte)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -111,7 +115,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Arranger les terminaux en grille."
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
@@ -128,6 +132,8 @@ msgstr "De nombreux raccourcis clavier"
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
 msgstr ""
+"Sauvegarder les multiples sessions et profils via l'éditeur de préférence "
+"GUI."
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -261,7 +267,7 @@ msgstr "Chinois traditionnel"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Cyrillique/russe"
+msgstr "cyrillique/russe"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95

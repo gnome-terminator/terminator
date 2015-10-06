@@ -14,46 +14,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-20 04:58+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-06 06:24+0000\n"
+"X-Generator: Launchpad (build 17796)\n"
 "Language: pt_BR\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Abrir uma nova janela"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Abrir uma nova guia"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Dividir horizontalmente o terminal atual"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Dividir verticalmente o atual terminal"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Obter uma lista de todos os terminais"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Obter o UUID de uma janela superior"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Obter o título de uma janela superior"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Obter o UUID de uma guia superior"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Obter o título de uma guia superior"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,16 +62,20 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Executar um dos seguintes comandos Terminator DBus\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Essas entradas requerem um ambiente var TERMINATOR_UUID\n"
+"ou a opção --uuid deve ser utilizada"
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr ""
+msgstr "Terminal UUID para quando não estiver em TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:82
