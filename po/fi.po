@@ -10,23 +10,23 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 17:24+0200\n"
-"PO-Revision-Date: 2013-10-17 20:39+0000\n"
-"Last-Translator: Julián Moreno Patiño <Unknown>\n"
+"PO-Revision-Date: 2015-10-09 20:34+0000\n"
+"Last-Translator: Hermanni Saresma <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-20 04:31+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-10-10 05:11+0000\n"
+"X-Generator: Launchpad (build 17802)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Avaa uusi ikkuna"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Avaa uusi välilehti"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
@@ -370,7 +370,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "Määritä komento suorittaa sisälle terminaaliin"
+msgstr "Määritä terminaalissa suoritettava komento"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
