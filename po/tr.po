@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 17:24+0200\n"
-"PO-Revision-Date: 2015-10-07 11:01+0000\n"
+"PO-Revision-Date: 2015-10-10 20:11+0000\n"
 "Last-Translator: miyojen <miyojen@yandex.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-10-08 05:16+0000\n"
+"X-Launchpad-Export-Date: 2015-10-11 05:11+0000\n"
 "X-Generator: Launchpad (build 17802)\n"
 
 #. Command         uuid req.    Description
@@ -28,7 +28,7 @@ msgstr "Yeni bir sekmede aç"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Geçerli terminali yatay olarak böl"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
@@ -36,23 +36,23 @@ msgstr "Geçerli terminali dikey olarak böl"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Tüm terminallerin bir listesini al"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Ana pencerenin UUID'sini al"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Ana pencerenin başlığını al"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Ana sekmenin UUID'sini al"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Ana sekmenin başlığını al"
 
 #: ../remotinator.py:63
 #, python-format
@@ -61,6 +61,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Sıradaki Terminator DBus komutlarından birisini çalıştır\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
