@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-09-19 17:33+0200\n"
-"PO-Revision-Date: 2015-10-23 18:44+0000\n"
+"PO-Revision-Date: 2015-10-25 22:27+0000\n"
 "Last-Translator: Jean-Marc <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-10-24 06:02+0000\n"
+"X-Launchpad-Export-Date: 2015-10-26 05:27+0000\n"
 "X-Generator: Launchpad (build 17812)\n"
 "Language: fr\n"
 
@@ -149,7 +149,7 @@ msgstr "La fenêtre principale montrant l'application en action"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Devenir fou avec les terminaux."
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
@@ -336,7 +336,7 @@ msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Lancer"
 
 #: ../terminatorlib/notebook.py:350
 msgid "tab"
@@ -356,11 +356,11 @@ msgstr "Maximise la fenêtre"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr "Met la fenêtre en mode plein écran"
+msgstr "Mettre la fenêtre en plein écran"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
-msgstr "Désactive les bords de la fenêtre"
+msgstr "Désactiver les bordures de fenêtre"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
@@ -368,7 +368,7 @@ msgstr "Cache la fenêtre au démarrage"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr "Spécifie un titre pour la fenêtre"
+msgstr "Spécifier un titre pour la fenêtre"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
@@ -467,7 +467,7 @@ msgstr "Silence dans : %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "_Commandes personnalisées"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -493,7 +493,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Activées"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:132
@@ -657,11 +657,11 @@ msgstr "Ambiance"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Solarisé clair"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Solarisé sombre"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
@@ -709,7 +709,7 @@ msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Solarized"
-msgstr ""
+msgstr "Solarisé"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "On the left side"
@@ -845,7 +845,7 @@ msgstr "<b>Barre de titre du terminal</b>"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Receiving"
-msgstr ""
+msgstr "Réception"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Focused"
@@ -869,7 +869,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "_Use the system font"
-msgstr ""
+msgstr "_Utiliser la police de caractères système"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "_Font:"
@@ -1232,7 +1232,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Faire pivoter les terminaux dans le sens horaire"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Rotate terminals counter-clockwise"
@@ -1296,19 +1296,19 @@ msgstr "Fermer la fenêtre"
 
 #: ../terminatorlib/prefseditor.py:112
 msgid "Resize the terminal up"
-msgstr ""
+msgstr "Redimensionner le terminal vers le haut"
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Resize the terminal down"
-msgstr ""
+msgstr "Redimensionner le terminal vers le bas"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Resize the terminal left"
-msgstr ""
+msgstr "Redimensionner le terminal vers la gauche"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Resize the terminal right"
-msgstr ""
+msgstr "Redimensionner le terminal vers la droite"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Move the tab right"
