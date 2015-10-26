@@ -191,6 +191,8 @@ DEFAULTS = {
             'insert_number'    : '<Super>1',
             'insert_padded'    : '<Super>0',
             'edit_window_title': '<Alt>t',
+            'edit_tab_title'   : '<Alt><Shift>F2',
+            'edit_terminal_title': '<Alt>F2',
             'layout_launcher'  : '<Alt>l',
             'next_profile'     : '',
             'previous_profile' : '', 

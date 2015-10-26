@@ -26,7 +26,8 @@ class EditableLabel(gtk.EventBox):
     # pylint: disable-msg=R0904
     """
     An eventbox that partialy emulate a gtk.Label
-    On double-click, the label is editable, entering an empty will revert back to automatic text
+    On double-click or key binding the label is editable, entering an empty
+    will revert back to automatic text
     """
     _label = None
     _ebox = None
@@ -69,30 +70,34 @@ class EditableLabel(gtk.EventBox):
         """get the text from the label"""
         return(self._label.get_text())
 
+    def edit(self):
+        """ Start editing the widget text """
+        self.remove(self._label)
+        self._entry = gtk.Entry()
+        self._entry.set_text(self._label.get_text())
+        self._entry.show()
+        self.add(self._entry)
+        sig = self._entry.connect("focus-out-event", self._entry_to_label)
+        self._entry_handler_id.append(sig)
+        sig = self._entry.connect("activate", self._on_entry_activated)
+        self._entry_handler_id.append(sig)
+        sig = self._entry.connect("key-press-event",
+                                  self._on_entry_keypress)
+        self._entry_handler_id.append(sig)
+        sig = self._entry.connect("button-press-event",
+                                  self._on_entry_buttonpress)
+        self._entry_handler_id.append(sig)
+        self._entry.grab_focus()
+
     def _on_click_text(self, widget, event):
         # pylint: disable-msg=W0613
         """event handling text edition"""
         if event.button != 1:
             return False
         if event.type == gtk.gdk._2BUTTON_PRESS:
-            self.remove (self._label)
-            self._entry = gtk.Entry ()
-            self._entry.set_text (self._label.get_text ())
-            self._entry.show ()
-            self.add (self._entry)
-            sig = self._entry.connect ("focus-out-event", self._entry_to_label)
-            self._entry_handler_id.append(sig)
-            sig = self._entry.connect ("activate", self._on_entry_activated)
-            self._entry_handler_id.append(sig)
-            sig = self._entry.connect ("key-press-event",
-                                         self._on_entry_keypress)
-            self._entry_handler_id.append(sig)
-            sig = self._entry.connect("button-press-event",
-                                      self._on_entry_buttonpress)
-            self._entry_handler_id.append(sig)
-            self._entry.grab_focus ()
-            return(True)
-        return(False)
+            self.edit()
+            return True
+        return False
 
     def _entry_to_label (self, widget, event):
         # pylint: disable-msg=W0613
