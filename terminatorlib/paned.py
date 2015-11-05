@@ -4,6 +4,7 @@
 """paned.py - a base Paned container class and the vertical/horizontal
 variants"""
 
+import time
 import gobject
 import gtk
 
@@ -20,6 +21,8 @@ class Paned(Container):
     position = None
     maker = None
     ratio = 0.5
+    last_balance_time = 0
+    last_balance_args = None
 
     def __init__(self):
         """Class initialiser"""
@@ -142,16 +145,21 @@ class Paned(Container):
                 recurse_down=True
             else:
                 recurse_down=False
-            
-            # FIXME: These idle events are creating a lot of weird issues
-            for i in range(3):
-                while gtk.events_pending():
-                    gtk.main_iteration_do(False)
-                self.do_redistribute(recurse_up, recurse_down)
-            
+
+            self.last_balance_time = time.time()
+            self.last_balance_args = (recurse_up, recurse_down)
             return True
         else:
             return False
+
+    def on_button_release(self, widget, event):
+        """Handle button presses on a Pane"""
+        if event.button == 1:
+            if self.last_balance_time > (time.time() - 1):
+                while gtk.events_pending():
+                    gtk.main_iteration_do(False)
+                self.do_redistribute(*self.last_balance_args)
+        return False
 
     def do_redistribute(self, recurse_up=False, recurse_down=False):
         """Evenly divide available space between sibling panes"""
@@ -433,6 +441,7 @@ class HPaned(Paned, gtk.HPaned):
         gtk.HPaned.__init__(self)
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
+        self.cnxids.new(self, 'button-release-event', self.on_button_release)
 
     def get_length(self):
         return(self.allocation.width)
@@ -448,6 +457,7 @@ class VPaned(Paned, gtk.VPaned):
         gtk.VPaned.__init__(self)
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
+        self.cnxids.new(self, 'button-release-event', self.on_button_release)
 
     def get_length(self):
         return(self.allocation.height)
