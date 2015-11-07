@@ -1172,8 +1172,9 @@ class Terminal(gtk.VBox):
 
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
+        if self.config['inactive_color_offset'] < 1.0:
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
         self.set_cursor_color()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
@@ -1188,8 +1189,9 @@ class Terminal(gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                            self.palette_inactive)
+        if self.config['inactive_color_offset'] < 1.0:
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                                self.palette_inactive)
         self.set_cursor_color()
         self.emit('focus-out')
 

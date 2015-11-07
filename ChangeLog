@@ -25,6 +25,10 @@ terminator trunk:
       of the broken local one (Steve Boddy)
     * Workaround for intltool not handling Python files without an
       extension (Steve Boddy)
+    * Fix intermittant rebalance failures (Steve Boddy, LP#1504560)
+    * Fix focus dimming so when set to 1.0, it doesn't trash temporary
+      palette changes by applications. Not needed in gtk3 (Steve Boddy,
+      LP#1512905)
 
 terminator 0.98:
   * Features
