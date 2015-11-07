@@ -555,7 +555,7 @@ class Terminal(Gtk.VBox):
         screen_h = Gdk.Screen.height()
 
         widget_win = widget.get_window()
-        _something, widget_x, widget_y = widget_win.get_origin()  # VERIFY FOR GTK3: what's the first return value?
+        _something, widget_x, widget_y = widget_win.get_origin()
         _widget_w = widget_win.get_width()
         widget_h = widget_win.get_height()
 
