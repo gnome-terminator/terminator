@@ -28,6 +28,7 @@ except OSError:
 # Check we have simple basics like Gtk+ and a valid $DISPLAY
 try:
     import gi
+    gi.require_version('Gtk','3.0')
     # pylint: disable-msg=W0611
     from gi.repository import Gtk, Gdk
 

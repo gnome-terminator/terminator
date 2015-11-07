@@ -80,6 +80,8 @@ from borg import Borg
 from util import dbg, err, DEBUG, get_config_dir, dict_diff
 
 try:
+    import gi
+    gi.require_version('GConf','2.0')
     from gi.repository import GConf
 except ImportError:
     dbg('Unable to import gconf, GNOME defaults unavailable')
