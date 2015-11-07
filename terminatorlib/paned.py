@@ -155,9 +155,11 @@ class Paned(Container):
         """Handle button presses on a Pane"""
         if event.button == 1:
             if self.last_balance_time > (time.time() - 1):
-                while Gtk.events_pending():
-                    Gtk.main_iteration_do(False)
-                self.do_redistribute(*self.last_balance_args)
+                # Dumb loop still needed, or some terms get squished on a Super rebalance
+                for i in range(3):
+                    while Gtk.events_pending():
+                        Gtk.main_iteration_do(False)
+                    self.do_redistribute(*self.last_balance_args)
         return False
 
     def do_redistribute(self, recurse_up=False, recurse_down=False):
@@ -174,10 +176,7 @@ class Paned(Container):
             if maker.isinstance(grandfather, 'VPaned') or \
                maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
-        
-        GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
-        while Gtk.events_pending():
-            Gtk.main_iteration_do(False)
+
         GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
