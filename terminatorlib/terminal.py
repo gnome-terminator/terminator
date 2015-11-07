@@ -1838,6 +1838,20 @@ class Terminal(gtk.VBox):
         dialog.destroy()
         return
 
+    def key_edit_tab_title(self):
+        window = self.get_toplevel()
+        if not window.is_child_notebook():
+            return
+
+        notebook = window.get_children()[0]
+        n_page = notebook.get_current_page()
+        page = notebook.get_nth_page(n_page)
+        label = notebook.get_tab_label(page)
+        label.edit()
+
+    def key_edit_terminal_title(self):
+        self.titlebar.label.edit()
+
     def key_layout_launcher(self):
         LAYOUTLAUNCHER=LayoutLauncher()
 

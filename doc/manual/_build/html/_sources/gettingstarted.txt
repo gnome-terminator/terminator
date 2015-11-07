@@ -501,15 +501,15 @@ Or maybe for you it is with tabs.
 
 In Terminator you can rename three things:
 
-+----------+---------------------------+-------------------+
-| Edit     | Mouse                     | Default Shortcut  |
-+==========+===========================+===================+
-| Window   | N/A                       | ``Alt``\ +\ ``T`` |
-+----------+---------------------------+-------------------+
-| Titlebar | ``double-click`` titlebar | N/A (TBD)         |
-+----------+---------------------------+-------------------+
-| Tab      | ``double-click`` tab      | N/A (TBD)         |
-+----------+---------------------------+-------------------+
++----------------+---------------------------+--------------------+
+| Edit           | Mouse                     | Default Shortcut   |
++================+===========================+====================+
+| Window title   | N/A                       | ``Ctrl``\ +\ ``W`` |
++----------------+---------------------------+--------------------+
+| Tab title      | ``double-click`` tab      | ``Ctrl``\ +\ ``A`` |
++----------------+---------------------------+--------------------+
+| Terminal title | ``double-click`` titlebar | ``Ctrl``\ +\ ``X`` |
++----------------+---------------------------+--------------------+
 
 Additionally all three can be saved/loaded from a :ref:`layout <layouts>`,
 or the window title can be set using a

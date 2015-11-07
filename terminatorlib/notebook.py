@@ -536,6 +536,9 @@ class TabLabel(gtk.HBox):
         else:
             return(None)
 
+    def edit(self):
+        self.label.edit()
+
     def update_button(self):
         """Update the state of our close button"""
         if not self.config['close_button_on_tab']:
