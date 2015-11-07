@@ -88,10 +88,10 @@ except ImportError:
 
 DEFAULTS = {
         'global_config':   {
-            'dbus'                  : False,
+            'dbus'                  : True,
             'focus'                 : 'click',
             'handle_size'           : -1,
-            'geometry_hinting'      : True,
+            'geometry_hinting'      : False,
             'window_state'          : 'normal',
             'borderless'            : False,
             'tab_position'          : 'top',
