@@ -424,6 +424,7 @@ class HPaned(Paned, Gtk.HPaned):
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
+        self.set_property('position-set',  True)
 
     def get_length(self):
         return(self.get_allocated_width())
@@ -440,6 +441,7 @@ class VPaned(Paned, Gtk.VPaned):
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
+        self.set_property('position-set',  True)
 
     def get_length(self):
         return(self.get_allocated_height())
