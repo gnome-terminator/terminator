@@ -81,16 +81,18 @@ class Titlebar(Gtk.EventBox):
         self.ebox.show_all()
 
         self.bellicon.set_from_icon_name('terminal-bell', Gtk.IconSize.MENU)
+
+        viewport = Gtk.Viewport(hscroll_policy='natural')
+        viewport.add(self.label)
+
         hbox = Gtk.HBox()
         hbox.pack_start(self.ebox, False, True, 0)
         hbox.pack_start(Gtk.VSeparator(), False, True, 0)
-        hbox.pack_start(self.label, True, True, 0)
+        hbox.pack_start(viewport, True, True, 0)
         hbox.pack_end(self.bellicon, False, False, 2)
 
-        viewport = Gtk.Viewport(hscroll_policy='natural')
-        viewport.add(hbox)
-        self.add (viewport)
-        viewport.show_all()
+        self.add(hbox)
+        hbox.show_all()
         self.set_no_show_all(True)
         self.show()
 
