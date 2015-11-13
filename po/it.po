@@ -14,18 +14,18 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-10-06 06:24+0000\n"
-"X-Generator: Launchpad (build 17796)\n"
+"X-Launchpad-Export-Date: 2015-11-13 05:34+0000\n"
+"X-Generator: Launchpad (build 17845)\n"
 "Language: ro\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Apri una nuova finestra"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Apri una nuova scheda"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
@@ -33,11 +33,11 @@ msgstr ""
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Dividi verticalmente il corrente terminale"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Ottieni una lista di tutti i terminali"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
@@ -53,7 +53,7 @@ msgstr ""
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Ottieni il titolo di una scheda genitore"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,6 +62,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Esegui uno dei seguenti comandi Terminator DBus\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""

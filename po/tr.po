@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-10-06 06:24+0000\n"
-"X-Generator: Launchpad (build 17796)\n"
+"X-Launchpad-Export-Date: 2015-11-13 05:34+0000\n"
+"X-Generator: Launchpad (build 17845)\n"
 "Language: tr\n"
 
 #. Command         uuid req.    Description
@@ -29,7 +29,7 @@ msgstr "Yeni bir sekmede aç"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Geçerli terminali yatay olarak böl"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
@@ -37,23 +37,23 @@ msgstr "Geçerli terminali dikey olarak böl"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Tüm terminallerin bir listesini al"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Ana pencerenin UUID'sini al"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Ana pencerenin başlığını al"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Ana sekmenin UUID'sini al"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Ana sekmenin başlığını al"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,6 +62,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Sıradaki Terminator DBus komutlarından birisini çalıştır\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
@@ -115,7 +118,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Sekmeler"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -325,11 +328,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:130
 msgid "Layout"
-msgstr ""
+msgstr "Dizilim"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Çalıştır"
 
 #: ../terminatorlib/notebook.py:350
 msgid "tab"
@@ -483,7 +486,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Etkin"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:132
@@ -574,7 +577,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Görüntüyü kaydet"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -599,7 +602,7 @@ msgstr "Tümü"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
