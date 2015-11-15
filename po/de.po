@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 17:24+0200\n"
-"PO-Revision-Date: 2015-09-10 10:42+0000\n"
+"PO-Revision-Date: 2015-11-14 20:44+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-20 04:31+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-11-15 05:06+0000\n"
+"X-Generator: Launchpad (build 17845)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Ein neues Fenster öffnen"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Einen neuen Tab öffnen"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
@@ -414,11 +414,11 @@ msgstr "Die Fenstereigenschaft WM_WINDOW_ROLE manuell festlegen."
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Mit dem gegebenen Layout starten"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Wählen Sie ein Layout aus einer Liste"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -568,7 +568,7 @@ msgstr "Alle"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Gruppe"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -729,7 +729,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
-msgstr ""
+msgstr "Fensterstatus:"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Always on top"
@@ -753,7 +753,7 @@ msgstr "Tipps zur Fenstergeometrie"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "Mouse focus:"
-msgstr ""
+msgstr "Mausfokus:"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Broadcast default:"
@@ -793,7 +793,7 @@ msgstr "Fensterrahmen"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Tab position:"
-msgstr ""
+msgstr "Reiterposition:"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Tabs homogeneous"
@@ -817,19 +817,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Font color:"
-msgstr ""
+msgstr "Schriftfarbe:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Background:"
-msgstr ""
+msgstr "Hintergrund:"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Hide size from title"
-msgstr ""
+msgstr "Größe im Titel verstecken"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "_Use the system font"
@@ -849,7 +849,7 @@ msgstr "Allgemein"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "_Use the system fixed width font"
@@ -1111,15 +1111,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:133
 msgid "Profile:"
-msgstr ""
+msgstr "Profil:"
 
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Custom command:"
-msgstr ""
+msgstr "Benutzerdefinierter Befehl:"
 
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Working directory:"
-msgstr ""
+msgstr "Arbeitsverzeichnis:"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Layouts"
@@ -1131,7 +1131,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Keybinding"
-msgstr ""
+msgstr "Tastenbelegung"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Keybindings"
@@ -1574,7 +1574,7 @@ msgstr "Weitere Zeichenkodierungen"
 
 #: ../terminatorlib/terminal.py:454
 msgid "N_ew group..."
-msgstr ""
+msgstr "N_eue Gruppe …"
 
 #: ../terminatorlib/terminal.py:460
 msgid "_None"
