@@ -8,51 +8,51 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-09-19 17:24+0200\n"
-"PO-Revision-Date: 2015-08-27 14:10+0000\n"
-"Last-Translator: maor <maor309@gmail.com>\n"
+"PO-Revision-Date: 2015-11-25 08:15+0000\n"
+"Last-Translator: Arthur Zamarin <arthurzam@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-09-20 04:31+0000\n"
-"X-Generator: Launchpad (build 17746)\n"
+"X-Launchpad-Export-Date: 2015-11-26 05:06+0000\n"
+"X-Generator: Launchpad (build 17850)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "פתח חלון חדש"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "פתח לשונית חדשה"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "פצל מסוף אופקית"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "פצל מסוף אנכית"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "קבל רשימת כל המסופים"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "קבל UUID של חלון האב"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "קבל כותרת של חלון האב"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "קבל UUID של לשונית האב"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "קבל כותרת של לשונית האב"
 
 #: ../remotinator.py:63
 #, python-format
@@ -106,7 +106,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "כמה דגשים"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
@@ -114,7 +114,7 @@ msgstr "סדר טרמינלים בטבלה"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "לשוניות"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -122,7 +122,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "קיצורי מקלדת רבים"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "ועוד הרבה..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
@@ -323,11 +323,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:130
 msgid "Layout"
-msgstr ""
+msgstr "פריסה"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "הפעל"
 
 #: ../terminatorlib/notebook.py:350
 msgid "tab"
@@ -401,7 +401,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "בחר פריסה מהרשימה"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
