@@ -115,7 +115,7 @@ class PrefsEditor:
                         'resize_right'     : _('Resize the terminal right'),
                         'move_tab_right'   : _('Move the tab right'),
                         'move_tab_left'    : _('Move the tab left'),
-                        'toggle_zoom'      : _('Maximise terminal'),
+                        'toggle_zoom'      : _('Maximize terminal'),
                         'scaled_zoom'      : _('Zoom terminal'),
                         'next_tab'         : _('Switch to the next tab'),
                         'prev_tab'         : _('Switch to the previous tab'),

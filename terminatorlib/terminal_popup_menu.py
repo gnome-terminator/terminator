@@ -158,7 +158,7 @@ class TerminalPopupMenu(object):
             item.set_sensitive(sensitive)
             menu.append(item)
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximise terminal'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize terminal'))
             item.connect('activate', terminal.maximise)
             item.set_sensitive(sensitive)
             menu.append(item)
