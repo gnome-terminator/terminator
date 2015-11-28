@@ -16,8 +16,7 @@ from cwd import get_pid_cwd
 from version import APP_NAME, APP_VERSION
 
 def eventkey2gdkevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of casting from specific EventKey to generic (union) GdkEvent?
-    gdkevent = Gdk.Event(eventkey.type)
-    gdkevent.key.type = eventkey.type
+    gdkevent = Gdk.Event.new(eventkey.type)
     gdkevent.key.window = eventkey.window
     gdkevent.key.send_event = eventkey.send_event
     gdkevent.key.time = eventkey.time
