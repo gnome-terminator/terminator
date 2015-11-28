@@ -549,8 +549,10 @@ class Terminal(Gtk.VBox):
 
         return(menu)
 
-    def position_popup_group_menu(self, menu, widget):
+    def position_popup_group_menu(self, menu, *args):
         """Calculate the position of the group popup menu"""
+        # GTK API, or GIR just changed the args. See LP#1518058
+        widget = args[-1]
         _screen_w = Gdk.Screen.width()
         screen_h = Gdk.Screen.height()
 
