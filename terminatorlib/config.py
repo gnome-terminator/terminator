@@ -240,6 +240,7 @@ DEFAULTS = {
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
                 'copy_on_selection'     : False,
+                'rewrap_on_resize'      : True,
                 'split_to_group'        : False,
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',

@@ -465,6 +465,10 @@ Default value: \fBUTF-8\fR
 .B copy_on_selection \fR(boolean)
 If set to True, text selections will be automatically copied to the clipboard, in addition to being made the Primary selection.
 Default value: \fBFalse\fR
+.TP
+.B rewrap_on_resize \fR(boolean)
+If True, the terminal contents are rewrapped when the terminal's width changes. Warning: This might be slow if you have a huge scrollback buffer.
+Default value: \fBTrue\fR
 
 .SH layouts
 
