@@ -4,6 +4,7 @@
 """activitywatch.py - Terminator Plugin to watch a terminal for activity"""
 
 import time
+import gi
 from gi.repository import Gtk
 from gi.repository import GObject
 
@@ -14,6 +15,7 @@ from terminatorlib.util import err, dbg
 from terminatorlib.version import APP_NAME
 
 try:
+    gi.require_version('Notify', '0.7')
     from gi.repository import Notify
     # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
     # This is inside this try so we only make the plugin available if pynotify
