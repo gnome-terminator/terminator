@@ -9,9 +9,8 @@ import uuid
 import gi
 from gi.repository import GObject
 from gi.repository import Gtk, Gdk
-from gi.repository import Keybinder
 
-from util import dbg, err, make_uuid
+from util import dbg, err, make_uuid, display_manager
 import util
 from translation import _
 from version import APP_NAME
@@ -19,10 +18,13 @@ from container import Container
 from factory import Factory
 from terminator import Terminator
 
-try:
-    from gi.repository import Keybinder
-except ImportError:
-    err('Warning: python-keybinder is not installed. This means the \
+if display_manager() == 'X11':
+    try:
+        gi.require_version('Keybinder', '3.0')
+        from gi.repository import Keybinder
+        Keybinder.init()
+    except ImportError:
+        err('Warning: python-keybinder is not installed. This means the \
 hide_window shortcut will be unavailable')
 
 # pylint: disable-msg=R0904
@@ -120,18 +122,19 @@ class Window(Container, Gtk.Window):
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
         if self.config['keybindings']['hide_window'] != None:
-            try:
-                self.hidebound = Keybinder.bind(
-                    self.config['keybindings']['hide_window'],
-                    self.on_hide_window)
-            except (KeyError, NameError):
-                pass
+            if display_manager() == 'X11':
+                try:
+                    self.hidebound = Keybinder.bind(
+                        self.config['keybindings']['hide_window'],
+                        self.on_hide_window)
+                except (KeyError, NameError):
+                    pass
 
-            if not self.hidebound:
-                err('Unable to bind hide_window key, another instance/window has it.')
-                self.hidefunc = self.iconify
-            else:
-                self.hidefunc = self.hide
+                if not self.hidebound:
+                    err('Unable to bind hide_window key, another instance/window has it.')
+                    self.hidefunc = self.iconify
+                else:
+                    self.hidefunc = self.hide
 
     def apply_config(self):
         """Apply various configuration options"""

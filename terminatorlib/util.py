@@ -337,3 +337,10 @@ def spawn_new_terminator(cwd, args):
       
     dbg("Spawning: %s" % cmd)
     subprocess.Popen([cmd]+args)
+
+def display_manager():
+    """Try to detect which display manager we run under"""
+    if os.environ.get('WAYLAND_DISPLAY'):
+        return 'WAYLAND'
+    # Fallback assumption of X11
+    return 'X11'
