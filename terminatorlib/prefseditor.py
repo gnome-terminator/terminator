@@ -424,6 +424,12 @@ class PrefsEditor:
         # Rewrap on resize
         widget = guiget('rewrap_on_resize_checkbutton')
         widget.set_active(self.config['rewrap_on_resize'])
+        # Word chars
+        widget = guiget('word_chars_entry')
+        widget.set_text(self.config['word_chars'])
+        # Word char support was missing from vte 0.38, hide from the UI
+        if not hasattr(self.term.vte, 'set_word_char_exceptions'):
+            guiget('word_chars_hbox').hide()
         # Cursor shape
         widget = guiget('cursor_shape_combobox')
         if self.config['cursor_shape'] == 'underline':
@@ -927,6 +933,11 @@ class PrefsEditor:
         else:
             value = 'block'
         self.config['cursor_shape'] = value
+        self.config.save()
+
+    def on_word_chars_entry_changed(self, widget):
+        """Word characters changed"""
+        self.config['word_chars'] = widget.get_text()
         self.config.save()
 
     def on_font_selector_font_set(self, widget):
