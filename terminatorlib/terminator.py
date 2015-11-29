@@ -25,6 +25,7 @@ class Terminator(Borg):
     groups = None
     config = None
     keybindings = None
+    last_focused_term = None
 
     origcwd = None
     dbus_path = None
