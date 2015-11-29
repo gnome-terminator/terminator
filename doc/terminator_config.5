@@ -418,9 +418,9 @@ Default value: \fBblock\fR
 Sets what type of terminal should be emulated.
 Default value: \fBxterm\fR
 .TP
-.B xterm
+.B term
 This translates into the value that will be set for TERM in the environment of your terminals.
-Default value: \fBxterm\fR
+Default value: \fBxterm-256color\fR
 .TP
 .B colorterm
 This translates into the value that will be set for COLORTERM in the environment of your terminals.
@@ -463,11 +463,11 @@ Whether or not the mouse wheel scrolls alternate screen buffers (man, vim, mutt,
 Default value: \fBTrue\fR
 .TP
 .B scrollback_lines
-Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Be careful with this setting; it's the primary factor in determining how much memory the terminal will use.
+Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded.
 Default value: \fB500\fR
 .TP
 .B scrollback_infinite
-If this is set to True, scrollback_lines will be ignored and VTE will continue to allocate RAM for scrollback history.
+If this is set to True, scrollback_lines will be ignored and VTE will keep the entire scrollback history.
 Default value: \fBFalse\fR
 .TP
 .B focus_on_close
@@ -531,4 +531,5 @@ Window objects may not have a parent attribute. \fBEvery\fR other object must sp
 Terminator plugins can add their own configuration to the config file, and will appear as a sub-section. Please refer to the documentation of individual plugins for more information.
 
 .SH "SEE ALSO"
-.BR gnome\-terminal(1), http://www.voidspace.org.uk/python/configobj.html
+.TP
+\fBterminator\fP(1), http://www.voidspace.org.uk/python/configobj.html

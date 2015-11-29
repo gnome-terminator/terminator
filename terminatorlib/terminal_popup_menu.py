@@ -150,12 +150,16 @@ class TerminalPopupMenu(object):
         menu.append(gtk.MenuItem())
 
         if not terminal.is_zoomed():
+            sensitive = not terminal.get_toplevel() == terminal.get_parent()
+
             item = gtk.MenuItem(_('_Zoom terminal'))
             item.connect('activate', terminal.zoom)
+            item.set_sensitive(sensitive)
             menu.append(item)
 
-            item = gtk.MenuItem(_('Ma_ximise terminal'))
+            item = gtk.MenuItem(_('Ma_ximize terminal'))
             item.connect('activate', terminal.maximise)
+            item.set_sensitive(sensitive)
             menu.append(item)
 
             menu.append(gtk.MenuItem())

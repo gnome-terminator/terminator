@@ -86,6 +86,8 @@ class PluginRegistry(borg.Borg):
                 sys.path.remove(plugindir)
                 continue
             for plugin in files:
+                if plugin == '__init__.py':
+                    continue
                 pluginpath = os.path.join(plugindir, plugin)
                 if os.path.isfile(pluginpath) and plugin[-3:] == '.py':
                     dbg('PluginRegistry::load_plugins: Importing plugin %s' % 

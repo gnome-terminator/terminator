@@ -1,6 +1,7 @@
 terminator trunk:
-  * Features
-  * Enhancements
+  Features
+
+  Enhancements
     * As part of GTK3 fixup, some backported improvements to the DBus
       interface, and remotinator (Steve Boddy)
       * Can now open a window or tab using remotinator
@@ -17,7 +18,14 @@ terminator trunk:
         (Steve Boddy)
       * Updated and grouped default shortcuts in man page (Steve Boddy)
       * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
-  * Bug fixes
+    * Make Zoom/Maximize inactive if a single terminal (Egmont
+      Koblinger, LP#1518081)
+    * Add dimming for 256 colour palettes (Egmont Koblinger,
+      LP#1518111)
+    * Update TERM to more modern values (Egmont Koblinger,
+      LP#1518557)
+
+  Bug fixes
     * Fix for those not running IBus, where the IBus workaround caused
       broken keys in other keymaps set with non-IBus tools (Steve
       Boddy, LP#1494606)
@@ -29,6 +37,21 @@ terminator trunk:
     * Fix focus dimming so when set to 1.0, it doesn't trash temporary
       palette changes by applications. Not needed in gtk3 (Steve Boddy,
       LP#1512905)
+    * Correct some British spelt translated strings to American
+      (Egmont Koblinger, LP#1518085)
+    * Fix the palette for inactive terminals after Prefs window
+      (Egmont Koblinger, LP#1518108)
+    * Fix copy on selection to work on already open terminals (Egmont
+      Koblinger, LP#1518109)
+    * Fix warning trying to import the __init__.py file as a plugin
+      (Egmont Koblinger, LP#1518065)
+    * Fix unwanted seperator size change, and increase granularity of
+      dim/transparent sliders (Egmont Koblinger, LP#1518114)
+    * Fix cwd when new term spawned from a symlinked directory - has
+      no impact, just keeping code aligned (Egmont Koblinger,
+      LP#1518554)
+    * Correct terminator_config man page regarding scrollback (Egmont
+      Koblinger, LP#1518559)
 
 terminator 0.98:
   * Features
