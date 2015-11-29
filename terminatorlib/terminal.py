@@ -352,6 +352,10 @@ class Terminal(Gtk.VBox):
         self.vte.match_remove(self.matches[name])
         del(self.matches[name])
 
+    def maybe_copy_clipboard(self):
+        if self.config['copy_on_selection']:
+            self.vte.copy_clipboard()
+
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
@@ -410,10 +414,8 @@ class Terminal(Gtk.VBox):
         self.vte.connect('drag-data-received',
             self.on_drag_data_received, self)
 
-        # FIXME: Shouldn't this be in configure()?
-        if self.config['copy_on_selection']:
-            self.cnxids.new(self.vte, 'selection-changed', 
-                    lambda widget: self.vte.copy_clipboard())
+        self.cnxids.new(self.vte, 'selection-changed', 
+            lambda widget: self.maybe_copy_clipboard())
 
         if self.composite_support:
             self.vte.connect('composited-changed', self.reconfigure)
