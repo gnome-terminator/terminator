@@ -69,7 +69,7 @@
         <col id="0" translatable="yes">Black on white</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Grey on black</col>
+        <col id="0" translatable="yes">Gray on black</col>
       </row>
       <row>
         <col id="0" translatable="yes">Green on black</col>
@@ -861,10 +861,12 @@
                                 </child>
                                 <child>
                                   <object class="GtkHScale" id="inactive_color_offset">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">adjustment7</property>
-                                    <property name="round_digits">1</property>
+                                    <property name="round_digits">2</property>
+                                    <property name="digits">2</property>
                                     <property name="value_pos">left</property>
                                     <signal name="change-value" handler="on_inactive_color_offset_change_value" swapped="no"/>
                                   </object>
@@ -1601,6 +1603,63 @@
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="rewrap_on_resize_checkbutton">
+                                <property name="label" translatable="yes">Rewrap on resize</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_rewrap_on_resize_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="word_chars_hbox">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">12</property>
+                                <child>
+                                  <object class="GtkLabel" id="word_chars_entry_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Select-by-_word characters:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="justify">center</property>
+                                    <property name="mnemonic_widget">word_chars_entry</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="word_chars_entry">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">â€¢</property>
+                                    <signal name="changed" handler="on_word_chars_entry_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">6</property>
                               </packing>
                             </child>
                           </object>
@@ -2782,7 +2841,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">background_darkness_scale</property>
-                                    <property name="round_digits">1</property>
+                                    <property name="round_digits">2</property>
+                                    <property name="digits">2</property>
                                     <property name="value_pos">bottom</property>
                                     <signal name="change-value" handler="on_darken_background_scale_change_value" swapped="no"/>
                                   </object>

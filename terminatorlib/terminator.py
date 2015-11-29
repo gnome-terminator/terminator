@@ -16,8 +16,7 @@ from cwd import get_pid_cwd
 from version import APP_NAME, APP_VERSION
 
 def eventkey2gdkevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of casting from specific EventKey to generic (union) GdkEvent?
-    gdkevent = Gdk.Event(eventkey.type)
-    gdkevent.key.type = eventkey.type
+    gdkevent = Gdk.Event.new(eventkey.type)
     gdkevent.key.window = eventkey.window
     gdkevent.key.send_event = eventkey.send_event
     gdkevent.key.time = eventkey.time
@@ -40,6 +39,8 @@ class Terminator(Borg):
     groups = None
     config = None
     keybindings = None
+    style_provider = None
+    last_focused_term = None
 
     origcwd = None
     dbus_path = None
@@ -364,14 +365,23 @@ class Terminator(Borg):
     def reconfigure(self):
         """Update configuration for the whole application"""
 
+        if self.style_provider is not None:
+            Gtk.StyleContext.remove_provider_for_screen(
+                Gdk.Screen.get_default(),
+                self.style_provider)
+            self.style_provider = None
         if self.config['handle_size'] in xrange(0, 6):
-            Gtk.rc_parse_string("""
-                style "terminator-paned-style" {
-                    GtkPaned::handle_size = %s 
+            css = """
+                GtkPaned {
+                    -GtkPaned-handle-size: %s
                 }
-                class "GtkPaned" style "terminator-paned-style" 
-                """ % self.config['handle_size'])
-            Gtk.rc_reset_styles(Gtk.Settings.get_default())
+                """ % self.config['handle_size']
+            self.style_provider = Gtk.CssProvider()
+            self.style_provider.load_from_data(css)
+            Gtk.StyleContext.add_provider_for_screen(
+                Gdk.Screen.get_default(), 
+                self.style_provider,     
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:

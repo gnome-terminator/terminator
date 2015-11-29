@@ -382,13 +382,13 @@ Default value: Current value of \fBforeground_color\fR
 Default shape of cursor. Possibilities are "block", "ibeam", and "underline".
 Default value: \fBblock\fR
 .TP
-.B xterm
+.B term
 This translates into the value that will be set for TERM in the environment of your terminals.
-Default value: \fBxterm\fR
+Default value: \fBxterm-256color\fR
 .TP
 .B colorterm
 This translates into the value that will be set for COLORTERM in the environment of your terminals.
-Default value: \fBgnome-terminal\fR
+Default value: \fBtruecolor\fR
 .TP
 .B use_system_font
 Whether or not to use the GNOME default monospace font for terminals.
@@ -423,11 +423,11 @@ If true, whenever there's new output the terminal will scroll to the bottom.
 Default value: \fBTrue\fR
 .TP
 .B scrollback_lines
-Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Be careful with this setting; it's the primary factor in determining how much memory the terminal will use.
+Number of scrollback lines to keep around. You can scroll back in the terminal by this number of lines; lines that don't fit in the scrollback are discarded. Warning: with large values, rewrapping on resize might be slow.
 Default value: \fB500\fR
 .TP
 .B scrollback_infinite
-If this is set to True, scrollback_lines will be ignored and VTE will continue to allocate RAM for scrollback history.
+If this is set to True, scrollback_lines will be ignored and VTE will keep the entire scrollback history.
 Default value: \fBFalse\fR
 .TP
 .B focus_on_close
@@ -441,6 +441,10 @@ Default value: \fBclose\fR
 .TP
 .B palette
 Terminals have a 16-colour palette that applications inside the terminal can use. This is that palette, in the form of a colon-separated list of colour names. Colour names should be in hex format e.g. "#FF00FF".
+.TP
+.B word_chars
+These characters are included when selecting text by double clicking.
+Default value: \fB',./?%&#:_'\fR
 .TP
 .B mouse_autohide \fR(boolean)
 Controls whether the mouse cursor should be hidden while typing.
@@ -465,6 +469,10 @@ Default value: \fBUTF-8\fR
 .B copy_on_selection \fR(boolean)
 If set to True, text selections will be automatically copied to the clipboard, in addition to being made the Primary selection.
 Default value: \fBFalse\fR
+.TP
+.B rewrap_on_resize \fR(boolean)
+If True, the terminal contents are rewrapped when the terminal's width changes. Warning: This might be slow if you have a huge scrollback buffer.
+Default value: \fBTrue\fR
 
 .SH layouts
 
@@ -487,4 +495,5 @@ Window objects may not have a parent attribute. \fBEvery\fR other object must sp
 Terminator plugins can add their own configuration to the config file, and will appear as a sub-section. Please refer to the documentation of individual plugins for more information.
 
 .SH "SEE ALSO"
-.BR gnome\-terminal(1), http://www.voidspace.org.uk/python/configobj.html
+.TP
+\fBterminator\fP(1), http://www.voidspace.org.uk/python/configobj.html

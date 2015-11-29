@@ -212,8 +212,8 @@ DEFAULTS = {
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
                 'cursor_color'          : '#aaaaaa',
-                'term'                  : 'xterm',
-                'colorterm'             : 'gnome-terminal',
+                'term'                  : 'xterm-256color',
+                'colorterm'             : 'truecolor',
                 'font'                  : 'Mono 10',
                 'foreground_color'      : '#aaaaaa',
                 'show_titlebar'         : True,
@@ -227,6 +227,7 @@ DEFAULTS = {
                 'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
+                'word_chars'            : ',./?%&#:_',
                 'mouse_autohide'        : True,
                 'update_records'        : True,
                 'login_shell'           : False,
@@ -240,6 +241,7 @@ DEFAULTS = {
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
                 'copy_on_selection'     : False,
+                'rewrap_on_resize'      : True,
                 'split_to_group'        : False,
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',

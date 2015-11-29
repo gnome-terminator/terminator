@@ -40,7 +40,7 @@ class TerminalPopupMenu(object):
         self.config.set_profile(terminal.get_profile())
 
         if event:
-            url = terminal.check_for_url(event)
+            url = terminal.vte.match_check_event(event)
             button = event.button
             time = event.time
         else:
@@ -151,12 +151,16 @@ class TerminalPopupMenu(object):
         menu.append(Gtk.MenuItem())
 
         if not terminal.is_zoomed():
+            sensitive = not terminal.get_toplevel() == terminal.get_parent()
+
             item = Gtk.MenuItem.new_with_mnemonic(_('_Zoom terminal'))
             item.connect('activate', terminal.zoom)
+            item.set_sensitive(sensitive)
             menu.append(item)
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximise terminal'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize terminal'))
             item.connect('activate', terminal.maximise)
+            item.set_sensitive(sensitive)
             menu.append(item)
 
             menu.append(Gtk.MenuItem())

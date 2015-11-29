@@ -1,3 +1,49 @@
+terminator GTK3:
+  Features
+    * Add word chars back in if VTE is 0.40+ (Egmont Koblinger,
+      LP#1518078)
+
+  Enhancements
+    * Add option to toggle the rewrap on resize (Egmont Koblinger,
+      LP#1518077)
+    * Make Zoom/Maximize inactive if a single terminal (Egmont
+      Koblinger, LP#1518081)
+    * Add dimming for 256 colour palettes (Egmont Koblinger,
+      LP#1518111)
+    * Update TERM/COLORTERM to more modern values (Egmont Koblinger,
+      LP#1518557)
+
+  Bug fixes
+    * Fix a GI version warning for Notify library (Mattias Eriksson)
+    * Fix warning trying to import the __init__.py file as a plugin
+      (Mattias Eriksson, LP#1518065)
+    * Fix deprcation warning in later GTK versions (Egmont Koblinger,
+      LP#1518063)
+    * Fix separator sizing (Egmont Koblinger, LP#1518069)
+    * Fix positioning of group popup menu for later versions of GTK
+      (Egmont Koblinger, LP#1518058)
+    * Correct some British spelt translated strings to American
+      (Egmont Koblinger, LP#1518085)
+    * Fix double double-click on titlebar in later GTK3 (Egmont
+      Koblinger, LP#1518094)
+    * Fix the palette for inactive terminals after Prefs window
+      (Egmont Koblinger, LP#1518108)
+    * Fix copy on selection to work on already open terminals
+      (Egmont Koblinger, LP#1518109)
+    * Fix unwanted seperator size change, and increase granularity of
+      dim/transparent sliders (Egmont Koblinger, LP#1518114)
+    * Fix cwd when new term spawned from a symlinked directory
+      (Egmont Koblinger, LP#1518554)
+    * Correct terminator_config man page regarding scrollback
+      (Egmont Koblinger, LP#1518559)
+    * Fix exception when Ctrl-clicking the terminal when not over a
+      URL (Egmont Koblinger, LP#1518592)
+    * Fix Ctrl-click on URL if terminal has padding (Egmont
+      Koblinger, LP#1518596)
+    * Fix right-click for mouse aware apps ((Egmont Koblinger,
+      LP#1518700)
+
+
 terminator 0.97:
   * Allow font dimming in inactive terminals
   * Allow URL handler plugins to override label text for URL context

@@ -115,7 +115,7 @@ class PrefsEditor:
                         'resize_right'     : _('Resize the terminal right'),
                         'move_tab_right'   : _('Move the tab right'),
                         'move_tab_left'    : _('Move the tab left'),
-                        'toggle_zoom'      : _('Maximise terminal'),
+                        'toggle_zoom'      : _('Maximize terminal'),
                         'scaled_zoom'      : _('Zoom terminal'),
                         'next_tab'         : _('Switch to the next tab'),
                         'prev_tab'         : _('Switch to the previous tab'),
@@ -421,6 +421,15 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
+        # Rewrap on resize
+        widget = guiget('rewrap_on_resize_checkbutton')
+        widget.set_active(self.config['rewrap_on_resize'])
+        # Word chars
+        widget = guiget('word_chars_entry')
+        widget.set_text(self.config['word_chars'])
+        # Word char support was missing from vte 0.38, hide from the UI
+        if not hasattr(self.term.vte, 'set_word_char_exceptions'):
+            guiget('word_chars_hbox').hide()
         # Cursor shape
         widget = guiget('cursor_shape_combobox')
         if self.config['cursor_shape'] == 'underline':
@@ -696,6 +705,11 @@ class PrefsEditor:
         self.config['copy_on_selection'] = widget.get_active()
         self.config.save()
 
+    def on_rewrap_on_resize_toggled(self, widget):
+        """Rewrap on resize setting changed"""
+        self.config['rewrap_on_resize'] = widget.get_active()
+        self.config.save()
+
     def on_cursor_blink_toggled(self, widget):
         """Cursor blink setting changed"""
         self.config['cursor_blink'] = widget.get_active()
@@ -812,9 +826,12 @@ class PrefsEditor:
         self.config['scrollbar_position'] = value
         self.config.save()
 
-    def on_darken_background_scale_change_value(self, widget, scroll, value):
+    def on_darken_background_scale_change_value(self, widget, scroll, _value_not_rounded):
         """Background darkness setting changed"""
-        self.config['background_darkness'] = round(value, 2)
+        value = widget.get_value()  # This one is rounded according to the UI.
+        if value > 1.0:
+          value = 1.0
+        self.config['background_darkness'] = value
         self.config.save()
 
     def on_palette_combobox_changed(self, widget):
@@ -921,6 +938,11 @@ class PrefsEditor:
         self.config['cursor_shape'] = value
         self.config.save()
 
+    def on_word_chars_entry_changed(self, widget):
+        """Word characters changed"""
+        self.config['word_chars'] = widget.get_text()
+        self.config.save()
+
     def on_font_selector_font_set(self, widget):
         """Font changed"""
         self.config['font'] = widget.get_font_name()
@@ -961,16 +983,18 @@ class PrefsEditor:
         self.config['title_transmit_fg_color'] = color2hex(widget)
         self.config.save()
 
-    def on_inactive_color_offset_change_value(self, widget, scroll, value):
+    def on_inactive_color_offset_change_value(self, widget, scroll, _value_not_rounded):
         """Inactive color offset setting changed"""
+        value = widget.get_value()  # This one is rounded according to the UI.
         if value > 1.0:
           value = 1.0
-        self.config['inactive_color_offset'] = round(value, 2)
+        self.config['inactive_color_offset'] = value
         self.config.save()
 
-    def on_handlesize_change_value(self, widget, scroll, value):
+    def on_handlesize_change_value(self, widget, scroll, _value_not_rounded):
         """Handle size changed"""
-        value = int(value)
+        value = widget.get_value()  # This one is rounded according to the UI.
+        value = int(value)          # Cast to int.
         if value > 5:
             value = 5
         self.config['handle_size'] = value

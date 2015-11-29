@@ -352,6 +352,10 @@ class Terminal(Gtk.VBox):
         self.vte.match_remove(self.matches[name])
         del(self.matches[name])
 
+    def maybe_copy_clipboard(self):
+        if self.config['copy_on_selection']:
+            self.vte.copy_clipboard()
+
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
@@ -410,10 +414,8 @@ class Terminal(Gtk.VBox):
         self.vte.connect('drag-data-received',
             self.on_drag_data_received, self)
 
-        # FIXME: Shouldn't this be in configure()?
-        if self.config['copy_on_selection']:
-            self.cnxids.new(self.vte, 'selection-changed', 
-                    lambda widget: self.vte.copy_clipboard())
+        self.cnxids.new(self.vte, 'selection-changed', 
+            lambda widget: self.maybe_copy_clipboard())
 
         if self.composite_support:
             self.vte.connect('composited-changed', self.reconfigure)
@@ -549,8 +551,10 @@ class Terminal(Gtk.VBox):
 
         return(menu)
 
-    def position_popup_group_menu(self, menu, widget):
+    def position_popup_group_menu(self, menu, *args):
         """Calculate the position of the group popup menu"""
+        # GTK API, or GIR just changed the args. See LP#1518058
+        widget = args[-1]
         _screen_w = Gdk.Screen.width()
         screen_h = Gdk.Screen.height()
 
@@ -628,6 +632,9 @@ class Terminal(Gtk.VBox):
 
         if self.custom_encoding != True:
             self.vte.set_encoding(self.config['encoding'])
+        # Word char support was missing from vte 0.38, silently skip this setting
+        if hasattr(self.vte, 'set_word_char_exceptions'):
+            self.vte.set_word_char_exceptions(self.config['word_chars'])
         self.vte.set_mouse_autohide(self.config['mouse_autohide'])
 
         backspace = self.config['backspace_binding']
@@ -715,19 +722,41 @@ class Terminal(Gtk.VBox):
                                                       getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
-        self.palette_inactive = []
         for color in colors:
             if color:
                 newcolor = Gdk.RGBA()
                 newcolor.parse(color)
-                newcolor_inactive = newcolor.copy()
-                for bit in ['red', 'green', 'blue']:
-                    setattr(newcolor_inactive, bit,
-                            getattr(newcolor_inactive, bit) * factor)
                 self.palette_active.append(newcolor)
-                self.palette_inactive.append(newcolor_inactive)
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
+        if len(colors) == 16:
+            # RGB values for indices 16..255 copied from vte source in order to dim them
+            shades = [0, 95, 135, 175, 215, 255]
+            for r in xrange(0, 6):
+                for g in xrange(0, 6):
+                    for b in xrange(0, 6):
+                        newcolor = Gdk.RGBA()
+                        setattr(newcolor, "red",   shades[r] / 255.0)
+                        setattr(newcolor, "green", shades[g] / 255.0)
+                        setattr(newcolor, "blue",  shades[b] / 255.0)
+                        self.palette_active.append(newcolor)
+            for y in xrange(8, 248, 10):
+                newcolor = Gdk.RGBA()
+                setattr(newcolor, "red",   y / 255.0)
+                setattr(newcolor, "green", y / 255.0)
+                setattr(newcolor, "blue",  y / 255.0)
+                self.palette_active.append(newcolor)        
+        self.palette_inactive = []
+        for color in self.palette_active:
+            newcolor = Gdk.RGBA()
+            for bit in ['red', 'green', 'blue']:
+                setattr(newcolor, bit,
+                        getattr(color, bit) * factor)
+            self.palette_inactive.append(newcolor)
+        if self.terminator.last_focused_term == self:
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+        else:
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                                self.palette_inactive)
         self.set_cursor_color()
         self.vte.set_cursor_shape(getattr(Vte.CursorShape,
                                           self.config['cursor_shape'].upper()));
@@ -769,6 +798,8 @@ class Terminal(Gtk.VBox):
                     self.reorder_child(self.scrollbar, 0)
                 elif self.config['scrollbar_position'] == 'right':
                     self.reorder_child(self.vte, 0)
+
+        self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
 
         self.titlebar.update()
         self.vte.queue_draw()
@@ -889,17 +920,22 @@ class Terminal(Gtk.VBox):
         if event.button == 1:
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-                url = self.check_for_url(event)
-                if url:
+                url = self.vte.match_check_event(event)
+                if url[0]:
                     self.open_url(url, prepare=True)
         elif event.button == 2:
             # middleclick should paste the clipboard
             self.paste_clipboard(True)
             return(True)
         elif event.button == 3:
-            # rightclick should display a context menu if Ctrl is not pressed
+            # rightclick should display a context menu if Ctrl is not pressed,
+            # plus either the app is not interested in mouse events or Shift is pressed
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
-                self.popup_menu(widget, event)
+                if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
+                    if not Vte.Terminal.do_button_press_event(self.vte, event):
+                        self.popup_menu(widget, event)
+                else:
+                    self.popup_menu(widget, event)
                 return(True)
 
         return(False)
@@ -1363,6 +1399,7 @@ class Terminal(Gtk.VBox):
         envv = []
         envv.append('TERM=%s' % self.config['term'])
         envv.append('COLORTERM=%s' % self.config['colorterm'])
+        envv.append('PWD=%s' % self.cwd)
         envv.append('TERMINATOR_UUID=%s' % self.uuid.urn)
         if self.terminator.dbus_name:
             envv.append('TERMINATOR_DBUS_NAME=%s' % self.terminator.dbus_name)
@@ -1385,11 +1422,6 @@ class Terminal(Gtk.VBox):
         if self.pid == -1:
             self.vte.feed(_('Unable to start shell:') + shell)
             return(-1)
-
-    def check_for_url(self, event):
-        """Check if the mouse is over a URL"""
-        return (self.vte.match_check(int(event.x / self.vte.get_char_width()),
-            int(event.y / self.vte.get_char_height())))
 
     def prepare_url(self, urlmatch):
         """Prepare a URL from a VTE match"""
