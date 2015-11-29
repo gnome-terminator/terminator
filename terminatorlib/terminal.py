@@ -669,16 +669,33 @@ class Terminal(gtk.VBox):
                                                       getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
-        self.palette_inactive = []
         for color in colors:
             if color:
                 newcolor = gtk.gdk.color_parse(color)
-                newcolor_inactive = newcolor.copy()
-                for bit in ['red', 'green', 'blue']:
-                    setattr(newcolor_inactive, bit,
-                            getattr(newcolor_inactive, bit) * factor)
                 self.palette_active.append(newcolor)
-                self.palette_inactive.append(newcolor_inactive)
+        if len(colors) == 16:
+            # RGB values for indices 16..255 copied from vte source in order to dim them
+            shades = [0, 95, 135, 175, 215, 255]
+            for r in xrange(0, 6):
+                for g in xrange(0, 6):
+                    for b in xrange(0, 6):
+                        newcolor = gtk.gdk.Color(shades[r] / 255.0,
+                                                 shades[g] / 255.0,
+                                                 shades[b] / 255.0)
+                        self.palette_active.append(newcolor)
+            for y in xrange(8, 248, 10):
+                newcolor = gtk.gdk.Color(y / 255.0,
+                                         y / 255.0,
+                                         y / 255.0)
+                self.palette_active.append(newcolor)
+        self.palette_active = self.palette_active[:255]
+        self.palette_inactive = []
+        for color in self.palette_active:
+            newcolor = gtk.gdk.Color()
+            for bit in ['red', 'green', 'blue']:
+                setattr(newcolor, bit,
+                        getattr(color, bit) * factor)
+            self.palette_inactive.append(newcolor)
         if self.terminator.last_focused_term == self:
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
