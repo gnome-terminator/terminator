@@ -921,7 +921,7 @@ class Terminal(Gtk.VBox):
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
                 url = self.check_for_url(event)
-                if url:
+                if url[0]:
                     self.open_url(url, prepare=True)
         elif event.button == 2:
             # middleclick should paste the clipboard
