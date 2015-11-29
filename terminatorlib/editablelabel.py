@@ -73,6 +73,8 @@ class EditableLabel(Gtk.EventBox):
         if event.button != 1:
             return False
         if event.type == Gdk.EventType._2BUTTON_PRESS:
+            if self._entry:
+                return False
             self.remove (self._label)
             self._entry = Gtk.Entry ()
             self._entry.set_text (self._label.get_text ())
