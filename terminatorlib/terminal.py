@@ -920,7 +920,7 @@ class Terminal(Gtk.VBox):
         if event.button == 1:
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-                url = self.check_for_url(event)
+                url = self.vte.match_check_event(event)
                 if url[0]:
                     self.open_url(url, prepare=True)
         elif event.button == 2:
@@ -1417,11 +1417,6 @@ class Terminal(Gtk.VBox):
         if self.pid == -1:
             self.vte.feed(_('Unable to start shell:') + shell)
             return(-1)
-
-    def check_for_url(self, event):
-        """Check if the mouse is over a URL"""
-        return (self.vte.match_check(int(event.x / self.vte.get_char_width()),
-            int(event.y / self.vte.get_char_height())))
 
     def prepare_url(self, urlmatch):
         """Prepare a URL from a VTE match"""

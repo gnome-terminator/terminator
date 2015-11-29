@@ -40,7 +40,7 @@ class TerminalPopupMenu(object):
         self.config.set_profile(terminal.get_profile())
 
         if event:
-            url = terminal.check_for_url(event)
+            url = terminal.vte.match_check_event(event)
             button = event.button
             time = event.time
         else:
