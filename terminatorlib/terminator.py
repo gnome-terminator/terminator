@@ -40,6 +40,7 @@ class Terminator(Borg):
     config = None
     keybindings = None
     style_provider = None
+    last_focused_term = None
 
     origcwd = None
     dbus_path = None

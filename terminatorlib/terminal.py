@@ -731,8 +731,12 @@ class Terminal(Gtk.VBox):
                             getattr(newcolor_inactive, bit) * factor)
                 self.palette_active.append(newcolor)
                 self.palette_inactive.append(newcolor_inactive)
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
+        if self.terminator.last_focused_term == self:
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+        else:
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                                self.palette_inactive)
         self.set_cursor_color()
         self.vte.set_cursor_shape(getattr(Vte.CursorShape,
                                           self.config['cursor_shape'].upper()));
