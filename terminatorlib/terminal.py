@@ -928,9 +928,14 @@ class Terminal(Gtk.VBox):
             self.paste_clipboard(True)
             return(True)
         elif event.button == 3:
-            # rightclick should display a context menu if Ctrl is not pressed
+            # rightclick should display a context menu if Ctrl is not pressed,
+            # plus either the app is not interested in mouse events or Shift is pressed
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
-                self.popup_menu(widget, event)
+                if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
+                    if not Vte.Terminal.do_button_press_event(self.vte, event):
+                        self.popup_menu(widget, event)
+                else:
+                    self.popup_menu(widget, event)
                 return(True)
 
         return(False)
