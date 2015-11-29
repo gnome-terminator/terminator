@@ -826,9 +826,12 @@ class PrefsEditor:
         self.config['scrollbar_position'] = value
         self.config.save()
 
-    def on_darken_background_scale_change_value(self, widget, scroll, value):
+    def on_darken_background_scale_change_value(self, widget, scroll, _value_not_rounded):
         """Background darkness setting changed"""
-        self.config['background_darkness'] = round(value, 2)
+        value = widget.get_value()  # This one is rounded according to the UI.
+        if value > 1.0:
+          value = 1.0
+        self.config['background_darkness'] = value
         self.config.save()
 
     def on_palette_combobox_changed(self, widget):
@@ -980,16 +983,18 @@ class PrefsEditor:
         self.config['title_transmit_fg_color'] = color2hex(widget)
         self.config.save()
 
-    def on_inactive_color_offset_change_value(self, widget, scroll, value):
+    def on_inactive_color_offset_change_value(self, widget, scroll, _value_not_rounded):
         """Inactive color offset setting changed"""
+        value = widget.get_value()  # This one is rounded according to the UI.
         if value > 1.0:
           value = 1.0
-        self.config['inactive_color_offset'] = round(value, 2)
+        self.config['inactive_color_offset'] = value
         self.config.save()
 
-    def on_handlesize_change_value(self, widget, scroll, value):
+    def on_handlesize_change_value(self, widget, scroll, _value_not_rounded):
         """Handle size changed"""
-        value = int(value)
+        value = widget.get_value()  # This one is rounded according to the UI.
+        value = int(value)          # Cast to int.
         if value > 5:
             value = 5
         self.config['handle_size'] = value

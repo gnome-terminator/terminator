@@ -861,10 +861,12 @@
                                 </child>
                                 <child>
                                   <object class="GtkHScale" id="inactive_color_offset">
+                                    <property name="width_request">100</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">adjustment7</property>
-                                    <property name="round_digits">1</property>
+                                    <property name="round_digits">2</property>
+                                    <property name="digits">2</property>
                                     <property name="value_pos">left</property>
                                     <signal name="change-value" handler="on_inactive_color_offset_change_value" swapped="no"/>
                                   </object>
@@ -2839,7 +2841,8 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">background_darkness_scale</property>
-                                    <property name="round_digits">1</property>
+                                    <property name="round_digits">2</property>
+                                    <property name="digits">2</property>
                                     <property name="value_pos">bottom</property>
                                     <signal name="change-value" handler="on_darken_background_scale_change_value" swapped="no"/>
                                   </object>
