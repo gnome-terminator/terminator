@@ -1407,6 +1407,7 @@ class Terminal(gtk.VBox):
         envv = []
         envv.append('TERM=%s' % self.config['term'])
         envv.append('COLORTERM=%s' % self.config['colorterm'])
+        envv.append('PWD=%s' % self.cwd)
         envv.append('TERMINATOR_UUID=%s' % self.uuid.urn)
         if self.terminator.dbus_name:
             envv.append('TERMINATOR_DBUS_NAME=%s' % self.terminator.dbus_name)
