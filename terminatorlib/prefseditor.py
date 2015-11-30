@@ -147,6 +147,8 @@ class PrefsEditor:
                         'insert_number'    : _('Insert terminal number'),
                         'insert_padded'    : _('Insert padded terminal number'),
                         'edit_window_title': _('Edit window title'),
+                        'edit_terminal_title': _('Edit terminal title'),
+                        'edit_tab_title'   : _('Edit tab title'),
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
