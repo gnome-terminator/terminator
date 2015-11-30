@@ -289,6 +289,12 @@ class PrefsEditor:
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
+        # Putty paste style
+        widget = guiget('putty_paste_style')
+        widget.set_active(self.config['putty_paste_style'])
+        # Smart copy
+        widget = guiget('smart_copy')
+        widget.set_active(self.config['smart_copy'])
         #Titlebar font selector
         # Use system font
         widget = guiget('title_system_font_checkbutton')
@@ -421,9 +427,6 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
-        # Putty paste style
-        widget = guiget('putty_paste_style')
-        widget.set_active(self.config['putty_paste_style'])
         # Rewrap on resize
         widget = guiget('rewrap_on_resize_checkbutton')
         widget.set_active(self.config['rewrap_on_resize'])
@@ -716,6 +719,11 @@ class PrefsEditor:
     def on_putty_paste_style_toggled(self, widget):
         """Putty paste style setting changed"""
         self.config['putty_paste_style'] = widget.get_active()
+        self.config.save()
+
+    def on_smart_copy_toggled(self, widget):
+        """Putty paste style setting changed"""
+        self.config['smart_copy'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):

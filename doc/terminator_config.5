@@ -34,7 +34,7 @@ These are the options Terminator currently supports in the global_config section
 .TP
 .B dbus
 Control whether or not Terminator will load its DBus server. When this server is loaded, running Terminator multiple times will cause the first Terminator process to open additional windows. If this configuration item is set to False, or the python dbus module is unavailable, running Terminator multiple times will run a separate Terminator process for each invocation.
-Default value: \fBFalse\fR
+Default value: \fBTrue\fR
 .TP
 .B focus
 Control how focus is given to terminals. 'click' means the focus only moves to a terminal after you click in it. 'sloppy' means the focus will follow the mouse pointer. 'system' means the focus will match that used by a GNOME window manager.
@@ -46,7 +46,7 @@ Default value: \fB-1\fR
 .TP
 .B geometry_hinting
 If True the window will resize in step with font sizes, if False it will follow pixels
-Default value: \fBTrue\fR
+Default value: \fBFalse\fR
 .TP
 .B window_state
 When set to 'normal' the Terminator window opens normally. 'maximise' opens the window in a maximised state, 'fullscreen' in a fullscreen state and 'hidden' will make it not shown by default.
@@ -139,6 +139,10 @@ Default value: \fBFalse\fR
 .B putty_paste_style \fR(boolean)
 If set to True, right-click will paste the Primary selection, middle-click will popup the context menu.
 Default value: \fBFalse\fR
+.TP
+.B smart_copy \fR(boolean)
+If set to True, and there is no selection, the shortcut is allowed to pass through. This is useful for overloading Ctrl-C to copy a selection, or send the SIGINT to the current process if there is no selection. If False the shortcut does not pass through at all, and the SIGINT does not get sent.
+Default value: \fBTrue\fR
 .TP
 .B enabled_plugins
 A list of plugins which should be loaded by default. All other plugin classes will be ignored. The default value includes two

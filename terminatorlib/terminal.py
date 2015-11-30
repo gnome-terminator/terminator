@@ -895,6 +895,8 @@ class Terminal(Gtk.VBox):
                 if self.vte.get_has_selection ():
                     getattr(self, "key_" + mapping)()
                     return(True)
+                elif not self.config['smart_copy']:
+                    return(True)
             else:
                 getattr(self, "key_" + mapping)()
                 return(True)
