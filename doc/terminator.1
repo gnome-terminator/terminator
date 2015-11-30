@@ -3,36 +3,36 @@
 Terminator \- Multiple GNOME terminals in one window
 .SH "SYNOPSIS"
 .B terminator
-.RI [ options ] 
-.br 
+.RI [ options ]
+.br
 .SH "DESCRIPTION"
 This manual page documents \fBTerminator\fP, a terminal emulator application.
-.PP 
+.PP
 \fBTerminator\fP is a program that allows users to set up flexible
-arrangements of GNOME terminals. It is aimed at those who normally 
-arrange lots of terminals near each other, but don't want to use a 
+arrangements of GNOME terminals. It is aimed at those who normally
+arrange lots of terminals near each other, but don't want to use a
 frame based window manager.
 .SH "OPTIONS"
 This program follow the usual GNU command line syntax, with long
 options starting with two dashes (`\-').
 A summary of options is included below.
-.TP 
+.TP
 .B \-h, \-\-help
 Show summary of options
-.TP 
+.TP
 .B \-v, \-\-version
 Show the version of the Terminator installation
 .TP
 .B \-m, \-\-maximise
 Start with a maximised window
-.TP 
+.TP
 .B \-f, \-\-fullscreen
 Start with a fullscreen window
-.TP 
+.TP
 .B \-b, \-\-borderless
-Instruct the window manager not to render borders/decoration on the 
+Instruct the window manager not to render borders/decoration on the
 Terminator window (this works well with \-m)
-.TP 
+.TP
 .B \-H, \-\-hidden
 Hide the Terminator window by default. Its visibility can be toggled
 with the \fBhide_window\fR keyboard shortcut (Ctrl-Shift-Alt-a by default)
@@ -48,7 +48,7 @@ Specifies the preferred size and position of Terminator's window; see X(7).
 Runs the specified command instead of your default shell or profile specified command. Note: if
 Terminator is launched as x-terminal-emulator \-e behaves like \-x, and the longform becomes
 \-\-execute2=COMMAND
-.TP 
+.TP
 .B \-x, \-\-execute COMMAND [ARGS]
 Runs \fBthe rest of the command line\fR instead of your default shell or profile specified command.
 .TP
@@ -78,11 +78,11 @@ Set a custom icon for the window (by file or name)
 Disable DBus
 .TP
 .B \-d, \-\-debug
-Enable debugging output (please use this when reporting bugs). This 
+Enable debugging output (please use this when reporting bugs). This
 can be specified twice to enable a built-in python debugging server.
-.TP 
+.TP
 .B \-\-debug\-classes=DEBUG_CLASSES
-If this is specified as a comma separated list, debugging output will 
+If this is specified as a comma separated list, debugging output will
 only be printed from the specified classes.
 .TP
 .B \-\-debug\-methods=DEBUG_METHODS
@@ -94,48 +94,43 @@ will be displayed
 .B \-\-new-tab
 If this is specified and Terminator is already running, DBus will be
 used to spawn a new tab in the first Terminator window.
-.TP
 .SH "KEYBINDINGS"
-The following keybindings can be used to control Terminator:
-.TP 
-.B Super+R
-\fBR\fRotate terminals clockwise.
-.TP 
-.B Super+Shift+R
-\fBR\fRotate terminals counter-clockwise.
-.TP 
+The following default keybindings can be used to control Terminator:
+.TP
+.B F1
+Launches the full HTML manual.
+.SS Creation & Destruction
+.PP
+The following items relate to creating and destroying terminals.
+.TP
 .B Ctrl+Shift+O
 Split terminals H\fBo\fRrizontally.
-.TP 
+.TP
 .B Ctrl+Shift+E
 Split terminals V\fBe\fRrtically.
-.TP 
-.B Ctrl+Shift+Right
-Move parent dragbar \fBRight\fR.
-.TP 
-.B Ctrl+Shift+Left
-Move parent dragbar \fBLeft\fR.
-.TP 
-.B Ctrl+Shift+Up
-Move parent dragbar \fBUp\fR.
-.TP 
-.B Ctrl+Shift+Down
-Move parent dragbar \fBDown\fR.
-.TP 
-.B Ctrl+Shift+S
-Hide/Show \fBS\fRcrollbar.
-.TP 
-.B Ctrl+Shift+F
-Search within terminal scrollback
 .TP
-.B Ctrl+Shift+N or Ctrl+Tab
-Move to \fBn\fRext terminal within the same tab, use Ctrl+PageDown to move to the next tab.
-If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled
-.TP 
-.B Ctrl+Shift+P or Ctrl+Shift+Tab
-Move to \fBp\fRrevious terminal within the same tab, use Ctrl+PageUp to move to the previous tab.
-If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled
-.TP 
+.B Ctrl+Shift+T
+Open new \fBt\fRab.
+.TP
+.B Ctrl+Shift+I
+Open a new window. (Note: Unlike in previous releases, this window is
+part of the same Terminator process.)
+.TP
+.B Super+I
+Spawn a new Terminator process.
+.TP
+.B Alt+L
+Open \fBl\fRayout launcher.
+.TP
+.B Ctrl+Shift+W
+Close the current terminal.
+.TP
+.B Ctrl+Shift+Q
+Close the current window.
+.SS Navigation
+.PP
+The following items relate to moving between and around terminals.
+.TP
 .B Alt+Up
 Move to the terminal \fBabove\fR the current one.
 .TP
@@ -148,75 +143,40 @@ Move to the terminal \fBleft of\fR the current one.
 .B Alt+Right
 Move to the terminal \fBright of\fR the current one.
 .TP
-.B Ctrl+Shift+C
-Copy selected text to clipboard
-.TP
-.B Ctrl+Shift+V
-Paste clipboard text
-.TP
-.B Ctrl+Shift+W
-Close the current terminal.
-.TP 
-.B Ctrl+Shift+Q
-Quits Terminator
-.TP 
-.B Ctrl+Shift+X
-Toggle between showing all terminals and only showing the current one (maximise).
-.TP 
-.B Ctrl+Shift+Z
-Toggle between showing all terminals and only showing a scaled version of the current one (zoom).
-.TP 
-.B Ctrl+Shift+T
-Open new \fBt\fRab
-.TP
 .B Ctrl+PageDown
-Move to next Tab
+Move to next Tab.
 .TP
 .B Ctrl+PageUp
-Move to previous Tab
+Move to previous Tab.
 .TP
-.B Ctrl+Shift+PageDown
-Swap tab position with next Tab
+.B Ctrl+Shift+N or Ctrl+Tab
+Move to \fBn\fRext terminal within the same tab, use Ctrl+PageDown to move to the next tab.
+If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled.
 .TP
-.B Ctrl+Shift+PageUp
-Swap tab position with previous Tab
+.B Ctrl+Shift+P or Ctrl+Shift+Tab
+Move to \fBp\fRrevious terminal within the same tab, use Ctrl+PageUp to move to the previous tab.
+If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled.
+.SS Organisation
+.PP
+The following items relate to arranging and resizing terminals.
 .TP
-.B Ctrl+Plus (+)
-Increase font size. \fBNote:\fP this may require you to press shift, depending on your keyboard
+.B Ctrl+Shift+Right
+Move parent dragbar \fBRight\fR.
 .TP
-.B Ctrl+Minus (-)
-Decrease font size. \fBNote:\fP this may require you to press shift, depending on your keyboard
+.B Ctrl+Shift+Left
+Move parent dragbar \fBLeft\fR.
 .TP
-.B Ctrl+Zero (0)
-Restore font size to original setting.
+.B Ctrl+Shift+Up
+Move parent dragbar \fBUp\fR.
 .TP
-.B F11
-Toggle fullscreen
+.B Ctrl+Shift+Down
+Move parent dragbar \fBDown\fR.
 .TP
-.B Ctrl+Shift+R
-Reset terminal state
+.B Super+R
+\fBR\fRotate terminals clockwise.
 .TP
-.B Ctrl+Shift+G
-Reset terminal state and clear window
-.TP
-.B Super+g
-Group all terminals so that any input sent to one of them, goes to all of them.
-.TP
-.B Super+Shift+G
-Remove grouping from all terminals.
-.TP
-.B Super+t
-Group all terminals in the current tab so input sent to one of them, goes to all terminals in the current tab.
-.TP
-.B Super+Shift+T
-Remove grouping from all terminals in the current tab.
-.TP
-.B Ctrl+Shift+I
-Open a new window (note: unlike in previous releases, this window is 
-part of the same Terminator process)
-.TP
-.B Super+i
-Spawn a new Terminator process
+.B Super+Shift+R
+\fBR\fRotate terminals counter-clockwise.
 .TP
 .SH "Drag and Drop"
 The layout can be modified by moving terminals with Drag and Drop.
@@ -224,10 +184,95 @@ To start dragging a terminal, click and hold on its titlebar.
 Alternatively, hold down \fBCtrl\fP, click and hold the \fBright\fP mouse button.
 Then, \fB**Release Ctrl**\fP. You can now drag the terminal to the point in the layout you would like it to be.
 The zone where the terminal would be inserted will be highlighted.
+.TP
+.B Ctrl+Shift+PageDown
+Swap tab position with next Tab.
+.TP
+.B Ctrl+Shift+PageUp
+Swap tab position with previous Tab.
+.SS Miscellaneous
+.PP
+The following items relate to miscellaneous terminal related functions.
+.TP
+.B Ctrl+Shift+C
+Copy selected text to clipboard.
+.TP
+.B Ctrl+Shift+V
+Paste clipboard text.
+.TP
+.B Ctrl+Shift+S
+Hide/Show \fBS\fRcrollbar.
+.TP
+.B Ctrl+Shift+F
+Search within terminal scrollback.
+.TP
+.B Ctrl+Shift+R
+Reset terminal state.
+.TP
+.B Ctrl+Shift+G
+Reset terminal state and clear window.
+.TP
+.B Ctrl+Plus (+)
+Increase font size. \fBNote:\fP This may require you to press shift, depending on your keyboard.
+.TP
+.B Ctrl+Minus (-)
+Decrease font size. \fBNote:\fP This may require you to press shift, depending on your keyboard.
+.TP
+.B Ctrl+Zero (0)
+Restore font size to original setting.
+.TP
+.B Alt+T
+Rename titlebar.
+.TP
+.B Super+1
+Insert terminal number, i.e. 1 to 12.
+.TP
+.B Super+0
+Insert padded terminal number, i.e. 01 to 12.
+.SS Grouping & Broadcasting
+.PP
+The following items relate to helping to focus on a specific terminal.
+.TP
+.B F11
+Toggle window to fullscreen.
+.TP
+.B Ctrl+Shift+X
+Toggle between showing all terminals and only showing the current one (maximise).
+.TP
+.B Ctrl+Shift+Z
+Toggle between showing all terminals and only showing a scaled version of the current one (zoom).
+.TP
+.B Ctrl+Shift+Alt+A
+Hide the initial window. Note that this is a global binding, and can only be bound once.
+.PP
+The following items relate to grouping and broadcasting.
+.TP
+.B Super+T
+Group all terminals in the current tab so input sent to one of them, goes to all terminals in the current tab.
+.TP
+.B Super+Shift+T
+Remove grouping from all terminals in the current tab.
+.TP
+.B Super+G
+Group all terminals so that any input sent to one of them, goes to all of them.
+.TP
+.B Super+Shift+G
+Remove grouping from all terminals.
+.TP
+.B Alt+A
+Broadcast to All terminals.
+.TP
+.B Alt+G
+Broadcast to Grouped terminals.
+.TP
+.B Alt+O
+Broadcast Off.
+.PP
+Most of these keybindings are changeable in the Preferences.
 .SH "SEE ALSO"
 .BR terminator_config(5)
 .SH "AUTHOR"
 Terminator was written by Chris Jones <cmsj@tenshu.net> and others.
-.PP 
+.PP
 This manual page was written by Chris Jones <cmsj@tenshu.net>
 and others.
