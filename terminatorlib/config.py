@@ -229,7 +229,6 @@ DEFAULTS = {
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
                 'word_chars'            : ',./?%&#:_',
                 'mouse_autohide'        : True,
-                'update_records'        : True,
                 'login_shell'           : False,
                 'use_custom_command'    : False,
                 'custom_command'        : '',

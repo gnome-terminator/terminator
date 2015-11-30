@@ -454,9 +454,6 @@ class PrefsEditor:
         # Login shell
         widget = guiget('login_shell_checkbutton')
         widget.set_active(self.config['login_shell'])
-        # Login records
-        widget = guiget('update_records_checkbutton')
-        widget.set_active(self.config['update_records'])
         # Use Custom command
         widget = guiget('use_custom_command_checkbutton')
         widget.set_active(self.config['use_custom_command'])
@@ -738,11 +735,6 @@ class PrefsEditor:
     def on_login_shell_checkbutton_toggled(self, widget):
         """Login shell setting changed"""
         self.config['login_shell'] = widget.get_active()
-        self.config.save()
-
-    def on_update_records_checkbutton_toggled(self, widget):
-        """Update records setting changed"""
-        self.config['update_records'] = widget.get_active()
         self.config.save()
 
     def on_scroll_background_checkbutton_toggled(self, widget):

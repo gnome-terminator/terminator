@@ -1334,8 +1334,6 @@ class Terminal(Gtk.VBox):
             self.cwd = cwd
 
     def spawn_child(self, widget=None, respawn=False, debugserver=False):
-        update_records = self.config['update_records']
-        login = self.config['login_shell']
         args = []
         shell = None
         command = None
