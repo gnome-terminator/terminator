@@ -42,6 +42,8 @@ terminator GTK3:
       Koblinger, LP#1518596)
     * Fix right-click for mouse aware apps ((Egmont Koblinger,
       LP#1518700)
+    * Fix the tab switching if a terminal on another tab exits (Steve
+      Boddy, LP#943311)
 
 
 terminator 0.97:
