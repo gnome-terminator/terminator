@@ -925,11 +925,11 @@ class Terminal(gtk.VBox):
             return True
 
         if self.config['putty_paste_style']:
-            btn_to_paste        = self.MOUSEBUTTON_RIGHT
-            btn_to_context_menu = self.MOUSEBUTTON_MIDDLE
+            middle_click = [self.popup_menu, (widget, event)]
+            right_click = [self.paste_clipboard, (True, )]
         else:
-            btn_to_paste        = self.MOUSEBUTTON_MIDDLE
-            btn_to_context_menu = self.MOUSEBUTTON_RIGHT
+            middle_click = [self.paste_clipboard, (True, )]
+            right_click = [self.popup_menu, (widget, event)]
 
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
@@ -937,14 +937,14 @@ class Terminal(gtk.VBox):
                 url = self.check_for_url(event)
                 if url:
                     self.open_url(url, prepare=True)
-        elif event.button == btn_to_paste:
+        elif event.button == self.MOUSEBUTTON_MIDDLE:
             # middleclick should paste the clipboard
-            self.paste_clipboard(True)
+            middle_click[0](*middle_click[1])
             return(True)
-        elif event.button == btn_to_context_menu:
+        elif event.button == self.MOUSEBUTTON_RIGHT:
             # rightclick should display a context menu if Ctrl is not pressed
             if event.state & gtk.gdk.CONTROL_MASK == 0:
-                self.popup_menu(widget, event)
+                right_click[0](*right_click[1])
                 return(True)
 
         return(False)
