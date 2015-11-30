@@ -297,9 +297,11 @@ class Notebook(Container, gtk.Notebook):
                 break
 
         self.set_tab_label(widget, label)
-        self.set_tab_label_packing(term_widget, not self.config['scroll_tabbar'],
-                                   not self.config['scroll_tabbar'],
-                                   gtk.PACK_START)
+        gobject.idle_add(self.set_tab_label_packing,
+                             term_widget,
+                             not self.config['scroll_tabbar'],
+                             not self.config['scroll_tabbar'],
+                             gtk.PACK_START)
 
         self.set_tab_reorderable(widget, True)
         self.set_current_page(tabpos)
