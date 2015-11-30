@@ -1405,11 +1405,12 @@ class Terminal(Gtk.VBox):
             envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
+        args.insert(0, shell)
         result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
                                        self.cwd,
                                        args,
                                        envv,
-                                       GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
                                        None,
                                        None,
                                        None)
