@@ -220,7 +220,7 @@ DEFAULTS = {
                 'scrollbar_position'    : "right",
                 'scroll_background'     : True,
                 'scroll_on_keystroke'   : True,
-                'scroll_on_output'      : True,
+                'scroll_on_output'      : False,
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
                 'exit_action'           : 'close',
