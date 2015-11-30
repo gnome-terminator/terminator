@@ -421,6 +421,9 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
+        # Putty paste style
+        widget = guiget('putty_paste_style')
+        widget.set_active(self.config['putty_paste_style'])
         # Rewrap on resize
         widget = guiget('rewrap_on_resize_checkbutton')
         widget.set_active(self.config['rewrap_on_resize'])
@@ -708,6 +711,11 @@ class PrefsEditor:
     def on_rewrap_on_resize_toggled(self, widget):
         """Rewrap on resize setting changed"""
         self.config['rewrap_on_resize'] = widget.get_active()
+        self.config.save()
+
+    def on_putty_paste_style_toggled(self, widget):
+        """Putty paste style setting changed"""
+        self.config['putty_paste_style'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):
