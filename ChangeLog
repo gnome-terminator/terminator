@@ -12,6 +12,8 @@ terminator GTK3:
       LP#1518111)
     * Update TERM/COLORTERM to more modern values (Egmont Koblinger,
       LP#1518557)
+    * Change the scroll_on_output default to false (Egmont Koblinger,
+      LP#1392822)
 
   Bug fixes
     * Fix a GI version warning for Notify library (Mattias Eriksson)
@@ -42,7 +44,11 @@ terminator GTK3:
       Koblinger, LP#1518596)
     * Fix right-click for mouse aware apps ((Egmont Koblinger,
       LP#1518700)
-
+    * Fix rotate terminals under tabs, and (gtk3-only) focus loss on
+      rotate (Egmont Koblinger, LP#1316573, LP#1520360)
+    * Remove unsupported utmp for now, till alternative solution
+    * Fix the "Run command as login shell" (Egmont Koblinger,
+      LP#1520991)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals

@@ -479,10 +479,10 @@ class Window(Container, Gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
-        sibling.grab_focus()
         
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
+        sibling.grab_focus()
         self.set_pos_by_ratio = False
 
 
@@ -535,9 +535,15 @@ class Window(Container, Gtk.Window):
         maker = Factory()
         # collect all paned children in breadth-first order
         paned = []
-        for child in self.get_children():
-            if maker.isinstance(child, 'Paned'):
-                paned.append(child)
+        child = self.get_child()
+
+        # If our child is a Notebook, reset to work from its visible child
+        if maker.isinstance(child, 'Notebook'):
+            pagenum = child.get_current_page()
+            child = child.get_nth_page(pagenum)
+
+        if maker.isinstance(child, 'Paned'):
+            paned.append(child)
         for p in paned:
             for child in p.get_children():
                 if child not in paned and maker.isinstance(child, 'Paned'):
@@ -546,10 +552,10 @@ class Window(Container, Gtk.Window):
         for p in paned:
             p.rotate(widget, clockwise)
         self.show_all()
-        widget.grab_focus()
-        
+
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
+        widget.grab_focus()
         self.set_pos_by_ratio = False
 
     def get_visible_terminals(self):

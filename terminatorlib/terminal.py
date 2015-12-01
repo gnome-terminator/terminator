@@ -1334,8 +1334,6 @@ class Terminal(Gtk.VBox):
             self.cwd = cwd
 
     def spawn_child(self, widget=None, respawn=False, debugserver=False):
-        update_records = self.config['update_records']
-        login = self.config['login_shell']
         args = []
         shell = None
         command = None
@@ -1407,11 +1405,12 @@ class Terminal(Gtk.VBox):
             envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
+        args.insert(0, shell)
         result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
                                        self.cwd,
                                        args,
                                        envv,
-                                       GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
                                        None,
                                        None,
                                        None)
