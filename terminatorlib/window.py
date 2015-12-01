@@ -536,9 +536,15 @@ class Window(Container, gtk.Window):
         maker = Factory()
         # collect all paned children in breadth-first order
         paned = []
-        for child in self.get_children():
-            if maker.isinstance(child, 'Paned'):
-                paned.append(child)
+        child = self.get_child()
+
+        # If our child is a Notebook, reset to work from its visible child
+        if maker.isinstance(child, 'Notebook'):
+            pagenum = child.get_current_page()
+            child = child.get_nth_page(pagenum)
+
+        if maker.isinstance(child, 'Paned'):
+            paned.append(child)
         for p in paned:
             for child in p.get_children():
                 if child not in paned and maker.isinstance(child, 'Paned'):
