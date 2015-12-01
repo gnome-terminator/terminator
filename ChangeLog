@@ -18,6 +18,8 @@ terminator trunk:
       (Steve Boddy)
     * Updated and grouped default shortcuts in man page (Steve Boddy)
     * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
+    * Merge feature branch for tab/terminal title editing (Haim
+      Daniel LP#1417747)
     * Make Zoom/Maximize inactive if a single terminal (Egmont
       Koblinger, LP#1518081)
     * Add dimming for 256 colour palettes (Egmont Koblinger,
