@@ -40,9 +40,10 @@ class Notebook(Container, Gtk.Notebook):
         child = window.get_child()
         window.remove(child)
         window.add(self)
+        window_last_active_term = window.last_active_term
         self.newtab(widget=child)
-        if window.last_active_term:
-            self.set_last_active_term(window.last_active_term)
+        if window_last_active_term:
+            self.set_last_active_term(window_last_active_term)
             window.last_active_term = None
 
         self.show_all()
@@ -534,6 +535,9 @@ class TabLabel(Gtk.HBox):
             return(self.label.get_text())
         else:
             return(None)
+
+    def edit(self):
+        self.label.edit()
 
     def update_button(self):
         """Update the state of our close button"""

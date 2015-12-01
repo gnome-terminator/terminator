@@ -147,6 +147,8 @@ class PrefsEditor:
                         'insert_number'    : _('Insert terminal number'),
                         'insert_padded'    : _('Insert padded terminal number'),
                         'edit_window_title': _('Edit window title'),
+                        'edit_terminal_title': _('Edit terminal title'),
+                        'edit_tab_title'   : _('Edit tab title'),
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
@@ -289,6 +291,12 @@ class PrefsEditor:
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
+        # Putty paste style
+        widget = guiget('putty_paste_style')
+        widget.set_active(self.config['putty_paste_style'])
+        # Smart copy
+        widget = guiget('smart_copy')
+        widget.set_active(self.config['smart_copy'])
         #Titlebar font selector
         # Use system font
         widget = guiget('title_system_font_checkbutton')
@@ -705,6 +713,16 @@ class PrefsEditor:
     def on_rewrap_on_resize_toggled(self, widget):
         """Rewrap on resize setting changed"""
         self.config['rewrap_on_resize'] = widget.get_active()
+        self.config.save()
+
+    def on_putty_paste_style_toggled(self, widget):
+        """Putty paste style setting changed"""
+        self.config['putty_paste_style'] = widget.get_active()
+        self.config.save()
+
+    def on_smart_copy_toggled(self, widget):
+        """Putty paste style setting changed"""
+        self.config['smart_copy'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):

@@ -14,6 +14,12 @@ terminator GTK3:
       LP#1518557)
     * Change the scroll_on_output default to false (Egmont Koblinger,
       LP#1392822)
+    * PuTTY paste mode (Nemilya, LP#1416682) with some alterations
+      (Steve Boddy)
+    * Updated and grouped default shortcuts in man page (Steve Boddy)
+    * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
+    * Merge feature branch for tab/terminal title editing (Haim
+      Daniel LP#1417747)
 
   Bug fixes
     * Fix a GI version warning for Notify library (Mattias Eriksson)
@@ -49,6 +55,13 @@ terminator GTK3:
     * Remove unsupported utmp for now, till alternative solution
     * Fix the "Run command as login shell" (Egmont Koblinger,
       LP#1520991)
+    * Fix the tab switching if a terminal on another tab exits (Steve
+      Boddy, LP#943311)
+    * Fix for those not running IBus, where the IBus workaround
+      caused broken keys in other keymaps set with non-IBus tools
+      (Steve Boddy, LP#1494606)
+    * Fix PuTTY paste mode so Ctrl-Right-Drag, and application mouse
+      handling in terminal still works (Steve Boddy)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals

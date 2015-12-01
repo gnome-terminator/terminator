@@ -69,6 +69,10 @@ class Terminal(Gtk.VBox):
 
     TARGET_TYPE_VTE = 8
 
+    MOUSEBUTTON_LEFT = 1
+    MOUSEBUTTON_MIDDLE = 2
+    MOUSEBUTTON_RIGHT = 3    
+
     terminator = None
     vte = None
     terminalbox = None
@@ -867,12 +871,13 @@ class Terminal(Gtk.VBox):
             dbg('Terminal::on_keypress: Called on %s with no event' % widget)
             return(False)
 
-        # Workaround for IBus intefering with broadcast when using dead keys
+        # Workaround for IBus interfering with broadcast when using dead keys
         # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
         # in the receivers.
-        if (event.state | Gdk.ModifierType.MODIFIER_MASK ) ^ Gdk.ModifierType.MODIFIER_MASK != 0:
-            dbg('Terminal::on_keypress: Ingore processed event with event.state %d' % event.state)
-            return(False)
+        if self.terminator.ibus_running:
+            if (event.state | Gdk.ModifierType.MODIFIER_MASK ) ^ Gdk.ModifierType.MODIFIER_MASK != 0:
+                dbg('Terminal::on_keypress: Ingore processed event with event.state %d' % event.state)
+                return(False)
 
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
@@ -889,6 +894,8 @@ class Terminal(Gtk.VBox):
             if (mapping == "copy" and event.get_state() & Gdk.ModifierType.CONTROL_MASK):
                 if self.vte.get_has_selection ():
                     getattr(self, "key_" + mapping)()
+                    return(True)
+                elif not self.config['smart_copy']:
                     return(True)
             else:
                 getattr(self, "key_" + mapping)()
@@ -917,25 +924,32 @@ class Terminal(Gtk.VBox):
             # Suppress double-click behavior
             return True
 
-        if event.button == 1:
+        if self.config['putty_paste_style']:
+            middle_click = [self.popup_menu, (widget, event)]
+            right_click = [self.paste_clipboard, (True, )]
+        else:
+            middle_click = [self.paste_clipboard, (True, )]
+            right_click = [self.popup_menu, (widget, event)]
+
+        if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
                 url = self.vte.match_check_event(event)
                 if url[0]:
                     self.open_url(url, prepare=True)
-        elif event.button == 2:
+        elif event.button == self.MOUSEBUTTON_MIDDLE:
             # middleclick should paste the clipboard
-            self.paste_clipboard(True)
+            middle_click[0](*middle_click[1])
             return(True)
-        elif event.button == 3:
+        elif event.button == self.MOUSEBUTTON_RIGHT:
             # rightclick should display a context menu if Ctrl is not pressed,
             # plus either the app is not interested in mouse events or Shift is pressed
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
                 if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
                     if not Vte.Terminal.do_button_press_event(self.vte, event):
-                        self.popup_menu(widget, event)
+                        right_click[0](*right_click[1])
                 else:
-                    self.popup_menu(widget, event)
+                    right_click[0](*right_click[1])
                 return(True)
 
         return(False)
@@ -1868,6 +1882,20 @@ class Terminal(Gtk.VBox):
                 window.title.force_title(None)
         dialog.destroy()
         return
+
+    def key_edit_tab_title(self):
+        window = self.get_toplevel()
+        if not window.is_child_notebook():
+            return
+
+        notebook = window.get_children()[0]
+        n_page = notebook.get_current_page()
+        page = notebook.get_nth_page(n_page)
+        label = notebook.get_tab_label(page)
+        label.edit()
+
+    def key_edit_terminal_title(self):
+        self.titlebar.label.edit()
 
     def key_layout_launcher(self):
         LAYOUTLAUNCHER=LayoutLauncher()
