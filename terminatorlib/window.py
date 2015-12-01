@@ -479,10 +479,10 @@ class Window(Container, Gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
-        sibling.grab_focus()
         
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
+        sibling.grab_focus()
         self.set_pos_by_ratio = False
 
 
