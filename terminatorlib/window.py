@@ -208,9 +208,9 @@ class Window(Container, Gtk.Window):
                 self.set_fullscreen(not self.isfullscreen)
             elif mapping == 'close_window':
                 if not self.on_delete_event(window,
-                        Gdk.Event(Gdk.DELETE)):
+                        Gdk.Event.new(Gdk.EventType.DELETE)):
                     self.on_destroy_event(window,
-                            Gdk.Event(Gdk.DESTROY))
+                            Gdk.Event.new(Gdk.EventType.DESTROY))
             else:
                 return(False)
             return(True)
