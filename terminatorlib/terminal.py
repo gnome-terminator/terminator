@@ -142,7 +142,7 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
-        self.update_url_matches(self.config['try_posix_regexp'])
+        self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
 
@@ -257,7 +257,7 @@ class Terminal(Gtk.VBox):
 
         return(terminalbox)
 
-    def update_url_matches(self, posix = True):
+    def update_url_matches(self):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
@@ -267,22 +267,8 @@ class Terminal(Gtk.VBox):
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
-        if posix:
-            dbg ('Terminal::update_url_matches: Trying POSIX URL regexps')
-            lboundry = "[[:<:]]"
-            rboundry = "[[:>:]]"
-        else: # GNU
-            dbg ('Terminal::update_url_matches: Trying GNU URL regexps')
-            lboundry = "\\<"
-            rboundry = "\\>"
-
-        # VERIFY/FIXME FOR GTK3: What's this with the POSIX and GNU mode l/r boundry[sic] values?
-        # Neither of the two works for me since the Vte 0.38 update.
-        # Should we get rid of them and the try_posix_regexp option totally?
-        # They don't seem to be necessary, and there really shouldn't be any difference
-        # between Linux and non-Linux systems, GLib should hide this (does it?).
-        lboundry = ''
-        rboundry = ''
+        lboundry = "\\b"
+        rboundry = "\\b"
 
         re = (lboundry + schemes +
                 "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + 
@@ -291,11 +277,7 @@ class Terminal(Gtk.VBox):
         self.matches['full_uri'] = self.vte.match_add_gregex(reg, 0)
 
         if self.matches['full_uri'] == -1:
-            if posix:
-                err ('Terminal::update_url_matches: POSIX failed, trying GNU')
-                self.update_url_matches(posix = False)
-            else:
-                err ('Terminal::update_url_matches: Failed adding URL matches')
+            err ('Terminal::update_url_matches: Failed adding URL matches')
         else:
             re = (lboundry +
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
