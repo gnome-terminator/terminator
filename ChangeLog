@@ -60,6 +60,8 @@ terminator trunk:
       LP#1520360)
     * Fix PuTTY paste mode so Ctrl-Right-Drag terminal still works
       (Steve Boddy)
+    * Remove invalid double-quote (") from the pathchar for url regex
+      matching (Steve Boddy, LP#1514578)
 
 terminator 0.98:
   * Features
