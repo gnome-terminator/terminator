@@ -13,7 +13,7 @@ from gi.repository import Vte
 import subprocess
 import urllib
 
-from util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup
+from util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
 import util
 from config import Config
 from cwd import get_default_cwd
@@ -262,7 +262,7 @@ class Terminal(Gtk.VBox):
         userchars = "-A-Za-z0-9"
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
         hostchars = "-A-Za-z0-9"
-        pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'\""
+        pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
         schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
@@ -924,11 +924,12 @@ class Terminal(Gtk.VBox):
             # Suppress double-click behavior
             return True
 
+        use_primary = (display_manager() != 'WAYLAND')
         if self.config['putty_paste_style']:
             middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (True, )]
+            right_click = [self.paste_clipboard, (use_primary, )]
         else:
-            middle_click = [self.paste_clipboard, (True, )]
+            middle_click = [self.paste_clipboard, (use_primary, )]
             right_click = [self.popup_menu, (widget, event)]
 
         if event.button == self.MOUSEBUTTON_LEFT:

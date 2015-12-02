@@ -62,6 +62,10 @@ terminator GTK3:
       (Steve Boddy, LP#1494606)
     * Fix PuTTY paste mode so Ctrl-Right-Drag, and application mouse
       handling in terminal still works (Steve Boddy)
+    * Fix middle-click insert primary selection for Wayland (N/A) to
+      insert from clipboard instead (Mattias Eriksson)
+    * Remove invalid double-quote (") from the pathchar for url regex
+      matching (Steve Boddy, LP#1514578)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
