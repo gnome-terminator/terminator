@@ -1848,7 +1848,6 @@ class Terminal(Gtk.VBox):
                         ( Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
                           Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT ))
         dialog.set_default_response(Gtk.ResponseType.ACCEPT)
-        dialog.set_has_separator(False)
         dialog.set_resizable(False)
         dialog.set_border_width(8)
         
