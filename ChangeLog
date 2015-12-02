@@ -62,6 +62,12 @@ terminator trunk:
       (Steve Boddy)
     * Remove invalid double-quote (") from the pathchar for url regex
       matching (Steve Boddy, LP#1514578)
+    * Fix drag and drop of a link from Firefox / Chrome (Egmont
+      Koblinger, LP#1518705)
+    * Fix profile re-use when opening new window (Egmont Koblinger,
+      LP#1520705)
+    * Fix scrollbar position on current terminals when changed in
+      prefs (Egmont Koblinger, LP#1520761)
 
 terminator 0.98:
   * Features

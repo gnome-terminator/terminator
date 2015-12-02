@@ -76,6 +76,7 @@ class Terminal(gtk.VBox):
     }
 
     TARGET_TYPE_VTE = 8
+    TARGET_TYPE_MOZ = 9
 
     MOUSEBUTTON_LEFT = 1
     MOUSEBUTTON_MIDDLE = 2
@@ -85,7 +86,6 @@ class Terminal(gtk.VBox):
     vte = None
     terminalbox = None
     scrollbar = None
-    scrollbar_position = None
     titlebar = None
     searchbar = None
 
@@ -243,19 +243,9 @@ class Terminal(gtk.VBox):
 
         terminalbox = gtk.HBox()
         self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
-        self.scrollbar.set_no_show_all(True)
-        self.scrollbar_position = self.config['scrollbar_position']
 
-        if self.scrollbar_position not in ('hidden', 'disabled'):
-            self.scrollbar.show()
-
-        if self.scrollbar_position == 'left':
-            func = terminalbox.pack_end
-        else:
-            func = terminalbox.pack_start
-
-        func(self.vte)
-        func(self.scrollbar, False)
+        terminalbox.pack_start(self.vte, True, True, 0)
+        terminalbox.pack_start(self.scrollbar, False, True, 0)
         terminalbox.show_all()
 
         return(terminalbox)
@@ -355,7 +345,7 @@ class Terminal(gtk.VBox):
 
         srcvtetargets = [("vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE)]
         dsttargets = [("vte", gtk.TARGET_SAME_APP, self.TARGET_TYPE_VTE), 
-                      ('text/x-moz-url', 0, 0), 
+                      ('text/x-moz-url', 0, self.TARGET_TYPE_MOZ), 
                       ('_NETSCAPE_URL', 0, 0)]
         dsttargets = gtk.target_list_add_text_targets(dsttargets)
         dsttargets = gtk.target_list_add_uri_targets(dsttargets)
@@ -791,16 +781,14 @@ class Terminal(gtk.VBox):
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
-        if self.scrollbar_position != self.config['scrollbar_position']:
-            self.scrollbar_position = self.config['scrollbar_position']
-            if self.config['scrollbar_position'] in ['disabled', 'hidden']:
-                self.scrollbar.hide()
-            else:
-                self.scrollbar.show()
-                if self.config['scrollbar_position'] == 'left':
-                    self.reorder_child(self.scrollbar, 0)
-                elif self.config['scrollbar_position'] == 'right':
-                    self.reorder_child(self.vte, 0)
+        if self.config['scrollbar_position'] in ['disabled', 'hidden']:
+            self.scrollbar.hide()
+        else:
+            self.scrollbar.show()
+            if self.config['scrollbar_position'] == 'left':
+                self.terminalbox.reorder_child(self.scrollbar, 0)
+            elif self.config['scrollbar_position'] == 'right':
+                self.terminalbox.reorder_child(self.vte, 0)
 
         if hasattr(self.vte, 'set_alternate_screen_scroll'):
             self.vte.set_alternate_screen_scroll(
@@ -1081,7 +1069,7 @@ class Terminal(gtk.VBox):
         return(False)
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
-            _info, _time, data):
+            info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
         dbg('drag data received of type: %s' % selection_data.type)
@@ -1089,6 +1077,12 @@ class Terminal(gtk.VBox):
            gtk.targets_include_uri(drag_context.targets):
             # copy text with no modification yet to destination
             txt = selection_data.data
+
+            # https://bugs.launchpad.net/terminator/+bug/1518705
+            if info == self.TARGET_TYPE_MOZ:
+                 txt = txt.decode('utf-16').encode('utf-8')
+                 txt = txt.split('\n')[0]
+
             txt_lines = txt.split( "\r\n" )
             if txt_lines[-1] == '':
                 for line in txt_lines[:-1]:
@@ -1805,7 +1799,7 @@ class Terminal(gtk.VBox):
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window(self.terminator.pid_cwd(self.pid))
+        self.terminator.new_window(self.terminator.pid_cwd(self.pid), self.get_profile())
 
     def key_new_tab(self):
         self.get_toplevel().tab_new(self)
