@@ -1812,7 +1812,7 @@ class Terminal(gtk.VBox):
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window(self.terminator.pid_cwd(self.pid))
+        self.terminator.new_window(self.terminator.pid_cwd(self.pid), self.get_profile())
 
     def key_new_tab(self):
         self.get_toplevel().tab_new(self)
