@@ -66,6 +66,19 @@ terminator GTK3:
       insert from clipboard instead (Mattias Eriksson)
     * Remove invalid double-quote (") from the pathchar for url regex
       matching (Steve Boddy, LP#1514578)
+    * Remove the now unused posix regex code, and set the regex
+      boundary vars to the correct '\b' value (Matt Rose, Egmont
+      Koblinger, Steve Boddy, LP#1521509)
+    * Fix drag and drop of a link from Firefox / Chrome (Egmont
+      Koblinger, LP#1518705)
+    * Fix the editing of the window title (Egmont Koblinger,
+      LP#1520371)
+    * Fix closing window using short-cut (Egmont Koblinger,
+      LP#1520372)
+    * Fix profile re-use when opening new window (Egmont Koblinger,
+      LP#1520705)
+    * Fix scrollbar position on current terminals when changed in
+      prefs (Egmont Koblinger, LP#1520761)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals

@@ -104,7 +104,6 @@ DEFAULTS = {
             'always_on_top'         : False,
             'hide_on_lose_focus'    : False,
             'sticky'                : False,
-            'try_posix_regexp'      : platform.system() != 'Linux',
             'use_custom_url_handler': False,
             'custom_url_handler'    : '',
             'disable_real_transparency' : False,

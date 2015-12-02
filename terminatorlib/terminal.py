@@ -68,6 +68,7 @@ class Terminal(Gtk.VBox):
     }
 
     TARGET_TYPE_VTE = 8
+    TARGET_TYPE_MOZ = 9
 
     MOUSEBUTTON_LEFT = 1
     MOUSEBUTTON_MIDDLE = 2
@@ -77,7 +78,6 @@ class Terminal(Gtk.VBox):
     vte = None
     terminalbox = None
     scrollbar = None
-    scrollbar_position = None
     titlebar = None
     searchbar = None
 
@@ -142,7 +142,7 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
-        self.update_url_matches(self.config['try_posix_regexp'])
+        self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
 
@@ -240,24 +240,14 @@ class Terminal(Gtk.VBox):
 
         terminalbox = Gtk.HBox()
         self.scrollbar = Gtk.VScrollbar(self.vte.get_vadjustment())
-        self.scrollbar.set_no_show_all(True)
-        self.scrollbar_position = self.config['scrollbar_position']
 
-        if self.scrollbar_position not in ('hidden', 'disabled'):
-            self.scrollbar.show()
-
-        if self.scrollbar_position == 'left':
-            func = terminalbox.pack_end
-        else:
-            func = terminalbox.pack_start
-
-        func(self.vte, True, True, 0)
-        func(self.scrollbar, False, True, 0)
+        terminalbox.pack_start(self.vte, True, True, 0)
+        terminalbox.pack_start(self.scrollbar, False, True, 0)
         terminalbox.show_all()
 
         return(terminalbox)
 
-    def update_url_matches(self, posix = True):
+    def update_url_matches(self):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
@@ -267,22 +257,8 @@ class Terminal(Gtk.VBox):
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
-        if posix:
-            dbg ('Terminal::update_url_matches: Trying POSIX URL regexps')
-            lboundry = "[[:<:]]"
-            rboundry = "[[:>:]]"
-        else: # GNU
-            dbg ('Terminal::update_url_matches: Trying GNU URL regexps')
-            lboundry = "\\<"
-            rboundry = "\\>"
-
-        # VERIFY/FIXME FOR GTK3: What's this with the POSIX and GNU mode l/r boundry[sic] values?
-        # Neither of the two works for me since the Vte 0.38 update.
-        # Should we get rid of them and the try_posix_regexp option totally?
-        # They don't seem to be necessary, and there really shouldn't be any difference
-        # between Linux and non-Linux systems, GLib should hide this (does it?).
-        lboundry = ''
-        rboundry = ''
+        lboundry = "\\b"
+        rboundry = "\\b"
 
         re = (lboundry + schemes +
                 "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + 
@@ -291,11 +267,7 @@ class Terminal(Gtk.VBox):
         self.matches['full_uri'] = self.vte.match_add_gregex(reg, 0)
 
         if self.matches['full_uri'] == -1:
-            if posix:
-                err ('Terminal::update_url_matches: POSIX failed, trying GNU')
-                self.update_url_matches(posix = False)
-            else:
-                err ('Terminal::update_url_matches: Failed adding URL matches')
+            err ('Terminal::update_url_matches: Failed adding URL matches')
         else:
             re = (lboundry +
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
@@ -372,7 +344,7 @@ class Terminal(Gtk.VBox):
 
         srcvtetargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE)]
         dsttargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE), 
-                      ('text/x-moz-url', 0, 0), 
+                      ('text/x-moz-url', 0, self.TARGET_TYPE_MOZ), 
                       ('_NETSCAPE_URL', 0, 0)]
         '''
         The following should work, but on my system it corrupts the returned
@@ -792,16 +764,14 @@ class Terminal(Gtk.VBox):
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
-        if self.scrollbar_position != self.config['scrollbar_position']:
-            self.scrollbar_position = self.config['scrollbar_position']
-            if self.config['scrollbar_position'] in ['disabled', 'hidden']:
-                self.scrollbar.hide()
-            else:
-                self.scrollbar.show()
-                if self.config['scrollbar_position'] == 'left':  # FIXME FOR GTK3: moving the scrollbar to the other side (by changing prefs) doesn't work
-                    self.reorder_child(self.scrollbar, 0)
-                elif self.config['scrollbar_position'] == 'right':
-                    self.reorder_child(self.vte, 0)
+        if self.config['scrollbar_position'] in ['disabled', 'hidden']:
+            self.scrollbar.hide()
+        else:
+            self.scrollbar.show()
+            if self.config['scrollbar_position'] == 'left':
+                self.terminalbox.reorder_child(self.scrollbar, 0)
+            elif self.config['scrollbar_position'] == 'right':
+                self.terminalbox.reorder_child(self.vte, 0)
 
         self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
 
@@ -1088,7 +1058,7 @@ class Terminal(Gtk.VBox):
         return(False)
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
-            _info, _time, data):
+            info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
         dbg('drag data received of type: %s' % (selection_data.get_data_type()))
@@ -1096,6 +1066,12 @@ class Terminal(Gtk.VBox):
            Gtk.targets_include_uri(drag_context.list_targets()):
             # copy text with no modification yet to destination
             txt = selection_data.get_data()
+
+            # https://bugs.launchpad.net/terminator/+bug/1518705
+            if info == self.TARGET_TYPE_MOZ:
+                 txt = txt.decode('utf-16').encode('utf-8')
+                 txt = txt.split('\n')[0]
+
             txt_lines = txt.split( "\r\n" )
             if txt_lines[-1] == '':
                 for line in txt_lines[:-1]:
@@ -1827,7 +1803,7 @@ class Terminal(Gtk.VBox):
         self.emit('ungroup-tab')
 
     def key_new_window(self):
-        self.terminator.new_window(self.get_cwd())
+        self.terminator.new_window(self.get_cwd(), self.get_profile())
 
     def key_new_tab(self):
         self.get_toplevel().tab_new(self)
@@ -1860,7 +1836,6 @@ class Terminal(Gtk.VBox):
                         ( Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
                           Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT ))
         dialog.set_default_response(Gtk.ResponseType.ACCEPT)
-        dialog.set_has_separator(False)
         dialog.set_resizable(False)
         dialog.set_border_width(8)
         

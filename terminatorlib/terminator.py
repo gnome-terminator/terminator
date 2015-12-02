@@ -201,13 +201,15 @@ class Terminator(Borg):
                 return terminal
         return None
 
-    def new_window(self, cwd=None):
+    def new_window(self, cwd=None, profile=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
         window = maker.make('Window')
         terminal = maker.make('Terminal')
         if cwd:
             terminal.set_cwd(cwd)
+        if profile and self.config['always_split_with_profile']:
+            terminal.force_set_profile(None, profile)
         window.add(terminal)
         window.show(True)
         terminal.spawn_child()
