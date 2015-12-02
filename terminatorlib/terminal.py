@@ -68,6 +68,7 @@ class Terminal(Gtk.VBox):
     }
 
     TARGET_TYPE_VTE = 8
+    TARGET_TYPE_MOZ = 9
 
     MOUSEBUTTON_LEFT = 1
     MOUSEBUTTON_MIDDLE = 2
@@ -354,7 +355,7 @@ class Terminal(Gtk.VBox):
 
         srcvtetargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE)]
         dsttargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE), 
-                      ('text/x-moz-url', 0, 0), 
+                      ('text/x-moz-url', 0, self.TARGET_TYPE_MOZ), 
                       ('_NETSCAPE_URL', 0, 0)]
         '''
         The following should work, but on my system it corrupts the returned
@@ -1069,7 +1070,7 @@ class Terminal(Gtk.VBox):
         return(False)
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
-            _info, _time, data):
+            info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
         dbg('drag data received of type: %s' % (selection_data.get_data_type()))
@@ -1077,6 +1078,12 @@ class Terminal(Gtk.VBox):
            Gtk.targets_include_uri(drag_context.list_targets()):
             # copy text with no modification yet to destination
             txt = selection_data.get_data()
+
+            # https://bugs.launchpad.net/terminator/+bug/1518705
+            if info == self.TARGET_TYPE_MOZ:
+                 txt = txt.decode('utf-16').encode('utf-8')
+                 txt = txt.split('\n')[0]
+
             txt_lines = txt.split( "\r\n" )
             if txt_lines[-1] == '':
                 for line in txt_lines[:-1]:
