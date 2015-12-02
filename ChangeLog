@@ -79,6 +79,8 @@ terminator GTK3:
       LP#1520705)
     * Fix scrollbar position on current terminals when changed in
       prefs (Egmont Koblinger, LP#1520761)
+    * Fix title edit shortcuts to hopefully not clash with console
+      programs so much (Seve Boddy, LP#1514089)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
