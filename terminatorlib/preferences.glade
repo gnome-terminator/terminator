@@ -670,7 +670,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkCheckButton" id="putty_paste_style">
-                                    <property name="label" translatable="yes">Putty style paste</property>
+                                    <property name="label" translatable="yes">PuTTY style paste</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
