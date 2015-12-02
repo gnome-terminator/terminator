@@ -78,7 +78,6 @@ class Terminal(Gtk.VBox):
     vte = None
     terminalbox = None
     scrollbar = None
-    scrollbar_position = None
     titlebar = None
     searchbar = None
 
@@ -241,19 +240,9 @@ class Terminal(Gtk.VBox):
 
         terminalbox = Gtk.HBox()
         self.scrollbar = Gtk.VScrollbar(self.vte.get_vadjustment())
-        self.scrollbar.set_no_show_all(True)
-        self.scrollbar_position = self.config['scrollbar_position']
 
-        if self.scrollbar_position not in ('hidden', 'disabled'):
-            self.scrollbar.show()
-
-        if self.scrollbar_position == 'left':
-            func = terminalbox.pack_end
-        else:
-            func = terminalbox.pack_start
-
-        func(self.vte, True, True, 0)
-        func(self.scrollbar, False, True, 0)
+        terminalbox.pack_start(self.vte, True, True, 0)
+        terminalbox.pack_start(self.scrollbar, False, True, 0)
         terminalbox.show_all()
 
         return(terminalbox)
@@ -775,16 +764,14 @@ class Terminal(Gtk.VBox):
         self.vte.set_scroll_on_keystroke(self.config['scroll_on_keystroke'])
         self.vte.set_scroll_on_output(self.config['scroll_on_output'])
 
-        if self.scrollbar_position != self.config['scrollbar_position']:
-            self.scrollbar_position = self.config['scrollbar_position']
-            if self.config['scrollbar_position'] in ['disabled', 'hidden']:
-                self.scrollbar.hide()
-            else:
-                self.scrollbar.show()
-                if self.config['scrollbar_position'] == 'left':  # FIXME FOR GTK3: moving the scrollbar to the other side (by changing prefs) doesn't work
-                    self.reorder_child(self.scrollbar, 0)
-                elif self.config['scrollbar_position'] == 'right':
-                    self.reorder_child(self.vte, 0)
+        if self.config['scrollbar_position'] in ['disabled', 'hidden']:
+            self.scrollbar.hide()
+        else:
+            self.scrollbar.show()
+            if self.config['scrollbar_position'] == 'left':
+                self.terminalbox.reorder_child(self.scrollbar, 0)
+            elif self.config['scrollbar_position'] == 'right':
+                self.terminalbox.reorder_child(self.vte, 0)
 
         self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
 
