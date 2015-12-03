@@ -780,18 +780,13 @@ class Terminal(Gtk.VBox):
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
-        if self.config['cursor_color'] == self.config['foreground_color']:
-            try:
-                self.vte.set_color_cursor(None) 
-            except TypeError:
-                # FIXME: I think this is only necessary because of
-                # https://bugzilla.gnome.org/show_bug.cgi?id=614910
-                pass
-        elif self.config['cursor_color'] != '':
+        if self.config['cursor_color_fg']:
+            self.vte.set_color_cursor(None) 
+        else:
             cursor_color = Gdk.RGBA()
             cursor_color.parse(self.config['cursor_color'])
             self.vte.set_color_cursor(cursor_color)
- 
+
     def get_window_title(self):
         """Return the window title"""
         return(self.vte.get_window_title() or str(self.command))

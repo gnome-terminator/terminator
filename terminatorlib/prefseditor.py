@@ -450,13 +450,24 @@ class PrefsEditor:
         # Cursor blink
         widget = guiget('cursor_blink')
         widget.set_active(self.config['cursor_blink'])
-        # Cursor colour
+        # Cursor colour - Radio values
+        if self.config['cursor_color_fg']:
+            widget = guiget('cursor_color_foreground_radiobutton')
+        else:
+            widget = guiget('cursor_color_custom_radiobutton')
+        widget.set_active(True)
+        # Cursor colour - swatch
         widget = guiget('cursor_color')
+        widget.set_sensitive(not self.config['cursor_color_fg'])
         try:
             widget.set_color(Gdk.color_parse(self.config['cursor_color']))
-        except ValueError:
-            self.config['cursor_color'] = "#FFFFFF"
-            widget.set_color(Gdk.color_parse(self.config['cursor_color']))
+        except (ValueError, TypeError):
+            try:
+                self.config['cursor_color'] = self.config['foreground_color']
+                widget.set_color(Gdk.color_parse(self.config['cursor_color']))
+            except ValueError:
+                self.config['cursor_color'] = "#FFFFFF"
+                widget.set_color(Gdk.color_parse(self.config['cursor_color']))
 
         ## Command tab
         # Login shell
@@ -929,6 +940,26 @@ class PrefsEditor:
     def on_custom_command_entry_changed(self, widget):
         """Custom command value changed"""
         self.config['custom_command'] = widget.get_text()
+        self.config.save()
+
+    def on_cursor_color_type_toggled(self, widget):
+        guiget = self.builder.get_object
+
+        customwidget = guiget('cursor_color_custom_radiobutton')
+        colorwidget = guiget('cursor_color')
+        
+        colorwidget.set_sensitive(customwidget.get_active())
+        self.config['cursor_color_fg'] = not customwidget.get_active()
+        
+        try:
+            colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
+        except (ValueError, TypeError):
+            try:
+                self.config['cursor_color'] = self.config['foreground_color']
+                colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
+            except ValueError:
+                self.config['cursor_color'] = "#FFFFFF"
+                colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
         self.config.save()
 
     def on_cursor_color_color_set(self, widget):
