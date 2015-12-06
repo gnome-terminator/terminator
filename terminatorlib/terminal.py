@@ -799,7 +799,7 @@ class Terminal(gtk.VBox):
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
-        if self.config['cursor_color'] == self.config['foreground_color']:
+        if self.config['cursor_color_fg']:
             try:
                 self.vte.set_color_cursor(None) 
             except TypeError:
