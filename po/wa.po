@@ -1,16 +1,16 @@
-# Terminator Dutch Translation
-# Copyright (C) 2008
-# This file is distributed under the same license as the Terminator package.
-# Thomas Meire <blackskad@gmail.com>, 2008.
+# Walloon translation for terminator
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the terminator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: terminator\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-12-05 19:51+0000\n"
+"PO-Revision-Date: 2015-12-05 19:24+0000\n"
 "Last-Translator: Wout Huygens <wout.huygens@telenet.be>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Walloon <wa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,39 +20,39 @@ msgstr ""
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr "Nieuw venster openen"
+msgstr "Ouvre une nouvelle fenêtre"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr "Nieuw tabblad openen"
+msgstr "Ouvre une nouvelle onglet"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr "Splits de huidige terminal horizontaal"
+msgstr ""
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "Splits de huidige terminal verticaal"
+msgstr ""
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr "Krijg een lijst met alle terminals"
+msgstr ""
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr "Krijg de UUID van een ouder venster"
+msgstr ""
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr "Krijg de titel van een ouder venster"
+msgstr ""
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr "Krijg de UUID van een ouder tabblad"
+msgstr ""
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr "Krijg de titel van een ouder tabblad"
+msgstr ""
 
 #: ../remotinator.py:63
 #, python-format
@@ -61,10 +61,6 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Voer één van de volgende Terminator DBlus commands uit:\n"
-"\n"
-"\n"
-"%s"
 
 #: ../remotinator.py:64
 msgid ""
@@ -74,23 +70,23 @@ msgstr ""
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr "Terminal UUID voor wanneer niet in env var TERMINATOR_UUID"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
 #: ../terminatorlib/plugins/activitywatch.py:163
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Terminator"
-msgstr "Terminator"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Meerdere terminals in één venster"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The robot future of terminals"
-msgstr "De robottoekomst van terminals"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -99,10 +95,6 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
-"Een krachtgebruikershulpmiddel voor het regelen van terminals. Het is "
-"geïnspireerd door programma's zoals gnome-multi-term, quadkonsole, enz. met "
-"als hoofddoel het regelen van terminals in netten (tabbladen is de meest "
-"algemene standaardmethode, die Terminal ook ondersteunt)"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -114,7 +106,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr "Enkele hoogtepunten:"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
@@ -122,7 +114,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr "Tabbladen"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -130,11 +122,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr "Veel toetsenbordsnelkoppelingen"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr "Sla meerdere lay-outs en profielen op via GUI voorkeureneditor"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -142,31 +134,31 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr "En nog veel meer..."
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr "Het hoofdvenster toont de applicatie in actie"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr "Een beetje gek worden met de terminals"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr "Het voorkeurenvenster waar je de standaardwaarden kan veranderen"
+msgstr ""
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
-msgstr "Sluiten?"
+msgstr ""
 
 #: ../terminatorlib/container.py:169
 msgid "Close _Terminals"
-msgstr "Sluit _terminals"
+msgstr ""
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Meerdere terminals sluiten?</b></big>"
+msgstr ""
 
 #: ../terminatorlib/container.py:174
 #, python-format
@@ -174,156 +166,154 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"Dit %s bevat meer dan één open terminal. Indien u het %s sluit, sluit u "
-"tevens alle terminals daarbinnen."
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
-msgstr "Laat dit bericht de volgende keer niet weer zien"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Huidig taalgebied"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr "Westers"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Centraal-Europees"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Zuid-Europees"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr "Baltisch"
+msgstr ""
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr "Cyrillisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr "Arabisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr "Grieks"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Hebreeuws Visueel"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr "Hebreeuws"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr "Turks"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr "Noord-Europees"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr "Keltisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr "Roemeens"
+msgstr ""
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr "Unicode"
+msgstr ""
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr "Armeens"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Chinees (traditioneel)"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr "Cyrillisch/Russisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr "Japans"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr "Koreaans"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Chinees (vereenvoudigd)"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr "Georgisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr "Cyrillisch/Oekraïens"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr "Kroatisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr "Hindi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr "Perzisch"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
-msgstr "Gujarati"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:88
 msgid "Gurmukhi"
-msgstr "Gurmukhi"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr "IJslands"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Vietnamees"
+msgstr ""
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr "Thais"
+msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
@@ -332,43 +322,43 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr "Lay-out"
+msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr "Voer uit"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:351
 msgid "tab"
-msgstr "tabblad"
+msgstr ""
 
 #: ../terminatorlib/notebook.py:570
 msgid "Close Tab"
-msgstr "Tabblad sluiten"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Display program version"
-msgstr "Versienummer van het programma weergeven"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr "Maximaliseer het venster"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr "Laat het venster het hele scherm vullen"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
-msgstr "Toon vensterranden"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
-msgstr "Het venster verborgen opstarten"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr "Geef een titel voor het venster"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
@@ -376,15 +366,13 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "Geef een commando om in een Terminal uit te voeren"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Gebruik de rest van de opdrachtregel om als opdracht uit te voeren in de "
-"Terminal en zijn argumenten"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -392,7 +380,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
-msgstr "Werkmap instellen"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
@@ -400,35 +388,35 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Stel een aangepast icoon voor het venster in (door bestand of naam)"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Stel een eigen WM_WINDOW_ROLE in voor het venster"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr "Start op met de gegeven lay-out"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr "Kies een lay-out uit de lijst"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
-msgstr "Gebruik een ander profiel dan standaard ingesteld"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:95
 msgid "Disable DBus"
-msgstr "DBus Uitschakelen"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Debuginformatie aanzetten (twee maal voor serverdebug)"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Kommagescheiden lijst van klassen als limiet om te debuggen"
+msgstr ""
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
@@ -436,92 +424,92 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr "Als Terminator al wordt uitgevoerd, open dan een nieuwe tabblad"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr "ActivityWatch plugin niet beschikbaar. Installeer python-notify"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr "Kijk voor _activiteiten"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr "Activiteit in : %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr "Kijk voor _stilte"
+msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr "Stilte in: %s"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr "_Eigen Commando's"
+msgstr ""
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "_Preferences"
-msgstr "_Voorkeuren"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
-msgstr "Aangepaste opdrachten — Instellingen"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr "Ingeschakeld"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Name"
-msgstr "Naam"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:100
 msgid "Command"
-msgstr "Commando"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
-msgstr "Nieuw commando"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:276
 msgid "Enabled:"
-msgstr "Ingeschakeld:"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:282
 msgid "Name:"
-msgstr "Naam:"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:288
 msgid "Command:"
-msgstr "Commando:"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:311
 #: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
-msgstr "U heeft de naam of de commando nog niet ingevuld"
+msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:328
 #: ../terminatorlib/plugins/custom_commands.py:440
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "De naam *%s* bestaat al"
+msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr "Start _Logger"
+msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr "Stop _Logger"
+msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
@@ -554,7 +542,7 @@ msgstr ""
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:702
 msgid "All"
-msgstr "Alle"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
@@ -562,7 +550,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
-msgstr "Geen"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Exit the terminal"
@@ -1094,7 +1082,7 @@ msgstr ""
 #: ../terminatorlib/preferences.glade.h:133
 #: ../terminatorlib/terminal_popup_menu.py:195
 msgid "Profiles"
-msgstr "Profielen"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Type"
@@ -1417,11 +1405,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Insert terminal number"
-msgstr "Terminalnummer invoegen"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Insert padded terminal number"
-msgstr "Aangevuld terminalnummer invoegen"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Edit window title"
@@ -1453,30 +1441,30 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:1075 ../terminatorlib/prefseditor.py:1080
 msgid "New Profile"
-msgstr "Nieuw profiel"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:1120 ../terminatorlib/prefseditor.py:1125
 msgid "New Layout"
-msgstr "Nieuwe lay-out"
+msgstr ""
 
 #. Label
 #: ../terminatorlib/searchbar.py:50
 msgid "Search:"
-msgstr "Zoeken:"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:66
 msgid "Close Search bar"
-msgstr "Zoekbalk sluiten"
+msgstr ""
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:71
 msgid "Next"
-msgstr "Volgende"
+msgstr ""
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:77
 msgid "Prev"
-msgstr "Vorige"
+msgstr ""
 
 #. Wrap checkbox
 #: ../terminatorlib/searchbar.py:83
@@ -1485,59 +1473,59 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:142
 msgid "Searching scrollback"
-msgstr "Buffer aan het doorzoeken"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:160 ../terminatorlib/searchbar.py:186
 msgid "No more results"
-msgstr "Verder niets gevonden"
+msgstr ""
 
 #: ../terminatorlib/searchbar.py:201
 msgid "Found at row"
-msgstr "Gevonden op regel"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Send email to..."
-msgstr "_Stuur e-mail aan…"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:60
 msgid "_Copy email address"
-msgstr "E-mailadres _kopiëren"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:62
 msgid "Ca_ll VoIP address"
-msgstr "VoIP-adres be_llen"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:63
 msgid "_Copy VoIP address"
-msgstr "VoIP-adres _kopiëren"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:84
 msgid "_Open link"
-msgstr "Koppeling _openen"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "_Copy address"
-msgstr "Adres _kopiëren"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
-msgstr "Splits H_orizontaal"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:124
 msgid "Split V_ertically"
-msgstr "Splits V_erticaal"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
-msgstr "Nieuw _tabblad"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr "Open_Debug Tabblad"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
-msgstr "Terminal in_zoomen"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
@@ -1545,31 +1533,31 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"
-msgstr "Alle terminals he_rstellen"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:175
 msgid "Grouping"
-msgstr "Groepering"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:182
 msgid "Show _scrollbar"
-msgstr "Laat scroll balk zien"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:239
 msgid "Encodings"
-msgstr "Tekensets"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:254
 msgid "Default"
-msgstr "Standaard"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:257
 msgid "User defined"
-msgstr "Aangepast"
+msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:273
 msgid "Other Encodings"
-msgstr "Andere tekensets"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:432
 msgid "N_ew group..."
@@ -1582,11 +1570,11 @@ msgstr ""
 #: ../terminatorlib/terminal.py:458
 #, python-format
 msgid "Remove group %s"
-msgstr "Groep %s verwijderen"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:463
 msgid "G_roup all in tab"
-msgstr "G_roepeer alle terminals in het tabblad"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:468
 msgid "Ungro_up all in tab"
@@ -1594,12 +1582,12 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:473
 msgid "Remove all groups"
-msgstr "Alle groepen opheffen"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:480
 #, python-format
 msgid "Close group %s"
-msgstr "Sluit groep %s"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:490
 msgid "Broadcast _all"
@@ -1631,11 +1619,11 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1380
 msgid "Unable to find a shell"
-msgstr "Geen shell gevonden"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1413
 msgid "Unable to start shell:"
-msgstr "Kan shell niet starten:"
+msgstr ""
 
 #: ../terminatorlib/terminal.py:1834
 msgid "Rename Window"
@@ -1743,9 +1731,9 @@ msgstr ""
 
 #: ../terminatorlib/window.py:274
 msgid "window"
-msgstr "venster"
+msgstr ""
 
 #: ../terminatorlib/window.py:728
 #, python-format
 msgid "Tab %d"
-msgstr "Tabblad %d"
+msgstr ""
