@@ -20,6 +20,8 @@ terminator GTK3:
     * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
     * Merge feature branch for tab/terminal title editing (Haim
       Daniel LP#1417747)
+    * Added radio options to the Cursor colour to make it easier to
+      go back to the XOR'd foreground colour (Steve Boddy, LP#1512317)
 
   Bug fixes
     * Fix a GI version warning for Notify library (Mattias Eriksson)
