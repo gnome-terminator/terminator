@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-10-09 17:50+0000\n"
-"Last-Translator: Davide Nicotra <nicotra.davide@yahoo.it>\n"
+"PO-Revision-Date: 2015-12-07 22:50+0000\n"
+"Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:10+0000\n"
+"X-Launchpad-Export-Date: 2015-12-08 05:12+0000\n"
 "X-Generator: Launchpad (build 17862)\n"
 
 #. Command         uuid req.    Description
@@ -28,7 +28,7 @@ msgstr "Apri una nuova scheda"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Dividi orizzontalmente il terminale attuale"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
@@ -40,15 +40,15 @@ msgstr "Ottieni una lista di tutti i terminali"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Ottieni l'UUID di una finestra genitore"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Ottieni il titolo di una finestra genitore"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Ottieni l'UUID di una scheda genitore"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
@@ -117,7 +117,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Schede"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
