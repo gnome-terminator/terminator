@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-09-21 11:18+0000\n"
+"PO-Revision-Date: 2015-12-15 10:23+0000\n"
 "Last-Translator: Flávio Vinícius de Castro Alves "
 "<flavioviniciuscmp@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:11+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2015-12-16 05:08+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -357,7 +357,7 @@ msgstr "Exibir a versão do programa"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximizar janela"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -393,7 +393,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
-msgstr "Especifique um arquivo de configuração"
+msgstr "Especificar um arquivo de configuração"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
