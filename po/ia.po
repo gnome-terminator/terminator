@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-12-07 22:47+0000\n"
+"PO-Revision-Date: 2015-12-18 23:49+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Interlingua <ia@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-08 05:12+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2015-12-19 04:34+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -81,12 +81,12 @@ msgstr ""
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr ""
+msgstr "Plure terminales in un fenestra"
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Le robot futur del terminales"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -106,15 +106,15 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Alicun evidentias:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Arrangiar le terminales in un grillia"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Schedas"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -122,7 +122,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Quantitates de vias breve de claviero"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "E quantitates ancora..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
@@ -150,11 +150,11 @@ msgstr ""
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
-msgstr ""
+msgstr "Clauder?"
 
 #: ../terminatorlib/container.py:169
 msgid "Close _Terminals"
-msgstr ""
+msgstr "Clauder le _Terminales"
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
@@ -179,38 +179,38 @@ msgstr ""
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
 #: ../terminatorlib/encoding.py:102
 msgid "Western"
-msgstr ""
+msgstr "Occidental"
 
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr ""
+msgstr "Europee central"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr ""
+msgstr "Sud europee"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
 msgid "Baltic"
-msgstr ""
+msgstr "Baltic"
 
 #. [False, "JOHAB", _("Korean") ],
 #: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:70
 #: ../terminatorlib/encoding.py:76 ../terminatorlib/encoding.py:78
 #: ../terminatorlib/encoding.py:83 ../terminatorlib/encoding.py:101
 msgid "Cyrillic"
-msgstr ""
+msgstr "Cyrillic"
 
 #: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:73
 #: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:106
 msgid "Arabic"
-msgstr ""
+msgstr "Arabe"
 
 #: ../terminatorlib/encoding.py:42 ../terminatorlib/encoding.py:86
 #: ../terminatorlib/encoding.py:103
 msgid "Greek"
-msgstr ""
+msgstr "Greco"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
@@ -219,80 +219,80 @@ msgstr ""
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
 msgid "Hebrew"
-msgstr ""
+msgstr "Hebreo"
 
 #: ../terminatorlib/encoding.py:45 ../terminatorlib/encoding.py:71
 #: ../terminatorlib/encoding.py:93 ../terminatorlib/encoding.py:104
 msgid "Turkish"
-msgstr ""
+msgstr "Turco"
 
 #: ../terminatorlib/encoding.py:46
 msgid "Nordic"
-msgstr ""
+msgstr "Nordic"
 
 #: ../terminatorlib/encoding.py:48
 msgid "Celtic"
-msgstr ""
+msgstr "Celtic"
 
 #: ../terminatorlib/encoding.py:50 ../terminatorlib/encoding.py:92
 msgid "Romanian"
-msgstr ""
+msgstr "Romaniano"
 
 #. [False, "UTF-7", _("Unicode") ],
 #: ../terminatorlib/encoding.py:52
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #. [False, "UTF-16", _("Unicode") ],
 #. [False, "UCS-2", _("Unicode") ],
 #. [False, "UCS-4", _("Unicode") ],
 #: ../terminatorlib/encoding.py:56
 msgid "Armenian"
-msgstr ""
+msgstr "Armenio"
 
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr ""
+msgstr "Chinese Traditional"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
-msgstr ""
+msgstr "Cyrillic/Russo"
 
 #: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
 #: ../terminatorlib/encoding.py:95
 msgid "Japanese"
-msgstr ""
+msgstr "Japonese"
 
 #: ../terminatorlib/encoding.py:61 ../terminatorlib/encoding.py:75
 #: ../terminatorlib/encoding.py:98
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr ""
+msgstr "Chinese Simplificate"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
-msgstr ""
+msgstr "Georgian"
 
 #: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:94
 msgid "Cyrillic/Ukrainian"
-msgstr ""
+msgstr "Cyrillic/Ukrainiano"
 
 #: ../terminatorlib/encoding.py:82
 msgid "Croatian"
-msgstr ""
+msgstr "Croato"
 
 #: ../terminatorlib/encoding.py:84
 msgid "Hindi"
-msgstr ""
+msgstr "Hindi"
 
 #: ../terminatorlib/encoding.py:85
 msgid "Persian"
-msgstr ""
+msgstr "Farsi (Perse)"
 
 #: ../terminatorlib/encoding.py:87
 msgid "Gujarati"
@@ -304,16 +304,16 @@ msgstr ""
 
 #: ../terminatorlib/encoding.py:90
 msgid "Icelandic"
-msgstr ""
+msgstr "Islandese"
 
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vietnamese"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
-msgstr ""
+msgstr "Thai"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
@@ -322,31 +322,31 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr ""
+msgstr "Disposition"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Lancear"
 
 #: ../terminatorlib/notebook.py:351
 msgid "tab"
-msgstr ""
+msgstr "scheda"
 
 #: ../terminatorlib/notebook.py:570
 msgid "Close Tab"
-msgstr ""
+msgstr "Clauder scheda"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Display program version"
-msgstr ""
+msgstr "Monstrar le version del programma"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximizar le fenestra"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Facer plenar le schermo al fenestra"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
