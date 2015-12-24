@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-12-05 19:51+0000\n"
-"Last-Translator: Wout Huygens <wout.huygens@telenet.be>\n"
+"PO-Revision-Date: 2015-12-23 21:30+0000\n"
+"Last-Translator: Rachid <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-06 05:07+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2015-12-24 05:06+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -360,7 +360,7 @@ msgstr "Laat het venster het hele scherm vullen"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
-msgstr "Toon vensterranden"
+msgstr "Vensterranden uitschakelen"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
@@ -373,6 +373,7 @@ msgstr "Geef een titel voor het venster"
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"De gewenste grootte en positie van het venster instellen (zie X man pagina)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
@@ -432,7 +433,7 @@ msgstr "Kommagescheiden lijst van klassen als limiet om te debuggen"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr ""
+msgstr "Kommagescheiden lijst van methoden als limiet om te debuggen"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
@@ -598,7 +599,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Orange on black"
-msgstr ""
+msgstr "Oranje op zwart"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Ambience"

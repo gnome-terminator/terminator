@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-12-07 22:50+0000\n"
+"PO-Revision-Date: 2015-12-23 12:07+0000\n"
 "Last-Translator: karm <melo@carmu.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-08 05:12+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2015-12-24 05:06+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -70,6 +70,8 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Queste entrate richiedono l'uso o della var d'ambiente di TERMINATOR_UUID "
+"o dell'optione --uuid."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
@@ -89,7 +91,7 @@ msgstr "Molteplici terminali un una sola finestra"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Il futuro robot dei terminali"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -109,11 +111,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Alcune evidenze:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Disporre i terminali in una glriglia"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
@@ -125,7 +127,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Quantità di scorciatoie da tastiera"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -327,11 +329,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr ""
+msgstr "Disposizione"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Lanciare"
 
 #: ../terminatorlib/notebook.py:351
 msgid "tab"
@@ -347,7 +349,7 @@ msgstr "Visualizza la versione del programma"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Massimizzare la finestra"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -405,11 +407,11 @@ msgstr "Imposta una proprietà WM_WINDOW_ROLE personalizzata alla finestra"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Lanciare con una disposizione determinata"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Selezionare una disposizione da una lista"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -474,12 +476,12 @@ msgstr "Configurazione comandi personalizzati"
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Attivato"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:100
@@ -531,7 +533,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Salvare l'immagine"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -556,7 +558,7 @@ msgstr "Tutti"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Gruppo"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -584,7 +586,7 @@ msgstr "Nero su bianco"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Grigio su nero"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -604,11 +606,11 @@ msgstr "Ambiance"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Bianco solarizzato"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Nero solarizzato"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
@@ -656,7 +658,7 @@ msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Solarized"
-msgstr ""
+msgstr "Solarizzato"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "On the left side"
@@ -713,11 +715,11 @@ msgstr "Preferenze di Terminator"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Comportamento</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
-msgstr ""
+msgstr "Stato della finestra:"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Always on top"
