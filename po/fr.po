@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-10-25 22:36+0000\n"
-"Last-Translator: Jean-Marc <Unknown>\n"
+"PO-Revision-Date: 2016-01-19 22:27+0000\n"
+"Last-Translator: Matthieu JOOSSEN <matthieu.joossen@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:10+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2016-01-21 05:11+0000\n"
+"X-Generator: Launchpad (build 17886)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -61,16 +61,24 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Lancer l'une des commandes Terminator DBus suivantes :\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Ces entrées ne requièrent pas non plus TERMINATOR_UUID dans "
+"l'environnement de variaible,\n"
+"  ou l'option --uuid doit être utilisée."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
+"Terminal UUID utilisée lorsque TERMINATOR_UUID n'est pas dans "
+"l'environnement de variable"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -110,7 +118,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Quelques points forts :"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
@@ -122,7 +130,7 @@ msgstr "Onglets"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Glisser/Déponser pour réordonner les terminaux"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
