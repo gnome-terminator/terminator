@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-11-11 22:00+0000\n"
-"Last-Translator: Mateusz Łukasik <Unknown>\n"
+"PO-Revision-Date: 2016-02-17 15:36+0000\n"
+"Last-Translator: Daniel Koć <daniel@xn--ko-wla.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:10+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2016-02-18 05:11+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -158,7 +158,7 @@ msgstr "Zamknij _terminale"
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Zamknąć kilka terminali?</b></big>"
+msgstr "<big><b>Zamknąć wiele terminali?</b></big>"
 
 #: ../terminatorlib/container.py:174
 #, python-format
@@ -166,7 +166,7 @@ msgid ""
 "This %s has several terminals open. Closing the %s will also close all "
 "terminals within it."
 msgstr ""
-"To %s ma otwartych kilka terminali. Zamykając %s, program zamknie również "
+"To %s ma otwartych wiele terminali. Zamykając %s, program zamknie również "
 "wszystkie terminale znajdujące się wewnątrz."
 
 #: ../terminatorlib/container.py:191
@@ -175,7 +175,7 @@ msgstr "Nie pokazuj tej wiadomości następnym razem."
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Bieżące ustawienia lokalne"
+msgstr "Bieżące ustawienia regionalne"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -216,7 +216,7 @@ msgstr "Grecki"
 
 #: ../terminatorlib/encoding.py:43
 msgid "Hebrew Visual"
-msgstr "Hebrajski Wisualny"
+msgstr "Hebrajski (wizualnie)"
 
 #: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:72
 #: ../terminatorlib/encoding.py:89 ../terminatorlib/encoding.py:105
@@ -340,7 +340,7 @@ msgstr "Zamknij kartę"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Display program version"
-msgstr "Pokaż wersje programu"
+msgstr "Pokaż wersję programu"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
@@ -364,7 +364,8 @@ msgstr "Podaj tytuł (nazwę) okna"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr "Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X)"
+msgstr ""
+"Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X-ów)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
@@ -375,7 +376,7 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Użyj reszty linii poleceń jako polecenie do wykonania w terminalu, i jego "
+"Użyj reszty wiersza poleceń jako polecenie do wykonania w terminalu i jego "
 "argumenty."
 
 #: ../terminatorlib/optionparse.py:75
@@ -384,11 +385,11 @@ msgstr "Wskaż plik konfiguracyjny"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
-msgstr "Ustaw katalog"
+msgstr "Ustaw katalog roboczy"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr "Ustawianie niestandardowej nazwy (WM_CLASS) w oknie właściwości"
+msgstr "Ustaw niestandardową nazwę (WM_CLASS) w oknie właściwości"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
@@ -396,7 +397,7 @@ msgstr "Ustaw niestandardową ikonę okna (przez archiwum lub plik)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Ustawianie niestandardowego WM_WINDOW_ROLE nieruchomości w oknie"
+msgstr "Ustaw niestandardową właściwość okna WM_WINDOW_ROLE"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
@@ -420,11 +421,13 @@ msgstr "Włącz informacje debuggera  (podwójnie dla serwera debuggera)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Oddzielonych przecinkami klas w celu ograniczenia do debugowania"
+msgstr ""
+"Lista oddzielonych przecinkami klas w celu ograniczenia debugowania do"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "Oddzielonych przecinkami do ograniczania do debugowania"
+msgstr ""
+"Lista oddzielonych przecinkami metod w celu ograniczenia debugowania do"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
@@ -433,7 +436,7 @@ msgstr "Jeśli Terminator jest już uruchomiony, utwórz nową zakładkę"
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
 msgstr ""
-"Plugin ActivityWatch jest niedostępny: proszę zainstalować pakiet python-"
+"Wtyczka ActivityWatch jest niedostępna: proszę zainstalować pakiet python-"
 "notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
@@ -612,7 +615,7 @@ msgstr "Własne"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Block"
-msgstr "Blokuj"
+msgstr "Blok"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Underline"
@@ -737,7 +740,7 @@ msgstr "Rozmiar okna podpowiedzi"
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "DBus server"
-msgstr "DBus server"
+msgstr "Serwer DBus"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Mouse focus:"
@@ -897,7 +900,7 @@ msgstr "Ikona paska tytułu"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Visual flash"
-msgstr "Visual flash"
+msgstr "Wizualny rozbłysk"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "Audible beep"
@@ -1037,7 +1040,7 @@ msgstr "Przewijanie przy pojawieniu się _nowych danych"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "lines"
-msgstr "linie"
+msgstr "linii"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "_Scrollbar is:"
@@ -1169,7 +1172,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid "About"
-msgstr "O aplikacji"
+msgstr "O programie"
 
 #: ../terminatorlib/prefseditor.py:84
 msgid "Increase font size"
@@ -1417,11 +1420,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Insert terminal number"
-msgstr "Podaj numer terminala"
+msgstr "Wstaw numer terminala"
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Insert padded terminal number"
-msgstr "Wstaw wyściełane numeru terminala"
+msgstr "Wstaw wyrównany numer terminala"
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Edit window title"
@@ -1505,7 +1508,7 @@ msgstr "_Kopiuj adres email"
 
 #: ../terminatorlib/terminal_popup_menu.py:62
 msgid "Ca_ll VoIP address"
-msgstr "_Zadzwoń na adres VoID"
+msgstr "_Zadzwoń na adres VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:63
 msgid "_Copy VoIP address"
@@ -1533,7 +1536,7 @@ msgstr "O_twórz zakładkę"
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr "Otwórz _Debug Tab"
+msgstr "Otwórz zakładkę _debugowania"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
@@ -1561,7 +1564,7 @@ msgstr "Kodowania"
 
 #: ../terminatorlib/terminal_popup_menu.py:254
 msgid "Default"
-msgstr "Domyślny"
+msgstr "Domyślne"
 
 #: ../terminatorlib/terminal_popup_menu.py:257
 msgid "User defined"
@@ -1569,7 +1572,7 @@ msgstr "Zdefiniowane przez użytkownika"
 
 #: ../terminatorlib/terminal_popup_menu.py:273
 msgid "Other Encodings"
-msgstr "Inne Kodowania"
+msgstr "Inne kodowania"
 
 #: ../terminatorlib/terminal.py:432
 msgid "N_ew group..."
