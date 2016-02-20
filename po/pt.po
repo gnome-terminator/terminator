@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2015-11-04 04:14+0000\n"
-"Last-Translator: Duarte Pompeu <pnt12@live.com.pt>\n"
+"PO-Revision-Date: 2016-02-20 01:01+0000\n"
+"Last-Translator: Ricardo Sousa <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:10+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2016-02-20 05:10+0000\n"
+"X-Generator: Launchpad (build 17925)\n"
 "Language: pt_PT\n"
 
 #. Command         uuid req.    Description
@@ -806,7 +806,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Focused"
-msgstr ""
+msgstr "Focado"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Inactive"
@@ -814,7 +814,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Font color:"
-msgstr ""
+msgstr "Cor do tipo de letra:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Background:"
@@ -1107,7 +1107,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Custom command:"
-msgstr ""
+msgstr "Comando personalizado:"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Working directory:"
@@ -1157,7 +1157,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:152
 msgid "The Manual"
-msgstr ""
+msgstr "O Manual"
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid ""
