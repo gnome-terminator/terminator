@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-02-25 09:40+0000\n"
+"PO-Revision-Date: 2016-03-08 09:13+0000\n"
 "Last-Translator: CHOTEAU Jean-Baptiste <jb.choteau@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-02-26 04:33+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-09 05:18+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -359,7 +359,7 @@ msgstr "Affiche le numéro de version du programme"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximiser la fenêtre"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -791,7 +791,7 @@ msgstr "<b>Apparence</b>"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Taille du séparateur de terminal"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Unfocused terminal font brightness:"
