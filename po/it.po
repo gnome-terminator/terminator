@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-01-03 02:01+0000\n"
-"Last-Translator: karm <melo@carmu.com>\n"
+"PO-Revision-Date: 2016-03-15 09:28+0000\n"
+"Last-Translator: Vito Fasano <vito.fasano@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-01-04 05:07+0000\n"
-"X-Generator: Launchpad (build 17865)\n"
+"X-Launchpad-Export-Date: 2016-03-16 05:20+0000\n"
+"X-Generator: Launchpad (build 17947)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -123,7 +123,7 @@ msgstr "Schede"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Trascina e rilascia per ri-ordinare i terminali"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
@@ -132,6 +132,7 @@ msgstr "Quantità di scorciatoie da tastiera"
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
 msgstr ""
+"Salva i layout e profili multipli attraverso l'editor delle preferenze"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -143,7 +144,7 @@ msgstr "Molto più..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "La finestra principale mostra l'applicazione attiva"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
@@ -449,7 +450,7 @@ msgstr ""
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Attività in: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
@@ -525,7 +526,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Salva Log File come"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
