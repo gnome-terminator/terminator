@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-03-08 09:13+0000\n"
-"Last-Translator: CHOTEAU Jean-Baptiste <jb.choteau@gmail.com>\n"
+"PO-Revision-Date: 2016-03-21 18:06+0000\n"
+"Last-Translator: Guillaume Marques <guillaume.marques33@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-09 05:18+0000\n"
-"X-Generator: Launchpad (build 17936)\n"
+"X-Launchpad-Export-Date: 2016-03-22 05:19+0000\n"
+"X-Generator: Launchpad (build 17958)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -71,7 +71,7 @@ msgid ""
 "  or the --uuid option must be used."
 msgstr ""
 "* Ces entrées ne requièrent pas non plus TERMINATOR_UUID dans "
-"l'environnement de variaible,\n"
+"l'environnement de variable,\n"
 "  ou l'option --uuid doit être utilisée."
 
 #: ../remotinator.py:66
@@ -339,7 +339,7 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr ""
+msgstr "Disposition"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
@@ -719,11 +719,11 @@ msgstr "Plein écran"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "default"
-msgstr "default"
+msgstr "par défaut"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminator Preferences"
-msgstr "Option de Terminator"
+msgstr "Options de Terminator"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
@@ -1121,7 +1121,7 @@ msgstr "Profils"
 
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Profile:"
@@ -1456,11 +1456,11 @@ msgstr "Modifier le titre de la fenêtre"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Modifier le titre du terminal"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Edit tab title"
-msgstr ""
+msgstr "Modifier le titre de l'onglet"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Open layout launcher window"
