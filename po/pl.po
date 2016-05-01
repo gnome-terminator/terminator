@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-02-17 15:36+0000\n"
-"Last-Translator: Daniel Koć <daniel@xn--ko-wla.pl>\n"
+"PO-Revision-Date: 2016-04-30 12:43+0000\n"
+"Last-Translator: dawidd6 <dawidd0811@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-02-18 05:11+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-05-01 05:12+0000\n"
+"X-Generator: Launchpad (build 17995)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -28,11 +28,11 @@ msgstr "Otwiera nową kartę"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Rozdziel obecny terminal horyzontalnie"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Rozdziel obecny terminal wertykalnie"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "I wiele więcej..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
@@ -344,7 +344,7 @@ msgstr "Pokaż wersję programu"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maksymalizuj okno"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -522,7 +522,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Zapisz logi jako"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
