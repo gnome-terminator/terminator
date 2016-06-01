@@ -53,8 +53,8 @@ class CustomCommandsMenu(plugin.MenuItem):
                                 'command' : command
                               }
                             )
-        for cmd in noord_cmds:
-            self.cmd_list[len(self.cmd_list)] = cmd
+      for cmd in noord_cmds:
+          self.cmd_list[len(self.cmd_list)] = cmd
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
