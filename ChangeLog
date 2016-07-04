@@ -83,6 +83,8 @@ terminator GTK3:
       prefs (Egmont Koblinger, LP#1520761)
     * Fix title edit shortcuts to hopefully not clash with console
       programs so much (Seve Boddy, LP#1514089)
+    * Minor fix to readd hypens as a word char (Steve Boddy,
+      LP#1598800)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
