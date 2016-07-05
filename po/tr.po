@@ -9,13 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:12+0100\n"
 "PO-Revision-Date: 2015-08-05 12:42+0000\n"
-"Last-Translator: Reddet <tolgaaydin@ruggedinbox.com>\n"
+"Last-Translator: Reddet <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:18+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-07-05 06:03+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: tr\n"
 
 #. Command         uuid req.    Description
@@ -110,7 +110,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Bazı özellikler:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Bir sürü klavye kısayolları"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -408,7 +408,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Listeden bir düzeni seçin"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -491,7 +491,7 @@ msgstr "Etkin"
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Name"
-msgstr ""
+msgstr "Adı"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:100
@@ -561,11 +561,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Başlat _Logger"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Dur _Logger"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
@@ -814,11 +814,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Görünüm</b>"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Terminal ayırıcı boyutu:"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Unfocused terminal font brightness:"
@@ -830,7 +830,7 @@ msgstr "Pencere kenarlıkları"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Tab position:"
-msgstr ""
+msgstr "Sekme konumu:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Tabs homogeneous"

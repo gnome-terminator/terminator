@@ -14,46 +14,46 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:17+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-07-05 06:02+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Nieuw venster openen"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Nieuw tabblad openen"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Splits de huidige terminal horizontaal"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Splits de huidige terminal verticaal"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Krijg een lijst met alle terminals"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Krijg de UUID van een ouder venster"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Krijg de titel van een ouder venster"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Krijg de UUID van een ouder tabblad"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Krijg de titel van een ouder tabblad"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,16 +62,22 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Voer één van de volgende Terminator DBlus commands uit:\n"
+"\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Deze items vereisen ofwel TERMINATOR_UUID omgeving var,\n"
+"  of de --uuid optie moet gebruikt worden."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr ""
+msgstr "Terminal UUID voor wanneer niet in env var TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -87,7 +93,7 @@ msgstr "Meerdere terminals in één venster"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "De robottoekomst van terminals"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -96,6 +102,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Een krachtgebruikershulpmiddel voor het regelen van terminals. Het is "
+"geïnspireerd door programma's zoals gnome-multi-term, quadkonsole, enz. met "
+"als hoofddoel het regelen van terminals in netten (tabbladen is de meest "
+"algemene standaardmethode, die Terminal ook ondersteunt)"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -107,15 +117,15 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Enkele hoogtepunten:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Regel terminals in een rooster"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Tabbladen"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -123,11 +133,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Veel toetsenbordsnelkoppelingen"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr ""
+msgstr "Sla meerdere lay-outs en profielen op via GUI voorkeureneditor"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -135,19 +145,19 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "En nog veel meer..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Het hoofdvenster toont de applicatie in actie"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Een beetje gek worden met de terminals"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Het voorkeurenvenster waar je de standaardwaarden kan veranderen"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -172,7 +182,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Laat dit bericht de volgende keer niet weer zien"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -187,11 +197,11 @@ msgstr "Westers"
 #: ../terminatorlib/encoding.py:37 ../terminatorlib/encoding.py:69
 #: ../terminatorlib/encoding.py:81 ../terminatorlib/encoding.py:100
 msgid "Central European"
-msgstr "Centraal Europees"
+msgstr "Centraal-Europees"
 
 #: ../terminatorlib/encoding.py:38
 msgid "South European"
-msgstr "Zuid Europees"
+msgstr "Zuid-Europees"
 
 #: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:47
 #: ../terminatorlib/encoding.py:107
@@ -256,7 +266,7 @@ msgstr "Armeens"
 #: ../terminatorlib/encoding.py:57 ../terminatorlib/encoding.py:58
 #: ../terminatorlib/encoding.py:62
 msgid "Chinese Traditional"
-msgstr "Traditioneel Chinees"
+msgstr "Chinees (traditioneel)"
 
 #: ../terminatorlib/encoding.py:59
 msgid "Cyrillic/Russian"
@@ -275,7 +285,7 @@ msgstr "Koreaans"
 #: ../terminatorlib/encoding.py:63 ../terminatorlib/encoding.py:64
 #: ../terminatorlib/encoding.py:65 ../terminatorlib/encoding.py:67
 msgid "Chinese Simplified"
-msgstr "Vereenvoudigd Chinees"
+msgstr "Chinees (vereenvoudigd)"
 
 #: ../terminatorlib/encoding.py:66
 msgid "Georgian"
@@ -325,11 +335,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr ""
+msgstr "Lay-out"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Voer uit"
 
 #: ../terminatorlib/notebook.py:351
 msgid "tab"
@@ -345,7 +355,7 @@ msgstr "Versienummer van het programma weergeven"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximaliseer het venster"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -353,7 +363,7 @@ msgstr "Laat het venster het hele scherm vullen"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
-msgstr "Toon vensterranden"
+msgstr "Vensterranden uitschakelen"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
@@ -366,6 +376,7 @@ msgstr "Geef een titel voor het venster"
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"De gewenste grootte en positie van het venster instellen (zie X man pagina)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
@@ -381,7 +392,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
-msgstr ""
+msgstr "Specifieer een config bestand"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
@@ -389,11 +400,11 @@ msgstr "Werkmap instellen"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Stel een aangepaste naam (WM_CLASS) eigenschap op het scherm in"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Stel een aangepast icoon voor het venster in (door bestand of naam)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -401,11 +412,11 @@ msgstr "Stel een eigen WM_WINDOW_ROLE in voor het venster"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Start op met de gegeven lay-out"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Kies een lay-out uit de lijst"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -429,7 +440,7 @@ msgstr "Kommagescheiden lijst van methoden als limiet om te debuggen"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Als Terminator al wordt uitgevoerd, open dan een nieuwe tabblad"
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -437,25 +448,25 @@ msgstr "ActivityWatch plugin niet beschikbaar. Installeer python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Kijk voor _activiteiten"
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Activiteit in : %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Kijk voor _stilte"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Stilte in: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "_Eigen Commando's"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -481,22 +492,22 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Ingeschakeld"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:100
 msgid "Command"
-msgstr ""
+msgstr "Commando"
 
 #: ../terminatorlib/plugins/custom_commands.py:173
 #: ../terminatorlib/preferences.glade.h:35
 msgid "Top"
-msgstr ""
+msgstr "Boven"
 
 #: ../terminatorlib/plugins/custom_commands.py:179
 msgid "Up"
@@ -524,7 +535,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:266
 msgid "New Command"
-msgstr "Nieuwe opdracht"
+msgstr "Nieuw commando"
 
 #: ../terminatorlib/plugins/custom_commands.py:276
 msgid "Enabled:"
@@ -536,12 +547,12 @@ msgstr "Naam:"
 
 #: ../terminatorlib/plugins/custom_commands.py:288
 msgid "Command:"
-msgstr "Opdracht:"
+msgstr "Commando:"
 
 #: ../terminatorlib/plugins/custom_commands.py:311
 #: ../terminatorlib/plugins/custom_commands.py:421
 msgid "You need to define a name and command"
-msgstr "U heeft de naam of de opdracht nog niet ingevuld"
+msgstr "U heeft de naam of de commando nog niet ingevuld"
 
 #: ../terminatorlib/plugins/custom_commands.py:328
 #: ../terminatorlib/plugins/custom_commands.py:440
@@ -556,35 +567,35 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Start _Logger"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Stop _Logger"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Sla Logbestand op als"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "Terminal _screenshot"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Afbeelding opslaan"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisch"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Ctrl-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
@@ -597,7 +608,7 @@ msgstr "Alle"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Groep"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -605,63 +616,63 @@ msgstr "Geen"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Exit the terminal"
-msgstr ""
+msgstr "Terminal afsluiten"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Restart the command"
-msgstr ""
+msgstr "Opdracht herstarten"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "Terminal openhouden"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Zwart op lichtgeel"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "Black on white"
-msgstr ""
+msgstr "Zwart op wit"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Grijs op zwart"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
-msgstr ""
+msgstr "Groen op zwart"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "White on black"
-msgstr ""
+msgstr "Wit op zwart"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Orange on black"
-msgstr ""
+msgstr "Oranje op zwart"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Ambience"
-msgstr ""
+msgstr "Ambience"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Gesolariseerd helder"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Gesolariseerd donker"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Custom"
-msgstr ""
+msgstr "Aangepast"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Block"
-msgstr ""
+msgstr "Blokkeer"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Underline"
-msgstr ""
+msgstr "Onderstreep"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "I-Beam"
@@ -669,79 +680,79 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME standaard"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "Click to focus"
-msgstr ""
+msgstr "Klik voor focus"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Muisaanwijzer volgen"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "Solarized"
-msgstr ""
+msgstr "Overbelicht"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "On the left side"
-msgstr ""
+msgstr "Aan de linkerkant"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "On the right side"
-msgstr ""
+msgstr "Aan de rechterkant"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "Disabled"
-msgstr ""
+msgstr "Uitgeschakeld"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Bottom"
-msgstr ""
+msgstr "Onderkant"
 
 #: ../terminatorlib/preferences.glade.h:37
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Hidden"
-msgstr ""
+msgstr "Verborgen"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Normal"
-msgstr ""
+msgstr "Normaal"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Maximised"
-msgstr ""
+msgstr "Gemaximaliseerd"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Fullscreen"
-msgstr ""
+msgstr "Volledig scherm"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "default"
-msgstr ""
+msgstr "standaard"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Terminator Preferences"
@@ -749,19 +760,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Gedrag</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
-msgstr ""
+msgstr "Vensterstatus:"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Always on top"
-msgstr ""
+msgstr "Altijd bovenop"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Toon alle werkruimtes"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "Hide on lose focus"
@@ -809,7 +820,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Weergave</b>"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Terminal separator size:"
@@ -821,11 +832,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Window borders"
-msgstr ""
+msgstr "Vensterranden"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Tab position:"
-msgstr ""
+msgstr "Tabbladpositie:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Tabs homogeneous"
@@ -841,7 +852,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Receiving"
-msgstr ""
+msgstr "Bezig met ontvangen"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Focused"
@@ -849,15 +860,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Inactive"
-msgstr ""
+msgstr "Inactief"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Font color:"
-msgstr ""
+msgstr "Tekstkleur:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Background:"
-msgstr ""
+msgstr "Achtergrond:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Hide size from title"

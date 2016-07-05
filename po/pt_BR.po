@@ -9,13 +9,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:12+0100\n"
 "PO-Revision-Date: 2015-08-05 12:40+0000\n"
-"Last-Translator: Fábio Nogueira <deb-user-ba@ubuntu.com>\n"
+"Last-Translator: Fábio Nogueira <fnogueira@protonmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:18+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-07-05 06:03+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: pt_BR\n"
 
 #. Command         uuid req.    Description
@@ -357,7 +357,7 @@ msgstr "Exibir a versão do programa"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximizar janela"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -393,7 +393,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
-msgstr "Especifique um arquivo de configuração"
+msgstr "Especificar um arquivo de configuração"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
@@ -639,7 +639,7 @@ msgstr "Preto no branco"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Cinza em preto"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -803,11 +803,11 @@ msgstr "Transmissão padrão"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "PuTTY style paste"
-msgstr ""
+msgstr "Colar estilo PuTTY"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Smart copy"
-msgstr ""
+msgstr "Cópia inteligente"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Re-use profiles for new terminals"
@@ -1346,7 +1346,7 @@ msgstr "Mover aba para esqueda"
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Maximize terminal"
-msgstr ""
+msgstr "Maximizar terminal"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Zoom terminal"
@@ -1474,11 +1474,11 @@ msgstr "Editar título da janela"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Editar título do terminal"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Edit tab title"
-msgstr ""
+msgstr "Editar título da guia"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Open layout launcher window"
@@ -1598,7 +1598,7 @@ msgstr "_Zoom terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
-msgstr ""
+msgstr "Ma_ximizar terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"

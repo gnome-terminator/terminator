@@ -14,26 +14,26 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:17+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-07-05 06:02+0000\n"
+"X-Generator: Launchpad (build 18115)\n"
 "Language: el\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr ""
+msgstr "Άνοιγμα νέου παραθύρου"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr ""
+msgstr "Άνοιγμα νέας καρτέλας"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Οριζόντιος διαχωρισμός του τρέχοντος τερματικού"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Κάθετος διαχωρισμός του τρέχοντος τερματικού"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
@@ -62,6 +62,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Εκτελέστε μια από τις ακόλουθες εντολές του DBus:\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
@@ -96,6 +99,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Ένα εργαλείο οργάνωσης τερματικών για προχωρημένους χρήστες. Αντλεί έμπνευση "
+"από προγράμματα όπως το gnome-multi-term, το quadkonsole κτλ., με την έννοια "
+"πως εστιάζει στην οργάνωση τερματικών σε πλέγματα (οι καρτέλες είναι η πιο "
+"κοινή μέθοδος και  υποστηρίζεται και αυτή από το Terminator)"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -111,11 +118,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Διάταξη τερματικών σε πλέγμα"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Καρτέλες"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
@@ -123,7 +130,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Πολλές συνομεύσεις πληκτρολογίου"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -147,7 +154,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Το παράθυρο προτιμήσεων όπου μπορείτε να αλλάξετε τις προεπιλογές"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -325,11 +332,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
 msgid "Layout"
-msgstr ""
+msgstr "Διάταξη"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Εκτέλεση"
 
 #: ../terminatorlib/notebook.py:351
 msgid "tab"
@@ -345,7 +352,7 @@ msgstr "Προβολή έκδοσης προγράμματος"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Μεγιστοποίηση του παραθύρου"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -406,7 +413,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Επιλογή διάταξης από τη λίστα"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
@@ -449,7 +456,7 @@ msgstr ""
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Δραστηριότητα σε: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
@@ -462,7 +469,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "Προσαρμοσμένες εντολές"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -493,7 +500,7 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
 #: ../terminatorlib/preferences.glade.h:100
@@ -571,7 +578,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Αποθήκευση αρχείου καταγραφής ως"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
@@ -579,7 +586,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
-msgstr ""
+msgstr "Αποθήκευση εικόνας"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -604,7 +611,7 @@ msgstr "Όλα"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Ομάδα"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -756,11 +763,11 @@ msgstr "Προτιμήσεις terminator"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Συμπεριφορά</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
-msgstr ""
+msgstr "Κατάσταση παραθύρου"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Always on top"
@@ -816,11 +823,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Εμφάνιση</b>"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Μέγεθος διαχωριστικού τερματικών:"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Unfocused terminal font brightness:"
@@ -832,7 +839,7 @@ msgstr "Περιγράμματα παραθύρου"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Tab position:"
-msgstr ""
+msgstr "Θέση καρτέλας:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Tabs homogeneous"
@@ -848,7 +855,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Receiving"
-msgstr ""
+msgstr "Γίνεται λήψη"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Focused"
@@ -860,11 +867,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Font color:"
-msgstr ""
+msgstr "Χρώμα γραμματοσειράς:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Background:"
-msgstr ""
+msgstr "Φόντο:"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Hide size from title"
@@ -888,11 +895,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Profile"
-msgstr ""
+msgstr "Προφίλ"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "_Χρήση της γραμματοσειράς σταθερού πλάτους του συστήματος"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "Choose A Terminal Font"
@@ -920,15 +927,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Δρομέας</b>"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "Color:"
-msgstr ""
+msgstr "Χρώμα:"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Shape:"
-msgstr ""
+msgstr "_Σχήμα"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "Blink"
