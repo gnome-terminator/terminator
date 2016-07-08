@@ -64,6 +64,8 @@ class Window(Container, Gtk.Window):
         GObject.type_register(Window)
         self.register_signals(Window)
 
+        self.get_style_context().add_class("terminator-terminal-window")
+
 #        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
         icon_to_apply=''
 
