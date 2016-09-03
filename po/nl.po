@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-07-06 09:30+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"PO-Revision-Date: 2016-09-02 15:44+0000\n"
+"Last-Translator: Dragnadh <dragnadh@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-07-07 05:16+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-09-03 05:51+0000\n"
+"X-Generator: Launchpad (build 18179)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -1417,11 +1417,11 @@ msgstr "Terminalvensters de-groeperen op tabblad"
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Create a new window"
-msgstr ""
+msgstr "Een nieuw venster creëren"
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Spawn a new Terminator process"
-msgstr ""
+msgstr "Creër een nieuw Terminator proces"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Don't broadcast key presses"
@@ -1433,7 +1433,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "Broadcast belangrijke gebeurtenissen voor alle"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Insert terminal number"
@@ -1445,15 +1445,15 @@ msgstr "Aangevuld terminalnummer invoegen"
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Edit window title"
-msgstr ""
+msgstr "Venstertitel wijzigen"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Terminaaltitel wijzigen"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Edit tab title"
-msgstr ""
+msgstr "Tabbladtitel Wijzigen"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Open layout launcher window"
@@ -1469,7 +1469,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Open the manual"
-msgstr ""
+msgstr "Handleiding openen"
 
 #: ../terminatorlib/prefseditor.py:1075 ../terminatorlib/prefseditor.py:1080
 msgid "New Profile"
@@ -1561,7 +1561,7 @@ msgstr "Terminal in_zoomen"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
-msgstr ""
+msgstr "Terminaal ma_ximaliseren"
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"
@@ -1593,11 +1593,11 @@ msgstr "Andere tekensets"
 
 #: ../terminatorlib/terminal.py:432
 msgid "N_ew group..."
-msgstr ""
+msgstr "N_ieuwe groep..."
 
 #: ../terminatorlib/terminal.py:438
 msgid "_None"
-msgstr ""
+msgstr "_Geen"
 
 #: ../terminatorlib/terminal.py:458
 #, python-format
@@ -1623,7 +1623,7 @@ msgstr "Sluit groep %s"
 
 #: ../terminatorlib/terminal.py:490
 msgid "Broadcast _all"
-msgstr ""
+msgstr "Broadcast _alle"
 
 #: ../terminatorlib/terminal.py:491
 msgid "Broadcast _group"
