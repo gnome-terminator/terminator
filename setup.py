@@ -18,7 +18,6 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
-DOC_DIR = 'doc'
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
@@ -28,8 +27,6 @@ class TerminatorDist(Distribution):
     ("without-icon-cache", None, "Don't attempt to run gtk-update-icon-cache")]
 
   def __init__ (self, *args):
-    self.build_documentation = False
-    self.install_documentation = True
     self.without_gettext = False
     self.without_icon_cache = False
     Distribution.__init__(self, *args)
@@ -73,16 +70,6 @@ class BuildData(build):
       os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  appdata_in + " " + appdata_data)
-
-    if self.distribution.build_documentation:
-      # Build the documentation
-      for doc_folder in (glob.glob (os.path.join (DOC_DIR, 'manual*')) + [os.path.join (DOC_DIR, 'apidoc')]):
-        if os.path.isfile(os.path.join(doc_folder, 'Makefile')):
-          old_cwd = os.getcwd()
-          os.chdir(doc_folder)
-          os.system("make clean")
-          os.system("make html")
-          os.chdir(old_cwd)
 
 class Uninstall(Command):
   description = "Attempt an uninstall from an install --record file"
@@ -145,7 +132,6 @@ class Uninstall(Command):
 class InstallData(install_data):
   def run (self):
     self.data_files.extend (self._find_mo_files ())
-    self.data_files.extend (self._find_doc_files ())
     install_data.run (self)
     if not self.distribution.without_icon_cache:
       self._update_icon_cache ()
@@ -166,27 +152,6 @@ class InstallData(install_data):
        lang = os.path.basename(os.path.dirname(mo))
        dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
        data_files.append((dest, [mo]))
-
-    return data_files
-
-  def _find_doc_files (self):
-    data_files = []
-
-    if self.distribution.install_documentation:
-      for doc_folder in (glob.glob (os.path.join (DOC_DIR, 'manual*')) + [os.path.join (DOC_DIR, 'apidoc')]):
-        # construct new path
-        src = os.path.join(doc_folder, '_build', 'html')
-        dest_sub = os.path.split(doc_folder[:])[1]
-        if dest_sub[:6] == 'manual':
-          dest_sub = 'html'+dest_sub[6:]
-        dest = os.path.join('share', 'doc', 'terminator', dest_sub)
-        if os.path.isdir(src):
-          for dirpath, dirnames, filenames in os.walk(src):
-            cut_elem_count = len(doc_folder.split(os.sep)) + 2
-            dest_sub = os.path.join(dirpath.split(os.sep)[cut_elem_count:])
-            full_dest_folder = os.path.join(dest, *dest_sub)
-            full_src_filenames = [os.path.join(dirpath, filename) for filename in filenames]
-            data_files.append((full_dest_folder, full_src_filenames))
 
     return data_files
 
