@@ -1892,7 +1892,7 @@ class Terminal(Gtk.VBox):
     def key_help(self):
         manual_index_page = manual_lookup()
         if manual_index_page:
-            self.open_url('file://%s' % (manual_index_page))
+            self.open_url(manual_index_page)
 
 # End key events
 
