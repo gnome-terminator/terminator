@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-07-05 06:03+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-11-03 06:25+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 "Language: ru\n"
 
 #. Command         uuid req.    Description
@@ -75,6 +75,8 @@ msgstr ""
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
+"Стандартный UUID для терминала, если не задан другой в переменной окружения "
+"TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -157,7 +159,7 @@ msgstr "Главное окно, показывающее приложение �
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Немного сумасшествия с терминалами"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
@@ -454,12 +456,12 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Отслеживание _активности"
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Активность в течении: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
@@ -472,7 +474,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "_Свои команды"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -498,7 +500,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:151
 msgid "Enabled"
-msgstr ""
+msgstr "Включено"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
 #: ../terminatorlib/preferences.glade.h:136
@@ -573,11 +575,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Запустить _Логгер"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Остановить _Логгер"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
@@ -585,7 +587,7 @@ msgstr "Сохранить файл журнала как"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "_Скриншот Терминала"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -642,7 +644,7 @@ msgstr "Черный на белом"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "серый на чёрном"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -858,7 +860,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Receiving"
-msgstr ""
+msgstr "Получение"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Focused"
@@ -938,11 +940,11 @@ msgstr "Цвет:"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Shape:"
-msgstr ""
+msgstr "_Форма"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "Blink"
-msgstr ""
+msgstr "Мерцание"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "<b>Terminal bell</b>"
@@ -1139,7 +1141,7 @@ msgstr "Профиль:"
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Custom command:"
-msgstr ""
+msgstr "Пользовательская команда:"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Working directory:"
@@ -1155,7 +1157,7 @@ msgstr "Действие"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Keybinding"
-msgstr ""
+msgstr "Комбинация клавиш"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Keybindings"
@@ -1199,6 +1201,10 @@ msgid ""
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 "<a href=\"https://launchpad.net/terminator\">Development</a>"
 msgstr ""
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Домашняя "
+"страница</a>\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">Блог / News</a>\n"
+"<a href=\"https://launchpad.net/terminator\">Разработка</a>"
 
 #: ../terminatorlib/preferences.glade.h:156
 msgid "About"
@@ -1222,15 +1228,15 @@ msgstr "Создать новую вкладку"
 
 #: ../terminatorlib/prefseditor.py:88 ../terminatorlib/prefseditor.py:90
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Сделать активным следующий терминал"
 
 #: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Сделать активным предыдущий терминал"
 
 #: ../terminatorlib/prefseditor.py:92
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Сделать активным терминал выше"
 
 #: ../terminatorlib/prefseditor.py:93
 msgid "Focus the terminal below"

@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-07-05 06:03+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-11-03 06:25+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 "Language: pt_BR\n"
 
 #. Command         uuid req.    Description
@@ -33,7 +33,7 @@ msgstr "Dividir horizontalmente o terminal atual"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "Dividir verticalmente o atual terminal"
+msgstr "Dividir verticalmente o terminal atual"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
@@ -131,11 +131,11 @@ msgstr "Abas"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr "Arrastar e soltar re-ordenação de terminais"
+msgstr "Arrastar e soltar reordenação de terminais"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr "Teclas de atalhos do teclado"
+msgstr "Teclas de atalho do teclado"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -324,7 +324,7 @@ msgstr "Islandês"
 #: ../terminatorlib/encoding.py:96 ../terminatorlib/encoding.py:99
 #: ../terminatorlib/encoding.py:108
 msgid "Vietnamese"
-msgstr "Vietinamita"
+msgstr "Vietnamita"
 
 #: ../terminatorlib/encoding.py:97
 msgid "Thai"
@@ -1250,11 +1250,11 @@ msgstr "Convergir o terminal abaixo"
 
 #: ../terminatorlib/prefseditor.py:94
 msgid "Focus the terminal left"
-msgstr "Convergir o terminal a esqueda"
+msgstr "Convergir o terminal à esqueda"
 
 #: ../terminatorlib/prefseditor.py:95
 msgid "Focus the terminal right"
-msgstr "Convergir o terminal a direita"
+msgstr "Convergir o terminal à direita"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Rotate terminals clockwise"
@@ -1330,11 +1330,11 @@ msgstr "Redimensionar o terminal abaixo"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Resize the terminal left"
-msgstr "Redimensionar o terminal a esqueda"
+msgstr "Redimensionar o terminal à esqueda"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Resize the terminal right"
-msgstr "Redimensionar o terminal a direita"
+msgstr "Redimensionar o terminal à direita"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Move the tab right"

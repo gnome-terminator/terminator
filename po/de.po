@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-07-05 06:02+0000\n"
-"X-Generator: Launchpad (build 18115)\n"
+"X-Launchpad-Export-Date: 2016-11-03 06:24+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 "Language: de\n"
 
 #. Command         uuid req.    Description
@@ -856,7 +856,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tabs scroll buttons"
-msgstr ""
+msgstr "Tab-Scrollknöpfe"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "<b>Terminal Titlebar</b>"
@@ -1425,7 +1425,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Ungroup all terminals"
-msgstr ""
+msgstr "Hebe die Gruppen aller Terminal auf"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Group terminals in tab"
@@ -1457,7 +1457,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "Sende Tastaturereignisse an alle"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Insert terminal number"
@@ -1667,7 +1667,7 @@ msgstr "Gruppe senden"
 
 #: ../terminatorlib/terminal.py:492
 msgid "Broadcast _off"
-msgstr ""
+msgstr "Senden aus"
 
 #: ../terminatorlib/terminal.py:508
 msgid "_Split to this group"
@@ -1683,7 +1683,7 @@ msgstr "Terminal-Nummer einfügen"
 
 #: ../terminatorlib/terminal.py:524
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Terminal-Nummer einfügen (auffüllen)"
 
 #: ../terminatorlib/terminal.py:1380
 msgid "Unable to find a shell"
