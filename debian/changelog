@@ -2,7 +2,7 @@ terminator (1.90) trusty; urgency=medium
 
   * Initial GTK3 version packaging
 
- -- Steve Boddy <stephen.j.boddy@gmail.com>  Thu, 27 October 2016 14:06:00 +0100
+ -- Steve Boddy <stephen.j.boddy@gmail.com>  Thu, 27 Oct 2016 14:06:00 +0100
 
 terminator (0.98~ppa8) wily; urgency=medium
 
