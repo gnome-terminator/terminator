@@ -350,6 +350,10 @@ Default value: \fBTrue\fR
 If true, make a noise when applications send the escape sequence for the terminal bell.
 Default value: \fBFalse\fR
 .TP
+.B visible_bell\fR (boolean)
+If true, flash the terminal when applications send the escape sequence for the terminal bell.
+Default value: \fBFalse\fR
+.TP
 .B urgent_bell\fR (boolean)
 If true, set the window manager "urgent" hint when applications send the escale sequence for the terminal bell. Any keypress will cancel the urgent status.
 Default value: \fBFalse\fR
@@ -463,7 +467,7 @@ Default value: \fBclose\fR
 Terminals have a 16-colour palette that applications inside the terminal can use. This is that palette, in the form of a colon-separated list of colour names. Colour names should be in hex format e.g. "#FF00FF".
 .TP
 .B word_chars
-These characters are included when selecting text by double clicking.
+When selecting text by word, sequences of these characters are also considered members of single words. The hypen and alphanumerics do not need to be specified. Ranges can be given as "A-Z".
 Default value: \fB',./?%&#:_'\fR
 .TP
 .B mouse_autohide \fR(boolean)

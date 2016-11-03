@@ -1,9 +1,12 @@
-#!/bin/sh -e
+#!/bin/sh
+
+set -e
 
 if [ "$1" = "configure" ]; then
         # Ensure the old alternative is removed
         update-alternatives --remove terminator /usr/bin/terminator || true
         update-alternatives --remove x-terminal-emulator /usr/bin/terminator
+
         # Add an alternative for x-terminal-emulator
         update-alternatives --install /usr/bin/x-terminal-emulator \
                 x-terminal-emulator /usr/bin/terminator.wrapper 50 \

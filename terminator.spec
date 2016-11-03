@@ -1,7 +1,7 @@
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Name:           terminator
-Version:        0.97
+Version:        1.90
 Release:        1%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 

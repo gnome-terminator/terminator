@@ -1,18 +1,25 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
-DEB_PYTHON_SYSTEM = pysupport
+#export DH_VERBOSE=1
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/python-distutils.mk
-include /usr/share/cdbs/1/rules/simple-patchsys.mk
+%:
+	dh $@ --with python2
 
-DEB_INSTALL_CHANGELOGS_ALL := ChangeLog
-DEB_PYTHON_INSTALL_ARGS_ALL +=--install-lib=/usr/share/terminator --install-scripts=/usr/share/terminator
+override_dh_auto_install:
+	python setup.py \
+	--without-icon-cache \
+	install \
+	--install-lib=usr/share/terminator/ \
+	--install-data=usr/ \
+	--install-scripts=usr/share/terminator/ \
+	--root=$(CURDIR)/debian/terminator/ \
+	--no-compile -O0
 
-binary-install/terminator::
-	dh_icons -pterminator
-	dh_link /usr/share/terminator/terminator /usr/bin/terminator
-	dh_link /usr/share/terminator/remotinator /usr/bin/remotinator
+override_dh_installchangelogs:
+	dh_installchangelogs ChangeLog
 
-clean::
+override_dh_clean:
 	rm -rf build/
+	rm -f data/terminator.desktop
+	rm -f po/.intltool-merge-cache
+	find . -name '*.pyc' -delete

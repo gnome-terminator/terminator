@@ -86,6 +86,148 @@ terminator GTK3:
     * Minor fix to readd hypens as a word char (Steve Boddy,
       LP#1598800)
 
+terminator 0.98:
+  * Features
+    * Layout launcher with option or shortcut (Steve Boddy)
+    * An all-new manual! Default to F1 key (Steve Boddy)
+    * An initial separate port to gtk3 is available for the brave, which
+      is having all trunk changes applied to it while the issues get
+      shaken out (Egmont Koblinger & Steve Boddy)
+  * Enhancements
+    * Layout launcher reloads config when opened to be sure it has the
+      latest layouts (Steve Boddy)
+    * Reload the config before we write to it or we could overwrite
+      something from another instance (Steve Boddy)
+    * When saving, a layout now remembers:
+      * maximised and fullscreen status (Steve Boddy)
+      * window titles (Steve Boddy, LP#1192960)
+      * which tab was active (Steve Boddy)
+      * which terminal was active (Steve Boddy, LP#858268)
+      * working directory for each terminal (MoMaT, LP#1157422) plus
+        additional GUI code (Steve Boddy)
+    * Add vertical scrollbar to the layout launcher and make mouse
+      wheel scrolling work (Steve Boddy)
+    * Add vertical scrollbars to the Profiles and Layouts tabs in
+      Preferences (Steve Boddy, LP#1396843)
+    * Add options for non-homogenous tabs and scroll arrows (Grizzly
+      Smit)
+    * Add shortcuts for scrolling up/down by line/half-page/page
+      (nanikata, LP#332267)
+    * Improve consistency of Custom Commands menu (David Caro, LP#684340)
+    * New distinct icons for non terminal windows (Steve Boddy)
+    * Active terminal per tab is remembered (Steve Boddy, LP#315956)
+    * Add shortcuts/code to toggle All/Tab grouping (Steve Boddy,
+      LP#1097347)
+    * Improve watcher plugin (Joseph Crosland) with additional fixup
+      (Steve Boddy)
+    * Add Ctrl+MouseWheel Zoom in/out and Shift+MouseWheel page scroll
+      up/down (Steve Boddy)
+    * Add Ctrl+Shift+MouseWheel and Ctrl+Super+MouseWheel to zoom
+      receivers or all terminals (Steve Boddy)
+    * Add search bar wrap toggle (Christophe Bourez)
+    * Add default broadcast behaviour selection (Jiri, LP#1288835)
+    * Improve testing, distcheck, setup.py (Bryce Harrington)
+    * Major cleanup and reorganisation of the preferences window (Steve
+      Boddy)
+      * Complete revamp of the Global tab
+      * Splitters added on the 'Profiles', 'Layouts' and 'Plugins' tabs
+        for resizing lists
+      * Made the 'Layouts' tab and the 'Profile' sub-tabs more consistent
+        style wise
+      * Included a new 'About' tab with some project links
+    * Add global setting for changing the titlebar font (Eli Zor)
+      expanded and improved (Steve Boddy)
+    * Add shortcuts for next/prev profile (Peter E Lind, LP#1314734)
+    * Improve DnD to handle multiple files (Schplurtz le Déboulonné)
+      and (Steve Boddy)
+    * Add 'Save' button for saving to the selected Layout (Ariel
+      Zelivansky)
+    * Preselect the current layout when opening Prefs window, and also
+      save config after using the layout 'Save' button (Steve Boddy)
+    * Add default shortcuts for some actions by my preference (Steve
+      Boddy)
+    * Added HighContrast icons, and fix all window/menu icons to respect
+      theme changes (Steve Boddy, LP#305579)
+    * Add option to set how long ActivityWatcher plugin is quiet for
+      (Steve Boddy)
+    * Big tidy up and improvements to translation strings, although it
+      will require additional work by translators (Steve Boddy)
+    * Make the menu mnemonics a bit more consistent, or add them where
+      they were missing (Steve Boddy)
+    * Add fallback to psutils to discover the cwd of a terminal (Heon
+      Jeong, LP#1261293) with additional fixup (Steve Boddy)
+    * Slight improvement (IMO) to the zoom terminal font scaling (Steve
+      Boddy, LP#329158)
+    * Add an internationalised AppData file for software installers
+      (Steve Boddy, LP#1323785)
+  * Bug fixes
+    * Fix <Mod>+double-click to not rebalance splitters (Steve Boddy,
+      LP#1192679)
+    * Fix closing a group to no longer leaves strays (Steve Boddy,
+      LP#1193484)
+    * Fix shader so it works for background images too (Steve Boddy,
+      LP#1202109)
+    * Fix x-terminal-emulator option (Neal Fultz, LP#366644)
+    * Fix lost geom when using -H option (Steve Boddy, LP#1035617)
+    * Fix maximise in Fluxbox. Possibly also Windows w/Xming too (Steve
+      Boddy, LP#1201454)
+    * Fix lack of focus on unhide with patch from (Pavel Khlebovich,
+      LP#805870)
+    * Fix the Group All/Tab shortcuts where titlebars were not updated
+      (Steve Boddy, LP#1242675)
+    * Fix splits not being central mith multiple tabs (Justin Ossevoort,
+      LP#1186953)
+    * Fix closing of tab with multiple terminals not closing (Steve
+      Boddy, 1253995)
+    * Fix custom commands broadcast to grouped terminals (Mauro S M
+      Rodrigues, LP#1414332)
+    * Fix libc loading in freebsd.py. Restores pwd detection. (Thomas
+      Hurst)
+    * Fix scrollbar doubleclick rebalancing (Bryce Harrington, LP#1423686)
+      and (Steve Boddy)
+    * Fix crash when capslock pressed while editing a tab title (wizwiz50,
+      LP#1313761)
+    * Fix navigation between terminals (Julián Moreno Patiño LP#1433810)
+      and (Steve Boddy, LP#328235, LP#1433810)
+    * Fix option --new-tab to show application (Pavel Roschin, LP#1367680)
+      and (Steve Boddy)
+    * Fix xterm color palette to match xterm (Casper Ti. Vector,
+      LP#1260924)
+    * Fix (unconfirmed) for Fedora messing up prompts in gtk2 vte if
+      gtk3 vte is also installed (Steve Boddy, LP-Q#268135)
+    * Fix to make the debugserver work with two or more -d flags as per
+      docs, not three or more (Steve Boddy)
+    * Fix unwanted newline on DnD file (Schplurtz le Déboulonné,
+      LP#1311481)
+    * Fix DnD filenames with sh-quote, even those with ' (Schplurtz le
+      Déboulonné)
+    * Fix multi-line DnD to full text block, not just first line (Steve
+      Boddy)
+    * Fix slightly uneven splits on shortcut due to handle size, though
+      this will make previously saved layouts off by a few pixels (Steve
+      Boddy, LP#1089162)
+    * Man page typo (Michael Eller, LP#1296725)
+    * Fix new tab labels when adding a tab to a window with splits (Steve
+      Boddy)
+    * Minor visual fix for slider in prefs filling whole trough (Steve
+      Boddy)
+    * Buttons in Prefs>Layouts tab cannot be hidden by slider (Steve
+      Boddy)
+    * Fix Super+double-click on splitter within tabs (Steve Boddy)
+    * Fix composed characters for receivers (Takao Fujiwara, LP#1463704)
+    * Fix launcher opening after a dbus enabled window is already open
+      (Steve Boddy, LP#1283002)
+    * Sort entries in config file, so they don't jump around every time
+      config is saved for easier troubleshooting (Steve Boddy)
+    * Start 'New Layout #' from 1. Looked strange starting at 2 (Steve
+      Boddy)
+    * Fix the renaming of Layouts/Profiles sometimes corrupting what
+      appears in the config file (Steve Boddy, LP#1262709)
+    * Fix the way alternatives are set up that cures blurry/incorrect
+      icons in task switchers (Steve Boddy, LP#1067287)
+    * Fix the tab switching if a terminal on another tab exits (Steve
+      Boddy, LP#943311)
+
 terminator 0.97:
   * Allow font dimming in inactive terminals
   * Allow URL handler plugins to override label text for URL context

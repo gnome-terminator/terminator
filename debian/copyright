@@ -1,65 +1,48 @@
-This package was debianized by Chris Jones <cmsj@tenshu.net> on
-Sat, 28 Jul 2007 04:12:30 +0100.
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: terminator
+Upstream-Contact: Stephen Boddy <stephen.j.boddy@googlemail.com>
+Source: https://launchpad.net/terminator/+download
 
-It was downloaded from https://launchpad.net/terminator/+download
+Files: *
+Copyright: Chris Jones <cmsj@tenshu.net> and others
+ 2006-2011 Chris Jones <cmsj@tenshu.net>
+ 2008 Thomas Hurst <tom@hur.st>
+ 2010 Julien Nicoulaud <julien.nicoulaud@gmail.com>
+ 2006-2010 Emmanuel Bretelle chantra@debuntu.org
+ 2005-2010 Michael Foord, Mark Andrews, Nicola Larosa
+License: GPL-2.0
 
-Upstream Authors (in no discernible order):
+Files: po/*
+Copyright: 2008-2011 Rosetta Contributors and Canonical Ltd
+ 2007 Nicolas Valcárcel <nvalcarcel@ubuntu-pe.org>
+ 2008 Cris Grada <krig@tiscali.it>
+ 2010 Vytautas Bačiulis <info@infosoft.lt>
+ 2008 Thomas Meire <blackskad@gmail.com>
+ 2009 Lucian Adrian Grijincu <lucian.grijincu@gmail.com>
+License: GPL-2.0
 
-    Chris Jones
-    Huang He
-    Kees Cook
-    Thomas Meire
-    Nicolas Valcarcel
-    Emmanuel Bretelle
-    Chris Oattes
-    Markus Korn
-    Mackenzie Morgan
-    Daniel T Chen
-    Nicolas Roman
-    Takao Fujiwara
-    Jordan Callicoat
-    Stephen Boddy
+Files: doc/terminator_config.5
+Copyright: 2008 Nicolas Valcarcel <nvalcarcel@ubuntu.com>
+License: GPL-2.0
 
-Artwork:
-    Cory Kontros - Produced our current icon under the CC-by-SA licence
-    Cristian Grada - Drew our original icon and licenced it to us under this licence
+Files: debian/*
+Copyright: 2007 Chris Jones <cmsj@tenshu.net>
+ 2008-2012 Nicolas Valcárcel Scerpella <nvalcarcel@gmail.com>
+ 2012-2014 Julián Moreno Patiño <julian@debian.org>
+License: GPL-2.0
 
-Translations:
-    Thomas Meire
-    Maxim Derkach
-    Nicolas Valcárcel
-    Mats Henrikson
-    Nizar Kerkeni
-    "Data"
-    Cristian Grada
-    "zhuqin"
-    and many others.
-
-    Seriously, thank you very much to the translators. A few minutes of 
-    their dedication opens up userbases like nothing else.
-
-Copyright: 
-
-    <Copyright (C) 2006-2010 Chris Jones and others>
-
-License:
-
-    This package is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation version 2.
- 
-    This package is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
- 
-    You should have received a copy of the GNU General Public License
-    along with this package; if not, write to the Free Software
-    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL-2'.
-
-The Debian packaging is (C) 2007, Chris Jones <cmsj@tenshu.net> and
-is licensed under the GPL, see above.
-
+License: GPL-2.0
+ This program is free software; you can redistribute it
+ and/or modify it under the terms of the GNU General Public
+ License as published by the Free Software Foundation, version
+ 2 of the License.
+ .
+ This program is distributed in the hope that it will be
+ useful, but WITHOUT ANY WARRANTY; without even the implied
+ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+ PURPOSE.  See the GNU General Public License for more
+ details.
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 2 can be found in the file
+ `/usr/share/common-licenses/GPL-2'

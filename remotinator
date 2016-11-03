@@ -31,7 +31,7 @@ except ImportError:
 from terminatorlib.translation import _
 
 APP_NAME='remotinator'
-APP_VERSION='0.97'
+APP_VERSION='1.90'
 
 COMMANDS={
     #  Command         uuid req.    Description
