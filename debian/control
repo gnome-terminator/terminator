@@ -17,6 +17,7 @@ Homepage: http://gnometerminator.blogspot.com/p/introduction.html
 Package: terminator
 Architecture: all
 Depends: gconf2,
+ gir1.2-gconf-2.0,
  libdbus-1-3,
  libgtk-3-0,
  libnotify4,
