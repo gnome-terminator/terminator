@@ -1,5 +1,7 @@
-terminator trunk:
+terminator 1.0:
   Features
+    * No major new features. This is simply to get any final updates
+      out so that focus can switch to the gtk3 branch.
 
   Enhancements
     * As part of GTK3 fixup, some backported improvements to the DBus

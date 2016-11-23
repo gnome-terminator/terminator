@@ -1,3 +1,9 @@
+terminator (1.0) trusty; urgency=medium
+
+  * New upstream release of 1.0
+
+ -- Steve Boddy <steve@asimov>  Mon, 21 Nov 2016 18:28:47 +0100
+
 terminator (0.98~ppa8) wily; urgency=medium
 
   * No-change upload for wily
