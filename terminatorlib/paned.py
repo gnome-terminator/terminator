@@ -162,6 +162,17 @@ class Paned(Container):
                     self.do_redistribute(*self.last_balance_args)
         return False
 
+    def set_autoresize(self, autoresize):
+        """Must be called on the highest ancestor in one given orientation"""
+        """TODO write some better doc :)"""
+        maker = Factory()
+        children = self.get_children()
+        self.child_set_property(children[0], 'resize', False)
+        self.child_set_property(children[1], 'resize', not autoresize)
+        for child in children:
+            if maker.type(child) == maker.type(self):
+                child.set_autoresize(autoresize)
+
     def do_redistribute(self, recurse_up=False, recurse_down=False):
         """Evenly divide available space between sibling panes"""
         maker = Factory()
@@ -169,6 +180,8 @@ class Paned(Container):
         highest_ancestor = self
         while type(highest_ancestor.get_parent()) == type(highest_ancestor):
             highest_ancestor = highest_ancestor.get_parent()
+
+        highest_ancestor.set_autoresize(False)
         
         # (1b) If Super modifier, redistribute higher sections too
         if recurse_up:
@@ -177,7 +190,9 @@ class Paned(Container):
                maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
 
-        GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+        highest_ancestor._do_redistribute(recurse_up, recurse_down)
+
+        GObject.idle_add(highest_ancestor.set_autoresize, True)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()
@@ -203,7 +218,7 @@ class Paned(Container):
                     if recurse_down and \
                       (maker.isinstance(child, 'VPaned') or \
                        maker.isinstance(child, 'HPaned')):
-                        GObject.idle_add(child.do_redistribute, False, True)
+                        child.do_redistribute(False, True)
                     
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
@@ -222,7 +237,6 @@ class Paned(Container):
                 toproc.append(child)
                 if curr[1].index(child) == 0:
                     curr[0].set_position((child[2]*single_size)+((child[2]-1)*handle_size))
-                    GObject.idle_add(curr[0].set_position, child[2]*single_size)
 
     def remove(self, widget):
         """Remove a widget from the container"""
