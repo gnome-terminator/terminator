@@ -23,6 +23,7 @@ import sys
 import argparse
 
 from terminatorlib.util import dbg, err
+from terminatorlib.version import APP_VERSION
 try:
     from terminatorlib import ipc
 except ImportError:
@@ -31,7 +32,6 @@ except ImportError:
 from terminatorlib.translation import _
 
 APP_NAME='remotinator'
-APP_VERSION='1.90'
 
 COMMANDS={
     #  Command         uuid req.    Description
