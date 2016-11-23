@@ -1,11 +1,107 @@
-terminator GTK3:
+terminator 1.90:
   Features
-    * Add word chars back in if VTE is 0.40+ (Egmont Koblinger,
-      LP#1518078)
+    * Layout launcher with option or shortcut (Steve Boddy)
+    * An all-new manual! Default to F1 key (Steve Boddy)
+    * Now uses GTK3 + up-to-date VTE thanks to initial port by Egmont
+      Koblinger, and fixup by various people
+    * Thanks to a few patches we should also work under Wayland, with
+      a few limitations
 
   Enhancements
+    * Layout launcher reloads config when opened to be sure it has the
+      latest layouts (Steve Boddy)
+    * Reload the config before we write to it or we could overwrite
+      something from another instance (Steve Boddy)
+    * When saving, a layout now remembers:
+      * maximised and fullscreen status (Steve Boddy)
+      * window titles (Steve Boddy, LP#1192960)
+      * which tab was active (Steve Boddy)
+      * which terminal was active (Steve Boddy, LP#858268)
+      * working directory for each terminal (MoMaT, LP#1157422) plus
+        additional GUI code (Steve Boddy)
+    * Add vertical scrollbars to the Profiles and Layouts tabs in
+      Preferences (LP#1396843)
+    * Pull in updated translations from trunk
+    * Remove pointless horizontal scrollbar from Layout Launcher
+    * Merge Activity Watcher plugin improvements from Joseph Crosland
+      (with additional GTK3 fixes)
+    * Add Ctrl+MouseWheel Zoom in/out and Shift+MouseWheel page scroll
+      up/down
+    * Show application if --new-tab passed, although needs currently
+      broken dbus (LP#1367680)
+    * Merge search bar wrap toggle (Christophe Bourez)
+    * Add Ctrl+Shift+mousewheel and Ctrl+Super+mousewheel actions to
+      zoom receivers or all terminals
+    * Default broadcast behaviour toggle by (Jiri/jtyr, #1288835)
+    * setup.py: Allow running tests via `python setup.py test`
+    * Major cleanup and reorganisation of the preferences window.
+    * Global setting for changing the titlebar font (partially from
+      Eli Zor branch), but expanded and improved (docs/GUI), plus some
+      minor fixup from this.
+    * Add shortcuts for next/prev profile (Peter E Lind, LP#1314734)
+    * Dual solution for cwd based on comments 36 & 37 by Egmont
+      Koblinger in LP#1030562
+    * Add 'Save' button for saving to the selected Layout (Ariel
+      Zelivansky)
+    * Preselect the current layout when opening Prefs window, and also
+      save config after using the layout 'Save' button (Steve Boddy)
+    * Set some default shortcuts based on my preference (Steve Boddy)
+    * Add high contast icons, make the main window icon loading work
+      better, and respect the theme changes (Steve Boddy, LP#305579)
+    * Additional windows icon loading works better, and respect the
+      theme changes (LP#305579)
+    * Adjust the config section name to InactivityWatch for
+      InactivityWatch class
+    * Add a new setting for ActivityWatch to set the time between
+      activty notifications
+    * BIG update to translations, due to additions and changes.
+    * Make the random default group names translatable 
+    * Add and improve the mnemonics in the group menu
+    * Slight change to how the zoomed font is calculated.
+    * setup.py can install the manual (and by extension do can
+      debuild)
+    * setup.py has (inactive) code for generating the html from the
+      source but this will break if rtd theme is not available
+    * A few changes to doc strings to make the autodoc prettier
+    * Added help shortcut, by default F1 to open the local manual
+    * Added button to About tab (in Prefs window) to launch manual
+    * Small tweak to setup.py to seperate build and install, and
+      always attempt to install manual by default.
+    * Sort entries in config file, so they don't jump around every
+      time config is saved for easier troubleshooting
+    * Start 'New Layout #' from 1. Looked strange starting at 2
+    * Add fallback to psutils to discover the cwd of a terminal (Heon
+      Jeong)
+    * Add an internationalised AppData file for software installers
+    * Adjustment to the way alternatives are set up that should cure
+      blurry/incorrect icons in task switchers
+    * Some updates to the hicolor version of other window icons to
+      remove placeholders, and add svg versions of the status and
+      action icons
+    * As part of GTK3 fixup, some improvements to the DBus interface,
+      and remotinator (Steve Boddy)
+      * Can now open a window or tab using remotinator
+      * Can get the window uuid, or title using remotinator
+      * Moved new tab key handling into the terminal for consistency
+      * Standardise response when a new term is created (split, win
+        or tab) to reply with new terms uuid
+      * For GTK3 gave the DBus a slightly different name so they it
+        can run at same time as GTK2
+      * remotinator now uses argparse for commandline option handling,
+        vastly improving the option handling
+      * remotinator help strings are translatable now
+    * Update the translations to include the new strings in the
+      improved remotinator command
+    * Reimplement visual flash that got removed from libvte, reusing
+      the DnD overlay to flash the terminal (gtk2->gtk3)
+    * Set window geometry hints to off by default. The constant
+      trickle of problems it causes are annoying (LP#1498833)
+    * Actually set the DBUs interface to on by default. For some
+      reason it wasn't active by default.
     * Add option to toggle the rewrap on resize (Egmont Koblinger,
       LP#1518077)
+    * Add word chars back in if VTE is 0.40+ (Egmont Koblinger,
+      LP#1518078)
     * Make Zoom/Maximize inactive if a single terminal (Egmont
       Koblinger, LP#1518081)
     * Add dimming for 256 colour palettes (Egmont Koblinger,
@@ -19,15 +115,125 @@ terminator GTK3:
     * Updated and grouped default shortcuts in man page (Steve Boddy)
     * Added smart copy mode switch to prefs (Steve Boddy, LP#1223129)
     * Merge feature branch for tab/terminal title editing (Haim
-      Daniel LP#1417747)
+      Daniel, LP#1417747)
     * Added radio options to the Cursor colour to make it easier to
-      go back to the XOR'd foreground colour (Steve Boddy, LP#1512317)
+      go back to the XOR'd foreground colour (Steve Boddy,
+      LP#1512317)
+    * Move manual online, as distro packagers were stripping it out,
+      and remove associated scripting (Steve Boddy)
+    * Remotinator now uses the same version number as terminator
+      (Steve Boddy)
 
-  Bug fixes
+  Bug Fixes
+    * Fix <Mod>+double-click to not rebalance splitters (Steve Boddy,
+      LP#1192679)
+    * Fix closing a group to no longer leaves strays (Steve Boddy,
+      LP#1193484)
+    * Fix shader so it works for background images too (Steve Boddy,
+      LP#1202109)
+    * Fix x-terminal-emulator option (Neal Fultz, LP#366644)
+    * Fix lost geom when using -H option (Steve Boddy, LP#1035617)
+    * Fix maximise in Fluxbox. Possibly also Windows w/Xming too
+      (Steve Boddy, LP#1201454)
+    * Fix lack of focus on unhide with patch from (Pavel Khlebovich,
+      LP#805870)
+    * Fix the Group All/Tab shortcuts where titlebars were not updated
+      (Steve Boddy, LP#1242675)
+    * Fix splits not being central mith multiple tabs (Justin
+      Ossevoort, LP#1186953)
+    * Fix startup error (undefined variable) on non-composited
+      displays
+    * Fix titlebar label preventing scaling down titlebars by wrapping
+      whole box in a viewport.
+    * Fix Custom Commands Dialog from David Chandler + fixes for GTK3
+    * Fix custom commands broadcast to grouped terminals (Mauro S M
+      Rodrigues, LP#1414332)
+    * Fix focus grabbing from the GTK3 port.
+    * Remove old flag based HAS_FOCUS usage from unused method of
+      terminator class
+    * Fix the scroll up/down key bindings to use gtk3 method
+    * Fix getting the handle size (gtk2->gtk3 diff)
+    * Fix scrollbar doubleclick rebalancing (LP#1423686)
+    * Fix allocations (no longer an attribute) when balancing
+      (gtk2->gtk3 diff)
+    * Fix allocations not having the x,y position just w,h (gtk3 bug?
+      gtk2->gtk3 diff?)
+    * Fix pid for spawning now forking is deprecated, but returns are
+      different (vte 0.36 -> 0.38)
+    * Fix xterm color palette to match xterm (LP#1260924)
+    * Fix for moving between terminals, checks for overlap. So far
+      never selects wrong terminal (LP#1433810)
+    * Fix search broken by port because returns are now different
+      (gtk2->gtk3 and vte 0.36 -> 0.38)
+    * Fix for confirm close dialog (judgedreads)
+    * Fix in get_allocation override to prevent exceptions/hung
+      process on exiting with close button.
+    * Fix distcheck and improvements to tests
+    * Fix debugserver work with two or more -d flags, not three or
+      more.
+    * Fix URL opening. Little too much removed in original port,
+      meaning one click = two copies of page opened.
+    * Fix the drag-and-drop of terminals/text back to pre-port
+      functionality - a real pain this one (gtk2->gtk3)
+    * Fix drag and drop of files (Schplurtz le Déboulonné, LP#1311481)
+      and some tweaks (Steve Boddy)
+    * Fix a few prefs widget alignments as per GNOME visual guidelines
+    * Fix slightly uneven splits on shortcut due to handle size,
+      though this will make previously saved layouts off by a few
+      pixels (Steve Boddy, LP#1089162)
+    * Fix typo in man page (Michael Eller, LP#1296725)
+    * Fix font lookups for people with unpopulated gconf database
+      (i.e. KDE) (Steve Boddy, LP#1476072)
+    * Fix the preferences window to be translated (LP:#1245806)
+    * Fix a default shortcut that was a bit garbled
+    * Fix the group radio buttons after mnemonics additions broke them
+    * Fix for setting urgent flag on window for highlight in task bar
+      (gtk3)
+    * Fix the problem with tabs not being named where a window with
+      splits creates a new tab
+    * Fix slider widget in Prefs>Global, which was filling the whole
+      trough, unlike the one right above it.
+    * Fix issue with Super+double-click on a splitter failing if tabs
+      were in use
+    * Fix buttons in the layout tab to stop them from being hidden by
+      the slider
+    * Fix composed characters when broadcast is turned on to appear in
+      all receivers now (LP#1463704)
+    * Fix the zoom/maximise terminal function (gtk2->gtk3)
+      (LP#1485293)
+    * Remove the old_padding and allocation stuff from the zoom_scaled
+      function in terminal which isn't used anyway
+    * Remove another unneeded assignment in is_zoomed function in
+      terminal
+    * Fix for systems (i.e. my 12.04 LTS) that don't set LANGUAGE for
+      whatever reason. This breaks the manual lookup
+    * Fix launcher opening after a dbus enabled window is already open
+      (DBUS in GTK3 still FIXME)
+    * Crude workaround for the fact that debian wants to compress
+      fonts used by the manual
+    * Fix the high contrast icons, where I accidentally included a
+      grey, semi-transparent background
+    * Fix a lingering usage of GTK2 style constant when setting the
+      last resort icon.
+    * Fix Custom Commands to use the standard gerr function instead of
+      the broken local one
+    * Fix the DBus interface (gtk2-gtk3)
+    * Disable the wm_class feature. Seems not possible in GTK3, and
+      breaks the DBus call for new_window.
+    * Workaround intltools inability to cope with files that have no
+      extension, using temporary symlinks
+    * Fix flickering and intermittent failures to rebalance
+      (LP#1504560)
+    * Fix for newer GI wanting us to specify versions (LP#1513596)
+    * Fix to make sure the bell icon appears even when titlebar text
+      extends beyond terminals width (LP#1494977)
+    * Fix editable label distorting the layout until the splitter gets
+      moved (LP#1494979)
+    * Fix startup on Wayland because Keybinder seems to be X11 only
     * Fix a GI version warning for Notify library (Mattias Eriksson)
     * Fix warning trying to import the __init__.py file as a plugin
       (Mattias Eriksson, LP#1518065)
-    * Fix deprcation warning in later GTK versions (Egmont Koblinger,
+    * Fix deprecation warning in later GTK versions (Egmont Koblinger,
       LP#1518063)
     * Fix separator sizing (Egmont Koblinger, LP#1518069)
     * Fix positioning of group popup menu for later versions of GTK
@@ -38,29 +244,30 @@ terminator GTK3:
       Koblinger, LP#1518094)
     * Fix the palette for inactive terminals after Prefs window
       (Egmont Koblinger, LP#1518108)
-    * Fix copy on selection to work on already open terminals
-      (Egmont Koblinger, LP#1518109)
+    * Fix copy on selection to work on already open terminals (Egmont
+      Koblinger, LP#1518109)
     * Fix unwanted seperator size change, and increase granularity of
       dim/transparent sliders (Egmont Koblinger, LP#1518114)
-    * Fix cwd when new term spawned from a symlinked directory
-      (Egmont Koblinger, LP#1518554)
-    * Correct terminator_config man page regarding scrollback
-      (Egmont Koblinger, LP#1518559)
+    * Fix cwd when new term spawned from a symlinked directory (Egmont
+      Koblinger, LP#1518554)
+    * Correct terminator_config man page regarding scrollback (Egmont
+      Koblinger, LP#1518559)
     * Fix exception when Ctrl-clicking the terminal when not over a
       URL (Egmont Koblinger, LP#1518592)
-    * Fix Ctrl-click on URL if terminal has padding (Egmont
-      Koblinger, LP#1518596)
-    * Fix right-click for mouse aware apps ((Egmont Koblinger,
+    * Fix Ctrl-click on URL if terminal has padding (Egmont Koblinger,
+      LP#1518596)
+    * Fix right-click for mouse aware apps (Egmont Koblinger,
       LP#1518700)
     * Fix rotate terminals under tabs, and (gtk3-only) focus loss on
-      rotate (Egmont Koblinger, LP#1316573, LP#1520360)
+      rotate (Egmont Koblinger, LP#1520360)
     * Remove unsupported utmp for now, till alternative solution
+      (Egmont Koblinger)
     * Fix the "Run command as login shell" (Egmont Koblinger,
       LP#1520991)
     * Fix the tab switching if a terminal on another tab exits (Steve
       Boddy, LP#943311)
-    * Fix for those not running IBus, where the IBus workaround
-      caused broken keys in other keymaps set with non-IBus tools
+    * Fix for those not running IBus, where the IBus workaround caused
+      broken keys in other keymaps set with non-IBus tools
       (Steve Boddy, LP#1494606)
     * Fix PuTTY paste mode so Ctrl-Right-Drag, and application mouse
       handling in terminal still works (Steve Boddy)
@@ -82,151 +289,14 @@ terminator GTK3:
     * Fix scrollbar position on current terminals when changed in
       prefs (Egmont Koblinger, LP#1520761)
     * Fix title edit shortcuts to hopefully not clash with console
-      programs so much (Seve Boddy, LP#1514089)
-    * Minor fix to readd hypens as a word char (Steve Boddy,
-      LP#1598800)
-
-terminator 0.98:
-  * Features
-    * Layout launcher with option or shortcut (Steve Boddy)
-    * An all-new manual! Default to F1 key (Steve Boddy)
-    * An initial separate port to gtk3 is available for the brave, which
-      is having all trunk changes applied to it while the issues get
-      shaken out (Egmont Koblinger & Steve Boddy)
-  * Enhancements
-    * Layout launcher reloads config when opened to be sure it has the
-      latest layouts (Steve Boddy)
-    * Reload the config before we write to it or we could overwrite
-      something from another instance (Steve Boddy)
-    * When saving, a layout now remembers:
-      * maximised and fullscreen status (Steve Boddy)
-      * window titles (Steve Boddy, LP#1192960)
-      * which tab was active (Steve Boddy)
-      * which terminal was active (Steve Boddy, LP#858268)
-      * working directory for each terminal (MoMaT, LP#1157422) plus
-        additional GUI code (Steve Boddy)
-    * Add vertical scrollbar to the layout launcher and make mouse
-      wheel scrolling work (Steve Boddy)
-    * Add vertical scrollbars to the Profiles and Layouts tabs in
-      Preferences (Steve Boddy, LP#1396843)
-    * Add options for non-homogenous tabs and scroll arrows (Grizzly
-      Smit)
-    * Add shortcuts for scrolling up/down by line/half-page/page
-      (nanikata, LP#332267)
-    * Improve consistency of Custom Commands menu (David Caro, LP#684340)
-    * New distinct icons for non terminal windows (Steve Boddy)
-    * Active terminal per tab is remembered (Steve Boddy, LP#315956)
-    * Add shortcuts/code to toggle All/Tab grouping (Steve Boddy,
-      LP#1097347)
-    * Improve watcher plugin (Joseph Crosland) with additional fixup
-      (Steve Boddy)
-    * Add Ctrl+MouseWheel Zoom in/out and Shift+MouseWheel page scroll
-      up/down (Steve Boddy)
-    * Add Ctrl+Shift+MouseWheel and Ctrl+Super+MouseWheel to zoom
-      receivers or all terminals (Steve Boddy)
-    * Add search bar wrap toggle (Christophe Bourez)
-    * Add default broadcast behaviour selection (Jiri, LP#1288835)
-    * Improve testing, distcheck, setup.py (Bryce Harrington)
-    * Major cleanup and reorganisation of the preferences window (Steve
-      Boddy)
-      * Complete revamp of the Global tab
-      * Splitters added on the 'Profiles', 'Layouts' and 'Plugins' tabs
-        for resizing lists
-      * Made the 'Layouts' tab and the 'Profile' sub-tabs more consistent
-        style wise
-      * Included a new 'About' tab with some project links
-    * Add global setting for changing the titlebar font (Eli Zor)
-      expanded and improved (Steve Boddy)
-    * Add shortcuts for next/prev profile (Peter E Lind, LP#1314734)
-    * Improve DnD to handle multiple files (Schplurtz le Déboulonné)
-      and (Steve Boddy)
-    * Add 'Save' button for saving to the selected Layout (Ariel
-      Zelivansky)
-    * Preselect the current layout when opening Prefs window, and also
-      save config after using the layout 'Save' button (Steve Boddy)
-    * Add default shortcuts for some actions by my preference (Steve
-      Boddy)
-    * Added HighContrast icons, and fix all window/menu icons to respect
-      theme changes (Steve Boddy, LP#305579)
-    * Add option to set how long ActivityWatcher plugin is quiet for
-      (Steve Boddy)
-    * Big tidy up and improvements to translation strings, although it
-      will require additional work by translators (Steve Boddy)
-    * Make the menu mnemonics a bit more consistent, or add them where
-      they were missing (Steve Boddy)
-    * Add fallback to psutils to discover the cwd of a terminal (Heon
-      Jeong, LP#1261293) with additional fixup (Steve Boddy)
-    * Slight improvement (IMO) to the zoom terminal font scaling (Steve
-      Boddy, LP#329158)
-    * Add an internationalised AppData file for software installers
-      (Steve Boddy, LP#1323785)
-  * Bug fixes
-    * Fix <Mod>+double-click to not rebalance splitters (Steve Boddy,
-      LP#1192679)
-    * Fix closing a group to no longer leaves strays (Steve Boddy,
-      LP#1193484)
-    * Fix shader so it works for background images too (Steve Boddy,
-      LP#1202109)
-    * Fix x-terminal-emulator option (Neal Fultz, LP#366644)
-    * Fix lost geom when using -H option (Steve Boddy, LP#1035617)
-    * Fix maximise in Fluxbox. Possibly also Windows w/Xming too (Steve
-      Boddy, LP#1201454)
-    * Fix lack of focus on unhide with patch from (Pavel Khlebovich,
-      LP#805870)
-    * Fix the Group All/Tab shortcuts where titlebars were not updated
-      (Steve Boddy, LP#1242675)
-    * Fix splits not being central mith multiple tabs (Justin Ossevoort,
-      LP#1186953)
-    * Fix closing of tab with multiple terminals not closing (Steve
-      Boddy, 1253995)
-    * Fix custom commands broadcast to grouped terminals (Mauro S M
-      Rodrigues, LP#1414332)
-    * Fix libc loading in freebsd.py. Restores pwd detection. (Thomas
-      Hurst)
-    * Fix scrollbar doubleclick rebalancing (Bryce Harrington, LP#1423686)
-      and (Steve Boddy)
-    * Fix crash when capslock pressed while editing a tab title (wizwiz50,
-      LP#1313761)
-    * Fix navigation between terminals (Julián Moreno Patiño LP#1433810)
-      and (Steve Boddy, LP#328235, LP#1433810)
-    * Fix option --new-tab to show application (Pavel Roschin, LP#1367680)
-      and (Steve Boddy)
-    * Fix xterm color palette to match xterm (Casper Ti. Vector,
-      LP#1260924)
-    * Fix (unconfirmed) for Fedora messing up prompts in gtk2 vte if
-      gtk3 vte is also installed (Steve Boddy, LP-Q#268135)
-    * Fix to make the debugserver work with two or more -d flags as per
-      docs, not three or more (Steve Boddy)
-    * Fix unwanted newline on DnD file (Schplurtz le Déboulonné,
-      LP#1311481)
-    * Fix DnD filenames with sh-quote, even those with ' (Schplurtz le
-      Déboulonné)
-    * Fix multi-line DnD to full text block, not just first line (Steve
-      Boddy)
-    * Fix slightly uneven splits on shortcut due to handle size, though
-      this will make previously saved layouts off by a few pixels (Steve
-      Boddy, LP#1089162)
-    * Man page typo (Michael Eller, LP#1296725)
-    * Fix new tab labels when adding a tab to a window with splits (Steve
-      Boddy)
-    * Minor visual fix for slider in prefs filling whole trough (Steve
-      Boddy)
-    * Buttons in Prefs>Layouts tab cannot be hidden by slider (Steve
-      Boddy)
-    * Fix Super+double-click on splitter within tabs (Steve Boddy)
-    * Fix composed characters for receivers (Takao Fujiwara, LP#1463704)
-    * Fix launcher opening after a dbus enabled window is already open
-      (Steve Boddy, LP#1283002)
-    * Sort entries in config file, so they don't jump around every time
-      config is saved for easier troubleshooting (Steve Boddy)
-    * Start 'New Layout #' from 1. Looked strange starting at 2 (Steve
-      Boddy)
-    * Fix the renaming of Layouts/Profiles sometimes corrupting what
-      appears in the config file (Steve Boddy, LP#1262709)
-    * Fix the way alternatives are set up that cures blurry/incorrect
-      icons in task switchers (Steve Boddy, LP#1067287)
-    * Fix the tab switching if a terminal on another tab exits (Steve
-      Boddy, LP#943311)
+      programs so much (Steve Boddy, LP#1514089)
+    * Fix to re-add the dash as a default word char. Accidentally
+      dropped in libvte API flux (Steve Boddy, LP#1598800)
+    * Fix stale tab titles (Steve Boddy, LP#1520377)
+    * Fix zero-sized terminals after rotate (Egmont Koblinger,
+      LP#1522542)
+    * Fix (mostly) double-click doesn't distribute area evenly
+      (Egmont Koblinger, LP#1520969)
 
 terminator 0.97:
   * Allow font dimming in inactive terminals
