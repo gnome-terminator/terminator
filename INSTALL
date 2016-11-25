@@ -2,7 +2,7 @@ It's strongly recommended to install Terminator using your OS's package
 system rather than using setup.py yourself.  You can find instructions
 for many distributions at:
 
-  http://www.tenshu.net/terminator/
+  https://gnometerminator.blogspot.com/p/introduction.html
 
 If you don't have this option, please make sure you satisfy Terminator's
 dependencies yourself:

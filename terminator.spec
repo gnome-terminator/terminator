@@ -5,7 +5,7 @@ Summary:        Store and run multiple GNOME terminals in one window
 
 Group:          User Interface/Desktops
 License:        GPLv2
-URL:            http://www.tenshu.net/terminator
+URL:            https://gnometerminator.blogspot.com/p/introduction.html
 Source:         http://code.launchpad.net/terminator/gtk3/1.9/+download/terminator-%{version}.tar.gz
 
 BuildArch:      noarch
