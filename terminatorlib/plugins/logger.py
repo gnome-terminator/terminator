@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 
 # Plugin by Sinan Nalkaya <sardok@gmail.com>
 # See LICENSE of Terminator package.

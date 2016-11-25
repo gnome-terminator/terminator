@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 #    TerminatorConfig - layered config classes
 #    Copyright (C) 2006-2010  cmsj@tenshu.net
 #

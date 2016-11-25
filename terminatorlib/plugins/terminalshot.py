@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """terminalshot.py - Terminator Plugin to take 'screenshots' of individual

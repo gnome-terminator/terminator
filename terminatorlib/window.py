@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """window.py - class for the main Terminator window"""
@@ -8,7 +8,7 @@ import time
 import uuid
 import gi
 from gi.repository import GObject
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GdkX11
 
 from util import dbg, err, make_uuid, display_manager
 import util
@@ -308,6 +308,9 @@ class Window(Container, Gtk.Window):
                 t = GdkX11.x11_get_server_time(self.window)
             except AttributeError:
                 t = 0
+            print t
+            print self
+            print self.window
             self.window.focus(t)
         else:
             self.position = self.get_position()

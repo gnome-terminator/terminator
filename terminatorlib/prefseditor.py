@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 """Preferences Editor for Terminator. 
 
 Load a UIBuilder config file, display it,

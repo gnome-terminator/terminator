@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 """Load up the tests."""
 
 import os
