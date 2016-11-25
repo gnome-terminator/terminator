@@ -1,5 +1,3 @@
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-
 Name:           terminator
 Version:        1.90
 Release:        1%{?dist}
@@ -8,12 +6,11 @@ Summary:        Store and run multiple GNOME terminals in one window
 Group:          User Interface/Desktops
 License:        GPLv2
 URL:            http://www.tenshu.net/terminator
-Source0:        http://code.launchpad.net/terminator/trunk/%{version}/+download/terminator_%{version}.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source:         http://code.launchpad.net/terminator/gtk3/1.9/+download/terminator-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python-devel gettext desktop-file-utils intltool
-Requires:       vte gnome-python2-gconf GConf2 gtk2 desktop-file-utils
+Requires:       vte3 python-psutil python-gobject keybinder3 desktop-file-utils
 
 %description
 Multiple GNOME terminals in one window.  This is a project to produce
@@ -26,6 +23,7 @@ arrangements of terminals for different tasks.
 %prep
 %setup -q
 sed -i '/#! \?\/usr.*/d' terminatorlib/*.py
+%patch -p1
 
 
 %build
@@ -52,23 +50,33 @@ rm -rf %{buildroot}
 %{_mandir}/man5/%{name}_config.*
 %{_bindir}/%{name}
 %{_bindir}/remotinator
+%{_bindir}/terminator.wrapper
 %{python_sitelib}/*
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/*/%{name}*.png
 %{_datadir}/icons/hicolor/*/*/%{name}*.svg
 %{_datadir}/icons/hicolor/16x16/status/terminal-bell.png
 %{_datadir}/pixmaps/%{name}.png
-
+%{_datadir}/icons/HighContrast/*/*/%{name}*.png
+%{_datadir}/icons/HighContrast/*/*/%{name}*.svg
+%{_datadir}/icons/HighContrast/16x16/status/terminal-bell.png
+%{_datadir}/appdata/terminator.appdata.xml
 
 %post
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor &>/dev/null || :
+gtk-update-icon-cache -qf %{_datadir}/icons/HighContrast &>/dev/null || :
 
 
 %postun
 gtk-update-icon-cache -qf %{_datadir}/icons/hicolor &>/dev/null || :
-
+gtk-update-icon-cache -qf %{_datadir}/icons/HighContrast &>/dev/null || :
 
 %changelog
+* Thu Nov 24 2016 Steve Boddy <stephen.j.boddy@gmail.com> 1.90-1
+- Update for gtk3 release using the specfile provided
+  by Matt Rose.
+    Note that this specfile is untested.
+
 * Mon Aug 22 2011 Chris Jones <cmsj@tenshu.net> 0.96-1
 - Update for modern release to fix various build issues
   by borrowing the specfile that Fedora uses
