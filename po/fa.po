@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2012-09-25 14:35+0000\n"
-"Last-Translator: Youhanna Parvizinejad <Parvizinejad@gmail.com>\n"
+"PO-Revision-Date: 2016-11-27 20:43+0000\n"
+"Last-Translator: elyas <Unknown>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-04 05:10+0000\n"
-"X-Generator: Launchpad (build 17862)\n"
+"X-Launchpad-Export-Date: 2016-11-28 04:32+0000\n"
+"X-Generator: Launchpad (build 18282)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -28,23 +28,23 @@ msgstr ""
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "تقسیم پایانه به صورت افقی"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "تقسیم پایانه به صورت عمودی"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "دریافت لیست همه ای پایانه ها"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "دریافت uuid برای پنجره ای اصلی"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "دریافت عنوان برای پنجره ای اصلی"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "دریافت عنوان برای زبانه ای جدید"
 
 #: ../remotinator.py:63
 #, python-format
@@ -70,7 +70,7 @@ msgstr ""
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr ""
+msgstr "پایانه ای uuid برای  زمانی TERMINATOR_UUID در محیط متغییر باشد"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -81,12 +81,12 @@ msgstr "ترمیناتور"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "پایانه‌های گوناگون در یک پنجره"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:148
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "ربات اینده ای پایانه است"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -95,6 +95,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"یک کابر-قدرتمند ابزاری برای سازماندهی پایانه دارد.این نرم افزار الهام بخش "
+"برنامه ای مثل  gnome-multi-term , quadkonsole و غیره است.در واقع جهت اصلی "
+"سازمان دهی پایانه در شبکه است.(زبانه جدید- این یکی از روش های معروف و پیش "
+"فرض در پاینه ای (Terminator)است که پشتیبانی می شود.)"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -106,11 +110,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "برخی از نکات برجسته"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "سازماندهی پایانه در یک شبکه"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
@@ -118,35 +122,36 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "گرفتن و رها کردن سفارش دوباره برای پایانه"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "بسیاری از میانبرهای صفحه کلید"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr ""
+msgstr "ذخیره سازی چندین پوسته و پروفایل از طریق اولویت ویرایشگر گرافیکی"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "تایپ همزمان و گروه های دلخواه در پایانه ها"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "و خیلی چیزها بیشتر....."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "پنجره ای اصلی نرم افزارهای فعال را نشان می دهد"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "یکم متفاوت تر به نظر بیا با پایانه"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
 msgstr ""
+"پنجره ای تنظیمات مکانی است که شما می توانید تنظیمات پیش فرض را تغییر دهید"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -158,7 +163,7 @@ msgstr "بستن پایانه"
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr ""
+msgstr "<b><big>کنارم چندتا پایانه ای ؟</big><b/>"
 
 #: ../terminatorlib/container.py:174
 #, python-format
@@ -169,7 +174,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:191
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "دفعه ای بعدی این پیام را نمایش نده"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -1377,11 +1382,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Group/Ungroup terminals in tab"
-msgstr ""
+msgstr "پایانه در زبانه گروه / اخراج شده از گروه"
 
 #: ../terminatorlib/prefseditor.py:141
 msgid "Ungroup terminals in tab"
-msgstr ""
+msgstr "اخراج شده از گروه پایانه ها در زبانه"
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Create a new window"
@@ -1389,19 +1394,19 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Spawn a new Terminator process"
-msgstr ""
+msgstr "ایجاده پردازش های جدیدپاینه"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Don't broadcast key presses"
-msgstr ""
+msgstr "کلید فشار را تکرار نکن"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Broadcast key presses to group"
-msgstr ""
+msgstr "کلید فشار را در گروه تکرار نکن"
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "رویدادهای کلیدی را برای همه پخش کن"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Insert terminal number"
@@ -1409,31 +1414,31 @@ msgstr "درج شماره پایانه"
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "درح عدد خالی در پایانه"
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Edit window title"
-msgstr ""
+msgstr "ویرایش پنجره عنوان"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit terminal title"
-msgstr ""
+msgstr "ویرایش عنوان پایانه"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Edit tab title"
-msgstr ""
+msgstr "ویرایش عنوان زبانه"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "بازکردن طرح پنجره ای اجرا شده"
 
 #: ../terminatorlib/prefseditor.py:153
 msgid "Switch to next profile"
-msgstr ""
+msgstr "سوئیچ به پروفایل بعدی"
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Switch to previous profile"
-msgstr ""
+msgstr "سوئیچ به پروفایل قبلی"
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Open the manual"
@@ -1473,7 +1478,7 @@ msgstr ""
 
 #: ../terminatorlib/searchbar.py:142
 msgid "Searching scrollback"
-msgstr ""
+msgstr "جستجوی مجله"
 
 #: ../terminatorlib/searchbar.py:160 ../terminatorlib/searchbar.py:186
 msgid "No more results"
@@ -1489,51 +1494,51 @@ msgstr "_فرستادن ایمیل به ..."
 
 #: ../terminatorlib/terminal_popup_menu.py:60
 msgid "_Copy email address"
-msgstr ""
+msgstr "ـ کپی ادرس ایمیل"
 
 #: ../terminatorlib/terminal_popup_menu.py:62
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "ادرس زنـــگ VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:63
 msgid "_Copy VoIP address"
-msgstr ""
+msgstr "_ کپی ادرس VoIP"
 
 #: ../terminatorlib/terminal_popup_menu.py:84
 msgid "_Open link"
-msgstr ""
+msgstr "ـ بازرکردن لینک"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "_Copy address"
-msgstr ""
+msgstr "ـ کپی کردن ادرس"
 
 #: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
-msgstr ""
+msgstr "تقسیم به صورت افـــــقی"
 
 #: ../terminatorlib/terminal_popup_menu.py:124
 msgid "Split V_ertically"
-msgstr ""
+msgstr "تقسیم به صورت عمودــــــي"
 
 #: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
-msgstr ""
+msgstr "بازکردن ـ زبانه"
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "بازکردن - زبانه ای رفع اشکال"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
-msgstr ""
+msgstr "ـ بزرگــنمایه پایانه"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
-msgstr ""
+msgstr "بـــه حداکثــر رساندن پایانه"
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"
-msgstr ""
+msgstr "_ بازگرداندن همه ای پایانه ها"
 
 #: ../terminatorlib/terminal_popup_menu.py:175
 msgid "Grouping"
@@ -1541,7 +1546,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:182
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "نمایش-نوارسکرول"
 
 #: ../terminatorlib/terminal_popup_menu.py:239
 msgid "Encodings"
@@ -1561,7 +1566,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:432
 msgid "N_ew group..."
-msgstr ""
+msgstr "ج-دید گروه....."
 
 #: ../terminatorlib/terminal.py:438
 msgid "_None"
@@ -1574,11 +1579,11 @@ msgstr "حذف گروه %s"
 
 #: ../terminatorlib/terminal.py:463
 msgid "G_roup all in tab"
-msgstr ""
+msgstr "گ-روه همه در زبانه"
 
 #: ../terminatorlib/terminal.py:468
 msgid "Ungro_up all in tab"
-msgstr ""
+msgstr "اخراج از گروه همه در زبانه"
 
 #: ../terminatorlib/terminal.py:473
 msgid "Remove all groups"
@@ -1591,47 +1596,47 @@ msgstr "بستن گروه %s"
 
 #: ../terminatorlib/terminal.py:490
 msgid "Broadcast _all"
-msgstr ""
+msgstr "پخش-همه"
 
 #: ../terminatorlib/terminal.py:491
 msgid "Broadcast _group"
-msgstr ""
+msgstr "پخش-گروه"
 
 #: ../terminatorlib/terminal.py:492
 msgid "Broadcast _off"
-msgstr ""
+msgstr "پخش-خاموش"
 
 #: ../terminatorlib/terminal.py:508
 msgid "_Split to this group"
-msgstr ""
+msgstr "ـتقسیم این گروه"
 
 #: ../terminatorlib/terminal.py:513
 msgid "Auto_clean groups"
-msgstr ""
+msgstr "خودکار-گروها تمیزکن"
 
 #: ../terminatorlib/terminal.py:520
 msgid "_Insert terminal number"
-msgstr ""
+msgstr "ـ درج عدد به پایانه"
 
 #: ../terminatorlib/terminal.py:524
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "درج-عدد خالی در پایانه"
 
 #: ../terminatorlib/terminal.py:1380
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "پیدا کردن پوسته شکست خورد"
 
 #: ../terminatorlib/terminal.py:1413
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "اجرای پوسته شکست خورد"
 
 #: ../terminatorlib/terminal.py:1834
 msgid "Rename Window"
-msgstr ""
+msgstr "تغییرنام پنجره"
 
 #: ../terminatorlib/terminal.py:1842
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "یک نام جدید برای پنجره پایانه ( Terminator) وارد کنید"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
@@ -1651,27 +1656,27 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
-msgstr ""
+msgstr "اپسیلون"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Zeta"
-msgstr ""
+msgstr "زتا"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Eta"
-msgstr ""
+msgstr "اتا"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Theta"
-msgstr ""
+msgstr "تتا"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Iota"
-msgstr ""
+msgstr "لووتا"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Kappa"
-msgstr ""
+msgstr "کاپا"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Lambda"
@@ -1679,11 +1684,11 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Mu"
-msgstr ""
+msgstr "موو"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Nu"
-msgstr ""
+msgstr "نوو"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Xi"
@@ -1691,7 +1696,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Omicron"
-msgstr ""
+msgstr "امیکرون"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
@@ -1699,35 +1704,35 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
-msgstr ""
+msgstr "روو"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
-msgstr ""
+msgstr "سیگما"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Tau"
-msgstr ""
+msgstr "تااو"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Upsilon"
-msgstr ""
+msgstr "ایپسیلون"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Phi"
-msgstr ""
+msgstr "خ.ی"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Chi"
-msgstr ""
+msgstr "چ.ی"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Psi"
-msgstr ""
+msgstr "پی اس ای"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr ""
+msgstr "اومگا"
 
 #: ../terminatorlib/window.py:274
 msgid "window"
@@ -1736,4 +1741,4 @@ msgstr "پنجره"
 #: ../terminatorlib/window.py:728
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "زبانه %d"

@@ -8,23 +8,23 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-12-03 00:10+0100\n"
-"PO-Revision-Date: 2016-03-02 08:52+0000\n"
-"Last-Translator: Ali Kömesöğütlü <byzlo685@gmail.com>\n"
+"PO-Revision-Date: 2016-11-27 21:35+0000\n"
+"Last-Translator: geronimo <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-03 05:15+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-11-28 04:32+0000\n"
+"X-Generator: Launchpad (build 18282)\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr "Yeni bir pencerede aç"
+msgstr "Yeni pencere aç"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr "Yeni bir sekmede aç"
+msgstr "Yeni sekme aç"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
@@ -98,6 +98,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Gücünü kullanıcısından alan Uçbirim hizalama aracı. Gnome-multi-term, "
+"Quadkonsole ve daha nicelerinden ilham alınarak tasarlandı. Odak noktası "
+"Uçbirimleri ızgaraya göre oturtmak.(Ayrıca sekmeler Terminator'ün "
+"desteklediği en yaygın varsayılan yöntemdir)"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -113,7 +117,7 @@ msgstr "Bazı özellikler:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Uçbirimleri ızgaraya göre oturt"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
@@ -121,7 +125,7 @@ msgstr "Sekmeler"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Uçbirimleri düzenlemek için Sürükle ve bırak"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
@@ -129,27 +133,27 @@ msgstr "Bir sürü klavye kısayolları"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr ""
+msgstr "GUI tercih düzenleyici ile çoklu düzen ve profil kaydetme"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Rastgele gruplanmış Uçbirimler için eşzamanlı yazma"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "Ve çok daha fazlası..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Ana pencere çalışmakta olan uygulamayı gösteriyor"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Uçbirimlerle delirmeceler"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Varsayılan ayarları değiştirebileceğiniz tercihler penceresi"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -322,7 +326,7 @@ msgstr "Tai Dili"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Terminator dizilim başlatıcı"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
@@ -347,7 +351,7 @@ msgstr "Program sürümünü göster"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Pencere ekranı kaplar"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -403,7 +407,7 @@ msgstr "Pencereye özel bir WM_WINDOW_ROLE özelliği ayarla"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "verilen düzende başlat"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
@@ -455,7 +459,7 @@ msgstr ""
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "sessizlik %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
@@ -522,11 +526,11 @@ msgstr "Dur _Logger"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr ""
+msgstr "Log Dosyasını farklı kaydet"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "Uçbirim_ekrangörüntüsü"
 
 #: ../terminatorlib/plugins/terminalshot.py:37
 msgid "Save image"
@@ -583,7 +587,7 @@ msgstr "Beyaz üzerine siyah"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Siyah üzerine gri"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -696,7 +700,7 @@ msgstr "Normal"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Maximised"
-msgstr ""
+msgstr "Tam ekran"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Fullscreen"
@@ -712,7 +716,7 @@ msgstr "Terminator Tercihleri"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Davranış</b>"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "Window state:"
@@ -732,7 +736,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide from taskbar"
-msgstr ""
+msgstr "Görev çubuğundan gizle"
 
 #: ../terminatorlib/preferences.glade.h:51
 msgid "Window geometry hints"
@@ -740,7 +744,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:52
 msgid "DBus server"
-msgstr ""
+msgstr "DBus sunucu"
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "Mouse focus:"
@@ -748,7 +752,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Broadcast default:"
-msgstr ""
+msgstr "varsayılanı yayınla:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "PuTTY style paste"
@@ -760,7 +764,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Re-use profiles for new terminals"
-msgstr ""
+msgstr "yeni uçbirimler için profilleri tekrar kullan"
 
 #: ../terminatorlib/preferences.glade.h:58
 msgid "Use custom URL handler"
@@ -792,7 +796,7 @@ msgstr "Sekme konumu:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Tabs homogeneous"
-msgstr ""
+msgstr "Homojen sekmeler"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tabs scroll buttons"
@@ -804,23 +808,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Receiving"
-msgstr ""
+msgstr "Alınıyor"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Focused"
-msgstr ""
+msgstr "Odaklanmış"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Inactive"
-msgstr ""
+msgstr "Pasif"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Font color:"
-msgstr ""
+msgstr "Yazı tipi rengi:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Background:"
-msgstr ""
+msgstr "Arkaplan"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Hide size from title"
@@ -860,15 +864,15 @@ msgstr "_Kalın metne izin ver"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "Anti-alias text"
-msgstr ""
+msgstr "Örtüşme önler text"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "Show titlebar"
-msgstr ""
+msgstr "Başlıkçubuğunu göster"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "Copy on selection"
-msgstr ""
+msgstr "Seçimi kopyala"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Select-by-_word characters:"
@@ -884,11 +888,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "_Shape:"
-msgstr ""
+msgstr "_Biçim"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "Blink"
-msgstr ""
+msgstr "Yanıp sönme"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "<b>Terminal bell</b>"
