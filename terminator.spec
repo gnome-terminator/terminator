@@ -10,7 +10,7 @@ Source:         http://code.launchpad.net/terminator/gtk3/1.9/+download/terminat
 
 BuildArch:      noarch
 BuildRequires:  python-devel gettext desktop-file-utils intltool
-Requires:       vte3 python-psutil python-gobject keybinder3 desktop-file-utils
+Requires:       vte291 python-psutil python-gobject keybinder3 desktop-file-utils
 
 %description
 Multiple GNOME terminals in one window.  This is a project to produce
