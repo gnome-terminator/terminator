@@ -243,6 +243,7 @@ class Terminal(gtk.VBox):
 
         terminalbox = gtk.HBox()
         self.scrollbar = gtk.VScrollbar(self.vte.get_adjustment())
+        self.scrollbar.set_no_show_all(True)
 
         terminalbox.pack_start(self.vte, True, True, 0)
         terminalbox.pack_start(self.scrollbar, False, True, 0)
