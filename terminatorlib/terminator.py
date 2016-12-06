@@ -373,7 +373,7 @@ class Terminator(Borg):
                 Gdk.Screen.get_default(),
                 self.style_provider)
             self.style_provider = None
-        if self.config['handle_size'] in xrange(0, 6):
+        if self.config['handle_size'] in xrange(0, 21):
             css = """
                 GtkPaned {
                     -GtkPaned-handle-size: %s

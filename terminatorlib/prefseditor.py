@@ -1036,8 +1036,8 @@ class PrefsEditor:
         """Handle size changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         value = int(value)          # Cast to int.
-        if value > 5:
-            value = 5
+        if value > 20:
+            value = 20
         self.config['handle_size'] = value
         self.config.save()
 
