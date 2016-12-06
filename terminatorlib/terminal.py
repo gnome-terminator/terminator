@@ -906,8 +906,16 @@ class Terminal(Gtk.VBox):
                     self.open_url(url, prepare=True)
         elif event.button == self.MOUSEBUTTON_MIDDLE:
             # middleclick should paste the clipboard
-            middle_click[0](*middle_click[1])
-            return(True)
+            # try to pass it to vte widget first though
+            if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
+                if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
+                    if not Vte.Terminal.do_button_press_event(self.vte, event):
+                        middle_click[0](*middle_click[1])
+                else:
+                    middle_click[0](*middle_click[1])
+                return(True)
+            return Vte.Terminal.do_button_press_event(self.vte, event)
+            #return(True)
         elif event.button == self.MOUSEBUTTON_RIGHT:
             # rightclick should display a context menu if Ctrl is not pressed,
             # plus either the app is not interested in mouse events or Shift is pressed
