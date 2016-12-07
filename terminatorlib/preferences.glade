@@ -90,6 +90,12 @@
         <col id="0" translatable="yes">Solarized dark</col>
       </row>
       <row>
+        <col id="0" translatable="yes">Gruvbox light</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Gruvbox dark</col>
+      </row>
+      <row>
         <col id="0" translatable="yes">Custom</col>
       </row>
     </data>
@@ -207,6 +213,12 @@
       </row>
       <row>
         <col id="0" translatable="yes">Solarized</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Gruvbox light</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Gruvbox dark</col>
       </row>
       <row>
         <col id="0" translatable="yes">Custom</col>
