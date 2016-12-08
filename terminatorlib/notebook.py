@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """notebook.py - classes for the notebook widget"""
@@ -220,8 +220,10 @@ class Notebook(Container, Gtk.Notebook):
         label = self.get_tab_label(widget)
         if not label:
             dbg('unable to find label for widget: %s' % widget)
+        elif label.get_custom_label():
+            metadata['label'] = label.get_custom_label()
         else:
-            metadata['label'] = label.get_label()
+            dbg('don\'t grab the label as it was not customised')
         return metadata
 
     def get_children(self):

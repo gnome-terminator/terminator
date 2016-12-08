@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 #    TerminatorConfig - layered config classes
 #    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
@@ -231,7 +231,7 @@ DEFAULTS = {
                 'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
-                'word_chars'            : ',./?%&#:_',
+                'word_chars'            : '-,./?%&#:_',
                 'mouse_autohide'        : True,
                 'login_shell'           : False,
                 'use_custom_command'    : False,

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:12+0100\n"
-"PO-Revision-Date: 2015-08-05 12:22+0000\n"
+"PO-Revision-Date: 2016-12-06 00:46+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:18+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-12-07 04:59+0000\n"
+"X-Generator: Launchpad (build 18292)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -918,7 +918,7 @@ msgstr "Copy on selection"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Rewrap on resize"
-msgstr ""
+msgstr "Rewrap on resize"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Select-by-_word characters:"
@@ -1808,6 +1808,3 @@ msgstr "Tab %d"
 
 #~ msgid "_Update login records when command is launched"
 #~ msgstr "_Update login records when command is launched"
-
-#~ msgid "Putty style paste"
-#~ msgstr "Putty style paste"

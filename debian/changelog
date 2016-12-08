@@ -1,3 +1,47 @@
+terminator (1.90) trusty; urgency=medium
+
+  * Initial GTK3 version packaging
+
+ -- Steve Boddy <stephen.j.boddy@gmail.com>  Thu, 27 Oct 2016 14:06:00 +0100
+
+terminator (0.98~ppa8) wily; urgency=medium
+
+  * No-change upload for wily
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Mon, 21 Sep 2015 22:09:34 -0700
+
+terminator (0.98~ppa7) vivid; urgency=medium
+
+  * No-change upload for vivid
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Mon, 21 Sep 2015 22:08:58 -0700
+
+terminator (0.98~ppa6) trusty; urgency=medium
+
+  * copyright: Change upstream maintainer to Stephen Boddy
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Sun, 20 Sep 2015 14:21:38 -0700
+
+terminator (0.98) precise; urgency=medium
+
+  * New upstream release of 0.98.  Remaining changes:
+    + Add missing dependency on psutil to check for IBus running.
+    + Workaround debian compression of font files.
+    + Add terminator.wrapper to fix blurry/incorrect icons in task switchers.
+  * Sync up with Debian packaging
+    + Update homepage
+    + Revise copyright file
+    + Use canonical URIs for Vcs-* fields
+    + Update regular expression in watch
+    + Bump Standards-Version to 3.9.5 (no changes).
+    + Migrate from cdbs to dh.
+    + Add python-dbus to Depends.
+    + Bump Standards Version to 3.9.4.
+    + Bump debhelper version to 9.
+    + Bump compat level 5 to 9.
+
+ -- Bryce Harrington <bryce@ubuntu.com>  Sat, 19 Sep 2015 18:41:57 -0700
+
 terminator (0.97~ppa3) saucy; urgency=low
 
   * No-change upload for saucy

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 #    Terminator.util - misc utility functions
 #    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
@@ -87,23 +87,17 @@ def has_ancestor(widget, wtype):
 
 def manual_lookup():
     '''Choose the manual to open based on LANGUAGE'''
-    prefix = os.path.join(os.sep, 'usr', 'share', 'doc', 'terminator')
+    available_languages = ['en']
+    base_url = 'http://terminator-gtk3.readthedocs.io/%s/latest/'
+    target = 'en'   # default to English
     if 'LANGUAGE' in os.environ:
         languages = os.environ['LANGUAGE'].split(':')
         for language in languages:
-            full_path = os.path.join(prefix, 'html_%s' % (language), 'index.html')
-            if os.path.isfile(full_path):
-                dbg('Found %s manual' % (language))
-                return full_path
-            dbg('Couldn\'t find manual for %s language' % (language))
+            if language in available_languages:
+                target = language
+                break
 
-    full_path = os.path.join(prefix, 'html', 'index.html')
-    if os.path.isfile(full_path):
-        dbg('Falling back to the default manual')
-        return full_path
-    else:
-        dbg('I can\'t find any suitable manual')
-        return None
+    return base_url % target
 
 def path_lookup(command):
     '''Find a command in our path'''

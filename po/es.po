@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-12-03 06:18+0000\n"
-"X-Generator: Launchpad (build 17856)\n"
+"X-Launchpad-Export-Date: 2016-11-03 06:25+0000\n"
+"X-Generator: Launchpad (build 18246)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -29,7 +29,7 @@ msgstr "Abrir una nueva pestaña"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Divida el terminal actual horizontalmente"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
@@ -41,19 +41,19 @@ msgstr "Obtener la lista de todos los terminales"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Obtener el UUID de la ventana padre"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Obtener el título de la ventana padre"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Obtener el UUID de la pestaña padre"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Obtener el título de la pestaña padre"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,16 +62,24 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Ejecuta uno de los siguientes comandos del Terminator DBus\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Estas opciones requieren que la variable de entorno TERMINATOR_UUID "
+"exista\n"
+"  o que la opción --uuid sea empleada"
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
+"La UUID del terminal para cuando esta información no está en la variable de "
+"entorno TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -358,7 +366,7 @@ msgstr "Mostrar la versión del programa"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximizar ventana"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -643,7 +651,7 @@ msgstr "Negro sobre blanco"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Gris sobre negro"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -807,11 +815,11 @@ msgstr "Difusión predeterminada:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "PuTTY style paste"
-msgstr ""
+msgstr "Pegar al estilo PuTTY"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "Smart copy"
-msgstr ""
+msgstr "Copia inteligente"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Re-use profiles for new terminals"
@@ -1352,7 +1360,7 @@ msgstr "Mover pestaña a la izquierda"
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Maximize terminal"
-msgstr ""
+msgstr "Maximizar terminal"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Zoom terminal"
@@ -1480,11 +1488,11 @@ msgstr "Editar titulo de ventana"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Editar título del terminal"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Edit tab title"
-msgstr ""
+msgstr "Editar título de la pestaña"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Open layout launcher window"

@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 # Copyright (c) 2010 Julien Nicoulaud <julien.nicoulaud@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify

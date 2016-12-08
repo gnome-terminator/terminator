@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 """Preferences Editor for Terminator. 
 
 Load a UIBuilder config file, display it,
@@ -46,7 +46,9 @@ class PrefsEditor:
                          'ambience': 6,
                          'solarized_light': 7,
                          'solarized_dark': 8,
-                         'custom': 9}
+                         'gruvbox_light': 9,
+                         'gruvbox_dark': 10,
+                         'custom': 11}
     colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
                      'black_on_yellow': ['#000000', '#ffffdd'],
                      'black_on_white': ['#000000', '#ffffff'],
@@ -55,14 +57,18 @@ class PrefsEditor:
                      'orange_on_black': ['#e53c00', '#000000'],
                      'ambience': ['#ffffff', '#300a24'],
                      'solarized_light': ['#657b83', '#fdf6e3'],
-                     'solarized_dark': ['#839496', '#002b36']}
+                     'solarized_dark': ['#839496', '#002b36'],
+                     'gruvbox_light': ['#3c3836', '#fbf1c7'],
+                     'gruvbox_dark': ['#ebdbb2', '#282828']}
     palettevalues = {'tango': 0,
                      'linux': 1,
                      'xterm': 2,
                      'rxvt': 3,
                      'ambience': 4,
                      'solarized': 5,
-                     'custom': 6}
+                     'gruvbox_light': 6,
+                     'gruvbox_dark': 7,
+                     'custom': 8}
     palettes = {'tango': '#000000:#cc0000:#4e9a06:#c4a000:#3465a4:\
 #75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:\
 #ad7fa8:#34e2e2:#eeeeec',
@@ -80,7 +86,13 @@ class PrefsEditor:
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
                 'solarized': '#073642:#dc322f:#859900:#b58900:\
 #268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:\
-#839496:#6c71c4:#93a1a1:#fdf6e3'}
+#839496:#6c71c4:#93a1a1:#fdf6e3',
+                'gruvbox_light': '#fbf1c7:#cc241d:#98971a:#d79921:\
+#458588:#b16286:#689d6a:#7c6f64:#928374:#9d0006:#79740e:#b57614:\
+#076678:#8f3f71:#427b58:#3c3836',
+                'gruvbox_dark': '#282828:#cc241d:#98971a:#d79921:\
+#458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:\
+#83a598:#d3869b:#8ec07c:#ebdbb2'}
     keybindingnames = { 'zoom_in'          : _('Increase font size'),
                         'zoom_out'         : _('Decrease font size'),
                         'zoom_normal'      : _('Restore original font size'),
@@ -1036,8 +1048,8 @@ class PrefsEditor:
         """Handle size changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         value = int(value)          # Cast to int.
-        if value > 5:
-            value = 5
+        if value > 20:
+            value = 20
         self.config['handle_size'] = value
         self.config.save()
 

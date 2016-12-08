@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """window.py - class for the main Terminator window"""
@@ -8,7 +8,7 @@ import time
 import uuid
 import gi
 from gi.repository import GObject
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GdkX11
 
 from util import dbg, err, make_uuid, display_manager
 import util
@@ -310,6 +310,9 @@ class Window(Container, Gtk.Window):
                 t = GdkX11.x11_get_server_time(self.window)
             except AttributeError:
                 t = 0
+            print t
+            print self
+            print self.window
             self.window.focus(t)
         else:
             self.position = self.get_position()
@@ -535,8 +538,6 @@ class Window(Container, Gtk.Window):
         """Rotate children in this window"""
         self.set_pos_by_ratio = True
         maker = Factory()
-        # collect all paned children in breadth-first order
-        paned = []
         child = self.get_child()
 
         # If our child is a Notebook, reset to work from its visible child
@@ -545,19 +546,18 @@ class Window(Container, Gtk.Window):
             child = child.get_nth_page(pagenum)
 
         if maker.isinstance(child, 'Paned'):
-            paned.append(child)
-        for p in paned:
-            for child in p.get_children():
-                if child not in paned and maker.isinstance(child, 'Paned'):
-                    paned.append(child)
-        # then propagate the rotation
-        for p in paned:
-            p.rotate(widget, clockwise)
-        self.show_all()
+            parent = child.get_parent()
+            # Need to get the allocation before we remove the child,
+            # otherwise _sometimes_ we get incorrect values.
+            alloc = child.get_allocation()
+            parent.remove(child)
+            child.rotate_recursive(parent, alloc.width, alloc.height, clockwise)
 
-        while Gtk.events_pending():
-            Gtk.main_iteration_do(False)
-        widget.grab_focus()
+            self.show_all()
+            while Gtk.events_pending():
+                Gtk.main_iteration_do(False)
+            widget.grab_focus()
+
         self.set_pos_by_ratio = False
 
     def get_visible_terminals(self):

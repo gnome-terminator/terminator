@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 #    TerminatorVersion - version number
 #    Copyright (C) 2010  cmsj@tenshu.net
 #
@@ -21,4 +21,4 @@ TerminatorVersion supplies our version number.
 """
 
 APP_NAME = 'terminator'
-APP_VERSION = '0.97'
+APP_VERSION = '1.90'

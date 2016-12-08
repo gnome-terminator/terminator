@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """paned.py - a base Paned container class and the vertical/horizontal
@@ -162,6 +162,17 @@ class Paned(Container):
                     self.do_redistribute(*self.last_balance_args)
         return False
 
+    def set_autoresize(self, autoresize):
+        """Must be called on the highest ancestor in one given orientation"""
+        """TODO write some better doc :)"""
+        maker = Factory()
+        children = self.get_children()
+        self.child_set_property(children[0], 'resize', False)
+        self.child_set_property(children[1], 'resize', not autoresize)
+        for child in children:
+            if maker.type(child) == maker.type(self):
+                child.set_autoresize(autoresize)
+
     def do_redistribute(self, recurse_up=False, recurse_down=False):
         """Evenly divide available space between sibling panes"""
         maker = Factory()
@@ -169,6 +180,8 @@ class Paned(Container):
         highest_ancestor = self
         while type(highest_ancestor.get_parent()) == type(highest_ancestor):
             highest_ancestor = highest_ancestor.get_parent()
+
+        highest_ancestor.set_autoresize(False)
         
         # (1b) If Super modifier, redistribute higher sections too
         if recurse_up:
@@ -177,7 +190,9 @@ class Paned(Container):
                maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
 
-        GObject.idle_add(highest_ancestor._do_redistribute, recurse_up, recurse_down)
+        highest_ancestor._do_redistribute(recurse_up, recurse_down)
+
+        GObject.idle_add(highest_ancestor.set_autoresize, True)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()
@@ -203,7 +218,7 @@ class Paned(Container):
                     if recurse_down and \
                       (maker.isinstance(child, 'VPaned') or \
                        maker.isinstance(child, 'HPaned')):
-                        GObject.idle_add(child.do_redistribute, False, True)
+                        child.do_redistribute(False, True)
                     
         #3 Get ancestor x/y => a, and handle size => hs
         avail_pixels=self.get_length()
@@ -222,7 +237,6 @@ class Paned(Container):
                 toproc.append(child)
                 if curr[1].index(child) == 0:
                     curr[0].set_position((child[2]*single_size)+((child[2]-1)*handle_size))
-                    GObject.idle_add(curr[0].set_position, child[2]*single_size)
 
     def remove(self, widget):
         """Remove a widget from the container"""
@@ -403,8 +417,17 @@ class Paned(Container):
         """We don't want focus, we want a Terminal to have it"""
         self.get_child1().grab_focus()
 
-    def rotate(self, widget, clockwise):
-        """Default rotation. This should be implemented by subclasses"""
+    def rotate_recursive(self, parent, w, h, clockwise):
+        """
+        Recursively rotate "self" into a new paned that'll have "w" x "h" size. Attach it to "parent".
+
+        As discussed in LP#1522542, we should build up the new layout (including the separator positions)
+        in a single step. We can't rely on Gtk+ computing the allocation sizes yet, so we have to do the
+        computation ourselves and carry the resulting paned sizes all the way down the widget tree.
+        """
+        maker = Factory()
+        handle_size = self.get_handlesize()
+
         if isinstance(self, HPaned):
             container = VPaned()
             reverse = not clockwise
@@ -413,17 +436,34 @@ class Paned(Container):
             reverse = clockwise
 
         container.ratio = self.ratio
-
-        self.get_parent().replace(self, container)
-
         children = self.get_children()
         if reverse:
             container.ratio = 1 - container.ratio
             children.reverse()
 
-        for child in children:
-            self.remove(child)
-            container.add(child)
+        if isinstance(self, HPaned):
+            w1 = w2 = w
+            h1 = pos = self.position_by_ratio(h, handle_size, container.ratio)
+            h2 = max(h - h1 - handle_size, 0)
+        else:
+            h1 = h2 = h
+            w1 = pos = self.position_by_ratio(w, handle_size, container.ratio)
+            w2 = max(w - w1 - handle_size, 0)
+
+        container.set_pos(pos)
+        parent.add(container)
+
+        if maker.isinstance(children[0], 'Terminal'):
+            children[0].get_parent().remove(children[0])
+            container.add(children[0])
+        else:
+            children[0].rotate_recursive(container, w1, h1, clockwise)
+
+        if maker.isinstance(children[1], 'Terminal'):
+            children[1].get_parent().remove(children[1])
+            container.add(children[1])
+        else:
+            children[1].rotate_recursive(container, w2, h2, clockwise)
 
     def new_size(self, widget, allocation):
         if self.get_toplevel().set_pos_by_ratio:
@@ -431,13 +471,26 @@ class Paned(Container):
         else:
             self.set_position(self.get_position())
     
+    def position_by_ratio(self, total_size, handle_size, ratio):
+        non_separator_size = max(total_size, handle_size, 0)
+        ratio = min(max(ratio, 0.0), 1.0)
+        return int(round(non_separator_size * ratio))
+
+    def ratio_by_position(self, total_size, handle_size, position):
+        non_separator_size = max(total_size, handle_size, 0)
+        if non_separator_size == 0:
+            return None
+        position = min(max(position, 0), non_separator_size)
+        return float(position) / float(non_separator_size)
+
     def set_position_by_ratio(self):
         handle_size = handle_size = self.get_handlesize()
-        self.set_pos(int((self.ratio*self.get_length())-(handle_size/2.0)))
+        self.set_pos(self.position_by_ratio(self.get_length(), self.get_handlesize(), self.ratio))
 
     def set_position(self, pos):
-        handle_size = handle_size = self.get_handlesize()
-        self.ratio = float(pos + (handle_size/2.0)) / self.get_length()
+        newratio = self.ratio_by_position(self.get_length(), self.get_handlesize(), pos)
+        if newratio is not None:
+            self.ratio = newratio
         self.set_pos(pos)
 
 class HPaned(Paned, Gtk.HPaned):
