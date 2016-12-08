@@ -382,16 +382,16 @@ class Terminator(Borg):
         # widgets theming may not render it's own background.
         css = """
             .terminator-terminal-window {
-                background-color: rgba(0,0,0,0); }
+                background-color: alpha(@theme_bg_color,0); }
 
             .notebook.header {
-                background-color: @bg_color; }
+                background-color: @theme_bg_color; }
 
             .pane-separator {
-                background-color: @bg_color; }
+                background-color: @theme_bg_color; }
 
             .terminator-terminal-searchbar {
-                background-color: @bg_color; }
+                background-color: @theme_bg_color; }
             """
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css)
@@ -401,20 +401,26 @@ class Terminator(Borg):
         # Shamelessly cribbed from GNOME-Terminal
         style_provider = Gtk.CssProvider()
         style_provider.load_from_path('terminatorlib/terminator.css')
-        self.style_providers.append(style_provider)
+        # Disabled for now. Needs to be theme dependant, and this is Ambiance
+        # only. Looks like crap on Adwaita :-)
+        #self.style_providers.append(style_provider)
 
-        # Size the GtkPaned splitter handle size and fix Adwaita dumb-ass
-        # oversized hover on handle.
+        # Fix Adwaita dumb-ass oversized hover on handle.
+        css = """
+            GtkPaned {
+                margin: 0 0 0 0;
+                padding: 0 0 0 0; }
+            """
+
+        # Size the GtkPaned splitter handle size.
         if self.config['handle_size'] in xrange(0, 21):
-            css = """
+            css += """
                 GtkPaned {
-                    -GtkPaned-handle-size: %s;
-                    margin: 0 0 0 0;
-                    padding: 0 0 0 0; }
+                    -GtkPaned-handle-size: %s; }
                 """ % self.config['handle_size']
-            style_provider = Gtk.CssProvider()
-            style_provider.load_from_data(css)
-            self.style_providers.append(style_provider)
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(css)
+        self.style_providers.append(style_provider)
 
         # Apply the providers, incrementing priority so they don't cancel out
         # each other
