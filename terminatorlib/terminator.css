@@ -1,0 +1,110 @@
+/*
+Some basic playing copying out the GNOME-Terminal style tab headers.
+
+Might want to have a seperate option for "shrinking" the tabs, by
+nuking the padding/borders in the tabs.
+*/
+
+/*
+GtkNotebook.header {
+    background-color: rgba(90%,20%,30%,1);
+    border: none;
+}
+
+.notebook.header {
+    background-color: rgba(90%,20%,30%,1);
+    border: none;
+}
+
+*/
+
+.notebook tab.top { padding: 4px 6px 2px 6px; }
+.notebook tab.top:active { padding-bottom: 3px; }
+.notebook tab.bottom { padding: 2px 6px 4px 6px; }
+.notebook tab.bottom:active { padding-top: 3px; }
+.notebook tab.left { padding: 2px 4px 2px 6px; }
+.notebook tab.left:active { padding-right: 5px; }
+.notebook tab.right { padding: 2px 6px 2px 4px; }
+.notebook tab.right:active { padding-left: 5px; }
+
+/* give active tab a background, as it might be dragged across of others when reordering */
+.notebook tab:active {
+    background-color: @bg_color;
+}
+
+.notebook.header {
+    border-width: 0; /* set below depending on position of tab bar */
+    border-color: shade (@bg_color, 0.82);
+    border-style: solid;
+    /* background-color: rgba(90%,20%,30%,1);  */
+    background-color: @dark_bg_color;
+}
+
+/* Draw a border between tabs and content ... */
+.notebook.header.top { border-bottom-width: 1px; }
+.notebook.header.right { border-left-width: 1px; }
+.notebook.header.left { border-right-width: 1px; }
+.notebook.header.bottom { border-top-width: 1px; }
+
+/* ... unless the content is in a frame (thus having a border itself */
+.notebook.header.frame.top { border: none; }
+.notebook.header.frame.right { border: none; }
+.notebook.header.frame.right { border: none; }
+.notebook.header.frame.bottom { border: none; }
+
+.notebook tab.top {
+    background-color: shade(@bg_color, 0.7);
+    border-width: 1px 1px 0px 1px;
+    border-radius:  8px 8px 0px 0px;
+    border-image: none;
+    border-style: solid;
+    border-color: @dark_bg_color;
+
+}
+
+.notebook tab.top:active {
+    background-color: @bg_color;
+    border-image: none;
+}
+
+.notebook tab .button {
+    background-color: transparent;
+    padding: 1px;
+}
+
+.notebook tab.right {
+    border-image: -gtk-gradient (linear, right top, left top,
+                                 from (alpha (shade (@bg_color, 0.9), 0.0)),
+                                 to (shade (@bg_color, 0.9))) 1;
+    border-image-width: 1px 0;
+}
+
+.notebook tab.left {
+    border-image: -gtk-gradient (linear, left top, right top,
+                                 from (alpha (shade (@bg_color, 0.9), 0.0)),
+                                 to (shade (@bg_color, 0.9))) 1;
+    border-image-width: 1px 0;
+}
+
+.notebook tab.bottom {
+    border-image: -gtk-gradient (linear, left bottom, left top,
+                                 from (alpha (shade (@bg_color, 0.9), 0.0)),
+                                 to (shade (@bg_color, 0.9))) 1;
+    border-image-width: 0 1px;
+}
+
+/* Draw a focus ring around labels in tabs */
+.notebook tab GtkLabel {
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.notebook:focus tab GtkLabel.active-page {
+    border-color: @focus_color;
+    background-color: @focus_bg_color;
+}
+
+.notebook GtkDrawingArea {
+        background-color: shade (@bg_color, 1.02);
+}
+

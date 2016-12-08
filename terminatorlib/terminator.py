@@ -39,7 +39,7 @@ class Terminator(Borg):
     groups = None
     config = None
     keybindings = None
-    style_provider = None
+    style_providers = None
     last_focused_term = None
 
     origcwd = None
@@ -81,6 +81,8 @@ class Terminator(Borg):
         if not self.keybindings:
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
+        if not self.style_providers:
+            self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
         if not self.pid_cwd:
@@ -368,30 +370,59 @@ class Terminator(Borg):
     def reconfigure(self):
         """Update configuration for the whole application"""
 
-        if self.style_provider is not None:
-            Gtk.StyleContext.remove_provider_for_screen(
-                Gdk.Screen.get_default(),
-                self.style_provider)
+        if self.style_providers != []:
+            for style_provider in self.style_providers:
+                Gtk.StyleContext.remove_provider_for_screen(
+                    Gdk.Screen.get_default(),
+                    style_provider)
+        self.style_providers = []
 
+        # Force the window background to be transparent for newer versions of
+        # GTK3. We then have to fix all the widget backgrounds because the
+        # widgets theming may not render it's own background.
         css = """
             .terminator-terminal-window {
-                background-color: rgba(0,0,0,0);
-            }
+                background-color: rgba(0,0,0,0); }
+
+            .notebook.header {
+                background-color: @bg_color; }
+
+            .pane-separator {
+                background-color: @bg_color; }
+
+            .terminator-terminal-searchbar {
+                background-color: @bg_color; }
             """
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(css)
+        self.style_providers.append(style_provider)
 
-        if self.config['handle_size'] in xrange(0, 6):
-            css += """
+        # Attempt to load some theme specific stylistic tweaks for appearances
+        # Shamelessly cribbed from GNOME-Terminal
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_path('terminatorlib/terminator.css')
+        self.style_providers.append(style_provider)
+
+        # Size the GtkPaned splitter handle size and fix Adwaita dumb-ass
+        # oversized hover on handle.
+        if self.config['handle_size'] in xrange(0, 21):
+            css = """
                 GtkPaned {
-                    -GtkPaned-handle-size: %s
-                }
+                    -GtkPaned-handle-size: %s;
+                    margin: 0 0 0 0;
+                    padding: 0 0 0 0; }
                 """ % self.config['handle_size']
+            style_provider = Gtk.CssProvider()
+            style_provider.load_from_data(css)
+            self.style_providers.append(style_provider)
 
-        self.style_provider = Gtk.CssProvider()
-        self.style_provider.load_from_data(css)
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            self.style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        # Apply the providers, incrementing priority so they don't cancel out
+        # each other
+        for idx in xrange(0, len(self.style_providers)):
+            Gtk.StyleContext.add_provider_for_screen(
+                Gdk.Screen.get_default(),
+                self.style_providers[idx],
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION+idx)
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
