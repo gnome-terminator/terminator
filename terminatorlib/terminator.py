@@ -373,18 +373,26 @@ class Terminator(Borg):
                 Gdk.Screen.get_default(),
                 self.style_provider)
             self.style_provider = None
+
+        css = """
+            GtkPaned {
+                margin: 0 0 0 0;
+                padding: 0 0 0 0;
+                }
+            """
+
         if self.config['handle_size'] in xrange(0, 21):
-            css = """
+            css += """
                 GtkPaned {
                     -GtkPaned-handle-size: %s
                 }
                 """ % self.config['handle_size']
-            self.style_provider = Gtk.CssProvider()
-            self.style_provider.load_from_data(css)
-            Gtk.StyleContext.add_provider_for_screen(
-                Gdk.Screen.get_default(), 
-                self.style_provider,     
-                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        self.style_provider = Gtk.CssProvider()
+        self.style_provider.load_from_data(css)
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), 
+            self.style_provider,     
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
