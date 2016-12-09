@@ -7,6 +7,7 @@ import copy
 import os
 from gi.repository import Gtk, Gdk
 
+import borg
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
@@ -398,23 +399,27 @@ class Terminator(Borg):
         self.style_providers.append(style_provider)
 
         # Attempt to load some theme specific stylistic tweaks for appearances
-        # Shamelessly cribbed from GNOME-Terminal
-        style_provider = Gtk.CssProvider()
-        style_provider.load_from_path('terminatorlib/terminator.css')
-        # Disabled for now. Needs to be theme dependant, and this is Ambiance
-        # only. Looks like crap on Adwaita :-)
-        #self.style_providers.append(style_provider)
+        usr_theme_dir = os.path.expanduser('~/.local/share/themes')
+        (head, _tail) = os.path.split(borg.__file__)
+        app_theme_dir = os.path.join(head, 'themes')
 
-        # Fix Adwaita dumb-ass oversized hover on handle.
-        css = """
-            GtkPaned {
-                margin: 0 0 0 0;
-                padding: 0 0 0 0; }
-            """
+        settings=Gtk.Settings().get_default()
+        theme_name = settings.get_property('gtk-theme_name')
+        for theme_dir in [usr_theme_dir, app_theme_dir]:
+            path_to_theme_specific_css = os.path.join(theme_dir,
+                                                      theme_name,
+                                                      'gtk-3.0/apps',
+                                                      'terminator.css')
+            if os.path.isfile(path_to_theme_specific_css):
+                print path_to_theme_specific_css, os.path.isfile(path_to_theme_specific_css)
+                style_provider = Gtk.CssProvider()
+                style_provider.load_from_path(path_to_theme_specific_css)
+                self.style_providers.append(style_provider)
+                break
 
         # Size the GtkPaned splitter handle size.
         if self.config['handle_size'] in xrange(0, 21):
-            css += """
+            css = """
                 GtkPaned {
                     -GtkPaned-handle-size: %s; }
                 """ % self.config['handle_size']
