@@ -36,6 +36,7 @@ GtkNotebook.header {
     border-width: 0; /* set below depending on position of tab bar */
     border-color: shade (@bg_color, 0.82);
     border-style: solid;
+    border-radius:  0px 0px 0px 0px;
     /* background-color: rgba(90%,20%,30%,1);  */
     background-color: @dark_bg_color;
 }
