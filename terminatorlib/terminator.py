@@ -394,6 +394,16 @@ class Terminator(Borg):
             .terminator-terminal-searchbar {
                 background-color: @theme_bg_color; }
             """
+
+        # Fix several themes that put a borders, corners, or backgrounds around
+        # viewports, making the titlebar look bad.
+        css += """
+            GtkViewport {
+                border-width: 0px;
+                border-radius: 0px;
+                background-color: transparent; }
+            """
+
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css)
         self.style_providers.append(style_provider)
