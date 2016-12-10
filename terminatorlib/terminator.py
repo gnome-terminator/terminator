@@ -415,17 +415,21 @@ class Terminator(Borg):
 
         settings=Gtk.Settings().get_default()
         theme_name = settings.get_property('gtk-theme_name')
-        for theme_dir in [usr_theme_dir, app_theme_dir]:
-            path_to_theme_specific_css = os.path.join(theme_dir,
-                                                      theme_name,
-                                                      'gtk-3.0/apps',
-                                                      'terminator.css')
-            if os.path.isfile(path_to_theme_specific_css):
-                print path_to_theme_specific_css, os.path.isfile(path_to_theme_specific_css)
-                style_provider = Gtk.CssProvider()
-                style_provider.load_from_path(path_to_theme_specific_css)
-                self.style_providers.append(style_provider)
-                break
+
+        theme_part_list = ['terminator.css']
+        if 1:    # checkbox_style - needs adding to prefs
+            theme_part_list.append('terminator_styling.css')
+        for theme_part_file in theme_part_list:
+            for theme_dir in [usr_theme_dir, app_theme_dir]:
+                path_to_theme_specific_css = os.path.join(theme_dir,
+                                                          theme_name,
+                                                          'gtk-3.0/apps',
+                                                          theme_part_file)
+                if os.path.isfile(path_to_theme_specific_css):
+                    style_provider = Gtk.CssProvider()
+                    style_provider.load_from_path(path_to_theme_specific_css)
+                    self.style_providers.append(style_provider)
+                    break
 
         # Size the GtkPaned splitter handle size.
         if self.config['handle_size'] in xrange(0, 21):

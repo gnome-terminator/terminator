@@ -1,3 +1,4 @@
+/* Raleigh is so old, it doesn't use the correct public colours */
 .terminator-terminal-window {
     background-color: alpha(@bg_color,0); }
 
