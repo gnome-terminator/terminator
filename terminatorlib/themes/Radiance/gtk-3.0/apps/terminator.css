@@ -1,0 +1,6 @@
+.terminator-terminal-window .scrollbar.dragging:not(.slider),
+.terminator-terminal-window .scrollbar:hover:not(.slider),
+.terminator-terminal-window .scrollbar:not(.slider) {
+  background-color: alpha(@dark_bg_color,0);
+}
+
