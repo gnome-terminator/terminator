@@ -5,7 +5,9 @@
 
 import copy
 import os
-from gi.repository import Gtk, Gdk
+import gi
+gi.require_version('Vte', '2.91')
+from gi.repository import Gtk, Gdk, Vte
 
 import borg
 from borg import Borg
@@ -403,6 +405,30 @@ class Terminator(Borg):
                 border-radius: 0px;
                 background-color: transparent; }
             """
+
+        # Add per profile snippets for setting the background of the HBox
+        template = """
+            .terminator-profile-%s {
+                background-color: alpha(%s, %s); }
+            """
+        profiles = self.config.base.profiles
+        for profile in profiles.keys():
+            if profiles[profile]['use_theme_colors']:
+                # FIXME: This dummy vte has different system colors to the real ones
+                bgcolor = Vte.Terminal().get_style_context().get_background_color(Gtk.StateType.NORMAL)
+                bgcolor = "#{0:02x}{1:02x}{2:02x}".format(int(bgcolor.red  * 255),
+                                                          int(bgcolor.green * 255),
+                                                          int(bgcolor.blue * 255))
+            else:
+                bgcolor = Gdk.RGBA()
+                bgcolor = profiles[profile]['background_color']
+            if profiles[profile]['background_type'] == 'transparent':
+                bgalpha = profiles[profile]['background_darkness']
+            else:
+                bgalpha = "1"
+
+            munged_profile = "".join([c if c.isalnum() else "-" for c in profile])
+            css += template % (munged_profile, bgcolor, bgalpha)
 
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css)
