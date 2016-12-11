@@ -60,6 +60,9 @@ class Terminator(Borg):
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
 
+    cur_gtk_theme_name = None
+    gtk_settings = None
+
     def __init__(self):
         """Class initialiser"""
 
@@ -92,6 +95,13 @@ class Terminator(Borg):
             self.pid_cwd = get_pid_cwd()
         if self.gnome_client is None:
             self.attempt_gnome_client()
+        self.connect_signals()
+
+    def connect_signals(self):
+        """Connect all the gtk signals"""
+        self.gtk_settings=Gtk.Settings().get_default()
+        self.gtk_settings.connect('notify::gtk-theme-name', self.on_gtk_theme_name_notify)
+        self.cur_gtk_theme_name = self.gtk_settings.get_property('gtk-theme-name')
 
     def set_origcwd(self, cwd):
         """Store the original cwd our process inherits"""
@@ -370,6 +380,13 @@ class Terminator(Borg):
             if window.uuid == self.last_active_window:
                 window.show()
 
+    def on_gtk_theme_name_notify(self, settings, prop):
+        """Reconfigure if the gtk theme name changes"""
+        new_gtk_theme_name = settings.get_property(prop.name)
+        if new_gtk_theme_name != self.cur_gtk_theme_name:
+            self.cur_gtk_theme_name = new_gtk_theme_name
+            self.reconfigure()
+
     def reconfigure(self):
         """Update configuration for the whole application"""
 
@@ -447,8 +464,7 @@ class Terminator(Borg):
         (head, _tail) = os.path.split(borg.__file__)
         app_theme_dir = os.path.join(head, 'themes')
 
-        settings=Gtk.Settings().get_default()
-        theme_name = settings.get_property('gtk-theme_name')
+        theme_name = self.gtk_settings.get_property('gtk-theme-name')
 
         theme_part_list = ['terminator.css']
         if 1:    # checkbox_style - needs adding to prefs
