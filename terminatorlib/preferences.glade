@@ -903,7 +903,7 @@
                                     <property name="digits">0</property>
                                     <property name="draw_value">False</property>
                                     <property name="value_pos">bottom</property>
-                                    <signal name="change-value" handler="on_handlesize_change_value" swapped="no"/>
+                                    <signal name="value-changed" handler="on_handlesize_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -922,7 +922,7 @@
                                     <property name="digits">2</property>
                                     <property name="draw_value">False</property>
                                     <property name="value_pos">bottom</property>
-                                    <signal name="change-value" handler="on_inactive_color_offset_change_value" swapped="no"/>
+                                    <signal name="value-changed" handler="on_inactive_color_offset_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -2813,7 +2813,7 @@
                                     <property name="round_digits">2</property>
                                     <property name="digits">2</property>
                                     <property name="value_pos">bottom</property>
-                                    <signal name="change-value" handler="on_darken_background_scale_change_value" swapped="no"/>
+                                    <signal name="value-changed" handler="on_darken_background_scale_value_changed" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>

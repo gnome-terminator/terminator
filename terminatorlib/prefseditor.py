@@ -871,7 +871,7 @@ class PrefsEditor:
         self.config['scrollbar_position'] = value
         self.config.save()
 
-    def on_darken_background_scale_change_value(self, widget, scroll, _value_not_rounded):
+    def on_darken_background_scale_value_changed(self, widget):
         """Background darkness setting changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         if value > 1.0:
@@ -1048,7 +1048,7 @@ class PrefsEditor:
         self.config['title_transmit_fg_color'] = color2hex(widget)
         self.config.save()
 
-    def on_inactive_color_offset_change_value(self, widget, scroll, _value_not_rounded):
+    def on_inactive_color_offset_value_changed(self, widget):
         """Inactive color offset setting changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         if value > 1.0:
@@ -1059,7 +1059,7 @@ class PrefsEditor:
         label_widget = guiget('inactive_color_offset_value_label')
         label_widget.set_text('%d%%' % (int(value * 100)))
 
-    def on_handlesize_change_value(self, widget, scroll, _value_not_rounded):
+    def on_handlesize_value_changed(self, widget):
         """Handle size changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         value = int(value)          # Cast to int.
