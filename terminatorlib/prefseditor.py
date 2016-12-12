@@ -233,6 +233,8 @@ class PrefsEditor:
         termsepsize = self.config['handle_size']
         widget = guiget('handlesize')
         widget.set_value(float(termsepsize))
+        widget = guiget('handlesize_value_label')
+        widget.set_text(str(termsepsize))
         # Window geometry hints
         geomhint = self.config['geometry_hinting']
         widget = guiget('wingeomcheck')
@@ -569,6 +571,8 @@ class PrefsEditor:
         # Inactive terminal shading
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
+        widget = guiget('inactive_color_offset_value_label')
+        widget.set_text('%d%%' % (int(float(self.config['inactive_color_offset'])*100)))
         # Use custom URL handler
         widget = guiget('use_custom_url_handler_checkbox')
         widget.set_active(self.config['use_custom_url_handler'])
@@ -1043,6 +1047,9 @@ class PrefsEditor:
           value = 1.0
         self.config['inactive_color_offset'] = value
         self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('inactive_color_offset_value_label')
+        label_widget.set_text('%d%%' % (int(value * 100)))
 
     def on_handlesize_change_value(self, widget, scroll, _value_not_rounded):
         """Handle size changed"""
@@ -1052,6 +1059,9 @@ class PrefsEditor:
             value = 20
         self.config['handle_size'] = value
         self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('handlesize_value_label')
+        label_widget.set_text(str(value))
 
     def on_focuscombo_changed(self, widget):
         """Focus type changed"""
@@ -1568,9 +1578,6 @@ class LayoutEditor:
         self.profile_ids_to_profile = {}
         self.profile_profile_to_ids= {}
         chooser = self.builder.get_object('layout_profile_chooser')
-        model = chooser.get_model()
-
-        model.clear()
 
         profiles = self.config.list_profiles()
         profiles.sort()
@@ -1578,7 +1585,7 @@ class LayoutEditor:
         for profile in profiles:
             self.profile_ids_to_profile[i] = profile
             self.profile_profile_to_ids[profile] = i
-            model.append([profile])
+            chooser.append_text(profile)
             i = i + 1
 
     def on_layout_selection_changed(self, selection):

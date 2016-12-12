@@ -8,52 +8,52 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-03 00:12+0100\n"
-"PO-Revision-Date: 2016-12-02 07:20+0000\n"
-"Last-Translator: Skymathrix <Unknown>\n"
+"PO-Revision-Date: 2016-12-09 17:29+0000\n"
+"Last-Translator: Tobias Bannert <tobannert@gmail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-12-03 05:19+0000\n"
-"X-Generator: Launchpad (build 18282)\n"
+"X-Launchpad-Export-Date: 2016-12-10 05:33+0000\n"
+"X-Generator: Launchpad (build 18292)\n"
 "Language: de\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr "Open a new window"
+msgstr "Ein neues Fenster öffnen"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr "Open a new tab"
+msgstr "Einen neuen Tab öffnen"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr "Split the current terminal horizontally"
+msgstr "Aktuelles Terminal horizontal teilen"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "Split the current terminal vertically"
+msgstr "Aktuelles Terminal vertikal teilen"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr "Get a list of all terminals"
+msgstr "Liste von allen Terminals"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr "Get the UUID of a parent window"
+msgstr "UUID aus dem Elternfenster erhalten"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr "Get the title of a parent window"
+msgstr "Titel aus dem Elternfenster erhalten"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr "Get the UUID of a parent tab"
+msgstr "UUID aus dem Elternreiter erhalten"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr "Get the title of a parent tab"
+msgstr "Titel aus dem Elternreiter erhalten"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,8 +62,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Run one of the following Terminator DBus commands:\n"
-"\n"
+"Führe einen der folgenden Terminator DBus-Befehle aus:\\n\n"
+"\\n\n"
 "%s"
 
 #: ../remotinator.py:64
@@ -71,12 +71,10 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
-"* These entries require either TERMINATOR_UUID environment var,\n"
-"  or the --uuid option must be used."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr "Terminal UUID for when not in env var TERMINATOR_UUID"
+msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -151,7 +149,7 @@ msgstr "Simultane Eingabe in beliebig vielen Terminals"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr "Und vieles mehr..."
+msgstr "Und viel mehr …"
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
@@ -159,7 +157,7 @@ msgstr "Das Hauptfenster zeigt die aktive Anwendung"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr "Getting a little crazy with the terminals"
+msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
@@ -336,7 +334,7 @@ msgstr "Thailändisch"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr "Terminator Layout Launcher"
+msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:134
@@ -589,7 +587,7 @@ msgstr "Stoppe _Logger"
 
 #: ../terminatorlib/plugins/logger.py:66
 msgid "Save Log File As"
-msgstr "Speichere Log Datei als"
+msgstr "Protokolldatei speichern unter"
 
 #: ../terminatorlib/plugins/terminalshot.py:28
 msgid "Terminal _screenshot"
@@ -810,7 +808,7 @@ msgstr "Mausfokus:"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Broadcast default:"
-msgstr "Broadcast default:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "PuTTY style paste"
@@ -854,7 +852,7 @@ msgstr "Reiterposition:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Tabs homogeneous"
-msgstr "Tabs homogeneous"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tabs scroll buttons"
@@ -1194,16 +1192,6 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
-"\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
 
 #: ../terminatorlib/preferences.glade.h:152
 msgid "The Manual"
@@ -1301,7 +1289,7 @@ msgstr "Zeige/Verberge die Scrollleiste"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Search terminal scrollback"
-msgstr "Search terminal scrollback"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Scroll upwards one page"
@@ -1433,7 +1421,7 @@ msgstr "Gruppiere alle Terminals"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Group/Ungroup all terminals"
-msgstr "Group/Ungroup all terminals"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Ungroup all terminals"
@@ -1445,11 +1433,11 @@ msgstr "Gruppiere Terminals in einem Tab"
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Group/Ungroup terminals in tab"
-msgstr "Group/Ungroup terminals in tab"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:141
 msgid "Ungroup terminals in tab"
-msgstr "Ungroup terminals in tab"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Create a new window"
@@ -1465,7 +1453,7 @@ msgstr "Don't broadcast key presses"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Broadcast key presses to group"
-msgstr "Broadcast key presses to group"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Broadcast key events to all"
@@ -1553,7 +1541,7 @@ msgstr "Zeile"
 
 #: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Send email to..."
-msgstr "Email _senden …"
+msgstr "E-Mail _senden …"
 
 #: ../terminatorlib/terminal_popup_menu.py:60
 msgid "_Copy email address"
@@ -1711,7 +1699,7 @@ msgstr "Fenster umbenennen"
 
 #: ../terminatorlib/terminal.py:1842
 msgid "Enter a new title for the Terminator window..."
-msgstr "Geben Sie einen neuen Titel für das Terminator-Fenster ein..."
+msgstr "Einen neuen Titel für das Terminator-Fenster eingeben …"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
