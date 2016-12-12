@@ -40,6 +40,7 @@ class Keybindings:
         'shift':    Gdk.ModifierType.SHIFT_MASK,
         'alt':      Gdk.ModifierType.MOD1_MASK,
         'super':    Gdk.ModifierType.SUPER_MASK,
+        'hyper':    Gdk.ModifierType.HYPER_MASK,
     }
 
     empty = {}
