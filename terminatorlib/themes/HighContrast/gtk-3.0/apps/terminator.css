@@ -1,0 +1,6 @@
+/* First attempt to fix scrollbars being transparent */
+
+.terminator-terminal-window .scrollbar .trough {
+  background-color: @theme_bg_color;
+}
+

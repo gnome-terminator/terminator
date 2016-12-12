@@ -5,8 +5,11 @@
 
 import copy
 import os
-from gi.repository import Gtk, Gdk
+import gi
+gi.require_version('Vte', '2.91')
+from gi.repository import Gtk, Gdk, Vte
 
+import borg
 from borg import Borg
 from config import Config
 from keybindings import Keybindings
@@ -39,7 +42,7 @@ class Terminator(Borg):
     groups = None
     config = None
     keybindings = None
-    style_provider = None
+    style_providers = None
     last_focused_term = None
 
     origcwd = None
@@ -56,6 +59,9 @@ class Terminator(Borg):
 
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
+
+    cur_gtk_theme_name = None
+    gtk_settings = None
 
     def __init__(self):
         """Class initialiser"""
@@ -81,12 +87,21 @@ class Terminator(Borg):
         if not self.keybindings:
             self.keybindings = Keybindings()
             self.keybindings.configure(self.config['keybindings'])
+        if not self.style_providers:
+            self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
         if not self.pid_cwd:
             self.pid_cwd = get_pid_cwd()
         if self.gnome_client is None:
             self.attempt_gnome_client()
+        self.connect_signals()
+
+    def connect_signals(self):
+        """Connect all the gtk signals"""
+        self.gtk_settings=Gtk.Settings().get_default()
+        self.gtk_settings.connect('notify::gtk-theme-name', self.on_gtk_theme_name_notify)
+        self.cur_gtk_theme_name = self.gtk_settings.get_property('gtk-theme-name')
 
     def set_origcwd(self, cwd):
         """Store the original cwd our process inherits"""
@@ -365,34 +380,125 @@ class Terminator(Borg):
             if window.uuid == self.last_active_window:
                 window.show()
 
+    def on_gtk_theme_name_notify(self, settings, prop):
+        """Reconfigure if the gtk theme name changes"""
+        new_gtk_theme_name = settings.get_property(prop.name)
+        if new_gtk_theme_name != self.cur_gtk_theme_name:
+            self.cur_gtk_theme_name = new_gtk_theme_name
+            self.reconfigure()
+
     def reconfigure(self):
         """Update configuration for the whole application"""
 
-        if self.style_provider is not None:
-            Gtk.StyleContext.remove_provider_for_screen(
-                Gdk.Screen.get_default(),
-                self.style_provider)
-            self.style_provider = None
+        if self.style_providers != []:
+            for style_provider in self.style_providers:
+                Gtk.StyleContext.remove_provider_for_screen(
+                    Gdk.Screen.get_default(),
+                    style_provider)
+        self.style_providers = []
 
+        # Force the window background to be transparent for newer versions of
+        # GTK3. We then have to fix all the widget backgrounds because the
+        # widgets theming may not render it's own background.
         css = """
-            GtkPaned {
-                margin: 0 0 0 0;
-                padding: 0 0 0 0;
-                }
+            .terminator-terminal-window {
+                background-color: alpha(@theme_bg_color,0); }
+
+            .terminator-terminal-window .notebook.header {
+                background-color: @theme_bg_color; }
+
+            .terminator-terminal-window .pane-separator {
+                background-color: @theme_bg_color; }
+
+            .terminator-terminal-window .terminator-terminal-searchbar {
+                background-color: @theme_bg_color; }
             """
 
+        # Fix several themes that put a borders, corners, or backgrounds around
+        # viewports, making the titlebar look bad.
+        css += """
+            .terminator-terminal-window GtkViewport {
+                border-width: 0px;
+                border-radius: 0px;
+                background-color: transparent; }
+            """
+
+        # Add per profile snippets for setting the background of the HBox
+        template = """
+            .terminator-profile-%s {
+                background-color: alpha(%s, %s); }
+            """
+        profiles = self.config.base.profiles
+        for profile in profiles.keys():
+            if profiles[profile]['use_theme_colors']:
+                # Create a dummy window/vte and realise it so it has correct
+                # values to read from
+                tmp_win = Gtk.Window()
+                tmp_vte = Vte.Terminal()
+                tmp_win.add(tmp_vte)
+                tmp_win.realize()
+                bgcolor = tmp_vte.get_style_context().get_background_color(Gtk.StateType.NORMAL)
+                bgcolor = "#{0:02x}{1:02x}{2:02x}".format(int(bgcolor.red  * 255),
+                                                          int(bgcolor.green * 255),
+                                                          int(bgcolor.blue * 255))
+                tmp_win.remove(tmp_vte)
+                del(tmp_vte)
+                del(tmp_win)
+            else:
+                bgcolor = Gdk.RGBA()
+                bgcolor = profiles[profile]['background_color']
+            if profiles[profile]['background_type'] == 'transparent':
+                bgalpha = profiles[profile]['background_darkness']
+            else:
+                bgalpha = "1"
+
+            munged_profile = "".join([c if c.isalnum() else "-" for c in profile])
+            css += template % (munged_profile, bgcolor, bgalpha)
+
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(css)
+        self.style_providers.append(style_provider)
+
+        # Attempt to load some theme specific stylistic tweaks for appearances
+        usr_theme_dir = os.path.expanduser('~/.local/share/themes')
+        (head, _tail) = os.path.split(borg.__file__)
+        app_theme_dir = os.path.join(head, 'themes')
+
+        theme_name = self.gtk_settings.get_property('gtk-theme-name')
+
+        theme_part_list = ['terminator.css']
+        if self.config['extra_styling']:    # checkbox_style - needs adding to prefs
+            theme_part_list.append('terminator_styling.css')
+        for theme_part_file in theme_part_list:
+            for theme_dir in [usr_theme_dir, app_theme_dir]:
+                path_to_theme_specific_css = os.path.join(theme_dir,
+                                                          theme_name,
+                                                          'gtk-3.0/apps',
+                                                          theme_part_file)
+                if os.path.isfile(path_to_theme_specific_css):
+                    style_provider = Gtk.CssProvider()
+                    style_provider.load_from_path(path_to_theme_specific_css)
+                    self.style_providers.append(style_provider)
+                    break
+
+        # Size the GtkPaned splitter handle size.
+        css = ""
         if self.config['handle_size'] in xrange(0, 21):
             css += """
-                GtkPaned {
-                    -GtkPaned-handle-size: %s
-                }
+                .terminator-terminal-window GtkPaned {
+                    -GtkPaned-handle-size: %s; }
                 """ % self.config['handle_size']
-        self.style_provider = Gtk.CssProvider()
-        self.style_provider.load_from_data(css)
-        Gtk.StyleContext.add_provider_for_screen(
-            Gdk.Screen.get_default(), 
-            self.style_provider,     
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_data(css)
+        self.style_providers.append(style_provider)
+
+        # Apply the providers, incrementing priority so they don't cancel out
+        # each other
+        for idx in xrange(0, len(self.style_providers)):
+            Gtk.StyleContext.add_provider_for_screen(
+                Gdk.Screen.get_default(),
+                self.style_providers[idx],
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION+idx)
 
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:

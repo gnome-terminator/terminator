@@ -734,6 +734,16 @@ class Terminal(Gtk.VBox):
         else:
             self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
                                 self.palette_inactive)
+        profiles = self.config.base.profiles
+        terminal_box_style_context = self.terminalbox.get_style_context()
+        for profile in profiles.keys():
+            munged_profile = "terminator-profile-%s" % (
+                "".join([c if c.isalnum() else "-" for c in profile]))
+            if terminal_box_style_context.has_class(munged_profile):
+                terminal_box_style_context.remove_class(munged_profile)
+        munged_profile = "".join([c if c.isalnum() else "-" for c in self.get_profile()])
+        css_class_name = "terminator-profile-%s" % (munged_profile)
+        terminal_box_style_context.add_class(css_class_name)
         self.set_cursor_color()
         self.vte.set_cursor_shape(getattr(Vte.CursorShape,
                                           self.config['cursor_shape'].upper()));

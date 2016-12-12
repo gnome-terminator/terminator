@@ -1,0 +1,16 @@
+/* Raleigh is so old, it doesn't use the correct public colours */
+.terminator-terminal-window {
+    background-color: alpha(@bg_color,0); }
+
+.terminator-terminal-window .notebook {
+    background-color: @bg_color; }
+
+.terminator-terminal-window .notebook.header {
+    background-color: @bg_color; }
+
+.terminator-terminal-window .pane-separator {
+    background-color: @bg_color; }
+
+.terminator-terminal-window .terminator-terminal-searchbar {
+    background-color: @bg_color; }
+

@@ -1,0 +1,89 @@
+/*
+Some basic playing copying out the GNOME-Terminal style tab headers.
+
+Might want to have a seperate option for "shrinking" the tabs, by
+nuking the padding/borders in the tabs.
+*/
+
+.terminator-terminal-window .notebook.header {
+    border-width: 0; /* set below depending on position of tab bar */
+    border-color: shade (@bg_color, 0.82);
+    border-style: solid;
+    border-radius:  0px 0px 0px 0px;
+    background-color: @dark_bg_color;
+}
+
+/* Draw a border between tabs and content ... */
+.terminator-terminal-window .notebook.header.top { border-bottom-width: 1px; }
+.terminator-terminal-window .notebook.header.right { border-left-width: 1px; }
+.terminator-terminal-window .notebook.header.left { border-right-width: 1px; }
+.terminator-terminal-window .notebook.header.bottom { border-top-width: 1px; }
+
+/* ... unless the content is in a frame (thus having a border itself */
+.terminator-terminal-window .notebook.header.frame.top { border: none; }
+.terminator-terminal-window .notebook.header.frame.right { border: none; }
+.terminator-terminal-window .notebook.header.frame.right { border: none; }
+.terminator-terminal-window .notebook.header.frame.bottom { border: none; }
+
+
+.terminator-terminal-window .notebook tab {
+    background-color: shade(@bg_color, 0.7);
+    border-image: none;
+    border-style: solid;
+    border-color: @dark_bg_color;
+}
+
+/* give active tab a background, as it might be dragged across of others when reordering */
+.terminator-terminal-window .notebook tab:active {
+    background-color: @bg_color;
+}
+
+.terminator-terminal-window .notebook tab.top:active { padding-bottom: 3px; }
+.terminator-terminal-window .notebook tab.bottom:active { padding-top: 3px; }
+.terminator-terminal-window .notebook tab.left:active { padding-right: 5px; }
+.terminator-terminal-window .notebook tab.right:active { padding-left: 5px; }
+
+.terminator-terminal-window .notebook tab.top {
+    padding: 4px 6px 2px 6px;
+    border-width: 1px 1px 0px 1px;
+    border-radius:  8px 8px 0px 0px;
+}
+
+.terminator-terminal-window .notebook tab.bottom {
+    padding: 2px 6px 4px 6px;
+    border-width: 0px 1px 1px 1px;
+    border-radius:  0px 0px 8px 8px;
+}
+
+.terminator-terminal-window .notebook tab.left {
+    padding: 2px 4px 2px 6px;
+    border-width: 1px 0px 1px 1px;
+    border-radius:  8px 0px 0px 8px;
+}
+
+.terminator-terminal-window .notebook tab.right {
+    padding: 2px 6px 2px 4px;
+    border-width: 1px 1px 1px 0px;
+    border-radius:  0px 8px 8px 0px;
+}
+
+.terminator-terminal-window .notebook tab .button {
+    background-color: transparent;
+    padding: 1px;
+}
+
+/* Draw a focus ring around labels in tabs */
+.terminator-terminal-window .notebook tab GtkLabel {
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.terminator-terminal-window .notebook:focus tab GtkLabel.active-page {
+    border-color: @focus_color;
+    background-color: @focus_bg_color;
+}
+
+.terminator-terminal-window .notebook GtkDrawingArea {
+        background-color: shade (@bg_color, 1.02);
+}
+

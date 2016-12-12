@@ -94,6 +94,7 @@ DEFAULTS = {
             'geometry_hinting'      : False,
             'window_state'          : 'normal',
             'borderless'            : False,
+            'extra_styling'         : True,
             'tab_position'          : 'top',
             'broadcast_default'     : 'group',
             'close_button_on_tab'   : True,

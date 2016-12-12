@@ -39,6 +39,8 @@ class Searchbar(Gtk.HBox):
 
         self.config = Config()
 
+        self.get_style_context().add_class("terminator-terminal-searchbar")
+
         # Search text
         self.entry = Gtk.Entry()
         self.entry.set_activates_default(True)

@@ -1,0 +1,12 @@
+/* Fixes oversized hover area preventing selecting characters. */
+.terminator-terminal-window GtkPaned {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0; }
+
+/* First attempt at fixing the scrollbars */
+.terminator-terminal-window .scrollbar .trough,
+.terminator-terminal-window .scrollbar .button {
+  background-color: @theme_bg_color;
+  border-radius: 0px
+}
+
