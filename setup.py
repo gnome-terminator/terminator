@@ -18,6 +18,7 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
+CSS_DIR = os.path.join('terminatorlib', 'themes')
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
@@ -131,6 +132,7 @@ class Uninstall(Command):
 
 class InstallData(install_data):
   def run (self):
+    self.data_files.extend (self._find_css_files ())
     self.data_files.extend (self._find_mo_files ())
     install_data.run (self)
     if not self.distribution.without_icon_cache:
@@ -154,6 +156,17 @@ class InstallData(install_data):
        data_files.append((dest, [mo]))
 
     return data_files
+
+  def _find_css_files (self):
+    data_files = []
+
+    for css_dir in glob.glob (os.path.join (CSS_DIR, '*')):
+       srce = os.path.join(css_dir, 'gtk-3.0', 'apps', '*.css')
+       dest = os.path.join('share', 'terminator', css_dir, 'gtk-3.0', 'apps')
+       data_files.append((dest, srce))
+
+    return data_files
+
 
 class Test(Command):
   user_options = []
