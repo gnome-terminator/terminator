@@ -355,10 +355,8 @@
   </object>
   <object class="GtkDialog" id="prefswin">
     <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="border_width">5</property>
     <property name="title" translatable="yes">Terminator Preferences</property>
-    <property name="default_width">640</property>
-    <property name="default_height">400</property>
     <property name="type_hint">normal</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog_vbox1">
@@ -850,6 +848,36 @@
                                 <property name="row_spacing">6</property>
                                 <property name="column_spacing">12</property>
                                 <child>
+                                  <object class="GtkCheckButton" id="winbordercheck">
+                                    <property name="label" translatable="yes">Window borders</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_winbordercheck_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="width">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label30">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Unfocused terminal font brightness:</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">0</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkLabel" id="label7">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -858,23 +886,7 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">0</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="handlesize_value_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">-1</property>
-                                    <property name="justify">right</property>
-                                    <property name="width_chars">5</property>
-                                    <property name="max_width_chars">5</property>
-                                    <property name="lines">1</property>
-                                    <property name="xalign">1</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="top_attach">0</property>
+                                    <property name="top_attach">1</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -893,34 +905,6 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
-                                    <property name="top_attach">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="label30">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Unfocused terminal font brightness:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">0</property>
-                                    <property name="top_attach">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="inactive_color_offset_value_label">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">100%</property>
-                                    <property name="justify">right</property>
-                                    <property name="width_chars">5</property>
-                                    <property name="max_width_chars">5</property>
-                                    <property name="lines">1</property>
-                                    <property name="xalign">1</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left_attach">1</property>
                                     <property name="top_attach">1</property>
                                   </packing>
                                 </child>
@@ -940,24 +924,56 @@
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="handlesize_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">-1</property>
+                                    <property name="justify">right</property>
+                                    <property name="width_chars">5</property>
+                                    <property name="max_width_chars">5</property>
+                                    <property name="lines">1</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
                                     <property name="top_attach">1</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCheckButton" id="winbordercheck">
-                                    <property name="label" translatable="yes">Window borders</property>
+                                  <object class="GtkLabel" id="inactive_color_offset_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">100%</property>
+                                    <property name="justify">right</property>
+                                    <property name="width_chars">5</property>
+                                    <property name="max_width_chars">5</property>
+                                    <property name="lines">1</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="extrastylingcheck">
+                                    <property name="label" translatable="yes">Extra Styling (Theme dependant)</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
-                                    <property name="xalign">0.5</property>
+                                    <property name="xalign">0</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
-                                    <signal name="toggled" handler="on_winbordercheck_toggled" swapped="no"/>
+                                    <signal name="toggled" handler="on_extrastylingcheck_toggled" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="left_attach">0</property>
-                                    <property name="top_attach">2</property>
+                                    <property name="top_attach">0</property>
                                     <property name="width">3</property>
                                   </packing>
                                 </child>

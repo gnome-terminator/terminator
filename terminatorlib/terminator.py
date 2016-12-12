@@ -467,7 +467,7 @@ class Terminator(Borg):
         theme_name = self.gtk_settings.get_property('gtk-theme-name')
 
         theme_part_list = ['terminator.css']
-        if 1:    # checkbox_style - needs adding to prefs
+        if self.config['extra_styling']:    # checkbox_style - needs adding to prefs
             theme_part_list.append('terminator_styling.css')
         for theme_part_file in theme_part_list:
             for theme_dir in [usr_theme_dir, app_theme_dir]:

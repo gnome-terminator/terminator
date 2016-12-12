@@ -254,6 +254,9 @@ class PrefsEditor:
         # Window borders
         widget = guiget('winbordercheck')
         widget.set_active(not self.config['borderless'])
+        # Extra styling
+        widget = guiget('extrastylingcheck')
+        widget.set_active(self.config['extra_styling'])
         # Tab bar position
         option = self.config['tab_position']
         widget = guiget('tabposcombo')
@@ -690,6 +693,11 @@ class PrefsEditor:
     def on_winbordercheck_toggled(self, widget):
         """Window border setting changed"""
         self.config['borderless'] = not widget.get_active()
+        self.config.save()
+
+    def on_extrastylingcheck_toggled(self, widget):
+        """Extra styling setting changed"""
+        self.config['extra_styling'] = widget.get_active()
         self.config.save()
 
     def on_hidefromtaskbcheck_toggled(self, widget):
