@@ -66,6 +66,7 @@ class Logger(plugin.MenuItem):
         savedialog = Gtk.FileChooserDialog(title=_("Save Log File As"),
                                            action=self.dialog_action,
                                            buttons=self.dialog_buttons)
+        savedialog.set_transient_for(_widget.get_toplevel())
         savedialog.set_do_overwrite_confirmation(True)
         savedialog.set_local_only(True)
         savedialog.show_all()
@@ -90,6 +91,7 @@ class Logger(plugin.MenuItem):
                 e = sys.exc_info()[1]
                 error = Gtk.MessageDialog(None, Gtk.DialogFlags.MODAL, Gtk.MessageType.ERROR,
                                           Gtk.ButtonsType.OK, e.strerror)
+                error.set_transient_for(savedialog)
                 error.run()
                 error.destroy()
         savedialog.destroy()

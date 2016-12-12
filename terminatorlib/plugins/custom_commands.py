@@ -125,6 +125,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                         _("_OK"), Gtk.ResponseType.ACCEPT
                       )
                     )
+      dbox.set_transient_for(widget.get_toplevel())
 
       icon_theme = Gtk.IconTheme.get_default()
       if icon_theme.lookup_icon('terminator-custom-commands', 48, 0):
@@ -214,11 +215,13 @@ class CustomCommandsMenu(plugin.MenuItem):
 
 
       hbox.pack_start(button_box, False, True, 0)
+      self.dbox = dbox
       dbox.show_all()
       res = dbox.run()
       if res == Gtk.ResponseType.ACCEPT:
         self.update_cmd_list(store)
         self._save_config()
+      del(self.dbox)
       dbox.destroy()
       return
 
@@ -271,6 +274,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                           _("_OK"), Gtk.ResponseType.ACCEPT
                         )
                       )
+      dialog.set_transient_for(self.dbox)
       table = Gtk.Table(3, 2)
 
       label = Gtk.Label(label=_("Enabled:"))
