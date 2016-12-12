@@ -161,7 +161,7 @@ class InstallData(install_data):
     data_files = []
 
     for css_dir in glob.glob (os.path.join (CSS_DIR, '*')):
-       srce = os.path.join(css_dir, 'gtk-3.0', 'apps', '*.css')
+       srce = glob.glob (os.path.join(css_dir, 'gtk-3.0', 'apps', '*.css'))
        dest = os.path.join('share', 'terminator', css_dir, 'gtk-3.0', 'apps')
        data_files.append((dest, srce))
 
