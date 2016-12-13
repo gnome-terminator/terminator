@@ -730,7 +730,7 @@
                                             <signal name="changed" handler="on_custom_url_handler_entry_changed" swapped="no"/>
                                           </object>
                                           <packing>
-                                            <property name="expand">False</property>
+                                            <property name="expand">True</property>
                                             <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
