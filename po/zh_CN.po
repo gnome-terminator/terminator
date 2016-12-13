@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-03 00:12+0100\n"
+"POT-Creation-Date: 2016-12-12 14:21+0100\n"
 "PO-Revision-Date: 2016-01-14 03:22+0000\n"
 "Last-Translator: Mingye Wang <arthur2e5@aosc.xyz>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-11-03 06:26+0000\n"
-"X-Generator: Launchpad (build 18246)\n"
+"X-Launchpad-Export-Date: 2016-12-13 05:54+0000\n"
+"X-Generator: Launchpad (build 18293)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -81,7 +81,7 @@ msgstr "终端UUID如果未设置TERMINATOR_UUID环境变量"
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
 #: ../terminatorlib/plugins/activitywatch.py:163
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Terminator"
 msgstr "Terminator 终端终结者"
 
@@ -90,7 +90,7 @@ msgid "Multiple terminals in one window"
 msgstr "一个窗口中的多个终端"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
 msgstr "高级终端的未来"
 
@@ -330,7 +330,7 @@ msgid "Terminator Layout Launcher"
 msgstr "Terminator布局启动器"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Layout"
 msgstr "布局"
 
@@ -338,11 +338,11 @@ msgstr "布局"
 msgid "Launch"
 msgstr "启动"
 
-#: ../terminatorlib/notebook.py:351
+#: ../terminatorlib/notebook.py:353
 msgid "tab"
 msgstr "标签页"
 
-#: ../terminatorlib/notebook.py:570
+#: ../terminatorlib/notebook.py:572
 msgid "Close Tab"
 msgstr "关闭标签"
 
@@ -489,17 +489,17 @@ msgid "Enabled"
 msgstr "已启用"
 
 #: ../terminatorlib/plugins/custom_commands.py:155
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
 msgstr "名称"
 
 #: ../terminatorlib/plugins/custom_commands.py:159
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
 msgstr "命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:173
-#: ../terminatorlib/preferences.glade.h:35
+#: ../terminatorlib/preferences.glade.h:37
 msgid "Top"
 msgstr "顶部"
 
@@ -596,7 +596,7 @@ msgid "Escape sequence"
 msgstr "转义序列"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:702
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:704
 msgid "All"
 msgstr "全部"
 
@@ -657,424 +657,430 @@ msgid "Solarized dark"
 msgstr "深色的 Solarized"
 
 #: ../terminatorlib/preferences.glade.h:20
+msgid "Gruvbox light"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:21
+msgid "Gruvbox dark"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:22
 msgid "Custom"
 msgstr "自定义"
 
-#: ../terminatorlib/preferences.glade.h:21
+#: ../terminatorlib/preferences.glade.h:23
 msgid "Block"
 msgstr "块"
 
-#: ../terminatorlib/preferences.glade.h:22
+#: ../terminatorlib/preferences.glade.h:24
 msgid "Underline"
 msgstr "下划线"
 
-#: ../terminatorlib/preferences.glade.h:23
+#: ../terminatorlib/preferences.glade.h:25
 msgid "I-Beam"
 msgstr "I 型"
 
-#: ../terminatorlib/preferences.glade.h:24
+#: ../terminatorlib/preferences.glade.h:26
 msgid "GNOME Default"
 msgstr "GNOME 默认"
 
-#: ../terminatorlib/preferences.glade.h:25
+#: ../terminatorlib/preferences.glade.h:27
 msgid "Click to focus"
 msgstr "点击获取焦点"
 
-#: ../terminatorlib/preferences.glade.h:26
+#: ../terminatorlib/preferences.glade.h:28
 msgid "Follow mouse pointer"
 msgstr "跟随鼠标指针"
 
-#: ../terminatorlib/preferences.glade.h:27
+#: ../terminatorlib/preferences.glade.h:29
 msgid "Tango"
 msgstr "Tango"
 
-#: ../terminatorlib/preferences.glade.h:28
+#: ../terminatorlib/preferences.glade.h:30
 msgid "Linux"
 msgstr "Linux"
 
-#: ../terminatorlib/preferences.glade.h:29
+#: ../terminatorlib/preferences.glade.h:31
 msgid "XTerm"
 msgstr "XTerm"
 
-#: ../terminatorlib/preferences.glade.h:30
+#: ../terminatorlib/preferences.glade.h:32
 msgid "Rxvt"
 msgstr "Rxvt"
 
-#: ../terminatorlib/preferences.glade.h:31
+#: ../terminatorlib/preferences.glade.h:33
 msgid "Solarized"
 msgstr "Solarized"
 
-#: ../terminatorlib/preferences.glade.h:32
+#: ../terminatorlib/preferences.glade.h:34
 msgid "On the left side"
 msgstr "在左侧"
 
-#: ../terminatorlib/preferences.glade.h:33
+#: ../terminatorlib/preferences.glade.h:35
 msgid "On the right side"
 msgstr "在右侧"
 
-#: ../terminatorlib/preferences.glade.h:34
+#: ../terminatorlib/preferences.glade.h:36
 msgid "Disabled"
 msgstr "已禁用"
 
-#: ../terminatorlib/preferences.glade.h:36
+#: ../terminatorlib/preferences.glade.h:38
 msgid "Bottom"
 msgstr "底部"
 
-#: ../terminatorlib/preferences.glade.h:37
+#: ../terminatorlib/preferences.glade.h:39
 msgid "Left"
 msgstr "左侧"
 
-#: ../terminatorlib/preferences.glade.h:38
+#: ../terminatorlib/preferences.glade.h:40
 msgid "Right"
 msgstr "右侧"
 
-#: ../terminatorlib/preferences.glade.h:39
+#: ../terminatorlib/preferences.glade.h:41
 msgid "Hidden"
 msgstr "隐藏"
 
-#: ../terminatorlib/preferences.glade.h:40
+#: ../terminatorlib/preferences.glade.h:42
 msgid "Normal"
 msgstr "正常"
 
-#: ../terminatorlib/preferences.glade.h:41
+#: ../terminatorlib/preferences.glade.h:43
 msgid "Maximised"
 msgstr "最大化的"
 
-#: ../terminatorlib/preferences.glade.h:42
+#: ../terminatorlib/preferences.glade.h:44
 msgid "Fullscreen"
 msgstr "全屏"
 
-#: ../terminatorlib/preferences.glade.h:43
-msgid "default"
-msgstr "默认"
-
-#: ../terminatorlib/preferences.glade.h:44
+#: ../terminatorlib/preferences.glade.h:45
 msgid "Terminator Preferences"
 msgstr "Terminator首选项"
 
-#: ../terminatorlib/preferences.glade.h:45
+#: ../terminatorlib/preferences.glade.h:46
 msgid "<b>Behavior</b>"
 msgstr "<b>行为</b>"
 
-#: ../terminatorlib/preferences.glade.h:46
+#: ../terminatorlib/preferences.glade.h:47
 msgid "Window state:"
 msgstr "窗口状态"
 
-#: ../terminatorlib/preferences.glade.h:47
+#: ../terminatorlib/preferences.glade.h:48
 msgid "Always on top"
 msgstr "总在最前面"
 
-#: ../terminatorlib/preferences.glade.h:48
+#: ../terminatorlib/preferences.glade.h:49
 msgid "Show on all workspaces"
 msgstr "在所有工作区显示"
 
-#: ../terminatorlib/preferences.glade.h:49
+#: ../terminatorlib/preferences.glade.h:50
 msgid "Hide on lose focus"
 msgstr "没有鼠标焦点则隐藏"
 
-#: ../terminatorlib/preferences.glade.h:50
+#: ../terminatorlib/preferences.glade.h:51
 msgid "Hide from taskbar"
 msgstr "从任务栏隐藏"
 
-#: ../terminatorlib/preferences.glade.h:51
+#: ../terminatorlib/preferences.glade.h:52
 msgid "Window geometry hints"
 msgstr "窗口大小位置提示"
 
-#: ../terminatorlib/preferences.glade.h:52
+#: ../terminatorlib/preferences.glade.h:53
 msgid "DBus server"
 msgstr "DBus服务"
 
-#: ../terminatorlib/preferences.glade.h:53
+#: ../terminatorlib/preferences.glade.h:54
 msgid "Mouse focus:"
 msgstr "鼠标焦点"
 
-#: ../terminatorlib/preferences.glade.h:54
+#: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
 msgstr "默认广播："
 
-#: ../terminatorlib/preferences.glade.h:55
+#: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
 msgstr "PuTTY 风格粘贴"
 
-#: ../terminatorlib/preferences.glade.h:56
+#: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
 msgstr "智能复制"
 
-#: ../terminatorlib/preferences.glade.h:57
+#: ../terminatorlib/preferences.glade.h:58
 msgid "Re-use profiles for new terminals"
 msgstr "新终端继承配置"
 
-#: ../terminatorlib/preferences.glade.h:58
+#: ../terminatorlib/preferences.glade.h:59
 msgid "Use custom URL handler"
 msgstr "使用自定义的URL处理程序"
 
-#: ../terminatorlib/preferences.glade.h:59
+#: ../terminatorlib/preferences.glade.h:60
 msgid "Custom URL handler:"
 msgstr "自定义URL处理程序："
 
-#: ../terminatorlib/preferences.glade.h:60
+#: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
 msgstr "<b>外观</b>"
 
-#: ../terminatorlib/preferences.glade.h:61
-msgid "Terminal separator size:"
-msgstr "终端分隔线宽度："
-
 #: ../terminatorlib/preferences.glade.h:62
-msgid "Unfocused terminal font brightness:"
-msgstr "非活动终端字体亮度："
-
-#: ../terminatorlib/preferences.glade.h:63
 msgid "Window borders"
 msgstr "窗口边框"
 
+#: ../terminatorlib/preferences.glade.h:63
+msgid "Unfocused terminal font brightness:"
+msgstr "非活动终端字体亮度："
+
 #: ../terminatorlib/preferences.glade.h:64
+msgid "Terminal separator size:"
+msgstr "终端分隔线宽度："
+
+#: ../terminatorlib/preferences.glade.h:65
+msgid "Extra Styling (Theme dependant)"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
 msgstr "标签位置："
 
-#: ../terminatorlib/preferences.glade.h:65
+#: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
 msgstr "固定大小的标签"
 
-#: ../terminatorlib/preferences.glade.h:66
+#: ../terminatorlib/preferences.glade.h:68
 msgid "Tabs scroll buttons"
 msgstr "标签滚动按钮"
 
-#: ../terminatorlib/preferences.glade.h:67
+#: ../terminatorlib/preferences.glade.h:69
 msgid "<b>Terminal Titlebar</b>"
 msgstr "<b>终端标题栏</b>"
 
-#: ../terminatorlib/preferences.glade.h:68
-msgid "Receiving"
-msgstr "接收中"
-
-#: ../terminatorlib/preferences.glade.h:69
-msgid "Focused"
-msgstr "聚焦的"
-
 #: ../terminatorlib/preferences.glade.h:70
-msgid "Inactive"
-msgstr "非活动"
-
-#: ../terminatorlib/preferences.glade.h:71
 msgid "Font color:"
 msgstr "字体颜色："
 
-#: ../terminatorlib/preferences.glade.h:72
+#: ../terminatorlib/preferences.glade.h:71
 msgid "Background:"
 msgstr "背景："
 
+#: ../terminatorlib/preferences.glade.h:72
+msgid "Focused"
+msgstr "聚焦的"
+
 #: ../terminatorlib/preferences.glade.h:73
+msgid "Inactive"
+msgstr "非活动"
+
+#: ../terminatorlib/preferences.glade.h:74
+msgid "Receiving"
+msgstr "接收中"
+
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Hide size from title"
 msgstr "在标题中隐藏大小"
 
-#: ../terminatorlib/preferences.glade.h:74
+#: ../terminatorlib/preferences.glade.h:76
 msgid "_Use the system font"
 msgstr "使用系统字体(_U)"
 
-#: ../terminatorlib/preferences.glade.h:75
+#: ../terminatorlib/preferences.glade.h:77
 msgid "_Font:"
 msgstr "字体(_F)："
 
-#: ../terminatorlib/preferences.glade.h:76
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Titlebar Font"
 msgstr "选择标题栏字体"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:79
 msgid "Global"
 msgstr "全局"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Profile"
 msgstr "配置"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:81
 msgid "_Use the system fixed width font"
 msgstr "使用系统的等宽字体(_U)"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:82
 msgid "Choose A Terminal Font"
 msgstr "选择终端字体"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:83
 msgid "_Allow bold text"
 msgstr "允许粗体字(_A)"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Show titlebar"
 msgstr "显示标题栏"
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Copy on selection"
 msgstr "选中则复制"
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:86
 msgid "Rewrap on resize"
 msgstr "改变大小时重新处理自动换行"
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Select-by-_word characters:"
 msgstr "视作单词组成部分的字符(_W)："
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:88
 msgid "<b>Cursor</b>"
 msgstr "<b>光标</b>"
 
-#: ../terminatorlib/preferences.glade.h:87
-msgid "Color:"
-msgstr "颜色："
-
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:89
 msgid "_Shape:"
 msgstr "形状(_S)"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:90
+msgid "Color:"
+msgstr "颜色："
+
+#: ../terminatorlib/preferences.glade.h:91
 msgid "Blink"
 msgstr "闪烁"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:92
+msgid "Foreground"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
 msgstr "<b>终端响铃</b>"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
 msgstr "标题栏图标"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
 msgstr "闪烁显示"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
 msgstr "发出哔声"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
 msgstr "闪烁窗口列表"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:98
 msgid "General"
 msgstr "一般设定"
 
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Run command as a login shell"
 msgstr "以登录 Shell 方式运行命令(_R)"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:100
 msgid "Ru_n a custom command instead of my shell"
 msgstr "运行自定义命令而不是 Shell(_N)"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Custom co_mmand:"
 msgstr "自定义命令(_M)："
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:102
 msgid "When command _exits:"
 msgstr "命令退出时(_E)："
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>前景与背景</b>"
 
-#: ../terminatorlib/preferences.glade.h:102
-msgid "_Text color:"
-msgstr "文本颜色(_T)："
-
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:105
 msgid "_Use colors from system theme"
 msgstr "使用系统主题中的颜色(_U)"
 
-#: ../terminatorlib/preferences.glade.h:104
-msgid "_Background color:"
-msgstr "背景颜色(_B)："
-
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:106
 msgid "Built-in sche_mes:"
 msgstr "内置方案(_M)："
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:107
+msgid "_Text color:"
+msgstr "文本颜色(_T)："
+
+#: ../terminatorlib/preferences.glade.h:108
+msgid "_Background color:"
+msgstr "背景颜色(_B)："
+
+#: ../terminatorlib/preferences.glade.h:109
 msgid "Choose Terminal Text Color"
 msgstr "选择终端文本颜色"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Choose Terminal Background Color"
 msgstr "选择终端背景颜色"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:111
 msgid "<b>Palette</b>"
 msgstr "<b>调色板</b>"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:112
 msgid "Built-in _schemes:"
 msgstr "内置方案(_S)："
 
-#: ../terminatorlib/preferences.glade.h:110
-msgid ""
-"<small><i><b>Note:</b> Terminal applications have these colors available to "
-"them.</i></small>"
-msgstr "<small><i><b>注意：</b>终端应用程序可用下列颜色。</i></small>"
-
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:113
 msgid "Color p_alette:"
 msgstr "调色板(_A)："
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Colors"
 msgstr "色彩"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "纯色(_S)"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:116
 msgid "_Transparent background"
 msgstr "透明背景(_T)"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade transparent background:"
 msgstr "阴影透明背景(_H)："
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>无</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:119
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>最大</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Background"
 msgstr "背景"
 
-#: ../terminatorlib/preferences.glade.h:119
-msgid "Scroll on _keystroke"
-msgstr "击键时滚动(_K)"
-
-#: ../terminatorlib/preferences.glade.h:120
-msgid "Scroll on _output"
-msgstr "输出时滚动(_O)"
-
 #: ../terminatorlib/preferences.glade.h:121
-msgid "lines"
-msgstr "行"
-
-#: ../terminatorlib/preferences.glade.h:122
 msgid "_Scrollbar is:"
 msgstr "滚动条(_S)："
 
+#: ../terminatorlib/preferences.glade.h:122
+msgid "Scroll on _output"
+msgstr "输出时滚动(_O)"
+
 #: ../terminatorlib/preferences.glade.h:123
-msgid "Scroll_back:"
-msgstr "回滚(_B)："
+msgid "Scroll on _keystroke"
+msgstr "击键时滚动(_K)"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Infinite Scrollback"
 msgstr "无限回滚"
 
 #: ../terminatorlib/preferences.glade.h:125
+msgid "Scroll_back:"
+msgstr "回滚(_B)："
+
+#: ../terminatorlib/preferences.glade.h:126
+msgid "lines"
+msgstr "行"
+
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scrolling"
 msgstr "滚动"
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:128
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -1084,80 +1090,76 @@ msgstr ""
 "<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允许您在一些应用程序和操作系统中作调整以获得不同的终端行为。<"
 "/i></small>"
 
-#: ../terminatorlib/preferences.glade.h:127
-msgid "_Delete key generates:"
-msgstr "按 _Delete 键产生："
-
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
 msgstr "按 _Backspace 键产生："
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:130
+msgid "_Delete key generates:"
+msgstr "按 _Delete 键产生："
+
+#: ../terminatorlib/preferences.glade.h:131
+msgid "Encoding:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "重置兼容性选项为默认值(_R)"
 
-#: ../terminatorlib/preferences.glade.h:130
-msgid "<b>Encoding</b>"
-msgstr "<b>编码</b>"
-
-#: ../terminatorlib/preferences.glade.h:131
-msgid "Default:"
-msgstr "默认："
-
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Compatibility"
 msgstr "兼容性"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:134
 #: ../terminatorlib/terminal_popup_menu.py:195
 msgid "Profiles"
 msgstr "配置"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Type"
 msgstr "类型"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Profile:"
 msgstr "配置："
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:139
 msgid "Custom command:"
 msgstr "自定义命令："
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:140
 msgid "Working directory:"
 msgstr "工作目录:"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:141
 msgid "Layouts"
 msgstr "布局"
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:142
 msgid "Action"
 msgstr "动作"
 
-#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Keybinding"
 msgstr "键绑定"
 
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Keybindings"
 msgstr "快捷键"
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Plugin"
 msgstr "插件"
 
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:146
 msgid "This plugin has no configuration options"
 msgstr "此插件没有配置项"
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Plugins"
 msgstr "插件"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:150
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -1176,347 +1178,346 @@ msgstr ""
 "Terminal，我们还在从中集成更多特性。但我们同时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有任何建议，请向wishli"
 "st中提交！（看左边的开发者链接）"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
 msgstr "手册"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:154
 msgid ""
 "<a "
 "href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
 "\n"
 "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
-"<a href=\"https://launchpad.net/terminator\">Development</a>"
+"<a href=\"https://launchpad.net/terminator\">Development</a>\n"
+"<a href=\"https://bugs.launchpad.net/terminator\">Bugs / Enhancements</a>\n"
+"<a href=\"https://translations.launchpad.net/terminator\">Translations</a>"
 msgstr ""
-"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">主页</a>\n"
-"<a href=\"http://gnometerminator.blogspot.com/\">博客 / 动态</a>\n"
-"<a href=\"https://launchpad.net/terminator\">开发</a>"
 
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:159
 msgid "About"
 msgstr "关于"
 
-#: ../terminatorlib/prefseditor.py:84
+#: ../terminatorlib/prefseditor.py:96
 msgid "Increase font size"
 msgstr "增大字号"
 
-#: ../terminatorlib/prefseditor.py:85
+#: ../terminatorlib/prefseditor.py:97
 msgid "Decrease font size"
 msgstr "减小字号"
 
-#: ../terminatorlib/prefseditor.py:86
+#: ../terminatorlib/prefseditor.py:98
 msgid "Restore original font size"
 msgstr "恢复为原始字体大小"
 
-#: ../terminatorlib/prefseditor.py:87
+#: ../terminatorlib/prefseditor.py:99
 msgid "Create a new tab"
 msgstr "创建一个新标签页"
 
-#: ../terminatorlib/prefseditor.py:88 ../terminatorlib/prefseditor.py:90
+#: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
 msgstr "聚焦到下一个终端"
 
-#: ../terminatorlib/prefseditor.py:89 ../terminatorlib/prefseditor.py:91
+#: ../terminatorlib/prefseditor.py:101 ../terminatorlib/prefseditor.py:103
 msgid "Focus the previous terminal"
 msgstr "聚焦到上一个终端"
 
-#: ../terminatorlib/prefseditor.py:92
+#: ../terminatorlib/prefseditor.py:104
 msgid "Focus the terminal above"
 msgstr "聚焦到上方的终端"
 
-#: ../terminatorlib/prefseditor.py:93
+#: ../terminatorlib/prefseditor.py:105
 msgid "Focus the terminal below"
 msgstr "聚焦到下方的终端"
 
-#: ../terminatorlib/prefseditor.py:94
+#: ../terminatorlib/prefseditor.py:106
 msgid "Focus the terminal left"
 msgstr "聚焦到左边的终端"
 
-#: ../terminatorlib/prefseditor.py:95
+#: ../terminatorlib/prefseditor.py:107
 msgid "Focus the terminal right"
 msgstr "聚焦到右边的终端"
 
-#: ../terminatorlib/prefseditor.py:96
+#: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
 msgstr "顺时针方向切换终端"
 
-#: ../terminatorlib/prefseditor.py:97
+#: ../terminatorlib/prefseditor.py:109
 msgid "Rotate terminals counter-clockwise"
 msgstr "逆时针方向切换终端"
 
-#: ../terminatorlib/prefseditor.py:98
+#: ../terminatorlib/prefseditor.py:110
 msgid "Split horizontally"
 msgstr "水平分割"
 
-#: ../terminatorlib/prefseditor.py:99
+#: ../terminatorlib/prefseditor.py:111
 msgid "Split vertically"
 msgstr "垂直分割"
 
-#: ../terminatorlib/prefseditor.py:100
+#: ../terminatorlib/prefseditor.py:112
 msgid "Close terminal"
 msgstr "关闭终端"
 
-#: ../terminatorlib/prefseditor.py:101
+#: ../terminatorlib/prefseditor.py:113
 msgid "Copy selected text"
 msgstr "复制所选的文本"
 
-#: ../terminatorlib/prefseditor.py:102
+#: ../terminatorlib/prefseditor.py:114
 msgid "Paste clipboard"
 msgstr "粘贴剪贴板"
 
-#: ../terminatorlib/prefseditor.py:103
+#: ../terminatorlib/prefseditor.py:115
 msgid "Show/Hide the scrollbar"
 msgstr "显示/隐藏滚动条"
 
-#: ../terminatorlib/prefseditor.py:104
+#: ../terminatorlib/prefseditor.py:116
 msgid "Search terminal scrollback"
 msgstr "回滚搜索终端"
 
-#: ../terminatorlib/prefseditor.py:105
+#: ../terminatorlib/prefseditor.py:117
 msgid "Scroll upwards one page"
 msgstr "向上滚动一页"
 
-#: ../terminatorlib/prefseditor.py:106
+#: ../terminatorlib/prefseditor.py:118
 msgid "Scroll downwards one page"
 msgstr "向下滚动一页"
 
-#: ../terminatorlib/prefseditor.py:107
+#: ../terminatorlib/prefseditor.py:119
 msgid "Scroll upwards half a page"
 msgstr "向上滚动半页"
 
-#: ../terminatorlib/prefseditor.py:108
+#: ../terminatorlib/prefseditor.py:120
 msgid "Scroll downwards half a page"
 msgstr "向下滚动半页"
 
-#: ../terminatorlib/prefseditor.py:109
+#: ../terminatorlib/prefseditor.py:121
 msgid "Scroll upwards one line"
 msgstr "向上滚动一行"
 
-#: ../terminatorlib/prefseditor.py:110
+#: ../terminatorlib/prefseditor.py:122
 msgid "Scroll downwards one line"
 msgstr "向下滚动一行"
 
-#: ../terminatorlib/prefseditor.py:111
+#: ../terminatorlib/prefseditor.py:123
 msgid "Close window"
 msgstr "关闭窗口"
 
-#: ../terminatorlib/prefseditor.py:112
+#: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
 msgstr "向上缩放终端"
 
-#: ../terminatorlib/prefseditor.py:113
+#: ../terminatorlib/prefseditor.py:125
 msgid "Resize the terminal down"
 msgstr "向下缩放终端"
 
-#: ../terminatorlib/prefseditor.py:114
+#: ../terminatorlib/prefseditor.py:126
 msgid "Resize the terminal left"
 msgstr "向左缩放终端"
 
-#: ../terminatorlib/prefseditor.py:115
+#: ../terminatorlib/prefseditor.py:127
 msgid "Resize the terminal right"
 msgstr "向右缩放终端"
 
-#: ../terminatorlib/prefseditor.py:116
+#: ../terminatorlib/prefseditor.py:128
 msgid "Move the tab right"
 msgstr "向右移动标签"
 
-#: ../terminatorlib/prefseditor.py:117
+#: ../terminatorlib/prefseditor.py:129
 msgid "Move the tab left"
 msgstr "向左移动标签"
 
-#: ../terminatorlib/prefseditor.py:118
+#: ../terminatorlib/prefseditor.py:130
 msgid "Maximize terminal"
 msgstr "最大化终端"
 
-#: ../terminatorlib/prefseditor.py:119
+#: ../terminatorlib/prefseditor.py:131
 msgid "Zoom terminal"
 msgstr "缩放终端"
 
-#: ../terminatorlib/prefseditor.py:120
+#: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the next tab"
 msgstr "切换到后一个标签页"
 
-#: ../terminatorlib/prefseditor.py:121
+#: ../terminatorlib/prefseditor.py:133
 msgid "Switch to the previous tab"
 msgstr "切换到前一个标签页"
 
-#: ../terminatorlib/prefseditor.py:122
+#: ../terminatorlib/prefseditor.py:134
 msgid "Switch to the first tab"
 msgstr "切换到第一个标签页"
 
-#: ../terminatorlib/prefseditor.py:123
+#: ../terminatorlib/prefseditor.py:135
 msgid "Switch to the second tab"
 msgstr "切换到第二个标签页"
 
-#: ../terminatorlib/prefseditor.py:124
+#: ../terminatorlib/prefseditor.py:136
 msgid "Switch to the third tab"
 msgstr "切换到第三个标签页"
 
-#: ../terminatorlib/prefseditor.py:125
+#: ../terminatorlib/prefseditor.py:137
 msgid "Switch to the fourth tab"
 msgstr "切换到第四个标签页"
 
-#: ../terminatorlib/prefseditor.py:126
+#: ../terminatorlib/prefseditor.py:138
 msgid "Switch to the fifth tab"
 msgstr "切换到第五个标签页"
 
-#: ../terminatorlib/prefseditor.py:127
+#: ../terminatorlib/prefseditor.py:139
 msgid "Switch to the sixth tab"
 msgstr "切换到第六个标签页"
 
-#: ../terminatorlib/prefseditor.py:128
+#: ../terminatorlib/prefseditor.py:140
 msgid "Switch to the seventh tab"
 msgstr "切换到第七个标签页"
 
-#: ../terminatorlib/prefseditor.py:129
+#: ../terminatorlib/prefseditor.py:141
 msgid "Switch to the eighth tab"
 msgstr "切换到第八个标签页"
 
-#: ../terminatorlib/prefseditor.py:130
+#: ../terminatorlib/prefseditor.py:142
 msgid "Switch to the ninth tab"
 msgstr "切换到第九个标签页"
 
-#: ../terminatorlib/prefseditor.py:131
+#: ../terminatorlib/prefseditor.py:143
 msgid "Switch to the tenth tab"
 msgstr "切换到第十个标签页"
 
-#: ../terminatorlib/prefseditor.py:132
+#: ../terminatorlib/prefseditor.py:144
 msgid "Toggle fullscreen"
 msgstr "切换全屏"
 
-#: ../terminatorlib/prefseditor.py:133
+#: ../terminatorlib/prefseditor.py:145
 msgid "Reset the terminal"
 msgstr "重置终端"
 
-#: ../terminatorlib/prefseditor.py:134
+#: ../terminatorlib/prefseditor.py:146
 msgid "Reset and clear the terminal"
 msgstr "重置并清空终端"
 
-#: ../terminatorlib/prefseditor.py:135
+#: ../terminatorlib/prefseditor.py:147
 msgid "Toggle window visibility"
 msgstr "切换窗口可见性"
 
-#: ../terminatorlib/prefseditor.py:136
+#: ../terminatorlib/prefseditor.py:148
 msgid "Group all terminals"
 msgstr "将所有终端合为一组"
 
-#: ../terminatorlib/prefseditor.py:137
+#: ../terminatorlib/prefseditor.py:149
 msgid "Group/Ungroup all terminals"
 msgstr "分组/解组所有终端"
 
-#: ../terminatorlib/prefseditor.py:138
+#: ../terminatorlib/prefseditor.py:150
 msgid "Ungroup all terminals"
 msgstr "解组所有终端"
 
-#: ../terminatorlib/prefseditor.py:139
+#: ../terminatorlib/prefseditor.py:151
 msgid "Group terminals in tab"
 msgstr "将标签页中的终端合为一组"
 
-#: ../terminatorlib/prefseditor.py:140
+#: ../terminatorlib/prefseditor.py:152
 msgid "Group/Ungroup terminals in tab"
 msgstr "分组/解组标签页中的终端"
 
-#: ../terminatorlib/prefseditor.py:141
+#: ../terminatorlib/prefseditor.py:153
 msgid "Ungroup terminals in tab"
 msgstr "解组所有标签页中的终端"
 
-#: ../terminatorlib/prefseditor.py:142
+#: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
 msgstr "创建一个新窗口"
 
-#: ../terminatorlib/prefseditor.py:143
+#: ../terminatorlib/prefseditor.py:155
 msgid "Spawn a new Terminator process"
 msgstr "启动一个新的Terminator进程"
 
-#: ../terminatorlib/prefseditor.py:144
+#: ../terminatorlib/prefseditor.py:156
 msgid "Don't broadcast key presses"
 msgstr "不要广播键入"
 
-#: ../terminatorlib/prefseditor.py:145
+#: ../terminatorlib/prefseditor.py:157
 msgid "Broadcast key presses to group"
 msgstr "广播键入到组"
 
-#: ../terminatorlib/prefseditor.py:146
+#: ../terminatorlib/prefseditor.py:158
 msgid "Broadcast key events to all"
 msgstr "广播键入到所有终端"
 
-#: ../terminatorlib/prefseditor.py:147
+#: ../terminatorlib/prefseditor.py:159
 msgid "Insert terminal number"
 msgstr "插入终端编号"
 
-#: ../terminatorlib/prefseditor.py:148
+#: ../terminatorlib/prefseditor.py:160
 msgid "Insert padded terminal number"
 msgstr "插入适当宽度的终端号"
 
-#: ../terminatorlib/prefseditor.py:149
+#: ../terminatorlib/prefseditor.py:161
 msgid "Edit window title"
 msgstr "编辑窗口标题"
 
-#: ../terminatorlib/prefseditor.py:150
+#: ../terminatorlib/prefseditor.py:162
 msgid "Edit terminal title"
 msgstr "编辑终端标题"
 
-#: ../terminatorlib/prefseditor.py:151
+#: ../terminatorlib/prefseditor.py:163
 msgid "Edit tab title"
 msgstr "编辑标签标题"
 
-#: ../terminatorlib/prefseditor.py:152
+#: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
 msgstr "打开布局启动器窗口"
 
-#: ../terminatorlib/prefseditor.py:153
+#: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
 msgstr "切换到下一个配置文件"
 
-#: ../terminatorlib/prefseditor.py:154
+#: ../terminatorlib/prefseditor.py:166
 msgid "Switch to previous profile"
 msgstr "切换到上一个配置文件"
 
-#: ../terminatorlib/prefseditor.py:155
+#: ../terminatorlib/prefseditor.py:167
 msgid "Open the manual"
 msgstr "打开手册"
 
-#: ../terminatorlib/prefseditor.py:1075 ../terminatorlib/prefseditor.py:1080
+#: ../terminatorlib/prefseditor.py:1136 ../terminatorlib/prefseditor.py:1141
 msgid "New Profile"
 msgstr "新配置"
 
-#: ../terminatorlib/prefseditor.py:1120 ../terminatorlib/prefseditor.py:1125
+#: ../terminatorlib/prefseditor.py:1181 ../terminatorlib/prefseditor.py:1186
 msgid "New Layout"
 msgstr "新布局"
 
 #. Label
-#: ../terminatorlib/searchbar.py:50
+#: ../terminatorlib/searchbar.py:52
 msgid "Search:"
 msgstr "搜索："
 
-#: ../terminatorlib/searchbar.py:66
+#: ../terminatorlib/searchbar.py:68
 msgid "Close Search bar"
 msgstr "关闭搜索栏"
 
 #. Next Button
-#: ../terminatorlib/searchbar.py:71
+#: ../terminatorlib/searchbar.py:73
 msgid "Next"
 msgstr "下一个"
 
 #. Previous Button
-#: ../terminatorlib/searchbar.py:77
+#: ../terminatorlib/searchbar.py:79
 msgid "Prev"
 msgstr "上一个"
 
 #. Wrap checkbox
-#: ../terminatorlib/searchbar.py:83
+#: ../terminatorlib/searchbar.py:85
 msgid "Wrap"
 msgstr "回绕"
 
-#: ../terminatorlib/searchbar.py:142
+#: ../terminatorlib/searchbar.py:144
 msgid "Searching scrollback"
 msgstr "回滚搜索"
 
-#: ../terminatorlib/searchbar.py:160 ../terminatorlib/searchbar.py:186
+#: ../terminatorlib/searchbar.py:162 ../terminatorlib/searchbar.py:188
 msgid "No more results"
 msgstr "无更多结果"
 
-#: ../terminatorlib/searchbar.py:201
+#: ../terminatorlib/searchbar.py:203
 msgid "Found at row"
 msgstr "在行中找到"
 
@@ -1608,77 +1609,77 @@ msgstr "用户定义"
 msgid "Other Encodings"
 msgstr "其他编码"
 
-#: ../terminatorlib/terminal.py:432
+#: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
 msgstr "新分组……(e)"
 
-#: ../terminatorlib/terminal.py:438
+#: ../terminatorlib/terminal.py:439
 msgid "_None"
 msgstr "无(_N)"
 
-#: ../terminatorlib/terminal.py:458
+#: ../terminatorlib/terminal.py:459
 #, python-format
 msgid "Remove group %s"
 msgstr "移除组 %s"
 
-#: ../terminatorlib/terminal.py:463
+#: ../terminatorlib/terminal.py:464
 msgid "G_roup all in tab"
 msgstr "将所有标签页中的终端合为一组(_R)"
 
-#: ../terminatorlib/terminal.py:468
+#: ../terminatorlib/terminal.py:469
 msgid "Ungro_up all in tab"
 msgstr "解散标签页中的分组(_U)"
 
-#: ../terminatorlib/terminal.py:473
+#: ../terminatorlib/terminal.py:474
 msgid "Remove all groups"
 msgstr "移除所有的组"
 
-#: ../terminatorlib/terminal.py:480
+#: ../terminatorlib/terminal.py:481
 #, python-format
 msgid "Close group %s"
 msgstr "关闭组 %s"
 
-#: ../terminatorlib/terminal.py:490
+#: ../terminatorlib/terminal.py:491
 msgid "Broadcast _all"
 msgstr "广播到所有(_A)"
 
-#: ../terminatorlib/terminal.py:491
+#: ../terminatorlib/terminal.py:492
 msgid "Broadcast _group"
 msgstr "广播到组(_G)"
 
-#: ../terminatorlib/terminal.py:492
+#: ../terminatorlib/terminal.py:493
 msgid "Broadcast _off"
 msgstr "不广播(_O)"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:509
 msgid "_Split to this group"
 msgstr "在组内分割(_S)"
 
-#: ../terminatorlib/terminal.py:513
+#: ../terminatorlib/terminal.py:514
 msgid "Auto_clean groups"
 msgstr "自动清理分组(_C)"
 
-#: ../terminatorlib/terminal.py:520
+#: ../terminatorlib/terminal.py:521
 msgid "_Insert terminal number"
 msgstr "插入终端编号(_I)"
 
-#: ../terminatorlib/terminal.py:524
+#: ../terminatorlib/terminal.py:525
 msgid "Insert _padded terminal number"
 msgstr "插入对齐的终端编号(_I)"
 
-#: ../terminatorlib/terminal.py:1380
+#: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"
 msgstr "无法找到shell"
 
-#: ../terminatorlib/terminal.py:1413
+#: ../terminatorlib/terminal.py:1427
 msgid "Unable to start shell:"
 msgstr "无法启动shell："
 
-#: ../terminatorlib/terminal.py:1834
+#: ../terminatorlib/terminal.py:1848
 msgid "Rename Window"
 msgstr "重命名窗口"
 
-#: ../terminatorlib/terminal.py:1842
+#: ../terminatorlib/terminal.py:1856
 msgid "Enter a new title for the Terminator window..."
 msgstr "输入新的Terminator窗口标题"
 
@@ -1778,14 +1779,39 @@ msgstr "Psi"
 msgid "Omega"
 msgstr "Omega"
 
-#: ../terminatorlib/window.py:274
+#: ../terminatorlib/window.py:276
 msgid "window"
 msgstr "窗口"
 
-#: ../terminatorlib/window.py:728
+#: ../terminatorlib/window.py:730
 #, python-format
 msgid "Tab %d"
 msgstr "标签 %d"
 
+#~ msgid "default"
+#~ msgstr "默认"
+
 #~ msgid "_Update login records when command is launched"
 #~ msgstr "执行命令时更新登录记录(_U)"
+
+#~ msgid ""
+#~ "<small><i><b>Note:</b> Terminal applications have these colors available to "
+#~ "them.</i></small>"
+#~ msgstr "<small><i><b>注意：</b>终端应用程序可用下列颜色。</i></small>"
+
+#~ msgid "Default:"
+#~ msgstr "默认："
+
+#~ msgid "<b>Encoding</b>"
+#~ msgstr "<b>编码</b>"
+
+#~ msgid ""
+#~ "<a "
+#~ "href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+#~ "\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
+#~ "<a href=\"https://launchpad.net/terminator\">Development</a>"
+#~ msgstr ""
+#~ "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">主页</a>\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/\">博客 / 动态</a>\n"
+#~ "<a href=\"https://launchpad.net/terminator\">开发</a>"
