@@ -13,6 +13,7 @@
 """
 
 from ctypes import *
+from ctypes.util import find_library
 
 class sockaddr_storage(Structure):
   """struct sockaddr_storage, defined in /usr/include/sys/socket.h"""
@@ -43,7 +44,7 @@ class kinfo_file(Structure):
       ('kf_sa_peer',       sockaddr_storage),
   ]
 
-libc = CDLL('libc.so')
+libc = CDLL(find_library('c'))
 
 uintlen = c_size_t(sizeof(c_uint))
 ver = c_uint(0)
