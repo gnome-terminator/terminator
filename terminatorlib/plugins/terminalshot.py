@@ -6,6 +6,7 @@ terminals"""
 
 import os
 from gi.repository import Gtk
+from gi.repository import GdkPixbuf
 import terminatorlib.plugin as plugin
 from terminatorlib.translation import _
 from terminatorlib.util import widget_pixbuf
@@ -44,7 +45,7 @@ class TerminalShot(plugin.MenuItem):
         pixbuf = orig_pixbuf.scale_simple(orig_pixbuf.get_width() / 2, 
                                      orig_pixbuf.get_height() / 2,
                                      GdkPixbuf.InterpType.BILINEAR)
-        image = Gtk.image_new_from_pixbuf(pixbuf)
+        image = Gtk.Image.new_from_pixbuf(pixbuf)
         savedialog.set_preview_widget(image)
 
         savedialog.show_all()
@@ -53,6 +54,6 @@ class TerminalShot(plugin.MenuItem):
         if response == Gtk.ResponseType.OK:
             path = os.path.join(savedialog.get_current_folder(),
                                 savedialog.get_filename())
-            orig_pixbuf.save(path, 'png')
+            orig_pixbuf.savev(path, 'png', [], [])
 
         savedialog.destroy()
