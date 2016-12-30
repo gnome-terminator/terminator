@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-12 14:21+0100\n"
-"PO-Revision-Date: 2015-08-16 04:10+0000\n"
-"Last-Translator: ub <xenolith0bytetestcomgreen@gmail.com>\n"
+"PO-Revision-Date: 2016-12-29 08:07+0000\n"
+"Last-Translator: Haruki BABA <bahaki386@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-12-13 05:53+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2016-12-30 04:58+0000\n"
+"X-Generator: Launchpad (build 18298)\n"
 "Language: ja\n"
 
 #. Command         uuid req.    Description
@@ -29,31 +29,31 @@ msgstr ""
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "現在のターミナルを水平分割"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "現在のターミナルを垂直分割"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "全ターミナルのリストを取得"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "親ウインドウのUUIDを取得"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "親ウインドウのタイトルを取得"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "親タブのUUIDを取得"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "親タブのタイトルを取得"
 
 #: ../remotinator.py:63
 #, python-format
