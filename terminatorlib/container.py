@@ -171,8 +171,15 @@ class Container(object):
         primary = Gtk.Label(label=_('<big><b>Close multiple terminals?</b></big>'))
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
-        secondary = Gtk.Label(label=_('This %s has several terminals open. Closing \
-the %s will also close all terminals within it.') % (reqtype, reqtype))
+        if reqtype == 'window':
+            label_text = _('This window has several terminals open. Closing \
+the window will also close all terminals within it.')
+        elif reqtype == 'tab':
+            label_text = _('This tab has several terminals open. Closing \
+the tab will also close all terminals within it.')
+        else:
+            label_text = ''
+        secondary = Gtk.Label(label=label_text)
         secondary.set_line_wrap(True)
                     
         labels = Gtk.VBox()
