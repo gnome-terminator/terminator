@@ -44,6 +44,7 @@ class Logger(plugin.MenuItem):
         """ Final function to write a file """
         content = terminal.get_text_range(row_start, col_start, row_end, col_end,
                                           lambda *a: True)
+        content = content[0]
         fd = self.loggers[terminal]["fd"]
         # Don't write the last char which is always '\n'
         fd.write(content[:-1])
