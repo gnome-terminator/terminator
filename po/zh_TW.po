@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-12 14:21+0100\n"
+"POT-Creation-Date: 2017-01-12 16:51+0100\n"
 "PO-Revision-Date: 2015-08-05 12:42+0000\n"
 "Last-Translator: Stephen Boddy <Unknown>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-12-13 05:54+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2017-01-13 06:38+0000\n"
+"X-Generator: Launchpad (build 18302)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -164,14 +164,19 @@ msgstr "關閉終端機(_T)"
 msgid "<big><b>Close multiple terminals?</b></big>"
 msgstr "<big><b>要關閉多個終端機嗎？</b></big>"
 
-#: ../terminatorlib/container.py:174
-#, python-format
+#: ../terminatorlib/container.py:175
 msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
-"terminals within it."
-msgstr "%s 已經開啟多個終端機，關閉 %s 將關閉其中的所有終端機。"
+"This window has several terminals open. Closing the window will also close "
+"all terminals within it."
+msgstr ""
 
-#: ../terminatorlib/container.py:191
+#: ../terminatorlib/container.py:178
+msgid ""
+"This tab has several terminals open. Closing the tab will also close all "
+"terminals within it."
+msgstr ""
+
+#: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
 msgstr "下次不再顯示此訊息"
 
@@ -336,7 +341,7 @@ msgstr ""
 msgid "tab"
 msgstr "分頁"
 
-#: ../terminatorlib/notebook.py:572
+#: ../terminatorlib/notebook.py:573
 msgid "Close Tab"
 msgstr "關閉分頁"
 
@@ -467,89 +472,89 @@ msgid "Custom Commands Configuration"
 msgstr "自訂指令設定"
 
 #: ../terminatorlib/plugins/custom_commands.py:124
-#: ../terminatorlib/plugins/custom_commands.py:270
+#: ../terminatorlib/plugins/custom_commands.py:273
 #: ../terminatorlib/plugins/logger.py:22
-#: ../terminatorlib/plugins/terminalshot.py:20
+#: ../terminatorlib/plugins/terminalshot.py:21
 msgid "_Cancel"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:125
-#: ../terminatorlib/plugins/custom_commands.py:271
+#: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:151
+#: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/plugins/custom_commands.py:160
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
 msgstr "指令"
 
-#: ../terminatorlib/plugins/custom_commands.py:173
+#: ../terminatorlib/plugins/custom_commands.py:174
 #: ../terminatorlib/preferences.glade.h:37
 msgid "Top"
 msgstr "上緣"
 
-#: ../terminatorlib/plugins/custom_commands.py:179
+#: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:185
+#: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:191
+#: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:197
+#: ../terminatorlib/plugins/custom_commands.py:198
 msgid "New"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:202
+#: ../terminatorlib/plugins/custom_commands.py:203
 msgid "Edit"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:208
+#: ../terminatorlib/plugins/custom_commands.py:209
 msgid "Delete"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:266
+#: ../terminatorlib/plugins/custom_commands.py:269
 msgid "New Command"
 msgstr "新指令"
 
-#: ../terminatorlib/plugins/custom_commands.py:276
+#: ../terminatorlib/plugins/custom_commands.py:280
 msgid "Enabled:"
 msgstr "已啟用"
 
-#: ../terminatorlib/plugins/custom_commands.py:282
+#: ../terminatorlib/plugins/custom_commands.py:286
 msgid "Name:"
 msgstr "名稱："
 
-#: ../terminatorlib/plugins/custom_commands.py:288
+#: ../terminatorlib/plugins/custom_commands.py:292
 msgid "Command:"
 msgstr "指令"
 
-#: ../terminatorlib/plugins/custom_commands.py:311
-#: ../terminatorlib/plugins/custom_commands.py:421
+#: ../terminatorlib/plugins/custom_commands.py:315
+#: ../terminatorlib/plugins/custom_commands.py:425
 msgid "You need to define a name and command"
 msgstr "您需要定義名稱和指令"
 
-#: ../terminatorlib/plugins/custom_commands.py:328
-#: ../terminatorlib/plugins/custom_commands.py:440
+#: ../terminatorlib/plugins/custom_commands.py:332
+#: ../terminatorlib/plugins/custom_commands.py:444
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "已經存在 *%s* ，名稱不可相同"
 
 #: ../terminatorlib/plugins/logger.py:23
-#: ../terminatorlib/plugins/terminalshot.py:21
+#: ../terminatorlib/plugins/terminalshot.py:22
 msgid "_Save"
 msgstr ""
 
@@ -561,15 +566,15 @@ msgstr "啟動日誌"
 msgid "Stop _Logger"
 msgstr "停止日誌"
 
-#: ../terminatorlib/plugins/logger.py:66
+#: ../terminatorlib/plugins/logger.py:67
 msgid "Save Log File As"
 msgstr "另存日誌檔"
 
-#: ../terminatorlib/plugins/terminalshot.py:28
+#: ../terminatorlib/plugins/terminalshot.py:29
 msgid "Terminal _screenshot"
 msgstr ""
 
-#: ../terminatorlib/plugins/terminalshot.py:37
+#: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
 msgstr ""
 
@@ -1774,6 +1779,12 @@ msgstr "視窗"
 #, python-format
 msgid "Tab %d"
 msgstr "分頁 %d"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open. Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr "%s 已經開啟多個終端機，關閉 %s 將關閉其中的所有終端機。"
 
 #~ msgid "default"
 #~ msgstr "預設值"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-12 14:21+0100\n"
+"POT-Creation-Date: 2017-01-12 16:51+0100\n"
 "PO-Revision-Date: 2015-08-05 12:35+0000\n"
 "Last-Translator: Cédric VALMARY (Tot en òc) <cvalmary@yahoo.fr>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-12-13 05:53+0000\n"
-"X-Generator: Launchpad (build 18293)\n"
+"X-Launchpad-Export-Date: 2017-01-13 06:37+0000\n"
+"X-Generator: Launchpad (build 18302)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -161,16 +161,19 @@ msgstr "Tampar los _Terminals"
 msgid "<big><b>Close multiple terminals?</b></big>"
 msgstr "<big><b>Tampar totes los Terminals ?</b></big>"
 
-#: ../terminatorlib/container.py:174
-#, python-format
+#: ../terminatorlib/container.py:175
 msgid ""
-"This %s has several terminals open. Closing the %s will also close all "
+"This window has several terminals open. Closing the window will also close "
+"all terminals within it."
+msgstr ""
+
+#: ../terminatorlib/container.py:178
+msgid ""
+"This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
 msgstr ""
-"Aqueste %s a mantun terminal dobèrts. En arrestant lo %s aquò tamparà tanben "
-"totes los terminals"
 
-#: ../terminatorlib/container.py:191
+#: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
 msgstr ""
 
@@ -335,7 +338,7 @@ msgstr "Aviar"
 msgid "tab"
 msgstr "tabulacion"
 
-#: ../terminatorlib/notebook.py:572
+#: ../terminatorlib/notebook.py:573
 msgid "Close Tab"
 msgstr "Tampar l'onglet"
 
@@ -466,89 +469,89 @@ msgid "Custom Commands Configuration"
 msgstr "Configuracion de las comandas personalizadas"
 
 #: ../terminatorlib/plugins/custom_commands.py:124
-#: ../terminatorlib/plugins/custom_commands.py:270
+#: ../terminatorlib/plugins/custom_commands.py:273
 #: ../terminatorlib/plugins/logger.py:22
-#: ../terminatorlib/plugins/terminalshot.py:20
+#: ../terminatorlib/plugins/terminalshot.py:21
 msgid "_Cancel"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:125
-#: ../terminatorlib/plugins/custom_commands.py:271
+#: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:151
+#: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:155
+#: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:159
+#: ../terminatorlib/plugins/custom_commands.py:160
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:173
+#: ../terminatorlib/plugins/custom_commands.py:174
 #: ../terminatorlib/preferences.glade.h:37
 msgid "Top"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:179
+#: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:185
+#: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:191
+#: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:197
+#: ../terminatorlib/plugins/custom_commands.py:198
 msgid "New"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:202
+#: ../terminatorlib/plugins/custom_commands.py:203
 msgid "Edit"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:208
+#: ../terminatorlib/plugins/custom_commands.py:209
 msgid "Delete"
 msgstr ""
 
-#: ../terminatorlib/plugins/custom_commands.py:266
+#: ../terminatorlib/plugins/custom_commands.py:269
 msgid "New Command"
 msgstr "Comanda novèla"
 
-#: ../terminatorlib/plugins/custom_commands.py:276
+#: ../terminatorlib/plugins/custom_commands.py:280
 msgid "Enabled:"
 msgstr "Activat :"
 
-#: ../terminatorlib/plugins/custom_commands.py:282
+#: ../terminatorlib/plugins/custom_commands.py:286
 msgid "Name:"
 msgstr "Nom :"
 
-#: ../terminatorlib/plugins/custom_commands.py:288
+#: ../terminatorlib/plugins/custom_commands.py:292
 msgid "Command:"
 msgstr "Comanda :"
 
-#: ../terminatorlib/plugins/custom_commands.py:311
-#: ../terminatorlib/plugins/custom_commands.py:421
+#: ../terminatorlib/plugins/custom_commands.py:315
+#: ../terminatorlib/plugins/custom_commands.py:425
 msgid "You need to define a name and command"
 msgstr "Vos cal definir un nom e una comanda"
 
-#: ../terminatorlib/plugins/custom_commands.py:328
-#: ../terminatorlib/plugins/custom_commands.py:440
+#: ../terminatorlib/plugins/custom_commands.py:332
+#: ../terminatorlib/plugins/custom_commands.py:444
 #, python-format
 msgid "Name *%s* already exist"
 msgstr "Lo nom *%s* existís ja"
 
 #: ../terminatorlib/plugins/logger.py:23
-#: ../terminatorlib/plugins/terminalshot.py:21
+#: ../terminatorlib/plugins/terminalshot.py:22
 msgid "_Save"
 msgstr ""
 
@@ -560,15 +563,15 @@ msgstr ""
 msgid "Stop _Logger"
 msgstr ""
 
-#: ../terminatorlib/plugins/logger.py:66
+#: ../terminatorlib/plugins/logger.py:67
 msgid "Save Log File As"
 msgstr ""
 
-#: ../terminatorlib/plugins/terminalshot.py:28
+#: ../terminatorlib/plugins/terminalshot.py:29
 msgid "Terminal _screenshot"
 msgstr ""
 
-#: ../terminatorlib/plugins/terminalshot.py:37
+#: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
 msgstr ""
 
@@ -1773,3 +1776,11 @@ msgstr "fenèstra"
 #, python-format
 msgid "Tab %d"
 msgstr "Tablèu %d"
+
+#, python-format
+#~ msgid ""
+#~ "This %s has several terminals open. Closing the %s will also close all "
+#~ "terminals within it."
+#~ msgstr ""
+#~ "Aqueste %s a mantun terminal dobèrts. En arrestant lo %s aquò tamparà tanben "
+#~ "totes los terminals"
