@@ -453,7 +453,7 @@ class Terminal(Gtk.VBox):
                 cnx[0].connect(cnx[1], cnx[2], cnx[3])
 
         if self.group != None or len(self.terminator.groups) > 0:
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
         if self.group != None:
             item = Gtk.MenuItem(_('Remove group %s') % self.group)
@@ -476,14 +476,14 @@ class Terminal(Gtk.VBox):
             menu.append(item)
 
         if self.group != None:
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
             item = Gtk.MenuItem(_('Close group %s') % self.group)
             item.connect('activate', lambda x:
                          self.terminator.closegroupedterms(self.group))
             menu.append(item)
 
-        menu.append(Gtk.MenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
 
         groupitems = []
         cnxs = []
@@ -504,7 +504,7 @@ class Terminal(Gtk.VBox):
         for cnx in cnxs:
             cnx[0].connect(cnx[1], cnx[2], cnx[3])
 
-        menu.append(Gtk.MenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
 
         item = Gtk.CheckMenuItem.new_with_mnemonic(_('_Split to this group'))
         item.set_active(self.config['split_to_group'])
@@ -516,7 +516,7 @@ class Terminal(Gtk.VBox):
         item.connect('toggled', lambda x: self.do_autocleangroups_toggle())
         menu.append(item)
 
-        menu.append(Gtk.MenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
 
         item = Gtk.MenuItem.new_with_mnemonic(_('_Insert terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', False))

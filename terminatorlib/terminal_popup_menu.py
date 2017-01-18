@@ -97,7 +97,7 @@ class TerminalPopupMenu(object):
                          lambda x: terminal.clipboard.set_text(terminal.prepare_url(url), len(terminal.prepare_url(url))))
             menu.append(item)
 
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
         item = Gtk.ImageMenuItem.new_with_mnemonic(_('_Copy'))
         item.connect('activate', lambda x: terminal.vte.copy_clipboard())
@@ -108,7 +108,7 @@ class TerminalPopupMenu(object):
         item.connect('activate', lambda x: terminal.paste_clipboard())
         menu.append(item)
 
-        menu.append(Gtk.MenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
 
         if not terminal.is_zoomed():
             item = Gtk.ImageMenuItem.new_with_mnemonic(_('Split H_orizontally'))
@@ -142,13 +142,13 @@ class TerminalPopupMenu(object):
                         terminal.emit('tab-new', True, terminal))
                 menu.append(item)
 
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
         item = Gtk.ImageMenuItem.new_with_mnemonic(_('_Close'))
         item.connect('activate', lambda x: terminal.close())
         menu.append(item)
 
-        menu.append(Gtk.MenuItem())
+        menu.append(Gtk.SeparatorMenuItem())
 
         if not terminal.is_zoomed():
             sensitive = not terminal.get_toplevel() == terminal.get_parent()
@@ -163,13 +163,13 @@ class TerminalPopupMenu(object):
             item.set_sensitive(sensitive)
             menu.append(item)
 
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
         else:
             item = Gtk.MenuItem.new_with_mnemonic(_('_Restore all terminals'))
             item.connect('activate', terminal.unzoom)
             menu.append(item)
 
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
         if self.config['show_titlebar'] == False:
             item = Gtk.MenuItem.new_with_mnemonic(_('Grouping'))
@@ -177,7 +177,7 @@ class TerminalPopupMenu(object):
             submenu.show_all()
             item.set_submenu(submenu)
             menu.append(item)
-            menu.append(Gtk.MenuItem())
+            menu.append(Gtk.SeparatorMenuItem())
 
         item = Gtk.CheckMenuItem.new_with_mnemonic(_('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
@@ -219,7 +219,7 @@ class TerminalPopupMenu(object):
                 menuplugin.callback(menuitems, menu, terminal)
             
             if len(menuitems) > 0:
-                menu.append(Gtk.MenuItem())
+                menu.append(Gtk.SeparatorMenuItem())
 
             for menuitem in menuitems:
                 menu.append(menuitem)
