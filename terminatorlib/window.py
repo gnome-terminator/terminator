@@ -127,7 +127,7 @@ class Window(Container, Gtk.Window):
             if display_manager() == 'X11':
                 try:
                     self.hidebound = Keybinder.bind(
-                        self.config['keybindings']['hide_window'],
+                        self.config['keybindings']['hide_window'].replace('<Shift>',''),
                         self.on_hide_window)
                 except (KeyError, NameError):
                     pass
