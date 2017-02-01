@@ -487,7 +487,8 @@ class Terminator(Borg):
         css = ""
         if self.config['handle_size'] in xrange(0, 21):
             css += """
-                .terminator-terminal-window GtkPaned {
+                .terminator-terminal-window GtkPaned,
+                .terminator-terminal-window paned {
                     -GtkPaned-handle-size: %s; }
                 """ % self.config['handle_size']
         style_provider = Gtk.CssProvider()
