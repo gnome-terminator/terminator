@@ -656,6 +656,16 @@ class ConfigBase(Borg):
                        parser[section_name][layout] == {}:
                            continue
                     section[layout] = parser[section_name][layout]
+            elif section_name == 'keybindings':
+                if not parser.has_key(section_name):
+                    continue
+                for part in parser[section_name]:
+                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
+                                                                 part))
+                    if parser[section_name][part] == 'None':
+                        section[part] = None
+                    else:
+                        section[part] = parser[section_name][part]
             else:
                 try:
                     section.update(parser[section_name])
