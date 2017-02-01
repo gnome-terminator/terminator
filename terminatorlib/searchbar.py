@@ -212,7 +212,7 @@ class Searchbar(Gtk.HBox):
     def get_vte_buffer_range(self):
         """Get the range of a vte widget"""
         column, endrow = self.vte.get_cursor_position()
-        if self.config['scrollback_lines'] < 0:
+        if self.config['scrollback_infinite']:
             startrow = 0
         else:
             startrow = max(0, endrow - self.config['scrollback_lines'])
