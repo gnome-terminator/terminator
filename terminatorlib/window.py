@@ -310,9 +310,6 @@ class Window(Container, Gtk.Window):
                 t = GdkX11.x11_get_server_time(self.window)
             except AttributeError:
                 t = 0
-            print t
-            print self
-            print self.window
             self.window.focus(t)
         else:
             self.position = self.get_position()
