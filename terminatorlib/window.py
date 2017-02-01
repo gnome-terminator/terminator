@@ -270,8 +270,11 @@ class Window(Container, Gtk.Window):
         """Handle a window close request"""
         maker = Factory()
         if maker.isinstance(self.get_child(), 'Terminal'):
-            dbg('Window::on_delete_event: Only one child, closing is fine')
-            return(False)
+            if self.get_property('term_zoomed') == True:
+                return(self.confirm_close(window, _('window')))
+            else:
+                dbg('Window::on_delete_event: Only one child, closing is fine')
+                return(False)
         elif maker.isinstance(self.get_child(), 'Container'):
             return(self.confirm_close(window, _('window')))
         else:
