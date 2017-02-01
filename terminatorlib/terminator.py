@@ -404,7 +404,8 @@ class Terminator(Borg):
             .terminator-terminal-window {
                 background-color: alpha(@theme_bg_color,0); }
 
-            .terminator-terminal-window .notebook.header {
+            .terminator-terminal-window .notebook.header,
+            .terminator-terminal-window notebook header {
                 background-color: @theme_bg_color; }
 
             .terminator-terminal-window .pane-separator {
@@ -417,7 +418,8 @@ class Terminator(Borg):
         # Fix several themes that put a borders, corners, or backgrounds around
         # viewports, making the titlebar look bad.
         css += """
-            .terminator-terminal-window GtkViewport {
+            .terminator-terminal-window GtkViewport,
+            .terminator-terminal-window viewport {
                 border-width: 0px;
                 border-radius: 0px;
                 background-color: transparent; }
@@ -485,7 +487,8 @@ class Terminator(Borg):
         css = ""
         if self.config['handle_size'] in xrange(0, 21):
             css += """
-                .terminator-terminal-window GtkPaned {
+                .terminator-terminal-window GtkPaned,
+                .terminator-terminal-window paned {
                     -GtkPaned-handle-size: %s; }
                 """ % self.config['handle_size']
         style_provider = Gtk.CssProvider()
