@@ -82,8 +82,9 @@ class Keybindings:
                             mask &= ~Gdk.ModifierType.SHIFT_MASK
                         else:
                             keyvals = Gdk.keyval_convert_case(keyval)
-                            keyval = keyvals[1]
-                            mask &= ~Gdk.ModifierType.SHIFT_MASK
+                            if keyvals[0] != keyvals[1]:
+                                keyval = keyvals[1]
+                                mask &= ~Gdk.ModifierType.SHIFT_MASK
                     else:
                         keyval = Gdk.keyval_to_lower(keyval)
                     self._lookup.setdefault(mask, {})
