@@ -237,6 +237,7 @@ class Terminator(Borg):
         objects = {}
 
         self.doing_layout = True
+        self.last_active_window = None
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
         if not layout:
