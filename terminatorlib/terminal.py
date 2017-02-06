@@ -330,7 +330,7 @@ class Terminal(Gtk.VBox):
         del(self.matches[name])
 
     def maybe_copy_clipboard(self):
-        if self.config['copy_on_selection']:
+        if self.config['copy_on_selection'] and self.vte.get_has_selection():
             self.vte.copy_clipboard()
 
     def connect_signals(self):
