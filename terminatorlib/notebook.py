@@ -5,6 +5,7 @@
 
 from gi.repository import GObject
 from gi.repository import Gtk
+from gi.repository import Gdk
 from gi.repository import Gio
 
 from terminator import Terminator
@@ -35,6 +36,7 @@ class Notebook(Container, Gtk.Notebook):
         GObject.type_register(Notebook)
         self.register_signals(Notebook)
         self.connect('switch-page', self.deferred_on_tab_switch)
+        self.connect('scroll-event', self.on_scroll_event)
         self.configure()
 
         child = window.get_child()
@@ -487,6 +489,55 @@ class Notebook(Container, Gtk.Notebook):
         if tabs_last_active_term:
             term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
             GObject.idle_add(term.ensure_visible_and_focussed)
+        return True
+
+    def on_scroll_event(self, notebook, event):
+        '''Handle scroll events for scrolling through tabs'''
+        #print "self: %s" % self
+        #print "event: %s" % event
+        child = self.get_nth_page(self.get_current_page())
+        if child == None:
+            print "Child = None,  return false"
+            return False
+
+        event_widget = Gtk.get_event_widget(event)
+        
+        if event_widget == None or \
+           event_widget == child or \
+           event_widget.is_ancestor(child):
+            print "event_widget is wrong one,  return false"
+            return False
+
+        # Not sure if we need these. I don't think wehave any action widgets
+        # at this point.
+        action_widget = self.get_action_widget(Gtk.PackType.START)
+        if event_widget == action_widget or \
+           (action_widget != None and event_widget.is_ancestor(action_widget)):
+            return False
+        action_widget = self.get_action_widget(Gtk.PackType.END)
+        if event_widget == action_widget or \
+           (action_widget != None and event_widget.is_ancestor(action_widget)):
+            return False
+
+        if event.direction in [Gdk.ScrollDirection.RIGHT,
+                               Gdk.ScrollDirection.DOWN]:
+            self.next_page()
+        elif event.direction in [Gdk.ScrollDirection.LEFT,
+                                 Gdk.ScrollDirection.UP]:
+            self.prev_page()
+        elif event.direction == Gdk.ScrollDirection.SMOOTH:
+            if self.get_tab_pos() in [Gtk.PositionType.LEFT,
+                                      Gtk.PositionType.RIGHT]:
+                if event.delta_y > 0:
+                    self.next_page()
+                elif event.delta_y < 0:
+                    self.prev_page()
+            elif self.get_tab_pos() in [Gtk.PositionType.TOP,
+                                        Gtk.PositionType.BOTTOM]:
+                if event.delta_x > 0:
+                    self.next_page()
+                elif event.delta_x < 0:
+                    self.prev_page()
         return True
 
 class TabLabel(Gtk.HBox):
