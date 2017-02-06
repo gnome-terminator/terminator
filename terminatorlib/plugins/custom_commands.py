@@ -58,6 +58,7 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
+        submenus = {}
         item = Gtk.MenuItem.new_with_mnemonic(_('_Custom Commands'))
         menuitems.append(item)
 
@@ -77,16 +78,30 @@ class CustomCommandsMenu(plugin.MenuItem):
             continue
           exe = command['command'].split(' ')[0]
           iconinfo = theme.choose_icon([exe], Gtk.IconSize.MENU, Gtk.IconLookupFlags.USE_BUILTIN)
+          leaf_name = command['name'].split('/')[-1]
+          branch_names = command['name'].split('/')[:-1]
+          target_submenu = submenu
+          parent_submenu = submenu
+          for idx in range(len(branch_names)):
+            lookup_name = '/'.join(branch_names[0:idx+1])
+            target_submenu = submenus.get(lookup_name, None)
+            if not target_submenu:
+              item = Gtk.MenuItem(_(branch_names[idx]))
+              parent_submenu.append(item)
+              target_submenu = Gtk.Menu()
+              item.set_submenu(target_submenu)
+              submenus[lookup_name] = target_submenu
+            parent_submenu = target_submenu
           if iconinfo:
             image = Gtk.Image()
             image.set_from_icon_name(exe, Gtk.IconSize.MENU)
-            menuitem = Gtk.ImageMenuItem(command['name'])
+            menuitem = Gtk.ImageMenuItem(leaf_name)
             menuitem.set_image(image)
           else:
-            menuitem = Gtk.MenuItem(command["name"])
+            menuitem = Gtk.MenuItem(leaf_name)
           terminals = terminal.terminator.get_target_terms(terminal)
           menuitem.connect("activate", self._execute, {'terminals' : terminals, 'command' : command['command'] })
-          submenu.append(menuitem)
+          target_submenu.append(menuitem)
         
     def _save_config(self):
       config = Config()
