@@ -89,6 +89,8 @@ if __name__ == '__main__':
                 # get rid of the None and True types so dbus can handle them (empty
                 # and 'True' strings are used instead), also arrays are joined 
                 # (the -x argument for example)
+                if OPTIONS.working_directory is None:
+                    OPTIONS.working_directory = ORIGCWD
                 optionslist = {}
                 for opt, val in OPTIONS.__dict__.items():
                     if type(val) == type([]):
