@@ -1189,8 +1189,7 @@ class PrefsEditor:
             res = model.append([name, True])
             if res:
                 path = model.get_path(res)
-                treeview.set_cursor(path, focus_column=treeview.get_column(0),
-                                    start_editing=True)
+                treeview.set_cursor(path, start_editing=True)
 
         self.config.save()
 
