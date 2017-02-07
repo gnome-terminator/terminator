@@ -23,8 +23,8 @@ if display_manager() == 'X11':
         gi.require_version('Keybinder', '3.0')
         from gi.repository import Keybinder
         Keybinder.init()
-    except ImportError:
-        err('Warning: python-keybinder is not installed. This means the \
+    except (ImportError, ValueError):
+        err('Unable to load Keybinder module. This means the \
 hide_window shortcut will be unavailable')
 
 # pylint: disable-msg=R0904

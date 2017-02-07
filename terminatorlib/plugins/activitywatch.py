@@ -21,8 +21,8 @@ try:
     # This is inside this try so we only make the plugin available if pynotify
     #  is present on this computer.
     AVAILABLE = ['ActivityWatch', 'InactivityWatch']
-except ImportError:
-    err(_('ActivityWatch plugin unavailable: please install python-notify'))
+except (ImportError, ValueError):
+    err('ActivityWatch plugin unavailable as we cannot import Notify')
 
 config = Config()
 inactive_period = float(config.plugin_get('InactivityWatch', 'inactive_period',
