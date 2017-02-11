@@ -127,6 +127,7 @@ class Container(object):
             return(False)
 
         self.terminator.deregister_terminal(widget)
+        widget.close()
         self.terminator.group_hoover()
         return(True)
 

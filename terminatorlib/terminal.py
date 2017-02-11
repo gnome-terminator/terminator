@@ -224,7 +224,7 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
-        self.cnxids.remove_signal(self.vte, 'child-exited')
+        self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         try:
             dbg('close: killing %d' % self.pid)
@@ -234,6 +234,10 @@ class Terminal(Gtk.VBox):
             # not what we should be doing.
             dbg('os.kill failed: %s' % ex)
             pass
+
+        if self.vte:
+            self.terminalbox.remove(self.vte)
+            del(self.vte)
 
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
@@ -338,10 +342,10 @@ class Terminal(Gtk.VBox):
 
         self.scrollbar.connect('button-press-event', self.on_buttonpress)
 
-        self.vte.connect('key-press-event', self.on_keypress)
-        self.vte.connect('button-press-event', self.on_buttonpress)
-        self.vte.connect('scroll-event', self.on_mousewheel)
-        self.vte.connect('popup-menu', self.popup_menu)
+        self.cnxids.new(self.vte, 'key-press-event', self.on_keypress)
+        self.cnxids.new(self.vte, 'button-press-event', self.on_buttonpress)
+        self.cnxids.new(self.vte, 'scroll-event', self.on_mousewheel)
+        self.cnxids.new(self.vte, 'popup-menu', self.popup_menu)
 
         srcvtetargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE)]
         dsttargets = [("vte", Gtk.TargetFlags.SAME_APP, self.TARGET_TYPE_VTE), 
@@ -383,29 +387,29 @@ class Terminal(Gtk.VBox):
                 dsttargets, Gdk.DragAction.COPY | Gdk.DragAction.MOVE)
 
         for widget in [self.vte, self.titlebar]:
-            widget.connect('drag-begin', self.on_drag_begin, self)
-            widget.connect('drag-data-get', self.on_drag_data_get,
+            self.cnxids.new(widget, 'drag-begin', self.on_drag_begin, self)
+            self.cnxids.new(widget, 'drag-data-get', self.on_drag_data_get,
             self)
 
-        self.vte.connect('drag-motion', self.on_drag_motion, self)
-        self.vte.connect('drag-data-received',
+        self.cnxids.new(self.vte, 'drag-motion', self.on_drag_motion, self)
+        self.cnxids.new(self.vte, 'drag-data-received',
             self.on_drag_data_received, self)
 
         self.cnxids.new(self.vte, 'selection-changed', 
             lambda widget: self.maybe_copy_clipboard())
 
         if self.composite_support:
-            self.vte.connect('composited-changed', self.reconfigure)
+            self.cnxids.new(self.vte, 'composited-changed', self.reconfigure)
 
-        self.vte.connect('window-title-changed', lambda x:
+        self.cnxids.new(self.vte, 'window-title-changed', lambda x:
             self.emit('title-change', self.get_window_title()))
-        self.vte.connect('grab-focus', self.on_vte_focus)
-        self.vte.connect('focus-in-event', self.on_vte_focus_in)
-        self.vte.connect('focus-out-event', self.on_vte_focus_out)
-        self.vte.connect('size-allocate', self.deferred_on_vte_size_allocate)
+        self.cnxids.new(self.vte, 'grab-focus', self.on_vte_focus)
+        self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
+        self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
+        self.cnxids.new(self.vte, 'size-allocate', self.deferred_on_vte_size_allocate)
 
         self.vte.add_events(Gdk.EventMask.ENTER_NOTIFY_MASK)
-        self.vte.connect('enter_notify_event',
+        self.cnxids.new(self.vte, 'enter_notify_event',
             self.on_vte_notify_enter)
 
         self.cnxids.new(self.vte, 'realize', self.reconfigure)
