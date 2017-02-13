@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-02-12 02:24+0000\n"
+"PO-Revision-Date: 2017-02-12 23:32+0000\n"
 "Last-Translator: Rokar <Unknown>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-02-12 06:24+0000\n"
+"X-Launchpad-Export-Date: 2017-02-13 06:00+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 
 #. Command         uuid req.    Description
@@ -849,11 +849,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Font color:"
-msgstr ""
+msgstr "Rengê nivîsê:"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Background:"
-msgstr ""
+msgstr "Rûerd:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Focused"
@@ -861,11 +861,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Inactive"
-msgstr ""
+msgstr "Neçalak"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Receiving"
-msgstr ""
+msgstr "Tê wergirtin"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Hide size from title"
@@ -877,7 +877,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "_Font:"
-msgstr ""
+msgstr "_Cureyê nivîsê:"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Titlebar Font"
@@ -885,23 +885,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "Global"
-msgstr ""
+msgstr "Gerdûnî"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "Profile"
-msgstr ""
+msgstr "Profîl"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "Bi curenivîsan re peytandiya pergalê bi kar bîne"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Ji Bo Termînalê Curenivîsekê Hilbijêre"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "_Allow bold text"
-msgstr ""
+msgstr "_Destûrê bide nivîsa stûr"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Show titlebar"
