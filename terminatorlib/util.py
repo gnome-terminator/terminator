@@ -17,13 +17,20 @@
 """Terminator.util - misc utility functions"""
 
 import sys
-from gi.repository import Gtk, Gdk
 import cairo
 import os
 import pwd
 import inspect
 import uuid
 import subprocess
+import gi
+
+try:
+    gi.require_version('Gtk','3.0')
+    from gi.repository import Gtk, Gdk
+except ImportError:
+    print('You need Gtk 3.0+ to run Remotinator.')
+    sys.exit(1)
 
 # set this to true to enable debugging output
 DEBUG = False
