@@ -51,10 +51,12 @@ class Paned(Container):
         if not sibling:
             sibling = self.maker.make('terminal')
             sibling.set_cwd(cwd)
+            if self.config['always_split_with_profile']:
+                sibling.force_set_profile(None, widget.get_profile())
             sibling.spawn_child()
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
-        if self.config['always_split_with_profile']:
+        elif self.config['always_split_with_profile']:
             sibling.force_set_profile(None, widget.get_profile())
 
         self.add(container)
