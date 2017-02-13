@@ -89,6 +89,7 @@ class Terminal(Gtk.VBox):
     pid = None
 
     matches = None
+    regex_flags = None
     config = None
     default_encoding = None
     custom_encoding = None
@@ -142,6 +143,8 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
+        self.regex_flags = (GLib.RegexCompileFlags.OPTIMIZE | \
+                            GLib.RegexCompileFlags.MULTILINE)
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
@@ -268,7 +271,7 @@ class Terminal(Gtk.VBox):
         re = (lboundry + schemes +
                 "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + 
                 urlpath + ")?" + rboundry + "/?")
-        reg = GLib.Regex.new(re, GLib.RegexCompileFlags.OPTIMIZE, 0)
+        reg = GLib.Regex.new(re, self.regex_flags, 0)
         self.matches['full_uri'] = self.vte.match_add_gregex(reg, 0)
 
         if self.matches['full_uri'] == -1:
@@ -278,23 +281,23 @@ class Terminal(Gtk.VBox):
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
                     userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" + 
                     rboundry)
-            reg = GLib.Regex.new(re, GLib.RegexCompileFlags.OPTIMIZE, 0)
+            reg = GLib.Regex.new(re, self.regex_flags, 0)
             self.matches['voip'] = self.vte.match_add_gregex(reg, 0)
             re = (lboundry +
                     "(www|ftp)[" + hostchars + "]*\.[" + hostchars + 
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-            reg = GLib.Regex.new(re, GLib.RegexCompileFlags.OPTIMIZE, 0)
+            reg = GLib.Regex.new(re, self.regex_flags, 0)
             self.matches['addr_only'] = self.vte.match_add_gregex(reg, 0)
             re = (lboundry +
                     "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]" +
                             "[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+" +
                             "[.a-zA-Z0-9-]*" + rboundry)
-            reg = GLib.Regex.new(re, GLib.RegexCompileFlags.OPTIMIZE, 0)
+            reg = GLib.Regex.new(re, self.regex_flags, 0)
             self.matches['email'] = self.vte.match_add_gregex(reg, 0)
             re = (lboundry +
                   """news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@""" +
                             "[-A-Za-z0-9.]+(:[0-9]+)?" + rboundry)
-            reg = GLib.Regex.new(re, GLib.RegexCompileFlags.OPTIMIZE, 0)
+            reg = GLib.Regex.new(re, self.regex_flags, 0)
             self.matches['nntp'] = self.vte.match_add_gregex(reg, 0)
 
             # Now add any matches from plugins
@@ -309,7 +312,7 @@ class Terminal(Gtk.VBox):
                     if name in self.matches:
                         dbg('refusing to add duplicate match %s' % name)
                         continue
-                    reg = GLib.Regex.new(match, GLib.RegexCompileFlags.OPTIMIZE, 0)
+                    reg = GLib.Regex.new(match, self.regex_flags, 0)
                     self.matches[name] = self.vte.match_add_gregex(reg, 0)
                     dbg('added plugin URL handler for %s (%s) as %d' % 
                         (name, urlplugin.__class__.__name__,
@@ -322,7 +325,7 @@ class Terminal(Gtk.VBox):
         if name in self.matches:
             err('Terminal::match_add: Refusing to create duplicate match %s' % name)
             return
-        reg = GLib.Regex.new(match, GLib.RegexCompileFlags.OPTIMIZE, 0)
+        reg = GLib.Regex.new(match, self.regex_flags, 0)
         self.matches[name] = self.vte.match_add_gregex(reg, 0)
 
     def match_remove(self, name):
