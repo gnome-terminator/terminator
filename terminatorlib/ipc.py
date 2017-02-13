@@ -23,7 +23,7 @@ BUS_BASE = 'net.tenshu.Terminator2'
 BUS_PATH = '/net/tenshu/Terminator2'
 try:
     # Try and include the X11 display name in the dbus bus name
-    DISPLAY  = hex(hash(Gdk.get_display())).replace('-', '_')
+    DISPLAY  = hex(hash(Gdk.get_display().partition('.')[0]))
     BUS_NAME = '%s%s' % (BUS_BASE, DISPLAY)
 except:
     BUS_NAME = BUS_BASE
