@@ -8,6 +8,7 @@ import os
 import gi
 gi.require_version('Vte', '2.91')
 from gi.repository import Gtk, Gdk, Vte
+from gi.repository.GLib import GError
 
 import borg
 from borg import Borg
@@ -480,7 +481,16 @@ class Terminator(Borg):
                                                           theme_part_file)
                 if os.path.isfile(path_to_theme_specific_css):
                     style_provider = Gtk.CssProvider()
-                    style_provider.load_from_path(path_to_theme_specific_css)
+                    style_provider.connect('parsing-error', self.on_css_parsing_error)
+                    try:
+                        style_provider.load_from_path(path_to_theme_specific_css)
+                    except GError:
+                        # Hmmm. Should we try to provide GTK version specific files here on failure?
+                        gtk_version_string = '.'.join([str(Gtk.get_major_version()),
+                                                       str(Gtk.get_minor_version()),
+                                                       str(Gtk.get_micro_version())])
+                        err('Error(s) loading css from %s into Gtk %s' % (path_to_theme_specific_css,
+                                                                          gtk_version_string))
                     self.style_providers.append(style_provider)
                     break
 
@@ -517,6 +527,15 @@ class Terminator(Borg):
             child = window.get_child()
             if maker.isinstance(child, 'Notebook'):
                 child.configure()
+
+    def on_css_parsing_error(self, provider, section, error, user_data=None):
+        """Report CSS parsing issues"""
+        file_path = section.get_file().get_path()
+        line_no = section.get_end_line() +1
+        col_no = section.get_end_position() + 1
+        err('%s, at line %d, column %d, of file %s' % (error.message,
+                                                       line_no, col_no,
+                                                       file_path))
 
     def create_group(self, name):
         """Create a new group"""
