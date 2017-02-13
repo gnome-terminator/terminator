@@ -484,7 +484,11 @@ class Paned(Container):
         return float(position) / float(non_separator_size)
 
     def set_position_by_ratio(self):
-        handle_size = handle_size = self.get_handlesize()
+        # Fix for strange race condition where every so often get_length returns 1. (LP:1655027)
+        while self.terminator.doing_layout and self.get_length() == 1:
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+
         self.set_pos(self.position_by_ratio(self.get_length(), self.get_handlesize(), self.ratio))
 
     def set_position(self, pos):
