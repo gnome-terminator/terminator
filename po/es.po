@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2015-08-05 12:33+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2017-02-16 01:51+0000\n"
+"Last-Translator: vulpecula <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-02-09 06:03+0000\n"
+"X-Launchpad-Export-Date: 2017-02-16 06:48+0000\n"
 "X-Generator: Launchpad (build 18326)\n"
 "Language: \n"
 
@@ -187,12 +187,16 @@ msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr ""
+"Esta ventana tiene varios terminales abiertos, Cerrando la ventana también "
+"se cerrarán todos los terminales dentro de ella."
 
 #: ../terminatorlib/container.py:178
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
 msgstr ""
+"Esta pestaña tiene varios terminales abiertos, Cerrando la pestaña también "
+"se cerrarán todos los terminales dentro de ella."
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
@@ -501,12 +505,12 @@ msgstr "Configuración de órdenes personalizadas"
 #: ../terminatorlib/plugins/logger.py:22
 #: ../terminatorlib/plugins/terminalshot.py:21
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cancelar"
 
 #: ../terminatorlib/plugins/custom_commands.py:125
 #: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
-msgstr ""
+msgstr "_Aceptar"
 
 #: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
@@ -529,15 +533,15 @@ msgstr "Superior"
 
 #: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
-msgstr ""
+msgstr "Arriba"
 
 #: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
-msgstr ""
+msgstr "Abajo"
 
 #: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
-msgstr ""
+msgstr "Último"
 
 #: ../terminatorlib/plugins/custom_commands.py:198
 msgid "New"
@@ -545,11 +549,11 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:203
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: ../terminatorlib/plugins/custom_commands.py:209
 msgid "Delete"
-msgstr ""
+msgstr "Borrar"
 
 #: ../terminatorlib/plugins/custom_commands.py:269
 msgid "New Command"
@@ -581,7 +585,7 @@ msgstr "El nombre *%s* ya existe"
 #: ../terminatorlib/plugins/logger.py:23
 #: ../terminatorlib/plugins/terminalshot.py:22
 msgid "_Save"
-msgstr ""
+msgstr "_Guardar"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
@@ -966,7 +970,7 @@ msgstr "Parpadeo"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Foreground"
-msgstr ""
+msgstr "primer término"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
@@ -1581,7 +1585,7 @@ msgstr "_Copiar dirección"
 
 #: ../terminatorlib/terminal_popup_menu.py:102
 msgid "_Copy"
-msgstr ""
+msgstr "_Copiar"
 
 #: ../terminatorlib/terminal_popup_menu.py:107
 msgid "_Paste"
