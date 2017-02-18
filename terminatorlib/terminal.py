@@ -259,7 +259,7 @@ class Terminal(Gtk.VBox):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
-        hostchars = "-A-Za-z0-9"
+        hostchars = "-A-Za-z0-9:\[\]"
         pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
         schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
