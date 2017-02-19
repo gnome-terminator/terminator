@@ -1144,7 +1144,7 @@ class PrefsEditor:
             res = model.append([newprofile, True])
             if res:
                 path = model.get_path(res)
-                treeview.set_cursor(path, focus_column=treeview.get_column(0),
+                treeview.set_cursor(path, column=treeview.get_column(0),
                                     start_editing=True)
 
         self.layouteditor.update_profiles()
