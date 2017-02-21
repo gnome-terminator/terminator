@@ -7,7 +7,7 @@ import copy
 import os
 import gi
 gi.require_version('Vte', '2.91')
-from gi.repository import Gtk, Gdk, Vte
+from gi.repository import Gtk, Gdk, Vte, GdkX11
 from gi.repository.GLib import GError
 
 import borg
@@ -57,6 +57,7 @@ class Terminator(Borg):
     doing_layout = None
     layoutname = None
     last_active_window = None
+    prelayout_windows = None
 
     groupsend = None
     groupsend_type = {'all':0, 'group':1, 'off':2}
@@ -217,6 +218,15 @@ class Terminator(Borg):
                 return terminal
         return None
 
+    def find_window_by_uuid(self, uuid):
+        """Search our terminals for one matching the supplied UUID"""
+        dbg('searching self.terminals for: %s' % uuid)
+        for window in self.windows:
+            dbg('checking: %s (%s)' % (window.uuid.urn, window))
+            if window.uuid.urn == uuid:
+                return window
+        return None
+
     def new_window(self, cwd=None, profile=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
@@ -239,6 +249,7 @@ class Terminator(Borg):
 
         self.doing_layout = True
         self.last_active_window = None
+        self.prelayout_windows = self.windows[:]
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
         if not layout:
@@ -377,10 +388,45 @@ class Terminator(Borg):
                 if window_last_active_term_mapping[window]:
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
                     term.ensure_visible_and_focussed()
+        '''
+        OK, So it turned out the fix was not yet complete. We also needed to ensure that the active window was on top and focused... Oh boy, what fun that was to figure out. The windows get a timestamp, but even if the timestamps are in the right order, and you pop them up in the right order so that the last active is the last one popped, you can't guarantee that that is the one that will end with the focus. Instead we have to pop all the windows up, then find the last active one, then we need to repeatedly flush the pending events, and focus the window. If we don't do this we get semi-random window focused. Even doing all this is not 100% reliable, but I'm at the end of my tether trying to figure out why the wrong window is occasionally focused.
 
+        I'm going to push it to the repo so some more people can try it. Hopefully someone can suggest an improvement.
+
+        '''
+        # Build list of new windows using prelayout list
+        new_win_list = []
         for window in self.windows:
-            if window.uuid == self.last_active_window:
+            if window not in self.prelayout_windows:
+                new_win_list.append(window)
+        
+        # Make sure all new windows get bumped to the top
+        for window in new_win_list:
+            window.show()
+            window.grab_focus()
+            try:
+                t = GdkX11.x11_get_server_time(window.get_window())
+            except AttributeError:
+                t = 0
+            window.get_window().focus(t)
+
+        # Awful workaround to be sure that the last focused window is actually the one focused.
+        # Don't ask, don't tell policy on this. Even this is not 100%
+        if self.last_active_window:
+            window = self.find_window_by_uuid(self.last_active_window.urn)
+            count = 0
+            while count < 1000 and Gtk.events_pending():
+                count += 1
+                Gtk.main_iteration_do(False)
                 window.show()
+                window.grab_focus()
+                try:
+                    t = GdkX11.x11_get_server_time(window.get_window())
+                except AttributeError:
+                    t = 0
+                window.get_window().focus(t)
+
+        self.prelayout_windows = None
 
     def on_gtk_theme_name_notify(self, settings, prop):
         """Reconfigure if the gtk theme name changes"""
