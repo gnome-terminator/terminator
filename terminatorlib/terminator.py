@@ -388,12 +388,7 @@ class Terminator(Borg):
                 if window_last_active_term_mapping[window]:
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
                     term.ensure_visible_and_focussed()
-        '''
-        OK, So it turned out the fix was not yet complete. We also needed to ensure that the active window was on top and focused... Oh boy, what fun that was to figure out. The windows get a timestamp, but even if the timestamps are in the right order, and you pop them up in the right order so that the last active is the last one popped, you can't guarantee that that is the one that will end with the focus. Instead we have to pop all the windows up, then find the last active one, then we need to repeatedly flush the pending events, and focus the window. If we don't do this we get semi-random window focused. Even doing all this is not 100% reliable, but I'm at the end of my tether trying to figure out why the wrong window is occasionally focused.
 
-        I'm going to push it to the repo so some more people can try it. Hopefully someone can suggest an improvement.
-
-        '''
         # Build list of new windows using prelayout list
         new_win_list = []
         for window in self.windows:
