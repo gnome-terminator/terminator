@@ -11,7 +11,8 @@ Here are the steps to follow to create a new terminator release:
 
 3.  Update version number.  Edit terminatorlib/version.py and set the
     version number.  Also edit terminator.spec and set it there. Edit
-    the debian/changelog to add new version.
+    the debian/changelog to add new version. Update the Changelog
+    file if not already up-to-date.
 
 4.  Create the source distribution package
 

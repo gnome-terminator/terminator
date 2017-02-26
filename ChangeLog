@@ -1,3 +1,108 @@
+terminator 1.91:
+  Features
+    * None
+
+  Enhancements
+    * Update and fixes for the generic terminator.spec file used by
+      downstreams for RPM generation
+    * Allow the use of larger separator sizes (Egmont Koblinger,
+      LP#1522575)
+    * Add the gruvbox light/dark palettes as themes.
+    * Updated the preferences window to a modern version of glade.
+      Better spacing, layout etc.
+    * Fix the background transparency, also allowing per theme
+      CSS fixes and styling tweaks. (LP#1599453)
+    * Enable the use of the hyper key as a modifier in shortcuts.
+      (Steven Keuchel, LP#1362229)
+    * Displays confirmation dialog when a single term is
+      zoomed/maximised (minoru/shiraeeshi, LP#1531933)
+    * Add keywords entry to the desktop file (Julián Moreno Patiño,
+      LP#1241052)
+    * Add subtrees to custom commands menu - just add '/' to split
+      (LP#1631759)
+    * Normalise display name when creating DBus name (Andrea
+      Corbellini, LP#1267195)
+    * Remove auto-capitalisation of profiles in menu and add sorting
+      (LP#1521301)
+
+  Bug Fixes
+    * Fix missing dependencies in debian/control (LP#1644155,
+      LP#1644560)
+    * Fix terminator not working with default python3 by forcing
+      python2 (LP#1621156)
+    * Update some places where the old homepage was still mentioned.
+      (LP#1644659)
+    * Fix the regression of the initial scrollbar state not being
+      set (LP#1645704)
+    * Fix using ~ (home dir) over DBus (LP#1646034)
+    * Fix the middle mouse button not getting passed to tmux.
+      (LP#1647507)
+    * Fix oversized splitter bar hover area for Adwaita and any other
+      theme that does this. (LP#1647292)
+    * Fix some strange behaviour when clicking on the trough of a
+      scale (i.e. stepping) The previous value gets read, not the
+      current.
+    * Fix the GtkDialog mapped without a transient parent message
+      (Egmont Koblinger, LP#1518066)
+    * Fix a couple of other transient parent errors.
+    * At least /try/ to include all the theme specific css files in
+      setup.py.
+    * Fix cwd for new windows on FreeBSD (Eric Badger, LP#1650306)
+    * Fix terminal shot plugin to work with GTK3 (Vineeth Raj)
+    * Fix the logger plugin (Eric Badger, LP#1652143)
+    * Fix system fonts to pull values from dconf, not gconf
+      (LP#1655446)
+    * Fix translation strings that could cause problems for some
+      languages (LQ#408095)
+    * Fix separators in popup menus on newer Gtk/Adwaita (Erika,
+      LP#1656524)
+    * Fix searchbar not looking prior to the configured lines when
+      using infinite scrollback (Eric Johnson, LP#1471369)
+    * Fix '0xffff' in keybindings prefs when a binding is previously
+      set to Disabled
+    * Update embedded css selectors to also be GTK 3.20+ compatible
+      using nodes (Iain Lane)
+    * Fix focus/z-order issue introduced by gtk3 port (Saber
+      Rastikerdar, LP#805870)
+    * Fix for old windows popping to the front when new windows are
+      opened
+    * Fix scrollwheel actions on the tabs not working anymore
+      (LP#1647287)
+    * Fix incorrect sizing of sub windows when there's no titlebar
+      (Emilio Pozuelo Monfort, LP#1646257)
+    * Reapplication of select on copy fix that didn't get applied
+      to gtk3 (LP#1652931)
+    * Fix for getting two different resizes of the terminal which
+      vim wasn't handling well (LP#1646293)
+    * Fix the cwd of a second instance launched by exo-open/Thunar
+      (LP#1646034)
+    * Fix an exception with an unexpected keyword getting passed
+      to set_cursor
+    * Fix the version introspection capture by exception
+      (Emilio Pozuelo Monfort, LP#1574399)
+    * Fix to stop panes nudging on performing a normal split due to
+      the ratio float not accounting for the handle size
+    * Fix vte object not being released properly, and holding open
+      hidden /tmp files (LP#785501, LP#1645500)
+    * Fix versions of Gtk where some CSS pseudo elements are not
+      parsed and application will not load. Note that entire file is
+      then ignored (LP#1663669)
+    * Fix/bodge for strange race condition where every so often
+      get_length returns 1 (LP#1655027)
+    * Fix remotinator get_tab_title for tabs with more than a single
+      terminal (Nix, LP#1579445)
+    * Fix custom_command and always_split_with_profile to work
+      together (Nix, LP#1600609)
+    * Fix regex's needing MULTILINE flag to prevent libvte 0.44
+      throwing warnings (LP#1560989)
+    * Fix an invalid call to get_child() rather than the correct
+      get_children()[0] for a window
+    * Fix patterns for url matching to handle IPv6 as host
+      (LP#1519265)
+    * Fix exception when adding new profile in prefs (LP#1521301)
+    * Fix new windows opening in the background (note that some will
+      think this is bad) (LP#1646437)
+
 terminator 1.90:
   Features
     * Layout launcher with option or shortcut (Steve Boddy)

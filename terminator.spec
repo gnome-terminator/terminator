@@ -1,5 +1,5 @@
 Name:           terminator
-Version:        1.90
+Version:        1.91
 Release:        1%{?dist}
 Summary:        Store and run multiple GNOME terminals in one window
 

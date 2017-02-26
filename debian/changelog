@@ -1,3 +1,9 @@
+terminator (1.91) trusty; urgency=medium
+
+  * New upstream release of 1.91
+
+ -- Steve Boddy <stephen.j.boddy@gmail.com>  Sun, 26 Feb 2017 17:17:00 +0100
+
 terminator (1.90) trusty; urgency=medium
 
   * Initial GTK3 version packaging
