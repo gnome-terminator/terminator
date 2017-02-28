@@ -25,6 +25,7 @@ Depends: gconf2,
  libvte-2.91-0,
  python-psutil,
  python-gobject,
+ python-cairo,
  ${misc:Depends},
  ${python:Depends}
 Provides: x-terminal-emulator
