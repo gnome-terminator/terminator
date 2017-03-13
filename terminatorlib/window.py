@@ -83,9 +83,6 @@ class Window(Container, Gtk.Window):
             if options.role:
                 self.set_role(options.role)
             
-#            if options.classname is not None:
-#                self.set_wmclass(options.classname, self.wmclass_class)
-            
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
 

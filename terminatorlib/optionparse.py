@@ -79,8 +79,6 @@ def parse_options():
                    'inside the terminal, and its arguments'))
     parser.add_option('--working-directory', metavar='DIR',
             dest='working_directory', help=_('Set the working directory'))
-    parser.add_option('-c', '--classname', dest='classname', help=_('Set a \
-custom name (WM_CLASS) property on the window'))
     parser.add_option('-i', '--icon', dest='forcedicon', help=_('Set a custom \
 icon for the window (by file or name)'))
     parser.add_option('-r', '--role', dest='role', 
