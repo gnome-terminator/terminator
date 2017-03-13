@@ -188,7 +188,7 @@ if platform.system() in ['FreeBSD', 'OpenBSD']:
 else:
   man_dir = 'share/man'
 
-setup(name=APP_NAME.capitalize(),
+setup(name=APP_NAME,
       version=APP_VERSION,
       description='Terminator, the robot future of terminals',
       author='Chris Jones',
