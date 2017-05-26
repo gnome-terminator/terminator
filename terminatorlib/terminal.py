@@ -926,8 +926,12 @@ class Terminal(Gtk.VBox):
             # try to pass it to vte widget first though
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
                 if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
+                    gtk_settings=Gtk.Settings().get_default()
+                    primary_state = gtk_settings.get_property('gtk-enable-primary-paste')
+                    gtk_settings.set_property('gtk-enable-primary-paste',  False)
                     if not Vte.Terminal.do_button_press_event(self.vte, event):
                         middle_click[0](*middle_click[1])
+                    gtk_settings.set_property('gtk-enable-primary-paste', primary_state)
                 else:
                     middle_click[0](*middle_click[1])
                 return(True)
