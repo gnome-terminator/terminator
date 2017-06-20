@@ -222,13 +222,22 @@ class Window(Container, Gtk.Window):
 
     def on_focus_out(self, window, event):
         """Focus has left the window"""
+        preventHide = False
         for terminal in self.get_visible_terminals():
+            if terminal.preventHide:
+                preventHide = True
+                terminal.preventHide = False
+
             terminal.on_window_focus_out()
 
         self.losefocus_time = time.time()
-        if self.config['hide_on_lose_focus'] and self.get_property('visible'):
-            self.position = self.get_position()
-            self.hidefunc()
+
+        if not preventHide:
+            if self.config['hide_on_lose_focus'] and self.get_property('visible'):
+                self.position = self.get_position()
+                self.hidefunc()
+        else:
+            preventHide = False
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""

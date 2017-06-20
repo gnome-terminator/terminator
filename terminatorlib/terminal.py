@@ -175,6 +175,7 @@ class Terminal(Gtk.VBox):
                 os.putenv('http_proxy', self.config['http_proxy'])
         self.reconfigure()
         self.vte.set_size(80, 24)
+        self.preventHide = False
 
     def get_vte(self):
         """This simply returns the vte widget we are using"""
@@ -942,6 +943,7 @@ class Terminal(Gtk.VBox):
             # plus either the app is not interested in mouse events or Shift is pressed
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
                 if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
+                    self.preventHide = True
                     if not Vte.Terminal.do_button_press_event(self.vte, event):
                         right_click[0](*right_click[1])
                 else:
