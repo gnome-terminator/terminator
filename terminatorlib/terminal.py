@@ -842,6 +842,8 @@ class Terminal(Gtk.VBox):
             elif event.type == Gdk.EventType.BUTTON_PRESS:
                 # Single Click gives popup
                 dbg('on_group_button_press: group menu popup')
+                window = self.get_toplevel()
+                window.preventHide = True
                 self.create_popup_group_menu(widget, event)
                 return True
             else:
@@ -982,6 +984,8 @@ class Terminal(Gtk.VBox):
 
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
+        window = self.get_toplevel()
+        window.preventHide = True
         menu = TerminalPopupMenu(self)
         menu.show(widget, event)
 

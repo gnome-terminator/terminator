@@ -33,6 +33,8 @@ class PrefsEditor:
     plugins = None
     keybindings = None
     window = None
+    calling_window = None
+    term = None
     builder = None
     layouteditor = None
     previous_layout_selection = None
@@ -171,6 +173,8 @@ class PrefsEditor:
         self.config = config.Config()
         self.config.base.reload()
         self.term = term
+        self.calling_window = self.term.get_toplevel()
+        self.calling_window.preventHide = True
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
@@ -212,6 +216,7 @@ class PrefsEditor:
         terminator = Terminator()
         terminator.reconfigure()
         self.window.destroy()
+        self.calling_window.preventHide = False
         del(self)
 
     def set_values(self):

@@ -42,6 +42,7 @@ class Window(Container, Gtk.Window):
     ignore_startup_show = None
     set_pos_by_ratio = None
     last_active_term = None
+    preventHide = None
 
     zoom_data = None
 
@@ -74,6 +75,8 @@ class Window(Container, Gtk.Window):
 
         self.title = WindowTitle(self)
         self.title.update()
+        
+        self.preventHide = False
 
         options = self.config.options_get()
         if options:
@@ -226,9 +229,13 @@ class Window(Container, Gtk.Window):
             terminal.on_window_focus_out()
 
         self.losefocus_time = time.time()
-        if self.config['hide_on_lose_focus'] and self.get_property('visible'):
-            self.position = self.get_position()
-            self.hidefunc()
+
+        if self.preventHide:
+            self.preventHide = False
+        else:
+            if self.config['hide_on_lose_focus'] and self.get_property('visible'):
+                self.position = self.get_position()
+                self.hidefunc()
 
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
