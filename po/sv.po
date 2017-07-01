@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-06-02 06:42+0000\n"
-"X-Generator: Launchpad (build 18391)\n"
+"X-Launchpad-Export-Date: 2017-07-01 05:55+0000\n"
+"X-Generator: Launchpad (build 18419)\n"
 "Language: sv\n"
 
 #. Command         uuid req.    Description
@@ -90,7 +90,7 @@ msgstr "Flera terminaler i ett fönster"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Robot-framtid för terminaler"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -99,6 +99,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Ett kraftverktyg för att ordna terminaler. Det är inspirerat av program som "
+"gnome-multi-term, quadkonsole, o.s.v. i det att huvudfokus är att ordna "
+"terminaler i rutnät (flikar är den vanligaste standardmetoden, vilka "
+"Terminator också stöder)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -107,42 +111,46 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"Mycket av beteendet hos Terminator bygger på GNOME Terminal, och vi lägger "
+"till fler funktioner från det medan tiden går, men vi vill också utöka i "
+"olika riktningar med användbara funktioner för sysadmins och andra användare."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Några höjdpunkter:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Arrangera terminaler i ett rutnät"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Flikar"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Dra och släpp omordning av terminaler"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Massor av kortkommandon"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
 msgstr ""
+"Spara flera utformningar och profiler via GUI-inställningsredigeraren"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Samtidigt skrivning till godtyckliga grupper av terminaler"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "Och mycket mer..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Huvudfönstret visar programmet i verkan"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
@@ -331,11 +339,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Layout"
-msgstr ""
+msgstr "Utformning"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Starta"
 
 #: ../terminatorlib/notebook.py:353
 msgid "tab"
@@ -351,7 +359,7 @@ msgstr "Visa programversionen"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maximera fönstret"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -495,7 +503,7 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: ../terminatorlib/plugins/custom_commands.py:160
 #: ../terminatorlib/preferences.glade.h:103
@@ -581,7 +589,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
-msgstr ""
+msgstr "Spara bild"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -606,7 +614,7 @@ msgstr "Alla"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Grupp"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -634,7 +642,7 @@ msgstr "Svart på vit"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Grått på svart"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -762,7 +770,7 @@ msgstr "Inställningar för Terminator"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Beteende</b>"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Window state:"
@@ -822,7 +830,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Utseende</b>"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Window borders"
@@ -842,7 +850,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
-msgstr ""
+msgstr "Flikplacering:"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
@@ -862,7 +870,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Background:"
-msgstr ""
+msgstr "Bakgrund:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Focused"
@@ -870,7 +878,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Receiving"
@@ -938,11 +946,11 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "Color:"
-msgstr ""
+msgstr "Färg:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Blink"
-msgstr ""
+msgstr "Blinka"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Foreground"
@@ -1123,11 +1131,11 @@ msgstr "Profiler"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Profile:"
-msgstr ""
+msgstr "Profil:"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Custom command:"
@@ -1135,7 +1143,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Working directory:"
-msgstr ""
+msgstr "Arbetskatalog:"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Layouts"
@@ -1155,7 +1163,7 @@ msgstr "Tangentbindningar"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid "Plugin"
-msgstr ""
+msgstr "Insticksmodul"
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "This plugin has no configuration options"
@@ -1196,15 +1204,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Increase font size"
-msgstr ""
+msgstr "Öka teckenstorlek"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Decrease font size"
-msgstr ""
+msgstr "Minska teckenstorlek"
 
 #: ../terminatorlib/prefseditor.py:98
 msgid "Restore original font size"
@@ -1212,7 +1220,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:99
 msgid "Create a new tab"
-msgstr ""
+msgstr "Skapa en ny flik"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
@@ -1260,11 +1268,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Copy selected text"
-msgstr ""
+msgstr "Kopiera markerad text"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Paste clipboard"
-msgstr ""
+msgstr "Klistra in urklipp"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Show/Hide the scrollbar"
@@ -1300,7 +1308,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Close window"
-msgstr ""
+msgstr "Stäng fönstret"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
@@ -1336,11 +1344,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Växla till nästa flik"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Växla till föregående flik"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Switch to the first tab"
@@ -1384,7 +1392,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "Växla helskärmsläge"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Reset the terminal"
@@ -1424,7 +1432,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
-msgstr ""
+msgstr "Skapa ett nytt fönster"
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Spawn a new Terminator process"
@@ -1476,7 +1484,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Open the manual"
-msgstr ""
+msgstr "Öppna handboken"
 
 #: ../terminatorlib/prefseditor.py:1136 ../terminatorlib/prefseditor.py:1141
 msgid "New Profile"
@@ -1686,19 +1694,19 @@ msgstr "Ange en ny rubrik för Terminator-fönstret …"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
@@ -1746,7 +1754,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
@@ -1754,7 +1762,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Tau"
@@ -1778,7 +1786,7 @@ msgstr ""
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr ""
+msgstr "Omega"
 
 #: ../terminatorlib/window.py:276
 msgid "window"
