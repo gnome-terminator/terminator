@@ -5,7 +5,7 @@
 
 from gi.repository import Gtk, Gdk
 from gi.repository import GObject
-import re
+from gi.repository import GLib
 
 from translation import _
 from config import Config
@@ -19,7 +19,6 @@ class Searchbar(Gtk.HBox):
     }
 
     entry = None
-    reslabel = None
     next = None
     prev = None
     wrap = None
@@ -29,9 +28,6 @@ class Searchbar(Gtk.HBox):
 
     searchstring = None
     searchre = None
-    searchrow = None
-
-    searchits = None
 
     def __init__(self):
         """Class initialiser"""
@@ -51,10 +47,6 @@ class Searchbar(Gtk.HBox):
         # Label
         label = Gtk.Label(label=_('Search:'))
         label.show()
-
-        # Result label
-        self.reslabel = Gtk.Label(label='')
-        self.reslabel.show()
 
         # Close Button
         close = Gtk.Button()
@@ -89,7 +81,6 @@ class Searchbar(Gtk.HBox):
 
         self.pack_start(label, False, True, 0)
         self.pack_start(self.entry, True, True, 0)
-        self.pack_start(self.reslabel, False, True, 0)
         self.pack_start(self.prev, False, False, 0)
         self.pack_start(self.next, False, False, 0)
         self.pack_start(self.wrap, False, False, 0)
@@ -99,10 +90,9 @@ class Searchbar(Gtk.HBox):
         self.set_no_show_all(True)
 
     def wrap_toggled(self, toggled):
-        if self.searchrow is None:
-            self.prev.set_sensitive(False)
-            self.next.set_sensitive(False)
-        elif toggled:
+        toggled_state = toggled.get_active()
+        self.vte.search_set_wrap_around(toggled_state)
+        if toggled_state:
             self.prev.set_sensitive(True)
             self.next.set_sensitive(True)
 
@@ -137,93 +127,38 @@ class Searchbar(Gtk.HBox):
             return
 
         if searchtext != self.searchstring:
-            self.searchrow = self.get_vte_buffer_range()[0] - 1
             self.searchstring = searchtext
-            self.searchre = re.compile(searchtext)
+            self.searchre = GLib.Regex(searchtext, 0, 0)
+            self.vte.search_set_gregex(self.searchre, 0)
 
-        self.reslabel.set_text(_("Searching scrollback"))
         self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
         self.next_search(None)
 
     def next_search(self, widget):
         """Search forwards and jump to the next result, if any"""
-        startrow,endrow = self.get_vte_buffer_range()
-        found = startrow <= self.searchrow and self.searchrow < endrow
-        row = self.searchrow
-        while True:
-            row += 1
-            if row >= endrow:
-                if found and self.wrap.get_active():
-                    row = startrow - 1
-                else:
-                    self.prev.set_sensitive(found)
-                    self.next.set_sensitive(False)
-                    self.reslabel.set_text(_('No more results'))
-                    return
-            buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
-
-            buffer = buffer[0]
-            buffer = buffer[:buffer.find('\n')]
-            matches = self.searchre.search(buffer)
-            if matches:
-                self.searchrow = row
-                self.prev.set_sensitive(True)
-                self.search_hit(self.searchrow)
-                return
+        found_result = self.vte.search_find_next()
+        if not self.wrap.get_active():
+            self.next.set_sensitive(found_result)
+        else:
+            self.next.set_sensitive(True)
+        self.prev.set_sensitive(True)
+        return
 
     def prev_search(self, widget):
         """Jump back to the previous search"""
-        startrow,endrow = self.get_vte_buffer_range()
-        found = startrow <= self.searchrow and self.searchrow < endrow
-        row = self.searchrow
-        while True:
-            row -= 1
-            if row <= startrow:
-                if found and self.wrap.get_active():
-                    row = endrow
-                else:
-                    self.next.set_sensitive(found)
-                    self.prev.set_sensitive(False)
-                    self.reslabel.set_text(_('No more results'))
-                    return
-            buffer = self.vte.get_text_range(row, 0, row + 1, 0, self.search_character)
-
-            buffer = buffer[0]
-            buffer = buffer[:buffer.find('\n')]
-            matches = self.searchre.search(buffer)
-            if matches:
-                self.searchrow = row
-                self.next.set_sensitive(True)
-                self.search_hit(self.searchrow)
-                return
-
-    def search_hit(self, row):
-        """Update the UI for a search hit"""
-        self.reslabel.set_text("%s %d" % (_('Found at row'), row))
-        self.get_parent().scrollbar_jump(row)
-        self.next.show()
-        self.prev.show()
-
-    def search_character(self, widget, col, row):
-        """We have to have a callback for each character"""
-        return(True)
-
-    def get_vte_buffer_range(self):
-        """Get the range of a vte widget"""
-        column, endrow = self.vte.get_cursor_position()
-        if self.config['scrollback_infinite']:
-            startrow = 0
+        found_result = self.vte.search_find_previous()
+        if not self.wrap.get_active():
+            self.prev.set_sensitive(found_result)
         else:
-            startrow = max(0, endrow - self.config['scrollback_lines'])
-        return(startrow, endrow)
+            self.prev.set_sensitive(True)
+        self.next.set_sensitive(True)
+        return
 
     def end_search(self, widget=None):
         """Trap and re-emit the end-search signal"""
-        self.searchrow = 0
         self.searchstring = None
         self.searchre = None
-        self.reslabel.set_text('')
         self.emit('end-search')
 
     def get_search_term(self):
