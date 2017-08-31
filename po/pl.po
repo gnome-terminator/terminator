@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-04-10 09:36+0000\n"
-"Last-Translator: Dawid Kalicki <kalicki.dawid@hotmail.com>\n"
+"PO-Revision-Date: 2017-08-30 11:34+0000\n"
+"Last-Translator: Marcin Sedlak <fdmarcin@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:13+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2017-08-31 05:34+0000\n"
+"X-Generator: Launchpad (build 18446)\n"
 "Language: pl\n"
 
 #. Command         uuid req.    Description
@@ -41,19 +41,19 @@ msgstr "Uzyskaj listę wszystkich terminali"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Dziedziczenie UUID okna nadrzędnego"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Dziedziczenie tytułu okna nadrzędnego"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Dziedziczenie UUID karty nadrzędnej"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Dziedziczenie tytułu karty nadrzędnej"
 
 #: ../remotinator.py:63
 #, python-format
@@ -829,7 +829,7 @@ msgstr "Ramki okna"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Unfocused terminal font brightness:"
-msgstr ""
+msgstr "Jasność czcionki nieaktywnego terminala"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Terminal separator size:"
@@ -837,7 +837,7 @@ msgstr "Rozmiar odstępu między terminalami"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
-msgstr ""
+msgstr "Dodatkowe stylowanie (zależne od motywu)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
@@ -865,7 +865,7 @@ msgstr "Tło:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Focused"
-msgstr ""
+msgstr "Aktywny"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Inactive"
@@ -949,7 +949,7 @@ msgstr "Kolor pierwszoplanowy"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
-msgstr "<b>Dzwonek termianala</b>"
+msgstr "<b>Dzwonek terminala</b>"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
@@ -1245,11 +1245,11 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Obróć terminale zgodnie z ruchem wskazówek zegara"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Rotate terminals counter-clockwise"
-msgstr ""
+msgstr "Obróć terminale przeciwnie do ruchu wskazówek zegara"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Split horizontally"
@@ -1309,19 +1309,19 @@ msgstr "Zamknij okno"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
-msgstr ""
+msgstr "Zmień rozmiar terminala w górę"
 
 #: ../terminatorlib/prefseditor.py:125
 msgid "Resize the terminal down"
-msgstr ""
+msgstr "Zmień rozmiar terminala w dół"
 
 #: ../terminatorlib/prefseditor.py:126
 msgid "Resize the terminal left"
-msgstr ""
+msgstr "Zmień rozmiar terminala w lewo"
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Resize the terminal right"
-msgstr ""
+msgstr "Zmień rozmiar terminala w prawo"
 
 #: ../terminatorlib/prefseditor.py:128
 msgid "Move the tab right"
