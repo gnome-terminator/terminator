@@ -8,36 +8,36 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-11-14 10:26+0000\n"
+"PO-Revision-Date: 2017-11-15 14:11+0000\n"
 "Last-Translator: 林宏文(Tommy Lin) <gnat_lin@hotmail.com>\n"
 "Language-Team: Traditional Chinese <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-11-15 05:29+0000\n"
+"X-Launchpad-Export-Date: 2017-11-16 05:35+0000\n"
 "X-Generator: Launchpad (build 18505)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr "開啟一新的視窗"
+msgstr "開啟新視窗"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr "在新的分頁開啟"
+msgstr "開啟新分頁"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr "水平分割目前終端機"
+msgstr "水平分割"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "垂直分割目前終端機"
+msgstr "垂直分割"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr "获取所有终端的列表"
+msgstr "取得所有终端的列表"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
@@ -62,7 +62,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"執行下列終端機DBus指令:\n"
+"執行下列Terminator DBus指令:\n"
 "\n"
 "%s"
 
@@ -70,27 +70,29 @@ msgstr ""
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
-msgstr "* 這些項目需要一個TERMINATOR_UUID環境變數, 或使用--uuid選項."
+msgstr ""
+"* 這些項目需要用到TERMINATOR_UUID環境變數，\n"
+"  也可以使用--uuid選項來指定TERMINATOR_UUID。"
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr "當環境變數TERMINATOR_UUID不存在時，指定終端機的UUID"
+msgstr "當環境變數TERMINATOR_UUID不存在時，指定終端的UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
 #: ../terminatorlib/plugins/activitywatch.py:163
 #: ../terminatorlib/preferences.glade.h:148
 msgid "Terminator"
-msgstr "終端機"
+msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "單一視窗，多重終端機"
+msgstr "單一視窗，多重終端"
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr "終端機的自動功能"
+msgstr "終結者(Terminator) - 終端機器人的未來"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -99,8 +101,8 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
-"這是一個給power-user用來安排終端機視窗的工具。此項目受到諸如gnome-multi-"
-"term、quadkonsole等程序的啟發，其主要功能是聚焦在網格中安排終端機視窗（Terminator也採用了最常用的分頁方式）。"
+"這是一個給power-user用來安排終端的工具。此項目受到諸如gnome-multi-"
+"term、quadkonsole等程序的啟發，其主要功能聚焦在網格中擺放終端（Terminator也採用了最常用的分頁方式）。"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -109,28 +111,27 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
-"Terminator的許多行為都是以GNOME "
-"Terminal為基礎開發的，隨著時間的推移，我們會添加更多的功能，也希望向系統管理員和其他用戶提供更多有用的功能。"
+"Terminator的許多行為都是參照GNOME Terminal，隨著時間的推移，我們會添加更多的功能，也希望向系統管理員和其他用戶提供更多有用的功能。"
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr "一些亮點"
+msgstr "特色"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr "在格線中排列終端機"
+msgstr "可在格線中放置終端"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr "分頁"
+msgstr "可以使用分頁"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr "可使用拖曳方式排列終端機"
+msgstr "可使用拖曳方式重新排列終端"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr "大量鍵盤快捷鍵"
+msgstr "各式的鍵盤快捷鍵"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
@@ -138,23 +139,23 @@ msgstr "使用圖形化介面儲存多重版面配置和設定檔"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr "同時輸入到任意群組的終端機"
+msgstr "可以同時輸入(命令)到任意群組的終端"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr "還有更多..."
+msgstr "還有更多的特色..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr "主視窗顯示執行中的應用程式"
+msgstr "Terminator執行的畫面"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr "終端機多的有點瘋狂"
+msgstr "多到瘋狂的終端"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr "您可以更改預設值的偏好視窗"
+msgstr "您可以在\"偏好設定\"中更改預設值"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -162,31 +163,31 @@ msgstr "關閉？"
 
 #: ../terminatorlib/container.py:169
 msgid "Close _Terminals"
-msgstr "關閉終端機(_T)"
+msgstr "關閉終端(_T)"
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>要關閉多個終端機嗎？</b></big>"
+msgstr "<big><b>要關閉多個終端嗎？</b></big>"
 
 #: ../terminatorlib/container.py:175
 msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
-msgstr "這個視窗已經開啟多個終端機。關閉視窗會關閉視窗內的所有終端機。"
+msgstr "這個視窗已經開啟多個終端。關閉視窗會關閉視窗內的所有終端。"
 
 #: ../terminatorlib/container.py:178
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
-msgstr "這個分頁已經開啟多個終端機。關閉分頁會關閉視窗內的所有終端機。"
+msgstr "這個分頁已經開啟多個終端。關閉分頁會關閉視窗內的所有終端。"
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
-msgstr "下次不再顯示此訊息"
+msgstr "下次不要再顯示此訊息"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "目前的地區語言"
+msgstr "在地語言"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -330,7 +331,7 @@ msgstr "泰語"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr "終端機版面配置啟動器"
+msgstr "Terminator版面配置啟動器"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
@@ -379,13 +380,13 @@ msgstr "設定喜好的尺寸及視窗的位置 ( 詳情請見 X man 的頁面 )
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "自訂終端機中要執行的指令"
+msgstr "自訂要在終端中執行的指令"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
-msgstr "將整個命令列內容（含參數）視為一個指令，於終端機內執行"
+msgstr "將整個命令列內容（含參數）視為一個指令，於終端內執行"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -397,11 +398,11 @@ msgstr "設定工作目錄"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr "視窗名稱自訂(WM_CLASS)"
+msgstr "自訂視窗名稱(WM_CLASS)"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "設定視窗圖示(透過文件或是名稱)"
+msgstr "設定視窗圖示(透過檔案或是名稱)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -409,15 +410,15 @@ msgstr "自訂視窗的 WM_WINDOW_ROLE 屬性"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr "使用給定的版面設計啟動"
+msgstr "以給定的版面配置啟動"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr "從清單中選取一個版面設計"
+msgstr "從清單中選取版面配置"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
-msgstr "使用不同的設定組合為預設值"
+msgstr "使用不同的設定檔為預設值"
 
 #: ../terminatorlib/optionparse.py:95
 msgid "Disable DBus"
@@ -425,19 +426,19 @@ msgstr "停用 DBus"
 
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
-msgstr "啟用除錯訊息（可開啟兩次以啟用 debug server）"
+msgstr "啟用除錯訊息（重複兩次以啟用 debug server）"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "用於限制除錯訊息的 classes 符號分隔清單"
+msgstr "除錯訊息中只列出要顯示的DEBUG_CLASSES（多個選項時，請使用\",\"分隔）"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "用於限制除錯訊息的 methods 符號分隔清單"
+msgstr "除錯訊息中只列出要顯示的DEBUG_METHODS（多個選項時，請使用\",\"分隔）"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr "如果 Terminator 正在執行，只需開一個新的 tab"
+msgstr "如果 Terminator 已經執行，在執行中的Terminator 開一個新的分頁"
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -445,25 +446,25 @@ msgstr "無法使用 ActivityWatch 插件：請安裝 python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr "等待_activity"
+msgstr "顯示\"執行中(_activity)\"的通知"
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "執行中：%s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "顯示\"已閒置(_silence)\"的通知"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "已閒置：%s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr "客製化命令"
+msgstr "自訂指令"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -536,7 +537,7 @@ msgstr "新指令"
 
 #: ../terminatorlib/plugins/custom_commands.py:280
 msgid "Enabled:"
-msgstr "已啟用"
+msgstr "已啟用："
 
 #: ../terminatorlib/plugins/custom_commands.py:286
 msgid "Name:"
@@ -555,7 +556,7 @@ msgstr "您需要定義名稱和指令"
 #: ../terminatorlib/plugins/custom_commands.py:444
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "已經存在 *%s* ，名稱不可相同"
+msgstr "*%s*已存在，名稱不可相同"
 
 #: ../terminatorlib/plugins/logger.py:23
 #: ../terminatorlib/plugins/terminalshot.py:22
@@ -576,7 +577,7 @@ msgstr "另存日誌檔"
 
 #: ../terminatorlib/plugins/terminalshot.py:29
 msgid "Terminal _screenshot"
-msgstr "終端機截圖"
+msgstr "畫面截圖"
 
 #: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
