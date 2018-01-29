@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2016-01-14 03:22+0000\n"
-"Last-Translator: Mingye Wang <arthur2e5@aosc.xyz>\n"
+"PO-Revision-Date: 2018-01-28 08:16+0000\n"
+"Last-Translator: Chris Young Park <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:13+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2018-01-29 05:37+0000\n"
+"X-Generator: Launchpad (build 18534)\n"
 "Language: \n"
 
 #. Command         uuid req.    Description
@@ -174,13 +174,13 @@ msgstr "<big><b>关闭多个终端？</b></big>"
 msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
-msgstr ""
+msgstr "此窗口已开启多个终端，关闭窗口将同时关闭已开启的终端。"
 
 #: ../terminatorlib/container.py:178
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
-msgstr ""
+msgstr "此标签页已开启多个终端，关闭标签页将同时关闭已开启的终端。"
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
@@ -510,11 +510,11 @@ msgstr "顶部"
 
 #: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
-msgstr ""
+msgstr "Up"
 
 #: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
-msgstr ""
+msgstr "Down"
 
 #: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
@@ -663,11 +663,11 @@ msgstr "深色的 Solarized"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Gruvbox light"
-msgstr ""
+msgstr "Gruvbox light"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Gruvbox dark"
-msgstr ""
+msgstr "Gruvbox dark"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Custom"
@@ -839,7 +839,7 @@ msgstr "终端分隔线宽度："
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
-msgstr ""
+msgstr "扩展样式 (主题依赖)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
@@ -947,7 +947,7 @@ msgstr "闪烁"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Foreground"
-msgstr ""
+msgstr "前景"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
@@ -1105,7 +1105,7 @@ msgstr "按 _Delete 键产生："
 
 #: ../terminatorlib/preferences.glade.h:131
 msgid "Encoding:"
-msgstr ""
+msgstr "编码："
 
 #: ../terminatorlib/preferences.glade.h:132
 msgid "_Reset Compatibility Options to Defaults"
@@ -1197,6 +1197,11 @@ msgid ""
 "<a href=\"https://bugs.launchpad.net/terminator\">Bugs / Enhancements</a>\n"
 "<a href=\"https://translations.launchpad.net/terminator\">Translations</a>"
 msgstr ""
+"<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">主页</a>\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">博客/新闻</a>\n"
+"<a href=\"https://launchpad.net/terminator\">开发</a>\n"
+"<a href=\"https://bugs.launchpad.net/terminator\">Bugs / 建议</a>\n"
+"<a href=\"https://translations.launchpad.net/terminator\">翻译</a>"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
