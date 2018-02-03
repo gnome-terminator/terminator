@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-10-30 22:19+0000\n"
+"PO-Revision-Date: 2018-02-02 08:47+0000\n"
 "Last-Translator: Marcin Sedlak <fdmarcin@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-10-31 05:34+0000\n"
-"X-Generator: Launchpad (build 18493)\n"
+"X-Launchpad-Export-Date: 2018-02-03 05:13+0000\n"
+"X-Generator: Launchpad (build 18544)\n"
 "Language: pl\n"
 
 #. Command         uuid req.    Description
@@ -104,6 +104,10 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"Wiele zachowań Terminatora bazuje na GNOME Terminal i z biegiem czasu "
+"dodajemy nowe funkcjonalności stamtąd, ale chcemy również rozwijać się w "
+"innych kierunkach z funkcjonalnościami przydatnymi dla administaratorów i "
+"innych użytkowników"
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -665,11 +669,11 @@ msgstr "Ciemny Solarized"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Gruvbox light"
-msgstr ""
+msgstr "Jasny Gruvbox"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Gruvbox dark"
-msgstr ""
+msgstr "Ciemny Gruvbox"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Custom"
@@ -853,7 +857,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Tabs scroll buttons"
-msgstr ""
+msgstr "Przycisk przewijania zakładek"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "<b>Terminal Titlebar</b>"
@@ -877,7 +881,7 @@ msgstr "Nieaktywny"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Receiving"
-msgstr "Przyjęcie"
+msgstr "Odbieranie"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Hide size from title"
@@ -1184,7 +1188,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
-msgstr ""
+msgstr "Podręcznik"
 
 #: ../terminatorlib/preferences.glade.h:154
 msgid ""
