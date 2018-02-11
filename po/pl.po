@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-02-02 08:47+0000\n"
-"Last-Translator: Marcin Sedlak <fdmarcin@gmail.com>\n"
+"PO-Revision-Date: 2018-02-11 04:38+0000\n"
+"Last-Translator: Benek <benekal@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-02-03 05:13+0000\n"
+"X-Launchpad-Export-Date: 2018-02-11 05:56+0000\n"
 "X-Generator: Launchpad (build 18544)\n"
 "Language: pl\n"
 
@@ -62,12 +62,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Uruchom jedną z poniższych komend  DBus Terminatora:\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"Te opcje wymagają albo zmiennej środowiskowej TERMINATOR_UUID,\n"
+"  albo opcja --uuid musi zostać użyta."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
@@ -87,7 +92,7 @@ msgstr "Wiele terminali w jednym oknie"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Robotyczna przyszłość terminali"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -96,6 +101,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Wszechstronne narzędzie do komponowania terminali. Inspirowane przez "
+"programy takie jak gnome-multi-term, quadkonsole, itp. w sposób, że główny "
+"nacisk kładziony jest na układanie terminali w prostokątne siatki "
+"(najczęstszą metodą są taby, które Terminator również wspiera)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -135,7 +144,7 @@ msgstr "Zapisywanie wielu układów i profili w graficznym edytorze ustawień"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Równoczesne wpisywanie tekstu do dowolnej grupy terminali."
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
