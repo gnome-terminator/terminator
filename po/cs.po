@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-02-28 19:23+0000\n"
+"PO-Revision-Date: 2018-03-01 17:46+0000\n"
 "Last-Translator: Pavel Borecki <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-03-01 05:59+0000\n"
+"X-Launchpad-Export-Date: 2018-03-02 05:52+0000\n"
 "X-Generator: Launchpad (build 18561)\n"
 "Language: cs\n"
 
@@ -29,11 +29,11 @@ msgstr "Otevřít nový panel"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr "Rozdělit horizontálně"
+msgstr "Rozdělit svisle"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "Rozdělit vertikálně"
+msgstr "Rozdělit vodorovně"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
@@ -41,19 +41,19 @@ msgstr "Zobrazit seznam všech terminálů"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr "Získat UUID hlavního okna"
+msgstr "Získat nikde se neopakující identifikátor nadřazeného okna"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr "Získat název hlavního okna"
+msgstr "Získat název nadřazeného okna"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Získat nikde se neopakující identifikátor nadřazeného panelu"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Získat název nadřazeného panelu"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,6 +62,9 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Spustit jeden z následujících Terminator DBus příkazů:\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
@@ -78,7 +81,7 @@ msgstr ""
 #: ../terminatorlib/plugins/activitywatch.py:163
 #: ../terminatorlib/preferences.glade.h:148
 msgid "Terminator"
-msgstr "Terminator"
+msgstr "Terminátor"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
@@ -87,7 +90,7 @@ msgstr "Několik terminálů v jednom okně"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Robotická budoucnost terminálů"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -115,11 +118,11 @@ msgstr "Uspořádat terminály v mřížce"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr "Karty"
+msgstr "Panely"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Přeuspořádávání terminálů přetažením"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
@@ -131,7 +134,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Souběžné psaní do libovolných skupin terminálů"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
@@ -139,7 +142,7 @@ msgstr "A mnoho dalšího…"
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Hlavní okno zobrazující aplikaci v akci"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
@@ -147,7 +150,7 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Okno s předvolbami ve kterém je možné měnit výchozí hodnoty"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -166,20 +169,24 @@ msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr ""
+"V tomto okně je otevřeno několik terminálů. Jeho zavření ukončí i všechny "
+"terminály v něm."
 
 #: ../terminatorlib/container.py:178
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
 msgstr ""
+"V tomto panelu je otevřeno několik terminálů. Jeho zavření ukončí i všechny "
+"terminály v něm."
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
-msgstr "Příště tuto zprávu neukazovat"
+msgstr "Příště tuto zprávu nezobrazovat"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
-msgstr "Nynější jazykové nastavení"
+msgstr "Stávající místní a jazyková nastavení"
 
 #: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:49
 #: ../terminatorlib/encoding.py:68 ../terminatorlib/encoding.py:91
@@ -323,7 +330,7 @@ msgstr "Thajština"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Spouštěč uspořádání Terminátor"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
@@ -336,7 +343,7 @@ msgstr "Spustit"
 
 #: ../terminatorlib/notebook.py:353
 msgid "tab"
-msgstr "záložka"
+msgstr "panel"
 
 #: ../terminatorlib/notebook.py:573
 msgid "Close Tab"
@@ -352,7 +359,7 @@ msgstr "Maximalizovat okno"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr "Okno na plochu obrazovky"
+msgstr "Vyplnit oknem obrazovku"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
@@ -364,15 +371,17 @@ msgstr "Skrýt okno při startu"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr "Uveď titulek okna"
+msgstr "Zadat titulek okna"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr "Nastavit upřednostňovanou velikost a polohu okna (viz X man stránka)"
+msgstr ""
+"Nastavit upřednostňovanou velikost a polohu okna (viz manuálová stránka "
+"zobrazovacího X serveru)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "Uveď příkaz k provedení uvnitř terminálu"
+msgstr "Zadat příkaz k provedení uvnitř terminálu"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
@@ -380,7 +389,7 @@ msgid ""
 "terminal, and its arguments"
 msgstr ""
 "Použít zbytek z příkazového řádku, jako příkaz k vykonání v terminálu i s "
-"jeho argumenty."
+"jeho argumenty"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -388,19 +397,19 @@ msgstr "Stanovit soubor s nastavením"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
-msgstr "Nastavit pracovní adresář"
+msgstr "Nastavit pracovní složku"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr "Nastavit oknu vlastnost vlastní název (WM_CLASS)"
+msgstr "Nastavit oknu vlastnost uživatelský název (WM_CLASS)"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Nastavit vlastní ikonu pro okno (podle souboru nebo názvu)"
+msgstr "Nastavit uživatelskou ikonu pro okno (podle souboru nebo názvu)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Nastavit vlastní WM_WINDOW_ROLE vlastnost okna"
+msgstr "Nastavit uživatelskou WM_WINDOW_ROLE vlastnost okna"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
@@ -424,24 +433,23 @@ msgstr "Povolit ladící informace (dvakrát pro ladící server)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Čárkou oddělený seznam tříd pro omezení ladění"
+msgstr "Čárkou oddělovaný seznam tříd pro omezení ladění"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "Čárkou oddělený seznam metod pro omezení ladění"
+msgstr "Čárkou oddělovaný seznam metod pro omezení ladění"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr "Pokud Terminator již běží, otevřít novou kartu"
+msgstr "Pokud je Terminátor už spuštěný, otevřít nový panel"
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
-"Doplněk ActivityWatch není dostupný: Prosím, nainstalujte python-notify"
+msgstr "Doplněk ActivityWatch není dostupný: Nainstalujte python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Hlídat _aktivitu"
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
@@ -450,7 +458,7 @@ msgstr "Aktivita v: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Hlídat _ticho"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
@@ -465,11 +473,11 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:67
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "_Preferences"
-msgstr "_Volby"
+msgstr "Vlastnosti"
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
-msgstr "Konfigurace vlastních příkazů"
+msgstr "Nastavení uživatelských příkazů"
 
 #: ../terminatorlib/plugins/custom_commands.py:124
 #: ../terminatorlib/plugins/custom_commands.py:273
@@ -504,11 +512,11 @@ msgstr "Nahoře"
 
 #: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
-msgstr ""
+msgstr "Nahoru"
 
 #: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
-msgstr ""
+msgstr "Dolů"
 
 #: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
@@ -532,7 +540,7 @@ msgstr "Nový příkaz"
 
 #: ../terminatorlib/plugins/custom_commands.py:280
 msgid "Enabled:"
-msgstr "Povoleny:"
+msgstr "Zapnuté:"
 
 #: ../terminatorlib/plugins/custom_commands.py:286
 msgid "Name:"
@@ -545,13 +553,13 @@ msgstr "Příkaz:"
 #: ../terminatorlib/plugins/custom_commands.py:315
 #: ../terminatorlib/plugins/custom_commands.py:425
 msgid "You need to define a name and command"
-msgstr "Definuj název a příkaz"
+msgstr "Zadejte název a příkaz"
 
 #: ../terminatorlib/plugins/custom_commands.py:332
 #: ../terminatorlib/plugins/custom_commands.py:444
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "Název *%s* již existuje"
+msgstr "Název *%s* už existuje"
 
 #: ../terminatorlib/plugins/logger.py:23
 #: ../terminatorlib/plugins/terminalshot.py:22
@@ -560,15 +568,15 @@ msgstr "_Uložit"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Spustit _záznam"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Zastavit _záznam"
 
 #: ../terminatorlib/plugins/logger.py:67
 msgid "Save Log File As"
-msgstr ""
+msgstr "Uložit soubor se záznamem jako"
 
 #: ../terminatorlib/plugins/terminalshot.py:29
 msgid "Terminal _screenshot"
