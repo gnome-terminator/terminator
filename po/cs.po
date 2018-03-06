@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-03-02 07:53+0000\n"
+"PO-Revision-Date: 2018-03-05 19:51+0000\n"
 "Last-Translator: Pavel Borecki <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-03-03 06:17+0000\n"
+"X-Launchpad-Export-Date: 2018-03-06 05:46+0000\n"
 "X-Generator: Launchpad (build 18566)\n"
 "Language: cs\n"
 
@@ -29,11 +29,11 @@ msgstr "Otevřít nový panel"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr "Rozdělit svisle"
+msgstr "Rozdělit stávající terminál vodorovně"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr "Rozdělit vodorovně"
+msgstr "Rozdělit stávající terminál svisle"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
@@ -41,15 +41,15 @@ msgstr "Zobrazit seznam všech terminálů"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr "Získat nikde se neopakující identifikátor nadřazeného okna"
+msgstr "Získat nikde se neopakující identifikátor (UUID) nadřazeného okna"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr "Získat název nadřazeného okna"
+msgstr "Získat titulek nadřazeného okna"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr "Získat nikde se neopakující identifikátor nadřazeného panelu"
+msgstr "Získat nikde se neopakující identifikátor (UUID) nadřazeného panelu"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
@@ -71,10 +71,14 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Tyto položky vyžadují buď proměnnou prostředí TERMINATOR_UUID,\n"
+"  nebo použití volby --uuid."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
+"Nikde se neopakující identifikátor (UUID) terminálu když není v proměnné "
+"prostředí TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -85,7 +89,7 @@ msgstr "Terminátor"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Několik terminálů v jednom okně"
+msgstr "Vícero terminálů v jednom okně"
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
@@ -99,6 +103,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Nástroj pro pokročilé uživatele pro uspořádávání terminálů. Inspirováno "
+"aplikacemi jako gnome-multi-term, quadkonsole, atp. v tom, že hlavní "
+"zaměření je uspořádávání terminálů v mřížkách (panely jsou nejběžnější "
+"výchozí metodou, kterou Terminátor také podporuje)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -107,10 +115,13 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"Mnohé z chování Terminátor je založeno na GNOME Terminal a postupně jsou "
+"přidávány další funkce z něj. Úmyslem je ale také rozšíření v různých "
+"směrech o funkce užitečné pro správce systémů a další uživatele."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Několik zajímavostí:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
@@ -122,7 +133,7 @@ msgstr "Panely"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr "Přeuspořádávání terminálů přetažením"
+msgstr "Změna uspořádání terminálů jejich přetažením"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
@@ -131,6 +142,8 @@ msgstr "Mnoho klávesových zkratek"
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
 msgstr ""
+"Uložit vícero rozvržení a profilů prostřednictvím editoru předvoleb v "
+"grafickém uživatelském rozhraní"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -146,11 +159,11 @@ msgstr "Hlavní okno zobrazující aplikaci v akci"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Trocha bláznivosti s terminály"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr "Okno s předvolbami ve kterém je možné měnit výchozí hodnoty"
+msgstr "Okno předvoleb ve kterém je možné měnit výchozí hodnoty"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -330,7 +343,7 @@ msgstr "Thajština"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr "Spouštěč uspořádání Terminátor"
+msgstr "Spouštěč uspořádání v Terminátor"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
@@ -381,15 +394,15 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "Zadat příkaz k provedení uvnitř terminálu"
+msgstr "Zadat příkaz k provedení v terminálu"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Použít zbytek z příkazového řádku, jako příkaz k vykonání v terminálu i s "
-"jeho argumenty"
+"Použít zbytek příkazového řádku jako příkaz a jeho argumenty k vykonání v "
+"terminálu"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -405,7 +418,7 @@ msgstr "Nastavit oknu vlastnost uživatelský název (WM_CLASS)"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr "Nastavit uživatelskou ikonu pro okno (podle souboru nebo názvu)"
+msgstr "Nastavit oknu uživatelskou ikonu (podle souboru nebo názvu)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
@@ -433,15 +446,15 @@ msgstr "Povolit ladící informace (dvakrát pro ladící server)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Čárkou oddělovaný seznam tříd pro omezení ladění"
+msgstr "Čárkou oddělovaný seznam tříd na které ladění omezit"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "Čárkou oddělovaný seznam metod pro omezení ladění"
+msgstr "Čárkou oddělovaný seznam metod na které ladění omezit"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr "Pokud je Terminátor už spuštěný, otevřít nový panel"
+msgstr "Pokud je Terminátor už spuštěný, jen otevřít nový panel"
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -473,7 +486,7 @@ msgstr "_Uživatelské příkazy"
 #: ../terminatorlib/plugins/custom_commands.py:67
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "_Preferences"
-msgstr "Vlastnosti"
+msgstr "_Vlastnosti"
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
@@ -625,31 +638,31 @@ msgstr "Spustit příkaz znovu"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
-msgstr "Nechat terminál otevřený"
+msgstr "Ponechat terminál otevřený"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
-msgstr "Černá na světle žluté"
+msgstr "Černé na světle žlutém"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "Black on white"
-msgstr "Černá na bílé"
+msgstr "Černé na bílém"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr "Šedá na černém"
+msgstr "Šedé na černém"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
-msgstr "Zelená na černé"
+msgstr "Zelené na černém"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "White on black"
-msgstr "Černá na bílé"
+msgstr "Černé na bílém"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Orange on black"
-msgstr "Oranžová na černé"
+msgstr "Oranžové na černém"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Ambience"
@@ -665,11 +678,11 @@ msgstr "Sluneční tmavé"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Gruvbox light"
-msgstr ""
+msgstr "Gruvbox světlé"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Gruvbox dark"
-msgstr ""
+msgstr "Gruvbox tmavé"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Custom"
@@ -801,7 +814,7 @@ msgstr "Zaměření myši:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
-msgstr "Všesměrové vysílání výchozí:"
+msgstr "Výchozí vysílání do více směrů:"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
@@ -1181,6 +1194,15 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"Nástroj pro pokročilé uživatele pro uspořádávání terminálů. Inspirováno "
+"aplikacemi jako gnome-multi-term, quadkonsole, atp. hlavním zaměřením je "
+"uspořádávání terminálů v mřížkách (karty jsou nejběžnější výchozí metodou, "
+"kterou Terminátor také podporuje).\n"
+"\n"
+"Mnoho z chování Terminator je založeno na GNOME Terminal, a postupně jsou "
+"přidávány další funkce, ale úmyslem je rozšíření v odlišných směrech s "
+"užitečnými funkcemi pro správce systémů a další uživatele. Pokud máte nějaké "
+"doporučení, vyplňte chyby s přáními! (viz vlevo odkaz Vývoj)"
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
