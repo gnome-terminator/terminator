@@ -7,8 +7,8 @@ from gi.repository import Gtk, Gdk
 from gi.repository import GObject
 from gi.repository import GLib
 
-from translation import _
-from config import Config
+from .translation import _
+from .config import Config
 
 # pylint: disable-msg=R0904
 class Searchbar(Gtk.HBox):

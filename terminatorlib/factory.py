@@ -19,8 +19,8 @@ True
 
 """
 
-from borg import Borg
-from util import dbg, err, inject_uuid
+from .borg import Borg
+from .util import dbg, err, inject_uuid
 
 # pylint: disable-msg=R0201
 # pylint: disable-msg=W0613
@@ -33,7 +33,7 @@ class Factory(Borg):
              'Notebook': 'notebook',
              'Container': 'container',
              'Window': 'window'}
-    types_keys = types.keys()
+    types_keys = list(types.keys())
     instance_types = {}
     instance_types_keys = []
 
@@ -97,26 +97,26 @@ class Factory(Borg):
 
     def make_window(self, **kwargs):
         """Make a Window"""
-        import window
+        from . import window
         return(window.Window(**kwargs))
 
     def make_terminal(self, **kwargs):
         """Make a Terminal"""
-        import terminal
+        from . import terminal
         return(terminal.Terminal())
 
     def make_hpaned(self, **kwargs):
         """Make an HPaned"""
-        import paned
+        from . import paned
         return(paned.HPaned())
 
     def make_vpaned(self, **kwargs):
         """Make a VPaned"""
-        import paned
+        from . import paned
         return(paned.VPaned())
 
     def make_notebook(self, **kwargs):
         """Make a Notebook"""
-        import notebook
+        from . import notebook
         return(notebook.Notebook(kwargs['window']))
 

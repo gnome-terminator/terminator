@@ -9,7 +9,7 @@ exist to encourage re-use, but I can not find any
 specific licencing terms.
 """
 
-from util import dbg
+from .util import dbg
 
 # pylint: disable-msg=R0903
 # pylint: disable-msg=R0921
@@ -43,7 +43,7 @@ class Borg:
         type."""
         if borgtype is None:
             raise TypeError('Borg::__init__: You must pass a borgtype')
-        if not self.__shared_state.has_key(borgtype):
+        if borgtype not in self.__shared_state:
             dbg('Borg::__init__: Preparing borg state for %s' % borgtype)
             self.__shared_state[borgtype] = {}
         self.__dict__ = self.__shared_state[borgtype]

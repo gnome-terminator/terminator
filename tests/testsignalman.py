@@ -53,11 +53,11 @@ class TestWidget():
         del(self.signals[signalid])
 
 def handler():
-    print "I am a test handler"
+    print("I am a test handler")
 
 if __name__ == '__main__':
     import sys
     import doctest
     (failed, attempted) = doctest.testmod()
-    print "%d/%d tests failed" % (failed, attempted)
+    print("%d/%d tests failed" % (failed, attempted))
     sys.exit(failed)

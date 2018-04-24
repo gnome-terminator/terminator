@@ -7,9 +7,6 @@ terminator.py
 data/terminator.desktop.in
 data/terminator.appdata.xml.in
 terminatorlib/borg.py
-terminatorlib/configobj/configobj.py
-terminatorlib/configobj/__init__.py
-terminatorlib/configobj/validate.py
 terminatorlib/config.py
 terminatorlib/container.py
 terminatorlib/cwd.py

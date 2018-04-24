@@ -10,7 +10,7 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 
 import socket
 import threading
-import SocketServer
+import socketserver
 import code
 import sys
 import readline
@@ -22,7 +22,7 @@ def ddbg(msg):
   return
   dbg(msg)
 
-class PythonConsoleServer(SocketServer.BaseRequestHandler):
+class PythonConsoleServer(socketserver.BaseRequestHandler):
   env = None
   def setup(self):
     dbg('debugserver: connect from %s' % str(self.client_address))
@@ -165,7 +165,7 @@ class TerminatorConsole(code.InteractiveConsole):
 
 def spawn(env):
   PythonConsoleServer.env = env
-  tcpserver = SocketServer.TCPServer(('127.0.0.1', 0), PythonConsoleServer)
+  tcpserver = socketserver.TCPServer(('127.0.0.1', 0), PythonConsoleServer)
   dbg("debugserver: listening on %s" % str(tcpserver.server_address))
   debugserver = threading.Thread(target=tcpserver.serve_forever, name="DebugServer")
   debugserver.setDaemon(True)

@@ -7,10 +7,10 @@ variants"""
 import time
 from gi.repository import GObject, Gtk, Gdk
 
-from util import dbg, err,  enumerate_descendants
-from terminator import Terminator
-from factory import Factory
-from container import Container
+from .util import dbg, err,  enumerate_descendants
+from .terminator import Terminator
+from .factory import Factory
+from .container import Container
 
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
@@ -123,7 +123,7 @@ class Paned(Container):
                 self.connect_child(widget, signal, handler, *args)
 
             if metadata and \
-               metadata.has_key('had_focus') and \
+               'had_focus' in metadata and \
                metadata['had_focus'] == True:
                     widget.grab_focus()
 
@@ -357,7 +357,7 @@ class Paned(Container):
 
     def create_layout(self, layout):
         """Apply layout configuration"""
-        if not layout.has_key('children'):
+        if 'children' not in layout:
             err('layout specifies no children: %s' % layout)
             return
 
@@ -376,14 +376,14 @@ class Paned(Container):
             for child in children:
                 key = children[child]['order']
                 child_order_map[key] = child
-            map_keys = child_order_map.keys()
+            map_keys = list(child_order_map.keys())
             map_keys.sort()
             for map_key in map_keys:
                 keys.append(child_order_map[map_key])
         except KeyError:
             # We've failed to figure out the order. At least give the terminals
             # in the wrong order
-            keys = children.keys()
+            keys = list(children.keys())
 
         num = 0
         for child_key in keys:
@@ -411,7 +411,7 @@ class Paned(Container):
         self.get_child2().create_layout(children[keys[1]])
 
         # Set the position with ratio. For some reason more reliable than by pos.
-        if layout.has_key('ratio'):
+        if 'ratio' in layout:
             self.ratio = float(layout['ratio'])
             self.set_position_by_ratio()
 

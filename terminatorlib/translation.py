@@ -17,8 +17,8 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-from version import APP_NAME
-from util import dbg
+from .version import APP_NAME
+from .util import dbg
 
 _ = None
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 #    Terminator - multiple gnome terminals in one window
 #    Copyright (C) 2006-2010  cmsj@tenshu.net
 #
@@ -92,7 +92,7 @@ if __name__ == '__main__':
                 if OPTIONS.working_directory is None:
                     OPTIONS.working_directory = ORIGCWD
                 optionslist = {}
-                for opt, val in OPTIONS.__dict__.items():
+                for opt, val in list(OPTIONS.__dict__.items()):
                     if type(val) == type([]):
                         val = ' '.join(val)
                     if val == True:
@@ -120,12 +120,12 @@ if __name__ == '__main__':
         try:
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
             TERMINATOR.create_layout(OPTIONS.layout)
-        except (KeyError,ValueError), ex:
+        except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
             TERMINATOR.new_window()
         TERMINATOR.layout_done()
 
-    if OPTIONS.debug >= 2:
+    if OPTIONS.debug and OPTIONS.debug >= 2:
         import terminatorlib.debugserver as debugserver
         # pylint: disable-msg=W0611
         import threading

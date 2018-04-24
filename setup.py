@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 from distutils.core import setup
 from distutils.dist import Distribution
@@ -53,8 +53,8 @@ class BuildData(build):
           try:
             rc = subprocess.call(['msgfmt', '-o', mo, po])
             if rc != 0:
-              raise Warning, "msgfmt returned %d" % rc
-          except Exception, e:
+              raise Warning("msgfmt returned %d" % rc)
+          except Exception as e:
             error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
             error("Error: %s" % str(e))
             sys.exit(1)
@@ -104,7 +104,7 @@ class Uninstall(Command):
             raise DistutilsFileError("Pass manifest with --manifest=file")
         f = open(self.manifest)
         files = [file.strip() for file in f]
-      except IOError, e:
+      except IOError as e:
         raise DistutilsFileError("unable to open install manifest: %s", str(e))
     finally:
       if f:
@@ -116,7 +116,7 @@ class Uninstall(Command):
         if not self.dry_run:
           try:
             os.unlink(file)
-          except OSError, e:
+          except OSError as e:
             warn("could not delete: %s" % repr(file))
       elif not os.path.isdir(file):
         info("skipping %s" % repr(file))
@@ -133,7 +133,7 @@ class Uninstall(Command):
           if not self.dry_run:
             try:
               os.rmdir(dir)
-            except OSError, e:
+            except OSError as e:
               warn("could not remove directory: %s" % str(e))
         else:
           info("skipping empty directory %s" % repr(dir))
@@ -152,7 +152,7 @@ class InstallData(install_data):
     info("running gtk-update-icon-cache")
     try:
       subprocess.call(["gtk-update-icon-cache", "-q", "-f", "-t", os.path.join(self.install_dir, "share/icons/hicolor")])
-    except Exception, e:
+    except Exception as e:
       warn("updating the GTK icon cache failed: %s" % str(e))
 
   def _find_mo_files (self):
@@ -231,7 +231,6 @@ setup(name=APP_NAME,
                  ],
       packages=[
           'terminatorlib',
-          'terminatorlib.configobj',
           'terminatorlib.plugins',
       ],
       install_requires=[

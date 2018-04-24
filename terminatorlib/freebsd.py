@@ -50,11 +50,11 @@ uintlen = c_size_t(sizeof(c_uint))
 ver = c_uint(0)
 
 if (libc.sysctlbyname('kern.osreldate', byref(ver), byref(uintlen), None, 0) < 0):
-  raise OSError, "sysctlbyname returned < 0"
+  raise OSError("sysctlbyname returned < 0")
 
 # kern.proc.filedesc added for procstat(1) after these __FreeBSD_versions
 if ver.value < 700104 and ver.value < 800019:
-  raise NotImplementedError, "cwd detection requires a recent 7.0-STABLE or 8-CURRENT"
+  raise NotImplementedError("cwd detection requires a recent 7.0-STABLE or 8-CURRENT")
 
 
 def get_process_cwd(pid):
@@ -72,7 +72,7 @@ def get_process_cwd(pid):
     return None
 
   kifs = cast(buf, POINTER(kinfo_file))
-  for i in xrange(0, uintlen.value / sizeof(kinfo_file)):
+  for i in range(0, uintlen.value / sizeof(kinfo_file)):
     kif = kifs[i]
     if kif.kf_fd == -1: # KF_FD_TYPE_CWD
       return kif.kf_path
@@ -80,12 +80,12 @@ def get_process_cwd(pid):
 
 if __name__ == '__main__':
   import os, sys
-  print " => %d cwd = %s" % (os.getpid(), get_process_cwd(os.getpid()))
+  print(" => %d cwd = %s" % (os.getpid(), get_process_cwd(os.getpid())))
   for pid in sys.argv:
     try:
       pid = int(pid)
     except:
       pass
     else:
-      print " => %d cwd = %s" % (pid, get_process_cwd(pid))
+      print(" => %d cwd = %s" % (pid, get_process_cwd(pid)))
 

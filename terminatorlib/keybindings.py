@@ -24,7 +24,7 @@ keyboard shortcuts.
 
 import re
 from gi.repository import Gtk, Gdk
-from util import err
+from .util import err
 
 class KeymapError(Exception):
     """Custom exception for errors in keybinding configurations"""
@@ -61,7 +61,7 @@ class Keybindings:
         """Parse bindings and mangle into an appropriate form"""
         self._lookup = {}
         self._masks = 0
-        for action, bindings in self.keys.items():
+        for action, bindings in list(self.keys.items()):
             if not isinstance(bindings, tuple):
                 bindings = (bindings,)
 

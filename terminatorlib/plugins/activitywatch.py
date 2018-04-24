@@ -53,7 +53,7 @@ class ActivityWatch(plugin.MenuItem):
     def callback(self, menuitems, menu, terminal):
         """Add our menu item to the menu"""
         item = Gtk.CheckMenuItem.new_with_mnemonic(_('Watch for _activity'))
-        item.set_active(self.watches.has_key(terminal))
+        item.set_active(terminal in self.watches)
         if item.get_active():
             item.connect("activate", self.unwatch, terminal)
         else:
@@ -85,7 +85,7 @@ class ActivityWatch(plugin.MenuItem):
                                   terminal.get_window_title(), 'terminator')
 
         this_time = time.mktime(time.gmtime())
-        if not self.last_notifies.has_key(terminal):
+        if terminal not in self.last_notifies:
             show_notify = True
         else:
             last_time = self.last_notifies[terminal]
@@ -119,7 +119,7 @@ class InactivityWatch(plugin.MenuItem):
     def callback(self, menuitems, menu, terminal):
         """Add our menu item to the menu"""
         item = Gtk.CheckMenuItem.new_with_mnemonic(_("Watch for _silence"))
-        item.set_active(self.watches.has_key(terminal))
+        item.set_active(terminal in self.watches)
         if item.get_active():
             item.connect("activate", self.unwatch, terminal)
         else:
@@ -153,7 +153,7 @@ class InactivityWatch(plugin.MenuItem):
     def check_times(self, terminal):
         """Check if this terminal has gone silent"""
         time_now = time.mktime(time.gmtime())
-        if not self.last_activities.has_key(terminal):
+        if terminal not in self.last_activities:
             dbg('Terminal %s has no last activity' % terminal)
             return True
 

@@ -3,15 +3,16 @@
 # GPL v2 only
 """ipc.py - DBus server and API calls"""
 
+import hashlib
 from gi.repository import Gdk
 import dbus.service
 from dbus.exceptions import DBusException
 import dbus.glib
-from borg import Borg
-from terminator import Terminator
-from config import Config
-from factory import Factory
-from util import dbg,  enumerate_descendants
+from .borg import Borg
+from .terminator import Terminator
+from .config import Config
+from .factory import Factory
+from .util import dbg,  enumerate_descendants
 
 CONFIG = Config()
 if not CONFIG['dbus']:
@@ -23,7 +24,9 @@ BUS_BASE = 'net.tenshu.Terminator2'
 BUS_PATH = '/net/tenshu/Terminator2'
 try:
     # Try and include the X11 display name in the dbus bus name
-    DISPLAY  = hex(hash(Gdk.get_display().partition('.')[0]))
+    DISPLAY = Gdk.get_display().partition('.')[0]
+    # In Python 3, hash() uses a different seed on each run, so use hashlib
+    DISPLAY = hashlib.md5(DISPLAY.encode('utf-8')).hexdigest()
     BUS_NAME = '%s%s' % (BUS_BASE, DISPLAY)
 except:
     BUS_NAME = BUS_BASE
@@ -185,7 +188,7 @@ class DBusService(Borg, dbus.service.Object):
 
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
-    dbg('dbus client call: %s' % func.func_name)
+    dbg('dbus client call: %s' % func.__name__)
     def _exec(*args, **argd):
         bus = dbus.SessionBus()
         proxy = bus.get_object(BUS_NAME, BUS_PATH)
@@ -205,45 +208,45 @@ def new_tab_cmdline(session, options):
 @with_proxy
 def new_window(session, options):
     """Call the dbus method to open a new window"""
-    print session.new_window()
+    print(session.new_window())
 
 @with_proxy
 def new_tab(session, uuid, options):
     """Call the dbus method to open a new tab in the first window"""
-    print session.new_tab(uuid)
+    print(session.new_tab(uuid))
 
 @with_proxy
 def hsplit(session, uuid, options):
     """Call the dbus method to horizontally split a terminal"""
-    print session.hsplit(uuid)
+    print(session.hsplit(uuid))
 
 @with_proxy
 def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
-    print session.vsplit(uuid)
+    print(session.vsplit(uuid))
 
 @with_proxy
 def get_terminals(session, options):
     """Call the dbus method to return a list of all terminals"""
-    print '\n'.join(session.get_terminals())
+    print('\n'.join(session.get_terminals()))
 
 @with_proxy
 def get_window(session, uuid, options):
     """Call the dbus method to return the toplevel tab for a terminal"""
-    print session.get_window(uuid)
+    print(session.get_window(uuid))
 
 @with_proxy
 def get_window_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
-    print session.get_window_title(uuid)
+    print(session.get_window_title(uuid))
 
 @with_proxy
 def get_tab(session, uuid, options):
     """Call the dbus method to return the toplevel tab for a terminal"""
-    print session.get_tab(uuid)
+    print(session.get_tab(uuid))
 
 @with_proxy
 def get_tab_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
-    print session.get_tab_title(uuid)
+    print(session.get_tab_title(uuid))
 
