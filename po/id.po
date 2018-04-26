@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-04-14 01:52+0000\n"
+"PO-Revision-Date: 2018-04-26 01:14+0000\n"
 "Last-Translator: Abdul Munif Hanafi <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-04-15 05:49+0000\n"
-"X-Generator: Launchpad (build 18610)\n"
+"X-Launchpad-Export-Date: 2018-04-26 05:44+0000\n"
+"X-Generator: Launchpad (build 18623)\n"
 "Language: id\n"
 
 #. Command         uuid req.    Description
@@ -341,7 +341,7 @@ msgstr "Terminator Layout Launcher"
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Layout"
-msgstr ""
+msgstr "Tata Letak"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
@@ -504,7 +504,7 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: ../terminatorlib/plugins/custom_commands.py:160
 #: ../terminatorlib/preferences.glade.h:103
@@ -530,7 +530,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:198
 msgid "New"
-msgstr ""
+msgstr "Baru"
 
 #: ../terminatorlib/plugins/custom_commands.py:203
 msgid "Edit"
@@ -538,7 +538,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:209
 msgid "Delete"
-msgstr ""
+msgstr "Hapus"
 
 #: ../terminatorlib/plugins/custom_commands.py:269
 msgid "New Command"
@@ -570,7 +570,7 @@ msgstr "Nama *%s* telah digunakan"
 #: ../terminatorlib/plugins/logger.py:23
 #: ../terminatorlib/plugins/terminalshot.py:22
 msgid "_Save"
-msgstr ""
+msgstr "_Simpan"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
@@ -590,7 +590,7 @@ msgstr "Terminal _screenshot"
 
 #: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
-msgstr ""
+msgstr "Simpan gambar"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
@@ -615,7 +615,7 @@ msgstr "Semuanya"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
@@ -851,7 +851,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
-msgstr ""
+msgstr "Posisi tab:"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
@@ -867,11 +867,11 @@ msgstr "<b>Terminal Titlebar</b>"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Font color:"
-msgstr ""
+msgstr "Warna huruf:"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Background:"
-msgstr ""
+msgstr "Latar belakang:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Focused"
@@ -879,11 +879,11 @@ msgstr "Focused"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Inactive"
-msgstr ""
+msgstr "Tidak aktif"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Receiving"
-msgstr ""
+msgstr "Menerima"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Hide size from title"
