@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-04-26 01:14+0000\n"
+"PO-Revision-Date: 2018-05-17 03:44+0000\n"
 "Last-Translator: Abdul Munif Hanafi <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-04-27 05:50+0000\n"
-"X-Generator: Launchpad (build 18623)\n"
+"X-Launchpad-Export-Date: 2018-05-17 05:54+0000\n"
+"X-Generator: Launchpad (build 18658)\n"
 "Language: id\n"
 
 #. Command         uuid req.    Description
@@ -345,7 +345,7 @@ msgstr "Tata Letak"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Luncurkan"
 
 #: ../terminatorlib/notebook.py:353
 msgid "tab"
@@ -361,7 +361,7 @@ msgstr "Tampilkan versi program"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Maksimalkan jendela"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
@@ -495,11 +495,11 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:125
 #: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
-msgstr ""
+msgstr "Aktifkan"
 
 #: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
@@ -643,7 +643,7 @@ msgstr "Hitam atas putih"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Abu-abu di atas hitam"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
@@ -771,7 +771,7 @@ msgstr "Preferensi Terminator"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Perilaku</b>"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Window state:"
@@ -831,7 +831,7 @@ msgstr "Custom URL handler:"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Penampilan</b>"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Window borders"
@@ -947,15 +947,15 @@ msgstr "_Shape:"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "Color:"
-msgstr ""
+msgstr "Warna:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Blink"
-msgstr ""
+msgstr "Berkedip"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Foreground"
-msgstr ""
+msgstr "Latar Depan"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
@@ -1136,7 +1136,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Profile:"
-msgstr ""
+msgstr "Profil:"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Custom command:"
@@ -1152,7 +1152,7 @@ msgstr "Tata Letak"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Action"
-msgstr ""
+msgstr "Aksi"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Keybinding"
@@ -1164,7 +1164,7 @@ msgstr "Kaitan tombol"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid "Plugin"
-msgstr ""
+msgstr "Pengaya"
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "This plugin has no configuration options"
@@ -1215,7 +1215,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
-msgstr ""
+msgstr "Tentang"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Increase font size"
@@ -1231,7 +1231,7 @@ msgstr "Restore original font size"
 
 #: ../terminatorlib/prefseditor.py:99
 msgid "Create a new tab"
-msgstr ""
+msgstr "Buat tab baru"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
@@ -1279,11 +1279,11 @@ msgstr "Close terminal"
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Copy selected text"
-msgstr ""
+msgstr "Salin teks yang dipilih"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Paste clipboard"
-msgstr ""
+msgstr "Tempel papan klip"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Show/Hide the scrollbar"
@@ -1319,7 +1319,7 @@ msgstr "Scroll downwards one line"
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Close window"
-msgstr ""
+msgstr "Tutup jendela"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
@@ -1355,11 +1355,11 @@ msgstr "Zoom terminal"
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Berpindah ke tab selanjutnya"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Berpindah ke tab sebelumnya"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Switch to the first tab"
@@ -1443,7 +1443,7 @@ msgstr "Ungroup terminals in tab"
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
-msgstr ""
+msgstr "Buat jendela baru"
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Spawn a new Terminator process"
@@ -1495,7 +1495,7 @@ msgstr "Switch to previous profile"
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Open the manual"
-msgstr ""
+msgstr "Buka manual"
 
 #: ../terminatorlib/prefseditor.py:1136 ../terminatorlib/prefseditor.py:1141
 msgid "New Profile"
@@ -1705,19 +1705,19 @@ msgstr "Masukkan judul baru untuk terminal"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
-msgstr ""
+msgstr "Alpha"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
@@ -1729,7 +1729,7 @@ msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Eta"
-msgstr ""
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Theta"
@@ -1765,7 +1765,7 @@ msgstr "Omicron"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
@@ -1773,7 +1773,7 @@ msgstr "Rho"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Tau"
