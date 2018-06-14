@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-10-11 15:53+0000\n"
-"Last-Translator: David Ongaro <Unknown>\n"
+"PO-Revision-Date: 2018-06-12 08:18+0000\n"
+"Last-Translator: Max Staff <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-10-12 06:00+0000\n"
-"X-Generator: Launchpad (build 18474)\n"
+"X-Launchpad-Export-Date: 2018-06-14 05:58+0000\n"
+"X-Generator: Launchpad (build 18688)\n"
 "Language: de\n"
 
 #. Command         uuid req.    Description
@@ -25,7 +25,7 @@ msgstr "Ein neues Fenster öffnen"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
-msgstr "Einen neuen Reiter öffnen"
+msgstr "Neuen Reiter öffnen"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
@@ -37,23 +37,23 @@ msgstr "Aktuelles Terminal senkrecht teilen"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr "Liste von allen Terminals"
+msgstr "Liste aller Terminals"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr "UUID aus dem Elternfenster erhalten"
+msgstr "UUID des Elternfensters erhalten"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr "Titel aus dem Elternfenster erhalten"
+msgstr "Titel des Elternfensters erhalten"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr "UUID aus dem Elternreiter erhalten"
+msgstr "UUID des Elternreiters erhalten"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr "Titel aus dem Elternreiter erhalten"
+msgstr "Titel des Elternreiters erhalten"
 
 #: ../remotinator.py:63
 #, python-format
@@ -76,7 +76,7 @@ msgstr ""
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr "Terminal UUID falls nicht in ev var TERMINATOR_UUID"
+msgstr "Terminal UUID falls nicht in Umgebungsvariable TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
