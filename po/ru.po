@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-04-03 11:49+0000\n"
+"PO-Revision-Date: 2018-08-23 04:04+0000\n"
 "Last-Translator: Pavel Ivanov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:13+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2018-08-23 05:53+0000\n"
+"X-Generator: Launchpad (build 18752)\n"
 "Language: ru\n"
 
 #. Command         uuid req.    Description
@@ -71,6 +71,8 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"Эти данные требуют значения переменной окружения TERMINATOR_UUID\n"
+"  или опции --uuid."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
@@ -343,7 +345,7 @@ msgstr "Тайский"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Запуск компоновки Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
@@ -472,12 +474,12 @@ msgstr "Активность в течении: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Отслеживание бездействия"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Бездействие через: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
@@ -503,7 +505,7 @@ msgstr "О_тменить"
 #: ../terminatorlib/plugins/custom_commands.py:125
 #: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
@@ -530,7 +532,7 @@ msgstr "Выше"
 
 #: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
-msgstr ""
+msgstr "Вниз"
 
 #: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
@@ -815,11 +817,11 @@ msgstr "Позиция мыши:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
-msgstr ""
+msgstr "Транслирует по-умолчанию:"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
-msgstr ""
+msgstr "Вставка в тиле PuTTY"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
@@ -1308,7 +1310,7 @@ msgstr "Показать или скрыть полосу прокрутки"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Поиск в буфере обратной прокрутки терминала"
 
 #: ../terminatorlib/prefseditor.py:117
 msgid "Scroll upwards one page"
@@ -1500,7 +1502,7 @@ msgstr "Изменить наименование вкладки"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "Открыть окно компоновщика"
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
