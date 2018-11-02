@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2015-08-05 12:28+0000\n"
-"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
+"PO-Revision-Date: 2018-11-01 15:54+0000\n"
+"Last-Translator: lang-it <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:13+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2018-11-02 05:08+0000\n"
+"X-Generator: Launchpad (build 18810)\n"
 "Language: ro\n"
 
 #. Command         uuid req.    Description
@@ -338,7 +338,7 @@ msgstr "Disposizione"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr "Lanciare"
+msgstr "Esegui"
 
 #: ../terminatorlib/notebook.py:353
 msgid "tab"
