@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-08-23 04:04+0000\n"
-"Last-Translator: Pavel Ivanov <Unknown>\n"
+"PO-Revision-Date: 2018-11-23 10:41+0000\n"
+"Last-Translator: Sandro <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-08-24 05:56+0000\n"
-"X-Generator: Launchpad (build 18752)\n"
+"X-Launchpad-Export-Date: 2018-11-24 05:47+0000\n"
+"X-Generator: Launchpad (build 18826)\n"
 "Language: ru\n"
 
 #. Command         uuid req.    Description
@@ -460,8 +460,7 @@ msgstr "Если Терминатор уже запущен, просто отк
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
-msgstr ""
-"Плагин ActivityWatch отсутствует: пожалуйста, установите python-notify"
+msgstr "Модуль ActivityWatch недоступен: установите python-notify"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
@@ -817,11 +816,11 @@ msgstr "Позиция мыши:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
-msgstr "Транслирует по-умолчанию:"
+msgstr "Режим трансляции нажатий клавиш"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
-msgstr "Вставка в тиле PuTTY"
+msgstr "Вставка в стиле PuTTY"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
@@ -833,11 +832,11 @@ msgstr "Повторное использование профилей для н
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Use custom URL handler"
-msgstr "Используйте пользовательский обработчик URL"
+msgstr "Использовать пользовательский обработчик URL"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Custom URL handler:"
-msgstr "Произвольный URL механизм:"
+msgstr "Обработчик URL:"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
@@ -857,7 +856,7 @@ msgstr "Размер разделителя терминалов:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
-msgstr "Экстра Дизайн (зависит от темы)"
+msgstr "Дополнительные стили (зависит от темы)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
@@ -1182,7 +1181,7 @@ msgstr "Этот плагин не имеет параметров конфиг�
 
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Plugins"
-msgstr "Плагины"
+msgstr "Модули"
 
 #: ../terminatorlib/preferences.glade.h:150
 msgid ""
@@ -1486,7 +1485,7 @@ msgstr "Вставить номер терминала"
 
 #: ../terminatorlib/prefseditor.py:160
 msgid "Insert padded terminal number"
-msgstr "Вставить консольное число с цифровой клавиатуры"
+msgstr "Вставить номер терминала"
 
 #: ../terminatorlib/prefseditor.py:161
 msgid "Edit window title"
@@ -1618,7 +1617,7 @@ msgstr "_Увеличить терминал"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
-msgstr ""
+msgstr "Раз_вернуть терминал"
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"
@@ -1650,7 +1649,7 @@ msgstr "Другие кодировки"
 
 #: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
-msgstr ""
+msgstr "Новая гр_уппа..."
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
@@ -1680,7 +1679,7 @@ msgstr "Закрыть группу %s"
 
 #: ../terminatorlib/terminal.py:491
 msgid "Broadcast _all"
-msgstr "Транслировать все_м"
+msgstr "Транслировать во вс_е терминалы"
 
 #: ../terminatorlib/terminal.py:492
 msgid "Broadcast _group"
@@ -1688,7 +1687,7 @@ msgstr "Транслировать гру_ппе"
 
 #: ../terminatorlib/terminal.py:493
 msgid "Broadcast _off"
-msgstr "Откл_ючить трансляцию"
+msgstr "Отключить трансляцию клавиш"
 
 #: ../terminatorlib/terminal.py:509
 msgid "_Split to this group"
@@ -1704,7 +1703,7 @@ msgstr "_Добавить номер терминала"
 
 #: ../terminatorlib/terminal.py:525
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Вставить _номер терминала"
 
 #: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"
