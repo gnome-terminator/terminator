@@ -3,6 +3,7 @@
 # GPL v2 only
 """notebook.py - classes for the notebook widget"""
 
+from functools import cmp_to_key
 from gi.repository import GObject
 from gi.repository import Gtk
 from gi.repository import Gdk
@@ -100,7 +101,7 @@ class Notebook(Container, Gtk.Notebook):
 
         num = 0
         keys = list(children.keys())
-        keys.sort(child_compare)
+        keys = sorted(keys, key=cmp_to_key(child_compare))
 
         for child_key in keys:
             child = children[child_key]
