@@ -1016,7 +1016,7 @@ class Terminal(Gtk.VBox):
             _time, data):
         """I have no idea what this does, drag and drop is a mystery. sorry."""
         selection_data.set(Gdk.atom_intern('vte', False), info,
-                str(data.terminator.terminals.index(self)))
+                bytes(str(data.terminator.terminals.index(self)), 'utf-8'))
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
