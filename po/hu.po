@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2017-10-30 13:30+0000\n"
-"Last-Translator: Penna Panna <Unknown>\n"
+"PO-Revision-Date: 2019-06-10 18:06+0000\n"
+"Last-Translator: Bence László <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-10-31 05:34+0000\n"
-"X-Generator: Launchpad (build 18493)\n"
+"X-Launchpad-Export-Date: 2019-06-11 05:55+0000\n"
+"X-Generator: Launchpad (build 18978)\n"
 "Language: hu\n"
 
 #. Command         uuid req.    Description
@@ -45,15 +45,15 @@ msgstr ""
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Cím öröklése a szülőablakból"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "UUID öröklése a szülőfülről"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Cím öröklése a szülőfülről"
 
 #: ../remotinator.py:63
 #, python-format
@@ -87,7 +87,7 @@ msgstr "Több terminál egy ablakban"
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "A terminálok robot jövője"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -104,14 +104,17 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"A Terminator viselkedésének jelentős része a GNOME Terminalon alapszik, és "
+"az idő elteltével adunk hozzá új funkciókat, de más irányokba is ki akarjuk "
+"terjeszteni, hasznos funkciókkal rendszergazdáknak és más felhasználóknak."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Néhányat kiemelve:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Terminálok rácsba rendezése"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
@@ -123,11 +126,11 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Sok billentyűkombináció"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr ""
+msgstr "Többféle elrendezés és profil mentése a GUI beállítás-szerkesztővel"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -135,19 +138,19 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "És sok más..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "A főablak a futó alkalmazást mutatja"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Egy kicsit megőrülni a terminálokkal"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "A beállítások ablakban megváltoztathatod az alapértelmezéseket"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -166,6 +169,8 @@ msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr ""
+"Több nyitott terminál van ebben az ablakban. Az ablak bezárása az összes "
+"benne megnyitott terminált is bezárja."
 
 #: ../terminatorlib/container.py:178
 msgid ""
@@ -328,11 +333,11 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Layout"
-msgstr ""
+msgstr "Elrendezés"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
-msgstr ""
+msgstr "Indítás"
 
 #: ../terminatorlib/notebook.py:353
 msgid "tab"
@@ -352,7 +357,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr ""
+msgstr "Az ablak töltse ki a képernyőt"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
@@ -360,19 +365,20 @@ msgstr "Ablakkeret eltávolítása"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
-msgstr ""
+msgstr "Ablak elrejtése indításkor"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr ""
+msgstr "Ablak címének megadása"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
+"Az ablak méretének kívánt mérete és pozíciója (lásd az X man oldalát)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
+msgstr "Parancs megadása a terminálon belüli futtatáshoz"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
@@ -382,7 +388,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
-msgstr ""
+msgstr "Konfigurációs fájl megadása"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
@@ -390,27 +396,27 @@ msgstr "A munkakönyvtár beállítása"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Egyedi név (WM_CLASS) tulajdonság beállítása az ablakon"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Egyedi ikon beállítása az ablaknak (fájllal vagy névvel)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr ""
+msgstr "Egyedi WM_WINDOW_ROLE tulajdonság beállítása az ablakon"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Indítás adott elrendezéssel"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Válassz egy elrendezést a listából"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
-msgstr ""
+msgstr "Másik profil használata alapértelmezettként"
 
 #: ../terminatorlib/optionparse.py:95
 msgid "Disable DBus"
@@ -419,6 +425,7 @@ msgstr "DBus lekapcsolása"
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
 msgstr ""
+"Hibakeresési információk engedélyezése (kétszer hibakereső szervernek)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
