@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2015-08-05 12:28+0000\n"
-"Last-Translator: Ilija Ćulap <ilija.culap14@gmail.com>\n"
+"PO-Revision-Date: 2019-09-02 22:44+0000\n"
+"Last-Translator: Ibrahim Sikirić <Unknown>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:12+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2019-09-03 06:09+0000\n"
+"X-Generator: Launchpad (build 19044)\n"
 "Language: bs\n"
 
 #. Command         uuid req.    Description
@@ -1130,31 +1130,31 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Layouts"
-msgstr ""
+msgstr "Rasporedi"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Action"
-msgstr ""
+msgstr "Akcija"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Keybinding"
-msgstr ""
+msgstr "Kombinacija tastera"
 
 #: ../terminatorlib/preferences.glade.h:144
 msgid "Keybindings"
-msgstr ""
+msgstr "Prečice na tastaturi"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid "Plugin"
-msgstr ""
+msgstr "Dodatak"
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Ovaj dodatak nema konfiguracijske opcije"
 
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Plugins"
-msgstr ""
+msgstr "Dodaci"
 
 #: ../terminatorlib/preferences.glade.h:150
 msgid ""
@@ -1169,10 +1169,20 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"Cilj ovog projekta je razvoj korisnog alata za organizaciju terminala. "
+"Inspirisan programima poput gnome-multi-term, quadkonsole, itd. pri čemu je "
+"fokus na organizaciju terminala u mreži/poljima (kartice su najkorišteniji "
+"metod prikaza, koji Terminator takođe podržava).\n"
+"\n"
+"Najveći dio karakteristika Terminatora se temelje na GNOME Terminal "
+"aplikaciji i mi vremenom dodajemo nove funkcionalnosti, ali takođe želimo "
+"ići i u drugim smjerovima sa proširenjima za sistem administratore i ostale "
+"korisnike. Ukoliko imate neki prijedlog, molimo Vas da popunite listu želja! "
+"(provjerite Razvoj na lijevoj strani)"
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
-msgstr ""
+msgstr "Uputstvo"
 
 #: ../terminatorlib/preferences.glade.h:154
 msgid ""
@@ -1184,290 +1194,297 @@ msgid ""
 "<a href=\"https://bugs.launchpad.net/terminator\">Bugs / Enhancements</a>\n"
 "<a href=\"https://translations.launchpad.net/terminator\">Translations</a>"
 msgstr ""
+"<a "
+"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Početna</a>"
+"\n"
+"<a href=\"http://gnometerminator.blogspot.com/\">Blog / Novosti</a>\n"
+"<a href=\"https://launchpad.net/terminator\">Razvoj</a>\n"
+"<a href=\"https://bugs.launchpad.net/terminator\">Greške / Unapređenja</a>\n"
+"<a href=\"https://translations.launchpad.net/terminator\">Prijevodi</a>"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
-msgstr ""
+msgstr "O programu"
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Increase font size"
-msgstr ""
+msgstr "Povećaj veličinu fonta"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Decrease font size"
-msgstr ""
+msgstr "Smanji veličinu fonta"
 
 #: ../terminatorlib/prefseditor.py:98
 msgid "Restore original font size"
-msgstr ""
+msgstr "Vrati originalnu veličinu fonta"
 
 #: ../terminatorlib/prefseditor.py:99
 msgid "Create a new tab"
-msgstr ""
+msgstr "Kreiraj novu karticu"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Fokusiraj sljedeći terminal"
 
 #: ../terminatorlib/prefseditor.py:101 ../terminatorlib/prefseditor.py:103
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Fokusiraj prethodni terminal"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Fokusiraj terminal na gore"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Focus the terminal below"
-msgstr ""
+msgstr "Fokusiraj terminal na dole"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Focus the terminal left"
-msgstr ""
+msgstr "Fokusiraj terminal na lijevo"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Focus the terminal right"
-msgstr ""
+msgstr "Fokusiraj terminal na desno"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Zarotiraj terminale u smjeru kazaljki"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Rotate terminals counter-clockwise"
-msgstr ""
+msgstr "Zarotiraj terminale suprotno smjeru kazaljki"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Split horizontally"
-msgstr ""
+msgstr "Podijeli horizontalno"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Split vertically"
-msgstr ""
+msgstr "Podijeli vertikalno"
 
 #: ../terminatorlib/prefseditor.py:112
 msgid "Close terminal"
-msgstr ""
+msgstr "Zatvori terminal"
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Copy selected text"
-msgstr ""
+msgstr "Kopiraj označeni tekst"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Paste clipboard"
-msgstr ""
+msgstr "Zalijepi sadržaj iz međuspremnika"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Show/Hide the scrollbar"
-msgstr ""
+msgstr "Prikaži/sakrij pomičnu traku"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Pretraga sadržaja terminala"
 
 #: ../terminatorlib/prefseditor.py:117
 msgid "Scroll upwards one page"
-msgstr ""
+msgstr "Pomakni na gore jednu stranicu"
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Scroll downwards one page"
-msgstr ""
+msgstr "Pomakni na dole jednu stranicu"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Scroll upwards half a page"
-msgstr ""
+msgstr "Pomakni na gore pola stranice"
 
 #: ../terminatorlib/prefseditor.py:120
 msgid "Scroll downwards half a page"
-msgstr ""
+msgstr "Pomakni na dole pola stranice"
 
 #: ../terminatorlib/prefseditor.py:121
 msgid "Scroll upwards one line"
-msgstr ""
+msgstr "Pomakni na gore jednu liniju"
 
 #: ../terminatorlib/prefseditor.py:122
 msgid "Scroll downwards one line"
-msgstr ""
+msgstr "Pomakni na dole jednu liniju"
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Close window"
-msgstr ""
+msgstr "Zatvori prozor"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
-msgstr ""
+msgstr "Promijeni veličinu terminala na gore"
 
 #: ../terminatorlib/prefseditor.py:125
 msgid "Resize the terminal down"
-msgstr ""
+msgstr "Promijeni veličinu terminala na dole"
 
 #: ../terminatorlib/prefseditor.py:126
 msgid "Resize the terminal left"
-msgstr ""
+msgstr "Promijeni veličinu terminala na lijevo"
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Resize the terminal right"
-msgstr ""
+msgstr "Promijeni veličinu terminala na desno"
 
 #: ../terminatorlib/prefseditor.py:128
 msgid "Move the tab right"
-msgstr ""
+msgstr "Premjesti karticu na desno"
 
 #: ../terminatorlib/prefseditor.py:129
 msgid "Move the tab left"
-msgstr ""
+msgstr "Premjesti karticu na lijevo"
 
 #: ../terminatorlib/prefseditor.py:130
 msgid "Maximize terminal"
-msgstr ""
+msgstr "Maksimiziraj terminal"
 
 #: ../terminatorlib/prefseditor.py:131
 msgid "Zoom terminal"
-msgstr ""
+msgstr "Zumiraj terminal"
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Prebaci na sljedeću karticu"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Prebaci na prethodnu karticu"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Switch to the first tab"
-msgstr ""
+msgstr "Prebaci na 1-vu karticu"
 
 #: ../terminatorlib/prefseditor.py:135
 msgid "Switch to the second tab"
-msgstr ""
+msgstr "Prebaci na 2-gu karticu"
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Switch to the third tab"
-msgstr ""
+msgstr "Prebaci na 3-ću karticu"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Switch to the fourth tab"
-msgstr ""
+msgstr "Prebaci na 4-tu karticu"
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Switch to the fifth tab"
-msgstr ""
+msgstr "Prebaci na 5-tu karticu"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Switch to the sixth tab"
-msgstr ""
+msgstr "Prebaci na 6-tu karticu"
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Switch to the seventh tab"
-msgstr ""
+msgstr "Prebaci na 7-mu karticu"
 
 #: ../terminatorlib/prefseditor.py:141
 msgid "Switch to the eighth tab"
-msgstr ""
+msgstr "Prebaci na 8-mu karticu"
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Switch to the ninth tab"
-msgstr ""
+msgstr "Prebaci na 9-tu karticu"
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Switch to the tenth tab"
-msgstr ""
+msgstr "Prebaci na 10-tu karticu"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "Uključi/isključi prikaz preko cijelog ekrana"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Reset the terminal"
-msgstr ""
+msgstr "Vrati na zadane postavke terminala"
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Reset and clear the terminal"
-msgstr ""
+msgstr "Vrati na zadano i očisti terminal"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Toggle window visibility"
-msgstr ""
+msgstr "Uključi/isključi vidljivost prozora"
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Group all terminals"
-msgstr ""
+msgstr "Grupiši sve terminale"
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Group/Ungroup all terminals"
-msgstr ""
+msgstr "Grupiši/razgrupiši sve terminale"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Ungroup all terminals"
-msgstr ""
+msgstr "Razgrupiši sve terminale"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Group terminals in tab"
-msgstr ""
+msgstr "Grupiši terminale u kartici"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Group/Ungroup terminals in tab"
-msgstr ""
+msgstr "Grupiši/razgrupiši terminale u kartici"
 
 #: ../terminatorlib/prefseditor.py:153
 msgid "Ungroup terminals in tab"
-msgstr ""
+msgstr "Razgrupiši terminale u kartici"
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
-msgstr ""
+msgstr "Kreiraj novi prozor"
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Spawn a new Terminator process"
-msgstr ""
+msgstr "Izvrši umnožavanje novog Terminator procesa"
 
 #: ../terminatorlib/prefseditor.py:156
 msgid "Don't broadcast key presses"
-msgstr ""
+msgstr "Forsiraj \"Bez emitovanja\""
 
 #: ../terminatorlib/prefseditor.py:157
 msgid "Broadcast key presses to group"
-msgstr ""
+msgstr "Forsiraj emitovanje na grupu"
 
 #: ../terminatorlib/prefseditor.py:158
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "Emituj prema svima"
 
 #: ../terminatorlib/prefseditor.py:159
 msgid "Insert terminal number"
-msgstr ""
+msgstr "Umetni broj terminala"
 
 #: ../terminatorlib/prefseditor.py:160
 msgid "Insert padded terminal number"
-msgstr ""
+msgstr "Umetni formatiran broj terminala"
 
 #: ../terminatorlib/prefseditor.py:161
 msgid "Edit window title"
-msgstr ""
+msgstr "Uredi naslov prozora"
 
 #: ../terminatorlib/prefseditor.py:162
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Uredi naslov terminala"
 
 #: ../terminatorlib/prefseditor.py:163
 msgid "Edit tab title"
-msgstr ""
+msgstr "Uredi naslov kartice"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "Otvori prozor \"Aktivator rasporeda\""
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
-msgstr ""
+msgstr "Prebaci na sljedeći profil"
 
 #: ../terminatorlib/prefseditor.py:166
 msgid "Switch to previous profile"
-msgstr ""
+msgstr "Prebaci na prethodni profil"
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Open the manual"
-msgstr ""
+msgstr "Otvori uputstvo"
 
 #: ../terminatorlib/prefseditor.py:1136 ../terminatorlib/prefseditor.py:1141
 msgid "New Profile"
@@ -1475,7 +1492,7 @@ msgstr "Novi profil"
 
 #: ../terminatorlib/prefseditor.py:1181 ../terminatorlib/prefseditor.py:1186
 msgid "New Layout"
-msgstr "Novi izgled"
+msgstr "Novi raspored"
 
 #. Label
 #: ../terminatorlib/searchbar.py:52
@@ -1484,26 +1501,26 @@ msgstr "Traži:"
 
 #: ../terminatorlib/searchbar.py:68
 msgid "Close Search bar"
-msgstr "Zatvori traku za pretraživanje"
+msgstr "Zatvori traku pretrage"
 
 #. Next Button
 #: ../terminatorlib/searchbar.py:73
 msgid "Next"
-msgstr "Sljedeći"
+msgstr "Slјedeća"
 
 #. Previous Button
 #: ../terminatorlib/searchbar.py:79
 msgid "Prev"
-msgstr "Prethodni"
+msgstr "Prethodna"
 
 #. Wrap checkbox
 #: ../terminatorlib/searchbar.py:85
 msgid "Wrap"
-msgstr ""
+msgstr "Prelomi"
 
 #: ../terminatorlib/searchbar.py:144
 msgid "Searching scrollback"
-msgstr ""
+msgstr "Početak pretrage"
 
 #: ../terminatorlib/searchbar.py:162 ../terminatorlib/searchbar.py:188
 msgid "No more results"
@@ -1515,67 +1532,67 @@ msgstr "Pronađeno u redu"
 
 #: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Send email to..."
-msgstr "_Pošalji email ..."
+msgstr "Pošalji e-poštu..."
 
 #: ../terminatorlib/terminal_popup_menu.py:60
 msgid "_Copy email address"
-msgstr "_Kopiraj email adresu"
+msgstr "Kopiraj adresu e-pošte"
 
 #: ../terminatorlib/terminal_popup_menu.py:62
 msgid "Ca_ll VoIP address"
-msgstr ""
+msgstr "Pozovi VoIP adresu"
 
 #: ../terminatorlib/terminal_popup_menu.py:63
 msgid "_Copy VoIP address"
-msgstr "_Kopiraj VoIP adresu"
+msgstr "Kopiraj VoIP adresu"
 
 #: ../terminatorlib/terminal_popup_menu.py:84
 msgid "_Open link"
-msgstr "_Otvori link"
+msgstr "Otvori vezu"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "_Copy address"
-msgstr "_Kopiraj adresu"
+msgstr "Kopiraj adresu"
 
 #: ../terminatorlib/terminal_popup_menu.py:102
 msgid "_Copy"
-msgstr ""
+msgstr "Kopiraj"
 
 #: ../terminatorlib/terminal_popup_menu.py:107
 msgid "_Paste"
-msgstr ""
+msgstr "Zalijepi"
 
 #: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
-msgstr "Podijeli H_orizontalno"
+msgstr "Podijeli horizontalno"
 
 #: ../terminatorlib/terminal_popup_menu.py:124
 msgid "Split V_ertically"
-msgstr "Podijeli V_ertikalno"
+msgstr "Podijeli vertikalno"
 
 #: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
-msgstr "Otvori _Kraticu"
+msgstr "Otvori karticu"
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr ""
+msgstr "Otvori karticu \"Ispravljanje grešaka\""
 
 #: ../terminatorlib/terminal_popup_menu.py:147
 msgid "_Close"
-msgstr ""
+msgstr "Zatvori"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
-msgstr "_Zumiraj terminal"
+msgstr "Zumiraj terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
-msgstr ""
+msgstr "Maksimiziraj terminal"
 
 #: ../terminatorlib/terminal_popup_menu.py:168
 msgid "_Restore all terminals"
-msgstr "_Vrati sve terminale"
+msgstr "Vrati sve terminale"
 
 #: ../terminatorlib/terminal_popup_menu.py:175
 msgid "Grouping"
@@ -1583,7 +1600,7 @@ msgstr "Grupisanje"
 
 #: ../terminatorlib/terminal_popup_menu.py:182
 msgid "Show _scrollbar"
-msgstr ""
+msgstr "Prikaži pomičnu traku"
 
 #: ../terminatorlib/terminal_popup_menu.py:239
 msgid "Encodings"
@@ -1603,11 +1620,11 @@ msgstr "Ostala kodiranja"
 
 #: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
-msgstr ""
+msgstr "Nova grupa..."
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
-msgstr ""
+msgstr "Bez grupe"
 
 #: ../terminatorlib/terminal.py:459
 #, python-format
@@ -1616,11 +1633,11 @@ msgstr "Ukloni grupu %s"
 
 #: ../terminatorlib/terminal.py:464
 msgid "G_roup all in tab"
-msgstr "G_rupiraj sve u kratici"
+msgstr "Grupiši sve u kartici"
 
 #: ../terminatorlib/terminal.py:469
 msgid "Ungro_up all in tab"
-msgstr ""
+msgstr "Razgrupiši sve u kartici"
 
 #: ../terminatorlib/terminal.py:474
 msgid "Remove all groups"
@@ -1633,152 +1650,152 @@ msgstr "Zatvori grupu %s"
 
 #: ../terminatorlib/terminal.py:491
 msgid "Broadcast _all"
-msgstr ""
+msgstr "Emitovanje svima"
 
 #: ../terminatorlib/terminal.py:492
 msgid "Broadcast _group"
-msgstr ""
+msgstr "Emitovanje grupi"
 
 #: ../terminatorlib/terminal.py:493
 msgid "Broadcast _off"
-msgstr ""
+msgstr "Emitovanje ugašeno"
 
 #: ../terminatorlib/terminal.py:509
 msgid "_Split to this group"
-msgstr ""
+msgstr "Podijeli na ovu grupu"
 
 #: ../terminatorlib/terminal.py:514
 msgid "Auto_clean groups"
-msgstr ""
+msgstr "Automatsko čišćenje grupa"
 
 #: ../terminatorlib/terminal.py:521
 msgid "_Insert terminal number"
-msgstr ""
+msgstr "Dodaj broj terminala"
 
 #: ../terminatorlib/terminal.py:525
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Dodaj formatiran broj terminala"
 
 #: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"
-msgstr ""
+msgstr "Lociranje Shell-a neuspješno"
 
 #: ../terminatorlib/terminal.py:1427
 msgid "Unable to start shell:"
-msgstr ""
+msgstr "Pokretanje Shell-a neuspješno:"
 
 #: ../terminatorlib/terminal.py:1848
 msgid "Rename Window"
-msgstr ""
+msgstr "Promijeni naslov prozora"
 
 #: ../terminatorlib/terminal.py:1856
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Unesite novi naslov za Terminator prozor..."
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Gamma"
-msgstr ""
+msgstr "Gama"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Zeta"
-msgstr ""
+msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Eta"
-msgstr ""
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Theta"
-msgstr ""
+msgstr "Teta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Iota"
-msgstr ""
+msgstr "Jota"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Kappa"
-msgstr ""
+msgstr "Kapa"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Mu"
-msgstr ""
+msgstr "Mi"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Nu"
-msgstr ""
+msgstr "Ni"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Xi"
-msgstr ""
+msgstr "Ksi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Omicron"
-msgstr ""
+msgstr "Omikron"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
-msgstr ""
+msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
-msgstr ""
+msgstr "Ro"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Tau"
-msgstr ""
+msgstr "Tau"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Upsilon"
-msgstr ""
+msgstr "Ipsilon"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Phi"
-msgstr ""
+msgstr "Fi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Chi"
-msgstr ""
+msgstr "Hi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Psi"
-msgstr ""
+msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr ""
+msgstr "Omega"
 
 #: ../terminatorlib/window.py:276
 msgid "window"
-msgstr ""
+msgstr "prozor"
 
 #: ../terminatorlib/window.py:730
 #, python-format
 msgid "Tab %d"
-msgstr ""
+msgstr "Tab %d"
 
 #, python-format
 #~ msgid ""
