@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2019-05-25 18:34+0000\n"
+"PO-Revision-Date: 2019-09-03 13:46+0000\n"
 "Last-Translator: Abdul Munif Hanafi <Unknown>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-05-26 05:50+0000\n"
-"X-Generator: Launchpad (build 18968)\n"
+"X-Launchpad-Export-Date: 2019-09-04 06:07+0000\n"
+"X-Generator: Launchpad (build 19044)\n"
 "Language: id\n"
 
 #. Command         uuid req.    Description
@@ -490,7 +490,7 @@ msgstr "Konfigurasi Perintah Lazim"
 #: ../terminatorlib/plugins/logger.py:22
 #: ../terminatorlib/plugins/terminalshot.py:21
 msgid "_Cancel"
-msgstr ""
+msgstr "Batal"
 
 #: ../terminatorlib/plugins/custom_commands.py:125
 #: ../terminatorlib/plugins/custom_commands.py:274
@@ -1132,7 +1132,7 @@ msgstr "Profil"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Type"
-msgstr ""
+msgstr "Jenis"
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Profile:"
@@ -1571,7 +1571,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:107
 msgid "_Paste"
-msgstr ""
+msgstr "Tem_pel"
 
 #: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
@@ -1591,7 +1591,7 @@ msgstr "Buka tab _Debug"
 
 #: ../terminatorlib/terminal_popup_menu.py:147
 msgid "_Close"
-msgstr ""
+msgstr "Tutup"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
@@ -1635,7 +1635,7 @@ msgstr "N_ew group..."
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
-msgstr ""
+msgstr "_Nihil"
 
 #: ../terminatorlib/terminal.py:459
 #, python-format
@@ -1785,7 +1785,7 @@ msgstr "Upsilon"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Phi"
-msgstr ""
+msgstr "Phi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Chi"
@@ -1793,7 +1793,7 @@ msgstr "Chi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Psi"
-msgstr ""
+msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
