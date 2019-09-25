@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-07-25 15:51+0000\n"
-"Last-Translator: Jordy PROVOST <jordy.provost@free.fr>\n"
+"PO-Revision-Date: 2019-09-24 11:17+0000\n"
+"Last-Translator: Michel Smits <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2018-07-26 05:55+0000\n"
-"X-Generator: Launchpad (build 18730)\n"
+"X-Launchpad-Export-Date: 2019-09-25 06:10+0000\n"
+"X-Generator: Launchpad (build 19048)\n"
 "Language: fr\n"
 
 #. Command         uuid req.    Description
@@ -862,7 +862,7 @@ msgstr "Taille du séparateur de terminal :"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
-msgstr ""
+msgstr "Personnalisation extra (Suivant le thème)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
@@ -946,7 +946,7 @@ msgstr "Copier la sélection"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Rewrap on resize"
-msgstr ""
+msgstr "Renvelopper lors du redimensionnement"
 
 #: ../terminatorlib/preferences.glade.h:87
 msgid "Select-by-_word characters:"
@@ -1066,7 +1066,7 @@ msgstr "Arrière-plan _transparent"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade transparent background:"
-msgstr ""
+msgstr "A_rrière-plan transparent ombré :"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
