@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2015-08-05 12:37+0000\n"
-"Last-Translator: Fran Fondo <franfondo@gmail.com>\n"
+"PO-Revision-Date: 2020-02-14 18:05+0000\n"
+"Last-Translator: Xosé <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2017-08-02 06:13+0000\n"
-"X-Generator: Launchpad (build 18441)\n"
+"X-Launchpad-Export-Date: 2020-02-15 06:02+0000\n"
+"X-Generator: Launchpad (build 19413b719a8df7423ab1390528edadce9e0e4aca)\n"
 "Language: gl\n"
 
 #. Command         uuid req.    Description
@@ -465,11 +465,11 @@ msgstr ""
 #: ../terminatorlib/plugins/custom_commands.py:67
 #: ../terminatorlib/terminal_popup_menu.py:188
 msgid "_Preferences"
-msgstr "_Preferenzas"
+msgstr "_Preferencias"
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
-msgstr "Configuración dos comandos persoalizados"
+msgstr "Configuración das ordes personalizadas"
 
 #: ../terminatorlib/plugins/custom_commands.py:124
 #: ../terminatorlib/plugins/custom_commands.py:273
