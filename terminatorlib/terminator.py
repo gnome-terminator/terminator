@@ -391,10 +391,11 @@ class Terminator(Borg):
 
         # Build list of new windows using prelayout list
         new_win_list = []
-        for window in self.windows:
-            if window not in self.prelayout_windows:
-                new_win_list.append(window)
-        
+        if self.prelayout_windows:
+            for window in self.windows:
+                if window not in self.prelayout_windows:
+                    new_win_list.append(window)
+
         # Make sure all new windows get bumped to the top
         for window in new_win_list:
             window.show()
