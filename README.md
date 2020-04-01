@@ -1,5 +1,17 @@
 Terminator
-by Chris Jones <cmsj@tenshu.net> and others.
+==========
+
+by Chris Jones <cmsj@tenshu.net> and others
+
+## New home on GitHub
+
+In April of 2020 we started moving Terminator to GitHub. A new team wanted to continue the work of the original authors.
+
+Unfortunately we are not able to adopt the Launchpad project, so we could only inform users were possible. 
+
+You can find the project on https://github.com/gnome-terminator/terminator
+
+## Description
 
 The goal of this project is to produce a useful tool for arranging terminals. 
 It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that
@@ -26,8 +38,19 @@ For more keyboard shortcuts and also the command line options, please see the
 manpage "terminator". For configuration options, see the manpage 
 "terminator_config".
 
-Ask questions at: https://answers.launchpad.net/terminator/
-Please report all bugs to https://bugs.launchpad.net/terminator/+filebug
+## Contributing
+
+Any help is welcome with the Terminator project.
+
+* [Open issues for bugs or enhancements](https://github.com/gnome-terminator/terminator/issues/new)
+* [Join our chat room on gitter.im for general questions](https://gitter.im/gnome-terminator/community)
+
+You can find old bugs and questions in the launchpad project, but please don't post anything new there.
+
+* https://answers.launchpad.net/terminator
+* https://bugs.launchpad.net/terminator
+
+## Origins
 
 Terminator began by shamelessly copying code from the vte-demo.py in the vte 
 widget package, and the gedit terminal plugin (which was fantastically 
@@ -36,6 +59,8 @@ useful at figuring out vte's API).
 vte-demo.py was not my code and is copyright its original author. While it 
 does not contain any specific licensing information in it, the VTE package 
 appears to be licenced under LGPL v2.
+
+## Licensing
 
 The gedit terminal plugin is part of the gedit-plugins package, which is 
 licenced under GPL v2 or later.
