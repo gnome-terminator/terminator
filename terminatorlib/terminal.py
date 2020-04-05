@@ -1,9 +1,8 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """terminal.py - classes necessary to provide Terminal widgets"""
 
-from __future__ import division
+
 import os
 import signal
 import gi
@@ -11,21 +10,26 @@ from gi.repository import GLib, GObject, Pango, Gtk, Gdk
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
-from util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
-import util
-from config import Config
-from cwd import get_default_cwd
-from factory import Factory
-from terminator import Terminator
-from titlebar import Titlebar
-from terminal_popup_menu import TerminalPopupMenu
-from searchbar import Searchbar
-from translation import _
-from signalman import Signalman
-import plugin
+from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
+from . import util
+from .config import Config
+from .cwd import get_default_cwd
+from .factory import Factory
+from .terminator import Terminator
+from .titlebar import Titlebar
+from .terminal_popup_menu import TerminalPopupMenu
+from .searchbar import Searchbar
+from .translation import _
+from .signalman import Signalman
+from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
+
+# constant for vte matching
+# TODO: Please replace with a proper reference to VTE, I found none!
+PCRE2_MULTILINE = 0x00000400
+
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -143,8 +147,7 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
-        self.regex_flags = (GLib.RegexCompileFlags.OPTIMIZE | \
-                            GLib.RegexCompileFlags.MULTILINE)
+        self.regex_flags = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
@@ -232,7 +235,7 @@ class Terminal(Gtk.VBox):
         try:
             dbg('close: killing %d' % self.pid)
             os.kill(self.pid, signal.SIGHUP)
-        except Exception, ex:
+        except Exception as ex:
             # We really don't want to care if this failed. Deep OS voodoo is
             # not what we should be doing.
             dbg('os.kill failed: %s' % ex)
@@ -255,6 +258,11 @@ class Terminal(Gtk.VBox):
 
         return(terminalbox)
 
+    def _add_regex(self, name, re):
+        reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
+        self.matches[name] = self.vte.match_add_regex(reg, 0)
+        self.vte.match_set_cursor_name(self.matches[name], 'pointer')
+
     def update_url_matches(self):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
@@ -271,34 +279,32 @@ class Terminal(Gtk.VBox):
         re = (lboundry + schemes +
                 "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + 
                 urlpath + ")?" + rboundry + "/?")
-        reg = GLib.Regex.new(re, self.regex_flags, 0)
-        self.matches['full_uri'] = self.vte.match_add_gregex(reg, 0)
+        self._add_regex('full_uri', re)
 
         if self.matches['full_uri'] == -1:
             err ('Terminal::update_url_matches: Failed adding URL matches')
         else:
             re = (lboundry +
-                    '(callto:|h323:|sip:)' + "[" + userchars + "+][" + 
-                    userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" + 
+                    '(callto:|h323:|sip:)' + "[" + userchars + "+][" +
+                    userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" +
                     rboundry)
-            reg = GLib.Regex.new(re, self.regex_flags, 0)
-            self.matches['voip'] = self.vte.match_add_gregex(reg, 0)
+            self._add_regex('voip', re)
+
             re = (lboundry +
-                    "(www|ftp)[" + hostchars + "]*\.[" + hostchars + 
+                    "(www|ftp)[" + hostchars + "]*\.[" + hostchars +
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-            reg = GLib.Regex.new(re, self.regex_flags, 0)
-            self.matches['addr_only'] = self.vte.match_add_gregex(reg, 0)
+            self._add_regex('addr_only', re)
+
             re = (lboundry +
                     "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]" +
                             "[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+" +
                             "[.a-zA-Z0-9-]*" + rboundry)
-            reg = GLib.Regex.new(re, self.regex_flags, 0)
-            self.matches['email'] = self.vte.match_add_gregex(reg, 0)
+            self._add_regex('email', re)
+
             re = (lboundry +
                   """news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@""" +
                             "[-A-Za-z0-9.]+(:[0-9]+)?" + rboundry)
-            reg = GLib.Regex.new(re, self.regex_flags, 0)
-            self.matches['nntp'] = self.vte.match_add_gregex(reg, 0)
+            self._add_regex('nntp', re)
 
             # Now add any matches from plugins
             try:
@@ -312,12 +318,13 @@ class Terminal(Gtk.VBox):
                     if name in self.matches:
                         dbg('refusing to add duplicate match %s' % name)
                         continue
-                    reg = GLib.Regex.new(match, self.regex_flags, 0)
-                    self.matches[name] = self.vte.match_add_gregex(reg, 0)
-                    dbg('added plugin URL handler for %s (%s) as %d' % 
+
+                    self._add_regex(name, match)
+
+                    dbg('added plugin URL handler for %s (%s) as %d' %
                         (name, urlplugin.__class__.__name__,
                         self.matches[name]))
-            except Exception, ex:
+            except Exception as ex:
                 err('Exception occurred adding plugin URL match: %s' % ex)
 
     def match_add(self, name, match):
@@ -325,8 +332,8 @@ class Terminal(Gtk.VBox):
         if name in self.matches:
             err('Terminal::match_add: Refusing to create duplicate match %s' % name)
             return
-        reg = GLib.Regex.new(match, self.regex_flags, 0)
-        self.matches[name] = self.vte.match_add_gregex(reg, 0)
+
+        self._add_regex(name, match)
 
     def match_remove(self, name):
         """Remove a previously registered URL match"""
@@ -495,9 +502,9 @@ class Terminal(Gtk.VBox):
         groupitems = []
         cnxs = []
 
-        for key, value in {_('Broadcast _all'):'all', 
+        for key, value in list({_('Broadcast _all'):'all', 
                           _('Broadcast _group'):'group',
-                          _('Broadcast _off'):'off'}.items():
+                          _('Broadcast _off'):'off'}.items()):
             item = Gtk.RadioMenuItem.new_with_mnemonic(groupitems, key)
             groupitems = item.get_group()
             dbg('Terminal::populate_group_menu: %s active: %s' %
@@ -588,7 +595,7 @@ class Terminal(Gtk.VBox):
     def set_groupsend(self, _widget, value):
         """Set the groupsend mode"""
         # FIXME: Can we think of a smarter way of doing this than poking?
-        if value in self.terminator.groupsend_type.values():
+        if value in list(self.terminator.groupsend_type.values()):
             dbg('Terminal::set_groupsend: setting groupsend to %s' % value)
             self.terminator.groupsend = value
 
@@ -714,15 +721,15 @@ class Terminal(Gtk.VBox):
         if len(colors) == 16:
             # RGB values for indices 16..255 copied from vte source in order to dim them
             shades = [0, 95, 135, 175, 215, 255]
-            for r in xrange(0, 6):
-                for g in xrange(0, 6):
-                    for b in xrange(0, 6):
+            for r in range(0, 6):
+                for g in range(0, 6):
+                    for b in range(0, 6):
                         newcolor = Gdk.RGBA()
                         setattr(newcolor, "red",   shades[r] / 255.0)
                         setattr(newcolor, "green", shades[g] / 255.0)
                         setattr(newcolor, "blue",  shades[b] / 255.0)
                         self.palette_active.append(newcolor)
-            for y in xrange(8, 248, 10):
+            for y in range(8, 248, 10):
                 newcolor = Gdk.RGBA()
                 setattr(newcolor, "red",   y / 255.0)
                 setattr(newcolor, "green", y / 255.0)
@@ -743,7 +750,7 @@ class Terminal(Gtk.VBox):
                                 self.palette_inactive)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
-        for profile in profiles.keys():
+        for profile in list(profiles.keys()):
             munged_profile = "terminator-profile-%s" % (
                 "".join([c if c.isalnum() else "-" for c in profile]))
             if terminal_box_style_context.has_class(munged_profile):
@@ -1016,7 +1023,7 @@ class Terminal(Gtk.VBox):
             _time, data):
         """I have no idea what this does, drag and drop is a mystery. sorry."""
         selection_data.set(Gdk.atom_intern('vte', False), info,
-                str(data.terminator.terminals.index(self)))
+                bytes(str(data.terminator.terminals.index(self)), 'utf-8'))
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
@@ -1113,7 +1120,7 @@ class Terminal(Gtk.VBox):
                     str=''
                     for fname in txt_lines[:-1]:
                         dbg('drag data fname: %s' % fname)
-                        fname = "'%s'" % urllib.unquote(fname[7:].replace("'",
+                        fname = "'%s'" % urllib.parse.unquote(fname[7:].replace("'",
                                                                     '\'\\\'\''))
                         str += fname + ' '
                     txt=str
@@ -1453,7 +1460,7 @@ class Terminal(Gtk.VBox):
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
-        elif match in self.matches.values():
+        elif match in list(self.matches.values()):
             # We have a match, but it's not a hard coded one, so it's a plugin
             try:
                 registry = plugin.PluginRegistry()
@@ -1468,7 +1475,7 @@ class Terminal(Gtk.VBox):
 %s plugin' % urlplugin.handler_name)
                             url = newurl
                         break
-            except Exception, ex:
+            except Exception as ex:
                 err('Exception occurred preparing URL: %s' % ex)
 
         return(url)
@@ -1629,20 +1636,20 @@ class Terminal(Gtk.VBox):
     def create_layout(self, layout):
         """Apply our layout"""
         dbg('Setting layout')
-        if layout.has_key('command') and layout['command'] != '':
+        if 'command' in layout and layout['command'] != '':
             self.layout_command = layout['command']
-        if layout.has_key('profile') and layout['profile'] != '':
+        if 'profile' in layout and layout['profile'] != '':
             if layout['profile'] in self.config.list_profiles():
                 self.set_profile(self, layout['profile'])
-        if layout.has_key('group') and layout['group'] != '':
+        if 'group' in layout and layout['group'] != '':
             # This doesn't need/use self.titlebar, but it's safer than sending
             # None
             self.really_create_group(self.titlebar, layout['group'])
-        if layout.has_key('title') and layout['title'] != '':
+        if 'title' in layout and layout['title'] != '':
             self.titlebar.set_custom_string(layout['title'])
-        if layout.has_key('directory') and layout['directory'] != '':
+        if 'directory' in layout and layout['directory'] != '':
             self.directory = layout['directory']
-        if layout.has_key('uuid') and layout['uuid'] != '':
+        if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
 
     def scroll_by_page(self, pages):

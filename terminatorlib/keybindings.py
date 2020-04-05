@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-#  Terminator - multiple gnome terminals in one window
-#   Copyright (C) 2006-2010  cmsj@tenshu.net
+# Terminator - multiple gnome terminals in one window
+# Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +23,7 @@ keyboard shortcuts.
 
 import re
 from gi.repository import Gtk, Gdk
-from util import err
+from .util import err
 
 class KeymapError(Exception):
     """Custom exception for errors in keybinding configurations"""
@@ -61,7 +60,7 @@ class Keybindings:
         """Parse bindings and mangle into an appropriate form"""
         self._lookup = {}
         self._masks = 0
-        for action, bindings in self.keys.items():
+        for action, bindings in list(self.keys.items()):
             if not isinstance(bindings, tuple):
                 bindings = (bindings,)
 

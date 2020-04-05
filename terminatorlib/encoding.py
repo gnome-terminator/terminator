@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-#    TerminatorEncoding - charset encoding classes
-#    Copyright (C) 2006-2010  chantra@debuntu.org
+#  TerminatorEncoding - charset encoding classes
+#  Copyright (C) 2006-2010  chantra@debuntu.org
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,7 +22,7 @@ This list is taken from gnome-terminal's src/terminal-encoding.c
  and src/encoding.c
 """
 
-from translation import _
+from .translation import _
 
 #pylint: disable-msg=R0903
 class TerminatorEncoding:

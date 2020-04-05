@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """testsignalman.py - Test the signalman class
@@ -53,11 +53,11 @@ class TestWidget():
         del(self.signals[signalid])
 
 def handler():
-    print "I am a test handler"
+    print("I am a test handler")
 
 if __name__ == '__main__':
     import sys
     import doctest
     (failed, attempted) = doctest.testmod()
-    print "%d/%d tests failed" % (failed, attempted)
+    print("%d/%d tests failed" % (failed, attempted))
     sys.exit(failed)

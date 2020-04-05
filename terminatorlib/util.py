@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-#    Terminator.util - misc utility functions
-#    Copyright (C) 2006-2010  cmsj@tenshu.net
+# Terminator.util - misc utility functions
+# Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -64,14 +63,14 @@ def dbg(log = ""):
         if DEBUGMETHODS != [] and method not in DEBUGMETHODS:
             return
         try:
-            print >> sys.stderr, "%s::%s: %s%s" % (classname, method, log, extra)
+            print("%s::%s: %s%s" % (classname, method, log, extra), file=sys.stderr)
         except IOError:
             pass
 
 def err(log = ""):
     """Print an error message"""
     try:
-        print >> sys.stderr, log
+        print(log, file=sys.stderr)
     except IOError:
         pass
 
@@ -279,7 +278,7 @@ def enumerate_descendants(parent):
     terminals"""
     # FIXME: Does having to import this here mean we should move this function
     # back to Container?
-    from factory import Factory
+    from .factory import Factory
 
     containerstmp = []
     containers = []

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """plugin.py - Base plugin system
@@ -25,10 +24,10 @@
 
 import sys
 import os
-import borg
-from config import Config
-from util import dbg, err, get_config_dir
-from terminator import Terminator
+from . import borg
+from .config import Config
+from .util import dbg, err, get_config_dir
+from .terminator import Terminator
 
 class Plugin(object):
     """Definition of our base plugin class"""
@@ -95,7 +94,7 @@ class PluginRegistry(borg.Borg):
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
                         for item in getattr(module, 'AVAILABLE'):
-                            if item not in self.available_plugins.keys():
+                            if item not in list(self.available_plugins.keys()):
                                 func = getattr(module, item)
                                 self.available_plugins[item] = func
 
@@ -104,7 +103,7 @@ class PluginRegistry(borg.Borg):
                                 continue
                             if item not in self.instances:
                                 self.instances[item] = func()
-                    except Exception, ex:
+                    except Exception as ex:
                         err('PluginRegistry::load_plugins: Importing plugin %s \
 failed: %s' % (plugin, ex))
 
@@ -127,12 +126,12 @@ for %s' % (len(self.instances), capability))
     def get_available_plugins(self):
         """Return a list of all available plugins whether they are enabled or
         disabled"""
-        return(self.available_plugins.keys())
+        return(list(self.available_plugins.keys()))
 
     def is_enabled(self, plugin):
         """Return a boolean value indicating whether a plugin is enabled or
         not"""
-        return(self.instances.has_key(plugin))
+        return(plugin in self.instances)
 
     def enable(self, plugin):
         """Enable a plugin"""

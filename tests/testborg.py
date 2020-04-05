@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """testborg.py - We are the borg. Resistance is futile.
@@ -57,3 +57,4 @@ class TestBorg2(Borg):
         if not self.attribute:
             self.attribute = 1
 
+# TODO: implement test?

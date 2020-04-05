@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """custom_commands.py - Terminator Plugin to add custom command menu entries"""
@@ -16,7 +15,7 @@ from terminatorlib.config import Config
 from terminatorlib.translation import _
 from terminatorlib.util import get_config_dir, err, dbg, gerr
 
-(CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = range(0,3)
+(CC_COL_ENABLED, CC_COL_NAME, CC_COL_COMMAND) = list(range(0,3))
 
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
 AVAILABLE = ['CustomCommandsMenu']
@@ -35,13 +34,13 @@ class CustomCommandsMenu(plugin.MenuItem):
       noord_cmds = []
       for part in sections:
         s = sections[part]
-        if not (s.has_key("name") and s.has_key("command")):
-          print "CustomCommandsMenu: Ignoring section %s" % s
+        if not ("name" in s and "command" in s):
+          print("CustomCommandsMenu: Ignoring section %s" % s)
           continue
         name = s["name"]
         command = s["command"]
         enabled = s["enabled"] and s["enabled"] or False
-        if s.has_key("position"):
+        if "position" in s:
           self.cmd_list[int(s["position"])] = {'enabled' : enabled,
                                                'name' : name,
                                                'command' : command
@@ -127,7 +126,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       if command[-1] != '\n':
         command = command + '\n'
       for terminal in data['terminals']:
-        terminal.vte.feed_child(command,  len(command))
+        terminal.vte.feed_child_binary(command.encode(terminal.vte.get_encoding()))
 
     def configure(self, widget, data = None):
       ui = {}

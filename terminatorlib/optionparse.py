@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-#    Terminator.optionparse - Parse commandline options
-#    Copyright (C) 2006-2010  cmsj@tenshu.net
+#  Terminator.optionparse - Parse commandline options
+#  Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -20,11 +19,11 @@ import sys
 import os
 
 from optparse import OptionParser, SUPPRESS_HELP
-from util import dbg, err
-import util
-import config
-import version
-from translation import _
+from .util import dbg, err
+from . import util
+from . import config
+from . import version
+from .translation import _
 
 options = None
 
@@ -110,7 +109,7 @@ icon for the window (by file or name)'))
         parser.error('Additional unexpected arguments found: %s' % args)
 
     if options.version:
-        print '%s %s' % (version.APP_NAME, version.APP_VERSION)
+        print('%s %s' % (version.APP_NAME, version.APP_VERSION))
         sys.exit(0)
 
     if options.debug_classes or options.debug_methods:

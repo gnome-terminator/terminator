@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """cwd.py - function necessary to get the cwd for a given pid on various OSes
@@ -15,7 +14,7 @@
 import platform
 import os
 import pwd
-from util import dbg, err
+from .util import dbg, err
 
 try:
     import psutil
@@ -46,7 +45,7 @@ def get_pid_cwd():
         func = linux_get_pid_cwd
     elif system == 'FreeBSD':
         try:
-            import freebsd
+            from . import freebsd
             func = freebsd.get_process_cwd
             dbg('Using FreeBSD get_pid_cwd')
         except (OSError, NotImplementedError, ImportError):
@@ -66,7 +65,7 @@ def proc_get_pid_cwd(pid, path):
     insert it into, e.g. /proc/%s/cwd"""
     try:
         cwd = os.path.realpath(path % pid)
-    except Exception, ex:
+    except Exception as ex:
         err('Unable to get cwd for PID %s: %s' % (pid, ex))
         cwd = '/'
 

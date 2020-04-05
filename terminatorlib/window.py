@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """window.py - class for the main Terminator window"""
@@ -10,13 +9,13 @@ import gi
 from gi.repository import GObject
 from gi.repository import Gtk, Gdk, GdkX11
 
-from util import dbg, err, make_uuid, display_manager
-import util
-from translation import _
-from version import APP_NAME
-from container import Container
-from factory import Factory
-from terminator import Terminator
+from .util import dbg, err, make_uuid, display_manager
+from . import util
+from .translation import _
+from .version import APP_NAME
+from .container import Container
+from .factory import Factory
+from .terminator import Terminator
 
 if display_manager() == 'X11':
     try:
@@ -837,9 +836,9 @@ class Window(Container, Gtk.Window):
             for term in possibles:
                 rect = layout[term]
                 offsets[term] = util.get_nav_offset(edge, rect, direction)
-            keys = offsets.values()
+            keys = list(offsets.values())
             keys.sort()
-            winners = [k for k, v in offsets.iteritems() if v == keys[0]]
+            winners = [k for k, v in offsets.items() if v == keys[0]]
             next = terminals.index(winners[0])
 
             if len(winners) > 1:
@@ -862,7 +861,7 @@ class Window(Container, Gtk.Window):
 
     def create_layout(self, layout):
         """Apply any config items from our layout"""
-        if not layout.has_key('children'):
+        if 'children' not in layout:
             err('layout describes no children: %s' % layout)
             return
         children = layout['children']
@@ -871,7 +870,7 @@ class Window(Container, Gtk.Window):
             err('incorrect number of children for Window: %s' % layout)
             return
 
-        child = children[children.keys()[0]]
+        child = children[list(children.keys())[0]]
         terminal = self.get_children()[0]
         dbg('Making a child of type: %s' % child['type'])
         if child['type'] == 'VPaned':
@@ -892,10 +891,10 @@ class Window(Container, Gtk.Window):
 
         self.get_children()[0].create_layout(child)
 
-        if layout.has_key('last_active_term') and layout['last_active_term'] not in ['', None]:
+        if 'last_active_term' in layout and layout['last_active_term'] not in ['', None]:
             self.last_active_term = make_uuid(layout['last_active_term'])
 
-        if layout.has_key('last_active_window') and layout['last_active_window'] == 'True':
+        if 'last_active_window' in layout and layout['last_active_window'] == 'True':
             self.terminator.last_active_window = self.uuid
 
 class WindowTitle(object):

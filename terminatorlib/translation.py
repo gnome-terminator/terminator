@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-#    Terminator - multiple gnome terminals in one window
-#    Copyright (C) 2006-2010  cmsj@tenshu.net
+# Terminator - multiple gnome terminals in one window
+# Copyright (C) 2006-2010  cmsj@tenshu.net
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +16,8 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
-from version import APP_NAME
-from util import dbg
+from .version import APP_NAME
+from .util import dbg
 
 _ = None
 

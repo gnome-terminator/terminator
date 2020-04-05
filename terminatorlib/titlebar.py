@@ -1,4 +1,3 @@
-#!/usr/bin/env python2
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
 """titlebar.py - classes necessary to provide a terminal title bar"""
@@ -9,11 +8,11 @@ from gi.repository import Pango
 import random
 import itertools
 
-from version import APP_NAME
-from util import dbg
-from terminator import Terminator
-from editablelabel import EditableLabel
-from translation import _
+from .version import APP_NAME
+from .util import dbg
+from .terminator import Terminator
+from .editablelabel import EditableLabel
+from .translation import _
 
 # pylint: disable-msg=R0904
 # pylint: disable-msg=W0613

@@ -1,5 +1,3 @@
-#!/usr/bin/env python2
-
 # Plugin by Sinan Nalkaya <sardok@gmail.com>
 # See LICENSE of Terminator package.
 
@@ -30,7 +28,7 @@ class Logger(plugin.MenuItem):
     def callback(self, menuitems, menu, terminal):
         """ Add save menu item to the menu"""
         vte_terminal = terminal.get_vte()
-        if not self.loggers.has_key(vte_terminal):
+        if vte_terminal not in self.loggers:
             item = Gtk.MenuItem.new_with_mnemonic(_('Start _Logger'))
             item.connect("activate", self.start_logger, terminal)
         else:
