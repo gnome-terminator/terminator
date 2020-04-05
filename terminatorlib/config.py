@@ -681,7 +681,7 @@ class ConfigBase(Borg):
     def save(self):
         """Save the config to a file"""
         dbg('ConfigBase::save: saving config')
-        parser = ConfigObj()
+        parser = ConfigObj(encoding='utf-8')
         parser.indent_type = '  '
 
         for section_name in ['global_config', 'keybindings']:
