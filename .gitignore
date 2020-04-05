@@ -1,7 +1,22 @@
-*.pyc
-terminatorlib/*.pyc
+## Editors
+*~
+.*.sw[op]
 .project
+.idea
 .pydevproject
-terminatorlib/meliae
-_trial_temp
+
+## VCS
+/.bzr
+
+## Python
+*.pyc
+*.egg-info
+/build
 terminatorc
+remotinatorc
+terminatorlib/meliae
+
+## language / intltool related files
+.intltool*
+data/terminator.appdata.xml
+data/terminator.desktop
