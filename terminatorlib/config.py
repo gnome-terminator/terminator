@@ -70,7 +70,6 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 
 """
 
-import platform
 import os
 from copy import copy
 from configobj import ConfigObj, flatten_errors
@@ -710,7 +709,12 @@ class ConfigBase(Borg):
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
         try:
-            parser.write(open(self.command_line_options.config, 'wb'))
+            temp_file = self.command_line_options.config + '.tmp'
+
+            with open(temp_file, 'wb') as fh:
+                parser.write(fh)
+
+            os.rename(temp_file, self.command_line_options.config)
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
