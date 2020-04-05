@@ -26,6 +26,11 @@ from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 
+# constant for vte matching
+# TODO: Please replace with a proper reference to VTE, I found none!
+PCRE2_MULTILINE = 0x00000400
+
+
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
@@ -142,7 +147,7 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
-        self.regex_flags = Vte.REGEX_FLAGS_DEFAULT
+        self.regex_flags = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
