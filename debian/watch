@@ -1,3 +1,0 @@
-version=3
-opts=dversionmangle=s/\+ds\d+$// \
-http://launchpad.net/terminator/+download .*/terminator[:?_|-](.+)\.tar\.gz
