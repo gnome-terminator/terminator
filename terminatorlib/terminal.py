@@ -258,6 +258,11 @@ class Terminal(Gtk.VBox):
 
         return(terminalbox)
 
+    def _add_regex(self, name, re):
+        reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
+        self.matches[name] = self.vte.match_add_regex(reg, 0)
+        self.vte.match_set_cursor_name(self.matches[name], 'pointer')
+
     def update_url_matches(self):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
@@ -274,8 +279,7 @@ class Terminal(Gtk.VBox):
         re = (lboundry + schemes +
                 "//(" + user + "@)?[" + hostchars  +".]+(:[0-9]+)?(" + 
                 urlpath + ")?" + rboundry + "/?")
-        reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-        self.matches['full_uri'] = self.vte.match_add_regex(reg, 0)
+        self._add_regex('full_uri', re)
 
         if self.matches['full_uri'] == -1:
             err ('Terminal::update_url_matches: Failed adding URL matches')
@@ -284,24 +288,23 @@ class Terminal(Gtk.VBox):
                     '(callto:|h323:|sip:)' + "[" + userchars + "+][" +
                     userchars + ".]*(:[0-9]+)?@?[" + pathchars + "]+" +
                     rboundry)
-            reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-            self.matches['voip'] = self.vte.match_add_regex(reg, 0)
+            self._add_regex('voip', re)
+
             re = (lboundry +
                     "(www|ftp)[" + hostchars + "]*\.[" + hostchars +
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
-            reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-            self.matches['addr_only'] = self.vte.match_add_regex(reg, 0)
+            self._add_regex('addr_only', re)
+
             re = (lboundry +
                     "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]" +
                             "[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+" +
                             "[.a-zA-Z0-9-]*" + rboundry)
-            reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-            self.matches['email'] = self.vte.match_add_regex(reg, 0)
+            self._add_regex('email', re)
+
             re = (lboundry +
                   """news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@""" +
                             "[-A-Za-z0-9.]+(:[0-9]+)?" + rboundry)
-            reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-            self.matches['nntp'] = self.vte.match_add_regex(reg, 0)
+            self._add_regex('nntp', re)
 
             # Now add any matches from plugins
             try:
@@ -315,8 +318,9 @@ class Terminal(Gtk.VBox):
                     if name in self.matches:
                         dbg('refusing to add duplicate match %s' % name)
                         continue
-                    reg = Vte.Regex.new_for_match(match, len(match), self.regex_flags)
-                    self.matches[name] = self.vte.match_add_regex(reg, 0)
+
+                    self._add_regex(name, match)
+
                     dbg('added plugin URL handler for %s (%s) as %d' %
                         (name, urlplugin.__class__.__name__,
                         self.matches[name]))
@@ -328,8 +332,8 @@ class Terminal(Gtk.VBox):
         if name in self.matches:
             err('Terminal::match_add: Refusing to create duplicate match %s' % name)
             return
-        reg = Vte.Regex.new_for_match(match, len(match), self.regex_flags)
-        self.matches[name] = self.vte.match_add_regex(reg, 0)
+
+        self._add_regex(name, match)
 
     def match_remove(self, name):
         """Remove a previously registered URL match"""
