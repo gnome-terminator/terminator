@@ -8,23 +8,23 @@
 >>> signalman.new(widget, 'test1', handler)
 1
 >>> signalman.cnxids[widget].keys()
-['test1']
+dict_keys(['test1'])
 >>> widget.signals.values()
-['test1']
+dict_values(['test1'])
 >>> signalman.remove_widget(widget)
->>> signalman.cnxids.has_key(widget)
+>>> widget in signalman.cnxids
 False
 >>> widget.signals.values()
-[]
+dict_values([])
 >>> signalman.new(widget, 'test2', handler)
 2
 >>> signalman.new(widget, 'test3', handler)
 3
 >>> signalman.remove_signal(widget, 'test2')
 >>> signalman.cnxids[widget].keys()
-['test3']
+dict_keys(['test3'])
 >>> widget.signals.values()
-['test3']
+dict_values(['test3'])
 >>> signalman.remove_widget(widget)
 >>>
 

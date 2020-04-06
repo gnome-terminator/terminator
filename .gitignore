@@ -4,6 +4,7 @@
 .project
 .idea
 .pydevproject
+.vscode
 
 ## VCS
 /.bzr
