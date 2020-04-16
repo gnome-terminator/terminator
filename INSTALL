@@ -9,6 +9,7 @@ following Linux Distributions
 * Debian
 * Ubuntu
 * Arch Linux
+* OpenSUSE
 
 If you maintain terminator for an OS other than these, please get in touch
 or issue a PR to this file.
