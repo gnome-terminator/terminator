@@ -16,6 +16,8 @@
 terminatorc
 remotinatorc
 terminatorlib/meliae
+/dist
+/MANIFEST
 
 ## language / intltool related files
 .intltool*

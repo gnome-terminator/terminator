@@ -1,7 +1,9 @@
-include AUTHORS ChangeLog COPYING INSTALL README remotinator setup.py terminator terminator.wrapper run_tests
+include AUTHORS CHANGELOG* COPYING INSTALL README remotinator setup.py terminator terminator.wrapper run_tests
 recursive-include data *
 recursive-include doc *
 recursive-include po *
 recursive-include terminatorlib *.py *.glade *.css
 recursive-include tests *.py
 
+exclude data/terminator.appdata.xml data/terminator.desktop
+exclude po/.intltool-merge-cache
