@@ -15,6 +15,8 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 """Terminator.util - misc utility functions"""
 
+from __future__ import print_function
+
 import sys
 import cairo
 import os
@@ -23,6 +25,7 @@ import inspect
 import uuid
 import subprocess
 import gi
+
 
 try:
     gi.require_version('Gtk','3.0')
