@@ -6,7 +6,7 @@ import copy
 import os
 import gi
 gi.require_version('Vte', '2.91')
-from gi.repository import Gtk, Gdk, Vte, GdkX11
+from gi.repository import Gtk, Gdk, Vte
 from gi.repository.GLib import GError
 
 from . import borg
@@ -17,6 +17,12 @@ from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .cwd import get_pid_cwd
 from .version import APP_NAME, APP_VERSION
+
+try:
+    from gi.repository import GdkX11
+except ImportError:
+    dbg("could not import X11 gir module")
+
 
 def eventkey2gdkevent(eventkey):  # FIXME FOR GTK3: is there a simpler way of casting from specific EventKey to generic (union) GdkEvent?
     gdkevent = Gdk.Event.new(eventkey.type)
