@@ -13,14 +13,14 @@ jobs:
     strategy:
       matrix:
         python:
-        #- '2.7'
+        - '2.7'
         - '3.6'
         - '3.7'
         - '3.8'
 
     steps:
     - uses: actions/checkout@v2
-      
+
     - name: Set up Python ${{ matrix.python }}
       uses: actions/setup-python@v1
       with:
