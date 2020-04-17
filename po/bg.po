@@ -1185,12 +1185,9 @@ msgstr ""
 #: ../terminatorlib/preferences.glade.h:154
 msgid ""
 "<a "
-"href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
 "\n"
-"<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
-"<a href=\"https://launchpad.net/terminator\">Development</a>\n"
-"<a href=\"https://bugs.launchpad.net/terminator\">Bugs / Enhancements</a>\n"
-"<a href=\"https://translations.launchpad.net/terminator\">Translations</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>\n"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:159
