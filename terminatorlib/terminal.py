@@ -10,7 +10,10 @@ from gi.repository import GLib, GObject, Pango, Gtk, Gdk
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
-import urllib.request, urllib.parse, urllib.error
+try:
+    from urllib.parse import unquote as urlunquote
+except ImportError:
+    from urllib import unquote as urlunquote
 
 from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
 from . import util
@@ -1120,7 +1123,7 @@ class Terminal(Gtk.VBox):
                     str=''
                     for fname in txt_lines[:-1]:
                         dbg('drag data fname: %s' % fname)
-                        fname = "'%s'" % urllib.parse.unquote(fname[7:].replace("'",
+                        fname = "'%s'" % urlunquote(fname[7:].replace("'",
                                                                     '\'\\\'\''))
                         str += fname + ' '
                     txt=str
