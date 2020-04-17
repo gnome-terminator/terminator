@@ -45,6 +45,6 @@
    <_caption>The preferences window where you can change the defaults</_caption>
   </screenshot>
  </screenshots>
- <url type="homepage">http://gnometerminator.blogspot.com/p/introduction.html</url>
- <updatecontact>stephen.j.boddy@gmail.com</updatecontact>
+ <url type="homepage">https://github.com/gnome-terminator/terminator</url>
+ <updatecontact>terminator@lazyfrosch.de</updatecontact>
 </component>

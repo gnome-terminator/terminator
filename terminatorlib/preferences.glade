@@ -3785,11 +3785,8 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
                       <object class="GtkLabel" id="label29">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">&lt;a href="http://gnometerminator.blogspot.com/p/introduction.html"&gt;Homepage&lt;/a&gt;
-&lt;a href="http://gnometerminator.blogspot.com/"&gt;Blog / News&lt;/a&gt;
-&lt;a href="https://launchpad.net/terminator"&gt;Development&lt;/a&gt;
-&lt;a href="https://bugs.launchpad.net/terminator"&gt;Bugs / Enhancements&lt;/a&gt;
-&lt;a href="https://translations.launchpad.net/terminator"&gt;Translations&lt;/a&gt;</property>
+                        <property name="label" translatable="yes">&lt;a href="https://github.com/gnome-terminator/terminator"&gt;Development&lt;/a&gt;
+&lt;a href="https://github.com/gnome-terminator/terminator/issues"&gt;Bugs / Enhancements&lt;/a&gt;</property>
                         <property name="use_markup">True</property>
                         <property name="justify">center</property>
                         <property name="yalign">0</property>
