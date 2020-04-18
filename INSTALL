@@ -4,12 +4,13 @@ system rather than using setup.py yourself.
 Packages are known to be available under the name "terminator" for the 
 following Linux Distributions
 
-* Fedora
+* Arch Linux
 * CentOS
 * Debian
-* Ubuntu
-* Arch Linux
+* Fedora
+* Gentoo
 * OpenSUSE
+* Ubuntu
 
 If you maintain terminator for an OS other than these, please get in touch
 or issue a PR to this file.
