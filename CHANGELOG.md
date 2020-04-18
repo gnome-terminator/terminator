@@ -1,8 +1,8 @@
 # Changelog
 
-## [1.92](https://github.com/gnome-terminator/terminator/tree/1.92) (2020-04-18)
+## [v1.92](https://github.com/gnome-terminator/terminator/tree/v1.92) (2020-04-18)
 
-[Full Changelog](https://github.com/gnome-terminator/terminator/compare/1.91...1.92)
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/1.91...v1.92)
 
 This is the first release since 2017, while we are now a few years later a few things changed.
 

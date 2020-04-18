@@ -2,12 +2,12 @@ Releasing Terminator
 ====================
 
 Make sure you have the latest master branch, no un-committed changes, and are ready to release that state.
- 
+
 ```
 VERSION=1.92
 ```
 
-## Set version in Python 
+## Set version in Python
 
 ```
 sed -i "s/APP_VERSION =.*/APP_VERSION = '${VERSION}'/" terminatorlib/version.py
@@ -18,7 +18,7 @@ sed -i "s/APP_VERSION =.*/APP_VERSION = '${VERSION}'/" terminatorlib/version.py
 For the changelog we are using [github-changelog-generator](https://github.com/github-changelog-generator/github-changelog-generator)
 
 ```
-github_changelog_generator --future-release "$VERSION"
+github_changelog_generator --future-release "v$VERSION"
 ```
 
 Check and review CHANGELOG.md for the expected result.
