@@ -1,8 +1,28 @@
 # Changelog
 
-## [Unreleased](https://github.com/gnome-terminator/terminator/tree/HEAD)
+## [1.92](https://github.com/gnome-terminator/terminator/tree/1.92) (2020-04-18)
 
-[Full Changelog](https://github.com/gnome-terminator/terminator/compare/1.91...HEAD)
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/1.91...1.92)
+
+This is the first release since 2017, while we are now a few years later a few things changed.
+
+* New home on GitHub https://github.com/gnome-terminator/terminator
+* New team under the lead of https://github.com/lazyfrosch
+* Python 3 support finally released
+* Some tedious bugs solved for current GTK and VTE
+
+There is still a lot to do, and we need more help to keep Terminator available for
+your daily use.
+
+If you are interested in contributing to the project, please contact us, open issues,
+discuss issues or help with whatever you can! Any help is welcome!
+
+**Notes for packagers:**
+
+* All scripts now use `#!/usr/bin/env python` as shebang, when you are using
+  `python3 setup.py install` or similar all binary scripts should be automatically
+   modified to the correct shebang
+* Any feedback is welcome, please open an issue or join the community channels
 
 **Implemented enhancements:**
 
@@ -10,14 +30,12 @@
 
 **Fixed bugs:**
 
+- VTE Regexp should work with older VTE releases as well [\#10](https://github.com/gnome-terminator/terminator/issues/10)
 - ctrl+click should open links [\#3](https://github.com/gnome-terminator/terminator/issues/3)
 - Ensure Python 3 support [\#2](https://github.com/gnome-terminator/terminator/issues/2)
+- terminal: Add compat detection for Vte regexp feature [\#22](https://github.com/gnome-terminator/terminator/pull/22) ([lazyfrosch](https://github.com/lazyfrosch))
 - Fix some compat issues for Python 2.7 [\#18](https://github.com/gnome-terminator/terminator/pull/18) ([lazyfrosch](https://github.com/lazyfrosch))
 - Converting to python 3 and making all tests pass. [\#9](https://github.com/gnome-terminator/terminator/pull/9) ([JAugusto42](https://github.com/JAugusto42))
-
-**Closed issues:**
-
-- python3 needs to be in the shebang line for fedora. [\#8](https://github.com/gnome-terminator/terminator/issues/8)
 
 **Merged pull requests:**
 
