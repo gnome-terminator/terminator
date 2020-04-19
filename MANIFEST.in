@@ -1,4 +1,4 @@
-include AUTHORS CHANGELOG* COPYING INSTALL README* remotinator setup.py terminator terminator.wrapper run_tests
+include AUTHORS CHANGELOG* COPYING INSTALL README* remotinator setup.py terminator run_tests
 recursive-include data *
 recursive-include doc *
 recursive-include po *
