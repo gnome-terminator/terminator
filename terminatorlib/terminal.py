@@ -29,16 +29,14 @@ from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 
-# constant for vte matching
+# constants for vte regex matching
 # TODO: Please replace with a proper reference to VTE, I found none!
 PCRE2_MULTILINE = 0x00000400
-
+REGEX_FLAGS_GLIB = (GLib.RegexCompileFlags.OPTIMIZE | GLib.RegexCompileFlags.MULTILINE)
 if hasattr(Vte, 'REGEX_FLAGS_DEFAULT'):
-    REGEX_FLAGS = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
-    REGEX_MODERN = True
+    REGEX_FLAGS_PCRE2 = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
 else:
-    REGEX_FLAGS = (GLib.RegexCompileFlags.OPTIMIZE | GLib.RegexCompileFlags.MULTILINE)
-    REGEX_MODERN = False
+    REGEX_FLAGS_PCRE2 = None
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -156,7 +154,6 @@ class Terminal(Gtk.VBox):
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
-        self.regex_flags = REGEX_FLAGS
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
@@ -268,12 +265,21 @@ class Terminal(Gtk.VBox):
         return(terminalbox)
 
     def _add_regex(self, name, re):
-        if REGEX_MODERN:
-            reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags)
-            self.matches[name] = self.vte.match_add_regex(reg, 0)
-        else:
-            reg = GLib.Regex.new(re, self.regex_flags, 0)
-            self.matches[name] = self.vte.match_add_gregex(reg, 0)
+        match = -1
+        if REGEX_FLAGS_PCRE2:
+            try:
+                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or REGEX_FLAGS_PCRE2)
+                match = self.vte.match_add_regex(reg, 0)
+            except GLib.Error:
+                # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
+                pass
+
+        # try the "old" glib regex
+        if match < 0:
+            reg = GLib.Regex.new(re, self.regex_flags or REGEX_FLAGS_GLIB, 0)
+            match = self.vte.match_add_gregex(reg, 0)
+
+        self.matches[name] = match
         self.vte.match_set_cursor_name(self.matches[name], 'pointer')
 
     def update_url_matches(self):
