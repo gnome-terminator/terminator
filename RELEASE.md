@@ -19,6 +19,8 @@ For the changelog we are using [github-changelog-generator](https://github.com/g
 
 ```
 github_changelog_generator --future-release "v$VERSION"
+# Fix CHANGELOG CRLF
+dos2unix CHANGELOG.md
 ```
 
 Check and review CHANGELOG.md for the expected result.
