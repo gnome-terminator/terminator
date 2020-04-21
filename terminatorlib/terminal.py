@@ -935,13 +935,15 @@ class Terminal(Gtk.VBox):
             # Suppress double-click behavior
             return True
 
-        use_primary = (display_manager() != 'WAYLAND')
-        if self.config['putty_paste_style']:
-            middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (use_primary, )]
-        else:
-            middle_click = [self.paste_clipboard, (use_primary, )]
-            right_click = [self.popup_menu, (widget, event)]
+        self.popup = False;
+        if self.popup:
+            use_primary = (display_manager() != 'WAYLAND')
+            if self.config['putty_paste_style']:
+                middle_click = [self.popup_menu, (widget, event)]
+                right_click = [self.paste_clipboard, (use_primary, )]
+            else:
+                middle_click = [self.paste_clipboard, (use_primary, )]
+                right_click = [self.popup_menu, (widget, event)]
 
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
