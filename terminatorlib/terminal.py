@@ -1538,7 +1538,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child(text, len(text))
+        self.vte.feed_child_binary(text.encode(self.vte.get_encoding()))
 
     def zoom_in(self):
         """Increase the font size"""
