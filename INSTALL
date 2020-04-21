@@ -2,12 +2,13 @@ It's strongly recommended to install Terminator using your OS's package
 system rather than using setup.py yourself.
 
 Packages are known to be available under the name "terminator" for the 
-following Linux Distributions
+following Distributions
 
 * Arch Linux
 * CentOS
 * Debian
 * Fedora
+* FreeBSD
 * Gentoo
 * OpenSUSE
 * Ubuntu
@@ -31,7 +32,7 @@ dependencies yourself:
      Debian/Ubuntu: python3-gi python3-psutil python3-configobj 
 		    gir1.2-keybinder-3.0 gettext intltool
      FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
-		    intltool
+		    intltool libnotify vte3
 
 If you don't care about native language support or icons, Terminator
 should run just fine directly from this directory, just:
