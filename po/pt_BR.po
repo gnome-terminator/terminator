@@ -1214,8 +1214,8 @@ msgid ""
 msgstr ""
 "<a "
 "\n"
-"<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator\">Desenvolvimento</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Erros / Melhorias</a>\n"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
