@@ -130,7 +130,7 @@ class Container(object):
         self.terminator.group_hoover()
         return(True)
 
-    def resizeterm(self, widget, keyname):
+    def resizeterm(self, widget, keyname, fast = False):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
 
