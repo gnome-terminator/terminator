@@ -7,16 +7,22 @@ import time
 import uuid
 import gi
 from gi.repository import GObject
-from gi.repository import Gtk, Gdk, GdkX11
+from gi.repository import Gtk, Gdk
 
 from .util import dbg, err, make_uuid, display_manager
+
+try:
+    from gi.repository import GdkX11
+except ImportError:
+    dbg("could not import X11 gir module")
+
+
 from . import util
 from .translation import _
 from .version import APP_NAME
 from .container import Container
 from .factory import Factory
 from .terminator import Terminator
-
 if display_manager() == 'X11':
     try:
         gi.require_version('Keybinder', '3.0')
