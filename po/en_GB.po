@@ -1045,7 +1045,7 @@ msgstr "Colours"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Show b_old text in bright colors"
-msgstr ""
+msgstr "Show b_old text in bright colours"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
