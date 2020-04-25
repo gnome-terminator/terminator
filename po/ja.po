@@ -1024,6 +1024,10 @@ msgstr "カラーパレット(_a):"
 msgid "Colors"
 msgstr "色"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "単色(_S)"

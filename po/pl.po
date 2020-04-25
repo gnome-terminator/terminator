@@ -1048,6 +1048,10 @@ msgstr "Paleta _kolorów:"
 msgid "Colors"
 msgstr "Kolory"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "_Jednolity kolor"

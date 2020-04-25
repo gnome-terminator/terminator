@@ -1040,6 +1040,10 @@ msgstr "Färgp_alett:"
 msgid "Colors"
 msgstr "Färger"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "_Enfärgad"

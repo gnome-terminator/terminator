@@ -1040,6 +1040,10 @@ msgstr "Πα_λέτα χρωμάτων:"
 msgid "Colors"
 msgstr "Χρώματα"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "_Συμπαγές χρώμα"
