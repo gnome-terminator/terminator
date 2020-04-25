@@ -516,6 +516,9 @@ class PrefsEditor:
         # Use system colors
         widget = guiget('use_theme_colors_checkbutton')
         widget.set_active(self.config['use_theme_colors'])
+        # Bold is bright
+        widget = guiget('bold_text_is_bright_checkbutton')
+        widget.set_active(self.config['bold_is_bright'])
         # Colorscheme
         widget = guiget('color_scheme_combobox')
         scheme = None
@@ -1498,6 +1501,11 @@ class PrefsEditor:
             self.on_color_scheme_combobox_changed(scheme)
 
         self.config['use_theme_colors'] = active
+        self.config.save()
+
+    def on_bold_text_is_bright_checkbutton_toggled(self, widget):
+        """Bold-is-bright setting changed"""
+        self.config['bold_is_bright'] = widget.get_active()
         self.config.save()
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
