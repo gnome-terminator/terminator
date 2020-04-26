@@ -13,6 +13,7 @@ from .util import err, dbg
 from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
+from layoutlauncher import LayoutLauncher
 
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
@@ -211,6 +212,7 @@ class TerminalPopupMenu(object):
                 submenu.append(item)
 
         self.add_encoding_items(menu)
+        self.add_layout_launcher(menu)
 
         try:
             menuitems = []
@@ -233,6 +235,11 @@ class TerminalPopupMenu(object):
 
         return(True)
 
+    def add_layout_launcher(self, menu):
+        """Add the layout list to the menu"""
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Layouts...'))
+        item.connect('activate', lambda x: LayoutLauncher())
+        menu.append(item)
 
     def add_encoding_items(self, menu):
         """Add the encoding list to the menu"""
