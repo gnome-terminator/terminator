@@ -28,15 +28,7 @@ from .translation import _
 from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
-
-# constants for vte regex matching
-# TODO: Please replace with a proper reference to VTE, I found none!
-PCRE2_MULTILINE = 0x00000400
-REGEX_FLAGS_GLIB = (GLib.RegexCompileFlags.OPTIMIZE | GLib.RegexCompileFlags.MULTILINE)
-if hasattr(Vte, 'REGEX_FLAGS_DEFAULT'):
-    REGEX_FLAGS_PCRE2 = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
-else:
-    REGEX_FLAGS_PCRE2 = None
+from . import regex
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -266,9 +258,9 @@ class Terminal(Gtk.VBox):
 
     def _add_regex(self, name, re):
         match = -1
-        if REGEX_FLAGS_PCRE2:
+        if regex.FLAGS_PCRE2:
             try:
-                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or REGEX_FLAGS_PCRE2)
+                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or regex.FLAGS_PCRE2)
                 match = self.vte.match_add_regex(reg, 0)
             except GLib.Error:
                 # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
@@ -276,7 +268,7 @@ class Terminal(Gtk.VBox):
 
         # try the "old" glib regex
         if match < 0:
-            reg = GLib.Regex.new(re, self.regex_flags or REGEX_FLAGS_GLIB, 0)
+            reg = GLib.Regex.new(re, self.regex_flags or regex.FLAGS_GLIB, 0)
             match = self.vte.match_add_gregex(reg, 0)
 
         self.matches[name] = match
