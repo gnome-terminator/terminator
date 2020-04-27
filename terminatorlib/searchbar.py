@@ -2,12 +2,16 @@
 # GPL v2 only
 """searchbar.py - classes necessary to provide a terminal search bar"""
 
+import gi
 from gi.repository import Gtk, Gdk
+gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
+from gi.repository import Vte
 from gi.repository import GObject
 from gi.repository import GLib
 
 from .translation import _
 from .config import Config
+from . import regex
 
 # pylint: disable-msg=R0904
 class Searchbar(Gtk.HBox):
@@ -127,8 +131,20 @@ class Searchbar(Gtk.HBox):
 
         if searchtext != self.searchstring:
             self.searchstring = searchtext
-            self.searchre = GLib.Regex(searchtext, 0, 0)
-            self.vte.search_set_gregex(self.searchre, 0)
+            self.searchre = None
+
+            if regex.FLAGS_PCRE2:
+                try:
+                    self.searchre = Vte.Regex.new_for_search(searchtext, len(searchtext), regex.FLAGS_PCRE2)
+                    self.vte.search_set_regex(self.searchre, 0)
+                except GLib.Error:
+                    # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
+                    pass
+
+            if not self.searchre:
+                # fall back to old GLib regex
+                self.searchre = GLib.Regex(searchtext, regex.FLAGS_GLIB, 0)
+                self.vte.search_set_gregex(self.searchre, 0)
 
         self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
