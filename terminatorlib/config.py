@@ -118,6 +118,7 @@ DEFAULTS = {
             'title_font'            : 'Sans 9',
             'putty_paste_style'     : False,
             'smart_copy'            : True,
+            'disable_mousewheel_zoom': False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

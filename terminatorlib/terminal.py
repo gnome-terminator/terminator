@@ -972,6 +972,8 @@ class Terminal(Gtk.VBox):
 
     def on_mousewheel(self, widget, event):
         """Handler for modifier + mouse wheel scroll events"""
+        if self.config["disable_mousewheel_zoom"] is True:
+            return (True)
         SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
         SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
         if event.state & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
