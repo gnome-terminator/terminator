@@ -27,7 +27,11 @@ jobs:
         python-version: ${{ matrix.python }}
 
     - name: Install native dependencies
-      run: sudo apt-get install -y --no-install-recommends gobject-introspection gir1.2-keybinder-3.0 gettext intltool libdbus-glib-1-dev libgirepository1.0-dev libcairo-dev
+      run: >
+        sudo apt-get install -y --no-install-recommends
+        gobject-introspection gir1.2-glib-2.0 gir1.2-keybinder-3.0 gir1.2-gtk-3.0 gir1.2-vte-2.91 gir1.2-notify-0.7
+        gettext intltool
+        libdbus-glib-1-dev libgirepository1.0-dev libcairo-dev
 
     - name: Install dependencies
       run: |
