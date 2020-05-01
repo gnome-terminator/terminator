@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-03-24 06:39+0000\n"
 "X-Generator: Launchpad (build 3a6db24bbe7280ec09bae73384238390fcc98ad3)\n"
-"Language: \n"
+"Language: ru_RU\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
