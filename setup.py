@@ -72,7 +72,7 @@ class BuildData(build):
           [file_data.write(line.lstrip('_')) for line in file_in]
 
       appdata_in='data/terminator.appdata.xml.in'
-      appdata_data='data/terminator.appdata.xml'
+      appdata_data='data/terminator.metainfo.xml'
       rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  appdata_in + " " + appdata_data)
@@ -206,8 +206,8 @@ setup(name=APP_NAME,
       license='GNU GPL v2',
       scripts=['terminator', 'remotinator'],
       data_files=[
-                  ('share/appdata', ['data/terminator.appdata.xml']),
                   ('share/applications', ['data/terminator.desktop']),
+                  ('share/metainfo', ['data/terminator.metainfo.xml']),
                   (os.path.join(man_dir, 'man1'), ['doc/terminator.1']),
                   (os.path.join(man_dir, 'man5'), ['doc/terminator_config.5']),
                   ('share/pixmaps', ['data/icons/hicolor/48x48/apps/terminator.png']),
