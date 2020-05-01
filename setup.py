@@ -20,6 +20,11 @@ PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
 CSS_DIR = os.path.join('terminatorlib', 'themes')
 
+if sys.version_info < (3, 0):
+    PYTEST_VERSION = '<5'
+else:
+    PYTEST_VERSION = '>0'
+
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
@@ -183,6 +188,10 @@ if platform.system() in ['FreeBSD', 'OpenBSD']:
 else:
   man_dir = 'share/man'
 
+test_deps = [
+    'pytest'
+]
+
 setup(name=APP_NAME,
       version=APP_VERSION,
       description='Terminator, the robot future of terminals',
@@ -228,9 +237,8 @@ setup(name=APP_NAME,
           'pygobject',
           'psutil',
       ],
-      tests_require=[
-          'pytest',
-      ],
+      tests_require=test_deps,
+      extras_require={'test': test_deps},
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
       cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
       distclass=TerminatorDist)
