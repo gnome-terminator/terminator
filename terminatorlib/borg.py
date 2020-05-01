@@ -16,7 +16,6 @@ class Borg:
     """Definition of a class that can never be duplicated. Correct usage is
     thus:
         
-    >>> from borg import Borg
     >>> class foo(Borg):
     ...     # All attributes on a borg class *must* = None
     ...     attribute = None

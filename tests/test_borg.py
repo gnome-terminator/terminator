@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""testborg.py - We are the borg. Resistance is futile.
+"""test_borg.py - We are the borg. Resistance is futile.
    doctests for borg.py
 
 >>> obj1 = TestBorg()
@@ -29,11 +29,8 @@
 
 """
 
-import os
-import sys, os.path
-sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), "..")))
-
 from terminatorlib.borg import Borg
+
 
 class TestBorg(Borg):
     attribute = None
@@ -46,6 +43,7 @@ class TestBorg(Borg):
         if not self.attribute:
             self.attribute = 0
 
+
 class TestBorg2(Borg):
     attribute = None
 
@@ -56,5 +54,3 @@ class TestBorg2(Borg):
     def prepare_attributes(self):
         if not self.attribute:
             self.attribute = 1
-
-# TODO: implement test?

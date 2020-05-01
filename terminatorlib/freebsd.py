@@ -12,6 +12,7 @@
   Tested on FreeBSD 7-STABLE/amd64 from April 11 2008.
 """
 
+import platform
 from ctypes import *
 from ctypes.util import find_library
 
@@ -44,18 +45,6 @@ class kinfo_file(Structure):
       ('kf_sa_peer',       sockaddr_storage),
   ]
 
-libc = CDLL(find_library('c'))
-
-uintlen = c_size_t(sizeof(c_uint))
-ver = c_uint(0)
-
-if (libc.sysctlbyname('kern.osreldate', byref(ver), byref(uintlen), None, 0) < 0):
-  raise OSError("sysctlbyname returned < 0")
-
-# kern.proc.filedesc added for procstat(1) after these __FreeBSD_versions
-if ver.value < 700104 and ver.value < 800019:
-  raise NotImplementedError("cwd detection requires a recent 7.0-STABLE or 8-CURRENT")
-
 
 def get_process_cwd(pid):
   """Return string containing the current working directory of the given pid,
@@ -76,6 +65,20 @@ def get_process_cwd(pid):
     kif = kifs[i]
     if kif.kf_fd == -1: # KF_FD_TYPE_CWD
       return kif.kf_path
+
+
+if platform.system() in ['FreeBSD', 'OpenBSD']:
+    libc = CDLL(find_library('c'))
+
+    uintlen = c_size_t(sizeof(c_uint))
+    ver = c_uint(0)
+
+    if (libc.sysctlbyname('kern.osreldate', byref(ver), byref(uintlen), None, 0) < 0):
+        raise OSError("sysctlbyname returned < 0")
+
+    # kern.proc.filedesc added for procstat(1) after these __FreeBSD_versions
+    if ver.value < 700104 and ver.value < 800019:
+        raise NotImplementedError("cwd detection requires a recent 7.0-STABLE or 8-CURRENT")
 
 
 if __name__ == '__main__':

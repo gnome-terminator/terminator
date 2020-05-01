@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""testsignalman.py - Test the signalman class
+"""test_signalman.py - Test the signalman class
 
 >>> widget = TestWidget()
 >>> signalman = Signalman()
