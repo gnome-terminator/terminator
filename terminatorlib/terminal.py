@@ -927,12 +927,11 @@ class Terminal(Gtk.VBox):
             # Suppress double-click behavior
             return True
 
-        use_primary = (display_manager() != 'WAYLAND')
         if self.config['putty_paste_style']:
             middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (use_primary, )]
+            right_click = [self.paste_clipboard, (True, )]
         else:
-            middle_click = [self.paste_clipboard, (use_primary, )]
+            middle_click = [self.paste_clipboard, (True, )]
             right_click = [self.popup_menu, (widget, event)]
 
         if event.button == self.MOUSEBUTTON_LEFT:
