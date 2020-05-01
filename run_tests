@@ -4,10 +4,10 @@ for t in tests/test*; do
     echo $t
     file_type=$(file -b $t)
     case ${file_type} in
-        *[Pp]ython*) python ${t} ;;
-        *Bourne*) bash ${t} ;;
-        *bash*)   bash ${t} ;;
-        *perl*)   perl ${t} ;;
+        *[Pp]ython*) python ${t} || exit 1 ;;
+        *Bourne*) bash ${t} || exit 1 ;;
+        *bash*)   bash ${t} || exit 1 ;;
+        *perl*)   perl ${t} || exit 1 ;;
         *) echo "Unknown" ;;
     esac
     echo
