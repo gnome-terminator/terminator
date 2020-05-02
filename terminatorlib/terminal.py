@@ -1115,8 +1115,10 @@ class Terminal(Gtk.VBox):
 
             # https://bugs.launchpad.net/terminator/+bug/1518705
             if info == self.TARGET_TYPE_MOZ:
-                 txt = txt.decode('utf-16').encode('utf-8')
+                 txt = txt.decode('utf-16')
                  txt = txt.split('\n')[0]
+            else:
+                 txt = txt.decode()
 
             txt_lines = txt.split( "\r\n" )
             if txt_lines[-1] == '':
@@ -1529,7 +1531,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child(text, len(text))
+        self.vte.feed_child_binary(text.encode(self.vte.get_encoding()))
 
     def zoom_in(self):
         """Increase the font size"""
