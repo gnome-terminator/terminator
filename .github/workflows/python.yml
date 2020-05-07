@@ -32,6 +32,7 @@ jobs:
         gobject-introspection gir1.2-glib-2.0 gir1.2-keybinder-3.0 gir1.2-gtk-3.0 gir1.2-vte-2.91 gir1.2-notify-0.7
         gettext intltool
         libdbus-glib-1-dev libgirepository1.0-dev libcairo-dev
+        xvfb
 
     - name: Install dependencies
       run: |
@@ -45,4 +46,4 @@ jobs:
     - name: Run tests
       run: |
         pip install -e '.[test]'
-        python setup.py test
+        xvfb-run -a python setup.py test
