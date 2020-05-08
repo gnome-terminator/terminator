@@ -693,6 +693,9 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
+        if hasattr(self.vte, 'set_bold_is_bright'):
+            self.vte.set_bold_is_bright(self.config['bold_is_bright'])
+
         if self.config['use_theme_colors']:
             self.fgcolor_active = self.vte.get_style_context().get_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3: do these really take the theme colors?
             self.bgcolor = self.vte.get_style_context().get_background_color(Gtk.StateType.NORMAL)

@@ -232,6 +232,7 @@ DEFAULTS = {
                 'custom_command'        : '',
                 'use_system_font'       : True,
                 'use_theme_colors'      : False,
+                'bold_is_bright'        : False,
                 'encoding'              : 'UTF-8',
                 'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
                 'focus_on_close'        : 'auto',
