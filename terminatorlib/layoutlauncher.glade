@@ -25,10 +25,10 @@
                 <property name="can_focus">True</property>
                 <property name="hscrollbar_policy">never</property>
                 <property name="vscrollbar_policy">automatic</property>
+                <property name="width_request">250</property>
+                <property name="height_request">250</property>
                 <child>
                   <object class="GtkTreeView" id="layoutlist">
-                    <property name="width_request">150</property>
-                    <property name="height_request">200</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="model">layoutstore</property>
