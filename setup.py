@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
-from distutils.dist import Distribution
-from distutils.cmd import Command
+from setuptools import setup, Distribution, Command
+
 from distutils.command.install_data import install_data
 from distutils.command.build import build
 from distutils.dep_util import newer
 from distutils.log import warn, info, error
 from distutils.errors import DistutilsFileError
+
 import glob
 import os
 import sys
@@ -19,6 +19,12 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 PO_DIR = 'po'
 MO_DIR = os.path.join('build', 'mo')
 CSS_DIR = os.path.join('terminatorlib', 'themes')
+
+if sys.version_info < (3, 0):
+    PYTEST_VERSION = '<5'
+else:
+    PYTEST_VERSION = '>0'
+
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
@@ -177,25 +183,14 @@ class InstallData(install_data):
     return data_files
 
 
-class Test(Command):
-  user_options = []
-  def initialize_options(self):
-    pass
-
-  def finalize_options(self):
-    pass
-
-  def run(self):
-    import subprocess
-    import sys
-    errno = subprocess.call(['bash', 'run_tests'])
-    raise SystemExit(errno)
-
-
 if platform.system() in ['FreeBSD', 'OpenBSD']:
   man_dir = 'man'
 else:
   man_dir = 'share/man'
+
+test_deps = [
+    'pytest'
+]
 
 setup(name=APP_NAME,
       version=APP_VERSION,
@@ -232,6 +227,9 @@ setup(name=APP_NAME,
           'terminatorlib',
           'terminatorlib.plugins',
       ],
+      setup_requires=[
+          'pytest-runner',
+      ],
       install_requires=[
           'pycairo',
           'configobj',
@@ -239,8 +237,9 @@ setup(name=APP_NAME,
           'pygobject',
           'psutil',
       ],
+      tests_require=test_deps,
+      extras_require={'test': test_deps},
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
-      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall, 'test':Test},
-      distclass=TerminatorDist
-     )
+      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
+      distclass=TerminatorDist)
 

@@ -1,30 +1,30 @@
 #!/usr/bin/env python
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""testsignalman.py - Test the signalman class
+"""test_signalman.py - Test the signalman class
 
 >>> widget = TestWidget()
 >>> signalman = Signalman()
 >>> signalman.new(widget, 'test1', handler)
 1
->>> signalman.cnxids[widget].keys()
-dict_keys(['test1'])
->>> widget.signals.values()
-dict_values(['test1'])
+>>> list(signalman.cnxids[widget].keys())
+['test1']
+>>> list(widget.signals.values())
+['test1']
 >>> signalman.remove_widget(widget)
 >>> widget in signalman.cnxids
 False
->>> widget.signals.values()
-dict_values([])
+>>> list(widget.signals.values())
+[]
 >>> signalman.new(widget, 'test2', handler)
 2
 >>> signalman.new(widget, 'test3', handler)
 3
 >>> signalman.remove_signal(widget, 'test2')
->>> signalman.cnxids[widget].keys()
-dict_keys(['test3'])
->>> widget.signals.values()
-dict_values(['test3'])
+>>> list(signalman.cnxids[widget].keys())
+['test3']
+>>> list(widget.signals.values())
+['test3']
 >>> signalman.remove_widget(widget)
 >>>
 

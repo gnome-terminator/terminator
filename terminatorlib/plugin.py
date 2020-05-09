@@ -7,9 +7,10 @@
    considered BSD licenced, per the authors wishes)
 
 >>> registry = PluginRegistry()
->>> registry.instances
-{}
->>> registry.load_plugins(True)
+>>> isinstance(registry.instances, dict)
+True
+>>> registry.enable('TestPlugin')
+>>> registry.load_plugins()
 >>> plugins = registry.get_plugins_by_capability('test')
 >>> len(plugins)
 1
@@ -69,7 +70,7 @@ class PluginRegistry(borg.Borg):
         if not self.available_plugins:
             self.available_plugins = {}
 
-    def load_plugins(self, testing=False):
+    def load_plugins(self):
         """Load all plugins present in the plugins/ directory in our module"""
         if self.done:
             dbg('PluginRegistry::load_plugins: Already loaded')
@@ -98,7 +99,7 @@ class PluginRegistry(borg.Borg):
                                 func = getattr(module, item)
                                 self.available_plugins[item] = func
 
-                            if not testing and item not in config['enabled_plugins']:
+                            if item not in config['enabled_plugins']:
                                 dbg('plugin %s not enabled, skipping' % item)
                                 continue
                             if item not in self.instances:
