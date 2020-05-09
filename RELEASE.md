@@ -25,6 +25,16 @@ dos2unix CHANGELOG.md
 
 Check and review CHANGELOG.md for the expected result.
 
+## Update AUTHORS
+
+This will make sure we mention everyone that has contributed to Terminator.
+
+```
+git log --use-mailmap | grep ^Author: | cut -f2- -d' ' | grep -v ^Launchpad | sort | uniq | sed 's/^/* /' | cat .authors.header - .authors.footer > AUTHORS
+```
+
+Make sure to review the list, and update `.mailmap` when it is necessary.
+
 ## Git Tag
 
 Commit these changes to the "master" branch:
