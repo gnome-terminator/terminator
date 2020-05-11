@@ -56,36 +56,12 @@ class BuildData(build):
 
         if newer(po, mo):
           info('compiling %s -> %s' % (po, mo))
-          try:
-            rc = subprocess.call(['msgfmt', '-o', mo, po])
-            if rc != 0:
-              raise Warning("msgfmt returned %d" % rc)
-          except Exception as e:
-            error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
-            error("Error: %s" % str(e))
-            sys.exit(1)
-
-      TOP_BUILDDIR='.'
-      INTLTOOL_MERGE='intltool-merge'
-      desktop_in='data/terminator.desktop.in'
-      desktop_data='data/terminator.desktop'
-      rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -d -u -c " + TOP_BUILDDIR +
-                 "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
-                 desktop_in + " " + desktop_data)
-      if rc != 0:
-        # run the desktop_in through a command to strip the "_" characters
-        with open(desktop_in) as file_in, open(desktop_data, 'w') as file_data:
-          [file_data.write(line.lstrip('_')) for line in file_in]
-
-      appdata_in='data/terminator.appdata.xml.in'
-      appdata_data='data/terminator.metainfo.xml'
-      rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
-                 "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
-                 appdata_in + " " + appdata_data)
-      if rc != 0:
-        # run the appdata_in through a command to strip the "_" characters
-        with open(appdata_in) as file_in, open(appdata_data, 'w') as file_data:
-          [file_data.write(line.replace('<_','<').replace('</_','</')) for line in file_in]
+          from babel.messages.frontend import compile_catalog
+          compiler = compile_catalog(self.distribution)
+          compiler.domain = ['terminator']
+          compiler.input_file = po
+          compiler.output_file = mo
+          compiler.run()
 
 class Uninstall(Command):
   description = "Attempt an uninstall from an install --record file"
@@ -229,6 +205,8 @@ setup(name=APP_NAME,
       ],
       setup_requires=[
           'pytest-runner',
+          'babel',
+          'BabelGladeExtractor',
       ],
       install_requires=[
           'pycairo',
