@@ -22,8 +22,10 @@ CSS_DIR = os.path.join('terminatorlib', 'themes')
 
 if sys.version_info < (3, 0):
     PYTEST_VERSION = '<5'
+    BABELGLADE_VERSION = '< 0.7'
 else:
     PYTEST_VERSION = '>0'
+    BABELGLADE_VERSION = '> 0'
 
 
 class TerminatorDist(Distribution):
@@ -206,7 +208,7 @@ setup(name=APP_NAME,
       setup_requires=[
           'pytest-runner',
           'babel',
-          'BabelGladeExtractor',
+          'BabelGladeExtractor ' + BABELGLADE_VERSION,
       ],
       install_requires=[
           'pycairo',
