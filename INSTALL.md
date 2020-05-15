@@ -19,7 +19,7 @@ dependencies yourself:
      Fedora/CentOS: python3-gobject python3-configobj python3-psutil vte291 
                     keybinder3 intltool gettext
      Debian/Ubuntu: python3-gi python3-psutil python3-configobj 
-                    gir1.2-keybinder-3.0 gettext intltool
+                    gir1.2-keybinder-3.0 gettext intltool dbus-x11
      FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
                     intltool libnotify vte3
 
@@ -38,6 +38,7 @@ And go from there.  Manpages are available in the 'doc' directory.
 
 To install properly, run:
 
+    python3 setup.py build
     python3 setup.py install --record=install-files.txt
 
 See `--help` for an overview of the available options; e.g. `--prefix` to
