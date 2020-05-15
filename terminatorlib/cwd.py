@@ -6,8 +6,8 @@
 >>> cwd.__class__.__name__
 'str'
 >>> func = get_pid_cwd()
->>> func.__class__.__name__
-'function'
+>>> cwd.__class__.__name__
+'str'
 
 """
 
