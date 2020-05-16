@@ -72,7 +72,7 @@ CentOS EPEL  | [@mattrose], [@dmaphy] |  | [src.fedoraproject.org/branches]
 Debian       | [@lazyfrosch] | [tracker.debian.org] | [salsa.debian.org] | [bugs.debian.org]
 Fedora       | [@mattrose], [@dmaphy] |  | [src.fedoraproject.org] | [bugzilla.redhat.com]
 FreeBSD      |  | [freshports.org] | [svnweb.freebsd.org] | [bugs.freebsd.org]
-Gentoo       |  | [packages.gentoo.org] | [github.com/gentoo] | [bugs.gentoo.org]
+Gentoo       | [@DarthGandalf] | [packages.gentoo.org] | [gitweb.gentoo.org] | [bugs.gentoo.org]
 OpenSUSE     |  | [build.opensuse.org] |
 Ubuntu       | copied from Debian | [launchpad.net/ubuntu] | | [bugs.launchpad.net]
 
@@ -95,8 +95,9 @@ Ubuntu       | copied from Debian | [launchpad.net/ubuntu] | | [bugs.launchpad.n
 [git.archlinux.org]: https://git.archlinux.org/svntogit/community.git/tree/trunk?h=packages/terminator
 [bugs.archlinux.org]: https://bugs.archlinux.org/?project=5&string=terminator
 
+[@DarthGandalf]: https://github.com/DarthGandalf
 [packages.gentoo.org]: https://packages.gentoo.org/packages/x11-terms/terminator
-[github.com/gentoo]: https://github.com/gentoo/gentoo/tree/master/x11-terms/terminator
+[gitweb.gentoo.org]: https://gitweb.gentoo.org/repo/gentoo.git/tree/x11-terms/terminator
 [bugs.gentoo.org]: https://bugs.gentoo.org/buglist.cgi?quicksearch=x11-terms%2Fterminator
 
 [build.opensuse.org]: https://build.opensuse.org/package/show/X11:terminals/terminator
