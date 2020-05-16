@@ -11,7 +11,7 @@ from .borg import Borg
 from .terminator import Terminator
 from .config import Config
 from .factory import Factory
-from .util import dbg,  enumerate_descendants
+from .util import dbg, err, enumerate_descendants
 
 CONFIG = Config()
 if not CONFIG['dbus']:
@@ -46,7 +46,11 @@ class DBusService(Borg, dbus.service.Object):
         """Ensure we are populated"""
         if not self.bus_name:
             dbg('Checking for bus name availability: %s' % BUS_NAME)
-            bus = dbus.SessionBus()
+            try:
+                bus = dbus.SessionBus()
+            except Exception as e:
+                err('Unable to connect to DBUS Server, proceeding as standalone')
+                raise ImportError
             proxy = bus.get_object('org.freedesktop.DBus', 
                                    '/org/freedesktop/DBus')
             flags = 1 | 4 # allow replacement | do not queue
