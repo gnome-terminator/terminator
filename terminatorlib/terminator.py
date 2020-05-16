@@ -99,7 +99,7 @@ class Terminator(Borg):
         if not self.doing_layout:
             self.doing_layout = False
         if not self.pid_cwd:
-            self.pid_cwd = get_pid_cwd()
+            self.pid_cwd = get_pid_cwd
         if self.gnome_client is None:
             self.attempt_gnome_client()
         self.connect_signals()

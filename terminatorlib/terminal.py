@@ -223,7 +223,7 @@ class Terminal(Gtk.VBox):
             return(GLib.filename_from_uri(vte_cwd)[0])
         else:
             # Fall back to old gtk2 method
-            return(self.terminator.pid_cwd(self.pid))
+            return(self.terminator.pid_cwd())
 
     def close(self):
         """Close ourselves"""

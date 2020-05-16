@@ -28,7 +28,7 @@ def get_default_cwd():
     return(cwd)
 
 def get_pid_cwd():
-    """Determine an appropriate cwd function for the OS we are running on"""
+    """Determine the cwd of the current process"""
     return psutil.Process().as_dict()['cwd']
 
 # vim: set expandtab ts=4 sw=4:
