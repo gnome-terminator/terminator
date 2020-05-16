@@ -13,7 +13,7 @@ from .util import err, dbg
 from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
-from layoutlauncher import LayoutLauncher
+from .layoutlauncher import LayoutLauncher
 
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""
@@ -306,4 +306,3 @@ class TerminalPopupMenu(object):
             radioitem.connect ('activate', terminal.on_encoding_change, 
                                encoding[1])
             submenu.append (radioitem)
-
