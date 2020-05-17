@@ -275,6 +275,14 @@ class Window(Container, Gtk.Window):
         self.present()
         return self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
 
+    def browser_tab_new(self, *args, **kwargs):
+        maker = Factory()
+        if not self.is_child_notebook():
+            dbg('Making a new Notebook')
+            notebook = maker.make('Notebook', window=self)
+        browser = maker.make('Browser')
+        return self.get_child().newtab(widget=browser)
+
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
         maker = Factory()
@@ -423,6 +431,7 @@ class Window(Container, Gtk.Window):
                        'ungroup-tab': self.ungroup_tab,
                        'move-tab': self.move_tab,
                        'tab-new': [self.tab_new, widget],
+                       'browser-tab-new': self.browser_tab_new,
                        'navigate': self.navigate_terminal}
 
             for signal in signals:
@@ -592,6 +601,8 @@ class Window(Container, Gtk.Window):
             terminals.update(child.get_visible_terminals())
         elif maker.isinstance(child, 'Terminal'):
             terminals[child] = child.get_allocation()
+        elif maker.isinstance(child, 'Browser'):
+            pass
         else:
             err('Unknown child type %s' % type(child))
 

@@ -15,6 +15,9 @@ True
 >>> vpaned = maker.make_vpaned()
 >>> maker.isinstance(vpaned, 'VPaned')
 True
+>>> browser = maker.make_browser()
+>>> maker.isinstance(browser, 'Browser')
+True
 
 """
 
@@ -30,6 +33,7 @@ class Factory(Borg):
              'HPaned': 'paned',
              'Paned': 'paned',
              'Notebook': 'notebook',
+             'Browser': 'browser',
              'Container': 'container',
              'Window': 'window'}
     types_keys = list(types.keys())
@@ -119,3 +123,6 @@ class Factory(Borg):
         from . import notebook
         return(notebook.Notebook(kwargs['window']))
 
+    def make_browser(self, **kwargs):
+        from . import browser
+        return(browser.Browser())

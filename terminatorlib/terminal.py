@@ -52,6 +52,8 @@ class Terminal(Gtk.VBox):
         'rotate-ccw': (GObject.SignalFlags.RUN_LAST, None, ()),
         'tab-new': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_BOOLEAN, GObject.TYPE_OBJECT)),
+        'browser-tab-new': (GObject.SignalFlags.RUN_LAST, None,
+            (GObject.TYPE_BOOLEAN, GObject.TYPE_OBJECT)),
         'tab-top-new': (GObject.SignalFlags.RUN_LAST, None, ()),
         'focus-in': (GObject.SignalFlags.RUN_LAST, None, ()),
         'focus-out': (GObject.SignalFlags.RUN_LAST, None, ()),
@@ -1858,6 +1860,9 @@ class Terminal(Gtk.VBox):
 
     def key_new_tab(self):
         self.get_toplevel().tab_new(self)
+
+    def key_new_browser_tab(self):
+        self.get_toplevel().browser_tab_new(self)
 
     def key_new_terminator(self):
         spawn_new_terminator(self.origcwd, ['-u'])

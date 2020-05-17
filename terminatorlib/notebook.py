@@ -253,30 +253,40 @@ class Notebook(Container, Gtk.Notebook):
         elif profile and self.config['always_split_with_profile']:
             widget.force_set_profile(None, profile)
 
-        signals = {'close-term': self.wrapcloseterm,
+        generic_signals = {
+                   'move-tab': top_window.move_tab,
+                   'tab-change': top_window.tab_change,
+                   'tab-new': [top_window.tab_new, widget],
+                   'title-change': self.propagate_title_change,
+        }
+
+        terminal_signals = {
+                   'close-term': self.wrapcloseterm,
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
-                   'title-change': self.propagate_title_change,
                    'unzoom': self.unzoom,
-                   'tab-change': top_window.tab_change,
                    'group-all': top_window.group_all,
                    'group-all-toggle': top_window.group_all_toggle,
                    'ungroup-all': top_window.ungroup_all,
                    'group-tab': top_window.group_tab,
                    'group-tab-toggle': top_window.group_tab_toggle,
                    'ungroup-tab': top_window.ungroup_tab,
-                   'move-tab': top_window.move_tab,
-                   'tab-new': [top_window.tab_new, widget],
                    'navigate': top_window.navigate_terminal}
 
-        if maker.isinstance(widget, 'Terminal'):
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(widget, signal, handler, *args)
+        signal_types = {
+            'Terminal': {**generic_signals, **terminal_signals},
+            'Browser': generic_signals,
+        }
+
+        for (widget_type, signals) in signal_types.items():
+            if maker.isinstance(widget, widget_type):
+                for signal in signals:
+                    args = []
+                    handler = signals[signal]
+                    if isinstance(handler, list):
+                        args = handler[1:]
+                        handler = handler[0]
+                    self.connect_child(widget, signal, handler, *args)
 
         if metadata and 'tabnum' in metadata:
             tabpos = metadata['tabnum']
@@ -354,6 +364,10 @@ class Notebook(Container, Gtk.Notebook):
             # page below, which child.close() implicitly does
             del(label)
             return
+        elif maker.isinstance(child, 'Browser'):
+            # Nothign special neeed
+            del child
+            self.remove_page(tabnum)
         elif maker.isinstance(child, 'Container'):
             dbg('Notebook::closetab: child is a Container')
             result = self.construct_confirm_close(self.window, _('tab'))
