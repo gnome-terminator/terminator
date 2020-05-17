@@ -1046,7 +1046,7 @@ msgstr "Cores"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Show b_old text in bright colors"
-msgstr ""
+msgstr "Mostrar texto em n_egrito com cores vivas"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
@@ -1729,7 +1729,7 @@ msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
-msgstr "Ípsilon"
+msgstr "Épsilon"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Zeta"
@@ -1757,15 +1757,15 @@ msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Mu"
-msgstr "Mu"
+msgstr "Mi"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Nu"
-msgstr "Nu"
+msgstr "Ni"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Xi"
-msgstr "Xi"
+msgstr "Csi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Omicron"
@@ -1805,7 +1805,7 @@ msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr "Ómega"
+msgstr "Ômega"
 
 #: ../terminatorlib/window.py:276
 msgid "window"
