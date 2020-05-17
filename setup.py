@@ -250,6 +250,7 @@ setup(name=APP_NAME,
       tests_require=test_deps,
       extras_require={'test': test_deps},
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
-      cmdclass={'build': CustomBuild, 'install_data': InstallData, 'uninstall': Uninstall},
+      cmdclass={'build': CustomBuild, 'install_data': InstallData, 'uninstall': Uninstall,
+                'update_catalogs': UpdateCatalogs},
       distclass=TerminatorDist)
 
