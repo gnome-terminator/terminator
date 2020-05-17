@@ -16,76 +16,61 @@ import platform
 
 from terminatorlib.version import APP_NAME, APP_VERSION
 
-PO_DIR = 'po'
-MO_DIR = os.path.join('build', 'mo')
+GETTEXT_SOURCE = 'po'
+GETTEXT_DOMAIN = 'terminator'
+GETTEXT_TARGET = os.path.join('share', 'locale')
 CSS_DIR = os.path.join('terminatorlib', 'themes')
 
 if sys.version_info < (3, 0):
     PYTEST_VERSION = '<5'
+    BABELGLADE_VERSION = '< 0.7'
 else:
     PYTEST_VERSION = '>0'
+    BABELGLADE_VERSION = '> 0'
 
 
 class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
     ("build-documentation", None, "Build the documentation"),
     ("install-documentation", None, "Install the documentation"),
-    ("without-gettext", None, "Don't build/install gettext .mo files"),
     ("without-icon-cache", None, "Don't attempt to run gtk-update-icon-cache")]
 
   def __init__ (self, *args):
-    self.without_gettext = False
     self.without_icon_cache = False
     Distribution.__init__(self, *args)
 
 
-class BuildData(build):
-  def run (self):
-    build.run (self)
+class CustomBuild(build):
+    """
+    Custom build extensions to build
+    """
 
-    if not self.distribution.without_gettext:
-      # Build the translations
-      for po in glob.glob (os.path.join (PO_DIR, '*.po')):
-        lang = os.path.basename(po[:-3])
-        mo = os.path.join(MO_DIR, lang, 'terminator.mo')
+    def run(self):
+        build.run(self)
+        self.build_i18n()
 
-        directory = os.path.dirname(mo)
-        if not os.path.exists(directory):
-          info('creating %s' % directory)
-          os.makedirs(directory)
+    def build_i18n(self):
+        """
+        Compiling files for gettext from *.po to *.mo with the proper target path
+        """
+        info('compiling i18n files')
+        from babel.messages.frontend import compile_catalog
+        compiler = compile_catalog(self.distribution)
+        compiler.domain = [GETTEXT_DOMAIN]
 
-        if newer(po, mo):
-          info('compiling %s -> %s' % (po, mo))
-          try:
-            rc = subprocess.call(['msgfmt', '-o', mo, po])
-            if rc != 0:
-              raise Warning("msgfmt returned %d" % rc)
-          except Exception as e:
-            error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
-            error("Error: %s" % str(e))
-            sys.exit(1)
+        for po in glob.glob(os.path.join(GETTEXT_SOURCE, '*.po')):
+            lang = os.path.basename(po[:-3])
+            mo = os.path.join(self.build_base, GETTEXT_TARGET, lang, 'LC_MESSAGES', 'terminator.mo')
 
-      TOP_BUILDDIR='.'
-      INTLTOOL_MERGE='intltool-merge'
-      desktop_in='data/terminator.desktop.in'
-      desktop_data='data/terminator.desktop'
-      rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -d -u -c " + TOP_BUILDDIR +
-                 "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
-                 desktop_in + " " + desktop_data)
-      if rc != 0:
-        # run the desktop_in through a command to strip the "_" characters
-        with open(desktop_in) as file_in, open(desktop_data, 'w') as file_data:
-          [file_data.write(line.lstrip('_')) for line in file_in]
+            directory = os.path.dirname(mo)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
 
-      appdata_in='data/terminator.appdata.xml.in'
-      appdata_data='data/terminator.metainfo.xml'
-      rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
-                 "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
-                 appdata_in + " " + appdata_data)
-      if rc != 0:
-        # run the appdata_in through a command to strip the "_" characters
-        with open(appdata_in) as file_in, open(appdata_data, 'w') as file_data:
-          [file_data.write(line.replace('<_','<').replace('</_','</')) for line in file_in]
+            if newer(po, mo):
+                compiler.input_file = po
+                compiler.output_file = mo
+                compiler.run()
+
 
 class Uninstall(Command):
   description = "Attempt an uninstall from an install --record file"
@@ -148,7 +133,7 @@ class Uninstall(Command):
 class InstallData(install_data):
   def run (self):
     self.data_files.extend (self._find_css_files ())
-    self.data_files.extend (self._find_mo_files ())
+    self.data_files.extend(self._find_mo_files())
     install_data.run (self)
     if not self.distribution.without_icon_cache:
       self._update_icon_cache ()
@@ -161,14 +146,16 @@ class InstallData(install_data):
     except Exception as e:
       warn("updating the GTK icon cache failed: %s" % str(e))
 
-  def _find_mo_files (self):
+  def _find_mo_files(self):
+    """
+    search for gettext files built during build step
+    """
     data_files = []
 
-    if not self.distribution.without_gettext:
-      for mo in glob.glob (os.path.join (MO_DIR, '*', 'terminator.mo')):
-       lang = os.path.basename(os.path.dirname(mo))
-       dest = os.path.join('share', 'locale', lang, 'LC_MESSAGES')
-       data_files.append((dest, [mo]))
+    build_base = self.distribution.command_obj['build'].build_base
+    for mo in glob.glob(os.path.join(build_base, GETTEXT_TARGET, '*', 'LC_MESSAGES', '*.mo')):
+        dest = mo.lstrip(build_base + os.sep)
+        data_files.append((dest, [mo]))
 
     return data_files
 
@@ -181,6 +168,27 @@ class InstallData(install_data):
        data_files.append((dest, srce))
 
     return data_files
+
+
+class UpdateCatalogs(Command):
+    """Update all gettext catalogs """
+    description = __doc__
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        from babel.messages.frontend import update_catalog
+        updater = update_catalog(self.distribution)
+        updater.input_file = os.path.join(GETTEXT_SOURCE, 'terminator.pot')
+
+        for po in glob.glob(os.path.join(GETTEXT_SOURCE, '*.po')):
+            updater.output_file = po
+            updater.run()
 
 
 if platform.system() in ['FreeBSD', 'OpenBSD']:
@@ -229,6 +237,8 @@ setup(name=APP_NAME,
       ],
       setup_requires=[
           'pytest-runner',
+          'babel',
+          'BabelGladeExtractor ' + BABELGLADE_VERSION,
       ],
       install_requires=[
           'pycairo',
@@ -240,6 +250,7 @@ setup(name=APP_NAME,
       tests_require=test_deps,
       extras_require={'test': test_deps},
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
-      cmdclass={'build': BuildData, 'install_data': InstallData, 'uninstall': Uninstall},
+      cmdclass={'build': CustomBuild, 'install_data': InstallData, 'uninstall': Uninstall,
+                'update_catalogs': UpdateCatalogs},
       distclass=TerminatorDist)
 
