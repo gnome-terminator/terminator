@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2020-05-10 19:06+0200\n"
+"PO-Revision-Date: 2020-05-17 20:26+0200\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: German <de@li.org>\n"
 "Language: de\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-03-24 06:38+0000\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
 msgid "Open a new window"
-msgstr "Ein neues Fenster öffnen"
+msgstr "Neues Fenster öffnen"
 
 #: ../remotinator.py:39
 msgid "Open a new tab"
@@ -64,8 +64,8 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Einen der folgenden Terminator-DBus-Befehle ausführen:\\n\n"
-"\\n\n"
+"Einen der folgenden Terminator-DBus-Befehle ausführen:\n"
+"\n"
 "%s"
 
 #: ../remotinator.py:64
@@ -74,7 +74,7 @@ msgid ""
 "  or the --uuid option must be used."
 msgstr ""
 "* Diese Einträge benötigen entweder die TERMINATOR_UUID-Umgebungsvariable\n"
-"  oder die Option »--uuid« muss verwendet werden."
+"  oder die Option --uuid muss verwendet werden."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
@@ -165,7 +165,8 @@ msgstr "Ein bisschen verrückt werden mit den terminals"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr "Das Einstellungsfenster, in dem Sie die Vorgabewerte ändern können"
+msgstr ""
+"Das Einstellungsfenster, in dem die Vorgabewerte geändert werden können"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -386,7 +387,7 @@ msgstr "Fenster beim Start verbergen"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr "Legen Sie einen Titel für das Fenster fest"
+msgstr "Einen Titel für das Fenster festlegen"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
@@ -395,8 +396,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr ""
-"Legen Sie einen Befehl fest, welcher in dem Terminal ausgeführt werden soll"
+msgstr "Einen Befehl festlegen, welcher im Terminal ausgeführt werden soll"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
@@ -1123,8 +1123,8 @@ msgid ""
 msgstr ""
 "<small><i><b>Hinweis:</b> Diese Einstellungen können dazu führen, dass sich "
 "einige Anwendungen nicht mehr korrekt verhalten. Sie stehen nur zur "
-"Verfügung, damit Sie problematische Anwendungen oder Betriebssysteme umgehen "
-"können, die ein anderes Terminal-Verhalten erwarten.</i></small>"
+"Verfügung, um problematische Anwendungen oder Betriebssysteme zu umgehen, "
+"die ein anderes Terminal-Verhalten erwarten.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
