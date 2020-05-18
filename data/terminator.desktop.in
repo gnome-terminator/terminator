@@ -1,6 +1,6 @@
 [Desktop Entry]
-_Name=Terminator
-_Comment=Multiple terminals in one window
+Name=Terminator
+Comment=Multiple terminals in one window
 TryExec=terminator
 Exec=terminator
 Icon=terminator
@@ -10,7 +10,7 @@ StartupNotify=true
 X-Ubuntu-Gettext-Domain=terminator
 X-Ayatana-Desktop-Shortcuts=NewWindow;
 Keywords=terminal;shell;prompt;command;commandline;
-[NewWindow Shortcut Group]
+[X-NewWindow Shortcut Group]
 Name=Open a New Window
 Exec=terminator
 TargetEnvironment=Unity
