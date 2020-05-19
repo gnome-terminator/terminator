@@ -26,7 +26,7 @@ dependencies yourself:
 If you don't care about native language support or icons, Terminator
 should run just fine directly from this directory, just:
 
-    ./terminator --help
+    python3 terminator --help
 
 And go from there.  Manpages are available in the 'doc' directory.
 
