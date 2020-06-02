@@ -1226,7 +1226,11 @@ class Terminal(Gtk.VBox):
     def ensure_visible_and_focussed(self):
         """Make sure that we're visible and focussed"""
         window = self.get_toplevel()
-        topchild = window.get_children()[0]
+        try:
+            topchild = window.get_children()[0]
+        except IndexError:
+            dbg('unable to get top child')    
+            return
         maker = Factory()
 
         if maker.isinstance(topchild, 'Notebook'):
