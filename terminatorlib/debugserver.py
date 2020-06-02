@@ -33,7 +33,7 @@ class PythonConsoleServer(socketserver.BaseRequestHandler):
   def handle(self):
     ddbg("debugserver: handling")
     try:
-      self.socketio = self.request.makefile()
+      self.socketio = self.request.makefile(mode='rw')
       sys.stdout = self.socketio
       sys.stdin = self.socketio
       sys.stderr = self.socketio
