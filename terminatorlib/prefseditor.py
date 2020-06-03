@@ -286,6 +286,9 @@ class PrefsEditor:
         else:
             active = 1
         widget.set_active(active)
+        # Disable Ctrl+mousewheel zoom
+        widget = guiget('disablemousewheelzoom')
+        widget.set_active(self.config['disable_mousewheel_zoom'])
         # scroll_tabbar
         widget = guiget('scrolltabbarcheck')
         widget.set_active(self.config['scroll_tabbar'])
@@ -696,6 +699,11 @@ class PrefsEditor:
     def on_dbuscheck_toggled(self, widget):
         """DBus server setting changed"""
         self.config['dbus'] = widget.get_active()
+        self.config.save()
+
+    def on_disable_mousewheel_zoom_toggled(self, widget):
+        """Ctrl+mousewheel zoom setting changed"""
+        self.config['disable_mousewheel_zoom'] = widget.get_active()
         self.config.save()
 
     def on_winbordercheck_toggled(self, widget):

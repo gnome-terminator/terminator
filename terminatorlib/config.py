@@ -221,6 +221,7 @@ DEFAULTS = {
                 'scroll_on_output'      : False,
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
+                'disable_mousewheel_zoom': False,
                 'exit_action'           : 'close',
                 'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
