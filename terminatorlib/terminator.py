@@ -403,7 +403,7 @@ class Terminator(Borg):
             window.grab_focus()
             try:
                 t = GdkX11.x11_get_server_time(window.get_window())
-            except (TypeError, AttributeError):
+            except (NameError,TypeError, AttributeError):
                 t = 0
             window.get_window().focus(t)
 
@@ -419,7 +419,7 @@ class Terminator(Borg):
                 window.grab_focus()
                 try:
                     t = GdkX11.x11_get_server_time(window.get_window())
-                except (TypeError, AttributeError):
+                except (NameError,TypeError, AttributeError):
                     t = 0
                 window.get_window().focus(t)
 
