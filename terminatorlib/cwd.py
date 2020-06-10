@@ -2,33 +2,21 @@
 # GPL v2 only
 """cwd.py - function necessary to get the cwd for a given pid on various OSes
 
->>> cwd = get_default_cwd()
->>> cwd.__class__.__name__
-'str'
->>> func = get_pid_cwd()
+
+>>> cwd = get_pid_cwd(None)
 >>> cwd.__class__.__name__
 'str'
 
 """
 
-import platform
-import os
-import pwd
 import psutil
-from .util import dbg, err
+from .util import dbg
 
-def get_default_cwd():
-    """Determine a reasonable default cwd"""
-    try:
-        cwd = os.getcwd()
-    except (FileNotFoundError,OSError):
-        err("unable to set current working directory, does not exist")
-        cwd = '/'
-    
-    return(cwd)
-
-def get_pid_cwd():
+def get_pid_cwd(pid = None):
     """Determine the cwd of the current process"""
-    return psutil.Process().as_dict()['cwd']
+    psinfo =  psutil.Process(pid).as_dict()
+    dbg('psinfo: %s %s' % (psinfo['cwd'],psinfo['pid']))
+    # return func
+    return psinfo['cwd']
 
 # vim: set expandtab ts=4 sw=4:

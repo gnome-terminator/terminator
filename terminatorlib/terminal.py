@@ -18,7 +18,7 @@ except ImportError:
 from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
 from . import util
 from .config import Config
-from .cwd import get_default_cwd
+from .cwd import get_pid_cwd
 from .factory import Factory
 from .terminator import Terminator
 from .titlebar import Titlebar
@@ -128,7 +128,7 @@ class Terminal(Gtk.VBox):
 
         self.config = Config()
 
-        self.cwd = get_default_cwd()
+        self.cwd = get_pid_cwd()
         self.origcwd = self.terminator.origcwd
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
@@ -223,7 +223,8 @@ class Terminal(Gtk.VBox):
             return(GLib.filename_from_uri(vte_cwd)[0])
         else:
             # Fall back to old gtk2 method
-            return(self.terminator.pid_cwd())
+            dbg('calling get_pid_cwd')
+            return(get_pid_cwd(self.pid))
 
     def close(self):
         """Close ourselves"""
