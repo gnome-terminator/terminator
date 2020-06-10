@@ -15,7 +15,6 @@ from .config import Config
 from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
-from .cwd import get_pid_cwd
 from .version import APP_NAME, APP_VERSION
 
 try:
@@ -54,7 +53,6 @@ class Terminator(Borg):
     origcwd = None
     dbus_path = None
     dbus_name = None
-    pid_cwd = None
     gnome_client = None
     debug_address = None
     ibus_running = None
@@ -98,8 +96,6 @@ class Terminator(Borg):
             self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
-        if not self.pid_cwd:
-            self.pid_cwd = get_pid_cwd
         if self.gnome_client is None:
             self.attempt_gnome_client()
         self.connect_signals()
