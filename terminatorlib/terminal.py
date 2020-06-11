@@ -693,6 +693,8 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
+        if hasattr(self.vte,'set_cell_height_scale'): 
+            self.vte.set_cell_height_scale(self.config['line_height'])
         if hasattr(self.vte, 'set_bold_is_bright'):
             self.vte.set_bold_is_bright(self.config['bold_is_bright'])
 
@@ -812,6 +814,7 @@ class Terminal(Gtk.VBox):
             elif self.config['scrollbar_position'] == 'right':
                 self.terminalbox.reorder_child(self.vte, 0)
 
+        
         self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
 
         self.titlebar.update()
