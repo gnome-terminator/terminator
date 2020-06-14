@@ -1018,6 +1018,9 @@ class Terminal(Gtk.VBox):
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
                 self.scroll_by_page(1)
                 return (True)
+        if event.state & Gdk.ModifierType.MOD1_MASK == Gdk.ModifierType.MOD1_MASK:
+            # Alt + mouse wheel up/down, without this event does not get through to app
+            event.state ^= Gdk.ModifierType.MOD1_MASK
         return(False)
 
     def popup_menu(self, widget, event=None):
