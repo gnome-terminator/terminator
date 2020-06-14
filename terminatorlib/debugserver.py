@@ -8,9 +8,12 @@ from terminatorlib.version import APP_NAME, APP_VERSION
 
 import socket
 import threading
-import socketserver
-import code
 import sys
+if sys.version_info < (3, 0):
+  import SocketServer as socketserver
+else:
+  import socketserver
+import code
 import readline
 import rlcompleter
 import re
@@ -30,7 +33,7 @@ class PythonConsoleServer(socketserver.BaseRequestHandler):
   def handle(self):
     ddbg("debugserver: handling")
     try:
-      self.socketio = self.request.makefile()
+      self.socketio = self.request.makefile(mode='rw')
       sys.stdout = self.socketio
       sys.stdin = self.socketio
       sys.stderr = self.socketio

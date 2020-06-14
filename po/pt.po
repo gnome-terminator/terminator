@@ -342,7 +342,7 @@ msgstr "Tailandês"
 
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
-msgstr ""
+msgstr "Lançamento de layout do Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
@@ -1045,6 +1045,10 @@ msgstr "P_aleta de cores:"
 msgid "Colors"
 msgstr "Cores"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "Cor _sólida"
@@ -1055,7 +1059,7 @@ msgstr "Fundo _transparente"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade transparent background:"
-msgstr ""
+msgstr "S_ombrear fundo transparente"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
@@ -1488,7 +1492,7 @@ msgstr "Editar título do separador"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "Abrir janela do lançador de layout"
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
@@ -1690,7 +1694,7 @@ msgstr "_Inserir número do terminal"
 
 #: ../terminatorlib/terminal.py:525
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Inserir o número do terminal _revestido"
 
 #: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"

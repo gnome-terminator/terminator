@@ -1042,6 +1042,10 @@ msgstr "Warna p_alet:"
 msgid "Colors"
 msgstr "Warna"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "Warna _tegar"

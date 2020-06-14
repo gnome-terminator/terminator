@@ -57,7 +57,7 @@ if __name__ == '__main__':
     # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
     # in the receivers.
     username = pwd.getpwuid(os.getuid()).pw_name
-    ibus_running = [p for p in psutil.process_iter() if p.name == 'ibus-daemon' and p.username == username]
+    ibus_running = [p for p in psutil.process_iter() if p.name() == 'ibus-daemon' and p.username() == username]
     ibus_running = len(ibus_running) > 0
     if ibus_running:
         os.environ['IBUS_DISABLE_SNOOPER']='1'
@@ -67,6 +67,9 @@ if __name__ == '__main__':
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
     OPTIONS = terminatorlib.optionparse.parse_options()
+
+    TERMINATOR = Terminator()
+    TERMINATOR.set_origcwd(ORIGCWD)
 
     if OPTIONS.select:
         # launch gui, return selection
@@ -112,8 +115,6 @@ if __name__ == '__main__':
             pass
 
         MAKER = Factory()
-        TERMINATOR = Terminator()
-        TERMINATOR.set_origcwd(ORIGCWD)
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
         TERMINATOR.ibus_running = ibus_running

@@ -18,7 +18,7 @@ except ImportError:
 from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
 from . import util
 from .config import Config
-from .cwd import get_default_cwd
+from .cwd import get_pid_cwd
 from .factory import Factory
 from .terminator import Terminator
 from .titlebar import Titlebar
@@ -28,15 +28,7 @@ from .translation import _
 from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
-
-# constants for vte regex matching
-# TODO: Please replace with a proper reference to VTE, I found none!
-PCRE2_MULTILINE = 0x00000400
-REGEX_FLAGS_GLIB = (GLib.RegexCompileFlags.OPTIMIZE | GLib.RegexCompileFlags.MULTILINE)
-if hasattr(Vte, 'REGEX_FLAGS_DEFAULT'):
-    REGEX_FLAGS_PCRE2 = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
-else:
-    REGEX_FLAGS_PCRE2 = None
+from . import regex
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -136,7 +128,7 @@ class Terminal(Gtk.VBox):
 
         self.config = Config()
 
-        self.cwd = get_default_cwd()
+        self.cwd = get_pid_cwd()
         self.origcwd = self.terminator.origcwd
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
@@ -231,7 +223,8 @@ class Terminal(Gtk.VBox):
             return(GLib.filename_from_uri(vte_cwd)[0])
         else:
             # Fall back to old gtk2 method
-            return(self.terminator.pid_cwd(self.pid))
+            dbg('calling get_pid_cwd')
+            return(get_pid_cwd(self.pid))
 
     def close(self):
         """Close ourselves"""
@@ -266,9 +259,9 @@ class Terminal(Gtk.VBox):
 
     def _add_regex(self, name, re):
         match = -1
-        if REGEX_FLAGS_PCRE2:
+        if regex.FLAGS_PCRE2:
             try:
-                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or REGEX_FLAGS_PCRE2)
+                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or regex.FLAGS_PCRE2)
                 match = self.vte.match_add_regex(reg, 0)
             except GLib.Error:
                 # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
@@ -276,7 +269,7 @@ class Terminal(Gtk.VBox):
 
         # try the "old" glib regex
         if match < 0:
-            reg = GLib.Regex.new(re, self.regex_flags or REGEX_FLAGS_GLIB, 0)
+            reg = GLib.Regex.new(re, self.regex_flags or regex.FLAGS_GLIB, 0)
             match = self.vte.match_add_gregex(reg, 0)
 
         self.matches[name] = match
@@ -701,6 +694,9 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
+        if hasattr(self.vte, 'set_bold_is_bright'):
+            self.vte.set_bold_is_bright(self.config['bold_is_bright'])
+
         if self.config['use_theme_colors']:
             self.fgcolor_active = self.vte.get_style_context().get_color(Gtk.StateType.NORMAL)  # VERIFY FOR GTK3: do these really take the theme colors?
             self.bgcolor = self.vte.get_style_context().get_background_color(Gtk.StateType.NORMAL)
@@ -893,6 +889,20 @@ class Terminal(Gtk.VBox):
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
 
+        # Just propagate tab-swictch events if there is only one tab
+        if (
+                mapping and (
+                    mapping.startswith('switch_to_tab') or
+                    mapping in ('next_tab', 'prev_tab')
+                )
+        ):
+            window = self.get_toplevel()
+            child = window.get_children()[0]
+            if isinstance(child, Terminal):
+                # not a Notebook instance => a single tab is used
+                # .get_n_pages() can not be used
+                return(False)
+
         if mapping == "hide_window":
             return(False)
 
@@ -935,16 +945,12 @@ class Terminal(Gtk.VBox):
             # Suppress double-click behavior
             return True
 
-        self.popup = False;
-        use_primary = (display_manager() != 'WAYLAND')
         if self.config['putty_paste_style']:
-            if self.popup:
-                middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (use_primary, )]
+            middle_click = [self.popup_menu, (widget, event)]
+            right_click = [self.paste_clipboard, (True, )]
         else:
-            middle_click = [self.paste_clipboard, (use_primary, )]
-            if self.popup:
-                right_click = [self.popup_menu, (widget, event)]
+            middle_click = [self.paste_clipboard, (True, )]
+            right_click = [self.popup_menu, (widget, event)]
 
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
@@ -986,7 +992,10 @@ class Terminal(Gtk.VBox):
         SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
         SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
         if event.state & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-            # Ctrl + mouse wheel up/down with Shift and Super additions
+            # Zoom the terminal(s) in or out if not disabled in config
+            if self.config["disable_mousewheel_zoom"] is True:
+                return (False)
+            # Choice of target terminals depends on Shift and Super modifiers
             if event.state & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
                 targets=self.terminator.terminals
             elif event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
@@ -1127,8 +1136,10 @@ class Terminal(Gtk.VBox):
 
             # https://bugs.launchpad.net/terminator/+bug/1518705
             if info == self.TARGET_TYPE_MOZ:
-                 txt = txt.decode('utf-16').encode('utf-8')
+                 txt = txt.decode('utf-16')
                  txt = txt.split('\n')[0]
+            else:
+                 txt = txt.decode()
 
             txt_lines = txt.split( "\r\n" )
             if txt_lines[-1] == '':
@@ -1219,7 +1230,11 @@ class Terminal(Gtk.VBox):
     def ensure_visible_and_focussed(self):
         """Make sure that we're visible and focussed"""
         window = self.get_toplevel()
-        topchild = window.get_children()[0]
+        try:
+            topchild = window.get_children()[0]
+        except IndexError:
+            dbg('unable to get top child')    
+            return
         maker = Factory()
 
         if maker.isinstance(topchild, 'Notebook'):
@@ -1541,7 +1556,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child(text, len(text))
+        self.vte.feed_child_binary(text.encode(self.vte.get_encoding()))
 
     def zoom_in(self):
         """Increase the font size"""

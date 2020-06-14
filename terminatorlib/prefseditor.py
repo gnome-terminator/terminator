@@ -286,6 +286,9 @@ class PrefsEditor:
         else:
             active = 1
         widget.set_active(active)
+        # Disable Ctrl+mousewheel zoom
+        widget = guiget('disablemousewheelzoom')
+        widget.set_active(self.config['disable_mousewheel_zoom'])
         # scroll_tabbar
         widget = guiget('scrolltabbarcheck')
         widget.set_active(self.config['scroll_tabbar'])
@@ -516,6 +519,9 @@ class PrefsEditor:
         # Use system colors
         widget = guiget('use_theme_colors_checkbutton')
         widget.set_active(self.config['use_theme_colors'])
+        # Bold is bright
+        widget = guiget('bold_text_is_bright_checkbutton')
+        widget.set_active(self.config['bold_is_bright'])
         # Colorscheme
         widget = guiget('color_scheme_combobox')
         scheme = None
@@ -693,6 +699,11 @@ class PrefsEditor:
     def on_dbuscheck_toggled(self, widget):
         """DBus server setting changed"""
         self.config['dbus'] = widget.get_active()
+        self.config.save()
+
+    def on_disable_mousewheel_zoom_toggled(self, widget):
+        """Ctrl+mousewheel zoom setting changed"""
+        self.config['disable_mousewheel_zoom'] = widget.get_active()
         self.config.save()
 
     def on_winbordercheck_toggled(self, widget):
@@ -1498,6 +1509,11 @@ class PrefsEditor:
             self.on_color_scheme_combobox_changed(scheme)
 
         self.config['use_theme_colors'] = active
+        self.config.save()
+
+    def on_bold_text_is_bright_checkbutton_toggled(self, widget):
+        """Bold-is-bright setting changed"""
+        self.config['bold_is_bright'] = widget.get_active()
         self.config.save()
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):

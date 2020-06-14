@@ -1044,6 +1044,10 @@ msgstr "_Paleta de cores:"
 msgid "Colors"
 msgstr "Cores"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "_Cor Sólida"
@@ -1214,8 +1218,8 @@ msgid ""
 msgstr ""
 "<a "
 "\n"
-"<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator\">Desenvolvimento</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Erros / Melhorias</a>\n"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
@@ -1709,7 +1713,7 @@ msgstr "Insira um novo título para a janela do terminal"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
-msgstr "Alpha"
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Beta"
@@ -1717,7 +1721,7 @@ msgstr "Beta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Gamma"
-msgstr "Gamma"
+msgstr "Gama"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Delta"
@@ -1725,7 +1729,7 @@ msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
-msgstr "Epsilon"
+msgstr "Ípsilon"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Zeta"
@@ -1733,11 +1737,11 @@ msgstr "Zeta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Eta"
-msgstr "Tempo Restante Estimado"
+msgstr "Eta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Theta"
-msgstr "Theta"
+msgstr "Teta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Iota"
@@ -1745,7 +1749,7 @@ msgstr "Iota"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Kappa"
-msgstr "Kappa"
+msgstr "Capa"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Lambda"
@@ -1765,7 +1769,7 @@ msgstr "Xi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Omicron"
-msgstr "Omicron"
+msgstr "Ómicron"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
@@ -1773,7 +1777,7 @@ msgstr "Pi"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
-msgstr "Rho"
+msgstr "Ró"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
@@ -1789,7 +1793,7 @@ msgstr "Upsilon"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Phi"
-msgstr "Phi"
+msgstr "Fi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Chi"
@@ -1801,7 +1805,7 @@ msgstr "Psi"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr "Omega"
+msgstr "Ómega"
 
 #: ../terminatorlib/window.py:276
 msgid "window"

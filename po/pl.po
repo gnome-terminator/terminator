@@ -77,6 +77,7 @@ msgstr ""
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
+"Terminal UUID jeśli nie znajduje się w zmiennej środowiskowej TERMINATOR_UUID"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:84
@@ -156,7 +157,7 @@ msgstr "Główne okno programu pokazujące aplikację w działaniu"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Zaszalej z terminalami"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
@@ -471,12 +472,12 @@ msgstr "Aktywność w: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Monitoruj ciszę"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Cisza w: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
@@ -810,11 +811,11 @@ msgstr "Serwer DBus"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Mouse focus:"
-msgstr ""
+msgstr "Ostrość myszy:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
-msgstr ""
+msgstr "Nadawanie domyślne:"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
@@ -834,7 +835,7 @@ msgstr "Używaj obsługi URL"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Custom URL handler:"
-msgstr ""
+msgstr "Niestandardowy moduł obsługi adresów URL:"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
@@ -862,7 +863,7 @@ msgstr "Położenie paska kart:"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
-msgstr ""
+msgstr "Zakładki jednorodne"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Tabs scroll buttons"
@@ -1048,6 +1049,10 @@ msgstr "Paleta _kolorów:"
 msgid "Colors"
 msgstr "Kolory"
 
+#: ../terminatorlib/preferences.glade.h:114
+msgid "Show b_old text in bright colors"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
 msgstr "_Jednolity kolor"
@@ -1058,7 +1063,7 @@ msgstr "_Przezroczyste tło"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade transparent background:"
-msgstr ""
+msgstr "_Cień przezroczystego tła:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
@@ -1194,6 +1199,16 @@ msgid ""
 "users. If you have any suggestions, please file wishlist bugs! (see left for "
 "the Development link)"
 msgstr ""
+"Celem tego projektu jest stworzenie użytecznego narzędzia do konfigurowania "
+"terminali. Jest inspirowany programami takimi jak gnome-multi-term, quad-"
+"konsola itp., w których główny nacisk kładziony jest na układanie terminali "
+"w siatkach (zakładki są najczęstszą metodą obsługiwaną przez Terminator).\n"
+"\n"
+"Wiele zachowań Terminatora opiera się na Terminalu GNOME, dodajemy kolejne "
+"funkcje z upływem czasu, ale chcemy również rozszerzać się w różnych "
+"kierunkach z przydatnymi funkcjami dla sysadminów i innych użytkowników. "
+"Jeśli masz jakieś sugestie, zgłoś błędy na liście życzeń! (link Development "
+"po lewej stronie)"
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
@@ -1232,27 +1247,27 @@ msgstr "Tworzy nową kartę"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Skup się na następnym terminalu"
 
 #: ../terminatorlib/prefseditor.py:101 ../terminatorlib/prefseditor.py:103
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Skup się na poprzednim terminalu"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Skup sięna terminalu powyżej"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Focus the terminal below"
-msgstr ""
+msgstr "Skup się na terminalu poniżej"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Focus the terminal left"
-msgstr ""
+msgstr "Skup się na terminalu lewym"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Focus the terminal right"
-msgstr ""
+msgstr "Skup się na termianlu prawym"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
@@ -1288,7 +1303,7 @@ msgstr "Pokaż/ukryj pasek przewijania"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Przeszukaj historię terminali"
 
 #: ../terminatorlib/prefseditor.py:117
 msgid "Scroll upwards one page"
@@ -1420,11 +1435,11 @@ msgstr "Grupuj wszystkie terminale"
 
 #: ../terminatorlib/prefseditor.py:149
 msgid "Group/Ungroup all terminals"
-msgstr ""
+msgstr "Zgrupuj/Rozgrupuj wszystkie terminale"
 
 #: ../terminatorlib/prefseditor.py:150
 msgid "Ungroup all terminals"
-msgstr ""
+msgstr "Rozgrupuj wszystkie terminale"
 
 #: ../terminatorlib/prefseditor.py:151
 msgid "Group terminals in tab"
@@ -1432,11 +1447,11 @@ msgstr "Grupuj terminale w karcie"
 
 #: ../terminatorlib/prefseditor.py:152
 msgid "Group/Ungroup terminals in tab"
-msgstr ""
+msgstr "Zgrupuj/Rozgrupuj termnale w zakładki"
 
 #: ../terminatorlib/prefseditor.py:153
 msgid "Ungroup terminals in tab"
-msgstr ""
+msgstr "Rozgrupuj termnale w zakłądki"
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
@@ -1456,7 +1471,7 @@ msgstr "Przekazuj naciśnięcia klawiszy do grupy"
 
 #: ../terminatorlib/prefseditor.py:158
 msgid "Broadcast key events to all"
-msgstr ""
+msgstr "Nadawaj kluczowe wydarzenia do wszystkich"
 
 #: ../terminatorlib/prefseditor.py:159
 msgid "Insert terminal number"
@@ -1480,7 +1495,7 @@ msgstr "Edytuj tytuł karty"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
-msgstr ""
+msgstr "Otwórz okno uruchamiania układu"
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
@@ -1628,7 +1643,7 @@ msgstr "Inne kodowania"
 
 #: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
-msgstr ""
+msgstr "Nowa grupa"
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
@@ -1645,7 +1660,7 @@ msgstr "G_rupuj wszystko w zakładkach"
 
 #: ../terminatorlib/terminal.py:469
 msgid "Ungro_up all in tab"
-msgstr ""
+msgstr "Rozgrupuj wszytsko w zakładki"
 
 #: ../terminatorlib/terminal.py:474
 msgid "Remove all groups"
@@ -1658,31 +1673,31 @@ msgstr "Zamknij grupę %s"
 
 #: ../terminatorlib/terminal.py:491
 msgid "Broadcast _all"
-msgstr ""
+msgstr "Nadawanie do wszystkich"
 
 #: ../terminatorlib/terminal.py:492
 msgid "Broadcast _group"
-msgstr ""
+msgstr "Nadawanie do grupy"
 
 #: ../terminatorlib/terminal.py:493
 msgid "Broadcast _off"
-msgstr ""
+msgstr "Wyłącz nadawanie"
 
 #: ../terminatorlib/terminal.py:509
 msgid "_Split to this group"
-msgstr ""
+msgstr "Rozdziel do tej grupy"
 
 #: ../terminatorlib/terminal.py:514
 msgid "Auto_clean groups"
-msgstr ""
+msgstr "Automatyczne czyszczenie grup"
 
 #: ../terminatorlib/terminal.py:521
 msgid "_Insert terminal number"
-msgstr ""
+msgstr "Wprowadź numer terminalu"
 
 #: ../terminatorlib/terminal.py:525
 msgid "Insert _padded terminal number"
-msgstr ""
+msgstr "Wstaw _wyrównany numer terminala"
 
 #: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"
@@ -1831,3 +1846,15 @@ msgstr "Zakładka %d"
 #~ msgstr ""
 #~ "To %s ma otwartych wiele terminali. Zamykając %s, program zamknie również "
 #~ "wszystkie terminale znajdujące się wewnątrz."
+
+#~ msgid ""
+#~ "<a "
+#~ "href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
+#~ "\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
+#~ "<a href=\"https://launchpad.net/terminator\">Development</a>"
+#~ msgstr ""
+#~ "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Strona "
+#~ "domowa</a>\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/\">Blog / Wiadomości</a>\n"
+#~ "<a href=\"https://launchpad.net/terminator\">Development</a>"

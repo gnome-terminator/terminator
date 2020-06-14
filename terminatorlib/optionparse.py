@@ -49,6 +49,8 @@ def parse_options():
             help=_('Display program version'))
     parser.add_option('-m', '--maximise', action='store_true', dest='maximise',
             help=_('Maximize the window'))
+    parser.add_option('-M', '--maximize', action='store_true', dest='maximise',
+            help=_('Maximize the window'))
     parser.add_option('-f', '--fullscreen', action='store_true',
             dest='fullscreen', help=_('Make the window fill the screen'))
     parser.add_option('-b', '--borderless', action='store_true',
