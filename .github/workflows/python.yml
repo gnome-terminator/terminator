@@ -26,6 +26,9 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
+    - name: Update apt repositories
+      run: sudo apt-get update
+
     - name: Install native dependencies
       run: >
         sudo apt-get install -y --no-install-recommends
