@@ -319,6 +319,12 @@ class PrefsEditor:
         # Putty paste style
         widget = guiget('putty_paste_style')
         widget.set_active(self.config['putty_paste_style'])
+        # Putty paste style source clipboard
+        if self.config['putty_paste_style_source_clipboard']:
+            widget = guiget('putty_paste_style_source_clipboard_radiobutton')
+        else:
+            widget = guiget('putty_paste_style_source_primary_radiobutton')
+        widget.set_active(True)
         # Smart copy
         widget = guiget('smart_copy')
         widget.set_active(self.config['smart_copy'])
@@ -769,6 +775,13 @@ class PrefsEditor:
     def on_putty_paste_style_toggled(self, widget):
         """Putty paste style setting changed"""
         self.config['putty_paste_style'] = widget.get_active()
+        self.config.save()
+
+    def on_putty_paste_style_source_clipboard_toggled(self, widget):
+        """PuTTY paste style source changed"""
+        guiget = self.builder.get_object
+        clipboardwidget = guiget('putty_paste_style_source_clipboard_radiobutton')
+        self.config['putty_paste_style_source_clipboard'] = clipboardwidget.get_active()
         self.config.save()
 
     def on_smart_copy_toggled(self, widget):

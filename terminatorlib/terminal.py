@@ -947,7 +947,7 @@ class Terminal(Gtk.VBox):
 
         if self.config['putty_paste_style']:
             middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (True, )]
+            right_click = [self.paste_clipboard, (not self.config['putty_paste_style_source_clipboard'], )]
         else:
             middle_click = [self.paste_clipboard, (True, )]
             right_click = [self.popup_menu, (widget, event)]
