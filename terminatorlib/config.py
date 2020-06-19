@@ -117,6 +117,7 @@ DEFAULTS = {
             'title_use_system_font' : True,
             'title_font'            : 'Sans 9',
             'putty_paste_style'     : False,
+            'putty_paste_style_source_clipboard': False,
             'smart_copy'            : True,
         },
         'keybindings': {
