@@ -513,10 +513,11 @@ class Terminator(Borg):
         css = ""
         if self.config['handle_size'] in range(0, 21):
             css += """
-                .terminator-terminal-window GtkPaned,
-                .terminator-terminal-window paned {
-                    -GtkPaned-handle-size: %s; }
-                """ % self.config['handle_size']
+                .terminator-terminal-window separator {
+                    min-height: %spx;
+                    min-width: %spx; 
+                }
+                """ % (self.config['handle_size'],self.config['handle_size'])
         style_provider = Gtk.CssProvider()
         style_provider.load_from_data(css.encode('utf-8'))
         self.style_providers.append(style_provider)
