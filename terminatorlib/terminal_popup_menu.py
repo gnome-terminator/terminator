@@ -9,7 +9,7 @@ from .version import APP_NAME
 from .translation import _
 from .encoding import TerminatorEncoding
 from .terminator import Terminator
-from .util import err, dbg
+from .util import err, dbg, spawn_new_terminator
 from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
@@ -238,8 +238,14 @@ class TerminalPopupMenu(object):
     def add_layout_launcher(self, menu):
         """Add the layout list to the menu"""
         item = Gtk.MenuItem.new_with_mnemonic(_('_Layouts...'))
-        item.connect('activate', lambda x: LayoutLauncher())
         menu.append(item)
+        submenu = Gtk.Menu()
+        item.set_submenu(submenu)
+        layouts = self.config.list_layouts()
+        for layout in layouts:
+                item = Gtk.MenuItem(layout)
+                item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', layout]))
+                submenu.append(item)
 
     def add_encoding_items(self, menu):
         """Add the encoding list to the menu"""
