@@ -356,35 +356,7 @@ class Terminator(Borg):
                 terminal.spawn_child()
 
         for window in self.windows:
-            if window.is_child_notebook():
-                # For windows with a notebook
-                notebook = window.get_toplevel().get_children()[0]
-                # Cycle through pages by number
-                for page in range(0, notebook.get_n_pages()):
-                    # Try and get the entry in the previously saved mapping
-                    mapping = window_last_active_term_mapping[window]
-                    page_last_active_term = mapping.get(notebook.get_nth_page(page),  None)
-                    if page_last_active_term is None:
-                        # Couldn't find entry, so we find the first child of type Terminal
-                        children = notebook.get_nth_page(page).get_children()
-                        for page_last_active_term in children:
-                            if maker.isinstance(page_last_active_term, 'Terminal'):
-                                page_last_active_term = page_last_active_term.uuid
-                                break
-                        else:
-                            err('Should never reach here!')
-                            page_last_active_term = None
-                    if page_last_active_term is None:
-                        # Bail on this tab as we're having no luck here, continue with the next
-                        continue
-                    # Set the notebook entry, then ensure Terminal is visible and focussed
-                    urn = page_last_active_term.urn
-                    notebook.last_active_term[notebook.get_nth_page(page)] = page_last_active_term
-                    if urn:
-                        term = self.find_terminal_by_uuid(urn)
-                        if term:
-                            term.ensure_visible_and_focussed()
-            else:
+            if not window.is_child_notebook():
                 # For windows without a notebook ensure Terminal is visible and focussed
                 if window_last_active_term_mapping[window]:
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)

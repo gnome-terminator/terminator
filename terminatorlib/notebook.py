@@ -492,7 +492,9 @@ class Notebook(Container, Gtk.Notebook):
         tabs_last_active_term = data['tabs_last_active_term']
         if tabs_last_active_term:
             term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
-            GObject.idle_add(term.ensure_visible_and_focussed)
+            # if we can't find a last active term we must be starting up
+            if term is not None:
+                GObject.idle_add(term.ensure_visible_and_focussed)
         return True
 
     def on_scroll_event(self, notebook, event):
