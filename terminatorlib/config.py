@@ -119,6 +119,7 @@ DEFAULTS = {
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
             'smart_copy'            : True,
+            'line_height'           : 1.0,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
