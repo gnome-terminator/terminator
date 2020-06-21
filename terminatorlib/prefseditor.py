@@ -240,6 +240,13 @@ class PrefsEditor:
         widget.set_value(float(termsepsize))
         widget = guiget('handlesize_value_label')
         widget.set_text(str(termsepsize))
+        # Line Height
+        lineheightsize = self.config['line_height']
+        lineheightsize = round(float(lineheightsize),1)
+        widget = guiget('lineheight')
+        widget.set_value(lineheightsize)
+        widget = guiget('lineheight_value_label')
+        widget.set_text(str(lineheightsize))
         # Window geometry hints
         geomhint = self.config['geometry_hinting']
         widget = guiget('wingeomcheck')
@@ -1098,6 +1105,18 @@ class PrefsEditor:
         self.config.save()
         guiget = self.builder.get_object
         label_widget = guiget('handlesize_value_label')
+        label_widget.set_text(str(value))
+
+    def on_lineheight_value_changed(self, widget):
+        """Handles line height changed"""
+        value = widget.get_value()
+        value = round(float(value), 1)
+        if value > 2.0:
+            value = 2.0
+        self.config['line_height'] = value
+        self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('lineheight_value_label')
         label_widget.set_text(str(value))
 
     def on_focuscombo_changed(self, widget):
