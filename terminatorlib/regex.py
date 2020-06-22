@@ -11,6 +11,10 @@ from gi.repository import GLib, Vte
 # the corresponding bits are defined here:
 #   https://vcs.pcre.org/pcre2/code/trunk/src/pcre2.h.in?view=markup
 PCRE2_MULTILINE = 0x00000400
+PCRE2_CASELESS = 0x00000008
+
+GLIB_CASELESS = GLib.RegexCompileFlags.CASELESS
+
 FLAGS_GLIB = (GLib.RegexCompileFlags.OPTIMIZE | GLib.RegexCompileFlags.MULTILINE)
 if hasattr(Vte, 'REGEX_FLAGS_DEFAULT'):
     FLAGS_PCRE2 = (Vte.REGEX_FLAGS_DEFAULT | PCRE2_MULTILINE)
