@@ -863,7 +863,7 @@ class PrefsEditor:
         elif selected == 2:
             value = 'ascii-del'
         elif selected == 3:
-            value == 'escape-sequence'
+            value = 'escape-sequence'
         else:
             value = 'automatic'
         self.config['backspace_binding'] = value
