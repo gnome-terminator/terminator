@@ -119,7 +119,13 @@ class Searchbar(Gtk.HBox):
         toggled_state = toggled.get_active()
         if not toggled_state:
             #  Add the CASELESS regex flags when the checkbox is not checked.
-            self.regex_flags_pcre2 = (regex.FLAGS_PCRE2 | regex.PCRE2_CASELESS)
+            try:
+                self.regex_flags_pcre2 = (regex.FLAGS_PCRE2 | regex.PCRE2_CASELESS)
+            except TypeError:
+                # if PCRE2 support is not available
+                pass
+
+            # The code will fall back to use this GLib regex when PCRE2 is not available
             self.regex_flags_glib = (regex.FLAGS_GLIB | regex.GLIB_CASELESS)
         else:
             # Default state of the check box is unchecked. CASELESS regex flags are not added.
