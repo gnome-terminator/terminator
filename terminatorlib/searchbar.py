@@ -37,6 +37,10 @@ class Searchbar(Gtk.HBox):
         """Class initialiser"""
         GObject.GObject.__init__(self)
 
+        # default regex flags are not CASELESS
+        self.regex_flags_pcre2 = regex.FLAGS_PCRE2
+        self.regex_flags_glib = regex.FLAGS_GLIB
+
         self.config = Config()
 
         self.get_style_context().add_class("terminator-terminal-searchbar")
@@ -66,21 +70,29 @@ class Searchbar(Gtk.HBox):
         close.show_all()
 
         # Next Button
-        self.next = Gtk.Button(_('Next'))
+        self.next = Gtk.Button.new_with_label('Next')
         self.next.show()
         self.next.set_sensitive(False)
         self.next.connect('clicked', self.next_search)
 
         # Previous Button
-        self.prev = Gtk.Button(_('Prev'))
+        self.prev = Gtk.Button.new_with_label('Prev')
         self.prev.show()
         self.prev.set_sensitive(False)
         self.prev.connect('clicked', self.prev_search)
 
+        # Match Case checkbox
+        self.match_case = Gtk.CheckButton.new_with_label('Match Case')
+        self.match_case.show()
+        self.match_case.set_sensitive(True)
+        self.match_case.set_active(True)
+        self.match_case.connect('toggled', self.match_case_toggled)
+
         # Wrap checkbox
-        self.wrap = Gtk.CheckButton(_('Wrap'))
+        self.wrap = Gtk.CheckButton.new_with_label('Wrap')
         self.wrap.show()
         self.wrap.set_sensitive(True)
+        self.wrap.set_active(True)
         self.wrap.connect('toggled', self.wrap_toggled)
 
         self.pack_start(label, False, True, 0)
@@ -88,6 +100,7 @@ class Searchbar(Gtk.HBox):
         self.pack_start(self.prev, False, False, 0)
         self.pack_start(self.next, False, False, 0)
         self.pack_start(self.wrap, False, False, 0)
+        self.pack_start(self.match_case, False, False, 0)
         self.pack_end(close, False, False, 0)
 
         self.hide()
@@ -100,11 +113,34 @@ class Searchbar(Gtk.HBox):
             self.prev.set_sensitive(True)
             self.next.set_sensitive(True)
 
+    def match_case_toggled(self, toggled):
+        """Handles Match Case checkbox toggles"""
+
+        toggled_state = toggled.get_active()
+        if not toggled_state:
+            #  Add the CASELESS regex flags when the checkbox is not checked.
+            try:
+                self.regex_flags_pcre2 = (regex.FLAGS_PCRE2 | regex.PCRE2_CASELESS)
+            except TypeError:
+                # if PCRE2 support is not available
+                pass
+
+            # The code will fall back to use this GLib regex when PCRE2 is not available
+            self.regex_flags_glib = (regex.FLAGS_GLIB | regex.GLIB_CASELESS)
+        else:
+            # Default state of the check box is unchecked. CASELESS regex flags are not added.
+            self.regex_flags_pcre2 = regex.FLAGS_PCRE2
+            self.regex_flags_glib = regex.FLAGS_GLIB
+        
+        self.do_search(self.entry) #  Start a new search everytime the check box is toggled.    
+
     def get_vte(self):
         """Find our parent widget"""
         parent = self.get_parent()
         if parent:
             self.vte = parent.vte
+            #turn on wrap by default
+            self.vte.search_set_wrap_around(True)
 
     # pylint: disable-msg=W0613
     def search_keypress(self, widget, event):
@@ -132,24 +168,21 @@ class Searchbar(Gtk.HBox):
         if searchtext == '':
             return
 
-        if searchtext != self.searchstring:
-            self.searchstring = searchtext
-            self.searchre = None
-
-            if regex.FLAGS_PCRE2:
-                try:
-                    self.searchre = Vte.Regex.new_for_search(searchtext, len(searchtext), regex.FLAGS_PCRE2)
-                    dbg('search RE: %s' % self.searchre)
-                    self.vte.search_set_regex(self.searchre, 0)
-                except GLib.Error:
-                    # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
-                    pass
-
-            if not self.searchre:
-                # fall back to old GLib regex
-                self.searchre = GLib.Regex(searchtext, regex.FLAGS_GLIB, 0)
+        self.searchre = None
+        if regex.FLAGS_PCRE2:
+            try:
+                self.searchre = Vte.Regex.new_for_search(searchtext, len(searchtext), self.regex_flags_pcre2)
                 dbg('search RE: %s' % self.searchre)
-                self.vte.search_set_gregex(self.searchre, 0)
+                self.vte.search_set_regex(self.searchre, 0)
+            except GLib.Error:
+                # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
+                pass
+
+        if not self.searchre:
+            # fall back to old GLib regex
+            self.searchre = GLib.Regex(searchtext, self.regex_flags_glib, 0)
+            dbg('search RE: %s' % self.searchre)
+            self.vte.search_set_gregex(self.searchre, 0)
 
         self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
