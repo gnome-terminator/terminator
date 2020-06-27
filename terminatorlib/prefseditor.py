@@ -1550,6 +1550,21 @@ class PrefsEditor:
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
         """Handle an edited keybinding"""
+        if mods & Gdk.ModifierType.SHIFT_MASK:
+            key_with_shift = Gdk.Keymap.translate_keyboard_state(
+                self.keybindings.keymap,
+                hardware_keycode=_code,
+                state=Gdk.ModifierType.SHIFT_MASK,
+                group=0,
+            )
+            keyval_lower, keyval_upper = Gdk.keyval_convert_case(key)
+
+            # Remove the Shift modifier from `mods` if a new key binding doesn't
+            # contain a letter and its key value (`key`) can't be modified by a
+            # Shift key.
+            if key_with_shift.level != 0 and keyval_lower == keyval_upper:
+                mods = Gdk.ModifierType(mods & ~Gdk.ModifierType.SHIFT_MASK)
+
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, key, 3, mods)
 
