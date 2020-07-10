@@ -19,11 +19,18 @@ from .terminator import Terminator
 from .plugin import PluginRegistry
 from .version import APP_NAME
 
+def get_color_string(widcol):
+    return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
+
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
     as 8bit hex values, sinces its default behaviour is to give 16bit values"""
-    widcol = widget.get_color()
-    return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
+    return get_color_string(widget.get_color())
+
+def rgba2hex(widget):
+    return get_color_string(widget.get_rgba().to_color())
+
+NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
@@ -553,15 +560,16 @@ class PrefsEditor:
                 scheme = 'custom'
         # NOTE: The scheme is set in the GUI widget after the fore/back colours
         # Foreground color
-        widget = guiget('foreground_colorpicker')
-        widget.set_color(Gdk.color_parse(self.config['foreground_color']))
+        widget = guiget('foreground_colorbutton')
+        widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
             widget.set_sensitive(False)
         # Background color
-        widget = guiget('background_colorpicker')
-        widget.set_color(Gdk.color_parse(self.config['background_color']))
+        widget = guiget('background_colorbutton')
+        widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
         if scheme == 'custom':
             widget.set_sensitive(True)
         else:
@@ -582,10 +590,13 @@ class PrefsEditor:
                 palette = 'custom'
         # NOTE: The palette selector is set after the colour pickers
         # Palette colour pickers
-        colourpalette = self.config['palette'].split(':')
-        for i in range(1, 17):
-            widget = guiget('palette_colorpicker_%d' % i)
-            widget.set_color(Gdk.color_parse(colourpalette[i - 1]))
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            widget = self.get_palette_widget(palette_id)
+            widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+            def on_palette_click(event, data, widget=widget):
+                self.edit_palette_button(widget)
+            widget.connect('button-press-event', on_palette_click)
+        self.load_palette()
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
         widget.set_active(self.palettevalues[palette])
@@ -918,34 +929,28 @@ class PrefsEditor:
     def on_palette_combobox_changed(self, widget):
         """Palette selector changed"""
         value = None
-        guiget = self.builder.get_object
         active = widget.get_active()
 
         for key in list(self.palettevalues.keys()):
             if self.palettevalues[key] == active:
                 value = key
 
-        if value == 'custom':
-            sensitive = True
-        else:
-            sensitive = False
-
-        for num in range(1, 17):
-            picker = guiget('palette_colorpicker_%d' % num)
-            picker.set_sensitive(sensitive)
+        sensitive = value == 'custom'
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            self.get_palette_widget(palette_id).set_sensitive(sensitive)
 
         if value in self.palettes:
             palette = self.palettes[value]
             palettebits = palette.split(':')
-            for num in range(1, 17):
+            for palette_id in range(0, NUM_PALETTE_COLORS):
                 # Update the visible elements
-                picker = guiget('palette_colorpicker_%d' % num)
-                picker.set_color(Gdk.color_parse(palettebits[num - 1]))
+                color = Gdk.color_parse(palettebits[palette_id])
+                self.load_palette_color(palette_id, color)
         elif value == 'custom':
             palettebits = []
-            for num in range(1, 17):
-                picker = guiget('palette_colorpicker_%d' % num)
-                palettebits.append(color2hex(picker))
+            for palette_id in range(0, NUM_PALETTE_COLORS):
+                # Save the custom values into the configuration.
+                palettebits.append(get_color_string(self.get_palette_color(palette_id)))
             palette = ':'.join(palettebits)
         else:
             err('Unknown palette value: %s' % value)
@@ -954,31 +959,147 @@ class PrefsEditor:
         self.config['palette'] = palette
         self.config.save()
 
-    def on_background_colorpicker_color_set(self, widget):
-        """Background color changed"""
-        self.config['background_color'] = color2hex(widget)
-        self.config.save()
+    def on_foreground_colorbutton_draw(self, widget, cr):
+        width = widget.get_allocated_width()
+        height = widget.get_allocated_height()
+        col = Gdk.color_parse(self.config['foreground_color'])
+        cr.rectangle(0, 0, width, height)
+        cr.set_source_rgba(0.7, 0.7, 0.7, 1)
+        cr.fill()
+        cr.rectangle(1, 1, width-2, height-2)
+        cr.set_source_rgba(col.red_float, col.green_float, col.blue_float)
+        cr.fill()
 
-    def on_foreground_colorpicker_color_set(self, widget):
+    def on_foreground_colorbutton_click(self, event, data):
+        dialog = Gtk.ColorChooserDialog("Choose Terminal Text Color")
+        fg = self.config['foreground_color']
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(self.config['foreground_color'])))
+        dialog.connect('notify::rgba', self.on_foreground_colorpicker_color_change)
+        res = dialog.run()
+        if res != Gtk.ResponseType.OK:
+            self.config['foreground_color'] = fg
+            self.config.save()
+            terminator = Terminator()
+            terminator.reconfigure()
+        dialog.destroy()
+
+    def on_foreground_colorpicker_color_change(self, widget, color):
         """Foreground color changed"""
-        self.config['foreground_color'] = color2hex(widget)
+        self.config['foreground_color'] = rgba2hex(widget)
         self.config.save()
+        terminator = Terminator()
+        terminator.reconfigure()
 
-    def on_palette_colorpicker_color_set(self, widget):
-        """A palette colour changed"""
-        palette = None
-        palettebits = []
+    def on_background_colorbutton_draw(self, widget, cr):
+        width = widget.get_allocated_width()
+        height = widget.get_allocated_height()
+        col = Gdk.color_parse(self.config['background_color'])
+        cr.rectangle(0, 0, width, height)
+        cr.set_source_rgba(0.7, 0.7, 0.7, 1)
+        cr.fill()
+        cr.rectangle(1, 1, width-2, height-2)
+        cr.set_source_rgba(col.red_float, col.green_float, col.blue_float)
+        cr.fill()
+
+    def on_background_colorbutton_click(self, event, data):
+        dialog = Gtk.ColorChooserDialog("Choose Terminal Background Color")
+        orig = self.config['background_color']
+        dialog.connect('notify::rgba', self.on_background_colorpicker_color_change)
+        dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(orig)))
+        res = dialog.run()
+        if res != Gtk.ResponseType.OK:
+            self.config['background_color'] = orig
+            self.config.save()
+            terminator = Terminator()
+            terminator.reconfigure()
+        dialog.destroy()
+
+    def on_background_colorpicker_color_change(self, widget, color):
+        """Background color changed"""
+        self.config['background_color'] = rgba2hex(widget)
+        self.config.save()
+        terminator = Terminator()
+        terminator.reconfigure()
+
+    def get_palette_widget(self, palette_id):
+        """Returns the palette widget for the given palette ID."""
         guiget = self.builder.get_object
+        return guiget('palette_colorpicker_%d' % (palette_id + 1))
 
-        # FIXME: We do this at least once elsewhere. refactor!
-        for num in range(1, 17):
-            picker = guiget('palette_colorpicker_%d' % num)
-            value = color2hex(picker)
-            palettebits.append(value)
-        palette = ':'.join(palettebits)
+    def get_palette_id(self, widget):
+        """Returns the palette ID for the given palette widget."""
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            if widget == self.get_palette_widget(palette_id):
+                return palette_id
+        return None
 
-        self.config['palette'] = palette
+    def get_palette_color(self, palette_id):
+        """Returns the configured Gdk color for the given palette ID."""
+        if self.config['palette'] in self.palettes:
+            colourpalette = self.palettes[self.config['palette']]
+        else:
+            colourpalette = self.config['palette'].split(':')
+        return Gdk.color_parse(colourpalette[palette_id])
+
+    def on_palette_colorpicker_draw(self, widget, cr):
+        width = widget.get_allocated_width()
+        height = widget.get_allocated_height()
+        cr.rectangle(0, 0, width, height)
+        cr.set_source_rgba(0.7, 0.7, 0.7, 1)
+        cr.fill()
+        cr.rectangle(1, 1, width-2, height-2)
+        col = self.get_palette_color(self.get_palette_id(widget))
+        cr.set_source_rgba(col.red_float, col.green_float, col.blue_float)
+        cr.fill()
+
+    def load_palette_color(self, palette_id, color):
+        """Given a palette ID and a Gdk color, load that color into the
+        specified widget."""
+        widget = self.get_palette_widget(palette_id)
+        widget.queue_draw()
+
+    def replace_palette_color(self, palette_id, color):
+        """Replace the configured palette color for the given palette ID
+        with the given color."""
+        palettebits = self.config['palette'].split(':')
+        palettebits[palette_id] = get_color_string(color)
+        self.config['palette'] = ':'.join(palettebits)
         self.config.save()
+
+    def load_palette(self):
+        """Load the palette from the configuration into the color buttons."""
+        colourpalette = self.config['palette'].split(':')
+        for palette_id in range(0, NUM_PALETTE_COLORS):
+            color = Gdk.color_parse(colourpalette[palette_id])
+            self.load_palette_color(palette_id, color)
+
+    def edit_palette_button(self, widget):
+        """When the palette colorbutton is clicked, open a dialog to
+        configure a custom color."""
+        terminator = Terminator()
+        palette_id = self.get_palette_id(widget)
+        orig = self.get_palette_color(palette_id)
+
+        try:
+            # Create the dialog to choose a custom color
+            dialog = Gtk.ColorChooserDialog("Choose Palette Color")
+            dialog.set_rgba(Gdk.RGBA.from_color(orig))
+
+            def on_color_set(_, color):
+                # The color is set, so save the palette config and refresh Terminator
+                self.replace_palette_color(palette_id, dialog.get_rgba().to_color())
+                terminator.reconfigure()
+            dialog.connect('notify::rgba', on_color_set)
+
+            # Show the dialog
+            res = dialog.run()
+            if res != Gtk.ResponseType.OK:
+                # User cancelled the color change, so reset to the original.
+                self.replace_palette_color(palette_id, orig)
+                terminator.reconfigure()
+        finally:
+            if dialog:
+                dialog.destroy()
 
     def on_exit_action_combobox_changed(self, widget):
         """Exit action changed"""
@@ -1496,8 +1617,8 @@ class PrefsEditor:
             if self.colorschemevalues[key] == active:
                 value = key
 
-        fore = guiget('foreground_colorpicker')
-        back = guiget('background_colorpicker')
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
         if value == 'custom':
             fore.set_sensitive(True)
             back.set_sensitive(True)
@@ -1510,18 +1631,8 @@ class PrefsEditor:
         if value in self.colourschemes:
             forecol = self.colourschemes[value][0]
             backcol = self.colourschemes[value][1]
-        elif value == 'custom':
-            forecol = color2hex(fore)
-            backcol = color2hex(back)
-        else:
-            err('Unknown colourscheme value: %s' % value)
-            return
-
-        fore.set_color(Gdk.color_parse(forecol))
-        back.set_color(Gdk.color_parse(backcol))
-
-        self.config['foreground_color'] = forecol
-        self.config['background_color'] = backcol
+            self.config['foreground_color'] = forecol
+            self.config['background_color'] = backcol
         self.config.save()
 
     def on_use_theme_colors_checkbutton_toggled(self, widget):
@@ -1530,8 +1641,8 @@ class PrefsEditor:
         active = widget.get_active()
 
         scheme = guiget('color_scheme_combobox')
-        fore = guiget('foreground_colorpicker')
-        back = guiget('background_colorpicker')
+        fore = guiget('foreground_colorbutton')
+        back = guiget('background_colorbutton')
 
         if active:
             for widget in [scheme, fore, back]:

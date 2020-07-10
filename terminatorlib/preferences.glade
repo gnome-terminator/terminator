@@ -2312,7 +2312,7 @@
                                         <property name="label" translatable="yes">_Text color:</property>
                                         <property name="use_underline">True</property>
                                         <property name="justify">center</property>
-                                        <property name="mnemonic_widget">foreground_colorpicker</property>
+                                        <property name="mnemonic_widget">foreground_colorbutton</property>
                                         <property name="xalign">0</property>
                                       </object>
                                       <packing>
@@ -2327,7 +2327,7 @@
                                         <property name="label" translatable="yes">_Background color:</property>
                                         <property name="use_underline">True</property>
                                         <property name="justify">center</property>
-                                        <property name="mnemonic_widget">background_colorpicker</property>
+                                        <property name="mnemonic_widget">background_colorbutton</property>
                                         <property name="xalign">0</property>
                                       </object>
                                       <packing>
@@ -2360,15 +2360,14 @@
                                       <object class="GtkBox" id="hbox18">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="spacing">12</property>
                                         <child>
-                                          <object class="GtkColorButton" id="foreground_colorpicker">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="foreground_colorbutton">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="title" translatable="yes">Choose Terminal Text Color</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_foreground_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_foreground_colorbutton_draw" swapped="no"/>
+                                            <signal name="button-press-event" handler="on_foreground_colorbutton_click" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2389,15 +2388,14 @@
                                       <object class="GtkBox" id="hbox19">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
+                                        <property name="spacing">12</property>
                                         <child>
-                                          <object class="GtkColorButton" id="background_colorpicker">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="background_colorbutton">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="title" translatable="yes">Choose Terminal Background Color</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_background_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_background_colorbutton_draw" swapped="no"/>
+                                            <signal name="button-press-event" handler="on_background_colorbutton_click" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2520,13 +2518,11 @@
                                         <property name="row_homogeneous">True</property>
                                         <property name="column_homogeneous">True</property>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_1">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_1">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -2534,13 +2530,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_2">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_2">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -2548,13 +2542,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_3">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_3">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -2562,13 +2554,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_4">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_4">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -2576,13 +2566,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_5">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_5">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -2590,13 +2578,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_6">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_6">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -2604,13 +2590,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_7">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_7">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -2618,13 +2602,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_8">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_8">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -2632,13 +2614,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_9">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_9">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">0</property>
@@ -2646,13 +2626,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_10">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_10">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -2660,13 +2638,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_11">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_11">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">2</property>
@@ -2674,13 +2650,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_12">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_12">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">3</property>
@@ -2688,13 +2662,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_13">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_13">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">4</property>
@@ -2702,13 +2674,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_14">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_14">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">5</property>
@@ -2716,13 +2686,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_15">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_15">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">6</property>
@@ -2730,13 +2698,11 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkColorButton" id="palette_colorpicker_16">
-                                            <property name="use_action_appearance">False</property>
+                                          <object class="GtkDrawingArea" id="palette_colorpicker_16">
+                                            <property name="height_request">24</property>
+                                            <property name="width_request">36</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="color">#000000000000</property>
-                                            <signal name="color-set" handler="on_palette_colorpicker_color_set" swapped="no"/>
+                                            <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left_attach">7</property>
@@ -4014,36 +3980,6 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
     <widgets>
       <widget name="color_scheme_combobox"/>
       <widget name="palette_combobox"/>
-    </widgets>
-  </object>
-  <object class="GtkSizeGroup" id="sizegroup3">
-    <property name="mode">both</property>
-    <widgets>
-      <widget name="title_transmit_fg_color"/>
-      <widget name="title_inactive_fg_color"/>
-      <widget name="title_receive_fg_color"/>
-      <widget name="title_transmit_bg_color"/>
-      <widget name="title_inactive_bg_color"/>
-      <widget name="title_receive_bg_color"/>
-      <widget name="cursor_color"/>
-      <widget name="foreground_colorpicker"/>
-      <widget name="background_colorpicker"/>
-      <widget name="palette_colorpicker_1"/>
-      <widget name="palette_colorpicker_2"/>
-      <widget name="palette_colorpicker_3"/>
-      <widget name="palette_colorpicker_4"/>
-      <widget name="palette_colorpicker_5"/>
-      <widget name="palette_colorpicker_6"/>
-      <widget name="palette_colorpicker_7"/>
-      <widget name="palette_colorpicker_8"/>
-      <widget name="palette_colorpicker_9"/>
-      <widget name="palette_colorpicker_10"/>
-      <widget name="palette_colorpicker_11"/>
-      <widget name="palette_colorpicker_12"/>
-      <widget name="palette_colorpicker_13"/>
-      <widget name="palette_colorpicker_14"/>
-      <widget name="palette_colorpicker_15"/>
-      <widget name="palette_colorpicker_16"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup" id="sizegroup4">
