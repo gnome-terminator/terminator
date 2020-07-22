@@ -32,33 +32,33 @@ Shift focus to:
 next terminal: Ctrl-Shift-n
 previous terminal: Ctrl-Shift-p
 
-New tab:
-Ctrl-Shift-t
+New tab:  
+Ctrl-Shift-t  
 
-New window:
-Ctrl-Shift-i
+New window:  
+Ctrl-Shift-i  
 
-Close terminal or tab:
-Ctrl-Shift-w
-or right mouse click -> Close
+Close terminal or tab:  
+Ctrl-Shift-w  
+or right mouse click -> Close  
 
-Close window with all it's terminals and tabs:
-Ctrl-Shift-q
+Close window with all it's terminals and tabs:  
+Ctrl-Shift-q  
 
-Reset zoom:
-Ctrl-0
+Reset zoom:  
+Ctrl-0  
 
-Terminator Preferences menu:
-right mouse click -> Preferences
+Terminator Preferences menu:  
+right mouse click -> Preferences  
 
-These and more modifiable shortcuts in:
-right mouse click -> Preferences -> Keybindings tab
+These and more modifiable shortcuts in:  
+right mouse click -> Preferences -> Keybindings tab  
 
-web Documentation: F1
+web Documentation: F1  
 
-More info about shortcuts and cli config in man pages:
-man terminator
-man terminator_config
+More info about shortcuts and cli config in man pages:  
+man terminator  
+man terminator_config  
 
 ## Contributing
 
