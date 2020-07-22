@@ -24,13 +24,13 @@ update as shells/programs inside the terminal tell it to. Also on the titlebar
 is a small button that opens the grouping menu. From here you can put terminals
 into groups, which allows you to control multiple terminals simultaneously.
 
-Create more terminals by:
-horizontal split: Ctrl-Shift-o
-vertical split: Ctrl-Shift-e
+Create more terminals by:  
+horizontal split: Ctrl-Shift-o  
+vertical split: Ctrl-Shift-e  
 
-Shift focus to:
-next terminal: Ctrl-Shift-n
-previous terminal: Ctrl-Shift-p
+Shift focus to:  
+next terminal: Ctrl-Shift-n  
+previous terminal: Ctrl-Shift-p  
 
 New tab:  
 Ctrl-Shift-t  
