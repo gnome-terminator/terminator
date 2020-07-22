@@ -11,6 +11,7 @@ VERSION=1.92
 
 ```
 sed -i "s/APP_VERSION =.*/APP_VERSION = '${VERSION}'/" terminatorlib/version.py
+sed -i -e "s/@@VERSION@@/${VERSION}/" terminatorlib/preferences.glade
 ```
 
 ## Generate the changelog
