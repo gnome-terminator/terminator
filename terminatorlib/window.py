@@ -5,6 +5,7 @@
 import copy
 import time
 import uuid
+import psutil
 import gi
 from gi.repository import GObject
 from gi.repository import Gtk, Gdk
@@ -278,6 +279,12 @@ class Window(Container, Gtk.Window):
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
         maker = Factory()
+        procs = []
+        for terminal in self.get_visible_terminals():
+                procs = procs + psutil.Process(terminal.pid).children()
+        dbg('procs: %s' % procs)
+        if procs:
+            return(self.confirm_close(window, _('window')))
         if maker.isinstance(self.get_child(), 'Terminal'):
             if self.get_property('term_zoomed') == True:
                 return(self.confirm_close(window, _('window')))
