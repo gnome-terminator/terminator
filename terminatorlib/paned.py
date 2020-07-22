@@ -308,7 +308,10 @@ class Paned(Container):
             if focus_sibling:
                 first_term_sibling.grab_focus()
             elif not sibling.get_toplevel().is_child_notebook():
-                Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
+                try:
+                    Terminator().find_terminal_by_uuid(sibling.get_toplevel().last_active_term.urn).grab_focus()
+                except AttributeError:
+                    dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
         else:
             dbg("Paned::wrapcloseterm: self.closeterm failed")
 
