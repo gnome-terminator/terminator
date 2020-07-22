@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.36.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkListStore" id="BackspaceKeyListStore">
@@ -313,13 +313,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">2</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment_lineheight">
-    <property name="lower">1.0</property>
-    <property name="upper">2.0</property>
-    <property name="value">1.0</property>
-    <property name="step_increment">0.1</property>
-    <property name="page_increment">0.2</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment2">
     <property name="upper">100</property>
     <property name="step_increment">1</property>
@@ -352,13 +345,20 @@
   </object>
   <object class="GtkAdjustment" id="adjustment7">
     <property name="upper">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.20000000000000001</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.2</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment_lineheight">
+    <property name="lower">1</property>
+    <property name="upper">2</property>
+    <property name="value">1</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.2</property>
   </object>
   <object class="GtkAdjustment" id="background_darkness_scale">
     <property name="upper">1</property>
-    <property name="step_increment">0.10000000000000001</property>
-    <property name="page_increment">0.20000000000000001</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.2</property>
   </object>
   <object class="GtkWindow" id="prefswin">
     <property name="can_focus">False</property>
@@ -366,9 +366,6 @@
     <property name="title" translatable="yes">Terminator Preferences</property>
     <property name="default_width">640</property>
     <property name="default_height">400</property>
-    <child>
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="dialog_vbox1">
         <property name="visible">True</property>
@@ -932,7 +929,6 @@
                                     <property name="hexpand">True</property>
                                     <property name="adjustment">adjustment_lineheight</property>
                                     <property name="round_digits">1</property>
-                                    <property name="digits">1</property>
                                     <property name="draw_value">False</property>
                                     <property name="value_pos">bottom</property>
                                     <signal name="value-changed" handler="on_lineheight_value_changed" swapped="no"/>
@@ -1401,8 +1397,8 @@
                                             <property name="use_action_appearance">False</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
                                             <property name="focus_on_click">False</property>
+                                            <property name="receives_default">True</property>
                                             <property name="font">Sans 12</property>
                                             <property name="title" translatable="yes">Choose A Titlebar Font</property>
                                             <property name="use_font">True</property>
@@ -1628,8 +1624,8 @@
                                         <property name="use_action_appearance">False</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
                                         <property name="focus_on_click">False</property>
+                                        <property name="receives_default">True</property>
                                         <property name="font">Sans 12</property>
                                         <property name="title" translatable="yes">Choose A Terminal Font</property>
                                         <property name="use_font">True</property>
@@ -2363,11 +2359,12 @@
                                         <property name="spacing">12</property>
                                         <child>
                                           <object class="GtkDrawingArea" id="foreground_colorbutton">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
-                                            <signal name="draw" handler="on_foreground_colorbutton_draw" swapped="no"/>
+                                            <property name="can_focus">False</property>
                                             <signal name="button-press-event" handler="on_foreground_colorbutton_click" swapped="no"/>
+                                            <signal name="draw" handler="on_foreground_colorbutton_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2391,11 +2388,12 @@
                                         <property name="spacing">12</property>
                                         <child>
                                           <object class="GtkDrawingArea" id="background_colorbutton">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
-                                            <signal name="draw" handler="on_background_colorbutton_draw" swapped="no"/>
+                                            <property name="can_focus">False</property>
                                             <signal name="button-press-event" handler="on_background_colorbutton_click" swapped="no"/>
+                                            <signal name="draw" handler="on_background_colorbutton_draw" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2519,9 +2517,10 @@
                                         <property name="column_homogeneous">True</property>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_1">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2531,9 +2530,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_2">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2543,9 +2543,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_3">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2555,9 +2556,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_4">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2567,9 +2569,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_5">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2579,9 +2582,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_6">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2591,9 +2595,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_7">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2603,9 +2608,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_8">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2615,9 +2621,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_9">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2627,9 +2634,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_10">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2639,9 +2647,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_11">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2651,9 +2660,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_12">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2663,9 +2673,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_13">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2675,9 +2686,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_14">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2687,9 +2699,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_15">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -2699,9 +2712,10 @@
                                         </child>
                                         <child>
                                           <object class="GtkDrawingArea" id="palette_colorpicker_16">
-                                            <property name="height_request">24</property>
                                             <property name="width_request">36</property>
+                                            <property name="height_request">24</property>
                                             <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
                                             <signal name="draw" handler="on_palette_colorpicker_draw" swapped="no"/>
                                           </object>
                                           <packing>
@@ -3128,7 +3142,7 @@
                             <property name="use_markup">True</property>
                             <property name="wrap">True</property>
                             <property name="xalign">0</property>
-                            <property name="yalign">7.4505801528346183e-09</property>
+                            <property name="yalign">0.00000000745058015283</property>
                           </object>
                           <packing>
                             <property name="left_attach">0</property>
@@ -3821,6 +3835,18 @@
                             <property name="position">2</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkLabel" id="about_version_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Version: $$VERSION$$</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -3965,6 +3991,9 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
   <object class="GtkSizeGroup" id="sizegroup1">
