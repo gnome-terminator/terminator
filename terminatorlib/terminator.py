@@ -53,7 +53,6 @@ class Terminator(Borg):
     origcwd = None
     dbus_path = None
     dbus_name = None
-    gnome_client = None
     debug_address = None
     ibus_running = None
 
@@ -96,8 +95,6 @@ class Terminator(Borg):
             self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
-        if self.gnome_client is None:
-            self.attempt_gnome_client()
         self.connect_signals()
 
     def connect_signals(self):
@@ -118,30 +115,6 @@ class Terminator(Borg):
         if dbus_service:
             self.dbus_name = dbus_service.bus_name.get_name()
             self.dbus_path = dbus_service.bus_path
-
-    def attempt_gnome_client(self):
-        """Attempt to find a GNOME Session to register with"""
-        try:
-            from gi.repository import Gnome
-            self.gnome_program = Gnome.init(APP_NAME, APP_VERSION)  # VERIFY FOR GTK3
-            self.gnome_client = Gnome.Ui.master_client()  # VERIFY FOR GTK3
-            self.gnome_client.connect_to_session_manager()
-            self.gnome_client.connect('save-yourself', self.save_yourself)
-            self.gnome_client.connect('die', self.die)
-            dbg('GNOME session support enabled and registered')
-        except (ImportError, AttributeError):
-            self.gnome_client = False
-            dbg('GNOME session support not available')
-
-    def save_yourself(self, *args):
-        """Save as much state as possible for the session manager"""
-        dbg('preparing session manager state')
-        # FIXME: Implement this
-
-    def die(self, *args):
-        """Die at the hands of the session manager"""
-        dbg('session manager asked us to die')
-        # FIXME: Implement this
 
     def get_windows(self):
         """Return a list of windows"""
