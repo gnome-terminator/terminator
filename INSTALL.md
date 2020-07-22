@@ -18,8 +18,8 @@ dependencies yourself:
      
      Fedora/CentOS: python3-gobject python3-configobj python3-psutil vte291 
                     keybinder3 intltool gettext
-     Debian/Ubuntu: python3-gi python3-psutil python3-configobj 
-                    gir1.2-keybinder-3.0 gettext intltool dbus-x11
+     Debian/Ubuntu: python3-gi python3-gi-cairo python3-psutil python3-configobj 
+                    gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11 
      FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
                     intltool libnotify vte3
 
