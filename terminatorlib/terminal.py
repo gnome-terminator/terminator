@@ -135,6 +135,7 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
+        self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
@@ -143,6 +144,7 @@ class Terminal(Gtk.VBox):
             self.composite_support = True
         dbg('composite_support: %s' % self.composite_support)
 
+        
         self.vte.show()
 
         self.default_encoding = self.vte.get_encoding()
@@ -955,12 +957,20 @@ class Terminal(Gtk.VBox):
             middle_click = [self.paste_clipboard, (True, )]
             right_click = [self.popup_menu, (widget, event)]
 
+        ### Ctrl-click event here.
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-                url = self.vte.match_check_event(event)
-                if url[0]:
-                    self.open_url(url, prepare=True)
+                ## Check new OSC-8 method first
+                url = self.vte.hyperlink_check_event(event)
+                dbg('url: %s' % url)
+                if url:
+                    self.open_url(url, prepare=False)
+                else:
+                    dbg('OSC-8 URL not detected dropping back to regex match')
+                    url = self.vte.match_check_event(event)
+                    if url[0]:
+                        self.open_url(url, prepare=True)
         elif event.button == self.MOUSEBUTTON_MIDDLE:
             # middleclick should paste the clipboard
             # try to pass it to vte widget first though
