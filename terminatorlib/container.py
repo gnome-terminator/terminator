@@ -111,6 +111,7 @@ class Container(object):
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
+        dbg('called')
         try:
             if self.get_property('term_zoomed'):
                 # We're zoomed, so unzoom and then start closing again

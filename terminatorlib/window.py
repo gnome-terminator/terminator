@@ -305,12 +305,18 @@ class Window(Container, Gtk.Window):
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
         dbg('destroying self')
-        for terminal in self.get_visible_terminals():
-            terminal.close()
-        self.cnxids.remove_all()
-        self.terminator.deregister_window(self)
-        self.destroy()
-        del(self)
+        procs = []
+        #for terminal in self.get_visible_terminals():
+        #    procs = procs + psutil.Process(terminal.pid).children()
+        #    if not procs:
+        #        terminal.close()
+        
+        #if procs:
+        #    self.cnxids.remove_all()
+        #    self.terminator.deregister_window(self)
+        #    self.confirm_close(window, _('window'))
+            #self.destroy()
+        #del(self)
 
     def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""

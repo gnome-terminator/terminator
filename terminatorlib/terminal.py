@@ -10,6 +10,7 @@ from gi.repository import GLib, GObject, Pango, Gtk, Gdk
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
+import psutil
 try:
     from urllib.parse import unquote as urlunquote
 except ImportError:
@@ -26,6 +27,7 @@ from .terminal_popup_menu import TerminalPopupMenu
 from .searchbar import Searchbar
 from .translation import _
 from .signalman import Signalman
+from .container import Container
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
@@ -114,6 +116,7 @@ class Terminal(Gtk.VBox):
     def __init__(self):
         """Class initialiser"""
         GObject.GObject.__init__(self)
+        Container.__init__(self)
 
         self.terminator = Terminator()
         self.terminator.register_terminal(self)
@@ -226,9 +229,20 @@ class Terminal(Gtk.VBox):
             dbg('calling get_pid_cwd')
             return(get_pid_cwd(self.pid))
 
+    def confirm_close(self, window, type):
+        """Display a confirmation dialog when the user is closing multiple
+        terminals in one window"""
+
+        c = Container()
+        return(not (c.construct_confirm_close(window, type) == Gtk.ResponseType.ACCEPT))
+
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        if psutil.Process(self.pid).children():
+            window = self.get_toplevel()
+            res = self.confirm_close(window, _('window'))
+            dbg("%s" % res)
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         try:
