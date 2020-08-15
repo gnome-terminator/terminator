@@ -1334,6 +1334,22 @@
                                 <property name="row_spacing">6</property>
                                 <property name="column_spacing">12</property>
                                 <child>
+                                  <object class="GtkCheckButton" id="title_at_bottom_checkbutton">
+                                    <property name="label" translatable="yes">Title bar at bottom</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_title_at_bottom_checkbutton_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="top_attach">0</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkCheckButton" id="title_hide_sizetextcheck">
                                     <property name="label" translatable="yes">Hide size from title</property>
                                     <property name="use_action_appearance">False</property>

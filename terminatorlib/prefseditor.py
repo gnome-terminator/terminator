@@ -327,6 +327,11 @@ class PrefsEditor:
         #Hide size text from the title bar
         widget = guiget('title_hide_sizetextcheck')
         widget.set_active(self.config['title_hide_sizetext'])
+
+        # title bar at bottom
+        widget = guiget('title_at_bottom_checkbutton')
+        widget.set_active(self.config['title_at_bottom'])
+        
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
@@ -763,6 +768,11 @@ class PrefsEditor:
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""
         self.config['title_hide_sizetext'] = widget.get_active()
+        self.config.save()
+
+    def on_title_at_bottom_checkbutton_toggled(self, widget):
+        """Title at bottom setting changed"""
+        self.config['title_at_bottom'] = widget.get_active()
         self.config.save()
 
     def on_always_split_with_profile_toggled(self, widget):
