@@ -1335,7 +1335,7 @@
                                 <property name="column_spacing">12</property>
                                 <child>
                                   <object class="GtkCheckButton" id="title_at_bottom_checkbutton">
-                                    <property name="label" translatable="yes">Title bar at bottom</property>
+                                    <property name="label" translatable="yes">Title bar at bottom (Require restart)</property>
                                     <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
