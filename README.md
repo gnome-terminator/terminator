@@ -1,11 +1,11 @@
 Terminator
 ==========
 
-by Chris Jones <cmsj@tenshu.net> and others
+by Chris Jones <cmsj@tenshu.net> and others.
 
 ## New home on GitHub
 
-In April of 2020 we started moving Terminator to GitHub. A new team wanted to continue the work of the original authors.
+In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
 
 Unfortunately we are not able to adopt the Launchpad project, so we could only inform users were possible. 
 
@@ -14,51 +14,49 @@ You can find the project on https://github.com/gnome-terminator/terminator
 ## Description
 
 The goal of this project is to produce a useful tool for arranging terminals. 
-It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that
+It is inspired by programs such as `gnome-multi-term`, `quadkonsole`, etc. in that
 the main focus is arranging terminals in grids (tabs is the most common default
 method, which Terminator also supports).
 
-When you run Terminator, you will get a terminal in a window, just like almost 
+When you run **`Terminator`**, you will get a terminal in a window, just like almost 
 every other terminal emulator available. There is also a titlebar which will
 update as shells/programs inside the terminal tell it to. Also on the titlebar
 is a small button that opens the grouping menu. From here you can put terminals
 into groups, which allows you to control multiple terminals simultaneously.
 
+#### Some shortcuts:
+
 Create more terminals by:  
-horizontal split: Ctrl-Shift-o  
-vertical split: Ctrl-Shift-e  
+ - horizontal split: `Ctrl-Shift-o`
+ - vertical split: `Ctrl-Shift-e`
 
 Shift focus to:  
-next terminal: Ctrl-Shift-n  
-previous terminal: Ctrl-Shift-p  
+ - next terminal: `Ctrl-Shift-n`
+ - previous terminal: `Ctrl-Shift-p`
 
-New tab:  
-Ctrl-Shift-t  
+New tab: `Ctrl-Shift-t`
 
-New window:  
-Ctrl-Shift-i  
+New window: `Ctrl-Shift-i`
 
 Close terminal or tab:  
-Ctrl-Shift-w  
-or right mouse click -> Close  
+ - `Ctrl-Shift-w`
+ - or right mouse click -> Close  
 
-Close window with all it's terminals and tabs:  
-Ctrl-Shift-q  
+Close window with all it's terminals and tabs: `Ctrl-Shift-q`
 
-Reset zoom:  
-Ctrl-0  
+Reset zoom: `Ctrl-0`
 
 Terminator Preferences menu:  
-right mouse click -> Preferences  
+ - right mouse click -> Preferences  
 
 These and more modifiable shortcuts in:  
-right mouse click -> Preferences -> Keybindings tab  
+ - right mouse click -> Preferences -> Keybindings tab  
 
-web Documentation: F1  
+Web Documentation: `F1`
 
 More info about shortcuts and cli config in man pages:  
-man terminator  
-man terminator_config  
+ - `man terminator`
+ - `man terminator_config`
 
 ## Contributing
 
