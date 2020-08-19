@@ -344,7 +344,9 @@ class Window(Container, Gtk.Window):
         if value == True:
             self.maximize()
         else:
-            self.unmaximize()
+            ### Apparently if you call unmaximize twice in Mint it breaks other stuff
+            if self.props.is_maximized == True:
+                self.unmaximize()
 
     def set_fullscreen(self, value):
         """Set the fullscreen state of the window from the supplied value"""
