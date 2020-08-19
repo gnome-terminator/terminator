@@ -2,6 +2,7 @@
 # GPL v2 only
 """ipc.py - DBus server and API calls"""
 
+import sys
 import hashlib
 from gi.repository import Gdk
 import dbus.service
@@ -194,7 +195,14 @@ def with_proxy(func):
     dbg('dbus client call: %s' % func.__name__)
     def _exec(*args, **argd):
         bus = dbus.SessionBus()
-        proxy = bus.get_object(BUS_NAME, BUS_PATH)
+        try:
+            proxy = bus.get_object(BUS_NAME, BUS_PATH)
+
+        except dbus.DBusException as e:
+            sys.exit(
+                "Remotinator can't connect to terminator. " +
+                "May be terminator is not running.")
+            
         func(proxy, *args, **argd)
     return _exec
 
