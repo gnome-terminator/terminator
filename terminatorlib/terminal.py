@@ -163,8 +163,13 @@ class Terminal(Gtk.VBox):
         self.searchbar.connect('end-search', self.on_search_done)
 
         self.show()
-        self.pack_start(self.titlebar, False, True, 0)
-        self.pack_start(self.terminalbox, True, True, 0)
+        if self.config['title_at_bottom']:
+            self.pack_start(self.terminalbox, True, True, 0)
+            self.pack_start(self.titlebar, False, True, 0)
+        else:
+            self.pack_start(self.titlebar, False, True, 0)
+            self.pack_start(self.terminalbox, True, True, 0)
+
         self.pack_end(self.searchbar, True, True, 0)
 
         self.connect_signals()

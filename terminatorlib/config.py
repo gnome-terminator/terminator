@@ -101,6 +101,7 @@ DEFAULTS = {
             'use_custom_url_handler': False,
             'custom_url_handler'    : '',
             'disable_real_transparency' : False,
+            'title_at_bottom'       : False,
             'title_hide_sizetext'   : False,
             'title_transmit_fg_color' : '#ffffff',
             'title_transmit_bg_color' : '#c80003',
