@@ -1419,6 +1419,7 @@ class Terminal(Gtk.VBox):
         args = []
         shell = None
         command = None
+        execute = None
 
         if self.terminator.doing_layout == True:
             dbg('still laying out, refusing to spawn a child')
@@ -1432,7 +1433,8 @@ class Terminal(Gtk.VBox):
             command = options.command
             options.command = None
         elif options and options.execute:
-            command = options.execute
+            #command = options.execute
+            execute = options.execute
             options.execute = None
         elif self.config['use_custom_command']:
             command = self.config['custom_command']
@@ -1453,12 +1455,15 @@ class Terminal(Gtk.VBox):
             self.set_cwd(options.working_directory)
             options.working_directory = ''
 
-        if type(command) is list:
+        if type(execute) is list:
+            shell = util.shell_lookup()
+            args.insert(0, shell)
+            args += ['-c', execute[0]]
+        elif type(command) is list:
             shell = util.path_lookup(command[0])
             args = command
         else:
             shell = util.shell_lookup()
-
             if self.config['login_shell']:
                 args.insert(0, "-%s" % shell)
             else:
