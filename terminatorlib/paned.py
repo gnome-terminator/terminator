@@ -507,6 +507,7 @@ class HPaned(Paned, Gtk.HPaned):
         """Class initialiser"""
         Paned.__init__(self)
         GObject.GObject.__init__(self)
+        self.props.wide_handle = True
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
