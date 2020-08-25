@@ -1870,6 +1870,9 @@ class Terminal(Gtk.VBox):
     def key_reset_clear(self):
         self.vte.reset (True, True)
 
+    def key_create_group(self):
+        self.titlebar.create_group()
+
     def key_group_all(self):
         self.emit('group-all')
 

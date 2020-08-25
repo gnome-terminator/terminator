@@ -174,6 +174,7 @@ DEFAULTS = {
             'reset'            : '<Shift><Control>r',
             'reset_clear'      : '<Shift><Control>g',
             'hide_window'      : '<Shift><Control><Alt>a',
+            'create_group'     : '',
             'group_all'        : '<Super>g',
             'group_all_toggle' : '',
             'ungroup_all'      : '<Shift><Super>g',

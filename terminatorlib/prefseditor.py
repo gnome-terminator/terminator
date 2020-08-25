@@ -154,6 +154,7 @@ class PrefsEditor:
                         'reset'            : _('Reset the terminal'),
                         'reset_clear'      : _('Reset and clear the terminal'),
                         'hide_window'      : _('Toggle window visibility'),
+                        'create_group'     : _('Create new group'),
                         'group_all'        : _('Group all terminals'),
                         'group_all_toggle' : _('Group/Ungroup all terminals'),
                         'ungroup_all'      : _('Ungroup all terminals'),
