@@ -1176,7 +1176,9 @@ class Terminal(Gtk.VBox):
                         str += fname + ' '
                     txt=str
             for term in self.terminator.get_target_terms(self):
-                term.feed(txt)
+                # Drag and Drop issue #159
+                # produces file:///path/to/file/folder\r ,removing file:// and return
+                term.feed(txt.replace('file://','').replace('\r',''))
             return
 
         widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
