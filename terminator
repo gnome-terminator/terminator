@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
-    OPTIONS = terminatorlib.optionparse.parse_options()
+    OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
 
     TERMINATOR = Terminator()
     TERMINATOR.set_origcwd(ORIGCWD)
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                     if val == True:
                         val = 'True'
                     optionslist[opt] = val and '%s'%val or ''
-                optionslist = dbus.Dictionary(optionslist, signature='ss')
+                optionslist = dbus.Dictionary(dbus_options, signature='ss')
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
                     ipc.new_tab_cmdline(optionslist)
