@@ -186,6 +186,7 @@ class PrefsEditor:
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
+        self.active_message_dialog = None
         try:
             # Figure out where our library is on-disk so we can open our
             (head, _tail) = os.path.split(config.__file__)
@@ -1719,8 +1720,11 @@ class PrefsEditor:
             ).format(accel_label, self.keybindingnames[duplicate_keybinding_name])
             dialog.format_secondary_text(message)
 
+            self.active_message_dialog = dialog
             dialog.run()
             dialog.destroy()
+            self.active_message_dialog = None
+
             return
 
         celliter = liststore.get_iter_from_string(path)
