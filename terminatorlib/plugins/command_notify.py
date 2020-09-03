@@ -16,7 +16,7 @@ import gi
 gi.require_version('Notify', '0.7')
 from gi.repository import GObject, GLib, Notify
 VERSION = '0.1.0'
-AVAILABLE = ['LongCommandNotify']
+AVAILABLE = ['CommandNotify']
 
 
 class LongCommandNotify(plugin.Plugin):
