@@ -7,7 +7,8 @@ depends on https://github.com/GNOME/vte/blob/vte-0-58/src/vte.sh (which has to
 be added to /etc/profile.d) and you need to ensure `__vte_prompt_command` is
 executed on `PROMPT_COMMAND` in Bash or in `precmd_functions` in Zsh.
 
-Code is written in Hy and generated to Python3.
+Code is adapted from https://github.com/x4lldux/terminator-long-cmd-notify
+Thanks to @xll4dux on Github for the code and his permission to use it
 """
 import terminatorlib.plugin as plugin
 from terminatorlib.terminator import Terminator
