@@ -149,7 +149,16 @@ icon for the window (by file or name)'))
 
     configobj.options_set(options)
 
+    optionslist = {}
+    for opt, val in list(options.__dict__.items()):
+        if type(val) == type([]):
+            val = ' '.join(val)
+        if val == True:
+            val = 'True'
+        optionslist[opt] = val and '%s'%val or ''
+    # optionslist = dbus.Dictionary(optionslist, signature='ss')
     if util.DEBUG == True:
         dbg('OptionParse::parse_options: command line options: %s' % options)
 
-    return(options)
+    
+    return(options,optionslist)
