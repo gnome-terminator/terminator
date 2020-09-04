@@ -48,8 +48,8 @@ class CommandNotify(plugin.Plugin):
                 notify = None
         self.watched = new_watched
 
-    def update_watched_delayed(self):
-
+    def update_watched_delayed(self, term, event, arg1 = None):
+        print('foo: %s / bar: %s / baz: %s' % (str(term),str(event),arg1))
         def add_watch(self):
             self.update_watched()
             return False
