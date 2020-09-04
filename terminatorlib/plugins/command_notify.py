@@ -19,7 +19,7 @@ VERSION = '0.1.0'
 AVAILABLE = ['CommandNotify']
 
 
-class LongCommandNotify(plugin.Plugin):
+class CommandNotify(plugin.Plugin):
     capabilities = ['command_watch']
     watched = set()
 
