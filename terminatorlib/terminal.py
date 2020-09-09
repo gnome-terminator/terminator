@@ -1460,7 +1460,7 @@ class Terminal(Gtk.VBox):
             shell = util.shell_lookup()
 
             if self.config['login_shell']:
-                args.insert(0, "-%s" % shell)
+                args.insert(0, "-l")
             else:
                 args.insert(0, shell)
 
