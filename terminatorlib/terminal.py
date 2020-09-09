@@ -1488,14 +1488,18 @@ class Terminal(Gtk.VBox):
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
         args.insert(0, shell)
-        result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
-                                       self.cwd,
-                                       args,
-                                       envv,
-                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-                                       None,
-                                       None,
-                                       None)
+        self.pid = self.vte.spawn_async(
+            Vte.PtyFlags.DEFAULT,
+            self.cwd,
+            args,
+            envv,
+            GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+            None,
+            None,
+            -1,
+            None,
+            None,
+            None)
         self.command = shell
 
         self.titlebar.update()
