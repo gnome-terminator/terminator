@@ -186,6 +186,7 @@ class PrefsEditor:
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
+        self.active_message_dialog = None
         try:
             # Figure out where our library is on-disk so we can open our
             (head, _tail) = os.path.split(config.__file__)
@@ -1686,6 +1687,45 @@ class PrefsEditor:
             # Shift key.
             if key_with_shift.level != 0 and keyval_lower == keyval_upper:
                 mods = Gdk.ModifierType(mods & ~Gdk.ModifierType.SHIFT_MASK)
+
+        accel = Gtk.accelerator_name(key, mods)
+        current_binding = liststore.get_value(liststore.get_iter(path), 0)
+
+        duplicate_bindings = []
+        for conf_binding, conf_accel in self.config["keybindings"].items():
+            parsed_accel = Gtk.accelerator_parse(accel)
+            parsed_conf_accel = Gtk.accelerator_parse(conf_accel)
+
+            if (
+                parsed_accel == parsed_conf_accel
+                and current_binding != conf_binding
+            ):
+                duplicate_bindings.append((conf_binding, conf_accel))
+
+        if duplicate_bindings:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                flags=Gtk.DialogFlags.MODAL,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.CLOSE,
+                text="Duplicate Key Bindings Are Not Allowed",
+            )
+
+            accel_label = Gtk.accelerator_get_label(key, mods)
+            # get the first found duplicate
+            duplicate_keybinding_name = duplicate_bindings[0][0]
+
+            message = (
+                "Key binding `{0}` is already in use to trigger the `{1}` action."
+            ).format(accel_label, self.keybindingnames[duplicate_keybinding_name])
+            dialog.format_secondary_text(message)
+
+            self.active_message_dialog = dialog
+            dialog.run()
+            dialog.destroy()
+            self.active_message_dialog = None
+
+            return
 
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, key, 3, mods)
