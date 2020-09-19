@@ -1,0 +1,11 @@
+{
+	"vertical": false,
+	"tab1": [
+		{
+			"command": "bash"
+		},
+		{
+			"command": "bash"
+		}
+	]
+}

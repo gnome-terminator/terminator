@@ -16,6 +16,7 @@ from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .version import APP_NAME, APP_VERSION
+from .layoutfile import LayoutFile
 
 try:
     from gi.repository import GdkX11
@@ -227,10 +228,13 @@ class Terminator(Borg):
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
         if not layout:
-            # User specified a non-existent layout. default to one Terminal
-            err('layout %s not defined' % layout)
-            self.new_window()
-            return
+            layoutfile = LayoutFile()
+            layout = layoutfile.get_layout_file(layoutname)
+            if not layout:
+                # User specified a non-existent layout. default to one Terminal
+                err('layout %s not defined' % layout)
+                self.new_window()
+                return
 
         # Wind the flat objects into a hierarchy
         hierarchy = {}
