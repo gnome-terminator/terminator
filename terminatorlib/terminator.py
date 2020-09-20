@@ -49,7 +49,6 @@ class Terminator(Borg):
     keybindings = None
     style_providers = None
     last_focused_term = None
-    layout_file = None
 
     origcwd = None
     dbus_path = None
@@ -227,7 +226,6 @@ class Terminator(Borg):
         self.prelayout_windows = self.windows[:]
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
-        
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
@@ -423,7 +421,6 @@ class Terminator(Borg):
                 background-color: alpha(%s, %s); }
             """
         profiles = self.config.base.profiles
-        
         for profile in list(profiles.keys()):
             if profiles[profile]['use_theme_colors']:
                 # Create a dummy window/vte and realise it so it has correct
