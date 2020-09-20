@@ -2,9 +2,15 @@ from .util import dbg, err
 from os import path
 import sys
 import json
-import traceback
+import copy
+from .config import Config
 
-class LayoutFile(object):
+class ConfigJson(object):
+    JSON_PROFILE_NAME = "__internal_json_profile__"
+    JSON_LAYOUT_NAME = "__internal_json_layout__"
+
+    profile_to_use = 'default'
+        
     def build_single_tab_layout(self, layoutjson, vertical):
         dbg ('Budiling a single tab layout from json: %s ' % layoutjson)
         
@@ -50,6 +56,7 @@ class LayoutFile(object):
             'type': 'Terminal',
             'order': order,
             'parent': parent,
+            'profile': self.profile_to_use,
             'command': layoutjson['command']
         }
     
@@ -87,21 +94,7 @@ class LayoutFile(object):
             
             counter += 1
     
-    def get_layout_file(self, layoutname):
-        if (not path.exists(layoutname)):
-            return None
-        
-        dbg('Loading layout from a file: %s' % layoutname)
-        
-        layoutjson = None
-        
-        try:
-            with open(layoutname) as json_file:
-                layoutjson = json.load(json_file)
-        except Exception as ex:
-            err('Error loading layout file %s (%s)' % (layoutname, ex))
-            return None
-        
+    def get_layout(self, layoutjson):
         try:
             vertical = True
             if "vertical" in layoutjson:
@@ -119,6 +112,57 @@ class LayoutFile(object):
             dbg('Json layout is: %s' % result)
             return result
         except Exception as ex:
-            err('Error building a layout from file %s (%s)' % (layoutname, ex))
-            traceback.print_exc(ex)
+            err('Error building a layout from file %s' % ex)
             return None
+    
+    def get_profile(self, profilejson, baseprofile):
+        try:
+            result = copy.deepcopy(baseprofile)
+            
+            result.update(profilejson)
+            
+            dbg('Json profile is: %s' % result)
+            return result
+        except Exception as ex:
+            err('Error building a profile from json file %s' % ex)
+            return None
+        
+    def read_config(self, jsonfile):
+        if not path.exists(jsonfile):
+            dbg("Json config file is missing %s" % jsonfile)
+            return None
+        
+        dbg('Loading config json from a file: %s' % jsonfile)
+        
+        layoutjson = None
+        
+        try:
+            with open(jsonfile) as json_file:
+                layoutjson = json.load(json_file)
+        except Exception as ex:
+            err('Error loading config json file %s (%s)' % (jsonfile, ex))
+            return None
+        
+        return layoutjson
+
+    def extend_config(self, jsonfile):
+        configjson = self.read_config(jsonfile)
+       
+        if not configjson:
+            return None
+        
+        config = Config()
+        
+        if 'profile' in configjson:
+            profile = self.get_profile(configjson['profile'], config.base.profiles['default'])
+            if profile:
+                config.base.profiles[self.JSON_PROFILE_NAME] = profile
+                self.profile_to_use = self.JSON_PROFILE_NAME
+        
+        if 'layout' in configjson:
+            layout = self.get_layout(configjson['layout'])
+            if layout:
+                config.base.layouts[self.JSON_LAYOUT_NAME] = layout
+                return self.JSON_LAYOUT_NAME
+        
+        return None

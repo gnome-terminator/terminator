@@ -51,6 +51,7 @@ from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
+from terminatorlib.configjson import ConfigJson
 
 if __name__ == '__main__':
     # Workaround for IBus intefering with broadcast when using dead keys
@@ -68,6 +69,11 @@ if __name__ == '__main__':
   
     OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
 
+    if OPTIONS.configjson:
+        layoutname = ConfigJson().extend_config(OPTIONS.configjson)
+        if layoutname and ((not OPTIONS.layout) or OPTIONS.layout == 'default'):
+            OPTIONS.layout = layoutname
+    
     TERMINATOR = Terminator()
     TERMINATOR.set_origcwd(ORIGCWD)
 

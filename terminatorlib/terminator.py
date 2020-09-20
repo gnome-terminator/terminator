@@ -16,7 +16,6 @@ from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .version import APP_NAME, APP_VERSION
-from .layoutfile import LayoutFile
 
 try:
     from gi.repository import GdkX11
@@ -50,6 +49,7 @@ class Terminator(Borg):
     keybindings = None
     style_providers = None
     last_focused_term = None
+    layout_file = None
 
     origcwd = None
     dbus_path = None
@@ -227,14 +227,12 @@ class Terminator(Borg):
         self.prelayout_windows = self.windows[:]
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
+        
         if not layout:
-            layoutfile = LayoutFile()
-            layout = layoutfile.get_layout_file(layoutname)
-            if not layout:
-                # User specified a non-existent layout. default to one Terminal
-                err('layout %s not defined' % layout)
-                self.new_window()
-                return
+            # User specified a non-existent layout. default to one Terminal
+            err('layout %s not defined' % layout)
+            self.new_window()
+            return
 
         # Wind the flat objects into a hierarchy
         hierarchy = {}
@@ -425,6 +423,7 @@ class Terminator(Borg):
                 background-color: alpha(%s, %s); }
             """
         profiles = self.config.base.profiles
+        
         for profile in list(profiles.keys()):
             if profiles[profile]['use_theme_colors']:
                 # Create a dummy window/vte and realise it so it has correct
