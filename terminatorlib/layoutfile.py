@@ -14,10 +14,7 @@ class LayoutFile(object):
             }
         }
         
-        if len(layoutjson) == 1:
-            self.build_terminal_layout(layoutjson, result, 'root', 0)
-        else:
-            self.build_container_layout(layoutjson, result, 'root', 0, vertical)
+        self.build_container_layout(layoutjson, result, 'root', 0, vertical)
         
         return result
     
@@ -41,10 +38,7 @@ class LayoutFile(object):
         
         for tab in layoutjson:
             tabs['labels'].append(tab)
-            if len(layoutjson[tab]) == 1:
-                self.build_terminal_layout(layoutjson[tab][0], result, 'tabs', counter)
-            else:
-                self.build_container_layout(layoutjson[tab], result, 'tabs', counter, vertical)
+            self.build_container_layout(layoutjson[tab], result, 'tabs', counter, vertical)
             counter += 1
         
         return result
@@ -60,6 +54,15 @@ class LayoutFile(object):
         }
     
     def build_container_layout(self, layoutjson, children, parent, order, vertical):
+        if len(layoutjson) == 1:
+            layoutjson = layoutjson[0]
+            
+            if 'children' in layoutjson:
+                self.build_container_layout(layoutjson['children'], children, parent, order, False if vertical else True)
+            else:
+                self.build_terminal_layout(layoutjson, children, parent, order)
+            return
+        
         dbg ('Building %s layout from json: %s' % ("vertical" if vertical else "horizental", layoutjson))
         
         counter = 0
@@ -78,10 +81,7 @@ class LayoutFile(object):
                 actualparent = containername
             
             if 'children' in pane:
-                if len(pane['children']) == 1:
-                    self.build_terminal_layout(pane, pane['children'], containername, counter)
-                else:
-                    self.build_container_layout(pane['children'], children, containername, counter, False if vertical else True)
+                self.build_container_layout(pane['children'], children, containername, counter, False if vertical else True)
             else:
                 self.build_terminal_layout(pane, children, containername, counter)
             
