@@ -174,7 +174,7 @@ class PrefsEditor:
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
-						'preferences'	   : _('Open the Preferences window'),
+			'preferences'	   : _('Open the Preferences window'),
                         'help'             : _('Open the manual')
             }
 
