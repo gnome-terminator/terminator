@@ -18,10 +18,15 @@ import terminatorlib.plugin as plugin
 from terminatorlib.terminator import Terminator
 import gi
 gi.require_version('Notify', '0.7')
-from gi.repository import GObject, GLib, Notify
+from gi.repository import GObject, GLib, Notify, Vte
 VERSION = '0.1.0'
-AVAILABLE = ['CommandNotify']
 
+### Test for proper signal
+try:
+    Vte.Terminal().connect('notification-received',lambda *args: None,None)
+    AVAILABLE = ['CommandNotify']
+except TypeError as e:
+    pass
 
 class CommandNotify(plugin.Plugin):
     capabilities = ['command_watch']
@@ -49,7 +54,6 @@ class CommandNotify(plugin.Plugin):
         self.watched = new_watched
 
     def update_watched_delayed(self, term, event, arg1 = None):
-        print('foo: %s / bar: %s / baz: %s' % (str(term),str(event),arg1))
         def add_watch(self):
             self.update_watched()
             return False
