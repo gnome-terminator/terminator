@@ -23,6 +23,7 @@ from .factory import Factory
 from .terminator import Terminator
 from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
+from .prefseditor import PrefsEditor
 from .searchbar import Searchbar
 from .translation import _
 from .signalman import Signalman
@@ -1987,6 +1988,9 @@ class Terminal(Gtk.VBox):
 
     def key_line_down(self):
         self.scroll_by_line(1)
+
+    def key_preferences(self):
+        PrefsEditor(self)
 
     def key_help(self):
         manual_index_page = manual_lookup()
