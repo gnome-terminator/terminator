@@ -79,10 +79,12 @@ class ConfigJson(object):
             if counter < (len(layoutjson) - 1):
                 containername = parent + "." + str(order) + "." + str(counter)
                 ratio = (100 / (len(layoutjson) - counter)) / 100
+                if 'ratio' in pane:
+                    ratio = pane['ratio']
                 children[containername] = {
                     'type': 'VPaned' if vertical else 'HPaned',
                     'order': order + counter,
-                    'ratio': round(ratio, 2),
+                    'ratio': ratio,
                     'parent': actualparent
                 }
                 actualparent = containername
