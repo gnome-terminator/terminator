@@ -250,6 +250,8 @@ DEFAULTS = {
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',
                 'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
+                'background_image'      : '',
+                'background_alpha'      : 0.0
             },
         },
         'layouts': {
