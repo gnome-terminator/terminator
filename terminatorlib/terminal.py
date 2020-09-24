@@ -1137,7 +1137,6 @@ class Terminal(Gtk.VBox):
     def background_draw(self, widget, cr):
         if not self.background_image:
                 return(False)
-        print("bgcolor obj: %s" % self.bgcolor.alpha)
         over = self.bgcolor
         over.alpha = self.background_alpha
         rect = self.vte.get_allocation()
