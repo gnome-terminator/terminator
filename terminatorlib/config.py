@@ -696,14 +696,20 @@ class ConfigBase(Borg):
             section = getattr(self, section_name)
             parser[section_name] = dict_diff(DEFAULTS[section_name], section)
 
+        from .configjson import JSON_PROFILE_NAME, JSON_LAYOUT_NAME
+
         parser['profiles'] = {}
         for profile in self.profiles:
+            if profile == JSON_PROFILE_NAME:
+                continue
             dbg('ConfigBase::save: Processing profile: %s' % profile)
             parser['profiles'][profile] = dict_diff(
                     DEFAULTS['profiles']['default'], self.profiles[profile])
 
         parser['layouts'] = {}
         for layout in self.layouts:
+            if layout == JSON_LAYOUT_NAME:
+                continue
             dbg('ConfigBase::save: Processing layout: %s' % layout)
             parser['layouts'][layout] = self.layouts[layout]
 

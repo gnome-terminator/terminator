@@ -5,9 +5,10 @@ import json
 import copy
 from .config import Config
 
+JSON_PROFILE_NAME = "__internal_json_profile__"
+JSON_LAYOUT_NAME = "__internal_json_layout__"
+
 class ConfigJson(object):
-    JSON_PROFILE_NAME = "__internal_json_profile__"
-    JSON_LAYOUT_NAME = "__internal_json_layout__"
 
     profile_to_use = 'default'
         
@@ -158,13 +159,13 @@ class ConfigJson(object):
         if 'profile' in configjson:
             profile = self.get_profile(configjson['profile'], config.base.profiles['default'])
             if profile:
-                config.base.profiles[self.JSON_PROFILE_NAME] = profile
-                self.profile_to_use = self.JSON_PROFILE_NAME
+                config.base.profiles[JSON_PROFILE_NAME] = profile
+                self.profile_to_use = JSON_PROFILE_NAME
         
         if 'layout' in configjson:
             layout = self.get_layout(configjson['layout'])
             if layout:
-                config.base.layouts[self.JSON_LAYOUT_NAME] = layout
-                return self.JSON_LAYOUT_NAME
+                config.base.layouts[JSON_LAYOUT_NAME] = layout
+                return JSON_LAYOUT_NAME
         
         return None
