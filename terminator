@@ -70,9 +70,12 @@ if __name__ == '__main__':
     OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
 
     if OPTIONS.configjson:
-        layoutname = ConfigJson().extend_config(OPTIONS.configjson)
+        configjson = ConfigJson()
+        layoutname = configjson.extend_config(OPTIONS.configjson)
         if layoutname and ((not OPTIONS.layout) or OPTIONS.layout == 'default'):
             OPTIONS.layout = layoutname
+            if not OPTIONS.profile:
+               OPTIONS.profile = configjson.get_profile_to_use()
     
     TERMINATOR = Terminator()
     TERMINATOR.set_origcwd(ORIGCWD)

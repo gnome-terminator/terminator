@@ -9,8 +9,10 @@ JSON_PROFILE_NAME = "__internal_json_profile__"
 JSON_LAYOUT_NAME = "__internal_json_layout__"
 
 class ConfigJson(object):
-
     profile_to_use = 'default'
+    
+    def get_profile_to_use(self):
+        return self.profile_to_use
         
     def build_single_tab_layout(self, layoutjson, vertical):
         dbg ('Budiling a single tab layout from json: %s ' % layoutjson)
