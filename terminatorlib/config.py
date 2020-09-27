@@ -195,6 +195,7 @@ DEFAULTS = {
             'layout_launcher'  : '<Alt>l',
             'next_profile'     : '',
             'previous_profile' : '', 
+            'preferences'      : '',
             'help'             : 'F1'
         },
         'profiles': {

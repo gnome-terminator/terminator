@@ -178,3 +178,76 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
     assert default_accelerator == new_accelerator
 
     reset_config_keybindings()
+
+
+@pytest.mark.parametrize(
+    "input_key_params,expected_accel",
+    [
+        # 1) `Ctrl+Shift+1` should become `Ctrl+!`
+        (
+            (Gdk.KEY_1, CONTROL_SHIFT_MOD, 10),
+            (Gdk.KEY_exclam, Gdk.ModifierType.CONTROL_MASK),
+        ),
+        # 2) `Ctrl+a` shouldn't change
+        (
+            (Gdk.KEY_a, Gdk.ModifierType.CONTROL_MASK, 38),
+            (Gdk.KEY_a, Gdk.ModifierType.CONTROL_MASK),
+        ),
+        # 3) `Ctrl+Shift+a` shouldn't change
+        ((Gdk.KEY_a, CONTROL_SHIFT_MOD, 38), (Gdk.KEY_a, CONTROL_SHIFT_MOD),),
+        # 4) `Ctrl+Shift+Alt+F1` shouldn't change
+        (
+            (Gdk.KEY_F1, CONTROL_ALT_SHIFT_MOD, 67),
+            (Gdk.KEY_F1, CONTROL_ALT_SHIFT_MOD),
+        ),
+        # 5) `Shift+Up` shouldn't change
+        (
+            (Gdk.KEY_Up, Gdk.ModifierType.SHIFT_MASK, 111),
+            (Gdk.KEY_Up, Gdk.ModifierType.SHIFT_MASK),
+        ),
+        # 6) `Ctrl+Shift+[` should become `Ctrl+{`
+        (
+            (Gdk.KEY_bracketleft, CONTROL_SHIFT_MOD, 34),
+            (Gdk.KEY_braceleft, Gdk.ModifierType.CONTROL_MASK),
+        ),
+        # 7) `Shift+Tab` shouldn't change
+        (
+            (Gdk.KEY_Tab, Gdk.ModifierType.SHIFT_MASK, 23),
+            (Gdk.KEY_Tab, Gdk.ModifierType.SHIFT_MASK),
+        ),
+    ],
+)
+def test_keybinding_edit_produce_expected_accels(
+    input_key_params, expected_accel
+):
+    """
+    Tests that editing a key binding using a predefined key combination
+    `input_key_params` produces the expected accelerator.
+    """
+    from terminatorlib import terminal
+    from terminatorlib import prefseditor
+
+    term = terminal.Terminal()
+    prefs_editor = prefseditor.PrefsEditor(term=term)
+
+    widget = prefs_editor.builder.get_object("keybindingtreeview")
+    liststore = widget.get_model()
+
+    path = 0  # Edit the first listed key binding in `Preferences>Keybindings`
+    key, mods, hardware_keycode = input_key_params
+
+    prefs_editor.on_cellrenderer_accel_edited(
+        liststore=liststore,
+        path=str(path),
+        key=key,
+        mods=mods,
+        _code=hardware_keycode,
+    )
+
+    liststore_iter = liststore.get_iter(path)
+    keyval_after_edit = liststore.get_value(liststore_iter, 2)
+    mods_after_edit = Gdk.ModifierType(liststore.get_value(liststore_iter, 3))
+
+    accel_after_edit = (keyval_after_edit, mods_after_edit)
+
+    assert accel_after_edit == expected_accel

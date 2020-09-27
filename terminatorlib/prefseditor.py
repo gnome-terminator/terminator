@@ -174,6 +174,7 @@ class PrefsEditor:
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
+			'preferences'	   : _('Open the Preferences window'),
                         'help'             : _('Open the manual')
             }
 
@@ -1673,7 +1674,9 @@ class PrefsEditor:
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
         """Handle an edited keybinding"""
-        if mods & Gdk.ModifierType.SHIFT_MASK:
+        # Ignore `Gdk.KEY_Tab` so that `Shift+Tab` is displayed as `Shift+Tab`
+        # in `Preferences>Keybindings` and NOT `Left Tab` (see `Gdk.KEY_ISO_Left_Tab`).
+        if mods & Gdk.ModifierType.SHIFT_MASK and key != Gdk.KEY_Tab:
             key_with_shift = Gdk.Keymap.translate_keyboard_state(
                 self.keybindings.keymap,
                 hardware_keycode=_code,
@@ -1687,6 +1690,7 @@ class PrefsEditor:
             # Shift key.
             if key_with_shift.level != 0 and keyval_lower == keyval_upper:
                 mods = Gdk.ModifierType(mods & ~Gdk.ModifierType.SHIFT_MASK)
+                key = key_with_shift.keyval
 
         accel = Gtk.accelerator_name(key, mods)
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
