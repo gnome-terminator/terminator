@@ -1745,7 +1745,7 @@ class PrefsEditor:
         liststore.set(celliter, 2, 0, 3, 0)
 
         binding = liststore.get_value(liststore.get_iter(path), 0)
-        self.config['keybindings'][binding] = None
+        self.config['keybindings'][binding] = ""
         self.config.save()
 
     def on_open_manual(self,  widget):
