@@ -252,6 +252,8 @@ def test_keybinding_edit_produce_expected_accels(
 
     assert accel_after_edit == expected_accel
 
+    reset_config_keybindings()
+
 
 @pytest.mark.parametrize(
     "accel_params",
