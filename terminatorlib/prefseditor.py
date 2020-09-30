@@ -637,7 +637,11 @@ class PrefsEditor:
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-
+        widget = guiget('background_image_file')
+        widget.set_filename(self.config['background_image'])
+        widget = guiget('background_image_shading_scale')
+        widget.set_value(float(self.config['background_alpha']))
+   
         ## Scrolling tab
         # Scrollbar position
         widget = guiget('scrollbar_position_combobox')
@@ -929,6 +933,15 @@ class PrefsEditor:
         else:
             value = 'left'
         self.config['scrollbar_position'] = value
+        self.config.save()
+
+    def on_background_image_file_set(self,widget):
+        print(widget.get_filename())
+        self.config['background_image'] = widget.get_filename()
+        self.config.save()
+
+    def on_background_image_shading_scale_value_changed(self,widget):
+        self.config['background_alpha'] = widget.get_value()
         self.config.save()
 
     def on_darken_background_scale_value_changed(self, widget):

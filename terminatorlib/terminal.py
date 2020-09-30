@@ -6,7 +6,7 @@
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
@@ -136,6 +136,14 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
+        self.background_image = None
+        if self.config['background_image'] != '':
+            try: 
+                self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
+            except Exception:
+                pass
+
+        self.background_alpha = self.config['background_alpha']
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -147,7 +155,8 @@ class Terminal(Gtk.VBox):
 
         
         self.vte.show()
-
+        self.vte.set_clear_background(False)
+        self.vte.connect("draw",self.background_draw)
         self.default_encoding = self.vte.get_encoding()
         self.update_url_matches()
 
@@ -1126,8 +1135,23 @@ class Terminal(Gtk.VBox):
         widget.disconnect(connec)
         widget._draw_data = None
 
+    def background_draw(self, widget, cr):
+        if not self.background_image:
+                return(False)
+        over = self.bgcolor
+        over.alpha = self.background_alpha
+        rect = self.vte.get_allocation()
+        xratio = float(rect.width) / float(self.background_image.get_width())
+        yratio = float(rect.height) / float(self.background_image.get_height())
+        cr.save()
+        cr.scale(xratio,yratio)
+        Gdk.cairo_set_source_pixbuf(cr, self.background_image, 0, 0)
+        cr.paint()
+        Gdk.cairo_set_source_rgba(cr,over)
+        cr.paint()
+        cr.restore()
+
     def on_draw(self, widget, context):
-        """Handle an expose event while dragging"""
         if not widget._draw_data:
             return(False)
 
