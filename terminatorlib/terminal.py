@@ -6,6 +6,7 @@
 import os
 import signal
 import gi
+import cairo
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
@@ -30,6 +31,21 @@ from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
+
+class Overpaint(Vte.Terminal):
+    def dim(self,bool):
+        if bool:
+            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.5)
+        else:
+            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
+        
+    def do_draw(self,cr):
+        Vte.Terminal.do_draw(self,cr)
+        # self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
+        cr.set_operator(cairo.Operator.OVER)
+        Gdk.cairo_set_source_rgba(cr,self.overpaint)
+        cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
+        cr.paint()
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -135,7 +151,9 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        self.vte = Vte.Terminal()
+        # self.vte = Vte.Terminal()
+        self.vte = Overpaint()
+        self.vte.dim(False)
         self.background_image = None
         if self.config['background_image'] != '':
             try: 
@@ -1296,9 +1314,10 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
-        self.set_cursor_color()
+        self.vte.dim(False)
+        #self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+        #                    self.palette_active)
+        #self.set_cursor_color()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
@@ -1312,9 +1331,10 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                            self.palette_inactive)
-        self.set_cursor_color()
+        self.vte.dim(True)
+        #self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+        #                    self.palette_inactive)
+        #self.set_cursor_color()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
