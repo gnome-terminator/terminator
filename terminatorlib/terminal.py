@@ -275,14 +275,15 @@ class Terminal(Gtk.VBox):
         dbg('close: called')
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
-        try:
-            dbg('close: killing %d' % self.pid)
-            os.kill(self.pid, signal.SIGHUP)
-        except Exception as ex:
-            # We really don't want to care if this failed. Deep OS voodoo is
-            # not what we should be doing.
-            dbg('os.kill failed: %s' % ex)
-            pass
+        if self.pid is not None:
+            try:
+                dbg('close: killing %d' % self.pid)
+                os.kill(self.pid, signal.SIGHUP)
+            except Exception as ex:
+                # We really don't want to care if this failed. Deep OS voodoo is
+                # not what we should be doing.
+                dbg('os.kill failed: %s' % ex)
+                pass
 
         if self.vte:
             self.terminalbox.remove(self.vte)
