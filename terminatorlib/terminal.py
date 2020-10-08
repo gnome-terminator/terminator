@@ -138,6 +138,9 @@ class Terminal(Gtk.VBox):
         self.vte = Vte.Terminal()
         self.background_image = None
         if self.config['background_image'] != '':
+            self.vte.set_clear_background(False)
+            self.vte.connect("draw",self.background_draw)
+
             try: 
                 self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
             except Exception:
@@ -155,8 +158,6 @@ class Terminal(Gtk.VBox):
 
         
         self.vte.show()
-        self.vte.set_clear_background(False)
-        self.vte.connect("draw",self.background_draw)
         self.default_encoding = self.vte.get_encoding()
         self.update_url_matches()
 
