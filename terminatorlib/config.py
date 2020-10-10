@@ -71,6 +71,7 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 """
 
 import os
+import pathlib
 import shutil
 from copy import copy
 from configobj import ConfigObj, flatten_errors
@@ -719,15 +720,19 @@ class ConfigBase(Borg):
         config_dir = get_config_dir()
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
+
+        config_file = pathlib.Path(self.command_line_options.config)
+        if not config_file.is_file():
+            config_file.touch()
         try:
-            backup_file = self.command_line_options.config + '~'
+            backup_file = config_file.with_suffix('.bak')
 
-            shutil.copy2(self.command_line_options.config, backup_file)
+            shutil.copy2(config_file, backup_file)
 
-            with open(self.command_line_options.config, 'wb') as fh:
+            with open(config_file, 'wb') as fh:
                 parser.write(fh)
 
-            os.remove(backup_file)
+            backup_file.unlink()
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
