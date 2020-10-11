@@ -1,5 +1,35 @@
 # Changelog
 
+## [v2.0.1](https://github.com/gnome-terminator/terminator/tree/v2.0.1) (2020-10-11)
+
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.0...v2.0.1)
+
+TODO
+
+## Package maintainers
+
+With pull request #70, we removed the need for gettext binaries and switched to Python Babel.
+
+* `gettext` and `intltool` packages are now no longer needed
+* Python package `babel` is now required for building, `BabelGladeExtractor` only for updating POT
+
+**Fixed bugs:**
+
+- config settings lost when I cancel "Close multiple terminals" dialog [\#210](https://github.com/gnome-terminator/terminator/issues/210)
+
+**Closed issues:**
+
+- Feature Suggestion: Splitted screen shells based on parent [\#230](https://github.com/gnome-terminator/terminator/issues/230)
+- Release 2.0 does not have signed assets [\#228](https://github.com/gnome-terminator/terminator/issues/228)
+- Some files install to the wrong location [\#227](https://github.com/gnome-terminator/terminator/issues/227)
+- Multi tab breaks transparent background [\#225](https://github.com/gnome-terminator/terminator/issues/225)
+
+**Merged pull requests:**
+
+- make sure data/\*.in files are there for distributors [\#237](https://github.com/gnome-terminator/terminator/pull/237) ([mattrose](https://github.com/mattrose))
+- only set clear background when background\_image in config [\#233](https://github.com/gnome-terminator/terminator/pull/233) ([mattrose](https://github.com/mattrose))
+- fix INSTALL instructions for setuptools [\#232](https://github.com/gnome-terminator/terminator/pull/232) ([mattrose](https://github.com/mattrose))
+
 ## [v2.0](https://github.com/gnome-terminator/terminator/tree/v2.0) (2020-10-06)
 
 [Full Changelog](https://github.com/gnome-terminator/terminator/compare/v1.92...v2.0)
@@ -149,6 +179,7 @@
 - Update pt\_BR.po [\#30](https://github.com/gnome-terminator/terminator/pull/30) ([chclxds](https://github.com/chclxds))
 - Remove obsolete terminator.wrapper [\#27](https://github.com/gnome-terminator/terminator/pull/27) ([lazyfrosch](https://github.com/lazyfrosch))
 - Add Gentoo, sort the order of distributions [\#23](https://github.com/gnome-terminator/terminator/pull/23) ([DarthGandalf](https://github.com/DarthGandalf))
+- Add GitHub action for Python [\#17](https://github.com/gnome-terminator/terminator/pull/17) ([lazyfrosch](https://github.com/lazyfrosch))
 
 ## [v1.92](https://github.com/gnome-terminator/terminator/tree/v1.92) (2020-04-18)
 
@@ -189,7 +220,6 @@ discuss issues or help with whatever you can! Any help is welcome!
 
 **Merged pull requests:**
 
-- Add GitHub action for Python [\#17](https://github.com/gnome-terminator/terminator/pull/17) ([lazyfrosch](https://github.com/lazyfrosch))
 - Updating URLs in application and appdata [\#16](https://github.com/gnome-terminator/terminator/pull/16) ([mattrose](https://github.com/mattrose))
 - update the INSTALL file [\#15](https://github.com/gnome-terminator/terminator/pull/15) ([mattrose](https://github.com/mattrose))
 
