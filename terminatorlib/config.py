@@ -719,7 +719,11 @@ class ConfigBase(Borg):
         config_dir = get_config_dir()
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
+
         try:
+            if not os.path.isfile(self.command_line_options.config):
+                open(self.command_line_options.config, 'a').close()
+
             backup_file = self.command_line_options.config + '~'
 
             shutil.copy2(self.command_line_options.config, backup_file)
