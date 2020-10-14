@@ -65,6 +65,7 @@ class CustomCommandsMenu(plugin.MenuItem):
 
     def callback(self, menuitems, menu, terminal):
         """Add our menu items to the menu"""
+        submenus = {}
         item = Gtk.MenuItem.new_with_mnemonic(_('_Custom Commands'))
         menuitems.append(item)
         pluginsubmenu = Gtk.Menu()
@@ -74,19 +75,6 @@ class CustomCommandsMenu(plugin.MenuItem):
         pluginsubmenu.append(menuitem)
         menuitem = Gtk.SeparatorMenuItem()
         pluginsubmenu.append(menuitem)
-        try:
-            customsubmenus = sorted(set(self.cmd_list[key]['submenu'] for key in sorted(self.cmd_list.keys())))
-        except:
-            customsubmenus = []
-
-        submenus_dict = {}
-        for customsubmenustr in customsubmenus:
-            if customsubmenustr != '':
-                menuitem = Gtk.MenuItem(_(customsubmenustr))
-                pluginsubmenu.append(menuitem)
-                customsubmenu = Gtk.Menu()
-                menuitem.set_submenu(customsubmenu)
-                submenus_dict[customsubmenustr] = customsubmenu
 
         theme = Gtk.IconTheme.get_default()
 
@@ -95,6 +83,20 @@ class CustomCommandsMenu(plugin.MenuItem):
                 continue
             exe = command['command'].split(' ')[0]
             iconinfo = theme.choose_icon([exe], Gtk.IconSize.MENU, Gtk.IconLookupFlags.USE_BUILTIN)
+            target_submenu = pluginsubmenu
+            if command['submenu'] and command['submenu'] != '':
+                branch_names = command['submenu'].split('/')
+                parent_submenu = pluginsubmenu
+                for idx in range(len(branch_names)):
+                    lookup_name = '/'.join(branch_names[0:idx+1])
+                    target_submenu = submenus.get(lookup_name, None)
+                    if not target_submenu:
+                        item = Gtk.MenuItem(_(branch_names[idx]))
+                        parent_submenu.append(item)
+                        target_submenu = Gtk.Menu()
+                        item.set_submenu(target_submenu)
+                        submenus[lookup_name] = target_submenu
+                    parent_submenu = target_submenu
             if iconinfo:
                 image = Gtk.Image()
                 image.set_from_icon_name(exe, Gtk.IconSize.MENU)
@@ -104,12 +106,7 @@ class CustomCommandsMenu(plugin.MenuItem):
                 menuitem = Gtk.MenuItem(command["name"])
             terminals = terminal.terminator.get_target_terms(terminal)
             menuitem.connect("activate", self._execute, {'terminals' : terminals, 'command' : command['command'] })
-            if command['submenu'] and command['submenu'] != '':
-                customsubmenustr = command['submenu']
-                customsubmenu = submenus_dict[customsubmenustr]
-                customsubmenu.append(menuitem)
-            else:
-                pluginsubmenu.append(menuitem)
+            target_submenu.append(menuitem)
 
 
     def _save_config(self):
