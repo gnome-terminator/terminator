@@ -251,3 +251,52 @@ def test_keybinding_edit_produce_expected_accels(
     accel_after_edit = (keyval_after_edit, mods_after_edit)
 
     assert accel_after_edit == expected_accel
+
+    reset_config_keybindings()
+
+
+@pytest.mark.parametrize(
+    "accel_params",
+    [
+        # Format: (path, key, mods, hardware_keycode)
+        # 1) 'broadcast_all' 1
+        ("0", Gdk.KEY_1, Gdk.ModifierType(0), 10),
+        # 2) 'broadcast_group' Ctrl+Alt+Shift+Up
+        ("1", Gdk.KEY_Up, CONTROL_ALT_SHIFT_MOD, 111),
+    ],
+)
+def test_keybinding_successfully_reassigned_after_clearing(accel_params):
+    """
+    Tests that a key binding is successfully reassigned after it has been cleared,
+    that is no error is thrown at any stage.
+    """
+    from terminatorlib import terminal
+    from terminatorlib import prefseditor
+
+    term = terminal.Terminal()
+    prefs_editor = prefseditor.PrefsEditor(term=term)
+
+    widget = prefs_editor.builder.get_object("keybindingtreeview")
+    liststore = widget.get_model()
+
+    path, key, mods, hardware_keycode = accel_params
+    # Assign a key binding
+    prefs_editor.on_cellrenderer_accel_edited(
+        liststore=liststore,
+        path=path,
+        key=key,
+        mods=mods,
+        _code=hardware_keycode,
+    )
+    # Clear the key binding
+    prefs_editor.on_cellrenderer_accel_cleared(liststore=liststore, path=path)
+    # Reassign the key binding
+    prefs_editor.on_cellrenderer_accel_edited(
+        liststore=liststore,
+        path=path,
+        key=key,
+        mods=mods,
+        _code=hardware_keycode,
+    )
+
+    reset_config_keybindings()
