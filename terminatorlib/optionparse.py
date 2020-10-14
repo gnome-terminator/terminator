@@ -74,6 +74,8 @@ def parse_options():
                        'execute inside the terminal, and its arguments'))
     parser.add_option('-g', '--config', dest='config', 
                       help=_('Specify a config file'))
+    parser.add_option('-j', '--config-json', dest='configjson', 
+                      help=_('Specify a partial config json file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
             callback=execute_cb, 
             help=_('Use the rest of the command line as a command to execute '

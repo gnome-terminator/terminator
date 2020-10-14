@@ -1,0 +1,36 @@
+{
+	"layout": {
+		"tab1": [
+			{
+				"children": [
+					{
+						"command": "bash"
+					},
+					{
+						"command": "bash"
+					},
+					{
+						"command": "bash"
+					}
+				]
+			},
+			{
+				"children": [
+					{
+						"command": "bash"
+					},
+					{
+						"command": "bash"
+					},
+					{
+						"command": "bash"
+					}
+				]
+			}
+		]
+	},
+	"profile": {
+		"background_color": "#170717",
+		"foreground_color": "#f5c0b7"
+	}
+}
