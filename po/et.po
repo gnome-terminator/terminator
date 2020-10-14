@@ -8,14 +8,12 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2016-12-27 04:49+0000\n"
-"Last-Translator: Karlis <Unknown>\n"
+"PO-Revision-Date: 2020-10-07 14:11+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-03-24 06:38+0000\n"
-"X-Generator: Launchpad (build 3a6db24bbe7280ec09bae73384238390fcc98ad3)\n"
 "Language: et\n"
 
 #. Command         uuid req.    Description
@@ -29,31 +27,31 @@ msgstr "Ava uus kaart"
 
 #: ../remotinator.py:40
 msgid "Split the current terminal horizontally"
-msgstr ""
+msgstr "Käesoleva terminali poolitamine rõhtsuunas"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal vertically"
-msgstr ""
+msgstr "Käesoleva terminali poolitamine püstsuunas"
 
 #: ../remotinator.py:42
 msgid "Get a list of all terminals"
-msgstr ""
+msgstr "Kõigi terminalide nimekirja hankimine"
 
 #: ../remotinator.py:43
 msgid "Get the UUID of a parent window"
-msgstr ""
+msgstr "Vanemakna UUID hankimine"
 
 #: ../remotinator.py:44
 msgid "Get the title of a parent window"
-msgstr ""
+msgstr "Vanemakna tiitli hankimine"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent tab"
-msgstr ""
+msgstr "Vanemkaardi UUID hankimine"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent tab"
-msgstr ""
+msgstr "Vanemkaardi tiitli hankimine"
 
 #: ../remotinator.py:63
 #, python-format
@@ -62,12 +60,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Terminatori DBus-käsu käivitamine järgnevast valikust:\n"
+"\n"
+"%s"
 
 #: ../remotinator.py:64
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
+"* Need kirjed nõuavad keskkonnamuutuja TERMINATOR_UUID või võtme\n"
+"  --uuid kasutamist."
 
 #: ../remotinator.py:66
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
@@ -82,12 +85,12 @@ msgstr "Terminator"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Mitu terminaali ühes aknas"
+msgstr "Mitu terminali ühes aknas"
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:149
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Terminalide robootiline tulevik"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
@@ -96,6 +99,10 @@ msgid ""
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
+"Lauskasutaja vahend terminalide korraldamiseks. "
+"Inspireeritud programmidest gnome-multi-term, quadkonsole jne, "
+"mille põhifookus on terminalide korraldamisel võrestikstruktuurina "
+"(kasutades selleks põhimeetodina kaartideks jagamist, mida toetab ka Terminator)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -107,47 +114,47 @@ msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
-msgstr ""
+msgstr "Mõned esiletõstmised:"
 
 #: ../data/terminator.appdata.xml.in.h:7
 msgid "Arrange terminals in a grid"
-msgstr ""
+msgstr "Terminalide korraldamine võrestikstruktuurina"
 
 #: ../data/terminator.appdata.xml.in.h:8
 msgid "Tabs"
-msgstr ""
+msgstr "Kaardid"
 
 #: ../data/terminator.appdata.xml.in.h:9
 msgid "Drag and drop re-ordering of terminals"
-msgstr ""
+msgstr "Terminalide järjestuse muutmine"
 
 #: ../data/terminator.appdata.xml.in.h:10
 msgid "Lots of keyboard shortcuts"
-msgstr ""
+msgstr "Palju kiirklahve"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr ""
+msgstr "Paigutuste ja profiilide salvestamine GUI eelistuste redaktoriga"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr ""
+msgstr "Samaaegne sisestus mitmele terminaligrupile"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
-msgstr ""
+msgstr "Ja palju muud..."
 
 #: ../data/terminator.appdata.xml.in.h:14
 msgid "The main window showing the application in action"
-msgstr ""
+msgstr "Põhiaken rakendust tegevuse näitamiseks"
 
 #: ../data/terminator.appdata.xml.in.h:15
 msgid "Getting a little crazy with the terminals"
-msgstr ""
+msgstr "Nende terminalidega on natuke hulluks mindud"
 
 #: ../data/terminator.appdata.xml.in.h:16
 msgid "The preferences window where you can change the defaults"
-msgstr ""
+msgstr "Eelistuste aken vaikeväärtuste muutmiseks"
 
 #: ../terminatorlib/container.py:163
 msgid "Close?"
@@ -155,11 +162,11 @@ msgstr "Sulge?"
 
 #: ../terminatorlib/container.py:169
 msgid "Close _Terminals"
-msgstr "Sulge _Terminaalid"
+msgstr "Sulge _Terminalid"
 
 #: ../terminatorlib/container.py:171
 msgid "<big><b>Close multiple terminals?</b></big>"
-msgstr "<big><b>Sulgen mitu terminaali?</b></big>"
+msgstr "<big><b>Kas sulgeda mitu terminali?</b></big>"
 
 #: ../terminatorlib/container.py:175
 msgid ""
@@ -175,7 +182,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
-msgstr ""
+msgstr "Seda sõnumit järgmine kord ei näita"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -328,7 +335,7 @@ msgstr ""
 #: ../terminatorlib/layoutlauncher.glade.h:2
 #: ../terminatorlib/preferences.glade.h:135
 msgid "Layout"
-msgstr ""
+msgstr "Paigutus"
 
 #: ../terminatorlib/layoutlauncher.glade.h:3
 msgid "Launch"
@@ -344,45 +351,47 @@ msgstr "Saki sulgemine"
 
 #: ../terminatorlib/optionparse.py:50
 msgid "Display program version"
-msgstr "Näita programmi versiooni"
+msgstr "Programmi versiooni kuvamine"
 
 #: ../terminatorlib/optionparse.py:52
 msgid "Maximize the window"
-msgstr ""
+msgstr "Akna maksimeerimine"
 
 #: ../terminatorlib/optionparse.py:54
 msgid "Make the window fill the screen"
-msgstr "Täida ekraan aknaga"
+msgstr "Akna loomine täisekraanirežiimis"
 
 #: ../terminatorlib/optionparse.py:56
 msgid "Disable window borders"
-msgstr "Keela akna ääred"
+msgstr "Akna äärte keelamine"
 
 #: ../terminatorlib/optionparse.py:58
 msgid "Hide the window at startup"
-msgstr "Peida aken käivitamisel"
+msgstr "Akna peitmine käivitamisel"
 
 #: ../terminatorlib/optionparse.py:60
 msgid "Specify a title for the window"
-msgstr "Täpne pealkiri terminalile"
+msgstr "Akna tiitli määramine"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
+msgstr "Aknale eelistatud suuruse ja asukoha määramine (vaata man-juhendit X)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
-msgstr "Täpne käsklus et käivitada terminal"
+msgstr "Terminalis käivitatava käsu määramine"
 
 #: ../terminatorlib/optionparse.py:72 ../terminatorlib/optionparse.py:78
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
-msgstr "Kasuta ülejäänud käsurida ja argumente et käivitada  käsk terminalis"
+msgstr ""
+"Ülejäänud käsurea kasutamine terminalis käivitatava käsu ja selle argumentide "
+"määramiseks"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
-msgstr ""
+msgstr "Seadistusfaili määramine"
 
 #: ../terminatorlib/optionparse.py:81
 msgid "Set the working directory"
@@ -390,47 +399,47 @@ msgstr "Töökataloogi määramine"
 
 #: ../terminatorlib/optionparse.py:82
 msgid "Set a custom name (WM_CLASS) property on the window"
-msgstr ""
+msgstr "Aknale kohandatud nime (WM_CLASS) omaduse määramine"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set a custom icon for the window (by file or name)"
-msgstr ""
+msgstr "Aknale kohandatud ikooni määramine (fail või nimi)"
 
 #: ../terminatorlib/optionparse.py:87
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
-msgstr "Sea kohandatud WM_WINDOW_ROLE omadus aknale"
+msgstr "Aknale kohandatud WM_WINDOW_ROLE omaduse määramine"
 
 #: ../terminatorlib/optionparse.py:89
 msgid "Launch with the given layout"
-msgstr ""
+msgstr "Käivitamine määratud paigutusega"
 
 #: ../terminatorlib/optionparse.py:91
 msgid "Select a layout from a list"
-msgstr ""
+msgstr "Paigutuse valimine nimekirjast"
 
 #: ../terminatorlib/optionparse.py:93
 msgid "Use a different profile as the default"
-msgstr "Kasuta teist profiili tavalise sättena"
+msgstr "Määratud profiili kasutamine vaikimisi profiilina"
 
 #: ../terminatorlib/optionparse.py:95
 msgid "Disable DBus"
-msgstr "Keela DBUS"
+msgstr "DBus-i keelamine"
 
 #: ../terminatorlib/optionparse.py:97
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Luba veaanalüüsi informatsioon  (mitmekordne veaanalüüsi serveril )"
+msgstr "Silumisteabe lubamine (serveri silumiseks kasutada kaks korda)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Koma eraldab nimekirja klassidest veaanalüüsi limiidi"
+msgstr "Komadega eraldatud nimekiri klassidest, mille kohta silumisinfot koguda"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
-msgstr "Koma edaldab nimekirjast veaanalüüsi limiidi meetod"
+msgstr "Komadega eraldatud nimekiri meetoditest, mille kohta silumisinfot koguda"
 
 #: ../terminatorlib/optionparse.py:103
 msgid "If Terminator is already running, just open a new tab"
-msgstr ""
+msgstr "Uue kaardi avamine (eelnevalt käivitatud Terminatori korral)"
 
 #: ../terminatorlib/plugins/activitywatch.py:25
 msgid "ActivityWatch plugin unavailable: please install python-notify"
@@ -440,25 +449,25 @@ msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:55
 msgid "Watch for _activity"
-msgstr ""
+msgstr "Jälgi _aktiivsust"
 
 #: ../terminatorlib/plugins/activitywatch.py:84
 #, python-format
 msgid "Activity in: %s"
-msgstr ""
+msgstr "Aktiivsus terminalis: %s"
 
 #: ../terminatorlib/plugins/activitywatch.py:121
 msgid "Watch for _silence"
-msgstr ""
+msgstr "Jälgi _vaikust"
 
 #: ../terminatorlib/plugins/activitywatch.py:163
 #, python-format
 msgid "Silence in: %s"
-msgstr ""
+msgstr "Vaikus terminalis: %s"
 
 #: ../terminatorlib/plugins/custom_commands.py:61
 msgid "_Custom Commands"
-msgstr ""
+msgstr "_Kohandatud käsud"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
@@ -468,62 +477,62 @@ msgstr "_Eelistused"
 
 #: ../terminatorlib/plugins/custom_commands.py:120
 msgid "Custom Commands Configuration"
-msgstr "Kohandatud käskude konfigratsioon"
+msgstr "Kohandatud käskude sätted"
 
 #: ../terminatorlib/plugins/custom_commands.py:124
 #: ../terminatorlib/plugins/custom_commands.py:273
 #: ../terminatorlib/plugins/logger.py:22
 #: ../terminatorlib/plugins/terminalshot.py:21
 msgid "_Cancel"
-msgstr ""
+msgstr "_Tühista"
 
 #: ../terminatorlib/plugins/custom_commands.py:125
 #: ../terminatorlib/plugins/custom_commands.py:274
 msgid "_OK"
-msgstr ""
+msgstr "_Olgu"
 
 #: ../terminatorlib/plugins/custom_commands.py:152
 msgid "Enabled"
-msgstr ""
+msgstr "Lubatud"
 
 #: ../terminatorlib/plugins/custom_commands.py:156
 #: ../terminatorlib/preferences.glade.h:137
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: ../terminatorlib/plugins/custom_commands.py:160
 #: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
-msgstr ""
+msgstr "Käsk"
 
 #: ../terminatorlib/plugins/custom_commands.py:174
 #: ../terminatorlib/preferences.glade.h:37
 msgid "Top"
-msgstr ""
+msgstr "Esimeseks"
 
 #: ../terminatorlib/plugins/custom_commands.py:180
 msgid "Up"
-msgstr ""
+msgstr "Üles"
 
 #: ../terminatorlib/plugins/custom_commands.py:186
 msgid "Down"
-msgstr ""
+msgstr "Alla"
 
 #: ../terminatorlib/plugins/custom_commands.py:192
 msgid "Last"
-msgstr ""
+msgstr "Viimaseks"
 
 #: ../terminatorlib/plugins/custom_commands.py:198
 msgid "New"
-msgstr ""
+msgstr "Uus"
 
 #: ../terminatorlib/plugins/custom_commands.py:203
 msgid "Edit"
-msgstr ""
+msgstr "Muuda"
 
 #: ../terminatorlib/plugins/custom_commands.py:209
 msgid "Delete"
-msgstr ""
+msgstr "Kustuta"
 
 #: ../terminatorlib/plugins/custom_commands.py:269
 msgid "New Command"
@@ -555,43 +564,43 @@ msgstr "Nimi *%s* on juba olemast"
 #: ../terminatorlib/plugins/logger.py:23
 #: ../terminatorlib/plugins/terminalshot.py:22
 msgid "_Save"
-msgstr ""
+msgstr "_Salvesta"
 
 #: ../terminatorlib/plugins/logger.py:34
 msgid "Start _Logger"
-msgstr ""
+msgstr "Käivita _logija"
 
 #: ../terminatorlib/plugins/logger.py:37
 msgid "Stop _Logger"
-msgstr ""
+msgstr "Seiska _logija"
 
 #: ../terminatorlib/plugins/logger.py:67
 msgid "Save Log File As"
-msgstr ""
+msgstr "Logifaili nime määramine"
 
 #: ../terminatorlib/plugins/terminalshot.py:29
 msgid "Terminal _screenshot"
-msgstr ""
+msgstr "Terminali _kuvatõmmis"
 
 #: ../terminatorlib/plugins/terminalshot.py:38
 msgid "Save image"
-msgstr ""
+msgstr "Pildi salvetamine"
 
 #: ../terminatorlib/preferences.glade.h:1
 msgid "Automatic"
-msgstr ""
+msgstr "Automaatne"
 
 #: ../terminatorlib/preferences.glade.h:2
 msgid "Control-H"
-msgstr ""
+msgstr "Control-H"
 
 #: ../terminatorlib/preferences.glade.h:3
 msgid "ASCII DEL"
-msgstr ""
+msgstr "ASCII DEL"
 
 #: ../terminatorlib/preferences.glade.h:4
 msgid "Escape sequence"
-msgstr ""
+msgstr "Paojada"
 
 #. FIXME: Why isn't this being done by Terminator() ?
 #: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:704
@@ -600,175 +609,175 @@ msgstr "Kõik"
 
 #: ../terminatorlib/preferences.glade.h:6
 msgid "Group"
-msgstr ""
+msgstr "Grupp"
 
 #: ../terminatorlib/preferences.glade.h:7
 msgid "None"
-msgstr "Pole"
+msgstr "Puudub"
 
 #: ../terminatorlib/preferences.glade.h:8
 msgid "Exit the terminal"
-msgstr ""
+msgstr "lõpetatakse terminali töö"
 
 #: ../terminatorlib/preferences.glade.h:9
 msgid "Restart the command"
-msgstr ""
+msgstr "taaskäivitatakse käsk"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
-msgstr ""
+msgstr "jäetakse terminal avatuks"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
-msgstr ""
+msgstr "Must helekollasel"
 
 #: ../terminatorlib/preferences.glade.h:12
 msgid "Black on white"
-msgstr ""
+msgstr "Must valgel"
 
 #: ../terminatorlib/preferences.glade.h:13
 msgid "Gray on black"
-msgstr ""
+msgstr "Hall mustal"
 
 #: ../terminatorlib/preferences.glade.h:14
 msgid "Green on black"
-msgstr ""
+msgstr "Roheline mustal"
 
 #: ../terminatorlib/preferences.glade.h:15
 msgid "White on black"
-msgstr ""
+msgstr "Valge mustal"
 
 #: ../terminatorlib/preferences.glade.h:16
 msgid "Orange on black"
-msgstr ""
+msgstr "Oranž mustal"
 
 #: ../terminatorlib/preferences.glade.h:17
 msgid "Ambience"
-msgstr ""
+msgstr "Õhkkond"
 
 #: ../terminatorlib/preferences.glade.h:18
 msgid "Solarized light"
-msgstr ""
+msgstr "Solarized - hele"
 
 #: ../terminatorlib/preferences.glade.h:19
 msgid "Solarized dark"
-msgstr ""
+msgstr "Solarized - tume"
 
 #: ../terminatorlib/preferences.glade.h:20
 msgid "Gruvbox light"
-msgstr ""
+msgstr "Gruvbox - hele"
 
 #: ../terminatorlib/preferences.glade.h:21
 msgid "Gruvbox dark"
-msgstr ""
+msgstr "Gruvbox - tume"
 
 #: ../terminatorlib/preferences.glade.h:22
 msgid "Custom"
-msgstr ""
+msgstr "Kohandatud"
 
 #: ../terminatorlib/preferences.glade.h:23
 msgid "Block"
-msgstr ""
+msgstr "Ristkülik"
 
 #: ../terminatorlib/preferences.glade.h:24
 msgid "Underline"
-msgstr ""
+msgstr "Allkriips"
 
 #: ../terminatorlib/preferences.glade.h:25
 msgid "I-Beam"
-msgstr ""
+msgstr "Püstkriips"
 
 #: ../terminatorlib/preferences.glade.h:26
 msgid "GNOME Default"
-msgstr ""
+msgstr "GNOME vaikimisi"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "Click to focus"
-msgstr ""
+msgstr "Klõpsamine fookuse jaoks"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Follow mouse pointer"
-msgstr ""
+msgstr "Hiirekursori järgi"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Tango"
-msgstr ""
+msgstr "Tango"
 
 #: ../terminatorlib/preferences.glade.h:30
 msgid "Linux"
-msgstr ""
+msgstr "Linux"
 
 #: ../terminatorlib/preferences.glade.h:31
 msgid "XTerm"
-msgstr ""
+msgstr "XTerm"
 
 #: ../terminatorlib/preferences.glade.h:32
 msgid "Rxvt"
-msgstr ""
+msgstr "Rxvt"
 
 #: ../terminatorlib/preferences.glade.h:33
 msgid "Solarized"
-msgstr ""
+msgstr "Solarized"
 
 #: ../terminatorlib/preferences.glade.h:34
 msgid "On the left side"
-msgstr ""
+msgstr "Vasakus servas"
 
 #: ../terminatorlib/preferences.glade.h:35
 msgid "On the right side"
-msgstr ""
+msgstr "Paremas servas"
 
 #: ../terminatorlib/preferences.glade.h:36
 msgid "Disabled"
-msgstr ""
+msgstr "Keelatud"
 
 #: ../terminatorlib/preferences.glade.h:38
 msgid "Bottom"
-msgstr ""
+msgstr "All"
 
 #: ../terminatorlib/preferences.glade.h:39
 msgid "Left"
-msgstr ""
+msgstr "Vasakul"
 
 #: ../terminatorlib/preferences.glade.h:40
 msgid "Right"
-msgstr ""
+msgstr "Paremal"
 
 #: ../terminatorlib/preferences.glade.h:41
 msgid "Hidden"
-msgstr ""
+msgstr "Peidus"
 
 #: ../terminatorlib/preferences.glade.h:42
 msgid "Normal"
-msgstr ""
+msgstr "Tavaline"
 
 #: ../terminatorlib/preferences.glade.h:43
 msgid "Maximised"
-msgstr ""
+msgstr "Maksimeeritud"
 
 #: ../terminatorlib/preferences.glade.h:44
 msgid "Fullscreen"
-msgstr ""
+msgstr "Täisekraanil"
 
 #: ../terminatorlib/preferences.glade.h:45
 msgid "Terminator Preferences"
-msgstr ""
+msgstr "Terminatori eelistused"
 
 #: ../terminatorlib/preferences.glade.h:46
 msgid "<b>Behavior</b>"
-msgstr ""
+msgstr "<b>Käitumine</b>"
 
 #: ../terminatorlib/preferences.glade.h:47
 msgid "Window state:"
-msgstr ""
+msgstr "Akna olek:"
 
 #: ../terminatorlib/preferences.glade.h:48
 msgid "Always on top"
-msgstr ""
+msgstr "Alati pealmine"
 
 #: ../terminatorlib/preferences.glade.h:49
 msgid "Show on all workspaces"
-msgstr ""
+msgstr "Nähtav kõigil tööaladel"
 
 #: ../terminatorlib/preferences.glade.h:50
 msgid "Hide on lose focus"
@@ -784,19 +793,19 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:53
 msgid "DBus server"
-msgstr ""
+msgstr "DBus server"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Mouse focus:"
-msgstr ""
+msgstr "Hiire fookus:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
-msgstr ""
+msgstr "Vakimisi levi:"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste"
-msgstr ""
+msgstr "PuTTY moodi asetamine"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
@@ -808,35 +817,35 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:59
 msgid "Use custom URL handler"
-msgstr ""
+msgstr "Kohandatud URL-käsitleja kasutamine"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "Custom URL handler:"
-msgstr ""
+msgstr "Kohandatud URL-käsitleja:"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "<b>Appearance</b>"
-msgstr ""
+msgstr "<b>Välimus</b>"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Window borders"
-msgstr ""
+msgstr "Raamiga aken"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Unfocused terminal font brightness:"
-msgstr ""
+msgstr "Fokuseerimata terminali heledus:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Terminal separator size:"
-msgstr ""
+msgstr "Terminali eraldaja suurus:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
-msgstr ""
+msgstr "Lisastiilid (teemast sõltuvad)"
 
 #: ../terminatorlib/preferences.glade.h:66
 msgid "Tab position:"
-msgstr ""
+msgstr "Sakiriba asukoht:"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
@@ -848,27 +857,27 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "<b>Terminal Titlebar</b>"
-msgstr ""
+msgstr "<b>Terminali tiitliriba</b>"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Font color:"
-msgstr ""
+msgstr "Kirja värv:"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Background:"
-msgstr ""
+msgstr "Taust:"
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Focused"
-msgstr ""
+msgstr "Fookuses"
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Inactive"
-msgstr ""
+msgstr "Jõude"
 
 #: ../terminatorlib/preferences.glade.h:74
 msgid "Receiving"
-msgstr ""
+msgstr "Vastuvõtt"
 
 #: ../terminatorlib/preferences.glade.h:75
 msgid "Hide size from title"
@@ -876,15 +885,15 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "_Use the system font"
-msgstr ""
+msgstr "Süsteemse kirjatüübi kas_utamine"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "_Font:"
-msgstr ""
+msgstr "_Kirjatüüp:"
 
 #: ../terminatorlib/preferences.glade.h:78
 msgid "Choose A Titlebar Font"
-msgstr ""
+msgstr "Tiitliriba kohandatud kirjatüüp"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "Global"
@@ -892,23 +901,23 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "Profile"
-msgstr ""
+msgstr "Profiil"
 
 #: ../terminatorlib/preferences.glade.h:81
 msgid "_Use the system fixed width font"
-msgstr ""
+msgstr "Süsteemi _vaikimisi püsisammuga kirjatüübi kasutamine"
 
 #: ../terminatorlib/preferences.glade.h:82
 msgid "Choose A Terminal Font"
-msgstr ""
+msgstr "Terminali kirjatüübi valimine"
 
 #: ../terminatorlib/preferences.glade.h:83
 msgid "_Allow bold text"
-msgstr ""
+msgstr "R_asvase kirja lubamine"
 
 #: ../terminatorlib/preferences.glade.h:84
 msgid "Show titlebar"
-msgstr ""
+msgstr "Nähtav tiitliriba"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Copy on selection"
@@ -924,107 +933,107 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "<b>Cursor</b>"
-msgstr ""
+msgstr "<b>Kursor</b>"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "_Shape:"
-msgstr ""
+msgstr "Ku_ju:"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "Color:"
-msgstr ""
+msgstr "Värv:"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Blink"
-msgstr ""
+msgstr "Vilkumine"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Foreground"
-msgstr ""
+msgstr "Esiplaan"
 
 #: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
-msgstr ""
+msgstr "<b>Terminali kõll</b>"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
-msgstr ""
+msgstr "Tiitliriba ikoon"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
-msgstr ""
+msgstr "Visuaalne vilkumine"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
-msgstr ""
+msgstr "Heliga piiks"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
-msgstr ""
+msgstr "Akende nimekirja vilkumine"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "General"
-msgstr ""
+msgstr "Üldine"
 
 #: ../terminatorlib/preferences.glade.h:99
 msgid "_Run command as a login shell"
-msgstr ""
+msgstr "Käsk käivitatakse _sisselogimise kestana"
 
 #: ../terminatorlib/preferences.glade.h:100
 msgid "Ru_n a custom command instead of my shell"
-msgstr ""
+msgstr "K_ohandatud käsk käivitatakse kesta asemel"
 
 #: ../terminatorlib/preferences.glade.h:101
 msgid "Custom co_mmand:"
-msgstr ""
+msgstr "_Kohandatud käsk:"
 
 #: ../terminatorlib/preferences.glade.h:102
 msgid "When command _exits:"
-msgstr ""
+msgstr "Käsu _lõpetamisel:"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Foreground and Background</b>"
-msgstr ""
+msgstr "<b>Esiplaan ja taust</b>"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "_Use colors from system theme"
-msgstr ""
+msgstr "Süsteemi _teema värvide kasutamine"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "Built-in sche_mes:"
-msgstr ""
+msgstr "Sisseehitatud skee_mid:"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "_Text color:"
-msgstr ""
+msgstr "_Teksti värv:"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "_Background color:"
-msgstr ""
+msgstr "T_austa värv:"
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "Choose Terminal Text Color"
-msgstr ""
+msgstr "Terminali teksti värvi valimine"
 
 #: ../terminatorlib/preferences.glade.h:110
 msgid "Choose Terminal Background Color"
-msgstr ""
+msgstr "Terminali tausta värvi valimine"
 
 #: ../terminatorlib/preferences.glade.h:111
 msgid "<b>Palette</b>"
-msgstr ""
+msgstr "<b>Palett</b>"
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "Built-in _schemes:"
-msgstr ""
+msgstr "_Sisseehitatud skeemid:"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Color p_alette:"
-msgstr ""
+msgstr "_Värvipalett:"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Colors"
-msgstr ""
+msgstr "Värvid"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Show b_old text in bright colors"
@@ -1032,55 +1041,55 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
-msgstr ""
+msgstr "Ühtlane _värv"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "_Transparent background"
-msgstr ""
+msgstr "_Läbipaistev taust"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade transparent background:"
-msgstr ""
+msgstr "Läbipaistva _tausta varjutus"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
-msgstr ""
+msgstr "<small><i>Puudub</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "<small><i>Maximum</i></small>"
-msgstr ""
+msgstr "<small><i>Suurim</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "Background"
-msgstr ""
+msgstr "Taust"
 
 #: ../terminatorlib/preferences.glade.h:121
 msgid "_Scrollbar is:"
-msgstr ""
+msgstr "Ke_rimisriba on:"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Scroll on _output"
-msgstr ""
+msgstr "Kerimine _väljundi korral"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "Scroll on _keystroke"
-msgstr ""
+msgstr "_Kerimine klahvivajutuse korral"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Infinite Scrollback"
-msgstr ""
+msgstr "Piiramatu tagasikerimine"
 
 #: ../terminatorlib/preferences.glade.h:125
 msgid "Scroll_back:"
-msgstr ""
+msgstr "_Tagasikerimine:"
 
 #: ../terminatorlib/preferences.glade.h:126
 msgid "lines"
-msgstr ""
+msgstr "rida"
 
 #: ../terminatorlib/preferences.glade.h:127
 msgid "Scrolling"
-msgstr ""
+msgstr "Kerimine"
 
 #: ../terminatorlib/preferences.glade.h:128
 msgid ""
@@ -1089,26 +1098,30 @@ msgid ""
 "applications and operating systems that expect different terminal "
 "behavior.</i></small>"
 msgstr ""
+"<small><i><b>Märkus:</b> Käesolevad valikud võivad põhjustada mõne rakenduse "
+"väärat käitumist.  Valikud on mõeldud ainult selleks, et võimaldada kasutada "
+"rakendusi ja operatsioonisüsteeme, mis eeldavad terminalilt tavapärasest "
+"erinevat käitumist.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
-msgstr ""
+msgstr "_Tagasilükke klahv genereerib:"
 
 #: ../terminatorlib/preferences.glade.h:130
 msgid "_Delete key generates:"
-msgstr ""
+msgstr "_Kustutamisklahv genereerib:"
 
 #: ../terminatorlib/preferences.glade.h:131
 msgid "Encoding:"
-msgstr ""
+msgstr "Kooditabel:"
 
 #: ../terminatorlib/preferences.glade.h:132
 msgid "_Reset Compatibility Options to Defaults"
-msgstr ""
+msgstr "_Lähtesta ühilduvuse valikud"
 
 #: ../terminatorlib/preferences.glade.h:133
 msgid "Compatibility"
-msgstr ""
+msgstr "Ühilduvus"
 
 #: ../terminatorlib/preferences.glade.h:134
 #: ../terminatorlib/terminal_popup_menu.py:195
@@ -1117,47 +1130,47 @@ msgstr "Profiilid"
 
 #: ../terminatorlib/preferences.glade.h:136
 msgid "Type"
-msgstr ""
+msgstr "Liik"
 
 #: ../terminatorlib/preferences.glade.h:138
 msgid "Profile:"
-msgstr ""
+msgstr "Profiil:"
 
 #: ../terminatorlib/preferences.glade.h:139
 msgid "Custom command:"
-msgstr ""
+msgstr "Kohandatud käsk:"
 
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Working directory:"
-msgstr ""
+msgstr "Töökataloog:"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Layouts"
-msgstr ""
+msgstr "Paigutused"
 
 #: ../terminatorlib/preferences.glade.h:142
 msgid "Action"
-msgstr ""
+msgstr "Tegevus"
 
 #: ../terminatorlib/preferences.glade.h:143
 msgid "Keybinding"
-msgstr ""
+msgstr "Klahviseos"
 
 #: ../terminatorlib/preferences.glade.h:144
 msgid "Keybindings"
-msgstr ""
+msgstr "Klahviseosed"
 
 #: ../terminatorlib/preferences.glade.h:145
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: ../terminatorlib/preferences.glade.h:146
 msgid "This plugin has no configuration options"
-msgstr ""
+msgstr "Sellel pluginal puuduvad seadistuse valikud"
 
 #: ../terminatorlib/preferences.glade.h:147
 msgid "Plugins"
-msgstr ""
+msgstr "Pluginad"
 
 #: ../terminatorlib/preferences.glade.h:150
 msgid ""
@@ -1175,7 +1188,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:153
 msgid "The Manual"
-msgstr ""
+msgstr "Käsiraamat"
 
 #: ../terminatorlib/preferences.glade.h:154
 msgid ""
@@ -1184,6 +1197,10 @@ msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
 "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>\n"
 msgstr ""
+"<a "
+"\n"
+"<a href=\"https://github.com/gnome-terminator/terminator\">Arendus</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Vead / täiustused</a>\n"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
@@ -1191,107 +1208,107 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:96
 msgid "Increase font size"
-msgstr ""
+msgstr "Kirja suuruse suurendamine"
 
 #: ../terminatorlib/prefseditor.py:97
 msgid "Decrease font size"
-msgstr ""
+msgstr "Kirja suuruse vähendamine"
 
 #: ../terminatorlib/prefseditor.py:98
 msgid "Restore original font size"
-msgstr ""
+msgstr "Kirja algsuuruse taastamine"
 
 #: ../terminatorlib/prefseditor.py:99
 msgid "Create a new tab"
-msgstr ""
+msgstr "Uue kaardi loomine"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
-msgstr ""
+msgstr "Järgmise terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:101 ../terminatorlib/prefseditor.py:103
 msgid "Focus the previous terminal"
-msgstr ""
+msgstr "Eelmise terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Focus the terminal above"
-msgstr ""
+msgstr "Ülalpool asuva terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Focus the terminal below"
-msgstr ""
+msgstr "Allpool asuva terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Focus the terminal left"
-msgstr ""
+msgstr "Vasakul asuva terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Focus the terminal right"
-msgstr ""
+msgstr "Paremal asuva terminali fokuseerimine"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
-msgstr ""
+msgstr "Terminalide pööramine kellaosuti suunas"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Rotate terminals counter-clockwise"
-msgstr ""
+msgstr "Terminalide pööramine kellaosutile vastupidises suunas"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Split horizontally"
-msgstr ""
+msgstr "Rõhtsuunas poolitamine"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Split vertically"
-msgstr ""
+msgstr "Püstsuunas poolitamine"
 
 #: ../terminatorlib/prefseditor.py:112
 msgid "Close terminal"
-msgstr ""
+msgstr "Terminali sulgemine"
 
 #: ../terminatorlib/prefseditor.py:113
 msgid "Copy selected text"
-msgstr ""
+msgstr "Valitud teksti kopeerimine"
 
 #: ../terminatorlib/prefseditor.py:114
 msgid "Paste clipboard"
-msgstr ""
+msgstr "Valitud teksti asetamine"
 
 #: ../terminatorlib/prefseditor.py:115
 msgid "Show/Hide the scrollbar"
-msgstr ""
+msgstr "Kerimisriba näitamine/peitmine"
 
 #: ../terminatorlib/prefseditor.py:116
 msgid "Search terminal scrollback"
-msgstr ""
+msgstr "Otsing tagasikerimise puhvrist"
 
 #: ../terminatorlib/prefseditor.py:117
 msgid "Scroll upwards one page"
-msgstr ""
+msgstr "Kerimine ühe lehe võrra üles"
 
 #: ../terminatorlib/prefseditor.py:118
 msgid "Scroll downwards one page"
-msgstr ""
+msgstr "Kerimine üle lehe võrra alla"
 
 #: ../terminatorlib/prefseditor.py:119
 msgid "Scroll upwards half a page"
-msgstr ""
+msgstr "Kerimine poole lehe võrra üles"
 
 #: ../terminatorlib/prefseditor.py:120
 msgid "Scroll downwards half a page"
-msgstr ""
+msgstr "Kerimine poole lehe võrra alla"
 
 #: ../terminatorlib/prefseditor.py:121
 msgid "Scroll upwards one line"
-msgstr ""
+msgstr "Kerimine ühe rea võrra üles"
 
 #: ../terminatorlib/prefseditor.py:122
 msgid "Scroll downwards one line"
-msgstr ""
+msgstr "Kerimine ühe rea võrra alla"
 
 #: ../terminatorlib/prefseditor.py:123
 msgid "Close window"
-msgstr ""
+msgstr "Akna sulgemine"
 
 #: ../terminatorlib/prefseditor.py:124
 msgid "Resize the terminal up"
@@ -1311,15 +1328,15 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:128
 msgid "Move the tab right"
-msgstr ""
+msgstr "Kaardi liigutamine paremale"
 
 #: ../terminatorlib/prefseditor.py:129
 msgid "Move the tab left"
-msgstr ""
+msgstr "Kaardi liigutamine vasakule"
 
 #: ../terminatorlib/prefseditor.py:130
 msgid "Maximize terminal"
-msgstr ""
+msgstr "Terminali maksimeerimine"
 
 #: ../terminatorlib/prefseditor.py:131
 msgid "Zoom terminal"
@@ -1327,67 +1344,67 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:132
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Lülitumine järgmisele kaardile"
 
 #: ../terminatorlib/prefseditor.py:133
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Lülitumine eelmisele kaardile"
 
 #: ../terminatorlib/prefseditor.py:134
 msgid "Switch to the first tab"
-msgstr ""
+msgstr "Lülitumine esimesele kaardile"
 
 #: ../terminatorlib/prefseditor.py:135
 msgid "Switch to the second tab"
-msgstr ""
+msgstr "Lülitumine teisele kaardile"
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Switch to the third tab"
-msgstr ""
+msgstr "Lülitumine kolmandale kaardile"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Switch to the fourth tab"
-msgstr ""
+msgstr "Lülitumine neljandale kaardile"
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Switch to the fifth tab"
-msgstr ""
+msgstr "Lülitumine viiendale kaardile"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Switch to the sixth tab"
-msgstr ""
+msgstr "Lülitumine kuuendale kaardile"
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Switch to the seventh tab"
-msgstr ""
+msgstr "Lülitumine seitsmendale kaardile"
 
 #: ../terminatorlib/prefseditor.py:141
 msgid "Switch to the eighth tab"
-msgstr ""
+msgstr "Lülitumine kaheksandale kaardile"
 
 #: ../terminatorlib/prefseditor.py:142
 msgid "Switch to the ninth tab"
-msgstr ""
+msgstr "Lülitumine üheksandale kaardile"
 
 #: ../terminatorlib/prefseditor.py:143
 msgid "Switch to the tenth tab"
-msgstr ""
+msgstr "Lülitumine kümnendale kaardile"
 
 #: ../terminatorlib/prefseditor.py:144
 msgid "Toggle fullscreen"
-msgstr ""
+msgstr "Täisekraani sisse- ja väljalülitamine"
 
 #: ../terminatorlib/prefseditor.py:145
 msgid "Reset the terminal"
-msgstr ""
+msgstr "Terminali lähestamine"
 
 #: ../terminatorlib/prefseditor.py:146
 msgid "Reset and clear the terminal"
-msgstr ""
+msgstr "Terminali puhastamine ja lähestamine"
 
 #: ../terminatorlib/prefseditor.py:147
 msgid "Toggle window visibility"
-msgstr ""
+msgstr "Akna nähtavaloleku sisse- ja väljalülitamine"
 
 #: ../terminatorlib/prefseditor.py:148
 msgid "Group all terminals"
@@ -1415,7 +1432,7 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:154
 msgid "Create a new window"
-msgstr ""
+msgstr "Uue akna loomine"
 
 #: ../terminatorlib/prefseditor.py:155
 msgid "Spawn a new Terminator process"
@@ -1443,15 +1460,15 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:161
 msgid "Edit window title"
-msgstr ""
+msgstr "Akna tiitli muutmine"
 
 #: ../terminatorlib/prefseditor.py:162
 msgid "Edit terminal title"
-msgstr ""
+msgstr "Terminali tiitli muutmine"
 
 #: ../terminatorlib/prefseditor.py:163
 msgid "Edit tab title"
-msgstr ""
+msgstr "Kaardi tiitli muutmine"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Open layout launcher window"
@@ -1459,15 +1476,15 @@ msgstr ""
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Switch to next profile"
-msgstr ""
+msgstr "Lülitumine järgmisele profiilile"
 
 #: ../terminatorlib/prefseditor.py:166
 msgid "Switch to previous profile"
-msgstr ""
+msgstr "Lülitumine eelmisele profiilile"
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Open the manual"
-msgstr ""
+msgstr "Käsiraamatu avamine"
 
 #: ../terminatorlib/prefseditor.py:1136 ../terminatorlib/prefseditor.py:1141
 msgid "New Profile"
@@ -1535,15 +1552,15 @@ msgstr "Ava _viide"
 
 #: ../terminatorlib/terminal_popup_menu.py:86
 msgid "_Copy address"
-msgstr "_Kopeeri aaderess"
+msgstr "_Kopeeri aadress"
 
 #: ../terminatorlib/terminal_popup_menu.py:102
 msgid "_Copy"
-msgstr ""
+msgstr "_Kopeeri"
 
 #: ../terminatorlib/terminal_popup_menu.py:107
 msgid "_Paste"
-msgstr ""
+msgstr "_Aseta"
 
 #: ../terminatorlib/terminal_popup_menu.py:114
 msgid "Split H_orizontally"
@@ -1555,19 +1572,19 @@ msgstr "Poolita V_ertikaalselt"
 
 #: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
-msgstr "Ava vaheleht"
+msgstr "Ava kaart"
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr "Ava veaanalüüsi vaheleht"
+msgstr "Ava veaanalüüsi kaart"
 
 #: ../terminatorlib/terminal_popup_menu.py:147
 msgid "_Close"
-msgstr ""
+msgstr "Sul_ge"
 
 #: ../terminatorlib/terminal_popup_menu.py:156
 msgid "_Zoom terminal"
-msgstr "_Suurenda terminaali"
+msgstr "_Suurenda terminali"
 
 #: ../terminatorlib/terminal_popup_menu.py:161
 msgid "Ma_ximize terminal"
@@ -1587,7 +1604,7 @@ msgstr "Näita _kerimisriba"
 
 #: ../terminatorlib/terminal_popup_menu.py:239
 msgid "Encodings"
-msgstr "Kodeeringud"
+msgstr "Kooditabelid"
 
 #: ../terminatorlib/terminal_popup_menu.py:254
 msgid "Default"
@@ -1599,11 +1616,11 @@ msgstr "Kasutaja määratav"
 
 #: ../terminatorlib/terminal_popup_menu.py:273
 msgid "Other Encodings"
-msgstr "Muud kodeeringud"
+msgstr "Muud kooditabelid"
 
 #: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
-msgstr ""
+msgstr "_Uus grupp..."
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
@@ -1616,7 +1633,7 @@ msgstr "Eemalda %s grupp"
 
 #: ../terminatorlib/terminal.py:464
 msgid "G_roup all in tab"
-msgstr "G_rupeeri kõik vahelehed"
+msgstr "G_rupeeri kõik kaardid"
 
 #: ../terminatorlib/terminal.py:469
 msgid "Ungro_up all in tab"
@@ -1624,7 +1641,7 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:474
 msgid "Remove all groups"
-msgstr "Eemalda kõik gruppid"
+msgstr "Eemalda kõik grupid"
 
 #: ../terminatorlib/terminal.py:481
 #, python-format
@@ -1661,115 +1678,115 @@ msgstr ""
 
 #: ../terminatorlib/terminal.py:1394
 msgid "Unable to find a shell"
-msgstr "Ei leitud shell-i"
+msgstr "Kesta pole võimalik leida"
 
 #: ../terminatorlib/terminal.py:1427
 msgid "Unable to start shell:"
-msgstr "Ei suudetud käivitada shell-i"
+msgstr "Kesta pole võimalik käivitada"
 
 #: ../terminatorlib/terminal.py:1848
 msgid "Rename Window"
-msgstr ""
+msgstr "Akna tiitle muutmine"
 
 #: ../terminatorlib/terminal.py:1856
 msgid "Enter a new title for the Terminator window..."
-msgstr ""
+msgstr "Sisesta Terminatori aknale uus tiitel"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Beta"
-msgstr ""
+msgstr "Beeta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Delta"
-msgstr ""
+msgstr "Delta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Epsilon"
-msgstr ""
+msgstr "Epsilon"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Zeta"
-msgstr ""
+msgstr "Dzeeta"
 
 #: ../terminatorlib/titlebar.py:254
 msgid "Eta"
-msgstr ""
+msgstr "Eeta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Theta"
-msgstr ""
+msgstr "Teeta"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Iota"
-msgstr ""
+msgstr "Ioota"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Kappa"
-msgstr ""
+msgstr "Kapa"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Mu"
-msgstr ""
+msgstr "Müü"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Nu"
-msgstr ""
+msgstr "Nüü"
 
 #: ../terminatorlib/titlebar.py:255
 msgid "Xi"
-msgstr ""
+msgstr "Hii"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Omicron"
-msgstr ""
+msgstr "Omikron"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Pi"
-msgstr ""
+msgstr "Pii"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Rho"
-msgstr ""
+msgstr "Roo"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Sigma"
-msgstr ""
+msgstr "Sigma"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Tau"
-msgstr ""
+msgstr "Tau"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Upsilon"
-msgstr ""
+msgstr "Üpsilon"
 
 #: ../terminatorlib/titlebar.py:256
 msgid "Phi"
-msgstr ""
+msgstr "Fii"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Chi"
-msgstr ""
+msgstr "Ksii"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Psi"
-msgstr ""
+msgstr "Psii"
 
 #: ../terminatorlib/titlebar.py:257
 msgid "Omega"
-msgstr ""
+msgstr "Oomega"
 
 #: ../terminatorlib/window.py:276
 msgid "window"
@@ -1778,4 +1795,4 @@ msgstr "aken"
 #: ../terminatorlib/window.py:730
 #, python-format
 msgid "Tab %d"
-msgstr "Vaheleht %d"
+msgstr "Kaart %d"
