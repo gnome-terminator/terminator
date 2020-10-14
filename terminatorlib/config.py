@@ -71,6 +71,7 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 """
 
 import os
+import shutil
 from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
@@ -687,7 +688,7 @@ class ConfigBase(Borg):
         """Force a reload of the base config"""
         self.loaded = False
         self.load()
-        
+
     def save(self):
         """Save the config to a file"""
         dbg('ConfigBase::save: saving config')
@@ -718,13 +719,19 @@ class ConfigBase(Borg):
         config_dir = get_config_dir()
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
-        try:
-            temp_file = self.command_line_options.config + '.tmp'
 
-            with open(temp_file, 'wb') as fh:
+        try:
+            if not os.path.isfile(self.command_line_options.config):
+                open(self.command_line_options.config, 'a').close()
+
+            backup_file = self.command_line_options.config + '~'
+
+            shutil.copy2(self.command_line_options.config, backup_file)
+
+            with open(self.command_line_options.config, 'wb') as fh:
                 parser.write(fh)
 
-            os.rename(temp_file, self.command_line_options.config)
+            os.remove(backup_file)
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
