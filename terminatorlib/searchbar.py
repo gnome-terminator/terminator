@@ -84,8 +84,12 @@ class Searchbar(Gtk.HBox):
         # Match Case checkbox
         self.match_case = Gtk.CheckButton.new_with_label('Match Case')
         self.match_case.show()
+        if self.config.base.get_item('case_sensitive') is True:
+            case_sensitive = True
+        else:
+            case_sensitive = False
         self.match_case.set_sensitive(True)
-        self.match_case.set_active(True)
+        self.match_case.set_active(case_sensitive)
         self.match_case.connect('toggled', self.match_case_toggled)
 
         # Wrap checkbox
@@ -132,6 +136,8 @@ class Searchbar(Gtk.HBox):
             self.regex_flags_pcre2 = regex.FLAGS_PCRE2
             self.regex_flags_glib = regex.FLAGS_GLIB
         
+        self.config.base.set_item('case_sensitive', toggled_state)
+        self.config.save()
         self.do_search(self.entry) #  Start a new search everytime the check box is toggled.    
 
     def get_vte(self):
