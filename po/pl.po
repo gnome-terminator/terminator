@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: terminator\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-01-12 16:51+0100\n"
-"PO-Revision-Date: 2018-10-31 11:37+0000\n"
+"PO-Revision-Date: 2020-10-17 15:52+0200\n"
 "Last-Translator: Mateusz Łukasik <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2020-03-24 06:39+0000\n"
-"X-Generator: Launchpad (build 3a6db24bbe7280ec09bae73384238390fcc98ad3)\n"
-"Language: pl\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:38
@@ -71,7 +71,7 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
-"Te opcje wymagają albo zmiennej środowiskowej TERMINATOR_UUID,\n"
+"* Te opcje wymagają albo zmiennej środowiskowej TERMINATOR_UUID,\n"
 "  albo opcja --uuid musi zostać użyta."
 
 #: ../remotinator.py:66
@@ -117,7 +117,7 @@ msgstr ""
 "Wiele zachowań Terminatora bazuje na GNOME Terminal i z biegiem czasu "
 "dodajemy nowe funkcjonalności stamtąd, ale chcemy również rozwijać się w "
 "innych kierunkach z funkcjonalnościami przydatnymi dla administaratorów i "
-"innych użytkowników"
+"innych użytkowników."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -145,7 +145,7 @@ msgstr "Zapisywanie wielu układów i profili w graficznym edytorze ustawień"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
-msgstr "Równoczesne wpisywanie tekstu do dowolnej grupy terminali."
+msgstr "Równoczesne wpisywanie tekstu do dowolnej grupy terminali"
 
 #: ../data/terminator.appdata.xml.in.h:13
 msgid "And lots more..."
@@ -193,7 +193,7 @@ msgstr ""
 
 #: ../terminatorlib/container.py:198
 msgid "Do not show this message next time"
-msgstr "Nie pokazuj tej wiadomości następnym razem."
+msgstr "Nie pokazuj tej wiadomości następnym razem"
 
 #: ../terminatorlib/encoding.py:35
 msgid "Current Locale"
@@ -386,8 +386,7 @@ msgstr "Podaj tytuł (nazwę) okna"
 
 #: ../terminatorlib/optionparse.py:62
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr ""
-"Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X-ów)"
+msgstr "Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X-ów)"
 
 #: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:69
 msgid "Specify a command to execute inside the terminal"
@@ -399,7 +398,7 @@ msgid ""
 "terminal, and its arguments"
 msgstr ""
 "Użyj reszty wiersza poleceń jako polecenie do wykonania w terminalu i jego "
-"argumenty."
+"argumenty"
 
 #: ../terminatorlib/optionparse.py:75
 msgid "Specify a config file"
@@ -443,8 +442,7 @@ msgstr "Włącz informacje debuggera  (podwójnie dla serwera debuggera)"
 
 #: ../terminatorlib/optionparse.py:99
 msgid "Comma separated list of classes to limit debugging to"
-msgstr ""
-"Lista oddzielonych przecinkami klas w celu ograniczenia debugowania do"
+msgstr "Lista oddzielonych przecinkami klas w celu ograniczenia debugowania do"
 
 #: ../terminatorlib/optionparse.py:101
 msgid "Comma separated list of methods to limit debugging to"
@@ -811,7 +809,7 @@ msgstr "Serwer DBus"
 
 #: ../terminatorlib/preferences.glade.h:54
 msgid "Mouse focus:"
-msgstr "Ostrość myszy:"
+msgstr "Uaktywnianie myszą:"
 
 #: ../terminatorlib/preferences.glade.h:55
 msgid "Broadcast default:"
@@ -843,15 +841,15 @@ msgstr "<b>Wygląd</b>"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Window borders"
-msgstr "Ramki okna"
+msgstr "Obramowanie okna"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Unfocused terminal font brightness:"
-msgstr "Jasność czcionki nieaktywnego terminala"
+msgstr "Jasność czcionki nieaktywnego terminala:"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Terminal separator size:"
-msgstr "Rozmiar odstępu między terminalami"
+msgstr "Rozmiar odstępu między terminalami:"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Extra Styling (Theme dependant)"
@@ -863,11 +861,11 @@ msgstr "Położenie paska kart:"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Tabs homogeneous"
-msgstr "Zakładki jednorodne"
+msgstr "Karty jednorodne"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Tabs scroll buttons"
-msgstr "Przycisk przewijania zakładek"
+msgstr "Przycisk przewijania kart"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "<b>Terminal Titlebar</b>"
@@ -1019,7 +1017,7 @@ msgstr "_Wbudowane schematy:"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "_Text color:"
-msgstr "_Kolor tekstu"
+msgstr "_Kolor tekstu:"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "_Background color:"
@@ -1051,7 +1049,7 @@ msgstr "Kolory"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Show b_old text in bright colors"
-msgstr ""
+msgstr "Pokaż pogrubiony tekst jaskrawymi kolorami"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "_Solid color"
@@ -1109,8 +1107,8 @@ msgstr "Przewijanie"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Uwaga:</b> Zmiana poniższych opcji może spowodować niepoprawne "
 "zachowanie pewnych programów. Istnieją one tylko w celu obejścia problemów z "
@@ -1216,14 +1214,13 @@ msgstr "Podręcznik"
 
 #: ../terminatorlib/preferences.glade.h:154
 msgid ""
-"<a "
-"\n"
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"Enhancements</a>\n"
 msgstr ""
-"główna</a>\n"
 "<a href=\"https://github.com/gnome-terminator/terminator\">Rozwój</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Błędy / Poprawki</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Błędy / "
+"Poprawki</a>\n"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid "About"
@@ -1247,27 +1244,27 @@ msgstr "Tworzy nową kartę"
 
 #: ../terminatorlib/prefseditor.py:100 ../terminatorlib/prefseditor.py:102
 msgid "Focus the next terminal"
-msgstr "Skup się na następnym terminalu"
+msgstr "Aktywuj następny terminal"
 
 #: ../terminatorlib/prefseditor.py:101 ../terminatorlib/prefseditor.py:103
 msgid "Focus the previous terminal"
-msgstr "Skup się na poprzednim terminalu"
+msgstr "Aktywuj poprzedni terminal"
 
 #: ../terminatorlib/prefseditor.py:104
 msgid "Focus the terminal above"
-msgstr "Skup sięna terminalu powyżej"
+msgstr "Aktywuj terminal powyżej"
 
 #: ../terminatorlib/prefseditor.py:105
 msgid "Focus the terminal below"
-msgstr "Skup się na terminalu poniżej"
+msgstr "Aktywuj terminal poniżej"
 
 #: ../terminatorlib/prefseditor.py:106
 msgid "Focus the terminal left"
-msgstr "Skup się na terminalu lewym"
+msgstr "Aktywuj terminal po lewej"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Focus the terminal right"
-msgstr "Skup się na termianlu prawym"
+msgstr "Aktywuj terminal po prawej"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Rotate terminals clockwise"
@@ -1515,7 +1512,7 @@ msgstr "Nowy profil"
 
 #: ../terminatorlib/prefseditor.py:1181 ../terminatorlib/prefseditor.py:1186
 msgid "New Layout"
-msgstr "Nowy styl"
+msgstr "Nowy układ"
 
 #. Label
 #: ../terminatorlib/searchbar.py:52
@@ -1595,11 +1592,11 @@ msgstr "Pozdziel w pioni_e"
 
 #: ../terminatorlib/terminal_popup_menu.py:134
 msgid "Open _Tab"
-msgstr "O_twórz zakładkę"
+msgstr "O_twórz kartę"
 
 #: ../terminatorlib/terminal_popup_menu.py:140
 msgid "Open _Debug Tab"
-msgstr "Otwórz zakładkę _debugowania"
+msgstr "Otwórz kartę _debugowania"
 
 #: ../terminatorlib/terminal_popup_menu.py:147
 msgid "_Close"
@@ -1643,7 +1640,7 @@ msgstr "Inne kodowania"
 
 #: ../terminatorlib/terminal.py:433
 msgid "N_ew group..."
-msgstr "Nowa grupa"
+msgstr "Nowa grupa..."
 
 #: ../terminatorlib/terminal.py:439
 msgid "_None"
@@ -1818,7 +1815,7 @@ msgstr "okno"
 #: ../terminatorlib/window.py:730
 #, python-format
 msgid "Tab %d"
-msgstr "Zakładka %d"
+msgstr "Karta %d"
 
 #~ msgid "default"
 #~ msgstr "domyślne"
@@ -1827,8 +1824,8 @@ msgstr "Zakładka %d"
 #~ msgstr "_Aktualizacja wpisów logowania podczas uruchamiania polecenia"
 
 #~ msgid ""
-#~ "<small><i><b>Note:</b> Terminal applications have these colors available to "
-#~ "them.</i></small>"
+#~ "<small><i><b>Note:</b> Terminal applications have these colors available "
+#~ "to them.</i></small>"
 #~ msgstr ""
 #~ "<small><i><b>Uwaga:</b> Poniższe kolory są dostępne dla programów "
 #~ "działających wewnątrz terminala.</i></small>"
@@ -1848,13 +1845,12 @@ msgstr "Zakładka %d"
 #~ "wszystkie terminale znajdujące się wewnątrz."
 
 #~ msgid ""
-#~ "<a "
-#~ "href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Homepage</a>"
-#~ "\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+#~ "\">Homepage</a>\n"
 #~ "<a href=\"http://gnometerminator.blogspot.com/\">Blog / News</a>\n"
 #~ "<a href=\"https://launchpad.net/terminator\">Development</a>"
 #~ msgstr ""
-#~ "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html\">Strona "
-#~ "domowa</a>\n"
+#~ "<a href=\"http://gnometerminator.blogspot.com/p/introduction.html"
+#~ "\">Strona domowa</a>\n"
 #~ "<a href=\"http://gnometerminator.blogspot.com/\">Blog / Wiadomości</a>\n"
 #~ "<a href=\"https://launchpad.net/terminator\">Development</a>"
