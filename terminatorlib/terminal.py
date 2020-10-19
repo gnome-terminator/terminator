@@ -1757,7 +1757,7 @@ class Terminal(Gtk.VBox):
         if rv:
             alloc.x, alloc.y = rv
         return alloc
-    
+
     # There now begins a great list of keyboard event handlers
     def key_zoom_in(self):
         self.zoom_in()
@@ -1773,7 +1773,7 @@ class Terminal(Gtk.VBox):
 
     def key_copy(self):
         self.vte.copy_clipboard()
-        if self.config['smart_copy']:
+        if self.config['clear_select_on_copy']:
             self.vte.unselect_all()
 
     def key_paste(self):
