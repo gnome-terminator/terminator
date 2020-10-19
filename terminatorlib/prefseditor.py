@@ -824,6 +824,11 @@ class PrefsEditor:
         self.config['smart_copy'] = widget.get_active()
         self.config.save()
 
+    def on_clear_select_on_copy_toggled(self,widget):
+        """Clear selection on smart copy"""
+        self.config['clear_select_on_copy'] = widget.get_active()
+        self.config.save()
+
     def on_cursor_blink_toggled(self, widget):
         """Cursor blink setting changed"""
         self.config['cursor_blink'] = widget.get_active()

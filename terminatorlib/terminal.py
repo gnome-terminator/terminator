@@ -1773,6 +1773,8 @@ class Terminal(Gtk.VBox):
 
     def key_copy(self):
         self.vte.copy_clipboard()
+        if self.config['clear_select_on_copy']:
+            self.vte.unselect_all()
 
     def key_paste(self):
         self.paste_clipboard()
