@@ -33,19 +33,19 @@ from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 
 class Overpaint(Vte.Terminal):
-    def dim(self,bool):
-        if bool:
-            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.5)
-        else:
-            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
+    def dim(self,b):
+        self.overpaint = b
         
     def do_draw(self,cr):
         Vte.Terminal.do_draw(self,cr)
-        # self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
-        cr.set_operator(cairo.Operator.OVER)
-        Gdk.cairo_set_source_rgba(cr,self.overpaint)
-        cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
-        cr.paint()
+        bgc = Vte.Terminal.get_color_background_for_draw(self)
+        if self.overpaint:
+            bgc.alpha = 0.5
+            cr.set_operator(cairo.Operator.OVER)
+            Gdk.cairo_set_source_rgba(cr,bgc)
+            cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
+            cr.paint()
+            
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -798,9 +798,11 @@ class Terminal(Gtk.VBox):
         if self.terminator.last_focused_term == self:
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
+            self.vte.dim(False)
         else:
-            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                                self.palette_inactive)
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+            self.vte.dim(True)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
         for profile in list(profiles.keys()):
