@@ -1334,10 +1334,10 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         self.vte.dim(True)
-        #self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-        #                    self.palette_inactive)
-        #self.set_cursor_color()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
