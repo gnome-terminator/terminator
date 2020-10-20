@@ -95,16 +95,30 @@ class Searchbar(Gtk.HBox):
         self.wrap.set_active(True)
         self.wrap.connect('toggled', self.wrap_toggled)
 
+        # Invert Search checkbox
+        self.invert_search = Gtk.CheckButton.new_with_label('Invert Search')
+        self.invert_search.show()
+        self.search_is_inverted = self.config.base.get_item('invert_search')
+        self.invert_search.set_active(self.search_is_inverted)
+        self.invert_search.connect('toggled', self.wrap_invert_search)
+
         self.pack_start(label, False, True, 0)
         self.pack_start(self.entry, True, True, 0)
         self.pack_start(self.prev, False, False, 0)
         self.pack_start(self.next, False, False, 0)
         self.pack_start(self.wrap, False, False, 0)
         self.pack_start(self.match_case, False, False, 0)
+        self.pack_start(self.invert_search, False, False, 0)
         self.pack_end(close, False, False, 0)
 
         self.hide()
         self.set_no_show_all(True)
+
+    def wrap_invert_search(self, toggled):
+        self.search_is_inverted = toggled.get_active()
+        self.invert_search.set_active(toggled.get_active())
+        self.config.base.set_item('invert_search', toggled.get_active())
+        self.config.save()
 
     def wrap_toggled(self, toggled):
         toggled_state = toggled.get_active()
@@ -188,7 +202,11 @@ class Searchbar(Gtk.HBox):
 
         self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
-        self.next_search(None)
+        # switch search direction based on the inversion checkbox
+        if not self.search_is_inverted:
+            self.next_search(None)
+        else:
+            self.prev_search(None)
 
     def next_search(self, widget):
         """Search forwards and jump to the next result, if any"""
