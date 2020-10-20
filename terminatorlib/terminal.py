@@ -33,19 +33,22 @@ from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 
 class Overpaint(Vte.Terminal):
+    def __init__(self):
+        Vte.Terminal.__init__(self)
+        self.config = Config()
+
     def dim(self,b):
         self.overpaint = b
-        
+
     def do_draw(self,cr):
-        Vte.Terminal.do_draw(self,cr)
         bgc = Vte.Terminal.get_color_background_for_draw(self)
+        Vte.Terminal.do_draw(self,cr)
         if self.overpaint:
-            bgc.alpha = 0.5
+            bgc.alpha = float(self.config['inactive_color_offset'])
             cr.set_operator(cairo.Operator.OVER)
             Gdk.cairo_set_source_rgba(cr,bgc)
             cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
             cr.paint()
-            
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
