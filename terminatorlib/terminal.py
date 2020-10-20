@@ -33,19 +33,22 @@ from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 
 class Overpaint(Vte.Terminal):
-    def dim(self,bool):
-        if bool:
-            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.5)
-        else:
-            self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
-        
+    def __init__(self):
+        Vte.Terminal.__init__(self)
+        self.config = Config()
+
+    def dim(self,b):
+        self.overpaint = b
+
     def do_draw(self,cr):
+        bgc = Vte.Terminal.get_color_background_for_draw(self)
         Vte.Terminal.do_draw(self,cr)
-        # self.overpaint = Gdk.RGBA(0.0,0.0,0.0,0.0)
-        cr.set_operator(cairo.Operator.OVER)
-        Gdk.cairo_set_source_rgba(cr,self.overpaint)
-        cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
-        cr.paint()
+        if self.overpaint:
+            bgc.alpha = float(self.config['inactive_color_offset'])
+            cr.set_operator(cairo.Operator.OVER)
+            Gdk.cairo_set_source_rgba(cr,bgc)
+            cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
+            cr.paint()
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -798,9 +801,11 @@ class Terminal(Gtk.VBox):
         if self.terminator.last_focused_term == self:
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
+            self.vte.dim(False)
         else:
-            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                                self.palette_inactive)
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+            self.vte.dim(True)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
         for profile in list(profiles.keys()):
@@ -1332,10 +1337,10 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         self.vte.dim(True)
-        #self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-        #                    self.palette_inactive)
-        #self.set_cursor_color()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
