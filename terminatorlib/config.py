@@ -124,6 +124,7 @@ DEFAULTS = {
             'clear_select_on_copy'  : False,
             'line_height'           : 1.0,
             'case_sensitive'        : True,
+            'invert_search'         : False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
