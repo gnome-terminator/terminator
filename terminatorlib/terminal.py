@@ -1510,7 +1510,7 @@ class Terminal(Gtk.VBox):
                                        self.cwd,
                                        args,
                                        envv,
-                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
                                        None,
                                        None,
                                        None)
