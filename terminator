@@ -68,7 +68,6 @@ if __name__ == '__main__':
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
     OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
-
     if OPTIONS.configjson:
         configjson = ConfigJson()
         layoutname = configjson.extend_config(OPTIONS.configjson)
@@ -104,6 +103,7 @@ if __name__ == '__main__':
                 # (the -x argument for example)
                 if OPTIONS.working_directory is None:
                     OPTIONS.working_directory = ORIGCWD
+                    dbus_options['working_directory'] = ORIGCWD
                 optionslist = dbus.Dictionary(dbus_options, signature='ss')
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
