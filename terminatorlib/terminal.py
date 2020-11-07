@@ -1151,16 +1151,19 @@ class Terminal(Gtk.VBox):
             info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
+        ### FIXME this code is a mess that I don't quite understand how it works.
         dbg('drag data received of type: %s' % (selection_data.get_data_type()))
+        # print(selection_data.get_urls())
         if Gtk.targets_include_text(drag_context.list_targets()) or \
            Gtk.targets_include_uri(drag_context.list_targets()):
             # copy text with no modification yet to destination
             txt = selection_data.get_data()
-
             # https://bugs.launchpad.net/terminator/+bug/1518705
             if info == self.TARGET_TYPE_MOZ:
                  txt = txt.decode('utf-16')
-                 txt = txt.split('\n')[0]
+                 ### KDE ends it's text/x-moz-url text with CRLF, :shrug:
+                 if not txt.endswith('\r\n'):
+                   txt = txt.split('\n')[0]
             else:
                  txt = txt.decode()
 
@@ -1175,11 +1178,12 @@ class Terminal(Gtk.VBox):
                     # iterate over all elements except the last one.
                     str=''
                     for fname in txt_lines[:-1]:
-                        dbg('drag data fname: %s' % fname)
                         fname = "'%s'" % urlunquote(fname[7:].replace("'",
                                                                     '\'\\\'\''))
                         str += fname + ' '
                     txt=str
+            ### Never send a CRLF to the terminal from here
+            txt = txt.rstrip('\r\n')
             for term in self.terminator.get_target_terms(self):
                 term.feed(txt)
             return
