@@ -7,6 +7,15 @@ system rather than using setup.py yourself.
 Packages are known to be available under the name "terminator" under a
 lot of distributions, see below for a list.
 
+I also maintain a PPA for Ubuntu 20.04 and up that has the latest release
+If you're running ubuntu 20.04 or later, you can run 
+
+```
+sudo add-apt-repository ppa:mattrose/terminator
+sudo apt-get update
+sudo apt install terminator
+```
+
 ## Source Install
 
 If you can't use distribution packages, make sure you satisfy Terminator's
