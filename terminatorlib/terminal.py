@@ -299,7 +299,7 @@ class Terminal(Gtk.VBox):
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
         hostchars = "-A-Za-z0-9:\[\]"
         pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
-        schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
+        schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:|ssh:)"
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
