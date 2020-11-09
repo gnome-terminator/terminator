@@ -24,8 +24,7 @@ VERSION = '0.1.0'
 ### Test for proper signal
 try:
     Vte.Terminal().connect('notification-received',lambda *args: None,None)
-    # AVAILABLE = ['CommandNotify']
-    AVAILABLE = []
+    AVAILABLE = ['CommandNotify']
 except TypeError as e:
     AVAILABLE = []
     pass
