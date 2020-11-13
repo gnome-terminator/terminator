@@ -157,6 +157,7 @@ class Terminal(Gtk.VBox):
         # self.vte = Vte.Terminal()
         self.vte = Overpaint()
         self.vte.dim(False)
+        self.queue_draw()
         self.background_image = None
         if self.config['background_image'] != '':
             self.vte.set_clear_background(False)
@@ -802,10 +803,12 @@ class Terminal(Gtk.VBox):
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
             self.vte.dim(False)
+            self.queue_draw()
         else:
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
             self.vte.dim(True)
+            self.queue_draw()
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
         for profile in list(profiles.keys()):
@@ -1321,9 +1324,10 @@ class Terminal(Gtk.VBox):
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
         self.vte.dim(False)
-        #self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-        #                    self.palette_active)
-        #self.set_cursor_color()
+        self.queue_draw()
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
@@ -1341,6 +1345,7 @@ class Terminal(Gtk.VBox):
                             self.palette_active)
         self.set_cursor_color()
         self.vte.dim(True)
+        self.queue_draw()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
