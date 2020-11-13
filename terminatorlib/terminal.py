@@ -154,7 +154,6 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        # self.vte = Vte.Terminal()
         self.vte = Overpaint()
         self.vte.dim(False)
         self.queue_draw()
