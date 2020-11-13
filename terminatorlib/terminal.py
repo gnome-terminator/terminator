@@ -754,59 +754,21 @@ class Terminal(Gtk.VBox):
             self.bgcolor.alpha = 1
 
         factor = self.config['inactive_color_offset']
-        if factor > 1.0:
-          factor = 1.0
-        self.fgcolor_inactive = self.fgcolor_active.copy()
-        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
-                                                      getattr(self.fgcolor_inactive, "green"),
-                                                      getattr(self.fgcolor_inactive, "blue")))
-
-        for bit in ['red', 'green', 'blue']:
-            setattr(self.fgcolor_inactive, bit,
-                    getattr(self.fgcolor_inactive, bit) * factor)
-
-        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
-                                                      getattr(self.fgcolor_inactive, "green"),
-                                                      getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
+
         for color in colors:
             if color:
                 newcolor = Gdk.RGBA()
                 newcolor.parse(color)
                 self.palette_active.append(newcolor)
-        if len(colors) == 16:
-            # RGB values for indices 16..255 copied from vte source in order to dim them
-            shades = [0, 95, 135, 175, 215, 255]
-            for r in range(0, 6):
-                for g in range(0, 6):
-                    for b in range(0, 6):
-                        newcolor = Gdk.RGBA()
-                        setattr(newcolor, "red",   shades[r] / 255.0)
-                        setattr(newcolor, "green", shades[g] / 255.0)
-                        setattr(newcolor, "blue",  shades[b] / 255.0)
-                        self.palette_active.append(newcolor)
-            for y in range(8, 248, 10):
-                newcolor = Gdk.RGBA()
-                setattr(newcolor, "red",   y / 255.0)
-                setattr(newcolor, "green", y / 255.0)
-                setattr(newcolor, "blue",  y / 255.0)
-                self.palette_active.append(newcolor)
-        self.palette_inactive = []
-        for color in self.palette_active:
-            newcolor = Gdk.RGBA()
-            for bit in ['red', 'green', 'blue']:
-                setattr(newcolor, bit,
-                        getattr(color, bit) * factor)
-            self.palette_inactive.append(newcolor)
-        if self.terminator.last_focused_term == self:
-            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
+
+        if self.terminator.last_focused_term == self:
             self.vte.dim(False)
             self.queue_draw()
         else:
-            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                                self.palette_active)
             self.vte.dim(True)
             self.queue_draw()
         profiles = self.config.base.profiles
