@@ -121,10 +121,8 @@ class Terminal(Gtk.VBox):
     directory = None
 
     fgcolor_active = None
-    fgcolor_inactive = None
     bgcolor = None
     palette_active = None
-    palette_inactive = None
 
     composite_support = None
 
@@ -1282,9 +1280,6 @@ class Terminal(Gtk.VBox):
         """Inform other parts of the application when focus is received"""
         self.vte.dim(False)
         self.queue_draw()
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
-        self.set_cursor_color()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
@@ -1298,9 +1293,6 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
-        self.set_cursor_color()
         self.vte.dim(True)
         self.queue_draw()
         self.emit('focus-out')
