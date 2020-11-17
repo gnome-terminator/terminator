@@ -1198,8 +1198,7 @@ class Terminal(Gtk.VBox):
             ### Never send a CRLF to the terminal from here
             txt = txt.rstrip('\r\n')
             for term in self.terminator.get_target_terms(self):
-                txt = txt.encode(self.vte.get_encoding())
-                term.feed(txt)
+                term.feed(txt.encode())
             return
 
         widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
