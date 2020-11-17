@@ -1198,7 +1198,7 @@ class Terminal(Gtk.VBox):
             ### Never send a CRLF to the terminal from here
             txt = txt.rstrip('\r\n')
             for term in self.terminator.get_target_terms(self):
-                term.feed(txt)
+                term.feed(txt.encode())
             return
 
         widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
@@ -1596,7 +1596,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child_binary(text.encode(self.vte.get_encoding()))
+        self.vte.feed_child(text)
 
     def zoom_in(self):
         """Increase the font size"""

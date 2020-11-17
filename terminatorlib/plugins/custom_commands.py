@@ -126,7 +126,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       if command[-1] != '\n':
         command = command + '\n'
       for terminal in data['terminals']:
-        terminal.vte.feed_child_binary(command.encode(terminal.vte.get_encoding()))
+        terminal.vte.feed_child(command.encode())
 
     def configure(self, widget, data = None):
       ui = {}
