@@ -42,7 +42,13 @@ class Overpaint(Vte.Terminal):
         self.overpaint = b
 
     def do_draw(self,cr):
-        bgc = Vte.Terminal.get_color_background_for_draw(self)
+        ### get_color_background_for_draw is not available in older 
+        ### versions of vte
+        try:
+            bgc = Vte.Terminal.get_color_background_for_draw(self)
+        except AttributeError as e:
+            bgc = Gdk.RGBA()
+            bgc.parse(self.config['background_color'])
         Vte.Terminal.do_draw(self,cr)
         if self.overpaint:
             bgc.alpha = self.dim_l
