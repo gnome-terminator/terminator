@@ -173,7 +173,7 @@ class URLHandler(Plugin):
 
     def unload(self):
         """Handle being removed"""
-        if not self.match:
+        if not self.handler_name:
             err('unload called without self.handler_name being set')
             return
         terminator = Terminator()
