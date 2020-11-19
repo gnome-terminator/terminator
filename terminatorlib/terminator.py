@@ -439,7 +439,9 @@ class Terminator(Borg):
             else:
                 bgcolor = Gdk.RGBA()
                 bgcolor = profiles[profile]['background_color']
-            if profiles[profile]['background_type'] == 'transparent':
+            if profiles[profile]['background_type'] == 'image':
+                backgound_image = profiles[profile]['background_image']
+            if profiles[profile]['background_type'] == 'transparent' or profiles[profile]['background_type'] == 'image':
                 bgalpha = profiles[profile]['background_darkness']
             else:
                 bgalpha = "1"

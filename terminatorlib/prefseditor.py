@@ -633,14 +633,14 @@ class PrefsEditor:
             guiget('solid_radiobutton').set_active(True)
         elif self.config['background_type'] == 'transparent':
             guiget('transparent_radiobutton').set_active(True)
+        elif self.config['background_type'] == 'image':
+            guiget('image_radiobutton').set_active(True)
         self.update_background_tab()
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
         widget = guiget('background_image_file')
         widget.set_filename(self.config['background_image'])
-        widget = guiget('background_image_shading_scale')
-        widget.set_value(float(self.config['background_alpha']))
    
         ## Scrolling tab
         # Scrollbar position
@@ -943,10 +943,6 @@ class PrefsEditor:
     def on_background_image_file_set(self,widget):
         print(widget.get_filename())
         self.config['background_image'] = widget.get_filename()
-        self.config.save()
-
-    def on_background_image_shading_scale_value_changed(self,widget):
-        self.config['background_alpha'] = widget.get_value()
         self.config.save()
 
     def on_darken_background_scale_value_changed(self, widget):
@@ -1507,12 +1503,20 @@ class PrefsEditor:
         backtype = None
         imagewidget = guiget('image_radiobutton')
         transwidget = guiget('transparent_radiobutton')
-        if transwidget.get_active() == True:
+
+        if imagewidget.get_active() == True:
+            backtype = 'image'
+        elif transwidget.get_active() == True:
             backtype = 'transparent'
         else:
             backtype = 'solid'
         self.config['background_type'] = backtype
         self.config.save()
+
+        if backtype == 'image':
+                guiget('background_image_file').set_sensitive(True)
+        else:
+                guiget('background_image_file').set_sensitive(False)
 
         if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)
