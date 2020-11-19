@@ -36,6 +36,7 @@ class Overpaint(Vte.Terminal):
     def __init__(self):
         Vte.Terminal.__init__(self)
         self.config = Config()
+        ### inactive_color_offset is the opposite of alpha level
         self.dim_p = float(self.config['inactive_color_offset'])
         self.dim_l = round(1.0 - self.dim_p,3) 
     def dim(self,b):
@@ -158,15 +159,16 @@ class Terminal(Gtk.VBox):
         self.queue_draw()
         self.background_image = None
         if self.config['background_image'] != '':
-            self.vte.set_clear_background(False)
-            self.vte.connect("draw",self.background_draw)
-
             try: 
                 self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
-            except Exception:
-                pass
+                self.vte.set_clear_background(False)
+                self.vte.connect("draw",self.background_draw)
+            except Exception as e:
+                self.background_image = None
+                self.vte.set_clear_background(True)
+                err('error loading background image: %s' % e)
 
-        self.background_alpha = self.config['background_alpha']
+        self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -746,7 +748,7 @@ class Terminal(Gtk.VBox):
             self.bgcolor = Gdk.RGBA()
             self.bgcolor.parse(self.config['background_color'])
 
-        if self.config['background_type'] == 'transparent':
+        if self.config['background_type'] == 'transparent' or self.config['background_type'] == 'image':
             self.bgcolor.alpha = self.config['background_darkness']
         else:
             self.bgcolor.alpha = 1
@@ -1114,10 +1116,10 @@ class Terminal(Gtk.VBox):
         widget._draw_data = None
 
     def background_draw(self, widget, cr):
-        if not self.background_image:
+        if not self.config['background_type'] == 'image' or not self.background_image:
                 return(False)
-        over = self.bgcolor
-        over.alpha = self.background_alpha
+        #if not self.background_image:
+        #        return(False)
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
@@ -1125,7 +1127,7 @@ class Terminal(Gtk.VBox):
         cr.scale(xratio,yratio)
         Gdk.cairo_set_source_pixbuf(cr, self.background_image, 0, 0)
         cr.paint()
-        Gdk.cairo_set_source_rgba(cr,over)
+        Gdk.cairo_set_source_rgba(cr,self.bgcolor)
         cr.paint()
         cr.restore()
 
