@@ -185,6 +185,15 @@ def widget_pixbuf(widget, maxsize=None):
     
     return(scaledpixbuf)
 
+def get_system_config_dir():
+    system_config_dir = '/etc/xdg'
+    if 'XDG_CONFIG_DIRS' in os.environ.keys():
+        for sysconfdir in os.environ['XDG_CONFIG_DIRS'].split(":"):
+                if os.path.isdir(sysconfdir):
+                    system_config_dir = sysconfdir
+                    break
+    return(os.path.join(system_config_dir,'terminator'))
+
 def get_config_dir():
     """Expand all the messy nonsense for finding where ~/.config/terminator
     really is"""
