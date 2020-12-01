@@ -108,6 +108,9 @@ if __name__ == '__main__':
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
                     ipc.new_tab_cmdline(optionslist)
+                elif OPTIONS.unhide:
+                    print('requesting to unhide windows')
+                    ipc.unhide_cmdline(optionslist)
                 else:
                     dbg('Requesting a new window')
                     ipc.new_window_cmdline(optionslist)

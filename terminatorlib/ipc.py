@@ -86,6 +86,13 @@ class DBusService(Borg, dbus.service.Object):
         window = self.terminator.get_windows()[0]
         window.tab_new()
 
+    @dbus.service.method(BUS_NAME, in_signature='a{ss}')
+    def unhide_cmdline(self,options=dbus.Dictionary):
+        dbg('unhide_cmdline')
+        for window in self.terminator.get_windows():
+            if not window.get_property('visible'):
+                window.on_hide_window()
+
     @dbus.service.method(BUS_NAME)
     def new_window(self):
         """Create a new Window"""
@@ -215,6 +222,10 @@ def new_window_cmdline(session, options):
 def new_tab_cmdline(session, options):
     """Call the dbus method to open a new tab in the first window"""
     session.new_tab_cmdline(options)
+
+@with_proxy
+def unhide_cmdline(session,options):
+    session.unhide_cmdline(options)
 
 @with_proxy
 def new_window(session, options):
