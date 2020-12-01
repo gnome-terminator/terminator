@@ -606,7 +606,7 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        if self.command_line_options.config:
+        if self.command_line_options and self.command_line_options.config:
             filename = self.command_line_options.config
         else:
             filename = os.path.join(get_config_dir(), 'config')
