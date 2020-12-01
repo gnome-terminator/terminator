@@ -76,7 +76,7 @@ from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
 from .borg import Borg
-from .util import dbg, err, DEBUG, get_config_dir, dict_diff
+from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff
 
 from gi.repository import Gio
 
@@ -606,13 +606,12 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        if self.command_line_options:
-            if not self.command_line_options.config:
-                self.command_line_options.config = os.path.join(get_config_dir(), 'config')
+        if self.command_line_options.config:
             filename = self.command_line_options.config
         else:
             filename = os.path.join(get_config_dir(), 'config')
-
+            if not os.path.exists(filename):
+                filename = os.path.join(get_system_config_dir(), 'config')
         dbg('looking for config file: %s' % filename)
         try:
             configfile = open(filename, 'r')
@@ -730,14 +729,18 @@ class ConfigBase(Borg):
             os.makedirs(config_dir)
 
         try:
-            if not os.path.isfile(self.command_line_options.config):
-                open(self.command_line_options.config, 'a').close()
+            if self.command_line_options.config:
+                filename = self.command_line_options.config
+            else: 
+                filename = os.path.join(config_dir,'config')
 
-            backup_file = self.command_line_options.config + '~'
+            if not os.path.isfile(filename):
+                open(filename, 'a').close()
 
-            shutil.copy2(self.command_line_options.config, backup_file)
+            backup_file = filename + '~'
+            shutil.copy2(filename, backup_file)
 
-            with open(self.command_line_options.config, 'wb') as fh:
+            with open(filename, 'wb') as fh:
                 parser.write(fh)
 
             os.remove(backup_file)
