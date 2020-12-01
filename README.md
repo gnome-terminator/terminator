@@ -21,7 +21,7 @@ You can find the project on https://github.com/gnome-terminator/terminator
 
 ## Installing
 
-Terminator is available for most (if not all) Linux distributions from the distribution's repository of binary packages.  It is also available on FreeBSD.   Please search your repository for `terminator`  If you want to build from source, or want to run the bleeding-edge master version, you can follow the instructions in [INSTALL.md](https://github.com/gnome-terminator/terminator/blob/master/INSTALL.md)
+Terminator is available for most (if not all) Linux distributions from the distribution's repository of binary packages.  It is also available on FreeBSD.   Please search your repository for `terminator`  If you want to find information on how to enable an updated package repository for your OS, build from source, or want to run the bleeding-edge master version, you can follow the instructions in [INSTALL.md](https://github.com/gnome-terminator/terminator/blob/master/INSTALL.md)
 
 
 #### Quick Start:
