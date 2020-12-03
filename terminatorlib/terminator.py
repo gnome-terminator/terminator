@@ -633,4 +633,15 @@ class Terminator(Borg):
 
         return(layout)
 
+    def zoom_in_all(self):
+        for term in self.terminals:
+            term.zoom_in()
+    
+    def zoom_out_all(self):
+        for term in self.terminals:
+            term.zoom_out()
+    
+    def zoom_orig_all(self):
+        for term in self.terminals:
+            term.zoom_orig()
 # vim: set expandtab ts=4 sw=4:

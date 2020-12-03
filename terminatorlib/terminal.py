@@ -1780,6 +1780,15 @@ class Terminal(Gtk.VBox):
     # a function of Terminator. It would be cleaner if TerminatorTerm
     # has absolutely no reference to Terminator.
     # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+    def key_zoom_in_all(self):
+        self.terminator.zoom_in_all()
+
+    def key_zoom_out_all(self):
+        self.terminator.zoom_out_all()
+        
+    def key_zoom_normal_all(self):
+        self.terminator.zoom_orig_all()
+
     def key_cycle_next(self):
         self.key_go_next()
 
