@@ -74,7 +74,10 @@ import os
 import shutil
 from copy import copy
 from configobj import ConfigObj, flatten_errors
-from validate import Validator
+try:
+    from validate import Validator
+except ModuleNotFoundError:
+    from configobj.validate import Validator
 from .borg import Borg
 from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff
 
