@@ -66,7 +66,6 @@ Any help is welcome with the Terminator project.
 * [Open issues for bugs or enhancements](https://github.com/gnome-terminator/terminator/issues/new)
 * [Join our chat room on gitter.im for general questions](https://gitter.im/gnome-terminator/community)
 *
-
 You can find old bugs and questions in the launchpad project, but please don't post anything new there.
 
 * https://answers.launchpad.net/terminator
