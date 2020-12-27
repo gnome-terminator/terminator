@@ -1523,9 +1523,7 @@ class Terminal(Gtk.VBox):
         url = urlmatch[0]
         match = urlmatch[1]
 
-        if match == self.matches['email'] and url[0:7] != 'mailto:':
-            url = 'mailto:' + url
-        elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+        if match == self.matches['addr_only'] and url[0:3] == 'ftp':
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
