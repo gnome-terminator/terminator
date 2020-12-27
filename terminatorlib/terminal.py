@@ -126,7 +126,10 @@ class Terminal(Gtk.VBox):
     custom_encoding = None
     custom_font_size = None
     layout_command = None
+    relaunch_command = None
     directory = None
+
+    is_held_open = False
 
     fgcolor_active = None
     bgcolor = None
@@ -676,6 +679,8 @@ class Terminal(Gtk.VBox):
 
         if self.config['exit_action'] == 'restart':
             self.cnxids.new(self.vte, 'child-exited', self.spawn_child, True)
+        elif self.config['exit_action'] == 'hold':
+            self.cnxids.new(self.vte, 'child-exited', self.held_open, True)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
@@ -1429,6 +1434,10 @@ class Terminal(Gtk.VBox):
         if cwd is not None:
             self.cwd = cwd
 
+    def held_open(self, widget=None, respawn=False, debugserver=False):
+        self.is_held_open = True
+        self.titlebar.update()
+
     def spawn_child(self, widget=None, respawn=False, debugserver=False):
         args = []
         shell = None
@@ -1441,13 +1450,19 @@ class Terminal(Gtk.VBox):
         if respawn == False:
             self.vte.grab_focus()
 
+        self.is_held_open = False
+
         options = self.config.options_get()
         if options and options.command:
             command = options.command
+            self.relaunch_command = command
             options.command = None
         elif options and options.execute:
             command = options.execute
+            self.relaunch_command = command
             options.execute = None
+        elif self.relaunch_command:
+            command = self.relaunch_command
         elif self.config['use_custom_command']:
             command = self.config['custom_command']
         elif self.layout_command:
