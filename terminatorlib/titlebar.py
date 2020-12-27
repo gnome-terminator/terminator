@@ -104,10 +104,11 @@ class Titlebar(Gtk.EventBox):
     def update(self, other=None):
         """Update our contents"""
         default_bg = False
-        if self.config['title_hide_sizetext']:
-            self.label.set_text("%s" % self.termtext)
-        else:
-            self.label.set_text("%s %s" % (self.termtext, self.sizetext))
+
+        temp_sizetext_str = ''
+        if not self.config['title_hide_sizetext']:
+            temp_sizetext_str = " %s" % (self.sizetext)
+        self.label.set_text("%s%s" % (self.termtext, temp_sizetext_str))
 
         if (not self.config['title_use_system_font']) and self.config['title_font']:
             title_font = Pango.FontDescription(self.config['title_font'])
