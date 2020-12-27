@@ -376,7 +376,7 @@ class Notebook(Container, Gtk.Notebook):
             err('Notebook::closetab: child is unknown type %s' % child)
             return
 
-    def resizeterm(self, widget, keyname, fast = False):
+    def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
 

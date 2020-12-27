@@ -7,7 +7,11 @@ assignees: ''
 
 ---
 
-Please fill out as many of these fields as you can
+Please try moving the terminator config out of the way to see if that solves the
+problem.  If it does, and you still want to open the bug, then please attach the
+config file to the issue
+
+Fill out as many of these fields as you can
 
 **Describe the bug**
 A clear and concise description of what the bug is.

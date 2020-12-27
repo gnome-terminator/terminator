@@ -30,7 +30,7 @@ class Paned(Container):
         self.signals.append({'name': 'resize-term', 
                              'flags': GObject.SignalFlags.RUN_LAST,
                              'return_type': None, 
-                             'param_types': (GObject.TYPE_STRING, GObject.TYPE_BOOLEAN)})
+                             'param_types': (GObject.TYPE_STRING,)})
 
 
     # pylint: disable-msg=W0613
@@ -325,19 +325,16 @@ class Paned(Container):
             parent.replace(self, child)
             del(self)
 
-    def resizeterm(self, widget, keyname, fast = False):
+    def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         if keyname in ['up', 'down'] and isinstance(self, Gtk.VPaned):
             # This is a key we can handle
             position = self.get_position()
 
-            if not fast:
-                if self.maker.isinstance(widget, 'Terminal'):
-                    fontheight = widget.vte.get_char_height()
-                else:
-                    fontheight = 10
+            if self.maker.isinstance(widget, 'Terminal'):
+                fontheight = widget.vte.get_char_height()
             else:
-                fontheight = self.config['fast_resize_step']
+                fontheight = 10
 
             if keyname == 'up':
                 self.set_position(position - fontheight)
@@ -347,13 +344,10 @@ class Paned(Container):
             # This is a key we can handle
             position = self.get_position()
 
-            if not fast:
-                if self.maker.isinstance(widget, 'Terminal'):
-                    fontwidth = widget.vte.get_char_width()
-                else:
-                    fontwidth = 10
+            if self.maker.isinstance(widget, 'Terminal'):
+                fontwidth = widget.vte.get_char_width()
             else:
-                fontwidth = self.config['fast_resize_step']
+                fontwidth = 10
 
             if keyname == 'left':
                 self.set_position(position - fontwidth)
@@ -361,7 +355,7 @@ class Paned(Container):
                 self.set_position(position + fontwidth)
         else:
             # This is not a key we can handle
-            self.emit('resize-term', keyname, fast)
+            self.emit('resize-term', keyname)
 
     def create_layout(self, layout):
         """Apply layout configuration"""

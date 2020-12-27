@@ -87,7 +87,7 @@ class Terminal(Gtk.VBox):
         'maximise': (GObject.SignalFlags.RUN_LAST, None, ()),
         'unzoom': (GObject.SignalFlags.RUN_LAST, None, ()),
         'resize-term': (GObject.SignalFlags.RUN_LAST, None,
-            (GObject.TYPE_STRING, GObject.TYPE_BOOLEAN)),
+            (GObject.TYPE_STRING,)),
         'navigate': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
         'tab-change': (GObject.SignalFlags.RUN_LAST, None,
@@ -1820,28 +1820,16 @@ class Terminal(Gtk.VBox):
         self.close()
 
     def key_resize_up(self):
-        self.emit('resize-term', 'up', False)
+        self.emit('resize-term', 'up')
 
     def key_resize_down(self):
-        self.emit('resize-term', 'down', False)
+        self.emit('resize-term', 'down')
 
     def key_resize_left(self):
-        self.emit('resize-term', 'left', False)
+        self.emit('resize-term', 'left')
 
     def key_resize_right(self):
-        self.emit('resize-term', 'right', False)
-
-    def key_resize_up_fast(self):
-        self.emit('resize-term', 'up', True)
-
-    def key_resize_down_fast(self):
-        self.emit('resize-term', 'down', True)
-
-    def key_resize_left_fast(self):
-        self.emit('resize-term', 'left', True)
-
-    def key_resize_right_fast(self):
-        self.emit('resize-term', 'right', True)
+        self.emit('resize-term', 'right')
 
     def key_move_tab_right(self):
         self.emit('move-tab', 'right')
