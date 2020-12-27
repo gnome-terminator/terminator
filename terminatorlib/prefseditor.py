@@ -482,9 +482,6 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
-        # Rewrap on resize
-        widget = guiget('rewrap_on_resize_checkbutton')
-        widget.set_active(self.config['rewrap_on_resize'])
         # Word chars
         widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
@@ -800,11 +797,6 @@ class PrefsEditor:
     def on_copy_on_selection_toggled(self, widget):
         """Copy on selection setting changed"""
         self.config['copy_on_selection'] = widget.get_active()
-        self.config.save()
-
-    def on_rewrap_on_resize_toggled(self, widget):
-        """Rewrap on resize setting changed"""
-        self.config['rewrap_on_resize'] = widget.get_active()
         self.config.save()
 
     def on_putty_paste_style_toggled(self, widget):

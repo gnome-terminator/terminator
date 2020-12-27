@@ -827,9 +827,6 @@ class Terminal(Gtk.VBox):
             elif self.config['scrollbar_position'] == 'right':
                 self.terminalbox.reorder_child(self.vte, 0)
 
-        
-        self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
-
         self.titlebar.update()
         self.vte.queue_draw()
 
