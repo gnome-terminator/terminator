@@ -134,10 +134,6 @@ class PrefsEditor:
                         'resize_down'      : _('Resize the terminal down'),
                         'resize_left'      : _('Resize the terminal left'),
                         'resize_right'     : _('Resize the terminal right'),
-                        'resize_up_fast'   : _('Resize the terminal up (faster)'),
-                        'resize_down_fast' : _('Resize the terminal down (faster)'),
-                        'resize_left_fast' : _('Resize the terminal left (faster)'),
-                        'resize_right_fast': _('Resize the terminal right (faster)'),
                         'move_tab_right'   : _('Move the tab right'),
                         'move_tab_left'    : _('Move the tab left'),
                         'toggle_zoom'      : _('Maximize terminal'),
@@ -486,9 +482,6 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
-        # Rewrap on resize
-        widget = guiget('rewrap_on_resize_checkbutton')
-        widget.set_active(self.config['rewrap_on_resize'])
         # Word chars
         widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
@@ -804,11 +797,6 @@ class PrefsEditor:
     def on_copy_on_selection_toggled(self, widget):
         """Copy on selection setting changed"""
         self.config['copy_on_selection'] = widget.get_active()
-        self.config.save()
-
-    def on_rewrap_on_resize_toggled(self, widget):
-        """Rewrap on resize setting changed"""
-        self.config['rewrap_on_resize'] = widget.get_active()
         self.config.save()
 
     def on_putty_paste_style_toggled(self, widget):

@@ -38,7 +38,7 @@ class Overpaint(Vte.Terminal):
         self.config = Config()
         ### inactive_color_offset is the opposite of alpha level
         self.dim_p = float(self.config['inactive_color_offset'])
-        self.dim_l = round(1.0 - self.dim_p,3) 
+        self.dim_l = round(1.0 - self.dim_p,3)
     def dim(self,b):
         self.overpaint = b
 
@@ -87,7 +87,7 @@ class Terminal(Gtk.VBox):
         'maximise': (GObject.SignalFlags.RUN_LAST, None, ()),
         'unzoom': (GObject.SignalFlags.RUN_LAST, None, ()),
         'resize-term': (GObject.SignalFlags.RUN_LAST, None,
-            (GObject.TYPE_STRING, GObject.TYPE_BOOLEAN)),
+            (GObject.TYPE_STRING,)),
         'navigate': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
         'tab-change': (GObject.SignalFlags.RUN_LAST, None,
@@ -126,7 +126,10 @@ class Terminal(Gtk.VBox):
     custom_encoding = None
     custom_font_size = None
     layout_command = None
+    relaunch_command = None
     directory = None
+
+    is_held_open = False
 
     fgcolor_active = None
     bgcolor = None
@@ -294,8 +297,8 @@ class Terminal(Gtk.VBox):
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
-        terminalbox = Gtk.HBox()
-        self.scrollbar = Gtk.VScrollbar(self.vte.get_vadjustment())
+        terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
         self.scrollbar.set_no_show_all(True)
 
         terminalbox.pack_start(self.vte, True, True, 0)
@@ -676,6 +679,8 @@ class Terminal(Gtk.VBox):
 
         if self.config['exit_action'] == 'restart':
             self.cnxids.new(self.vte, 'child-exited', self.spawn_child, True)
+        elif self.config['exit_action'] == 'hold':
+            self.cnxids.new(self.vte, 'child-exited', self.held_open, True)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
@@ -826,9 +831,6 @@ class Terminal(Gtk.VBox):
                 self.terminalbox.reorder_child(self.scrollbar, 0)
             elif self.config['scrollbar_position'] == 'right':
                 self.terminalbox.reorder_child(self.vte, 0)
-
-        
-        self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
 
         self.titlebar.update()
         self.vte.queue_draw()
@@ -1429,6 +1431,10 @@ class Terminal(Gtk.VBox):
         if cwd is not None:
             self.cwd = cwd
 
+    def held_open(self, widget=None, respawn=False, debugserver=False):
+        self.is_held_open = True
+        self.titlebar.update()
+
     def spawn_child(self, widget=None, respawn=False, debugserver=False):
         args = []
         shell = None
@@ -1441,13 +1447,19 @@ class Terminal(Gtk.VBox):
         if respawn == False:
             self.vte.grab_focus()
 
+        self.is_held_open = False
+
         options = self.config.options_get()
         if options and options.command:
             command = options.command
+            self.relaunch_command = command
             options.command = None
         elif options and options.execute:
             command = options.execute
+            self.relaunch_command = command
             options.execute = None
+        elif self.relaunch_command:
+            command = self.relaunch_command
         elif self.config['use_custom_command']:
             command = self.config['custom_command']
         elif self.layout_command:
@@ -1523,9 +1535,7 @@ class Terminal(Gtk.VBox):
         url = urlmatch[0]
         match = urlmatch[1]
 
-        if match == self.matches['email'] and url[0:7] != 'mailto:':
-            url = 'mailto:' + url
-        elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+        if match == self.matches['addr_only'] and url[0:3] == 'ftp':
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
@@ -1820,28 +1830,16 @@ class Terminal(Gtk.VBox):
         self.close()
 
     def key_resize_up(self):
-        self.emit('resize-term', 'up', False)
+        self.emit('resize-term', 'up')
 
     def key_resize_down(self):
-        self.emit('resize-term', 'down', False)
+        self.emit('resize-term', 'down')
 
     def key_resize_left(self):
-        self.emit('resize-term', 'left', False)
+        self.emit('resize-term', 'left')
 
     def key_resize_right(self):
-        self.emit('resize-term', 'right', False)
-
-    def key_resize_up_fast(self):
-        self.emit('resize-term', 'up', True)
-
-    def key_resize_down_fast(self):
-        self.emit('resize-term', 'down', True)
-
-    def key_resize_left_fast(self):
-        self.emit('resize-term', 'left', True)
-
-    def key_resize_right_fast(self):
-        self.emit('resize-term', 'right', True)
+        self.emit('resize-term', 'right')
 
     def key_move_tab_right(self):
         self.emit('move-tab', 'right')
