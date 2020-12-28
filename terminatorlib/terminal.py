@@ -38,7 +38,7 @@ class Overpaint(Vte.Terminal):
         self.config = Config()
         ### inactive_color_offset is the opposite of alpha level
         self.dim_p = float(self.config['inactive_color_offset'])
-        self.dim_l = round(1.0 - self.dim_p,3) 
+        self.dim_l = round(1.0 - self.dim_p,3)
     def dim(self,b):
         self.overpaint = b
 
