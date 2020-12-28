@@ -297,8 +297,8 @@ class Terminal(Gtk.VBox):
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
-        terminalbox = Gtk.HBox()
-        self.scrollbar = Gtk.VScrollbar(self.vte.get_vadjustment())
+        terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
         self.scrollbar.set_no_show_all(True)
 
         terminalbox.pack_start(self.vte, True, True, 0)
