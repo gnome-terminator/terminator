@@ -237,7 +237,7 @@ class TerminalPopupMenu(object):
             err('TerminalPopupMenu::show: %s' % ex)
 
         menu.show_all()
-        menu.popup(None, None, None, None, button, time)
+        menu.popup_at_pointer(None)
 
         return(True)
 
