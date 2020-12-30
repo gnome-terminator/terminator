@@ -1395,6 +1395,7 @@ class PrefsEditor:
         if self.config.replace_layout(name, current_layout):
             treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
         self.config.save()
+        self.layouteditor.set_layout(name)
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
