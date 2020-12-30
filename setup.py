@@ -67,25 +67,29 @@ class BuildData(build):
 
       TOP_BUILDDIR='.'
       INTLTOOL_MERGE='intltool-merge'
-      desktop_in='data/terminator.desktop.in'
-      desktop_data='data/terminator.desktop'
+    desktop_in='data/terminator.desktop.in'
+    desktop_data='data/terminator.desktop'
+    rc = None
+    if not self.distribution.without_gettext:
       rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -d -u -c " + TOP_BUILDDIR +
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  desktop_in + " " + desktop_data)
-      if rc != 0:
-        # run the desktop_in through a command to strip the "_" characters
-        with open(desktop_in) as file_in, open(desktop_data, 'w') as file_data:
-          [file_data.write(line.lstrip('_')) for line in file_in]
+    if self.distribution.without_gettext or rc != 0:
+      # run the desktop_in through a command to strip the "_" characters
+      with open(desktop_in) as file_in, open(desktop_data, 'w') as file_data:
+        [file_data.write(line.lstrip('_')) for line in file_in]
 
-      appdata_in='data/terminator.appdata.xml.in'
-      appdata_data='data/terminator.metainfo.xml'
+    appdata_in='data/terminator.appdata.xml.in'
+    appdata_data='data/terminator.metainfo.xml'
+    rc = None
+    if not self.distribution.without_gettext:
       rc = os.system ("C_ALL=C " + INTLTOOL_MERGE + " -x -u -c " + TOP_BUILDDIR +
                  "/po/.intltool-merge-cache " + TOP_BUILDDIR + "/po " +
                  appdata_in + " " + appdata_data)
-      if rc != 0:
-        # run the appdata_in through a command to strip the "_" characters
-        with open(appdata_in) as file_in, open(appdata_data, 'w') as file_data:
-          [file_data.write(line.replace('<_','<').replace('</_','</')) for line in file_in]
+    if self.distribution.without_gettext or rc != 0:
+      # run the appdata_in through a command to strip the "_" characters
+      with open(appdata_in) as file_in, open(appdata_data, 'w') as file_data:
+        [file_data.write(line.replace('<_','<').replace('</_','</')) for line in file_in]
 
 class Uninstall(Command):
   description = "Attempt an uninstall from an install --record file"
