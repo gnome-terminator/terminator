@@ -54,6 +54,7 @@ class LayoutLauncher:
             icon = self.window.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
             self.window.set_icon(icon)
 
+        self.window.set_size_request(250, 300)
         self.builder.connect_signals(self)
         self.window.connect('destroy', self.on_destroy_event)
         self.window.show_all()
