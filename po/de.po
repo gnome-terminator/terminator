@@ -105,7 +105,7 @@ msgid ""
 "also supports)."
 msgstr ""
 "Ein Werkzeug für erfahrene Nutzer, um Terminals anzuordnen. Es ist von "
-"Anwendungen wie: gnome-multi-term, quadkonsole, usw. inspiriert, deren "
+"Anwendungen wie gnome-multi-term, quadkonsole, usw. inspiriert, deren "
 "Hauptfokus darin besteht, Terminals in Raster anzuordnen (die Verwendung von "
 "Reitern ist die meist verbreitete Methode, welche auch ebenfalls von "
 "Terminator unterstützt wird)."
@@ -1015,7 +1015,7 @@ msgstr "Allgemein"
 
 #: ../terminatorlib/preferences.glade.h:104
 msgid "_Run command as a login shell"
-msgstr "_Befehl als Login-Shell ausführen"
+msgstr "_Befehl in Login-Shell ausführen"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "Ru_n a custom command instead of my shell"
