@@ -711,7 +711,7 @@ msgstr "GNOME-Standard"
 
 #: ../terminatorlib/preferences.glade.h:27
 msgid "Click to focus"
-msgstr "Klicken zum fokussieren"
+msgstr "Klicken zum Fokussieren"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Follow mouse pointer"
@@ -915,7 +915,7 @@ msgstr "Titelleiste unten (Neustart erfordelich)"
 
 #: ../terminatorlib/preferences.glade.h:79
 msgid "Hide size from title"
-msgstr "Größe vom Titel verstecken"
+msgstr "Größe im Titel verstecken"
 
 #: ../terminatorlib/preferences.glade.h:80
 msgid "_Use the system font"
