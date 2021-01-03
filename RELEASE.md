@@ -26,6 +26,12 @@ dos2unix CHANGELOG.md
 
 Check and review CHANGELOG.md for the expected result.
 
+## Review and update translations
+
+Check for open pull-requests by Transifex or pull the files manually.
+
+See [TRANSLATION](TRANSLATION.md).
+
 ## Update AUTHORS
 
 This will make sure we mention everyone that has contributed to Terminator.
