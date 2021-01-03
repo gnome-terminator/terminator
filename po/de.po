@@ -203,7 +203,7 @@ msgstr "Diese Nachricht in Zukunft nicht mehr anzeigen"
 
 #: ../terminatorlib/encoding.py:34
 msgid "Current Locale"
-msgstr "Derzeitiger Standort"
+msgstr "Derzeitiger Einstellungssatz"
 
 #: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:48
 #: ../terminatorlib/encoding.py:67 ../terminatorlib/encoding.py:90
