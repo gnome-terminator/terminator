@@ -1,22 +1,26 @@
-# French translation for terminator
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
-# This file is distributed under the same license as the terminator package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Gnome Terminator <terminator@lazyfrosch.de>, 2020
+# Samuël Weber/GwendalD <samuel.weber@normalesup.org>, 2020
+# 
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: terminator\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-19 17:43-0400\n"
-"PO-Revision-Date: 2019-09-24 11:17+0000\n"
-"Last-Translator: Michel Smits <Unknown>\n"
-"Language-Team: French <fr@li.org>\n"
-"Language: fr\n"
+"POT-Creation-Date: 2021-01-03 19:12+0100\n"
+"PO-Revision-Date: 2020-04-22 08:11+0000\n"
+"Last-Translator: Samuël Weber/GwendalD <samuel.weber@normalesup.org>, 2020\n"
+"Language-Team: French (https://www.transifex.com/terminator/teams/109338/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2020-03-24 06:38+0000\n"
-"X-Generator: Launchpad (build 3a6db24bbe7280ec09bae73384238390fcc98ad3)\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Command         uuid req.    Description
 #: ../remotinator.py:39
@@ -83,7 +87,7 @@ msgstr ""
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:155
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -92,7 +96,7 @@ msgid "Multiple terminals in one window"
 msgstr "Permet d'avoir plusieurs terminaux en une seule fenêtre"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:156
 msgid "The robot future of terminals"
 msgstr "Le futur robot des terminaux."
 
@@ -100,14 +104,14 @@ msgstr "Le futur robot des terminaux."
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
-"Un outil pour utilisateur expérimenté pour l'organisation des terminaux. Il "
-"s'inspire des programmes tels que gnome-multi-term, quadkonsole, etc. dont "
-"le principal focus est l'organisation des terminaux en grille (sous forme "
-"d'onglets dans le mode par défaut le plus basique, mode que Terminator prend "
-"en charge)."
+"Un outil pour utilisateur et utilisatrice expérimenté⋅e d'organisation des "
+"terminaux. Il s'inspire des programmes tels que gnome-multi-term, "
+"quadkonsole, etc. dont le principal objectif est l'organisation des "
+"terminaux en grille (sous forme d'onglets dans le mode par défaut le plus "
+"basique, mode que Terminator prend en charge)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -116,11 +120,11 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
-"Le fonctionnement de Terminator est principalement basé sur celui de GNOME "
+"Le fonctionnement de Terminator est principalement fondé sur celui de GNOME "
 "Terminal. Nous lui ajoutons des fonctionnalités au fur et à mesure, mais "
 "nous voulons aussi les étendre dans différentes directions, avec des "
 "fonctionnalités utiles pour les administrateurs système et les autres "
-"utilisateurs"
+"utilisateurs."
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -350,7 +354,7 @@ msgid "Terminator Layout Launcher"
 msgstr "Lanceur de dispositions de Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:142
 msgid "Layout"
 msgstr "Disposition"
 
@@ -412,7 +416,7 @@ msgstr "Spécifier un fichier de configuration"
 
 #: ../terminatorlib/optionparse.py:78
 msgid "Specify a partial config json file"
-msgstr ""
+msgstr "Spécifier un fichier json de configuration partiel"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set the working directory"
@@ -461,6 +465,10 @@ msgstr ""
 msgid "If Terminator is already running, just open a new tab"
 msgstr "Si Terminator est déjà lancé, ouvrir seulement un nouvel onglet"
 
+#: ../terminatorlib/optionparse.py:106
+msgid "If Terminator is already running, just unhide all hidden windows"
+msgstr ""
+
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
 msgstr "Surveiller l'_activité"
@@ -485,7 +493,7 @@ msgstr "_Commandes personnalisées"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
-#: ../terminatorlib/terminal_popup_menu.py:188
+#: ../terminatorlib/terminal_popup_menu.py:194
 msgid "_Preferences"
 msgstr "_Préférences"
 
@@ -510,7 +518,7 @@ msgid "Enabled"
 msgstr "Activées"
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Name"
 msgstr "Nom"
 
@@ -819,7 +827,7 @@ msgstr "Réglage par défaut de la diffusion:"
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste:"
-msgstr ""
+msgstr "Coller à la façon PuTTY :"
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
@@ -839,127 +847,127 @@ msgstr "Gestionnaire d'URL personnalisée :"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "PRIMARY"
-msgstr ""
+msgstr "PRIMAIRE"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Clipboard"
-msgstr ""
+msgstr "Presse-papier"
 
 #: ../terminatorlib/preferences.glade.h:63
+msgid "Clear selection on copy"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:64
 msgid "<b>Appearance</b>"
 msgstr "<b>Apparence</b>"
 
-#: ../terminatorlib/preferences.glade.h:64
+#: ../terminatorlib/preferences.glade.h:65
 msgid "Window borders"
 msgstr "Bordures de fenêtre"
 
-#: ../terminatorlib/preferences.glade.h:65
+#: ../terminatorlib/preferences.glade.h:66
 msgid "Unfocused terminal font brightness:"
 msgstr "Luminosité de la police de caractère des terminaux non sélectionnés :"
 
-#: ../terminatorlib/preferences.glade.h:66
+#: ../terminatorlib/preferences.glade.h:67
 msgid "Terminal separator size:"
 msgstr "Taille du séparateur de terminal :"
 
-#: ../terminatorlib/preferences.glade.h:67
-msgid "Line Height:"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:68
+msgid "Line Height:"
+msgstr "Hauteur de ligne :"
+
+#: ../terminatorlib/preferences.glade.h:69
 msgid "Extra Styling (Theme dependant)"
 msgstr "Personnalisation extra (Suivant le thème)"
 
-#: ../terminatorlib/preferences.glade.h:69
+#: ../terminatorlib/preferences.glade.h:70
 msgid "Tab position:"
 msgstr "Position de l'onglet :"
 
-#: ../terminatorlib/preferences.glade.h:70
+#: ../terminatorlib/preferences.glade.h:71
 msgid "Tabs homogeneous"
 msgstr "Onglets homogènes"
 
-#: ../terminatorlib/preferences.glade.h:71
+#: ../terminatorlib/preferences.glade.h:72
 msgid "Tabs scroll buttons"
 msgstr "Ascenseur des onglets"
 
-#: ../terminatorlib/preferences.glade.h:72
+#: ../terminatorlib/preferences.glade.h:73
 msgid "<b>Terminal Titlebar</b>"
 msgstr "<b>Barre de titre du terminal</b>"
 
-#: ../terminatorlib/preferences.glade.h:73
+#: ../terminatorlib/preferences.glade.h:74
 msgid "Font color:"
 msgstr "Couleur de la police de caractères :"
 
-#: ../terminatorlib/preferences.glade.h:74
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Background:"
 msgstr "Arrière-plan :"
 
-#: ../terminatorlib/preferences.glade.h:75
+#: ../terminatorlib/preferences.glade.h:76
 msgid "Focused"
 msgstr "Actif"
 
-#: ../terminatorlib/preferences.glade.h:76
+#: ../terminatorlib/preferences.glade.h:77
 msgid "Inactive"
 msgstr "Inactif"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Receiving"
 msgstr "Réception"
 
-#: ../terminatorlib/preferences.glade.h:78
-msgid "Title bar at bottom (Require restart)"
-msgstr ""
-
 #: ../terminatorlib/preferences.glade.h:79
+msgid "Title bar at bottom (Require restart)"
+msgstr "Barre de titre en bas (nécessite un redémarrage)"
+
+#: ../terminatorlib/preferences.glade.h:80
 msgid "Hide size from title"
 msgstr "Masquer la taille du titre"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:81
 msgid "_Use the system font"
 msgstr "_Utiliser la police de caractères système"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:82
 msgid "_Font:"
 msgstr "_Police de caractères :"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Choose A Titlebar Font"
 msgstr "Choisissez une police de caractères pour la barre de titre"
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Global"
 msgstr "Global"
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Profile"
 msgstr "Profil"
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:86
 msgid "_Use the system fixed width font"
 msgstr "_Utiliser la police à chasse fixe du système"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Choose A Terminal Font"
 msgstr "Choisir la police de caractères du terminal"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:88
 msgid "_Allow bold text"
 msgstr "_Activer le texte en gras"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Show titlebar"
 msgstr "Afficher la barre de titre"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:90
 msgid "Copy on selection"
 msgstr "Copier la sélection"
 
-#: ../terminatorlib/preferences.glade.h:90
-msgid "Rewrap on resize"
-msgstr "Renvelopper lors du redimensionnement"
-
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Disable Ctrl+mousewheel zoom"
-msgstr ""
+msgstr "Désactiver le zoom Ctrl+roulette"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Select-by-_word characters:"
@@ -1059,7 +1067,7 @@ msgstr "P_alette de couleurs :"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "Show b_old text in bright colors"
-msgstr ""
+msgstr "Afficher les textes en gras en couleurs vives"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "Colors"
@@ -1074,192 +1082,169 @@ msgid "_Transparent background"
 msgstr "Arrière-plan _transparent"
 
 #: ../terminatorlib/preferences.glade.h:121
-msgid "S_hade transparent background:"
-msgstr "A_rrière-plan transparent ombré :"
+msgid "Background Image"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:122
-msgid "<small><i>None</i></small>"
-msgstr "<small><i>Aucun</i></small>"
+msgid "Background Image File:"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:123
-msgid "<small><i>Maximum</i></small>"
-msgstr "<small><i>Maximum</i></small>"
+msgid "Choose file"
+msgstr "Choisir un fichier"
 
 #: ../terminatorlib/preferences.glade.h:124
-msgid "Background Image:"
+msgid "S_hade background:"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:125
-msgid "Choose file"
-msgstr ""
+msgid "<small><i>None</i></small>"
+msgstr "<small><i>Aucun</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:126
-msgid "Shade Background Image:"
-msgstr ""
+msgid "<small><i>Maximum</i></small>"
+msgstr "<small><i>Maximum</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:127
-msgid "Transparent "
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:128
-msgid "Opaque"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:129
 msgid "Background"
 msgstr "Arrière-plan"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:128
 msgid "_Scrollbar is:"
 msgstr "La _barre de défilement est :"
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:129
 msgid "Scroll on _output"
 msgstr "Défilement sur la _sortie"
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:130
 msgid "Scroll on _keystroke"
 msgstr "Défilement sur _pression d'une touche"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:131
 msgid "Infinite Scrollback"
 msgstr "Défilement infini"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:132
 msgid "Scroll_back:"
 msgstr "Défilement récursif :"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:133
 msgid "lines"
 msgstr "lignes"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:134
 msgid "Scrolling"
 msgstr "Défilement"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:135
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Note :</b> ces options peuvent gêner le fonctionnement de "
-"certaines applications. Elles sont seulement là pour vous permettre de faire "
-"fonctionner certaines applications et systèmes d'exploitation qui attendent "
-"un comportement du terminal différent.</i></small>"
+"certaines applications. Elles sont seulement là pour vous permettre de faire"
+" fonctionner certaines applications et systèmes d'exploitation qui attendent"
+" un comportement du terminal différent.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:136
 msgid "_Backspace key generates:"
 msgstr "La touche « _Retour arrière » émet :"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:137
 msgid "_Delete key generates:"
 msgstr "La touche « _Suppr » émet :"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Encoding:"
 msgstr "Codage des caractères :"
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:139
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_Réinitialiser les options de compatibilité aux valeurs par défaut"
 
-#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/preferences.glade.h:140
 msgid "Compatibility"
 msgstr "Compatibilité"
 
-#: ../terminatorlib/preferences.glade.h:143
-#: ../terminatorlib/terminal_popup_menu.py:195
+#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/terminal_popup_menu.py:201
 msgid "Profiles"
 msgstr "Profils"
 
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Type"
 msgstr "Type"
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Profile:"
 msgstr "Profil :"
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Custom command:"
 msgstr "Commande personnalisée :"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Working directory:"
 msgstr "Dossier de travail :"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Layouts"
 msgstr "Dispositions"
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Action"
 msgstr "Action"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Keybinding"
 msgstr "Raccourci clavier"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Keybindings"
 msgstr "Raccourcis clavier"
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Plugin"
 msgstr "Greffon"
 
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:153
 msgid "This plugin has no configuration options"
 msgstr "Ce greffon n'a pas d'options de configuration"
 
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:154
 msgid "Plugins"
 msgstr "Greffons"
 
-#: ../terminatorlib/preferences.glade.h:159
+#: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.0.1"
-msgstr ""
+msgstr "Version : 2.0.1"
 
-#: ../terminatorlib/preferences.glade.h:160
+#: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Le but de ce projet est de créer un outil puissant pour gèrer les terminaux. "
-"Il est inspiré de programmes tels que gnome-multi-term, quadkonsole, etc. "
-"car il se concentre aussi sur le fait de présenter les terminaux en grille "
-"(les onglets sont la méthode par défaut la plus répandue, ce qui est "
-"également supporté par terminator).\n"
+"Le but de ce projet est de créer un outil puissant pour gèrer les terminaux. Il est inspiré de programmes tels que gnome-multi-term, quadkonsole, etc. car il se concentre aussi sur le fait de présenter les terminaux en grille (les onglets sont la méthode par défaut la plus répandue, ce qui est également supporté par terminator).\n"
 "\n"
-"Une grande partie du comportement de Terminator est basée sur le terminal "
-"GNOME, nous ajoutons de nouvelles fonctionnalités au fil du temps, mais nous "
-"désirons également nous étendre dans différentes directions avec des "
-"capacités utiles aux administrateurs système et aux autres utilisateurs. Si "
-"vous avez des suggestions, merci de remplir un bug de souhait! (regardez a "
-"gauche pour le lien de développement)"
+"Une grande partie du comportement de Terminator est basée sur le terminal GNOME, nous ajoutons de nouvelles fonctionnalités au fil du temps, mais nous désirons également nous étendre dans différentes directions avec des capacités utiles aux administrateurs système et aux autres utilisateurs. Si vous avez des suggestions, merci de remplir un bug de souhait! (regardez a gauche pour le lien de développement)"
 
-#: ../terminatorlib/preferences.glade.h:163
+#: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
 msgstr "Le manuel"
 
-#: ../terminatorlib/preferences.glade.h:164
+#: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
+"<a href=\"https://github.com/gnome-terminator/terminator\">Développement</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Améliorations</a>"
 
-#: ../terminatorlib/preferences.glade.h:166
+#: ../terminatorlib/preferences.glade.h:164
 msgid "About"
 msgstr "À propos"
 
@@ -1276,286 +1261,298 @@ msgid "Restore original font size"
 msgstr "Restaurer la taille d'origine de la police de caractères"
 
 #: ../terminatorlib/prefseditor.py:108
+msgid "Increase font size on all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:109
+msgid "Decrease font size on all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:110
+msgid "Restore original font size on all terminals"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:111
 msgid "Create a new tab"
 msgstr "Créer un nouvel onglet"
 
-#: ../terminatorlib/prefseditor.py:109 ../terminatorlib/prefseditor.py:111
+#: ../terminatorlib/prefseditor.py:112 ../terminatorlib/prefseditor.py:114
 msgid "Focus the next terminal"
 msgstr "Mettre en évidence le prochain terminal"
 
-#: ../terminatorlib/prefseditor.py:110 ../terminatorlib/prefseditor.py:112
+#: ../terminatorlib/prefseditor.py:113 ../terminatorlib/prefseditor.py:115
 msgid "Focus the previous terminal"
 msgstr "Mettre en évidence le terminal précédent"
 
-#: ../terminatorlib/prefseditor.py:113
+#: ../terminatorlib/prefseditor.py:116
 msgid "Focus the terminal above"
 msgstr "Mettre en évidence le terminal du dessus"
 
-#: ../terminatorlib/prefseditor.py:114
+#: ../terminatorlib/prefseditor.py:117
 msgid "Focus the terminal below"
 msgstr "Mettre en évidence le terminal du dessous"
 
-#: ../terminatorlib/prefseditor.py:115
+#: ../terminatorlib/prefseditor.py:118
 msgid "Focus the terminal left"
 msgstr "Mettre en évidence le terminal de gauche"
 
-#: ../terminatorlib/prefseditor.py:116
+#: ../terminatorlib/prefseditor.py:119
 msgid "Focus the terminal right"
 msgstr "Mettre en évidence le terminal de droite"
 
-#: ../terminatorlib/prefseditor.py:117
+#: ../terminatorlib/prefseditor.py:120
 msgid "Rotate terminals clockwise"
 msgstr "Faire pivoter les terminaux dans le sens horaire"
 
-#: ../terminatorlib/prefseditor.py:118
+#: ../terminatorlib/prefseditor.py:121
 msgid "Rotate terminals counter-clockwise"
 msgstr "Faire pivoter les terminaux dans le sens antihoraire"
 
-#: ../terminatorlib/prefseditor.py:119
+#: ../terminatorlib/prefseditor.py:122
 msgid "Split horizontally"
 msgstr "Scinder horizontalement"
 
-#: ../terminatorlib/prefseditor.py:120
+#: ../terminatorlib/prefseditor.py:123
 msgid "Split vertically"
 msgstr "Scinder verticalement"
 
-#: ../terminatorlib/prefseditor.py:121
+#: ../terminatorlib/prefseditor.py:124
 msgid "Close terminal"
 msgstr "Fermer le terminal"
 
-#: ../terminatorlib/prefseditor.py:122
+#: ../terminatorlib/prefseditor.py:125
 msgid "Copy selected text"
 msgstr "Copier le texte sélectionné"
 
-#: ../terminatorlib/prefseditor.py:123
+#: ../terminatorlib/prefseditor.py:126
 msgid "Paste clipboard"
 msgstr "Coller le contenu du presse-papier"
 
-#: ../terminatorlib/prefseditor.py:124
+#: ../terminatorlib/prefseditor.py:127
 msgid "Show/Hide the scrollbar"
 msgstr "Afficher/masquer la barre de défilement"
 
-#: ../terminatorlib/prefseditor.py:125
+#: ../terminatorlib/prefseditor.py:128
 msgid "Search terminal scrollback"
 msgstr "Chercher dans l'historique du terminal"
 
-#: ../terminatorlib/prefseditor.py:126
+#: ../terminatorlib/prefseditor.py:129
 msgid "Scroll upwards one page"
 msgstr "Défiler vers le haut d'une page"
 
-#: ../terminatorlib/prefseditor.py:127
+#: ../terminatorlib/prefseditor.py:130
 msgid "Scroll downwards one page"
 msgstr "Défiler vers le bas d'une page"
 
-#: ../terminatorlib/prefseditor.py:128
+#: ../terminatorlib/prefseditor.py:131
 msgid "Scroll upwards half a page"
 msgstr "Défiler vers le haut d'une demi-page"
 
-#: ../terminatorlib/prefseditor.py:129
+#: ../terminatorlib/prefseditor.py:132
 msgid "Scroll downwards half a page"
 msgstr "Défiler vers le bas d'une demi-page"
 
-#: ../terminatorlib/prefseditor.py:130
+#: ../terminatorlib/prefseditor.py:133
 msgid "Scroll upwards one line"
 msgstr "Défiler vers le haut d'une ligne"
 
-#: ../terminatorlib/prefseditor.py:131
+#: ../terminatorlib/prefseditor.py:134
 msgid "Scroll downwards one line"
 msgstr "Défiler vers le bas d'une ligne"
 
-#: ../terminatorlib/prefseditor.py:132
+#: ../terminatorlib/prefseditor.py:135
 msgid "Close window"
 msgstr "Fermer la fenêtre"
 
-#: ../terminatorlib/prefseditor.py:133
+#: ../terminatorlib/prefseditor.py:136
 msgid "Resize the terminal up"
 msgstr "Redimensionner le terminal vers le haut"
 
-#: ../terminatorlib/prefseditor.py:134
+#: ../terminatorlib/prefseditor.py:137
 msgid "Resize the terminal down"
 msgstr "Redimensionner le terminal vers le bas"
 
-#: ../terminatorlib/prefseditor.py:135
+#: ../terminatorlib/prefseditor.py:138
 msgid "Resize the terminal left"
 msgstr "Redimensionner le terminal vers la gauche"
 
-#: ../terminatorlib/prefseditor.py:136
+#: ../terminatorlib/prefseditor.py:139
 msgid "Resize the terminal right"
 msgstr "Redimensionner le terminal vers la droite"
 
-#: ../terminatorlib/prefseditor.py:137
+#: ../terminatorlib/prefseditor.py:140
 msgid "Move the tab right"
 msgstr "Déplacer l'onglet à droite"
 
-#: ../terminatorlib/prefseditor.py:138
+#: ../terminatorlib/prefseditor.py:141
 msgid "Move the tab left"
 msgstr "Déplacer l'onglet à gauche"
 
-#: ../terminatorlib/prefseditor.py:139
+#: ../terminatorlib/prefseditor.py:142
 msgid "Maximize terminal"
 msgstr "Maximiser le terminal"
 
-#: ../terminatorlib/prefseditor.py:140
+#: ../terminatorlib/prefseditor.py:143
 msgid "Zoom terminal"
 msgstr "Zoomer sur le terminal"
 
-#: ../terminatorlib/prefseditor.py:141
+#: ../terminatorlib/prefseditor.py:144
 msgid "Switch to the next tab"
 msgstr "Basculer vers l'onglet suivant"
 
-#: ../terminatorlib/prefseditor.py:142
+#: ../terminatorlib/prefseditor.py:145
 msgid "Switch to the previous tab"
 msgstr "Basculer vers l'onglet précédent"
 
-#: ../terminatorlib/prefseditor.py:143
+#: ../terminatorlib/prefseditor.py:146
 msgid "Switch to the first tab"
 msgstr "Basculer sur le premier onglet"
 
-#: ../terminatorlib/prefseditor.py:144
+#: ../terminatorlib/prefseditor.py:147
 msgid "Switch to the second tab"
 msgstr "Basculer sur le deuxième onglet"
 
-#: ../terminatorlib/prefseditor.py:145
+#: ../terminatorlib/prefseditor.py:148
 msgid "Switch to the third tab"
 msgstr "Basculer sur le troisième onglet"
 
-#: ../terminatorlib/prefseditor.py:146
+#: ../terminatorlib/prefseditor.py:149
 msgid "Switch to the fourth tab"
 msgstr "Basculer sur le quatrième onglet"
 
-#: ../terminatorlib/prefseditor.py:147
+#: ../terminatorlib/prefseditor.py:150
 msgid "Switch to the fifth tab"
 msgstr "Basculer sur le cinquième onglet"
 
-#: ../terminatorlib/prefseditor.py:148
+#: ../terminatorlib/prefseditor.py:151
 msgid "Switch to the sixth tab"
 msgstr "Basculer sur le sixième onglet"
 
-#: ../terminatorlib/prefseditor.py:149
+#: ../terminatorlib/prefseditor.py:152
 msgid "Switch to the seventh tab"
 msgstr "Basculer sur le septième onglet"
 
-#: ../terminatorlib/prefseditor.py:150
+#: ../terminatorlib/prefseditor.py:153
 msgid "Switch to the eighth tab"
 msgstr "Basculer sur le huitième onglet"
 
-#: ../terminatorlib/prefseditor.py:151
+#: ../terminatorlib/prefseditor.py:154
 msgid "Switch to the ninth tab"
 msgstr "Basculer sur le neuvième onglet"
 
-#: ../terminatorlib/prefseditor.py:152
+#: ../terminatorlib/prefseditor.py:155
 msgid "Switch to the tenth tab"
 msgstr "Basculer sur le dixième onglet"
 
-#: ../terminatorlib/prefseditor.py:153
+#: ../terminatorlib/prefseditor.py:156
 msgid "Toggle fullscreen"
 msgstr "Basculer en mode plein écran"
 
-#: ../terminatorlib/prefseditor.py:154
+#: ../terminatorlib/prefseditor.py:157
 msgid "Reset the terminal"
 msgstr "Réinitialiser le terminal"
 
-#: ../terminatorlib/prefseditor.py:155
+#: ../terminatorlib/prefseditor.py:158
 msgid "Reset and clear the terminal"
 msgstr "Réinitialiser et effacer le terminal"
 
-#: ../terminatorlib/prefseditor.py:156
+#: ../terminatorlib/prefseditor.py:159
 msgid "Toggle window visibility"
 msgstr "Changer la visibilité de la fenêtre"
 
-#: ../terminatorlib/prefseditor.py:157
+#: ../terminatorlib/prefseditor.py:160
 msgid "Create new group"
-msgstr ""
+msgstr "Créer un nouveau groupe"
 
-#: ../terminatorlib/prefseditor.py:158
+#: ../terminatorlib/prefseditor.py:161
 msgid "Group all terminals"
 msgstr "Grouper tous les terminaux"
 
-#: ../terminatorlib/prefseditor.py:159
+#: ../terminatorlib/prefseditor.py:162
 msgid "Group/Ungroup all terminals"
 msgstr "Grouper/dégrouper tous les terminaux"
 
-#: ../terminatorlib/prefseditor.py:160
+#: ../terminatorlib/prefseditor.py:163
 msgid "Ungroup all terminals"
 msgstr "Dégrouper tous les terminaux"
 
-#: ../terminatorlib/prefseditor.py:161
+#: ../terminatorlib/prefseditor.py:164
 msgid "Group terminals in tab"
 msgstr "Grouper les terminaux dans un onglet"
 
-#: ../terminatorlib/prefseditor.py:162
+#: ../terminatorlib/prefseditor.py:165
 msgid "Group/Ungroup terminals in tab"
 msgstr "Grouper/dégrouper les terminaux dans un onglet"
 
-#: ../terminatorlib/prefseditor.py:163
+#: ../terminatorlib/prefseditor.py:166
 msgid "Ungroup terminals in tab"
 msgstr "Dégrouper les terminaux de l'onglet"
 
-#: ../terminatorlib/prefseditor.py:164
+#: ../terminatorlib/prefseditor.py:167
 msgid "Create a new window"
 msgstr "Créer une nouvelle fenêtre"
 
-#: ../terminatorlib/prefseditor.py:165
+#: ../terminatorlib/prefseditor.py:168
 msgid "Spawn a new Terminator process"
 msgstr "Démarrer un nouveau processus Terminator"
 
-#: ../terminatorlib/prefseditor.py:166
+#: ../terminatorlib/prefseditor.py:169
 msgid "Don't broadcast key presses"
 msgstr "Ne pas diffuser les appuis de touche"
 
-#: ../terminatorlib/prefseditor.py:167
+#: ../terminatorlib/prefseditor.py:170
 msgid "Broadcast key presses to group"
 msgstr "Diffuser les appuis de touche au groupe"
 
-#: ../terminatorlib/prefseditor.py:168
+#: ../terminatorlib/prefseditor.py:171
 msgid "Broadcast key events to all"
 msgstr "Diffuser les évènements de touche à tous"
 
-#: ../terminatorlib/prefseditor.py:169
+#: ../terminatorlib/prefseditor.py:172
 msgid "Insert terminal number"
 msgstr "Insérer le numéro du terminal"
 
-#: ../terminatorlib/prefseditor.py:170
+#: ../terminatorlib/prefseditor.py:173
 msgid "Insert padded terminal number"
 msgstr "Insérer le numéro du terminal, avec des zéros"
 
-#: ../terminatorlib/prefseditor.py:171
+#: ../terminatorlib/prefseditor.py:174
 msgid "Edit window title"
 msgstr "Modifier le titre de la fenêtre"
 
-#: ../terminatorlib/prefseditor.py:172
+#: ../terminatorlib/prefseditor.py:175
 msgid "Edit terminal title"
 msgstr "Modifier le titre du terminal"
 
-#: ../terminatorlib/prefseditor.py:173
+#: ../terminatorlib/prefseditor.py:176
 msgid "Edit tab title"
 msgstr "Modifier le titre de l'onglet"
 
-#: ../terminatorlib/prefseditor.py:174
+#: ../terminatorlib/prefseditor.py:177
 msgid "Open layout launcher window"
 msgstr "Ouvrir la fenêtre du lanceur de diposition"
 
-#: ../terminatorlib/prefseditor.py:175
+#: ../terminatorlib/prefseditor.py:178
 msgid "Switch to next profile"
 msgstr "Basculer sur le profil suivant"
 
-#: ../terminatorlib/prefseditor.py:176
+#: ../terminatorlib/prefseditor.py:179
 msgid "Switch to previous profile"
 msgstr "Basculer sur le profil précédent"
 
-#: ../terminatorlib/prefseditor.py:177
+#: ../terminatorlib/prefseditor.py:180
 msgid "Open the Preferences window"
-msgstr ""
+msgstr "Ouvrir les préférences"
 
-#: ../terminatorlib/prefseditor.py:178
+#: ../terminatorlib/prefseditor.py:181
 msgid "Open the manual"
 msgstr "Ouvrir le manuel"
 
-#: ../terminatorlib/prefseditor.py:1331 ../terminatorlib/prefseditor.py:1336
+#: ../terminatorlib/prefseditor.py:1327 ../terminatorlib/prefseditor.py:1332
 msgid "New Profile"
 msgstr "Nouveau profil"
 
-#: ../terminatorlib/prefseditor.py:1376 ../terminatorlib/prefseditor.py:1381
+#: ../terminatorlib/prefseditor.py:1372 ../terminatorlib/prefseditor.py:1377
 msgid "New Layout"
 msgstr "Nouvel agencement"
 
@@ -1636,197 +1633,205 @@ msgstr "_Restaurer tous les terminaux"
 msgid "Grouping"
 msgstr "Regroupement"
 
-#: ../terminatorlib/terminal_popup_menu.py:182
+#: ../terminatorlib/terminal_popup_menu.py:183
+msgid "Relaunch Command"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:188
 msgid "Show _scrollbar"
 msgstr "Afficher la barre de défilement"
 
-#: ../terminatorlib/terminal_popup_menu.py:240
+#: ../terminatorlib/terminal_popup_menu.py:246
 msgid "_Layouts..."
-msgstr ""
+msgstr "_Organisations..."
 
-#: ../terminatorlib/terminal_popup_menu.py:254
+#: ../terminatorlib/terminal_popup_menu.py:260
 msgid "Encodings"
 msgstr "Codages"
 
-#: ../terminatorlib/terminal_popup_menu.py:269
+#: ../terminatorlib/terminal_popup_menu.py:275
 msgid "Default"
 msgstr "Valeur par défaut"
 
-#: ../terminatorlib/terminal_popup_menu.py:272
+#: ../terminatorlib/terminal_popup_menu.py:278
 msgid "User defined"
 msgstr "Défini par l'utilisateur"
 
-#: ../terminatorlib/terminal_popup_menu.py:288
+#: ../terminatorlib/terminal_popup_menu.py:294
 msgid "Other Encodings"
 msgstr "Autres  codages"
 
-#: ../terminatorlib/terminal.py:477
+#: ../terminatorlib/terminal.py:509
 msgid "N_ew group..."
 msgstr "Nouv_eau groupe..."
 
-#: ../terminatorlib/terminal.py:483
+#: ../terminatorlib/terminal.py:515
 msgid "_None"
 msgstr "Aucu_n"
 
-#: ../terminatorlib/terminal.py:503
+#: ../terminatorlib/terminal.py:535
 #, python-format
 msgid "Remove group %s"
 msgstr "Supprimer le groupe %s"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:540
 msgid "G_roup all in tab"
 msgstr "Tout reg_rouper dans l'onglet"
 
-#: ../terminatorlib/terminal.py:513
+#: ../terminatorlib/terminal.py:545
 msgid "Ungro_up all in tab"
 msgstr "Tout dégro_uper dans un onglet"
 
-#: ../terminatorlib/terminal.py:518
+#: ../terminatorlib/terminal.py:550
 msgid "Remove all groups"
 msgstr "Supprimer tout les groupes"
 
-#: ../terminatorlib/terminal.py:525
+#: ../terminatorlib/terminal.py:557
 #, python-format
 msgid "Close group %s"
 msgstr "Fermer le groupe %s"
 
-#: ../terminatorlib/terminal.py:535
+#: ../terminatorlib/terminal.py:567
 msgid "Broadcast _all"
 msgstr "Diffuser _tout"
 
-#: ../terminatorlib/terminal.py:536
+#: ../terminatorlib/terminal.py:568
 msgid "Broadcast _group"
 msgstr "Diffuser au _groupe"
 
-#: ../terminatorlib/terminal.py:537
+#: ../terminatorlib/terminal.py:569
 msgid "Broadcast _off"
 msgstr "Diffusion désactivée"
 
-#: ../terminatorlib/terminal.py:553
+#: ../terminatorlib/terminal.py:585
 msgid "_Split to this group"
 msgstr "_Scinder vers ce groupe"
 
-#: ../terminatorlib/terminal.py:558
+#: ../terminatorlib/terminal.py:590
 msgid "Auto_clean groups"
 msgstr "Netto_yer automatiquement les groupes"
 
-#: ../terminatorlib/terminal.py:565
+#: ../terminatorlib/terminal.py:597
 msgid "_Insert terminal number"
 msgstr "_Insérer le numéro du terminal"
 
-#: ../terminatorlib/terminal.py:569
+#: ../terminatorlib/terminal.py:601
 msgid "Insert _padded terminal number"
 msgstr "Insérer le _numéro du terminal"
 
-#: ../terminatorlib/terminal.py:1497
+#: ../terminatorlib/terminal.py:1494
 msgid "Unable to find a shell"
 msgstr "Impossible de trouver un shell"
 
-#: ../terminatorlib/terminal.py:1530
+#: ../terminatorlib/terminal.py:1525
 msgid "Unable to start shell:"
 msgstr "Impossible de démarrer le shell :"
 
-#: ../terminatorlib/terminal.py:1954
+#: ../terminatorlib/terminal.py:1956
 msgid "Rename Window"
 msgstr "Renommer la fenêtre"
 
-#: ../terminatorlib/terminal.py:1962
+#: ../terminatorlib/terminal.py:1964
 msgid "Enter a new title for the Terminator window..."
 msgstr "Saisir un nouveau titre pour la fenêtre Terminator..."
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:112
+msgid "[INACTIVE: Right-Click for Relaunch option] "
+msgstr ""
+
+#: ../terminatorlib/titlebar.py:258
 msgid "Alpha"
 msgstr "Alpha"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Beta"
 msgstr "Bêta"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Gamma"
 msgstr "Gamma"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Delta"
 msgstr "Delta"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Epsilon"
 msgstr "Epsilon"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Zeta"
 msgstr "Zêta"
 
-#: ../terminatorlib/titlebar.py:253
+#: ../terminatorlib/titlebar.py:258
 msgid "Eta"
 msgstr "Êta"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Theta"
 msgstr "Thêta"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Iota"
 msgstr "Iota"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Kappa"
 msgstr "Kappa"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Lambda"
 msgstr "Lambda"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Mu"
 msgstr "Mu"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Nu"
 msgstr "Nu"
 
-#: ../terminatorlib/titlebar.py:254
+#: ../terminatorlib/titlebar.py:259
 msgid "Xi"
 msgstr "Xi"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Omicron"
 msgstr "Omicron"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Pi"
 msgstr "Pi"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Rho"
 msgstr "Rhô"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Sigma"
 msgstr "Sigma"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Tau"
 msgstr "Tau"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Upsilon"
 msgstr "Upsilon"
 
-#: ../terminatorlib/titlebar.py:255
+#: ../terminatorlib/titlebar.py:260
 msgid "Phi"
 msgstr "Phi"
 
-#: ../terminatorlib/titlebar.py:256
+#: ../terminatorlib/titlebar.py:261
 msgid "Chi"
 msgstr "Chi"
 
-#: ../terminatorlib/titlebar.py:256
+#: ../terminatorlib/titlebar.py:261
 msgid "Psi"
 msgstr "Psi"
 
-#: ../terminatorlib/titlebar.py:256
+#: ../terminatorlib/titlebar.py:261
 msgid "Omega"
 msgstr "Oméga"
 
@@ -1838,89 +1843,3 @@ msgstr "fenêtre"
 #, python-format
 msgid "Tab %d"
 msgstr "Onglet %d"
-
-#~ msgid "Set a custom name (WM_CLASS) property on the window"
-#~ msgstr ""
-#~ "Définir un nom personnalisé pour la propriété WM_CLASS de la fenêtre"
-
-#~ msgid "ActivityWatch plugin unavailable: please install python-notify"
-#~ msgstr ""
-#~ "Le greffon visionneur d'évènements est indisponible : veuillez installer "
-#~ "python-notify"
-
-#~ msgid "PuTTY style paste"
-#~ msgstr "Coller à la façon PuTTY"
-
-#~ msgid "Choose Terminal Text Color"
-#~ msgstr "Choisir la couleur du texte du terminal"
-
-#~ msgid "Choose Terminal Background Color"
-#~ msgstr "Choisir la couleur d'arrière-plan du terminal"
-
-#~ msgid ""
-#~ "<a \n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator\">Development</"
-#~ "a>\n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-#~ "Enhancements</a>\n"
-#~ msgstr ""
-#~ "d'accueil</a>\n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator\">Développement</"
-#~ "a>\n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-#~ "Améliorations</a>\n"
-
-#~ msgid "Next"
-#~ msgstr "Suivant"
-
-#~ msgid "Prev"
-#~ msgstr "Précédent"
-
-#~ msgid "Wrap"
-#~ msgstr "Envelopper"
-
-#~ msgid "Searching scrollback"
-#~ msgstr "recherche de barre de défilement"
-
-#~ msgid "No more results"
-#~ msgstr "Plus aucun résultat"
-
-#~ msgid "Found at row"
-#~ msgstr "Trouvé à la ligne"
-
-#~ msgid "_Update login records when command is launched"
-#~ msgstr ""
-#~ "_Mettre à jour les enregistrements de connexion lorsqu'une commande est "
-#~ "lancée"
-
-#~ msgid "<b>Encoding</b>"
-#~ msgstr "<b>Encodage</b>"
-
-#~ msgid "Default:"
-#~ msgstr "Valeur par défaut :"
-
-#~ msgid ""
-#~ "<small><i><b>Note:</b> Terminal applications have these colors available "
-#~ "to them.</i></small>"
-#~ msgstr ""
-#~ "<small><i><b>Remarque :</b> Les terminaux ont ces couleurs à leur "
-#~ "disposition.</i></small>"
-
-#, python-format
-#~ msgid ""
-#~ "This %s has several terminals open. Closing the %s will also close all "
-#~ "terminals within it."
-#~ msgstr ""
-#~ "Ce %s a plusieurs terminaux ouverts. Fermer le %s fermera tous les "
-#~ "terminaux qui en dépendent."
-
-#~ msgid ""
-#~ "<a \n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>"
-#~ msgstr ""
-#~ "d'accueil</a>\n"
-#~ "<a href=\"https://github.com/gnome-terminator/terminator\">Développement</"
-#~ "a>"
-
-#~ msgid "default"
-#~ msgstr "par défaut"
