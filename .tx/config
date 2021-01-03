@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[terminator.po-terminator-pot--master]
+file_filter = po/<lang>.po
+minimum_perc = 0
+source_file = po/terminator.pot
+source_lang = en
+type = PO
+
