@@ -69,8 +69,14 @@ git push --tags
 To provide a signed tarball for distributions we use sdist and gpg:
 
 ```
-python setup.py sdist
-gpg -u markus@lazyfrosch.de --armor \
+VERSION=$(git describe --tags | sed s/^v//)
+GPGKEY=$(git config --get user.email)
+
+mkdir -p dist
+
+git archive HEAD --prefix terminator-${VERSION}/ -o dist/terminator-${VERSION}.tar.gz
+
+gpg -u ${GPGKEY} --armor \
   --output dist/terminator-${VERSION}.tar.gz.asc \
   --detach-sig dist/terminator-${VERSION}.tar.gz
 ```
