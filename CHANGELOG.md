@@ -1,5 +1,97 @@
 # Changelog
 
+## [v2.1.0](https://github.com/gnome-terminator/terminator/tree/v2.1.0) (2021-01-04)
+
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.0.1...v2.1.0)
+
+**Package Maintainers**
+
+- We have changed the tarball format, and it should now include all the files in the tarball, rather than just a subset.  See [\#348](https://github.com/gnome-terminator/terminator/issues/348)
+
+**Implemented enhancements:**
+
+- Add bigger icon sizes [\#258](https://github.com/gnome-terminator/terminator/issues/258)
+- Smart Copy option to clear selection after copy [\#242](https://github.com/gnome-terminator/terminator/issues/242)
+- New feature: A Separate Json file for dynamic Layouts [\#213](https://github.com/gnome-terminator/terminator/issues/213)
+- new feature: support for term://1.2.3.4/ 'links' that when clicked open a new terminator ssh'ed to 1.2.3.4. [\#178](https://github.com/gnome-terminator/terminator/issues/178)
+- Reimplement "unfocused dim" using overpainting [\#74](https://github.com/gnome-terminator/terminator/issues/74)
+- Add Transifex integration and documentation for translations [\#352](https://github.com/gnome-terminator/terminator/pull/352) ([lazyfrosch](https://github.com/lazyfrosch))
+
+**Fixed bugs:**
+
+- No \(visible\) context menu in sway [\#330](https://github.com/gnome-terminator/terminator/issues/330)
+- Saving a layout after changing it, it correctly updates the config file but does not update the UI [\#319](https://github.com/gnome-terminator/terminator/issues/319)
+
+**Closed issues:**
+
+- Rethinking release artifacts [\#348](https://github.com/gnome-terminator/terminator/issues/348)
+- The Alt+L layout chooser is too small [\#345](https://github.com/gnome-terminator/terminator/issues/345)
+- Open in Previous Location [\#337](https://github.com/gnome-terminator/terminator/issues/337)
+- Improve separator between splitted terminals [\#329](https://github.com/gnome-terminator/terminator/issues/329)
+- Using shift+Super+} for next\_tab key binding doesn't work [\#326](https://github.com/gnome-terminator/terminator/issues/326)
+- "Copy email address" actually doesn't quite do that [\#323](https://github.com/gnome-terminator/terminator/issues/323)
+- Can't disable key binding [\#322](https://github.com/gnome-terminator/terminator/issues/322)
+- Middle click does not paste selected text [\#320](https://github.com/gnome-terminator/terminator/issues/320)
+- Terminator does not read config file from /etc/xdg directory  [\#308](https://github.com/gnome-terminator/terminator/issues/308)
+- Add a 'clear terminal' function [\#306](https://github.com/gnome-terminator/terminator/issues/306)
+- terminator-2.0.1: vertical separator too big [\#305](https://github.com/gnome-terminator/terminator/issues/305)
+- rewrap\_on\_resize is deprecated in vte-0.60.0 [\#303](https://github.com/gnome-terminator/terminator/issues/303)
+- Geometry ignored [\#297](https://github.com/gnome-terminator/terminator/issues/297)
+- hangs after update [\#292](https://github.com/gnome-terminator/terminator/issues/292)
+- Unable to Set "Image" as Background [\#285](https://github.com/gnome-terminator/terminator/issues/285)
+- module 'command\_notify' has no attribute 'AVAILABLE' [\#264](https://github.com/gnome-terminator/terminator/issues/264)
+- symlinked config replaced with regular file [\#234](https://github.com/gnome-terminator/terminator/issues/234)
+- Cannot "Drag and Drop" Folders or Files [\#159](https://github.com/gnome-terminator/terminator/issues/159)
+
+**Merged pull requests:**
+
+- Update RELEASE docs [\#353](https://github.com/gnome-terminator/terminator/pull/353) ([lazyfrosch](https://github.com/lazyfrosch))
+- German language updated [\#351](https://github.com/gnome-terminator/terminator/pull/351) ([Brambleberry4](https://github.com/Brambleberry4))
+- Update terminator.appdata.xml.in [\#350](https://github.com/gnome-terminator/terminator/pull/350) ([jooola](https://github.com/jooola))
+- Fix \#345 The Alt+L layout chooser is too small [\#349](https://github.com/gnome-terminator/terminator/pull/349) ([evandrocoan](https://github.com/evandrocoan))
+- fix 319: refresh layout after save [\#344](https://github.com/gnome-terminator/terminator/pull/344) ([mattrose](https://github.com/mattrose))
+- feat: refactoring terminal file [\#343](https://github.com/gnome-terminator/terminator/pull/343) ([JAugusto42](https://github.com/JAugusto42))
+- Local user install: terminator.desktop and terminator.metainfo.xml [\#342](https://github.com/gnome-terminator/terminator/pull/342) ([zothar](https://github.com/zothar))
+- update to non-deprecated Gtk.Menu popup call [\#341](https://github.com/gnome-terminator/terminator/pull/341) ([mattrose](https://github.com/mattrose))
+- feat: Migrating from hbox to GtkBox [\#340](https://github.com/gnome-terminator/terminator/pull/340) ([JAugusto42](https://github.com/JAugusto42))
+- remove rewrap on resize from option and remove functions too [\#339](https://github.com/gnome-terminator/terminator/pull/339) ([JAugusto42](https://github.com/JAugusto42))
+- fix: \#323 [\#338](https://github.com/gnome-terminator/terminator/pull/338) ([JAugusto42](https://github.com/JAugusto42))
+- Revert pr36 [\#336](https://github.com/gnome-terminator/terminator/pull/336) ([mattrose](https://github.com/mattrose))
+- Feature: Relaunch command option on held open after child exit [\#333](https://github.com/gnome-terminator/terminator/pull/333) ([zothar](https://github.com/zothar))
+- add note aboug moving config file out of the way [\#328](https://github.com/gnome-terminator/terminator/pull/328) ([mattrose](https://github.com/mattrose))
+- issue 271: add keybindings to zoom all terminals at once [\#314](https://github.com/gnome-terminator/terminator/pull/314) ([mattrose](https://github.com/mattrose))
+- load config from XDG\_CONFIG\_DIRS if user config file doesn't exist [\#310](https://github.com/gnome-terminator/terminator/pull/310) ([mattrose](https://github.com/mattrose))
+- Update README with install instructions [\#309](https://github.com/gnome-terminator/terminator/pull/309) ([tomeksabala](https://github.com/tomeksabala))
+- add a commandline flag to unhide any windows [\#307](https://github.com/gnome-terminator/terminator/pull/307) ([mattrose](https://github.com/mattrose))
+- fix background image profile preferences ui [\#296](https://github.com/gnome-terminator/terminator/pull/296) ([mattrose](https://github.com/mattrose))
+- Minor fixes [\#295](https://github.com/gnome-terminator/terminator/pull/295) ([strottie](https://github.com/strottie))
+- fix issue with older vte lib [\#294](https://github.com/gnome-terminator/terminator/pull/294) ([mattrose](https://github.com/mattrose))
+- replace feed\_child\_binary\(\) calls with feed\_child\(\) [\#291](https://github.com/gnome-terminator/terminator/pull/291) ([mattrose](https://github.com/mattrose))
+- Update German and Croatian [\#287](https://github.com/gnome-terminator/terminator/pull/287) ([milotype](https://github.com/milotype))
+- fix issue \#74 [\#286](https://github.com/gnome-terminator/terminator/pull/286) ([mattrose](https://github.com/mattrose))
+- support for SSH URIs [\#280](https://github.com/gnome-terminator/terminator/pull/280) ([mattrose](https://github.com/mattrose))
+- add bigger icon sizes [\#279](https://github.com/gnome-terminator/terminator/pull/279) ([mattrose](https://github.com/mattrose))
+- fix stupid debugging error [\#278](https://github.com/gnome-terminator/terminator/pull/278) ([mattrose](https://github.com/mattrose))
+- multiple small documentation fixes [\#277](https://github.com/gnome-terminator/terminator/pull/277) ([mattrose](https://github.com/mattrose))
+- fix drag and drop issues on KDE [\#275](https://github.com/gnome-terminator/terminator/pull/275) ([mattrose](https://github.com/mattrose))
+- pass original working directory to dbus\_options as well [\#270](https://github.com/gnome-terminator/terminator/pull/270) ([mattrose](https://github.com/mattrose))
+- fix new upstream vte warning [\#267](https://github.com/gnome-terminator/terminator/pull/267) ([mattrose](https://github.com/mattrose))
+- suppress warning if the vte capability is not there [\#266](https://github.com/gnome-terminator/terminator/pull/266) ([mattrose](https://github.com/mattrose))
+- remove workaround for https://github.com/ibus/ibus/issues/1802 [\#265](https://github.com/gnome-terminator/terminator/pull/265) ([mattrose](https://github.com/mattrose))
+- Add support for inverted search [\#257](https://github.com/gnome-terminator/terminator/pull/257) ([yoavp77](https://github.com/yoavp77))
+- update translations [\#255](https://github.com/gnome-terminator/terminator/pull/255) ([mattrose](https://github.com/mattrose))
+- Clear selection on smart copy [\#254](https://github.com/gnome-terminator/terminator/pull/254) ([mattrose](https://github.com/mattrose))
+- Polish translation update [\#252](https://github.com/gnome-terminator/terminator/pull/252) ([napcok](https://github.com/napcok))
+- update terminator.pot [\#251](https://github.com/gnome-terminator/terminator/pull/251) ([napcok](https://github.com/napcok))
+- Polish translation update [\#248](https://github.com/gnome-terminator/terminator/pull/248) ([napcok](https://github.com/napcok))
+- fix the handle on the divider between horizontal panes [\#247](https://github.com/gnome-terminator/terminator/pull/247) ([mattrose](https://github.com/mattrose))
+- add tests to release tarball [\#246](https://github.com/gnome-terminator/terminator/pull/246) ([mattrose](https://github.com/mattrose))
+- Change how config file is saved [\#235](https://github.com/gnome-terminator/terminator/pull/235) ([planet36](https://github.com/planet36))
+- Updated Estonian translation [\#226](https://github.com/gnome-terminator/terminator/pull/226) ([ookull](https://github.com/ookull))
+- Fix: Key Binding Clearing in `Preferences \> Keybindings` [\#224](https://github.com/gnome-terminator/terminator/pull/224) ([dkmvs](https://github.com/dkmvs))
+- layout file - initial commit - work in progress [\#214](https://github.com/gnome-terminator/terminator/pull/214) ([dvdlevanon](https://github.com/dvdlevanon))
+- fast resize keyboard shortcuts [\#36](https://github.com/gnome-terminator/terminator/pull/36) ([waldner](https://github.com/waldner))
+
 ## [v2.0.1](https://github.com/gnome-terminator/terminator/tree/v2.0.1) (2020-10-11)
 
 [Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.0...v2.0.1)
@@ -8,10 +100,7 @@ TODO
 
 ## Package maintainers
 
-With pull request #70, we removed the need for gettext binaries and switched to Python Babel.
 
-* `gettext` and `intltool` packages are now no longer needed
-* Python package `babel` is now required for building, `BabelGladeExtractor` only for updating POT
 
 **Fixed bugs:**
 
@@ -26,6 +115,7 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 
 **Merged pull requests:**
 
+- Preserve searchbar case sensitivity state in config file on state change [\#249](https://github.com/gnome-terminator/terminator/pull/249) ([yoavp77](https://github.com/yoavp77))
 - make sure data/\*.in files are there for distributors [\#237](https://github.com/gnome-terminator/terminator/pull/237) ([mattrose](https://github.com/mattrose))
 - only set clear background when background\_image in config [\#233](https://github.com/gnome-terminator/terminator/pull/233) ([mattrose](https://github.com/mattrose))
 - fix INSTALL instructions for setuptools [\#232](https://github.com/gnome-terminator/terminator/pull/232) ([mattrose](https://github.com/mattrose))
@@ -93,7 +183,6 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 - Feature Request: Add hyperlink support [\#164](https://github.com/gnome-terminator/terminator/issues/164)
 - ctrl-alt-a activates even when terminal has no focus [\#163](https://github.com/gnome-terminator/terminator/issues/163)
 - TypeError in terminal.py [\#162](https://github.com/gnome-terminator/terminator/issues/162)
-- Cannot "Drag and Drop" Folders or Files [\#159](https://github.com/gnome-terminator/terminator/issues/159)
 - Active tab identification [\#158](https://github.com/gnome-terminator/terminator/issues/158)
 - Is terminator is rolling for Windows Subsystem For Linux \(WSL\)??? [\#154](https://github.com/gnome-terminator/terminator/issues/154)
 - broken mouse events in fullscreen applications [\#151](https://github.com/gnome-terminator/terminator/issues/151)
@@ -116,7 +205,6 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 - ubuntu 18.04 Install ok but no desktop icon [\#95](https://github.com/gnome-terminator/terminator/issues/95)
 - There are still translation commits to launchpad [\#85](https://github.com/gnome-terminator/terminator/issues/85)
 - cwd.get\_pid\_cwd is a mess. [\#80](https://github.com/gnome-terminator/terminator/issues/80)
-- Broadcast issues additional key to terminals [\#78](https://github.com/gnome-terminator/terminator/issues/78)
 - Resize borderless window [\#75](https://github.com/gnome-terminator/terminator/issues/75)
 - Add distribution info into INSTALL [\#45](https://github.com/gnome-terminator/terminator/issues/45)
 - Alt+ScrollWheel ? [\#29](https://github.com/gnome-terminator/terminator/issues/29)
@@ -179,7 +267,6 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 - Update pt\_BR.po [\#30](https://github.com/gnome-terminator/terminator/pull/30) ([chclxds](https://github.com/chclxds))
 - Remove obsolete terminator.wrapper [\#27](https://github.com/gnome-terminator/terminator/pull/27) ([lazyfrosch](https://github.com/lazyfrosch))
 - Add Gentoo, sort the order of distributions [\#23](https://github.com/gnome-terminator/terminator/pull/23) ([DarthGandalf](https://github.com/DarthGandalf))
-- Add GitHub action for Python [\#17](https://github.com/gnome-terminator/terminator/pull/17) ([lazyfrosch](https://github.com/lazyfrosch))
 
 ## [v1.92](https://github.com/gnome-terminator/terminator/tree/v1.92) (2020-04-18)
 
@@ -220,6 +307,7 @@ discuss issues or help with whatever you can! Any help is welcome!
 
 **Merged pull requests:**
 
+- Add GitHub action for Python [\#17](https://github.com/gnome-terminator/terminator/pull/17) ([lazyfrosch](https://github.com/lazyfrosch))
 - Updating URLs in application and appdata [\#16](https://github.com/gnome-terminator/terminator/pull/16) ([mattrose](https://github.com/mattrose))
 - update the INSTALL file [\#15](https://github.com/gnome-terminator/terminator/pull/15) ([mattrose](https://github.com/mattrose))
 
