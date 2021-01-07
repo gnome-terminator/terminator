@@ -497,7 +497,7 @@ class Terminal(Gtk.VBox):
 
         menu = self.populate_group_menu()
         menu.show_all()
-        menu.popup(None, None, self.position_popup_group_menu, widget, button, time)
+        menu.popup_at_widget(widget,Gdk.Gravity.SOUTH_WEST,Gdk.Gravity.NORTH_WEST,None)
         return(True)
 
     def populate_group_menu(self):
@@ -603,28 +603,6 @@ class Terminal(Gtk.VBox):
         menu.append(item)
 
         return(menu)
-
-    def position_popup_group_menu(self, menu, *args):
-        """Calculate the position of the group popup menu"""
-        # GTK API, or GIR just changed the args. See LP#1518058
-        widget = args[-1]
-        _screen_w = Gdk.Screen.width()
-        screen_h = Gdk.Screen.height()
-
-        widget_win = widget.get_window()
-        _something, widget_x, widget_y = widget_win.get_origin()
-        _widget_w = widget_win.get_width()
-        widget_h = widget_win.get_height()
-
-        _menu_w = menu.size_request().width
-        menu_h = menu.size_request().height
-
-        if widget_y + widget_h + menu_h > screen_h:
-            menu_y = max(widget_y - menu_h, 0)
-        else:
-            menu_y = widget_y + widget_h
-
-        return(widget_x, menu_y, 1)
 
     def set_group(self, _item, name):
         """Set a particular group"""
