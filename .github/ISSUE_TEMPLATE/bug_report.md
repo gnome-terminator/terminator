@@ -7,9 +7,11 @@ assignees: ''
 
 ---
 
-Please try moving the terminator config out of the way to see if that solves the
-problem.  If it does, and you still want to open the bug, then please attach the
-config file to the issue
+Before opening an issue, please try starting terminator with an empty config
+file, by issuing `terminator -g /dev/null` and see if it starts normally.
+
+If it does, and you still want to open the bug, then please attach the
+config file, usually found at `$HOME/.config/terminator/config` to the issue
 
 Fill out as many of these fields as you can
 
