@@ -164,7 +164,9 @@ class Notebook(Container, Gtk.Notebook):
             sibling.set_cwd(cwd)
             if self.config['always_split_with_profile']:
                 sibling.force_set_profile(None, widget.get_profile())
-            sibling.spawn_child()
+            sibling.spawn_child(
+                orientation='vertical' if vertical else 'horizontal',
+                active_pane_id=getattr(widget, 'pane_id', None))
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
         elif self.config['always_split_with_profile']:

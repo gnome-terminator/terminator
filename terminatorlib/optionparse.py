@@ -57,6 +57,8 @@ def parse_options():
             dest='borderless', help=_('Disable window borders'))
     parser.add_option('-H', '--hidden', action='store_true', dest='hidden',
             help=_('Hide the window at startup'))
+    parser.add_option('-M', '--tmux', action='store_true',
+            dest='tmux', help=_('Enable tmux integration'))
     parser.add_option('-T', '--title', dest='forcedtitle', 
                       help=_('Specify a title for the window'))
     parser.add_option('--geometry', dest='geometry', type='string', 
@@ -72,6 +74,8 @@ def parse_options():
                 callback=execute_cb, 
                 help=_('Use the rest of the command line as a command to '
                        'execute inside the terminal, and its arguments'))
+    parser.add_option('--remote', dest='remote',
+            help=_('Specify a remote server for tmux to connect to'))
     parser.add_option('-g', '--config', dest='config', 
                       help=_('Specify a config file'))
     parser.add_option('-j', '--config-json', dest='configjson', 

@@ -35,7 +35,7 @@ except ImportError:
     sys.exit(1)
 
 # set this to true to enable debugging output
-DEBUG = False
+DEBUG = True
 # set this to true to additionally list filenames in debugging
 DEBUGFILES = False
 # list of classes to show debugging for. empty list means show all classes
@@ -319,6 +319,43 @@ def enumerate_descendants(parent):
     dbg('%d containers and %d terminals fall beneath %s' % (len(containers), 
         len(terminals), parent))
     return(containers, terminals)
+
+def get_column_row_count(window):
+    column_sum = 0
+    row_sum = 0
+
+    base_x = base_y = None
+
+    # NOTE: on Wayland, we cannot assume that the coordinate system
+    # for our application starts at 0x0, so we try to guess our
+    # current baseline at runtime
+    if display_manager() == 'WAYLAND' and not base_x:
+        base_x, base_y = get_wayland_baseline(window)
+    else:
+        base_x = base_y = 0
+
+    terminals = window.get_visible_terminals()
+    for terminal in terminals:
+        rect = terminal.get_allocation()
+        if rect.x <= base_x:
+            cols, rows = terminal.get_size()
+            row_sum = row_sum + int(rows)
+        if rect.y <= base_y:
+            cols, rows = terminal.get_size()
+            column_sum = column_sum + int(cols)
+
+    return (column_sum, row_sum)
+
+def get_wayland_baseline(window):
+    terminals = window.get_visible_terminals()
+
+    base_x = base_y = sys.maxint
+    for terminal in terminals:
+        rect = terminal.get_allocation()
+        base_x = min(base_x, rect.x)
+        base_y = min(base_y, rect.y)
+
+    return (base_x, base_y)
 
 def make_uuid(str_uuid=None):
     """Generate a UUID for an object"""

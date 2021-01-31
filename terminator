@@ -23,6 +23,7 @@ import sys
 import os
 import psutil
 import pwd
+import time
 try:
     ORIGCWD = os.getcwd()
 except OSError:
@@ -88,8 +89,10 @@ if __name__ == '__main__':
         # continue. Failure to import dbus, or the global config option "dbus"
         # being False will cause us to continue without the dbus server and open a
         # window.
+        # Disable DBUS if using tmux, so we can have multiple sessions (e.g. local
+        # and remote, multiple remotes, etc.)
         try:
-            if OPTIONS.nodbus:
+            if OPTIONS.nodbus or OPTIONS.tmux:
                 dbg('dbus disabled by command line')
                 raise ImportError
             from terminatorlib import ipc
@@ -125,12 +128,17 @@ if __name__ == '__main__':
         TERMINATOR.ibus_running = ibus_running
 
         try:
+            if OPTIONS.tmux:
+                TERMINATOR.start_tmux(remote=OPTIONS.remote)
+                while TERMINATOR.initial_layout is None:
+                    time.sleep(0.1)
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
             TERMINATOR.create_layout(OPTIONS.layout)
         except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
             TERMINATOR.new_window()
         TERMINATOR.layout_done()
+        TERMINATOR.initial_layout = None
 
     if OPTIONS.debug and OPTIONS.debug >= 2:
         import terminatorlib.debugserver as debugserver

@@ -230,6 +230,7 @@ setup(name=APP_NAME,
       packages=[
           'terminatorlib',
           'terminatorlib.plugins',
+          'terminatorlib.tmux',
       ],
       setup_requires=[
           'pytest-runner',
