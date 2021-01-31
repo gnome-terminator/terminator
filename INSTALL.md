@@ -8,7 +8,7 @@ Packages are known to be available under the name "terminator" under a
 lot of distributions, see below for a list.
 
 I also maintain a PPA for Ubuntu 20.04 and up that has the latest release
-If you're running ubuntu 20.04 or later, you can run 
+If you're running ubuntu 20.04 or later, you can run
 
 ```
 sudo add-apt-repository ppa:mattrose/terminator
@@ -24,13 +24,19 @@ dependencies yourself:
 **Python 3.5+ recommended:** `python3` or `python37` (in FreeBSD)
 
 **Python GTK and VTE bindings:**
-     
-     Fedora/CentOS: python3-gobject python3-configobj python3-psutil vte291 
+
+     Fedora/CentOS: python3-gobject python3-configobj python3-psutil vte291
                     keybinder3 intltool gettext
-     Debian/Ubuntu: python3-gi python3-gi-cairo python3-psutil python3-configobj 
-                    gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11 
-     FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
+     Debian/Ubuntu: python3-gi python3-gi-cairo python3-psutil python3-configobj
+                    gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11
+     FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext
                     intltool libnotify vte3
+
+**Python PyParsing library (only required for Tmux mode):**
+
+     Debian/Ubuntu: python-pyparsing
+
+     FreeBSD: devel/py-pyparsing
 
 If you don't care about native language support or icons, Terminator
 should run just fine directly from this directory, just:
@@ -43,7 +49,7 @@ And go from there.  Manpages are available in the 'doc' directory.
 > make sure to update either the shebangs, call the scripts with `python3` or
 > use a wrapper script.
 >
-> Setuptools install will update the scripts with the correct shebang.  
+> Setuptools install will update the scripts with the correct shebang.
 
 To install properly, run:
 
@@ -74,7 +80,7 @@ Where ${PREFIX} is the base install directory; e.g. /usr/local.
 If you maintain terminator for an OS other than these, please get in touch
 or issue a PR to this file.
 
-Distribution | Contact | Package Info | Source Code | Bug Tracker | 
+Distribution | Contact | Package Info | Source Code | Bug Tracker |
 -------------|---------|-----|-------------|-------------|
 ArchLinux    | [@grazzolini] | [archlinux.org] | [git.archlinux.org] | [bugs.archlinux.org]
 CentOS EPEL  | [@mattrose], [@dmaphy] |  | [src.fedoraproject.org/branches]
