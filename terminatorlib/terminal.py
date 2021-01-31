@@ -1742,7 +1742,7 @@ class Terminal(Gtk.VBox):
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
-        if layout.has_key('tmux'):
+        if 'tmux' in layout and layout['tmux'] != '':
             tmux = layout['tmux']
             self.pane_id = tmux['pane_id']
             self.terminator.pane_id_to_terminal[self.pane_id] = self

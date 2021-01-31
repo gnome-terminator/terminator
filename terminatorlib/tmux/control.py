@@ -1,6 +1,7 @@
 import threading
 import subprocess
-import Queue
+
+from multiprocessing import Queue
 
 from pipes import quote
 from gi.repository import Gtk, Gdk
@@ -56,7 +57,7 @@ class TmuxControl(object):
         self.remote = None
         self.alternate_on = False
         self.is_zoomed = False
-        self.requests = Queue.Queue()
+        self.requests = Queue()
 
     def reset(self):
         self.tmux = self.input = self.output = self.width = self.height = None
@@ -81,7 +82,7 @@ class TmuxControl(object):
             dbg('No tmux connection. [command={}]'.format(command))
         else:
             try:
-                self.input.write('exec {}\n'.format(command))
+                self.input.write('exec {}\n'.format(command).encode())
             except IOError:
                 dbg("Tmux server has gone away.")
                 return
@@ -246,7 +247,7 @@ class TmuxControl(object):
             dbg('No tmux connection. [command={}]'.format(command))
         else:
             try:
-                self.input.write('{}\n'.format(command))
+                self.input.write('{}\n'.format(command).encode())
             except IOError:
                 dbg("Tmux server has gone away.")
                 return
@@ -275,7 +276,7 @@ class TmuxControl(object):
             line = self.output.readline()[:-1]
             if not line:
                 continue
-            line = line[1:].split(' ')
+            line = line[1:].decode().split(' ')
             marker = line[0]
             line = line[1:]
             # skip MOTD, anything that isn't coming from tmux control mode

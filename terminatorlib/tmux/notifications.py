@@ -43,11 +43,11 @@ class Result(Notification):
         self.code = code
         result = []
         line = out.readline()[:-1]
-        while not (line.startswith('%end') or line.startswith('%error')):
+        while not (line.startswith(b'%end') or line.startswith(b'%error')):
             result.append(line)
             line = out.readline()[:-1]
         self.result = result
-        end, timestamp, code, _ = line.split(' ')
+        end, timestamp, code, _ = line.split(b' ')
         self.end_timestamp = timestamp
         self.error = end == '%error'
 

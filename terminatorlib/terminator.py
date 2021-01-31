@@ -16,8 +16,8 @@ from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .version import APP_NAME, APP_VERSION
-import tmux.control
-import tmux.notifications
+from .tmux import notifications
+from .tmux import control
 
 try:
     from gi.repository import GdkX11
@@ -100,10 +100,6 @@ class Terminator(Borg):
             self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
-        if not self.pid_cwd:
-            self.pid_cwd = get_pid_cwd()
-        if self.gnome_client is None:
-            self.attempt_gnome_client()
         if self.pane_id_to_terminal is None:
             self.pane_id_to_terminal = {}
 
@@ -125,8 +121,8 @@ class Terminator(Borg):
     def start_tmux(self, remote=None):
         """Store the command line argument intended for tmux and start the process"""
         if self.tmux_control is None:
-            handler = tmux.notifications.NotificationsHandler(self)
-            self.tmux_control = tmux.control.TmuxControl(
+            handler = notifications.NotificationsHandler(self)
+            self.tmux_control = control.TmuxControl(
                 session_name='terminator',
                 notifications_handler=handler)
         self.tmux_control.remote = remote
@@ -522,7 +518,7 @@ class Terminator(Borg):
             css += """
                 .terminator-terminal-window separator {
                     min-height: %spx;
-                    min-width: %spx; 
+                    min-width: %spx;
                 }
                 """ % (self.config['handle_size'],self.config['handle_size'])
         style_provider = Gtk.CssProvider()
@@ -668,11 +664,11 @@ class Terminator(Borg):
     def zoom_in_all(self):
         for term in self.terminals:
             term.zoom_in()
-    
+
     def zoom_out_all(self):
         for term in self.terminals:
             term.zoom_out()
-    
+
     def zoom_orig_all(self):
         for term in self.terminals:
             term.zoom_orig()
