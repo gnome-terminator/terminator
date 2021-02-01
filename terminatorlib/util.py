@@ -97,7 +97,7 @@ def has_ancestor(widget, wtype):
 def manual_lookup():
     '''Choose the manual to open based on LANGUAGE'''
     available_languages = ['en']
-    base_url = 'http://terminator-gtk3.readthedocs.io/%s/latest/'
+    base_url = 'http://gnome-terminator.readthedocs.io/%s/latest/'
     target = 'en'   # default to English
     if 'LANGUAGE' in os.environ:
         languages = os.environ['LANGUAGE'].split(':')
@@ -184,6 +184,15 @@ def widget_pixbuf(widget, maxsize=None):
     scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height);
     
     return(scaledpixbuf)
+
+def get_system_config_dir():
+    system_config_dir = '/etc/xdg'
+    if 'XDG_CONFIG_DIRS' in os.environ.keys():
+        for sysconfdir in os.environ['XDG_CONFIG_DIRS'].split(":"):
+                if os.path.isdir(sysconfdir):
+                    system_config_dir = sysconfdir
+                    break
+    return(os.path.join(system_config_dir,'terminator'))
 
 def get_config_dir():
     """Expand all the messy nonsense for finding where ~/.config/terminator

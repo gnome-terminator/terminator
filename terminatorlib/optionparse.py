@@ -74,6 +74,8 @@ def parse_options():
                        'execute inside the terminal, and its arguments'))
     parser.add_option('-g', '--config', dest='config', 
                       help=_('Specify a config file'))
+    parser.add_option('-j', '--config-json', dest='configjson', 
+                      help=_('Specify a partial config json file'))
     parser.add_option('-x', '--execute', dest='execute', action='callback',
             callback=execute_cb, 
             help=_('Use the rest of the command line as a command to execute '
@@ -100,6 +102,9 @@ icon for the window (by file or name)'))
             help=_('Comma separated list of methods to limit debugging to'))
     parser.add_option('--new-tab', action='store_true', dest='new_tab',
             help=_('If Terminator is already running, just open a new tab'))
+    parser.add_option('--unhide', action='store_true', dest='unhide',
+            help=_('If Terminator is already running, just unhide all hidden windows'))
+
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
         parser.add_option(item, dest='dummy', action='store',
@@ -149,7 +154,16 @@ icon for the window (by file or name)'))
 
     configobj.options_set(options)
 
+    optionslist = {}
+    for opt, val in list(options.__dict__.items()):
+        if type(val) == type([]):
+            val = ' '.join(val)
+        if val == True:
+            val = 'True'
+        optionslist[opt] = val and '%s'%val or ''
+    # optionslist = dbus.Dictionary(optionslist, signature='ss')
     if util.DEBUG == True:
         dbg('OptionParse::parse_options: command line options: %s' % options)
 
-    return(options)
+    
+    return(options,optionslist)

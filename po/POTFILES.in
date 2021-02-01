@@ -14,7 +14,6 @@ terminatorlib/debugserver.py
 terminatorlib/editablelabel.py
 terminatorlib/encoding.py
 terminatorlib/factory.py
-terminatorlib/freebsd.py
 terminatorlib/__init__.py
 terminatorlib/keybindings.py
 terminatorlib/layoutlauncher.glade

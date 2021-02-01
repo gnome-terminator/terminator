@@ -71,11 +71,12 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 """
 
 import os
+import shutil
 from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
 from .borg import Borg
-from .util import dbg, err, DEBUG, get_config_dir, dict_diff
+from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff
 
 from gi.repository import Gio
 
@@ -120,12 +121,18 @@ DEFAULTS = {
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
             'smart_copy'            : True,
+            'clear_select_on_copy'  : False,
             'line_height'           : 1.0,
+            'case_sensitive'        : True,
+            'invert_search'         : False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',
             'zoom_normal'      : '<Control>0',
+			'zoom_in_all'	   : '',
+			'zoom_out_all'	   : '',
+			'zoom_normal_all'  : '',
             'new_tab'          : '<Shift><Control>t',
             'cycle_next'       : '<Control>Tab',
             'cycle_prev'       : '<Shift><Control>Tab',
@@ -175,6 +182,7 @@ DEFAULTS = {
             'reset'            : '<Shift><Control>r',
             'reset_clear'      : '<Shift><Control>g',
             'hide_window'      : '<Shift><Control><Alt>a',
+            'create_group'     : '',
             'group_all'        : '<Super>g',
             'group_all_toggle' : '',
             'ungroup_all'      : '<Shift><Super>g',
@@ -194,6 +202,7 @@ DEFAULTS = {
             'layout_launcher'  : '<Alt>l',
             'next_profile'     : '',
             'previous_profile' : '', 
+            'preferences'      : '',
             'help'             : 'F1'
         },
         'profiles': {
@@ -244,11 +253,12 @@ DEFAULTS = {
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
                 'copy_on_selection'     : False,
-                'rewrap_on_resize'      : True,
                 'split_to_group'        : False,
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',
                 'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
+                'background_image'      : '',
+                'background_alpha'      : 0.0
             },
         },
         'layouts': {
@@ -598,13 +608,12 @@ class ConfigBase(Borg):
             dbg('ConfigBase::load: config already loaded')
             return
 
-        if self.command_line_options:
-            if not self.command_line_options.config:
-                self.command_line_options.config = os.path.join(get_config_dir(), 'config')
+        if self.command_line_options and self.command_line_options.config:
             filename = self.command_line_options.config
         else:
             filename = os.path.join(get_config_dir(), 'config')
-
+            if not os.path.exists(filename):
+                filename = os.path.join(get_system_config_dir(), 'config')
         dbg('looking for config file: %s' % filename)
         try:
             configfile = open(filename, 'r')
@@ -683,7 +692,7 @@ class ConfigBase(Borg):
         """Force a reload of the base config"""
         self.loaded = False
         self.load()
-        
+
     def save(self):
         """Save the config to a file"""
         dbg('ConfigBase::save: saving config')
@@ -695,14 +704,20 @@ class ConfigBase(Borg):
             section = getattr(self, section_name)
             parser[section_name] = dict_diff(DEFAULTS[section_name], section)
 
+        from .configjson import JSON_PROFILE_NAME, JSON_LAYOUT_NAME
+
         parser['profiles'] = {}
         for profile in self.profiles:
+            if profile == JSON_PROFILE_NAME:
+                continue
             dbg('ConfigBase::save: Processing profile: %s' % profile)
             parser['profiles'][profile] = dict_diff(
                     DEFAULTS['profiles']['default'], self.profiles[profile])
 
         parser['layouts'] = {}
         for layout in self.layouts:
+            if layout == JSON_LAYOUT_NAME:
+                continue
             dbg('ConfigBase::save: Processing layout: %s' % layout)
             parser['layouts'][layout] = self.layouts[layout]
 
@@ -714,13 +729,23 @@ class ConfigBase(Borg):
         config_dir = get_config_dir()
         if not os.path.isdir(config_dir):
             os.makedirs(config_dir)
-        try:
-            temp_file = self.command_line_options.config + '.tmp'
 
-            with open(temp_file, 'wb') as fh:
+        try:
+            if self.command_line_options.config:
+                filename = self.command_line_options.config
+            else: 
+                filename = os.path.join(config_dir,'config')
+
+            if not os.path.isfile(filename):
+                open(filename, 'a').close()
+
+            backup_file = filename + '~'
+            shutil.copy2(filename, backup_file)
+
+            with open(filename, 'wb') as fh:
                 parser.write(fh)
 
-            os.rename(temp_file, self.command_line_options.config)
+            os.remove(backup_file)
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 

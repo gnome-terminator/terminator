@@ -179,6 +179,12 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
+        if terminal.is_held_open:
+            item = Gtk.MenuItem.new_with_mnemonic(_('Relaunch Command'))
+            item.connect('activate', lambda x: terminal.spawn_child())
+            menu.append(item)
+            menu.append(Gtk.SeparatorMenuItem())
+
         item = Gtk.CheckMenuItem.new_with_mnemonic(_('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
@@ -231,7 +237,7 @@ class TerminalPopupMenu(object):
             err('TerminalPopupMenu::show: %s' % ex)
 
         menu.show_all()
-        menu.popup(None, None, None, None, button, time)
+        menu.popup_at_pointer(None)
 
         return(True)
 

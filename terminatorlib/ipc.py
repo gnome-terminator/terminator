@@ -75,7 +75,7 @@ class DBusService(Borg, dbus.service.Object):
         self.terminator.config.options_set(oldopts)
         self.terminator.create_layout(oldopts.layout)
         self.terminator.layout_done()
-            
+
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
     def new_tab_cmdline(self, options=dbus.Dictionary()):
         """Create a new tab"""
@@ -85,6 +85,13 @@ class DBusService(Borg, dbus.service.Object):
         self.terminator.config.options_set(oldopts)
         window = self.terminator.get_windows()[0]
         window.tab_new()
+
+    @dbus.service.method(BUS_NAME, in_signature='a{ss}')
+    def unhide_cmdline(self,options=dbus.Dictionary):
+        dbg('unhide_cmdline')
+        for window in self.terminator.get_windows():
+            if not window.get_property('visible'):
+                window.on_hide_window()
 
     @dbus.service.method(BUS_NAME)
     def new_window(self):
@@ -190,6 +197,13 @@ class DBusService(Borg, dbus.service.Object):
                 if terminal in terms:
                     return root_widget.get_tab_label(tab_child).get_label()
 
+    @dbus.service.method(BUS_NAME)
+    def switch_profile(self, uuid=None, options=dbus.Dictionary()):
+        """Switch profile of a given terminal"""
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        profile_name = options.get('profile')
+        terminal.force_set_profile(False, profile_name)
+
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
     dbg('dbus client call: %s' % func.__name__)
@@ -202,7 +216,7 @@ def with_proxy(func):
             sys.exit(
                 "Remotinator can't connect to terminator. " +
                 "May be terminator is not running.")
-            
+
         func(proxy, *args, **argd)
     return _exec
 
@@ -215,6 +229,10 @@ def new_window_cmdline(session, options):
 def new_tab_cmdline(session, options):
     """Call the dbus method to open a new tab in the first window"""
     session.new_tab_cmdline(options)
+
+@with_proxy
+def unhide_cmdline(session,options):
+    session.unhide_cmdline(options)
 
 @with_proxy
 def new_window(session, options):
@@ -260,4 +278,9 @@ def get_tab(session, uuid, options):
 def get_tab_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
     print(session.get_tab_title(uuid))
+
+@with_proxy
+def switch_profile(session, uuid, options):
+    """Call the dbus method to return the title of a tab"""
+    session.switch_profile(uuid, options)
 

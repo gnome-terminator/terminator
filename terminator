@@ -51,6 +51,7 @@ from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
 from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
+from terminatorlib.configjson import ConfigJson
 
 if __name__ == '__main__':
     # Workaround for IBus intefering with broadcast when using dead keys
@@ -66,8 +67,15 @@ if __name__ == '__main__':
 
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
-    OPTIONS = terminatorlib.optionparse.parse_options()
-
+    OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
+    if OPTIONS.configjson:
+        configjson = ConfigJson()
+        layoutname = configjson.extend_config(OPTIONS.configjson)
+        if layoutname and ((not OPTIONS.layout) or OPTIONS.layout == 'default'):
+            OPTIONS.layout = layoutname
+            if not OPTIONS.profile:
+               OPTIONS.profile = configjson.get_profile_to_use()
+    
     TERMINATOR = Terminator()
     TERMINATOR.set_origcwd(ORIGCWD)
 
@@ -95,17 +103,14 @@ if __name__ == '__main__':
                 # (the -x argument for example)
                 if OPTIONS.working_directory is None:
                     OPTIONS.working_directory = ORIGCWD
-                optionslist = {}
-                for opt, val in list(OPTIONS.__dict__.items()):
-                    if type(val) == type([]):
-                        val = ' '.join(val)
-                    if val == True:
-                        val = 'True'
-                    optionslist[opt] = val and '%s'%val or ''
-                optionslist = dbus.Dictionary(optionslist, signature='ss')
+                    dbus_options['working_directory'] = ORIGCWD
+                optionslist = dbus.Dictionary(dbus_options, signature='ss')
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
                     ipc.new_tab_cmdline(optionslist)
+                elif OPTIONS.unhide:
+                    print('requesting to unhide windows')
+                    ipc.unhide_cmdline(optionslist)
                 else:
                     dbg('Requesting a new window')
                     ipc.new_window_cmdline(optionslist)

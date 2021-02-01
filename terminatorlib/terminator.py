@@ -439,7 +439,9 @@ class Terminator(Borg):
             else:
                 bgcolor = Gdk.RGBA()
                 bgcolor = profiles[profile]['background_color']
-            if profiles[profile]['background_type'] == 'transparent':
+            if profiles[profile]['background_type'] == 'image':
+                backgound_image = profiles[profile]['background_image']
+            if profiles[profile]['background_type'] == 'transparent' or profiles[profile]['background_type'] == 'image':
                 bgalpha = profiles[profile]['background_darkness']
             else:
                 bgalpha = "1"
@@ -631,4 +633,15 @@ class Terminator(Borg):
 
         return(layout)
 
+    def zoom_in_all(self):
+        for term in self.terminals:
+            term.zoom_in()
+    
+    def zoom_out_all(self):
+        for term in self.terminals:
+            term.zoom_out()
+    
+    def zoom_orig_all(self):
+        for term in self.terminals:
+            term.zoom_orig()
 # vim: set expandtab ts=4 sw=4:

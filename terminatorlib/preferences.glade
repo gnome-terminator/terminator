@@ -600,7 +600,7 @@
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">1</property>
+                                    <property name="left_attach">2</property>
                                     <property name="top_attach">0</property>
                                     <property name="width">2</property>
                                   </packing>
@@ -633,7 +633,7 @@
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">1</property>
+                                    <property name="left_attach">2</property>
                                     <property name="top_attach">1</property>
                                     <property name="width">2</property>
                                   </packing>
@@ -668,7 +668,6 @@
                                   <packing>
                                     <property name="left_attach">0</property>
                                     <property name="top_attach">3</property>
-                                    <property name="width">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -749,7 +748,7 @@
                                   <packing>
                                     <property name="left_attach">0</property>
                                     <property name="top_attach">6</property>
-                                    <property name="width">3</property>
+                                    <property name="width">4</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -765,7 +764,7 @@
                                     <signal name="toggled" handler="on_putty_paste_style_source_clipboard_toggled" swapped="no"/>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">1</property>
+                                    <property name="left_attach">2</property>
                                     <property name="top_attach">2</property>
                                   </packing>
                                 </child>
@@ -783,9 +782,42 @@
                                     <signal name="toggled" handler="on_putty_paste_style_source_clipboard_toggled" swapped="no"/>
                                   </object>
                                   <packing>
-                                    <property name="left_attach">2</property>
+                                    <property name="left_attach">3</property>
                                     <property name="top_attach">2</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton">
+                                    <property name="label" translatable="yes">Clear selection on copy</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_clear_select_on_copy_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="width">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
@@ -1434,6 +1466,12 @@
                                     <property name="top_attach">2</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">True</property>
@@ -1712,23 +1750,6 @@
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="position">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkCheckButton" id="rewrap_on_resize_checkbutton">
-                                <property name="label" translatable="yes">Rewrap on resize</property>
-                                <property name="use_action_appearance">False</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="xalign">0.5</property>
-                                <property name="draw_indicator">True</property>
-                                <signal name="toggled" handler="on_rewrap_on_resize_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">5</property>
                               </packing>
                             </child>
                             <child>
@@ -2843,6 +2864,60 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkRadioButton" id="image_radiobutton">
+                            <property name="label" translatable="yes">Background Image</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">solid_radiobutton</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Background Image File:</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="padding">5</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFileChooserButton" id="background_image_file">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="title" translatable="yes">Choose file</property>
+                                <signal name="file-set" handler="on_background_image_file_set" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="pack_type">end</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkBox" id="darken_background_vbox">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
@@ -2852,7 +2927,7 @@
                               <object class="GtkLabel" id="darken_background_scale_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">S_hade transparent background:</property>
+                                <property name="label" translatable="yes">S_hade background:</property>
                                 <property name="use_underline">True</property>
                                 <property name="mnemonic_widget">darken_background_scale</property>
                                 <property name="xalign">0</property>
@@ -2860,7 +2935,7 @@
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="padding">1</property>
+                                <property name="padding">5</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
@@ -2928,7 +3003,30 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">2</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">6</property>
                           </packing>
                         </child>
                       </object>
@@ -3855,7 +3953,7 @@
                           <object class="GtkLabel" id="about_version_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Version: $$VERSION$$</property>
+                            <property name="label" translatable="yes">Version: 2.1.0</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -4040,5 +4138,10 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
       <widget name="delete_binding_combobox"/>
       <widget name="encoding_combobox"/>
     </widgets>
+  </object>
+  <object class="GtkAdjustment" id="background_image_shading_adjustment">
+    <property name="upper">1</property>
+    <property name="step_increment">0.1</property>
+    <property name="page_increment">0.01</property>
   </object>
 </interface>

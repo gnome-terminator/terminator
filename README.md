@@ -3,20 +3,9 @@ Terminator
 
 by Chris Jones <cmsj@tenshu.net> and others.
 
-## New home on GitHub
-
-In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
-
-Unfortunately we are not able to adopt the Launchpad project, so we could only inform users were possible. 
-
-You can find the project on https://github.com/gnome-terminator/terminator
-
 ## Description
 
-The goal of this project is to produce a useful tool for arranging terminals. 
-It is inspired by programs such as `gnome-multi-term`, `quadkonsole`, etc. in that
-the main focus is arranging terminals in grids (tabs is the most common default
-method, which Terminator also supports).
+Terminator was originally developed by Chris Jones in 2007 as a simple, 300-ish line python script.  Since then, it has become The Robot Future of Terminals.  Originally inspired by projects like quadkonsole and gnome-multi-term and more recently by projects like Iterm2, and Tilix, It lets you combine and recombine terminals to suit the style you like.  If you live at the command-line, or are logged into 10 different remote machines at once, you should definitely try out Terminator.
 
 When you run **`Terminator`**, you will get a terminal in a window, just like almost 
 every other terminal emulator available. There is also a titlebar which will
@@ -24,7 +13,18 @@ update as shells/programs inside the terminal tell it to. Also on the titlebar
 is a small button that opens the grouping menu. From here you can put terminals
 into groups, which allows you to control multiple terminals simultaneously.
 
-#### Some shortcuts:
+## New home on GitHub
+
+In April of 2020 we started moving **`Terminator`** to GitHub. A new team wanted to continue the work of the original authors.
+
+You can find the project on https://github.com/gnome-terminator/terminator
+
+## Installing
+
+Terminator is available for most (if not all) Linux distributions from the distribution's repository of binary packages.  It is also available on FreeBSD.   Please search your repository for `terminator`  If you want to find information on how to enable an updated package repository for your OS, build from source, or want to run the bleeding-edge master version, you can follow the instructions in [INSTALL.md](https://github.com/gnome-terminator/terminator/blob/master/INSTALL.md)
+
+
+#### Quick Start:
 
 Create more terminals by:  
  - horizontal split: `Ctrl-Shift-o`
@@ -52,7 +52,8 @@ Terminator Preferences menu:
 These and more modifiable shortcuts in:  
  - right mouse click -> Preferences -> Keybindings tab  
 
-Web Documentation: `F1`
+Web Documentation: 
+ - press `F1` or at https://gnome-terminator.readthedocs.io/en/latest/
 
 More info about shortcuts and cli config in man pages:  
  - `man terminator`
@@ -64,6 +65,7 @@ Any help is welcome with the Terminator project.
 
 * [Open issues for bugs or enhancements](https://github.com/gnome-terminator/terminator/issues/new)
 * [Join our chat room on gitter.im for general questions](https://gitter.im/gnome-terminator/community)
+* [Help translating Terminator](TRANSLATION.md)
 
 You can find old bugs and questions in the launchpad project, but please don't post anything new there.
 

@@ -1,0 +1,28 @@
+{
+	"layout": {
+		"tab1": [
+			{
+				"command": "bash"
+			},
+			{
+				"command": "bash"
+			}
+		],
+		"tab2": [
+			{
+				"command": "bash"
+			},
+			{
+				"command": "bash"
+			}
+		],
+		"tab3": [
+			{
+				"command": "bash"
+			},
+			{
+				"command": "bash"
+			}
+		]
+	}
+}

@@ -1,0 +1,224 @@
+{
+	"layout":{
+		"columns": [
+			{
+				"children": [
+					{
+						"command": "bash"
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			}
+		],
+		"rows": [
+			{
+				"command": "bash"
+			},
+			{
+				"command": "bash"	
+			},
+			{
+				"command": "bash"	
+			},
+			{
+				"command": "bash"	
+			}
+		],
+		"grid": [
+			{
+				"children": [
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			},
+			{
+				"children": [
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			},
+			{
+				"children": [
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			},
+			{
+				"children": [
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			}
+		],
+		"border": [
+			{
+				"command": "bash",
+				"ratio": 0.2
+			},
+			{
+				"ratio": 0.8,
+				"children": [
+					{
+						"command": "bash",
+						"ratio": 0.2
+					},
+					{
+						"command": "bash",
+						"ratio": 0.8
+					},
+					{
+						"command": "bash"	
+					}
+				]
+			},
+			{
+				"command": "bash"	
+			}
+		],
+		"nested": [
+			{
+				"children": [
+					{
+						"children": [
+							{
+								"command": "bash"
+							},
+							{
+								"command": "bash"	
+							},
+							{
+								"command": "bash"	
+							},
+							{
+								"command": "bash"	
+							}
+						]
+					},
+					{
+						"command": "bash"
+					}
+				]
+			},
+			{
+				"children": [
+					{
+						"children": [
+							{
+								"children": [
+									{
+										"command": "bash"	
+									},
+									{
+										"command": "bash"	
+									}
+								]
+							},
+							{
+								"children": [
+									{
+										"command": "bash"	
+									},
+									{
+										"command": "bash"	
+									}
+								]
+							}
+						]
+					},
+					{
+						"children": [
+							{
+								"children": [
+									{
+										"command": "bash"	
+									},
+									{
+										"command": "bash"	
+									}
+								]
+							},
+							{
+								"children": [
+									{
+										"children": [
+											{
+												"command": "bash"	
+											},
+											{
+												"command": "bash"	
+											}
+										]
+									},
+									{
+										"children": [
+											{
+												"command": "bash"	
+											},
+											{
+												"command": "bash"	
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	"profile":{
+		"background_color": "#170717",
+		"foreground_color": "#f5c0b7",
+		"font": "Monospace 16",
+		"scrollback_infinite":"True"
+	}
+}

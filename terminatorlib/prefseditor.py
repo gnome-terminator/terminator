@@ -105,6 +105,9 @@ class PrefsEditor:
     keybindingnames = { 'zoom_in'          : _('Increase font size'),
                         'zoom_out'         : _('Decrease font size'),
                         'zoom_normal'      : _('Restore original font size'),
+						'zoom_in_all'	   : _('Increase font size on all terminals'),
+						'zoom_out_all'	   : _('Decrease font size on all terminals'),
+						'zoom_normal_all'  : _('Restore original font size on all terminals'),
                         'new_tab'          : _('Create a new tab'),
                         'cycle_next'       : _('Focus the next terminal'),
                         'cycle_prev'       : _('Focus the previous terminal'),
@@ -154,6 +157,7 @@ class PrefsEditor:
                         'reset'            : _('Reset the terminal'),
                         'reset_clear'      : _('Reset and clear the terminal'),
                         'hide_window'      : _('Toggle window visibility'),
+                        'create_group'     : _('Create new group'),
                         'group_all'        : _('Group all terminals'),
                         'group_all_toggle' : _('Group/Ungroup all terminals'),
                         'ungroup_all'      : _('Ungroup all terminals'),
@@ -173,6 +177,7 @@ class PrefsEditor:
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
+			'preferences'	   : _('Open the Preferences window'),
                         'help'             : _('Open the manual')
             }
 
@@ -185,6 +190,7 @@ class PrefsEditor:
         self.builder = Gtk.Builder()
         self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
+        self.active_message_dialog = None
         try:
             # Figure out where our library is on-disk so we can open our
             (head, _tail) = os.path.split(config.__file__)
@@ -479,9 +485,6 @@ class PrefsEditor:
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
-        # Rewrap on resize
-        widget = guiget('rewrap_on_resize_checkbutton')
-        widget.set_active(self.config['rewrap_on_resize'])
         # Word chars
         widget = guiget('word_chars_entry')
         widget.set_text(self.config['word_chars'])
@@ -630,11 +633,15 @@ class PrefsEditor:
             guiget('solid_radiobutton').set_active(True)
         elif self.config['background_type'] == 'transparent':
             guiget('transparent_radiobutton').set_active(True)
+        elif self.config['background_type'] == 'image':
+            guiget('image_radiobutton').set_active(True)
         self.update_background_tab()
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-
+        widget = guiget('background_image_file')
+        widget.set_filename(self.config['background_image'])
+   
         ## Scrolling tab
         # Scrollbar position
         widget = guiget('scrollbar_position_combobox')
@@ -795,11 +802,6 @@ class PrefsEditor:
         self.config['copy_on_selection'] = widget.get_active()
         self.config.save()
 
-    def on_rewrap_on_resize_toggled(self, widget):
-        """Rewrap on resize setting changed"""
-        self.config['rewrap_on_resize'] = widget.get_active()
-        self.config.save()
-
     def on_putty_paste_style_toggled(self, widget):
         """Putty paste style setting changed"""
         self.config['putty_paste_style'] = widget.get_active()
@@ -815,6 +817,11 @@ class PrefsEditor:
     def on_smart_copy_toggled(self, widget):
         """Putty paste style setting changed"""
         self.config['smart_copy'] = widget.get_active()
+        self.config.save()
+
+    def on_clear_select_on_copy_toggled(self,widget):
+        """Clear selection on smart copy"""
+        self.config['clear_select_on_copy'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):
@@ -926,6 +933,11 @@ class PrefsEditor:
         else:
             value = 'left'
         self.config['scrollbar_position'] = value
+        self.config.save()
+
+    def on_background_image_file_set(self,widget):
+        print(widget.get_filename())
+        self.config['background_image'] = widget.get_filename()
         self.config.save()
 
     def on_darken_background_scale_value_changed(self, widget):
@@ -1386,6 +1398,7 @@ class PrefsEditor:
         if self.config.replace_layout(name, current_layout):
             treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
         self.config.save()
+        self.layouteditor.set_layout(name)
 
     def on_layoutremovebutton_clicked(self, _button):
         """Remove a layout from the list"""
@@ -1486,12 +1499,20 @@ class PrefsEditor:
         backtype = None
         imagewidget = guiget('image_radiobutton')
         transwidget = guiget('transparent_radiobutton')
-        if transwidget.get_active() == True:
+
+        if imagewidget.get_active() == True:
+            backtype = 'image'
+        elif transwidget.get_active() == True:
             backtype = 'transparent'
         else:
             backtype = 'solid'
         self.config['background_type'] = backtype
         self.config.save()
+
+        if backtype == 'image':
+                guiget('background_image_file').set_sensitive(True)
+        else:
+                guiget('background_image_file').set_sensitive(False)
 
         if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)
@@ -1671,7 +1692,9 @@ class PrefsEditor:
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
         """Handle an edited keybinding"""
-        if mods & Gdk.ModifierType.SHIFT_MASK:
+        # Ignore `Gdk.KEY_Tab` so that `Shift+Tab` is displayed as `Shift+Tab`
+        # in `Preferences>Keybindings` and NOT `Left Tab` (see `Gdk.KEY_ISO_Left_Tab`).
+        if mods & Gdk.ModifierType.SHIFT_MASK and key != Gdk.KEY_Tab:
             key_with_shift = Gdk.Keymap.translate_keyboard_state(
                 self.keybindings.keymap,
                 hardware_keycode=_code,
@@ -1685,6 +1708,46 @@ class PrefsEditor:
             # Shift key.
             if key_with_shift.level != 0 and keyval_lower == keyval_upper:
                 mods = Gdk.ModifierType(mods & ~Gdk.ModifierType.SHIFT_MASK)
+                key = key_with_shift.keyval
+
+        accel = Gtk.accelerator_name(key, mods)
+        current_binding = liststore.get_value(liststore.get_iter(path), 0)
+
+        duplicate_bindings = []
+        for conf_binding, conf_accel in self.config["keybindings"].items():
+            parsed_accel = Gtk.accelerator_parse(accel)
+            parsed_conf_accel = Gtk.accelerator_parse(conf_accel)
+
+            if (
+                parsed_accel == parsed_conf_accel
+                and current_binding != conf_binding
+            ):
+                duplicate_bindings.append((conf_binding, conf_accel))
+
+        if duplicate_bindings:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                flags=Gtk.DialogFlags.MODAL,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.CLOSE,
+                text="Duplicate Key Bindings Are Not Allowed",
+            )
+
+            accel_label = Gtk.accelerator_get_label(key, mods)
+            # get the first found duplicate
+            duplicate_keybinding_name = duplicate_bindings[0][0]
+
+            message = (
+                "Key binding `{0}` is already in use to trigger the `{1}` action."
+            ).format(accel_label, self.keybindingnames[duplicate_keybinding_name])
+            dialog.format_secondary_text(message)
+
+            self.active_message_dialog = dialog
+            dialog.run()
+            dialog.destroy()
+            self.active_message_dialog = None
+
+            return
 
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, key, 3, mods)
@@ -1700,7 +1763,7 @@ class PrefsEditor:
         liststore.set(celliter, 2, 0, 3, 0)
 
         binding = liststore.get_value(liststore.get_iter(path), 0)
-        self.config['keybindings'][binding] = None
+        self.config['keybindings'][binding] = ""
         self.config.save()
 
     def on_open_manual(self,  widget):

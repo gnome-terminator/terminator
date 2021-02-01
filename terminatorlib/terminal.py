@@ -6,7 +6,8 @@
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk
+import cairo
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
@@ -23,12 +24,39 @@ from .factory import Factory
 from .terminator import Terminator
 from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
+from .prefseditor import PrefsEditor
 from .searchbar import Searchbar
 from .translation import _
 from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
+
+class Overpaint(Vte.Terminal):
+    def __init__(self):
+        Vte.Terminal.__init__(self)
+        self.config = Config()
+        ### inactive_color_offset is the opposite of alpha level
+        self.dim_p = float(self.config['inactive_color_offset'])
+        self.dim_l = round(1.0 - self.dim_p,3)
+    def dim(self,b):
+        self.overpaint = b
+
+    def do_draw(self,cr):
+        ### get_color_background_for_draw is not available in older 
+        ### versions of vte
+        try:
+            bgc = Vte.Terminal.get_color_background_for_draw(self)
+        except AttributeError as e:
+            bgc = Gdk.RGBA()
+            bgc.parse(self.config['background_color'])
+        Vte.Terminal.do_draw(self,cr)
+        if self.overpaint:
+            bgc.alpha = self.dim_l
+            cr.set_operator(cairo.Operator.OVER)
+            Gdk.cairo_set_source_rgba(cr,bgc)
+            cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
+            cr.paint()
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -98,13 +126,14 @@ class Terminal(Gtk.VBox):
     custom_encoding = None
     custom_font_size = None
     layout_command = None
+    relaunch_command = None
     directory = None
 
+    is_held_open = False
+
     fgcolor_active = None
-    fgcolor_inactive = None
     bgcolor = None
     palette_active = None
-    palette_inactive = None
 
     composite_support = None
 
@@ -134,7 +163,21 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        self.vte = Vte.Terminal()
+        self.vte = Overpaint()
+        self.vte.dim(False)
+        self.queue_draw()
+        self.background_image = None
+        if self.config['background_image'] != '':
+            try: 
+                self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
+                self.vte.set_clear_background(False)
+                self.vte.connect("draw",self.background_draw)
+            except Exception as e:
+                self.background_image = None
+                self.vte.set_clear_background(True)
+                err('error loading background image: %s' % e)
+
+        self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -146,7 +189,6 @@ class Terminal(Gtk.VBox):
 
         
         self.vte.show()
-
         self.default_encoding = self.vte.get_encoding()
         self.update_url_matches()
 
@@ -238,14 +280,15 @@ class Terminal(Gtk.VBox):
         dbg('close: called')
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
-        try:
-            dbg('close: killing %d' % self.pid)
-            os.kill(self.pid, signal.SIGHUP)
-        except Exception as ex:
-            # We really don't want to care if this failed. Deep OS voodoo is
-            # not what we should be doing.
-            dbg('os.kill failed: %s' % ex)
-            pass
+        if self.pid is not None:
+            try:
+                dbg('close: killing %d' % self.pid)
+                os.kill(self.pid, signal.SIGHUP)
+            except Exception as ex:
+                # We really don't want to care if this failed. Deep OS voodoo is
+                # not what we should be doing.
+                dbg('os.kill failed: %s' % ex)
+                pass
 
         if self.vte:
             self.terminalbox.remove(self.vte)
@@ -254,8 +297,8 @@ class Terminal(Gtk.VBox):
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
 
-        terminalbox = Gtk.HBox()
-        self.scrollbar = Gtk.VScrollbar(self.vte.get_vadjustment())
+        terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
         self.scrollbar.set_no_show_all(True)
 
         terminalbox.pack_start(self.vte, True, True, 0)
@@ -288,7 +331,7 @@ class Terminal(Gtk.VBox):
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
         hostchars = "-A-Za-z0-9:\[\]"
         pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
-        schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:)"
+        schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:|ssh:)"
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
         urlpath   = "/[" + pathchars + "]*[^]'.}>) \t\r\n,\\\"]"
 
@@ -454,7 +497,7 @@ class Terminal(Gtk.VBox):
 
         menu = self.populate_group_menu()
         menu.show_all()
-        menu.popup(None, None, self.position_popup_group_menu, widget, button, time)
+        menu.popup_at_widget(widget,Gdk.Gravity.SOUTH_WEST,Gdk.Gravity.NORTH_WEST,None)
         return(True)
 
     def populate_group_menu(self):
@@ -561,28 +604,6 @@ class Terminal(Gtk.VBox):
 
         return(menu)
 
-    def position_popup_group_menu(self, menu, *args):
-        """Calculate the position of the group popup menu"""
-        # GTK API, or GIR just changed the args. See LP#1518058
-        widget = args[-1]
-        _screen_w = Gdk.Screen.width()
-        screen_h = Gdk.Screen.height()
-
-        widget_win = widget.get_window()
-        _something, widget_x, widget_y = widget_win.get_origin()
-        _widget_w = widget_win.get_width()
-        widget_h = widget_win.get_height()
-
-        _menu_w = menu.size_request().width
-        menu_h = menu.size_request().height
-
-        if widget_y + widget_h + menu_h > screen_h:
-            menu_y = max(widget_y - menu_h, 0)
-        else:
-            menu_y = widget_y + widget_h
-
-        return(widget_x, menu_y, 1)
-
     def set_group(self, _item, name):
         """Set a particular group"""
         if self.group == name:
@@ -636,6 +657,8 @@ class Terminal(Gtk.VBox):
 
         if self.config['exit_action'] == 'restart':
             self.cnxids.new(self.vte, 'child-exited', self.spawn_child, True)
+        elif self.config['exit_action'] == 'hold':
+            self.cnxids.new(self.vte, 'child-exited', self.held_open, True)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
@@ -715,63 +738,28 @@ class Terminal(Gtk.VBox):
             self.bgcolor = Gdk.RGBA()
             self.bgcolor.parse(self.config['background_color'])
 
-        if self.config['background_type'] == 'transparent':
+        if self.config['background_type'] == 'transparent' or self.config['background_type'] == 'image':
             self.bgcolor.alpha = self.config['background_darkness']
         else:
             self.bgcolor.alpha = 1
 
-        factor = self.config['inactive_color_offset']
-        if factor > 1.0:
-          factor = 1.0
-        self.fgcolor_inactive = self.fgcolor_active.copy()
-        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
-                                                      getattr(self.fgcolor_inactive, "green"),
-                                                      getattr(self.fgcolor_inactive, "blue")))
-
-        for bit in ['red', 'green', 'blue']:
-            setattr(self.fgcolor_inactive, bit,
-                    getattr(self.fgcolor_inactive, bit) * factor)
-
-        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
-                                                      getattr(self.fgcolor_inactive, "green"),
-                                                      getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
+
         for color in colors:
             if color:
                 newcolor = Gdk.RGBA()
                 newcolor.parse(color)
                 self.palette_active.append(newcolor)
-        if len(colors) == 16:
-            # RGB values for indices 16..255 copied from vte source in order to dim them
-            shades = [0, 95, 135, 175, 215, 255]
-            for r in range(0, 6):
-                for g in range(0, 6):
-                    for b in range(0, 6):
-                        newcolor = Gdk.RGBA()
-                        setattr(newcolor, "red",   shades[r] / 255.0)
-                        setattr(newcolor, "green", shades[g] / 255.0)
-                        setattr(newcolor, "blue",  shades[b] / 255.0)
-                        self.palette_active.append(newcolor)
-            for y in range(8, 248, 10):
-                newcolor = Gdk.RGBA()
-                setattr(newcolor, "red",   y / 255.0)
-                setattr(newcolor, "green", y / 255.0)
-                setattr(newcolor, "blue",  y / 255.0)
-                self.palette_active.append(newcolor)
-        self.palette_inactive = []
-        for color in self.palette_active:
-            newcolor = Gdk.RGBA()
-            for bit in ['red', 'green', 'blue']:
-                setattr(newcolor, bit,
-                        getattr(color, bit) * factor)
-            self.palette_inactive.append(newcolor)
-        if self.terminator.last_focused_term == self:
-            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
+
+        if self.terminator.last_focused_term == self:
+            self.vte.dim(False)
+            self.queue_draw()
         else:
-            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                                self.palette_inactive)
+            self.vte.dim(True)
+            self.queue_draw()
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
         for profile in list(profiles.keys()):
@@ -822,9 +810,6 @@ class Terminal(Gtk.VBox):
             elif self.config['scrollbar_position'] == 'right':
                 self.terminalbox.reorder_child(self.vte, 0)
 
-        
-        self.vte.set_rewrap_on_resize(self.config['rewrap_on_resize'])
-
         self.titlebar.update()
         self.vte.queue_draw()
 
@@ -839,7 +824,7 @@ class Terminal(Gtk.VBox):
 
     def get_window_title(self):
         """Return the window title"""
-        return(self.vte.get_window_title() or str(self.command))
+        return self.vte.get_window_title() or str(self.command)
 
     def on_group_button_press(self, widget, event):
         """Handler for the group button"""
@@ -859,10 +844,10 @@ class Terminal(Gtk.VBox):
                 focused=self.get_toplevel().get_focussed_terminal()
                 if focused in targets: targets.remove(focused)
                 if self != focused:
-                    if self.group==focused.group:
-                        new_group=None
+                    if self.group == focused.group:
+                        new_group = None
                     else:
-                        new_group=focused.group
+                        new_group = focused.group
                     [term.set_group(None, new_group) for term in targets]
                     [term.titlebar.update(focused) for term in targets]
                 return True
@@ -880,21 +865,13 @@ class Terminal(Gtk.VBox):
                 return True
             else:
                 dbg('on_group_button_press: unknown group button interaction')
-        return(False)
+        return False
 
     def on_keypress(self, widget, event):
         """Handler for keyboard events"""
         if not event:
             dbg('Terminal::on_keypress: Called on %s with no event' % widget)
-            return(False)
-
-        # Workaround for IBus interfering with broadcast when using dead keys
-        # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
-        # in the receivers.
-        if self.terminator.ibus_running:
-            if (event.state | Gdk.ModifierType.MODIFIER_MASK ) ^ Gdk.ModifierType.MODIFIER_MASK != 0:
-                dbg('Terminal::on_keypress: Ingore processed event with event.state %d' % event.state)
-                return(False)
+            return False
 
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
@@ -911,10 +888,10 @@ class Terminal(Gtk.VBox):
             if isinstance(child, Terminal):
                 # not a Notebook instance => a single tab is used
                 # .get_n_pages() can not be used
-                return(False)
+                return False
 
         if mapping == "hide_window":
-            return(False)
+            return False
 
         if mapping and mapping not in ['close_window',
                                        'full_screen']:
@@ -923,14 +900,14 @@ class Terminal(Gtk.VBox):
             # we only copy if there is a selection otherwise let it fall through
             # to ^<key>
             if (mapping == "copy" and event.get_state() & Gdk.ModifierType.CONTROL_MASK):
-                if self.vte.get_has_selection ():
+                if self.vte.get_has_selection():
                     getattr(self, "key_" + mapping)()
-                    return(True)
+                    return True
                 elif not self.config['smart_copy']:
-                    return(True)
+                    return True
             else:
                 getattr(self, "key_" + mapping)()
-                return(True)
+                return True
 
         # FIXME: This is all clearly wrong. We should be doing this better
         #         maybe we can emit the key event and let Terminator() care?
@@ -940,11 +917,11 @@ class Terminal(Gtk.VBox):
         if groupsend != groupsend_type['off'] and window_focussed and self.vte.is_focus():
             if self.group and groupsend == groupsend_type['group']:
                 self.terminator.group_emit(self, self.group, 'key-press-event',
-                        event)
+                                           event)
             if groupsend == groupsend_type['all']:
                 self.terminator.all_emit(self, 'key-press-event', event)
 
-        return(False)
+        return False
 
     def on_buttonpress(self, widget, event):
         """Handler for mouse events"""
@@ -962,11 +939,11 @@ class Terminal(Gtk.VBox):
             middle_click = [self.paste_clipboard, (True, )]
             right_click = [self.popup_menu, (widget, event)]
 
-        ### Ctrl-click event here.
+        # Ctrl-click event here.
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
-                ## Check new OSC-8 method first
+                # Check new OSC-8 method first
                 url = self.vte.hyperlink_check_event(event)
                 dbg('url: %s' % url)
                 if url:
@@ -989,9 +966,8 @@ class Terminal(Gtk.VBox):
                     gtk_settings.set_property('gtk-enable-primary-paste', primary_state)
                 else:
                     middle_click[0](*middle_click[1])
-                return(True)
+                return True
             return Vte.Terminal.do_button_press_event(self.vte, event)
-            #return(True)
         elif event.button == self.MOUSEBUTTON_RIGHT:
             # rightclick should display a context menu if Ctrl is not pressed,
             # plus either the app is not interested in mouse events or Shift is pressed
@@ -1001,9 +977,8 @@ class Terminal(Gtk.VBox):
                         right_click[0](*right_click[1])
                 else:
                     right_click[0](*right_click[1])
-                return(True)
-
-        return(False)
+                return True
+        return False
 
     def on_mousewheel(self, widget, event):
         """Handler for modifier + mouse wheel scroll events"""
@@ -1012,31 +987,31 @@ class Terminal(Gtk.VBox):
         if event.state & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
             # Zoom the terminal(s) in or out if not disabled in config
             if self.config["disable_mousewheel_zoom"] is True:
-                return (False)
+                return False
             # Choice of target terminals depends on Shift and Super modifiers
             if event.state & Gdk.ModifierType.MOD4_MASK == Gdk.ModifierType.MOD4_MASK:
-                targets=self.terminator.terminals
+                targets = self.terminator.terminals
             elif event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
-                targets=self.terminator.get_target_terms(self)
+                targets = self.terminator.get_target_terms(self)
             else:
-                targets=[self]
+                targets = [self]
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
                 for target in targets:
                     target.zoom_in()
-                return (True)
+                return True
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
                 for target in targets:
                     target.zoom_out()
-                return (True)
+                return True
         if event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
             # Shift + mouse wheel up/down
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
                 self.scroll_by_page(-1)
-                return (True)
+                return True
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
                 self.scroll_by_page(1)
-                return (True)
-        return(False)
+                return True
+        return False
 
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
@@ -1069,15 +1044,16 @@ class Terminal(Gtk.VBox):
         Gtk.drag_set_icon_pixbuf(drag_context, util.widget_pixbuf(self, 512), 0, 0)
 
     def on_drag_data_get(self, _widget, _drag_context, selection_data, info,
-            _time, data):
+                         _time, data):
         """I have no idea what this does, drag and drop is a mystery. sorry."""
         selection_data.set(Gdk.atom_intern('vte', False), info,
-                bytes(str(data.terminator.terminals.index(self)), 'utf-8'))
+                           bytes(str(data.terminator.terminals.index(self)),
+                                 'utf-8'))
 
     def on_drag_motion(self, widget, drag_context, x, y, _time, _data):
         """*shrug*"""
         if not drag_context.list_targets() == [Gdk.atom_intern('vte', False)] and \
-           (Gtk.targets_include_text(drag_context.list_targets()) or \
+           (Gtk.targets_include_text(drag_context.list_targets()) or
            Gtk.targets_include_uri(drag_context.list_targets())):
             # copy text from another widget
             return
@@ -1104,7 +1080,7 @@ class Terminal(Gtk.VBox):
         bottommiddle = (alloc.width/2, alloc.height)
         middleleft = (0, alloc.height/2)
         middleright = (alloc.width, alloc.height/2)
-        #print "%f %f %d %d" %(coef1, coef2, b1,b2)
+
         coord = ()
         if pos == "right":
             coord = (topright, topmiddle, bottommiddle, bottomright)
@@ -1115,47 +1091,64 @@ class Terminal(Gtk.VBox):
         elif pos == "bottom":
             coord = (bottomleft, bottomright, middleright , middleleft)
 
-        #here, we define some widget internal values
+        # here, we define some widget internal values
         widget._draw_data = { 'color': color, 'coord' : coord }
-        #redraw by forcing an event
+        # redraw by forcing an event
         connec = widget.connect_after('draw', self.on_draw)
         widget.queue_draw_area(0, 0, alloc.width, alloc.height)
         widget.get_window().process_updates(True)
-        #finaly reset the values
+        # finaly reset the values
         widget.disconnect(connec)
         widget._draw_data = None
 
+    def background_draw(self, widget, cr):
+        if not self.config['background_type'] == 'image' or not self.background_image:
+            return False
+
+        rect = self.vte.get_allocation()
+        xratio = float(rect.width) / float(self.background_image.get_width())
+        yratio = float(rect.height) / float(self.background_image.get_height())
+        cr.save()
+        cr.scale(xratio,yratio)
+        Gdk.cairo_set_source_pixbuf(cr, self.background_image, 0, 0)
+        cr.paint()
+        Gdk.cairo_set_source_rgba(cr,self.bgcolor)
+        cr.paint()
+        cr.restore()
+
     def on_draw(self, widget, context):
-        """Handle an expose event while dragging"""
         if not widget._draw_data:
-            return(False)
+            return False
 
         color = widget._draw_data['color']
         coord = widget._draw_data['coord']
 
         context.set_source_rgba(color.red, color.green, color.blue, 0.5)
-        if len(coord) > 0 :
+        if len(coord) > 0:
             context.move_to(coord[len(coord)-1][0], coord[len(coord)-1][1])
             for i in coord:
                 context.line_to(i[0], i[1])
 
         context.fill()
-        return(False)
+        return False
 
     def on_drag_data_received(self, widget, drag_context, x, y, selection_data,
             info, _time, data):
         """Something has been dragged into the terminal. Handle it as either a
         URL or another terminal."""
+        # FIXME this code is a mess that I don't quite understand how it works.
         dbg('drag data received of type: %s' % (selection_data.get_data_type()))
+        # print(selection_data.get_urls())
         if Gtk.targets_include_text(drag_context.list_targets()) or \
            Gtk.targets_include_uri(drag_context.list_targets()):
             # copy text with no modification yet to destination
             txt = selection_data.get_data()
-
             # https://bugs.launchpad.net/terminator/+bug/1518705
             if info == self.TARGET_TYPE_MOZ:
                  txt = txt.decode('utf-16')
-                 txt = txt.split('\n')[0]
+                 # KDE ends it's text/x-moz-url text with CRLF, :shrug:
+                 if not txt.endswith('\r\n'):
+                   txt = txt.split('\n')[0]
             else:
                  txt = txt.decode()
 
@@ -1170,18 +1163,19 @@ class Terminal(Gtk.VBox):
                     # iterate over all elements except the last one.
                     str=''
                     for fname in txt_lines[:-1]:
-                        dbg('drag data fname: %s' % fname)
                         fname = "'%s'" % urlunquote(fname[7:].replace("'",
-                                                                    '\'\\\'\''))
+                                                                      '\'\\\'\''))
                         str += fname + ' '
-                    txt=str
+                    txt = str
+            # Never send a CRLF to the terminal from here
+            txt = txt.rstrip('\r\n')
             for term in self.terminator.get_target_terms(self):
-                term.feed(txt)
+                term.feed(txt.encode())
             return
 
         widgetsrc = data.terminator.terminals[int(selection_data.get_data())]
         srcvte = Gtk.drag_get_source_widget(drag_context)
-        #check if computation requireds
+        # check if computation requireds
         if (isinstance(srcvte, Gtk.EventBox) and
                 srcvte == self.titlebar) or srcvte == widget:
             return
@@ -1215,7 +1209,7 @@ class Terminal(Gtk.VBox):
     def get_location(self, term, x, y):
         """Get our location within the terminal"""
         pos = ''
-        #get the diagonales function for the receiving widget
+        # get the diagonales function for the receiving widget
         term_alloc = term.get_allocation()
         coef1 = float(term_alloc.height)/float(term_alloc.width)
         coef2 = -float(term_alloc.height)/float(term_alloc.width)
@@ -1230,13 +1224,13 @@ class Terminal(Gtk.VBox):
         #| /  \ |
         #|/    \|
         #--------
-        if (x*coef1 + b1 > y ) and (x*coef2 + b2 < y ):
-            pos =  "right"
-        if (x*coef1 + b1 > y ) and (x*coef2 + b2 > y ):
+        if (x*coef1 + b1 > y) and (x*coef2 + b2 < y):
+            pos = "right"
+        if (x*coef1 + b1 > y) and (x*coef2 + b2 > y):
             pos = "top"
-        if (x*coef1 + b1 < y ) and (x*coef2 + b2 > y ):
+        if (x*coef1 + b1 < y) and (x*coef2 + b2 > y):
             pos = "left"
-        if (x*coef1 + b1 < y ) and (x*coef2 + b2 < y ):
+        if (x*coef1 + b1 < y) and (x*coef2 + b2 < y):
             pos = "bottom"
         return pos
 
@@ -1271,9 +1265,8 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                            self.palette_active)
-        self.set_cursor_color()
+        self.vte.dim(False)
+        self.queue_draw()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
@@ -1287,9 +1280,8 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
-                            self.palette_inactive)
-        self.set_cursor_color()
+        self.vte.dim(True)
+        self.queue_draw()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
@@ -1313,7 +1305,7 @@ class Terminal(Gtk.VBox):
     def deferred_on_vte_size_allocate(self, widget, allocation):
         # widget & allocation are not used in on_vte_size_allocate, so we
         # can use the on_vte_size_allocate instead of duplicating the code
-        if self.pending_on_vte_size_allocate == True:
+        if self.pending_on_vte_size_allocate:
             return
         self.pending_on_vte_size_allocate = True
         GObject.idle_add(self.do_deferred_on_vte_size_allocate, widget, allocation)
@@ -1337,22 +1329,21 @@ class Terminal(Gtk.VBox):
             sloppy = self.config.get_system_focus() in ['sloppy', 'mouse']
         elif self.config['focus'] in ['sloppy', 'mouse']:
             sloppy = True
-        if sloppy == True and self.titlebar.editing() == False:
+        if sloppy and self.titlebar.editing() == False:
             term.grab_focus()
-            return(False)
+            return False
 
     def get_zoom_data(self):
         """Return a dict of information for Window"""
-        data = {}
-        data['old_font'] = self.vte.get_font().copy()
-        data['old_char_height'] = self.vte.get_char_height()
-        data['old_char_width'] = self.vte.get_char_width()
-        data['old_allocation'] = self.vte.get_allocation()
-        data['old_columns'] = self.vte.get_column_count()
-        data['old_rows'] = self.vte.get_row_count()
-        data['old_parent'] = self.get_parent()
+        data = {'old_font': self.vte.get_font().copy(),
+                'old_char_height': self.vte.get_char_height(),
+                'old_char_width': self.vte.get_char_width(),
+                'old_allocation': self.vte.get_allocation(),
+                'old_columns': self.vte.get_column_count(),
+                'old_rows': self.vte.get_row_count(),
+                'old_parent': self.get_parent()}
 
-        return(data)
+        return data
 
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
@@ -1396,7 +1387,7 @@ class Terminal(Gtk.VBox):
         except TypeError:
             prop = False
 
-        return(prop)
+        return prop
 
     def zoom(self, widget=None):
         """Zoom ourself to fill the window"""
@@ -1415,25 +1406,35 @@ class Terminal(Gtk.VBox):
         if cwd is not None:
             self.cwd = cwd
 
+    def held_open(self, widget=None, respawn=False, debugserver=False):
+        self.is_held_open = True
+        self.titlebar.update()
+
     def spawn_child(self, widget=None, respawn=False, debugserver=False):
         args = []
         shell = None
         command = None
 
-        if self.terminator.doing_layout == True:
+        if self.terminator.doing_layout:
             dbg('still laying out, refusing to spawn a child')
             return
 
-        if respawn == False:
+        if respawn is False:
             self.vte.grab_focus()
+
+        self.is_held_open = False
 
         options = self.config.options_get()
         if options and options.command:
             command = options.command
+            self.relaunch_command = command
             options.command = None
         elif options and options.execute:
             command = options.execute
+            self.relaunch_command = command
             options.execute = None
+        elif self.relaunch_command:
+            command = self.relaunch_command
         elif self.config['use_custom_command']:
             command = self.config['custom_command']
         elif self.layout_command:
@@ -1449,7 +1450,7 @@ class Terminal(Gtk.VBox):
             self.set_cwd(self.directory)
         # working directory given as argument
         elif options and options.working_directory and \
-           options.working_directory != '':
+                options.working_directory != '':
             self.set_cwd(options.working_directory)
             options.working_directory = ''
 
@@ -1460,7 +1461,7 @@ class Terminal(Gtk.VBox):
             shell = util.shell_lookup()
 
             if self.config['login_shell']:
-                args.insert(0, "-%s" % shell)
+                args.insert(0, "-l")
             else:
                 args.insert(0, shell)
 
@@ -1469,18 +1470,16 @@ class Terminal(Gtk.VBox):
 
         if shell is None:
             self.vte.feed(_('Unable to find a shell'))
-            return(-1)
+            return -1
 
         try:
             os.putenv('WINDOWID', '%s' % self.vte.get_parent_window().xid)
         except AttributeError:
             pass
 
-        envv = []
-        envv.append('TERM=%s' % self.config['term'])
-        envv.append('COLORTERM=%s' % self.config['colorterm'])
-        envv.append('PWD=%s' % self.cwd)
-        envv.append('TERMINATOR_UUID=%s' % self.uuid.urn)
+        envv = ['TERM=%s' % self.config['term'],
+                'COLORTERM=%s' % self.config['colorterm'], 'PWD=%s' % self.cwd,
+                'TERMINATOR_UUID=%s' % self.uuid.urn]
         if self.terminator.dbus_name:
             envv.append('TERMINATOR_DBUS_NAME=%s' % self.terminator.dbus_name)
         if self.terminator.dbus_path:
@@ -1489,29 +1488,27 @@ class Terminal(Gtk.VBox):
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
         args.insert(0, shell)
         result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
-                                       self.cwd,
-                                       args,
-                                       envv,
-                                       GLib.SpawnFlags.FILE_AND_ARGV_ZERO | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-                                       None,
-                                       None,
-                                       None)
+                                                self.cwd,
+                                                args,
+                                                envv,
+                                                GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
+                                                None,
+                                                None,
+                                                None)
         self.command = shell
 
         self.titlebar.update()
 
         if self.pid == -1:
             self.vte.feed(_('Unable to start shell:') + shell)
-            return(-1)
+            return -1
 
     def prepare_url(self, urlmatch):
         """Prepare a URL from a VTE match"""
         url = urlmatch[0]
         match = urlmatch[1]
 
-        if match == self.matches['email'] and url[0:7] != 'mailto:':
-            url = 'mailto:' + url
-        elif match == self.matches['addr_only'] and url[0:3] == 'ftp':
+        if match == self.matches['addr_only'] and url[0:3] == 'ftp':
             url = 'ftp://' + url
         elif match == self.matches['addr_only']:
             url = 'http://' + url
@@ -1533,11 +1530,11 @@ class Terminal(Gtk.VBox):
             except Exception as ex:
                 err('Exception occurred preparing URL: %s' % ex)
 
-        return(url)
+        return url
 
     def open_url(self, url, prepare=False):
         """Open a given URL, conditionally unpacking it from a VTE match"""
-        if prepare == True:
+        if prepare:
             url = self.prepare_url(url)
         dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
 
@@ -1574,7 +1571,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child_binary(text.encode(self.vte.get_encoding()))
+        self.vte.feed_child(text)
 
     def zoom_in(self):
         """Increase the font size"""
@@ -1600,7 +1597,7 @@ class Terminal(Gtk.VBox):
 
     def zoom_orig(self):
         """Restore original font size"""
-        if self.config['use_system_font'] == True:
+        if self.config['use_system_font']:
             font = self.config.get_system_mono_font()
         else:
             font = self.config['font']
@@ -1618,25 +1615,25 @@ class Terminal(Gtk.VBox):
         col, row = self.vte.get_cursor_position()
         width = self.vte.get_char_width()
         height = self.vte.get_char_height()
-        return((col * width, row * height))
+        return col * width, row * height
 
     def get_font_size(self):
         """Return the width/height of our font"""
-        return((self.vte.get_char_width(), self.vte.get_char_height()))
+        return self.vte.get_char_width(), self.vte.get_char_height()
 
     def get_size(self):
         """Return the column/rows of the terminal"""
-        return((self.vte.get_column_count(), self.vte.get_row_count()))
+        return self.vte.get_column_count(), self.vte.get_row_count()
 
     def on_bell(self, widget):
         """Set the urgency hint/icon/flash for our window"""
-        if self.config['urgent_bell'] == True:
+        if self.config['urgent_bell']:
             window = self.get_toplevel()
             if window.is_toplevel():
                 window.set_urgency_hint(True)
-        if self.config['icon_bell'] == True:
+        if self.config['icon_bell']:
             self.titlebar.icon_bell()
-        if self.config['visible_bell'] == True:
+        if self.config['visible_bell']:
             # Repurposed the code used for drag and drop overlay to provide a visual terminal flash
             alloc = widget.get_allocation()
 
@@ -1646,15 +1643,15 @@ class Terminal(Gtk.VBox):
                 color = Gdk.RGBA()
                 color.parse(self.config['foreground_color'])  # VERIFY FOR GTK3
 
-            coord = ( (0, 0), (alloc.width, 0), (alloc.width, alloc.height), (0, alloc.height))
+            coord = ((0, 0), (alloc.width, 0), (alloc.width, alloc.height), (0, alloc.height))
 
-            #here, we define some widget internal values
+            # here, we define some widget internal values
             widget._draw_data = { 'color': color, 'coord' : coord }
-            #redraw by forcing an event
+            # redraw by forcing an event
             connec = widget.connect_after('draw', self.on_draw)
             widget.queue_draw_area(0, 0, alloc.width, alloc.height)
             widget.get_window().process_updates(True)
-            #finaly reset the values
+            # finaly reset the values
             widget.disconnect(connec)
             widget._draw_data = None
 
@@ -1662,17 +1659,14 @@ class Terminal(Gtk.VBox):
             GObject.timeout_add(100, self.on_bell_cleanup, widget, alloc)
 
     def on_bell_cleanup(self, widget, alloc):
-        '''Queue a redraw to clear the visual flash overlay'''
+        """Queue a redraw to clear the visual flash overlay"""
         widget.queue_draw_area(0, 0, alloc.width, alloc.height)
         widget.get_window().process_updates(True)
         return False
 
     def describe_layout(self, count, parent, global_layout, child_order):
         """Describe our layout"""
-        layout = {}
-        layout['type'] = 'Terminal'
-        layout['parent'] = parent
-        layout['order'] = child_order
+        layout = {'type': 'Terminal', 'parent': parent, 'order': child_order}
         if self.group:
             layout['group'] = self.group
         profile = self.get_profile()
@@ -1686,7 +1680,7 @@ class Terminal(Gtk.VBox):
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
-        return(count)
+        return count
 
     def create_layout(self, layout):
         """Apply our layout"""
@@ -1725,7 +1719,8 @@ class Terminal(Gtk.VBox):
         adjustment.set_value(min(value, bottom))
 
     def get_allocation(self):
-        """Get a real allocation which includes the bloody x and y coordinates (grumble, grumble)"""
+        """Get a real allocation which includes the bloody x and y coordinates
+        (grumble, grumble) """
         alloc = super(Terminal, self).get_allocation()
         rv = self.translate_coordinates(self.get_toplevel(), 0, 0)
         if rv:
@@ -1747,6 +1742,8 @@ class Terminal(Gtk.VBox):
 
     def key_copy(self):
         self.vte.copy_clipboard()
+        if self.config['clear_select_on_copy']:
+            self.vte.unselect_all()
 
     def key_paste(self):
         self.paste_clipboard()
@@ -1764,6 +1761,15 @@ class Terminal(Gtk.VBox):
     # a function of Terminator. It would be cleaner if TerminatorTerm
     # has absolutely no reference to Terminator.
     # N (next) - P (previous) - O (horizontal) - E (vertical) - W (close)
+    def key_zoom_in_all(self):
+        self.terminator.zoom_in_all()
+
+    def key_zoom_out_all(self):
+        self.terminator.zoom_out_all()
+        
+    def key_zoom_normal_all(self):
+        self.terminator.zoom_orig_all()
+
     def key_cycle_next(self):
         self.key_go_next()
 
@@ -1875,6 +1881,9 @@ class Terminal(Gtk.VBox):
     def key_reset_clear(self):
         self.vte.reset (True, True)
 
+    def key_create_group(self):
+        self.titlebar.create_group()
+
     def key_group_all(self):
         self.emit('group-all')
 
@@ -1923,9 +1932,9 @@ class Terminal(Gtk.VBox):
     def key_edit_window_title(self):
         window = self.get_toplevel()
         dialog = Gtk.Dialog(_('Rename Window'), window,
-                        Gtk.DialogFlags.MODAL,
-                        ( Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
-                          Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT ))
+                            Gtk.DialogFlags.MODAL,
+                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT,
+                             Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
         dialog.set_default_response(Gtk.ResponseType.ACCEPT)
         dialog.set_resizable(False)
         dialog.set_border_width(8)
@@ -1985,12 +1994,16 @@ class Terminal(Gtk.VBox):
     def key_line_down(self):
         self.scroll_by_line(1)
 
+    def key_preferences(self):
+        PrefsEditor(self)
+
     def key_help(self):
         manual_index_page = manual_lookup()
         if manual_index_page:
             self.open_url(manual_index_page)
 
 # End key events
+
 
 GObject.type_register(Terminal)
 # vim: set expandtab ts=4 sw=4:
