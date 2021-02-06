@@ -4,7 +4,7 @@ from terminatorlib.util import dbg
 from terminatorlib.tmux import layout
 
 import string
-ATTACH_ERROR_STRINGS = ["can't find session terminator", "no current session", "no sessions"]
+ATTACH_ERROR_STRINGS = [b"can't find session terminator", b"no current session", b"no sessions"]
 ALTERNATE_SCREEN_ENTER_CODES = [ "\\033[?1049h" ]
 ALTERNATE_SCREEN_EXIT_CODES  = [ "\\033[?1049l" ]
 
@@ -43,11 +43,11 @@ class Result(Notification):
         self.code = code
         result = []
         line = out.readline()[:-1]
-        while not (line.startswith('%end') or line.startswith('%error')):
+        while not (line.startswith(b'%end') or line.startswith(b'%error')):
             result.append(line)
             line = out.readline()[:-1]
         self.result = result
-        end, timestamp, code, _ = line.split(' ')
+        end, timestamp, code, _ = line.split(b' ')
         self.end_timestamp = timestamp
         self.error = end == '%error'
 

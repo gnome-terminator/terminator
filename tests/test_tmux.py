@@ -19,7 +19,7 @@ class NotificationsTests(unittest.TestCase):
         for layout in layouts:
             notification = notifications.LayoutChange()
             notification.consume(['', layout])
-            print notification.window_layout
+            print(notification.window_layout)
 
 
 def main():
