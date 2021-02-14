@@ -175,7 +175,7 @@ class Terminal(Gtk.VBox):
             except Exception as e:
                 self.background_image = None
                 self.vte.set_clear_background(True)
-                err('error loading background image: %s' % e)
+                err('error loading background image: %s, %s' % (type(ex).__name__,e))
 
         self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
@@ -387,7 +387,7 @@ class Terminal(Gtk.VBox):
                         (name, urlplugin.__class__.__name__,
                         self.matches[name]))
             except Exception as ex:
-                err('Exception occurred adding plugin URL match: %s' % ex)
+                err('Exception occurred adding plugin URL match: %s, %s' % (type(ex).__name__, ex))
 
     def match_add(self, name, match):
         """Register a URL match"""
@@ -1528,7 +1528,7 @@ class Terminal(Gtk.VBox):
                             url = newurl
                         break
             except Exception as ex:
-                err('Exception occurred preparing URL: %s' % ex)
+                err('Exception occurred preparing URL: %s, %s' % (type(ex).__name__, ex))
 
         return url
 
