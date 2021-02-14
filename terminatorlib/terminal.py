@@ -953,6 +953,8 @@ class Terminal(Gtk.VBox):
                     url = self.vte.match_check_event(event)
                     if url[0]:
                         self.open_url(url, prepare=True)
+                    else:
+                        dbg("No regex match, discard event.")
         elif event.button == self.MOUSEBUTTON_MIDDLE:
             # middleclick should paste the clipboard
             # try to pass it to vte widget first though
@@ -1518,13 +1520,14 @@ class Terminal(Gtk.VBox):
                 registry = plugin.PluginRegistry()
                 registry.load_plugins()
                 plugins = registry.get_plugins_by_capability('url_handler')
+                dbg("URL handler plugins: {}".format(plugins))
 
                 for urlplugin in plugins:
                     if match == self.matches[urlplugin.handler_name]:
                         newurl = urlplugin.callback(url)
-                        if newurl is not None:
-                            dbg('Terminal::prepare_url: URL prepared by \
-%s plugin' % urlplugin.handler_name)
+                        if newurl: # If the plugin returns None, it's a false match.
+                            dbg('URL prepared by %s plugin' \
+                                    % urlplugin.handler_name)
                             url = newurl
                         break
             except Exception as ex:
@@ -1536,8 +1539,15 @@ class Terminal(Gtk.VBox):
         """Open a given URL, conditionally unpacking it from a VTE match"""
         if prepare:
             url = self.prepare_url(url)
-        dbg('open_url: URL: %s (prepared: %s)' % (url, prepare))
+        dbg('URL: %s (prepared: %s)' % (url, prepare))
 
+        # If the URL opening is managed by the plugin: do nothing.
+        # (plugins can indicate they manage the URL opening by returning a "terminator://" URI).
+        if url.split(":")[0] == "terminator":
+            dbg("URL opening is managed by the plugin, do nothing more.")
+            return
+
+        # Else, call the URL handler.
         if self.config['use_custom_url_handler']:
             dbg("Using custom URL handler: %s" %
                 self.config['custom_url_handler'])
@@ -1559,6 +1569,7 @@ class Terminal(Gtk.VBox):
             dbg('xdg-open did not work, falling back to webbrowser.open')
             import webbrowser
             webbrowser.open(url)
+
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
