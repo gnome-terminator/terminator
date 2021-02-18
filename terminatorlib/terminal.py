@@ -36,9 +36,13 @@ class Overpaint(Vte.Terminal):
     def __init__(self):
         Vte.Terminal.__init__(self)
         self.config = Config()
+<<<<<<< HEAD
         ### inactive_color_offset is the opposite of alpha level
         self.dim_p = float(self.config['inactive_color_offset'])
         self.dim_l = round(1.0 - self.dim_p,3)
+=======
+
+>>>>>>> parent of fdcab764... convert the unfocused terminal font brightness to alpha transparency level
     def dim(self,b):
         self.overpaint = b
 
@@ -52,7 +56,7 @@ class Overpaint(Vte.Terminal):
             bgc.parse(self.config['background_color'])
         Vte.Terminal.do_draw(self,cr)
         if self.overpaint:
-            bgc.alpha = self.dim_l
+            bgc.alpha = float(self.config['inactive_color_offset'])
             cr.set_operator(cairo.Operator.OVER)
             Gdk.cairo_set_source_rgba(cr,bgc)
             cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
