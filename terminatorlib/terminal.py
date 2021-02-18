@@ -6,7 +6,6 @@
 import os
 import signal
 import gi
-import cairo
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
@@ -31,36 +30,6 @@ from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
-
-class Overpaint(Vte.Terminal):
-    def __init__(self):
-        Vte.Terminal.__init__(self)
-        self.config = Config()
-<<<<<<< HEAD
-        ### inactive_color_offset is the opposite of alpha level
-        self.dim_p = float(self.config['inactive_color_offset'])
-        self.dim_l = round(1.0 - self.dim_p,3)
-=======
-
->>>>>>> parent of fdcab764... convert the unfocused terminal font brightness to alpha transparency level
-    def dim(self,b):
-        self.overpaint = b
-
-    def do_draw(self,cr):
-        ### get_color_background_for_draw is not available in older 
-        ### versions of vte
-        try:
-            bgc = Vte.Terminal.get_color_background_for_draw(self)
-        except AttributeError as e:
-            bgc = Gdk.RGBA()
-            bgc.parse(self.config['background_color'])
-        Vte.Terminal.do_draw(self,cr)
-        if self.overpaint:
-            bgc.alpha = float(self.config['inactive_color_offset'])
-            cr.set_operator(cairo.Operator.OVER)
-            Gdk.cairo_set_source_rgba(cr,bgc)
-            cr.rectangle(0.0,0.0,self.get_allocated_width(),self.get_allocated_height())
-            cr.paint()
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -136,8 +105,10 @@ class Terminal(Gtk.VBox):
     is_held_open = False
 
     fgcolor_active = None
+    fgcolor_inactive = None
     bgcolor = None
     palette_active = None
+    palette_inactive = None
 
     composite_support = None
 
@@ -167,9 +138,7 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        self.vte = Overpaint()
-        self.vte.dim(False)
-        self.queue_draw()
+        self.vte = Vte.Terminal()
         self.background_image = None
         if self.config['background_image'] != '':
             try: 
@@ -747,23 +716,58 @@ class Terminal(Gtk.VBox):
         else:
             self.bgcolor.alpha = 1
 
+        factor = self.config['inactive_color_offset']
+        if factor > 1.0:
+          factor = 1.0
+        self.fgcolor_inactive = self.fgcolor_active.copy()
+        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
+                                                      getattr(self.fgcolor_inactive, "green"),
+                                                      getattr(self.fgcolor_inactive, "blue")))
+
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.fgcolor_inactive, bit,
+                    getattr(self.fgcolor_inactive, bit) * factor)
+
+        dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
+                                                      getattr(self.fgcolor_inactive, "green"),
+                                                      getattr(self.fgcolor_inactive, "blue")))
         colors = self.config['palette'].split(':')
         self.palette_active = []
-
         for color in colors:
             if color:
                 newcolor = Gdk.RGBA()
                 newcolor.parse(color)
                 self.palette_active.append(newcolor)
-        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
-                                self.palette_active)
-
+        if len(colors) == 16:
+            # RGB values for indices 16..255 copied from vte source in order to dim them
+            shades = [0, 95, 135, 175, 215, 255]
+            for r in range(0, 6):
+                for g in range(0, 6):
+                    for b in range(0, 6):
+                        newcolor = Gdk.RGBA()
+                        setattr(newcolor, "red",   shades[r] / 255.0)
+                        setattr(newcolor, "green", shades[g] / 255.0)
+                        setattr(newcolor, "blue",  shades[b] / 255.0)
+                        self.palette_active.append(newcolor)
+            for y in range(8, 248, 10):
+                newcolor = Gdk.RGBA()
+                setattr(newcolor, "red",   y / 255.0)
+                setattr(newcolor, "green", y / 255.0)
+                setattr(newcolor, "blue",  y / 255.0)
+                self.palette_active.append(newcolor)
+        self.palette_inactive = []
+        for color in self.palette_active:
+            newcolor = Gdk.RGBA()
+            for bit in ['red', 'green', 'blue']:
+                setattr(newcolor, bit,
+                        getattr(color, bit) * factor)
+            self.palette_inactive.append(newcolor)
         if self.terminator.last_focused_term == self:
-            self.vte.dim(False)
-            self.queue_draw()
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
         else:
-            self.vte.dim(True)
-            self.queue_draw()
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                                self.palette_inactive)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
         for profile in list(profiles.keys()):
@@ -1269,8 +1273,9 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_in(self, _widget, _event):
         """Inform other parts of the application when focus is received"""
-        self.vte.dim(False)
-        self.queue_draw()
+        self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                            self.palette_active)
+        self.set_cursor_color()
         if not self.terminator.doing_layout:
             self.terminator.last_focused_term = self
             if self.get_toplevel().is_child_notebook():
@@ -1284,8 +1289,9 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.dim(True)
-        self.queue_draw()
+        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+                            self.palette_inactive)
+        self.set_cursor_color()
         self.emit('focus-out')
 
     def on_window_focus_out(self):
