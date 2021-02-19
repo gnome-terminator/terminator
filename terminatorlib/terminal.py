@@ -1420,10 +1420,10 @@ class Terminal(Gtk.VBox):
         self.is_held_open = True
         self.titlebar.update()
 
-    def spawn_child(self, widget=None, respawn=False, debugserver=False):
+    def spawn_child(self, init_command=None, widget=None, respawn=False, debugserver=False):
         args = []
         shell = None
-        command = None
+        command = init_command
 
         if self.terminator.doing_layout:
             dbg('still laying out, refusing to spawn a child')
