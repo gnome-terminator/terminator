@@ -35,17 +35,18 @@ from terminatorlib.translation import _
 APP_NAME='remotinator'
 
 COMMANDS={
-    #  Command         uuid req.    Description
-    'new_window':       [False, _('Open a new window')],
-    'new_tab':          [True,  _('Open a new tab')],
-    'hsplit':           [True,  _('Split the current terminal horizontally')],
-    'vsplit':           [True,  _('Split the current terminal vertically')],
-    'get_terminals':    [False, _('Get a list of all terminals')],
-    'get_window':       [True,  _('Get the UUID of a parent window')],
-    'get_window_title': [True,  _('Get the title of a parent window')],
-    'get_tab':          [True,  _('Get the UUID of a parent tab')],
-    'get_tab_title':    [True,  _('Get the title of a parent tab')],
-    'switch_profile':   [True,  _('Switch current terminal profile')],
+    #  Command             uuid req.    Description
+    'new_window':           [False, _('Open a new window')],
+    'new_tab':              [True,  _('Open a new tab')],
+    'hsplit':               [True,  _('Split the current terminal horizontally')],
+    'vsplit':               [True,  _('Split the current terminal vertically')],
+    'get_terminals':        [False, _('Get a list of all terminals')],
+    'get_focused_terminal': [False, _('Get the uuid of the current focused terminal')],
+    'get_window':           [True,  _('Get the UUID of a parent window')],
+    'get_window_title':     [True,  _('Get the title of a parent window')],
+    'get_tab':              [True,  _('Get the UUID of a parent tab')],
+    'get_tab_title':        [True,  _('Get the title of a parent tab')],
+    'switch_profile':      [True,  _('Switch current terminal profile')],
     }
 
 if __name__ == '__main__':
@@ -88,9 +89,9 @@ if __name__ == '__main__':
     if uuid_required:
         uuid = options.get('uuid', os.environ.get('TERMINATOR_UUID'))
         if uuid:
-            func(uuid, options)
+            print(str(func(uuid, options)))
         else:
             err("$TERMINATOR_UUID is not set, or passed as an option.")
             sys.exit(1)
     else:
-        func(options)
+        print(str(func(options)))
