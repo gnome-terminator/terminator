@@ -125,6 +125,7 @@ DEFAULTS = {
             'line_height'           : 1.0,
             'case_sensitive'        : True,
             'invert_search'         : False,
+            'link_single_click'     : False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
