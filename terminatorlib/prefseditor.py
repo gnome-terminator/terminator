@@ -1423,6 +1423,9 @@ class PrefsEditor:
         self.config.save()
 
     def on_link_single_click_toggled(self, checkbox):
+        """Configure link_single_click option from checkbox."""
+        guiget = self.builder.get_object
+        widget = guiget('link_single_click')
         self.config['link_single_click'] = widget.get_active()
         self.config.save()
 
