@@ -323,16 +323,12 @@ class TmuxControl(object):
                 dbg("Unknown notification.")
                 continue
             notification.consume(line, self.output)
-            dbg("consumed notification")  # JACK_TEST
-            try:  # JACK_TEST
+            dbg("consumed notification: {}".format(notification))  # JACK_TEST
+            try:
                 handler.handle(notification)
-            except Exception as e:  # JACK_TEST
-                dbg(
-                    "UH OH ------------------------------------------------- {}".format(
-                        e
-                    )
-                )  # JACK_TEST
-            dbg("handled notification")  # JACK_TEST
+            except Exception as e:
+                dbg("Error while handling notification: {}".format(e))
+            dbg("handled notification")
         handler.terminate()
 
     def display_pane_tty(self, pane_id):
