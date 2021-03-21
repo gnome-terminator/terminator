@@ -110,7 +110,7 @@ class TmuxControl(object):
             tmux_command += ' "{}"'.format(command)
 
         self._run_command(tmux_command,
-                          callback=self.notifications_handler.pane_id_result)
+                          callback=('pane_id_result',))
 
     def new_window(self, cwd=None, command=None, marker=''):
         tmux_command = 'new-window -P -F "#D {}"'.format(marker)
@@ -120,7 +120,7 @@ class TmuxControl(object):
             tmux_command += ' "{}"'.format(command)
 
         self._run_command(tmux_command,
-                          callback=self.notifications_handler.pane_id_result)
+                          callback=('pane_id_result',))
 
     def attach_session(self):
         popen_command = [TMUX_BINARY, '-2', '-C', 'attach-session',
@@ -158,7 +158,7 @@ class TmuxControl(object):
         while not self.requests.empty():
             self.requests.get(timeout=1)
 
-        self.requests.put(self.notifications_handler.pane_id_result)
+        self.requests.put(('pane_id_result',))
         self.start_notifications_consumer()
 
     def refresh_client(self, width, height):
@@ -170,19 +170,19 @@ class TmuxControl(object):
     def garbage_collect_panes(self):
         self._run_command('list-panes -s -t {} -F "#D {}"'.format(
             self.session_name, '#{pane_pid}'),
-            callback=self.notifications_handler.garbage_collect_panes_result)
+            callback=('garbage_collect_panes_result',))
 
     def initial_layout(self):
         self._run_command(
             'list-windows -t {} -F "#{{window_layout}}"'
             .format(self.session_name),
-            callback=self.notifications_handler.initial_layout_result)
+            callback=('initial_layout_result',))
 
     def initial_output(self, pane_id):
         self._run_command(
             'capture-pane -J -p -t {} -eC -S - -E -'.format(pane_id),
-            callback=self.notifications_handler.initial_output_result_callback(
-                pane_id))
+            callback=('result_callback', pane_id)
+        )
 
     def toggle_zoom(self, pane_id, zoom=False):
         self.is_zoomed = not self.is_zoomed
@@ -294,7 +294,7 @@ class TmuxControl(object):
             pane_id, "#{pane_tty}")
 
         self._run_command(tmux_command,
-                callback=self.notifications_handler.pane_tty_result)
+                callback=('pane_tty_result',))
 
     def resize_pane(self, pane_id, rows, cols):
         if self.is_zoomed:

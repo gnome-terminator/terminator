@@ -215,7 +215,13 @@ class NotificationsHandler(object):
                 self.terminator.initial_layout = {}
                 self.terminator.tmux_control.reset()
             return
-        callback(notification.result)
+        if isinstance(callback, tuple):
+            if len(callback) > 1:
+                self.__getattribute__(callback[0])(notification.result, *callback[1:])
+            else:
+                self.__getattribute__(callback[0])(notification.result)
+        elif callable(callback):
+            callback(notification.result)
 
     def handle_output(self, notification):
         assert isinstance(notification, Output)
@@ -290,6 +296,14 @@ class NotificationsHandler(object):
         dbg(pprint.pformat(terminator_layout))
         self.terminator.initial_layout = terminator_layout
 
+    def result_callback(self, result, pane_id):
+        terminal = self.terminator.pane_id_to_terminal.get(pane_id)
+        if not terminal:
+            return
+        output = b'\r\n'.join(l for l in result if l)
+        dbg(output)
+        terminal.vte.feed(output.decode('unicode-escape').encode('latin-1'))
+
     def initial_output_result_callback(self, pane_id):
         def result_callback(result):
             terminal = self.terminator.pane_id_to_terminal.get(pane_id)
@@ -306,5 +320,5 @@ class NotificationsHandler(object):
         GObject.idle_add(callback)
 
 
-def noop(result):
-    pass
+def noop(*args):
+    dbg('passed on notification: {}'.format(args))
