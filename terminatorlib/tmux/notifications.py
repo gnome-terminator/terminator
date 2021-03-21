@@ -198,16 +198,22 @@ class NotificationsHandler(object):
 
     def handle(self, notification):
         try:
+            dbg('looking for method for {}'.format(notification.marker))  # JACK_TEST
             handler_method = getattr(self, 'handle_{}'.format(
                     notification.marker.replace('-', '_')))
             handler_method(notification)
-        except AttributeError:
+        except AttributeError as e:  # JACK_TEST
+            dbg('------- method for {} NOT FOUND: {}'.format(notification.marker, e))  # JACK_TEST
             pass
+        except Exception as e:  # JACK_TEST
+            dbg('something went wrong while handling {}: {}'.format(notification.marker, e))  # JACK_TEST
 
     def handle_begin(self, notification):
         dbg('### {}'.format(notification))
         assert isinstance(notification, Result)
+        dbg('######## getting callback')  # JACK_TEST
         callback = self.terminator.tmux_control.requests.get()
+        dbg(callback)  # JACK_TEST
         if notification.error:
             dbg('Request error: {}'.format(notification))
             if notification.result[0] in ATTACH_ERROR_STRINGS:
@@ -291,6 +297,7 @@ class NotificationsHandler(object):
             GObject.idle_add(callback)
 
     def initial_layout_result(self, result):
+        dbg('checking window layout')  # JACK_TEST
         window_layouts = []
         for line in result:
             window_layout = line.strip()
@@ -303,6 +310,7 @@ class NotificationsHandler(object):
             dbg(parsed_layout)
             window_layouts.extend(layout.parse_layout(parsed_layout[0]))
             # window_layouts.append(layout.parse_layout(window_layout))
+        dbg('window layouts: {}'.format(window_layouts))  # JACK_TEST
         terminator_layout = layout.convert_to_terminator_layout(
                 window_layouts)
         import pprint

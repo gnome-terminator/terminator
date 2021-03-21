@@ -173,6 +173,7 @@ class TmuxControl(object):
             callback=('garbage_collect_panes_result',))
 
     def initial_layout(self):
+        dbg('running initial layout')  # JACK_TEST
         self._run_command(
             'list-windows -t {} -F "#{{window_layout}}"'
             .format(self.session_name),
@@ -243,6 +244,7 @@ class TmuxControl(object):
                 pane_id, key_name_lookup, content))
 
     def _run_command(self, command, callback=None):
+        dbg('running command {}'.format(command))  # JACK_TEST
         if not self.input:
             dbg('No tmux connection. [command={}]'.format(command))
         else:
@@ -252,6 +254,7 @@ class TmuxControl(object):
                 dbg("Tmux server has gone away.")
                 return
             callback = callback or notifications.noop
+            dbg('adding callback: {}'.format(callback))  # JACK_TEST
             self.requests.put(callback)
 
     @staticmethod
@@ -269,6 +272,7 @@ class TmuxControl(object):
         while True:
             try:
                 if self.tmux.poll() is not None:
+                    dbg('uhhh')  # JACK_TEST
                     break
             except AttributeError as e:
                 dbg("Tmux control instance was reset.")
@@ -287,7 +291,12 @@ class TmuxControl(object):
                 dbg("Discarding invalid output from the control terminal.")
                 continue
             notification.consume(line, self.output)
-            handler.handle(notification)
+            dbg('consumed notification')  # JACK_TEST
+            try:  # JACK_TEST
+                handler.handle(notification)
+            except Exception as e:  # JACK_TEST
+                dbg("UH OH ------------------------------------------------- {}".format(e))  # JACK_TEST
+            dbg('handled notification')  # JACK_TEST
         handler.terminate()
 
     def display_pane_tty(self, pane_id):
