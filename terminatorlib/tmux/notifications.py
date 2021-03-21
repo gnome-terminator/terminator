@@ -291,7 +291,7 @@ class NotificationsHandler(object):
 
     def garbage_collect_panes_result(self, result):
         pane_id_to_terminal = self.terminator.pane_id_to_terminal
-        removed_pane_ids = pane_id_to_terminal.keys()
+        removed_pane_ids = list(pane_id_to_terminal.keys())
 
         for line in result:
             pane_id, pane_pid = line.decode('unicode-escape').split(" ")
@@ -337,19 +337,9 @@ class NotificationsHandler(object):
         terminal = self.terminator.pane_id_to_terminal.get(pane_id)
         if not terminal:
             return
-        output = b"\r\n".join(l for l in result if l)
+        output = b"\r\n".join(line for line in result if line)
         dbg(output)
         terminal.vte.feed(output.decode("unicode-escape").encode("latin-1"))
-
-    def initial_output_result_callback(self, pane_id):
-        def result_callback(result):
-            terminal = self.terminator.pane_id_to_terminal.get(pane_id)
-            if not terminal:
-                return
-            output = "\r\n".join(l for l in result if l)
-            terminal.vte.feed(output.decode("string_escape"))
-
-        return result_callback
 
     def terminate(self):
         def callback():
