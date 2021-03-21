@@ -22,7 +22,6 @@ def notification(cls):
 
 
 class Notification(object):
-
     marker = "undefined"
     attributes = []
 
@@ -76,7 +75,7 @@ class LayoutChange(Notification):
 
     def consume(self, line, *args):
         # attributes not present default to None
-        line_items = line.decode('unicode-escape').split(" ")
+        line_items = line.decode("unicode-escape").split(" ")
         window_id, window_layout, window_visible_layout, window_flags = line_items + [
             None
         ] * (len(self.attributes) - len(line_items))
@@ -96,7 +95,7 @@ class Output(Notification):
         # pane_id = line[0]
         # output = ' '.join(line[1:])
         pane_id, output = line.split(b" ", 1)
-        self.pane_id = pane_id.decode('latin-1')
+        self.pane_id = pane_id.decode("latin-1")
         self.output = output
 
 
@@ -107,7 +106,7 @@ class SessionChanged(Notification):
     attributes = ["session_id", "session_name"]
 
     def consume(self, line, *args):
-        session_id, session_name = line.decode('unicode-escape').split(" ")
+        session_id, session_name = line.decode("unicode-escape").split(" ")
         self.session_id = session_id
         self.session_name = session_name
 
@@ -119,7 +118,7 @@ class SessionRenamed(Notification):
     attributes = ["session_id", "session_name"]
 
     def consume(self, line, *args):
-        session_id, session_name = line.decode('unicode-escape').split(" ")
+        session_id, session_name = line.decode("unicode-escape").split(" ")
         self.session_id = session_id
         self.session_name = session_name
 
@@ -138,7 +137,7 @@ class UnlinkedWindowAdd(Notification):
     attributes = ["window_id"]
 
     def consume(self, line, *args):
-        (window_id,) = line.decode('unicode-escape').split(" ")
+        (window_id,) = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
 
 
@@ -149,7 +148,7 @@ class WindowAdd(Notification):
     attributes = ["window_id"]
 
     def consume(self, line, *args):
-        (window_id,) = line.decode('unicode-escape').split(" ")
+        (window_id,) = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
 
 
@@ -160,7 +159,7 @@ class UnlinkedWindowClose(Notification):
     attributes = ["window_id"]
 
     def consume(self, line, *args):
-        (window_id,) = line.decode('unicode-escape').split(" ")
+        (window_id,) = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
 
 
@@ -171,7 +170,7 @@ class WindowClose(Notification):
     attributes = ["window_id"]
 
     def consume(self, line, *args):
-        (window_id,) = line.decode('unicode-escape').split(" ")
+        (window_id,) = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
 
 
@@ -182,7 +181,7 @@ class UnlinkedWindowRenamed(Notification):
     attributes = ["window_id", "window_name"]
 
     def consume(self, line, *args):
-        window_id, window_name = line.decode('unicode-escape').split(" ")
+        window_id, window_name = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
         self.window_name = window_name
 
@@ -194,7 +193,7 @@ class WindowRenamed(Notification):
     attributes = ["window_id", "window_name"]
 
     def consume(self, line, *args):
-        window_id, window_name = line.decode('unicode-escape').split(" ")
+        window_id, window_name = line.decode("unicode-escape").split(" ")
         self.window_id = window_id
         self.window_name = window_name
 
@@ -266,7 +265,7 @@ class NotificationsHandler(object):
         # figure out the root cause
         # terminal.vte.feed(output.replace("\033g", "").encode('utf-8'))
         dbg(output)
-        terminal.vte.feed(output.decode('unicode-escape').encode("latin-1"))
+        terminal.vte.feed(output.decode("unicode-escape").encode("latin-1"))
 
     def handle_layout_change(self, notification):
         assert isinstance(notification, LayoutChange)
@@ -277,7 +276,7 @@ class NotificationsHandler(object):
         GObject.idle_add(self.terminator.tmux_control.garbage_collect_panes)
 
     def pane_id_result(self, result):
-        pane_id, marker = result[0].decode('unicode-escape').split(" ")
+        pane_id, marker = result[0].decode("unicode-escape").split(" ")
         terminal = self.terminator.find_terminal_by_pane_id(marker)
         terminal.pane_id = pane_id
         self.terminator.pane_id_to_terminal[pane_id] = terminal
@@ -294,7 +293,7 @@ class NotificationsHandler(object):
         removed_pane_ids = list(pane_id_to_terminal.keys())
 
         for line in result:
-            pane_id, pane_pid = line.decode('unicode-escape').split(" ")
+            pane_id, pane_pid = line.decode("unicode-escape").split(" ")
             try:
                 removed_pane_ids.remove(pane_id)
                 pane_id_to_terminal[pane_id].pid = pane_pid
@@ -303,6 +302,7 @@ class NotificationsHandler(object):
                 continue
 
         if removed_pane_ids:
+
             def callback():
                 for pane_id in removed_pane_ids:
                     terminal = pane_id_to_terminal.pop(pane_id, None)
@@ -338,7 +338,6 @@ class NotificationsHandler(object):
         if not terminal:
             return
         output = b"\r\n".join(line for line in result if line)
-        dbg(output)
         terminal.vte.feed(output.decode("unicode-escape").encode("latin-1"))
 
     def terminate(self):
