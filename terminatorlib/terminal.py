@@ -274,6 +274,9 @@ class Terminal(Gtk.VBox):
     def get_cwd(self):
         """Return our cwd"""
         vte_cwd = self.vte.get_current_directory_uri()
+        if self.terminator.tmux_control and self.terminator.tmux_control.remote is not None:
+            return None
+
         if vte_cwd:
             # OSC7 pwd gives an answer
             return(GLib.filename_from_uri(vte_cwd)[0])
