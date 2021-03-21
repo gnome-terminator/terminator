@@ -929,6 +929,7 @@ class Terminal(Gtk.VBox):
 
         if self.terminator.tmux_control:
             self.control.send_keypress(event, pane_id=self.pane_id)
+            return True
 
         return False
 
