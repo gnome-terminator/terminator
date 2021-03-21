@@ -155,8 +155,8 @@ class TmuxControl(object):
         # starting a new session, delete any old requests we may have
         # in the queue (e.g. those added while trying to attach to
         # a nonexistant session)
-        with self.requests.mutex:
-            self.requests.queue.clear()
+        while not self.requests.empty():
+            self.requests.get(timeout=1)
 
         self.requests.put(self.notifications_handler.pane_id_result)
         self.start_notifications_consumer()
