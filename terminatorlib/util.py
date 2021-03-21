@@ -346,6 +346,30 @@ def get_column_row_count(window):
 
     return (column_sum, row_sum)
 
+def get_amount_of_terminals_in_each_direction(window):
+    base_x = base_y = None
+
+    # NOTE: on Wayland, we cannot assume that the coordinate system
+    # for our application starts at 0x0, so we try to guess our
+    # current baseline at runtime
+    if display_manager() == 'WAYLAND' and not base_x:
+        base_x, base_y = get_wayland_baseline(window)
+    else:
+        base_x = base_y = 0
+
+    terminals = window.get_visible_terminals()
+    horizontal_terminals = 0
+    vertical_terminals = 0
+    for terminal in terminals:
+        rect = terminal.get_allocation()
+
+        if rect.x <= base_x:
+            vertical_terminals += 1
+        if rect.y <= base_y:
+            horizontal_terminals += 1
+
+    return horizontal_terminals, vertical_terminals
+
 def get_wayland_baseline(window):
     terminals = window.get_visible_terminals()
 

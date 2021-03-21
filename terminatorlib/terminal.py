@@ -16,7 +16,8 @@ try:
 except ImportError:
     from urllib import unquote as urlunquote
 
-from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager, get_column_row_count
+from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager, get_column_row_count, \
+    get_amount_of_terminals_in_each_direction
 from . import util
 from .config import Config
 from .cwd import get_pid_cwd
@@ -1339,15 +1340,19 @@ class Terminal(Gtk.VBox):
         row_count = self.vte.get_row_count()
         self.titlebar.update_terminal_size(column_count, row_count)
 
-        if self.terminator.tmux_control:
+        if self.terminator.tmux_control and not self.terminator.doing_layout:
             # self.terminator.tmux_control.resize_pane(self.pane_id, row_count, column_count)
             # FIXME: probably not the best place for this, update tmux client size to match the window geometry
-            window = self.terminator.get_windows()[0]
+            window = self.vte.get_toplevel()
             column_count, row_count = map(int, get_column_row_count(window))
-            # dbg("{}::{}: {}x{}".format("NotificationsHandler", "list_panes_size_result", column_count, row_count))
-            size_up_to_date = bool(column_count == self.terminator.tmux_control.width and row_count == self.terminator.tmux_control.height)
-            if not size_up_to_date:
-                self.terminator.tmux_control.refresh_client(column_count, row_count)
+            horizontal_terminals, vertical_terminals = get_amount_of_terminals_in_each_direction(window)
+            if not (column_count == 0 and row_count == 0):
+                self.terminator.tmux_control.refresh_client(column_count+(horizontal_terminals - 1), row_count + (vertical_terminals - 1))
+                self.terminator.tmux_control.resize_pane(
+                    pane_id=self.pane_id,
+                    cols=self.vte.get_column_count(),
+                    rows=self.vte.get_row_count()
+                )
 
         if self.config['geometry_hinting']:
             window = self.get_toplevel()
@@ -1518,9 +1523,8 @@ class Terminal(Gtk.VBox):
         if self.terminator.dbus_path:
             envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
 
-        dbg('Forking shell: "%s" with args: %s' % (shell, args))
         if self.terminator.tmux_control:
-            dbg('Sending command to a new tmux pane: {}' % args)
+            dbg('Spawning a new tmux terminal with args: %s' % args)
             if self.terminator.initial_layout:
                 pass
             else:
