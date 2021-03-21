@@ -64,7 +64,7 @@ class TmuxControl(object):
             return
         popen_command = "ssh " + self.remote
         self.tmux = subprocess.Popen(
-            popen_command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True
+            popen_command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, bufsize=0
         )
         self.input = self.tmux.stdin
         self.output = self.tmux.stdout
