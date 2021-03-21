@@ -1518,11 +1518,11 @@ class Terminal(Gtk.VBox):
             else:
                 command = ' '.join(args)
                 self.pane_id = str(util.make_uuid())
-                self.control.run_command(command=command,
-                                         cwd=self.cwd,
-                                         marker=self.pane_id,
-                                         orientation=orientation,
-                                         pane_id=active_pane_id)
+                self.control.spawn_tmux_child(command=command,
+                                              cwd=self.cwd,
+                                              marker=self.pane_id,
+                                              orientation=orientation,
+                                              pane_id=active_pane_id)
         else:
             dbg('Forking shell: "%s" with args: %s' % (shell, args))
             args.insert(0, shell)

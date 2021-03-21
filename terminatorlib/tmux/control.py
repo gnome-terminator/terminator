@@ -83,7 +83,7 @@ class TmuxControl(object):
                 dbg("Tmux server has gone away.")
                 return
 
-    def run_command(self, command, marker, cwd=None, orientation=None, pane_id=None):
+    def spawn_tmux_child(self, command, marker, cwd=None, orientation=None, pane_id=None):
         if self.input:
             if orientation:
                 self.split_window(
