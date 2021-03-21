@@ -130,7 +130,7 @@ class TmuxControl(object):
         if not self.tmux:
             self.tmux = subprocess.Popen(popen_command,
                                      stdout=subprocess.PIPE,
-                                     stdin=subprocess.PIPE)
+                                     stdin=subprocess.PIPE, bufsize=0)
             self.input = self.tmux.stdin
             self.output = self.tmux.stdout
         self.requests.put(notifications.noop)
