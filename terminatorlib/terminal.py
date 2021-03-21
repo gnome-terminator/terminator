@@ -1075,6 +1075,10 @@ class Terminal(Gtk.VBox):
             # on self
             return
 
+        if self.terminator.tmux_control:
+            # Moving the terminals around is not supported in tmux mode
+            return
+
         alloc = widget.get_allocation()
 
         if self.config['use_theme_colors']:
@@ -1196,6 +1200,10 @@ class Terminal(Gtk.VBox):
 
         # The widget argument is actually a Vte.Terminal(). Turn that into a
         # terminatorlib Terminal()
+        if self.terminator.tmux_control:
+            # Moving the terminals around is not supported in tmux mode
+            return
+
         maker = Factory()
         while True:
             widget = widget.get_parent()
@@ -1620,10 +1628,16 @@ class Terminal(Gtk.VBox):
 
     def zoom_in(self):
         """Increase the font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         self.zoom_font(True)
 
     def zoom_out(self):
         """Decrease the font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         self.zoom_font(False)
 
     def zoom_font(self, zoom_in):
@@ -1642,6 +1656,9 @@ class Terminal(Gtk.VBox):
 
     def zoom_orig(self):
         """Restore original font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         if self.config['use_system_font']:
             font = self.config.get_system_mono_font()
         else:
