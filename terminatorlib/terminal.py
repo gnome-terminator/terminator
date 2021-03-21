@@ -16,7 +16,7 @@ try:
 except ImportError:
     from urllib import unquote as urlunquote
 
-from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
+from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager, get_column_row_count
 from . import util
 from .config import Config
 from .cwd import get_pid_cwd
