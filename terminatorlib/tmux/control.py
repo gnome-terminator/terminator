@@ -64,7 +64,11 @@ class TmuxControl(object):
             return
         popen_command = "ssh " + self.remote
         self.tmux = subprocess.Popen(
-            popen_command, stdout=subprocess.PIPE, stdin=subprocess.PIPE, shell=True, bufsize=0
+            popen_command,
+            stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            shell=True,
+            bufsize=0,
         )
         self.input = self.tmux.stdin
         self.output = self.tmux.stdout
@@ -83,7 +87,9 @@ class TmuxControl(object):
                 dbg("Tmux server has gone away.")
                 return
 
-    def spawn_tmux_child(self, command, marker, cwd=None, orientation=None, pane_id=None):
+    def spawn_tmux_child(
+        self, command, marker, cwd=None, orientation=None, pane_id=None
+    ):
         if self.input:
             if orientation:
                 self.split_window(
@@ -310,7 +316,7 @@ class TmuxControl(object):
             try:
                 line = line[1]
             except IndexError:
-                line = b''
+                line = b""
             # skip MOTD, anything that isn't coming from tmux control mode
             try:
                 notification = notifications.notifications_mappings[marker]()
