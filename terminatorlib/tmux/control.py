@@ -192,7 +192,6 @@ class TmuxControl(object):
         )
 
     def initial_layout(self):
-        dbg("running initial layout")  # JACK_TEST
         self._run_command(
             'list-windows -t {} -F "#{{window_layout}}"'.format(self.session_name),
             callback=("initial_layout_result",),
@@ -321,7 +320,7 @@ class TmuxControl(object):
             try:
                 notification = notifications.notifications_mappings[marker]()
             except KeyError:
-                dbg("Discarding invalid output from the control terminal.")
+                dbg("Unknown notification.")
                 continue
             notification.consume(line, self.output)
             dbg("consumed notification")  # JACK_TEST

@@ -205,22 +205,20 @@ class NotificationsHandler(object):
 
     def handle(self, notification):
         try:
-            dbg("looking for method for {}".format(notification.marker))  # JACK_TEST
             handler_method = getattr(
                 self, "handle_{}".format(notification.marker.replace("-", "_"))
             )
-            handler_method(notification)
-        except AttributeError as e:  # JACK_TEST
-            dbg(
-                "------- method for {} NOT FOUND: {}".format(notification.marker, e)
-            )  # JACK_TEST
-            pass
-        except Exception as e:  # JACK_TEST
-            dbg(
-                "something went wrong while handling {}: {}".format(
-                    notification.marker, e
+        except AttributeError as e:
+            dbg("Handler for notification {} not found".format(notification.marker))
+        else:
+            try:
+                handler_method(notification)
+            except Exception as e:
+                dbg(
+                    "something went wrong while handling {}: {}".format(
+                        notification.marker, e
+                    )
                 )
-            )  # JACK_TEST
 
     def handle_begin(self, notification):
         dbg("### {}".format(notification))
@@ -321,20 +319,11 @@ class NotificationsHandler(object):
             GObject.idle_add(callback)
 
     def initial_layout_result(self, result):
-        dbg("checking window layout")  # JACK_TEST
         window_layouts = []
         for line in result:
             window_layout = line.strip()
-            dbg(window_layout)
-            try:
-                parsed_layout = self.layout_parser.parse(window_layout.decode())
-            except Exception as e:
-                dbg(e)
-                exit(1)
-            dbg(parsed_layout)
-            window_layouts.extend(layout.parse_layout(parsed_layout[0]))
-            # window_layouts.append(layout.parse_layout(window_layout))
-        dbg("window layouts: {}".format(window_layouts))  # JACK_TEST
+            parsed_layout = self.layout_parser.parse(window_layout.decode())
+            window_layouts.append(layout.parse_layout(parsed_layout[0]))
         terminator_layout = layout.convert_to_terminator_layout(window_layouts)
         import pprint
 

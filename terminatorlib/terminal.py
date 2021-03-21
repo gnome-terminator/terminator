@@ -421,7 +421,6 @@ class Terminal(Gtk.VBox):
 
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
-
         self.scrollbar.connect('button-press-event', self.on_buttonpress)
 
         self.cnxids.new(self.vte, 'key-press-event', self.on_keypress)
