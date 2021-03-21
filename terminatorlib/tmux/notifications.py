@@ -275,6 +275,14 @@ class NotificationsHandler(object):
         assert isinstance(notification, WindowClose)
         GObject.idle_add(self.terminator.tmux_control.garbage_collect_panes)
 
+    def handle_window_add(self, notification):
+        assert isinstance(notification, WindowAdd)
+        GObject.idle_add(self.terminator.tmux_control.garbage_collect_panes)
+
+    def handle_unlinked_window_close(self, notification):
+        assert isinstance(notification, UnlinkedWindowClose)
+        GObject.idle_add(self.terminator.tmux_control.garbage_collect_panes)
+
     def pane_id_result(self, result):
         pane_id, marker = result[0].decode("unicode-escape").split(" ")
         terminal = self.terminator.find_terminal_by_pane_id(marker)
