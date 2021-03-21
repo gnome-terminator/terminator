@@ -276,9 +276,10 @@ class TmuxControl(object):
             line = self.output.readline()[:-1]
             if not line:
                 continue
-            line = line[1:].decode().split(' ')
-            marker = line[0]
-            line = line[1:]
+            dbg('=>>>>> LINE RECEIVED: {}'.format(line))
+            line = line[1:].split(b' ', 1)
+            marker = line[0].decode()
+            line = line[1]
             # skip MOTD, anything that isn't coming from tmux control mode
             try:
                 notification = notifications.notifications_mappings[marker]()

@@ -4,9 +4,9 @@ from terminatorlib.util import dbg
 from terminatorlib.tmux import layout
 
 import string
-ATTACH_ERROR_STRINGS = ["can't find session terminator", "no current session", "no sessions"]
-ALTERNATE_SCREEN_ENTER_CODES = [ "\\033[?1049h" ]
-ALTERNATE_SCREEN_EXIT_CODES  = [ "\\033[?1049l" ]
+ATTACH_ERROR_STRINGS = [b"can't find session terminator", b"no current session", b"no sessions"]
+ALTERNATE_SCREEN_ENTER_CODES = [ b"\\033[?1049h" ]
+ALTERNATE_SCREEN_EXIT_CODES  = [ b"\\033[?1049l" ]
 
 notifications_mappings = {}
 
@@ -38,7 +38,7 @@ class Result(Notification):
                   'error']
 
     def consume(self, line, out):
-        timestamp, code, _ = line
+        timestamp, code, _ = line.split(b' ')
         self.begin_timestamp = timestamp
         self.code = code
         result = []
@@ -49,7 +49,7 @@ class Result(Notification):
         self.result = result
         end, timestamp, code, _ = line.split(b' ')
         self.end_timestamp = timestamp
-        self.error = end == '%error'
+        self.error = end == b'%error'
 
 
 @notification
@@ -71,7 +71,8 @@ class LayoutChange(Notification):
 
     def consume(self, line, *args):
         # attributes not present default to None
-        window_id, window_layout, window_visible_layout, window_flags = line + [None] * (len(self.attributes) - len(line))
+        line_items = line.split(b' ')
+        window_id, window_layout, window_visible_layout, window_flags = line_items + [None] * (len(self.attributes) - len(line_items))
         self.window_id = window_id
         self.window_layout = window_layout
         self.window_visible_layout = window_visible_layout
@@ -84,8 +85,9 @@ class Output(Notification):
     attributes = ['pane_id', 'output']
 
     def consume(self, line, *args):
-        pane_id = line[0]
-        output = ' '.join(line[1:])
+        # pane_id = line[0]
+        # output = ' '.join(line[1:])
+        pane_id, output = line.split(b' ', 1)
         self.pane_id = pane_id
         self.output = output
 
@@ -96,7 +98,7 @@ class SessionChanged(Notification):
     attributes = ['session_id', 'session_name']
 
     def consume(self, line, *args):
-        session_id, session_name = line
+        session_id, session_name = line.split(b' ')
         self.session_id = session_id
         self.session_name = session_name
 
@@ -108,7 +110,7 @@ class SessionRenamed(Notification):
     attributes = ['session_id', 'session_name']
 
     def consume(self, line, *args):
-        session_id, session_name = line
+        session_id, session_name = line.split(b' ')
         self.session_id = session_id
         self.session_name = session_name
 
@@ -127,7 +129,7 @@ class UnlinkedWindowAdd(Notification):
     attributes = ['window_id']
 
     def consume(self, line, *args):
-        window_id, = line
+        window_id, = line.split(b' ')
         self.window_id = window_id
 
 
@@ -138,7 +140,7 @@ class WindowAdd(Notification):
     attributes = ['window_id']
 
     def consume(self, line, *args):
-        window_id, = line
+        window_id, = line.split(b' ')
         self.window_id = window_id
 
 
@@ -149,7 +151,7 @@ class UnlinkedWindowClose(Notification):
     attributes = ['window_id']
 
     def consume(self, line, *args):
-        window_id, = line
+        window_id, = line.split(b' ')
         self.window_id = window_id
 
 
@@ -160,7 +162,7 @@ class WindowClose(Notification):
     attributes = ['window_id']
 
     def consume(self, line, *args):
-        window_id, = line
+        window_id, = line.split(b' ')
         self.window_id = window_id
 
 
@@ -171,7 +173,7 @@ class UnlinkedWindowRenamed(Notification):
     attributes = ['window_id', 'window_name']
 
     def consume(self, line, *args):
-        window_id, window_name = line
+        window_id, window_name = line.split(b' ')
         self.window_id = window_id
         self.window_name = window_name
 
@@ -183,7 +185,7 @@ class WindowRenamed(Notification):
     attributes = ['window_id', 'window_name']
 
     def consume(self, line, *args):
-        window_id, window_name = line
+        window_id, window_name = line.split(b' ')
         self.window_id = window_id
         self.window_name = window_name
 
@@ -227,7 +229,9 @@ class NotificationsHandler(object):
         assert isinstance(notification, Output)
         pane_id = notification.pane_id
         output = notification.output
-        terminal = self.terminator.pane_id_to_terminal.get(pane_id)
+        dbg(pane_id)
+        dbg(self.terminator.pane_id_to_terminal)
+        terminal = self.terminator.pane_id_to_terminal.get(pane_id.decode())
         if not terminal:
             return
         for code in ALTERNATE_SCREEN_ENTER_CODES:
@@ -239,7 +243,9 @@ class NotificationsHandler(object):
         # NOTE: using neovim, enabling visual-bell and setting t_vb empty results in incorrect
         # escape sequences (C-g) being printed in the neovim window; remove them until we can
         # figure out the root cause
-        terminal.vte.feed(output.decode('string_escape').replace("\033g",""))
+        # terminal.vte.feed(output.replace("\033g", "").encode('utf-8'))
+        dbg(output)
+        terminal.vte.feed(output.decode('unicode-escape').encode('latin-1'))
 
     def handle_layout_change(self, notification):
         assert isinstance(notification, LayoutChange)
@@ -267,7 +273,7 @@ class NotificationsHandler(object):
         removed_pane_ids = pane_id_to_terminal.keys()
 
         for line in result:
-            pane_id, pane_pid = line.split(' ')
+            pane_id, pane_pid = line.split(b' ')
             try:
                 removed_pane_ids.remove(pane_id)
                 pane_id_to_terminal[pane_id].pid = pane_pid
@@ -288,7 +294,14 @@ class NotificationsHandler(object):
         window_layouts = []
         for line in result:
             window_layout = line.strip()
-            window_layouts.extend(layout.parse_layout(self.layout_parser.parse(window_layout)[0]))
+            dbg(window_layout)
+            try:
+                parsed_layout = self.layout_parser.parse(window_layout.decode())
+            except Exception as e:
+                dbg(e)
+                exit(1)
+            dbg(parsed_layout)
+            window_layouts.extend(layout.parse_layout(parsed_layout[0]))
             # window_layouts.append(layout.parse_layout(window_layout))
         terminator_layout = layout.convert_to_terminator_layout(
                 window_layouts)
