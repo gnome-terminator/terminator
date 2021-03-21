@@ -1512,6 +1512,7 @@ class Terminal(Gtk.VBox):
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
         if self.terminator.tmux_control:
+            dbg('Sending command to a new tmux pane: {}' % args)
             if self.terminator.initial_layout:
                 pass
             else:
@@ -1523,6 +1524,7 @@ class Terminal(Gtk.VBox):
                                          orientation=orientation,
                                          pane_id=active_pane_id)
         else:
+            dbg('Forking shell: "%s" with args: %s' % (shell, args))
             args.insert(0, shell)
             result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
                                                     self.cwd,
