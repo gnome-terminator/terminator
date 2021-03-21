@@ -506,6 +506,9 @@ class Window(Container, Gtk.Window):
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         children = self.get_children()
 
         if widget in children:
