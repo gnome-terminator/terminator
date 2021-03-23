@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-01-03 19:12+0100\n"
-"PO-Revision-Date: 2020-04-22 08:11+0000\n"
+"PO-Revision-Date: 2021-03-21 10:58-0300\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/terminator/teams/109338/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -571,11 +571,11 @@ msgstr "_Salvar"
 
 #: ../terminatorlib/plugins/logger.py:32
 msgid "Start _Logger"
-msgstr "Iniciar_Registro"
+msgstr "Iniciar _Registro"
 
 #: ../terminatorlib/plugins/logger.py:35
 msgid "Stop _Logger"
-msgstr "Parar_Registro"
+msgstr "Parar _Registro"
 
 #: ../terminatorlib/plugins/logger.py:65
 msgid "Save Log File As"
@@ -1679,7 +1679,7 @@ msgstr "Transmissão _grupo"
 
 #: ../terminatorlib/terminal.py:569
 msgid "Broadcast _off"
-msgstr "Transmissão_desativada"
+msgstr "Transmissão _desativada"
 
 #: ../terminatorlib/terminal.py:585
 msgid "_Split to this group"
@@ -1687,7 +1687,7 @@ msgstr "_Dividir para este grupo"
 
 #: ../terminatorlib/terminal.py:590
 msgid "Auto_clean groups"
-msgstr "Limpar_grupos automaticamente"
+msgstr "Limpar _grupos automaticamente"
 
 #: ../terminatorlib/terminal.py:597
 msgid "_Insert terminal number"
