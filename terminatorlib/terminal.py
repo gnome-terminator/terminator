@@ -1330,6 +1330,9 @@ class Terminal(Gtk.VBox):
         if self.config['geometry_hinting']:
             window = self.get_toplevel()
             window.deferred_set_rough_geometry_hints()
+        else:
+            window = self.get_toplevel()
+            window.disable_geometry_hints()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
