@@ -667,7 +667,10 @@ class Window(Container, Gtk.Window):
         geometry.base_height = extra_height
         geometry.width_inc = font_width
         geometry.height_inc = font_height
-        self.set_geometry_hints(self, geometry, Gdk.WindowHints.BASE_SIZE | Gdk.WindowHints.RESIZE_INC)
+        self.set_geometry_hints(None, geometry, Gdk.WindowHints.BASE_SIZE | Gdk.WindowHints.RESIZE_INC)
+
+    def disable_geometry_hints(self):
+        self.set_geometry_hints(None, None, 0)
 
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""
