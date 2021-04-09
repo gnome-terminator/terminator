@@ -15,11 +15,13 @@ try:
 except ImportError:
     from urllib import unquote as urlunquote
 
-from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager
+from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup, display_manager, get_column_row_count, \
+    get_amount_of_terminals_in_each_direction
 from . import util
 from .config import Config
 from .cwd import get_pid_cwd
 from .factory import Factory
+from pipes import quote
 from .terminator import Terminator
 from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
@@ -115,6 +117,9 @@ class Terminal(Gtk.VBox):
     cnxids = None
     targets_for_new_group = None
 
+    control = None
+    pane_id = None
+
     def __init__(self):
         """Class initialiser"""
         GObject.GObject.__init__(self)
@@ -199,6 +204,8 @@ class Terminal(Gtk.VBox):
         self.reconfigure()
         self.vte.set_size(80, 24)
 
+        self.control = self.terminator.tmux_control
+
     def get_vte(self):
         """This simply returns the vte widget we are using"""
         return(self.vte)
@@ -240,6 +247,9 @@ class Terminal(Gtk.VBox):
     def get_cwd(self):
         """Return our cwd"""
         vte_cwd = self.vte.get_current_directory_uri()
+        if self.terminator.tmux_control and self.terminator.tmux_control.remote is not None:
+            return None
+
         if vte_cwd:
             # OSC7 pwd gives an answer
             return(GLib.filename_from_uri(vte_cwd)[0])
@@ -253,7 +263,7 @@ class Terminal(Gtk.VBox):
         dbg('close: called')
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
-        if self.pid is not None:
+        if not self.terminator.tmux_control:
             try:
                 dbg('close: killing %d' % self.pid)
                 os.kill(self.pid, signal.SIGHUP)
@@ -384,7 +394,6 @@ class Terminal(Gtk.VBox):
 
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
-
         self.scrollbar.connect('button-press-event', self.on_buttonpress)
 
         self.cnxids.new(self.vte, 'key-press-event', self.on_keypress)
@@ -929,6 +938,10 @@ class Terminal(Gtk.VBox):
             if groupsend == groupsend_type['all']:
                 self.terminator.all_emit(self, 'key-press-event', event)
 
+        if self.terminator.tmux_control:
+            self.control.send_keypress(event, pane_id=self.pane_id)
+            return True
+
         return False
 
     def on_buttonpress(self, widget, event):
@@ -1019,6 +1032,8 @@ class Terminal(Gtk.VBox):
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
                 self.scroll_by_page(1)
                 return True
+        if self.terminator.tmux_control:
+            return self.control.send_mousewheel(event, pane_id=self.pane_id)
         return False
 
     def popup_menu(self, widget, event=None):
@@ -1069,6 +1084,10 @@ class Terminal(Gtk.VBox):
         if(isinstance(srcwidget, Gtk.EventBox) and
            srcwidget == self.titlebar) or widget == srcwidget:
             # on self
+            return
+
+        if self.terminator.tmux_control:
+            # Moving the terminals around is not supported in tmux mode
             return
 
         alloc = widget.get_allocation()
@@ -1192,6 +1211,10 @@ class Terminal(Gtk.VBox):
 
         # The widget argument is actually a Vte.Terminal(). Turn that into a
         # terminatorlib Terminal()
+        if self.terminator.tmux_control:
+            # Moving the terminals around is not supported in tmux mode
+            return
+
         maker = Factory()
         while True:
             widget = widget.get_parent()
@@ -1325,8 +1348,24 @@ class Terminal(Gtk.VBox):
         self.on_vte_size_allocate(widget, allocation)
 
     def on_vte_size_allocate(self, widget, allocation):
-        self.titlebar.update_terminal_size(self.vte.get_column_count(),
-                self.vte.get_row_count())
+        column_count = self.vte.get_column_count()
+        row_count = self.vte.get_row_count()
+        self.titlebar.update_terminal_size(column_count, row_count)
+
+        if self.terminator.tmux_control and not self.terminator.doing_layout:
+            # self.terminator.tmux_control.resize_pane(self.pane_id, row_count, column_count)
+            # FIXME: probably not the best place for this, update tmux client size to match the window geometry
+            window = self.vte.get_toplevel()
+            column_count, row_count = map(int, get_column_row_count(window))
+            horizontal_terminals, vertical_terminals = get_amount_of_terminals_in_each_direction(window)
+            if not (column_count == 0 and row_count == 0):
+                self.terminator.tmux_control.refresh_client(column_count+(horizontal_terminals - 1), row_count + (vertical_terminals - 1))
+                self.terminator.tmux_control.resize_pane(
+                    pane_id=self.pane_id,
+                    cols=self.vte.get_column_count(),
+                    rows=self.vte.get_row_count()
+                )
+
         if self.config['geometry_hinting']:
             window = self.get_toplevel()
             window.deferred_set_rough_geometry_hints()
@@ -1423,7 +1462,8 @@ class Terminal(Gtk.VBox):
         self.is_held_open = True
         self.titlebar.update()
 
-    def spawn_child(self, widget=None, respawn=False, debugserver=False):
+    def spawn_child(self, widget=None, respawn=False, debugserver=False,
+                    orientation=None, active_pane_id=None):
         args = []
         shell = None
         command = None
@@ -1498,16 +1538,29 @@ class Terminal(Gtk.VBox):
         if self.terminator.dbus_path:
             envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
 
-        dbg('Forking shell: "%s" with args: %s' % (shell, args))
-        args.insert(0, shell)
-        result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
-                                                self.cwd,
-                                                args,
-                                                envv,
-                                                GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
-                                                None,
-                                                None,
-                                                None)
+        if self.terminator.tmux_control:
+            dbg('Spawning a new tmux terminal with args: %s' % args)
+            if self.terminator.initial_layout:
+                pass
+            else:
+                command = ' '.join(args)
+                self.pane_id = str(util.make_uuid())
+                self.control.spawn_tmux_child(command=command,
+                                              cwd=self.cwd,
+                                              marker=self.pane_id,
+                                              orientation=orientation,
+                                              pane_id=active_pane_id)
+        else:
+            dbg('Forking shell: "%s" with args: %s' % (shell, args))
+            args.insert(0, shell)
+            result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
+                                                    self.cwd,
+                                                    args,
+                                                    envv,
+                                                    GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
+                                                    None,
+                                                    None,
+                                                    None)
         self.command = shell
 
         self.titlebar.update()
@@ -1575,12 +1628,18 @@ class Terminal(Gtk.VBox):
 
     def paste_clipboard(self, primary=False):
         """Paste one of the two clipboards"""
-        for term in self.terminator.get_target_terms(self):
-            if primary:
-                term.vte.paste_primary()
-            else:
-                term.vte.paste_clipboard()
-        self.vte.grab_focus()
+        if self.terminator.tmux_control:
+            def callback(_, content):
+                content = quote(content.replace('\n',  '\r'))
+                self.control.send_quoted_content(content, self.pane_id)
+            self.clipboard.request_text(callback)
+        else:
+            for term in self.terminator.get_target_terms(self):
+                if primary:
+                    term.vte.paste_primary()
+                else:
+                    term.vte.paste_clipboard()
+            self.vte.grab_focus()
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
@@ -1588,10 +1647,16 @@ class Terminal(Gtk.VBox):
 
     def zoom_in(self):
         """Increase the font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         self.zoom_font(True)
 
     def zoom_out(self):
         """Decrease the font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         self.zoom_font(False)
 
     def zoom_font(self, zoom_in):
@@ -1610,6 +1675,9 @@ class Terminal(Gtk.VBox):
 
     def zoom_orig(self):
         """Restore original font size"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         if self.config['use_system_font']:
             font = self.config.get_system_mono_font()
         else:
@@ -1713,6 +1781,11 @@ class Terminal(Gtk.VBox):
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
+        if 'tmux' in layout and layout['tmux'] != '':
+            tmux = layout['tmux']
+            self.pane_id = tmux['pane_id']
+            self.terminator.pane_id_to_terminal[self.pane_id] = self
+            self.control.initial_output(self.pane_id)
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
@@ -1841,12 +1914,16 @@ class Terminal(Gtk.VBox):
         self.emit('move-tab', 'left')
 
     def key_toggle_zoom(self):
+        if self.terminator.tmux_control:
+            self.control.toggle_zoom(self.pane_id)
         if self.is_zoomed():
             self.unzoom()
         else:
             self.maximise()
 
     def key_scaled_zoom(self):
+        if self.terminator.tmux_control:
+            self.control.toggle_zoom(self.pane_id, zoom=True)
         if self.is_zoomed():
             self.unzoom()
         else:

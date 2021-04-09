@@ -14,6 +14,8 @@ from .util import dbg
 
 def get_pid_cwd(pid = None):
     """Determine the cwd of the current process"""
+    if pid is not None:
+        pid = int(pid)
     psinfo =  psutil.Process(pid).as_dict()
     dbg('psinfo: %s %s' % (psinfo['cwd'],psinfo['pid']))
     # return func

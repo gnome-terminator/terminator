@@ -473,13 +473,15 @@ class Window(Container, Gtk.Window):
             container = maker.make('HPaned')
         
         self.set_pos_by_ratio = True
-
         if not sibling:
             sibling = maker.make('Terminal')
             sibling.set_cwd(cwd)
+            # TODO (dank): is widget ever not a Terminal?
             if self.config['always_split_with_profile']:
                 sibling.force_set_profile(None, widget.get_profile())
-            sibling.spawn_child()
+            sibling.spawn_child(
+                orientation='vertical' if vertical else 'horizontal',
+                active_pane_id=getattr(widget, 'pane_id', None))
             if widget.group and self.config['split_to_group']:
                 sibling.set_group(None, widget.group)
         elif self.config['always_split_with_profile']:
@@ -504,6 +506,9 @@ class Window(Container, Gtk.Window):
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
+        if self.terminator.tmux_control:
+            # Zooming causes all kinds of issues when in tmux mode, so we'll just disable it for now
+            return
         children = self.get_children()
 
         if widget in children:
@@ -630,9 +635,9 @@ class Window(Container, Gtk.Window):
             return
 
         terminals = self.get_visible_terminals()
+
         column_sum = 0
         row_sum = 0
-
         for terminal in terminals:
             rect = terminal.get_allocation()
             if rect.x == 0:
