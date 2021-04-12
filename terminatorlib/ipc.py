@@ -151,6 +151,13 @@ class DBusService(Borg, dbus.service.Object):
         return [x.uuid.urn for x in self.terminator.terminals]
 
     @dbus.service.method(BUS_NAME)
+    def get_focused_terminal(self):
+        """Returns the uuid of the currently focused terminal"""
+        if self.terminator.last_focused_term:
+            return self.terminator.last_focused_term.uuid.urn
+        return None
+
+    @dbus.service.method(BUS_NAME)
     def get_window(self, uuid=None):
         """Return the UUID of the parent window of a given terminal"""
         terminal = self.terminator.find_terminal_by_uuid(uuid)
@@ -217,7 +224,7 @@ def with_proxy(func):
                 "Remotinator can't connect to terminator. " +
                 "May be terminator is not running.")
 
-        func(proxy, *args, **argd)
+        return func(proxy, *args, **argd)
     return _exec
 
 @with_proxy
@@ -258,6 +265,11 @@ def vsplit(session, uuid, options):
 def get_terminals(session, options):
     """Call the dbus method to return a list of all terminals"""
     print('\n'.join(session.get_terminals()))
+
+@with_proxy
+def get_focused_terminal(session, options):
+    """Call the dbus method to return the currently focused terminal"""
+    return session.get_focused_terminal()
 
 @with_proxy
 def get_window(session, uuid, options):
