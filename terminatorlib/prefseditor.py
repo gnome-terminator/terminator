@@ -24,7 +24,7 @@ def get_color_string(widcol):
 
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
-    as 8bit hex values, sinces its default behaviour is to give 16bit values"""
+   as 8bit hex values, sinces its default behaviour is to give 16bit values"""
     return get_color_string(widget.get_color())
 
 def rgba2hex(widget):
@@ -619,6 +619,9 @@ class PrefsEditor:
         widget.set_value(float(self.config['inactive_color_offset']))
         widget = guiget('inactive_color_offset_value_label')
         widget.set_text('%d%%' % (int(float(self.config['inactive_color_offset'])*100)))
+        # Open links with a single click (instead of a Ctrl-left click)
+        widget = guiget('link_single_click')
+        widget.set_active(self.config['link_single_click'])
         # Use custom URL handler
         widget = guiget('use_custom_url_handler_checkbox')
         widget.set_active(self.config['use_custom_url_handler'])
@@ -1417,6 +1420,13 @@ class PrefsEditor:
         self.config.del_layout(layout)
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
+        self.config.save()
+
+    def on_link_single_click_toggled(self, checkbox):
+        """Configure link_single_click option from checkbox."""
+        guiget = self.builder.get_object
+        widget = guiget('link_single_click')
+        self.config['link_single_click'] = widget.get_active()
         self.config.save()
 
     def on_use_custom_url_handler_checkbutton_toggled(self, checkbox):

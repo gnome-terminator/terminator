@@ -950,7 +950,7 @@ class Terminal(Gtk.VBox):
         # Ctrl-click event here.
         if event.button == self.MOUSEBUTTON_LEFT:
             # Ctrl+leftclick on a URL should open it
-            if event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
+            if self.config["link_single_click"] or event.get_state() & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
                 # Check new OSC-8 method first
                 url = self.vte.hyperlink_check_event(event)
                 dbg('url: %s' % url)
