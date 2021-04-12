@@ -13,6 +13,10 @@ from .terminator import Terminator
 from .config import Config
 from .factory import Factory
 from .util import dbg, err, enumerate_descendants
+from .terminal import Terminal
+from .container import Container
+from gi.repository import Gtk as gtk
+from gi.repository import GObject as gobject
 
 CONFIG = Config()
 if not CONFIG['dbus']:
@@ -119,6 +123,63 @@ class DBusService(Borg, dbus.service.Object):
     def vsplit(self, uuid=None):
         """Split a terminal vertically, by UUID"""
         return self.new_terminal(uuid, 'vsplit')
+
+    def get_terminal_container(self, terminal, container=None):
+        terminator = Terminator()
+        if not container:
+            for window in terminator.windows:
+                owner = self.get_terminal_container(terminal, window)
+                if owner: return owner
+        else:
+            for child in container.get_children():
+                if isinstance(child, Terminal) and child == terminal:
+                    return container
+                if isinstance(child, Container):
+                    owner = self.get_terminal_container(terminal, child)
+                    if owner: return owner
+
+    @dbus.service.method(BUS_NAME)
+    def vsplit_cmd(self, uuid=None, title=None, cmd=None):
+        """Split a terminal vertically, by UUID and immediately runs the specified command in the new terminal"""
+        return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=False)
+
+    @dbus.service.method(BUS_NAME)
+    def hsplit_cmd(self, uuid=None, title=None, cmd=None):
+        """Split a terminal horizontally, by UUID and immediately runs the specified command in the new terminal"""
+        return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=True)
+
+    def new_terminal_cmd(self, uuid=None, title=None, cmd=None, split_vert=False):
+        """Split a terminal by UUID and immediately runs the specified command in the new terminal"""
+        if not uuid:
+            return "ERROR: No UUID specified"
+
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+
+        terminals_before = set(self.get_terminals())
+        if not terminal:
+            return "ERROR: Terminal with supplied UUID not found"
+
+        # get current working dir out of target terminal
+        cwd = terminal.get_cwd()
+
+        # get current container
+        container = self.get_terminal_container(terminal)
+        maker = Factory()
+        sibling = maker.make('Terminal')
+        sibling.set_cwd(cwd)
+        if title: sibling.titlebar.set_custom_string(title)
+        sibling.spawn_child(init_command=cmd)
+
+        # split and run command in new terminal
+        container.split_axis(terminal, split_vert, cwd, sibling)
+
+        terminals_after = set(self.get_terminals())
+        # Detect the new terminal UUID
+        new_terminal_set = list(terminals_after - terminals_before)
+        if len(new_terminal_set) != 1:
+            return "ERROR: Cannot determine the UUID of the added terminal"
+        else:
+            return new_terminal_set[0]
 
     def new_terminal(self, uuid, type):
         """Split a terminal horizontally or vertically, by UUID"""
@@ -260,6 +321,16 @@ def hsplit(session, uuid, options):
 def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
     print(session.vsplit(uuid))
+
+@with_proxy
+def vsplit_cmd(session, uuid, title, cmd, options):
+    """Call the dbus method to vertically split a terminal and run the specified command in the new terminal"""
+    session.vsplit_cmd(uuid, title, cmd)
+
+@with_proxy
+def hsplit_cmd(session, uuid, title, cmd, options):
+    """Call the dbus method to horizontally split a terminal and run the specified command in the new terminal"""
+    session.hsplit_cmd(uuid, title, cmd)
 
 @with_proxy
 def get_terminals(session, options):
