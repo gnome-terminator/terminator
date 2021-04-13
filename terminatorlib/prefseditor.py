@@ -433,7 +433,8 @@ class PrefsEditor:
         pluginlist = self.registry.get_available_plugins()
         self.plugins = {}
         for plugin in pluginlist:
-            self.plugins[plugin] = self.registry.is_enabled(plugin)
+            if plugin[0] != "_": # Do not display hidden plugins
+                self.plugins[plugin] = self.registry.is_enabled(plugin)
 
         for plugin in self.plugins:
             self.pluginiters[plugin] = liststore.append([plugin,
