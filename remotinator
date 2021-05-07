@@ -46,7 +46,8 @@ COMMANDS={
     'get_window_title':     [True,  _('Get the title of a parent window')],
     'get_tab':              [True,  _('Get the UUID of a parent tab')],
     'get_tab_title':        [True,  _('Get the title of a parent tab')],
-    'switch_profile':      [True,  _('Switch current terminal profile')],
+    'set_tab_title':        [True,  _('Set the title of a parent tab')],
+    'switch_profile':       [True,  _('Switch current terminal profile')],
     }
 
 if __name__ == '__main__':
@@ -74,6 +75,9 @@ if __name__ == '__main__':
 
     parser.add_argument('-p', '--profile', dest='profile', type=str, default=argparse.SUPPRESS,
                 help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
+
+    parser.add_argument('-t', '--tab-title', dest='tab-title', type=str, default="Missing Tab Title! Use -t argument!",
+                help=_('Tab name to set. Only used with "set_tab_title" command.'))
 
     parser.add_argument('-v', '--version', action='version', version='%%(prog)s %s' %(APP_VERSION))
 
