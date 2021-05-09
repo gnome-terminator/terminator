@@ -56,14 +56,14 @@ class DBusService(Borg, dbus.service.Object):
             except Exception as e:
                 err('Unable to connect to DBUS Server, proceeding as standalone')
                 raise ImportError
-            proxy = bus.get_object('org.freedesktop.DBus', 
+            proxy = bus.get_object('org.freedesktop.DBus',
                                    '/org/freedesktop/DBus')
             flags = 1 | 4 # allow replacement | do not queue
             if not proxy.RequestName(BUS_NAME, dbus.UInt32(flags)) in (1, 4):
                 dbg('bus name unavailable: %s' % BUS_NAME)
                 raise dbus.exceptions.DBusException(
                     "Couldn't get DBus name %s: Name exists" % BUS_NAME)
-            self.bus_name = dbus.service.BusName(BUS_NAME, 
+            self.bus_name = dbus.service.BusName(BUS_NAME,
                                                  bus=dbus.SessionBus())
         if not self.bus_path:
             self.bus_path = BUS_PATH
@@ -266,6 +266,24 @@ class DBusService(Borg, dbus.service.Object):
                     return root_widget.get_tab_label(tab_child).get_label()
 
     @dbus.service.method(BUS_NAME)
+    def set_tab_title(self, uuid=None, options=dbus.Dictionary()):
+        """Set the title of a parent tab of a given terminal"""
+        tab_title = options.get('tab-title')
+
+        maker = Factory()
+        terminal = self.terminator.find_terminal_by_uuid(uuid)
+        window = terminal.get_toplevel()
+
+        if not window.is_child_notebook():
+            return
+
+        notebook = window.get_children()[0]
+        n_page = notebook.get_current_page()
+        page = notebook.get_nth_page(n_page)
+        label = notebook.get_tab_label(page)
+        label.set_custom_label(tab_title, force=True)
+
+    @dbus.service.method(BUS_NAME)
     def switch_profile(self, uuid=None, options=dbus.Dictionary()):
         """Switch profile of a given terminal"""
         terminal = self.terminator.find_terminal_by_uuid(uuid)
@@ -361,6 +379,11 @@ def get_tab(session, uuid, options):
 def get_tab_title(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
     print(session.get_tab_title(uuid))
+
+@with_proxy
+def set_tab_title(session, uuid, options):
+    """Call the dbus method to set the title of a tab"""
+    session.set_tab_title(uuid, options)
 
 @with_proxy
 def switch_profile(session, uuid, options):
