@@ -148,7 +148,7 @@ class Terminal(Gtk.VBox):
             except Exception as e:
                 self.background_image = None
                 self.vte.set_clear_background(True)
-                err('error loading background image: %s, %s' % (type(ex).__name__,e))
+                err('error loading background image: %s, %s' % (type(e).__name__,e))
 
         self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
