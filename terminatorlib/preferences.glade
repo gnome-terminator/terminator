@@ -790,7 +790,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCheckButton">
+                                  <object class="GtkCheckButton" id="clear_select_on_copy">
                                     <property name="label" translatable="yes">Clear selection on copy</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>

@@ -353,6 +353,9 @@ class PrefsEditor:
         # Smart copy
         widget = guiget('smart_copy')
         widget.set_active(self.config['smart_copy'])
+        # Clear selection on copy
+        widget = guiget('clear_select_on_copy')
+        widget.set_active(self.config['clear_select_on_copy'])
         #Titlebar font selector
         # Use system font
         widget = guiget('title_system_font_checkbutton')
