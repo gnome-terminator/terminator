@@ -568,6 +568,8 @@ class TabLabel(Gtk.HBox):
         self.terminator = Terminator()
         self.config = Config()
 
+        self.connect("button-press-event", self.on_button_pressed)
+
         self.label = EditableLabel(title)
         self.update_angle()
 
@@ -649,5 +651,9 @@ class TabLabel(Gtk.HBox):
     def on_close(self, _widget):
         """The close button has been clicked. Destroy the tab"""
         self.emit('close-clicked', self)
+
+    def on_button_pressed(self, _widget, event):
+        if event.button == 2:
+            self.on_close(_widget)
 
 # vim: set expandtab ts=4 sw=4:
