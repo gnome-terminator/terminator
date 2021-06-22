@@ -78,8 +78,8 @@ class Notebook(Container, Gtk.Notebook):
     def create_layout(self, layout):
         """Apply layout configuration"""
         def child_compare(a, b):
-            order_a = children[a]['order']
-            order_b = children[b]['order']
+            order_a = int(children[a]['order'])
+            order_b = int(children[b]['order'])
 
             if (order_a == order_b):
                 return 0
