@@ -40,6 +40,7 @@ class Window(Container, Gtk.Window):
     title = None
     isfullscreen = None
     ismaximised = None
+    isDestroyed = False
     hidebound = None
     hidefunc = None
     losefocus_time = 0
@@ -302,30 +303,32 @@ class Window(Container, Gtk.Window):
             terminal.close()
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)
+        self.isDestroyed = True
         self.destroy()
         del(self)
 
     def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""
 
-        if not self.get_property('visible'):
-            #Don't show if window has just been hidden because of
-            #lost focus
-            if (time.time() - self.losefocus_time < 0.1) and \
-                self.config['hide_on_lose_focus']:
-                return
-            if self.position:
-                self.move(self.position[0], self.position[1])
-            self.show()
-            self.grab_focus()
-            try:
-                t = GdkX11.x11_get_server_time(self.get_window())
-            except (TypeError, AttributeError):
-                t = 0
-            self.get_window().focus(t)
-        else:
-            self.position = self.get_position()
-            self.hidefunc()
+        if not self.isDestroyed:
+            if not self.get_property('visible'):
+                #Don't show if window has just been hidden because of
+                #lost focus
+                if (time.time() - self.losefocus_time < 0.1) and \
+                    self.config['hide_on_lose_focus']:
+                    return
+                if self.position:
+                    self.move(self.position[0], self.position[1])
+                self.show()
+                self.grab_focus()
+                try:
+                    t = GdkX11.x11_get_server_time(self.get_window())
+                except (TypeError, AttributeError):
+                    t = 0
+                self.get_window().focus(t)
+            else:
+                self.position = self.get_position()
+                self.hidefunc()
 
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
