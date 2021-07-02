@@ -2,6 +2,7 @@ from gi.repository import Gtk
 
 from terminatorlib.config import Config
 from terminatorlib.terminal import Terminal
+from terminatorlib.translation import _
 import terminatorlib.plugin as plugin
 
 AVAILABLE = ['CurrDirOpen']
@@ -22,7 +23,7 @@ class CurrDirOpen(plugin.MenuItem):
         self.cwd = terminal.get_cwd()
         self.terminal = terminal
 
-        menuitem = Gtk.ImageMenuItem("Open current directory")
+        menuitem = Gtk.ImageMenuItem(_('Open current directory'))
         image = Gtk.Image()
         image.set_from_icon_name('folder', Gtk.IconSize.MENU)
         menuitem.set_image(image)
