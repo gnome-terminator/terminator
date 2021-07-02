@@ -172,6 +172,7 @@ class Terminal(Gtk.VBox):
         self.titlebar.connect('edit-done', self.on_edit_done)
         self.connect('title-change', self.titlebar.set_terminal_title)
         self.titlebar.connect('create-group', self.really_create_group)
+        self.titlebar.update('window-focus-out')
         self.titlebar.show_all()
 
         self.searchbar = Searchbar()
