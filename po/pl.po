@@ -68,7 +68,7 @@ msgstr "Dziedziczenie tytułu karty nadrzędnej"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr ""
+msgstr "Zmień tytuł karty nadrzędnej"
 
 #: ../remotinator.py:50
 msgid "Switch current terminal profile"
@@ -478,7 +478,7 @@ msgstr "Jeśli Terminator jest już uruchomiony, utwórz nową zakładkę"
 
 #: ../terminatorlib/optionparse.py:106
 msgid "If Terminator is already running, just unhide all hidden windows"
-msgstr ""
+msgstr "Jeśli Terminator już działa w tle, po prostu pokaż wszystkie ukryte okna"
 
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
@@ -596,7 +596,7 @@ msgstr "Nazwa *%s* jest już używana"
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr ""
+msgstr "Otwórz obecny folder w eksploratorze"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -870,7 +870,7 @@ msgstr "Schowek"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Clear selection on copy"
-msgstr ""
+msgstr "Wyczyść zaznaczenie po skopiowaniu"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Open links with a single click (instead of Ctrl-left click)"
@@ -1102,11 +1102,11 @@ msgstr "_Przezroczyste tło"
 
 #: ../terminatorlib/preferences.glade.h:122
 msgid "Background Image"
-msgstr ""
+msgstr "Obraz tła"
 
 #: ../terminatorlib/preferences.glade.h:123
 msgid "Background Image File:"
-msgstr ""
+msgstr "Plik obrazu tła"
 
 #: ../terminatorlib/preferences.glade.h:124
 msgid "Choose file"
@@ -1297,15 +1297,15 @@ msgstr "Przywróć oryginalny rozmiar czcionki"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Increase font size on all terminals"
-msgstr ""
+msgstr "Zwiększ rozmiar czcionki wszystkich terminali"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Decrease font size on all terminals"
-msgstr ""
+msgstr "Zmniejsz rozmiar czcionki wszystkich terminali"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Restore original font size on all terminals"
-msgstr ""
+msgstr "Przywróć rozmiar czcionki wszystkich terminali"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Create a new tab"
