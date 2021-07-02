@@ -24,6 +24,7 @@ terminatorlib/paned.py
 terminatorlib/plugin.py
 terminatorlib/plugins/activitywatch.py
 terminatorlib/plugins/custom_commands.py
+terminatorlib/plugins/dir_open.py
 terminatorlib/plugins/logger.py
 terminatorlib/plugins/maven.py
 terminatorlib/plugins/terminalshot.py
