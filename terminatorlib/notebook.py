@@ -39,6 +39,8 @@ class Notebook(Container, Gtk.Notebook):
         self.connect('scroll-event', self.on_scroll_event)
         self.configure()
 
+        self.set_can_focus(False)
+
         child = window.get_child()
         window.remove(child)
         window.add(self)
