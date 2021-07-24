@@ -290,6 +290,14 @@ class DBusService(Borg, dbus.service.Object):
         profile_name = options.get('profile')
         terminal.force_set_profile(False, profile_name)
 
+    @dbus.service.method(BUS_NAME)
+    def switch_profile_all(self, options=dbus.Dictionary()):
+        """Switch profile of a given terminal"""
+        for terminal in self.terminator.terminals:
+            profile_name = options.get('profile')
+            terminal.force_set_profile(False, profile_name)
+
+
 def with_proxy(func):
     """Decorator function to connect to the session dbus bus"""
     dbg('dbus client call: %s' % func.__name__)
@@ -390,3 +398,7 @@ def switch_profile(session, uuid, options):
     """Call the dbus method to return the title of a tab"""
     session.switch_profile(uuid, options)
 
+@with_proxy
+def switch_profile_all(session,options):
+    """Call the dbus method to return the title of a tab"""
+    session.switch_profile_all(options)

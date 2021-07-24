@@ -48,6 +48,7 @@ COMMANDS={
     'get_tab_title':        [True,  _('Get the title of a parent tab')],
     'set_tab_title':        [True,  _('Set the title of a parent tab')],
     'switch_profile':       [True,  _('Switch current terminal profile')],
+    'switch_profile_all':   [False, _('Switch profile of all currently running terminals')],
     }
 
 if __name__ == '__main__':
