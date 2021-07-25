@@ -77,8 +77,14 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--profile', dest='profile', type=str, default=argparse.SUPPRESS,
                 help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
 
+    parser.add_argument('-x', '--execute', dest='execute', type=str, default=argparse.SUPPRESS,
+                help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
+
     parser.add_argument('-t', '--tab-title', dest='tab-title', type=str, default="Missing Tab Title! Use -t argument!",
                 help=_('Tab name to set. Only used with "set_tab_title" command.'))
+
+    parser.add_argument('-T', '--title', dest='title', type=str, default=argparse.SUPPRESS,
+                help=_('Tab name to set.'))
 
     parser.add_argument('-v', '--version', action='version', version='%%(prog)s %s' %(APP_VERSION))
 

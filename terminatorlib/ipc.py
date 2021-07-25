@@ -115,14 +115,24 @@ class DBusService(Borg, dbus.service.Object):
         return self.new_terminal(uuid, 'tab')
 
     @dbus.service.method(BUS_NAME)
-    def hsplit(self, uuid=None):
+    def hsplit(self, uuid=None,options=None):
         """Split a terminal horizontally, by UUID"""
-        return self.new_terminal(uuid, 'hsplit')
+        if options:
+            cmd = options.get('execute')
+            title = options.get('title')
+            return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=True) 
+        else:
+            return self.new_terminal(uuid, 'hsplit')
 
     @dbus.service.method(BUS_NAME)
-    def vsplit(self, uuid=None):
+    def vsplit(self, uuid=None,options=None):
         """Split a terminal vertically, by UUID"""
-        return self.new_terminal(uuid, 'vsplit')
+        if options:
+            cmd = options.get('execute')
+            title = options.get('title')
+            return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=False) 
+        else:
+            return self.new_terminal(uuid, 'vsplit')
 
     def get_terminal_container(self, terminal, container=None):
         terminator = Terminator()
@@ -341,12 +351,12 @@ def new_tab(session, uuid, options):
 @with_proxy
 def hsplit(session, uuid, options):
     """Call the dbus method to horizontally split a terminal"""
-    print(session.hsplit(uuid))
+    print(session.hsplit(uuid,options))
 
 @with_proxy
 def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
-    print(session.vsplit(uuid))
+    print(session.vsplit(uuid,options))
 
 @with_proxy
 def vsplit_cmd(session, uuid, title, cmd, options):
