@@ -431,7 +431,7 @@ msgstr "Config-Datei festlegen"
 
 #: ../terminatorlib/optionparse.py:78
 msgid "Specify a partial config json file"
-msgstr "Eine pratielle json-config-Datei festlegen"
+msgstr "Eine partielle json-config-Datei festlegen"
 
 #: ../terminatorlib/optionparse.py:84
 msgid "Set the working directory"
