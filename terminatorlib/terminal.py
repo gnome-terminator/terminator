@@ -69,6 +69,9 @@ class Terminal(Gtk.VBox):
         'group-all-toggle': (GObject.SignalFlags.RUN_LAST, None, ()),
         'move-tab': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
+        'group-win': (GObject.SignalFlags.RUN_LAST, None, ()),
+        'group-win-toggle': (GObject.SignalFlags.RUN_LAST, None, ()),
+        'ungroup-win': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
     TARGET_TYPE_VTE = 8
@@ -510,6 +513,16 @@ class Terminal(Gtk.VBox):
             item.connect('activate', self.ungroup, self.group)
             menu.append(item)
 
+        if util.has_ancestor(self, Gtk.Window):
+            item = Gtk.MenuItem.new_with_mnemonic(_('G_roup all in window'))
+            item.connect('activate', lambda x: self.emit('group_win'))
+            menu.append(item)
+
+            if len(self.terminator.groups) > 0:
+                item = Gtk.MenuItem.new_with_mnemonic(_('Ungro_up all in window'))
+                item.connect('activate', lambda x: self.emit('ungroup_win'))
+                menu.append(item)
+
         if util.has_ancestor(self, Gtk.Notebook):
             item = Gtk.MenuItem.new_with_mnemonic(_('G_roup all in tab'))
             item.connect('activate', lambda x: self.emit('group_tab'))
@@ -583,7 +596,7 @@ class Terminal(Gtk.VBox):
         if self.group == name:
             # already in this group, no action needed
             return
-        dbg('Terminal::set_group: Setting group to %s' % name)
+        dbg('Setting group to %s' % name)
         self.group = name
         self.titlebar.set_group_label(name)
         self.terminator.group_hoover()
@@ -1917,6 +1930,16 @@ class Terminal(Gtk.VBox):
 
     def key_ungroup_all(self):
         self.emit('ungroup-all')
+
+    def key_group_win(self):
+        dbg("Group Win")
+        self.emit('group-win')
+
+    def key_group_win_toggle(self):
+        self.emit('group-win-toggle')
+
+    def key_ungroup_win(self):
+        self.emit('ungroup-win')
 
     def key_group_tab(self):
         self.emit('group-tab')
