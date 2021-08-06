@@ -421,6 +421,9 @@ class Window(Container, Gtk.Window):
                        'group-all': self.group_all,
                        'group-all-toggle': self.group_all_toggle,
                        'ungroup-all': self.ungroup_all,
+                       'group-win': self.group_win,
+                       'group-win-toggle': self.group_win_toggle,
+                       'ungroup-win': self.ungroup_win,
                        'group-tab': self.group_tab,
                        'group-tab-toggle': self.group_tab_toggle,
                        'ungroup-tab': self.ungroup_tab,
@@ -574,6 +577,9 @@ class Window(Container, Gtk.Window):
 
         self.set_pos_by_ratio = False
 
+    def get_terminals(self):
+        return(util.enumerate_descendants(self)[1])
+ 
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
@@ -732,6 +738,25 @@ class Window(Container, Gtk.Window):
     def ungroup_all(self, widget):
         """Ungroup all terminals"""
         self.set_groups(None, self.terminator.terminals)
+
+    def group_win(self, widget):
+        """Group all terminals in the current window"""
+        # FIXME: Why isn't this being done by Terminator() ?
+        dbg("Group Windows")
+        group = _('Window group %s' % (len(self.terminator.groups) + 1))
+        self.terminator.create_group(group)
+        self.set_groups(group, self.get_terminals())
+
+    def group_win_toggle(self, widget):
+        """Toggle grouping to all windows in the current window"""
+        if widget.group == 'Window':
+            self.ungroup_win(widget)
+        else:
+            self.group_win(widget)
+
+    def ungroup_win(self, widget):
+        """Ungroup all terminals in the current window"""
+        self.set_groups(None, self.get_terminals())
 
     def group_tab(self, widget):
         """Group all terminals in the current tab"""

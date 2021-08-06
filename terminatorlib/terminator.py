@@ -589,7 +589,7 @@ class Terminator(Borg):
 
         for term in self.get_target_terms(widget):
             idx = terminals.index(term)
-            term.feed(numstr % (idx + 1))
+            term.feed(numstr.encode() % (idx + 1))
 
     def get_sibling_terms(self, widget):
         termset = []
