@@ -333,9 +333,6 @@ class PrefsEditor:
         #Show on all workspaces
         widget = guiget('stickycheck')
         widget.set_active(self.config['sticky'])
-        #Hide size text from the title bar
-        widget = guiget('title_hide_sizetextcheck')
-        widget.set_active(self.config['title_hide_sizetext'])
 
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
@@ -359,19 +356,6 @@ class PrefsEditor:
         # Clear selection on copy
         widget = guiget('clear_select_on_copy')
         widget.set_active(self.config['clear_select_on_copy'])
-        #Titlebar font selector
-        # Use system font
-        widget = guiget('title_system_font_checkbutton')
-        widget.set_active(self.config['title_use_system_font'])
-        self.on_title_system_font_checkbutton_toggled(widget)
-        # Font selector
-        widget = guiget('title_font_selector')
-        if self.config['title_use_system_font'] == True:
-            fontname = self.config.get_system_prop_font()
-            if fontname is not None:
-                widget.set_font_name(fontname)
-        else:
-            widget.set_font_name(self.config['title_font'])
 
         ## Profile tab
         # Populate the profile list
@@ -615,12 +599,6 @@ class PrefsEditor:
         # Now set the palette selector widget
         widget = guiget('palette_combobox')
         widget.set_active(self.palettevalues[palette])
-        # Titlebar colors
-        for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
-            'title_receive_fg_color', 'title_receive_bg_color',
-            'title_inactive_fg_color', 'title_inactive_bg_color']:
-            widget = guiget(bit)
-            widget.set_color(Gdk.color_parse(self.config[bit]))
         # Inactive terminal shading
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
@@ -715,6 +693,29 @@ class PrefsEditor:
 
             if encoding[1] == value:
                 widget.set_active_iter(rowiter)
+
+        ## Titlebar tab
+        # Titlebar colors
+        for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
+            'title_receive_fg_color', 'title_receive_bg_color',
+            'title_inactive_fg_color', 'title_inactive_bg_color']:
+            widget = guiget(bit)
+            widget.set_color(Gdk.color_parse(self.config[bit]))
+        # Hide size text from the title bar
+        widget = guiget('title_hide_sizetextcheck')
+        widget.set_active(self.config['title_hide_sizetext'])
+        # Use system font
+        widget = guiget('title_system_font_checkbutton')
+        widget.set_active(self.config['title_use_system_font'])
+        self.on_title_system_font_checkbutton_toggled(widget)
+        # Font selector
+        widget = guiget('title_font_selector')
+        if self.config['title_use_system_font'] == True:
+            fontname = self.config.get_system_prop_font()
+            if fontname is not None:
+                widget.set_font_name(fontname)
+        else:
+            widget.set_font_name(self.config['title_font'])
 
     def set_layout(self, layout_name):
         """Set a layout"""
