@@ -460,7 +460,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_alwaysontopcheck_toggled" swapped="no"/>
                                   </object>
@@ -478,7 +477,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_stickycheck_toggled" swapped="no"/>
                                   </object>
@@ -496,7 +494,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_hideonlosefocuscheck_toggled" swapped="no"/>
                                   </object>
@@ -514,7 +511,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_hidefromtaskbcheck_toggled" swapped="no"/>
                                   </object>
@@ -532,7 +528,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_wingeomcheck_toggled" swapped="no"/>
                                   </object>
@@ -550,7 +545,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_dbuscheck_toggled" swapped="no"/>
                                   </object>
@@ -905,7 +899,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_winbordercheck_toggled" swapped="no"/>
                                   </object>
@@ -1063,7 +1056,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_extrastylingcheck_toggled" swapped="no"/>
                                   </object>
@@ -1107,7 +1099,6 @@
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">False</property>
                                     <property name="xalign">0.5</property>
-                                    <property name="active">True</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_homogeneous_toggled" swapped="no"/>
                                   </object>
@@ -1999,7 +1990,7 @@
                                 <property name="can-focus">False</property>
                                 <property name="left-padding">12</property>
                                 <child>
-                                  <!-- n-columns=3 n-rows=4 -->
+                                  <!-- n-columns=2 n-rows=4 -->
                                   <object class="GtkGrid" id="grid11">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -2146,18 +2137,6 @@
                                         <property name="top-attach">3</property>
                                       </packing>
                                     </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
                                   </object>
                                 </child>
                               </object>
@@ -2200,7 +2179,7 @@
                                 <property name="can-focus">False</property>
                                 <property name="left-padding">12</property>
                                 <child>
-                                  <!-- n-columns=3 n-rows=3 -->
+                                  <!-- n-columns=2 n-rows=3 -->
                                   <object class="GtkGrid" id="grid12">
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
@@ -2521,15 +2500,6 @@
                                         <property name="width">2</property>
                                       </packing>
                                     </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
-                                    <child>
-                                      <placeholder/>
-                                    </child>
                                   </object>
                                 </child>
                               </object>
@@ -2752,29 +2722,6 @@
                             <property name="position">4</property>
                           </packing>
                         </child>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                            <child>
-                              <placeholder/>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">6</property>
-                          </packing>
-                        </child>
                       </object>
                       <packing>
                         <property name="position">3</property>
@@ -2794,7 +2741,7 @@
                       </packing>
                     </child>
                     <child>
-                      <!-- n-columns=3 n-rows=5 -->
+                      <!-- n-columns=2 n-rows=5 -->
                       <object class="GtkGrid" id="grid14">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -2970,21 +2917,6 @@
                             <property name="top-attach">4</property>
                           </packing>
                         </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
                       </object>
                       <packing>
                         <property name="position">4</property>
@@ -3003,7 +2935,7 @@
                       </packing>
                     </child>
                     <child>
-                      <!-- n-columns=3 n-rows=5 -->
+                      <!-- n-columns=2 n-rows=5 -->
                       <object class="GtkGrid" id="grid15">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -3152,21 +3084,6 @@
                             <property name="top-attach">4</property>
                             <property name="width">2</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                       </object>
                       <packing>
@@ -3365,7 +3282,6 @@
                                 <property name="can-focus">True</property>
                                 <property name="receives-default">False</property>
                                 <property name="xalign">0</property>
-                                <property name="active">True</property>
                                 <property name="draw-indicator">True</property>
                                 <signal name="toggled" handler="on_title_hide_sizetextcheck_toggled" swapped="no"/>
                               </object>
