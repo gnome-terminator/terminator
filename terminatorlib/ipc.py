@@ -15,6 +15,7 @@ from .factory import Factory
 from .util import dbg, err, enumerate_descendants
 from .terminal import Terminal
 from .container import Container
+from .configjson import ConfigJson
 from gi.repository import Gtk as gtk
 from gi.repository import GObject as gobject
 
@@ -74,6 +75,15 @@ class DBusService(Borg, dbus.service.Object):
     def new_window_cmdline(self, options=dbus.Dictionary()):
         """Create a new Window"""
         dbg('dbus method called: new_window with parameters %s'%(options))
+        if options['configjson']:
+            dbg(options['configjson'])
+            configjson = ConfigJson()
+            layoutname = configjson.extend_config(options['configjson'])
+            if layoutname and ((not options['layout']) or options['layout'] == 'default'):
+                options['layout'] = layoutname
+                if not options['profile']:
+                    options['profile'] = configjson.get_profile_to_use()
+
         oldopts = self.terminator.config.options_get()
         oldopts.__dict__ = options
         self.terminator.config.options_set(oldopts)
