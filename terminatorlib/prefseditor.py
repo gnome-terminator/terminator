@@ -362,6 +362,8 @@ class PrefsEditor:
         widget = guiget('profilelist')
         liststore = widget.get_model()
         profiles = self.config.list_profiles()
+        if '__internal_json_profile__' in profiles:
+            profiles.remove('__internal_json_profile__')
         self.profileiters = {}
         for profile in profiles:
             if profile == 'default':
@@ -377,6 +379,8 @@ class PrefsEditor:
         widget = guiget('layoutlist')
         liststore = widget.get_model()
         layouts = self.config.list_layouts()
+        if '__internal_json_layout__' in layouts:
+            layouts.remove('__internal_json_layout__')
         self.layoutiters = {}
         for layout in layouts:
             if layout == 'default':
@@ -387,7 +391,7 @@ class PrefsEditor:
         selection = widget.get_selection()
         selection.connect('changed', self.on_layout_selection_changed)
         terminator = Terminator()
-        if terminator.layoutname:
+        if terminator.layoutname and terminator.layoutname != '__internal_json_layout__':
             layout_to_highlight = terminator.layoutname
         else:
             layout_to_highlight = 'default'
@@ -947,7 +951,6 @@ class PrefsEditor:
         self.config.save()
 
     def on_background_image_file_set(self,widget):
-        print(widget.get_filename())
         self.config['background_image'] = widget.get_filename()
         self.config.save()
 
