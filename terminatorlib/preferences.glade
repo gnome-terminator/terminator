@@ -1536,8 +1536,8 @@
                                     <property name="can-focus">False</property>
                                     <property name="left-padding">12</property>
                                     <child>
-                                      <!-- n-columns=2 n-rows=3 -->
-                                      <object class="GtkGrid" id="grid10">
+                                      <!-- n-columns=2 n-rows=5 -->
+                                      <object class="GtkGrid">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
                                         <property name="row-spacing">6</property>
@@ -1575,18 +1575,6 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkLabel" id="label22">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">Color:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="left-attach">0</property>
-                                            <property name="top-attach">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <object class="GtkCheckButton" id="cursor_blink">
                                             <property name="label" translatable="yes">Blink</property>
                                             <property name="use-action-appearance">False</property>
@@ -1599,26 +1587,59 @@
                                           </object>
                                           <packing>
                                             <property name="left-attach">0</property>
-                                            <property name="top-attach">2</property>
+                                            <property name="top-attach">4</property>
                                             <property name="width">2</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkBox" id="hbox1">
+                                          <object class="GtkCheckButton" id="cursor_color_default">
+                                            <property name="label" translatable="yes">Use default colors</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">True</property>
+                                            <property name="receives-default">False</property>
+                                            <property name="draw-indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">1</property>
+                                            <property name="width">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
                                             <property name="visible">True</property>
                                             <property name="can-focus">False</property>
-                                            <property name="spacing">6</property>
+                                            <property name="margin-left">12</property>
+                                            <property name="label" translatable="yes">Foreground:</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkLabel">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                            <property name="margin-left">12</property>
+                                            <property name="label" translatable="yes">Background:</property>
+                                            <property name="xalign">0</property>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">0</property>
+                                            <property name="top-attach">3</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
                                             <child>
-                                              <object class="GtkRadioButton" id="cursor_color_foreground_radiobutton">
-                                                <property name="label" translatable="yes">Foreground</property>
-                                                <property name="use-action-appearance">False</property>
+                                              <object class="GtkColorButton" id="cursor_fg_color">
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
-                                                <property name="receives-default">False</property>
-                                                <property name="xalign">0.5</property>
-                                                <property name="active">True</property>
-                                                <property name="draw-indicator">True</property>
-                                                <signal name="toggled" handler="on_cursor_color_type_toggled" swapped="no"/>
+                                                <property name="receives-default">True</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1626,55 +1647,32 @@
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>
+                                          </object>
+                                          <packing>
+                                            <property name="left-attach">1</property>
+                                            <property name="top-attach">2</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkBox">
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
                                             <child>
-                                              <object class="GtkBox" id="hbox4">
+                                              <object class="GtkColorButton" id="cursor_bg_color">
                                                 <property name="visible">True</property>
-                                                <property name="can-focus">False</property>
-                                                <child>
-                                                  <object class="GtkRadioButton" id="cursor_color_custom_radiobutton">
-                                                    <property name="use-action-appearance">False</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">False</property>
-                                                    <property name="xalign">0.5</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw-indicator">True</property>
-                                                    <property name="group">cursor_color_foreground_radiobutton</property>
-                                                    <signal name="toggled" handler="on_cursor_color_type_toggled" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkColorButton" id="cursor_color">
-                                                    <property name="use-action-appearance">False</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can-focus">True</property>
-                                                    <property name="receives-default">True</property>
-                                                    <property name="halign">center</property>
-                                                    <property name="xalign">0</property>
-                                                    <signal name="color-set" handler="on_cursor_color_color_set" swapped="no"/>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
+                                                <property name="can-focus">True</property>
+                                                <property name="receives-default">True</property>
                                               </object>
                                               <packing>
-                                                <property name="expand">True</property>
+                                                <property name="expand">False</property>
                                                 <property name="fill">True</property>
-                                                <property name="position">1</property>
+                                                <property name="position">0</property>
                                               </packing>
                                             </child>
                                           </object>
                                           <packing>
                                             <property name="left-attach">1</property>
-                                            <property name="top-attach">1</property>
+                                            <property name="top-attach">3</property>
                                           </packing>
                                         </child>
                                       </object>
