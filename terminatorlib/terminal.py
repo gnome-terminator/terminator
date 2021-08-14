@@ -843,11 +843,17 @@ class Terminal(Gtk.VBox):
         else:
             # foreground
             cursor_fg_color = Gdk.RGBA()
-            cursor_fg_color.parse(self.config['cursor_fg_color'])
+            if self.config['cursor_fg_color'] == '':
+                cursor_fg_color.parse(self.config['background_color'])
+            else:
+                cursor_fg_color.parse(self.config['cursor_fg_color'])
             self.vte.set_color_cursor_foreground(cursor_fg_color)
             # background
             cursor_bg_color = Gdk.RGBA()
-            cursor_bg_color.parse(self.config['cursor_bg_color'])
+            if self.config['cursor_bg_color'] == '':
+                cursor_bg_color.parse(self.config['foreground_color'])
+            else:
+                cursor_bg_color.parse(self.config['cursor_bg_color'])
             self.vte.set_color_cursor(cursor_bg_color)
 
     def get_window_title(self):
