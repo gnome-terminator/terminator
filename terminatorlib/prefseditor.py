@@ -1170,6 +1170,11 @@ class PrefsEditor:
         guiget('cursor_fg_color').set_sensitive(not value)
         guiget('cursor_bg_color').set_sensitive(not value)
 
+        if not value:
+            self.config['cursor_fg_color'] = color2hex(guiget('cursor_fg_color'))
+            self.config['cursor_bg_color'] = color2hex(guiget('cursor_bg_color'))
+            self.config.save()
+
         self.config['cursor_color_default'] = value
         self.config.save()
 
