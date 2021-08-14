@@ -124,6 +124,16 @@ class DBusService(Borg, dbus.service.Object):
         """Create a new tab"""
         return self.new_terminal(uuid, 'tab')
 
+    @dbus.service.method(BUS_NAME) 
+    def bg_img(self,uuid=None,options=None):
+        terminals = []
+        if uuid:
+            terminals.append(self.terminator.find_terminal_by_uuid(uuid))
+        else:
+            terminals = self.get_terminals()
+        for terminal in terminals:
+            terminal.set_background_image(options.get('file')) 
+
     @dbus.service.method(BUS_NAME)
     def hsplit(self, uuid=None,options=None):
         """Split a terminal horizontally, by UUID"""
@@ -422,3 +432,7 @@ def switch_profile(session, uuid, options):
 def switch_profile_all(session,options):
     """Call the dbus method to return the title of a tab"""
     session.switch_profile_all(options)
+
+@with_proxy
+def bg_img(session,uuid,options):
+    session.bg_img(uuid,options)
