@@ -498,24 +498,27 @@ class PrefsEditor:
         # Cursor blink
         widget = guiget('cursor_blink')
         widget.set_active(self.config['cursor_blink'])
-        # Cursor colour - Radio values
-        if self.config['cursor_color_fg']:
-            widget = guiget('cursor_color_foreground_radiobutton')
-        else:
-            widget = guiget('cursor_color_custom_radiobutton')
-        widget.set_active(True)
-        # Cursor colour - swatch
-        widget = guiget('cursor_color')
-        widget.set_sensitive(not self.config['cursor_color_fg'])
+        # Cursor use default colors
+        widget = guiget('cursor_color_default_checkbutton')
+        widget.set_active(self.config['cursor_color_default'])
+        # Cursor foreground
+        widget = guiget('cursor_fg_color')
         try:
-            widget.set_color(Gdk.color_parse(self.config['cursor_color']))
-        except (ValueError, TypeError):
+            widget.set_color(Gdk.color_parse(self.config['cursor_fg_color']))
+        except:
             try:
-                self.config['cursor_color'] = self.config['foreground_color']
-                widget.set_color(Gdk.color_parse(self.config['cursor_color']))
-            except ValueError:
-                self.config['cursor_color'] = "#FFFFFF"
-                widget.set_color(Gdk.color_parse(self.config['cursor_color']))
+                widget.set_color(Gdk.color_parse(self.config['background_color']))
+            except:
+                widget.set_color(Gdk.color_parse('#000000'))
+        # Cursor background
+        widget = guiget('cursor_bg_color')
+        try:
+            widget.set_color(Gdk.color_parse(self.config['cursor_bg_color']))
+        except:
+            try:
+                widget.set_color(Gdk.color_parse(self.config['foreground_color']))
+            except:
+                widget.set_color(Gdk.color_parse('#ffffff'))
 
         ## Command tab
         # Login shell
@@ -1159,29 +1162,25 @@ class PrefsEditor:
         self.config['custom_command'] = widget.get_text()
         self.config.save()
 
-    def on_cursor_color_type_toggled(self, widget):
+    def on_cursor_color_default_checkbutton_toggled(self, checkbutton):
+        """Cursor: Use default colors changed"""
         guiget = self.builder.get_object
 
-        customwidget = guiget('cursor_color_custom_radiobutton')
-        colorwidget = guiget('cursor_color')
-        
-        colorwidget.set_sensitive(customwidget.get_active())
-        self.config['cursor_color_fg'] = not customwidget.get_active()
-        
-        try:
-            colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
-        except (ValueError, TypeError):
-            try:
-                self.config['cursor_color'] = self.config['foreground_color']
-                colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
-            except ValueError:
-                self.config['cursor_color'] = "#FFFFFF"
-                colorwidget.set_color(Gdk.color_parse(self.config['cursor_color']))
+        value = checkbutton.get_active()
+        guiget('cursor_fg_color').set_sensitive(not value)
+        guiget('cursor_bg_color').set_sensitive(not value)
+
+        self.config['cursor_color_default'] = value
         self.config.save()
 
-    def on_cursor_color_color_set(self, widget):
-        """Cursor colour changed"""
-        self.config['cursor_color'] = color2hex(widget)
+    def on_cursor_fg_color_color_set(self, widget):
+        """Cursor foreground color changed"""
+        self.config['cursor_fg_color'] = color2hex(widget)
+        self.config.save()
+
+    def on_cursor_bg_color_color_set(self, widget):
+        """Cursor background color changed"""
+        self.config['cursor_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_cursor_shape_combobox_changed(self, widget):

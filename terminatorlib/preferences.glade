@@ -1592,12 +1592,13 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkCheckButton" id="cursor_color_default">
+                                          <object class="GtkCheckButton" id="cursor_color_default_checkbutton">
                                             <property name="label" translatable="yes">Use default colors</property>
                                             <property name="visible">True</property>
                                             <property name="can-focus">True</property>
                                             <property name="receives-default">False</property>
                                             <property name="draw-indicator">True</property>
+                                            <signal name="toggled" handler="on_cursor_color_default_checkbutton_toggled" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="left-attach">0</property>
@@ -1640,6 +1641,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">True</property>
+                                                <signal name="color-set" handler="on_cursor_fg_color_color_set" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1662,6 +1664,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can-focus">True</property>
                                                 <property name="receives-default">True</property>
+                                                <signal name="color-set" handler="on_cursor_bg_color_color_set" swapped="no"/>
                                               </object>
                                               <packing>
                                                 <property name="expand">False</property>
