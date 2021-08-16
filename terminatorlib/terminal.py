@@ -837,12 +837,24 @@ class Terminal(Gtk.VBox):
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
-        if self.config['cursor_color_fg']:
+        if self.config['cursor_color_default']:
             self.vte.set_color_cursor(None)
+            self.vte.set_color_cursor_foreground(None)
         else:
-            cursor_color = Gdk.RGBA()
-            cursor_color.parse(self.config['cursor_color'])
-            self.vte.set_color_cursor(cursor_color)
+            # foreground
+            cursor_fg_color = Gdk.RGBA()
+            if self.config['cursor_fg_color'] == '':
+                cursor_fg_color.parse(self.config['background_color'])
+            else:
+                cursor_fg_color.parse(self.config['cursor_fg_color'])
+            self.vte.set_color_cursor_foreground(cursor_fg_color)
+            # background
+            cursor_bg_color = Gdk.RGBA()
+            if self.config['cursor_bg_color'] == '':
+                cursor_bg_color.parse(self.config['foreground_color'])
+            else:
+                cursor_bg_color.parse(self.config['cursor_bg_color'])
+            self.vte.set_color_cursor(cursor_bg_color)
 
     def get_window_title(self):
         """Return the window title"""

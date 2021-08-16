@@ -215,8 +215,9 @@ DEFAULTS = {
                 'color_scheme'          : 'grey_on_black',
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
-                'cursor_color'          : '',
-                'cursor_color_fg'       : True,
+                'cursor_fg_color'       : '',
+                'cursor_bg_color'       : '',
+                'cursor_color_default'  : True,
                 'term'                  : 'xterm-256color',
                 'colorterm'             : 'truecolor',
                 'font'                  : 'Mono 10',
@@ -844,4 +845,3 @@ class ConfigBase(Borg):
     def set_layout(self, layout, tree):
         """Set a layout"""
         self.layouts[layout] = tree
-
