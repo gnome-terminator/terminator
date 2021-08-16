@@ -125,14 +125,13 @@ class DBusService(Borg, dbus.service.Object):
         return self.new_terminal(uuid, 'tab')
 
     @dbus.service.method(BUS_NAME) 
-    def bg_img(self,uuid=None,options=None):
-        terminals = []
-        if uuid:
-            terminals.append(self.terminator.find_terminal_by_uuid(uuid))
-        else:
-            terminals = self.get_terminals()
-        for terminal in terminals:
+    def bg_img_all (self,options=dbus.Dictionary()):
+        for terminal in self.terminator.terminals:
             terminal.set_background_image(options.get('file')) 
+            
+    @dbus.service.method(BUS_NAME) 
+    def bg_img(self,uuid=None,options=dbus.Dictionary()):
+        self.terminator.find_terminal_by_uuid(uuid).set_background_image(options.get('file'))
 
     @dbus.service.method(BUS_NAME)
     def hsplit(self, uuid=None,options=None):
@@ -212,7 +211,7 @@ class DBusService(Borg, dbus.service.Object):
             return new_terminal_set[0]
 
     def new_terminal(self, uuid, type):
-        """Split a terminal horizontally or vertically, by UUID"""
+        """Split a terminal horizontally o?r vertically, by UUID"""
         dbg('dbus method called: %s' % type)
         if not uuid:
             return "ERROR: No UUID specified"
@@ -432,6 +431,10 @@ def switch_profile(session, uuid, options):
 def switch_profile_all(session,options):
     """Call the dbus method to return the title of a tab"""
     session.switch_profile_all(options)
+
+@with_proxy
+def bg_img_all(session,options):
+    session.bg_img_all(options)
 
 @with_proxy
 def bg_img(session,uuid,options):
