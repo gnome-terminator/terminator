@@ -203,6 +203,16 @@ class Terminal(Gtk.VBox):
         self.reconfigure()
         self.vte.set_size(80, 24)
 
+    def set_background_image(self,image):
+        try: 
+            self.background_image = GdkPixbuf.Pixbuf.new_from_file(image)
+            self.vte.set_clear_background(False)
+            self.vte.connect("draw",self.background_draw)
+        except Exception as e:
+            self.background_image = None
+            self.vte.set_clear_background(True)
+            err('error loading background image: %s, %s' % (type(e).__name__,e))
+
     def get_vte(self):
         """This simply returns the vte widget we are using"""
         return(self.vte)

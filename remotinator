@@ -47,6 +47,8 @@ COMMANDS={
     'get_tab':              [True,  _('Get the UUID of a parent tab')],
     'get_tab_title':        [True,  _('Get the title of a parent tab')],
     'set_tab_title':        [True,  _('Set the title of a parent tab')],
+    'bg_img':               [True,  _('Set the background image')],
+    'bg_img_all':           [False, _('Set the background image for all terminals')],
     'switch_profile':       [True,  _('Switch current terminal profile')],
     'switch_profile_all':   [False, _('Switch profile of all currently running terminals')],
     }
@@ -75,10 +77,13 @@ if __name__ == '__main__':
                 help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
 
     parser.add_argument('-p', '--profile', dest='profile', type=str, default=argparse.SUPPRESS,
-                help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
+                help=_('Profile name to switch to'))
+
+    parser.add_argument('-f', '--file', dest='file', type=str, default=argparse.SUPPRESS,
+                help=_('File to pass to command'))
 
     parser.add_argument('-x', '--execute', dest='execute', type=str, default=argparse.SUPPRESS,
-                help=_('Terminal UUID for when not in env var TERMINATOR_UUID'))
+                help=_('Command to run in new terminal'))
 
     parser.add_argument('-t', '--tab-title', dest='tab-title', type=str, default="Missing Tab Title! Use -t argument!",
                 help=_('Tab name to set. Only used with "set_tab_title" command.'))
