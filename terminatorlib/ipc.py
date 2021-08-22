@@ -167,16 +167,6 @@ class DBusService(Borg, dbus.service.Object):
                     owner = self.get_terminal_container(terminal, child)
                     if owner: return owner
 
-    @dbus.service.method(BUS_NAME)
-    def vsplit_cmd(self, uuid=None, title=None, cmd=None):
-        """Split a terminal vertically, by UUID and immediately runs the specified command in the new terminal"""
-        return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=False)
-
-    @dbus.service.method(BUS_NAME)
-    def hsplit_cmd(self, uuid=None, title=None, cmd=None):
-        """Split a terminal horizontally, by UUID and immediately runs the specified command in the new terminal"""
-        return self.new_terminal_cmd(uuid=uuid, title=title, cmd=cmd, split_vert=True)
-
     def new_terminal_cmd(self, uuid=None, title=None, cmd=None, split_vert=False):
         """Split a terminal by UUID and immediately runs the specified command in the new terminal"""
         if not uuid:
@@ -376,16 +366,6 @@ def hsplit(session, uuid, options):
 def vsplit(session, uuid, options):
     """Call the dbus method to vertically split a terminal"""
     print(session.vsplit(uuid,options))
-
-@with_proxy
-def vsplit_cmd(session, uuid, title, cmd, options):
-    """Call the dbus method to vertically split a terminal and run the specified command in the new terminal"""
-    session.vsplit_cmd(uuid, title, cmd)
-
-@with_proxy
-def hsplit_cmd(session, uuid, title, cmd, options):
-    """Call the dbus method to horizontally split a terminal and run the specified command in the new terminal"""
-    session.hsplit_cmd(uuid, title, cmd)
 
 @with_proxy
 def get_terminals(session, options):
