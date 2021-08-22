@@ -33,19 +33,19 @@ msgstr "Yeni sekme aç"
 
 #: ../remotinator.py:41
 msgid "Split the current terminal horizontally"
-msgstr "Geçerli terminali yatay olarak böl"
+msgstr "Geçerli uçbirimi yatay olarak böl"
 
 #: ../remotinator.py:42
 msgid "Split the current terminal vertically"
-msgstr "Geçerli terminali dikey olarak böl"
+msgstr "Geçerli uçbirimi dikey olarak böl"
 
 #: ../remotinator.py:43
 msgid "Get a list of all terminals"
-msgstr "Tüm terminallerin bir listesini al"
+msgstr "Tüm uçbirimlerin bir listesini al"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr ""
+msgstr "Geçerli odaklanmış uçbirimin UUID'sini al"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
@@ -65,11 +65,11 @@ msgstr "Ana sekmenin başlığını al"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr ""
+msgstr "Ana sekmenin başlığını ayarla"
 
 #: ../remotinator.py:50
 msgid "Switch current terminal profile"
-msgstr ""
+msgstr "Geçerli uçbirimin profilini değiştir"
 
 #: ../remotinator.py:67
 #, python-format
@@ -78,7 +78,7 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Sıradaki Terminator DBus komutlarından birisini çalıştır\n"
+"Sıradaki Terminatör DBus komutlarından birisini çalıştır:\n"
 "\n"
 "%s"
 
@@ -86,31 +86,32 @@ msgstr ""
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
-msgstr ""
+msgstr "Şu girdiler ya TERMINATOR_UUID ortam vari,\n"
+"  ya --uuid seçeneğin kulanmasi gerekiyor."
 
 #: ../remotinator.py:74 ../remotinator.py:77
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
-msgstr ""
+msgstr "TERMINATOR_UUID ortam varında olmadığında uçbirim UUID'si"
 
 #: ../remotinator.py:80
 msgid "Tab name to set. Only used with \"set_tab_title\" command."
-msgstr ""
+msgstr "Ayarlayacak sekme adısı. Sadece \"set_tab_title\" komudu ile kulanılmak. "
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
 #: ../terminatorlib/preferences.glade.h:156
 msgid "Terminator"
-msgstr "Uçbirim"
+msgstr "Terminatör"
 
 #: ../data/terminator.desktop.in.h:2 ../data/terminator.appdata.xml.in.h:2
 msgid "Multiple terminals in one window"
-msgstr "Tek pencerede birden çok uçbirim"
+msgstr "Tek pencerede birden çoklu uçbirim"
 
 #: ../data/terminator.appdata.xml.in.h:3
 #: ../terminatorlib/preferences.glade.h:157
 msgid "The robot future of terminals"
-msgstr ""
+msgstr "Uçbirimlerinin robot gelegeğini"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
