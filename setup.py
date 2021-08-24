@@ -30,12 +30,10 @@ class TerminatorDist(Distribution):
   global_options = Distribution.global_options + [
     ("build-documentation", None, "Build the documentation"),
     ("install-documentation", None, "Install the documentation"),
-    ("without-gettext", None, "Don't build/install gettext .mo files"),
-    ("without-icon-cache", None, "Don't attempt to run gtk-update-icon-cache")]
+    ("without-gettext", None, "Don't build/install gettext .mo files")]
 
   def __init__ (self, *args):
     self.without_gettext = False
-    self.without_icon_cache = False
     Distribution.__init__(self, *args)
 
 
@@ -154,16 +152,6 @@ class InstallData(install_data):
     self.data_files.extend (self._find_css_files ())
     self.data_files.extend (self._find_mo_files ())
     install_data.run (self)
-    if not self.distribution.without_icon_cache:
-      self._update_icon_cache ()
-
-  # We should do this on uninstall too
-  def _update_icon_cache(self):
-    info("running gtk-update-icon-cache")
-    try:
-      subprocess.call(["gtk-update-icon-cache", "-q", "-f", "-t", os.path.join(self.install_dir, "share/icons/hicolor")])
-    except Exception as e:
-      warn("updating the GTK icon cache failed: %s" % str(e))
 
   def _find_mo_files (self):
     data_files = []
