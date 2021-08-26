@@ -88,6 +88,7 @@ class Notebook(Container, Gtk.Notebook):
         window.resize(size.width, size.height)
 
         self.detach_tab(widget)
+        self.disconnect_child(widget)
         self.hoover()
         window.add(widget)
 
