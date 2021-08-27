@@ -80,6 +80,7 @@ class Notebook(Container, Gtk.Notebook):
 
     def create_window_detach(self, notebook, widget, x, y):
         """Create a window to contain a detached tab"""
+        dbg('creating window for detached tab: %s' % widget)
         maker = Factory()
 
         window = maker.make('Window')
