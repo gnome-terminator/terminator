@@ -37,6 +37,7 @@ class Notebook(Container, Gtk.Notebook):
         self.register_signals(Notebook)
         self.connect('switch-page', self.deferred_on_tab_switch)
         self.connect('scroll-event', self.on_scroll_event)
+        self.connect('create-window', self.create_window_detach)
         self.configure()
 
         self.set_can_focus(False)
@@ -76,6 +77,23 @@ class Notebook(Container, Gtk.Notebook):
 #        style.ythickness = 0
 #        self.modify_style(style)
         self.last_active_term = {}
+
+    def create_window_detach(self, notebook, widget, x, y):
+        """Create a window to contain a detached tab"""
+        dbg('creating window for detached tab: %s' % widget)
+        maker = Factory()
+
+        window = maker.make('Window')
+        window.move(x, y)
+        size = self.window.get_size()
+        window.resize(size.width, size.height)
+
+        self.detach_tab(widget)
+        self.disconnect_child(widget)
+        self.hoover()
+        window.add(widget)
+
+        window.show_all()
 
     def create_layout(self, layout):
         """Apply layout configuration"""
@@ -173,6 +191,7 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
+        self.set_tab_detachable(container, True)
         self.child_set_property(container, 'tab-expand', True)
         self.child_set_property(container, 'tab-fill', True)
         self.set_tab_reorderable(container, True)
@@ -299,6 +318,7 @@ class Notebook(Container, Gtk.Notebook):
 
         dbg('inserting page at position: %s' % tabpos)
         self.insert_page(widget, None, tabpos)
+        self.set_tab_detachable(widget, True)
 
         if maker.isinstance(widget, 'Terminal'):
             containers, objects = ([], [widget])
