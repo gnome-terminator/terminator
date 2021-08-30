@@ -1334,22 +1334,23 @@ class PrefsEditor:
         self.config['window_state'] = value
         self.config.save()
 
-    def on_profileaddbutton_clicked(self, _button):
-        """Add a new profile to the list"""
+    # helper function, not a signal
+    def addprofile(self, name, toclone):
+        """Add a profile"""
         guiget = self.builder.get_object
 
         treeview = guiget('profilelist')
         model = treeview.get_model()
         values = [ r[0] for r in model ]
 
-        newprofile = _('New Profile')
+        newprofile = name
         if newprofile in values:
             i = 1
             while newprofile in values:
                 i = i + 1
-                newprofile = '%s %d' % (_('New Profile'), i)
+                newprofile = '%s %d' % (name, i)
 
-        if self.config.add_profile(newprofile):
+        if self.config.add_profile(newprofile, toclone):
             res = model.append([newprofile, True])
             if res:
                 path = model.get_path(res)
@@ -1357,6 +1358,10 @@ class PrefsEditor:
                                     start_editing=True)
 
         self.layouteditor.update_profiles()
+
+    def on_profileaddbutton_clicked(self, _button):
+        """Add a new profile to the list"""
+        self.addprofile(_('New Profile'), None)
 
     def on_profileremovebutton_clicked(self, _button):
         """Remove a profile from the list"""
@@ -1376,6 +1381,18 @@ class PrefsEditor:
         model.remove(rowiter)
         selection.select_iter(model.get_iter_first())
         self.layouteditor.update_profiles()
+
+    def on_profileclonebutton_clicked(self, _button):
+        """"Clone a profile and add the new one to the list"""
+        guiget = self.builder.get_object
+
+        treeview = guiget('profilelist')
+        selection = treeview.get_selection()
+        (model, rowiter) = selection.get_selected()
+        profile = model.get_value(rowiter, 0)
+
+        toclone = self.config.get_profile_by_name(profile)
+        self.addprofile(profile, toclone)
 
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
