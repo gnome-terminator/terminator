@@ -1461,7 +1461,7 @@ class Terminal(Gtk.VBox):
         self.is_held_open = True
         self.titlebar.update()
 
-    def spawn_child(self, init_command=None, widget=None, respawn=False, debugserver=False):
+    def spawn_child(self, widget=None, respawn=False, debugserver=False, init_command=None):
         args = []
         shell = None
         command = init_command
@@ -1492,9 +1492,10 @@ class Terminal(Gtk.VBox):
             command = self.layout_command
         elif debugserver is True:
             details = self.terminator.debug_address
-            dbg('spawning debug session with: %s:%s' % (details[0],
-                details[1]))
-            command = 'telnet %s %s' % (details[0], details[1])
+            if details is not None:
+                dbg('spawning debug session with: %s:%s' % (details[0],
+                    details[1]))
+                command = 'telnet %s %s' % (details[0], details[1])
 
         # working directory set in layout config
         if self.directory:
