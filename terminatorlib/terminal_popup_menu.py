@@ -110,6 +110,10 @@ class TerminalPopupMenu(object):
 
         menu.append(Gtk.SeparatorMenuItem())
 
+        item = Gtk.ImageMenuItem.new_with_mnemonic(_('Set W_indow Title'))
+        item.connect('activate', lambda x: terminal.key_edit_window_title())
+        menu.append(item)
+        
         if not terminal.is_zoomed():
             item = Gtk.ImageMenuItem.new_with_mnemonic(_('Split H_orizontally'))
             image = Gtk.Image()
