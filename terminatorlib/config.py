@@ -310,6 +310,10 @@ class Config(object):
         """Get our profile"""
         return(self.profile)
 
+    def get_profile_by_name(self, profile):
+        """Get the profile with the specified name"""
+        return(self.base.profiles[profile])
+
     def set_profile(self, profile, force=False):
         """Set our profile (which usually means change it)"""
         options = self.options_get()
@@ -322,9 +326,9 @@ class Config(object):
             dbg('Config::set_profile: %s does not exist, creating' % profile)
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
-    def add_profile(self, profile):
+    def add_profile(self, profile, toclone):
         """Add a new profile"""
-        return(self.base.add_profile(profile))
+        return(self.base.add_profile(profile, toclone))
 
     def del_profile(self, profile):
         """Delete a profile"""
@@ -814,11 +818,15 @@ class ConfigBase(Borg):
         if plugin in self.plugins:
             del self.plugins[plugin]
 
-    def add_profile(self, profile):
+    def add_profile(self, profile, toclone):
         """Add a new profile"""
         if profile in self.profiles:
             return(False)
-        self.profiles[profile] = copy(DEFAULTS['profiles']['default'])
+        if toclone is not None:
+            newprofile = copy(toclone)
+        else:
+            newprofile = copy(DEFAULTS['profiles']['default'])
+        self.profiles[profile] = newprofile
         return(True)
 
     def add_layout(self, name, layout):
