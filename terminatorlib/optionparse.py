@@ -18,7 +18,9 @@
 import sys
 import os
 
+# FIXME optparse is deprecated - argparse be used instead
 from optparse import OptionParser, SUPPRESS_HELP
+from terminatorlib.terminator import Terminator
 from .util import dbg, err
 from . import util
 from . import config
@@ -104,6 +106,10 @@ icon for the window (by file or name)'))
             help=_('If Terminator is already running, just open a new tab'))
     parser.add_option('--unhide', action='store_true', dest='unhide',
             help=_('If Terminator is already running, just unhide all hidden windows'))
+    parser.add_option('--list-profiles', action='store_true', dest='list_profiles',
+            help=_('List all profiles'))
+    parser.add_option('--list-layouts', action='store_true', dest='list_layouts',
+            help=_('List all layouts'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
@@ -117,6 +123,13 @@ icon for the window (by file or name)'))
 
     if options.version:
         print('%s %s' % (version.APP_NAME, version.APP_VERSION))
+        sys.exit(0)
+
+    if options.list_profiles:
+        print(Terminator().config.list_profiles())
+        sys.exit(0)
+    if options.list_layouts:
+        print(Terminator().config.list_layouts())
         sys.exit(0)
 
     if options.debug_classes or options.debug_methods:
