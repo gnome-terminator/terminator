@@ -28,6 +28,7 @@ if display_manager() == 'X11':
         gi.require_version('Keybinder', '3.0')
         from gi.repository import Keybinder
         Keybinder.init()
+        Keybinder.set_use_cooked_accelerators(False)
     except (ImportError, ValueError):
         err('Unable to load Keybinder module. This means the \
 hide_window shortcut will be unavailable')
@@ -133,7 +134,7 @@ class Window(Container, Gtk.Window):
             if display_manager() == 'X11':
                 try:
                     self.hidebound = Keybinder.bind(
-                        self.config['keybindings']['hide_window'].replace('<Shift>',''),
+                        self.config['keybindings']['hide_window'],
                         self.on_hide_window)
                 except (KeyError, NameError):
                     pass
