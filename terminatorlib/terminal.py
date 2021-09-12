@@ -978,9 +978,9 @@ class Terminal(Gtk.VBox):
 
         if self.config['putty_paste_style']:
             middle_click = [self.popup_menu, (widget, event)]
-            right_click = [self.paste_clipboard, (not self.config['putty_paste_style_source_clipboard'], )]
+            right_click = [self.paste_clipboard, (not self.config['putty_paste_style_source_clipboard'], True)]
         else:
-            middle_click = [self.paste_clipboard, (True, )]
+            middle_click = [self.paste_clipboard, (True, True)]
             right_click = [self.popup_menu, (widget, event)]
 
         # Ctrl-click event here.
@@ -1621,14 +1621,15 @@ class Terminal(Gtk.VBox):
             webbrowser.open(url)
 
 
-    def paste_clipboard(self, primary=False):
+    def paste_clipboard(self, primary=False, mouse=False):
         """Paste one of the two clipboards"""
-        for term in self.terminator.get_target_terms(self):
-            if primary:
-                term.vte.paste_primary()
-            else:
-                term.vte.paste_clipboard()
-        self.vte.grab_focus()
+        if not (mouse and self.config['disable_mouse_paste']):
+            for term in self.terminator.get_target_terms(self):
+                if primary:
+                    term.vte.paste_primary()
+                else:
+                    term.vte.paste_clipboard()
+            self.vte.grab_focus()
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
