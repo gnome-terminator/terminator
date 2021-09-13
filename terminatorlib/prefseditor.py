@@ -356,6 +356,9 @@ class PrefsEditor:
         # Clear selection on copy
         widget = guiget('clear_select_on_copy')
         widget.set_active(self.config['clear_select_on_copy'])
+        # Disable mouse paste
+        widget = guiget('disable_mouse_paste')
+        widget.set_active(self.config['disable_mouse_paste'])
 
         ## Profile tab
         # Populate the profile list
@@ -840,6 +843,11 @@ class PrefsEditor:
     def on_clear_select_on_copy_toggled(self,widget):
         """Clear selection on smart copy"""
         self.config['clear_select_on_copy'] = widget.get_active()
+        self.config.save()
+
+    def on_disable_mouse_paste_toggled(self, widget):
+        """Disable mouse paste"""
+        self.config['disable_mouse_paste'] = widget.get_active()
         self.config.save()
 
     def on_cursor_blink_toggled(self, widget):

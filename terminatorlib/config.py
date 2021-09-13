@@ -110,6 +110,7 @@ DEFAULTS = {
             'always_split_with_profile': False,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
+            'disable_mouse_paste'   : False,
             'smart_copy'            : True,
             'clear_select_on_copy'  : False,
             'line_height'           : 1.0,
