@@ -562,7 +562,7 @@
                               </packing>
                             </child>
                             <child>
-                              <!-- n-columns=4 n-rows=8 -->
+                              <!-- n-columns=4 n-rows=9 -->
                               <object class="GtkGrid" id="grid2">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -679,8 +679,8 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">4</property>
-                                    <property name="width">3</property>
+                                    <property name="top-attach">5</property>
+                                    <property name="width">4</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -693,53 +693,6 @@
                                     <property name="xalign">0.5</property>
                                     <property name="draw-indicator">True</property>
                                     <signal name="toggled" handler="on_use_custom_url_handler_checkbutton_toggled" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">6</property>
-                                    <property name="width">3</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkAlignment" id="alignment10">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="left-padding">12</property>
-                                    <child>
-                                      <object class="GtkBox" id="hbox11">
-                                        <property name="visible">True</property>
-                                        <property name="can-focus">False</property>
-                                        <property name="spacing">12</property>
-                                        <child>
-                                          <object class="GtkLabel" id="label33">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">False</property>
-                                            <property name="label" translatable="yes">Custom URL handler:</property>
-                                            <property name="xalign">0</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkEntry" id="custom_url_handler_entry">
-                                            <property name="visible">True</property>
-                                            <property name="can-focus">True</property>
-                                            <property name="invisible-char">•</property>
-                                            <property name="primary-icon-activatable">False</property>
-                                            <property name="secondary-icon-activatable">False</property>
-                                            <signal name="changed" handler="on_custom_url_handler_entry_changed" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                    </child>
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
@@ -808,15 +761,65 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                     <property name="width">4</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkCheckButton" id="disable_mouse_paste">
+                                    <property name="label" translatable="yes">Disable mouse paste</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="draw-indicator">True</property>
+                                    <signal name="toggled" handler="on_disable_mouse_paste_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">4</property>
+                                    <property name="width">4</property>
+                                  </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <object class="GtkBox" id="hbox11">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="margin-left">12</property>
+                                    <property name="spacing">12</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label33">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Custom URL handler:</property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkEntry" id="custom_url_handler_entry">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="invisible-char">•</property>
+                                        <property name="primary-icon-activatable">False</property>
+                                        <property name="secondary-icon-activatable">False</property>
+                                        <signal name="changed" handler="on_custom_url_handler_entry_changed" swapped="no"/>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">True</property>
+                                        <property name="fill">True</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">8</property>
+                                    <property name="width">4</property>
+                                  </packing>
                                 </child>
                                 <child>
                                   <placeholder/>
