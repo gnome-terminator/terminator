@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 17:59+0200\n"
+"POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/terminator/teams/109338/"
@@ -68,10 +68,22 @@ msgid "Set the title of a parent tab"
 msgstr ""
 
 #: ../remotinator.py:50
+msgid "Set the background image"
+msgstr ""
+
+#: ../remotinator.py:51
+msgid "Set the background image for all terminals"
+msgstr ""
+
+#: ../remotinator.py:52
 msgid "Switch current terminal profile"
 msgstr ""
 
-#: ../remotinator.py:67
+#: ../remotinator.py:53
+msgid "Switch profile of all currently running terminals"
+msgstr ""
+
+#: ../remotinator.py:70
 #, python-format
 msgid ""
 "Run one of the following Terminator DBus commands:\n"
@@ -82,7 +94,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../remotinator.py:68
+#: ../remotinator.py:71
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
@@ -91,20 +103,36 @@ msgstr ""
 "existeixi\n"
 "  o emprar l'opció --uuid"
 
-#: ../remotinator.py:74 ../remotinator.py:77
+#: ../remotinator.py:77
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
 "El UUID del terminal per quan aquesta informació no està a la variable "
 "d'entorn TERMINATOR_UUID"
 
 #: ../remotinator.py:80
+msgid "Profile name to switch to"
+msgstr ""
+
+#: ../remotinator.py:83
+msgid "File to pass to command"
+msgstr ""
+
+#: ../remotinator.py:86
+msgid "Command to run in new terminal"
+msgstr ""
+
+#: ../remotinator.py:89
 msgid "Tab name to set. Only used with \"set_tab_title\" command."
+msgstr ""
+
+#: ../remotinator.py:92
+msgid "Tab name to set."
 msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:155
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -113,7 +141,7 @@ msgid "Multiple terminals in one window"
 msgstr "Diversos terminals en una finestra"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:156
 msgid "The robot future of terminals"
 msgstr "El futur robot de terminals"
 
@@ -354,7 +382,7 @@ msgid "Terminator Layout Launcher"
 msgstr ""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:142
 msgid "Layout"
 msgstr ""
 
@@ -362,49 +390,49 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:359
+#: ../terminatorlib/notebook.py:384
 msgid "tab"
 msgstr "pestanya"
 
-#: ../terminatorlib/notebook.py:629
+#: ../terminatorlib/notebook.py:656
 msgid "Close Tab"
 msgstr "Tancar pestanya"
 
-#: ../terminatorlib/optionparse.py:49
+#: ../terminatorlib/optionparse.py:43
 msgid "Display program version"
 msgstr "Mostra la versió del programa"
 
-#: ../terminatorlib/optionparse.py:51 ../terminatorlib/optionparse.py:53
+#: ../terminatorlib/optionparse.py:45 ../terminatorlib/optionparse.py:47
 msgid "Maximize the window"
 msgstr ""
 
-#: ../terminatorlib/optionparse.py:55
+#: ../terminatorlib/optionparse.py:49
 msgid "Make the window fill the screen"
 msgstr "Fes que la finestra ocupi tota la pantalla"
 
-#: ../terminatorlib/optionparse.py:57
+#: ../terminatorlib/optionparse.py:51
 msgid "Disable window borders"
 msgstr "Inhabilita les vores de la finestra"
 
-#: ../terminatorlib/optionparse.py:59
+#: ../terminatorlib/optionparse.py:53
 msgid "Hide the window at startup"
 msgstr "Amaga la finestra a l'inici"
 
-#: ../terminatorlib/optionparse.py:61
+#: ../terminatorlib/optionparse.py:55
 msgid "Specify a title for the window"
 msgstr "Especifica un títol per a la finestra"
 
-#: ../terminatorlib/optionparse.py:63
+#: ../terminatorlib/optionparse.py:57
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
 "Establir la mida i la posició preferides de la finestra(veure pàgina man de "
 "X)"
 
-#: ../terminatorlib/optionparse.py:67 ../terminatorlib/optionparse.py:70
+#: ../terminatorlib/optionparse.py:61 ../terminatorlib/optionparse.py:64
 msgid "Specify a command to execute inside the terminal"
 msgstr "Especifica una ordre a executar dins del terminal"
 
-#: ../terminatorlib/optionparse.py:73 ../terminatorlib/optionparse.py:81
+#: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:73
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
@@ -412,64 +440,72 @@ msgstr ""
 "Fes servir la resta de la línia d'ordres com a ordre a executar dins del "
 "terminal, i els seus arguments"
 
-#: ../terminatorlib/optionparse.py:76
+#: ../terminatorlib/optionparse.py:69
 msgid "Specify a config file"
 msgstr "Especificar el fitxer de configuració"
 
-#: ../terminatorlib/optionparse.py:78
+#: ../terminatorlib/optionparse.py:71
 msgid "Specify a partial config json file"
 msgstr ""
 
-#: ../terminatorlib/optionparse.py:84
+#: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
 msgstr "Estableix el directori de treball"
 
-#: ../terminatorlib/optionparse.py:85
+#: ../terminatorlib/optionparse.py:77
 msgid "Set a custom icon for the window (by file or name)"
 msgstr ""
 "Establir una icona personalitzada per la finestra(mitjançant un fitxer o nom)"
 
-#: ../terminatorlib/optionparse.py:88
+#: ../terminatorlib/optionparse.py:80
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
 msgstr "Estableix una propietat WM_WINDOW_ROLE personalitzada a la finestra"
 
-#: ../terminatorlib/optionparse.py:90
+#: ../terminatorlib/optionparse.py:82
 msgid "Launch with the given layout"
 msgstr ""
 
-#: ../terminatorlib/optionparse.py:92
+#: ../terminatorlib/optionparse.py:84
 msgid "Select a layout from a list"
 msgstr ""
 
-#: ../terminatorlib/optionparse.py:94
+#: ../terminatorlib/optionparse.py:86
 msgid "Use a different profile as the default"
 msgstr "Utilitza un perfil diferent per defecte"
 
-#: ../terminatorlib/optionparse.py:96
+#: ../terminatorlib/optionparse.py:88
 msgid "Disable DBus"
 msgstr "Inhabilia el DBus"
 
-#: ../terminatorlib/optionparse.py:98
+#: ../terminatorlib/optionparse.py:90
 msgid "Enable debugging information (twice for debug server)"
 msgstr ""
 "Habilita la informació de depuració (dos vegades per al servidor de "
 "depuració)"
 
-#: ../terminatorlib/optionparse.py:100
+#: ../terminatorlib/optionparse.py:92
 msgid "Comma separated list of classes to limit debugging to"
 msgstr "Llista separada amb comes de les classes on es limita la depuració"
 
-#: ../terminatorlib/optionparse.py:102
+#: ../terminatorlib/optionparse.py:94
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Llista separada amb comes dels mètodes on es limita la depuració"
 
-#: ../terminatorlib/optionparse.py:104
+#: ../terminatorlib/optionparse.py:96
 msgid "If Terminator is already running, just open a new tab"
 msgstr ""
 "Si el Terminator ja s'està executant, nomès has d'obrir una pestanya nova"
 
-#: ../terminatorlib/optionparse.py:106
+#: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:100
+msgid "List all profiles"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:102
+msgid "List all layouts"
 msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:54
@@ -496,7 +532,7 @@ msgstr ""
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
-#: ../terminatorlib/terminal_popup_menu.py:194
+#: ../terminatorlib/terminal_popup_menu.py:198
 msgid "_Preferences"
 msgstr "_Preferències"
 
@@ -521,12 +557,12 @@ msgid "Enabled"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Name"
 msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:174
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Command"
 msgstr "Ordre"
 
@@ -632,7 +668,7 @@ msgid "Escape sequence"
 msgstr "Seqüència d'escapament"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:718
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:727
 msgid "All"
 msgstr "Tot"
 
@@ -905,251 +941,219 @@ msgid "Tabs scroll buttons"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:74
-msgid "<b>Terminal Titlebar</b>"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:75
-msgid "Font color:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:76
-msgid "Background:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:77
-msgid "Focused"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:78
-msgid "Inactive"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:79
-msgid "Receiving"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:80
 msgid "Title bar at bottom (Require restart)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:81
-msgid "Hide size from title"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:82
-msgid "_Use the system font"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:83
-msgid "_Font:"
-msgstr "_Tipus de lletra:"
-
-#: ../terminatorlib/preferences.glade.h:84
-msgid "Choose A Titlebar Font"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Global"
 msgstr "Global"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:76
 msgid "Profile"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:77
 msgid "_Use the system fixed width font"
 msgstr "_Utilitza el tipus de lletra d'amplada fixa del sistema"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:78
+msgid "_Font:"
+msgstr "_Tipus de lletra:"
+
+#: ../terminatorlib/preferences.glade.h:79
 msgid "Choose A Terminal Font"
 msgstr "Trieu un tipus de lletra de terminal"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:80
 msgid "_Allow bold text"
 msgstr "_Permet text en negreta"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Show titlebar"
 msgstr "Mostra la barra de títol"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:82
 msgid "Copy on selection"
 msgstr "Copiar en seleccionar"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Disable Ctrl+mousewheel zoom"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Select-by-_word characters:"
 msgstr "Caràcters de _selecció per paraula:"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:85
 msgid "<b>Cursor</b>"
 msgstr "<b>Cursor</b>"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:86
 msgid "_Shape:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:96
-msgid "Color:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Blink"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:98
-msgid "Foreground"
+#: ../terminatorlib/preferences.glade.h:88
+msgid "Use default colors"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:89
+msgid "Foreground:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:90
+msgid "Background:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:91
 msgid "<b>Terminal bell</b>"
 msgstr "<b>Campana del Terminal</b>"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Titlebar icon"
 msgstr "Icona de la barra de títol"
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:93
 msgid "Visual flash"
 msgstr "Ràfega visual"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Audible beep"
 msgstr "Xiulet audible"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Window list flash"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:96
 msgid "General"
 msgstr "General"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:97
 msgid "_Run command as a login shell"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:98
 msgid "Ru_n a custom command instead of my shell"
 msgstr ""
 "E_xecuta una ordre personalitzada en comptes del meu intèrpret d'ordres"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:99
 msgid "Custom co_mmand:"
 msgstr "Or_dre personalitzada:"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:100
 msgid "When command _exits:"
 msgstr "Quan l'ordre _surt:"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:102
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>Primer pla i fons</b>"
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:103
 msgid "_Use colors from system theme"
 msgstr "_Utilitza els colors del tema del sistema"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:104
 msgid "Built-in sche_mes:"
 msgstr "Esq_uemes integrats:"
 
-#: ../terminatorlib/preferences.glade.h:113
-msgid "_Text color:"
-msgstr "Color del _text:"
+#: ../terminatorlib/preferences.glade.h:105
+msgid "_Foreground:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:114
-msgid "_Background color:"
-msgstr "Color del _fons:"
+#: ../terminatorlib/preferences.glade.h:106
+msgid "_Background:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:107
 msgid "<b>Palette</b>"
 msgstr "<b>Paleta</b>"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Built-in _schemes:"
 msgstr "_Esquemes integrats:"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:109
 msgid "Color p_alette:"
 msgstr "_Paleta de colors:"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Show b_old text in bright colors"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:111
 msgid "Colors"
 msgstr "Colors"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:112
 msgid "_Solid color"
 msgstr "Color _sòlid"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:113
 msgid "_Transparent background"
 msgstr "Fons _transparent"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>Cap</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:119
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>Màxim</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Background"
 msgstr "Fons"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:121
 msgid "_Scrollbar is:"
 msgstr "La _barra de desplaçament és:"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:122
 msgid "Scroll on _output"
 msgstr "Desplaçament en _mostrar"
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:123
 msgid "Scroll on _keystroke"
 msgstr "Desplaçament en _prémer una tecla"
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:124
 msgid "Infinite Scrollback"
 msgstr "Desplaçament cap enrere infinit"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:125
 msgid "Scroll_back:"
 msgstr "Desplaçament cap _enrere:"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:126
 msgid "lines"
 msgstr "línies"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scrolling"
 msgstr "Desplaçament"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:128
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -1161,80 +1165,108 @@ msgstr ""
 "certes aplicacions i sistemes operatius que esperen un comportament diferent "
 "del terminal.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
 msgstr "La tecla de _retrocés genera:"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:130
 msgid "_Delete key generates:"
 msgstr "La tecla de _suprimir genera:"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:131
 msgid "Encoding:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_Reinicia les opcions de compatibilitat a les Opcions per Defecte"
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Compatibility"
 msgstr "Compatibilitat"
 
-#: ../terminatorlib/preferences.glade.h:142
-#: ../terminatorlib/terminal_popup_menu.py:201
+#: ../terminatorlib/preferences.glade.h:134
+msgid "Focused"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:135
+msgid "Inactive"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:136
+msgid "Receiving"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:137
+msgid "Hide size from title"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:138
+msgid "_Use the system font"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:139
+msgid "Choose A Titlebar Font"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Titlebar"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/terminal_popup_menu.py:205
 msgid "Profiles"
 msgstr "Perfils"
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Type"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Profile:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Custom command:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Working directory:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Layouts"
 msgstr "Plantilles"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Action"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Keybinding"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Keybindings"
 msgstr "Assignacions de tecles"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Plugin"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:153
 msgid "This plugin has no configuration options"
 msgstr "Aquest plugin no te opcions de configuració"
 
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:154
 msgid "Plugins"
 msgstr "Connectors"
 
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.1.1"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:159
+#: ../terminatorlib/preferences.glade.h:158
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -1248,18 +1280,18 @@ msgid ""
 "the Development link)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:162
+#: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:163
+#: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
 "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
 "Enhancements</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:165
+#: ../terminatorlib/preferences.glade.h:164
 msgid "About"
 msgstr ""
 
@@ -1492,82 +1524,94 @@ msgid "Ungroup all terminals"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:164
-msgid "Group terminals in tab"
+msgid "Group terminals in window"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:165
-msgid "Group/Ungroup terminals in tab"
+msgid "Group/Ungroup terminals in window"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:166
-msgid "Ungroup terminals in tab"
+msgid "Ungroup terminals in window"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:167
-msgid "Create a new window"
+msgid "Group terminals in tab"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:168
-msgid "Spawn a new Terminator process"
+msgid "Group/Ungroup terminals in tab"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:169
-msgid "Don't broadcast key presses"
+msgid "Ungroup terminals in tab"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:170
-msgid "Broadcast key presses to group"
+msgid "Create a new window"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:171
-msgid "Broadcast key events to all"
+msgid "Spawn a new Terminator process"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:172
-msgid "Insert terminal number"
-msgstr "Insereix el número del terminal"
+msgid "Don't broadcast key presses"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:173
-msgid "Insert padded terminal number"
-msgstr "Insereix un número de terminal amb coixinet"
+msgid "Broadcast key presses to group"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:174
-msgid "Edit window title"
+msgid "Broadcast key events to all"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:175
-msgid "Edit terminal title"
-msgstr ""
+msgid "Insert terminal number"
+msgstr "Insereix el número del terminal"
 
 #: ../terminatorlib/prefseditor.py:176
-msgid "Edit tab title"
-msgstr ""
+msgid "Insert padded terminal number"
+msgstr "Insereix un número de terminal amb coixinet"
 
 #: ../terminatorlib/prefseditor.py:177
-msgid "Open layout launcher window"
+msgid "Edit window title"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:178
-msgid "Switch to next profile"
+msgid "Edit terminal title"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:179
-msgid "Switch to previous profile"
+msgid "Edit tab title"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:180
-msgid "Open the Preferences window"
+msgid "Open layout launcher window"
 msgstr ""
 
 #: ../terminatorlib/prefseditor.py:181
+msgid "Switch to next profile"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:182
+msgid "Switch to previous profile"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:183
+msgid "Open the Preferences window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:184
 msgid "Open the manual"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1334 ../terminatorlib/prefseditor.py:1339
+#: ../terminatorlib/prefseditor.py:1364
 msgid "New Profile"
 msgstr "Nou perfil"
 
-#: ../terminatorlib/prefseditor.py:1379 ../terminatorlib/prefseditor.py:1384
+#: ../terminatorlib/prefseditor.py:1407 ../terminatorlib/prefseditor.py:1412
 msgid "New Layout"
 msgstr "Disposició nova"
 
@@ -1612,141 +1656,153 @@ msgstr ""
 msgid "_Paste"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:114
+#: ../terminatorlib/terminal_popup_menu.py:113
+msgid "Set W_indow Title"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:118
 msgid "Split H_orizontally"
 msgstr "Divideix h_oritzontalment"
 
-#: ../terminatorlib/terminal_popup_menu.py:124
+#: ../terminatorlib/terminal_popup_menu.py:128
 msgid "Split V_ertically"
 msgstr "Divideix v_erticalment"
 
-#: ../terminatorlib/terminal_popup_menu.py:134
+#: ../terminatorlib/terminal_popup_menu.py:138
 msgid "Open _Tab"
 msgstr "Obre una pes_tanya"
 
-#: ../terminatorlib/terminal_popup_menu.py:140
+#: ../terminatorlib/terminal_popup_menu.py:144
 msgid "Open _Debug Tab"
 msgstr "Obre una pestanya de _depuració"
 
-#: ../terminatorlib/terminal_popup_menu.py:147
+#: ../terminatorlib/terminal_popup_menu.py:151
 msgid "_Close"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:156
+#: ../terminatorlib/terminal_popup_menu.py:160
 msgid "_Zoom terminal"
 msgstr "A_mplia el terminal"
 
-#: ../terminatorlib/terminal_popup_menu.py:161
+#: ../terminatorlib/terminal_popup_menu.py:165
 msgid "Ma_ximize terminal"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:168
+#: ../terminatorlib/terminal_popup_menu.py:172
 msgid "_Restore all terminals"
 msgstr "_Recupera tots els terminals"
 
-#: ../terminatorlib/terminal_popup_menu.py:175
+#: ../terminatorlib/terminal_popup_menu.py:179
 msgid "Grouping"
 msgstr "Agrupament"
 
-#: ../terminatorlib/terminal_popup_menu.py:183
+#: ../terminatorlib/terminal_popup_menu.py:187
 msgid "Relaunch Command"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:188
+#: ../terminatorlib/terminal_popup_menu.py:192
 msgid "Show _scrollbar"
 msgstr "Mostra la barra de de_splaçament"
 
-#: ../terminatorlib/terminal_popup_menu.py:246
+#: ../terminatorlib/terminal_popup_menu.py:250
 msgid "_Layouts..."
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:260
+#: ../terminatorlib/terminal_popup_menu.py:264
 msgid "Encodings"
 msgstr "Codificacions"
 
-#: ../terminatorlib/terminal_popup_menu.py:275
+#: ../terminatorlib/terminal_popup_menu.py:279
 msgid "Default"
 msgstr "Predeterminat"
 
-#: ../terminatorlib/terminal_popup_menu.py:278
+#: ../terminatorlib/terminal_popup_menu.py:282
 msgid "User defined"
 msgstr "Definit per l'usuari"
 
-#: ../terminatorlib/terminal_popup_menu.py:294
+#: ../terminatorlib/terminal_popup_menu.py:298
 msgid "Other Encodings"
 msgstr "Altres codificacions"
 
-#: ../terminatorlib/terminal.py:482
+#: ../terminatorlib/terminal.py:496
 msgid "N_ew group..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:488
+#: ../terminatorlib/terminal.py:502
 msgid "_None"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:522
 #, python-format
 msgid "Remove group %s"
 msgstr "Suprimeix el grup %s"
 
-#: ../terminatorlib/terminal.py:513
+#: ../terminatorlib/terminal.py:527
+msgid "G_roup all in window"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:532
+msgid "Ungro_up all in window"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:537
 msgid "G_roup all in tab"
 msgstr "A_grupa-ho tot en la pestanya"
 
-#: ../terminatorlib/terminal.py:518
+#: ../terminatorlib/terminal.py:542
 msgid "Ungro_up all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:523
+#: ../terminatorlib/terminal.py:547
 msgid "Remove all groups"
 msgstr "Suprimeix tots els grups"
 
-#: ../terminatorlib/terminal.py:530
+#: ../terminatorlib/terminal.py:554
 #, python-format
 msgid "Close group %s"
 msgstr "Tanca el grup %s"
 
-#: ../terminatorlib/terminal.py:540
+#: ../terminatorlib/terminal.py:564
 msgid "Broadcast _all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:541
+#: ../terminatorlib/terminal.py:565
 msgid "Broadcast _group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:542
+#: ../terminatorlib/terminal.py:566
 msgid "Broadcast _off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:558
+#: ../terminatorlib/terminal.py:582
 msgid "_Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:563
+#: ../terminatorlib/terminal.py:587
 msgid "Auto_clean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:570
+#: ../terminatorlib/terminal.py:594
 msgid "_Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:574
+#: ../terminatorlib/terminal.py:598
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1487
+#: ../terminatorlib/terminal.py:1524
 msgid "Unable to find a shell"
 msgstr "No s'ha pogut trobar cap intèrpret d'ordres"
 
-#: ../terminatorlib/terminal.py:1518
+#: ../terminatorlib/terminal.py:1555
 msgid "Unable to start shell:"
 msgstr "No s'ha pogut iniciar l'intèrpret d'ordres:"
 
-#: ../terminatorlib/terminal.py:1958
+#: ../terminatorlib/terminal.py:2005
 msgid "Rename Window"
 msgstr "Reanomenar finestra"
 
-#: ../terminatorlib/terminal.py:1966
+#: ../terminatorlib/terminal.py:2013
 msgid "Enter a new title for the Terminator window..."
 msgstr "Introdueix un títol nou per a la finestra del Terminator"
 
@@ -1850,11 +1906,22 @@ msgstr ""
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/window.py:283 ../terminatorlib/window.py:288
+#: ../terminatorlib/window.py:284 ../terminatorlib/window.py:289
 msgid "window"
 msgstr "finestra"
 
-#: ../terminatorlib/window.py:744
+#: ../terminatorlib/window.py:746
+#, python-format
+msgid "Window group %s"
+msgstr ""
+
+#: ../terminatorlib/window.py:772
 #, python-format
 msgid "Tab %d"
 msgstr "Pestanya %d"
+
+#~ msgid "_Text color:"
+#~ msgstr "Color del _text:"
+
+#~ msgid "_Background color:"
+#~ msgstr "Color del _fons:"
