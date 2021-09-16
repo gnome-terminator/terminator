@@ -401,7 +401,7 @@ class Terminal(Gtk.VBox):
 
         self.scrollbar.connect('button-press-event', self.on_buttonpress)
 
-        self.cnxids.new(self.vte, 'cursor-moved', self.on_cursor_moved)
+        self.cnxids.new(self.vte, 'commit', self.on_commit)
         self.cnxids.new(self.vte, 'key-press-event', self.on_keypress)
         self.cnxids.new(self.vte, 'button-press-event', self.on_buttonpress)
         self.cnxids.new(self.vte, 'scroll-event', self.on_mousewheel)
@@ -912,7 +912,7 @@ class Terminal(Gtk.VBox):
                 dbg('on_group_button_press: unknown group button interaction')
         return False
 
-    def on_cursor_moved(self, widget):
+    def on_commit(self, widget, text, size):
         self.scrollbar.set_value(self.vte.get_cursor_position()[1])
 
     def on_keypress(self, widget, event):
