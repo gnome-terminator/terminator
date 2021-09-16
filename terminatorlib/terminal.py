@@ -917,6 +917,8 @@ class Terminal(Gtk.VBox):
             dbg('Terminal::on_keypress: Called on %s with no event' % widget)
             return False
 
+        self.scrollbar.set_value(self.vte.get_cursor_position()[1])
+
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
 
