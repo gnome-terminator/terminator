@@ -3719,6 +3719,7 @@
                   <object class="GtkTreeView" id="keybindingtreeview">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="has-focus">True</property>
                     <property name="model">KeybindingsListStore</property>
                     <property name="headers-clickable">False</property>
                     <property name="search-column">0</property>
