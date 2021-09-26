@@ -1270,6 +1270,8 @@ class PrefsEditor:
         value = int(value)          # Cast to int.
         if value > 20:
             value = 20
+        if value < 1:
+            value = 1
         self.config['handle_size'] = value
         self.config.save()
         guiget = self.builder.get_object
