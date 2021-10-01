@@ -1810,6 +1810,9 @@ class Terminal(Gtk.VBox):
     def key_paste(self):
         self.paste_clipboard()
 
+    def key_paste_selection(self):
+        self.paste_clipboard(True)
+
     def key_toggle_scrollbar(self):
         self.do_scrollbar_toggle()
 
