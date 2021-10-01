@@ -142,6 +142,7 @@ DEFAULTS = {
             'close_term'       : '<Shift><Control>w',
             'copy'             : '<Shift><Control>c',
             'paste'            : '<Shift><Control>v',
+            'paste_selection'  : '',
             'toggle_scrollbar' : '<Shift><Control>s',
             'search'           : '<Shift><Control>f',
             'page_up'          : '',

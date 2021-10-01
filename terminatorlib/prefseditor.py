@@ -124,6 +124,7 @@ class PrefsEditor:
                         'close_term'       : _('Close terminal'),
                         'copy'             : _('Copy selected text'),
                         'paste'            : _('Paste clipboard'),
+                        'paste_selection'  : _('Paste primary selection'),
                         'toggle_scrollbar' : _('Show/Hide the scrollbar'),
                         'search'           : _('Search terminal scrollback'),
                         'page_up'          : _('Scroll upwards one page'),
