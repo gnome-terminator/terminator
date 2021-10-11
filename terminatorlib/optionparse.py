@@ -114,10 +114,12 @@ icon for the window (by file or name)'))
         sys.exit(0)
 
     if options.list_profiles:
-        print(Terminator().config.list_profiles())
+        for p in Terminator().config.list_profiles():
+            print(p)
         sys.exit(0)
     if options.list_layouts:
-        print(Terminator().config.list_layouts())
+        for l in Terminator().config.list_layouts():
+            print(l)
         sys.exit(0)
 
     if options.debug_classes or options.debug_methods:

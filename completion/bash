@@ -5,6 +5,19 @@ _terminator()
     local cur prev words cword
     _init_completion || return
 
+    case $prev in
+        --profile | -p)
+            COMPREPLY=($(compgen -W "$($1 --list-profiles)"\
+            -- "$cur"))
+            return
+            ;;
+        --layout | -l)
+            COMPREPLY=($(compgen -W "$($1 --list-layouts)"\
+            -- "$cur"))
+            return
+            ;;
+    esac
+
     COMPREPLY=($(compgen -W "$($1 --help | tr ',' '\n' |
         command sed -n -e 's/^ *\(--\?[a-zA-Z\-]\+=\?\).*/\1/p')"\
     -- "$cur"))
