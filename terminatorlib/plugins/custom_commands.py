@@ -305,8 +305,8 @@ class CustomCommandsMenu(plugin.MenuItem):
       
       label = Gtk.Label(label=_("Command:"))
       table.attach(label, 0, 1, 2, 3)
-      command = Gtk.Entry()
-      command.set_text(command_var)
+      command = Gtk.TextView()
+      command.get_buffer().set_text(command_var)
       table.attach(command, 1, 2, 2, 3)
 
       dialog.vbox.pack_start(table, True, True, 0)
@@ -320,7 +320,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       if res == Gtk.ResponseType.ACCEPT:
         item['enabled'] = enabled.get_active()
         item['name'] = name.get_text()
-        item['command'] = command.get_text()
+        item['command'] = command.get_buffer().get_text(command.get_buffer().get_start_iter(), command.get_buffer().get_end_iter(), True)
         if item['name'] == '' or item['command'] == '':
           err = Gtk.MessageDialog(dialog,
                                   Gtk.DialogFlags.MODAL,
@@ -430,7 +430,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       if res == Gtk.ResponseType.ACCEPT:
         item['enabled'] = enabled.get_active()
         item['name'] = name.get_text()
-        item['command'] = command.get_text()
+        item['command'] = command.get_buffer().get_text(command.get_buffer().get_start_iter(), command.get_buffer().get_end_iter(), True)
         if item['name'] == '' or item['command'] == '':
           err = Gtk.MessageDialog(dialog,
                                   Gtk.DialogFlags.MODAL,
