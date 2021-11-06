@@ -245,8 +245,6 @@ DEFAULTS = {
                 'use_theme_colors'      : False,
                 'bold_is_bright'        : False,
                 'line_height'           : 1.0,
-                'encoding'              : 'UTF-8',
-                'active_encodings'      : ['UTF-8', 'ISO-8859-1'],
                 'focus_on_close'        : 'auto',
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,

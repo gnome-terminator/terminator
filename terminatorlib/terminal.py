@@ -98,8 +98,6 @@ class Terminal(Gtk.VBox):
     matches = None
     regex_flags = None
     config = None
-    default_encoding = None
-    custom_encoding = None
     custom_font_size = None
     layout_command = None
     relaunch_command = None
@@ -165,7 +163,6 @@ class Terminal(Gtk.VBox):
 
         
         self.vte.show()
-        self.default_encoding = self.vte.get_encoding()
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
@@ -1074,14 +1071,6 @@ class Terminal(Gtk.VBox):
             widget.hide()
         else:
             widget.show()
-
-    def on_encoding_change(self, _widget, encoding):
-        """Handle the encoding changing"""
-        current = self.vte.get_encoding()
-        if current != encoding:
-            dbg('on_encoding_change: setting encoding to: %s' % encoding)
-            self.custom_encoding = not (encoding == self.config['encoding'])
-            self.vte.set_encoding(encoding)
 
     def on_drag_begin(self, widget, drag_context, _data):
         """Handle the start of a drag event"""
