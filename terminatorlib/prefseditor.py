@@ -14,7 +14,6 @@ from .util import dbg, err
 from . import config
 from .keybindings import Keybindings, KeymapError
 from .translation import _
-from .encoding import TerminatorEncoding
 from .terminator import Terminator
 from .plugin import PluginRegistry
 from .version import APP_NAME
@@ -687,23 +686,6 @@ class PrefsEditor:
             widget.set_active(3)
         else:
             widget.set_active(0)
-        # Encoding
-        rowiter = None
-        widget = guiget('encoding_combobox')
-        encodingstore = guiget('EncodingListStore')
-        value = self.config['encoding']
-        encodings = TerminatorEncoding().get_list()
-        encodings.sort(key=lambda x: x[2].lower())
-
-        for encoding in encodings:
-            if encoding[1] is None:
-                continue
-
-            label = "%s %s" % (encoding[2], encoding[1])
-            rowiter = encodingstore.append([label, encoding[1]])
-
-            if encoding[1] == value:
-                widget.set_active_iter(rowiter)
 
         ## Titlebar tab
         # Titlebar colors
@@ -922,15 +904,6 @@ class PrefsEditor:
         else:
             value = 'automatic'
         self.config['backspace_binding'] = value
-        self.config.save()
-
-    def on_encoding_combobox_changed(self, widget):
-        """Encoding setting changed"""
-        selected = widget.get_active_iter()
-        liststore = widget.get_model()
-        value = liststore.get_value(selected, 1)
-
-        self.config['encoding'] = value
         self.config.save()
 
     def on_scrollback_lines_spinbutton_value_changed(self, widget):

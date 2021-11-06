@@ -660,8 +660,6 @@ class Terminal(Gtk.VBox):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
 
-        if self.custom_encoding != True:
-            self.vte.set_encoding(self.config['encoding'])
         # Word char support was missing from vte 0.38, silently skip this setting
         if hasattr(self.vte, 'set_word_char_exceptions'):
             self.vte.set_word_char_exceptions(self.config['word_chars'])
