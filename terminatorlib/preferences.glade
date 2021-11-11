@@ -137,14 +137,6 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="EncodingListStore">
-    <columns>
-      <!-- column-name Encoding -->
-      <column type="gchararray"/>
-      <!-- column-name config_value -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkListStore" id="FocusListStore">
     <columns>
       <!-- column-name focustype -->
@@ -2955,7 +2947,7 @@
                       </packing>
                     </child>
                     <child>
-                      <!-- n-columns=2 n-rows=5 -->
+                      <!-- n-columns=2 n-rows=4 -->
                       <object class="GtkGrid" id="grid15">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
@@ -3052,42 +3044,6 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="label13">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">end</property>
-                            <property name="label" translatable="yes">Encoding:</property>
-                            <property name="use-markup">True</property>
-                            <property name="justify">center</property>
-                            <property name="ellipsize">end</property>
-                            <property name="xalign">0</property>
-                          </object>
-                          <packing>
-                            <property name="left-attach">0</property>
-                            <property name="top-attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkComboBox" id="encoding_combobox">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="hexpand">True</property>
-                            <property name="model">EncodingListStore</property>
-                            <signal name="changed" handler="on_encoding_combobox_changed" swapped="no"/>
-                            <child>
-                              <object class="GtkCellRendererText" id="cellrenderertext17"/>
-                              <attributes>
-                                <attribute name="text">0</attribute>
-                              </attributes>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="left-attach">1</property>
-                            <property name="top-attach">3</property>
-                          </packing>
-                        </child>
-                        <child>
                           <object class="GtkButton" id="reset_compat_defaults_button">
                             <property name="label" translatable="yes">_Reset Compatibility Options to Defaults</property>
                             <property name="use-action-appearance">False</property>
@@ -3101,7 +3057,7 @@
                           </object>
                           <packing>
                             <property name="left-attach">0</property>
-                            <property name="top-attach">4</property>
+                            <property name="top-attach">3</property>
                             <property name="width">2</property>
                           </packing>
                         </child>
@@ -4127,7 +4083,6 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
     <widgets>
       <widget name="backspace_binding_combobox"/>
       <widget name="delete_binding_combobox"/>
-      <widget name="encoding_combobox"/>
     </widgets>
   </object>
   <object class="GtkAdjustment" id="background_image_shading_adjustment">
