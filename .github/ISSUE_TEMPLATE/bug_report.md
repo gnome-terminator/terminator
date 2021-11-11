@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 Before opening an issue, please try starting terminator with an empty config
-file, by issuing `terminator -g /dev/null` and see if it starts normally.
+file, by issuing `terminator -u -g /dev/null` and see if it starts normally.
 
 If it does, and you still want to open the bug, then please attach the
 config file, usually found at `$HOME/.config/terminator/config` to the issue
@@ -30,6 +30,7 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
  - OS or Linux Distribution: [e.g. FreeBSD or Ubuntu]
  - Version [e.g. 20.04]
+ - Display Technology: Wayland or X11
 
 
 **Additional context**
