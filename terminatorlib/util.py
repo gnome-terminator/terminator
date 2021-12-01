@@ -106,9 +106,9 @@ def manual_lookup():
                 target = language
                 break
     elif 'LANG' in os.environ:
-        languages = os.environ['LANG'].split('.')
-        for language in languages:
-            if language in available_languages:
+        language = os.environ['LANG'].split('.')[0]
+        for i in range(len(available_languages)):
+            if language == available_languages[i]:
                 target = language
                 break
     return base_url % target
