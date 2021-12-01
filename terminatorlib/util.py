@@ -105,7 +105,12 @@ def manual_lookup():
             if language in available_languages:
                 target = language
                 break
-
+    elif 'LANG' in os.environ:
+        languages = os.environ['LANG'].split('.')
+        for language in languages:
+            if language in available_languages:
+                target = language
+                break
     return base_url % target
 
 def path_lookup(command):
