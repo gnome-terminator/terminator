@@ -58,8 +58,15 @@ if __name__ == '__main__':
     # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
     # in the receivers.
     username = pwd.getpwuid(os.getuid()).pw_name
-    ibus_running = [p for p in psutil.process_iter() if p.name() == 'ibus-daemon' and p.username() == username]
-    ibus_running = len(ibus_running) > 0
+    ibus_running = False
+    for proc in psutil.process_iter():
+        try:
+            if proc.name() == 'ibus-daemon' and proc.username() == username:
+                ibus_running = True
+                break
+        except (psutil.AccessDenied) as err:
+            print("error getting details while looking for Ibus process: %s" % err)
+
     if ibus_running:
         os.environ['IBUS_DISABLE_SNOOPER']='1'
 
