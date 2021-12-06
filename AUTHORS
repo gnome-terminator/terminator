@@ -16,15 +16,18 @@ This list is generated from the GIT log.
 * Brian Murray <brian@canonical.com>
 * Bruno Braga <bruno.braga@gmail.com>
 * Bryce Harrington <bryce@bryceharrington.org>
+* caprinux <123jinkai@gmail.com>
 * Chacal <chacal_exodius@hotmail.com>
 * Chris James <hashdevine@gmail.com>
 * Chris Jones <cmsj@tenshu.net>
+* coder <none@non.no>
 * Cory Kontros <coryisatm@ubuntu.com>
 * Daniel Napora <napcok@gmail.com>
 * Daniel T Chen <crimsun@ubuntu.com>
 * David Caro Estévez <david.caro.estevez@gmail.com>
 * David Levanon <dvdlevanon@gmail.com>
 * David Sowder <github.com@david.sowder.com>
+* Dennis Benzinger | SAP Hybris <dennis.benzinger@sap.com>
 * dkmvs <67212386+dkmvs@users.noreply.github.com>
 * Dmitry Soldatov <grapescan@gmail.com>
 * Douglas Bacon <douglaswbacon@gmail.com>
@@ -57,25 +60,31 @@ This list is generated from the GIT log.
 * Julien Nicoulaud <julien.nicoulaud@gmail.com>
 * Julien Thewys <jth@openerp.com>
 * Kees Cook <kees@outflux.net>
+* kocho1984 <eblebleo2@gmail.com>
 * Leandro Thimóteo <leandro.s.thimoteo@gmail.com>
 * Lucian Adrian Grijincu <lucian.grijincu@gmail.com>
 * Mackenzie Morgan <maco.m@ubuntu.com>
+* Mark Timarev <marktimarev@gmail.com>
 * Markus Frosch <markus@lazyfrosch.de>
 * Markus Korn <thekorn@gmx.de>
 * Matt Rose <mattrose@folkwolf.net>
 * milotype <43657314+milotype@users.noreply.github.com>
+* MuhammadJivani <masad@peekaboo.guru>
 * Nathan Handler <nhandler@ubuntu.com>
 * Nathaniel M. Beaver <nathanielmbeaver@gmail.com>
 * Nathaniel Morck Beaver <nathanielmbeaver@gmail.com>
 * Neal Fultz <nfultz@neal-1015pe>
 * Nicolas Valcárcel <nvalcarcel@ubuntu.com>
+* nojhan <nojhan@nojhan.net>
 * Pavel Khlebovich <pas.anddev@gmail.com>
+* Paweł Kotiuk <kotiuk@zohomail.eu>
 * Peter B. Jørgensen <peterbjorgensen@gmail.com>
 * Peter Bjørn Jørgensen <peterbjorgensen@gmail.com>
 * Peter Lind <peter.e.lind@gmail.com>
 * Phi <phi@kernel-tools.com>
 * planet36 <planet36@users.noreply.github.com>
 * Przemek Wesolek <jest@luna>
+* Rafael Kitover <rkitover@gmail.com>
 * Roberto Aguilar <roberto.c.aguilar@gmail.com>
 * robertoetcheverryr <yggdrasil.raiker@gmail.com>
 * R the Troublemaker <5971066+br0kenbuild@users.noreply.github.com>
@@ -84,13 +93,20 @@ This list is generated from the GIT log.
 * Siegfried-Angel Gevatter Pujals <rainct@ubuntu.com>
 * Simeon Simeonov <sgs@pichove.org>
 * Stephen Boddy <stephen.j.boddy@gmail.com>
+* StephenPeringer <StephenPeringer@users.noreply.github.com>
 * thebigs <TheBigS@users.noreply.github.com>
 * Thomas Hurst <tom@hur.st>
 * Thomas Meire <blackskad@gmail.com>
 * Tomek Sabała <sabala.tomek@gmail.com>
+* Tom Yan <tom.ty89@gmail.com>
 * Tony Baker <frd91gt@gmail.com>
+* Vojtech Duchon (Ext) <vojtech.duchon@gmail.com>
+* Vulcalien <vulcalien+github@gmail.com>
+* Vulcalien <vulcalien@gmail.com>
 * waldner <waldner@katamail.com>
+* xuezhixin <xuezhixin@uniontech.com>
 * Yousof <yousofebneddin@yahoo.com>
+* Yusuf Güngör <yusuf.gungor@hepsiburada.com>
 
 ## Other contributors
 
@@ -112,5 +128,7 @@ People that contributed to Terminator in other ways.
 * Maxim Derkach
 * Mats Henrikson
 * Nizar Kerkeni
+* "Data"
 * Cristian Grada
+* "zhuqin"
 * and many others.
