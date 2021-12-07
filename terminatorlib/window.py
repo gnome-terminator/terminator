@@ -130,7 +130,7 @@ class Window(Container, Gtk.Window):
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
-        if self.config['keybindings']['hide_window'] != '':
+        if self.config['keybindings']['hide_window'] not in ('', None):
             if display_manager() == 'X11':
                 try:
                     self.hidebound = Keybinder.bind(
