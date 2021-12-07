@@ -1738,10 +1738,13 @@ class PrefsEditor:
 
         accel = Gtk.accelerator_name(key, mods)
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
+        parsed_accel = Gtk.accelerator_parse(accel)
 
         duplicate_bindings = []
         for conf_binding, conf_accel in self.config["keybindings"].items():
-            parsed_accel = Gtk.accelerator_parse(accel)
+            if conf_accel is None:
+                continue
+
             parsed_conf_accel = Gtk.accelerator_parse(conf_accel)
 
             if (
