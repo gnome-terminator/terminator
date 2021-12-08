@@ -213,6 +213,7 @@ DEFAULTS = {
                 'background_color'      : '#000000',
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
+                'background_image'      : '',
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'escape-sequence',
                 'color_scheme'          : 'grey_on_black',
@@ -255,8 +256,6 @@ DEFAULTS = {
                 'autoclean_groups'      : True,
                 'http_proxy'            : '',
                 'ignore_hosts'          : ['localhost','127.0.0.0/8','*.local'],
-                'background_image'      : '',
-                'background_alpha'      : 0.0,
                 # Titlebar
                 'title_hide_sizetext'     : False,
                 'title_transmit_fg_color' : '#ffffff',
