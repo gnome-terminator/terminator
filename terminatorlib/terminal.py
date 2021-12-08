@@ -140,18 +140,6 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
-        self.background_image = None
-        if self.config['background_image'] != '':
-            try: 
-                self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
-                self.vte.set_clear_background(False)
-                self.vte.connect("draw",self.background_draw)
-            except Exception as e:
-                self.background_image = None
-                self.vte.set_clear_background(True)
-                err('error loading background image: %s, %s' % (type(e).__name__,e))
-
-        self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -161,7 +149,12 @@ class Terminal(Gtk.VBox):
             self.composite_support = True
         dbg('composite_support: %s' % self.composite_support)
 
-        
+        self.background_alpha = self.config['background_darkness']
+        if self.config['background_type'] == 'image' and self.config['background_image'] != '':
+            self.set_background_image(self.config['background_image'])
+        else:
+            self.background_image = None
+
         self.vte.show()
         self.update_url_matches()
 
@@ -1135,7 +1128,7 @@ class Terminal(Gtk.VBox):
         widget._draw_data = None
 
     def background_draw(self, widget, cr):
-        if not self.config['background_type'] == 'image' or not self.background_image:
+        if self.background_image is None:
             return False
 
         rect = self.vte.get_allocation()
