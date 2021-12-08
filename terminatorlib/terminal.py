@@ -149,12 +149,6 @@ class Terminal(Gtk.VBox):
             self.composite_support = True
         dbg('composite_support: %s' % self.composite_support)
 
-        self.background_alpha = self.config['background_darkness']
-        if self.config['background_type'] == 'image' and self.config['background_image'] != '':
-            self.set_background_image(self.config['background_image'])
-        else:
-            self.background_image = None
-
         self.vte.show()
         self.update_url_matches()
 
@@ -723,10 +717,15 @@ class Terminal(Gtk.VBox):
             self.bgcolor = Gdk.RGBA()
             self.bgcolor.parse(self.config['background_color'])
 
-        if self.config['background_type'] == 'transparent' or self.config['background_type'] == 'image':
+        if self.config['background_type'] in ('transparent', 'image'):
             self.bgcolor.alpha = self.config['background_darkness']
         else:
             self.bgcolor.alpha = 1
+
+        if self.config['background_type'] == 'image' and self.config['background_image'] != '':
+            self.set_background_image(self.config['background_image'])
+        else:
+            self.background_image = None
 
         factor = self.config['inactive_color_offset']
         if factor > 1.0:
