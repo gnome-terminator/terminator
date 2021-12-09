@@ -6,7 +6,7 @@
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
@@ -1141,6 +1141,7 @@ class Terminal(Gtk.VBox):
         yratio = float(rect.height) / float(self.background_image.get_height())
         cr.scale(xratio, yratio)
         cr.set_source_surface(self.background_image)
+        cr.get_source().set_filter(cairo.Filter.FAST)
         cr.paint()
         # draw transparent monochrome layer
         Gdk.cairo_set_source_rgba(cr, self.bgcolor)
