@@ -189,7 +189,8 @@ class Terminal(Gtk.VBox):
 
     def set_background_image(self,image):
         try: 
-            self.background_image = GdkPixbuf.Pixbuf.new_from_file(image)
+            bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
+            self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
             self.vte.set_clear_background(False)
             self.vte.connect("draw",self.background_draw)
         except Exception as e:
@@ -1137,7 +1138,7 @@ class Terminal(Gtk.VBox):
         yratio = float(rect.height) / float(self.background_image.get_height())
         cr.save()
         cr.scale(xratio,yratio)
-        Gdk.cairo_set_source_pixbuf(cr, self.background_image, 0, 0)
+        cr.set_source_surface(self.background_image)
         cr.paint()
         Gdk.cairo_set_source_rgba(cr,self.bgcolor)
         cr.paint()
