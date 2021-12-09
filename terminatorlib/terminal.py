@@ -192,7 +192,7 @@ class Terminal(Gtk.VBox):
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
             self.vte.set_clear_background(False)
-            self.vte.connect("draw",self.background_draw)
+            self.vte.connect("draw", self.background_draw)
         except Exception as e:
             self.background_image = None
             self.vte.set_clear_background(True)
@@ -1131,15 +1131,19 @@ class Terminal(Gtk.VBox):
         if self.background_image is None:
             return False
 
+        # save cairo context
+        cr.save()
+        # draw background image
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
-        cr.save()
-        cr.scale(xratio,yratio)
+        cr.scale(xratio, yratio)
         cr.set_source_surface(self.background_image)
         cr.paint()
-        Gdk.cairo_set_source_rgba(cr,self.bgcolor)
+        # draw transparent monochrome layer
+        Gdk.cairo_set_source_rgba(cr, self.bgcolor)
         cr.paint()
+        # restore cairo context
         cr.restore()
 
     def on_draw(self, widget, context):
