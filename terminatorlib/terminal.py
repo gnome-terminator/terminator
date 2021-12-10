@@ -717,7 +717,7 @@ class Terminal(Gtk.VBox):
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
         if hasattr(self.vte,'set_cell_height_scale'): 
-            self.vte.set_cell_height_scale(self.config['line_height'])
+            self.vte.set_cell_height_scale(self.config['cell_height'])
         if hasattr(self.vte,'set_cell_width_scale'):
             self.vte.set_cell_width_scale(self.config['cell_width'])
         if hasattr(self.vte, 'set_bold_is_bright'):
