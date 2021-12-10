@@ -258,12 +258,11 @@ class Window(Container, Gtk.Window):
 
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
+        if self.is_zoomed():
+            self.unzoom()
+
         cwd = None
         profile = None
-
-        if self.get_property('term_zoomed') == True:
-            err("You can't create a tab while a terminal is maximised/zoomed")
-            return
 
         if widget:
             cwd = widget.get_cwd()
@@ -281,7 +280,7 @@ class Window(Container, Gtk.Window):
         """Handle a window close request"""
         maker = Factory()
         if maker.isinstance(self.get_child(), 'Terminal'):
-            if self.get_property('term_zoomed') == True:
+            if self.is_zoomed():
                 return(self.confirm_close(window, _('window')))
             else:
                 dbg('Window::on_delete_event: Only one child, closing is fine')
@@ -417,6 +416,7 @@ class Window(Container, Gtk.Window):
                        'title-change': self.title.set_title,
                        'split-horiz': self.split_horiz,
                        'split-vert': self.split_vert,
+                       'resize-term': self.resizeterm,
                        'unzoom': self.unzoom,
                        'tab-change': self.tab_change,
                        'group-all': self.group_all,
@@ -430,7 +430,9 @@ class Window(Container, Gtk.Window):
                        'ungroup-tab': self.ungroup_tab,
                        'move-tab': self.move_tab,
                        'tab-new': [self.tab_new, widget],
-                       'navigate': self.navigate_terminal}
+                       'navigate': self.navigate_terminal,
+                       'rotate-cw': [self.rotate, True],
+                       'rotate-ccw': [self.rotate, False]}
 
             for signal in signals:
                 args = []
@@ -466,8 +468,9 @@ class Window(Container, Gtk.Window):
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the window"""
-        if self.get_property('term_zoomed') == True:
-            err("You can't split while a terminal is maximised/zoomed")
+        if self.is_zoomed():
+            self.unzoom()
+            widget.get_parent().split_axis(widget, vertical, cwd, sibling, widgetfirst)
             return
 
         order = None
@@ -508,6 +511,21 @@ class Window(Container, Gtk.Window):
         sibling.grab_focus()
         self.set_pos_by_ratio = False
 
+    def resizeterm(self, widget, keyname):
+        """Handle a keyboard event requesting a terminal resize"""
+        # if not zoomed, then ignore the signal: there is only one terminal
+        if self.is_zoomed():
+            self.unzoom()
+            widget.get_parent().resizeterm(widget, keyname)
+
+    def is_zoomed(self):
+        """Return True if the window has a zoomed terminal, False otherwise"""
+        try:
+            # 'is True' just in case we get something that is not a boolean
+            return self.get_property('term_zoomed') is True
+        except TypeError:
+            err('failed to get "term_zoomed" property')
+        return False
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
@@ -534,9 +552,9 @@ class Window(Container, Gtk.Window):
 
         widget.grab_focus()
 
-    def unzoom(self, widget):
+    def unzoom(self, widget=None):
         """Restore normal terminal layout"""
-        if not self.get_property('term_zoomed'):
+        if not self.is_zoomed():
             # We're not zoomed anyway
             dbg('Window::unzoom: not zoomed, no-op')
             return
@@ -554,6 +572,12 @@ class Window(Container, Gtk.Window):
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
+        # FIXME after an unzoom, child.get_allocation() returns
+        # strange values, making the rotation work improperly
+        # Same problem as in navigate_terminal
+        if self.is_zoomed():
+            self.unzoom()
+
         self.set_pos_by_ratio = True
         maker = Factory()
         child = self.get_child()
@@ -684,6 +708,9 @@ class Window(Container, Gtk.Window):
 
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""
+        if self.is_zoomed():
+            self.unzoom()
+
         if num is None:
             err('must specify a tab to change to')
 
@@ -796,6 +823,9 @@ class Window(Container, Gtk.Window):
 
     def move_tab(self, widget, direction):
         """Handle a keyboard shortcut for moving tab positions"""
+        if self.is_zoomed():
+            self.unzoom()
+
         maker = Factory()
         notebook = self.get_child()
 
@@ -826,6 +856,11 @@ class Window(Container, Gtk.Window):
 
     def navigate_terminal(self, terminal, direction):
         """Navigate around terminals"""
+        # FIXME after an unzoom, terminal.get_allocation() returns
+        # strange values, making the navigation work improperly
+        if self.is_zoomed():
+            self.unzoom()
+
         _containers, terminals = util.enumerate_descendants(self)
         visibles = self.get_visible_terminals()
         current = terminals.index(terminal)

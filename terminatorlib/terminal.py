@@ -915,20 +915,6 @@ class Terminal(Gtk.VBox):
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
 
-        # Just propagate tab-swictch events if there is only one tab
-        if (
-                mapping and (
-                    mapping.startswith('switch_to_tab') or
-                    mapping in ('next_tab', 'prev_tab')
-                )
-        ):
-            window = self.get_toplevel()
-            child = window.get_children()[0]
-            if isinstance(child, Terminal):
-                # not a Notebook instance => a single tab is used
-                # .get_n_pages() can not be used
-                return False
-
         if mapping == "hide_window":
             return False
 
@@ -1417,15 +1403,8 @@ class Terminal(Gtk.VBox):
 
     def is_zoomed(self):
         """Determine if we are a zoomed terminal"""
-        prop = None
         window = self.get_toplevel()
-
-        try:
-            prop = window.get_property('term-zoomed')
-        except TypeError:
-            prop = False
-
-        return prop
+        return window.is_zoomed()
 
     def zoom(self, widget=None):
         """Zoom ourself to fill the window"""
