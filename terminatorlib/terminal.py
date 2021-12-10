@@ -6,7 +6,7 @@
 import os
 import signal
 import gi
-from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf
+from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
 import subprocess
@@ -140,18 +140,6 @@ class Terminal(Gtk.VBox):
         self.pending_on_vte_size_allocate = False
 
         self.vte = Vte.Terminal()
-        self.background_image = None
-        if self.config['background_image'] != '':
-            try: 
-                self.background_image = GdkPixbuf.Pixbuf.new_from_file(self.config['background_image'])
-                self.vte.set_clear_background(False)
-                self.vte.connect("draw",self.background_draw)
-            except Exception as e:
-                self.background_image = None
-                self.vte.set_clear_background(True)
-                err('error loading background image: %s, %s' % (type(e).__name__,e))
-
-        self.background_alpha = self.config['background_darkness']
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -161,7 +149,6 @@ class Terminal(Gtk.VBox):
             self.composite_support = True
         dbg('composite_support: %s' % self.composite_support)
 
-        
         self.vte.show()
         self.update_url_matches()
 
@@ -202,9 +189,10 @@ class Terminal(Gtk.VBox):
 
     def set_background_image(self,image):
         try: 
-            self.background_image = GdkPixbuf.Pixbuf.new_from_file(image)
+            bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
+            self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
             self.vte.set_clear_background(False)
-            self.vte.connect("draw",self.background_draw)
+            self.vte.connect("draw", self.background_draw)
         except Exception as e:
             self.background_image = None
             self.vte.set_clear_background(True)
@@ -730,10 +718,15 @@ class Terminal(Gtk.VBox):
             self.bgcolor = Gdk.RGBA()
             self.bgcolor.parse(self.config['background_color'])
 
-        if self.config['background_type'] == 'transparent' or self.config['background_type'] == 'image':
+        if self.config['background_type'] in ('transparent', 'image'):
             self.bgcolor.alpha = self.config['background_darkness']
         else:
             self.bgcolor.alpha = 1
+
+        if self.config['background_type'] == 'image' and self.config['background_image'] != '':
+            self.set_background_image(self.config['background_image'])
+        else:
+            self.background_image = None
 
         factor = self.config['inactive_color_offset']
         if factor > 1.0:
@@ -1135,18 +1128,23 @@ class Terminal(Gtk.VBox):
         widget._draw_data = None
 
     def background_draw(self, widget, cr):
-        if not self.config['background_type'] == 'image' or not self.background_image:
+        if self.background_image is None:
             return False
 
+        # save cairo context
+        cr.save()
+        # draw background image
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
-        cr.save()
-        cr.scale(xratio,yratio)
-        Gdk.cairo_set_source_pixbuf(cr, self.background_image, 0, 0)
+        cr.scale(xratio, yratio)
+        cr.set_source_surface(self.background_image)
+        cr.get_source().set_filter(cairo.Filter.FAST)
         cr.paint()
-        Gdk.cairo_set_source_rgba(cr,self.bgcolor)
+        # draw transparent monochrome layer
+        Gdk.cairo_set_source_rgba(cr, self.bgcolor)
         cr.paint()
+        # restore cairo context
         cr.restore()
 
     def on_draw(self, widget, context):
