@@ -263,6 +263,17 @@ class PrefsEditor:
         widget.set_value(lineheightsize)
         widget = guiget('lineheight_value_label')
         widget.set_text(str(lineheightsize))
+
+        #
+        # Cell Width
+        #
+        cellwidthsize = self.config['cell_width']
+        cellwidthsize = round(float(cellwidthsize),1)
+        widget = guiget('cellwidth')
+        widget.set_value(cellwidthsize)
+        widget = guiget('cellwidth_value_label')
+        widget.set_text(str(cellwidthsize))
+
         # Window geometry hints
         geomhint = self.config['geometry_hinting']
         widget = guiget('wingeomcheck')
@@ -1262,6 +1273,18 @@ class PrefsEditor:
         self.config.save()
         guiget = self.builder.get_object
         label_widget = guiget('lineheight_value_label')
+        label_widget.set_text(str(value))
+
+    def on_handlewidth_value_changed(self, widget):
+        """Handles cell width changed"""
+        value = widget.get_value()
+        value = round(float(value), 1)
+        if value > 2.0:
+            value = 2.0
+        self.config['cell_width'] = value
+        self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('cellwidth_value_label')
         label_widget.set_text(str(value))
 
     def on_focuscombo_changed(self, widget):
