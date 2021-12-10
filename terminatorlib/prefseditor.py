@@ -256,13 +256,16 @@ class PrefsEditor:
         widget.set_value(float(termsepsize))
         widget = guiget('handlesize_value_label')
         widget.set_text(str(termsepsize))
-        # Line Height
-        lineheightsize = self.config['line_height']
-        lineheightsize = round(float(lineheightsize),1)
-        widget = guiget('lineheight')
-        widget.set_value(lineheightsize)
-        widget = guiget('lineheight_value_label')
-        widget.set_text(str(lineheightsize))
+
+        #
+        # Cell Height
+        #
+        cellheightsize = self.config['cell_height']
+        cellheightsize = round(float(cellheightsize),1)
+        widget = guiget('cellheight')
+        widget.set_value(cellheightsize)
+        widget = guiget('cellheight_value_label')
+        widget.set_text(str(cellheightsize))
 
         #
         # Cell Width
@@ -1263,16 +1266,16 @@ class PrefsEditor:
         label_widget = guiget('handlesize_value_label')
         label_widget.set_text(str(value))
 
-    def on_lineheight_value_changed(self, widget):
-        """Handles line height changed"""
+    def on_cellheight_value_changed(self, widget):
+        """Handles cell height changed"""
         value = widget.get_value()
         value = round(float(value), 1)
         if value > 2.0:
             value = 2.0
-        self.config['line_height'] = value
+        self.config['cell_height'] = value
         self.config.save()
         guiget = self.builder.get_object
-        label_widget = guiget('lineheight_value_label')
+        label_widget = guiget('cellheight_value_label')
         label_widget.set_text(str(value))
 
     def on_handlewidth_value_changed(self, widget):
