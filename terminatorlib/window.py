@@ -572,11 +572,10 @@ class Window(Container, Gtk.Window):
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
-        # FIXME after an unzoom, child.get_allocation() returns
-        # strange values, making the rotation work improperly
-        # Same problem as in navigate_terminal
         if self.is_zoomed():
             self.unzoom()
+            while Gtk.events_pending():
+                Gtk.main_iteration_do(False)
 
         self.set_pos_by_ratio = True
         maker = Factory()
@@ -856,10 +855,10 @@ class Window(Container, Gtk.Window):
 
     def navigate_terminal(self, terminal, direction):
         """Navigate around terminals"""
-        # FIXME after an unzoom, terminal.get_allocation() returns
-        # strange values, making the navigation work improperly
         if self.is_zoomed():
             self.unzoom()
+            while Gtk.events_pending():
+                Gtk.main_iteration_do(False)
 
         _containers, terminals = util.enumerate_descendants(self)
         visibles = self.get_visible_terminals()
