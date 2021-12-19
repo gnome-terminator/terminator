@@ -76,7 +76,7 @@ from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
 from .borg import Borg
-from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff
+from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff, update_config_to_cell_height
 
 from gi.repository import Gio
 
@@ -113,7 +113,8 @@ DEFAULTS = {
             'disable_mouse_paste'   : False,
             'smart_copy'            : True,
             'clear_select_on_copy'  : False,
-            'line_height'           : 1.0,
+            'cell_height'           : 1.0,
+            'cell_width'            : 1.0,
             'case_sensitive'        : True,
             'invert_search'         : False,
             'link_single_click'     : False,
@@ -245,7 +246,8 @@ DEFAULTS = {
                 'use_system_font'       : True,
                 'use_theme_colors'      : False,
                 'bold_is_bright'        : False,
-                'line_height'           : 1.0,
+                'cell_height'           : 1.0,
+                'cell_width'            : 1.0,
                 'focus_on_close'        : 'auto',
                 'force_no_bell'         : False,
                 'cycle_term_tab'        : True,
@@ -506,6 +508,7 @@ class ConfigBase(Borg):
     plugins = None
     layouts = None
     command_line_options = None
+    config_file_updated_to_cell_height = False
 
     def __init__(self):
         """Class initialiser"""
@@ -625,6 +628,14 @@ class ConfigBase(Borg):
                 filename = os.path.join(get_system_config_dir(), 'config')
         dbg('looking for config file: %s' % filename)
         try:
+            #
+            # Make sure we attempt to update the ‘cell_height’ config
+            # only once when starting a new instance of Terminator.
+            #
+            if not self.config_file_updated_to_cell_height:
+                update_config_to_cell_height(filename)
+                self.config_file_updated_to_cell_height = True
+
             configfile = open(filename, 'r')
         except Exception as ex:
             if not self.whined:

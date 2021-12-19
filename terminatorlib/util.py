@@ -361,3 +361,36 @@ def display_manager():
         return 'WAYLAND'
     # Fallback assumption of X11
     return 'X11'
+
+def update_config_to_cell_height(filename):
+    '''Replace ‘line_height’ with ‘cell_height’ in Terminator
+    config file (usually ~/.config/terminator/config on
+    Unix-like systems).'''
+
+    dbg('update_config_to_cell_height() config filename %s' % filename)
+
+    try:
+        with open(filename, 'r+') as file:
+            config_text = file.read()
+
+            if not 'line_height' in config_text:
+                #
+                # It is either a new config, or it is already using the
+                # new ‘cell_height’ property instead the old ‘line_height’.
+                #
+                dbg('No ‘line_height’ found in ‘%s’.' % filename)
+                file.close()
+                return
+
+            updated_config_text = config_text.replace('line_height', 'cell_height')
+
+            file.seek(0)
+            file.write(updated_config_text)
+            file.truncate()
+            file.close()
+
+            dbg('Updted ‘line_height’ to ‘cell_height’.')
+
+    except Exception as ex:
+        err('Unable to open ‘%s’ for reading and/or writting.\n(%s)'
+                % (filename, ex))
