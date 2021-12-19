@@ -15,10 +15,11 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 """Terminator.optionparse - Parse commandline options"""
 
+import argparse
 import sys
 import os
 
-from optparse import OptionParser, SUPPRESS_HELP
+from terminatorlib.terminator import Terminator
 from .util import dbg, err
 from . import util
 from . import config
@@ -27,96 +28,98 @@ from .translation import _
 
 options = None
 
-def execute_cb(option, opt, value, lparser):
-    """Callback for use in parsing execute options"""
-    assert value is None
-    value = []
-    while lparser.rargs:
-        arg = lparser.rargs[0]
-        value.append(arg)
-        del(lparser.rargs[0])
-    setattr(lparser.values, option.dest, value)
+class ExecuteCallback(argparse.Action):
+    def __call__(self, lparser, namespace, values, option_string=None):
+        """Callback for use in parsing execute options"""
+        setattr(namespace, self.dest, values)
 
 def parse_options():
     """Parse the command line options"""
-    usage = "usage: %prog [options]"
-
     is_x_terminal_emulator = os.path.basename(sys.argv[0]) == 'x-terminal-emulator'
 
-    parser = OptionParser(usage)
+    parser = argparse.ArgumentParser()
 
-    parser.add_option('-v', '--version', action='store_true', dest='version',
+    parser.add_argument('-v', '--version', action='store_true', dest='version',
             help=_('Display program version'))
-    parser.add_option('-m', '--maximise', action='store_true', dest='maximise',
+    parser.add_argument('-m', '--maximise', action='store_true', dest='maximise',
             help=_('Maximize the window'))
-    parser.add_option('-M', '--maximize', action='store_true', dest='maximise',
+    parser.add_argument('-M', '--maximize', action='store_true', dest='maximise',
             help=_('Maximize the window'))
-    parser.add_option('-f', '--fullscreen', action='store_true',
+    parser.add_argument('-f', '--fullscreen', action='store_true',
             dest='fullscreen', help=_('Make the window fill the screen'))
-    parser.add_option('-b', '--borderless', action='store_true',
+    parser.add_argument('-b', '--borderless', action='store_true',
             dest='borderless', help=_('Disable window borders'))
-    parser.add_option('-H', '--hidden', action='store_true', dest='hidden',
+    parser.add_argument('-H', '--hidden', action='store_true', dest='hidden',
             help=_('Hide the window at startup'))
-    parser.add_option('-T', '--title', dest='forcedtitle', 
+    parser.add_argument('-T', '--title', dest='forcedtitle',
                       help=_('Specify a title for the window'))
-    parser.add_option('--geometry', dest='geometry', type='string', 
+    parser.add_argument('--geometry', dest='geometry', type=str,
                       help=_('Set the preferred size and position of the window'
                              '(see X man page)'))
     if not is_x_terminal_emulator:
-        parser.add_option('-e', '--command', dest='command', 
+        parser.add_argument('-e', '--command', dest='command',
                 help=_('Specify a command to execute inside the terminal'))
     else:
-        parser.add_option('--command', dest='command', 
+        parser.add_argument('--command', dest='command',
                 help=_('Specify a command to execute inside the terminal'))
-        parser.add_option('-e', '--execute2', dest='execute', action='callback',
-                callback=execute_cb, 
+        parser.add_argument('-e', '--execute2', dest='execute', action=ExecuteCallback,
                 help=_('Use the rest of the command line as a command to '
                        'execute inside the terminal, and its arguments'))
-    parser.add_option('-g', '--config', dest='config', 
+    parser.add_argument('-g', '--config', dest='config',
                       help=_('Specify a config file'))
-    parser.add_option('-j', '--config-json', dest='configjson', 
+    parser.add_argument('-j', '--config-json', dest='configjson',
                       help=_('Specify a partial config json file'))
-    parser.add_option('-x', '--execute', dest='execute', action='callback',
-            callback=execute_cb, 
+    parser.add_argument('-x', '--execute', dest='execute', action=ExecuteCallback,
             help=_('Use the rest of the command line as a command to execute '
                    'inside the terminal, and its arguments'))
-    parser.add_option('--working-directory', metavar='DIR',
+    parser.add_argument('--working-directory', metavar='DIR',
             dest='working_directory', help=_('Set the working directory'))
-    parser.add_option('-i', '--icon', dest='forcedicon', help=_('Set a custom \
+    parser.add_argument('-i', '--icon', dest='forcedicon', help=_('Set a custom \
 icon for the window (by file or name)'))
-    parser.add_option('-r', '--role', dest='role', 
+    parser.add_argument('-r', '--role', dest='role',
             help=_('Set a custom WM_WINDOW_ROLE property on the window'))
-    parser.add_option('-l', '--layout', dest='layout', 
+    parser.add_argument('-l', '--layout', dest='layout',
             help=_('Launch with the given layout'))
-    parser.add_option('-s', '--select-layout', action='store_true',
+    parser.add_argument('-s', '--select-layout', action='store_true',
             dest='select', help=_('Select a layout from a list'))
-    parser.add_option('-p', '--profile', dest='profile', 
+    parser.add_argument('-p', '--profile', dest='profile',
             help=_('Use a different profile as the default'))
-    parser.add_option('-u', '--no-dbus', action='store_true', dest='nodbus', 
+    parser.add_argument('-u', '--no-dbus', action='store_true', dest='nodbus',
             help=_('Disable DBus'))
-    parser.add_option('-d', '--debug', action='count', dest='debug',
+    parser.add_argument('-d', '--debug', action='count', dest='debug',
             help=_('Enable debugging information (twice for debug server)'))
-    parser.add_option('--debug-classes', action='store', dest='debug_classes', 
+    parser.add_argument('--debug-classes', action='store', dest='debug_classes',
             help=_('Comma separated list of classes to limit debugging to'))
-    parser.add_option('--debug-methods', action='store', dest='debug_methods',
+    parser.add_argument('--debug-methods', action='store', dest='debug_methods',
             help=_('Comma separated list of methods to limit debugging to'))
-    parser.add_option('--new-tab', action='store_true', dest='new_tab',
+    parser.add_argument('--new-tab', action='store_true', dest='new_tab',
             help=_('If Terminator is already running, just open a new tab'))
-    parser.add_option('--unhide', action='store_true', dest='unhide',
+    parser.add_argument('--unhide', action='store_true', dest='unhide',
             help=_('If Terminator is already running, just unhide all hidden windows'))
+    parser.add_argument('--list-profiles', action='store_true', dest='list_profiles',
+            help=_('List all profiles'))
+    parser.add_argument('--list-layouts', action='store_true', dest='list_layouts',
+            help=_('List all layouts'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
-        parser.add_option(item, dest='dummy', action='store',
-                help=SUPPRESS_HELP)
+        parser.add_argument(item, dest='dummy', action='store',
+                help=argparse.SUPPRESS)
 
     global options
-    (options, args) = parser.parse_args()
-    if len(args) != 0:
-        parser.error('Additional unexpected arguments found: %s' % args)
+    options = parser.parse_args()
 
     if options.version:
         print('%s %s' % (version.APP_NAME, version.APP_VERSION))
+        sys.exit(0)
+
+    if options.list_profiles:
+        for p in Terminator().config.list_profiles():
+            print(p)
+        sys.exit(0)
+    if options.list_layouts:
+        for l in Terminator().config.list_layouts():
+            print(l)
         sys.exit(0)
 
     if options.debug_classes or options.debug_methods:
@@ -165,5 +168,4 @@ icon for the window (by file or name)'))
     if util.DEBUG == True:
         dbg('OptionParse::parse_options: command line options: %s' % options)
 
-    
     return(options,optionslist)

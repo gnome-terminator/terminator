@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-02 17:59+0200\n"
+"POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Marko Dzidic <mdzidic@gmail.com>, 2020\n"
 "Language-Team: Bosnian (https://www.transifex.com/terminator/teams/109338/"
@@ -70,10 +70,22 @@ msgid "Set the title of a parent tab"
 msgstr ""
 
 #: ../remotinator.py:50
+msgid "Set the background image"
+msgstr ""
+
+#: ../remotinator.py:51
+msgid "Set the background image for all terminals"
+msgstr ""
+
+#: ../remotinator.py:52
 msgid "Switch current terminal profile"
 msgstr ""
 
-#: ../remotinator.py:67
+#: ../remotinator.py:53
+msgid "Switch profile of all currently running terminals"
+msgstr ""
+
+#: ../remotinator.py:70
 #, python-format
 msgid ""
 "Run one of the following Terminator DBus commands:\n"
@@ -84,7 +96,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../remotinator.py:68
+#: ../remotinator.py:71
 msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
@@ -92,19 +104,35 @@ msgstr ""
 "* Ovi unosi zahtijevaju ili TERMINATOR_UUID varijablu okoline\n"
 "  ili upotrebu --uuid parametra."
 
-#: ../remotinator.py:74 ../remotinator.py:77
+#: ../remotinator.py:77
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
 "Terminal UUID u slučaju kada ne postoji u env varijabli TERMINATOR_UUID"
 
 #: ../remotinator.py:80
+msgid "Profile name to switch to"
+msgstr ""
+
+#: ../remotinator.py:83
+msgid "File to pass to command"
+msgstr ""
+
+#: ../remotinator.py:86
+msgid "Command to run in new terminal"
+msgstr ""
+
+#: ../remotinator.py:89
 msgid "Tab name to set. Only used with \"set_tab_title\" command."
+msgstr ""
+
+#: ../remotinator.py:92
+msgid "Tab name to set."
 msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:155
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -113,7 +141,7 @@ msgid "Multiple terminals in one window"
 msgstr "Više terminala u jednom prozoru"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:156
 msgid "The robot future of terminals"
 msgstr "Robotizirana budućnost terminala"
 
@@ -358,7 +386,7 @@ msgid "Terminator Layout Launcher"
 msgstr "Terminatorov \"Aktivator rasporeda\""
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:142
 msgid "Layout"
 msgstr "Raspored"
 
@@ -366,107 +394,115 @@ msgstr "Raspored"
 msgid "Launch"
 msgstr "Pokreni"
 
-#: ../terminatorlib/notebook.py:359
+#: ../terminatorlib/notebook.py:384
 msgid "tab"
 msgstr "tab"
 
-#: ../terminatorlib/notebook.py:629
+#: ../terminatorlib/notebook.py:656
 msgid "Close Tab"
 msgstr "Zatvori karticu"
 
-#: ../terminatorlib/optionparse.py:49
+#: ../terminatorlib/optionparse.py:43
 msgid "Display program version"
 msgstr "Prikaži verziju programa"
 
-#: ../terminatorlib/optionparse.py:51 ../terminatorlib/optionparse.py:53
+#: ../terminatorlib/optionparse.py:45 ../terminatorlib/optionparse.py:47
 msgid "Maximize the window"
 msgstr "Maksimiziraj prozor"
 
-#: ../terminatorlib/optionparse.py:55
+#: ../terminatorlib/optionparse.py:49
 msgid "Make the window fill the screen"
 msgstr "Neka prozor ispuni ekran"
 
-#: ../terminatorlib/optionparse.py:57
+#: ../terminatorlib/optionparse.py:51
 msgid "Disable window borders"
 msgstr "Onemogući rubove prozora"
 
-#: ../terminatorlib/optionparse.py:59
+#: ../terminatorlib/optionparse.py:53
 msgid "Hide the window at startup"
 msgstr "Sakrij prozor pri pokretanju"
 
-#: ../terminatorlib/optionparse.py:61
+#: ../terminatorlib/optionparse.py:55
 msgid "Specify a title for the window"
 msgstr "Navedi naslov prozora"
 
-#: ../terminatorlib/optionparse.py:63
+#: ../terminatorlib/optionparse.py:57
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
 "Postavi preferiranu veličinu i poziciju prozora(pogledaj X man stranicu)"
 
-#: ../terminatorlib/optionparse.py:67 ../terminatorlib/optionparse.py:70
+#: ../terminatorlib/optionparse.py:61 ../terminatorlib/optionparse.py:64
 msgid "Specify a command to execute inside the terminal"
 msgstr "Navedi komandu za izvršavanje u okviru terminala"
 
-#: ../terminatorlib/optionparse.py:73 ../terminatorlib/optionparse.py:81
+#: ../terminatorlib/optionparse.py:66 ../terminatorlib/optionparse.py:73
 msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr "Koristi ostatak komandne linije za izvršavanje u okviru terminala"
 
-#: ../terminatorlib/optionparse.py:76
+#: ../terminatorlib/optionparse.py:69
 msgid "Specify a config file"
 msgstr "Navedi konfiguracijsku datoteku"
 
-#: ../terminatorlib/optionparse.py:78
+#: ../terminatorlib/optionparse.py:71
 msgid "Specify a partial config json file"
 msgstr ""
 
-#: ../terminatorlib/optionparse.py:84
+#: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
 msgstr "Postavi radni direktorij"
 
-#: ../terminatorlib/optionparse.py:85
+#: ../terminatorlib/optionparse.py:77
 msgid "Set a custom icon for the window (by file or name)"
 msgstr "Postavi prilagođenu ikonu prozora (po datoteci ili nazivu)"
 
-#: ../terminatorlib/optionparse.py:88
+#: ../terminatorlib/optionparse.py:80
 msgid "Set a custom WM_WINDOW_ROLE property on the window"
 msgstr "Postavi prilagođeno WM_WINDOW_ROLE svojstvo prozora"
 
-#: ../terminatorlib/optionparse.py:90
+#: ../terminatorlib/optionparse.py:82
 msgid "Launch with the given layout"
 msgstr "Pokreni sa datim rasporedom"
 
-#: ../terminatorlib/optionparse.py:92
+#: ../terminatorlib/optionparse.py:84
 msgid "Select a layout from a list"
 msgstr "Odaberi stavku rasporeda iz liste"
 
-#: ../terminatorlib/optionparse.py:94
+#: ../terminatorlib/optionparse.py:86
 msgid "Use a different profile as the default"
 msgstr "Koristi različit profil od zadanog"
 
-#: ../terminatorlib/optionparse.py:96
+#: ../terminatorlib/optionparse.py:88
 msgid "Disable DBus"
 msgstr "Onemogući DBus"
 
-#: ../terminatorlib/optionparse.py:98
+#: ../terminatorlib/optionparse.py:90
 msgid "Enable debugging information (twice for debug server)"
 msgstr "Omogući informacije o ispravljanju grešaka (duplo za server)"
 
-#: ../terminatorlib/optionparse.py:100
+#: ../terminatorlib/optionparse.py:92
 msgid "Comma separated list of classes to limit debugging to"
 msgstr "Lista klasa razdvojene zarezom koja ograničava ispravljanje grešaka"
 
-#: ../terminatorlib/optionparse.py:102
+#: ../terminatorlib/optionparse.py:94
 msgid "Comma separated list of methods to limit debugging to"
 msgstr "Lista metoda razdvojene zarezom koja ograničava ispravljanje grešaka"
 
-#: ../terminatorlib/optionparse.py:104
+#: ../terminatorlib/optionparse.py:96
 msgid "If Terminator is already running, just open a new tab"
 msgstr "Ukoliko je Terminator već pokrenut samo otvori novu karticu"
 
-#: ../terminatorlib/optionparse.py:106
+#: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:100
+msgid "List all profiles"
+msgstr ""
+
+#: ../terminatorlib/optionparse.py:102
+msgid "List all layouts"
 msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:54
@@ -493,7 +529,7 @@ msgstr "Korisničke komande"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
-#: ../terminatorlib/terminal_popup_menu.py:194
+#: ../terminatorlib/terminal_popup_menu.py:198
 msgid "_Preferences"
 msgstr "Postavke"
 
@@ -518,12 +554,12 @@ msgid "Enabled"
 msgstr "Omogućeno"
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Name"
 msgstr "Naziv"
 
 #: ../terminatorlib/plugins/custom_commands.py:174
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Command"
 msgstr "Komanda"
 
@@ -629,7 +665,7 @@ msgid "Escape sequence"
 msgstr "Sekvenca izlaza"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:718
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:727
 msgid "All"
 msgstr "Za sve"
 
@@ -902,250 +938,218 @@ msgid "Tabs scroll buttons"
 msgstr "Dugmad za pomjeranje kartica"
 
 #: ../terminatorlib/preferences.glade.h:74
-msgid "<b>Terminal Titlebar</b>"
-msgstr "<b>Terminal traka naslova</b>"
-
-#: ../terminatorlib/preferences.glade.h:75
-msgid "Font color:"
-msgstr "Boja fonta:"
-
-#: ../terminatorlib/preferences.glade.h:76
-msgid "Background:"
-msgstr "Pozadina:"
-
-#: ../terminatorlib/preferences.glade.h:77
-msgid "Focused"
-msgstr "Fokusirano"
-
-#: ../terminatorlib/preferences.glade.h:78
-msgid "Inactive"
-msgstr "Neaktivno"
-
-#: ../terminatorlib/preferences.glade.h:79
-msgid "Receiving"
-msgstr "Primanje"
-
-#: ../terminatorlib/preferences.glade.h:80
 msgid "Title bar at bottom (Require restart)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:81
-msgid "Hide size from title"
-msgstr "Sakrij veličinu u naslovu"
-
-#: ../terminatorlib/preferences.glade.h:82
-msgid "_Use the system font"
-msgstr "Koristi sistemski font"
-
-#: ../terminatorlib/preferences.glade.h:83
-msgid "_Font:"
-msgstr "Font:"
-
-#: ../terminatorlib/preferences.glade.h:84
-msgid "Choose A Titlebar Font"
-msgstr "Odabir fonta naslovne trake"
-
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Global"
 msgstr "Globalno"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:76
 msgid "Profile"
 msgstr "Profil"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:77
 msgid "_Use the system fixed width font"
 msgstr "Koristi sistemski font fiksne širine"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:78
+msgid "_Font:"
+msgstr "Font:"
+
+#: ../terminatorlib/preferences.glade.h:79
 msgid "Choose A Terminal Font"
 msgstr "Odabir fonta terminala"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:80
 msgid "_Allow bold text"
 msgstr "Dozvoli podebljani tekst"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Show titlebar"
 msgstr "Prikaži naslovnu traku"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:82
 msgid "Copy on selection"
 msgstr "Kopiraj pri selekciji"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Disable Ctrl+mousewheel zoom"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Select-by-_word characters:"
 msgstr "Karakteri za izbor-po-riječima:"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:85
 msgid "<b>Cursor</b>"
 msgstr "<b>Kursor</b>"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:86
 msgid "_Shape:"
 msgstr "Oblik:"
 
-#: ../terminatorlib/preferences.glade.h:96
-msgid "Color:"
-msgstr "Boja:"
-
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:87
 msgid "Blink"
 msgstr "Treptanje"
 
-#: ../terminatorlib/preferences.glade.h:98
-msgid "Foreground"
-msgstr "Prednji plan"
+#: ../terminatorlib/preferences.glade.h:88
+msgid "Use default colors"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:89
+msgid "Foreground:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:90
+msgid "Background:"
+msgstr "Pozadina:"
+
+#: ../terminatorlib/preferences.glade.h:91
 msgid "<b>Terminal bell</b>"
 msgstr "<b>Terminal signalizacija</b>"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Titlebar icon"
 msgstr "Ikona naslovne trake"
 
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:93
 msgid "Visual flash"
 msgstr "Treptanje"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Audible beep"
 msgstr "Zvučni signal"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Window list flash"
 msgstr "Treptanje liste prozora"
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:96
 msgid "General"
 msgstr "Općenito"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:97
 msgid "_Run command as a login shell"
 msgstr "Pokreni komandu kao shell za prijavu"
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:98
 msgid "Ru_n a custom command instead of my shell"
 msgstr "Pokreni korisničku komandu umjesto shell-a"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:99
 msgid "Custom co_mmand:"
 msgstr "Korisnička komanda:"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:100
 msgid "When command _exits:"
 msgstr "Kada komanda završi:"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:102
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>Prednji plan i pozadina</b>"
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:103
 msgid "_Use colors from system theme"
 msgstr "Koristi boje iz teme sistema"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:104
 msgid "Built-in sche_mes:"
 msgstr "Ugrađene sheme:"
 
-#: ../terminatorlib/preferences.glade.h:113
-msgid "_Text color:"
-msgstr "Boja teksta:"
+#: ../terminatorlib/preferences.glade.h:105
+msgid "_Foreground:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:114
-msgid "_Background color:"
-msgstr "Boja pozadine:"
+#: ../terminatorlib/preferences.glade.h:106
+msgid "_Background:"
+msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:107
 msgid "<b>Palette</b>"
 msgstr "<b>Paleta</b>"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:108
 msgid "Built-in _schemes:"
 msgstr "Ugrađene sheme:"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:109
 msgid "Color p_alette:"
 msgstr "Paleta boja:"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Show b_old text in bright colors"
 msgstr "Prikaži p_odebljani tekst na svijetlim bojama"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:111
 msgid "Colors"
 msgstr "Boje"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:112
 msgid "_Solid color"
 msgstr "Neprozirno"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:113
 msgid "_Transparent background"
 msgstr "Prozirna pozadina"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>Ništa</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:119
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>Maksimalno</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:120
 msgid "Background"
 msgstr "Pozadina"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:121
 msgid "_Scrollbar is:"
 msgstr "Pomična traka je:"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:122
 msgid "Scroll on _output"
 msgstr "Pomiči pri ispisu"
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:123
 msgid "Scroll on _keystroke"
 msgstr "Pomiči na pritisak tipke"
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:124
 msgid "Infinite Scrollback"
 msgstr "Beskonačno pomicanje"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:125
 msgid "Scroll_back:"
 msgstr "Zadržavanje:"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:126
 msgid "lines"
 msgstr "linija"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scrolling"
 msgstr "Pomicanje"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:128
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -1156,80 +1160,108 @@ msgstr ""
 "programima. Ovdje su samo kao prelazno rješenje za određene aplikacije i "
 "operativne sisteme u kojima se očekuje drugačiji rad terminala.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
 msgstr "<Backspace> tipka generiše:"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:130
 msgid "_Delete key generates:"
 msgstr "<Delete> tipka generiše:"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:131
 msgid "Encoding:"
 msgstr "Kodiranje:"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "Vrati na zadane postavke kompatibilnosti"
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:133
 msgid "Compatibility"
 msgstr "Kompatibilnost"
 
-#: ../terminatorlib/preferences.glade.h:142
-#: ../terminatorlib/terminal_popup_menu.py:201
+#: ../terminatorlib/preferences.glade.h:134
+msgid "Focused"
+msgstr "Fokusirano"
+
+#: ../terminatorlib/preferences.glade.h:135
+msgid "Inactive"
+msgstr "Neaktivno"
+
+#: ../terminatorlib/preferences.glade.h:136
+msgid "Receiving"
+msgstr "Primanje"
+
+#: ../terminatorlib/preferences.glade.h:137
+msgid "Hide size from title"
+msgstr "Sakrij veličinu u naslovu"
+
+#: ../terminatorlib/preferences.glade.h:138
+msgid "_Use the system font"
+msgstr "Koristi sistemski font"
+
+#: ../terminatorlib/preferences.glade.h:139
+msgid "Choose A Titlebar Font"
+msgstr "Odabir fonta naslovne trake"
+
+#: ../terminatorlib/preferences.glade.h:140
+msgid "Titlebar"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/terminal_popup_menu.py:205
 msgid "Profiles"
 msgstr "Profili"
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Type"
 msgstr "Tip"
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Custom command:"
 msgstr "Korisnička komanda:"
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Working directory:"
 msgstr "Radni direktorij:"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Layouts"
 msgstr "Rasporedi"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Action"
 msgstr "Akcija"
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Keybinding"
 msgstr "Kombinacija tastera"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Keybindings"
 msgstr "Prečice na tastaturi"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Plugin"
 msgstr "Dodatak"
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:153
 msgid "This plugin has no configuration options"
 msgstr "Ovaj dodatak nema konfiguracijske opcije"
 
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:154
 msgid "Plugins"
 msgstr "Dodaci"
 
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.1.1"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:159
+#: ../terminatorlib/preferences.glade.h:158
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -1253,18 +1285,18 @@ msgstr ""
 "korisnike. Ukoliko imate neki prijedlog, molimo Vas da popunite listu želja! "
 "(provjerite Razvoj na lijevoj strani)"
 
-#: ../terminatorlib/preferences.glade.h:162
+#: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
 msgstr "Uputstvo"
 
-#: ../terminatorlib/preferences.glade.h:163
+#: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
 "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
 "Enhancements</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:165
+#: ../terminatorlib/preferences.glade.h:164
 msgid "About"
 msgstr "O programu"
 
@@ -1497,82 +1529,94 @@ msgid "Ungroup all terminals"
 msgstr "Razgrupiši sve terminale"
 
 #: ../terminatorlib/prefseditor.py:164
+msgid "Group terminals in window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:165
+msgid "Group/Ungroup terminals in window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:166
+msgid "Ungroup terminals in window"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:167
 msgid "Group terminals in tab"
 msgstr "Grupiši terminale u kartici"
 
-#: ../terminatorlib/prefseditor.py:165
+#: ../terminatorlib/prefseditor.py:168
 msgid "Group/Ungroup terminals in tab"
 msgstr "Grupiši/razgrupiši terminale u kartici"
 
-#: ../terminatorlib/prefseditor.py:166
+#: ../terminatorlib/prefseditor.py:169
 msgid "Ungroup terminals in tab"
 msgstr "Razgrupiši terminale u kartici"
 
-#: ../terminatorlib/prefseditor.py:167
+#: ../terminatorlib/prefseditor.py:170
 msgid "Create a new window"
 msgstr "Kreiraj novi prozor"
 
-#: ../terminatorlib/prefseditor.py:168
+#: ../terminatorlib/prefseditor.py:171
 msgid "Spawn a new Terminator process"
 msgstr "Izvrši umnožavanje novog Terminator procesa"
 
-#: ../terminatorlib/prefseditor.py:169
+#: ../terminatorlib/prefseditor.py:172
 msgid "Don't broadcast key presses"
 msgstr "Forsiraj \"Bez emitovanja\""
 
-#: ../terminatorlib/prefseditor.py:170
+#: ../terminatorlib/prefseditor.py:173
 msgid "Broadcast key presses to group"
 msgstr "Forsiraj emitovanje na grupu"
 
-#: ../terminatorlib/prefseditor.py:171
+#: ../terminatorlib/prefseditor.py:174
 msgid "Broadcast key events to all"
 msgstr "Emituj prema svima"
 
-#: ../terminatorlib/prefseditor.py:172
+#: ../terminatorlib/prefseditor.py:175
 msgid "Insert terminal number"
 msgstr "Umetni broj terminala"
 
-#: ../terminatorlib/prefseditor.py:173
+#: ../terminatorlib/prefseditor.py:176
 msgid "Insert padded terminal number"
 msgstr "Umetni formatiran broj terminala"
 
-#: ../terminatorlib/prefseditor.py:174
+#: ../terminatorlib/prefseditor.py:177
 msgid "Edit window title"
 msgstr "Uredi naslov prozora"
 
-#: ../terminatorlib/prefseditor.py:175
+#: ../terminatorlib/prefseditor.py:178
 msgid "Edit terminal title"
 msgstr "Uredi naslov terminala"
 
-#: ../terminatorlib/prefseditor.py:176
+#: ../terminatorlib/prefseditor.py:179
 msgid "Edit tab title"
 msgstr "Uredi naslov kartice"
 
-#: ../terminatorlib/prefseditor.py:177
+#: ../terminatorlib/prefseditor.py:180
 msgid "Open layout launcher window"
 msgstr "Otvori prozor \"Aktivator rasporeda\""
 
-#: ../terminatorlib/prefseditor.py:178
+#: ../terminatorlib/prefseditor.py:181
 msgid "Switch to next profile"
 msgstr "Prebaci na sljedeći profil"
 
-#: ../terminatorlib/prefseditor.py:179
+#: ../terminatorlib/prefseditor.py:182
 msgid "Switch to previous profile"
 msgstr "Prebaci na prethodni profil"
 
-#: ../terminatorlib/prefseditor.py:180
+#: ../terminatorlib/prefseditor.py:183
 msgid "Open the Preferences window"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:181
+#: ../terminatorlib/prefseditor.py:184
 msgid "Open the manual"
 msgstr "Otvori uputstvo"
 
-#: ../terminatorlib/prefseditor.py:1334 ../terminatorlib/prefseditor.py:1339
+#: ../terminatorlib/prefseditor.py:1364
 msgid "New Profile"
 msgstr "Novi profil"
 
-#: ../terminatorlib/prefseditor.py:1379 ../terminatorlib/prefseditor.py:1384
+#: ../terminatorlib/prefseditor.py:1407 ../terminatorlib/prefseditor.py:1412
 msgid "New Layout"
 msgstr "Novi raspored"
 
@@ -1617,141 +1661,153 @@ msgstr "Kopiraj"
 msgid "_Paste"
 msgstr "Zalijepi"
 
-#: ../terminatorlib/terminal_popup_menu.py:114
+#: ../terminatorlib/terminal_popup_menu.py:113
+msgid "Set W_indow Title"
+msgstr ""
+
+#: ../terminatorlib/terminal_popup_menu.py:118
 msgid "Split H_orizontally"
 msgstr "Podijeli horizontalno"
 
-#: ../terminatorlib/terminal_popup_menu.py:124
+#: ../terminatorlib/terminal_popup_menu.py:128
 msgid "Split V_ertically"
 msgstr "Podijeli vertikalno"
 
-#: ../terminatorlib/terminal_popup_menu.py:134
+#: ../terminatorlib/terminal_popup_menu.py:138
 msgid "Open _Tab"
 msgstr "Otvori karticu"
 
-#: ../terminatorlib/terminal_popup_menu.py:140
+#: ../terminatorlib/terminal_popup_menu.py:144
 msgid "Open _Debug Tab"
 msgstr "Otvori karticu \"Ispravljanje grešaka\""
 
-#: ../terminatorlib/terminal_popup_menu.py:147
+#: ../terminatorlib/terminal_popup_menu.py:151
 msgid "_Close"
 msgstr "Zatvori"
 
-#: ../terminatorlib/terminal_popup_menu.py:156
+#: ../terminatorlib/terminal_popup_menu.py:160
 msgid "_Zoom terminal"
 msgstr "Zumiraj terminal"
 
-#: ../terminatorlib/terminal_popup_menu.py:161
+#: ../terminatorlib/terminal_popup_menu.py:165
 msgid "Ma_ximize terminal"
 msgstr "Maksimiziraj terminal"
 
-#: ../terminatorlib/terminal_popup_menu.py:168
+#: ../terminatorlib/terminal_popup_menu.py:172
 msgid "_Restore all terminals"
 msgstr "Vrati sve terminale"
 
-#: ../terminatorlib/terminal_popup_menu.py:175
+#: ../terminatorlib/terminal_popup_menu.py:179
 msgid "Grouping"
 msgstr "Grupisanje"
 
-#: ../terminatorlib/terminal_popup_menu.py:183
+#: ../terminatorlib/terminal_popup_menu.py:187
 msgid "Relaunch Command"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:188
+#: ../terminatorlib/terminal_popup_menu.py:192
 msgid "Show _scrollbar"
 msgstr "Prikaži pomičnu traku"
 
-#: ../terminatorlib/terminal_popup_menu.py:246
+#: ../terminatorlib/terminal_popup_menu.py:250
 msgid "_Layouts..."
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:260
+#: ../terminatorlib/terminal_popup_menu.py:264
 msgid "Encodings"
 msgstr "Kodiranja"
 
-#: ../terminatorlib/terminal_popup_menu.py:275
+#: ../terminatorlib/terminal_popup_menu.py:279
 msgid "Default"
 msgstr "Zadano"
 
-#: ../terminatorlib/terminal_popup_menu.py:278
+#: ../terminatorlib/terminal_popup_menu.py:282
 msgid "User defined"
 msgstr "Korisnički definisano"
 
-#: ../terminatorlib/terminal_popup_menu.py:294
+#: ../terminatorlib/terminal_popup_menu.py:298
 msgid "Other Encodings"
 msgstr "Ostala kodiranja"
 
-#: ../terminatorlib/terminal.py:482
+#: ../terminatorlib/terminal.py:496
 msgid "N_ew group..."
 msgstr "Nova grupa..."
 
-#: ../terminatorlib/terminal.py:488
+#: ../terminatorlib/terminal.py:502
 msgid "_None"
 msgstr "Bez grupe"
 
-#: ../terminatorlib/terminal.py:508
+#: ../terminatorlib/terminal.py:522
 #, python-format
 msgid "Remove group %s"
 msgstr "Ukloni grupu %s"
 
-#: ../terminatorlib/terminal.py:513
+#: ../terminatorlib/terminal.py:527
+msgid "G_roup all in window"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:532
+msgid "Ungro_up all in window"
+msgstr ""
+
+#: ../terminatorlib/terminal.py:537
 msgid "G_roup all in tab"
 msgstr "Grupiši sve u kartici"
 
-#: ../terminatorlib/terminal.py:518
+#: ../terminatorlib/terminal.py:542
 msgid "Ungro_up all in tab"
 msgstr "Razgrupiši sve u kartici"
 
-#: ../terminatorlib/terminal.py:523
+#: ../terminatorlib/terminal.py:547
 msgid "Remove all groups"
 msgstr "Ukloni sve grupe"
 
-#: ../terminatorlib/terminal.py:530
+#: ../terminatorlib/terminal.py:554
 #, python-format
 msgid "Close group %s"
 msgstr "Zatvori grupu %s"
 
-#: ../terminatorlib/terminal.py:540
+#: ../terminatorlib/terminal.py:564
 msgid "Broadcast _all"
 msgstr "Emitovanje svima"
 
-#: ../terminatorlib/terminal.py:541
+#: ../terminatorlib/terminal.py:565
 msgid "Broadcast _group"
 msgstr "Emitovanje grupi"
 
-#: ../terminatorlib/terminal.py:542
+#: ../terminatorlib/terminal.py:566
 msgid "Broadcast _off"
 msgstr "Emitovanje ugašeno"
 
-#: ../terminatorlib/terminal.py:558
+#: ../terminatorlib/terminal.py:582
 msgid "_Split to this group"
 msgstr "Podijeli na ovu grupu"
 
-#: ../terminatorlib/terminal.py:563
+#: ../terminatorlib/terminal.py:587
 msgid "Auto_clean groups"
 msgstr "Automatsko čišćenje grupa"
 
-#: ../terminatorlib/terminal.py:570
+#: ../terminatorlib/terminal.py:594
 msgid "_Insert terminal number"
 msgstr "Dodaj broj terminala"
 
-#: ../terminatorlib/terminal.py:574
+#: ../terminatorlib/terminal.py:598
 msgid "Insert _padded terminal number"
 msgstr "Dodaj formatiran broj terminala"
 
-#: ../terminatorlib/terminal.py:1487
+#: ../terminatorlib/terminal.py:1524
 msgid "Unable to find a shell"
 msgstr "Lociranje Shell-a neuspješno"
 
-#: ../terminatorlib/terminal.py:1518
+#: ../terminatorlib/terminal.py:1555
 msgid "Unable to start shell:"
 msgstr "Pokretanje Shell-a neuspješno:"
 
-#: ../terminatorlib/terminal.py:1958
+#: ../terminatorlib/terminal.py:2005
 msgid "Rename Window"
 msgstr "Promijeni naslov prozora"
 
-#: ../terminatorlib/terminal.py:1966
+#: ../terminatorlib/terminal.py:2013
 msgid "Enter a new title for the Terminator window..."
 msgstr "Unesite novi naslov za Terminator prozor..."
 
@@ -1855,11 +1911,34 @@ msgstr "Psi"
 msgid "Omega"
 msgstr "Omega"
 
-#: ../terminatorlib/window.py:283 ../terminatorlib/window.py:288
+#: ../terminatorlib/window.py:284 ../terminatorlib/window.py:289
 msgid "window"
 msgstr "prozor"
 
-#: ../terminatorlib/window.py:744
+#: ../terminatorlib/window.py:746
+#, python-format
+msgid "Window group %s"
+msgstr ""
+
+#: ../terminatorlib/window.py:772
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
+
+#~ msgid "<b>Terminal Titlebar</b>"
+#~ msgstr "<b>Terminal traka naslova</b>"
+
+#~ msgid "Font color:"
+#~ msgstr "Boja fonta:"
+
+#~ msgid "Color:"
+#~ msgstr "Boja:"
+
+#~ msgid "Foreground"
+#~ msgstr "Prednji plan"
+
+#~ msgid "_Text color:"
+#~ msgstr "Boja teksta:"
+
+#~ msgid "_Background color:"
+#~ msgstr "Boja pozadine:"

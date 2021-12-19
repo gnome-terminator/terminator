@@ -1,0 +1,16 @@
+# bash completion for terminator                           -*- shell-script -*-
+
+_terminator()
+{
+    local cur prev words cword
+    _init_completion || return
+
+    # TODO implement completion for --profile and --layout
+
+    COMPREPLY=($(compgen -W "$($1 --help | tr ',' '\n' |
+        command sed -n -e 's/^ *\(--\?[a-zA-Z\-]\+=\?\).*/\1/p')"\
+    -- "$cur"))
+} &&
+    complete -F _terminator terminator
+
+# ex: filetype=sh
