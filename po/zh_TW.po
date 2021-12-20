@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,12 +14,11 @@ msgstr ""
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Chinese (Taiwan) (https://www.transifex.com/terminator/"
-"teams/109338/zh_TW/)\n"
-"Language: zh_TW\n"
+"Language-Team: Chinese (Taiwan) (https://www.transifex.com/terminator/teams/109338/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Command             uuid req.    Description
@@ -146,8 +145,8 @@ msgstr "終結者(Terminator) - 終端機器人的未來"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -1145,12 +1144,11 @@ msgstr "捲動列"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>注意：</b> 以下的選項可能令某部分應用程式無法正常運作。它們只是"
-"在某些應用程式及作業系統需要不同的終端機運作方式時，提供暫時的解決方法。</"
-"i></small>"
+"<small><i><b>注意：</b> "
+"以下的選項可能令某部分應用程式無法正常運作。它們只是在某些應用程式及作業系統需要不同的終端機運作方式時，提供暫時的解決方法。</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
@@ -1255,24 +1253,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"這個項目的目標是製作一個可以排列終端機視窗的有用工具。此項目受到諸如gnome-"
-"multi-term、quadkonsole等程序的啟發，其主要功能是聚焦在網格中排列各個終端機視"
-"窗（使用分頁是最常用的手法，Terminator也是這樣做的）。\n"
+"這個項目的目標是製作一個可以排列終端機視窗的有用工具。此項目受到諸如gnome-multi-term、quadkonsole等程序的啟發，其主要功能是聚焦在網格中排列各個終端機視窗（使用分頁是最常用的手法，Terminator也是這樣做的）。\n"
 "\n"
-"Terminator的許多行為都是以GNOME Terminal為基礎開發的，隨著時間的推移，我們會"
-"添加更多的功能，也希望向系統管理員和其他用戶提供更多有用的功能。如果您有任何"
-"建議，請提交您期待的功能清單！（請參閱左側的鏈結）"
+"Terminator的許多行為都是以GNOME Terminal為基礎開發的，隨著時間的推移，我們會添加更多的功能，也希望向系統管理員和其他用戶提供更多有用的功能。如果您有任何建議，請提交您期待的功能清單！（請參閱左側的鏈結）"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1281,8 +1268,7 @@ msgstr "手冊"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:164
@@ -1913,21 +1899,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "分頁 %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>終端機標題</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "字型顏色："
-
-#~ msgid "Color:"
-#~ msgstr "顏色："
-
-#~ msgid "Foreground"
-#~ msgstr "前景顏色"
-
-#~ msgid "_Text color:"
-#~ msgstr "文字顏色(_T)："
-
-#~ msgid "_Background color:"
-#~ msgstr "背景顏色(_B)："

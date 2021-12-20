@@ -2,11 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2020
-#
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,15 +14,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2020\n"
-"Language-Team: Hebrew (https://www.transifex.com/terminator/teams/109338/"
-"he/)\n"
-"Language: he\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2021\n"
+"Language-Team: Hebrew (https://www.transifex.com/terminator/teams/109338/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
-"1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Language: he\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -47,7 +45,7 @@ msgstr "קבלת רשימת כל המסופים"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr ""
+msgstr "קבלת המזהה הייחודי של המסוף שבמיקוד כרגע"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
@@ -67,23 +65,23 @@ msgstr "קבלת כותרת של לשונית ההורה"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr ""
+msgstr "הגדרת כותרת לשונית ההורה"
 
 #: ../remotinator.py:50
 msgid "Set the background image"
-msgstr ""
+msgstr "הגדרת תמונת הרקע"
 
 #: ../remotinator.py:51
 msgid "Set the background image for all terminals"
-msgstr ""
+msgstr "הגדרת תמונת הרקע לכל המסופים"
 
 #: ../remotinator.py:52
 msgid "Switch current terminal profile"
-msgstr ""
+msgstr "החלפת פרופיל המסוף הנוכחי"
 
 #: ../remotinator.py:53
 msgid "Switch profile of all currently running terminals"
-msgstr ""
+msgstr "החלפת הפרופיל של כל המסופים שפעילים כרגע"
 
 #: ../remotinator.py:70
 #, python-format
@@ -111,23 +109,23 @@ msgstr ""
 
 #: ../remotinator.py:80
 msgid "Profile name to switch to"
-msgstr ""
+msgstr "שם הפרופיל אליו לעבור"
 
 #: ../remotinator.py:83
 msgid "File to pass to command"
-msgstr ""
+msgstr "קובץ להעברה לפקודה"
 
 #: ../remotinator.py:86
 msgid "Command to run in new terminal"
-msgstr ""
+msgstr "פקודה להרצה במסוף חדש"
 
 #: ../remotinator.py:89
 msgid "Tab name to set. Only used with \"set_tab_title\" command."
-msgstr ""
+msgstr "שם לשונית להגדרה. לשימוש עם הפקודה „set_tab_title” בלבד."
 
 #: ../remotinator.py:92
 msgid "Tab name to set."
-msgstr ""
+msgstr "שם לשונית להגדרה."
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
@@ -149,12 +147,12 @@ msgstr "העתיד הרובוטי של המסופים"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
-"כלי למשתמשים מתקדמים לארגון מסופים. שאב השראה מתכניות כגון gnome-multi-term,‏ "
-"quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא צורת "
-"בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator)."
+"כלי למשתמשים מתקדמים לארגון מסופים. שאב השראה מתכניות כגון gnome-multi-"
+"term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא"
+" צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -498,15 +496,15 @@ msgstr "אם Terminator כבר מופעל, פשוט לפתוח עוד לשוני
 
 #: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
-msgstr ""
+msgstr "אם Terminator כבר מופעל, פשוט להציג את כל החלונות המוסתרים"
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
-msgstr ""
+msgstr "הצגת כל הפרופילים"
 
 #: ../terminatorlib/optionparse.py:102
 msgid "List all layouts"
-msgstr ""
+msgstr "הצגת כל הפריסות"
 
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
@@ -624,7 +622,7 @@ msgstr "השם „%s” כבר קיים"
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr ""
+msgstr "פתיחת התיקייה הנוכחית"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -898,11 +896,11 @@ msgstr "לוח גזירים"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Clear selection on copy"
-msgstr ""
+msgstr "פינוי הבחירה עם ההעתקה"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Open links with a single click (instead of Ctrl-left click)"
-msgstr ""
+msgstr "פותח קישורים בלחיצה בודדת (במקום עם Ctrl-לחיצה שמאלית)"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "<b>Appearance</b>"
@@ -998,11 +996,11 @@ msgstr "הבהוב"
 
 #: ../terminatorlib/preferences.glade.h:88
 msgid "Use default colors"
-msgstr ""
+msgstr "להשתמש בצבעי בררת המחדל"
 
 #: ../terminatorlib/preferences.glade.h:89
 msgid "Foreground:"
-msgstr ""
+msgstr "חזית:"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "Background:"
@@ -1062,11 +1060,11 @@ msgstr "_סכמות מובנות:"
 
 #: ../terminatorlib/preferences.glade.h:105
 msgid "_Foreground:"
-msgstr ""
+msgstr "_חזית:"
 
 #: ../terminatorlib/preferences.glade.h:106
 msgid "_Background:"
-msgstr ""
+msgstr "_רקע:"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "<b>Palette</b>"
@@ -1098,11 +1096,11 @@ msgstr "רקע _שקוף"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
-msgstr ""
+msgstr "תמונת רקע"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
-msgstr ""
+msgstr "קובץ תמונת רקע:"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
@@ -1110,7 +1108,7 @@ msgstr "בחירת קובץ"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade background:"
-msgstr ""
+msgstr "ה_צללת רקע:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
@@ -1156,8 +1154,8 @@ msgstr "גלילה"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>לתשומת לבך:</b> האפשרויות האלו עלולות לגרום לחלק מהיישומים "
 "להתנהג באופן חריג.  הן כאן רק כדי לאפשר לך לעקוף כל מיני יישומים ומערות "
@@ -1209,7 +1207,7 @@ msgstr "בחירת גופן לשורת הכותרת"
 
 #: ../terminatorlib/preferences.glade.h:140
 msgid "Titlebar"
-msgstr ""
+msgstr "שורת כותרת"
 
 #: ../terminatorlib/preferences.glade.h:141
 #: ../terminatorlib/terminal_popup_menu.py:205
@@ -1262,29 +1260,17 @@ msgstr "תוספים"
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.1.1"
-msgstr ""
+msgstr "גירסה: 2.1.1"
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"מטרת המיזם הזה היא לייצר כלי שימושי לארגון מסופים. המיזם שאב השראה מתכניות "
-"כגון gnome-multi-term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים "
-"ברשת (לשוניות היא צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator).\n"
+"מטרת המיזם הזה היא לייצר כלי שימושי לארגון מסופים. המיזם שאב השראה מתכניות כגון gnome-multi-term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator).\n"
 "\n"
-"הרבה מההתנהגות של Terminator מבוססת על המסוף של GNOME ואנו מוסיפים תכונות "
-"נוספות עם הזמן אך אנו מעוניינים להתרחב לכיוונים נוספים עם תכונות שימושיות "
-"עבור מנהלי מערכת ומשתמשים אחרים. אם יש לך הצעות, נא להגיש תקלה לרשימת "
-"המשאלות! (בקישור לפיתוח משמאל) "
+"הרבה מההתנהגות של Terminator מבוססת על המסוף של GNOME ואנו מוסיפים תכונות נוספות עם הזמן אך אנו מעוניינים להתרחב לכיוונים נוספים עם תכונות שימושיות עבור מנהלי מערכת ומשתמשים אחרים. אם יש לך הצעות, נא להגיש תקלה לרשימת המשאלות! (בקישור לפיתוח משמאל) "
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1293,12 +1279,10 @@ msgstr "המדריך"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">פיתוח</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">תקלות / "
-"שיפורים</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">תקלות / שיפורים</a>"
 
 #: ../terminatorlib/preferences.glade.h:164
 msgid "About"
@@ -1318,15 +1302,15 @@ msgstr "שחזור גודל הגופן המקורי"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Increase font size on all terminals"
-msgstr ""
+msgstr "להגדיל את הגופן בכל המסופים"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Decrease font size on all terminals"
-msgstr ""
+msgstr "להקטין את הגופן בכל המסופים"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Restore original font size on all terminals"
-msgstr ""
+msgstr "לשחזר את גודל הגופן המקורי בכל המסופים"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Create a new tab"
@@ -1534,15 +1518,15 @@ msgstr "פירוק כל המסופים"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Group terminals in window"
-msgstr ""
+msgstr "קיבוץ מסופים בחלון"
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Group/Ungroup terminals in window"
-msgstr ""
+msgstr "קיבוץ/פירוק מסופים בחלון"
 
 #: ../terminatorlib/prefseditor.py:166
 msgid "Ungroup terminals in window"
-msgstr ""
+msgstr "פירוק מסופים בחלון"
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Group terminals in tab"
@@ -1667,7 +1651,7 @@ msgstr "ה_דבקה"
 
 #: ../terminatorlib/terminal_popup_menu.py:113
 msgid "Set W_indow Title"
-msgstr ""
+msgstr "הגדרת _כותרת חלון"
 
 #: ../terminatorlib/terminal_popup_menu.py:118
 msgid "Split H_orizontally"
@@ -1707,7 +1691,7 @@ msgstr "קיבוץ"
 
 #: ../terminatorlib/terminal_popup_menu.py:187
 msgid "Relaunch Command"
-msgstr ""
+msgstr "פקודת הפעלה מחדש"
 
 #: ../terminatorlib/terminal_popup_menu.py:192
 msgid "Show _scrollbar"
@@ -1748,11 +1732,11 @@ msgstr "הסרת הקבוצה %s"
 
 #: ../terminatorlib/terminal.py:527
 msgid "G_roup all in window"
-msgstr ""
+msgstr "_קיבוץ הכול בחלון"
 
 #: ../terminatorlib/terminal.py:532
 msgid "Ungro_up all in window"
-msgstr ""
+msgstr "_פירוק הכול בחלון"
 
 #: ../terminatorlib/terminal.py:537
 msgid "G_roup all in tab"
@@ -1817,7 +1801,7 @@ msgstr "נא להקליד כותרת חדשה לחלון ה־Terminator…"
 
 #: ../terminatorlib/titlebar.py:112
 msgid "[INACTIVE: Right-Click for Relaunch option] "
-msgstr ""
+msgstr "[לא פעיל: אפשרויות הפעלה מחדש בלחיצה ימנית] "
 
 #: ../terminatorlib/titlebar.py:258
 msgid "Alpha"
@@ -1922,30 +1906,9 @@ msgstr "חלון"
 #: ../terminatorlib/window.py:746
 #, python-format
 msgid "Window group %s"
-msgstr ""
+msgstr "קבות חלונות %s"
 
 #: ../terminatorlib/window.py:772
 #, python-format
 msgid "Tab %d"
 msgstr "לשונית %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>שורת הכותרת של המסוף</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "צבע גופן:"
-
-#~ msgid "Color:"
-#~ msgstr "צבע:"
-
-#~ msgid "Foreground"
-#~ msgstr "חזית"
-
-#~ msgid "_Text color:"
-#~ msgstr "צבע ה_טקסט:"
-
-#~ msgid "_Background color:"
-#~ msgstr "צבע ה_רקע:"
-
-#~ msgid "Version: 2.0.1"
-#~ msgstr "גרסה: 2.0.1"

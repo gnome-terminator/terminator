@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,12 +14,11 @@ msgstr ""
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Dutch (https://www.transifex.com/terminator/teams/109338/"
-"nl/)\n"
-"Language: nl\n"
+"Language-Team: Dutch (https://www.transifex.com/terminator/teams/109338/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Command             uuid req.    Description
@@ -147,8 +146,8 @@ msgstr "De robottoekomst van terminals"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -1153,13 +1152,13 @@ msgstr "Verschuiving"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Let op:</b> Door deze opties kunnen sommige toepassingen "
 "incorrect gedrag vertonen. Ze zijn er slechts zodat u om sommige "
-"toepassingen en besturingssystemen, die een ander terminalgedrag verwachten, "
-"heen kunt werken.</i></small>"
+"toepassingen en besturingssystemen, die een ander terminalgedrag verwachten,"
+" heen kunt werken.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
@@ -1264,28 +1263,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Het doel van dit project is om een nuttig gereedschap te maken om terminals "
-"the schikken. Het is geinspireerd door programma's zoals gnome-multi-term, "
-"quadkonsole, etc. om de belangrijkste focus te leggen in het schikken van "
-"terminals in roosters (tabs is de meest gebruikte standaard methode, die ook "
-"door Terminator ondersteund wordt).\n"
+"Het doel van dit project is om een nuttig gereedschap te maken om terminals the schikken. Het is geinspireerd door programma's zoals gnome-multi-term, quadkonsole, etc. om de belangrijkste focus te leggen in het schikken van terminals in roosters (tabs is de meest gebruikte standaard methode, die ook door Terminator ondersteund wordt).\n"
 "\n"
-"Veel van het gedrag van Terminator is gebaseerd op GNOME Terminal, en we "
-"voegen daarvan mettertijd meer functionaliteit toe, maar we breiden ook uit "
-"in andere richtingen met nuttige functies voor systeem beheerders en andere "
-"gebrukers. Als je suggesties hebt, gelieve dit te melden in de verlanglijst "
-"bugs! (zie links voor de ontwikkeling link)"
+"Veel van het gedrag van Terminator is gebaseerd op GNOME Terminal, en we voegen daarvan mettertijd meer functionaliteit toe, maar we breiden ook uit in andere richtingen met nuttige functies voor systeem beheerders en andere gebrukers. Als je suggesties hebt, gelieve dit te melden in de verlanglijst bugs! (zie links voor de ontwikkeling link)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1294,8 +1278,7 @@ msgstr "De handleiding"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:164
@@ -1926,21 +1909,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Tabblad %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Titelbalk van terminal</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Tekstkleur:"
-
-#~ msgid "Color:"
-#~ msgstr "Kleur:"
-
-#~ msgid "Foreground"
-#~ msgstr "Voorgrond"
-
-#~ msgid "_Text color:"
-#~ msgstr "_Tekstkleur:"
-
-#~ msgid "_Background color:"
-#~ msgstr "Achter_grondkleur:"
