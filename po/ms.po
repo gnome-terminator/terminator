@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,12 +14,11 @@ msgstr ""
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Malay (https://www.transifex.com/terminator/teams/109338/"
-"ms/)\n"
-"Language: ms\n"
+"Language-Team: Malay (https://www.transifex.com/terminator/teams/109338/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ms\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Command             uuid req.    Description
@@ -146,8 +145,8 @@ msgstr "Terminal dari robot masa hadapan"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -180,7 +179,8 @@ msgstr "Lebih banyak pintasan papan kekunci"
 
 #: ../data/terminator.appdata.xml.in.h:11
 msgid "Save multiple layouts and profiles via GUI preferences editor"
-msgstr "Simpan bentangan dan profil berbilang melalui penyunting keutamaan GUI"
+msgstr ""
+"Simpan bentangan dan profil berbilang melalui penyunting keutamaan GUI"
 
 #: ../data/terminator.appdata.xml.in.h:12
 msgid "Simultaneous typing to arbitrary groups of terminals"
@@ -474,7 +474,8 @@ msgstr "Lumpuhkan DBas"
 
 #: ../terminatorlib/optionparse.py:90
 msgid "Enable debugging information (twice for debug server)"
-msgstr "Benarkan maklumat penyahpepijatan (dua kali untuk pelayan nyahpepijat)"
+msgstr ""
+"Benarkan maklumat penyahpepijatan (dua kali untuk pelayan nyahpepijat)"
 
 #: ../terminatorlib/optionparse.py:92
 msgid "Comma separated list of classes to limit debugging to"
@@ -1148,8 +1149,8 @@ msgstr "Penatalan"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Nota:</b> Pilihan ini akan menyebabkan sebahagian applikasi "
 "tidak berfungsi dengan sempurna. Ia membolehkan anda untuk bekerja di "
@@ -1259,28 +1260,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Matlamat projek ini adalah untuk menghasilkan satu alat yang berguna untuk "
-"penyusunan terminal. Ia diilham dariy program seperti gnome-multi-term, "
-"quadkonsole, dan lain-lain. dan fokus utama adalah menyusun terminal dalam "
-"bentuk grid (tab masih menjadi kaedah lalai paling umum, yang juga disokong "
-"oleh Terminator).\n"
+"Matlamat projek ini adalah untuk menghasilkan satu alat yang berguna untuk penyusunan terminal. Ia diilham dariy program seperti gnome-multi-term, quadkonsole, dan lain-lain. dan fokus utama adalah menyusun terminal dalam bentuk grid (tab masih menjadi kaedah lalai paling umum, yang juga disokong oleh Terminator).\n"
 "\n"
-"Kebanyakan kelakuan Terminator adalah berdasarkan dari Terminal GNOME, dan "
-"kami telah menambah lagi fiitur serta melanjutkan dalam arah berbeza bersama-"
-"sama fitur berguna untuk pentadbir dan pengguna biasa. Jika anda mempunyai "
-"apa juag cadangan, sila failkan pepijat senarai idaman! (sila rujuk ke "
-"pautan Pembangunan)"
+"Kebanyakan kelakuan Terminator adalah berdasarkan dari Terminal GNOME, dan kami telah menambah lagi fiitur serta melanjutkan dalam arah berbeza bersama-sama fitur berguna untuk pentadbir dan pengguna biasa. Jika anda mempunyai apa juag cadangan, sila failkan pepijat senarai idaman! (sila rujuk ke pautan Pembangunan)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1289,8 +1275,7 @@ msgstr "Panduan"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:164
@@ -1921,18 +1906,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Palang Tajuk Terminal</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Warna fon:"
-
-#~ msgid "Color:"
-#~ msgstr "Warna:"
-
-#~ msgid "_Text color:"
-#~ msgstr "Warna _teks:"
-
-#~ msgid "_Background color:"
-#~ msgstr "Warna latar _belakang:"

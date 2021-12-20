@@ -2,11 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
 # Markus Frosch <markus@lazyfrosch.de>, 2021
-#
+# Daniel Napora <napcok@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,16 +15,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: Markus Frosch <markus@lazyfrosch.de>, 2021\n"
-"Language-Team: Polish (https://www.transifex.com/terminator/teams/109338/"
-"pl/)\n"
-"Language: pl\n"
+"Last-Translator: Daniel Napora <napcok@gmail.com>, 2021\n"
+"Language-Team: Polish (https://www.transifex.com/terminator/teams/109338/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
-"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
-"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -68,7 +66,7 @@ msgstr "Dziedziczenie tytułu karty nadrzędnej"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr "Zmień tytuł karty nadrzędnej"
+msgstr ""
 
 #: ../remotinator.py:50
 msgid "Set the background image"
@@ -108,7 +106,8 @@ msgstr ""
 #: ../remotinator.py:77
 msgid "Terminal UUID for when not in env var TERMINATOR_UUID"
 msgstr ""
-"Terminal UUID jeśli nie znajduje się w zmiennej środowiskowej TERMINATOR_UUID"
+"Terminal UUID jeśli nie znajduje się w zmiennej środowiskowej "
+"TERMINATOR_UUID"
 
 #: ../remotinator.py:80
 msgid "Profile name to switch to"
@@ -150,8 +149,8 @@ msgstr "Robotyczna przyszłość terminali"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 "Wszechstronne narzędzie do komponowania terminali. Inspirowane przez "
 "programy takie jak gnome-multi-term, quadkonsole, itp. w sposób, że główny "
@@ -437,7 +436,8 @@ msgstr "Podaj tytuł (nazwę) okna"
 
 #: ../terminatorlib/optionparse.py:57
 msgid "Set the preferred size and position of the window(see X man page)"
-msgstr "Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X-ów)"
+msgstr ""
+"Ustaw żądany rozmiar i położenie okna (zobacz stronę podręcznika X-ów)"
 
 #: ../terminatorlib/optionparse.py:61 ../terminatorlib/optionparse.py:64
 msgid "Specify a command to execute inside the terminal"
@@ -493,7 +493,8 @@ msgstr "Włącz informacje debuggera  (podwójnie dla serwera debuggera)"
 
 #: ../terminatorlib/optionparse.py:92
 msgid "Comma separated list of classes to limit debugging to"
-msgstr "Lista oddzielonych przecinkami klas w celu ograniczenia debugowania do"
+msgstr ""
+"Lista oddzielonych przecinkami klas w celu ograniczenia debugowania do"
 
 #: ../terminatorlib/optionparse.py:94
 msgid "Comma separated list of methods to limit debugging to"
@@ -506,8 +507,7 @@ msgstr "Jeśli Terminator jest już uruchomiony, utwórz nową zakładkę"
 
 #: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
-msgstr ""
-"Jeśli Terminator już działa w tle, po prostu pokaż wszystkie ukryte okna"
+msgstr "Jeśli Terminator jest już uruchomiony,, pokaż wszystkie ukryte okna"
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
@@ -633,7 +633,7 @@ msgstr "Nazwa *%s* jest już używana"
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr "Otwórz obecny folder w eksploratorze"
+msgstr "Otwórz katalog bieżący"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -907,11 +907,11 @@ msgstr "Schowek"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Clear selection on copy"
-msgstr "Wyczyść zaznaczenie po skopiowaniu"
+msgstr "Wyczyść zaznaczenie podczas kopiowania"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Open links with a single click (instead of Ctrl-left click)"
-msgstr ""
+msgstr "Otwieraj linki pojedynczym kliknięciem (zamiast Ctrl-lewy klik)"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "<b>Appearance</b>"
@@ -1107,11 +1107,11 @@ msgstr "_Przezroczyste tło"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
-msgstr "Obraz tła"
+msgstr "Obrazek tła"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
-msgstr "Plik obrazu tła"
+msgstr "Obrazek tła:"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
@@ -1119,7 +1119,7 @@ msgstr "Wybierz plik"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade background:"
-msgstr ""
+msgstr "Zacienienie tła:"
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "<small><i>None</i></small>"
@@ -1165,12 +1165,12 @@ msgstr "Przewijanie"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Uwaga:</b> Zmiana poniższych opcji może spowodować niepoprawne "
-"zachowanie pewnych programów. Istnieją one tylko w celu obejścia problemów z "
-"pewnymi programami i systemami operacyjnymi, które oczekują innego "
+"zachowanie pewnych programów. Istnieją one tylko w celu obejścia problemów z"
+" pewnymi programami i systemami operacyjnymi, które oczekują innego "
 "zachowania się terminala.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
@@ -1272,31 +1272,17 @@ msgstr "Wtyczki"
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.1.1"
-msgstr ""
+msgstr "Wersja: 2.1.1"
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Celem tego projektu jest stworzenie użytecznego narzędzia do konfigurowania "
-"terminali. Jest inspirowany programami takimi jak gnome-multi-term, quad-"
-"konsola itp., w których główny nacisk kładziony jest na układanie terminali "
-"w siatkach (zakładki są najczęstszą metodą obsługiwaną przez Terminator).\n"
+"Celem tego projektu jest stworzenie użytecznego narzędzia do konfigurowania terminali. Jest inspirowany programami takimi jak gnome-multi-term, quad-konsola itp., w których główny nacisk kładziony jest na układanie terminali w siatkach (zakładki są najczęstszą metodą obsługiwaną przez Terminator).\n"
 "\n"
-"Wiele zachowań Terminatora opiera się na Terminalu GNOME, dodajemy kolejne "
-"funkcje z upływem czasu, ale chcemy również rozszerzać się w różnych "
-"kierunkach z przydatnymi funkcjami dla sysadminów i innych użytkowników. "
-"Jeśli masz jakieś sugestie, zgłoś błędy na liście życzeń! (link Development "
-"po lewej stronie)"
+"Wiele zachowań Terminatora opiera się na Terminalu GNOME, dodajemy kolejne funkcje z upływem czasu, ale chcemy również rozszerzać się w różnych kierunkach z przydatnymi funkcjami dla sysadminów i innych użytkowników. Jeśli masz jakieś sugestie, zgłoś błędy na liście życzeń! (link Development po lewej stronie)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1305,12 +1291,10 @@ msgstr "Podręcznik"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Rozwój</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Błędy / "
-"Poprawki</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Błędy / Poprawki</a>"
 
 #: ../terminatorlib/preferences.glade.h:164
 msgid "About"
@@ -1330,15 +1314,15 @@ msgstr "Przywróć oryginalny rozmiar czcionki"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Increase font size on all terminals"
-msgstr "Zwiększ rozmiar czcionki wszystkich terminali"
+msgstr "Powiększ rozmiar czcionki we wszystkich terminalach"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Decrease font size on all terminals"
-msgstr "Zmniejsz rozmiar czcionki wszystkich terminali"
+msgstr "Zmniejsz rozmiar czcionki we wszystkich terminalach"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Restore original font size on all terminals"
-msgstr "Przywróć rozmiar czcionki wszystkich terminali"
+msgstr "Przywróć domyślny rozmiar czcionki we wszystkich terminalach"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Create a new tab"
@@ -1719,7 +1703,7 @@ msgstr "Grupowanie"
 
 #: ../terminatorlib/terminal_popup_menu.py:187
 msgid "Relaunch Command"
-msgstr ""
+msgstr "Polecenie ponownego uruchomienia"
 
 #: ../terminatorlib/terminal_popup_menu.py:192
 msgid "Show _scrollbar"
@@ -1829,7 +1813,7 @@ msgstr "Wpisz nowy tytuł dla okna Terminatora..."
 
 #: ../terminatorlib/titlebar.py:112
 msgid "[INACTIVE: Right-Click for Relaunch option] "
-msgstr ""
+msgstr "[INACTIVE: Prawy klik dla opcji ponownego uruchomienia] "
 
 #: ../terminatorlib/titlebar.py:258
 msgid "Alpha"
@@ -1940,24 +1924,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Karta %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Pasek tytułowy terminala</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Kolor czcionki:"
-
-#~ msgid "Color:"
-#~ msgstr "Kolor:"
-
-#~ msgid "Foreground"
-#~ msgstr "Kolor pierwszoplanowy"
-
-#~ msgid "_Text color:"
-#~ msgstr "_Kolor tekstu:"
-
-#~ msgid "_Background color:"
-#~ msgstr "_Kolor tła:"
-
-#~ msgid "Version: 2.0.1"
-#~ msgstr "Wersja: 2.0.1"

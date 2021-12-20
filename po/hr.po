@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
 # Marko Dzidic <mdzidic@gmail.com>, 2020
 # Markus Frosch <markus@lazyfrosch.de>, 2021
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -16,14 +16,12 @@ msgstr ""
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Markus Frosch <markus@lazyfrosch.de>, 2021\n"
-"Language-Team: Croatian (https://www.transifex.com/terminator/teams/109338/"
-"hr/)\n"
-"Language: hr\n"
+"Language-Team: Croatian (https://www.transifex.com/terminator/teams/109338/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -149,11 +147,11 @@ msgstr "Robotska budućnost terminala"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
-"Profesionalni korisnički alat za raspoređivanje terminala, slično programima "
-"poput gnome-multi-term, quadkonsole, itd., a glavna ideja je pločasto "
+"Profesionalni korisnički alat za raspoređivanje terminala, slično programima"
+" poput gnome-multi-term, quadkonsole, itd., a glavna ideja je pločasto "
 "raspoređivanje terminala (kartice su najraširenija metoda, koju Terminator "
 "također podržava)."
 
@@ -448,8 +446,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Koristi ostatak naredbenog retka kao naredbu za izvršavanje unutar terminala "
-"i njezine argumente"
+"Koristi ostatak naredbenog retka kao naredbu za izvršavanje unutar terminala"
+" i njezine argumente"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Specify a config file"
@@ -1163,8 +1161,8 @@ msgstr "Klizanje"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Napomena:</b> Ove opcije mogu prouzrokovati neispravan rad "
 "nekih programa. Ovdje se nalaze samo kako bi se zaobišli problemi s "
@@ -1274,26 +1272,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Cilj ovog projekta je proizvesti koristan alat za raspoređivanje terminala, "
-"slično programima poput gnome-multi-term, quadkonsole, itd., a glavna ideja "
-"je pločasto raspoređivanje terminala (kartice su najraširenija standardna "
-"metoda, koju Terminator također podržava).\n"
+"Cilj ovog projekta je proizvesti koristan alat za raspoređivanje terminala, slično programima poput gnome-multi-term, quadkonsole, itd., a glavna ideja je pločasto raspoređivanje terminala (kartice su najraširenija standardna metoda, koju Terminator također podržava).\n"
 "\n"
-"Terminator se uveliko temelji se na GNOME Terminalu i s vremenom dodajemo "
-"daljnje njegove funkcije, ali ga također razvijamo s raznim dodatnim "
-"korisnim funkcijama za administratore sustava i za ostale korisnike. "
-"Prijedlozi se mogu dodati u popis želja! (vidi lijevo poveznicu „Razvoj”)"
+"Terminator se uveliko temelji se na GNOME Terminalu i s vremenom dodajemo daljnje njegove funkcije, ali ga također razvijamo s raznim dodatnim korisnim funkcijama za administratore sustava i za ostale korisnike. Prijedlozi se mogu dodati u popis želja! (vidi lijevo poveznicu „Razvoj”)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1302,12 +1287,10 @@ msgstr "Priručnik"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Razvoj</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Greške i "
-"poboljšanja</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Greške i poboljšanja</a>"
 
 #: ../terminatorlib/preferences.glade.h:164
 msgid "About"
@@ -1937,24 +1920,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Kartica %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Traka naslova terminala</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Boja fonta:"
-
-#~ msgid "Color:"
-#~ msgstr "Boja:"
-
-#~ msgid "Foreground"
-#~ msgstr "Prednja"
-
-#~ msgid "_Text color:"
-#~ msgstr "_Boja teksta:"
-
-#~ msgid "_Background color:"
-#~ msgstr "_Boja pozadine:"
-
-#~ msgid "Version: 2.0.1"
-#~ msgstr "Verzija: 2.0.1"

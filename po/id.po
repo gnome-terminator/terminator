@@ -2,10 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-#
+# Abdul Munif Hanafi <amunifhanafi@gmail.com>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -13,13 +14,12 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Indonesian (https://www.transifex.com/terminator/teams/109338/"
-"id/)\n"
-"Language: id\n"
+"Last-Translator: Abdul Munif Hanafi <amunifhanafi@gmail.com>, 2021\n"
+"Language-Team: Indonesian (https://www.transifex.com/terminator/teams/109338/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Command             uuid req.    Description
@@ -45,7 +45,7 @@ msgstr "Ambil list dari seluruh terminal"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr ""
+msgstr "Dapatkan uuid dari terminal terfokus saat ini"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
@@ -65,7 +65,7 @@ msgstr "Ambil judul dari tab utama"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr ""
+msgstr "Atur judul tab induk"
 
 #: ../remotinator.py:50
 msgid "Set the background image"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: ../remotinator.py:52
 msgid "Switch current terminal profile"
-msgstr ""
+msgstr "Ganti profil terminal saat ini"
 
 #: ../remotinator.py:53
 msgid "Switch profile of all currently running terminals"
@@ -146,8 +146,8 @@ msgstr "The robot future of terminals"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -219,6 +219,8 @@ msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr ""
+"Jendela ini memiliki beberapa terminal yang terbuka. Menutup jendela juga "
+"akan menutup semua terminal di dalamnya."
 
 #: ../terminatorlib/container.py:178
 msgid ""
@@ -422,8 +424,8 @@ msgstr "Tentukan judul untuk jendela"
 #: ../terminatorlib/optionparse.py:57
 msgid "Set the preferred size and position of the window(see X man page)"
 msgstr ""
-"Tetapkan ukuran dan posisi yang diinginkan dari jendela(lihat halaman manual "
-"X)"
+"Tetapkan ukuran dan posisi yang diinginkan dari jendela(lihat halaman manual"
+" X)"
 
 #: ../terminatorlib/optionparse.py:61 ../terminatorlib/optionparse.py:64
 msgid "Specify a command to execute inside the terminal"
@@ -617,7 +619,7 @@ msgstr "Nama *%s* telah digunakan"
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr ""
+msgstr "Buka direktori saat ini"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -887,7 +889,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Clipboard"
-msgstr ""
+msgstr "Papan klip"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Clear selection on copy"
@@ -895,7 +897,7 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Open links with a single click (instead of Ctrl-left click)"
-msgstr ""
+msgstr "Buka tautan dengan sekali klik (bukan Ctrl-klik kiri)"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "<b>Appearance</b>"
@@ -915,7 +917,7 @@ msgstr "Terminal separator size:"
 
 #: ../terminatorlib/preferences.glade.h:69
 msgid "Line Height:"
-msgstr ""
+msgstr "Tinggi Baris:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Extra Styling (Theme dependant)"
@@ -1091,15 +1093,15 @@ msgstr "Latar belakang _transparan"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
-msgstr ""
+msgstr "Gambar Latar Belakang"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
-msgstr ""
+msgstr "Berkas Gambar Latar Belakang:"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
-msgstr ""
+msgstr "Pilih berkas"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "S_hade background:"
@@ -1149,13 +1151,13 @@ msgstr "Menggulung"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Catat:</b>Pilihan ini dapat menyebabkan ada program yang tidak "
 "jalan dengan semestinya. Pilihan ini disediakan hanya untuk menyiasati "
-"beberapa aplikasi dan sistem operasi tertentu yang memiliki perilaku berbeda "
-"pada aplikasi terminalnya.</i></small>"
+"beberapa aplikasi dan sistem operasi tertentu yang memiliki perilaku berbeda"
+" pada aplikasi terminalnya.</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:129
 msgid "_Backspace key generates:"
@@ -1256,31 +1258,17 @@ msgstr "Plugins"
 
 #: ../terminatorlib/preferences.glade.h:157
 msgid "Version: 2.1.1"
-msgstr ""
+msgstr "Versi: 2.1.1"
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1289,8 +1277,7 @@ msgstr "The Manual"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:164
@@ -1311,15 +1298,15 @@ msgstr "Restore original font size"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Increase font size on all terminals"
-msgstr ""
+msgstr "Besarkan ukuran font di semua terminal"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Decrease font size on all terminals"
-msgstr ""
+msgstr "Kecilkan ukuran font di semua terminal"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Restore original font size on all terminals"
-msgstr ""
+msgstr "Kembalikan ukuran font asli di semua terminal"
 
 #: ../terminatorlib/prefseditor.py:111
 msgid "Create a new tab"
@@ -1511,7 +1498,7 @@ msgstr "Toggle window visibility"
 
 #: ../terminatorlib/prefseditor.py:160
 msgid "Create new group"
-msgstr ""
+msgstr "Buat grup baru"
 
 #: ../terminatorlib/prefseditor.py:161
 msgid "Group all terminals"
@@ -1921,21 +1908,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Tab %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Terminal Titlebar</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Warna huruf:"
-
-#~ msgid "Color:"
-#~ msgstr "Warna:"
-
-#~ msgid "Foreground"
-#~ msgstr "Latar Depan"
-
-#~ msgid "_Text color:"
-#~ msgstr "Warna _teks:"
-
-#~ msgid "_Background color:"
-#~ msgstr "Warna latar _belakang:"
