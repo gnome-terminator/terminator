@@ -954,117 +954,6 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="cell_height_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Cell Height:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScale" id="cellheight">
-                                    <property name="width-request">100</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">baseline</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="adjustment">adjustment_cellheight</property>
-                                    <property name="round-digits">1</property>
-                                    <property name="draw-value">False</property>
-                                    <property name="value-pos">bottom</property>
-                                    <signal name="value-changed" handler="on_cellheight_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">2</property>
-                                    <property name="top-attach">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="cellheight_value_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label">1.0</property>
-                                    <property name="justify">right</property>
-                                    <property name="width-chars">5</property>
-                                    <property name="max-width-chars">5</property>
-                                    <property name="lines">1</property>
-                                    <property name="xalign">1</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScale" id="handlewidth">
-                                    <property name="width-request">100</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">baseline</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="adjustment">adjustment1</property>
-                                    <property name="round-digits">0</property>
-                                    <property name="digits">0</property>
-                                    <property name="draw-value">False</property>
-                                    <property name="value-pos">bottom</property>
-                                    <signal name="value-changed" handler="on_handlewidth_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">2</property>
-                                    <property name="top-attach">1</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="cell_width_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Cell Width:</property>
-                                    <property name="xalign">0</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkScale" id="cellwidth">
-                                    <property name="width-request">100</property>
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">True</property>
-                                    <property name="halign">baseline</property>
-                                    <property name="hexpand">True</property>
-                                    <property name="adjustment">adjustment_cellwidth</property>
-                                    <property name="round-digits">1</property>
-                                    <property name="draw-value">False</property>
-                                    <property name="value-pos">bottom</property>
-                                    <signal name="value-changed" handler="on_handlewidth_value_changed" swapped="no"/>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">2</property>
-                                    <property name="top-attach">5</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkLabel" id="cellwidth_value_label">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label">1.0</property>
-                                    <property name="justify">right</property>
-                                    <property name="width-chars">5</property>
-                                    <property name="max-width-chars">5</property>
-                                    <property name="lines">1</property>
-                                    <property name="xalign">1</property>
-                                  </object>
-                                  <packing>
-                                    <property name="left-attach">1</property>
-                                    <property name="top-attach">5</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <object class="GtkScale" id="inactive_color_offset">
                                     <property name="width-request">100</property>
                                     <property name="visible">True</property>
@@ -1130,6 +1019,97 @@
                                     <property name="left-attach">0</property>
                                     <property name="top-attach">0</property>
                                     <property name="width">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="cell_height_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Cell Height:</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="cellheight_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">1.0</property>
+                                    <property name="justify">right</property>
+                                    <property name="width-chars">5</property>
+                                    <property name="max-width-chars">5</property>
+                                    <property name="lines">1</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScale" id="cellheight">
+                                    <property name="width-request">100</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="halign">baseline</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="adjustment">adjustment_cellheight</property>
+                                    <property name="round-digits">1</property>
+                                    <property name="draw-value">False</property>
+                                    <property name="value-pos">bottom</property>
+                                    <signal name="value-changed" handler="on_cellheight_value_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">2</property>
+                                    <property name="top-attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScale" id="cellwidth">
+                                    <property name="width-request">100</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="adjustment">adjustment_cellwidth</property>
+                                    <property name="round-digits">1</property>
+                                    <property name="draw-value">False</property>
+                                    <property name="value-pos">bottom</property>
+                                    <signal name="value-changed" handler="on_cellwidth_value_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">2</property>
+                                    <property name="top-attach">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="cellwidth_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label">1.0</property>
+                                    <property name="justify">right</property>
+                                    <property name="width-chars">5</property>
+                                    <property name="max-width-chars">5</property>
+                                    <property name="lines">1</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">4</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="cell_width_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Cell Width:</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">4</property>
                                   </packing>
                                 </child>
                               </object>
