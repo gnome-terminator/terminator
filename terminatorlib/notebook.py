@@ -278,7 +278,6 @@ class Notebook(Container, Gtk.Notebook):
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
                    'title-change': self.propagate_title_change,
-                   'unzoom': self.unzoom,
                    'tab-change': top_window.tab_change,
                    'group-all': top_window.group_all,
                    'group-all-toggle': top_window.group_all_toggle,
