@@ -2,11 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
 # Markus Frosch <markus@lazyfrosch.de>, 2021
-#
+# Constantin Kraft <ckraft@smail.uni-koeln.de>, 2021
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -14,13 +15,12 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: Markus Frosch <markus@lazyfrosch.de>, 2021\n"
-"Language-Team: German (https://www.transifex.com/terminator/teams/109338/"
-"de/)\n"
-"Language: de\n"
+"Last-Translator: Constantin Kraft <ckraft@smail.uni-koeln.de>, 2021\n"
+"Language-Team: German (https://www.transifex.com/terminator/teams/109338/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Command             uuid req.    Description
@@ -147,13 +147,13 @@ msgstr "Die Roboterzukunft der Terminals"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 "Ein Werkzeug für erfahrene Nutzer, um Terminals anzuordnen. Es ist von "
 "Anwendungen wie gnome-multi-term, quadkonsole, usw. inspiriert, deren "
-"Hauptfokus darin besteht, Terminals in Raster anzuordnen (die Verwendung von "
-"Reitern ist die meist verbreitete Methode, welche auch ebenfalls von "
+"Hauptfokus darin besteht, Terminals in Raster anzuordnen (die Verwendung von"
+" Reitern ist die meist verbreitete Methode, welche auch ebenfalls von "
 "Terminator unterstützt wird)."
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -459,7 +459,7 @@ msgstr "Config-Datei festlegen"
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Specify a partial config json file"
-msgstr "Eine partielle json-config-Datei festlegen"
+msgstr "Eine pratielle json-config-Datei festlegen"
 
 #: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
@@ -505,7 +505,8 @@ msgstr ""
 #: ../terminatorlib/optionparse.py:94
 msgid "Comma separated list of methods to limit debugging to"
 msgstr ""
-"Komma getrennte Liste von Funktionen, auf die die Fehlersuche beschränkt wird"
+"Komma getrennte Liste von Funktionen, auf die die Fehlersuche beschränkt "
+"wird"
 
 #: ../terminatorlib/optionparse.py:96
 msgid "If Terminator is already running, just open a new tab"
@@ -913,7 +914,7 @@ msgstr "Zwischenablage"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Clear selection on copy"
-msgstr ""
+msgstr "Auswahl nach dem Kopieren aufheben"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Open links with a single click (instead of Ctrl-left click)"
@@ -1113,11 +1114,11 @@ msgstr "_Transparenter Hintergrund"
 
 #: ../terminatorlib/preferences.glade.h:114
 msgid "Background Image"
-msgstr ""
+msgstr "Hintergrund Bild"
 
 #: ../terminatorlib/preferences.glade.h:115
 msgid "Background Image File:"
-msgstr ""
+msgstr "Hintergrund Bild Datei:"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "Choose file"
@@ -1171,8 +1172,8 @@ msgstr "Bildlauf"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
 "<small><i><b>Hinweis:</b> Diese Einstellungen können dazu führen, dass sich "
 "einige Anwendungen nicht mehr korrekt verhalten. Sie stehen nur zur "
@@ -1282,19 +1283,12 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"Das Ziel dieses Projekts ist es, ein nützliches Werkzeug zur Einrichtung von "
-"Terminals zu schaffen. Es ist von Programmen wie gnome-multi-term, "
+"Das Ziel dieses Projekts ist es, ein nützliches Werkzeug zur Einrichtung von"
+" Terminals zu schaffen. Es ist von Programmen wie gnome-multi-term, "
 "quadkonsole, usw. inspiriert, bei dem der Hauptfokus auf das Anordnen von "
 "Terminals in Gittern (Tabs sind die meist verbreitete Methode, die "
 "Terminator ebenfalls unterstützt."
@@ -1306,12 +1300,10 @@ msgstr "Das Handbuch"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Entwicklung</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs/"
-"Verbesserungen</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs/Verbesserungen</a>"
 
 #: ../terminatorlib/preferences.glade.h:164
 msgid "About"
@@ -1435,19 +1427,19 @@ msgstr "Fenster schließen"
 
 #: ../terminatorlib/prefseditor.py:136
 msgid "Resize the terminal up"
-msgstr "Größe des oberen Terminals ändern"
+msgstr "Größe des Terminals nach oben ändern"
 
 #: ../terminatorlib/prefseditor.py:137
 msgid "Resize the terminal down"
-msgstr "Größe des unteren Terminals ändern"
+msgstr "Größe Terminals nach unten ändern"
 
 #: ../terminatorlib/prefseditor.py:138
 msgid "Resize the terminal left"
-msgstr "Größe des linken Terminals ändern"
+msgstr "Größe des Terminals nach links ändern"
 
 #: ../terminatorlib/prefseditor.py:139
 msgid "Resize the terminal right"
-msgstr "Größe des rechten Terminals ändern"
+msgstr "Größe des Terminals nach rechts ändern"
 
 #: ../terminatorlib/prefseditor.py:140
 msgid "Move the tab right"
@@ -1941,24 +1933,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Reiter %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Terminal-Titelleiste</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Schriftfarbe:"
-
-#~ msgid "Color:"
-#~ msgstr "Farbe:"
-
-#~ msgid "Foreground"
-#~ msgstr "Vordergrund"
-
-#~ msgid "_Text color:"
-#~ msgstr "_Textfarbe:"
-
-#~ msgid "_Background color:"
-#~ msgstr "_Hintergrundfarbe:"
-
-#~ msgid "Version: 2.0.1"
-#~ msgstr "Version: 2.0.1"

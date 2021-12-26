@@ -2,11 +2,11 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
 # Pedro Flor <pedro.flor@gmail.com>, 2021
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -15,12 +15,11 @@ msgstr ""
 "POT-Creation-Date: 2021-09-14 18:55+0200\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Pedro Flor <pedro.flor@gmail.com>, 2021\n"
-"Language-Team: Spanish (https://www.transifex.com/terminator/teams/109338/"
-"es/)\n"
-"Language: es\n"
+"Language-Team: Spanish (https://www.transifex.com/terminator/teams/109338/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Command             uuid req.    Description
@@ -100,8 +99,7 @@ msgid ""
 "* These entries require either TERMINATOR_UUID environment var,\n"
 "  or the --uuid option must be used."
 msgstr ""
-"* Estas opciones requieren que la variable de entorno TERMINATOR_UUID "
-"exista\n"
+"* Estas opciones requieren que la variable de entorno TERMINATOR_UUID exista\n"
 "  o que la opción --uuid sea empleada"
 
 #: ../remotinator.py:77
@@ -150,8 +148,8 @@ msgstr "El futuro robot de terminales"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
 " Una herramienta de usuario avanzado para organizar terminales. Está "
 "inspirado en programas como gnome-multi-term, quadkonsole, etc. en que el "
@@ -165,8 +163,8 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
-"Gran parte del comportamiento de Terminator está basado en GNOME Terminal, y "
-"estamos añadiendo más de esas características a medida que pasa el tiempo, "
+"Gran parte del comportamiento de Terminator está basado en GNOME Terminal, y"
+" estamos añadiendo más de esas características a medida que pasa el tiempo, "
 "pero también queremos extendernos en diferentes direcciones con "
 "características útiles para administradores de sistemas y otros usuarios."
 
@@ -1172,11 +1170,11 @@ msgstr "Desplazamiento"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>Nota:</b> Estas opciones pueden causar que algunas aplicaciones "
-"se comporten incorrectamente. Sólo están aquí para permitirle trabajar con "
+"<small><i><b>Nota:</b> Estas opciones pueden causar que algunas aplicaciones"
+" se comporten incorrectamente. Sólo están aquí para permitirle trabajar con "
 "ciertas aplicaciones y sistemas operativos que esperan un comportamiento "
 "diferente del terminal.</i></small>"
 
@@ -1284,29 +1282,13 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"El objetivo de este proyecto es crear una herramienta útil para organizar "
-"terminales. Esta inspirado por programas como gnome-multi-term, quadkonsole, "
-"etc. los cuales están enfocados principalmente en organizar terminales en "
-"cuadriculas (el método más común por defecto es el de pestañas, el cual "
-"Terminator también le da soporte).\n"
+"El objetivo de este proyecto es crear una herramienta útil para organizar terminales. Esta inspirado por programas como gnome-multi-term, quadkonsole, etc. los cuales están enfocados principalmente en organizar terminales en cuadriculas (el método más común por defecto es el de pestañas, el cual Terminator también le da soporte).\n"
 "\n"
-"Mucho del comportamiento de Terminator esta basado en el Terminal GNOME, y "
-"estamos agregando más opciones a medida que pasa el tiempo, pero también "
-"deseamos extendernos en diferentes direcciones con opciones útiles para "
-"administradores de sistemas y otros usuarios. Si tienes algunas sugerencias, "
-"por favor repórtalas en nuestro archivo de lista de deseos y de errores (ver "
-"a la izquierda para el enlace de Desarrollo)"
+"Mucho del comportamiento de Terminator esta basado en el Terminal GNOME, y estamos agregando más opciones a medida que pasa el tiempo, pero también deseamos extendernos en diferentes direcciones con opciones útiles para administradores de sistemas y otros usuarios. Si tienes algunas sugerencias, por favor repórtalas en nuestro archivo de lista de deseos y de errores (ver a la izquierda para el enlace de Desarrollo)"
 
 #: ../terminatorlib/preferences.glade.h:161
 msgid "The Manual"
@@ -1315,12 +1297,10 @@ msgstr "EL Manual"
 #: ../terminatorlib/preferences.glade.h:162
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Desarrollo</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs/"
-"Mejoras</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs/Mejoras</a>"
 
 #: ../terminatorlib/preferences.glade.h:164
 msgid "About"
@@ -1950,24 +1930,3 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Solapa %d"
-
-#~ msgid "<b>Terminal Titlebar</b>"
-#~ msgstr "<b>Barra titulo Terminal</b>"
-
-#~ msgid "Font color:"
-#~ msgstr "Color de letra:"
-
-#~ msgid "Color:"
-#~ msgstr "Color:"
-
-#~ msgid "Foreground"
-#~ msgstr "primer término"
-
-#~ msgid "_Text color:"
-#~ msgstr "Color del _texto:"
-
-#~ msgid "_Background color:"
-#~ msgstr "_Color de fondo:"
-
-#~ msgid "Version: 2.0.1"
-#~ msgstr "Versión: 2.0.1"
