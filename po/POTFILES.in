@@ -12,7 +12,6 @@ terminatorlib/container.py
 terminatorlib/cwd.py
 terminatorlib/debugserver.py
 terminatorlib/editablelabel.py
-terminatorlib/encoding.py
 terminatorlib/factory.py
 terminatorlib/__init__.py
 terminatorlib/keybindings.py
