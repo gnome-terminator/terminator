@@ -2,24 +2,26 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-14 18:55+0200\n"
+"POT-Creation-Date: 2022-01-22 00:51+0100\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Slovak (https://www.transifex.com/terminator/teams/109338/sk/)\n"
+"Language-Team: Slovak (https://www.transifex.com/terminator/teams/109338/"
+"sk/)\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n "
+">= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -128,7 +130,7 @@ msgstr ""
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:156
 msgid "Terminator"
 msgstr "Terminátor"
 
@@ -137,7 +139,7 @@ msgid "Multiple terminals in one window"
 msgstr "Viaceré terminály v jednom okne"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:157
 msgid "The robot future of terminals"
 msgstr "Robotická budúcnosť terminálov"
 
@@ -145,8 +147,8 @@ msgstr "Robotická budúcnosť terminálov"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator"
-" also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator "
+"also supports)."
 msgstr ""
 
 #: ../data/terminator.appdata.xml.in.h:5
@@ -229,156 +231,12 @@ msgstr ""
 msgid "Do not show this message next time"
 msgstr "Nezobrazovať správu nabudúce"
 
-#: ../terminatorlib/encoding.py:34
-msgid "Current Locale"
-msgstr "Aktuálne lokálne nastavenie"
-
-#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:48
-#: ../terminatorlib/encoding.py:67 ../terminatorlib/encoding.py:90
-#: ../terminatorlib/encoding.py:101
-msgid "Western"
-msgstr "západné"
-
-#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:68
-#: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:99
-msgid "Central European"
-msgstr "stredoeurópske"
-
-#: ../terminatorlib/encoding.py:37
-msgid "South European"
-msgstr "juhoeurópske"
-
-#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:46
-#: ../terminatorlib/encoding.py:106
-msgid "Baltic"
-msgstr "pobaltské"
-
-#. [False, "JOHAB", _("Korean") ],
-#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:69
-#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:77
-#: ../terminatorlib/encoding.py:82 ../terminatorlib/encoding.py:100
-msgid "Cyrillic"
-msgstr "azbuka"
-
-#: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:72
-#: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:105
-msgid "Arabic"
-msgstr "arabské"
-
-#: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:85
-#: ../terminatorlib/encoding.py:102
-msgid "Greek"
-msgstr "grécke"
-
-#: ../terminatorlib/encoding.py:42
-msgid "Hebrew Visual"
-msgstr "hebrejské vizuálne"
-
-#: ../terminatorlib/encoding.py:43 ../terminatorlib/encoding.py:71
-#: ../terminatorlib/encoding.py:88 ../terminatorlib/encoding.py:104
-msgid "Hebrew"
-msgstr "hebrejské"
-
-#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:70
-#: ../terminatorlib/encoding.py:92 ../terminatorlib/encoding.py:103
-msgid "Turkish"
-msgstr "turecké"
-
-#: ../terminatorlib/encoding.py:45
-msgid "Nordic"
-msgstr "nordické"
-
-#: ../terminatorlib/encoding.py:47
-msgid "Celtic"
-msgstr "keltské"
-
-#: ../terminatorlib/encoding.py:49 ../terminatorlib/encoding.py:91
-msgid "Romanian"
-msgstr "rumunské"
-
-#. [False, "UTF-7", _("Unicode") ],
-#: ../terminatorlib/encoding.py:51
-msgid "Unicode"
-msgstr "Unicode"
-
-#. [False, "UTF-16", _("Unicode") ],
-#. [False, "UCS-2", _("Unicode") ],
-#. [False, "UCS-4", _("Unicode") ],
-#: ../terminatorlib/encoding.py:55
-msgid "Armenian"
-msgstr "arménske"
-
-#: ../terminatorlib/encoding.py:56 ../terminatorlib/encoding.py:57
-#: ../terminatorlib/encoding.py:61
-msgid "Chinese Traditional"
-msgstr "čínske (tradičné)"
-
-#: ../terminatorlib/encoding.py:58
-msgid "Cyrillic/Russian"
-msgstr "azbuka/ruské"
-
-#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:73
-#: ../terminatorlib/encoding.py:94
-msgid "Japanese"
-msgstr "japonské"
-
-#: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
-#: ../terminatorlib/encoding.py:97
-msgid "Korean"
-msgstr "kórejské"
-
-#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:63
-#: ../terminatorlib/encoding.py:64 ../terminatorlib/encoding.py:66
-msgid "Chinese Simplified"
-msgstr "čínske (zjednodušené)"
-
-#: ../terminatorlib/encoding.py:65
-msgid "Georgian"
-msgstr "rumunské"
-
-#: ../terminatorlib/encoding.py:78 ../terminatorlib/encoding.py:93
-msgid "Cyrillic/Ukrainian"
-msgstr "azbuka/ukrajinské"
-
-#: ../terminatorlib/encoding.py:81
-msgid "Croatian"
-msgstr "chorvátske"
-
-#: ../terminatorlib/encoding.py:83
-msgid "Hindi"
-msgstr "hindské"
-
-#: ../terminatorlib/encoding.py:84
-msgid "Persian"
-msgstr "perzské"
-
-#: ../terminatorlib/encoding.py:86
-msgid "Gujarati"
-msgstr "guadžarátske"
-
-#: ../terminatorlib/encoding.py:87
-msgid "Gurmukhi"
-msgstr "gurmukhské"
-
-#: ../terminatorlib/encoding.py:89
-msgid "Icelandic"
-msgstr "islandské"
-
-#: ../terminatorlib/encoding.py:95 ../terminatorlib/encoding.py:98
-#: ../terminatorlib/encoding.py:107
-msgid "Vietnamese"
-msgstr "vietnamské"
-
-#: ../terminatorlib/encoding.py:96
-msgid "Thai"
-msgstr "thajské"
-
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
 msgstr "Spúšťač rozhraní Terminatora"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Layout"
 msgstr "Rozloženie"
 
@@ -386,11 +244,11 @@ msgstr "Rozloženie"
 msgid "Launch"
 msgstr "Spustiť"
 
-#: ../terminatorlib/notebook.py:384
+#: ../terminatorlib/notebook.py:383
 msgid "tab"
 msgstr "karta"
 
-#: ../terminatorlib/notebook.py:656
+#: ../terminatorlib/notebook.py:655
 msgid "Close Tab"
 msgstr "Zatvoriť kartu"
 
@@ -431,8 +289,8 @@ msgid ""
 "Use the rest of the command line as a command to execute inside the "
 "terminal, and its arguments"
 msgstr ""
-"Použiť zvyšok príkazového riadku ako príkaz na vykonanie vnútri terminálu, a"
-" jeho argumenty"
+"Použiť zvyšok príkazového riadku ako príkaz na vykonanie vnútri terminálu, a "
+"jeho argumenty"
 
 #: ../terminatorlib/optionparse.py:69
 msgid "Specify a config file"
@@ -523,7 +381,7 @@ msgstr "_Vlastné príkazy"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
-#: ../terminatorlib/terminal_popup_menu.py:198
+#: ../terminatorlib/terminal_popup_menu.py:197
 msgid "_Preferences"
 msgstr "_Nastavenia"
 
@@ -548,12 +406,12 @@ msgid "Enabled"
 msgstr "Povolené"
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Name"
 msgstr "Názov"
 
 #: ../terminatorlib/plugins/custom_commands.py:174
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
 msgstr "Príkaz"
 
@@ -659,7 +517,7 @@ msgid "Escape sequence"
 msgstr "Escapovať sekvenciu"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:727
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:754
 msgid "All"
 msgstr "Všetky"
 
@@ -876,488 +734,511 @@ msgid "Use custom URL handler"
 msgstr "Použiť vlastný ovládač adresy (URL)"
 
 #: ../terminatorlib/preferences.glade.h:60
-msgid "Custom URL handler:"
-msgstr "Vlastná obsluha URL:"
-
-#: ../terminatorlib/preferences.glade.h:61
 msgid "PRIMARY"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:62
+#: ../terminatorlib/preferences.glade.h:61
 msgid "Clipboard"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:63
+#: ../terminatorlib/preferences.glade.h:62
 msgid "Clear selection on copy"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:64
+#: ../terminatorlib/preferences.glade.h:63
 msgid "Open links with a single click (instead of Ctrl-left click)"
 msgstr ""
 
+#: ../terminatorlib/preferences.glade.h:64
+msgid "Disable mouse paste"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:65
+msgid "Custom URL handler:"
+msgstr "Vlastná obsluha URL:"
+
+#: ../terminatorlib/preferences.glade.h:66
 msgid "<b>Appearance</b>"
 msgstr "<b>Vzhľad</b>"
 
-#: ../terminatorlib/preferences.glade.h:66
+#: ../terminatorlib/preferences.glade.h:67
 msgid "Window borders"
 msgstr "Ohraničenie okná"
 
-#: ../terminatorlib/preferences.glade.h:67
+#: ../terminatorlib/preferences.glade.h:68
 msgid "Unfocused terminal font brightness:"
 msgstr "Jas nezaostreného písma terminálu:"
 
-#: ../terminatorlib/preferences.glade.h:68
+#: ../terminatorlib/preferences.glade.h:69
 msgid "Terminal separator size:"
 msgstr "Veľkosť oddeľovača terminálu:"
-
-#: ../terminatorlib/preferences.glade.h:69
-msgid "Line Height:"
-msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Extra Styling (Theme dependant)"
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:71
+msgid "Cell Height:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:72
+msgid "Cell Width:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:73
 msgid "Tab position:"
 msgstr "Pozícia kariet:"
 
-#: ../terminatorlib/preferences.glade.h:72
+#: ../terminatorlib/preferences.glade.h:74
 msgid "Tabs homogeneous"
 msgstr "Homogénne karty"
 
-#: ../terminatorlib/preferences.glade.h:73
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Tabs scroll buttons"
 msgstr "Tlačidlá posuvníkov kariet"
 
-#: ../terminatorlib/preferences.glade.h:74
+#: ../terminatorlib/preferences.glade.h:76
 msgid "Title bar at bottom (Require restart)"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:75
+#: ../terminatorlib/preferences.glade.h:77
 msgid "Global"
 msgstr "Všeobecné"
 
-#: ../terminatorlib/preferences.glade.h:76
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Profile"
 msgstr "Profil"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:79
 msgid "_Use the system fixed width font"
 msgstr "Po_užívať systémové písmo s pevnou šírkou"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:80
 msgid "_Font:"
 msgstr "_Písmo:"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Choose A Terminal Font"
 msgstr "Vyberte písmo terminálu"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:82
 msgid "_Allow bold text"
 msgstr "Povoliť _tučný text"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Show titlebar"
 msgstr "Ukázať titulkový pruh"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Copy on selection"
 msgstr "Kopírovať pri výberu"
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Disable Ctrl+mousewheel zoom"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:86
 msgid "Select-by-_word characters:"
 msgstr "Znaky pre výber _slov:"
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Cursor</b>"
 msgstr "<b>Kurzor</b>"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:88
 msgid "_Shape:"
 msgstr "_Tvar:"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Blink"
 msgstr "Blikanie"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:90
 msgid "Use default colors"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:91
 msgid "Foreground:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Background:"
 msgstr "Pozadie:"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
 msgstr "<b>Terminálový zvonček</b>"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
 msgstr "Ikona v titulkovém pruhu"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
 msgstr "Viditeľný pablesk"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
 msgstr "Počuteľné zvukové znamenie"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
 msgstr "Pablesk zoznamu okien"
 
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:98
 msgid "General"
 msgstr "Hlavné"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Run command as a login shell"
 msgstr "_Spustiť príkaz v prihlasovacom shelle"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:100
 msgid "Ru_n a custom command instead of my shell"
 msgstr "Sp_ustiť tento program namiesto shellu"
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Custom co_mmand:"
 msgstr "_Vlastný príkaz:"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:102
 msgid "When command _exits:"
 msgstr "Po s_končení príkazu:"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>Popredie a pozadie</b>"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:105
 msgid "_Use colors from system theme"
 msgstr "Použiť farby _systémovej témy"
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:106
 msgid "Built-in sche_mes:"
 msgstr "Zab_udované schémy:"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:107
 msgid "_Foreground:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:108
 msgid "_Background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:109
 msgid "<b>Palette</b>"
 msgstr "<b>Paleta</b>"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Built-in _schemes:"
 msgstr "Za_budované schémy:"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:111
 msgid "Color p_alette:"
 msgstr "Paleta _farieb:"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:112
 msgid "Show b_old text in bright colors"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:113
 msgid "Colors"
 msgstr "Farby"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:114
 msgid "_Solid color"
 msgstr "_Plná farba"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:115
 msgid "_Transparent background"
 msgstr "Prie_hľadné pozadie"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Background Image"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:117
 msgid "Background Image File:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:118
 msgid "Choose file"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:119
 msgid "S_hade background:"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:120
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>Žiadne</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:121
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>Maximálne</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:122
 msgid "Background"
 msgstr "Pozadie"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Scrollbar is:"
 msgstr "Po_suvník je:"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:124
 msgid "Scroll on _output"
 msgstr "_Rolovať pri výstupe"
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:125
 msgid "Scroll on _keystroke"
 msgstr "Rolovať pri stlačení _klávesu"
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:126
 msgid "Infinite Scrollback"
 msgstr "Nekonečná pamäť riadkov"
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scroll_back:"
 msgstr "Počet pamätaných _riadkov:"
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:128
 msgid "lines"
 msgstr "riadky"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:129
 msgid "Scrolling"
 msgstr "Posúvanie"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:130
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>Poznámka:</b> Tieto voľby môžu spôsobiť, že niektoré aplikácie "
-"nebudú fungovať správne. Sú tu iba preto, aby iné aplikácie mohli fungovať v"
-" prípade, že očakávajú iné chovanie terminálu.</i></small>"
+"nebudú fungovať správne. Sú tu iba preto, aby iné aplikácie mohli fungovať v "
+"prípade, že očakávajú iné chovanie terminálu.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:131
 msgid "_Backspace key generates:"
 msgstr "Klávesa _Backspace generuje:"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Delete key generates:"
 msgstr "Kláves _Delete generuje:"
 
-#: ../terminatorlib/preferences.glade.h:131
-msgid "Encoding:"
-msgstr ""
-
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:133
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_Obnoviť predvolené hodnoty pre voľby kompatibility"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:134
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Focused"
 msgstr "Aktívne"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Inactive"
 msgstr "Neaktívne"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:137
 msgid "Receiving"
 msgstr "Príjem"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Hide size from title"
 msgstr "Skryť veľkosť z názvu"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:139
 msgid "_Use the system font"
 msgstr "_Použiť systémové písmo"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:140
 msgid "Choose A Titlebar Font"
 msgstr "Vybrať písmo titulku"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:141
 msgid "Titlebar"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:141
-#: ../terminatorlib/terminal_popup_menu.py:205
+#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/terminal_popup_menu.py:204
 msgid "Profiles"
 msgstr "Profily"
 
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Type"
 msgstr "Typ"
 
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Profile:"
 msgstr "Profil:"
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Custom command:"
 msgstr "Vlastný príkaz:"
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Working directory:"
 msgstr "Pracovný adresár:"
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Layouts"
 msgstr "Rozloženia"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Action"
 msgstr "Akcia"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Keybinding"
 msgstr "Klávesová skratka"
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Keybindings"
 msgstr "Klávesové skratky"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:153
 msgid "Plugin"
 msgstr "Zásuvný modul"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:154
 msgid "This plugin has no configuration options"
 msgstr "Tento plugin nemá žiadne možnosti konfigurácie"
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:155
 msgid "Plugins"
 msgstr "Doplnky"
 
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:158
 msgid "Version: 2.1.1"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:159
 msgid ""
-"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging "
+"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
+"etc. in that the main focus is arranging terminals in grids (tabs is the "
+"most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users. If you have any suggestions, please file wishlist bugs! (see left for "
+"the Development link)"
 msgstr ""
-"Cieľom tohto projektu je vytvoriť užitočný nástroj na rozkladanie terminálov. Je inšpirovaný programami ako gnome-multi-term, quadkonsole atď. v tom, že hlavným zameraním je zoraďovanie terminálov do mriežky (karty sú najčastejším predvoleným spôsobom, ktorý Terminator tiež podporuje).\n"
+"Cieľom tohto projektu je vytvoriť užitočný nástroj na rozkladanie "
+"terminálov. Je inšpirovaný programami ako gnome-multi-term, quadkonsole atď. "
+"v tom, že hlavným zameraním je zoraďovanie terminálov do mriežky (karty sú "
+"najčastejším predvoleným spôsobom, ktorý Terminator tiež podporuje).\n"
 "\n"
-"Mnohé z funkcií aplikácie Terminator vychádzajú z GNOME Terminal a postupne z neho pridávanie ďalšie funkcie, ale tiež chceme Terminator rozširovať v rozličných smeroch užitočnými vlastnosťami pre správcov systémov a ďalších používateľov. Ak máte nejaké návrhy, prosím, pošlite vaše želanie do systému na hlásenie chýb (odkaz na Vývoj nájdete vľavo)."
+"Mnohé z funkcií aplikácie Terminator vychádzajú z GNOME Terminal a postupne "
+"z neho pridávanie ďalšie funkcie, ale tiež chceme Terminator rozširovať v "
+"rozličných smeroch užitočnými vlastnosťami pre správcov systémov a ďalších "
+"používateľov. Ak máte nejaké návrhy, prosím, pošlite vaše želanie do systému "
+"na hlásenie chýb (odkaz na Vývoj nájdete vľavo)."
 
-#: ../terminatorlib/preferences.glade.h:161
+#: ../terminatorlib/preferences.glade.h:162
 msgid "The Manual"
 msgstr "Návod"
 
-#: ../terminatorlib/preferences.glade.h:162
+#: ../terminatorlib/preferences.glade.h:163
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"Enhancements</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:164
+#: ../terminatorlib/preferences.glade.h:165
 msgid "About"
 msgstr "O aplikácií"
 
-#: ../terminatorlib/prefseditor.py:105
+#: ../terminatorlib/prefseditor.py:104
 msgid "Increase font size"
 msgstr "Zväčšiť veľkosť písma"
 
-#: ../terminatorlib/prefseditor.py:106
+#: ../terminatorlib/prefseditor.py:105
 msgid "Decrease font size"
 msgstr "Zmenšiť veľkosť písma"
 
-#: ../terminatorlib/prefseditor.py:107
+#: ../terminatorlib/prefseditor.py:106
 msgid "Restore original font size"
 msgstr "Obnoviť pôvodnú veľkosť písma"
 
-#: ../terminatorlib/prefseditor.py:108
+#: ../terminatorlib/prefseditor.py:107
 msgid "Increase font size on all terminals"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:109
+#: ../terminatorlib/prefseditor.py:108
 msgid "Decrease font size on all terminals"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:110
+#: ../terminatorlib/prefseditor.py:109
 msgid "Restore original font size on all terminals"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:111
+#: ../terminatorlib/prefseditor.py:110
 msgid "Create a new tab"
 msgstr "Vytvoriť novú kartu"
 
-#: ../terminatorlib/prefseditor.py:112 ../terminatorlib/prefseditor.py:114
+#: ../terminatorlib/prefseditor.py:111 ../terminatorlib/prefseditor.py:113
 msgid "Focus the next terminal"
 msgstr "Aktivovať ďalší terminál"
 
-#: ../terminatorlib/prefseditor.py:113 ../terminatorlib/prefseditor.py:115
+#: ../terminatorlib/prefseditor.py:112 ../terminatorlib/prefseditor.py:114
 msgid "Focus the previous terminal"
 msgstr "Aktivovať predošlý terminál"
 
-#: ../terminatorlib/prefseditor.py:116
+#: ../terminatorlib/prefseditor.py:115
 msgid "Focus the terminal above"
 msgstr "Aktivovať terminál hore"
 
-#: ../terminatorlib/prefseditor.py:117
+#: ../terminatorlib/prefseditor.py:116
 msgid "Focus the terminal below"
 msgstr "Aktivovať terminál dolu"
 
-#: ../terminatorlib/prefseditor.py:118
+#: ../terminatorlib/prefseditor.py:117
 msgid "Focus the terminal left"
 msgstr "Aktivovať terminál vľavo"
 
-#: ../terminatorlib/prefseditor.py:119
+#: ../terminatorlib/prefseditor.py:118
 msgid "Focus the terminal right"
 msgstr "Aktivovať terminál vpravo"
 
-#: ../terminatorlib/prefseditor.py:120
+#: ../terminatorlib/prefseditor.py:119
 msgid "Rotate terminals clockwise"
 msgstr "Otočiť terminály v smere hodinových ručičiek"
 
-#: ../terminatorlib/prefseditor.py:121
+#: ../terminatorlib/prefseditor.py:120
 msgid "Rotate terminals counter-clockwise"
 msgstr "Otočiť terminály proti smeru hodinových ručičiek"
 
-#: ../terminatorlib/prefseditor.py:122
+#: ../terminatorlib/prefseditor.py:121
 msgid "Split horizontally"
 msgstr "Rozdeliť horizontálne"
 
-#: ../terminatorlib/prefseditor.py:123
+#: ../terminatorlib/prefseditor.py:122
 msgid "Split vertically"
 msgstr "Rozdeliť vertikálne"
 
-#: ../terminatorlib/prefseditor.py:124
+#: ../terminatorlib/prefseditor.py:123
 msgid "Close terminal"
 msgstr "Zatvoriť terminál"
 
-#: ../terminatorlib/prefseditor.py:125
+#: ../terminatorlib/prefseditor.py:124
 msgid "Copy selected text"
 msgstr "Kopírovať vybraný text"
 
-#: ../terminatorlib/prefseditor.py:126
+#: ../terminatorlib/prefseditor.py:125
 msgid "Paste clipboard"
 msgstr "Vložiť zo schránky"
+
+#: ../terminatorlib/prefseditor.py:126
+msgid "Paste primary selection"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Show/Hide the scrollbar"
@@ -1591,11 +1472,11 @@ msgstr ""
 msgid "Open the manual"
 msgstr "Otvoriť návod"
 
-#: ../terminatorlib/prefseditor.py:1364
+#: ../terminatorlib/prefseditor.py:1370
 msgid "New Profile"
 msgstr "Nový profil"
 
-#: ../terminatorlib/prefseditor.py:1407 ../terminatorlib/prefseditor.py:1412
+#: ../terminatorlib/prefseditor.py:1413 ../terminatorlib/prefseditor.py:1418
 msgid "New Layout"
 msgstr "Nový rozmiestnenie"
 
@@ -1608,185 +1489,169 @@ msgstr "Hľadať:"
 msgid "Close Search bar"
 msgstr "Zavrieť vyhľadávací panel"
 
-#: ../terminatorlib/terminal_popup_menu.py:59
+#: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Send email to..."
 msgstr "Po_slať email pre..."
 
-#: ../terminatorlib/terminal_popup_menu.py:60
+#: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Copy email address"
 msgstr "Kopírovať emailovú adresu"
 
-#: ../terminatorlib/terminal_popup_menu.py:62
+#: ../terminatorlib/terminal_popup_menu.py:61
 msgid "Ca_ll VoIP address"
 msgstr "Zavo_lať na VoIP adresu"
 
-#: ../terminatorlib/terminal_popup_menu.py:63
+#: ../terminatorlib/terminal_popup_menu.py:62
 msgid "_Copy VoIP address"
 msgstr "Kopírovať VoIP adresu"
 
-#: ../terminatorlib/terminal_popup_menu.py:84
+#: ../terminatorlib/terminal_popup_menu.py:83
 msgid "_Open link"
 msgstr "_Otvoriť linku"
 
-#: ../terminatorlib/terminal_popup_menu.py:86
+#: ../terminatorlib/terminal_popup_menu.py:85
 msgid "_Copy address"
 msgstr "Kopírovať adresu"
 
-#: ../terminatorlib/terminal_popup_menu.py:102
+#: ../terminatorlib/terminal_popup_menu.py:101
 msgid "_Copy"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:107
+#: ../terminatorlib/terminal_popup_menu.py:106
 msgid "_Paste"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:113
+#: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Set W_indow Title"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:118
+#: ../terminatorlib/terminal_popup_menu.py:117
 msgid "Split H_orizontally"
 msgstr "Rozdeliť v_odorovne"
 
-#: ../terminatorlib/terminal_popup_menu.py:128
+#: ../terminatorlib/terminal_popup_menu.py:127
 msgid "Split V_ertically"
 msgstr "Rozdeliť zvisl_e"
 
-#: ../terminatorlib/terminal_popup_menu.py:138
+#: ../terminatorlib/terminal_popup_menu.py:137
 msgid "Open _Tab"
 msgstr "Otvoriť ka_rtu"
 
-#: ../terminatorlib/terminal_popup_menu.py:144
+#: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Open _Debug Tab"
 msgstr "Otvoriť kartu La_denie"
 
-#: ../terminatorlib/terminal_popup_menu.py:151
+#: ../terminatorlib/terminal_popup_menu.py:150
 msgid "_Close"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:160
+#: ../terminatorlib/terminal_popup_menu.py:159
 msgid "_Zoom terminal"
 msgstr "_Priblížiť terminál"
 
-#: ../terminatorlib/terminal_popup_menu.py:165
+#: ../terminatorlib/terminal_popup_menu.py:164
 msgid "Ma_ximize terminal"
 msgstr "Ma_ximalizovať terminál"
 
-#: ../terminatorlib/terminal_popup_menu.py:172
+#: ../terminatorlib/terminal_popup_menu.py:171
 msgid "_Restore all terminals"
 msgstr "Obnoviť všetky terminály"
 
-#: ../terminatorlib/terminal_popup_menu.py:179
+#: ../terminatorlib/terminal_popup_menu.py:178
 msgid "Grouping"
 msgstr "Zoskupovanie"
 
-#: ../terminatorlib/terminal_popup_menu.py:187
+#: ../terminatorlib/terminal_popup_menu.py:186
 msgid "Relaunch Command"
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:192
+#: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Show _scrollbar"
 msgstr "Zobraziť po_suvník"
 
-#: ../terminatorlib/terminal_popup_menu.py:250
+#: ../terminatorlib/terminal_popup_menu.py:248
 msgid "_Layouts..."
 msgstr ""
 
-#: ../terminatorlib/terminal_popup_menu.py:264
-msgid "Encodings"
-msgstr "Kódovania"
-
-#: ../terminatorlib/terminal_popup_menu.py:279
-msgid "Default"
-msgstr "Predvolené"
-
-#: ../terminatorlib/terminal_popup_menu.py:282
-msgid "User defined"
-msgstr "Definované užívateľom"
-
-#: ../terminatorlib/terminal_popup_menu.py:298
-msgid "Other Encodings"
-msgstr "Iné kódovania"
-
-#: ../terminatorlib/terminal.py:496
+#: ../terminatorlib/terminal.py:481
 msgid "N_ew group..."
 msgstr "N_ová skupina..."
 
-#: ../terminatorlib/terminal.py:502
+#: ../terminatorlib/terminal.py:487
 msgid "_None"
 msgstr "Žiade_n"
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:507
 #, python-format
 msgid "Remove group %s"
 msgstr "Odobrať skupinu %s"
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:512
 msgid "G_roup all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:532
+#: ../terminatorlib/terminal.py:517
 msgid "Ungro_up all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:537
+#: ../terminatorlib/terminal.py:522
 msgid "G_roup all in tab"
 msgstr "Zoskupiť všetko na karte"
 
-#: ../terminatorlib/terminal.py:542
+#: ../terminatorlib/terminal.py:527
 msgid "Ungro_up all in tab"
 msgstr "Odsk_upiť všetky v karte"
 
-#: ../terminatorlib/terminal.py:547
+#: ../terminatorlib/terminal.py:532
 msgid "Remove all groups"
 msgstr "Odobrať všetky skupiny"
 
-#: ../terminatorlib/terminal.py:554
+#: ../terminatorlib/terminal.py:539
 #, python-format
 msgid "Close group %s"
 msgstr "Zatvoriť skupinu %s"
 
-#: ../terminatorlib/terminal.py:564
+#: ../terminatorlib/terminal.py:549
 msgid "Broadcast _all"
 msgstr "Vysiel_ať všetky"
 
-#: ../terminatorlib/terminal.py:565
+#: ../terminatorlib/terminal.py:550
 msgid "Broadcast _group"
 msgstr "V_ysielať skupinu"
 
-#: ../terminatorlib/terminal.py:566
+#: ../terminatorlib/terminal.py:551
 msgid "Broadcast _off"
 msgstr "Vysielanie _vypnuté"
 
-#: ../terminatorlib/terminal.py:582
+#: ../terminatorlib/terminal.py:567
 msgid "_Split to this group"
 msgstr "Rozdeliť na túto _skupinu"
 
-#: ../terminatorlib/terminal.py:587
+#: ../terminatorlib/terminal.py:572
 msgid "Auto_clean groups"
 msgstr "Automati_cky čistiť skupiny"
 
-#: ../terminatorlib/terminal.py:594
+#: ../terminatorlib/terminal.py:579
 msgid "_Insert terminal number"
 msgstr "Vložiť číslo term_inálu"
 
-#: ../terminatorlib/terminal.py:598
+#: ../terminatorlib/terminal.py:583
 msgid "Insert _padded terminal number"
 msgstr "Vložiť _zarovnané číslo terminálu"
 
-#: ../terminatorlib/terminal.py:1524
+#: ../terminatorlib/terminal.py:1490
 msgid "Unable to find a shell"
 msgstr "Nepodarilo sa nájsť shell"
 
-#: ../terminatorlib/terminal.py:1555
+#: ../terminatorlib/terminal.py:1521
 msgid "Unable to start shell:"
 msgstr "Nepodarilo sa spustiť shell:"
 
-#: ../terminatorlib/terminal.py:2005
+#: ../terminatorlib/terminal.py:1975
 msgid "Rename Window"
 msgstr "Premenovať okno"
 
-#: ../terminatorlib/terminal.py:2013
+#: ../terminatorlib/terminal.py:1983
 msgid "Enter a new title for the Terminator window..."
 msgstr "Zadajte nový názov pre okno Terminator..."
 
@@ -1894,12 +1759,117 @@ msgstr "Omega"
 msgid "window"
 msgstr "okno"
 
-#: ../terminatorlib/window.py:746
+#: ../terminatorlib/window.py:773
 #, python-format
 msgid "Window group %s"
 msgstr ""
 
-#: ../terminatorlib/window.py:772
+#: ../terminatorlib/window.py:799
 #, python-format
 msgid "Tab %d"
 msgstr "Karta %d"
+
+#~ msgid "Current Locale"
+#~ msgstr "Aktuálne lokálne nastavenie"
+
+#~ msgid "Western"
+#~ msgstr "západné"
+
+#~ msgid "Central European"
+#~ msgstr "stredoeurópske"
+
+#~ msgid "South European"
+#~ msgstr "juhoeurópske"
+
+#~ msgid "Baltic"
+#~ msgstr "pobaltské"
+
+#~ msgid "Cyrillic"
+#~ msgstr "azbuka"
+
+#~ msgid "Arabic"
+#~ msgstr "arabské"
+
+#~ msgid "Greek"
+#~ msgstr "grécke"
+
+#~ msgid "Hebrew Visual"
+#~ msgstr "hebrejské vizuálne"
+
+#~ msgid "Hebrew"
+#~ msgstr "hebrejské"
+
+#~ msgid "Turkish"
+#~ msgstr "turecké"
+
+#~ msgid "Nordic"
+#~ msgstr "nordické"
+
+#~ msgid "Celtic"
+#~ msgstr "keltské"
+
+#~ msgid "Romanian"
+#~ msgstr "rumunské"
+
+#~ msgid "Unicode"
+#~ msgstr "Unicode"
+
+#~ msgid "Armenian"
+#~ msgstr "arménske"
+
+#~ msgid "Chinese Traditional"
+#~ msgstr "čínske (tradičné)"
+
+#~ msgid "Cyrillic/Russian"
+#~ msgstr "azbuka/ruské"
+
+#~ msgid "Japanese"
+#~ msgstr "japonské"
+
+#~ msgid "Korean"
+#~ msgstr "kórejské"
+
+#~ msgid "Chinese Simplified"
+#~ msgstr "čínske (zjednodušené)"
+
+#~ msgid "Georgian"
+#~ msgstr "rumunské"
+
+#~ msgid "Cyrillic/Ukrainian"
+#~ msgstr "azbuka/ukrajinské"
+
+#~ msgid "Croatian"
+#~ msgstr "chorvátske"
+
+#~ msgid "Hindi"
+#~ msgstr "hindské"
+
+#~ msgid "Persian"
+#~ msgstr "perzské"
+
+#~ msgid "Gujarati"
+#~ msgstr "guadžarátske"
+
+#~ msgid "Gurmukhi"
+#~ msgstr "gurmukhské"
+
+#~ msgid "Icelandic"
+#~ msgstr "islandské"
+
+#~ msgid "Vietnamese"
+#~ msgstr "vietnamské"
+
+#~ msgid "Thai"
+#~ msgstr "thajské"
+
+#~ msgid "Encodings"
+#~ msgstr "Kódovania"
+
+#~ msgid "Default"
+#~ msgstr "Predvolené"
+
+#~ msgid "User defined"
+#~ msgstr "Definované užívateľom"
+
+#~ msgid "Other Encodings"
+#~ msgstr "Iné kódovania"

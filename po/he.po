@@ -2,25 +2,27 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2021
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-14 18:55+0200\n"
+"POT-Creation-Date: 2022-01-22 00:51+0100\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>, 2021\n"
-"Language-Team: Hebrew (https://www.transifex.com/terminator/teams/109338/he/)\n"
+"Language-Team: Hebrew (https://www.transifex.com/terminator/teams/109338/"
+"he/)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: he\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
+"1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -130,7 +132,7 @@ msgstr "שם לשונית להגדרה."
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:156
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -139,7 +141,7 @@ msgid "Multiple terminals in one window"
 msgstr "מסופים מרובים בחלון אחד"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:157
 msgid "The robot future of terminals"
 msgstr "העתיד הרובוטי של המסופים"
 
@@ -147,12 +149,12 @@ msgstr "העתיד הרובוטי של המסופים"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator"
-" also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator "
+"also supports)."
 msgstr ""
-"כלי למשתמשים מתקדמים לארגון מסופים. שאב השראה מתכניות כגון gnome-multi-"
-"term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא"
-" צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator)."
+"כלי למשתמשים מתקדמים לארגון מסופים. שאב השראה מתכניות כגון gnome-multi-term,‏ "
+"quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא צורת "
+"בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator)."
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -238,156 +240,12 @@ msgstr ""
 msgid "Do not show this message next time"
 msgstr "לא להציג הודעה זאת בפעם הבאה"
 
-#: ../terminatorlib/encoding.py:34
-msgid "Current Locale"
-msgstr "הגדרות מיקום נוכחיות"
-
-#: ../terminatorlib/encoding.py:35 ../terminatorlib/encoding.py:48
-#: ../terminatorlib/encoding.py:67 ../terminatorlib/encoding.py:90
-#: ../terminatorlib/encoding.py:101
-msgid "Western"
-msgstr "מערבית"
-
-#: ../terminatorlib/encoding.py:36 ../terminatorlib/encoding.py:68
-#: ../terminatorlib/encoding.py:80 ../terminatorlib/encoding.py:99
-msgid "Central European"
-msgstr "מרכז אירופאי"
-
-#: ../terminatorlib/encoding.py:37
-msgid "South European"
-msgstr "דרום אירופאי"
-
-#: ../terminatorlib/encoding.py:38 ../terminatorlib/encoding.py:46
-#: ../terminatorlib/encoding.py:106
-msgid "Baltic"
-msgstr "בלטי"
-
-#. [False, "JOHAB", _("Korean") ],
-#: ../terminatorlib/encoding.py:39 ../terminatorlib/encoding.py:69
-#: ../terminatorlib/encoding.py:75 ../terminatorlib/encoding.py:77
-#: ../terminatorlib/encoding.py:82 ../terminatorlib/encoding.py:100
-msgid "Cyrillic"
-msgstr "קירילי"
-
-#: ../terminatorlib/encoding.py:40 ../terminatorlib/encoding.py:72
-#: ../terminatorlib/encoding.py:79 ../terminatorlib/encoding.py:105
-msgid "Arabic"
-msgstr "ערבית"
-
-#: ../terminatorlib/encoding.py:41 ../terminatorlib/encoding.py:85
-#: ../terminatorlib/encoding.py:102
-msgid "Greek"
-msgstr "יוונית"
-
-#: ../terminatorlib/encoding.py:42
-msgid "Hebrew Visual"
-msgstr "עברית ויזואלית"
-
-#: ../terminatorlib/encoding.py:43 ../terminatorlib/encoding.py:71
-#: ../terminatorlib/encoding.py:88 ../terminatorlib/encoding.py:104
-msgid "Hebrew"
-msgstr "עברית"
-
-#: ../terminatorlib/encoding.py:44 ../terminatorlib/encoding.py:70
-#: ../terminatorlib/encoding.py:92 ../terminatorlib/encoding.py:103
-msgid "Turkish"
-msgstr "טורקית"
-
-#: ../terminatorlib/encoding.py:45
-msgid "Nordic"
-msgstr "נורדית"
-
-#: ../terminatorlib/encoding.py:47
-msgid "Celtic"
-msgstr "קלטית"
-
-#: ../terminatorlib/encoding.py:49 ../terminatorlib/encoding.py:91
-msgid "Romanian"
-msgstr "רומנית"
-
-#. [False, "UTF-7", _("Unicode") ],
-#: ../terminatorlib/encoding.py:51
-msgid "Unicode"
-msgstr "יוניקוד"
-
-#. [False, "UTF-16", _("Unicode") ],
-#. [False, "UCS-2", _("Unicode") ],
-#. [False, "UCS-4", _("Unicode") ],
-#: ../terminatorlib/encoding.py:55
-msgid "Armenian"
-msgstr "ארמנית"
-
-#: ../terminatorlib/encoding.py:56 ../terminatorlib/encoding.py:57
-#: ../terminatorlib/encoding.py:61
-msgid "Chinese Traditional"
-msgstr "סינית מסורתית"
-
-#: ../terminatorlib/encoding.py:58
-msgid "Cyrillic/Russian"
-msgstr "קירילית/רוסית"
-
-#: ../terminatorlib/encoding.py:59 ../terminatorlib/encoding.py:73
-#: ../terminatorlib/encoding.py:94
-msgid "Japanese"
-msgstr "יפנית"
-
-#: ../terminatorlib/encoding.py:60 ../terminatorlib/encoding.py:74
-#: ../terminatorlib/encoding.py:97
-msgid "Korean"
-msgstr "קוראנית"
-
-#: ../terminatorlib/encoding.py:62 ../terminatorlib/encoding.py:63
-#: ../terminatorlib/encoding.py:64 ../terminatorlib/encoding.py:66
-msgid "Chinese Simplified"
-msgstr "סינית מפושטת"
-
-#: ../terminatorlib/encoding.py:65
-msgid "Georgian"
-msgstr "גאורגית"
-
-#: ../terminatorlib/encoding.py:78 ../terminatorlib/encoding.py:93
-msgid "Cyrillic/Ukrainian"
-msgstr "קירילית/אוקראינית"
-
-#: ../terminatorlib/encoding.py:81
-msgid "Croatian"
-msgstr "קרואטית"
-
-#: ../terminatorlib/encoding.py:83
-msgid "Hindi"
-msgstr "הינדית"
-
-#: ../terminatorlib/encoding.py:84
-msgid "Persian"
-msgstr "פרסית"
-
-#: ../terminatorlib/encoding.py:86
-msgid "Gujarati"
-msgstr "גוג׳ראטית"
-
-#: ../terminatorlib/encoding.py:87
-msgid "Gurmukhi"
-msgstr "גורמוקהי"
-
-#: ../terminatorlib/encoding.py:89
-msgid "Icelandic"
-msgstr "איסלנדית"
-
-#: ../terminatorlib/encoding.py:95 ../terminatorlib/encoding.py:98
-#: ../terminatorlib/encoding.py:107
-msgid "Vietnamese"
-msgstr "וייטנאמית"
-
-#: ../terminatorlib/encoding.py:96
-msgid "Thai"
-msgstr "תאית"
-
 #: ../terminatorlib/layoutlauncher.glade.h:1
 msgid "Terminator Layout Launcher"
 msgstr "משגר פריסת Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/preferences.glade.h:143
 msgid "Layout"
 msgstr "פריסה"
 
@@ -395,11 +253,11 @@ msgstr "פריסה"
 msgid "Launch"
 msgstr "הפעלה"
 
-#: ../terminatorlib/notebook.py:384
+#: ../terminatorlib/notebook.py:383
 msgid "tab"
 msgstr "לשונית"
 
-#: ../terminatorlib/notebook.py:656
+#: ../terminatorlib/notebook.py:655
 msgid "Close Tab"
 msgstr "סגירת לשוניות"
 
@@ -530,7 +388,7 @@ msgstr "_פקודות מותאמות אישית"
 
 #. VERIFY FOR GTK3: is this ever false?
 #: ../terminatorlib/plugins/custom_commands.py:67
-#: ../terminatorlib/terminal_popup_menu.py:198
+#: ../terminatorlib/terminal_popup_menu.py:197
 msgid "_Preferences"
 msgstr "ה_עדפות"
 
@@ -555,12 +413,12 @@ msgid "Enabled"
 msgstr "מופעל"
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Name"
 msgstr "שם"
 
 #: ../terminatorlib/plugins/custom_commands.py:174
-#: ../terminatorlib/preferences.glade.h:101
+#: ../terminatorlib/preferences.glade.h:103
 msgid "Command"
 msgstr "פקודה"
 
@@ -666,7 +524,7 @@ msgid "Escape sequence"
 msgstr "רצף סליקה"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:727
+#: ../terminatorlib/preferences.glade.h:5 ../terminatorlib/window.py:754
 msgid "All"
 msgstr "הכול"
 
@@ -883,490 +741,512 @@ msgid "Use custom URL handler"
 msgstr "להשתמש במטפל כתובות מותאם אישית"
 
 #: ../terminatorlib/preferences.glade.h:60
-msgid "Custom URL handler:"
-msgstr "מטפל כתובות מותאם אישית:"
-
-#: ../terminatorlib/preferences.glade.h:61
 msgid "PRIMARY"
 msgstr "עיקרי"
 
-#: ../terminatorlib/preferences.glade.h:62
+#: ../terminatorlib/preferences.glade.h:61
 msgid "Clipboard"
 msgstr "לוח גזירים"
 
-#: ../terminatorlib/preferences.glade.h:63
+#: ../terminatorlib/preferences.glade.h:62
 msgid "Clear selection on copy"
 msgstr "פינוי הבחירה עם ההעתקה"
 
-#: ../terminatorlib/preferences.glade.h:64
+#: ../terminatorlib/preferences.glade.h:63
 msgid "Open links with a single click (instead of Ctrl-left click)"
 msgstr "פותח קישורים בלחיצה בודדת (במקום עם Ctrl-לחיצה שמאלית)"
 
+#: ../terminatorlib/preferences.glade.h:64
+msgid "Disable mouse paste"
+msgstr ""
+
 #: ../terminatorlib/preferences.glade.h:65
+msgid "Custom URL handler:"
+msgstr "מטפל כתובות מותאם אישית:"
+
+#: ../terminatorlib/preferences.glade.h:66
 msgid "<b>Appearance</b>"
 msgstr "<b>מראה</b>"
 
-#: ../terminatorlib/preferences.glade.h:66
+#: ../terminatorlib/preferences.glade.h:67
 msgid "Window borders"
 msgstr "גבולות החלון"
 
-#: ../terminatorlib/preferences.glade.h:67
+#: ../terminatorlib/preferences.glade.h:68
 msgid "Unfocused terminal font brightness:"
 msgstr "בהירות גופן במסוף שאינו במיקוד:"
 
-#: ../terminatorlib/preferences.glade.h:68
+#: ../terminatorlib/preferences.glade.h:69
 msgid "Terminal separator size:"
 msgstr "גודל מפריד מסופים:"
-
-#: ../terminatorlib/preferences.glade.h:69
-msgid "Line Height:"
-msgstr "גובה שורה:"
 
 #: ../terminatorlib/preferences.glade.h:70
 msgid "Extra Styling (Theme dependant)"
 msgstr "עיצוב נוסף (תלוי ערכת עיצוב)"
 
 #: ../terminatorlib/preferences.glade.h:71
+msgid "Cell Height:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:72
+msgid "Cell Width:"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:73
 msgid "Tab position:"
 msgstr "מיקום לשוניות:"
 
-#: ../terminatorlib/preferences.glade.h:72
+#: ../terminatorlib/preferences.glade.h:74
 msgid "Tabs homogeneous"
 msgstr "לשוניות הומוגניות"
 
-#: ../terminatorlib/preferences.glade.h:73
+#: ../terminatorlib/preferences.glade.h:75
 msgid "Tabs scroll buttons"
 msgstr "כפתורי גלילת לשוניות"
 
-#: ../terminatorlib/preferences.glade.h:74
+#: ../terminatorlib/preferences.glade.h:76
 msgid "Title bar at bottom (Require restart)"
 msgstr "פס כותרת בתחתית (דורש הפעלה מחדש)"
 
-#: ../terminatorlib/preferences.glade.h:75
+#: ../terminatorlib/preferences.glade.h:77
 msgid "Global"
 msgstr "גלובלי"
 
-#: ../terminatorlib/preferences.glade.h:76
+#: ../terminatorlib/preferences.glade.h:78
 msgid "Profile"
 msgstr "פרופיל"
 
-#: ../terminatorlib/preferences.glade.h:77
+#: ../terminatorlib/preferences.glade.h:79
 msgid "_Use the system fixed width font"
 msgstr "להשתמש בגופן ברוחב ה_אחיד של המערכת"
 
-#: ../terminatorlib/preferences.glade.h:78
+#: ../terminatorlib/preferences.glade.h:80
 msgid "_Font:"
 msgstr "_גופן:"
 
-#: ../terminatorlib/preferences.glade.h:79
+#: ../terminatorlib/preferences.glade.h:81
 msgid "Choose A Terminal Font"
 msgstr "נא לבחור גופן למסוף"
 
-#: ../terminatorlib/preferences.glade.h:80
+#: ../terminatorlib/preferences.glade.h:82
 msgid "_Allow bold text"
 msgstr "ל_אפשר גופן מודגש"
 
-#: ../terminatorlib/preferences.glade.h:81
+#: ../terminatorlib/preferences.glade.h:83
 msgid "Show titlebar"
 msgstr "הצגת שורת כותרת"
 
-#: ../terminatorlib/preferences.glade.h:82
+#: ../terminatorlib/preferences.glade.h:84
 msgid "Copy on selection"
 msgstr "העתקה בעת הבחירה"
 
-#: ../terminatorlib/preferences.glade.h:83
+#: ../terminatorlib/preferences.glade.h:85
 msgid "Disable Ctrl+mousewheel zoom"
 msgstr "השבתת Ctrl+גלגלת עכבר לתקריב"
 
-#: ../terminatorlib/preferences.glade.h:84
+#: ../terminatorlib/preferences.glade.h:86
 msgid "Select-by-_word characters:"
 msgstr "תווים לבחירה ל_פי מילה:"
 
-#: ../terminatorlib/preferences.glade.h:85
+#: ../terminatorlib/preferences.glade.h:87
 msgid "<b>Cursor</b>"
 msgstr "<b>סמן</b>"
 
-#: ../terminatorlib/preferences.glade.h:86
+#: ../terminatorlib/preferences.glade.h:88
 msgid "_Shape:"
 msgstr "_צורה:"
 
-#: ../terminatorlib/preferences.glade.h:87
+#: ../terminatorlib/preferences.glade.h:89
 msgid "Blink"
 msgstr "הבהוב"
 
-#: ../terminatorlib/preferences.glade.h:88
+#: ../terminatorlib/preferences.glade.h:90
 msgid "Use default colors"
 msgstr "להשתמש בצבעי בררת המחדל"
 
-#: ../terminatorlib/preferences.glade.h:89
+#: ../terminatorlib/preferences.glade.h:91
 msgid "Foreground:"
 msgstr "חזית:"
 
-#: ../terminatorlib/preferences.glade.h:90
+#: ../terminatorlib/preferences.glade.h:92
 msgid "Background:"
 msgstr "רקע:"
 
-#: ../terminatorlib/preferences.glade.h:91
+#: ../terminatorlib/preferences.glade.h:93
 msgid "<b>Terminal bell</b>"
 msgstr "<b>פעמון מסוף</b>"
 
-#: ../terminatorlib/preferences.glade.h:92
+#: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
 msgstr "סמל בשורת הכותרת"
 
-#: ../terminatorlib/preferences.glade.h:93
+#: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
 msgstr "הבזק חזותי"
 
-#: ../terminatorlib/preferences.glade.h:94
+#: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
 msgstr "צפצוף"
 
-#: ../terminatorlib/preferences.glade.h:95
+#: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
 msgstr "הבזק ברשימת החלונות"
 
-#: ../terminatorlib/preferences.glade.h:96
+#: ../terminatorlib/preferences.glade.h:98
 msgid "General"
 msgstr "כללי"
 
-#: ../terminatorlib/preferences.glade.h:97
+#: ../terminatorlib/preferences.glade.h:99
 msgid "_Run command as a login shell"
 msgstr "ה_רצת פקודה כמעטפת כניסה"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade.h:100
 msgid "Ru_n a custom command instead of my shell"
 msgstr "ה_רצת פקודה מותאמת אישית במקום המעטפת שלי"
 
-#: ../terminatorlib/preferences.glade.h:99
+#: ../terminatorlib/preferences.glade.h:101
 msgid "Custom co_mmand:"
 msgstr "_פקודה מותאמת אישית:"
 
-#: ../terminatorlib/preferences.glade.h:100
+#: ../terminatorlib/preferences.glade.h:102
 msgid "When command _exits:"
 msgstr "כאשר הפקודה מ_סתיימת:"
 
-#: ../terminatorlib/preferences.glade.h:102
+#: ../terminatorlib/preferences.glade.h:104
 msgid "<b>Foreground and Background</b>"
 msgstr "<b>חזית ורקע</b>"
 
-#: ../terminatorlib/preferences.glade.h:103
+#: ../terminatorlib/preferences.glade.h:105
 msgid "_Use colors from system theme"
 msgstr "להשתמש ב_צבעים מערכת העיצוב של המערכת"
 
-#: ../terminatorlib/preferences.glade.h:104
+#: ../terminatorlib/preferences.glade.h:106
 msgid "Built-in sche_mes:"
 msgstr "_סכמות מובנות:"
 
-#: ../terminatorlib/preferences.glade.h:105
+#: ../terminatorlib/preferences.glade.h:107
 msgid "_Foreground:"
 msgstr "_חזית:"
 
-#: ../terminatorlib/preferences.glade.h:106
+#: ../terminatorlib/preferences.glade.h:108
 msgid "_Background:"
 msgstr "_רקע:"
 
-#: ../terminatorlib/preferences.glade.h:107
+#: ../terminatorlib/preferences.glade.h:109
 msgid "<b>Palette</b>"
 msgstr "<b>ערכת צבעים</b>"
 
-#: ../terminatorlib/preferences.glade.h:108
+#: ../terminatorlib/preferences.glade.h:110
 msgid "Built-in _schemes:"
 msgstr "_סכמות מובנות:"
 
-#: ../terminatorlib/preferences.glade.h:109
+#: ../terminatorlib/preferences.glade.h:111
 msgid "Color p_alette:"
 msgstr "_ערכות צבעים:"
 
-#: ../terminatorlib/preferences.glade.h:110
+#: ../terminatorlib/preferences.glade.h:112
 msgid "Show b_old text in bright colors"
 msgstr "הצגת טקסט מו_דגש בצבעים בהירים"
 
-#: ../terminatorlib/preferences.glade.h:111
+#: ../terminatorlib/preferences.glade.h:113
 msgid "Colors"
 msgstr "צבעים"
 
-#: ../terminatorlib/preferences.glade.h:112
+#: ../terminatorlib/preferences.glade.h:114
 msgid "_Solid color"
 msgstr "צבע _אחיד"
 
-#: ../terminatorlib/preferences.glade.h:113
+#: ../terminatorlib/preferences.glade.h:115
 msgid "_Transparent background"
 msgstr "רקע _שקוף"
 
-#: ../terminatorlib/preferences.glade.h:114
+#: ../terminatorlib/preferences.glade.h:116
 msgid "Background Image"
 msgstr "תמונת רקע"
 
-#: ../terminatorlib/preferences.glade.h:115
+#: ../terminatorlib/preferences.glade.h:117
 msgid "Background Image File:"
 msgstr "קובץ תמונת רקע:"
 
-#: ../terminatorlib/preferences.glade.h:116
+#: ../terminatorlib/preferences.glade.h:118
 msgid "Choose file"
 msgstr "בחירת קובץ"
 
-#: ../terminatorlib/preferences.glade.h:117
+#: ../terminatorlib/preferences.glade.h:119
 msgid "S_hade background:"
 msgstr "ה_צללת רקע:"
 
-#: ../terminatorlib/preferences.glade.h:118
+#: ../terminatorlib/preferences.glade.h:120
 msgid "<small><i>None</i></small>"
 msgstr "<small><i>ללא</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:119
+#: ../terminatorlib/preferences.glade.h:121
 msgid "<small><i>Maximum</i></small>"
 msgstr "<small><i>הכי הרבה</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:120
+#: ../terminatorlib/preferences.glade.h:122
 msgid "Background"
 msgstr "רקע"
 
-#: ../terminatorlib/preferences.glade.h:121
+#: ../terminatorlib/preferences.glade.h:123
 msgid "_Scrollbar is:"
 msgstr "פס ה_גלילה מופיע:"
 
-#: ../terminatorlib/preferences.glade.h:122
+#: ../terminatorlib/preferences.glade.h:124
 msgid "Scroll on _output"
 msgstr "גלילה עם _פלט"
 
-#: ../terminatorlib/preferences.glade.h:123
+#: ../terminatorlib/preferences.glade.h:125
 msgid "Scroll on _keystroke"
 msgstr "גלילה עם ה_קלדה"
 
-#: ../terminatorlib/preferences.glade.h:124
+#: ../terminatorlib/preferences.glade.h:126
 msgid "Infinite Scrollback"
 msgstr "היסטוריית מסוף אינסופית"
 
-#: ../terminatorlib/preferences.glade.h:125
+#: ../terminatorlib/preferences.glade.h:127
 msgid "Scroll_back:"
 msgstr "היס_טוריית מסוף:"
 
-#: ../terminatorlib/preferences.glade.h:126
+#: ../terminatorlib/preferences.glade.h:128
 msgid "lines"
 msgstr "שורות"
 
-#: ../terminatorlib/preferences.glade.h:127
+#: ../terminatorlib/preferences.glade.h:129
 msgid "Scrolling"
 msgstr "גלילה"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:130
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
 "<small><i><b>לתשומת לבך:</b> האפשרויות האלו עלולות לגרום לחלק מהיישומים "
 "להתנהג באופן חריג.  הן כאן רק כדי לאפשר לך לעקוף כל מיני יישומים ומערות "
 "הפעלה שמצפים להתנהגות שונה ממסוף.</i></small>"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:131
 msgid "_Backspace key generates:"
 msgstr "מק_ש Backspace מייצר:"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Delete key generates:"
 msgstr "מ_קש Delete מייצר:"
 
-#: ../terminatorlib/preferences.glade.h:131
-msgid "Encoding:"
-msgstr "קידוד:"
-
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:133
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_איפוס אפשרויות התאימות לבררות המחדל"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:134
 msgid "Compatibility"
 msgstr "תאימות"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Focused"
 msgstr "ממוקד"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Inactive"
 msgstr "בלתי פעיל"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:137
 msgid "Receiving"
 msgstr "מקבל"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Hide size from title"
 msgstr "הסתרת הגודל מהכותרת"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:139
 msgid "_Use the system font"
 msgstr "להשתמש בגופן המ_ערכת"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:140
 msgid "Choose A Titlebar Font"
 msgstr "בחירת גופן לשורת הכותרת"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:141
 msgid "Titlebar"
 msgstr "שורת כותרת"
 
-#: ../terminatorlib/preferences.glade.h:141
-#: ../terminatorlib/terminal_popup_menu.py:205
+#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/terminal_popup_menu.py:204
 msgid "Profiles"
 msgstr "פרופילים"
 
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Type"
 msgstr "סוג"
 
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Custom command:"
 msgstr "פקודה בהתאמה אישית:"
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Working directory:"
 msgstr "תיקיית עבודה:"
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Layouts"
 msgstr "פריסות"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Action"
 msgstr "פעולה"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Keybinding"
 msgstr "צירוף מקשים"
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Keybindings"
 msgstr "צירופי מקשים"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:153
 msgid "Plugin"
 msgstr "תוסף"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:154
 msgid "This plugin has no configuration options"
 msgstr "לתוסף זה אין אפשרויות להגדרה"
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:155
 msgid "Plugins"
 msgstr "תוספים"
 
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:158
 msgid "Version: 2.1.1"
 msgstr "גירסה: 2.1.1"
 
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:159
 msgid ""
-"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging "
+"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
+"etc. in that the main focus is arranging terminals in grids (tabs is the "
+"most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users. If you have any suggestions, please file wishlist bugs! (see left for "
+"the Development link)"
 msgstr ""
-"מטרת המיזם הזה היא לייצר כלי שימושי לארגון מסופים. המיזם שאב השראה מתכניות כגון gnome-multi-term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים ברשת (לשוניות היא צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator).\n"
+"מטרת המיזם הזה היא לייצר כלי שימושי לארגון מסופים. המיזם שאב השראה מתכניות "
+"כגון gnome-multi-term,‏ quadkonsole וכו׳ בכך שעיקר המיקוד הוא בסידור מסופים "
+"ברשת (לשוניות היא צורת בררת המחדל הנפוצה ביותר שגם היא נתמכת ב־Terminator).\n"
 "\n"
-"הרבה מההתנהגות של Terminator מבוססת על המסוף של GNOME ואנו מוסיפים תכונות נוספות עם הזמן אך אנו מעוניינים להתרחב לכיוונים נוספים עם תכונות שימושיות עבור מנהלי מערכת ומשתמשים אחרים. אם יש לך הצעות, נא להגיש תקלה לרשימת המשאלות! (בקישור לפיתוח משמאל) "
+"הרבה מההתנהגות של Terminator מבוססת על המסוף של GNOME ואנו מוסיפים תכונות "
+"נוספות עם הזמן אך אנו מעוניינים להתרחב לכיוונים נוספים עם תכונות שימושיות "
+"עבור מנהלי מערכת ומשתמשים אחרים. אם יש לך הצעות, נא להגיש תקלה לרשימת "
+"המשאלות! (בקישור לפיתוח משמאל) "
 
-#: ../terminatorlib/preferences.glade.h:161
+#: ../terminatorlib/preferences.glade.h:162
 msgid "The Manual"
 msgstr "המדריך"
 
-#: ../terminatorlib/preferences.glade.h:162
+#: ../terminatorlib/preferences.glade.h:163
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">פיתוח</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">תקלות / שיפורים</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">תקלות / "
+"שיפורים</a>"
 
-#: ../terminatorlib/preferences.glade.h:164
+#: ../terminatorlib/preferences.glade.h:165
 msgid "About"
 msgstr "על אודות"
 
-#: ../terminatorlib/prefseditor.py:105
+#: ../terminatorlib/prefseditor.py:104
 msgid "Increase font size"
 msgstr "הגדלת הגופן"
 
-#: ../terminatorlib/prefseditor.py:106
+#: ../terminatorlib/prefseditor.py:105
 msgid "Decrease font size"
 msgstr "הקטנת הגופן"
 
-#: ../terminatorlib/prefseditor.py:107
+#: ../terminatorlib/prefseditor.py:106
 msgid "Restore original font size"
 msgstr "שחזור גודל הגופן המקורי"
 
-#: ../terminatorlib/prefseditor.py:108
+#: ../terminatorlib/prefseditor.py:107
 msgid "Increase font size on all terminals"
 msgstr "להגדיל את הגופן בכל המסופים"
 
-#: ../terminatorlib/prefseditor.py:109
+#: ../terminatorlib/prefseditor.py:108
 msgid "Decrease font size on all terminals"
 msgstr "להקטין את הגופן בכל המסופים"
 
-#: ../terminatorlib/prefseditor.py:110
+#: ../terminatorlib/prefseditor.py:109
 msgid "Restore original font size on all terminals"
 msgstr "לשחזר את גודל הגופן המקורי בכל המסופים"
 
-#: ../terminatorlib/prefseditor.py:111
+#: ../terminatorlib/prefseditor.py:110
 msgid "Create a new tab"
 msgstr "יצירת לשונית חדשה"
 
-#: ../terminatorlib/prefseditor.py:112 ../terminatorlib/prefseditor.py:114
+#: ../terminatorlib/prefseditor.py:111 ../terminatorlib/prefseditor.py:113
 msgid "Focus the next terminal"
 msgstr "התמקדות במסוף הבא"
 
-#: ../terminatorlib/prefseditor.py:113 ../terminatorlib/prefseditor.py:115
+#: ../terminatorlib/prefseditor.py:112 ../terminatorlib/prefseditor.py:114
 msgid "Focus the previous terminal"
 msgstr "התמקדות במסוף הקודם"
 
-#: ../terminatorlib/prefseditor.py:116
+#: ../terminatorlib/prefseditor.py:115
 msgid "Focus the terminal above"
 msgstr "התמקדות במסוף שמעל"
 
-#: ../terminatorlib/prefseditor.py:117
+#: ../terminatorlib/prefseditor.py:116
 msgid "Focus the terminal below"
 msgstr "התמקדות במסוף שמתחת"
 
-#: ../terminatorlib/prefseditor.py:118
+#: ../terminatorlib/prefseditor.py:117
 msgid "Focus the terminal left"
 msgstr "התמקדות במסוף שמשמאל"
 
-#: ../terminatorlib/prefseditor.py:119
+#: ../terminatorlib/prefseditor.py:118
 msgid "Focus the terminal right"
 msgstr "התמקדות במסוף שמימין"
 
-#: ../terminatorlib/prefseditor.py:120
+#: ../terminatorlib/prefseditor.py:119
 msgid "Rotate terminals clockwise"
 msgstr "הטיית המסופים עם כיוון השעון"
 
-#: ../terminatorlib/prefseditor.py:121
+#: ../terminatorlib/prefseditor.py:120
 msgid "Rotate terminals counter-clockwise"
 msgstr "הטיית המסופים נגד כיוון השעון"
 
-#: ../terminatorlib/prefseditor.py:122
+#: ../terminatorlib/prefseditor.py:121
 msgid "Split horizontally"
 msgstr "פיצול אופקי"
 
-#: ../terminatorlib/prefseditor.py:123
+#: ../terminatorlib/prefseditor.py:122
 msgid "Split vertically"
 msgstr "פיצול אנכי"
 
-#: ../terminatorlib/prefseditor.py:124
+#: ../terminatorlib/prefseditor.py:123
 msgid "Close terminal"
 msgstr "סגירת המסוף"
 
-#: ../terminatorlib/prefseditor.py:125
+#: ../terminatorlib/prefseditor.py:124
 msgid "Copy selected text"
 msgstr "העתקת הטקסט הנבחר"
 
-#: ../terminatorlib/prefseditor.py:126
+#: ../terminatorlib/prefseditor.py:125
 msgid "Paste clipboard"
 msgstr "הדבקת לוח גזירים"
+
+#: ../terminatorlib/prefseditor.py:126
+msgid "Paste primary selection"
+msgstr ""
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Show/Hide the scrollbar"
@@ -1600,11 +1480,11 @@ msgstr "פתיחה בחלון ההעדפות"
 msgid "Open the manual"
 msgstr "פתיחת המדריך"
 
-#: ../terminatorlib/prefseditor.py:1364
+#: ../terminatorlib/prefseditor.py:1370
 msgid "New Profile"
 msgstr "פרופיל חדש"
 
-#: ../terminatorlib/prefseditor.py:1407 ../terminatorlib/prefseditor.py:1412
+#: ../terminatorlib/prefseditor.py:1413 ../terminatorlib/prefseditor.py:1418
 msgid "New Layout"
 msgstr "פריסה חדשה"
 
@@ -1617,185 +1497,169 @@ msgstr "חיפוש:"
 msgid "Close Search bar"
 msgstr "סגירת סרגל החיפוש"
 
-#: ../terminatorlib/terminal_popup_menu.py:59
+#: ../terminatorlib/terminal_popup_menu.py:58
 msgid "_Send email to..."
 msgstr "שליחת דו_א״ל אל…"
 
-#: ../terminatorlib/terminal_popup_menu.py:60
+#: ../terminatorlib/terminal_popup_menu.py:59
 msgid "_Copy email address"
 msgstr "העתקת כתובת _דוא״ל"
 
-#: ../terminatorlib/terminal_popup_menu.py:62
+#: ../terminatorlib/terminal_popup_menu.py:61
 msgid "Ca_ll VoIP address"
 msgstr "הת_קשרות לכתובת VoIP"
 
-#: ../terminatorlib/terminal_popup_menu.py:63
+#: ../terminatorlib/terminal_popup_menu.py:62
 msgid "_Copy VoIP address"
 msgstr "ה_עתקת כתובת VoIP"
 
-#: ../terminatorlib/terminal_popup_menu.py:84
+#: ../terminatorlib/terminal_popup_menu.py:83
 msgid "_Open link"
 msgstr "_פתיחת קישור"
 
-#: ../terminatorlib/terminal_popup_menu.py:86
+#: ../terminatorlib/terminal_popup_menu.py:85
 msgid "_Copy address"
 msgstr "ה_עתק כתובת"
 
-#: ../terminatorlib/terminal_popup_menu.py:102
+#: ../terminatorlib/terminal_popup_menu.py:101
 msgid "_Copy"
 msgstr "ה_עתקה"
 
-#: ../terminatorlib/terminal_popup_menu.py:107
+#: ../terminatorlib/terminal_popup_menu.py:106
 msgid "_Paste"
 msgstr "ה_דבקה"
 
-#: ../terminatorlib/terminal_popup_menu.py:113
+#: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Set W_indow Title"
 msgstr "הגדרת _כותרת חלון"
 
-#: ../terminatorlib/terminal_popup_menu.py:118
+#: ../terminatorlib/terminal_popup_menu.py:117
 msgid "Split H_orizontally"
 msgstr "פיצול או_פקית"
 
-#: ../terminatorlib/terminal_popup_menu.py:128
+#: ../terminatorlib/terminal_popup_menu.py:127
 msgid "Split V_ertically"
 msgstr "פיצול א_נכית"
 
-#: ../terminatorlib/terminal_popup_menu.py:138
+#: ../terminatorlib/terminal_popup_menu.py:137
 msgid "Open _Tab"
 msgstr "פתיחת _לשונית"
 
-#: ../terminatorlib/terminal_popup_menu.py:144
+#: ../terminatorlib/terminal_popup_menu.py:143
 msgid "Open _Debug Tab"
 msgstr "פתיחת לשונית _ניפוי שגיאות"
 
-#: ../terminatorlib/terminal_popup_menu.py:151
+#: ../terminatorlib/terminal_popup_menu.py:150
 msgid "_Close"
 msgstr "_סגירה"
 
-#: ../terminatorlib/terminal_popup_menu.py:160
+#: ../terminatorlib/terminal_popup_menu.py:159
 msgid "_Zoom terminal"
 msgstr "התק_רבות למסוף"
 
-#: ../terminatorlib/terminal_popup_menu.py:165
+#: ../terminatorlib/terminal_popup_menu.py:164
 msgid "Ma_ximize terminal"
 msgstr "ה_גדלת מסוף"
 
-#: ../terminatorlib/terminal_popup_menu.py:172
+#: ../terminatorlib/terminal_popup_menu.py:171
 msgid "_Restore all terminals"
 msgstr "_שחזור כל המסופים"
 
-#: ../terminatorlib/terminal_popup_menu.py:179
+#: ../terminatorlib/terminal_popup_menu.py:178
 msgid "Grouping"
 msgstr "קיבוץ"
 
-#: ../terminatorlib/terminal_popup_menu.py:187
+#: ../terminatorlib/terminal_popup_menu.py:186
 msgid "Relaunch Command"
 msgstr "פקודת הפעלה מחדש"
 
-#: ../terminatorlib/terminal_popup_menu.py:192
+#: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Show _scrollbar"
 msgstr "הצגת _פס גלילה"
 
-#: ../terminatorlib/terminal_popup_menu.py:250
+#: ../terminatorlib/terminal_popup_menu.py:248
 msgid "_Layouts..."
 msgstr "_פריסות…"
 
-#: ../terminatorlib/terminal_popup_menu.py:264
-msgid "Encodings"
-msgstr "קידודים"
-
-#: ../terminatorlib/terminal_popup_menu.py:279
-msgid "Default"
-msgstr "בררת מחדל"
-
-#: ../terminatorlib/terminal_popup_menu.py:282
-msgid "User defined"
-msgstr "בהגדרת המשתמש"
-
-#: ../terminatorlib/terminal_popup_menu.py:298
-msgid "Other Encodings"
-msgstr "קידודים אחרים"
-
-#: ../terminatorlib/terminal.py:496
+#: ../terminatorlib/terminal.py:481
 msgid "N_ew group..."
 msgstr "קבוצה _חדשה…"
 
-#: ../terminatorlib/terminal.py:502
+#: ../terminatorlib/terminal.py:487
 msgid "_None"
 msgstr "_ללא"
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:507
 #, python-format
 msgid "Remove group %s"
 msgstr "הסרת הקבוצה %s"
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:512
 msgid "G_roup all in window"
 msgstr "_קיבוץ הכול בחלון"
 
-#: ../terminatorlib/terminal.py:532
+#: ../terminatorlib/terminal.py:517
 msgid "Ungro_up all in window"
 msgstr "_פירוק הכול בחלון"
 
-#: ../terminatorlib/terminal.py:537
+#: ../terminatorlib/terminal.py:522
 msgid "G_roup all in tab"
 msgstr "_קיבוץ הכול בלשונית"
 
-#: ../terminatorlib/terminal.py:542
+#: ../terminatorlib/terminal.py:527
 msgid "Ungro_up all in tab"
 msgstr "_פירוק כל מי שבלשונית"
 
-#: ../terminatorlib/terminal.py:547
+#: ../terminatorlib/terminal.py:532
 msgid "Remove all groups"
 msgstr "הסרת כל הקבוצות"
 
-#: ../terminatorlib/terminal.py:554
+#: ../terminatorlib/terminal.py:539
 #, python-format
 msgid "Close group %s"
 msgstr "סגירת הקבוצה %s"
 
-#: ../terminatorlib/terminal.py:564
+#: ../terminatorlib/terminal.py:549
 msgid "Broadcast _all"
 msgstr "לשדר ל_כולם"
 
-#: ../terminatorlib/terminal.py:565
+#: ../terminatorlib/terminal.py:550
 msgid "Broadcast _group"
 msgstr "_קבוצת שידור"
 
-#: ../terminatorlib/terminal.py:566
+#: ../terminatorlib/terminal.py:551
 msgid "Broadcast _off"
 msgstr "_כיבוי השידור"
 
-#: ../terminatorlib/terminal.py:582
+#: ../terminatorlib/terminal.py:567
 msgid "_Split to this group"
 msgstr "_פיצול הקבוצה הזו"
 
-#: ../terminatorlib/terminal.py:587
+#: ../terminatorlib/terminal.py:572
 msgid "Auto_clean groups"
 msgstr "ל_נקות קבוצות אוטומטית"
 
-#: ../terminatorlib/terminal.py:594
+#: ../terminatorlib/terminal.py:579
 msgid "_Insert terminal number"
 msgstr "הו_ספת מספר מסוף"
 
-#: ../terminatorlib/terminal.py:598
+#: ../terminatorlib/terminal.py:583
 msgid "Insert _padded terminal number"
 msgstr "הוספת מספר מסוף מרופ_ד"
 
-#: ../terminatorlib/terminal.py:1524
+#: ../terminatorlib/terminal.py:1490
 msgid "Unable to find a shell"
 msgstr "לא ניתן למצוא מעטפת"
 
-#: ../terminatorlib/terminal.py:1555
+#: ../terminatorlib/terminal.py:1521
 msgid "Unable to start shell:"
 msgstr "לא ניתן להפעיל מעטפת:"
 
-#: ../terminatorlib/terminal.py:2005
+#: ../terminatorlib/terminal.py:1975
 msgid "Rename Window"
 msgstr "שינוי שם חלון"
 
-#: ../terminatorlib/terminal.py:2013
+#: ../terminatorlib/terminal.py:1983
 msgid "Enter a new title for the Terminator window..."
 msgstr "נא להקליד כותרת חדשה לחלון ה־Terminator…"
 
@@ -1903,12 +1767,123 @@ msgstr "אומגה"
 msgid "window"
 msgstr "חלון"
 
-#: ../terminatorlib/window.py:746
+#: ../terminatorlib/window.py:773
 #, python-format
 msgid "Window group %s"
 msgstr "קבות חלונות %s"
 
-#: ../terminatorlib/window.py:772
+#: ../terminatorlib/window.py:799
 #, python-format
 msgid "Tab %d"
 msgstr "לשונית %d"
+
+#~ msgid "Current Locale"
+#~ msgstr "הגדרות מיקום נוכחיות"
+
+#~ msgid "Western"
+#~ msgstr "מערבית"
+
+#~ msgid "Central European"
+#~ msgstr "מרכז אירופאי"
+
+#~ msgid "South European"
+#~ msgstr "דרום אירופאי"
+
+#~ msgid "Baltic"
+#~ msgstr "בלטי"
+
+#~ msgid "Cyrillic"
+#~ msgstr "קירילי"
+
+#~ msgid "Arabic"
+#~ msgstr "ערבית"
+
+#~ msgid "Greek"
+#~ msgstr "יוונית"
+
+#~ msgid "Hebrew Visual"
+#~ msgstr "עברית ויזואלית"
+
+#~ msgid "Hebrew"
+#~ msgstr "עברית"
+
+#~ msgid "Turkish"
+#~ msgstr "טורקית"
+
+#~ msgid "Nordic"
+#~ msgstr "נורדית"
+
+#~ msgid "Celtic"
+#~ msgstr "קלטית"
+
+#~ msgid "Romanian"
+#~ msgstr "רומנית"
+
+#~ msgid "Unicode"
+#~ msgstr "יוניקוד"
+
+#~ msgid "Armenian"
+#~ msgstr "ארמנית"
+
+#~ msgid "Chinese Traditional"
+#~ msgstr "סינית מסורתית"
+
+#~ msgid "Cyrillic/Russian"
+#~ msgstr "קירילית/רוסית"
+
+#~ msgid "Japanese"
+#~ msgstr "יפנית"
+
+#~ msgid "Korean"
+#~ msgstr "קוראנית"
+
+#~ msgid "Chinese Simplified"
+#~ msgstr "סינית מפושטת"
+
+#~ msgid "Georgian"
+#~ msgstr "גאורגית"
+
+#~ msgid "Cyrillic/Ukrainian"
+#~ msgstr "קירילית/אוקראינית"
+
+#~ msgid "Croatian"
+#~ msgstr "קרואטית"
+
+#~ msgid "Hindi"
+#~ msgstr "הינדית"
+
+#~ msgid "Persian"
+#~ msgstr "פרסית"
+
+#~ msgid "Gujarati"
+#~ msgstr "גוג׳ראטית"
+
+#~ msgid "Gurmukhi"
+#~ msgstr "גורמוקהי"
+
+#~ msgid "Icelandic"
+#~ msgstr "איסלנדית"
+
+#~ msgid "Vietnamese"
+#~ msgstr "וייטנאמית"
+
+#~ msgid "Thai"
+#~ msgstr "תאית"
+
+#~ msgid "Line Height:"
+#~ msgstr "גובה שורה:"
+
+#~ msgid "Encoding:"
+#~ msgstr "קידוד:"
+
+#~ msgid "Encodings"
+#~ msgstr "קידודים"
+
+#~ msgid "Default"
+#~ msgstr "בררת מחדל"
+
+#~ msgid "User defined"
+#~ msgstr "בהגדרת המשתמש"
+
+#~ msgid "Other Encodings"
+#~ msgstr "קידודים אחרים"
