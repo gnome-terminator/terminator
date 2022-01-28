@@ -212,7 +212,7 @@ class Window(Container, Gtk.Window):
         mapping = self.terminator.keybindings.lookup(event)
 
         if mapping:
-            dbg('Window::on_key_press: looked up %r' % mapping)
+            dbg('looked up %r' % mapping)
             if mapping == 'full_screen':
                 self.set_fullscreen(not self.isfullscreen)
             elif mapping == 'close_window':
@@ -283,7 +283,7 @@ class Window(Container, Gtk.Window):
             if self.is_zoomed():
                 return(self.confirm_close(window, _('window')))
             else:
-                dbg('Window::on_delete_event: Only one child, closing is fine')
+                dbg('Only one child, closing is fine')
                 return(False)
         elif maker.isinstance(self.get_child(), 'Container'):
             return(self.confirm_close(window, _('window')))
@@ -337,7 +337,7 @@ class Window(Container, Gtk.Window):
                                  Gdk.WindowState.FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  Gdk.WindowState.MAXIMIZED)
-        dbg('Window::on_window_state_changed: fullscreen=%s, maximised=%s' \
+        dbg('fullscreen=%s, maximised=%s' \
                 % (self.isfullscreen, self.ismaximised))
 
         return(False)
@@ -556,7 +556,7 @@ class Window(Container, Gtk.Window):
         """Restore normal terminal layout"""
         if not self.is_zoomed():
             # We're not zoomed anyway
-            dbg('Window::unzoom: not zoomed, no-op')
+            dbg('not zoomed, no-op')
             return
 
         widget = self.zoom_data['widget']

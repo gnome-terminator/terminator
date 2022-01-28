@@ -272,7 +272,7 @@ class Paned(Container):
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
-        dbg('Paned::wrapcloseterm: Called on %s' % widget)
+        dbg('Called on %s' % widget)
 
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
@@ -316,12 +316,12 @@ class Paned(Container):
                 except AttributeError:
                     dbg('cannot find terminal with uuid: %s' % sibling.get_toplevel().last_active_term.urn)
         else:
-            dbg("Paned::wrapcloseterm: self.closeterm failed")
+            dbg("self.closeterm failed")
 
     def hoover(self):
         """Check that we still have a reason to exist"""
         if len(self.children) == 1:
-            dbg('Paned::hoover: We only have one child, die')
+            dbg('We only have one child, die')
             parent = self.get_parent()
             child = self.children[0]
             self.remove(child)

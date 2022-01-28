@@ -123,14 +123,12 @@ class Terminator(Borg):
     def register_window(self, window):
         """Register a new window widget"""
         if window not in self.windows:
-            dbg('Terminator::register_window: registering %s:%s' % (id(window),
-                type(window)))
+            dbg('registering %s:%s' % (id(window), type(window)))
             self.windows.append(window)
 
     def deregister_window(self, window):
         """de-register a window widget"""
-        dbg('Terminator::deregister_window: de-registering %s:%s' %
-                (id(window), type(window)))
+        dbg('de-registering %s:%s' % (id(window), type(window)))
         if window in self.windows:
             self.windows.remove(window)
         else:
@@ -144,14 +142,12 @@ class Terminator(Borg):
     def register_launcher_window(self, window):
         """Register a new launcher window widget"""
         if window not in self.launcher_windows:
-            dbg('Terminator::register_launcher_window: registering %s:%s' % (id(window),
-                type(window)))
+            dbg('registering %s:%s' % (id(window), type(window)))
             self.launcher_windows.append(window)
 
     def deregister_launcher_window(self, window):
         """de-register a launcher window widget"""
-        dbg('Terminator::deregister_launcher_window: de-registering %s:%s' %
-                (id(window), type(window)))
+        dbg('de-registering %s:%s' % (id(window), type(window)))
         if window in self.launcher_windows:
             self.launcher_windows.remove(window)
         else:
@@ -165,13 +161,13 @@ class Terminator(Borg):
     def register_terminal(self, terminal):
         """Register a new terminal widget"""
         if terminal not in self.terminals:
-            dbg('Terminator::register_terminal: registering %s:%s' %
+            dbg('registering %s:%s' %
                     (id(terminal), type(terminal)))
             self.terminals.append(terminal)
 
     def deregister_terminal(self, terminal):
         """De-register a terminal widget"""
-        dbg('Terminator::deregister_terminal: de-registering %s:%s' %
+        dbg('de-registering %s:%s' %
                 (id(terminal), type(terminal)))
         self.terminals.remove(terminal)
 
@@ -180,8 +176,7 @@ class Terminator(Borg):
             for window in self.windows:
                 window.destroy()
         else:
-            dbg('Terminator::deregister_terminal: %d terminals remain' %
-                    len(self.terminals))
+            dbg('%d terminals remain' % len(self.terminals))
 
     def find_terminal_by_uuid(self, uuid):
         """Search our terminals for one matching the supplied UUID"""
@@ -531,7 +526,7 @@ class Terminator(Borg):
     def create_group(self, name):
         """Create a new group"""
         if name not in self.groups:
-            dbg('Terminator::create_group: registering group %s' % name)
+            dbg('registering group %s' % name)
             self.groups.append(name)
 
     def closegroupedterms(self, group):
@@ -556,15 +551,14 @@ class Terminator(Borg):
                 if not group in inuse:
                     todestroy.append(group)
 
-            dbg('Terminator::group_hoover: %d groups, hoovering %d' %
+            dbg('%d groups, hoovering %d' %
                     (len(self.groups), len(todestroy)))
             for group in todestroy:
                 self.groups.remove(group)
 
     def group_emit(self, terminal, group, type, event):
         """Emit to each terminal in a group"""
-        dbg('Terminator::group_emit: emitting a keystroke for group %s' %
-                group)
+        dbg('emitting a keystroke for group %s' % group)
         for term in self.terminals:
             if term != terminal and term.group == group:
                 term.vte.emit(type, eventkey2gdkevent(event))

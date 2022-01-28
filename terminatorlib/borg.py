@@ -42,11 +42,10 @@ class Borg:
         if borgtype is None:
             raise TypeError('Borg::__init__: You must pass a borgtype')
         if borgtype not in self.__shared_state:
-            dbg('Borg::__init__: Preparing borg state for %s' % borgtype)
+            dbg('Preparing borg state for %s' % borgtype)
             self.__shared_state[borgtype] = {}
         self.__dict__ = self.__shared_state[borgtype]
 
     def prepare_attributes(self):
         """This should be used to prepare any attributes of the borg class."""
         raise NotImplementedError('prepare_attributes')
-

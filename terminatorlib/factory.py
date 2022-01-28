@@ -89,7 +89,7 @@ class Factory(Borg):
             err('Factory::make: requested object does not exist: %s' % product)
             return(None)
 
-        dbg('Factory::make: created a %s' % product)
+        dbg('created a %s' % product)
         output = func(**kwargs)
         inject_uuid(output)
         return(output)
@@ -118,4 +118,3 @@ class Factory(Borg):
         """Make a Notebook"""
         from . import notebook
         return(notebook.Notebook(kwargs['window']))
-
