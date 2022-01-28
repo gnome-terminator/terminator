@@ -53,6 +53,12 @@ from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
 from terminatorlib.configjson import ConfigJson
 
+
+# Deleting env variable fixes double char problem when broadcasting (#78)
+# Only delete if it exists, or exception occurs
+if os.environ.get('GTK_IM_MODULE') is not None:
+    del os.environ['GTK_IM_MODULE']
+
 if __name__ == '__main__':
     # Workaround for IBus intefering with broadcast when using dead keys
     # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
