@@ -551,7 +551,7 @@ class Terminal(Gtk.VBox):
                           _('Broadcast _off'):'off'}.items()):
             item = Gtk.RadioMenuItem.new_with_mnemonic(groupitems, key)
             groupitems = item.get_group()
-            dbg('Terminal::populate_group_menu: %s active: %s' %
+            dbg('%s active: %s' %
                     (key, self.terminator.groupsend ==
                         self.terminator.groupsend_type[value]))
             item.set_active(self.terminator.groupsend ==
@@ -618,7 +618,7 @@ class Terminal(Gtk.VBox):
         """Set the groupsend mode"""
         # FIXME: Can we think of a smarter way of doing this than poking?
         if value in list(self.terminator.groupsend_type.values()):
-            dbg('Terminal::set_groupsend: setting groupsend to %s' % value)
+            dbg('setting groupsend to %s' % value)
             self.terminator.groupsend = value
 
     def do_splittogroup_toggle(self):
@@ -904,7 +904,7 @@ class Terminal(Gtk.VBox):
     def on_keypress(self, widget, event):
         """Handler for keyboard events"""
         if not event:
-            dbg('Terminal::on_keypress: Called on %s with no event' % widget)
+            dbg('Called on %s with no event' % widget)
             return False
 
         # FIXME: Does keybindings really want to live in Terminator()?
@@ -915,7 +915,7 @@ class Terminal(Gtk.VBox):
 
         if mapping and mapping not in ['close_window',
                                        'full_screen']:
-            dbg('Terminal::on_keypress: lookup found: %r' % mapping)
+            dbg('lookup found: %r' % mapping)
             # handle the case where user has re-bound copy to ctrl+<key>
             # we only copy if there is a selection otherwise let it fall through
             # to ^<key>
@@ -1379,7 +1379,7 @@ class Terminal(Gtk.VBox):
         new_rows = self.vte.get_row_count()
         new_font = self.vte.get_font()
 
-        dbg('Terminal::zoom_scale: Resized from %dx%d to %dx%d' % (
+        dbg('Resized from %dx%d to %dx%d' % (
              old_data['old_columns'],
              old_data['old_rows'],
              new_columns,
@@ -1387,7 +1387,7 @@ class Terminal(Gtk.VBox):
 
         if new_rows == old_data['old_rows'] or \
            new_columns == old_data['old_columns']:
-            dbg('Terminal::zoom_scale: One axis unchanged, not scaling')
+            dbg('One axis unchanged, not scaling')
             return
 
         scale_factor = min ( (new_columns / old_data['old_columns'] * 0.97),
@@ -1629,7 +1629,7 @@ class Terminal(Gtk.VBox):
             font = self.config.get_system_mono_font()
         else:
             font = self.config['font']
-        dbg("Terminal::zoom_orig: restoring font to: %s" % font)
+        dbg("restoring font to: %s" % font)
         self.set_font(Pango.FontDescription(font))
         self.custom_font_size = None
 

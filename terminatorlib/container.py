@@ -114,7 +114,7 @@ class Container(object):
         try:
             if self.get_property('term_zoomed'):
                 # We're zoomed, so unzoom and then start closing again
-                dbg('Container::closeterm: terminal zoomed, unzooming')
+                dbg('terminal zoomed, unzooming')
                 self.unzoom(widget)
                 widget.close()
                 return(True)
@@ -122,7 +122,7 @@ class Container(object):
             pass
 
         if not self.remove(widget):
-            dbg('Container::closeterm: self.remove() failed for %s' % widget)
+            dbg('self.remove() failed for %s' % widget)
             return(False)
 
         self.terminator.deregister_terminal(widget)

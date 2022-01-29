@@ -342,12 +342,12 @@ class Notebook(Container, Gtk.Notebook):
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""
-        dbg('Notebook::wrapcloseterm: called on %s' % widget)
+        dbg('called on %s' % widget)
         if self.closeterm(widget):
-            dbg('Notebook::wrapcloseterm: closeterm succeeded')
+            dbg('closeterm succeeded')
             self.hoover()
         else:
-            dbg('Notebook::wrapcloseterm: closeterm failed')
+            dbg('closeterm failed')
 
     def closetab(self, widget, label):
         """Close a tab"""
@@ -371,7 +371,7 @@ class Notebook(Container, Gtk.Notebook):
         child = nb.get_nth_page(tabnum)
 
         if maker.isinstance(child, 'Terminal'):
-            dbg('Notebook::closetab: child is a single Terminal')
+            dbg('child is a single Terminal')
             del nb.last_active_term[child]
             child.close()
             # FIXME: We only do this del and return here to avoid removing the
@@ -379,7 +379,7 @@ class Notebook(Container, Gtk.Notebook):
             del(label)
             return
         elif maker.isinstance(child, 'Container'):
-            dbg('Notebook::closetab: child is a Container')
+            dbg('child is a Container')
             result = self.construct_confirm_close(self.window, _('tab'))
 
             if result == Gtk.ResponseType.ACCEPT:
@@ -394,7 +394,7 @@ class Notebook(Container, Gtk.Notebook):
                         Gtk.main_iteration()
                 return
             else:
-                dbg('Notebook::closetab: user cancelled request')
+                dbg('user cancelled request')
                 return
         else:
             err('Notebook::closetab: child is unknown type %s' % child)

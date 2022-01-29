@@ -166,6 +166,6 @@ icon for the window (by file or name)'))
         optionslist[opt] = val and '%s'%val or ''
     # optionslist = dbus.Dictionary(optionslist, signature='ss')
     if util.DEBUG == True:
-        dbg('OptionParse::parse_options: command line options: %s' % options)
+        dbg('command line options: %s' % options)
 
     return(options,optionslist)

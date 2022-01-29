@@ -456,7 +456,7 @@ class PrefsEditor:
         self.config.set_profile(profile)
         guiget = self.builder.get_object
 
-        dbg('PrefsEditor::set_profile_values: Setting profile %s' % profile)
+        dbg('Setting profile %s' % profile)
 
         ## General tab
         # Use system font
@@ -1633,8 +1633,7 @@ class PrefsEditor:
         oldname = cell.get_property('text')
         if oldname == newtext or oldname == 'default':
             return
-        dbg('PrefsEditor::on_profile_name_edited: Changing %s to %s' %
-        (oldname, newtext))
+        dbg('Changing %s to %s' % (oldname, newtext))
         self.config.rename_profile(oldname, newtext)
         self.config.save()
 

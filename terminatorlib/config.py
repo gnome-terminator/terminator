@@ -321,10 +321,10 @@ class Config(object):
         if not force and options and options.profile and profile == 'default':
             dbg('overriding default profile to %s' % options.profile)
             profile = options.profile
-        dbg('Config::set_profile: Changing profile to %s' % profile)
+        dbg('Changing profile to %s' % profile)
         self.profile = profile
         if profile not in self.base.profiles:
-            dbg('Config::set_profile: %s does not exist, creating' % profile)
+            dbg('%s does not exist, creating' % profile)
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
     def add_profile(self, profile, toclone):
@@ -617,7 +617,7 @@ class ConfigBase(Borg):
     def load(self):
         """Load configuration data from our various sources"""
         if self.loaded is True:
-            dbg('ConfigBase::load: config already loaded')
+            dbg('config already loaded')
             return
 
         if self.command_line_options and self.command_line_options.config:
@@ -665,11 +665,11 @@ class ConfigBase(Borg):
             dbg('config validated successfully')
 
         for section_name in self.sections:
-            dbg('ConfigBase::load: Processing section: %s' % section_name)
+            dbg('Processing section: %s' % section_name)
             section = getattr(self, section_name)
             if section_name == 'profiles':
                 for profile in parser[section_name]:
-                    dbg('ConfigBase::load: Processing profile: %s' % profile)
+                    dbg('Processing profile: %s' % profile)
                     if section_name not in section:
                         # FIXME: Should this be outside the loop?
                         section[profile] = copy(DEFAULTS['profiles']['default'])
@@ -678,13 +678,11 @@ class ConfigBase(Borg):
                 if section_name not in parser:
                     continue
                 for part in parser[section_name]:
-                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
-                                                                 part))
+                    dbg('Processing %s: %s' % (section_name, part))
                     section[part] = parser[section_name][part]
             elif section_name == 'layouts':
                 for layout in parser[section_name]:
-                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
-                                                                 layout))
+                    dbg('Processing %s: %s' % (section_name, layout))
                     if layout == 'default' and \
                        parser[section_name][layout] == {}:
                            continue
@@ -693,8 +691,7 @@ class ConfigBase(Borg):
                 if section_name not in parser:
                     continue
                 for part in parser[section_name]:
-                    dbg('ConfigBase::load: Processing %s: %s' % (section_name,
-                                                                 part))
+                    dbg('Processing %s: %s' % (section_name, part))
                     if parser[section_name][part] == 'None':
                         section[part] = None
                     else:
@@ -703,8 +700,7 @@ class ConfigBase(Borg):
                 try:
                     section.update(parser[section_name])
                 except KeyError as ex:
-                    dbg('ConfigBase::load: skipping missing section %s' %
-                            section_name)
+                    dbg('skipping missing section %s' % section_name)
 
         self.loaded = True
 
@@ -715,12 +711,12 @@ class ConfigBase(Borg):
 
     def save(self):
         """Save the config to a file"""
-        dbg('ConfigBase::save: saving config')
+        dbg('saving config')
         parser = ConfigObj(encoding='utf-8')
         parser.indent_type = '  '
 
         for section_name in ['global_config', 'keybindings']:
-            dbg('ConfigBase::save: Processing section: %s' % section_name)
+            dbg('Processing section: %s' % section_name)
             section = getattr(self, section_name)
             parser[section_name] = dict_diff(DEFAULTS[section_name], section)
 
@@ -730,7 +726,7 @@ class ConfigBase(Borg):
         for profile in self.profiles:
             if profile == JSON_PROFILE_NAME:
                 continue
-            dbg('ConfigBase::save: Processing profile: %s' % profile)
+            dbg('Processing profile: %s' % profile)
             parser['profiles'][profile] = dict_diff(
                     DEFAULTS['profiles']['default'], self.profiles[profile])
 
@@ -738,12 +734,12 @@ class ConfigBase(Borg):
         for layout in self.layouts:
             if layout == JSON_LAYOUT_NAME:
                 continue
-            dbg('ConfigBase::save: Processing layout: %s' % layout)
+            dbg('Processing layout: %s' % layout)
             parser['layouts'][layout] = self.layouts[layout]
 
         parser['plugins'] = {}
         for plugin in self.plugins:
-            dbg('ConfigBase::save: Processing plugin: %s' % plugin)
+            dbg('Processing plugin: %s' % plugin)
             parser['plugins'][plugin] = self.plugins[plugin]
 
         config_dir = get_config_dir()
@@ -776,17 +772,17 @@ class ConfigBase(Borg):
             profile = 'default'
 
         if key in self.global_config:
-            dbg('ConfigBase::get_item: %s found in globals: %s' %
+            dbg('%s found in globals: %s' %
                     (key, self.global_config[key]))
             return(self.global_config[key])
         elif key in self.profiles[profile]:
-            dbg('ConfigBase::get_item: %s found in profile %s: %s' % (
+            dbg('%s found in profile %s: %s' % (
                     key, profile, self.profiles[profile][key]))
             return(self.profiles[profile][key])
         elif key == 'keybindings':
             return(self.keybindings)
         elif plugin and plugin in self.plugins and key in self.plugins[plugin]:
-            dbg('ConfigBase::get_item: %s found in plugin %s: %s' % (
+            dbg('%s found in plugin %s: %s' % (
                     key, plugin, self.plugins[plugin][key]))
             return(self.plugins[plugin][key])
         elif default:
@@ -796,7 +792,7 @@ class ConfigBase(Borg):
 
     def set_item(self, key, value, profile='default', plugin=None):
         """Set a configuration item"""
-        dbg('ConfigBase::set_item: Setting %s=%s (profile=%s, plugin=%s)' %
+        dbg('Setting %s=%s (profile=%s, plugin=%s)' %
                 (key, value, profile, plugin))
 
         if key in self.global_config:
