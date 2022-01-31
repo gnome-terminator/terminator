@@ -407,20 +407,13 @@ def update_config_to_cell_height(filename):
 
 def get_flatpak_args(args, envv, cwd):
     """Contruct args to be executed via flatpak-spawn"""
-    import json
     flatpak_args = None
-    shell = [args[0]]
     env_args = ['--env={}'.format(env) for env in envv]
     flatpak_spawn = [
         "flatpak-spawn", "--host", "--watch-bus", "--forward-fd=1",
         "--forward-fd=2", "--directory={}".format(cwd)
     ]
-    if len(args) == 2:
-        flatpak_args = flatpak_spawn + env_args + shell
-
-    # Support -x, -e, custom commands etc.
-    if len(args) > 2:
-        flatpak_args = flatpak_spawn + env_args + args[1:]
+    flatpak_args = flatpak_spawn + env_args + args
 
     dbg('returned flatpak args:  %s' % flatpak_args)
 
