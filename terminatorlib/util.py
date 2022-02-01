@@ -413,6 +413,11 @@ def get_flatpak_args(args, envv, cwd):
         "flatpak-spawn", "--host", "--watch-bus", "--forward-fd=1",
         "--forward-fd=2", "--directory={}".format(cwd)
     ]
+    # Detect and remove duplicate shell in args
+    # to work around vte.spawn_sync() requirement.
+    if len(set([args[0], args[1]])) == 1:
+        del args[0]
+
     flatpak_args = flatpak_spawn + env_args + args
 
     dbg('returned flatpak args:  %s' % flatpak_args)
