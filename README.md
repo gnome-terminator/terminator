@@ -82,6 +82,9 @@ vte-demo.py was not my code and is copyright its original author. While it
 does not contain any specific licensing information in it, the VTE package 
 appears to be licenced under LGPL v2.
 
+The original version 0.1 release of Terminator was on Saturday, 28 July 2007.
+[Here is the archived Terminator 0.1 release announcement](http://cmsj.net/2010/04/18/writing-terminator-plugins.html)
+
 ## Licensing
 
 The gedit terminal plugin is part of the gedit-plugins package, which is 
