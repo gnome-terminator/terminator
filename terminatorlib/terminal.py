@@ -1505,14 +1505,37 @@ class Terminal(Gtk.VBox):
 
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
         args.insert(0, shell)
-        result,  self.pid = self.vte.spawn_sync(Vte.PtyFlags.DEFAULT,
-                                                self.cwd,
-                                                args,
-                                                envv,
-                                                GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
-                                                None,
-                                                None,
-                                                None)
+
+        if util.is_flatpak():
+            dbg('Flatpak detected')
+            args = util.get_flatpak_args(args, envv, self.cwd)
+            dbg('Forking shell: "%s" with args: %s via flatpak-spawn' % (shell, args))
+        
+            self.pid = self.vte.spawn_async(
+                Vte.PtyFlags.NO_CTTY,
+                self.cwd,
+                args,
+                envv,
+                0,
+                None,
+                None,
+                -1,
+                None,
+                None,
+                None,
+            )
+        else:
+            result, self.pid = self.vte.spawn_sync(
+                    Vte.PtyFlags.DEFAULT,
+                    self.cwd,
+                    args,
+                    envv,
+                    GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
+                    None,
+                    None,
+                    None
+                    )
+
         self.command = shell
 
         self.titlebar.update()

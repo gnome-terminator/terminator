@@ -43,6 +43,9 @@ DEBUGCLASSES = []
 # list of methods to show debugging for. empty list means show all methods
 DEBUGMETHODS = []
 
+def is_flatpak():
+    return os.path.exists("/.flatpak-info")
+
 def dbg(log = ""):
     """Print a message if debugging is enabled"""
     if DEBUG:
@@ -144,6 +147,13 @@ def path_lookup(command):
 
 def shell_lookup():
     """Find an appropriate shell for the user"""
+    if is_flatpak():
+        getent = subprocess.check_output([
+            'flatpak-spawn', '--host', 'getent', 'passwd',
+            pwd.getpwuid(os.getuid())[0]
+        ]).decode(encoding='UTF-8').rstrip('\n')
+        shell = getent.split(':')[6]
+        return shell
     try:
         usershell = pwd.getpwuid(os.getuid())[6]
     except KeyError:
@@ -394,3 +404,22 @@ def update_config_to_cell_height(filename):
     except Exception as ex:
         err('Unable to open ‘%s’ for reading and/or writting.\n(%s)'
                 % (filename, ex))
+
+def get_flatpak_args(args, envv, cwd):
+    """Contruct args to be executed via flatpak-spawn"""
+    flatpak_args = None
+    env_args = ['--env={}'.format(env) for env in envv]
+    flatpak_spawn = [
+        "flatpak-spawn", "--host", "--watch-bus", "--forward-fd=1",
+        "--forward-fd=2", "--directory={}".format(cwd)
+    ]
+    # Detect and remove duplicate shell in args
+    # to work around vte.spawn_sync() requirement.
+    if len(set([args[0], args[1]])) == 1:
+        del args[0]
+
+    flatpak_args = flatpak_spawn + env_args + args
+
+    dbg('returned flatpak args:  %s' % flatpak_args)
+
+    return flatpak_args
