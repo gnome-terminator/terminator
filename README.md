@@ -1,7 +1,7 @@
 Terminator
 ==========
 
-by Chris Jones <cmsj@tenshu.net> and others.
+Started by Chris Jones <cmsj@tenshu.net> in 2007, maintained from 2014 to 2020 by Stephen Boddy, currently maintained by Matt Rose. Terminator has had contributions from countless others listed in the [AUTHORS](AUTHORS) file
 
 ## Description
 
@@ -81,6 +81,9 @@ useful at figuring out vte's API).
 vte-demo.py was not my code and is copyright its original author. While it 
 does not contain any specific licensing information in it, the VTE package 
 appears to be licenced under LGPL v2.
+
+The original version 0.1 release of Terminator was on Saturday, 28 July 2007.
+ [Here is the archived Terminator 0.1 release announcement](http://cmsj.net/2007/07/28/terminator-01-released.html)
 
 ## Licensing
 
