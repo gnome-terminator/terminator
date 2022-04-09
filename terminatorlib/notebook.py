@@ -290,7 +290,9 @@ class Notebook(Container, Gtk.Notebook):
                    'ungroup-tab': top_window.ungroup_tab,
                    'move-tab': top_window.move_tab,
                    'tab-new': [top_window.tab_new, widget],
-                   'navigate': top_window.navigate_terminal}
+                   'navigate': top_window.navigate_terminal,
+                   'zoom': top_window.zoom,
+                   'maximise': [top_window.zoom, False]}
 
         if maker.isinstance(widget, 'Terminal'):
             for signal in signals:
