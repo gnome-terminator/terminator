@@ -1722,8 +1722,8 @@ class PrefsEditor:
             for widget in [scheme, fore, back]:
                 widget.set_sensitive(False)
         else:
-        	scheme.set_sensitive(True)
-        	self.on_color_scheme_combobox_changed(scheme)
+            scheme.set_sensitive(True)
+            self.on_color_scheme_combobox_changed(scheme)
 
         self.config['use_theme_colors'] = active
         self.config.save()
