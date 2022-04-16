@@ -966,10 +966,6 @@ class PrefsEditor:
             if self.palettevalues[key] == active:
                 value = key
 
-        sensitive = value == 'custom'
-        for palette_id in range(0, NUM_PALETTE_COLORS):
-            self.get_palette_widget(palette_id).set_sensitive(sensitive)
-
         if value in self.palettes:
             palette = self.palettes[value]
             palettebits = palette.split(':')
@@ -1726,8 +1722,8 @@ class PrefsEditor:
             for widget in [scheme, fore, back]:
                 widget.set_sensitive(False)
         else:
-            scheme.set_sensitive(True)
-            self.on_color_scheme_combobox_changed(scheme)
+        	scheme.set_sensitive(True)
+        	self.on_color_scheme_combobox_changed(scheme)
 
         self.config['use_theme_colors'] = active
         self.config.save()
