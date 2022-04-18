@@ -966,10 +966,6 @@ class PrefsEditor:
             if self.palettevalues[key] == active:
                 value = key
 
-        sensitive = value == 'custom'
-        for palette_id in range(0, NUM_PALETTE_COLORS):
-            self.get_palette_widget(palette_id).set_sensitive(sensitive)
-
         if value in self.palettes:
             palette = self.palettes[value]
             palettebits = palette.split(':')
