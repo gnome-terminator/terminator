@@ -1693,12 +1693,8 @@ class PrefsEditor:
 
         fore = guiget('foreground_colorbutton')
         back = guiget('background_colorbutton')
-        if value == 'custom':
-            fore.set_sensitive(True)
-            back.set_sensitive(True)
-        else:
-            fore.set_sensitive(False)
-            back.set_sensitive(False)
+        fore.set_sensitive(True)
+        back.set_sensitive(True)
 
         forecol = None
         backcol = None
