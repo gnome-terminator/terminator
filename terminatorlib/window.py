@@ -529,6 +529,7 @@ class Window(Container, Gtk.Window):
 
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
+        maker = Factory()
         children = self.get_children()
 
         if widget in children:
@@ -541,8 +542,13 @@ class Window(Container, Gtk.Window):
         self.zoom_data['old_child'] = children[0]
         self.zoom_data['font_scale'] = font_scale
 
+        old_parent = self.zoom_data['old_parent']
+        if maker.isinstance(old_parent, 'Notebook'):
+            self.zoom_data['notebook_tabnum'] = old_parent.page_num(widget)
+            self.zoom_data['notebook_label'] = old_parent.get_tab_label(widget).get_label()
+
         self.remove(self.zoom_data['old_child'])
-        self.zoom_data['old_parent'].remove(widget)
+        old_parent.remove(widget)
         self.add(widget)
         self.set_property('term_zoomed', True)
 
@@ -554,6 +560,8 @@ class Window(Container, Gtk.Window):
 
     def unzoom(self, widget=None):
         """Restore normal terminal layout"""
+        maker = Factory()
+
         if not self.is_zoomed():
             # We're not zoomed anyway
             dbg('not zoomed, no-op')
@@ -565,7 +573,13 @@ class Window(Container, Gtk.Window):
 
         self.remove(widget)
         self.add(self.zoom_data['old_child'])
-        self.zoom_data['old_parent'].add(widget)
+        if maker.isinstance(self.zoom_data['old_parent'], 'Notebook'):
+            self.zoom_data['old_parent'].newtab(widget=widget, metadata={
+                'tabnum': self.zoom_data['notebook_tabnum'],
+                'label':  self.zoom_data['notebook_label']
+            })
+        else:
+            self.zoom_data['old_parent'].add(widget)
         widget.grab_focus()
         self.zoom_data = None
         self.set_property('term_zoomed', False)
