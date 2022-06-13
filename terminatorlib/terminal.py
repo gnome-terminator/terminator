@@ -1006,7 +1006,9 @@ class Terminal(Gtk.VBox):
         """Handler for modifier + mouse wheel scroll events"""
         SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
         SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
-        if event.state & Gdk.ModifierType.CONTROL_MASK == Gdk.ModifierType.CONTROL_MASK:
+
+        modifiers = event.state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK)
+        if modifiers == Gdk.ModifierType.CONTROL_MASK:
             # Zoom the terminal(s) in or out if not disabled in config
             if self.config["disable_mousewheel_zoom"] is True:
                 return False
@@ -1025,7 +1027,7 @@ class Terminal(Gtk.VBox):
                 for target in targets:
                     target.zoom_out()
                 return True
-        if event.state & Gdk.ModifierType.SHIFT_MASK == Gdk.ModifierType.SHIFT_MASK:
+        elif modifiers == Gdk.ModifierType.SHIFT_MASK:
             # Shift + mouse wheel up/down
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
                 self.scroll_by_page(-1)
