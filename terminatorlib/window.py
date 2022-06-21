@@ -6,7 +6,7 @@ import copy
 import time
 import uuid
 import gi
-from gi.repository import GObject
+from gi.repository import GObject, GdkPixbuf, cairo
 from gi.repository import Gtk, Gdk
 
 from .util import dbg, err, make_uuid, display_manager
@@ -155,6 +155,8 @@ class Window(Container, Gtk.Window):
         skiptaskbar = self.config['hide_from_taskbar']
         alwaysontop = self.config['always_on_top']
         sticky = self.config['sticky']
+        background_type = self.config['window_background_type']
+        background_image_path = self.config['window_background_image']
 
         if options:
             if options.maximise:
@@ -177,6 +179,11 @@ class Window(Container, Gtk.Window):
             self.set_skip_taskbar_hint(skiptaskbar)
         else:
             self.set_iconified(hidden)
+
+        if background_type == 'image' and background_image_path != '':
+            self.set_background_image(background_image_path)
+        else:
+            self.background_image = None
 
     def apply_icon(self, requested_icon):
         """Set the window icon"""
@@ -392,6 +399,16 @@ class Window(Container, Gtk.Window):
             visual = screen.get_rgba_visual()
             if visual:
                 self.set_visual(visual)
+
+    def set_background_image(self, image):
+        try:
+            bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
+            self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
+            self.connect("draw", self.background_draw)
+        except Exception as e:
+            self.background_image = None
+            err('error loading background image: %s, %s' % (type(e).__name__,e))
+
     
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
@@ -967,6 +984,24 @@ class Window(Container, Gtk.Window):
 
         if 'last_active_window' in layout and layout['last_active_window'] == 'True':
             self.terminator.last_active_window = self.uuid
+
+
+    def background_draw(self, window, cr):
+        if self.background_image is None:
+            return False
+
+        # save cairo context
+        cr.save()
+        # draw background image
+        rect = window.get_allocation()
+        xratio = float(rect.width) / float(self.background_image.get_width())
+        yratio = float(rect.height) / float(self.background_image.get_height())
+        cr.scale(xratio, yratio)
+        cr.set_source_surface(self.background_image)
+        cr.get_source().set_filter(cairo.Filter.FAST)
+        cr.paint()
+        # restore cairo context
+        cr.restore()
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""

@@ -99,6 +99,8 @@ DEFAULTS = {
             'always_on_top'         : False,
             'hide_on_lose_focus'    : False,
             'sticky'                : False,
+            'window_background_type' : 'transparent',
+            'window_background_image' : '',
             'use_custom_url_handler': False,
             'custom_url_handler'    : '',
             'disable_real_transparency' : False,
@@ -565,7 +567,7 @@ class ConfigBase(Borg):
 
             keytype = '%s(default=%s)' % (keytype, value)
 
-            if key == 'custom_url_handler':
+            if key in ('custom_url_handler', 'window_background_image'):
                 keytype = 'string(default="")'
 
             section[key] = keytype

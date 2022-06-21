@@ -191,11 +191,9 @@ class Terminal(Gtk.VBox):
         try: 
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
-            self.vte.set_clear_background(False)
             self.vte.connect("draw", self.background_draw)
         except Exception as e:
             self.background_image = None
-            self.vte.set_clear_background(True)
             err('error loading background image: %s, %s' % (type(e).__name__,e))
 
     def get_vte(self):
@@ -719,6 +717,8 @@ class Terminal(Gtk.VBox):
             self.fgcolor_active.parse(self.config['foreground_color'])
             self.bgcolor = Gdk.RGBA()
             self.bgcolor.parse(self.config['background_color'])
+
+        self.vte.set_clear_background(False)
 
         if self.config['background_type'] in ('transparent', 'image'):
             self.bgcolor.alpha = self.config['background_darkness']
