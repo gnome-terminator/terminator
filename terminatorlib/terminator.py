@@ -500,6 +500,10 @@ class Terminator(Borg):
                 self.style_providers[idx],
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION+idx)
 
+        # Apply config to all windows
+        for window in self.windows:
+            window.apply_config()
+
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
             terminal.reconfigure()
