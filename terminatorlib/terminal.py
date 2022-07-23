@@ -25,6 +25,7 @@ from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
 from .prefseditor import PrefsEditor
 from .searchbar import Searchbar
+from .scrollcache import ScrollCache
 from .translation import _
 from .signalman import Signalman
 from . import plugin
@@ -164,6 +165,10 @@ class Terminal(Gtk.VBox):
 
         self.searchbar = Searchbar()
         self.searchbar.connect('end-search', self.on_search_done)
+
+        self.scrollcache = ScrollCache(self)
+        self.scrollbar.connect('value-changed', self.on_scroll)
+        self.vte.connect('commit', self.on_commit)
 
         self.show()
         if self.config['title_at_bottom']:
@@ -1036,6 +1041,17 @@ class Terminal(Gtk.VBox):
                 self.scroll_by_page(1)
                 return True
         return False
+
+    def on_scroll(self, range):
+        self.scrollcache.scroll_handler(self)
+
+    def on_commit(self, terminal, text, size):
+        if size == 1 and text == '\r':
+            for i in range(0, self.vte.get_row_count()):
+                prompt = self.vte.get_text_range(self.vte.get_cursor_position()[1] - i, 0,
+                                                    self.vte.get_cursor_position()[1] - i, self.vte.get_column_count())
+                if "$\xad" in prompt[0]:
+                    self.scrollcache.key_cache_scroll(self, i)
 
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
@@ -2041,6 +2057,12 @@ class Terminal(Gtk.VBox):
 
     def key_layout_launcher(self):
         LAYOUTLAUNCHER=LayoutLauncher()
+
+    def key_prev_scroll(self):
+        self.scrollcache.key_prev_scroll(self)
+
+    def key_next_scroll(self):
+        self.scrollcache.key_next_scroll(self)
 
     def key_page_up(self):
         self.scroll_by_page(-1)

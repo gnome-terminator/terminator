@@ -146,6 +146,8 @@ DEFAULTS = {
             'paste_selection'  : '',
             'toggle_scrollbar' : '<Shift><Control>s',
             'search'           : '<Shift><Control>f',
+            'prev_scroll'      : '<Control>Up',
+            'next_scroll'      : '<Control>Down',
             'page_up'          : '',
             'page_down'        : '',
             'page_up_half'     : '',

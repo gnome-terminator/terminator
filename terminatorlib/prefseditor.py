@@ -126,6 +126,8 @@ class PrefsEditor:
                         'paste_selection'  : _('Paste primary selection'),
                         'toggle_scrollbar' : _('Show/Hide the scrollbar'),
                         'search'           : _('Search terminal scrollback'),
+                        'prev_scroll'      : _('Scroll backwards in the cache'),
+                        'next_scroll'      : _('Scroll forwards in the cache'),
                         'page_up'          : _('Scroll upwards one page'),
                         'page_down'        : _('Scroll downwards one page'),
                         'page_up_half'     : _('Scroll upwards half a page'),
