@@ -25,6 +25,7 @@ from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
 from .prefseditor import PrefsEditor
 from .searchbar import Searchbar
+from .scrollcache import ScrollCache
 from .translation import _
 from .signalman import Signalman
 from . import plugin
@@ -164,6 +165,9 @@ class Terminal(Gtk.VBox):
 
         self.searchbar = Searchbar()
         self.searchbar.connect('end-search', self.on_search_done)
+
+        self.scrollcache = ScrollCache(self)
+        self.scrollbar.connect('value-changed', self.on_scroll);
 
         self.show()
         if self.config['title_at_bottom']:
@@ -927,7 +931,7 @@ class Terminal(Gtk.VBox):
                     return True
             else:
                 getattr(self, "key_" + mapping)()
-                return True
+                return (mapping != "cache_scroll" or self.terminator.keybindings.keys['cache_scroll'] != 'Return')
 
         # FIXME: This is all clearly wrong. We should be doing this better
         #         maybe we can emit the key event and let Terminator() care?
@@ -1036,6 +1040,9 @@ class Terminal(Gtk.VBox):
                 self.scroll_by_page(1)
                 return True
         return False
+
+    def on_scroll(self, range):
+        self.scrollcache.scroll_handler(self)
 
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
@@ -2041,6 +2048,15 @@ class Terminal(Gtk.VBox):
 
     def key_layout_launcher(self):
         LAYOUTLAUNCHER=LayoutLauncher()
+
+    def key_cache_scroll(self):
+        self.scrollcache.key_cache_scroll(self)
+
+    def key_prev_scroll(self):
+        self.scrollcache.key_prev_scroll(self)
+
+    def key_next_scroll(self):
+        self.scrollcache.key_next_scroll(self)
 
     def key_page_up(self):
         self.scroll_by_page(-1)
