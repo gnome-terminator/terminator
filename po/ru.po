@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 00:51+0100\n"
+"POT-Creation-Date: 2022-07-28 22:17+0100\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
 "Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/terminator/teams/109338/"
@@ -20,9 +20,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
-"%100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. Command             uuid req.    Description
 #: ../remotinator.py:39
@@ -133,7 +133,7 @@ msgstr ""
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
 #: ../terminatorlib/plugins/activitywatch.py:162
-#: ../terminatorlib/preferences.glade.h:156
+#: ../terminatorlib/preferences.glade.h:157
 msgid "Terminator"
 msgstr "Terminator"
 
@@ -142,7 +142,7 @@ msgid "Multiple terminals in one window"
 msgstr "Несколько терминалов в одном окне"
 
 #: ../data/terminator.appdata.xml.in.h:3
-#: ../terminatorlib/preferences.glade.h:157
+#: ../terminatorlib/preferences.glade.h:158
 msgid "The robot future of terminals"
 msgstr "Технологии будущего для терминалов"
 
@@ -245,7 +245,7 @@ msgid "Terminator Layout Launcher"
 msgstr "Запуск компоновки Terminator"
 
 #: ../terminatorlib/layoutlauncher.glade.h:2
-#: ../terminatorlib/preferences.glade.h:143
+#: ../terminatorlib/preferences.glade.h:144
 msgid "Layout"
 msgstr "Компоновка"
 
@@ -415,7 +415,7 @@ msgid "Enabled"
 msgstr "Включено"
 
 #: ../terminatorlib/plugins/custom_commands.py:170
-#: ../terminatorlib/preferences.glade.h:145
+#: ../terminatorlib/preferences.glade.h:146
 msgid "Name"
 msgstr "Название"
 
@@ -1003,22 +1003,26 @@ msgid "Scroll on _keystroke"
 msgstr "Прок_ручивать при нажатии клавиши"
 
 #: ../terminatorlib/preferences.glade.h:126
-msgid "Infinite Scrollback"
-msgstr "Бесконечная прокрутка"
+msgid "Scroll cache (experimental)"
+msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:127
+msgid "Infinite scrollback"
+msgstr ""
+
+#: ../terminatorlib/preferences.glade.h:128
 msgid "Scroll_back:"
 msgstr "О_братная прокрутка:"
 
-#: ../terminatorlib/preferences.glade.h:128
+#: ../terminatorlib/preferences.glade.h:129
 msgid "lines"
 msgstr "строки"
 
-#: ../terminatorlib/preferences.glade.h:129
+#: ../terminatorlib/preferences.glade.h:130
 msgid "Scrolling"
 msgstr "Прокрутка"
 
-#: ../terminatorlib/preferences.glade.h:130
+#: ../terminatorlib/preferences.glade.h:131
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
@@ -1030,104 +1034,104 @@ msgstr ""
 "работать с некоторыми приложениями и операционными ситемами, ожидающими "
 "другого поведения терминала. </i></small>"
 
-#: ../terminatorlib/preferences.glade.h:131
+#: ../terminatorlib/preferences.glade.h:132
 msgid "_Backspace key generates:"
 msgstr "Клавиша _Backspace генерирует:"
 
-#: ../terminatorlib/preferences.glade.h:132
+#: ../terminatorlib/preferences.glade.h:133
 msgid "_Delete key generates:"
 msgstr "Клавиша _Delete генерирует:"
 
-#: ../terminatorlib/preferences.glade.h:133
+#: ../terminatorlib/preferences.glade.h:134
 msgid "_Reset Compatibility Options to Defaults"
 msgstr "_Восстановить параметры совместимости по умолчанию"
 
-#: ../terminatorlib/preferences.glade.h:134
+#: ../terminatorlib/preferences.glade.h:135
 msgid "Compatibility"
 msgstr "Совместимость"
 
-#: ../terminatorlib/preferences.glade.h:135
+#: ../terminatorlib/preferences.glade.h:136
 msgid "Focused"
 msgstr "В фокусе"
 
-#: ../terminatorlib/preferences.glade.h:136
+#: ../terminatorlib/preferences.glade.h:137
 msgid "Inactive"
 msgstr "Неактивный"
 
-#: ../terminatorlib/preferences.glade.h:137
+#: ../terminatorlib/preferences.glade.h:138
 msgid "Receiving"
 msgstr "Получение"
 
-#: ../terminatorlib/preferences.glade.h:138
+#: ../terminatorlib/preferences.glade.h:139
 msgid "Hide size from title"
 msgstr "Убрать размер терминала из заголовка"
 
-#: ../terminatorlib/preferences.glade.h:139
+#: ../terminatorlib/preferences.glade.h:140
 msgid "_Use the system font"
 msgstr "_Использовать системный шрифт"
 
-#: ../terminatorlib/preferences.glade.h:140
+#: ../terminatorlib/preferences.glade.h:141
 msgid "Choose A Titlebar Font"
 msgstr "Укажите шрифт заголовка"
 
-#: ../terminatorlib/preferences.glade.h:141
+#: ../terminatorlib/preferences.glade.h:142
 msgid "Titlebar"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:142
+#: ../terminatorlib/preferences.glade.h:143
 #: ../terminatorlib/terminal_popup_menu.py:204
 msgid "Profiles"
 msgstr "Профили"
 
-#: ../terminatorlib/preferences.glade.h:144
+#: ../terminatorlib/preferences.glade.h:145
 msgid "Type"
 msgstr "Тип"
 
-#: ../terminatorlib/preferences.glade.h:146
+#: ../terminatorlib/preferences.glade.h:147
 msgid "Profile:"
 msgstr "Профиль:"
 
-#: ../terminatorlib/preferences.glade.h:147
+#: ../terminatorlib/preferences.glade.h:148
 msgid "Custom command:"
 msgstr "Пользовательская команда:"
 
-#: ../terminatorlib/preferences.glade.h:148
+#: ../terminatorlib/preferences.glade.h:149
 msgid "Working directory:"
 msgstr "Рабочий каталог:"
 
-#: ../terminatorlib/preferences.glade.h:149
+#: ../terminatorlib/preferences.glade.h:150
 msgid "Layouts"
 msgstr "Шаблоны"
 
-#: ../terminatorlib/preferences.glade.h:150
+#: ../terminatorlib/preferences.glade.h:151
 msgid "Action"
 msgstr "Действие"
 
-#: ../terminatorlib/preferences.glade.h:151
+#: ../terminatorlib/preferences.glade.h:152
 msgid "Keybinding"
 msgstr "Комбинация клавиш"
 
-#: ../terminatorlib/preferences.glade.h:152
+#: ../terminatorlib/preferences.glade.h:153
 msgid "Keybindings"
 msgstr "Комбинации клавиш"
 
-#: ../terminatorlib/preferences.glade.h:153
+#: ../terminatorlib/preferences.glade.h:154
 msgid "Plugin"
 msgstr "Надстройка"
 
-#: ../terminatorlib/preferences.glade.h:154
+#: ../terminatorlib/preferences.glade.h:155
 msgid "This plugin has no configuration options"
 msgstr "Этот плагин не имеет параметров конфигурации"
 
-#: ../terminatorlib/preferences.glade.h:155
+#: ../terminatorlib/preferences.glade.h:156
 msgid "Plugins"
 msgstr "Модули"
 
-#: ../terminatorlib/preferences.glade.h:158
+#: ../terminatorlib/preferences.glade.h:159
 msgid "Version: 2.1.1"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:159
+#: ../terminatorlib/preferences.glade.h:160
 msgid ""
 "The goal of this project is to produce a useful tool for arranging "
 "terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
@@ -1152,18 +1156,18 @@ msgstr ""
 "либо предложения, пожалуйста озвучьте их на багтрекере (wishlist bugs)! (см. "
 "сайт разработчиков)"
 
-#: ../terminatorlib/preferences.glade.h:162
+#: ../terminatorlib/preferences.glade.h:163
 msgid "The Manual"
 msgstr "Руководство"
 
-#: ../terminatorlib/preferences.glade.h:163
+#: ../terminatorlib/preferences.glade.h:164
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
 "<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
 "Enhancements</a>"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:165
+#: ../terminatorlib/preferences.glade.h:166
 msgid "About"
 msgstr "Сведения о программе"
 
@@ -1260,234 +1264,242 @@ msgid "Search terminal scrollback"
 msgstr "Поиск в буфере обратной прокрутки терминала"
 
 #: ../terminatorlib/prefseditor.py:129
+msgid "Scroll backwards in the cache"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:130
+msgid "Scroll forwards in the cache"
+msgstr ""
+
+#: ../terminatorlib/prefseditor.py:131
 msgid "Scroll upwards one page"
 msgstr "Прокрутить вверх на страницу"
 
-#: ../terminatorlib/prefseditor.py:130
+#: ../terminatorlib/prefseditor.py:132
 msgid "Scroll downwards one page"
 msgstr "Прокрутить вниз на страницу"
 
-#: ../terminatorlib/prefseditor.py:131
+#: ../terminatorlib/prefseditor.py:133
 msgid "Scroll upwards half a page"
 msgstr "Прокрутить вверх на полстраницы"
 
-#: ../terminatorlib/prefseditor.py:132
+#: ../terminatorlib/prefseditor.py:134
 msgid "Scroll downwards half a page"
 msgstr "Прокрутить вниз на полстраницы"
 
-#: ../terminatorlib/prefseditor.py:133
+#: ../terminatorlib/prefseditor.py:135
 msgid "Scroll upwards one line"
 msgstr "Прокрутить вверх на строку"
 
-#: ../terminatorlib/prefseditor.py:134
+#: ../terminatorlib/prefseditor.py:136
 msgid "Scroll downwards one line"
 msgstr "Прокрутить вниз на строку"
 
-#: ../terminatorlib/prefseditor.py:135
+#: ../terminatorlib/prefseditor.py:137
 msgid "Close window"
 msgstr "Закрыть окно"
 
-#: ../terminatorlib/prefseditor.py:136
+#: ../terminatorlib/prefseditor.py:138
 msgid "Resize the terminal up"
 msgstr "Изменить размер терминала сверху"
 
-#: ../terminatorlib/prefseditor.py:137
+#: ../terminatorlib/prefseditor.py:139
 msgid "Resize the terminal down"
 msgstr "Изменить размер терминала снизу"
 
-#: ../terminatorlib/prefseditor.py:138
+#: ../terminatorlib/prefseditor.py:140
 msgid "Resize the terminal left"
 msgstr "Изменить размер терминала слева"
 
-#: ../terminatorlib/prefseditor.py:139
+#: ../terminatorlib/prefseditor.py:141
 msgid "Resize the terminal right"
 msgstr "Изменить размер терминала справа"
 
-#: ../terminatorlib/prefseditor.py:140
+#: ../terminatorlib/prefseditor.py:142
 msgid "Move the tab right"
 msgstr "Переместить вкладку вправо"
 
-#: ../terminatorlib/prefseditor.py:141
+#: ../terminatorlib/prefseditor.py:143
 msgid "Move the tab left"
 msgstr "Переместить вкладку влево"
 
-#: ../terminatorlib/prefseditor.py:142
+#: ../terminatorlib/prefseditor.py:144
 msgid "Maximize terminal"
 msgstr "Развернуть терминал"
 
-#: ../terminatorlib/prefseditor.py:143
+#: ../terminatorlib/prefseditor.py:145
 msgid "Zoom terminal"
 msgstr "Масштабировать терминал"
 
-#: ../terminatorlib/prefseditor.py:144
+#: ../terminatorlib/prefseditor.py:146
 msgid "Switch to the next tab"
 msgstr "Переключиться на следующую вкладку"
 
-#: ../terminatorlib/prefseditor.py:145
+#: ../terminatorlib/prefseditor.py:147
 msgid "Switch to the previous tab"
 msgstr "Переключиться на предыдущую вкладку"
 
-#: ../terminatorlib/prefseditor.py:146
+#: ../terminatorlib/prefseditor.py:148
 msgid "Switch to the first tab"
 msgstr "Переключиться на первую вкладку"
 
-#: ../terminatorlib/prefseditor.py:147
+#: ../terminatorlib/prefseditor.py:149
 msgid "Switch to the second tab"
 msgstr "Переключиться на вторую вкладку"
 
-#: ../terminatorlib/prefseditor.py:148
+#: ../terminatorlib/prefseditor.py:150
 msgid "Switch to the third tab"
 msgstr "Переключиться на третью вкладку"
 
-#: ../terminatorlib/prefseditor.py:149
+#: ../terminatorlib/prefseditor.py:151
 msgid "Switch to the fourth tab"
 msgstr "Переключиться на четвёртую вкладку"
 
-#: ../terminatorlib/prefseditor.py:150
+#: ../terminatorlib/prefseditor.py:152
 msgid "Switch to the fifth tab"
 msgstr "Переключиться на пятую вкладку"
 
-#: ../terminatorlib/prefseditor.py:151
+#: ../terminatorlib/prefseditor.py:153
 msgid "Switch to the sixth tab"
 msgstr "Переключиться на шестую вкладку"
 
-#: ../terminatorlib/prefseditor.py:152
+#: ../terminatorlib/prefseditor.py:154
 msgid "Switch to the seventh tab"
 msgstr "Переключиться на седьмую вкладку"
 
-#: ../terminatorlib/prefseditor.py:153
+#: ../terminatorlib/prefseditor.py:155
 msgid "Switch to the eighth tab"
 msgstr "Переключиться на восьмую вкладку"
 
-#: ../terminatorlib/prefseditor.py:154
+#: ../terminatorlib/prefseditor.py:156
 msgid "Switch to the ninth tab"
 msgstr "Переключиться на девятую вкладку"
 
-#: ../terminatorlib/prefseditor.py:155
+#: ../terminatorlib/prefseditor.py:157
 msgid "Switch to the tenth tab"
 msgstr "Переключиться на десятую вкладку"
 
-#: ../terminatorlib/prefseditor.py:156
+#: ../terminatorlib/prefseditor.py:158
 msgid "Toggle fullscreen"
 msgstr "Переключение полноэкранного режима"
 
-#: ../terminatorlib/prefseditor.py:157
+#: ../terminatorlib/prefseditor.py:159
 msgid "Reset the terminal"
 msgstr "Сброс терминала"
 
-#: ../terminatorlib/prefseditor.py:158
+#: ../terminatorlib/prefseditor.py:160
 msgid "Reset and clear the terminal"
 msgstr "Сброс и очистка терминала"
 
-#: ../terminatorlib/prefseditor.py:159
+#: ../terminatorlib/prefseditor.py:161
 msgid "Toggle window visibility"
 msgstr "Показать/Скрыть окно"
 
-#: ../terminatorlib/prefseditor.py:160
+#: ../terminatorlib/prefseditor.py:162
 msgid "Create new group"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:161
+#: ../terminatorlib/prefseditor.py:163
 msgid "Group all terminals"
 msgstr "Группировать все терминалы"
 
-#: ../terminatorlib/prefseditor.py:162
+#: ../terminatorlib/prefseditor.py:164
 msgid "Group/Ungroup all terminals"
 msgstr "Группировать/разрознить все терминалы"
 
-#: ../terminatorlib/prefseditor.py:163
+#: ../terminatorlib/prefseditor.py:165
 msgid "Ungroup all terminals"
 msgstr "Разгруппировать все терминалы"
 
-#: ../terminatorlib/prefseditor.py:164
+#: ../terminatorlib/prefseditor.py:166
 msgid "Group terminals in window"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:165
+#: ../terminatorlib/prefseditor.py:167
 msgid "Group/Ungroup terminals in window"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:166
+#: ../terminatorlib/prefseditor.py:168
 msgid "Ungroup terminals in window"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:167
+#: ../terminatorlib/prefseditor.py:169
 msgid "Group terminals in tab"
 msgstr "Группировать терминалы во вкладке"
 
-#: ../terminatorlib/prefseditor.py:168
+#: ../terminatorlib/prefseditor.py:170
 msgid "Group/Ungroup terminals in tab"
 msgstr "Группировать/разрознить терминалы во вкладке"
 
-#: ../terminatorlib/prefseditor.py:169
+#: ../terminatorlib/prefseditor.py:171
 msgid "Ungroup terminals in tab"
 msgstr "Разгруппировать терминалы во вкладке"
 
-#: ../terminatorlib/prefseditor.py:170
+#: ../terminatorlib/prefseditor.py:172
 msgid "Create a new window"
 msgstr "Создать новое окно"
 
-#: ../terminatorlib/prefseditor.py:171
+#: ../terminatorlib/prefseditor.py:173
 msgid "Spawn a new Terminator process"
 msgstr "Создать новый процесс Terminator'а"
 
-#: ../terminatorlib/prefseditor.py:172
+#: ../terminatorlib/prefseditor.py:174
 msgid "Don't broadcast key presses"
 msgstr "Не транслировать нажатия клавиш"
 
-#: ../terminatorlib/prefseditor.py:173
+#: ../terminatorlib/prefseditor.py:175
 msgid "Broadcast key presses to group"
 msgstr "Транслировать нажатия клавиш в группу терминалов"
 
-#: ../terminatorlib/prefseditor.py:174
+#: ../terminatorlib/prefseditor.py:176
 msgid "Broadcast key events to all"
 msgstr "Транслировать нажатия клавиш во все терминалы"
 
-#: ../terminatorlib/prefseditor.py:175
+#: ../terminatorlib/prefseditor.py:177
 msgid "Insert terminal number"
 msgstr "Вставить номер терминала"
 
-#: ../terminatorlib/prefseditor.py:176
+#: ../terminatorlib/prefseditor.py:178
 msgid "Insert padded terminal number"
 msgstr "Вставить номер терминала"
 
-#: ../terminatorlib/prefseditor.py:177
+#: ../terminatorlib/prefseditor.py:179
 msgid "Edit window title"
 msgstr "Изменить заголовок окна"
 
-#: ../terminatorlib/prefseditor.py:178
+#: ../terminatorlib/prefseditor.py:180
 msgid "Edit terminal title"
 msgstr "Изменить наименование терминала"
 
-#: ../terminatorlib/prefseditor.py:179
+#: ../terminatorlib/prefseditor.py:181
 msgid "Edit tab title"
 msgstr "Изменить наименование вкладки"
 
-#: ../terminatorlib/prefseditor.py:180
+#: ../terminatorlib/prefseditor.py:182
 msgid "Open layout launcher window"
 msgstr "Открыть окно компоновщика"
 
-#: ../terminatorlib/prefseditor.py:181
+#: ../terminatorlib/prefseditor.py:183
 msgid "Switch to next profile"
 msgstr "Переключиться на следующий профиль"
 
-#: ../terminatorlib/prefseditor.py:182
+#: ../terminatorlib/prefseditor.py:184
 msgid "Switch to previous profile"
 msgstr "Переключиться на предыдущий профиль"
 
-#: ../terminatorlib/prefseditor.py:183
+#: ../terminatorlib/prefseditor.py:185
 msgid "Open the Preferences window"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:184
+#: ../terminatorlib/prefseditor.py:186
 msgid "Open the manual"
 msgstr "Открыть руководство"
 
-#: ../terminatorlib/prefseditor.py:1370
+#: ../terminatorlib/prefseditor.py:1368
 msgid "New Profile"
 msgstr "Создать профиль"
 
-#: ../terminatorlib/prefseditor.py:1413 ../terminatorlib/prefseditor.py:1418
+#: ../terminatorlib/prefseditor.py:1411 ../terminatorlib/prefseditor.py:1416
 msgid "New Layout"
 msgstr "Новое расположение"
 
@@ -1584,85 +1596,85 @@ msgstr "Показать полосу прокрутки"
 msgid "_Layouts..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:481
+#: ../terminatorlib/terminal.py:486
 msgid "N_ew group..."
 msgstr "Новая гр_уппа..."
 
-#: ../terminatorlib/terminal.py:487
+#: ../terminatorlib/terminal.py:492
 msgid "_None"
 msgstr "_Ничего"
 
-#: ../terminatorlib/terminal.py:507
+#: ../terminatorlib/terminal.py:512
 #, python-format
 msgid "Remove group %s"
 msgstr "Удалить группу %s"
 
-#: ../terminatorlib/terminal.py:512
+#: ../terminatorlib/terminal.py:517
 msgid "G_roup all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:517
+#: ../terminatorlib/terminal.py:522
 msgid "Ungro_up all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:522
+#: ../terminatorlib/terminal.py:527
 msgid "G_roup all in tab"
 msgstr "С_группировать всё во вкладке"
 
-#: ../terminatorlib/terminal.py:527
+#: ../terminatorlib/terminal.py:532
 msgid "Ungro_up all in tab"
 msgstr "Раз_рознить терминалы во вкладке"
 
-#: ../terminatorlib/terminal.py:532
+#: ../terminatorlib/terminal.py:537
 msgid "Remove all groups"
 msgstr "Удалить все группы"
 
-#: ../terminatorlib/terminal.py:539
+#: ../terminatorlib/terminal.py:544
 #, python-format
 msgid "Close group %s"
 msgstr "Закрыть группу %s"
 
-#: ../terminatorlib/terminal.py:549
+#: ../terminatorlib/terminal.py:554
 msgid "Broadcast _all"
 msgstr "Транслировать во вс_е терминалы"
 
-#: ../terminatorlib/terminal.py:550
+#: ../terminatorlib/terminal.py:555
 msgid "Broadcast _group"
 msgstr "Транслировать гру_ппе"
 
-#: ../terminatorlib/terminal.py:551
+#: ../terminatorlib/terminal.py:556
 msgid "Broadcast _off"
 msgstr "Отключить трансляцию клавиш"
 
-#: ../terminatorlib/terminal.py:567
+#: ../terminatorlib/terminal.py:572
 msgid "_Split to this group"
 msgstr "Поделить на _эту группу"
 
-#: ../terminatorlib/terminal.py:572
+#: ../terminatorlib/terminal.py:577
 msgid "Auto_clean groups"
 msgstr "Автос_тирание у групп"
 
-#: ../terminatorlib/terminal.py:579
+#: ../terminatorlib/terminal.py:584
 msgid "_Insert terminal number"
 msgstr "_Добавить номер терминала"
 
-#: ../terminatorlib/terminal.py:583
+#: ../terminatorlib/terminal.py:588
 msgid "Insert _padded terminal number"
 msgstr "Вставить _номер терминала"
 
-#: ../terminatorlib/terminal.py:1490
+#: ../terminatorlib/terminal.py:1508
 msgid "Unable to find a shell"
 msgstr "Не удается найти оболочку (shell)"
 
-#: ../terminatorlib/terminal.py:1521
+#: ../terminatorlib/terminal.py:1562
 msgid "Unable to start shell:"
 msgstr "Не удается запустить оболочку:"
 
-#: ../terminatorlib/terminal.py:1975
+#: ../terminatorlib/terminal.py:2016
 msgid "Rename Window"
 msgstr "Переименование окна"
 
-#: ../terminatorlib/terminal.py:1983
+#: ../terminatorlib/terminal.py:2024
 msgid "Enter a new title for the Terminator window..."
 msgstr "Введите новое название для окна Terminator..."
 
@@ -1779,6 +1791,9 @@ msgstr ""
 #, python-format
 msgid "Tab %d"
 msgstr "Вкладка %d"
+
+#~ msgid "Infinite Scrollback"
+#~ msgstr "Бесконечная прокрутка"
 
 #~ msgid "Current Locale"
 #~ msgstr "Текущая языковая настройка"

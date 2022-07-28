@@ -233,6 +233,7 @@ DEFAULTS = {
                 'scroll_background'     : True,
                 'scroll_on_keystroke'   : True,
                 'scroll_on_output'      : False,
+                'scroll_cache'          : False,
                 'scrollback_lines'      : 500,
                 'scrollback_infinite'   : False,
                 'disable_mousewheel_zoom': False,

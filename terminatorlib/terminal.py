@@ -1043,15 +1043,17 @@ class Terminal(Gtk.VBox):
         return False
 
     def on_scroll(self, range):
-        self.scrollcache.scroll_handler(self)
+        if self.config['scroll_cache'] == True:
+            self.scrollcache.scroll_handler(self)
 
     def on_commit(self, terminal, text, size):
-        if size == 1 and text == '\r':
-            for i in range(0, self.vte.get_row_count()):
-                prompt = self.vte.get_text_range(self.vte.get_cursor_position()[1] - i, 0,
-                                                    self.vte.get_cursor_position()[1] - i, self.vte.get_column_count())
-                if "$\xad" in prompt[0]:
-                    self.scrollcache.key_cache_scroll(self, i)
+        if self.config['scroll_cache'] == True:
+            if size == 1 and text == '\r':
+                for i in range(0, self.vte.get_row_count()):
+                    prompt = self.vte.get_text_range(self.vte.get_cursor_position()[1] - i, 0,
+                                                        self.vte.get_cursor_position()[1] - i, self.vte.get_column_count())
+                    if "$\xad" in prompt[0]:
+                        self.scrollcache.key_cache_scroll(self, i)
 
     def popup_menu(self, widget, event=None):
         """Display the context menu"""
@@ -2059,10 +2061,12 @@ class Terminal(Gtk.VBox):
         LAYOUTLAUNCHER=LayoutLauncher()
 
     def key_prev_scroll(self):
-        self.scrollcache.key_prev_scroll(self)
+        if self.config['scroll_cache'] == True:
+            self.scrollcache.key_prev_scroll(self)
 
     def key_next_scroll(self):
-        self.scrollcache.key_next_scroll(self)
+        if self.config['scroll_cache'] == True:
+            self.scrollcache.key_next_scroll(self)
 
     def key_page_up(self):
         self.scroll_by_page(-1)
