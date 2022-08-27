@@ -597,8 +597,17 @@ class Window(Container, Gtk.Window):
 
         # If our child is a Notebook, reset to work from its visible child
         if maker.isinstance(child, 'Notebook'):
-            pagenum = child.get_current_page()
-            child = child.get_nth_page(pagenum)
+            notebook = child
+
+            pagenum = notebook.get_current_page()
+            child = notebook.get_nth_page(pagenum)
+
+            metadata = {
+                'tabnum': pagenum,
+                'label': notebook.get_tab_label(child).get_label()
+            }
+        else:
+            metadata = None
 
         if maker.isinstance(child, 'Paned'):
             parent = child.get_parent()
@@ -606,7 +615,7 @@ class Window(Container, Gtk.Window):
             # otherwise _sometimes_ we get incorrect values.
             alloc = child.get_allocation()
             parent.remove(child)
-            child.rotate_recursive(parent, alloc.width, alloc.height, clockwise)
+            child.rotate_recursive(parent, alloc.width, alloc.height, clockwise, metadata)
 
             self.show_all()
             while Gtk.events_pending():
