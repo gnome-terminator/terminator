@@ -16,7 +16,7 @@ from terminatorlib.util import get_config_dir, err, dbg, gerr
 
 AVAILABLE = ['RunCmdOnMatchMenu']
 
-# For example, open scripts names outputed by python in Vim at the given line number:
+# For example, open scripts names outputted by python in Vim at the given line number:
 # match = r'\B(/\S+?\.py)\S{2}\sline\s(\d+)' # Python's log file matching
 # cmd = "gvim --servername IDE --remote +{1} {0}"
 
@@ -61,7 +61,7 @@ class RunCmdOnMatch(plugin.URLHandler):
         try:
             runcmd = self.__class__.cmd.format(*groups)
         except Exception as e:
-            err("Exception occured while formating the command: {} {}".format(type(e).__name__, e))
+            err("Exception occurred while formatting the command: {} {}".format(type(e).__name__, e))
 
         dbg("run: {cmd}".format(cmd=runcmd))
         subprocess.run(runcmd.split())
@@ -170,7 +170,7 @@ class RunCmdOnMatchMenu(plugin.MenuItem):
             rcom_name = "_RunCmdOnMatch_{}".format(key) # key is just the index
             # Make a handler class.
             RCOM = MetaRCOM(rcom_name, handler["regexp"], handler["command"])
-            # Instanciate the class.
+            # Instantiate the class.
             setattr(me, rcom_name, RCOM)
 
             if rcom_name not in AVAILABLE:

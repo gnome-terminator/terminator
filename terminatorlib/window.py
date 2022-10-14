@@ -888,9 +888,9 @@ class Window(Container, Gtk.Window):
             allocation = terminal.get_allocation()
             possibles = []
 
-            # Get the co-ordinate of the appropriate edge for this direction
+            # Get the coordinate of the appropriate edge for this direction
             edge, p1, p2 = util.get_edge(allocation, direction)
-            # Find all visible terminals which are, in their entirity, in the
+            # Find all visible terminals which are, in their entirety, in the
             # direction we want to move, and are at least partially spanning
             # p1 to p2
             for term in layout:

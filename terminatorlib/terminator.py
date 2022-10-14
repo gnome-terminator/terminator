@@ -325,7 +325,7 @@ class Terminator(Borg):
 
         for window in self.windows:
             if not window.is_child_notebook():
-                # For windows without a notebook ensure Terminal is visible and focussed
+                # For windows without a notebook ensure Terminal is visible and focused
                 if window_last_active_term_mapping[window]:
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
                     term.ensure_visible_and_focussed()
