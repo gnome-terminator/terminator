@@ -617,13 +617,13 @@ class Terminator(Borg):
     def focus_left(self, widget):
         self.last_focused_term=widget
 
-    def describe_layout(self):
+    def describe_layout(self, save_cwd = False):
         """Describe our current layout"""
         layout = {}
         count = 0
         for window in self.windows:
             parent = ''
-            count = window.describe_layout(count, parent, layout, 0)
+            count = window.describe_layout(count, parent, layout, 0, save_cwd)
 
         return(layout)
 

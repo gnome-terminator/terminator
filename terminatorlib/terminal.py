@@ -1717,7 +1717,7 @@ class Terminal(Gtk.VBox):
         widget.get_window().process_updates(True)
         return False
 
-    def describe_layout(self, count, parent, global_layout, child_order):
+    def describe_layout(self, count, parent, global_layout, child_order, save_cwd = False):
         """Describe our layout"""
         layout = {'type': 'Terminal', 'parent': parent, 'order': child_order}
         if self.group:
@@ -1730,6 +1730,8 @@ class Terminal(Gtk.VBox):
         if title:
             layout['title'] = title
         layout['uuid'] = self.uuid
+        if save_cwd:
+            layout['directory'] = self.get_cwd()
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout

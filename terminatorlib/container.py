@@ -245,7 +245,7 @@ the tab will also close all terminals within it.')
 
         return(terminals)
 
-    def describe_layout(self, count, parent, global_layout, child_order):
+    def describe_layout(self, count, parent, global_layout, child_order, save_cwd = False):
         """Describe our current layout"""
         layout = {}
         maker = Factory()
@@ -308,7 +308,7 @@ the tab will also close all terminals within it.')
         child_order = 0
         for child in self.get_children():
             if hasattr(child, 'describe_layout'):
-                count = child.describe_layout(count, name, global_layout, child_order)
+                count = child.describe_layout(count, name, global_layout, child_order, save_cwd)
             child_order = child_order + 1
 
         return(count)
