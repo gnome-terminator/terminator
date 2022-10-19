@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 00:55+0100\n"
+"POT-Creation-Date: 2022-10-19 09:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1445,11 +1445,11 @@ msgstr ""
 msgid "Open the manual"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1370
+#: ../terminatorlib/prefseditor.py:1366
 msgid "New Profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1413 ../terminatorlib/prefseditor.py:1418
+#: ../terminatorlib/prefseditor.py:1409 ../terminatorlib/prefseditor.py:1414
 msgid "New Layout"
 msgstr ""
 
@@ -1612,19 +1612,19 @@ msgstr ""
 msgid "Insert _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1490
+#: ../terminatorlib/terminal.py:1492
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1521
+#: ../terminatorlib/terminal.py:1546
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1975
+#: ../terminatorlib/terminal.py:2000
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1983
+#: ../terminatorlib/terminal.py:2008
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
