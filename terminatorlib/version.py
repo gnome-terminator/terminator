@@ -20,4 +20,4 @@ TerminatorVersion supplies our version number.
 """
 
 APP_NAME = 'terminator'
-APP_VERSION = '2.1.1'
+APP_VERSION = '2.1.2'
