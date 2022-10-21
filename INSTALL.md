@@ -117,5 +117,5 @@ Ubuntu       | copied from Debian | [launchpad.net/ubuntu] | | [bugs.launchpad.n
 
 A more extensive list can be found on Repology:
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/terminator.svg)](https://repology.org/project/terminator/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/terminator.svg?columns=3)](https://repology.org/project/terminator/versions)
 
