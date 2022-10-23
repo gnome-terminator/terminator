@@ -22,7 +22,7 @@ def get_color_string(widcol):
     return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
 
 def color2hex(widget):
-    """Pull the colour values out of a Gtk ColorPicker widget and return them
+    """Pull the color values out of a Gtk ColorPicker widget and return them
    as 8bit hex values, sinces its default behaviour is to give 16bit values"""
     return get_color_string(widget.get_color())
 
@@ -57,7 +57,7 @@ class PrefsEditor:
                          'gruvbox_light': 9,
                          'gruvbox_dark': 10,
                          'custom': 11}
-    colourschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
+    colorschemes = {'grey_on_black': ['#aaaaaa', '#000000'],
                      'black_on_yellow': ['#000000', '#ffffdd'],
                      'black_on_white': ['#000000', '#ffffff'],
                      'white_on_black': ['#ffffff', '#000000'],
@@ -564,9 +564,9 @@ class PrefsEditor:
         # Colorscheme
         widget = guiget('color_scheme_combobox')
         scheme = None
-        for ascheme in self.colourschemes:
-            forecol = self.colourschemes[ascheme][0]
-            backcol = self.colourschemes[ascheme][1]
+        for ascheme in self.colorschemes:
+            forecol = self.colorschemes[ascheme][0]
+            backcol = self.colorschemes[ascheme][1]
             if self.config['foreground_color'].lower() == forecol and \
                self.config['background_color'].lower() == backcol:
                 scheme = ascheme
@@ -577,7 +577,7 @@ class PrefsEditor:
                 scheme = 'grey_on_black'
             else:
                 scheme = 'custom'
-        # NOTE: The scheme is set in the GUI widget after the fore/back colours
+        # NOTE: The scheme is set in the GUI widget after the fore/back colors
         # Foreground color
         widget = guiget('foreground_colorbutton')
         widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
@@ -607,8 +607,8 @@ class PrefsEditor:
                 palette = 'rxvt'
             else:
                 palette = 'custom'
-        # NOTE: The palette selector is set after the colour pickers
-        # Palette colour pickers
+        # NOTE: The palette selector is set after the color pickers
+        # Palette color pickers
         for palette_id in range(0, NUM_PALETTE_COLORS):
             widget = self.get_palette_widget(palette_id)
             widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
@@ -1063,10 +1063,10 @@ class PrefsEditor:
     def get_palette_color(self, palette_id):
         """Returns the configured Gdk color for the given palette ID."""
         if self.config['palette'] in self.palettes:
-            colourpalette = self.palettes[self.config['palette']]
+            colorpalette = self.palettes[self.config['palette']]
         else:
-            colourpalette = self.config['palette'].split(':')
-        return Gdk.color_parse(colourpalette[palette_id])
+            colorpalette = self.config['palette'].split(':')
+        return Gdk.color_parse(colorpalette[palette_id])
 
     def on_palette_colorpicker_draw(self, widget, cr):
         width = widget.get_allocated_width()
@@ -1095,9 +1095,9 @@ class PrefsEditor:
 
     def load_palette(self):
         """Load the palette from the configuration into the color buttons."""
-        colourpalette = self.config['palette'].split(':')
+        colorpalette = self.config['palette'].split(':')
         for palette_id in range(0, NUM_PALETTE_COLORS):
-            color = Gdk.color_parse(colourpalette[palette_id])
+            color = Gdk.color_parse(colorpalette[palette_id])
             self.load_palette_color(palette_id, color)
 
     def edit_palette_button(self, widget):
@@ -1204,32 +1204,32 @@ class PrefsEditor:
         self.config.save()
 
     def on_title_receive_bg_color_color_set(self, widget):
-        """Title receive background colour changed"""
+        """Title receive background color changed"""
         self.config['title_receive_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_receive_fg_color_color_set(self, widget):
-        """Title receive foreground colour changed"""
+        """Title receive foreground color changed"""
         self.config['title_receive_fg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_inactive_bg_color_color_set(self, widget):
-        """Title inactive background colour changed"""
+        """Title inactive background color changed"""
         self.config['title_inactive_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_transmit_bg_color_color_set(self, widget):
-        """Title transmit backgruond colour changed"""
+        """Title transmit backgruond color changed"""
         self.config['title_transmit_bg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_inactive_fg_color_color_set(self, widget):
-        """Title inactive foreground colour changed"""
+        """Title inactive foreground color changed"""
         self.config['title_inactive_fg_color'] = color2hex(widget)
         self.config.save()
 
     def on_title_transmit_fg_color_color_set(self, widget):
-        """Title transmit foreground colour changed"""
+        """Title transmit foreground color changed"""
         self.config['title_transmit_fg_color'] = color2hex(widget)
         self.config.save()
 
@@ -1682,7 +1682,7 @@ class PrefsEditor:
             self.layouteditor.layout_name = newtext
 
     def on_color_scheme_combobox_changed(self, widget):
-        """Update the fore/background colour pickers"""
+        """Update the fore/background color pickers"""
         value = None
         guiget = self.builder.get_object
         active = widget.get_active()
@@ -1698,15 +1698,15 @@ class PrefsEditor:
 
         forecol = None
         backcol = None
-        if value in self.colourschemes:
-            forecol = self.colourschemes[value][0]
-            backcol = self.colourschemes[value][1]
+        if value in self.colorschemes:
+            forecol = self.colorschemes[value][0]
+            backcol = self.colorschemes[value][1]
             self.config['foreground_color'] = forecol
             self.config['background_color'] = backcol
         self.config.save()
 
     def on_use_theme_colors_checkbutton_toggled(self, widget):
-        """Update colour pickers"""
+        """Update color pickers"""
         guiget = self.builder.get_object
         active = widget.get_active()
 

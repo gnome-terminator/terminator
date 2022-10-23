@@ -22,7 +22,7 @@ This is what a Terminator config file should look like:
     [[default]]
       font = Fixed 10
       background_color = "#000000" # A comment
-      foreground_color = "#FFFFFF" # Note that hex colour values must be quoted
+      foreground_color = "#FFFFFF" # Note that hex color values must be quoted
       scrollback_lines = '500' #More comment. Single quotes are valid too
       cursor_blink = True
       custom_command = "echo \\"foo#bar\\"" #Final comment - this will work as expected.
@@ -95,27 +95,27 @@ If this is set to True, Terminator will never try to use 'real' transparency if 
 Default value: False
 .TP
 .B title_transmit_fg_color
-Sets the colour of the text shown in the titlebar of the active terminal.
+Sets the color of the text shown in the titlebar of the active terminal.
 Default value: \fB'#FFFFFF'\fR
 .TP
 .B title_transmit_bg_color
-Sets the colour of the background of the titlebar in the active terminal.
+Sets the color of the background of the titlebar in the active terminal.
 Default value: \fB'#C80003'\fR
 .TP
 .B title_receive_fg_color
-Sets the colour of the text shown in the titlebar of any terminal that \fBwill\fR receive input from the active terminal.
+Sets the color of the text shown in the titlebar of any terminal that \fBwill\fR receive input from the active terminal.
 Default value: \fB'#FFFFFF'\fR
 .TP
 .B title_receive_bg_color
-Sets the colour of the background of the titlebar of any terminal that \fBwill\fR receive input from the active terminal.
+Sets the color of the background of the titlebar of any terminal that \fBwill\fR receive input from the active terminal.
 Default value: \fB'#0076C9'\fR
 .TP
 .B title_inactive_fg_color
-Sets the colour of the text shown in the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
+Sets the color of the text shown in the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#000000'\fR
 .TP
 .B title_inactive_bg_color
-Sets the colour of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
+Sets the color of the background of the titlebar of any terminal that will \fBnot\fR receive input from the active terminal.
 Default value: \fB'#C0BEBF'\fR
 .TP
 .B title_use_system_font \fR(boolean)
@@ -127,8 +127,8 @@ An Pango font name. Examples are "Sans 12" or "Monospace Bold 14".
 Default value: \fB"Sans 9"\fR
 .TP
 .B inactive_color_offset
-Controls how much to reduce the colour values of fonts in terminals that do not have focus. It is a simple multiplication
-factor. A font colour that was RGB(200,200,200) with an inactive_color_offset of 0.5 would set inactive terminals to
+Controls how much to reduce the color values of fonts in terminals that do not have focus. It is a simple multiplication
+factor. A font color that was RGB(200,200,200) with an inactive_color_offset of 0.5 would set inactive terminals to
 RGB(100,100,100).
 .TP
 .B always_split_with_profile
@@ -371,7 +371,7 @@ If true, don't make a noise or flash. All terminal bells will be ignored.
 Default value: \fBFalse\fR
 .TP
 .B use_theme_colors
-If true, ignore the configured colours and use values from the theme instead.
+If true, ignore the configured colors and use values from the theme instead.
 Default value: \fBFalse\fR
 .TP
 .B bold_is_bright
@@ -379,7 +379,7 @@ If true, show bold text with increased brightness. If false, then text boldness 
 Default value: \fBFalse\fR
 .TP
 .B background_color
-Default colour of terminal background, as a colour specification (can be HTML-style hex digits, or a colour name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
+Default color of terminal background, as a color specification (can be HTML-style hex digits, or a color name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
 Default value: \fB'#000000'\fR
 .TP
 .B background_darkness
@@ -387,7 +387,7 @@ A value between 0.0 and 1.0 indicating how much to darken the background image. 
 Default value: \fB0.5\fR
 .TP
 .B background_type
-Type of terminal background. May be "solid" for a solid colour or "transparent" for full transparency in compositing window managers.
+Type of terminal background. May be "solid" for a solid color or "transparent" for full transparency in compositing window managers.
 Default value: \fBsolid\fR
 .TP
 .B backspace_binding
@@ -407,7 +407,7 @@ Controls if the cursor blinks.
 Default value: \fBTrue\fR
 .TP
 .B cursor_color
-Default colour of cursor, as a colour specification (can be HTML-style hex digits, or a colour name such as "red").
+Default color of cursor, as a color specification (can be HTML-style hex digits, or a color name such as "red").
 Default value: Current value of \fBforeground_color\fR
 .TP
 .B cursor_shape
@@ -431,7 +431,7 @@ An Pango font name. Examples are "Sans 12" or "Monospace Bold 14".
 Default value: \fBMono 10\fR
 .TP
 .B foreground_color
-Default colour of text in the terminal, as a colour specification (can be HTML-style hex digits, or a colour name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
+Default color of text in the terminal, as a color specification (can be HTML-style hex digits, or a color name such as "red"). \fBNote:\fR You may need to set \fBuse_theme_colors=False\fR to force this setting to take effect.
 Default value: \fB'#AAAAAA'\fR
 .TP
 .B scrollbar_position
@@ -472,7 +472,7 @@ Possible values are "close" to close the terminal, and "restart" to restart the 
 Default value: \fBclose\fR
 .TP
 .B palette
-Terminals have a 16-colour palette that applications inside the terminal can use. This is that palette, in the form of a colon-separated list of colour names. Colour names should be in hex format e.g. "#FF00FF".
+Terminals have a 16-color palette that applications inside the terminal can use. This is that palette, in the form of a colon-separated list of color names. Color names should be in hex format e.g. "#FF00FF".
 .TP
 .B word_chars
 When selecting text by word, sequences of these characters are also considered members of single words. The hyphen and alphanumerics do not need to be specified. Ranges can be given as "A-Z".

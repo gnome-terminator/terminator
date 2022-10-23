@@ -56,7 +56,7 @@
       </row>
     </data>
   </object>
-  <object class="GtkListStore" id="ColourSchemeListStore">
+  <object class="GtkListStore" id="ColorSchemeListStore">
     <columns>
       <!-- column-name scheme -->
       <column type="gchararray"/>
@@ -2128,7 +2128,7 @@
                                         <property name="can-focus">False</property>
                                         <property name="halign">start</property>
                                         <property name="margin-top">3</property>
-                                        <property name="model">ColourSchemeListStore</property>
+                                        <property name="model">ColorSchemeListStore</property>
                                         <property name="active">2</property>
                                         <signal name="changed" handler="on_color_scheme_combobox_changed" swapped="no"/>
                                         <child>
