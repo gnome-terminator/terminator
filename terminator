@@ -109,6 +109,13 @@ if __name__ == '__main__':
             import dbus
             try:
                 dbus_service = ipc.DBusService()
+
+                if(OPTIONS.reload):
+                    # Reload only is executed when exist at least one window,
+                    # Check if exist another way to know if master process is not active.
+                    dbg('reload option, killing app')
+                    sys.exit()
+
             except ipc.DBusException:
                 dbg('Unable to become master process, operating via DBus')
                 # get rid of the None and True types so dbus can handle them (empty
@@ -121,6 +128,10 @@ if __name__ == '__main__':
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
                     ipc.new_tab_cmdline(optionslist)
+                if OPTIONS.reload:
+                    dbg('requesting to reload configuration for all windows')
+                    ipc.reload_configuration()
+
                 elif OPTIONS.unhide:
                     print('requesting to unhide windows')
                     ipc.unhide_cmdline(optionslist)

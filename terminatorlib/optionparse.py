@@ -39,6 +39,9 @@ def parse_options():
 
     parser = argparse.ArgumentParser()
 
+    parser.add_argument('-R', '--reload', action='store_true', dest='reload',
+                        help=_('Reload terminator configuration'))
+
     parser.add_argument('-v', '--version', action='store_true', dest='version',
             help=_('Display program version'))
     parser.add_argument('-m', '--maximise', action='store_true', dest='maximise',
