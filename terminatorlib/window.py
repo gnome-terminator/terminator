@@ -300,6 +300,14 @@ class Window(Container, Gtk.Window):
         """Handle window destruction"""
         dbg('destroying self')
         for terminal in self.get_terminals():
+            # Only for race condition, while closing a window with a single
+            # terminal. Could be useful in other scenarios.
+            # We can't get [[terminal1]] section using
+            # terminal.describe_layout() while terminal is closing.
+            # Also while receiving event on Plugins Side, if connected to term
+            # we can't use close-term as it starts to close terminal, so we
+            # send a pre-close-term before Example: Plugin SaveLastSessionLayout
+            terminal.emit('pre-close-term')
             terminal.close()
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)

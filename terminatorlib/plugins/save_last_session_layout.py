@@ -27,7 +27,7 @@ class SaveLastSessionLayout(plugin.Plugin):
       dbg("SaveLastSessionLayout Init")
       self.connect_signals()
 
-    #not used, but capability
+    #not used, but capability can be used to load automatically
     def load_session_layout(self, debugtab=False, widget=None, cwd=None, metadata=None, profile=None):
       dbg("SaveLastSessionLayout load layout")
       terminator = Terminator()
@@ -38,7 +38,7 @@ class SaveLastSessionLayout(plugin.Plugin):
       config = Config()
       terminator = Terminator()
       current_layout = terminator.describe_layout(save_cwd = True)
-      dbg("SaveLastSessionLayout: save layout(%s)" % str(current_layout))
+      dbg("SaveLastSessionLayout: save layout(%s)" % current_layout)
       res = config.replace_layout("SaveLastSessionLayout", current_layout)
       if (not res):
         r = config.add_layout("SaveLastSessionLayout", current_layout)
@@ -51,7 +51,14 @@ class SaveLastSessionLayout(plugin.Plugin):
         for term in Terminator().terminals:
             dbg("SaveLastSessionLayout connect_signals to term num:(%d)" % n)
             n = n + 1
-            term.connect('close-term', self.close, None)
+            # event close-term works, and does not require an additional
+            # event but has a race condition when
+            # there is only one terminal we are unable to get the
+            # describe_layout section
+
+            #term.connect('close-term', self.close, None)
+            term.connect('pre-close-term', self.close, None)
+
             #Can connect signal from terminal
             #term.connect('load-layout', self.load_session_layout, None)
 
@@ -59,11 +66,4 @@ class SaveLastSessionLayout(plugin.Plugin):
         if (self.emit_close_count == 0):
             self.emit_close_count = self.emit_close_count + 1
             self.save_session_layout("", "")
-
-    def connect_signals_delayed(self, term, event, arg1 = None):
-        def add_watch(self):
-            self.connect_signals()
-            return False
-        GObject.idle_add(add_watch, self)
-        return True
 

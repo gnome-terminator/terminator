@@ -36,6 +36,7 @@ class Terminal(Gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
 
     __gsignals__ = {
+        'pre-close-term': (GObject.SignalFlags.RUN_LAST, None, ()),
         'close-term': (GObject.SignalFlags.RUN_LAST, None, ()),
         'title-change': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
