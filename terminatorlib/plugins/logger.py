@@ -101,7 +101,7 @@ class Logger(plugin.MenuItem):
         last_saved_row = self.loggers[vte_terminal]["row"]
         (col, row) = vte_terminal.get_cursor_position()
         if last_saved_col != col or last_saved_row != row:
-            # Save unwritten bufer to the file
+            # Save unwritten buffer to the file
             self.write_content(vte_terminal, last_saved_row, last_saved_col, row, col)
         fd = self.loggers[vte_terminal]["fd"]
         fd.close()

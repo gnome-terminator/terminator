@@ -1,6 +1,6 @@
 The JSONs files in this directory are example config files used by `--config-json` option.
 
-Once this feature would be documented officialy this directoy can be removed.
+Once this feature would be documented officially this directory can be removed.
 
 Example:
 ```

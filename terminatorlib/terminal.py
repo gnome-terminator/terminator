@@ -1113,7 +1113,7 @@ class Terminal(Gtk.VBox):
         connec = widget.connect_after('draw', self.on_draw)
         widget.queue_draw_area(0, 0, alloc.width, alloc.height)
         widget.get_window().process_updates(True)
-        # finaly reset the values
+        # finally reset the values
         widget.disconnect(connec)
         widget._draw_data = None
 
@@ -1230,7 +1230,7 @@ class Terminal(Gtk.VBox):
     def get_location(self, term, x, y):
         """Get our location within the terminal"""
         pos = ''
-        # get the diagonales function for the receiving widget
+        # get the diagonals function for the receiving widget
         term_alloc = term.get_allocation()
         coef1 = float(term_alloc.height)/float(term_alloc.width)
         coef2 = -float(term_alloc.height)/float(term_alloc.width)
@@ -1261,7 +1261,7 @@ class Terminal(Gtk.VBox):
             self.vte.grab_focus()
 
     def ensure_visible_and_focussed(self):
-        """Make sure that we're visible and focussed"""
+        """Make sure that we're visible and focused"""
         window = self.get_toplevel()
         try:
             topchild = window.get_children()[0]
@@ -1374,7 +1374,7 @@ class Terminal(Gtk.VBox):
     def zoom_scale(self, widget, allocation, old_data):
         """Scale our font correctly based on how big we are not vs before"""
         self.cnxids.remove_signal(self, 'size-allocate')
-        # FIXME: Is a zoom signal actualy used anywhere?
+        # FIXME: Is a zoom signal actually used anywhere?
         self.cnxids.remove_signal(self, 'zoom')
 
         new_columns = self.vte.get_column_count()
@@ -1663,7 +1663,7 @@ class Terminal(Gtk.VBox):
         self.vte.set_font(fontdesc)
 
     def get_cursor_position(self):
-        """Return the co-ordinates of our cursor"""
+        """Return the coordinates of our cursor"""
         # FIXME: THIS METHOD IS DEPRECATED AND UNUSED
         col, row = self.vte.get_cursor_position()
         width = self.vte.get_char_width()
@@ -1704,7 +1704,7 @@ class Terminal(Gtk.VBox):
             connec = widget.connect_after('draw', self.on_draw)
             widget.queue_draw_area(0, 0, alloc.width, alloc.height)
             widget.get_window().process_updates(True)
-            # finaly reset the values
+            # finally reset the values
             widget.disconnect(connec)
             widget._draw_data = None
 

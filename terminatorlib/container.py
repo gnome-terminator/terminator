@@ -251,7 +251,7 @@ the tab will also close all terminals within it.')
         maker = Factory()
         mytype = maker.type(self)
         if not mytype:
-            err('unable to detemine own type. %s' % self)
+            err('unable to determine own type. %s' % self)
             return({})
 
         layout['type'] = mytype

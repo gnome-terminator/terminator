@@ -148,7 +148,7 @@ class Searchbar(Gtk.HBox):
         
         self.config.base.set_item('case_sensitive', toggled_state)
         self.config.save()
-        self.do_search(self.entry) #  Start a new search everytime the check box is toggled.    
+        self.do_search(self.entry) #  Start a new search every time the check box is toggled.    
 
     def get_vte(self):
         """Find our parent widget"""

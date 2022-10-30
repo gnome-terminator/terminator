@@ -23,7 +23,7 @@ class EditableLabel(Gtk.EventBox):
     # pylint: disable-msg=W0212
     # pylint: disable-msg=R0904
     """
-    An eventbox that partialy emulate a Gtk.Label
+    An eventbox that partially emulate a Gtk.Label
     On double-click or key binding the label is editable, entering an empty
     will revert back to automatic text
     """
