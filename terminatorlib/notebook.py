@@ -239,7 +239,7 @@ class Notebook(Container, Gtk.Notebook):
 
     def get_child_metadata(self, widget):
         """Fetch the relevant metadata for a widget which we'd need
-        to recreate it when it's readded"""
+        to recreate it when it's re-added"""
         metadata = {}
         metadata['tabnum'] = self.page_num(widget)
         label = self.get_tab_label(widget)

@@ -33,7 +33,7 @@ try:
     import gi
     gi.require_version('Gtk','3.0')
     # pylint: disable-msg=W0611
-    from gi.repository import Gtk, Gdk
+    from gi.repository import Gtk, Gdk, GLib
 
     if Gdk.Display.get_default() == None:
         print('You need to run terminator in an X environment. ' \
@@ -80,6 +80,8 @@ if __name__ == '__main__':
 
     dbg ("%s starting up, version %s" % (APP_NAME, APP_VERSION))
   
+    GLib.set_prgname(APP_NAME)
+
     OPTIONS,dbus_options = terminatorlib.optionparse.parse_options()
     if OPTIONS.configjson:
         configjson = ConfigJson()

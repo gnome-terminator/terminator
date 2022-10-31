@@ -196,7 +196,7 @@ def widget_pixbuf(widget, maxsize=None):
     Gdk.cairo_set_source_window(cairo_context, window, 0, 0)
     cairo_context.paint()
 
-    scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height);
+    scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height)
     
     return(scaledpixbuf)
 
@@ -402,11 +402,11 @@ def update_config_to_cell_height(filename):
             dbg('Updted ‘line_height’ to ‘cell_height’.')
 
     except Exception as ex:
-        err('Unable to open ‘%s’ for reading and/or writting.\n(%s)'
+        err('Unable to open ‘%s’ for reading and/or writing.\n(%s)'
                 % (filename, ex))
 
 def get_flatpak_args(args, envv, cwd):
-    """Contruct args to be executed via flatpak-spawn"""
+    """Construct args to be executed via flatpak-spawn"""
     flatpak_args = None
     env_args = ['--env={}'.format(env) for env in envv]
     flatpak_spawn = [

@@ -151,14 +151,14 @@ terminator 1.90:
     * Preselect the current layout when opening Prefs window, and also
       save config after using the layout 'Save' button (Steve Boddy)
     * Set some default shortcuts based on my preference (Steve Boddy)
-    * Add high contast icons, make the main window icon loading work
+    * Add high contrast icons, make the main window icon loading work
       better, and respect the theme changes (Steve Boddy, LP#305579)
     * Additional windows icon loading works better, and respect the
       theme changes (LP#305579)
     * Adjust the config section name to InactivityWatch for
       InactivityWatch class
     * Add a new setting for ActivityWatch to set the time between
-      activty notifications
+      activity notifications
     * BIG update to translations, due to additions and changes.
     * Make the random default group names translatable 
     * Add and improve the mnemonics in the group menu
@@ -170,7 +170,7 @@ terminator 1.90:
     * A few changes to doc strings to make the autodoc prettier
     * Added help shortcut, by default F1 to open the local manual
     * Added button to About tab (in Prefs window) to launch manual
-    * Small tweak to setup.py to seperate build and install, and
+    * Small tweak to setup.py to separate build and install, and
       always attempt to install manual by default.
     * Sort entries in config file, so they don't jump around every
       time config is saved for easier troubleshooting
@@ -258,7 +258,7 @@ terminator 1.90:
       terminator class
     * Fix the scroll up/down key bindings to use gtk3 method
     * Fix getting the handle size (gtk2->gtk3 diff)
-    * Fix scrollbar doubleclick rebalancing (LP#1423686)
+    * Fix scrollbar double-click rebalancing (LP#1423686)
     * Fix allocations (no longer an attribute) when balancing
       (gtk2->gtk3 diff)
     * Fix allocations not having the x,y position just w,h (gtk3 bug?
@@ -351,7 +351,7 @@ terminator 1.90:
       (Egmont Koblinger, LP#1518108)
     * Fix copy on selection to work on already open terminals (Egmont
       Koblinger, LP#1518109)
-    * Fix unwanted seperator size change, and increase granularity of
+    * Fix unwanted separator size change, and increase granularity of
       dim/transparent sliders (Egmont Koblinger, LP#1518114)
     * Fix cwd when new term spawned from a symlinked directory (Egmont
       Koblinger, LP#1518554)

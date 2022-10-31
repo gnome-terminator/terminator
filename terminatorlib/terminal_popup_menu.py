@@ -252,5 +252,5 @@ class TerminalPopupMenu(object):
         layouts = self.config.list_layouts()
         for layout in layouts:
                 item = Gtk.MenuItem(layout)
-                item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', layout]))
+                item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', x.get_label()]))
                 submenu.append(item)

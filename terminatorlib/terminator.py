@@ -325,7 +325,7 @@ class Terminator(Borg):
 
         for window in self.windows:
             if not window.is_child_notebook():
-                # For windows without a notebook ensure Terminal is visible and focussed
+                # For windows without a notebook ensure Terminal is visible and focused
                 if window_last_active_term_mapping[window]:
                     term = self.find_terminal_by_uuid(window_last_active_term_mapping[window].urn)
                     term.ensure_visible_and_focussed()
@@ -617,13 +617,13 @@ class Terminator(Borg):
     def focus_left(self, widget):
         self.last_focused_term=widget
 
-    def describe_layout(self):
+    def describe_layout(self, save_cwd = False):
         """Describe our current layout"""
         layout = {}
         count = 0
         for window in self.windows:
             parent = ''
-            count = window.describe_layout(count, parent, layout, 0)
+            count = window.describe_layout(count, parent, layout, 0, save_cwd)
 
         return(layout)
 

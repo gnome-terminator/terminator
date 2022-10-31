@@ -668,7 +668,7 @@ class PrefsEditor:
         # Scrollback infinite
         widget = guiget('scrollback_infinite')
         widget.set_active(self.config['scrollback_infinite'])
-        # Scroll on outut
+        # Scroll on output
         widget = guiget('scroll_on_output_checkbutton')
         widget.set_active(self.config['scroll_on_output'])
         # Scroll on keystroke
@@ -1229,7 +1229,7 @@ class PrefsEditor:
         self.config.save()
 
     def on_title_transmit_bg_color_color_set(self, widget):
-        """Title transmit backgruond colour changed"""
+        """Title transmit background colour changed"""
         self.config['title_transmit_bg_color'] = color2hex(widget)
         self.config.save()
 
