@@ -3,7 +3,7 @@
 """terminal_popup_menu.py - classes necessary to provide a terminal context 
 menu"""
 
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 from .version import APP_NAME
 from .translation import _
@@ -19,12 +19,54 @@ class TerminalPopupMenu(object):
     terminal = None
     terminator = None
     config = None
+    accelgrp = None
 
     def __init__(self, terminal):
         """Class initialiser"""
         self.terminal = terminal
         self.terminator = Terminator()
         self.config = Config()
+        self.accelgrp = Gtk.AccelGroup()
+
+    def get_menu_item_mask(self, maskstr):
+        mask = 0
+        maskstr = maskstr.lower()
+        if maskstr.find('<Shift>'.lower()) >= 0:
+            mask = mask | Gdk.ModifierType.SHIFT_MASK
+            dbg("adding mask <Shift> %s" % mask)
+
+        if maskstr.find('<Control>'.lower()) >= 0:
+            mask = mask | Gdk.ModifierType.CONTROL_MASK
+            dbg("adding mask <Control> %s" % mask)
+
+        if maskstr.find('<Alt>'.lower()) >= 0:
+            mask = mask | Gdk.ModifierType.MOD1_MASK
+            dbg("adding mask <Alt> %s" % mask)
+
+        mask = Gdk.ModifierType(mask)
+        dbg("menu_item_mask :%d" % mask)
+        return mask
+
+    def menu_item(self, menutype, actstr, menustr):
+        act     = self.config.base.get_item('keybindings', actstr)
+        maskstr = act[actstr] if actstr in act else ""
+        mask    = self.get_menu_item_mask(maskstr)
+
+        accelchar = ""
+        pos = menustr.lower().find("_")
+        if (pos >= 0 and pos+1 < len(menustr)):
+            accelchar = menustr.lower()[pos+1]
+
+        dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
+                                    % (maskstr, menustr, accelchar))
+        item = menutype.new_with_mnemonic(_(menustr))
+        if mask:
+            item.add_accelerator("activate",
+                                self.accelgrp,
+                                Gdk.keyval_from_name(accelchar),
+                                mask,
+                                Gtk.AccelFlags.VISIBLE)
+        return item
 
     def show(self, widget, event=None):
         """Display the context menu"""
@@ -98,23 +140,26 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = Gtk.ImageMenuItem.new_with_mnemonic(_('_Copy'))
+        item = self.menu_item(Gtk.ImageMenuItem, 'copy', '_Copy')
         item.connect('activate', lambda x: terminal.vte.copy_clipboard())
         item.set_sensitive(terminal.vte.get_has_selection())
+
         menu.append(item)
 
-        item = Gtk.ImageMenuItem.new_with_mnemonic(_('_Paste'))
+        item = self.menu_item(Gtk.ImageMenuItem, 'paste', '_Paste')
         item.connect('activate', lambda x: terminal.paste_clipboard())
         menu.append(item)
 
         menu.append(Gtk.SeparatorMenuItem())
 
-        item = Gtk.ImageMenuItem.new_with_mnemonic(_('Set W_indow Title'))
+        item = self.menu_item(Gtk.ImageMenuItem, 'edit_window_title',
+                                                 'Set _Window Title')
         item.connect('activate', lambda x: terminal.key_edit_window_title())
         menu.append(item)
         
         if not terminal.is_zoomed():
-            item = Gtk.ImageMenuItem.new_with_mnemonic(_('Split H_orizontally'))
+            item = self.menu_item(Gtk.ImageMenuItem, 'split_horiz',
+                                                     'Split H_orizontally')
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_horiz', Gtk.IconSize.MENU)
             item.set_image(image)
@@ -124,7 +169,8 @@ class TerminalPopupMenu(object):
                 self.terminal.get_cwd()))
             menu.append(item)
 
-            item = Gtk.ImageMenuItem.new_with_mnemonic(_('Split V_ertically'))
+            item = self.menu_item(Gtk.ImageMenuItem, 'split_vert',
+                                                     'Split V_ertically')
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_vert', Gtk.IconSize.MENU)
             item.set_image(image)
@@ -134,7 +180,7 @@ class TerminalPopupMenu(object):
                 self.terminal.get_cwd()))
             menu.append(item)
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('Open _Tab'))
+            item = self.menu_item(Gtk.MenuItem, 'new_tab', 'Open _Tab')
             item.connect('activate', lambda x: terminal.emit('tab-new', False,
                 terminal))
             menu.append(item)
@@ -147,7 +193,7 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = Gtk.ImageMenuItem.new_with_mnemonic(_('_Close'))
+        item = self.menu_item(Gtk.ImageMenuItem, 'close_term', '_Close')
         item.connect('activate', lambda x: terminal.close())
         menu.append(item)
 
@@ -188,13 +234,15 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = Gtk.CheckMenuItem.new_with_mnemonic(_('Show _scrollbar'))
+        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
+                                                   'Show _scrollbar')
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
         if hasattr(Gtk, 'Builder'):  # VERIFY FOR GTK3: is this ever false?
-            item = Gtk.MenuItem.new_with_mnemonic(_('_Preferences'))
+            item = self.menu_item(Gtk.MenuItem, 'preferences',
+                                                '_Preferences')
             item.connect('activate', lambda x: PrefsEditor(self.terminal))
             menu.append(item)
 
@@ -245,7 +293,7 @@ class TerminalPopupMenu(object):
 
     def add_layout_launcher(self, menu):
         """Add the layout list to the menu"""
-        item = Gtk.MenuItem.new_with_mnemonic(_('_Layouts...'))
+        item = self.menu_item(Gtk.MenuItem, 'layout_launcher', '_Layouts...')
         menu.append(item)
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
