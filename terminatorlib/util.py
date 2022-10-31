@@ -196,7 +196,7 @@ def widget_pixbuf(widget, maxsize=None):
     Gdk.cairo_set_source_window(cairo_context, window, 0, 0)
     cairo_context.paint()
 
-    scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height);
+    scaledpixbuf = Gdk.pixbuf_get_from_surface(preview_surface, 0, 0, preview_width, preview_height)
     
     return(scaledpixbuf)
 
