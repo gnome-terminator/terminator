@@ -1138,22 +1138,39 @@ class Terminal(Gtk.VBox):
 
         # draw background image
         image_mode = self.config['background_image_mode']
+        image_align_horiz = self.config['background_image_align_horiz']
+        image_align_vert = self.config['background_image_align_vert']
 
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
         if image_mode == 'stretch_and_fill':
-            cr.scale(xratio, yratio)
+            # keep stretched ratios
+            xratio = xratio
+            yratio = yratio
         elif image_mode == 'scale_and_fit':
             ratio = min(xratio, yratio)
-            cr.scale(ratio, ratio)
+            xratio = yratio = ratio
         elif image_mode == 'scale_and_crop':
             ratio = max(xratio, yratio)
-            cr.scale(ratio, ratio)
+            xratio = yratio = ratio
+        else:
+            xratio = yratio = 1
+        cr.scale(xratio, yratio)
 
-        # TODO add image alignment
+        xoffset = 0
+        yoffset = 0
+        if image_align_horiz == 'center':
+            xoffset = (rect.width / xratio - self.background_image.get_width()) / 2
+        elif image_align_horiz == 'right':
+            xoffset = rect.width / xratio - self.background_image.get_width()
 
-        cr.set_source_surface(self.background_image)
+        if image_align_vert == 'middle':
+            yoffset = (rect.height / yratio - self.background_image.get_height()) / 2
+        elif image_align_vert == 'bottom':
+            yoffset = rect.height / yratio - self.background_image.get_height()
+
+        cr.set_source_surface(self.background_image, xoffset, yoffset)
         cr.get_source().set_filter(cairo.Filter.FAST)
         if image_mode == 'tiling':
             cr.get_source().set_extend(cairo.Extend.REPEAT)
