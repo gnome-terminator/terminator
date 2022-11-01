@@ -1135,17 +1135,35 @@ class Terminal(Gtk.VBox):
 
         # save cairo context
         cr.save()
+
         # draw background image
+        image_mode = self.config['background_image_mode']
+
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
-        cr.scale(xratio, yratio)
+        if image_mode == 'stretch_and_fill':
+            cr.scale(xratio, yratio)
+        elif image_mode == 'scale_and_fit':
+            ratio = min(xratio, yratio)
+            cr.scale(ratio, ratio)
+        elif image_mode == 'scale_and_crop':
+            ratio = max(xratio, yratio)
+            cr.scale(ratio, ratio)
+
+        # TODO add image alignment
+
         cr.set_source_surface(self.background_image)
         cr.get_source().set_filter(cairo.Filter.FAST)
+        if image_mode == 'tiling':
+            cr.get_source().set_extend(cairo.Extend.REPEAT)
+
         cr.paint()
+
         # draw transparent monochrome layer
         Gdk.cairo_set_source_rgba(cr, self.bgcolor)
         cr.paint()
+
         # restore cairo context
         cr.restore()
 

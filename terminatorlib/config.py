@@ -216,6 +216,7 @@ DEFAULTS = {
                 'background_darkness'   : 0.5,
                 'background_type'       : 'solid',
                 'background_image'      : '',
+                'background_image_mode' : 'stretch_and_fill',
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'escape-sequence',
                 'color_scheme'          : 'grey_on_black',
