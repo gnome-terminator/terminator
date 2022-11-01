@@ -415,7 +415,47 @@ class PrefsEditor:
         selection.connect('changed', self.on_layout_item_selection_changed)
 
         ## Keybindings tab
-        widget = guiget('keybindingtreeview')
+        widget   = guiget('keybindingtreeview')
+        kbsearch = guiget('keybindingsearchentry')
+        self.keybind_filter_str = ""
+
+        #lets hide whatever we can in nested scope
+        def filter_visible(model, treeiter, data):
+            act  = model[treeiter][0]
+            keys = data[act] if act in data else ""
+            desc = model[treeiter][1]
+            kval = model[treeiter][2]
+            mask = model[treeiter][3]
+            #so user can search for disabled keys also
+            if not (len(keys) and kval and mask):
+                act = "Disabled"
+
+            self.keybind_filter_str = self.keybind_filter_str.lower()
+            searchtxt = (act + " " + keys + " " + desc).lower()
+            pos = searchtxt.find(self.keybind_filter_str)
+            if (pos >= 0):
+                dbg("filter find:%s in search text: %s" %
+                                (self.keybind_filter_str, searchtxt))
+                return True
+
+            return False
+
+        def on_search(widget, text):
+            MAX_SEARCH_LEN = 10
+            self.keybind_filter_str = widget.get_text()
+            ln = len(self.keybind_filter_str)
+            #its a small list & we are eager for quick search, but limit
+            if (ln >=2 and ln < MAX_SEARCH_LEN):
+                dbg("filter search str: %s" % self.keybind_filter_str)
+                self.treemodelfilter.refilter()
+
+        def on_search_refilter(widget):
+            dbg("refilter")
+            self.treemodelfilter.refilter()
+
+        kbsearch.connect('key-press-event', on_search)
+        kbsearch.connect('backspace', on_search_refilter)
+
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         keybindings = self.config['keybindings']
@@ -430,6 +470,10 @@ class PrefsEditor:
                     pass
             liststore.append([keybinding, self.keybindingnames[keybinding],
                              keyval, mask])
+
+        self.treemodelfilter = liststore.filter_new()
+        self.treemodelfilter.set_visible_func(filter_visible, keybindings)
+        widget.set_model(self.treemodelfilter)
 
         ## Plugins tab
         # Populate the plugin list
@@ -1730,6 +1774,11 @@ class PrefsEditor:
         self.config.save()
 
     def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
+        inpath = path #save for debugging
+        trpath = Gtk.TreePath.new_from_string(inpath)
+        path   = str(self.treemodelfilter.convert_path_to_child_path(trpath))
+        dbg("convert path with filter from: %s to: %s" %
+                                        (inpath, path))
         """Handle an edited keybinding"""
         # Ignore `Gdk.KEY_Tab` so that `Shift+Tab` is displayed as `Shift+Tab`
         # in `Preferences>Keybindings` and NOT `Left Tab` (see `Gdk.KEY_ISO_Left_Tab`).
@@ -1800,6 +1849,12 @@ class PrefsEditor:
         self.config.save()
 
     def on_cellrenderer_accel_cleared(self, liststore, path):
+        inpath = path #save for debugging
+        trpath = Gtk.TreePath.new_from_string(inpath)
+        path   = str(self.treemodelfilter.convert_path_to_child_path(trpath))
+        dbg("convert path with filter from: %s to: %s" %
+                                        (inpath, path))
+
         """Handle the clearing of a keybinding accelerator"""
         celliter = liststore.get_iter_from_string(path)
         liststore.set(celliter, 2, 0, 3, 0)
