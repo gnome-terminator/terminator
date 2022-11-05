@@ -275,6 +275,7 @@ class Notebook(Container, Gtk.Notebook):
             widget.force_set_profile(None, profile)
 
         signals = {'close-term': self.wrapcloseterm,
+                   'split-auto': self.split_auto,
                    'split-horiz': self.split_horiz,
                    'split-vert': self.split_vert,
                    'title-change': self.propagate_title_change,

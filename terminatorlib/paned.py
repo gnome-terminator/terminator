@@ -93,6 +93,7 @@ class Paned(Container):
         if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
             signals = {'close-term': self.wrapcloseterm,
+                    'split-auto': self.split_auto,
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
                     'title-change': self.propagate_title_change,
