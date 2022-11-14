@@ -56,25 +56,8 @@ from terminatorlib.configjson import ConfigJson
 
 # Deleting env variable fixes double char problem when broadcasting (#78)
 # Only delete if it exists, or exception occurs
-if os.environ.get('GTK_IM_MODULE') is not None:
-    del os.environ['GTK_IM_MODULE']
 
 if __name__ == '__main__':
-    # Workaround for IBus intefering with broadcast when using dead keys
-    # Environment also needs IBUS_DISABLE_SNOOPER=1, or double chars appear
-    # in the receivers.
-    username = pwd.getpwuid(os.getuid()).pw_name
-    ibus_running = False
-    for proc in psutil.process_iter():
-        try:
-            if proc.name() == 'ibus-daemon' and proc.username() == username:
-                ibus_running = True
-                break
-        except (psutil.AccessDenied) as err:
-            print("error getting details while looking for Ibus process: %s" % err)
-
-    if ibus_running:
-        os.environ['IBUS_DISABLE_SNOOPER']='1'
 
     dbus_service = None
 
@@ -137,7 +120,6 @@ if __name__ == '__main__':
         MAKER = Factory()
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
-        TERMINATOR.ibus_running = ibus_running
 
         try:
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
