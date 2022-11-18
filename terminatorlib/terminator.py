@@ -54,7 +54,6 @@ class Terminator(Borg):
     dbus_path = None
     dbus_name = None
     debug_address = None
-    ibus_running = None
 
     doing_layout = None
     layoutname = None
