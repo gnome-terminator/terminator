@@ -62,14 +62,16 @@ def parse_options():
     else:
         parser.add_argument('--command', dest='command',
                 help=_('Specify a command to execute inside the terminal'))
-        parser.add_argument('-e', '--execute2', dest='execute', action=ExecuteCallback,
+        parser.add_argument('-e', '--execute2', dest='execute',
+                nargs=argparse.REMAINDER, action=ExecuteCallback,
                 help=_('Use the rest of the command line as a command to '
                        'execute inside the terminal, and its arguments'))
     parser.add_argument('-g', '--config', dest='config',
                       help=_('Specify a config file'))
     parser.add_argument('-j', '--config-json', dest='configjson',
                       help=_('Specify a partial config json file'))
-    parser.add_argument('-x', '--execute', dest='execute', action=ExecuteCallback,
+    parser.add_argument('-x', '--execute', dest='execute',
+            nargs=argparse.REMAINDER, action=ExecuteCallback,
             help=_('Use the rest of the command line as a command to execute '
                    'inside the terminal, and its arguments'))
     parser.add_argument('--working-directory', metavar='DIR',
