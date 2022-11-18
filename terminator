@@ -53,10 +53,6 @@ from terminatorlib.util import dbg, err
 from terminatorlib.layoutlauncher import LayoutLauncher
 from terminatorlib.configjson import ConfigJson
 
-
-# Deleting env variable fixes double char problem when broadcasting (#78)
-# Only delete if it exists, or exception occurs
-
 if __name__ == '__main__':
 
     dbus_service = None
