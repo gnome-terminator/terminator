@@ -234,6 +234,11 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
+        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', '_read only')
+        item.set_active(not(terminal.vte.get_input_enabled()))
+        item.connect('toggled', lambda x: terminal.do_readonly_toggle())
+        menu.append(item)
+
         item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
                                                    'Show _scrollbar')
         item.set_active(terminal.scrollbar.get_property('visible'))

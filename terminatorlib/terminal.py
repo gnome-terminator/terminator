@@ -1045,6 +1045,9 @@ class Terminal(Gtk.VBox):
         menu = TerminalPopupMenu(self)
         menu.show(widget, event)
 
+    def do_readonly_toggle(self):
+        self.vte.props.input_enabled = not self.vte.props.input_enabled
+
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
         self.toggle_widget_visibility(self.scrollbar)
