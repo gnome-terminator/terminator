@@ -127,6 +127,8 @@ class PrefsEditor:
                         'paste_selection'  : _('Paste primary selection'),
                         'toggle_scrollbar' : _('Show/Hide the scrollbar'),
                         'search'           : _('Search terminal scrollback'),
+                        'prev_scroll'      : _('Scroll backwards in the cache'),
+                        'next_scroll'      : _('Scroll forwards in the cache'),
                         'page_up'          : _('Scroll upwards one page'),
                         'page_down'        : _('Scroll downwards one page'),
                         'page_up_half'     : _('Scroll upwards half a page'),
@@ -717,6 +719,9 @@ class PrefsEditor:
         # Scroll on keystroke
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
+        # Scroll cache
+        widget = guiget('scroll_cache_checkbutton')
+        widget.set_active(self.config['scroll_cache'])
 
         ## Compatibility tab
         # Backspace key
@@ -965,6 +970,11 @@ class PrefsEditor:
         """Scrollback lines setting changed"""
         value = widget.get_value_as_int()
         self.config['scrollback_lines'] = value
+        self.config.save()
+
+    def on_scroll_cache_checkbutton_toggled(self, widget):
+        """Scroll cache setting changed"""
+        self.config['scroll_cache'] = widget.get_active()
         self.config.save()
 
     def on_scrollback_infinite_toggled(self, widget):
