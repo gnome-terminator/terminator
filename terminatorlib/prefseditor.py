@@ -174,7 +174,7 @@ class PrefsEditor:
                         'broadcast_group'  : _('Broadcast key presses to group'),
                         'broadcast_all'    : _('Broadcast key events to all'),
                         'insert_number'    : _('Insert terminal number'),
-                        'insert_padded'    : _('Insert padded terminal number'),
+                        'insert_padded'    : _('Insert zero padded terminal number'),
                         'edit_window_title': _('Edit window title'),
                         'edit_terminal_title': _('Edit terminal title'),
                         'edit_tab_title'   : _('Edit tab title'),

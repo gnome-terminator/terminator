@@ -583,7 +583,7 @@ class Terminal(Gtk.VBox):
         item.connect('activate', lambda x: self.emit('enumerate', False))
         menu.append(item)
 
-        item = Gtk.MenuItem.new_with_mnemonic(_('Insert _padded terminal number'))
+        item = Gtk.MenuItem.new_with_mnemonic(_('Insert zero _padded terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', True))
         menu.append(item)
 
