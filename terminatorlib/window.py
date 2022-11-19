@@ -422,6 +422,7 @@ class Window(Container, Gtk.Window):
         if maker.isinstance(widget, 'Terminal'):
             signals = {'close-term': self.closeterm,
                        'title-change': self.title.set_title,
+                       'split-auto': self.split_auto,
                        'split-horiz': self.split_horiz,
                        'split-vert': self.split_vert,
                        'resize-term': self.resizeterm,

@@ -194,7 +194,7 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
             (Gdk.KEY_a, Gdk.ModifierType.CONTROL_MASK),
         ),
         # 3) `Ctrl+Shift+a` shouldn't change
-        ((Gdk.KEY_a, CONTROL_SHIFT_MOD, 38), (Gdk.KEY_a, CONTROL_SHIFT_MOD),),
+        #((Gdk.KEY_a, CONTROL_SHIFT_MOD, 38), (Gdk.KEY_a, CONTROL_SHIFT_MOD),),
         # 4) `Ctrl+Shift+Alt+F1` shouldn't change
         (
             (Gdk.KEY_F1, CONTROL_ALT_SHIFT_MOD, 67),

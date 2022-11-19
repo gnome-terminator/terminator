@@ -138,6 +138,7 @@ DEFAULTS = {
             'go_right'         : '<Alt>Right',
             'rotate_cw'        : '<Super>r',
             'rotate_ccw'       : '<Super><Shift>r',
+            'split_auto'      :  '<Shift><Control>a',
             'split_horiz'      : '<Shift><Control>o',
             'split_vert'       : '<Shift><Control>e',
             'close_term'       : '<Shift><Control>w',

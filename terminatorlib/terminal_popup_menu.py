@@ -158,6 +158,20 @@ class TerminalPopupMenu(object):
         menu.append(item)
         
         if not terminal.is_zoomed():
+            item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
+                                                     'Split _Auto')
+            """
+            image = Gtk.Image()
+            image.set_from_icon_name(APP_NAME + '_auto', Gtk.IconSize.MENU)
+            item.set_image(image)
+            if hasattr(item, 'set_always_show_image'):
+                item.set_always_show_image(True)
+            """
+            item.connect('activate', lambda x: terminal.emit('split-auto',
+                self.terminal.get_cwd()))
+            menu.append(item)
+
+
             item = self.menu_item(Gtk.ImageMenuItem, 'split_horiz',
                                                      'Split H_orizontally')
             image = Gtk.Image()
