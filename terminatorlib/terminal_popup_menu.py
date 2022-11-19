@@ -35,7 +35,9 @@ class TerminalPopupMenu(object):
             mask = mask | Gdk.ModifierType.SHIFT_MASK
             dbg("adding mask <Shift> %s" % mask)
 
-        if maskstr.find('<Control>'.lower()) >= 0:
+        ctrl = (maskstr.find('<Control>'.lower()) >= 0 or
+                maskstr.find('<Primary>'.lower()) >= 0)
+        if ctrl:
             mask = mask | Gdk.ModifierType.CONTROL_MASK
             dbg("adding mask <Control> %s" % mask)
 
@@ -56,6 +58,18 @@ class TerminalPopupMenu(object):
         pos = menustr.lower().find("_")
         if (pos >= 0 and pos+1 < len(menustr)):
             accelchar = menustr.lower()[pos+1]
+
+        #this may require tweak. what about shortcut function keys ?
+        if maskstr:
+            mpos = maskstr.rfind(">")
+            #can't have a char at 0 position as <> is len 2
+            if mpos >= 0 and mpos+1 < len(maskstr):
+                configaccelchar = maskstr[mpos+1:]
+                #ensure to take only 1 char else ignore
+                if len(configaccelchar) == 1:
+                    dbg("found accelchar in config:%s  override:%s"
+                                    %  (configaccelchar, accelchar))
+                    accelchar = configaccelchar
 
         dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
                                     % (maskstr, menustr, accelchar))
