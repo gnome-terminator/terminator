@@ -67,6 +67,16 @@ class Container(object):
         child is .remove()d and .add()ed"""
         return None
 
+    def split_auto(self, widget, cwd=None):
+        """Split this container automatically"""
+        width  = widget.get_allocation().width
+        height = widget.get_allocation().height
+        dbg("split as per current dimenstions:(%s %s)" % (width, height))
+        if width > height:
+            self.split_axis(widget, False, cwd)
+        else:
+            self.split_axis(widget, True , cwd)
+
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
         return(self.split_axis(widget, True, cwd))
@@ -133,17 +143,6 @@ class Container(object):
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
-
-    def toggle_zoom(self, widget, fontscale = False):
-        """Toggle the existing zoom state"""
-        try:
-            if self.get_property('term_zoomed'):
-                self.unzoom(widget)
-            else:
-                self.zoom(widget, fontscale)
-        except TypeError:
-            err('Container::toggle_zoom: %s is unable to handle zooming, for \
-            %s' % (self, widget))
 
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""

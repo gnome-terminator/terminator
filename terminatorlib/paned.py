@@ -93,6 +93,7 @@ class Paned(Container):
         if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
             signals = {'close-term': self.wrapcloseterm,
+                    'split-auto': self.split_auto,
                     'split-horiz': self.split_horiz,
                     'split-vert': self.split_vert,
                     'title-change': self.propagate_title_change,
@@ -424,7 +425,7 @@ class Paned(Container):
         """We don't want focus, we want a Terminal to have it"""
         self.get_child1().grab_focus()
 
-    def rotate_recursive(self, parent, w, h, clockwise):
+    def rotate_recursive(self, parent, w, h, clockwise, metadata=None):
         """
         Recursively rotate "self" into a new paned that'll have "w" x "h" size. Attach it to "parent".
 
@@ -458,7 +459,7 @@ class Paned(Container):
             w2 = max(w - w1 - handle_size, 0)
 
         container.set_pos(pos)
-        parent.add(container)
+        parent.add(container, metadata=metadata)
 
         if maker.isinstance(children[0], 'Terminal'):
             children[0].get_parent().remove(children[0])

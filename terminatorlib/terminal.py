@@ -46,6 +46,8 @@ class Terminal(Gtk.VBox):
         'group-tab-toggle': (GObject.SignalFlags.RUN_LAST, None, ()),
         'ungroup-tab': (GObject.SignalFlags.RUN_LAST, None, ()),
         'ungroup-all': (GObject.SignalFlags.RUN_LAST, None, ()),
+        'split-auto': (GObject.SignalFlags.RUN_LAST, None,
+            (GObject.TYPE_STRING,)),
         'split-horiz': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
         'split-vert': (GObject.SignalFlags.RUN_LAST, None,
@@ -1045,6 +1047,9 @@ class Terminal(Gtk.VBox):
         menu = TerminalPopupMenu(self)
         menu.show(widget, event)
 
+    def do_readonly_toggle(self):
+        self.vte.props.input_enabled = not self.vte.props.input_enabled
+
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
         self.toggle_widget_visibility(self.scrollbar)
@@ -1852,6 +1857,9 @@ class Terminal(Gtk.VBox):
 
     def key_go_right(self):
         self.emit('navigate', 'right')
+
+    def key_split_auto(self):
+        self.emit('split-auto', self.get_cwd())
 
     def key_split_horiz(self):
         self.emit('split-horiz', self.get_cwd())
