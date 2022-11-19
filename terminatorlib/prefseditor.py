@@ -18,6 +18,8 @@ from .terminator import Terminator
 from .plugin import PluginRegistry
 from .version import APP_NAME
 
+from .plugin_util import KeyBindUtil
+
 def get_color_string(widcol):
     return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
 
@@ -419,6 +421,15 @@ class PrefsEditor:
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         keybindings = self.config['keybindings']
+
+        keybindutil          = KeyBindUtil()
+        plugin_keyb_act      = keybindutil.get_act_to_keys()
+        plugin_keyb_desc     = keybindutil.get_act_to_desc()
+        #merge give preference to main bindings over plugin
+        keybindings          = {**plugin_keyb_act,  **keybindings}
+        self.keybindingnames = {**plugin_keyb_desc, **self.keybindingnames}
+        #dbg("appended actions %s names %s" % (keybindings, self.keybindingnames))
+
         for keybinding in keybindings:
             keyval = 0
             mask = 0
@@ -1797,6 +1808,19 @@ class PrefsEditor:
         binding = liststore.get_value(liststore.get_iter(path), 0)
         accel = Gtk.accelerator_name(key, mods)
         self.config['keybindings'][binding] = accel
+
+        keybindutil          = KeyBindUtil()
+        plugin_keyb_desc     = keybindutil.get_act_to_desc()
+
+        if binding in plugin_keyb_desc:
+            if binding in plugin_keyb_desc:
+                desc = plugin_keyb_desc[binding]
+                dbg("modifying plugin binding: %s, %s, %s" % (desc, binding, accel))
+                keybindutil.bindkey([desc, binding, accel])
+            else:
+                dbg("skipping: %s" % binding)
+                pass
+
         self.config.save()
 
     def on_cellrenderer_accel_cleared(self, liststore, path):
