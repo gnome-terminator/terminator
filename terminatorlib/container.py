@@ -144,17 +144,6 @@ class Container(object):
         """Handle a keyboard event requesting a terminal resize"""
         raise NotImplementedError('resizeterm')
 
-    def toggle_zoom(self, widget, fontscale = False):
-        """Toggle the existing zoom state"""
-        try:
-            if self.get_property('term_zoomed'):
-                self.unzoom(widget)
-            else:
-                self.zoom(widget, fontscale)
-        except TypeError:
-            err('Container::toggle_zoom: %s is unable to handle zooming, for \
-            %s' % (self, widget))
-
     def zoom(self, widget, fontscale = False):
         """Zoom a terminal"""
         raise NotImplementedError('zoom')
