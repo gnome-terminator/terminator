@@ -40,6 +40,7 @@ class Terminal(Gtk.VBox):
         'close-term': (GObject.SignalFlags.RUN_LAST, None, ()),
         'title-change': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
+        'insert-term-name': (GObject.SignalFlags.RUN_LAST, None, ()),
         'enumerate': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_INT,)),
         'group-tab': (GObject.SignalFlags.RUN_LAST, None, ()),
@@ -128,6 +129,7 @@ class Terminal(Gtk.VBox):
 
         # FIXME: Surely these should happen in Terminator::register_terminal()?
         self.connect('enumerate', self.terminator.do_enumerate)
+        self.connect('insert-term-name', self.terminator.do_insert_term_name)
         self.connect('focus-in', self.terminator.focus_changed)
         self.connect('focus-out', self.terminator.focus_left)
 
@@ -585,6 +587,10 @@ class Terminal(Gtk.VBox):
 
         item = Gtk.MenuItem.new_with_mnemonic(_('Insert zero _padded terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', True))
+        menu.append(item)
+
+        item = Gtk.MenuItem.new_with_mnemonic(_('Insert terminal _name'))
+        item.connect('activate', lambda x: self.emit('insert-term-name'))
         menu.append(item)
 
         return(menu)

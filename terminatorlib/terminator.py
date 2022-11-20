@@ -584,6 +584,16 @@ class Terminator(Borg):
             idx = terminals.index(term)
             term.feed(numstr.encode() % (idx + 1))
 
+    def do_insert_term_name(self, widget):
+        terminals = []
+        for window in self.windows:
+            containers, win_terminals = enumerate_descendants(window)
+            terminals.extend(win_terminals)
+
+        for term in self.get_target_terms(widget):
+            name = term.titlebar.get_custom_string() or term.get_window_title()
+            term.feed(name)
+
     def get_sibling_terms(self, widget):
         termset = []
         for term in self.terminals:
