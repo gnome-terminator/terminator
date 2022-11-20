@@ -1,7 +1,6 @@
 from gi.repository import Gtk
 
 import terminatorlib.plugin as plugin
-from terminatorlib.terminator import Terminator
 
 AVAILABLE = ['InsertTermName']
 
@@ -10,7 +9,6 @@ class InsertTermName(plugin.MenuItem):
    config = None
 
    def __init__(self):
-      # self.connect_signals()
       plugin.MenuItem.__init__(self)
 
    def callback(self, menuitems, menu, terminal):

@@ -587,6 +587,10 @@ class Terminal(Gtk.VBox):
         item.connect('activate', lambda x: self.emit('enumerate', True))
         menu.append(item)
 
+        item = Gtk.MenuItem.new_with_mnemonic(_('Insert terminal _name'))
+        item.connect('activate', lambda x: self.emit('insert-term-name'))
+        menu.append(item)
+
         return(menu)
 
     def set_group(self, _item, name):
