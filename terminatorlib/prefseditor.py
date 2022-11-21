@@ -1814,8 +1814,14 @@ class PrefsEditor:
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
         parsed_accel = Gtk.accelerator_parse(accel)
 
+        keybindutil          = KeyBindUtil()
+        keybindings          = self.config["keybindings"]
+        #merge give preference to main bindings over plugin
+        plugin_keyb_act      = keybindutil.get_act_to_keys()
+        keybindings          = {**plugin_keyb_act,  **keybindings}
+
         duplicate_bindings = []
-        for conf_binding, conf_accel in self.config["keybindings"].items():
+        for conf_binding, conf_accel in keybindings.items():
             if conf_accel is None:
                 continue
 
@@ -1859,7 +1865,6 @@ class PrefsEditor:
         accel = Gtk.accelerator_name(key, mods)
         self.config['keybindings'][binding] = accel
 
-        keybindutil          = KeyBindUtil()
         plugin_keyb_desc     = keybindutil.get_act_to_desc()
 
         if binding in plugin_keyb_desc:
