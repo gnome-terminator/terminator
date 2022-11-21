@@ -58,6 +58,7 @@ class KeyBindUtil:
 
     def bindkey(self, key):
         (keyval, mask)  = self.keybindings._parsebinding(key[PLUGIN_UTIL_KEYS])
+        keyval = Gdk.keyval_to_lower(keyval)
         mask = Gdk.ModifierType(mask)
 
         ret = (keyval, mask)
@@ -82,7 +83,8 @@ class KeyBindUtil:
         #FIXME MOD2 mask comes in the event, remove
         event.state  &= ~Gdk.ModifierType.MOD2_MASK
 
-        ret = (event.keyval, event.state)
+        keyval = Gdk.keyval_to_lower(event.keyval)
+        ret = (keyval, event.state)
         dbg("keyaction: (%s)" % str(ret))
         return self.map_key_to_act.get(ret, None)
 
