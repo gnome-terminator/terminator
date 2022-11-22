@@ -14,10 +14,9 @@ from terminatorlib.terminator import Terminator
 
 from terminatorlib.config import Config
 import terminatorlib.plugin as plugin
-from terminatorlib.plugin_util import KeyBindUtil
+from terminatorlib.plugin import KeyBindUtil
 
 from terminatorlib.util import get_config_dir, err, dbg, gerr
-from terminatorlib.keybindings import Keybindings, KeymapError
 from terminatorlib import regex
 
 import re
@@ -45,7 +44,8 @@ class MouseFreeURLHandler(plugin.Plugin):
     match        = None
 
     flag_http_on = False
-    keyb  = KeyBindUtil()
+    config       = Config()
+    keyb         = KeyBindUtil(config)
     matches      = []
     matches_ptr  = -1
     #basic pattern
@@ -54,21 +54,34 @@ class MouseFreeURLHandler(plugin.Plugin):
     def __init__(self):
         self.connect_signals()
 
-        config = Config()
-        self.keyb.bindkey_check_config([PluginUrlFindNext , PluginUrlActFindNext, "<Alt>j"], config)
-        self.keyb.bindkey_check_config([PluginUrlFindPrev , PluginUrlActFindPrev, "<Alt>k"], config)
-        self.keyb.bindkey_check_config([PluginUrlEsc   , PluginUrlActEsc,    "Escape"],      config)
-        self.keyb.bindkey_check_config([PluginUrlLaunch, PluginUrlActLaunch, "<Alt>Return"], config)
+        self.keyb.bindkey_check_config(
+                [PluginUrlFindNext , PluginUrlActFindNext, "<Alt>j"])
+        self.keyb.bindkey_check_config(
+                [PluginUrlFindPrev , PluginUrlActFindPrev, "<Alt>k"])
+        self.keyb.bindkey_check_config(
+                [PluginUrlEsc   , PluginUrlActEsc,         "Escape"])
+        self.keyb.bindkey_check_config(
+                [PluginUrlLaunch, PluginUrlActLaunch,      "<Alt>Return"])
 
     def connect_signals(self):
         self.windows = Terminator().get_windows()
         for window in self.windows:
             window.connect('key-press-event', self.on_keypress)
-        return
 
-    def callback(self, url):
-        """Actually we don't need to do anything for this to work"""
-        return(url)
+
+    def unload(self):
+        #
+        for window in self.windows:
+            window.disconnect_by_func(self.on_keypress)
+
+        self.keyb.unbindkey(
+                [PluginUrlFindNext , PluginUrlActFindNext, "<Alt>j"])
+        self.keyb.unbindkey(
+                [PluginUrlFindPrev , PluginUrlActFindPrev, "<Alt>k"])
+        self.keyb.unbindkey(
+                [PluginUrlEsc   , PluginUrlActEsc,         "Escape"])
+        self.keyb.unbindkey(
+                [PluginUrlLaunch, PluginUrlActLaunch,      "<Alt>Return"])
 
     def extract(self):
         #can we do extract more efficiently

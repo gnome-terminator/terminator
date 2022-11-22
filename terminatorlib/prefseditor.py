@@ -18,7 +18,7 @@ from .terminator import Terminator
 from .plugin import PluginRegistry
 from .version import APP_NAME
 
-from .plugin_util import KeyBindUtil
+from .plugin import KeyBindUtil
 
 def get_color_string(widcol):
     return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))

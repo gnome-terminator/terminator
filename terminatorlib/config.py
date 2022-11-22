@@ -77,7 +77,6 @@ from configobj import ConfigObj, flatten_errors
 from validate import Validator
 from .borg import Borg
 from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_diff, update_config_to_cell_height
-from terminatorlib.plugin_util import KeyBindUtil
 
 from gi.repository import Gio
 
@@ -721,6 +720,7 @@ class ConfigBase(Borg):
             dbg('Processing section: %s' % section_name)
             section = getattr(self, section_name)
             if section_name == 'keybindings':
+                from terminatorlib.plugin import KeyBindUtil
                 # for plugin KeyBindUtil assist in plugin_util
                 keybindutil = KeyBindUtil();
                 keyb_keys   = keybindutil.get_act_to_keys()
