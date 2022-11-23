@@ -181,11 +181,12 @@ class PrefsEditor:
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
-			'preferences'	   : _('Open the Preferences window'),
+                        'preferences'	   : _('Open the Preferences window'),
+                        'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
                         'help'             : _('Open the manual')
             }
 
-    def __init__ (self, term):
+    def __init__ (self, term, cur_page=0):
         self.config = config.Config()
         self.config.base.reload()
         self.term = term
@@ -227,6 +228,10 @@ class PrefsEditor:
         except Exception as e:
             err('Unable to set values: %s' % e)
         self.config.uninhibit_save()
+
+        guiget = self.builder.get_object
+        nb = guiget('notebook1')
+        nb.set_current_page(cur_page)
 
     def on_closebutton_clicked(self, _button):
         """Close the window"""

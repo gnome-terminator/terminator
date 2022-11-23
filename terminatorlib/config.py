@@ -202,6 +202,7 @@ DEFAULTS = {
             'next_profile'     : '',
             'previous_profile' : '', 
             'preferences'      : '',
+            'preferences_keybindings' : '<Control><Shift>k',
             'help'             : 'F1'
         },
         'profiles': {
