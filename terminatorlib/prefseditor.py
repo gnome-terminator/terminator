@@ -464,8 +464,8 @@ class PrefsEditor:
         keybindings = self.config['keybindings']
 
         keybindutil          = KeyBindUtil()
-        plugin_keyb_act      = keybindutil.get_act_to_keys()
-        plugin_keyb_desc     = keybindutil.get_act_to_desc()
+        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
+        plugin_keyb_desc     = keybindutil.get_all_act_to_desc()
         #merge give preference to main bindings over plugin
         keybindings          = {**plugin_keyb_act,  **keybindings}
         self.keybindingnames = {**plugin_keyb_desc, **self.keybindingnames}
@@ -1817,7 +1817,7 @@ class PrefsEditor:
         keybindutil          = KeyBindUtil()
         keybindings          = self.config["keybindings"]
         #merge give preference to main bindings over plugin
-        plugin_keyb_act      = keybindutil.get_act_to_keys()
+        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
         keybindings          = {**plugin_keyb_act,  **keybindings}
 
         duplicate_bindings = []
@@ -1865,16 +1865,14 @@ class PrefsEditor:
         accel = Gtk.accelerator_name(key, mods)
         self.config['keybindings'][binding] = accel
 
-        plugin_keyb_desc     = keybindutil.get_act_to_desc()
-
-        if binding in plugin_keyb_desc:
-            if binding in plugin_keyb_desc:
-                desc = plugin_keyb_desc[binding]
-                dbg("modifying plugin binding: %s, %s, %s" % (desc, binding, accel))
-                keybindutil.bindkey([desc, binding, accel])
-            else:
-                dbg("skipping: %s" % binding)
-                pass
+        plugin_keyb_desc = keybindutil.get_act_to_desc(binding)
+        if plugin_keyb_desc:
+            dbg("modifying plugin binding: %s, %s, %s" %
+                                    (plugin_keyb_desc, binding, accel))
+            keybindutil.bindkey([plugin_keyb_desc, binding, accel])
+        else:
+            dbg("skipping: %s" % binding)
+            pass
 
         self.config.save()
 

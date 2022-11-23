@@ -723,7 +723,7 @@ class ConfigBase(Borg):
                 from terminatorlib.plugin import KeyBindUtil
                 # for plugin KeyBindUtil assist in plugin_util
                 keybindutil = KeyBindUtil();
-                keyb_keys   = keybindutil.get_act_to_keys()
+                keyb_keys   = keybindutil.get_all_act_to_keys()
                 # we only need keys as a reference so to match them
                 # against new values
                 keyb_keys   = dict.fromkeys(keyb_keys, "")

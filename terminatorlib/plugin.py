@@ -303,8 +303,22 @@ class KeyBindUtil:
         dbg("keyaction: (%s)" % str(ret))
         return self.map_key_to_act.get(ret, None)
 
-    def get_act_to_keys(self):
+    def get_act_to_keys(self, key):
+        return self.map_act_to_keys.get(key)
+
+    def get_all_act_to_keys(self):
         return self.map_act_to_keys
 
-    def get_act_to_desc(self):
+    def get_all_act_to_desc(self):
         return self.map_act_to_desc
+
+    def get_act_to_desc(self, act):
+        return self.map_act_to_desc.get(act)
+
+    #get action to key binding from config
+    def get_act_to_keys_config(self, act):
+        if not self.config:
+            raise Warning("get_keyvalmask_for_act called without config init")
+
+        keybindings = self.config["keybindings"]
+        return keybindings.get(act)
