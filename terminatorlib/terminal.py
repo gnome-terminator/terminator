@@ -879,7 +879,13 @@ class Terminal(Gtk.VBox):
                 focused=self.get_toplevel().get_focussed_terminal()
                 if focused in targets: targets.remove(focused)
                 if self != focused:
-                    if self.group == focused.group:
+                    if focused.group is None and self.group is None:
+                        # Create a new group and assign currently focused
+                        # terminal to this group
+                        new_group = self.terminator.new_random_group()
+                        focused.set_group(None, new_group)
+                        focused.titlebar.update()
+                    elif self.group == focused.group:
                         new_group = None
                     else:
                         new_group = focused.group
