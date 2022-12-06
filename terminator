@@ -112,8 +112,7 @@ if __name__ == '__main__':
 
                 if(OPTIONS.reload):
                     # Reload only is executed when exist at least one window,
-                    # Check if exist another way to know if master process is not active.
-                    dbg('reload option, killing app')
+                    # if not there is nothing to reload
                     sys.exit()
 
             except ipc.DBusException:
