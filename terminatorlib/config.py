@@ -118,7 +118,8 @@ DEFAULTS = {
             'case_sensitive'        : True,
             'invert_search'         : False,
             'link_single_click'     : False,
-            'title_at_bottom'       : False
+            'title_at_bottom'       : False,
+            'detachable_tabs'       : True,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

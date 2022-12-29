@@ -770,6 +770,10 @@ class PrefsEditor:
         else:
             widget.set_font_name(self.config['title_font'])
 
+        # Whether tabs can be detached into their own window by dragging from titlebar
+        widget = guiget('detachable_tabs')
+        widget.set_active(self.config['detachable_tabs'])
+
     def set_layout(self, layout_name):
         """Set a layout"""
         self.layouteditor.set_layout(layout_name)
@@ -1872,6 +1876,10 @@ class PrefsEditor:
     def on_open_manual(self,  widget):
         """Open the fine manual"""
         self.term.key_help()
+
+    def on_detachable_tabs_toggled(self, widget):
+        self.config['detachable_tabs'] = widget.get_active()
+        self.config.save()
 
 class LayoutEditor:
     profile_ids_to_profile = None
