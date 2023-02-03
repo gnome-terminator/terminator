@@ -340,6 +340,11 @@
     <property name="step-increment">0.10</property>
     <property name="page-increment">0.20</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment8">
+    <property name="upper">1</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">0.20</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment_cellheight">
     <property name="lower">1</property>
     <property name="upper">2</property>
@@ -887,7 +892,7 @@
                             <property name="spacing">36</property>
                             <property name="homogeneous">True</property>
                             <child>
-                              <!-- n-columns=3 n-rows=6 -->
+                              <!-- n-columns=3 n-rows=7 -->
                               <object class="GtkGrid" id="grid3">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -906,7 +911,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">3</property>
+                                    <property name="top-attach">4</property>
                                     <property name="width">3</property>
                                   </packing>
                                 </child>
@@ -960,7 +965,7 @@
                                     <property name="can-focus">True</property>
                                     <property name="halign">baseline</property>
                                     <property name="hexpand">True</property>
-                                    <property name="adjustment">adjustment7</property>
+                                    <property name="adjustment">adjustment8</property>
                                     <property name="round-digits">2</property>
                                     <property name="digits">2</property>
                                     <property name="draw-value">False</property>
@@ -1030,7 +1035,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1046,7 +1051,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">1</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1064,7 +1069,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">2</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1081,7 +1086,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">2</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1097,7 +1102,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">1</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1109,7 +1114,52 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label35">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Unfocused terminal background color</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="inactive_bg_color_offset_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">100%</property>
+                                    <property name="justify">right</property>
+                                    <property name="width-chars">5</property>
+                                    <property name="max-width-chars">5</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScale" id="inactive_bg_color_offset">
+                                    <property name="width-request">100</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="adjustment">adjustment7</property>
+                                    <property name="round-digits">2</property>
+                                    <property name="digits">2</property>
+                                    <property name="draw-value">False</property>
+                                    <property name="value-pos">bottom</property>
+                                    <signal name="value-changed" handler="on_inactive_bg_color_offset_value_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">2</property>
+                                    <property name="top-attach">3</property>
                                   </packing>
                                 </child>
                               </object>
@@ -3721,12 +3771,12 @@
             </child>
             <child>
               <object class="GtkVBox" id="vbox124">
-               <child>
+                <property name="can-focus">False</property>
+                <child>
                   <object class="GtkEntry" id="keybindingsearchentry">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="has-focus">False</property>
-                    <property name="placeholder_text">filter keybindings</property>
+                    <property name="placeholder-text">filter keybindings</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -3734,67 +3784,72 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-              <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow1">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="vadjustment">adjustment4</property>
-                <property name="hscrollbar-policy">never</property>
-                <property name="shadow-type">in</property>
                 <child>
-                  <object class="GtkTreeView" id="keybindingtreeview">
+                  <object class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="has-focus">True</property>
-                    <property name="model">KeybindingsListStore</property>
-                    <property name="headers-clickable">False</property>
-                    <property name="search-column">0</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection" id="treeview-selection4"/>
-                    </child>
+                    <property name="vadjustment">adjustment4</property>
+                    <property name="hscrollbar-policy">never</property>
+                    <property name="shadow-type">in</property>
                     <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-                        <property name="title" translatable="yes">Name</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext10"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
+                      <object class="GtkTreeView" id="keybindingtreeview">
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="has-focus">True</property>
+                        <property name="model">KeybindingsListStore</property>
+                        <property name="headers-clickable">False</property>
+                        <property name="search-column">0</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection4"/>
                         </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn2">
-                        <property name="title" translatable="yes">Action</property>
                         <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext11"/>
-                          <attributes>
-                            <attribute name="text">1</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="treeviewcolumn3">
-                        <property name="title" translatable="yes">Keybinding</property>
-                        <child>
-                          <object class="GtkCellRendererAccel" id="cellrendereraccel1">
-                            <property name="editable">True</property>
-                            <property name="accel-mode">other</property>
-                            <signal name="accel-cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore" swapped="yes"/>
-                            <signal name="accel-edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore" swapped="yes"/>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                            <property name="title" translatable="yes">Name</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext10"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
                           </object>
-                          <attributes>
-                            <attribute name="accel-key">2</attribute>
-                            <attribute name="accel-mods">3</attribute>
-                          </attributes>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                            <property name="title" translatable="yes">Action</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext11"/>
+                              <attributes>
+                                <attribute name="text">1</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                            <property name="title" translatable="yes">Keybinding</property>
+                            <child>
+                              <object class="GtkCellRendererAccel" id="cellrendereraccel1">
+                                <property name="editable">True</property>
+                                <property name="accel-mode">other</property>
+                                <signal name="accel-cleared" handler="on_cellrenderer_accel_cleared" object="KeybindingsListStore" swapped="yes"/>
+                                <signal name="accel-edited" handler="on_cellrenderer_accel_edited" object="KeybindingsListStore" swapped="yes"/>
+                              </object>
+                              <attributes>
+                                <attribute name="accel-key">2</attribute>
+                                <attribute name="accel-mods">3</attribute>
+                              </attributes>
+                            </child>
+                          </object>
                         </child>
                       </object>
                     </child>
                   </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
-              </object>
-              </child>
               </object>
               <packing>
                 <property name="position">3</property>
