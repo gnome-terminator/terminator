@@ -760,9 +760,16 @@ class Terminal(Gtk.VBox):
         if bg_factor > 1.0:
             bg_factor = 1.0
         self.bgcolor_inactive = self.bgcolor.copy()
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
+
         for bit in ['red', 'green', 'blue']:
             setattr(self.bgcolor_inactive, bit,
                     getattr(self.bgcolor_inactive, bit) * bg_factor)
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
 
         colors = self.config['palette'].split(':')
         self.palette_active = []
