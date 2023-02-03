@@ -756,7 +756,9 @@ class Terminal(Gtk.VBox):
                                                       getattr(self.fgcolor_inactive, "green"),
                                                       getattr(self.fgcolor_inactive, "blue")))
 
-        bg_factor = 0.8
+        bg_factor = self.config['inactive_bg_color_offset']
+        if bg_factor > 1.0:
+            bg_factor = 1.0
         self.bgcolor_inactive = self.bgcolor.copy()
         for bit in ['red', 'green', 'blue']:
             setattr(self.bgcolor_inactive, bit,
