@@ -8,6 +8,8 @@ import gi
 gi.require_version('Vte', '2.91')
 from gi.repository import Gtk, Gdk, Vte
 from gi.repository.GLib import GError
+import itertools
+import random
 
 from . import borg
 from .borg import Borg
@@ -16,6 +18,7 @@ from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .version import APP_NAME, APP_VERSION
+from .translation import _
 
 try:
     from gi.repository import GdkX11
@@ -647,4 +650,18 @@ class Terminator(Borg):
     def zoom_orig_all(self):
         for term in self.terminals:
             term.zoom_orig()
+
+    def new_random_group(self):
+        defaultmembers=[_('Alpha'),_('Beta'),_('Gamma'),_('Delta'),_('Epsilon'),_('Zeta'),_('Eta'),
+                        _('Theta'),_('Iota'),_('Kappa'),_('Lambda'),_('Mu'),_('Nu'),_('Xi'),
+                        _('Omicron'),_('Pi'),_('Rho'),_('Sigma'),_('Tau'),_('Upsilon'),_('Phi'),
+                        _('Chi'),_('Psi'),_('Omega')]
+        currentgroups=set(self.groups)
+        for i in range(1,4):
+            defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
+            freegroups = list(defaultgroups-currentgroups)
+            if freegroups:
+                return random.choice(freegroups)
+        return ''
+
 # vim: set expandtab ts=4 sw=4:

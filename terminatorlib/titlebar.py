@@ -5,8 +5,6 @@
 from gi.repository import Gtk, Gdk
 from gi.repository import GObject
 from gi.repository import Pango
-import random
-import itertools
 
 from .version import APP_NAME
 from .util import dbg
@@ -255,19 +253,7 @@ class Titlebar(Gtk.EventBox):
         if self.terminal.group:
             self.groupentry.set_text(self.terminal.group)
         else:
-            defaultmembers=[_('Alpha'),_('Beta'),_('Gamma'),_('Delta'),_('Epsilon'),_('Zeta'),_('Eta'),
-                            _('Theta'),_('Iota'),_('Kappa'),_('Lambda'),_('Mu'),_('Nu'),_('Xi'),
-                            _('Omicron'),_('Pi'),_('Rho'),_('Sigma'),_('Tau'),_('Upsilon'),_('Phi'),
-                            _('Chi'),_('Psi'),_('Omega')]
-            currentgroups=set(self.terminator.groups)
-            for i in range(1,4):
-                defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
-                freegroups = list(defaultgroups-currentgroups)
-                if freegroups:
-                    self.groupentry.set_text(random.choice(freegroups))
-                    break
-            else:
-                self.groupentry.set_text('')
+            self.groupentry.set_text(self.terminator.new_random_group())
         self.groupentry.show()
         self.grouplabel.hide()
         self.groupentry.grab_focus()
