@@ -674,6 +674,10 @@ class PrefsEditor:
         widget.set_value(float(self.config['inactive_color_offset']))
         widget = guiget('inactive_color_offset_value_label')
         widget.set_text('%d%%' % (int(float(self.config['inactive_color_offset'])*100)))
+        widget = guiget('inactive_bg_color_offset')
+        widget.set_value(float(self.config['inactive_bg_color_offset']))
+        widget = guiget('inactive_bg_color_offset_value_label')
+        widget.set_text('%d%%' % (int(float(self.config['inactive_bg_color_offset'])*100)))
         # Open links with a single click (instead of a Ctrl-left click)
         widget = guiget('link_single_click')
         widget.set_active(self.config['link_single_click'])
@@ -1358,6 +1362,17 @@ class PrefsEditor:
         self.config.save()
         guiget = self.builder.get_object
         label_widget = guiget('inactive_color_offset_value_label')
+        label_widget.set_text('%d%%' % (int(value * 100)))
+
+    def on_inactive_bg_color_offset_value_changed(self, widget):
+        """Inactive background color offset setting changed"""
+        value = widget.get_value()  # This one is rounded according to the UI.
+        if value > 1.0:
+          value = 1.0
+        self.config['inactive_bg_color_offset'] = value
+        self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('inactive_bg_color_offset_value_label')
         label_widget.set_text('%d%%' % (int(value * 100)))
 
     def on_handlesize_value_changed(self, widget):

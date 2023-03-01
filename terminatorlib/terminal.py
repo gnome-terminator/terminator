@@ -112,6 +112,7 @@ class Terminal(Gtk.VBox):
     fgcolor_active = None
     fgcolor_inactive = None
     bgcolor = None
+    bgcolor_inactive = None
     palette_active = None
     palette_inactive = None
 
@@ -754,6 +755,22 @@ class Terminal(Gtk.VBox):
         dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
                                                       getattr(self.fgcolor_inactive, "green"),
                                                       getattr(self.fgcolor_inactive, "blue")))
+
+        bg_factor = self.config['inactive_bg_color_offset']
+        if bg_factor > 1.0:
+            bg_factor = 1.0
+        self.bgcolor_inactive = self.bgcolor.copy()
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
+
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.bgcolor_inactive, bit,
+                    getattr(self.bgcolor_inactive, bit) * bg_factor)
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
+
         colors = self.config['palette'].split(':')
         self.palette_active = []
         for color in colors:
@@ -789,7 +806,7 @@ class Terminal(Gtk.VBox):
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
         else:
-            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
                                 self.palette_inactive)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
@@ -1355,7 +1372,7 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
                             self.palette_inactive)
         self.set_cursor_color()
         self.emit('focus-out')

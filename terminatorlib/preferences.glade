@@ -394,6 +394,11 @@
     <property name="step-increment">0.10</property>
     <property name="page-increment">0.20</property>
   </object>
+  <object class="GtkAdjustment" id="adjustment8">
+    <property name="upper">1</property>
+    <property name="step-increment">0.10</property>
+    <property name="page-increment">0.20</property>
+  </object>
   <object class="GtkAdjustment" id="adjustment_cellheight">
     <property name="lower">1</property>
     <property name="upper">2</property>
@@ -941,7 +946,7 @@
                             <property name="spacing">36</property>
                             <property name="homogeneous">True</property>
                             <child>
-                              <!-- n-columns=3 n-rows=6 -->
+                              <!-- n-columns=3 n-rows=7 -->
                               <object class="GtkGrid" id="grid3">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -960,7 +965,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">3</property>
+                                    <property name="top-attach">4</property>
                                     <property name="width">3</property>
                                   </packing>
                                 </child>
@@ -1014,7 +1019,7 @@
                                     <property name="can-focus">True</property>
                                     <property name="halign">baseline</property>
                                     <property name="hexpand">True</property>
-                                    <property name="adjustment">adjustment7</property>
+                                    <property name="adjustment">adjustment8</property>
                                     <property name="round-digits">2</property>
                                     <property name="digits">2</property>
                                     <property name="draw-value">False</property>
@@ -1084,7 +1089,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1100,7 +1105,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">1</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1118,7 +1123,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">2</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1135,7 +1140,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">2</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1151,7 +1156,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">1</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1163,7 +1168,52 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="label35">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Unfocused terminal background color:</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="inactive_bg_color_offset_value_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">100%</property>
+                                    <property name="justify">right</property>
+                                    <property name="width-chars">5</property>
+                                    <property name="max-width-chars">5</property>
+                                    <property name="xalign">1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkScale" id="inactive_bg_color_offset">
+                                    <property name="width-request">100</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="adjustment">adjustment7</property>
+                                    <property name="round-digits">2</property>
+                                    <property name="digits">2</property>
+                                    <property name="draw-value">False</property>
+                                    <property name="value-pos">bottom</property>
+                                    <signal name="value-changed" handler="on_inactive_bg_color_offset_value_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">2</property>
+                                    <property name="top-attach">3</property>
                                   </packing>
                                 </child>
                               </object>

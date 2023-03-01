@@ -103,6 +103,7 @@ DEFAULTS = {
             'custom_url_handler'    : '',
             'disable_real_transparency' : False,
             'inactive_color_offset': 0.8,
+            'inactive_bg_color_offset': 1.0,
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
