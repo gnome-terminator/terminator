@@ -694,11 +694,42 @@ class PrefsEditor:
         elif self.config['background_type'] == 'image':
             guiget('image_radiobutton').set_active(True)
         self.update_background_tab()
+        # Background image
+        widget = guiget('background_image_file')
+        widget.set_filename(self.config['background_image'])
+
+        widget = guiget('background_image_mode_combobox')
+        if self.config['background_image_mode'] == 'scale_and_fit':
+            widget.set_active(1)
+        elif self.config['background_image_mode'] == 'scale_and_crop':
+            widget.set_active(2)
+        elif self.config['background_image_mode'] == 'tiling':
+            widget.set_active(3)
+        else:
+            # default to stretch_and_fill
+            widget.set_active(0)
+
+        widget = guiget('background_image_align_horiz_combobox')
+        if self.config['background_image_align_horiz'] == 'center':
+            widget.set_active(1)
+        elif self.config['background_image_align_horiz'] == 'right':
+            widget.set_active(2)
+        else:
+            # default to left
+            widget.set_active(0)
+
+        widget = guiget('background_image_align_vert_combobox')
+        if self.config['background_image_align_vert'] == 'middle':
+            widget.set_active(1)
+        elif self.config['background_image_align_vert'] == 'bottom':
+            widget.set_active(2)
+        else:
+            # default to top
+            widget.set_active(0)
+
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-        widget = guiget('background_image_file')
-        widget.set_filename(self.config['background_image'])
    
         ## Scrolling tab
         # Scrollbar position
@@ -997,6 +1028,41 @@ class PrefsEditor:
 
     def on_background_image_file_set(self,widget):
         self.config['background_image'] = widget.get_filename()
+        self.config.save()
+
+    def on_background_image_mode_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'scale_and_fit'
+        elif selected == 2:
+            value = 'scale_and_crop'
+        elif selected == 3:
+            value = 'tiling'
+        else:
+            value = 'stretch_and_fill'
+        self.config['background_image_mode'] = value
+        self.config.save()
+
+    def on_background_image_align_horiz_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'center'
+        elif selected == 2:
+            value = 'right'
+        else:
+            value = 'left'
+        self.config['background_image_align_horiz'] = value
+        self.config.save()
+
+    def on_background_image_align_vert_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'middle'
+        elif selected == 2:
+            value = 'bottom'
+        else:
+            value = 'top'
+        self.config['background_image_align_vert'] = value
         self.config.save()
 
     def on_darken_background_scale_value_changed(self, widget):
@@ -1603,10 +1669,12 @@ class PrefsEditor:
         self.config['background_type'] = backtype
         self.config.save()
 
-        if backtype == 'image':
-                guiget('background_image_file').set_sensitive(True)
-        else:
-                guiget('background_image_file').set_sensitive(False)
+        # toggle sensitivity of widgets related to background image
+        for element in ('background_image_file',
+                        'background_image_align_horiz_combobox',
+                        'background_image_align_vert_combobox',
+                        'background_image_mode_combobox'):
+            guiget(element).set_sensitive(backtype == 'image')
 
         if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)
