@@ -309,6 +309,7 @@ class Terminator(Borg):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
         maker = Factory()
+        t = 0
 
         window_last_active_term_mapping = {}
         for window in self.windows:
@@ -350,7 +351,7 @@ class Terminator(Borg):
         # last_active_window is focussed. 
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
-            window.present_with_time(0)
+            window.present_with_time(t)
             window.set_focus()
         self.prelayout_windows = None
 
