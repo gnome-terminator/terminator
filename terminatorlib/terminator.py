@@ -350,6 +350,7 @@ class Terminator(Borg):
         # last_active_window is focussed. 
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
+            window.present_with_time(0)
             window.set_focus()
         self.prelayout_windows = None
 
