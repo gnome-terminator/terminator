@@ -30,6 +30,8 @@ class TerminalPopupMenu(object):
 
     def get_menu_item_mask(self, maskstr):
         mask = 0
+        if maskstr is None:
+            return mask
         maskstr = maskstr.lower()
         if maskstr.find('<Shift>'.lower()) >= 0:
             mask = mask | Gdk.ModifierType.SHIFT_MASK
