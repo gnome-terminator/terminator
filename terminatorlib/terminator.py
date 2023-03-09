@@ -312,6 +312,7 @@ class Terminator(Borg):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
         maker = Factory()
+        t = 0
 
         window_last_active_term_mapping = {}
         for window in self.windows:
@@ -349,22 +350,12 @@ class Terminator(Borg):
                 t = 0
             window.get_window().focus(t)
 
-        # Awful workaround to be sure that the last focused window is actually the one focused.
-        # Don't ask, don't tell policy on this. Even this is not 100%
+        # Going by the docs, this should be all that's needed to ensure that the
+        # last_active_window is focussed. 
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
-            count = 0
-            while count < 1000 and Gtk.events_pending():
-                count += 1
-                Gtk.main_iteration_do(False)
-                window.show()
-                window.grab_focus()
-                try:
-                    t = GdkX11.x11_get_server_time(window.get_window())
-                except (NameError,TypeError, AttributeError):
-                    t = 0
-                window.get_window().focus(t)
-
+            window.present_with_time(t)
+            window.set_focus()
         self.prelayout_windows = None
 
     def on_gtk_theme_name_notify(self, settings, prop):
