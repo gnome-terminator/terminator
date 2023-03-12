@@ -355,7 +355,6 @@ class Terminator(Borg):
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
             window.present_with_time(t)
-            window.set_focus()
         self.prelayout_windows = None
 
     def on_gtk_theme_name_notify(self, settings, prop):
