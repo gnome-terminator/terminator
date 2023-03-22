@@ -264,7 +264,7 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', '_read only')
+        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', '_Read only')
         item.set_active(not(terminal.vte.get_input_enabled()))
         item.connect('toggled', lambda x: terminal.do_readonly_toggle())
         menu.append(item)
