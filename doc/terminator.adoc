@@ -2,11 +2,11 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-03-29
+:revdate: 2023-03-30
 :docdate: {revdate}
 
 == NAME
-terminator - Multiple GNOME terminals in one window
+terminator - multiple GNOME terminals in one window
 
 == SYNOPSIS
 *terminator* [_options_]
@@ -160,10 +160,10 @@ Move to the terminal *left of* the current one.
 Move to the terminal *right of* the current one.
 
 *Ctrl+PageDown*::
-Move to next Tab.
+Move to next tab.
 
 *Ctrl+PageUp*::
-Move to previous Tab.
+Move to previous tab.
 
 *Ctrl+Shift+N* or *Ctrl+Tab*::
 Move to the __n__ext terminal within the same tab. +
@@ -179,16 +179,16 @@ disabled.
 The following items relate to arranging and resizing terminals.
 
 *Ctrl+Shift+Right*::
-Move parent dragbar *Right*.
+Move parent dragbar *right*.
 
 *Ctrl+Shift+Left*::
-Move parent dragbar *Left*.
+Move parent dragbar *left*.
 
 *Ctrl+Shift+Up*::
-Move parent dragbar *Up*.
+Move parent dragbar *up*.
 
 *Ctrl+Shift+Down*::
-Move parent dragbar *Down*.
+Move parent dragbar *down*.
 
 *Super+R*::
 __R__otate terminals clockwise.
@@ -197,16 +197,16 @@ __R__otate terminals clockwise.
 __R__otate terminals counter-clockwise.
 
 *Ctrl+Shift+PageDown*::
-Swap tab position with next Tab.
+Swap tab position with next tab.
 
 *Ctrl+Shift+PageUp*::
-Swap tab position with previous Tab.
+Swap tab position with previous tab.
 
 *Drag and Drop*::
 The layout can be modified by moving terminals with Drag and Drop.
 To start dragging a terminal, click and hold on its titlebar.
 Alternatively, hold down *Ctrl*, click and hold the *right* mouse button.
-Then, *+**Release Ctrl**+*. You can now drag the terminal to the point
+Then, *+**release Ctrl**+*. You can now drag the terminal to the point
 in the layout you would like it to be. The zone where the terminal would
 be inserted will be highlighted.
 
@@ -264,7 +264,7 @@ Copy selected text to clipboard.
 Paste clipboard text.
 
 *Ctrl+Shift+S*::
-Hide/Show __S__crollbar.
+Toggle __s__crollbar.
 
 *Ctrl+Shift+F*::
 Search within terminal scrollback.
@@ -301,10 +301,10 @@ Insert terminal number, i.e. 1 to 12.
 *Super+0*::
 Insert padded terminal number, i.e. 01 to 12.
 
-== SEE ALSO
-*terminator_config*(5)
-
-== AUTHOR
+== AUTHORS
 Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.
 
 This manual page was written by Chris Jones <\cmsj@tenshu.net> and others.
+
+== SEE ALSO
+*terminator_config*(5)
