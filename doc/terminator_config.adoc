@@ -1,0 +1,228 @@
+= Terminator_config(5)
+:doctype: manpage
+:manmanual: Manual for Terminator
+:mansource: Terminator
+:revdate: 2023-03-31
+:docdate: {revdate}
+
+== NAME
+// ~/.config/terminator/config - the config file for Terminator terminal emulator
+config - TODO
+
+== DESCRIPTION
+This file contains the configuration for *terminator*(1).
+Terminator manages its configuration file via the ConfigObj library to
+combine flexibility with clear, human editable files. +
+Terminator offers a full GUI preferences editor which automatically
+saves its config file so you don't need to write a config file by hand.
+
+== FILE LOCATION
+Normally the config file will be *~/.config/terminator/config*, but it
+may be overridden with *$XDG_CONFIG_HOME* (in which case it will be
+*$XDG_CONFIG_HOME/terminator/config*).
+
+== FILE FORMAT
+This is what a Terminator config file should look like:
+
+TODO
+
+== global_config
+These are the options Terminator currently supports in the
+*global_config* section:
+
+=== Window Behavior & Appearance
+
+// --- Window behavior ---
+
+*window_state* = _string_::
+Default value: *normal* +
+Control how the Terminator window opens.
+'normal' means it opens normally.
+'maximise' means it opens in a maximised state.
+'fullscreen' means it opens in a fullscreen state.
+'hidden' means it stays hidden.
+
+*always_on_top* = _boolean_::
+Default value: *False* +
+TODO
+
+*sticky* = _boolean_::
+Default value: *False* +
+TODO
+
+*hide_on_lose_focus* = _boolean_::
+Default value: *False* +
+TODO
+
+*hide_from_taskbar* = _boolean_::
+Default value: *False* +
+TODO
+
+*geometry_hinting* = _boolean_::
+Default value: *False* +
+If True the window will resize in step with font sizes, if False it will
+follow pixels.
+
+*suppress_multiple_term_dialog* = _boolean_::
+Default value: *False* +
+TODO
+
+// --- Window appearance ---
+
+*borderless* = _boolean_::
+Default value: *False* +
+Control whether the Terminator window will be started without window
+borders.
+
+=== Tab Behavior & Appearance
+
+*tab_position* = _string_::
+Default value: *top* +
+Specify where tabs are placed.
+Can be any of: 'top', 'left', 'right', 'bottom', 'hidden'.
+If this is set to 'hidden', the tab bar will not be shown. Hiding the
+tab is not recommended, as it can be very confusing.
+
+*close_button_on_tab* = _boolean_::
+Default value: : *True* +
+If set to True, tabs will have a close button on them.
+
+// what is this???
+*scroll_tabbar* = _boolean_::
+Default value: *False* +
+If set to True, the tab bar will not fill the width of the window.
+The titlebars of the tabs will only take as much space as is necessary
+for the text they contain. Except, that is, if the tabs no longer fit
+the width of the window - in that case scroll buttons will appear to
+move through the tabs.
+
+*homogeneous_tabbar* = _boolean_::
+Default value: *True* +
+TODO
+
+=== Terminal Behavior & Appearance
+
+// --- Terminal behavior ---
+
+*focus* = _string_::
+Default value: *click* +
+Control how focus is given to terminals.
+'click' means the focus only moves to a terminal after you click in it.
+'sloppy' means the focus will follow the mouse pointer.
+'system' means the focus will match that used by a GNOME window manager.
+
+*always_split_with_profile* = _boolean_::
+Default value: *False* +
+Control whether splits/tabs will continue to use the profile of their
+peer terminal. If set to False, they will always use the default profile.
+
+*link_single_click* = _boolean_::
+Default value: *False* +
+TODO
+
+// --- Copy & Paste behavior ---
+
+*putty_paste_style* = _boolean_::
+Default value: *False* +
+If set to True, right-click will paste the Primary selection,
+while middle-click will popup the context menu.
+
+*putty_paste_style_source_clipboard* = _boolean_::
+Default value: *False* +
+TODO
+
+*disable_mouse_paste* = _boolean_::
+Default value: *False* +
+TODO
+
+*smart_copy* = _boolean_::
+Default value: *True* +
+If set to True, and there is no selection, the shortcut is allowed to
+pass through. This is useful for overloading Ctrl-C to copy a selection,
+or send the SIGINT to the current process if there is no selection.
+If False, the shortcut does not pass through at all, and the SIGINT does
+not get sent.
+
+*clear_select_on_copy* = _boolean_::
+Default value: *False* +
+TODO
+
+// --- Terminal appearance ---
+
+*handle_size* = _integer_::
+Default value: *1* +
+Control the width of the separator between terminals.
+Anything outside the range 0-20 (inclusive) will be ignored and use your
+default theme value.
+
+*inactive_color_offset* = _float_::
+Default value: *0.8* +
+Specify how much to reduce the color values of fonts in terminals that
+do not have focus.
+
+*inactive_bg_color_offset* = _float_::
+Default value: *1.0* +
+Specify how much to reduce the color values of the background in
+terminals that do not have focus.
+
+*cell_width* = _float_::
+Default value: *1.0* +
+TODO
+
+*cell_height* = _float_::
+Default value: *1.0* +
+TODO
+
+*title_at_bottom* = _boolean_::
+Default value: *False* +
+TODO
+
+=== Miscellaneous
+
+*dbus* = _boolean_::
+Default value: *True* +
+Control whether or not Terminator will load its DBus server.
+When this server is loaded, running Terminator multiple times will cause
+the first Terminator process to open additional windows.
+If this configuration item is set to False, or the python dbus module is
+unavailable, running Terminator multiple times will run a separate
+Terminator process for each invocation.
+
+*extra_styling* = _boolean_::
+Default value: *True* +
+TODO
+
+*broadcast_default* = _string_::
+Default value: *group* +
+Specify default broadcast behavior.
+Can be any of: 'all', 'group', 'off'.
+
+// try_posix_regexp ???
+
+*use_custom_url_handler* = _boolean_::
+Default value: *False* +
+If set to True, URL handling will be given over entirely to the program
+specified by 'custom_url_handler'.
+
+*custom_url_handler* = _string_::
+Path to a program which accepts a URI as an argument and does something
+relevant with it. This option is ignored unless 'use_custom_url_handler'
+is set to True.
+
+*case_sensitive* = _boolean_::
+Default value: *True* +
+TODO
+
+*invert_search* = _boolean_::
+Default value: *False* +
+TODO
+
+*enabled_plugins* = _list of strings_::
+Default value: *['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']* +
+A list of plugins which should be loaded by default. All other plugin
+classes will be ignored.
+
+== profiles
+These are the options Terminator currently supports in the *profiles*
+section. Each profile should be its own subsection with a header in the
+format *+[[name]]+*.
