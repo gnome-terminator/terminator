@@ -2,7 +2,7 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-03-30
+:revdate: 2023-04-01
 :docdate: {revdate}
 
 == NAME
@@ -167,13 +167,9 @@ Move to previous tab.
 
 *Ctrl+Shift+N* or *Ctrl+Tab*::
 Move to the __n__ext terminal within the same tab. +
-If *cycle_term_tab* is *False*, cycle within the same tab will be
-disabled.
 
 *Ctrl+Shift+P* or *Ctrl+Shift+Tab*::
 Move to the __p__revious terminal within the same tab. +
-If *cycle_term_tab* is *False*, cycle within the same tab will be
-disabled.
 
 === Organisation
 The following items relate to arranging and resizing terminals.
