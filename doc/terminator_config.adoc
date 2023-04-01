@@ -24,7 +24,23 @@ may be overridden with *$XDG_CONFIG_HOME* (in which case it will be
 == FILE FORMAT
 This is what a Terminator config file should look like:
 
-TODO
+----
+# This is a comment
+[global_config]
+  focus = system
+
+[keybindings]
+  full_screen = <Ctrl><Shift>F11
+
+[profiles]
+  [[default]]
+    font = Fixed 10
+    background_color = "#000000" # A comment
+    foreground_color = "#FFFFFF" # Note that hex colour values must be quoted
+    scrollback_lines = '500' #More comment. Single quotes are valid too
+    cursor_blink = True
+    custom_command = "echo \"foo#bar\"" #Final comment - this will work as expected.
+----
 
 == global_config
 These are the options Terminator currently supports in the
@@ -44,7 +60,7 @@ Control how the Terminator window opens.
 
 *always_on_top* = _boolean_::
 Default value: *False* +
-TODO
+If set to True, the window will always stay on top of other windows.
 
 *sticky* = _boolean_::
 Default value: *False* +
@@ -60,12 +76,12 @@ TODO
 
 *geometry_hinting* = _boolean_::
 Default value: *False* +
-If True the window will resize in step with font sizes, if False it will
-follow pixels.
+If set to True, the window will resize in step with font sizes.
 
 *suppress_multiple_term_dialog* = _boolean_::
 Default value: *False* +
-TODO
+Specify whether or not Terminator will ask for confirmation when closing
+multiple terminals.
 
 // --- Window appearance ---
 
@@ -84,7 +100,7 @@ If this is set to 'hidden', the tab bar will not be shown. Hiding the
 tab is not recommended, as it can be very confusing.
 
 *close_button_on_tab* = _boolean_::
-Default value: : *True* +
+Default value: *True* +
 If set to True, tabs will have a close button on them.
 
 // what is this???
@@ -118,7 +134,8 @@ peer terminal. If set to False, they will always use the default profile.
 
 *link_single_click* = _boolean_::
 Default value: *False* +
-TODO
+If set to True, clicking a link will open it even if *Ctrl* is not
+pressed.
 
 // --- Copy & Paste behavior ---
 
@@ -133,7 +150,7 @@ TODO
 
 *disable_mouse_paste* = _boolean_::
 Default value: *False* +
-TODO
+If set to True, mouse pasting will be disabled.
 
 *smart_copy* = _boolean_::
 Default value: *True* +
