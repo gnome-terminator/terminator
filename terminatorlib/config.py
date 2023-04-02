@@ -220,7 +220,6 @@ DEFAULTS = {
                 'background_image_align_vert' : 'middle',
                 'backspace_binding'     : 'ascii-del',
                 'delete_binding'        : 'escape-sequence',
-                'color_scheme'          : 'grey_on_black',
                 'cursor_blink'          : True,
                 'cursor_shape'          : 'block',
                 'cursor_fg_color'       : '',
