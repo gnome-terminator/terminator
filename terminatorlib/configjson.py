@@ -54,15 +54,24 @@ class ConfigJson(object):
     
     def build_terminal_layout(self, layoutjson, children, parent, order):
         dbg ('Building a terminal from json: %s' % layoutjson)
-        
+
+        def from_json(layout_name, json_name=None):
+            if json_name is None:
+                json_name = layout_name
+
+            if json_name in layoutjson:
+                children[parent + "." + str(order)].__setitem__(layout_name, layoutjson[json_name])
+
         children[parent + "." + str(order)] = {
             'type': 'Terminal',
             'order': order,
             'parent': parent,
-            'profile': self.profile_to_use,
-            'command': layoutjson['command']
+            'profile': self.profile_to_use
         }
-    
+
+        from_json('command')
+        from_json('title')
+
     def build_container_layout(self, layoutjson, children, parent, order, vertical):
         if len(layoutjson) == 1:
             layoutjson = layoutjson[0]
