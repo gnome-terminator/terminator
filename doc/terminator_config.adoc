@@ -44,7 +44,7 @@ This is what a Terminator config file should look like:
 
 == global_config
 These are the options Terminator currently supports in the
-*global_config* section:
+*global_config* section.
 
 === Window Behavior & Appearance
 
@@ -80,15 +80,14 @@ If set to True, the window will resize in step with font sizes.
 
 *suppress_multiple_term_dialog* = _boolean_::
 Default value: *False* +
-Specify whether or not Terminator will ask for confirmation when closing
+If set to True, Terminator will ask for confirmation when closing
 multiple terminals.
 
 // --- Window appearance ---
 
 *borderless* = _boolean_::
 Default value: *False* +
-Control whether the Terminator window will be started without window
-borders.
+If set to True, the window will be started without window borders.
 
 === Tab Behavior & Appearance
 
@@ -96,8 +95,8 @@ borders.
 Default value: *top* +
 Specify where tabs are placed.
 Can be any of: 'top', 'left', 'right', 'bottom', 'hidden'.
-If this is set to 'hidden', the tab bar will not be shown. Hiding the
-tab is not recommended, as it can be very confusing.
+If set to 'hidden', the tab bar will not be shown. Hiding the tab is not
+recommended, as it can be very confusing.
 
 *close_button_on_tab* = _boolean_::
 Default value: *True* +
@@ -122,14 +121,14 @@ TODO
 
 *focus* = _string_::
 Default value: *click* +
-Control how focus is given to terminals.
+Specify how focus is given to terminals.
 'click' means the focus only moves to a terminal after you click in it.
 'sloppy' means the focus will follow the mouse pointer.
 'system' means the focus will match that used by a GNOME window manager.
 
 *always_split_with_profile* = _boolean_::
 Default value: *False* +
-Control whether splits/tabs will continue to use the profile of their
+Specify whether splits/tabs will continue to use the profile of their
 peer terminal. If set to False, they will always use the default profile.
 
 *link_single_click* = _boolean_::
@@ -168,7 +167,7 @@ TODO
 
 *handle_size* = _integer_::
 Default value: *1* +
-Control the width of the separator between terminals.
+Specify the width of the separator between terminals.
 Anything outside the range 0-20 (inclusive) will be ignored and use your
 default theme value.
 
@@ -192,13 +191,14 @@ TODO
 
 *title_at_bottom* = _boolean_::
 Default value: *False* +
-TODO
+If set to True, the terminal's titlebar will be drawn at the bottom
+instead of the top.
 
 === Miscellaneous
 
 *dbus* = _boolean_::
 Default value: *True* +
-Control whether or not Terminator will load its DBus server.
+Specify whether Terminator will load its DBus server.
 When this server is loaded, running Terminator multiple times will cause
 the first Terminator process to open additional windows.
 If this configuration item is set to False, or the python dbus module is
@@ -211,10 +211,8 @@ TODO
 
 *broadcast_default* = _string_::
 Default value: *group* +
-Specify default broadcast behavior.
+Specify the default broadcast behavior.
 Can be any of: 'all', 'group', 'off'.
-
-// try_posix_regexp ???
 
 *use_custom_url_handler* = _boolean_::
 Default value: *False* +
@@ -222,9 +220,9 @@ If set to True, URL handling will be given over entirely to the program
 specified by 'custom_url_handler'.
 
 *custom_url_handler* = _string_::
-Path to a program which accepts a URI as an argument and does something
-relevant with it. This option is ignored unless 'use_custom_url_handler'
-is set to True.
+Specify the path to a program which accepts a URI as an argument and
+does something relevant with it.
+This option is ignored unless *use_custom_url_handler* is set to True.
 
 *case_sensitive* = _boolean_::
 Default value: *True* +
@@ -236,10 +234,323 @@ TODO
 
 *enabled_plugins* = _list of strings_::
 Default value: *['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']* +
-A list of plugins which should be loaded by default. All other plugin
+Specify which plugins will be loaded by default. All other plugin
 classes will be ignored.
+
+== keybindings
+These are the options Terminator currently supports in the *keybindings*
+section.
+
+TODO
 
 == profiles
 These are the options Terminator currently supports in the *profiles*
 section. Each profile should be its own subsection with a header in the
 format *+[[name]]+*.
+
+=== General
+
+*allow_bold* = _boolean_::
+Default value: *True* +
+If set to True, text in the terminal can displayed in bold.
+
+*copy_on_selection* = _boolean_::
+Default value: *False* +
+TODO
+
+*disable_mousewheel_zoom* = _boolean_::
+Default value: *False* +
+If set to True, Ctrl+mouse_wheel will not zoom or unzoom the terminal.
+
+*word_chars* = _string_::
+Default value: **-,./?%&#:_** +
+TODO
+
+*cell_width* = _float_::
+Default value: *1.0* +
+TODO
+
+*cell_height* = _float_::
+Default value: *1.0* +
+TODO
+
+*mouse_autohide* = _boolean_::
+Default value: *True* +
+If set to True, the mouse pointer will be hidden when typing.
+
+*term* = _string_::
+Default value: *xterm-256color* +
+TODO
+
+*colorterm* = _string_::
+Default value: *truecolor* +
+TODO
+
+*split_to_group* = _boolean_::
+Default value: *False* +
+TODO
+
+*autoclean_groups* = _boolean_::
+Default value: *True* +
+TODO
+
+// --- Font ---
+
+*use_system_font* = _boolean_::
+Default value: *True* +
+If set to True, the system default font will be used for text in the
+terminal. Otherwise, the value of *font* will be used.
+
+*font* = _string_::
+Default value: *Mono 10* +
+Specify which font to use for text in the terminal.
+This option is ignored unless *use_system_font* is set to False.
+
+// --- Cursor ---
+
+*cursor_blink* = _boolean_::
+Default value: *True* +
+If set to True, the cursor will blink when not typing.
+
+*cursor_shape* = _string_::
+Default value: *block* +
+Specify the shape of the cursor.
+Can be any of: 'block', 'underline', 'ibeam'.
+
+*cursor_color_default* = _boolean_::
+Default value: *True* +
+TODO
+
+*cursor_fg_color* = _color string_::
+Specify the foreground color to use for the cursor.
+This option is ignored unless *cursor_color_default* is set to False.
+
+*cursor_bg_color* = _color string_::
+Specify the background color to use for the cursor.
+This option is ignored unless *cursor_color_default* is set to False.
+
+// --- Bell ---
+
+*audible_bell* = _boolean_::
+Default value: *False* +
+If set to True, a sound will be played when an application writes the
+escape sequence for the terminal bell.
+
+*visible_bell* = _boolean_::
+Default value: *False* +
+If set to True, the terminal will flash when an application writes the
+escape sequence for the terminal bell.
+
+*urgent_bell* = _boolean_::
+Default value: *False* +
+TODO
+
+*icon_bell* = _boolean_::
+Default value: *True* +
+If set to True, a small icon will be shown on the terminal titlebar when
+an application writes the escape sequence for the terminal bell.
+
+*force_no_bell* = _boolean_::
+Default value: *False* +
+If set to True, the terminal bell will be completely disabled.
+
+=== Command
+
+*login_shell* = _boolean_::
+Default value: *False* +
+TODO
+
+*use_custom_command* = _boolean_::
+Default value: *False* +
+If set to True, the value of *custom_command* will be used instead of
+the default shell.
+
+*custom_command* = _string_::
+Specify the command to execute instead of the default shell.
+This option is ignored unless *use_custom_command* is set to True.
+
+*exit_action* = _string_::
+Default value: *close* +
+Specify the action to perform when the terminal is closed.
+'close' means the terminal will be removed.
+'restart' means the shell (or the command specified in *custom_command*)
+will be restarted.
+'hold' means the terminal will be kept open, even if the process in it
+has terminated.
+
+=== Colors
+
+*use_theme_colors* = _boolean_::
+Default value: *False* +
+If set to True, the theme's foreground and background colors will be
+used for the terminal. Otherwise, the values of *foreground_color* and
+*background_color* will be used.
+
+*foreground_color* = _color string_::
+Default value: *#AAAAAA* +
+Specify the foreground color to use for the terminal.
+This option is ignored unless *use_theme_colors* is set to False.
+
+*background_color* = _color string_::
+Default value: *#000000* +
+Specify the background color to use for the terminal.
+This option is ignored unless *use_theme_colors* is set to False.
+
+*palette* = TODO::
+TODO
+
+*bold_is_bright* = _boolean_::
+Default value: *False* +
+If set to True, bold text will have brighter colors.
+
+=== Background
+
+*background_darkness* = _float_::
+Default value: *0.5* +
+TODO
+
+*background_type* = _string_::
+Default value: *solid* +
+Specify what type of background the terminal will have.
+'solid' means the background will be a solid (opaque) color.
+'transparent' means the background will be a transparent color, with its
+transparency being the value of *background_darkness*.
+'image' means the background will be an image, whose path is the value
+of *background_image*; the background color will be drawn on top of it,
+with its transparenty being the value of *background_darkness*.
+
+*background_image* = _path string_::
+Specify the path to an image that will be used as background.
+This option is ignored unless *background_type* is set to 'image'.
+
+*background_image_mode* = _string_::
+Default value: *stretch_and_fill* +
+Specify how the background image will be drawn.
+'stretch_and_fill' means the image will fill the terminal entirely,
+without necessarily maintaining aspect ratio.
+'scale_and_fit' means the image will fit inside the terminal, eventually
+leaving blank bars, while maintaining aspect ratio.
+'scale_and_crop' means the image will fill the terminal entirely,
+eventually getting cropped, while maintaining aspect ratio.
+'tiling' means the image will be repeated as to fill the terminal.
+This option is ignored unless *background_type* is set to 'image'.
+
+*background_image_align_horiz* = _string_::
+Default value: *center* +
+Specify the horizontal alignment of the background image.
+Can be any of: 'left', 'center', 'right'.
+This option is ignored unless *background_type* is set to 'image'.
+
+*background_image_align_vert* = _string_::
+Default value: *middle* +
+Specify the vertical alignment of the background image.
+Can be any of: 'top', 'middle', 'bottom'.
+This option is ignored unless *background_type* is set to 'image'.
+
+=== Scrolling
+
+*scrollbar_position* = _string_::
+Default value: *right* +
+Specify where the terminal scrollbar is put.
+Can be any of: 'left', 'right', 'hidden'.
+
+*scroll_on_output* = _boolean_::
+Default value: *False* +
+If set to True, the terminall will scroll to the bottom when an
+application writes text to it.
+
+*scroll_on_keystroke* = _boolean_::
+Default value: *True* +
+If set to True, the terminal will scroll to the bottom when typing.
+
+*scrollback_infinite* = _boolean_::
+Default value: *False* +
+If set to True, the terminal will keep the entire scrollback history.
+
+*scrollback_lines* = _integer_::
+Default value: *500* +
+Specify how many lines of scrollback history will be kept by the
+terminal. Lines that don't fit in the scrollback history will be
+discarted. Note that setting large values can slow down rewrapping and
+resizing.
+This option is ignored unless *scrollback_infinite* is set to False.
+
+=== Compatibility
+
+*backspace_binding* = _string_::
+Default value: *ascii-del* +
+Specify what code will be generated by the backspace key.
+The value can be:
+'ascii-del' for the ASCII DEL character;
+'control-h' for the ASCII BS character (Ctrl+H);
+'escape-sequence' for the escape sequence typically bound to backspace
+or delete;
+'automatic' for TODO.
+
+*delete_binding* = _string_::
+Default value: *escape-sequence* +
+Specify what code will be generated by the delete key.
+The value can be:
+'ascii-del' for the ASCII DEL character;
+'control-h' for the ASCII BS character (Ctrl+H);
+'escape-sequence' for the escape sequence typically bound to backspace
+or delete;
+'automatic' for TODO.
+
+=== Titlebar
+
+*show_titlebar* = _boolean_::
+Default value: *True* +
+If set to True, the terminal will have a titlebar showing the current
+title of that terminal.
+
+*title_hide_sizetext* = _boolean_::
+Default value: *False* +
+If set to True, the size of the terminal will not be written on its
+titlebar.
+
+*title_use_system_font* = _boolean_::
+Default value: *True* +
+If set to True, the system default font will be used for text in the
+terminal's titlebar. Otherwise, the value of *title_font* will be used.
+
+*title_font* = _string_::
+Default value: *Sans 9* +
+Specify which font to use for text in the terminal's titlebar.
+This option is ignored unless *title_use_system_font* is set to False.
+
+// --- Titlebar colors ---
+
+*title_transmit_fg_color* = _color string_::
+Default value: *#ffffff* +
+Specify the foreground color to use for the terminal's titlebar in case
+the terminal is focused.
+
+*title_transmit_bg_color* = _color string_::
+Default value: *#c80003* +
+Specify the background color to use for the terminal's titlebar in case
+the terminal is focused.
+
+*title_inactive_fg_color* = _color string_::
+Default value: *#000000* +
+Specify the foreground color to use for the terminal's titlebar in case
+the terminal is unfocused.
+
+*title_inactive_bg_color* = _color string_::
+Default value: *#c0bebf* +
+Specify the background color to use for the terminal's titlebar in case
+the terminal is unfocused.
+
+*title_receive_fg_color* = _color string_::
+Default value: *#ffffff* +
+Specify the foreground color to use for the terminal's titlebar in case
+the terminal is in a group and is receiving input while unfocused.
+
+*title_receive_bg_color* = _color string_::
+Default value: *#0076c9* +
+Specify the background color to use for the terminal's titlebar in case
+the terminal is in a group and is receiving input while unfocused.
+
+== SEE ALSO
+*terminator*(1), http://www.voidspace.org.uk/python/configobj.html
+// this link might be dead
