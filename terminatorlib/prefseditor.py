@@ -958,11 +958,6 @@ class PrefsEditor:
         self.config['login_shell'] = widget.get_active()
         self.config.save()
 
-    def on_scroll_background_checkbutton_toggled(self, widget):
-        """Scroll background setting changed"""
-        self.config['scroll_background'] = widget.get_active()
-        self.config.save()
-
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
         """Scroll on keystrong setting changed"""
         self.config['scroll_on_keystroke'] = widget.get_active()
