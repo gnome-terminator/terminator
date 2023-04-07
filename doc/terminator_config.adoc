@@ -2,12 +2,11 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-03-31
+:revdate: 2023-04-03
 :docdate: {revdate}
 
 == NAME
-// ~/.config/terminator/config - the config file for Terminator terminal emulator
-config - TODO
+terminator_config - the config file for Terminator terminal emulator
 
 == DESCRIPTION
 This file contains the configuration for *terminator*(1).
@@ -51,173 +50,173 @@ These are the options Terminator currently supports in the
 // --- Window behavior ---
 
 *window_state* = _string_::
-Default value: *normal* +
 Control how the Terminator window opens.
 'normal' means it opens normally.
 'maximise' means it opens in a maximised state.
 'fullscreen' means it opens in a fullscreen state.
-'hidden' means it stays hidden.
+'hidden' means it stays hidden. +
+Default value: *normal*
 
 *always_on_top* = _boolean_::
-Default value: *False* +
-If set to True, the window will always stay on top of other windows.
+If set to True, the window will always stay on top of other windows. +
+Default value: *False*
 
 *sticky* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *hide_on_lose_focus* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *hide_from_taskbar* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *geometry_hinting* = _boolean_::
-Default value: *False* +
-If set to True, the window will resize in step with font sizes.
+If set to True, the window will resize in step with font sizes. +
+Default value: *False*
 
 *suppress_multiple_term_dialog* = _boolean_::
-Default value: *False* +
 If set to True, Terminator will ask for confirmation when closing
-multiple terminals.
+multiple terminals. +
+Default value: *False*
 
 // --- Window appearance ---
 
 *borderless* = _boolean_::
-Default value: *False* +
-If set to True, the window will be started without window borders.
+If set to True, the window will be started without window borders. +
+Default value: *False*
 
 === Tab Behavior & Appearance
 
 *tab_position* = _string_::
-Default value: *top* +
 Specify where tabs are placed.
 Can be any of: 'top', 'left', 'right', 'bottom', 'hidden'.
 If set to 'hidden', the tab bar will not be shown. Hiding the tab is not
-recommended, as it can be very confusing.
+recommended, as it can be very confusing. +
+Default value: *top*
 
 *close_button_on_tab* = _boolean_::
-Default value: *True* +
-If set to True, tabs will have a close button on them.
+If set to True, tabs will have a close button on them. +
+Default value: *True*
 
 // what is this???
 *scroll_tabbar* = _boolean_::
-Default value: *False* +
 If set to True, the tab bar will not fill the width of the window.
 The titlebars of the tabs will only take as much space as is necessary
 for the text they contain. Except, that is, if the tabs no longer fit
 the width of the window - in that case scroll buttons will appear to
-move through the tabs.
+move through the tabs. +
+Default value: *False*
 
 *homogeneous_tabbar* = _boolean_::
-Default value: *True* +
-TODO
+TODO +
+Default value: *True*
 
 === Terminal Behavior & Appearance
 
 // --- Terminal behavior ---
 
 *focus* = _string_::
-Default value: *click* +
 Specify how focus is given to terminals.
 'click' means the focus only moves to a terminal after you click in it.
 'sloppy' means the focus will follow the mouse pointer.
-'system' means the focus will match that used by a GNOME window manager.
+'system' means the focus will match that used by a GNOME window manager. +
+Default value: *click*
 
 *always_split_with_profile* = _boolean_::
-Default value: *False* +
 Specify whether splits/tabs will continue to use the profile of their
-peer terminal. If set to False, they will always use the default profile.
+peer terminal. If set to False, they will always use the default profile. +
+Default value: *False*
 
 *link_single_click* = _boolean_::
-Default value: *False* +
 If set to True, clicking a link will open it even if *Ctrl* is not
-pressed.
+pressed. +
+Default value: *False*
 
 // --- Copy & Paste behavior ---
 
 *putty_paste_style* = _boolean_::
-Default value: *False* +
 If set to True, right-click will paste the Primary selection,
-while middle-click will popup the context menu.
+while middle-click will popup the context menu. +
+Default value: *False*
 
 *putty_paste_style_source_clipboard* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *disable_mouse_paste* = _boolean_::
-Default value: *False* +
-If set to True, mouse pasting will be disabled.
+If set to True, mouse pasting will be disabled. +
+Default value: *False*
 
 *smart_copy* = _boolean_::
-Default value: *True* +
 If set to True, and there is no selection, the shortcut is allowed to
 pass through. This is useful for overloading Ctrl-C to copy a selection,
 or send the SIGINT to the current process if there is no selection.
 If False, the shortcut does not pass through at all, and the SIGINT does
-not get sent.
+not get sent. +
+Default value: *True*
 
 *clear_select_on_copy* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 // --- Terminal appearance ---
 
 *handle_size* = _integer_::
-Default value: *1* +
 Specify the width of the separator between terminals.
 Anything outside the range 0-20 (inclusive) will be ignored and use your
-default theme value.
+default theme value. +
+Default value: *1*
 
 *inactive_color_offset* = _float_::
-Default value: *0.8* +
 Specify how much to reduce the color values of fonts in terminals that
-do not have focus.
+do not have focus. +
+Default value: *0.8*
 
 *inactive_bg_color_offset* = _float_::
-Default value: *1.0* +
 Specify how much to reduce the color values of the background in
-terminals that do not have focus.
+terminals that do not have focus. +
+Default value: *1.0*
 
 *cell_width* = _float_::
-Default value: *1.0* +
-TODO
+TODO +
+Default value: *1.0*
 
 *cell_height* = _float_::
-Default value: *1.0* +
-TODO
+TODO +
+Default value: *1.0*
 
 *title_at_bottom* = _boolean_::
-Default value: *False* +
 If set to True, the terminal's titlebar will be drawn at the bottom
-instead of the top.
+instead of the top. +
+Default value: *False*
 
 === Miscellaneous
 
 *dbus* = _boolean_::
-Default value: *True* +
 Specify whether Terminator will load its DBus server.
 When this server is loaded, running Terminator multiple times will cause
 the first Terminator process to open additional windows.
 If this configuration item is set to False, or the python dbus module is
 unavailable, running Terminator multiple times will run a separate
-Terminator process for each invocation.
+Terminator process for each invocation. +
+Default value: *True*
 
 *extra_styling* = _boolean_::
-Default value: *True* +
-TODO
+TODO +
+Default value: *True*
 
 *broadcast_default* = _string_::
-Default value: *group* +
 Specify the default broadcast behavior.
-Can be any of: 'all', 'group', 'off'.
+Can be any of: 'all', 'group', 'off'. +
+Default value: *group*
 
 *use_custom_url_handler* = _boolean_::
-Default value: *False* +
 If set to True, URL handling will be given over entirely to the program
-specified by 'custom_url_handler'.
+specified by 'custom_url_handler'. +
+Default value: *False*
 
 *custom_url_handler* = _string_::
 Specify the path to a program which accepts a URI as an argument and
@@ -225,17 +224,17 @@ does something relevant with it.
 This option is ignored unless *use_custom_url_handler* is set to True.
 
 *case_sensitive* = _boolean_::
-Default value: *True* +
-TODO
+TODO +
+Default value: *True*
 
 *invert_search* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *enabled_plugins* = _list of strings_::
-Default value: *['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']* +
 Specify which plugins will be loaded by default. All other plugin
-classes will be ignored.
+classes will be ignored. +
+Default value: *['LaunchpadBugURLHandler', 'LaunchpadCodeURLHandler', 'APTURLHandler']*
 
 == keybindings
 These are the options Terminator currently supports in the *keybindings*
@@ -251,75 +250,67 @@ format *+[[name]]+*.
 === General
 
 *allow_bold* = _boolean_::
-Default value: *True* +
-If set to True, text in the terminal can displayed in bold.
+If set to True, text in the terminal can displayed in bold. +
+Default value: *True*
 
 *copy_on_selection* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *disable_mousewheel_zoom* = _boolean_::
-Default value: *False* +
-If set to True, Ctrl+mouse_wheel will not zoom or unzoom the terminal.
+If set to True, Ctrl+mouse_wheel will not zoom or unzoom the terminal. +
+Default value: *False*
 
 *word_chars* = _string_::
-Default value: **-,./?%&#:_** +
-TODO
-
-*cell_width* = _float_::
-Default value: *1.0* +
-TODO
-
-*cell_height* = _float_::
-Default value: *1.0* +
-TODO
+TODO +
+Default value: **-,./?%&#:_**
 
 *mouse_autohide* = _boolean_::
-Default value: *True* +
-If set to True, the mouse pointer will be hidden when typing.
+If set to True, the mouse pointer will be hidden when typing. +
+Default value: *True*
 
 *term* = _string_::
-Default value: *xterm-256color* +
-TODO
+TODO +
+Default value: *xterm-256color*
 
 *colorterm* = _string_::
-Default value: *truecolor* +
-TODO
+TODO +
+Default value: *truecolor*
 
 *split_to_group* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *autoclean_groups* = _boolean_::
-Default value: *True* +
-TODO
+TODO +
+Default value: *True*
 
 // --- Font ---
 
 *use_system_font* = _boolean_::
-Default value: *True* +
 If set to True, the system default font will be used for text in the
-terminal. Otherwise, the value of *font* will be used.
+terminal. Otherwise, the value of *font* will be used. +
+Default value: *True*
 
 *font* = _string_::
-Default value: *Mono 10* +
 Specify which font to use for text in the terminal.
-This option is ignored unless *use_system_font* is set to False.
+This option is ignored unless *use_system_font* is set to False. +
+Default value: *Mono 10*
 
 // --- Cursor ---
 
 *cursor_blink* = _boolean_::
-Default value: *True* +
-If set to True, the cursor will blink when not typing.
+If set to True, the cursor will blink when not typing. +
+Default value: *True*
 
 *cursor_shape* = _string_::
-Default value: *block* +
 Specify the shape of the cursor.
-Can be any of: 'block', 'underline', 'ibeam'.
+Can be any of: 'block', 'underline', 'ibeam'. +
+Default value: *block*
 
 *cursor_color_default* = _boolean_::
-Default value: *True* +
-TODO
+TODO +
+Default value: *True*
 
 *cursor_fg_color* = _color string_::
 Specify the foreground color to use for the cursor.
@@ -332,99 +323,98 @@ This option is ignored unless *cursor_color_default* is set to False.
 // --- Bell ---
 
 *audible_bell* = _boolean_::
-Default value: *False* +
 If set to True, a sound will be played when an application writes the
-escape sequence for the terminal bell.
+escape sequence for the terminal bell. +
+Default value: *False*
 
 *visible_bell* = _boolean_::
-Default value: *False* +
 If set to True, the terminal will flash when an application writes the
-escape sequence for the terminal bell.
+escape sequence for the terminal bell. +
+Default value: *False*
 
 *urgent_bell* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *icon_bell* = _boolean_::
-Default value: *True* +
 If set to True, a small icon will be shown on the terminal titlebar when
-an application writes the escape sequence for the terminal bell.
+an application writes the escape sequence for the terminal bell. +
+Default value: *True*
 
 *force_no_bell* = _boolean_::
-Default value: *False* +
-If set to True, the terminal bell will be completely disabled.
+If set to True, the terminal bell will be completely disabled. +
+Default value: *False*
 
 === Command
 
 *login_shell* = _boolean_::
-Default value: *False* +
-TODO
+TODO +
+Default value: *False*
 
 *use_custom_command* = _boolean_::
-Default value: *False* +
 If set to True, the value of *custom_command* will be used instead of
-the default shell.
+the default shell. +
+Default value: *False*
 
 *custom_command* = _string_::
 Specify the command to execute instead of the default shell.
 This option is ignored unless *use_custom_command* is set to True.
 
 *exit_action* = _string_::
-Default value: *close* +
 Specify the action to perform when the terminal is closed.
 'close' means the terminal will be removed.
 'restart' means the shell (or the command specified in *custom_command*)
 will be restarted.
 'hold' means the terminal will be kept open, even if the process in it
-has terminated.
+has terminated. +
+Default value: *close*
 
 === Colors
 
 *use_theme_colors* = _boolean_::
-Default value: *False* +
 If set to True, the theme's foreground and background colors will be
 used for the terminal. Otherwise, the values of *foreground_color* and
-*background_color* will be used.
+*background_color* will be used. +
+Default value: *False*
 
 *foreground_color* = _color string_::
-Default value: *#AAAAAA* +
 Specify the foreground color to use for the terminal.
-This option is ignored unless *use_theme_colors* is set to False.
+This option is ignored unless *use_theme_colors* is set to False. +
+Default value: *#AAAAAA*
 
 *background_color* = _color string_::
-Default value: *#000000* +
 Specify the background color to use for the terminal.
-This option is ignored unless *use_theme_colors* is set to False.
+This option is ignored unless *use_theme_colors* is set to False. +
+Default value: *#000000*
 
 *palette* = TODO::
 TODO
 
 *bold_is_bright* = _boolean_::
-Default value: *False* +
-If set to True, bold text will have brighter colors.
+If set to True, bold text will have brighter colors. +
+Default value: *False*
 
 === Background
 
 *background_darkness* = _float_::
-Default value: *0.5* +
-TODO
+TODO +
+Default value: *0.5*
 
 *background_type* = _string_::
-Default value: *solid* +
 Specify what type of background the terminal will have.
 'solid' means the background will be a solid (opaque) color.
 'transparent' means the background will be a transparent color, with its
 transparency being the value of *background_darkness*.
 'image' means the background will be an image, whose path is the value
 of *background_image*; the background color will be drawn on top of it,
-with its transparenty being the value of *background_darkness*.
+with its transparenty being the value of *background_darkness*. +
+Default value: *solid*
 
 *background_image* = _path string_::
 Specify the path to an image that will be used as background.
 This option is ignored unless *background_type* is set to 'image'.
 
 *background_image_mode* = _string_::
-Default value: *stretch_and_fill* +
 Specify how the background image will be drawn.
 'stretch_and_fill' means the image will fill the terminal entirely,
 without necessarily maintaining aspect ratio.
@@ -433,123 +423,124 @@ leaving blank bars, while maintaining aspect ratio.
 'scale_and_crop' means the image will fill the terminal entirely,
 eventually getting cropped, while maintaining aspect ratio.
 'tiling' means the image will be repeated as to fill the terminal.
-This option is ignored unless *background_type* is set to 'image'.
+This option is ignored unless *background_type* is set to 'image'. +
+Default value: *stretch_and_fill*
 
 *background_image_align_horiz* = _string_::
-Default value: *center* +
 Specify the horizontal alignment of the background image.
 Can be any of: 'left', 'center', 'right'.
-This option is ignored unless *background_type* is set to 'image'.
+This option is ignored unless *background_type* is set to 'image'. +
+Default value: *center*
 
 *background_image_align_vert* = _string_::
-Default value: *middle* +
 Specify the vertical alignment of the background image.
 Can be any of: 'top', 'middle', 'bottom'.
-This option is ignored unless *background_type* is set to 'image'.
+This option is ignored unless *background_type* is set to 'image'. +
+Default value: *middle*
 
 === Scrolling
 
 *scrollbar_position* = _string_::
-Default value: *right* +
 Specify where the terminal scrollbar is put.
-Can be any of: 'left', 'right', 'hidden'.
+Can be any of: 'left', 'right', 'hidden'. +
+Default value: *right*
 
 *scroll_on_output* = _boolean_::
-Default value: *False* +
 If set to True, the terminall will scroll to the bottom when an
-application writes text to it.
+application writes text to it. +
+Default value: *False*
 
 *scroll_on_keystroke* = _boolean_::
-Default value: *True* +
-If set to True, the terminal will scroll to the bottom when typing.
+If set to True, the terminal will scroll to the bottom when typing. +
+Default value: *True*
 
 *scrollback_infinite* = _boolean_::
-Default value: *False* +
-If set to True, the terminal will keep the entire scrollback history.
+If set to True, the terminal will keep the entire scrollback history. +
+Default value: *False*
 
 *scrollback_lines* = _integer_::
-Default value: *500* +
 Specify how many lines of scrollback history will be kept by the
 terminal. Lines that don't fit in the scrollback history will be
 discarted. Note that setting large values can slow down rewrapping and
 resizing.
-This option is ignored unless *scrollback_infinite* is set to False.
+This option is ignored unless *scrollback_infinite* is set to False. +
+Default value: *500*
 
 === Compatibility
 
 *backspace_binding* = _string_::
-Default value: *ascii-del* +
 Specify what code will be generated by the backspace key.
 The value can be:
 'ascii-del' for the ASCII DEL character;
 'control-h' for the ASCII BS character (Ctrl+H);
 'escape-sequence' for the escape sequence typically bound to backspace
 or delete;
-'automatic' for TODO.
+'automatic' for TODO. +
+Default value: *ascii-del*
 
 *delete_binding* = _string_::
-Default value: *escape-sequence* +
 Specify what code will be generated by the delete key.
 The value can be:
 'ascii-del' for the ASCII DEL character;
 'control-h' for the ASCII BS character (Ctrl+H);
 'escape-sequence' for the escape sequence typically bound to backspace
 or delete;
-'automatic' for TODO.
+'automatic' for TODO. +
+Default value: *escape-sequence*
 
 === Titlebar
 
 *show_titlebar* = _boolean_::
-Default value: *True* +
 If set to True, the terminal will have a titlebar showing the current
-title of that terminal.
+title of that terminal. +
+Default value: *True*
 
 *title_hide_sizetext* = _boolean_::
-Default value: *False* +
 If set to True, the size of the terminal will not be written on its
-titlebar.
+titlebar. +
+Default value: *False*
 
 *title_use_system_font* = _boolean_::
-Default value: *True* +
 If set to True, the system default font will be used for text in the
-terminal's titlebar. Otherwise, the value of *title_font* will be used.
+terminal's titlebar. Otherwise, the value of *title_font* will be used. +
+Default value: *True*
 
 *title_font* = _string_::
-Default value: *Sans 9* +
 Specify which font to use for text in the terminal's titlebar.
-This option is ignored unless *title_use_system_font* is set to False.
+This option is ignored unless *title_use_system_font* is set to False. +
+Default value: *Sans 9*
 
 // --- Titlebar colors ---
 
 *title_transmit_fg_color* = _color string_::
-Default value: *#ffffff* +
 Specify the foreground color to use for the terminal's titlebar in case
-the terminal is focused.
+the terminal is focused. +
+Default value: *#ffffff*
 
 *title_transmit_bg_color* = _color string_::
-Default value: *#c80003* +
 Specify the background color to use for the terminal's titlebar in case
-the terminal is focused.
+the terminal is focused. +
+Default value: *#c80003*
 
 *title_inactive_fg_color* = _color string_::
-Default value: *#000000* +
 Specify the foreground color to use for the terminal's titlebar in case
-the terminal is unfocused.
+the terminal is unfocused. +
+Default value: *#000000*
 
 *title_inactive_bg_color* = _color string_::
-Default value: *#c0bebf* +
 Specify the background color to use for the terminal's titlebar in case
-the terminal is unfocused.
+the terminal is unfocused. +
+Default value: *#c0bebf*
 
 *title_receive_fg_color* = _color string_::
-Default value: *#ffffff* +
 Specify the foreground color to use for the terminal's titlebar in case
-the terminal is in a group and is receiving input while unfocused.
+the terminal is in a group and is receiving input while unfocused. +
+Default value: *#ffffff*
 
 *title_receive_bg_color* = _color string_::
-Default value: *#0076c9* +
 Specify the background color to use for the terminal's titlebar in case
-the terminal is in a group and is receiving input while unfocused.
+the terminal is in a group and is receiving input while unfocused. +
+Default value: *#0076c9*
 
 == SEE ALSO
 *terminator*(1), http://www.voidspace.org.uk/python/configobj.html
