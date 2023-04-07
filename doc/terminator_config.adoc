@@ -64,7 +64,7 @@ If set to True, the window will always stay on top of other windows. +
 Default value: *False*
 
 *sticky* = _boolean_::
-TODO +
+If set to True, the window will be visible on all workspaces. +
 Default value: *False*
 
 *hide_on_lose_focus* = _boolean_::
@@ -112,10 +112,6 @@ the width of the window - in that case scroll buttons will appear to
 move through the tabs. +
 Default value: *False*
 
-*homogeneous_tabbar* = _boolean_::
-TODO +
-Default value: *True*
-
 === Terminal Behavior & Appearance
 
 // --- Terminal behavior ---
@@ -140,12 +136,15 @@ Default value: *False*
 // --- Copy & Paste behavior ---
 
 *putty_paste_style* = _boolean_::
-If set to True, right-click will paste the Primary selection,
-while middle-click will popup the context menu. +
+If set to True, right-click will paste text, while middle-click will
+popup the context menu. The source for the pasted text depends on the
+value of *putty_paste_style_source_clipboard*. +
 Default value: *False*
 
 *putty_paste_style_source_clipboard* = _boolean_::
-TODO +
+If set to True, the Clipboard will be used as source for pasting in
+PuTTY style. Otherwise, the Primary Selection will be used. +
+This option is ignored unless *putty_paste_style* is set to True. +
 Default value: *False*
 
 *disable_mouse_paste* = _boolean_::
@@ -183,11 +182,11 @@ terminals that do not have focus. +
 Default value: *1.0*
 
 *cell_width* = _float_::
-TODO +
+Specify the horizontal scale of character cells in the terminal. +
 Default value: *1.0*
 
 *cell_height* = _float_::
-TODO +
+Specify the vertical scale of character cells in the terminal. +
 Default value: *1.0*
 
 *title_at_bottom* = _boolean_::
@@ -402,7 +401,7 @@ maximised. +
 Default value: *<Ctrl><Shift>Z*
 
 *hide_window*::
-TODO +
+Hide/Show all Terminator windows. +
 Default value: *<Ctrl><Shift><Alt>A*
 
 === Grouping & Broadcasting
@@ -575,19 +574,22 @@ If set to True, the mouse pointer will be hidden when typing. +
 Default value: *True*
 
 *term* = _string_::
-TODO +
+Specify the value Terminator will assign to the 'TERM' environment
+variable. +
 Default value: *xterm-256color*
 
 *colorterm* = _string_::
-TODO +
+Specify the value Terminator will assign to the 'COLORTERM' environment
+variable. +
 Default value: *truecolor*
 
 *split_to_group* = _boolean_::
-TODO +
+If set to True, the terminal created by splitting will be inserted in
+the current terminal's group. +
 Default value: *False*
 
 *autoclean_groups* = _boolean_::
-TODO +
+If set to True, empty groups will be removed. +
 Default value: *True*
 
 // --- Font ---
@@ -702,9 +704,13 @@ Default value: *False*
 === Background
 
 *background_darkness* = _float_::
-TODO +
+Specify the transparency of the background color.
+The value must be between 0.0 and 1.0.
+This option is ignored unless *background_type* is set to 'transparent'
+or 'image'. +
 Default value: *0.5*
 
+// TODO background_type needs improvements
 *background_type* = _string_::
 Specify what type of background the terminal will have.
 'solid' means the background will be a solid (opaque) color.
@@ -712,7 +718,7 @@ Specify what type of background the terminal will have.
 transparency being the value of *background_darkness*.
 'image' means the background will be an image, whose path is the value
 of *background_image*; the background color will be drawn on top of it,
-with its transparenty being the value of *background_darkness*. +
+with its transparency being the value of *background_darkness*. +
 Default value: *solid*
 
 *background_image* = _path string_::
