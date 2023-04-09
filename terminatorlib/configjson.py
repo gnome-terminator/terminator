@@ -60,7 +60,7 @@ class ConfigJson(object):
                 json_name = layout_name
 
             if json_name in layoutjson:
-                children[parent + "." + str(order)].__setitem__(layout_name, layoutjson[json_name])
+                children[parent + "." + str(order)][layout_name] = layoutjson[json_name]
 
         children[parent + "." + str(order)] = {
             'type': 'Terminal',
