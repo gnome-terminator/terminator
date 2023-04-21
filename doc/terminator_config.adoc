@@ -2,7 +2,7 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-04-07
+:revdate: 2023-04-21
 :docdate: {revdate}
 
 == NAME
@@ -39,6 +39,17 @@ This is what a Terminator config file should look like:
     scrollback_lines = '500' #More comment. Single quotes are valid too
     cursor_blink = True
     custom_command = "echo \"foo#bar\"" #Final comment - this will work as expected.
+
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+
+[plugins]
 ----
 
 // ================================================================== \\
@@ -68,11 +79,11 @@ If set to True, the window will be visible on all workspaces. +
 Default value: *False*
 
 *hide_on_lose_focus* = _boolean_::
-TODO +
+If set to True, the window will be hidden when focus is lost. +
 Default value: *False*
 
 *hide_from_taskbar* = _boolean_::
-TODO +
+If set to True, the window will be hidden from the taskbar. +
 Default value: *False*
 
 *geometry_hinting* = _boolean_::
@@ -225,11 +236,13 @@ does something relevant with it.
 This option is ignored unless *use_custom_url_handler* is set to True.
 
 *case_sensitive* = _boolean_::
-TODO +
+If set to True, uppercase and lowercase characters will be considered
+different when searching text in the terminal. +
 Default value: *True*
 
 *invert_search* = _boolean_::
-TODO +
+If set to True, the search direction will be inverted (bottom to top)
+when searching text in the terminal. +
 Default value: *False*
 
 *enabled_plugins* = _list of strings_::
@@ -347,7 +360,8 @@ Default value: *<Ctrl>Page_Up*
 
 *switch_to_tab_1*, *switch_to_tab_2*, ... *switch_to_tab_10*::
 Move to the **N**th tab.
-TODO note on switch_to_tab_1?
+Note that *<Alt><Shift>1* may be provided as *<Alt>!* or similar,
+depending on the keyboard layout.
 
 === Organisation
 
@@ -549,7 +563,7 @@ Switch to the previous profile.
 == profiles
 These are the options Terminator currently supports in the *profiles*
 section. Each profile should be its own subsection with a header in the
-format *+[[name]]+*.
+format *\[[name]]*.
 
 === General
 
@@ -640,7 +654,8 @@ escape sequence for the terminal bell. +
 Default value: *False*
 
 *urgent_bell* = _boolean_::
-TODO +
+If set to True, the window's urgency hint will be set when an
+application writes the escape sequence for the terminal bell. +
 Default value: *False*
 
 *icon_bell* = _boolean_::
@@ -694,8 +709,11 @@ Specify the background color to use for the terminal.
 This option is ignored unless *use_theme_colors* is set to False. +
 Default value: *#000000*
 
-*palette* = TODO::
-TODO
+*palette* = _string list of colors_::
+Specify the 16-color palette to use for the terminal.
+The value must be a string containing a colon-separated list of colors
+in hex format. +
+For example, "#000000:#cd0000:#00cd00: ... ".
 
 *bold_is_bright* = _boolean_::
 If set to True, bold text will have brighter colors. +
@@ -786,7 +804,8 @@ The value can be:
 'control-h' for the ASCII BS character (Ctrl+H);
 'escape-sequence' for the escape sequence typically bound to backspace
 or delete;
-'automatic' for TODO. +
+'automatic' for letting the terminal automatically decide the character
+sequence to use. +
 Default value: *ascii-del*
 
 *delete_binding* = _string_::
@@ -796,7 +815,8 @@ The value can be:
 'control-h' for the ASCII BS character (Ctrl+H);
 'escape-sequence' for the escape sequence typically bound to backspace
 or delete;
-'automatic' for TODO. +
+'automatic' for letting the terminal automatically decide the character
+sequence to use. +
 Default value: *escape-sequence*
 
 === Titlebar
@@ -855,8 +875,40 @@ Default value: *#0076c9*
 
 // ================================================================== \\
 
-TODO layouts section?
-TODO plugins section?
+== layouts
+The *layouts* section contains all the saved layouts. Each layout should
+be its own subsection with a header in the format *\[[name]]*.
+
+Each object in a layout is a named sub-sub-section with various
+properties.
+
+*type* = _string_::
+Can be any of: 'Window', 'Notebook', 'HPaned', 'VPaned', 'Terminal'.
+
+*parent* = _string_::
+Specify which object is the parent of the component being defined.
+All objects, except those of type Window, must specify a parent.
+
+This is an example of a *layouts* section containing only the layout
+named "default".
+
+----
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+----
+
+// ================================================================== \\
+
+== plugins
+Terminator plugins can add their own configuration to the config file,
+and it will appear as a subsection. Please refer to the documentation of
+individual plugins for more information.
 
 == SEE ALSO
 *terminator*(1), http://www.voidspace.org.uk/python/configobj.html
