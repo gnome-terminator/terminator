@@ -2,7 +2,7 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-04-21
+:revdate: 2023-04-22
 :docdate: {revdate}
 
 == NAME
@@ -64,10 +64,10 @@ These are the options Terminator currently supports in the
 
 *window_state* = _string_::
 Control how the Terminator window opens.
-'normal' means it opens normally.
-'maximise' means it opens in a maximised state.
-'fullscreen' means it opens in a fullscreen state.
-'hidden' means it stays hidden. +
+'normal' to open normally.
+'maximise' to open in a maximised state.
+'fullscreen' to open in a fullscreen state.
+'hidden' to stay hidden. +
 Default value: *normal*
 
 *always_on_top* = _boolean_::
@@ -171,15 +171,16 @@ not get sent. +
 Default value: *True*
 
 *clear_select_on_copy* = _boolean_::
-TODO +
+If set to True, text selection will be cleared after copying using the
+*copy* keybinding. +
 Default value: *False*
 
 // --- Terminal appearance ---
 
 *handle_size* = _integer_::
 Specify the width of the separator between terminals.
-Anything outside the range 0-20 (inclusive) will be ignored and use your
-default theme value. +
+Anything outside the range 0-20 (inclusive) will be ignored and the
+default theme value will be used instead. +
 Default value: *1*
 
 *inactive_color_offset* = _float_::
@@ -217,7 +218,8 @@ Terminator process for each invocation. +
 Default value: *True*
 
 *extra_styling* = _boolean_::
-TODO +
+If set to True, Terminator may load an additional CSS styling file,
+depending on the theme. +
 Default value: *True*
 
 *broadcast_default* = _string_::
@@ -485,15 +487,15 @@ Open the Preferences window and show the Keybindings tab. +
 Default value: *<Ctrl><Shift>K*
 
 *copy*::
-Copy the selected text to the clipboard. +
+Copy the selected text to the Clipboard. +
 Default value: *<Ctrl><Shift>C*
 
 *paste*::
-Paste the current contents of the clipboard. +
+Paste the current contents of the Clipboard. +
 Default value: *<Ctrl><Shift>V*
 
 *paste_selection*::
-TODO
+Paste the current contents of the Primary Selection.
 
 *toggle_scrollbar*::
 Toggle the scrollbar. +
@@ -572,7 +574,8 @@ If set to True, text in the terminal can displayed in bold. +
 Default value: *True*
 
 *copy_on_selection* = _boolean_::
-TODO +
+If set to True, text selections will be automatically copied to the
+Clipboard, in addition to being copied to the Primary Selection. +
 Default value: *False*
 
 *disable_mousewheel_zoom* = _boolean_::
@@ -580,7 +583,12 @@ If set to True, Ctrl+mouse_wheel will not zoom or unzoom the terminal. +
 Default value: *False*
 
 *word_chars* = _string_::
-TODO +
+Specify the characters that will be considered part of a single word
+when selecting text by word.
+Hyphen and alphanumerics do not need to be specified.
+Ranges can be given, e.g. "A-Z". +
+For example, if *word_chars* = "," then "foo,bar" is considered a single
+word. +
 Default value: **-,./?%&#:_**
 
 *mouse_autohide* = _boolean_::
@@ -630,7 +638,9 @@ Can be any of: 'block', 'underline', 'ibeam'. +
 Default value: *block*
 
 *cursor_color_default* = _boolean_::
-TODO +
+If set to True, the background and foreground colors of the terminal
+will be used as foreground and background colors for the cursor,
+respectively. +
 Default value: *True*
 
 *cursor_fg_color* = _color string_::
@@ -670,7 +680,9 @@ Default value: *False*
 === Command
 
 *login_shell* = _boolean_::
-TODO +
+If set to True, the terminal will run the default shell (or the command
+specified by *custom_command*) as a login shell.
+This means the first argument passed to the shell/command will be '-l'. +
 Default value: *False*
 
 *use_custom_command* = _boolean_::
@@ -684,11 +696,11 @@ This option is ignored unless *use_custom_command* is set to True.
 
 *exit_action* = _string_::
 Specify the action to perform when the terminal is closed.
-'close' means the terminal will be removed.
-'restart' means the shell (or the command specified in *custom_command*)
-will be restarted.
-'hold' means the terminal will be kept open, even if the process in it
-has terminated. +
+'close' to remove the terminal.
+'restart' to restart the shell (or the command specified by
+*custom_command*).
+'hold' to keep the terminal open, even if the process in it has
+terminated. +
 Default value: *close*
 
 === Colors
@@ -728,15 +740,16 @@ This option is ignored unless *background_type* is set to 'transparent'
 or 'image'. +
 Default value: *0.5*
 
-// TODO background_type needs improvements
 *background_type* = _string_::
 Specify what type of background the terminal will have.
-'solid' means the background will be a solid (opaque) color.
-'transparent' means the background will be a transparent color, with its
-transparency being the value of *background_darkness*.
-'image' means the background will be an image, whose path is the value
-of *background_image*; the background color will be drawn on top of it,
-with its transparency being the value of *background_darkness*. +
+'solid' for a solid (opaque) background.
+'transparent' for a transparent background.
+'image' for a background image. +
+If this is set to 'transparent', the transparency of the background will
+be the value of *background_darkness*.
+If this is set to 'image', the image specified by *background_image*
+will be the background; the background color will then be drawn on top
+of it, with a transparency specified by *background_darkness*. +
 Default value: *solid*
 
 *background_image* = _path string_::
@@ -745,13 +758,13 @@ This option is ignored unless *background_type* is set to 'image'.
 
 *background_image_mode* = _string_::
 Specify how the background image will be drawn.
-'stretch_and_fill' means the image will fill the terminal entirely,
-without necessarily maintaining aspect ratio.
-'scale_and_fit' means the image will fit inside the terminal, eventually
-leaving blank bars, while maintaining aspect ratio.
-'scale_and_crop' means the image will fill the terminal entirely,
-eventually getting cropped, while maintaining aspect ratio.
-'tiling' means the image will be repeated as to fill the terminal.
+'stretch_and_fill' to fill the terminal entirely, without necessarily
+maintaining aspect ratio.
+'scale_and_fit' to fit the image inside the terminal, eventually leaving
+blank bars, while maintaining aspect ratio.
+'scale_and_crop' to fill the terminal entirely, eventually cropping the
+image, while maintaining aspect ratio.
+'tiling' to repeat the image as to fill the terminal.
 This option is ignored unless *background_type* is set to 'image'. +
 Default value: *stretch_and_fill*
 
@@ -911,5 +924,4 @@ and it will appear as a subsection. Please refer to the documentation of
 individual plugins for more information.
 
 == SEE ALSO
-*terminator*(1), http://www.voidspace.org.uk/python/configobj.html
-// this link might be dead
+*terminator*(1), https://configobj.readthedocs.io/
