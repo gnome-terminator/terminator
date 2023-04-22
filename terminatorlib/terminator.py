@@ -4,6 +4,8 @@
 
 import copy
 import os
+import re
+
 import gi
 gi.require_version('Vte', '2.91')
 from gi.repository import Gtk, Gdk, Vte
@@ -68,6 +70,8 @@ class Terminator(Borg):
 
     cur_gtk_theme_name = None
     gtk_settings = None
+
+    PROMPT_PASSWORD_PATTERN = re.compile(r'\[sudo] password for')
 
     def __init__(self):
         """Class initialiser"""
@@ -551,15 +555,22 @@ class Terminator(Borg):
     def group_emit(self, terminal, group, type, event):
         """Emit to each terminal in a group"""
         dbg('emitting a keystroke for group %s' % group)
+
+        expects_passwd = self.if_terminal_expects_passwd(terminal)
+
         for term in self.terminals:
             if term != terminal and term.group == group:
-                term.vte.emit(type, eventkey2gdkevent(event))
+                if not expects_passwd or self.if_terminal_expects_passwd(term):
+                    term.vte.emit(type, eventkey2gdkevent(event))
 
     def all_emit(self, terminal, type, event):
         """Emit to all terminals"""
+        expects_passwd = self.if_terminal_expects_passwd(terminal)
+
         for term in self.terminals:
             if term != terminal:
-                term.vte.emit(type, eventkey2gdkevent(event))
+                if not expects_passwd or self.if_terminal_expects_passwd(term):
+                    term.vte.emit(type, eventkey2gdkevent(event))
 
     def do_enumerate(self, widget, pad):
         """Insert the number of each terminal in a group, into that terminal"""
@@ -653,5 +664,15 @@ class Terminator(Borg):
             if freegroups:
                 return random.choice(freegroups)
         return ''
+
+    def if_terminal_expects_passwd(self, terminal):
+        """Check if terminal is waiting for a password according to prompt"""
+        pos = terminal.vte.get_cursor_position()
+        if pos:
+            current_line = terminal.vte.get_text_range(
+                pos.row, 0, pos.row, pos.column)[0]
+            if re.match(self.PROMPT_PASSWORD_PATTERN, current_line):
+                return True
+        return False
 
 # vim: set expandtab ts=4 sw=4:
