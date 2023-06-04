@@ -306,6 +306,8 @@ class Notebook(Container, Gtk.Notebook):
 
         if metadata and 'tabnum' in metadata:
             tabpos = metadata['tabnum']
+        elif self.config['new_tab_after_current_tab'] == True:
+            tabpos = self.get_current_page() + 1
         else:
             tabpos = -1
 

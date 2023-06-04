@@ -119,6 +119,8 @@ DEFAULTS = {
             'link_single_click'     : False,
             'title_at_bottom'       : False,
             'detachable_tabs'       : True,
+
+            'new_tab_after_current_tab': False,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
