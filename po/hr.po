@@ -872,7 +872,7 @@ msgstr "Koristi zadane boje"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Foreground:"
-msgstr "Prvi plan:"
+msgstr "Prednji plan:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Background:"
@@ -932,7 +932,7 @@ msgstr "Ugrađene she_me:"
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "_Foreground:"
-msgstr "_Prvi plan:"
+msgstr "_Prednji plan:"
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "_Background:"
