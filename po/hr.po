@@ -764,7 +764,7 @@ msgstr "Otvaranje poveznica jednim klikom (umjesto Ctrl-lijevi klik)"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Disable mouse paste"
-msgstr "Onemogući lijepljenje mišom"
+msgstr "Onemogući umetanje mišom"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Custom URL handler:"
