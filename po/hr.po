@@ -872,7 +872,7 @@ msgstr "Koristi zadane boje"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Foreground:"
-msgstr "Prednja strana:"
+msgstr "Prvi plan:"
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Background:"
