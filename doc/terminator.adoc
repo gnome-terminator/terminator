@@ -108,6 +108,11 @@ be displayed.
 If this is specified and Terminator is already running, DBus will be
 used to spawn a new tab in the first Terminator window.
 
+*--toggle-visibility*::
+If this is specified and Terminator is already running, DBus will be
+used to toggle Terminator window visibility. Usable under Wayland to
+replace hide keyboad shortcut.
+
 == KEYBINDINGS
 The following default keybindings can be used to control Terminator.
 Most of these keybindings can be changed in the Preferences.
@@ -221,8 +226,9 @@ Toggle between showing all terminals and only showing a scaled version
 of the current one (zoom).
 
 *Ctrl+Shift+Alt+A*::
-Hide the initial window. Note that this is a global binding, and can
-only be bound once.
+Hide the initial window. Note that this is a X11 global binding, and can
+only be bound once. On Wayland use window manager keyboard shortcuts to
+call *terminator --toggle-visibility*.
 
 === Grouping & Broadcasting
 The following items relate to grouping and broadcasting.
