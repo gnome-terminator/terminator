@@ -65,7 +65,7 @@ msgstr "获取父标签页的标题"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr "设置父级标签页的标题"
+msgstr "设置父标签页的标题"
 
 #: ../remotinator.py:50
 msgid "Set the background image"
