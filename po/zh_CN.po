@@ -57,7 +57,7 @@ msgstr "获取父窗口的标题"
 
 #: ../remotinator.py:47
 msgid "Get the UUID of a parent tab"
-msgstr "获取一个父标签页的UUID"
+msgstr "获取父标签页的UUID"
 
 #: ../remotinator.py:48
 msgid "Get the title of a parent tab"
