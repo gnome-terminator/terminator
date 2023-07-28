@@ -8,6 +8,8 @@ import gi
 gi.require_version('Vte', '2.91')
 from gi.repository import Gtk, Gdk, Vte
 from gi.repository.GLib import GError
+import itertools
+import random
 
 from . import borg
 from .borg import Borg
@@ -16,6 +18,7 @@ from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .version import APP_NAME, APP_VERSION
+from .translation import _
 
 try:
     from gi.repository import GdkX11
@@ -309,6 +312,7 @@ class Terminator(Borg):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
         maker = Factory()
+        t = 0
 
         window_last_active_term_mapping = {}
         for window in self.windows:
@@ -346,22 +350,11 @@ class Terminator(Borg):
                 t = 0
             window.get_window().focus(t)
 
-        # Awful workaround to be sure that the last focused window is actually the one focused.
-        # Don't ask, don't tell policy on this. Even this is not 100%
+        # Going by the docs, this should be all that's needed to ensure that the
+        # last_active_window is focussed. 
         if self.last_active_window:
             window = self.find_window_by_uuid(self.last_active_window.urn)
-            count = 0
-            while count < 1000 and Gtk.events_pending():
-                count += 1
-                Gtk.main_iteration_do(False)
-                window.show()
-                window.grab_focus()
-                try:
-                    t = GdkX11.x11_get_server_time(window.get_window())
-                except (NameError,TypeError, AttributeError):
-                    t = 0
-                window.get_window().focus(t)
-
+            window.present_with_time(t)
         self.prelayout_windows = None
 
     def on_gtk_theme_name_notify(self, settings, prop):
@@ -584,6 +577,16 @@ class Terminator(Borg):
             idx = terminals.index(term)
             term.feed(numstr.encode() % (idx + 1))
 
+    def do_insert_term_name(self, widget):
+        terminals = []
+        for window in self.windows:
+            containers, win_terminals = enumerate_descendants(window)
+            terminals.extend(win_terminals)
+
+        for term in self.get_target_terms(widget):
+            name = term.titlebar.get_custom_string() or term.get_window_title()
+            term.feed(name)
+
     def get_sibling_terms(self, widget):
         termset = []
         for term in self.terminals:
@@ -637,4 +640,18 @@ class Terminator(Borg):
     def zoom_orig_all(self):
         for term in self.terminals:
             term.zoom_orig()
+
+    def new_random_group(self):
+        defaultmembers=[_('Alpha'),_('Beta'),_('Gamma'),_('Delta'),_('Epsilon'),_('Zeta'),_('Eta'),
+                        _('Theta'),_('Iota'),_('Kappa'),_('Lambda'),_('Mu'),_('Nu'),_('Xi'),
+                        _('Omicron'),_('Pi'),_('Rho'),_('Sigma'),_('Tau'),_('Upsilon'),_('Phi'),
+                        _('Chi'),_('Psi'),_('Omega')]
+        currentgroups=set(self.groups)
+        for i in range(1,4):
+            defaultgroups=set(map(''.join, list(itertools.product(defaultmembers,repeat=i))))
+            freegroups = list(defaultgroups-currentgroups)
+            if freegroups:
+                return random.choice(freegroups)
+        return ''
+
 # vim: set expandtab ts=4 sw=4:

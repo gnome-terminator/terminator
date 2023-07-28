@@ -1,286 +1,477 @@
-.TH "TERMINATOR" "1" "Jan 5, 2008" "" ""
+'\" t
+.\"     Title: terminator
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.18
+.\"      Date: 2023-04-01
+.\"    Manual: Manual for Terminator
+.\"    Source: Terminator
+.\"  Language: English
+.\"
+.TH "TERMINATOR" "1" "2023-04-01" "Terminator" "Manual for Terminator"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
 .SH "NAME"
-Terminator \- Multiple GNOME terminals in one window
+terminator \- multiple GNOME terminals in one window
 .SH "SYNOPSIS"
-.B terminator
-.RI [ options ]
-.br
+.sp
+\fBterminator\fP [\fIoptions\fP]
 .SH "DESCRIPTION"
+.sp
 This manual page documents \fBTerminator\fP, a terminal emulator application.
-.PP
+.sp
 \fBTerminator\fP is a program that allows users to set up flexible
 arrangements of GNOME terminals. It is aimed at those who normally
-arrange lots of terminals near each other, but don't want to use a
+arrange lots of terminals near each other, but don\(cqt want to use a
 frame based window manager.
 .SH "OPTIONS"
-This program follow the usual GNU command line syntax, with long
-options starting with two dashes (`\-').
+.sp
+This program follows the usual GNU command line syntax, with long
+options starting with two dashes (`\-\*(Aq).
 A summary of options is included below.
-.TP
-.B \-h, \-\-help
-Show summary of options
-.TP
-.B \-v, \-\-version
-Show the version of the Terminator installation
-.TP
-.B \-m, \-\-maximise
-Start with a maximised window
-.B \-M, \-\-maximize
-Start with a maximized window
-.TP
-.B \-f, \-\-fullscreen
-Start with a fullscreen window
-.TP
-.B \-b, \-\-borderless
+.sp
+\fB\-h\fP, \fB\-\-help\fP
+.RS 4
+Show summary of options.
+.RE
+.sp
+\fB\-v\fP, \fB\-\-version\fP
+.RS 4
+Show the version of the Terminator installation.
+.RE
+.sp
+\fB\-m\fP, \fB\-M\fP, \fB\-\-maximise\fP, \fB\-\-maximize\fP
+.RS 4
+Start with a maximised window.
+.RE
+.sp
+\fB\-f\fP, \fB\-\-fullscreen\fP
+.RS 4
+Start with a fullscreen window.
+.RE
+.sp
+\fB\-b\fP, \fB\-\-borderless\fP
+.RS 4
 Instruct the window manager not to render borders/decoration on the
-Terminator window (this works well with \-m)
-.TP
-.B \-H, \-\-hidden
+Terminator window (this works well with \-\-maximise).
+.RE
+.sp
+\fB\-H\fP, \fB\-\-hidden\fP
+.RS 4
 Hide the Terminator window by default. Its visibility can be toggled
-with the \fBhide_window\fR keyboard shortcut (Ctrl-Shift-Alt-a by default)
-.TP
-.B \-T, \-\-title
-Force the Terminator window to use a specific name rather than updating it dynamically
-based on the wishes of the child shell.
-.TP
-.B \-\-geometry=GEOMETRY
-Specifies the preferred size and position of Terminator's window; see X(7).
-.TP
-.B \-e, \-\-command=COMMAND
-Runs the specified command instead of your default shell or profile specified command. Note: if
-Terminator is launched as x-terminal-emulator \-e behaves like \-x, and the longform becomes
-\-\-execute2=COMMAND
-.TP
-.B \-x, \-\-execute COMMAND [ARGS]
-Runs \fBthe rest of the command line\fR instead of your default shell or profile specified command.
-.TP
-.B \-\-working\-directory=DIR
-Set the terminal's working directory
-.TP
-.B \-g, \-\-config FILE
-Use the specified FILE for configuration
-.TP
-.B \-r, \-\-role=ROLE
-Set a custom WM_WINDOW_ROLE property on the window
-.TP
-.B \-l, \-\-layout=LAYOUT
+with the \fBhide_window\fP keyboard shortcut (Ctrl+Shift+Alt+A by default).
+.RE
+.sp
+\fB\-T\fP \fIFORCEDTITLE\fP, \fB\-\-title\fP=\fIFORCEDTITLE\fP
+.RS 4
+Force the Terminator window to use a specific name rather than updating
+it dynamically based on the wishes of the child shell.
+.RE
+.sp
+\fB\-\-geometry\fP=\fIGEOMETRY\fP
+.RS 4
+Specify the preferred size and position of Terminator\(cqs window;
+see \fBX\fP(7).
+.RE
+.sp
+\fB\-e\fP \fICOMMAND\fP, \fB\-\-command\fP=\fICOMMAND\fP
+.RS 4
+Run the specified command instead of the default shell or profile
+specified command.
+.br
+Note: if Terminator is launched as x\-terminal\-emulator \-e behaves like
+\-x, and the longform becomes \-\-execute2=COMMAND.
+.RE
+.sp
+\fB\-x\fP \fICOMMAND\fP [\fIARGS\fP], \fB\-\-execute\fP=\fICOMMAND\fP [\fIARGS\fP]
+.RS 4
+Run \fBthe rest of the command line\fP instead of the default shell or
+profile specified command.
+.RE
+.sp
+\fB\-\-working\-directory\fP=\fIDIR\fP
+.RS 4
+Set the terminal\(cqs working directory.
+.RE
+.sp
+\fB\-g\fP \fIFILE\fP, \fB\-\-config\fP=\fIFILE\fP
+.RS 4
+Use the specified file for configuration.
+.RE
+.sp
+\fB\-r\fP \fIROLE\fP, \fB\-\-role\fP=\fIROLE\fP
+.RS 4
+Set a custom WM_WINDOW_ROLE property on the window.
+.RE
+.sp
+\fB\-l\fP \fILAYOUT\fP, \fB\-\-layout\fP=\fILAYOUT\fP
+.RS 4
 Start Terminator with a specific layout. The argument here is the name
 of a saved layout.
-.TP
-.B \-s, \-\-select-layout=LAYOUT
+.RE
+.sp
+\fB\-s\fP \fILAYOUT\fP, \fB\-\-select\-layout\fP=\fILAYOUT\fP
+.RS 4
 Open the layout launcher window instead of the normal terminal.
-.TP
-.B \-p, \-\-profile=PROFILE
-Use a different profile as the default
-.TP
-.B \-i, \-\-icon=FORCEDICON
+.RE
+.sp
+\fB\-p\fP, \fB\-\-profile\fP=\fIPROFILE\fP
+.RS 4
+Use a different profile as the default.
+.RE
+.sp
+\fB\-i\fP, \fB\-\-icon\fP=\fIFORCEDICON\fP
+.RS 4
 Set a custom icon for the window (by file or name)
-.TP
-.B \-u, \-\-no-dbus
-Disable DBus
-.TP
-.B \-d, \-\-debug
-Enable debugging output (please use this when reporting bugs). This
-can be specified twice to enable a built-in python debugging server.
-.TP
-.B \-\-debug\-classes=DEBUG_CLASSES
+.RE
+.sp
+\fB\-u\fP, \fB\-\-no\-dbus\fP
+.RS 4
+Disable DBus.
+.RE
+.sp
+\fB\-d\fP, \fB\-\-debug\fP
+.RS 4
+Enable debugging output (please use this when reporting bugs). This can
+be specified twice to enable a built\-in python debugging server.
+.RE
+.sp
+\fB\-\-debug\-classes\fP=\fIDEBUG_CLASSES\fP
+.RS 4
 If this is specified as a comma separated list, debugging output will
 only be printed from the specified classes.
-.TP
-.B \-\-debug\-methods=DEBUG_METHODS
+.RE
+.sp
+\fB\-\-debug\-methods\fP=\fIDEBUG_METHODS\fP
+.RS 4
 If this is specified as a comma separated list, debugging output will
 only be printed from the specified functions. If this is specified in
-addition to \-\-debug-classes, only the intersection of the two lists
-will be displayed
-.TP
-.B \-\-new-tab
+addition to \-\-debug\-classes, only the intersection of the two lists will
+be displayed.
+.RE
+.sp
+\fB\-\-new\-tab\fP
+.RS 4
 If this is specified and Terminator is already running, DBus will be
 used to spawn a new tab in the first Terminator window.
+.RE
 .SH "KEYBINDINGS"
-The following default keybindings can be used to control Terminator:
-.TP
-.B F1
+.sp
+The following default keybindings can be used to control Terminator.
+Most of these keybindings can be changed in the Preferences.
+.sp
+\fBF1\fP
+.RS 4
 Launches the full HTML manual.
-.SS Creation & Destruction
-.PP
+.RE
+.SS "Creation & Destruction"
+.sp
 The following items relate to creating and destroying terminals.
-.TP
-.B Ctrl+Shift+O
-Split terminals H\fBo\fRrizontally.
-.TP
-.B Ctrl+Shift+E
-Split terminals V\fBe\fRrtically.
-.TP
-.B Ctrl+Shift+T
-Open new \fBt\fRab.
-.TP
-.B Ctrl+Shift+I
-Open a new window. (Note: Unlike in previous releases, this window is
-part of the same Terminator process.)
-.TP
-.B Super+I
+.sp
+\fBCtrl+Shift+O\fP
+.RS 4
+Split terminals H\fIo\fPrizontally.
+.RE
+.sp
+\fBCtrl+Shift+E\fP
+.RS 4
+Split terminals V\fIe\fPrtically.
+.RE
+.sp
+\fBCtrl+Shift+T\fP
+.RS 4
+Open new \fIt\fPab.
+.RE
+.sp
+\fBCtrl+Shift+I\fP
+.RS 4
+Open a new window.
+.br
+(Note: unlike in previous releases, this window is part of the same
+Terminator process.)
+.RE
+.sp
+\fBSuper+I\fP
+.RS 4
 Spawn a new Terminator process.
-.TP
-.B Alt+L
-Open \fBl\fRayout launcher.
-.TP
-.B Ctrl+Shift+W
+.RE
+.sp
+\fBAlt+L\fP
+.RS 4
+Open \fIl\fPayout launcher.
+.RE
+.sp
+\fBCtrl+Shift+W\fP
+.RS 4
 Close the current terminal.
-.TP
-.B Ctrl+Shift+Q
+.RE
+.sp
+\fBCtrl+Shift+Q\fP
+.RS 4
 Close the current window.
-.SS Navigation
-.PP
+.RE
+.SS "Navigation"
+.sp
 The following items relate to moving between and around terminals.
-.TP
-.B Alt+Up
-Move to the terminal \fBabove\fR the current one.
-.TP
-.B Alt+Down
-Move to the terminal \fBbelow\fR the current one.
-.TP
-.B Alt+Left
-Move to the terminal \fBleft of\fR the current one.
-.TP
-.B Alt+Right
-Move to the terminal \fBright of\fR the current one.
-.TP
-.B Ctrl+PageDown
-Move to next Tab.
-.TP
-.B Ctrl+PageUp
-Move to previous Tab.
-.TP
-.B Ctrl+Shift+N or Ctrl+Tab
-Move to \fBn\fRext terminal within the same tab, use Ctrl+PageDown to move to the next tab.
-If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled.
-.TP
-.B Ctrl+Shift+P or Ctrl+Shift+Tab
-Move to \fBp\fRrevious terminal within the same tab, use Ctrl+PageUp to move to the previous tab.
-If \fBcycle_term_tab\fR is \fBFalse\fR, cycle within the same tab will be disabled.
-.SS Organisation
-.PP
+.sp
+\fBAlt+Up\fP
+.RS 4
+Move to the terminal \fBabove\fP the current one.
+.RE
+.sp
+\fBAlt+Down\fP
+.RS 4
+Move to the terminal \fBbelow\fP the current one.
+.RE
+.sp
+\fBAlt+Left\fP
+.RS 4
+Move to the terminal \fBleft of\fP the current one.
+.RE
+.sp
+\fBAlt+Right\fP
+.RS 4
+Move to the terminal \fBright of\fP the current one.
+.RE
+.sp
+\fBCtrl+PageDown\fP
+.RS 4
+Move to next tab.
+.RE
+.sp
+\fBCtrl+PageUp\fP
+.RS 4
+Move to previous tab.
+.RE
+.sp
+\fBCtrl+Shift+N\fP or \fBCtrl+Tab\fP
+.RS 4
+Move to the \fIn\fPext terminal within the same tab.
+.br
+.RE
+.sp
+\fBCtrl+Shift+P\fP or \fBCtrl+Shift+Tab\fP
+.RS 4
+Move to the \fIp\fPrevious terminal within the same tab.
+.br
+.RE
+.SS "Organisation"
+.sp
 The following items relate to arranging and resizing terminals.
-.TP
-.B Ctrl+Shift+Right
-Move parent dragbar \fBRight\fR.
-.TP
-.B Ctrl+Shift+Left
-Move parent dragbar \fBLeft\fR.
-.TP
-.B Ctrl+Shift+Up
-Move parent dragbar \fBUp\fR.
-.TP
-.B Ctrl+Shift+Down
-Move parent dragbar \fBDown\fR.
-.TP
-.B Super+R
-\fBR\fRotate terminals clockwise.
-.TP
-.B Super+Shift+R
-\fBR\fRotate terminals counter-clockwise.
-.TP
-.SH "Drag and Drop"
+.sp
+\fBCtrl+Shift+Right\fP
+.RS 4
+Move parent dragbar \fBright\fP.
+.RE
+.sp
+\fBCtrl+Shift+Left\fP
+.RS 4
+Move parent dragbar \fBleft\fP.
+.RE
+.sp
+\fBCtrl+Shift+Up\fP
+.RS 4
+Move parent dragbar \fBup\fP.
+.RE
+.sp
+\fBCtrl+Shift+Down\fP
+.RS 4
+Move parent dragbar \fBdown\fP.
+.RE
+.sp
+\fBSuper+R\fP
+.RS 4
+\fIR\fPotate terminals clockwise.
+.RE
+.sp
+\fBSuper+Shift+R\fP
+.RS 4
+\fIR\fPotate terminals counter\-clockwise.
+.RE
+.sp
+\fBCtrl+Shift+PageDown\fP
+.RS 4
+Swap tab position with next tab.
+.RE
+.sp
+\fBCtrl+Shift+PageUp\fP
+.RS 4
+Swap tab position with previous tab.
+.RE
+.sp
+\fBDrag and Drop\fP
+.RS 4
 The layout can be modified by moving terminals with Drag and Drop.
 To start dragging a terminal, click and hold on its titlebar.
 Alternatively, hold down \fBCtrl\fP, click and hold the \fBright\fP mouse button.
-Then, \fB**Release Ctrl**\fP. You can now drag the terminal to the point in the layout you would like it to be.
-The zone where the terminal would be inserted will be highlighted.
-.TP
-.B Ctrl+Shift+PageDown
-Swap tab position with next Tab.
-.TP
-.B Ctrl+Shift+PageUp
-Swap tab position with previous Tab.
-.SS Miscellaneous
-.PP
-The following items relate to miscellaneous terminal related functions.
-.TP
-.B Ctrl+Shift+C
-Copy selected text to clipboard.
-.TP
-.B Ctrl+Shift+V
-Paste clipboard text.
-.TP
-.B Ctrl+Shift+S
-Hide/Show \fBS\fRcrollbar.
-.TP
-.B Ctrl+Shift+F
-Search within terminal scrollback.
-.TP
-.B Ctrl+Shift+R
-Reset terminal state.
-.TP
-.B Ctrl+Shift+G
-Reset terminal state and clear window.
-.TP
-.B Ctrl+Plus (+)
-Increase font size. \fBNote:\fP This may require you to press shift, depending on your keyboard.
-.TP
-.B Ctrl+Minus (-)
-Decrease font size. \fBNote:\fP This may require you to press shift, depending on your keyboard.
-.TP
-.B Ctrl+Zero (0)
-Restore font size to original setting.
-.TP
-.B Ctrl+Alt+W
-Rename window title.
-.TP
-.B Ctrl+Alt+A
-Rename tab title.
-.TP
-.B Ctrl+Alt+X
-Rename terminal title.
-.TP
-.B Super+1
-Insert terminal number, i.e. 1 to 12.
-.TP
-.B Super+0
-Insert padded terminal number, i.e. 01 to 12.
-.SS Grouping & Broadcasting
-.PP
+Then, \fB**release Ctrl**\fP. You can now drag the terminal to the point
+in the layout you would like it to be. The zone where the terminal would
+be inserted will be highlighted.
+.RE
+.SS "Focus"
+.sp
 The following items relate to helping to focus on a specific terminal.
-.TP
-.B F11
+.sp
+\fBF11\fP
+.RS 4
 Toggle window to fullscreen.
-.TP
-.B Ctrl+Shift+X
-Toggle between showing all terminals and only showing the current one (maximise).
-.TP
-.B Ctrl+Shift+Z
-Toggle between showing all terminals and only showing a scaled version of the current one (zoom).
-.TP
-.B Ctrl+Shift+Alt+A
-Hide the initial window. Note that this is a global binding, and can only be bound once.
-.PP
+.RE
+.sp
+\fBCtrl+Shift+X\fP
+.RS 4
+Toggle between showing all terminals and only showing the current one
+(maximise).
+.RE
+.sp
+\fBCtrl+Shift+Z\fP
+.RS 4
+Toggle between showing all terminals and only showing a scaled version
+of the current one (zoom).
+.RE
+.sp
+\fBCtrl+Shift+Alt+A\fP
+.RS 4
+Hide the initial window. Note that this is a global binding, and can
+only be bound once.
+.RE
+.SS "Grouping & Broadcasting"
+.sp
 The following items relate to grouping and broadcasting.
-.TP
-.B Super+T
-Group all terminals in the current tab so input sent to one of them, goes to all terminals in the current tab.
-.TP
-.B Super+Shift+T
+.sp
+\fBSuper+T\fP
+.RS 4
+Group all terminals in the current tab so that any input sent to one of
+them goes to all of them.
+.RE
+.sp
+\fBSuper+Shift+T\fP
+.RS 4
 Remove grouping from all terminals in the current tab.
-.TP
-.B Super+G
-Group all terminals so that any input sent to one of them, goes to all of them.
-.TP
-.B Super+Shift+G
+.RE
+.sp
+\fBSuper+G\fP
+.RS 4
+Group all terminals so that any input sent to one of them goes to all of
+them.
+.RE
+.sp
+\fBSuper+Shift+G\fP
+.RS 4
 Remove grouping from all terminals.
-.TP
-.B Alt+A
-Broadcast to All terminals.
-.TP
-.B Alt+G
-Broadcast to Grouped terminals.
-.TP
-.B Alt+O
-Broadcast Off.
-.PP
-Most of these keybindings are changeable in the Preferences.
-.SH "SEE ALSO"
-.BR terminator_config(5)
-.SH "AUTHOR"
+.RE
+.sp
+\fBAlt+A\fP
+.RS 4
+Broadcast to \fIa\fPll terminals.
+.RE
+.sp
+\fBAlt+G\fP
+.RS 4
+Broadcast to \fIg\fProuped terminals.
+.RE
+.sp
+\fBAlt+O\fP
+.RS 4
+Broadcast \fIo\fPff.
+.RE
+.SS "Miscellaneous"
+.sp
+The following items relate to miscellaneous terminal related functions.
+.sp
+\fBCtrl+Shift+C\fP
+.RS 4
+Copy selected text to clipboard.
+.RE
+.sp
+\fBCtrl+Shift+V\fP
+.RS 4
+Paste clipboard text.
+.RE
+.sp
+\fBCtrl+Shift+S\fP
+.RS 4
+Toggle \fIs\fPcrollbar.
+.RE
+.sp
+\fBCtrl+Shift+F\fP
+.RS 4
+Search within terminal scrollback.
+.RE
+.sp
+\fBCtrl+Shift+R\fP
+.RS 4
+Reset terminal state.
+.RE
+.sp
+\fBCtrl+Shift+G\fP
+.RS 4
+Reset terminal state and clear window.
+.RE
+.sp
+\fBCtrl+Plus (+)\fP
+.RS 4
+Increase font size.
+.br
+Note: this may require you to press shift, depending on your keyboard.
+.RE
+.sp
+\fBCtrl+Minus (\-)\fP
+.RS 4
+Decrease font size.
+.br
+Note: this may require you to press shift, depending on your keyboard.
+.RE
+.sp
+\fBCtrl+Zero (0)\fP
+.RS 4
+Restore font size to original setting.
+.RE
+.sp
+\fBCtrl+Alt+W\fP
+.RS 4
+Rename window title.
+.RE
+.sp
+\fBCtrl+Alt+A\fP
+.RS 4
+Rename tab title.
+.RE
+.sp
+\fBCtrl+Alt+X\fP
+.RS 4
+Rename terminal title.
+.RE
+.sp
+\fBSuper+1\fP
+.RS 4
+Insert terminal number, i.e. 1 to 12.
+.RE
+.sp
+\fBSuper+0\fP
+.RS 4
+Insert padded terminal number, i.e. 01 to 12.
+.RE
+.SH "AUTHORS"
+.sp
 Terminator was written by Chris Jones <cmsj@tenshu.net> and others.
-.PP
-This manual page was written by Chris Jones <cmsj@tenshu.net>
-and others.
+.sp
+This manual page was written by Chris Jones <cmsj@tenshu.net> and others.
+.SH "SEE ALSO"
+.sp
+\fBterminator_config\fP(5)

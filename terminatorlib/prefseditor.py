@@ -176,18 +176,19 @@ class PrefsEditor:
                         'broadcast_group'  : _('Broadcast key presses to group'),
                         'broadcast_all'    : _('Broadcast key events to all'),
                         'insert_number'    : _('Insert terminal number'),
-                        'insert_padded'    : _('Insert padded terminal number'),
+                        'insert_padded'    : _('Insert zero padded terminal number'),
                         'edit_window_title': _('Edit window title'),
                         'edit_terminal_title': _('Edit terminal title'),
                         'edit_tab_title'   : _('Edit tab title'),
                         'layout_launcher'  : _('Open layout launcher window'),
                         'next_profile'     : _('Switch to next profile'),
                         'previous_profile' : _('Switch to previous profile'), 
-			'preferences'	   : _('Open the Preferences window'),
+                        'preferences'	   : _('Open the Preferences window'),
+                        'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
                         'help'             : _('Open the manual')
             }
 
-    def __init__ (self, term):
+    def __init__ (self, term, cur_page=0):
         self.config = config.Config()
         self.config.base.reload()
         self.term = term
@@ -229,6 +230,10 @@ class PrefsEditor:
         except Exception as e:
             err('Unable to set values: %s' % e)
         self.config.uninhibit_save()
+
+        guiget = self.builder.get_object
+        nb = guiget('notebook1')
+        nb.set_current_page(cur_page)
 
     def on_closebutton_clicked(self, _button):
         """Close the window"""
@@ -334,6 +339,9 @@ class PrefsEditor:
         # DBus Server
         widget = guiget('dbuscheck')
         widget.set_active(self.config['dbus'])
+        # Detachable tabs
+        widget = guiget('detachable_tabs')
+        widget.set_active(self.config['detachable_tabs'])
         #Hide from taskbar
         widget = guiget('hidefromtaskbcheck')
         widget.set_active(self.config['hide_from_taskbar'])
@@ -350,7 +358,11 @@ class PrefsEditor:
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
         widget.set_active(self.config['title_at_bottom'])
-        
+
+        # new tab after current tab
+        widget = guiget('new_tab_after_current_checkbutton')
+        widget.set_active(self.config['new_tab_after_current_tab'])
+
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
@@ -680,6 +692,10 @@ class PrefsEditor:
         widget.set_value(float(self.config['inactive_color_offset']))
         widget = guiget('inactive_color_offset_value_label')
         widget.set_text('%d%%' % (int(float(self.config['inactive_color_offset'])*100)))
+        widget = guiget('inactive_bg_color_offset')
+        widget.set_value(float(self.config['inactive_bg_color_offset']))
+        widget = guiget('inactive_bg_color_offset_value_label')
+        widget.set_text('%d%%' % (int(float(self.config['inactive_bg_color_offset'])*100)))
         # Open links with a single click (instead of a Ctrl-left click)
         widget = guiget('link_single_click')
         widget.set_active(self.config['link_single_click'])
@@ -700,11 +716,42 @@ class PrefsEditor:
         elif self.config['background_type'] == 'image':
             guiget('image_radiobutton').set_active(True)
         self.update_background_tab()
+        # Background image
+        widget = guiget('background_image_file')
+        widget.set_filename(self.config['background_image'])
+
+        widget = guiget('background_image_mode_combobox')
+        if self.config['background_image_mode'] == 'scale_and_fit':
+            widget.set_active(1)
+        elif self.config['background_image_mode'] == 'scale_and_crop':
+            widget.set_active(2)
+        elif self.config['background_image_mode'] == 'tiling':
+            widget.set_active(3)
+        else:
+            # default to stretch_and_fill
+            widget.set_active(0)
+
+        widget = guiget('background_image_align_horiz_combobox')
+        if self.config['background_image_align_horiz'] == 'center':
+            widget.set_active(1)
+        elif self.config['background_image_align_horiz'] == 'right':
+            widget.set_active(2)
+        else:
+            # default to left
+            widget.set_active(0)
+
+        widget = guiget('background_image_align_vert_combobox')
+        if self.config['background_image_align_vert'] == 'middle':
+            widget.set_active(1)
+        elif self.config['background_image_align_vert'] == 'bottom':
+            widget.set_active(2)
+        else:
+            # default to top
+            widget.set_active(0)
+
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-        widget = guiget('background_image_file')
-        widget.set_filename(self.config['background_image'])
    
         ## Scrolling tab
         # Scrollbar position
@@ -807,6 +854,10 @@ class PrefsEditor:
         self.config['dbus'] = widget.get_active()
         self.config.save()
 
+    def on_detachable_tabs_toggled(self, widget):
+        self.config['detachable_tabs'] = widget.get_active()
+        self.config.save()
+
     def on_disable_mousewheel_zoom_toggled(self, widget):
         """Ctrl+mousewheel zoom setting changed"""
         self.config['disable_mousewheel_zoom'] = widget.get_active()
@@ -850,6 +901,11 @@ class PrefsEditor:
     def on_title_at_bottom_checkbutton_toggled(self, widget):
         """Title at bottom setting changed"""
         self.config['title_at_bottom'] = widget.get_active()
+        self.config.save()
+
+    def on_new_tab_after_current_checkbutton_toggled(self, widget):
+        """New tab after current tab """
+        self.config['new_tab_after_current_tab'] = widget.get_active()
         self.config.save()
 
     def on_always_split_with_profile_toggled(self, widget):
@@ -929,11 +985,6 @@ class PrefsEditor:
         self.config['login_shell'] = widget.get_active()
         self.config.save()
 
-    def on_scroll_background_checkbutton_toggled(self, widget):
-        """Scroll background setting changed"""
-        self.config['scroll_background'] = widget.get_active()
-        self.config.save()
-
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
         """Scroll on keystrong setting changed"""
         self.config['scroll_on_keystroke'] = widget.get_active()
@@ -1003,6 +1054,41 @@ class PrefsEditor:
 
     def on_background_image_file_set(self,widget):
         self.config['background_image'] = widget.get_filename()
+        self.config.save()
+
+    def on_background_image_mode_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'scale_and_fit'
+        elif selected == 2:
+            value = 'scale_and_crop'
+        elif selected == 3:
+            value = 'tiling'
+        else:
+            value = 'stretch_and_fill'
+        self.config['background_image_mode'] = value
+        self.config.save()
+
+    def on_background_image_align_horiz_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'center'
+        elif selected == 2:
+            value = 'right'
+        else:
+            value = 'left'
+        self.config['background_image_align_horiz'] = value
+        self.config.save()
+
+    def on_background_image_align_vert_changed(self, widget):
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'middle'
+        elif selected == 2:
+            value = 'bottom'
+        else:
+            value = 'top'
+        self.config['background_image_align_vert'] = value
         self.config.save()
 
     def on_darken_background_scale_value_changed(self, widget):
@@ -1300,14 +1386,23 @@ class PrefsEditor:
         label_widget = guiget('inactive_color_offset_value_label')
         label_widget.set_text('%d%%' % (int(value * 100)))
 
+    def on_inactive_bg_color_offset_value_changed(self, widget):
+        """Inactive background color offset setting changed"""
+        value = widget.get_value()  # This one is rounded according to the UI.
+        if value > 1.0:
+          value = 1.0
+        self.config['inactive_bg_color_offset'] = value
+        self.config.save()
+        guiget = self.builder.get_object
+        label_widget = guiget('inactive_bg_color_offset_value_label')
+        label_widget.set_text('%d%%' % (int(value * 100)))
+
     def on_handlesize_value_changed(self, widget):
         """Handle size changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         value = int(value)          # Cast to int.
         if value > 20:
             value = 20
-        if value < 1:
-            value = 1
         self.config['handle_size'] = value
         self.config.save()
         guiget = self.builder.get_object
@@ -1609,10 +1704,12 @@ class PrefsEditor:
         self.config['background_type'] = backtype
         self.config.save()
 
-        if backtype == 'image':
-                guiget('background_image_file').set_sensitive(True)
-        else:
-                guiget('background_image_file').set_sensitive(False)
+        # toggle sensitivity of widgets related to background image
+        for element in ('background_image_file',
+                        'background_image_align_horiz_combobox',
+                        'background_image_align_vert_combobox',
+                        'background_image_mode_combobox'):
+            guiget(element).set_sensitive(backtype == 'image')
 
         if backtype in ('transparent', 'image'):
             guiget('darken_background_scale').set_sensitive(True)

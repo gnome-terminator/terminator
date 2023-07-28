@@ -1,5 +1,70 @@
 # Changelog
 
+## [v2.1.3](https://github.com/gnome-terminator/terminator/tree/v2.1.3) (2023-03-01)
+
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.1.2...v2.1.3)
+
+**Implemented enhancements:**
+
+- Option to set split ratio of terminals [\#708](https://github.com/gnome-terminator/terminator/issues/708)
+- Add option to set given terminal to "read only" [\#649](https://github.com/gnome-terminator/terminator/issues/649)
+- background image - respect ratio [\#644](https://github.com/gnome-terminator/terminator/issues/644)
+- Shortcut for autosplit h/v depending on active terminal size [\#613](https://github.com/gnome-terminator/terminator/issues/613)
+- Feature: Insert terminal name to terminal \(for broadcast\) [\#540](https://github.com/gnome-terminator/terminator/issues/540)
+- Background image drawing modes and alignment [\#713](https://github.com/gnome-terminator/terminator/pull/713) ([Vulcalien](https://github.com/Vulcalien))
+- Zoom on notebook even if there is only one terminal in the tab + keep tab position and label in notebook rotation [\#589](https://github.com/gnome-terminator/terminator/pull/589) ([Vulcalien](https://github.com/Vulcalien))
+
+**Fixed bugs:**
+
+- Resets the tab title on rotation [\#624](https://github.com/gnome-terminator/terminator/issues/624)
+- - bug context menu \(right click\)-\>layouts-\>"Layout Name" always selec… [\#653](https://github.com/gnome-terminator/terminator/pull/653) ([vssdeo](https://github.com/vssdeo))
+- Fix missing icons when started with Ctrl-Alt-T [\#628](https://github.com/gnome-terminator/terminator/pull/628) ([MihaiBabiac](https://github.com/MihaiBabiac))
+
+**Closed issues:**
+
+- Terminator not working with latest version of python-cairo [\#711](https://github.com/gnome-terminator/terminator/issues/711)
+- \[Bug\]\[Fedora 36 KDE\]\[terminator v2.1.1\] "broadcast group" sends each terminal input/keystroke depending on the group's members count to everyone in the group [\#704](https://github.com/gnome-terminator/terminator/issues/704)
+- reset\_clear doesn't show new prompt [\#703](https://github.com/gnome-terminator/terminator/issues/703)
+- `-x`/`--execute` still broken [\#702](https://github.com/gnome-terminator/terminator/issues/702)
+- Make unfocused terminal text transparent instead of blacker [\#694](https://github.com/gnome-terminator/terminator/issues/694)
+- A translucent separation occurs between terminals [\#687](https://github.com/gnome-terminator/terminator/issues/687)
+- \[2.1.2\] Foreground processes started in new window close immediately [\#673](https://github.com/gnome-terminator/terminator/issues/673)
+- Is there a official page to maintain a offical/third-part plugin list? [\#668](https://github.com/gnome-terminator/terminator/issues/668)
+- What happened to the change terminal titlebar under preferences? [\#664](https://github.com/gnome-terminator/terminator/issues/664)
+- \[Feature Request\] - In the Context Menu\(Right-Click\) show keyboard shortcuts / accelarators  [\#662](https://github.com/gnome-terminator/terminator/issues/662)
+- terminator: error: unrecognized arguments [\#660](https://github.com/gnome-terminator/terminator/issues/660)
+- Plugin Submission : SaveLastSessionLayout Uses Layout to Auto-Save Last session and CWD on Terminal Window Close [\#654](https://github.com/gnome-terminator/terminator/issues/654)
+- Loading layout loads only the last added layout from context menu \(right click\) [\#652](https://github.com/gnome-terminator/terminator/issues/652)
+- When can we expect a new release? [\#650](https://github.com/gnome-terminator/terminator/issues/650)
+- Profiles for different Shells - is it possible? how does it work? [\#640](https://github.com/gnome-terminator/terminator/issues/640)
+- Double input to broadcasted group [\#623](https://github.com/gnome-terminator/terminator/issues/623)
+- background images only  displaying on default profile [\#595](https://github.com/gnome-terminator/terminator/issues/595)
+- The repository 'https://ppa.launchpadcontent.net/mattrose/terminator/ubuntu jammy Release' does not have a Release file. [\#594](https://github.com/gnome-terminator/terminator/issues/594)
+- Increase the usage of augmented assignment statements [\#555](https://github.com/gnome-terminator/terminator/issues/555)
+
+**Merged pull requests:**
+
+- Better distinguishing of inactive windows from the active one, by changing the background brightness [\#709](https://github.com/gnome-terminator/terminator/pull/709) ([KKoovalsky](https://github.com/KKoovalsky))
+- Ctrl+Click on group button automatically creates groups whenever needed [\#691](https://github.com/gnome-terminator/terminator/pull/691) ([nicbn](https://github.com/nicbn))
+- \[bug 680\] Open up keybindings page on keypress \#680 [\#686](https://github.com/gnome-terminator/terminator/pull/686) ([vssdeo](https://github.com/vssdeo))
+- Translate '/po/terminator.pot' in 'pt\_BR' [\#684](https://github.com/gnome-terminator/terminator/pull/684) ([transifex-integration[bot]](https://github.com/apps/transifex-integration))
+- Plugin and Group menu item that inserts the name of the terminal. [\#683](https://github.com/gnome-terminator/terminator/pull/683) ([mattrose](https://github.com/mattrose))
+- Add Readonly toggle to popup menu [\#679](https://github.com/gnome-terminator/terminator/pull/679) ([mattrose](https://github.com/mattrose))
+- Fix argument handling of the --execute flag [\#678](https://github.com/gnome-terminator/terminator/pull/678) ([shawn-ogg](https://github.com/shawn-ogg))
+- Remove all ibus workarounds [\#674](https://github.com/gnome-terminator/terminator/pull/674) ([mattrose](https://github.com/mattrose))
+- \[bug 613\] -  Shortcut for autosplit h/v depending on active terminal … [\#671](https://github.com/gnome-terminator/terminator/pull/671) ([vssdeo](https://github.com/vssdeo))
+- \[bug 662\] \[Feature Request\] - In the Context Menu\(Right-Click\) show k… [\#666](https://github.com/gnome-terminator/terminator/pull/666) ([vssdeo](https://github.com/vssdeo))
+- \[bug 559\] Add menu autocomplete \#559 [\#665](https://github.com/gnome-terminator/terminator/pull/665) ([vssdeo](https://github.com/vssdeo))
+- \[bug 662\] \[Feature Request\] - In the Context Menu\(Right-Click\) show k… [\#663](https://github.com/gnome-terminator/terminator/pull/663) ([vssdeo](https://github.com/vssdeo))
+- \[bug 654\] - Plugin Submission : SaveLastSessionLayout Uses Layout to … [\#661](https://github.com/gnome-terminator/terminator/pull/661) ([vssdeo](https://github.com/vssdeo))
+- Update terminal.py [\#659](https://github.com/gnome-terminator/terminator/pull/659) ([flaviosteimacher](https://github.com/flaviosteimacher))
+- docs: Change number of columns in repology badge [\#657](https://github.com/gnome-terminator/terminator/pull/657) ([pktiuk](https://github.com/pktiuk))
+- Plugin Submission : SaveLastSessionLayout Uses Layout to Auto-Save Last session and CWD [\#655](https://github.com/gnome-terminator/terminator/pull/655) ([vssdeo](https://github.com/vssdeo))
+- Fix typos [\#651](https://github.com/gnome-terminator/terminator/pull/651) ([kianmeng](https://github.com/kianmeng))
+- data: Remove GNOME branding [\#647](https://github.com/gnome-terminator/terminator/pull/647) ([sabriunal](https://github.com/sabriunal))
+- this line has an extra ';' symbol [\#632](https://github.com/gnome-terminator/terminator/pull/632) ([xuezhixin](https://github.com/xuezhixin))
+- Use the term 'zero padded' instead of 'padded'. [\#189](https://github.com/gnome-terminator/terminator/pull/189) ([phidebian](https://github.com/phidebian))
+
 ## [v2.1.2](https://github.com/gnome-terminator/terminator/tree/v2.1.2) (2022-10-19)
 
 [Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.1.1...v2.1.2)
@@ -67,7 +132,7 @@
 - Fix Keyboard Input [\#533](https://github.com/gnome-terminator/terminator/issues/533)
 - group broadcasting switched on/off for all groups [\#532](https://github.com/gnome-terminator/terminator/issues/532)
 - Drop a file from nautilus onto terminator window no longer works \(it used to paste the path a la gnome terminal\) [\#530](https://github.com/gnome-terminator/terminator/issues/530)
-- Crash every time after encoding is changed to TCVN [\#529](https://github.com/gnome-terminator/terminator/issues/529)
+- Crash everytime after encoding is changed to TCVN [\#529](https://github.com/gnome-terminator/terminator/issues/529)
 - Change the color of the current tab to highlight it better [\#522](https://github.com/gnome-terminator/terminator/issues/522)
 - Feature: Configuration to colorize split screens from default grey colour, Issue: Remove ability to select 0 and 1 handle\_size from configuration gui [\#518](https://github.com/gnome-terminator/terminator/issues/518)
 - Error when using "Insert Terminal Number" \(Solved?\) [\#517](https://github.com/gnome-terminator/terminator/issues/517)
@@ -79,7 +144,7 @@
 - terminator failing to open on ubuntu 21.04 [\#502](https://github.com/gnome-terminator/terminator/issues/502)
 - Monospace Bold isn't working [\#497](https://github.com/gnome-terminator/terminator/issues/497)
 - No prompt when closing terminator now, despite say vim running in terminal [\#496](https://github.com/gnome-terminator/terminator/issues/496)
-- support for sixel graphics [\#492](https://github.com/gnome-terminator/terminator/issues/492)
+- suppor for sixel graphics [\#492](https://github.com/gnome-terminator/terminator/issues/492)
 - which is deprecated and should not be used [\#488](https://github.com/gnome-terminator/terminator/issues/488)
 - could tmux Key bindings using in terminator? [\#474](https://github.com/gnome-terminator/terminator/issues/474)
 - Support OpenType font features [\#473](https://github.com/gnome-terminator/terminator/issues/473)
@@ -148,7 +213,7 @@
 - add parameters to remotinator split commands [\#472](https://github.com/gnome-terminator/terminator/pull/472) ([mattrose](https://github.com/mattrose))
 - add switch\_profile\_all command to remotinator [\#471](https://github.com/gnome-terminator/terminator/pull/471) ([mattrose](https://github.com/mattrose))
 - Set CAN\_FOCUS to False for notebook widgets [\#470](https://github.com/gnome-terminator/terminator/pull/470) ([marktimarev](https://github.com/marktimarev))
-- tell titlebar to start focused out if it does not have focus [\#462](https://github.com/gnome-terminator/terminator/pull/462) ([mattrose](https://github.com/mattrose))
+- tell titlebar to start focussed out if it does not have focus [\#462](https://github.com/gnome-terminator/terminator/pull/462) ([mattrose](https://github.com/mattrose))
 - Update translation [\#460](https://github.com/gnome-terminator/terminator/pull/460) ([pktiuk](https://github.com/pktiuk))
 - Add new plugin for opening current directory using right mouse button [\#459](https://github.com/gnome-terminator/terminator/pull/459) ([pktiuk](https://github.com/pktiuk))
 - Fixed Issue \#425 \(hide\_window will try to show a destroyed window\) [\#456](https://github.com/gnome-terminator/terminator/pull/456) ([Vulcalien](https://github.com/Vulcalien))
@@ -199,7 +264,7 @@
 - Background image not showing up on Xubuntu 20.04 [\#364](https://github.com/gnome-terminator/terminator/issues/364)
 - Pasted text is highlighted [\#363](https://github.com/gnome-terminator/terminator/issues/363)
 - \[FR\] Option to elide terminal title from the left [\#362](https://github.com/gnome-terminator/terminator/issues/362)
-- Windows title are not updated after ssh session disconnected [\#359](https://github.com/gnome-terminator/terminator/issues/359)
+- Windows title are not udpated after ssh session disconnected [\#359](https://github.com/gnome-terminator/terminator/issues/359)
 - No broadcast menu in sway [\#357](https://github.com/gnome-terminator/terminator/issues/357)
 - Remove spaces between tabs [\#331](https://github.com/gnome-terminator/terminator/issues/331)
 - Enhancement: Stjerm Layout Like Functionality [\#298](https://github.com/gnome-terminator/terminator/issues/298)
@@ -244,7 +309,7 @@
 - The Alt+L layout chooser is too small [\#345](https://github.com/gnome-terminator/terminator/issues/345)
 - Open in Previous Location [\#337](https://github.com/gnome-terminator/terminator/issues/337)
 - How to install terminator without root privilege? [\#332](https://github.com/gnome-terminator/terminator/issues/332)
-- Improve separator between split terminals [\#329](https://github.com/gnome-terminator/terminator/issues/329)
+- Improve separator between splitted terminals [\#329](https://github.com/gnome-terminator/terminator/issues/329)
 - Using shift+Super+} for next\_tab key binding doesn't work [\#326](https://github.com/gnome-terminator/terminator/issues/326)
 - "Copy email address" actually doesn't quite do that [\#323](https://github.com/gnome-terminator/terminator/issues/323)
 - Can`t disable key binding [\#322](https://github.com/gnome-terminator/terminator/issues/322)
@@ -354,7 +419,7 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 
 **Closed issues:**
 
-- Feature Suggestion: Split screen shells based on parent [\#230](https://github.com/gnome-terminator/terminator/issues/230)
+- Feature Suggestion: Splitted screen shells based on parent [\#230](https://github.com/gnome-terminator/terminator/issues/230)
 - Release 2.0 does not have signed assets [\#228](https://github.com/gnome-terminator/terminator/issues/228)
 - Some files install to the wrong location [\#227](https://github.com/gnome-terminator/terminator/issues/227)
 - Multi tab breaks transparent background [\#225](https://github.com/gnome-terminator/terminator/issues/225)
@@ -423,7 +488,7 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 - Selecting first char of a line for copy-paste is impossible [\#191](https://github.com/gnome-terminator/terminator/issues/191)
 - Duplicate Key Bindings are Allowed in `Preferences > Keybindings` [\#190](https://github.com/gnome-terminator/terminator/issues/190)
 - Cannot open terminator windows with different configs [\#184](https://github.com/gnome-terminator/terminator/issues/184)
-- Feature request: re-enable broadcast keybindings and warn on their first use instead [\#183](https://github.com/gnome-terminator/terminator/issues/183)
+- Feature request: reenable broadcast keybindings and warn on their first use instead [\#183](https://github.com/gnome-terminator/terminator/issues/183)
 - Add Terminator version in About screen [\#169](https://github.com/gnome-terminator/terminator/issues/169)
 - Feature Request: Add hyperlink support [\#164](https://github.com/gnome-terminator/terminator/issues/164)
 - ctrl-alt-a activates even when terminal has no focus [\#163](https://github.com/gnome-terminator/terminator/issues/163)

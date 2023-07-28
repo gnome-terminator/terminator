@@ -40,6 +40,7 @@ class Terminal(Gtk.VBox):
         'close-term': (GObject.SignalFlags.RUN_LAST, None, ()),
         'title-change': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
+        'insert-term-name': (GObject.SignalFlags.RUN_LAST, None, ()),
         'enumerate': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_INT,)),
         'group-tab': (GObject.SignalFlags.RUN_LAST, None, ()),
@@ -111,6 +112,7 @@ class Terminal(Gtk.VBox):
     fgcolor_active = None
     fgcolor_inactive = None
     bgcolor = None
+    bgcolor_inactive = None
     palette_active = None
     palette_inactive = None
 
@@ -128,6 +130,7 @@ class Terminal(Gtk.VBox):
 
         # FIXME: Surely these should happen in Terminator::register_terminal()?
         self.connect('enumerate', self.terminator.do_enumerate)
+        self.connect('insert-term-name', self.terminator.do_insert_term_name)
         self.connect('focus-in', self.terminator.focus_changed)
         self.connect('focus-out', self.terminator.focus_left)
 
@@ -583,8 +586,12 @@ class Terminal(Gtk.VBox):
         item.connect('activate', lambda x: self.emit('enumerate', False))
         menu.append(item)
 
-        item = Gtk.MenuItem.new_with_mnemonic(_('Insert _padded terminal number'))
+        item = Gtk.MenuItem.new_with_mnemonic(_('Insert zero _padded terminal number'))
         item.connect('activate', lambda x: self.emit('enumerate', True))
+        menu.append(item)
+
+        item = Gtk.MenuItem.new_with_mnemonic(_('Insert terminal _name'))
+        item.connect('activate', lambda x: self.emit('insert-term-name'))
         menu.append(item)
 
         return(menu)
@@ -748,6 +755,22 @@ class Terminal(Gtk.VBox):
         dbg(("fgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.fgcolor_inactive, "red"),
                                                       getattr(self.fgcolor_inactive, "green"),
                                                       getattr(self.fgcolor_inactive, "blue")))
+
+        bg_factor = self.config['inactive_bg_color_offset']
+        if bg_factor > 1.0:
+            bg_factor = 1.0
+        self.bgcolor_inactive = self.bgcolor.copy()
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
+
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.bgcolor_inactive, bit,
+                    getattr(self.bgcolor_inactive, bit) * bg_factor)
+        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
+                                                      getattr(self.bgcolor_inactive, "green"),
+                                                      getattr(self.bgcolor_inactive, "blue")))
+
         colors = self.config['palette'].split(':')
         self.palette_active = []
         for color in colors:
@@ -783,7 +806,7 @@ class Terminal(Gtk.VBox):
             self.vte.set_colors(self.fgcolor_active, self.bgcolor,
                                 self.palette_active)
         else:
-            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
                                 self.palette_inactive)
         profiles = self.config.base.profiles
         terminal_box_style_context = self.terminalbox.get_style_context()
@@ -881,7 +904,13 @@ class Terminal(Gtk.VBox):
                 focused=self.get_toplevel().get_focussed_terminal()
                 if focused in targets: targets.remove(focused)
                 if self != focused:
-                    if self.group == focused.group:
+                    if focused.group is None and self.group is None:
+                        # Create a new group and assign currently focused
+                        # terminal to this group
+                        new_group = self.terminator.new_random_group()
+                        focused.set_group(None, new_group)
+                        focused.titlebar.update()
+                    elif self.group == focused.group:
                         new_group = None
                     else:
                         new_group = focused.group
@@ -1129,17 +1158,52 @@ class Terminal(Gtk.VBox):
 
         # save cairo context
         cr.save()
+
         # draw background image
+        image_mode = self.config['background_image_mode']
+        image_align_horiz = self.config['background_image_align_horiz']
+        image_align_vert = self.config['background_image_align_vert']
+
         rect = self.vte.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
+        if image_mode == 'stretch_and_fill':
+            # keep stretched ratios
+            xratio = xratio
+            yratio = yratio
+        elif image_mode == 'scale_and_fit':
+            ratio = min(xratio, yratio)
+            xratio = yratio = ratio
+        elif image_mode == 'scale_and_crop':
+            ratio = max(xratio, yratio)
+            xratio = yratio = ratio
+        else:
+            xratio = yratio = 1
         cr.scale(xratio, yratio)
-        cr.set_source_surface(self.background_image)
+
+        xoffset = 0
+        yoffset = 0
+        if image_align_horiz == 'center':
+            xoffset = (rect.width / xratio - self.background_image.get_width()) / 2
+        elif image_align_horiz == 'right':
+            xoffset = rect.width / xratio - self.background_image.get_width()
+
+        if image_align_vert == 'middle':
+            yoffset = (rect.height / yratio - self.background_image.get_height()) / 2
+        elif image_align_vert == 'bottom':
+            yoffset = rect.height / yratio - self.background_image.get_height()
+
+        cr.set_source_surface(self.background_image, xoffset, yoffset)
         cr.get_source().set_filter(cairo.Filter.FAST)
+        if image_mode == 'tiling':
+            cr.get_source().set_extend(cairo.Extend.REPEAT)
+
         cr.paint()
+
         # draw transparent monochrome layer
         Gdk.cairo_set_source_rgba(cr, self.bgcolor)
         cr.paint()
+
         # restore cairo context
         cr.restore()
 
@@ -1308,7 +1372,7 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus_out(self, _widget, _event):
         """Inform other parts of the application when focus is lost"""
-        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor,
+        self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
                             self.palette_inactive)
         self.set_cursor_color()
         self.emit('focus-out')
@@ -1630,7 +1694,7 @@ class Terminal(Gtk.VBox):
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
-        self.vte.feed_child(text.encode())
+        self.vte.feed_child(text)
 
     def zoom_in(self):
         """Increase the font size"""
@@ -2073,6 +2137,11 @@ class Terminal(Gtk.VBox):
 
     def key_preferences(self):
         PrefsEditor(self)
+
+    def key_preferences_keybindings(self):
+        #need to have this as a config may be preferences_default
+        #have a mapping rather than hardcoded page
+        PrefsEditor(self, cur_page = 3)
 
     def key_help(self):
         manual_index_page = manual_lookup()

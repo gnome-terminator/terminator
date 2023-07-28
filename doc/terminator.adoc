@@ -1,0 +1,306 @@
+= Terminator(1)
+:doctype: manpage
+:manmanual: Manual for Terminator
+:mansource: Terminator
+:revdate: 2023-04-01
+:docdate: {revdate}
+
+== NAME
+terminator - multiple GNOME terminals in one window
+
+== SYNOPSIS
+*terminator* [_options_]
+
+== DESCRIPTION
+This manual page documents *Terminator*, a terminal emulator application.
+
+*Terminator* is a program that allows users to set up flexible
+arrangements of GNOME terminals. It is aimed at those who normally
+arrange lots of terminals near each other, but don't want to use a
+frame based window manager.
+
+== OPTIONS
+This program follows the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+A summary of options is included below.
+
+*-h*, *--help*::
+Show summary of options.
+
+*-v*, *--version*::
+Show the version of the Terminator installation.
+
+*-m*, *-M*, *--maximise*, *--maximize*::
+Start with a maximised window.
+
+*-f*, *--fullscreen*::
+Start with a fullscreen window.
+
+*-b*, *--borderless*::
+Instruct the window manager not to render borders/decoration on the
+Terminator window (this works well with --maximise).
+
+*-H*, *--hidden*::
+Hide the Terminator window by default. Its visibility can be toggled
+with the *hide_window* keyboard shortcut (Ctrl+Shift+Alt+A by default).
+
+*-T* _FORCEDTITLE_, **--title**=__FORCEDTITLE__::
+Force the Terminator window to use a specific name rather than updating
+it dynamically based on the wishes of the child shell.
+
+**--geometry**=__GEOMETRY__::
+Specify the preferred size and position of Terminator's window;
+see *X*(7).
+
+*-e* _COMMAND_, **--command**=__COMMAND__::
+Run the specified command instead of the default shell or profile
+specified command. +
+Note: if Terminator is launched as x-terminal-emulator -e behaves like
+-x, and the longform becomes --execute2=COMMAND.
+
+*-x* _COMMAND_ [__ARGS__], **--execute**=__COMMAND__ [__ARGS__]::
+Run *the rest of the command line* instead of the default shell or
+profile specified command.
+
+**--working-directory**=__DIR__::
+Set the terminal's working directory.
+
+*-g* _FILE_, **--config**=__FILE__::
+Use the specified file for configuration.
+
+// TODO --config-json option
+
+*-r* _ROLE_, **--role**=__ROLE__::
+Set a custom WM_WINDOW_ROLE property on the window.
+
+*-l* _LAYOUT_, **--layout**=__LAYOUT__::
+Start Terminator with a specific layout. The argument here is the name
+of a saved layout.
+
+*-s* _LAYOUT_, **--select-layout**=__LAYOUT__::
+Open the layout launcher window instead of the normal terminal.
+
+*-p*, **--profile**=__PROFILE__::
+Use a different profile as the default.
+
+*-i*, **--icon**=__FORCEDICON__::
+Set a custom icon for the window (by file or name)
+
+*-u*, *--no-dbus*::
+Disable DBus.
+// Could 'Start Terminator with DBus disabled.' be better?
+
+*-d*, *--debug*::
+Enable debugging output (please use this when reporting bugs). This can
+be specified twice to enable a built-in python debugging server.
+
+**--debug-classes**=__DEBUG_CLASSES__::
+If this is specified as a comma separated list, debugging output will
+only be printed from the specified classes.
+
+**--debug-methods**=__DEBUG_METHODS__::
+If this is specified as a comma separated list, debugging output will
+only be printed from the specified functions. If this is specified in
+addition to --debug-classes, only the intersection of the two lists will
+be displayed.
+
+*--new-tab*::
+If this is specified and Terminator is already running, DBus will be
+used to spawn a new tab in the first Terminator window.
+
+== KEYBINDINGS
+The following default keybindings can be used to control Terminator.
+Most of these keybindings can be changed in the Preferences.
+
+*F1*::
+Launches the full HTML manual.
+
+=== Creation & Destruction
+The following items relate to creating and destroying terminals.
+
+*Ctrl+Shift+O*::
+Split terminals H__o__rizontally.
+
+*Ctrl+Shift+E*::
+Split terminals V__e__rtically.
+
+*Ctrl+Shift+T*::
+Open new __t__ab.
+
+*Ctrl+Shift+I*::
+Open a new window. +
+(Note: unlike in previous releases, this window is part of the same
+Terminator process.)
+
+*Super+I*::
+Spawn a new Terminator process.
+
+*Alt+L*::
+Open __l__ayout launcher.
+
+*Ctrl+Shift+W*::
+Close the current terminal.
+
+*Ctrl+Shift+Q*::
+Close the current window.
+
+=== Navigation
+The following items relate to moving between and around terminals.
+
+*Alt+Up*::
+Move to the terminal *above* the current one.
+
+*Alt+Down*::
+Move to the terminal *below* the current one.
+
+*Alt+Left*::
+Move to the terminal *left of* the current one.
+
+*Alt+Right*::
+Move to the terminal *right of* the current one.
+
+*Ctrl+PageDown*::
+Move to next tab.
+
+*Ctrl+PageUp*::
+Move to previous tab.
+
+*Ctrl+Shift+N* or *Ctrl+Tab*::
+Move to the __n__ext terminal within the same tab. +
+
+*Ctrl+Shift+P* or *Ctrl+Shift+Tab*::
+Move to the __p__revious terminal within the same tab. +
+
+=== Organisation
+The following items relate to arranging and resizing terminals.
+
+*Ctrl+Shift+Right*::
+Move parent dragbar *right*.
+
+*Ctrl+Shift+Left*::
+Move parent dragbar *left*.
+
+*Ctrl+Shift+Up*::
+Move parent dragbar *up*.
+
+*Ctrl+Shift+Down*::
+Move parent dragbar *down*.
+
+*Super+R*::
+__R__otate terminals clockwise.
+
+*Super+Shift+R*::
+__R__otate terminals counter-clockwise.
+
+*Ctrl+Shift+PageDown*::
+Swap tab position with next tab.
+
+*Ctrl+Shift+PageUp*::
+Swap tab position with previous tab.
+
+*Drag and Drop*::
+The layout can be modified by moving terminals with Drag and Drop.
+To start dragging a terminal, click and hold on its titlebar.
+Alternatively, hold down *Ctrl*, click and hold the *right* mouse button.
+Then, *+**release Ctrl**+*. You can now drag the terminal to the point
+in the layout you would like it to be. The zone where the terminal would
+be inserted will be highlighted.
+
+=== Focus
+The following items relate to helping to focus on a specific terminal.
+
+*F11*::
+Toggle window to fullscreen.
+
+*Ctrl+Shift+X*::
+Toggle between showing all terminals and only showing the current one
+(maximise).
+
+*Ctrl+Shift+Z*::
+Toggle between showing all terminals and only showing a scaled version
+of the current one (zoom).
+
+*Ctrl+Shift+Alt+A*::
+Hide the initial window. Note that this is a global binding, and can
+only be bound once.
+
+=== Grouping & Broadcasting
+The following items relate to grouping and broadcasting.
+
+*Super+T*::
+Group all terminals in the current tab so that any input sent to one of
+them goes to all of them.
+
+*Super+Shift+T*::
+Remove grouping from all terminals in the current tab.
+
+*Super+G*::
+Group all terminals so that any input sent to one of them goes to all of
+them.
+
+*Super+Shift+G*::
+Remove grouping from all terminals.
+
+*Alt+A*::
+Broadcast to __a__ll terminals.
+
+*Alt+G*::
+Broadcast to __g__rouped terminals.
+
+*Alt+O*::
+Broadcast __o__ff.
+
+=== Miscellaneous
+The following items relate to miscellaneous terminal related functions.
+
+*Ctrl+Shift+C*::
+Copy selected text to clipboard.
+
+*Ctrl+Shift+V*::
+Paste clipboard text.
+
+*Ctrl+Shift+S*::
+Toggle __s__crollbar.
+
+*Ctrl+Shift+F*::
+Search within terminal scrollback.
+
+*Ctrl+Shift+R*::
+Reset terminal state.
+
+*Ctrl+Shift+G*::
+Reset terminal state and clear window.
+
+*Ctrl+Plus (+)*::
+Increase font size. +
+Note: this may require you to press shift, depending on your keyboard.
+
+*Ctrl+Minus (-)*::
+Decrease font size. +
+Note: this may require you to press shift, depending on your keyboard.
+
+*Ctrl+Zero (0)*::
+Restore font size to original setting.
+
+*Ctrl+Alt+W*::
+Rename window title.
+
+*Ctrl+Alt+A*::
+Rename tab title.
+
+*Ctrl+Alt+X*::
+Rename terminal title.
+
+*Super+1*::
+Insert terminal number, i.e. 1 to 12.
+
+*Super+0*::
+Insert padded terminal number, i.e. 01 to 12.
+
+== AUTHORS
+Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.
+
+This manual page was written by Chris Jones <\cmsj@tenshu.net> and others.
+
+== SEE ALSO
+*terminator_config*(5)

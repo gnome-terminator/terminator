@@ -1601,7 +1601,7 @@ msgstr "Supprimer le groupe %s"
 
 #: ../terminatorlib/terminal.py:512
 msgid "G_roup all in window"
-msgstr "Tout g_rouper sans une fenêtre"
+msgstr "Tout g_rouper dans une fenêtre"
 
 #: ../terminatorlib/terminal.py:517
 msgid "Ungro_up all in window"
