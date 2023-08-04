@@ -37,8 +37,8 @@ PluginUrlLaunch   = "Plugin Url Launch"
 
 class MouseFreeURLHandler(plugin.Plugin):
 
-    capabilities = ['url_handler']
-    handler_name = 'MouseFreeURLHandler'
+    capabilities = ['MouseFreeHandler']
+    handler_name = 'MouseFreeHandler'
     nameopen     = None
     namecopy     = None
     match        = None
@@ -64,15 +64,36 @@ class MouseFreeURLHandler(plugin.Plugin):
                 [PluginUrlLaunch, PluginUrlActLaunch,      "<Alt>Return"])
 
     def connect_signals(self):
+        #this is not giving list off all connected terminals in window
+        dbg("direct terminals: %s" % Terminator().terminals)
+
+        #get list of all terminals indirectly
+        terms =  Terminator().terminals[0]
+        dbg("in-direct get terminals: %s" % terms.terminator.terminals)
+        
+        for term in terms.terminator.terminals:
+            dbg("signal connect term:%s" % term)
+            term.connect('tab-change', self.on_focus_in)
+
         self.windows = Terminator().get_windows()
         for window in self.windows:
             window.connect('key-press-event', self.on_keypress)
 
-
     def unload(self):
-        #
+        dbg("unloading")
+        #disconnect all signals and events
+        terms =  Terminator().terminals[0]
+        for term in terms.terminator.terminals:
+            try:
+                term.disconnect_by_func(self.on_focus_in)
+            except:
+                dbg("no connected signals")
+            
         for window in self.windows:
-            window.disconnect_by_func(self.on_keypress)
+            try:
+                window.disconnect_by_func(self.on_keypress)
+            except:
+                dbg("no connected signals")
 
         self.keyb.unbindkey(
                 [PluginUrlFindNext , PluginUrlActFindNext, "<Alt>j"])
@@ -95,10 +116,15 @@ class MouseFreeURLHandler(plugin.Plugin):
 
     def get_selected_url(self):
         if len(self.matches):
-            dbg("selected URL (%s %s)" % (self.matches_ptr, self.matches[self.matches_ptr]))
+            dbg("found selected URL (%s %s %s)" %
+                (self.matches_ptr, self.matches[self.matches_ptr], self))
             return self.matches[self.matches_ptr]
         dbg("selected URL (%s %s)" % (self.matches_ptr, "not found"))
         return None
+
+    def on_focus_in(self, widget, event):
+        dbg("focus-in clear url search buffer: %s" % self)
+        self.clear_search()
 
     def on_keypress(self, widget, event):
         act = self.keyb.keyaction(event)
@@ -130,8 +156,8 @@ class MouseFreeURLHandler(plugin.Plugin):
             if not self.flag_http_on:
                 self.search()
                 self.extract()
-                self.get_selected_url() # dbg url print
                 self.vte.search_find_previous()
+                self.get_selected_url() # dbg url print
                 self.vte.copy_clipboard()
                 return True
 
@@ -147,18 +173,25 @@ class MouseFreeURLHandler(plugin.Plugin):
             return True
 
         if act == PluginUrlActEsc:
-            self.matches = []
-            self.vte = self.get_term().get_vte()
-            self.vte.search_set_regex(None, 0)
-            self.flag_http_on = False
-            dbg("search URL off")
+            self.clear_search()
 
         if act == PluginUrlActLaunch:
             url = self.get_selected_url()
             if url:
                 self.get_term().open_url(url, prepare=False)
 
+
+    def clear_search(self):
+        self.matches = []
+        self.flag_http_on = False
+        self.matches_ptr  = -1
+        if self.get_term():
+            self.vte = self.get_term().get_vte()
+            self.vte.search_set_regex(None, 0)
+            dbg("search URL off")
+
     def search(self):
+        dbg("searching text")
         self.flag_http_on = True
         self.vte = self.get_term().get_vte()
 
