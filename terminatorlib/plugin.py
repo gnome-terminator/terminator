@@ -69,11 +69,13 @@ class PluginRegistry(borg.Borg):
         if not self.available_plugins:
             self.available_plugins = {}
 
-    def load_plugins(self):
+    def load_plugins(self, force=False):
         """Load all plugins present in the plugins/ directory in our module"""
-        if self.done:
+        if self.done and (not force):
             dbg('Already loaded')
             return
+
+        dbg('loading plugins, force:(%s)' % force)
 
         config = Config()
 
@@ -93,14 +95,22 @@ class PluginRegistry(borg.Borg):
                     try:
                         module = __import__(plugin[:-3], None, None, [''])
                         for item in getattr(module, 'AVAILABLE'):
+                            func = getattr(module, item)
                             if item not in list(self.available_plugins.keys()):
-                                func = getattr(module, item)
                                 self.available_plugins[item] = func
 
                             if item not in config['enabled_plugins']:
                                 dbg('plugin %s not enabled, skipping' % item)
                                 continue
                             if item not in self.instances:
+                                self.instances[item] = func()
+                            elif force:
+                                #instead of multiple copies of loaded
+                                #plugin objects, unload where plugins
+                                #can clean up and then re-init so there
+                                #is one plugin object
+                                self.instances[item].unload()
+                                self.instances.pop(item, None)
                                 self.instances[item] = func()
                     except Exception as ex:
                         err('PluginRegistry::load_plugins: Importing plugin %s \
