@@ -186,6 +186,13 @@ class Terminator(Borg):
         for terminal in self.terminals:
             dbg('checking: %s (%s)' % (terminal.uuid.urn, terminal))
             if terminal.uuid.urn == uuid:
+                if terminal.get_toplevel().is_child_notebook():
+                    topchild = terminal.get_toplevel().get_child()
+                    current_page = topchild.get_current_page()
+                    #we need to emit signal for plugin and retain same page 
+                    dbg("current_page for tab-change-signal:%s" % current_page)
+                    terminal.emit('tab-change', current_page)
+
                 return terminal
         return None
 
@@ -210,6 +217,7 @@ class Terminator(Borg):
         window.add(terminal)
         window.show(True)
         terminal.spawn_child()
+        terminal.emit('tab-change', 0)
 
         return(window, terminal)
 
