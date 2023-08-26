@@ -720,7 +720,20 @@ class ConfigBase(Borg):
         for section_name in ['global_config', 'keybindings']:
             dbg('Processing section: %s' % section_name)
             section = getattr(self, section_name)
-            parser[section_name] = dict_diff(DEFAULTS[section_name], section)
+            if section_name == 'keybindings':
+                from terminatorlib.plugin import KeyBindUtil
+                # for plugin KeyBindUtil assist in plugin_util
+                keybindutil = KeyBindUtil();
+                keyb_keys   = keybindutil.get_all_act_to_keys()
+                # we only need keys as a reference so to match them
+                # against new values
+                keyb_keys   = dict.fromkeys(keyb_keys, "")
+
+                default_merged_section = {**keyb_keys, **DEFAULTS[section_name]}
+                merged_section = {**keyb_keys, **section}
+                parser[section_name] = dict_diff(default_merged_section, merged_section)
+            else:
+                parser[section_name] = dict_diff(DEFAULTS[section_name], section)
 
         from .configjson import JSON_PROFILE_NAME, JSON_LAYOUT_NAME
 
