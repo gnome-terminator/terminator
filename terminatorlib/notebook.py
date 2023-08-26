@@ -343,6 +343,10 @@ class Notebook(Container, Gtk.Notebook):
         self.set_current_page(tabpos)
         self.show_all()
         if maker.isinstance(term_widget, 'Terminal'):
+            #notify plugins of tab-change
+            dbg("emit tab-change for tabpos: %s " % tabpos)
+            term_widget.emit('tab-change', tabpos)
+            self.set_current_page(tabpos)
             widget.grab_focus()
 
     def wrapcloseterm(self, widget):
