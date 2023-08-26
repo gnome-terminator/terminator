@@ -585,7 +585,7 @@ class Terminator(Borg):
 
         for term in self.get_target_terms(widget):
             name = term.titlebar.get_custom_string() or term.get_window_title()
-            term.feed(name)
+            term.feed(name.encode())
 
     def get_sibling_terms(self, widget):
         termset = []
