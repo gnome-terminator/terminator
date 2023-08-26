@@ -156,6 +156,13 @@ class Terminal(Gtk.VBox):
         dbg('composite_support: %s' % self.composite_support)
 
         self.vte.show()
+
+        #force to load for new window/terminal use case loading plugin
+        #and connecting signals, note the line update_url_matches also
+        #calls load_plugins, but it won't reload since already loaded
+
+        self.load_plugins(force = True)
+
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
@@ -284,6 +291,10 @@ class Terminal(Gtk.VBox):
         terminalbox.show_all()
 
         return(terminalbox)
+
+    def load_plugins(self, force = False):
+        registry = plugin.PluginRegistry()
+        registry.load_plugins(force)
 
     def _add_regex(self, name, re):
         match = -1
