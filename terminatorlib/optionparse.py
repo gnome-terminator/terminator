@@ -96,6 +96,8 @@ icon for the window (by file or name)'))
             help=_('Comma separated list of methods to limit debugging to'))
     parser.add_argument('--new-tab', action='store_true', dest='new_tab',
             help=_('If Terminator is already running, just open a new tab'))
+    parser.add_argument('--toggle-visibility', action='store_true', dest='toggle_visibility',
+            help=_('If Terminator is already running, toggle windows visibility'))
     parser.add_argument('--unhide', action='store_true', dest='unhide',
             help=_('If Terminator is already running, just unhide all hidden windows'))
     parser.add_argument('--list-profiles', action='store_true', dest='list_profiles',

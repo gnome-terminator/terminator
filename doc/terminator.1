@@ -171,6 +171,13 @@ be displayed.
 If this is specified and Terminator is already running, DBus will be
 used to spawn a new tab in the first Terminator window.
 .RE
+.sp
+\fB\-\-toggle\-visibility\fP
+.RS 4
+If this is specified and Terminator is already running, DBus will be
+used to toggle Terminator window visibility. Usable under Wayland to
+replace hide keyboad shortcut.
+.RE
 .SH "KEYBINDINGS"
 .sp
 The following default keybindings can be used to control Terminator.
@@ -347,8 +354,9 @@ of the current one (zoom).
 .sp
 \fBCtrl+Shift+Alt+A\fP
 .RS 4
-Hide the initial window. Note that this is a global binding, and can
-only be bound once.
+Hide the initial window. Note that this is a X11 global binding, and can
+only be bound once. On Wayland use window manager keyboard shortcuts to
+call \fBterminator \-\-toggle\-visibility\fP.
 .RE
 .SS "Grouping & Broadcasting"
 .sp

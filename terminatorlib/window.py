@@ -103,6 +103,7 @@ class Window(Container, Gtk.Window):
 
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
+        self.hidefunc = self.hide
 
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
