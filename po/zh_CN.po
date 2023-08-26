@@ -2,24 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-#
+# Mony Xie <monyxie@gmail.com>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-22 00:51+0100\n"
+"POT-Creation-Date: 2022-10-19 09:29-0400\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: Gnome Terminator <terminator@lazyfrosch.de>, 2020\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/terminator/"
-"teams/109338/zh_CN/)\n"
-"Language: zh_CN\n"
+"Last-Translator: Mony Xie <monyxie@gmail.com>, 2023\n"
+"Language-Team: Chinese (China) (https://app.transifex.com/terminator/teams/109338/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. Command             uuid req.    Description
@@ -45,7 +45,7 @@ msgstr "获取所有终端的列表"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr ""
+msgstr "获取当前聚焦终端的 UUID"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
@@ -57,7 +57,7 @@ msgstr "获取父窗口的标题"
 
 #: ../remotinator.py:47
 msgid "Get the UUID of a parent tab"
-msgstr "获取一个父标签页的UUID"
+msgstr "获取父标签页的UUID"
 
 #: ../remotinator.py:48
 msgid "Get the title of a parent tab"
@@ -65,23 +65,23 @@ msgstr "获取父标签页的标题"
 
 #: ../remotinator.py:49
 msgid "Set the title of a parent tab"
-msgstr ""
+msgstr "设置父标签页的标题"
 
 #: ../remotinator.py:50
 msgid "Set the background image"
-msgstr ""
+msgstr "设置背景图片"
 
 #: ../remotinator.py:51
 msgid "Set the background image for all terminals"
-msgstr ""
+msgstr "设置所有终端的背景图片"
 
 #: ../remotinator.py:52
 msgid "Switch current terminal profile"
-msgstr ""
+msgstr "切换当前终端配置"
 
 #: ../remotinator.py:53
 msgid "Switch profile of all currently running terminals"
-msgstr ""
+msgstr "切换当前所有运行中终端的配置"
 
 #: ../remotinator.py:70
 #, python-format
@@ -108,23 +108,23 @@ msgstr "终端UUID如果未设置TERMINATOR_UUID环境变量"
 
 #: ../remotinator.py:80
 msgid "Profile name to switch to"
-msgstr ""
+msgstr "要切换到的配置名"
 
 #: ../remotinator.py:83
 msgid "File to pass to command"
-msgstr ""
+msgstr "要传递给命令的文件"
 
 #: ../remotinator.py:86
 msgid "Command to run in new terminal"
-msgstr ""
+msgstr "要在新终端中运行的命令"
 
 #: ../remotinator.py:89
 msgid "Tab name to set. Only used with \"set_tab_title\" command."
-msgstr ""
+msgstr "要设置的标签页名。仅与“set_tab_title”命令一起使用。"
 
 #: ../remotinator.py:92
 msgid "Tab name to set."
-msgstr ""
+msgstr "要设置的标签页名。"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
 #: ../terminatorlib/plugins/activitywatch.py:83
@@ -146,9 +146,11 @@ msgstr "高级终端的未来"
 msgid ""
 "A power-user tool for arranging terminals. It is inspired by programs such "
 "as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
-"terminals in grids (tabs is the most common default method, which Terminator "
-"also supports)."
+"terminals in grids (tabs is the most common default method, which Terminator"
+" also supports)."
 msgstr ""
+"一个用来管理终端的高级用户工具。灵感来自于 gnome-multi-term，quadkonsole "
+"等程序。它的主要功能是用网格来管理终端窗口（但同时也支持标签页）。"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -157,6 +159,8 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
+"Terminator 的大部分行为都基于 GNOME "
+"Terminal，在此基础上我们还会将更多功能集成进来。但我们同时也希望向更多不同的方面扩展，从而给系统管理员和其他用户带来更多有用的特性。"
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -295,7 +299,7 @@ msgstr "指定一个配置文件"
 
 #: ../terminatorlib/optionparse.py:71
 msgid "Specify a partial config json file"
-msgstr ""
+msgstr "指定一个部分配置 json 文件"
 
 #: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
@@ -343,15 +347,15 @@ msgstr "如果 Terminator 已经运行，打开一个新的标签页"
 
 #: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
-msgstr ""
+msgstr "如果 Terminator 已经在运行，则仅显示所有隐藏窗口"
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
-msgstr ""
+msgstr "列出所有配置"
 
 #: ../terminatorlib/optionparse.py:102
 msgid "List all layouts"
-msgstr ""
+msgstr "列出所有布局"
 
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
@@ -469,7 +473,7 @@ msgstr "*%s*已经存在"
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr ""
+msgstr "打开当前目录"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -715,7 +719,7 @@ msgstr "默认广播："
 
 #: ../terminatorlib/preferences.glade.h:56
 msgid "PuTTY style paste:"
-msgstr ""
+msgstr "粘贴 PuTTY 样式："
 
 #: ../terminatorlib/preferences.glade.h:57
 msgid "Smart copy"
@@ -731,23 +735,23 @@ msgstr "使用自定义的URL处理程序"
 
 #: ../terminatorlib/preferences.glade.h:60
 msgid "PRIMARY"
-msgstr ""
+msgstr "PRIMARY"
 
 #: ../terminatorlib/preferences.glade.h:61
 msgid "Clipboard"
-msgstr ""
+msgstr "Clipboard"
 
 #: ../terminatorlib/preferences.glade.h:62
 msgid "Clear selection on copy"
-msgstr ""
+msgstr "复制后清除选择"
 
 #: ../terminatorlib/preferences.glade.h:63
 msgid "Open links with a single click (instead of Ctrl-left click)"
-msgstr ""
+msgstr "点击打开链接（默认为 Ctrl + 点击）"
 
 #: ../terminatorlib/preferences.glade.h:64
 msgid "Disable mouse paste"
-msgstr ""
+msgstr "禁用鼠标粘贴"
 
 #: ../terminatorlib/preferences.glade.h:65
 msgid "Custom URL handler:"
@@ -775,11 +779,11 @@ msgstr "扩展样式 (主题依赖)"
 
 #: ../terminatorlib/preferences.glade.h:71
 msgid "Cell Height:"
-msgstr ""
+msgstr "格子高度："
 
 #: ../terminatorlib/preferences.glade.h:72
 msgid "Cell Width:"
-msgstr ""
+msgstr "格子宽度："
 
 #: ../terminatorlib/preferences.glade.h:73
 msgid "Tab position:"
@@ -795,7 +799,7 @@ msgstr "标签滚动按钮"
 
 #: ../terminatorlib/preferences.glade.h:76
 msgid "Title bar at bottom (Require restart)"
-msgstr ""
+msgstr "标题栏置于下方（需重启）"
 
 #: ../terminatorlib/preferences.glade.h:77
 msgid "Global"
@@ -831,7 +835,7 @@ msgstr "选中则复制"
 
 #: ../terminatorlib/preferences.glade.h:85
 msgid "Disable Ctrl+mousewheel zoom"
-msgstr ""
+msgstr "禁用 Ctrl + 滚轮缩放"
 
 #: ../terminatorlib/preferences.glade.h:86
 msgid "Select-by-_word characters:"
@@ -851,11 +855,11 @@ msgstr "闪烁"
 
 #: ../terminatorlib/preferences.glade.h:90
 msgid "Use default colors"
-msgstr ""
+msgstr "使用默认配色"
 
 #: ../terminatorlib/preferences.glade.h:91
 msgid "Foreground:"
-msgstr ""
+msgstr "前景色："
 
 #: ../terminatorlib/preferences.glade.h:92
 msgid "Background:"
@@ -915,11 +919,11 @@ msgstr "内置方案(_M)："
 
 #: ../terminatorlib/preferences.glade.h:107
 msgid "_Foreground:"
-msgstr ""
+msgstr "前景色(_F)："
 
 #: ../terminatorlib/preferences.glade.h:108
 msgid "_Background:"
-msgstr ""
+msgstr "背景色(_B)："
 
 #: ../terminatorlib/preferences.glade.h:109
 msgid "<b>Palette</b>"
@@ -935,7 +939,7 @@ msgstr "调色板(_A)："
 
 #: ../terminatorlib/preferences.glade.h:112
 msgid "Show b_old text in bright colors"
-msgstr ""
+msgstr "用明亮色显示粗体文字(_O)"
 
 #: ../terminatorlib/preferences.glade.h:113
 msgid "Colors"
@@ -951,19 +955,19 @@ msgstr "透明背景(_T)"
 
 #: ../terminatorlib/preferences.glade.h:116
 msgid "Background Image"
-msgstr ""
+msgstr "背景图片"
 
 #: ../terminatorlib/preferences.glade.h:117
 msgid "Background Image File:"
-msgstr ""
+msgstr "背景图片文件："
 
 #: ../terminatorlib/preferences.glade.h:118
 msgid "Choose file"
-msgstr ""
+msgstr "选择文件"
 
 #: ../terminatorlib/preferences.glade.h:119
 msgid "S_hade background:"
-msgstr ""
+msgstr "背景着色(_H)："
 
 #: ../terminatorlib/preferences.glade.h:120
 msgid "<small><i>None</i></small>"
@@ -1009,11 +1013,10 @@ msgstr "滚动"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal behavior.</"
-"i></small>"
+"applications and operating systems that expect different terminal "
+"behavior.</i></small>"
 msgstr ""
-"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允"
-"许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
+"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:131
 msgid "_Backspace key generates:"
@@ -1057,7 +1060,7 @@ msgstr "选择标题栏字体"
 
 #: ../terminatorlib/preferences.glade.h:141
 msgid "Titlebar"
-msgstr ""
+msgstr "标题栏"
 
 #: ../terminatorlib/preferences.glade.h:142
 #: ../terminatorlib/terminal_popup_menu.py:204
@@ -1110,27 +1113,16 @@ msgstr "插件"
 
 #: ../terminatorlib/preferences.glade.h:158
 msgid "Version: 2.1.1"
-msgstr ""
+msgstr "版本：2.1.1"
 
 #: ../terminatorlib/preferences.glade.h:159
 msgid ""
-"The goal of this project is to produce a useful tool for arranging "
-"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
-"etc. in that the main focus is arranging terminals in grids (tabs is the "
-"most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
-"adding more features from that as time goes by, but we also want to extend "
-"out in different directions with useful features for sysadmins and other "
-"users. If you have any suggestions, please file wishlist bugs! (see left for "
-"the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
-"一个用来管理终端的高级用户工具。它的灵感来自于gnome-multi-term，quadkonsole等"
-"程序。它致力于用格子来管理终端（最普遍的方法是用标签页，Terminator也支"
-"持）。\n"
-"Terminator的大部分行为基于GNOME Terminal，我们还在从中集成更多特性。但我们同"
-"时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有"
-"任何建议，请向wishlist中提交！（看左边的开发者链接）"
+"一个用来管理终端的高级用户工具。它的灵感来自于gnome-multi-term，quadkonsole等程序。它致力于用格子来管理终端（最普遍的方法是用标签页，Terminator也支持）。\n"
+"Terminator的大部分行为基于GNOME Terminal，我们还在从中集成更多特性。但我们同时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有任何建议，请向wishlist中提交！（看左边的开发者链接）"
 
 #: ../terminatorlib/preferences.glade.h:162
 msgid "The Manual"
@@ -1139,9 +1131,10 @@ msgstr "手册"
 #: ../terminatorlib/preferences.glade.h:163
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
-"Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
 msgstr ""
+"<a href=\"https://github.com/gnome-terminator/terminator\">开发</a>\n"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">提交 Bug 或改进意见</a>"
 
 #: ../terminatorlib/preferences.glade.h:165
 msgid "About"
@@ -1161,15 +1154,15 @@ msgstr "恢复为原始字体大小"
 
 #: ../terminatorlib/prefseditor.py:107
 msgid "Increase font size on all terminals"
-msgstr ""
+msgstr "增大所有终端的字体"
 
 #: ../terminatorlib/prefseditor.py:108
 msgid "Decrease font size on all terminals"
-msgstr ""
+msgstr "减小所有终端的字体"
 
 #: ../terminatorlib/prefseditor.py:109
 msgid "Restore original font size on all terminals"
-msgstr ""
+msgstr "恢复所有终端的字体大小"
 
 #: ../terminatorlib/prefseditor.py:110
 msgid "Create a new tab"
@@ -1229,7 +1222,7 @@ msgstr "粘贴剪贴板"
 
 #: ../terminatorlib/prefseditor.py:126
 msgid "Paste primary selection"
-msgstr ""
+msgstr "从 PRIMARY 选区粘贴"
 
 #: ../terminatorlib/prefseditor.py:127
 msgid "Show/Hide the scrollbar"
@@ -1365,7 +1358,7 @@ msgstr "切换窗口可见性"
 
 #: ../terminatorlib/prefseditor.py:160
 msgid "Create new group"
-msgstr ""
+msgstr "创建新组"
 
 #: ../terminatorlib/prefseditor.py:161
 msgid "Group all terminals"
@@ -1381,15 +1374,15 @@ msgstr "解组所有终端"
 
 #: ../terminatorlib/prefseditor.py:164
 msgid "Group terminals in window"
-msgstr ""
+msgstr "对窗口中的终端分组"
 
 #: ../terminatorlib/prefseditor.py:165
 msgid "Group/Ungroup terminals in window"
-msgstr ""
+msgstr "对窗口中的终端分组或取消分组"
 
 #: ../terminatorlib/prefseditor.py:166
 msgid "Ungroup terminals in window"
-msgstr ""
+msgstr "对窗口中的终端取消分组"
 
 #: ../terminatorlib/prefseditor.py:167
 msgid "Group terminals in tab"
@@ -1457,17 +1450,17 @@ msgstr "切换到上一个配置文件"
 
 #: ../terminatorlib/prefseditor.py:183
 msgid "Open the Preferences window"
-msgstr ""
+msgstr "打开首选项窗口"
 
 #: ../terminatorlib/prefseditor.py:184
 msgid "Open the manual"
 msgstr "打开手册"
 
-#: ../terminatorlib/prefseditor.py:1370
+#: ../terminatorlib/prefseditor.py:1366
 msgid "New Profile"
 msgstr "新配置"
 
-#: ../terminatorlib/prefseditor.py:1413 ../terminatorlib/prefseditor.py:1418
+#: ../terminatorlib/prefseditor.py:1409 ../terminatorlib/prefseditor.py:1414
 msgid "New Layout"
 msgstr "新布局"
 
@@ -1514,7 +1507,7 @@ msgstr "粘贴(_P)"
 
 #: ../terminatorlib/terminal_popup_menu.py:112
 msgid "Set W_indow Title"
-msgstr ""
+msgstr "设置窗口标题(_I)"
 
 #: ../terminatorlib/terminal_popup_menu.py:117
 msgid "Split H_orizontally"
@@ -1554,7 +1547,7 @@ msgstr "分组"
 
 #: ../terminatorlib/terminal_popup_menu.py:186
 msgid "Relaunch Command"
-msgstr ""
+msgstr "重新启动命令"
 
 #: ../terminatorlib/terminal_popup_menu.py:191
 msgid "Show _scrollbar"
@@ -1562,7 +1555,7 @@ msgstr "显示滚动条"
 
 #: ../terminatorlib/terminal_popup_menu.py:248
 msgid "_Layouts..."
-msgstr ""
+msgstr "布局...(_L)"
 
 #: ../terminatorlib/terminal.py:481
 msgid "N_ew group..."
@@ -1579,11 +1572,11 @@ msgstr "移除组 %s"
 
 #: ../terminatorlib/terminal.py:512
 msgid "G_roup all in window"
-msgstr ""
+msgstr "将窗口中所有终端纳入分组(_R)"
 
 #: ../terminatorlib/terminal.py:517
 msgid "Ungro_up all in window"
-msgstr ""
+msgstr "将窗口中所有终端移出分组(_U)"
 
 #: ../terminatorlib/terminal.py:522
 msgid "G_roup all in tab"
@@ -1630,25 +1623,25 @@ msgstr "插入终端编号(_I)"
 msgid "Insert _padded terminal number"
 msgstr "插入对齐的终端编号(_I)"
 
-#: ../terminatorlib/terminal.py:1490
+#: ../terminatorlib/terminal.py:1492
 msgid "Unable to find a shell"
 msgstr "无法找到shell"
 
-#: ../terminatorlib/terminal.py:1521
+#: ../terminatorlib/terminal.py:1546
 msgid "Unable to start shell:"
 msgstr "无法启动shell："
 
-#: ../terminatorlib/terminal.py:1975
+#: ../terminatorlib/terminal.py:2000
 msgid "Rename Window"
 msgstr "重命名窗口"
 
-#: ../terminatorlib/terminal.py:1983
+#: ../terminatorlib/terminal.py:2008
 msgid "Enter a new title for the Terminator window..."
 msgstr "输入新的Terminator窗口标题"
 
 #: ../terminatorlib/titlebar.py:112
 msgid "[INACTIVE: Right-Click for Relaunch option] "
-msgstr ""
+msgstr "[不活动：右击查看重启选项]"
 
 #: ../terminatorlib/titlebar.py:258
 msgid "Alpha"
@@ -1753,117 +1746,9 @@ msgstr "窗口"
 #: ../terminatorlib/window.py:773
 #, python-format
 msgid "Window group %s"
-msgstr ""
+msgstr "窗口组 %s"
 
 #: ../terminatorlib/window.py:799
 #, python-format
 msgid "Tab %d"
 msgstr "标签 %d"
-
-#~ msgid "Current Locale"
-#~ msgstr "当前 Locale"
-
-#~ msgid "Western"
-#~ msgstr "西文"
-
-#~ msgid "Central European"
-#~ msgstr "中欧语系"
-
-#~ msgid "South European"
-#~ msgstr "南欧语系"
-
-#~ msgid "Baltic"
-#~ msgstr "波罗的海语系"
-
-#~ msgid "Cyrillic"
-#~ msgstr "西里尔文"
-
-#~ msgid "Arabic"
-#~ msgstr "阿拉伯语"
-
-#~ msgid "Greek"
-#~ msgstr "希腊语"
-
-#~ msgid "Hebrew Visual"
-#~ msgstr "希伯来语 (视觉顺序)"
-
-#~ msgid "Hebrew"
-#~ msgstr "希伯来语"
-
-#~ msgid "Turkish"
-#~ msgstr "土耳其语"
-
-#~ msgid "Nordic"
-#~ msgstr "日耳曼语"
-
-#~ msgid "Celtic"
-#~ msgstr "凯尔特语"
-
-#~ msgid "Romanian"
-#~ msgstr "罗马尼亚语"
-
-#~ msgid "Unicode"
-#~ msgstr "Unicode"
-
-#~ msgid "Armenian"
-#~ msgstr "亚美尼亚语"
-
-#~ msgid "Chinese Traditional"
-#~ msgstr "繁体中文"
-
-#~ msgid "Cyrillic/Russian"
-#~ msgstr "西里尔语/俄语"
-
-#~ msgid "Japanese"
-#~ msgstr "日语"
-
-#~ msgid "Korean"
-#~ msgstr "朝鲜语"
-
-#~ msgid "Chinese Simplified"
-#~ msgstr "简体中文"
-
-#~ msgid "Georgian"
-#~ msgstr "格鲁吉亚语"
-
-#~ msgid "Cyrillic/Ukrainian"
-#~ msgstr "西里尔语/乌克兰语"
-
-#~ msgid "Croatian"
-#~ msgstr "克罗地亚语"
-
-#~ msgid "Hindi"
-#~ msgstr "印地语"
-
-#~ msgid "Persian"
-#~ msgstr "波斯语"
-
-#~ msgid "Gujarati"
-#~ msgstr "古吉拉特语"
-
-#~ msgid "Gurmukhi"
-#~ msgstr "果鲁穆奇语"
-
-#~ msgid "Icelandic"
-#~ msgstr "冰岛语"
-
-#~ msgid "Vietnamese"
-#~ msgstr "越南语"
-
-#~ msgid "Thai"
-#~ msgstr "泰语"
-
-#~ msgid "Encoding:"
-#~ msgstr "编码："
-
-#~ msgid "Encodings"
-#~ msgstr "编码"
-
-#~ msgid "Default"
-#~ msgstr "默认"
-
-#~ msgid "User defined"
-#~ msgstr "用户定义"
-
-#~ msgid "Other Encodings"
-#~ msgstr "其他编码"
