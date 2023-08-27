@@ -90,6 +90,12 @@ if __name__ == '__main__':
             import dbus
             try:
                 dbus_service = ipc.DBusService()
+
+                if(OPTIONS.reload):
+                    # Reload only is executed when exist at least one window,
+                    # if not there is nothing to reload
+                    sys.exit()
+
             except ipc.DBusException:
                 dbg('Unable to become master process, operating via DBus')
                 # get rid of the None and True types so dbus can handle them (empty
@@ -105,6 +111,11 @@ if __name__ == '__main__':
                 elif OPTIONS.toggle_visibility:
                     dbg('requesting to toggle windows visibility')
                     ipc.toggle_visibility_cmdline(optionslist)
+
+                if OPTIONS.reload:
+                    dbg('requesting to reload configuration for all windows')
+                    ipc.reload_configuration()
+
                 elif OPTIONS.unhide:
                     print('requesting to unhide windows')
                     ipc.unhide_cmdline(optionslist)

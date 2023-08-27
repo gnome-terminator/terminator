@@ -130,6 +130,12 @@ class DBusService(Borg, dbus.service.Object):
         """Create a new tab"""
         return self.new_terminal(uuid, 'tab')
 
+    @dbus.service.method(BUS_NAME)
+    def reload_configuration(self):
+        """Reload configuration for all terminals"""
+        self.terminator.config.base.reload()
+        self.terminator.reconfigure()
+
     @dbus.service.method(BUS_NAME) 
     def bg_img_all (self,options=dbus.Dictionary()):
         for terminal in self.terminator.terminals:
@@ -352,6 +358,10 @@ def new_tab_cmdline(session, options):
 @with_proxy
 def toggle_visibility_cmdline(session,options):
     session.toggle_visibility_cmdline(options)
+
+def reload_configuration(session):
+    """Call the dbus method to reload configuration for all windows"""
+    session.reload_configuration()
 
 @with_proxy
 def unhide_cmdline(session,options):
