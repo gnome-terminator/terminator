@@ -1,12 +1,12 @@
 from .util import dbg, err
 from os import path
-import sys
 import json
 import copy
 from .config import Config
 
 JSON_PROFILE_NAME = "__internal_json_profile__"
 JSON_LAYOUT_NAME = "__internal_json_layout__"
+
 
 class ConfigJson(object):
     profile_to_use = 'default'
@@ -73,7 +73,7 @@ class ConfigJson(object):
                 self.build_terminal_layout(layoutjson, children, parent, order)
             return
         
-        dbg ('Building %s layout from json: %s' % ("vertical" if vertical else "horizental", layoutjson))
+        dbg ('Building %s layout from json: %s' % ("vertical" if vertical else "horizontal", layoutjson))
         
         counter = 0
         actualparent = parent
@@ -105,9 +105,7 @@ class ConfigJson(object):
             if "vertical" in layoutjson:
                 vertical = layoutjson["vertical"]
                 del layoutjson["vertical"]
-            
-            result = None
-            
+
             if len(layoutjson) == 1:
                 firstitem = next(iter(layoutjson.values()))
                 result = self.build_single_tab_layout(firstitem, vertical)
