@@ -155,6 +155,9 @@ class Terminal(Gtk.VBox):
             self.composite_support = True
         dbg('composite_support: %s' % self.composite_support)
 
+        if hasattr(self.vte, "set_enable_sixel"):
+            self.vte.set_enable_sixel(True)
+
         self.vte.show()
 
         #force to load for new window/terminal use case loading plugin
