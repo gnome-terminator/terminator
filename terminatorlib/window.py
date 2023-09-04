@@ -257,12 +257,11 @@ class Window(Container, Gtk.Window):
         maker = Factory()
         return(maker.isinstance(self.get_child(), 'Notebook'))
 
-    def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
+    def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None, cwd=None):
         """Make a new tab"""
         if self.is_zoomed():
             self.unzoom()
 
-        cwd = None
         profile = None
 
         if widget:
