@@ -63,10 +63,6 @@ class BookmarkPlugin(plugin.MenuItem):
         #self.keyb.bindkey_check_config(
         #        [PluginSelDesc , PluginActSel, "<Alt>Return"])
 
-        sections = self.config.plugin_get_config(self.__class__.__name__)
-        if not isinstance(sections, dict):
-            return
-   
     def connect_signals(self):
         self.windows = Terminator().get_windows()
         for window in self.windows:
