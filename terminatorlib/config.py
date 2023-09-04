@@ -622,12 +622,7 @@ class ConfigBase(Borg):
             dbg('config already loaded')
             return
 
-        if self.command_line_options and self.command_line_options.config:
-            filename = self.command_line_options.config
-        else:
-            filename = os.path.join(get_config_dir(), 'config')
-            if not os.path.exists(filename):
-                filename = os.path.join(get_system_config_dir(), 'config')
+        filename = self.get_config_filename()
         dbg('looking for config file: %s' % filename)
         try:
             #
@@ -705,6 +700,35 @@ class ConfigBase(Borg):
                     dbg('skipping missing section %s' % section_name)
 
         self.loaded = True
+
+    def get_config_filename(self):
+        filename = ''
+        if self.command_line_options and self.command_line_options.config:
+            filename = self.command_line_options.config
+        else:
+            filename = os.path.join(get_config_dir(), 'config')
+            if not os.path.exists(filename):
+                filename = os.path.join(get_system_config_dir(), 'config')
+
+        return filename
+
+    def save_config_with_suffix(self, suffix):
+        filename = self.get_config_filename()
+        #save the current config, to revert any changes make in preferences
+        cur_loaded_file = filename + suffix
+        shutil.copy2(filename, cur_loaded_file)
+
+    def restore_config_with_suffix(self, suffix):
+        filename = self.get_config_filename()
+        cur_loaded_file = filename + suffix
+        dbg("restoring from file:%s to file:%s" % (cur_loaded_file, filename))
+        shutil.copy2(cur_loaded_file, filename)
+
+    def remove_config_with_suffix(self, suffix):
+        filename = self.get_config_filename()
+        cur_loaded_file = filename + suffix
+        if os.path.exists(cur_loaded_file):
+            os.remove(cur_loaded_file)
 
     def reload(self):
         """Force a reload of the base config"""

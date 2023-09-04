@@ -235,13 +235,24 @@ class PrefsEditor:
         nb = guiget('notebook1')
         nb.set_current_page(cur_page)
 
+        self.config.base.save_config_with_suffix('_cur')
+
+    def on_destroy_event(self, _widget):
+        self.config.base.remove_config_with_suffix('_cur')
+
     def on_closebutton_clicked(self, _button):
         """Close the window"""
+        self.config.base.remove_config_with_suffix('_cur')
         terminator = Terminator()
         terminator.reconfigure()
         self.window.destroy()
         self.calling_window.preventHide = False
         del(self)
+
+    def on_restoreconfigbutton_clicked(self, _button):
+        """restore config to load time"""
+        self.config.base.restore_config_with_suffix('_cur')
+        self.on_closebutton_clicked(_button)
 
     def set_values(self):
         """Update the preferences window with all the configuration from
