@@ -2133,7 +2133,7 @@ class LayoutEditor:
 
     def on_layout_profile_workingdir_activate(self, widget):
         """A new working directory has been entered for this item"""
-        workdir = widget.get_text()
+        workdir = os.path.expanduser(widget.get_text())
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['directory'] = workdir
         self.config.save()
