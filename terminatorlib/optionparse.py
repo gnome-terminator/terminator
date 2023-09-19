@@ -16,6 +16,7 @@
 """Terminator.optionparse - Parse commandline options"""
 
 import argparse
+from argparse import RawTextHelpFormatter
 import sys
 import os
 
@@ -37,7 +38,7 @@ def parse_options():
     """Parse the command line options"""
     is_x_terminal_emulator = os.path.basename(sys.argv[0]) == 'x-terminal-emulator'
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
 
     parser.add_argument('-R', '--reload', action='store_true', dest='reload',
                         help=_('Reload terminator configuration'))
@@ -58,6 +59,16 @@ def parse_options():
                       help=_('Specify a title for the window'))
     parser.add_argument('--geometry', dest='geometry', type=str,
                       help=_('Set the preferred size and position of the window'
+                             '(see X man page)'))
+    parser.add_argument('--guake-key', dest='guake_key', type=str,
+                      help=_('A Guake like terminal mode where terminal can be toggled by a key.\nUsage Example: terminator --guake-key="F8" --guake-side left --guake-width 700 --guake-height 800'))
+    parser.add_argument('--guake-side', dest='guake_side', default="top", type=str,
+                      help=_('Set the preferred screen edge position of a terminal in Guake like mode.\nOptions: top, bottom, left, right\nDefault: top'))
+    parser.add_argument('--guake-width', dest='guake_width', default="800", type=str,
+                      help=_('Set the preferred width when using Guake like mode. Default: 800'
+                             '(see X man page)'))
+    parser.add_argument('--guake-height', dest='guake_height', default="600", type=str,
+                      help=_('Set the preferred height when using Guake like mode. Default: 600'
                              '(see X man page)'))
     if not is_x_terminal_emulator:
         parser.add_argument('-e', '--command', dest='command',
