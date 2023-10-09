@@ -985,21 +985,56 @@ class Window(Container, Gtk.Window):
         if 'last_active_window' in layout and layout['last_active_window'] == 'True':
             self.terminator.last_active_window = self.uuid
 
-
+    # TODO this is almost identical to Terminal.background_draw.
+    # The two functions should be merged to avoid code duplication.
     def background_draw(self, window, cr):
         if self.background_image is None:
             return False
 
         # save cairo context
         cr.save()
+
         # draw background image
+        image_mode = self.config['window_background_image_mode']
+        image_align_horiz = self.config['window_background_image_align_horiz']
+        image_align_vert = self.config['window_background_image_align_vert']
+
         rect = window.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
+        if image_mode == 'stretch_and_fill':
+            # keep stretched ratios
+            xratio = xratio
+            yratio = yratio
+        elif image_mode == 'scale_and_fit':
+            ratio = min(xratio, yratio)
+            xratio = yratio = ratio
+        elif image_mode == 'scale_and_crop':
+            ratio = max(xratio, yratio)
+            xratio = yratio = ratio
+        else:
+            xratio = yratio = 1
         cr.scale(xratio, yratio)
-        cr.set_source_surface(self.background_image)
+
+        xoffset = 0
+        yoffset = 0
+        if image_align_horiz == 'center':
+            xoffset = (rect.width / xratio - self.background_image.get_width()) / 2
+        elif image_align_horiz == 'right':
+            xoffset = rect.width / xratio - self.background_image.get_width()
+
+        if image_align_vert == 'middle':
+            yoffset = (rect.height / yratio - self.background_image.get_height()) / 2
+        elif image_align_vert == 'bottom':
+            yoffset = rect.height / yratio - self.background_image.get_height()
+
+        cr.set_source_surface(self.background_image, xoffset, yoffset)
         cr.get_source().set_filter(cairo.Filter.FAST)
+        if image_mode == 'tiling':
+            cr.get_source().set_extend(cairo.Extend.REPEAT)
+
         cr.paint()
+
         # restore cairo context
         cr.restore()
 
