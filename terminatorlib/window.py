@@ -281,12 +281,13 @@ class Window(Container, Gtk.Window):
         """Handle a window close request"""
         maker = Factory()
 
-        if (maker.isinstance(self.get_child(), 'Terminal') or
-            maker.isinstance(self.get_child(), 'Container')):
-            confirm_close = self.construct_confirm_close(window, _('window'))
+        child = self.get_child()
+        if (maker.isinstance(child, 'Terminal') or
+            maker.isinstance(child, 'Container')):
+            confirm_close = self.construct_confirm_close(window, child)
             return (confirm_close != Gtk.ResponseType.ACCEPT)
         else:
-            dbg('unknown child: %s' % self.get_child())
+            dbg('unknown child: %s' % child)
             return False # close anyway
 
     def on_destroy_event(self, widget, data=None):
