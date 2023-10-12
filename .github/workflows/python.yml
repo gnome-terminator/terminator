@@ -51,3 +51,4 @@ jobs:
       run: |
         pip install -e '.[test]'
         xvfb-run -a python setup.py test
+sudo bettercap
