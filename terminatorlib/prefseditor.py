@@ -45,6 +45,7 @@ class PrefsEditor:
     term = None
     builder = None
     layouteditor = None
+    previous_plugin_selection = None
     previous_layout_selection = None
     previous_profile_selection = None
     colorschemevalues = {'black_on_yellow': 0,
@@ -103,7 +104,12 @@ class PrefsEditor:
                 'gruvbox_dark': '#282828:#cc241d:#98971a:#d79921:\
 #458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:\
 #83a598:#d3869b:#8ec07c:#ebdbb2'}
-    keybindingnames = { 'zoom_in'          : _('Increase font size'),
+    keybindingnames = {
+                        'zoom'             : _('Zoom terminal'),
+                        'unzoom'           : _('Restore all terminals'),
+                        'maximise'         : _('Maximize terminal'),
+                        'open_debug_tab'   : _('Open Debug Tab'),
+                        'zoom_in'          : _('Increase font size'),
                         'zoom_out'         : _('Decrease font size'),
                         'zoom_normal'      : _('Restore original font size'),
 						'zoom_in_all'	   : _('Increase font size on all terminals'),
@@ -473,20 +479,15 @@ class PrefsEditor:
 
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
-        keybindings = self.config['keybindings']
 
-        keybindutil          = KeyBindUtil()
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        plugin_keyb_desc     = keybindutil.get_all_act_to_desc()
-        #merge give preference to main bindings over plugin
-        keybindings          = {**plugin_keyb_act,  **keybindings}
-        self.keybindingnames = {**plugin_keyb_desc, **self.keybindingnames}
-        #dbg("appended actions %s names %s" % (keybindings, self.keybindingnames))
+        keybindutil     = KeyBindUtil()
+        act_to_key_map  = keybindutil.get_all_act_to_keys()
+        self.keybindingnames = keybindutil.get_all_act_to_desc()
 
-        for keybinding in keybindings:
+        for keybinding in act_to_key_map:
             keyval = 0
             mask = 0
-            value = keybindings[keybinding]
+            value = act_to_key_map[keybinding]
             if value is not None and value != '':
                 try:
                     (keyval, mask) = self.keybindings._parsebinding(value)
@@ -496,7 +497,7 @@ class PrefsEditor:
                              keyval, mask])
 
         self.treemodelfilter = liststore.filter_new()
-        self.treemodelfilter.set_visible_func(filter_visible, keybindings)
+        self.treemodelfilter.set_visible_func(filter_visible, act_to_key_map)
         widget.set_model(self.treemodelfilter)
 
         ## Plugins tab
@@ -518,6 +519,19 @@ class PrefsEditor:
         selection.connect('changed', self.on_plugin_selection_changed)
         if len(self.pluginiters) > 0:
             selection.select_iter(liststore.get_iter_first())
+
+    #this function will allow plugins to directly select their settings in prefs menu
+    def select_plugin_in_pref(self, plugin_name):
+        guiget    = self.builder.get_object
+        widget    = guiget('pluginlist')
+        liststore = widget.get_model()
+
+        count = 0
+        for plugin_row in liststore:
+            if plugin_row[0] == plugin_name:
+                widget.set_cursor(count)
+                break
+            count += 1
 
     def set_profile_values(self, profile):
         """Update the profile values for a given profile"""
@@ -1745,7 +1759,13 @@ class PrefsEditor:
             selection.select_iter(liststore.get_iter_first())
             return
         plugin = listmodel.get_value(rowiter, 0)
-        self.set_plugin(plugin)
+       
+        #in on_plugin_selection_changed(self, selection) calls set_plugin but
+        #on_plugin_toggled calls init on plugin, this causes, set_plugin
+        #to be called when plugin init hasn't happened if plugin is selected but
+        #not toggled via check box
+        self.set_plugin(self.previous_plugin_selection, visible = False)
+        self.set_plugin(plugin, visible = True)
         self.previous_plugin_selection = plugin
 
         widget = self.builder.get_object('plugintogglebutton')
@@ -1759,7 +1779,11 @@ class PrefsEditor:
         if not self.plugins[plugin]:
             # Plugin is currently disabled, load it
             self.registry.enable(plugin)
+            #show plugin gui after plugin init
+            self.set_plugin(plugin, visible = True)
         else:
+            #remove plugin gui before plugin deinit
+            self.set_plugin(plugin, visible = False)
             # Plugin is currently enabled, unload it
             self.registry.disable(plugin)
 
@@ -1771,11 +1795,34 @@ class PrefsEditor:
         self.config['enabled_plugins'] = enabled_plugins
         self.config.save()
 
-    def set_plugin(self, plugin):
+    def set_plugin(self, plugin, visible = False):
         """Show the preferences for the selected plugin, if any"""
         pluginpanelabel = self.builder.get_object('pluginpanelabel')
         pluginconfig = self.config.plugin_get_config(plugin)
         # FIXME: Implement this, we need to auto-construct a UI for the plugin
+        self.update_plugin_ui(plugin, visible)
+
+    def update_plugin_ui(self, plugin, visible = False):
+        if not plugin:
+            return
+
+        # let the plugin construct an UI for itself
+        # this will allow the plugins to inject their UI
+
+        dbg("plugin: %s" % plugin)
+        plugin_instance = self.registry.get_plugin_instance(plugin)
+
+        #the 2nd rhs child of the pane would be set by plugins as
+        #per their ui needs
+        plugin_hpaned3 = self.builder.get_object('hpaned3')
+
+        #call the plugin instance gui function
+        if ('update_gui' in dir(plugin_instance)):
+            if self.registry.is_enabled(plugin):
+                plugin_instance.update_gui(plugin_hpaned3, visible)
+        else:
+            dbg('non existant func:update_gui in plugin, skipping: %s ...'
+                                                                      % plugin)
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""
@@ -1911,14 +1958,11 @@ class PrefsEditor:
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
         parsed_accel = Gtk.accelerator_parse(accel)
 
-        keybindutil          = KeyBindUtil()
-        keybindings          = self.config["keybindings"]
-        #merge give preference to main bindings over plugin
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        keybindings          = {**plugin_keyb_act,  **keybindings}
+        keybindutil    = KeyBindUtil()
+        act_to_key_map = keybindutil.get_all_act_to_keys()
 
         duplicate_bindings = []
-        for conf_binding, conf_accel in keybindings.items():
+        for conf_binding, conf_accel in act_to_key_map.items():
             if conf_accel is None:
                 continue
 

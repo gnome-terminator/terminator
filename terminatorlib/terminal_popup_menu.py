@@ -156,6 +156,7 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
+        """
         item = self.menu_item(Gtk.ImageMenuItem, 'copy', '_Copy')
         item.connect('activate', lambda x: terminal.vte.copy_clipboard())
         item.set_sensitive(terminal.vte.get_has_selection())
@@ -176,13 +177,12 @@ class TerminalPopupMenu(object):
         if not terminal.is_zoomed():
             item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
                                                      'Split _Auto')
-            """
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_auto', Gtk.IconSize.MENU)
             item.set_image(image)
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
-            """
+
             item.connect('activate', lambda x: terminal.emit('split-auto',
                 self.terminal.get_cwd()))
             menu.append(item)
@@ -249,6 +249,7 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             menu.append(Gtk.SeparatorMenuItem())
+        """
 
         if self.config['show_titlebar'] == False:
             item = Gtk.MenuItem.new_with_mnemonic(_('Grouping'))

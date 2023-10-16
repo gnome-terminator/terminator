@@ -947,14 +947,18 @@ class Terminal(Gtk.VBox):
                 dbg('on_group_button_press: unknown group button interaction')
         return False
 
-    def on_keypress(self, widget, event):
+
+    #adding optional mapping field, incase we know the action
+
+    def on_keypress(self, widget, event, mapping = None):
         """Handler for keyboard events"""
-        if not event:
-            dbg('Called on %s with no event' % widget)
+        if not (event or mapping):
+            dbg('Called on %s with no event or mapping' % widget)
             return False
 
         # FIXME: Does keybindings really want to live in Terminator()?
-        mapping = self.terminator.keybindings.lookup(event)
+        if not mapping:
+            mapping = self.terminator.keybindings.lookup(event)
 
         if mapping == "hide_window":
             return False
@@ -965,7 +969,8 @@ class Terminal(Gtk.VBox):
             # handle the case where user has re-bound copy to ctrl+<key>
             # we only copy if there is a selection otherwise let it fall through
             # to ^<key>
-            if (mapping == "copy" and event.get_state() & Gdk.ModifierType.CONTROL_MASK):
+            if (mapping == "copy" and
+                           (event and (event.get_state() & Gdk.ModifierType.CONTROL_MASK))):
                 if self.vte.get_has_selection():
                     getattr(self, "key_" + mapping)()
                     return True
