@@ -160,6 +160,7 @@ class CustomCommandsMenu(plugin.MenuItem):
       if act == PluginActAdd:
           dbg("add bookmark")
 
+          self.setup_store()
           dialog_vars = self.get_last_exe_cmd_dialog_vars()
           self.on_new(None, {'dialog_vars' : dialog_vars })
           self.update_cmd_list(self.store)
@@ -167,13 +168,13 @@ class CustomCommandsMenu(plugin.MenuItem):
           return True
 
       if act == PluginActBmk:
-          dbg("open bookmark preferences")
-          cur_win  = Terminator().last_focused_term.get_toplevel()
-          self.configure(cur_win)
+          dbg("open custom command preferences")
+          self.configure(None)
           return True
 
 
     def callback(self, menuitems, menu, terminal):
+
         """Add our menu items to the menu"""
         submenus = {}
         item = Gtk.MenuItem.new_with_mnemonic(_('_Custom Commands'))
@@ -270,7 +271,8 @@ class CustomCommandsMenu(plugin.MenuItem):
                         _("_OK"), Gtk.ResponseType.ACCEPT
                       )
                     )
-      dbox.set_transient_for(widget.get_toplevel())
+      if widget:
+        dbox.set_transient_for(widget.get_toplevel())
 
       icon_theme = Gtk.IconTheme.get_default()
       if icon_theme.lookup_icon('terminator-custom-commands', 48, 0):
@@ -356,8 +358,7 @@ class CustomCommandsMenu(plugin.MenuItem):
 
       button = Gtk.Button(_("Bookmark Last Cmd"))
       button_box.pack_start(button, False, True, 0)
-      ui['dialog_vars'] =  self.get_last_exe_cmd_dialog_vars()
-      button.connect("clicked", self.on_new, ui)
+      button.connect("clicked", self.on_last_exe_cmd, ui)
       ui['button_save_last_cmd'] = button
 
       hbox.pack_start(button_box, False, True, 0)
@@ -424,8 +425,16 @@ class CustomCommandsMenu(plugin.MenuItem):
                           _("_OK"), Gtk.ResponseType.ACCEPT
                         )
                       )
+
+      #since we call this via shortcut keybinding
+      #lets focus on OK button
+      buttonbox = dialog.get_action_area()
+      buttons   = buttonbox.get_children()
+      dialog.set_focus(buttons[1])
+
       # dbox is init in configure function, in case we want to
       # create dialog directly
+
       if self.dbox:
         dialog.set_transient_for(self.dbox)
 
@@ -462,6 +471,11 @@ class CustomCommandsMenu(plugin.MenuItem):
       dialog.vbox.pack_start(table, True, True, 10)
       dialog.show_all()
       return (dialog,enabled,name,name_parse,command)
+
+    def on_last_exe_cmd(self, button, data):
+        new_data = data.copy()
+        new_data['dialog_vars'] =  self.get_last_exe_cmd_dialog_vars()
+        self.on_new(button, new_data)
 
     def on_new(self, button, data):
 
