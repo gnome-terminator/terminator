@@ -343,10 +343,6 @@ class Notebook(Container, Gtk.Notebook):
         self.set_current_page(tabpos)
         self.show_all()
         if maker.isinstance(term_widget, 'Terminal'):
-            #notify plugins of tab-change
-            dbg("emit tab-change for tabpos: %s " % tabpos)
-            term_widget.emit('tab-change', tabpos)
-            self.set_current_page(tabpos)
             widget.grab_focus()
 
     def wrapcloseterm(self, widget):
@@ -528,6 +524,8 @@ class Notebook(Container, Gtk.Notebook):
             # if we can't find a last active term we must be starting up
             if term is not None:
                 GObject.idle_add(term.ensure_visible_and_focussed)
+                dbg('emit tab-change type: targe-plugin for page:%s' % page_num)
+                term.emit('tab-change', page_num, 'target-plugin')
         return True
 
     def on_scroll_event(self, notebook, event):

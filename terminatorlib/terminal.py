@@ -68,7 +68,7 @@ class Terminal(Gtk.VBox):
         'navigate': (GObject.SignalFlags.RUN_LAST, None,
             (GObject.TYPE_STRING,)),
         'tab-change': (GObject.SignalFlags.RUN_LAST, None,
-            (GObject.TYPE_INT,)),
+            (GObject.TYPE_INT,GObject.TYPE_STRING,)),
         'group-all': (GObject.SignalFlags.RUN_LAST, None, ()),
         'group-all-toggle': (GObject.SignalFlags.RUN_LAST, None, ()),
         'move-tab': (GObject.SignalFlags.RUN_LAST, None,
@@ -1985,40 +1985,40 @@ class Terminal(Gtk.VBox):
             self.zoom()
 
     def key_next_tab(self):
-        self.emit('tab-change', -1)
+        self.emit('tab-change', -1, None)
 
     def key_prev_tab(self):
-        self.emit('tab-change', -2)
+        self.emit('tab-change', -2, None)
 
     def key_switch_to_tab_1(self):
-        self.emit('tab-change', 0)
+        self.emit('tab-change', 0, None)
 
     def key_switch_to_tab_2(self):
-        self.emit('tab-change', 1)
+        self.emit('tab-change', 1, None)
 
     def key_switch_to_tab_3(self):
-        self.emit('tab-change', 2)
+        self.emit('tab-change', 2, None)
 
     def key_switch_to_tab_4(self):
-        self.emit('tab-change', 3)
+        self.emit('tab-change', 3, None)
 
     def key_switch_to_tab_5(self):
-        self.emit('tab-change', 4)
+        self.emit('tab-change', 4, None)
 
     def key_switch_to_tab_6(self):
-        self.emit('tab-change', 5)
+        self.emit('tab-change', 5, None)
 
     def key_switch_to_tab_7(self):
-        self.emit('tab-change', 6)
+        self.emit('tab-change', 6, None)
 
     def key_switch_to_tab_8(self):
-        self.emit('tab-change', 7)
+        self.emit('tab-change', 7, None)
 
     def key_switch_to_tab_9(self):
-        self.emit('tab-change', 8)
+        self.emit('tab-change', 8, None)
 
     def key_switch_to_tab_10(self):
-        self.emit('tab-change', 9)
+        self.emit('tab-change', 9, None)
 
     def key_reset(self):
         self.vte.reset (True, False)

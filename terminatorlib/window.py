@@ -738,8 +738,14 @@ class Window(Container, Gtk.Window):
     def disable_geometry_hints(self):
         self.set_geometry_hints(None, None, 0)
 
-    def tab_change(self, widget, num=None):
+    def tab_change(self, widget, num=None, event_type=None):
         """Change to a specific tab"""
+
+        #we return if event_type is set by a component
+        #we only handle default
+        if event_type:
+            return
+
         if self.is_zoomed():
             self.unzoom()
 
