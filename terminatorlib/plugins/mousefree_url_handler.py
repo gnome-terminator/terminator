@@ -122,10 +122,12 @@ class MouseFreeURLHandler(plugin.Plugin):
         dbg("selected URL (%s %s)" % (self.matches_ptr, "not found"))
         return None
 
-    def on_focus_in(self, widget, event):
+    def on_focus_in(self, widget, event, event_type = None):
         dbg("focus-in clear url search buffer widget: %s" % widget)
-        self.cur_term = widget
-        self.vte      = widget.get_vte()
+
+        self.cur_term = widget.get_toplevel().get_focussed_terminal()
+        self.vte      = self.cur_term.get_vte()
+
         self.clear_search()
 
     def on_keypress(self, widget, event):
