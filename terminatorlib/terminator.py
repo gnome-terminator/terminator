@@ -196,7 +196,6 @@ class Terminator(Borg):
             dbg('checking: %s (%s)' % (window.uuid.urn, window))
             if window.uuid.urn == uuid:
                 return window
-
         return None
 
     def new_window(self, cwd=None, profile=None):
@@ -211,7 +210,7 @@ class Terminator(Borg):
         window.add(terminal)
         window.show(True)
         terminal.spawn_child()
-        terminal.emit('tab-change', 0, None)
+        terminal.emit('tab-change', 0)
 
         return(window, terminal)
 
