@@ -216,6 +216,19 @@ class Terminator(Borg):
             terminal.force_set_profile(None, profile)
         window.add(terminal)
         window.show(True)
+
+        # use profile defined window size
+        layout = copy.deepcopy(self.config.layout_get_config(profile))
+        if layout is not None:
+            for obj in list(layout.keys()):
+                if layout[obj]['type'].lower() == 'window':
+                    parts = layout[obj]['size']
+                    winx = int(parts[0])
+                    winy = int(parts[1])
+                    if winx > 1 and winy > 1:
+                        window.resize(winx, winy)
+                    break
+
         terminal.spawn_child()
         terminal.emit('tab-change', 0)
 
