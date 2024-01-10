@@ -1,7 +1,7 @@
 '\" t
 .\"     Title: terminator_config
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.16
+.\" Generator: Asciidoctor 2.0.20
 .\"      Date: 2023-10-10
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
@@ -54,7 +54,7 @@ This is what a Terminator config file should look like:
   focus = system
 
 [keybindings]
-  full_screen = <Ctrl><Shift>F11
+  full_screen = <Ctrl><Shift>F11, ""
 
 [profiles]
   [[default]]
@@ -369,63 +369,63 @@ section.
 .RS 4
 Split the current terminal horizontally.
 .br
-Default value: \fB<Ctrl><Shift>O\fP
+Default value: \fB<Ctrl><Shift>O, ""\fP
 .RE
 .sp
 \fBsplit_vert\fP
 .RS 4
 Split the current terminal vertically.
 .br
-Default value: \fB<Ctrl><Shift>E\fP
+Default value: \fB<Ctrl><Shift>E, ""\fP
 .RE
 .sp
 \fBsplit_auto\fP
 .RS 4
 Split the current terminal automatically, along the longer side.
 .br
-Default value: \fB<Ctrl><Shift>A\fP
+Default value: \fB<Ctrl><Shift>A, ""\fP
 .RE
 .sp
 \fBnew_tab\fP
 .RS 4
 Open a new tab.
 .br
-Default value: \fB<Ctrl><Shift>T\fP
+Default value: \fB<Ctrl><Shift>T, ""\fP
 .RE
 .sp
 \fBnew_window\fP
 .RS 4
 Open a new window as part of the existing process.
 .br
-Default value: \fB<Ctrl><Shift>I\fP
+Default value: \fB<Ctrl><Shift>I, ""\fP
 .RE
 .sp
 \fBnew_terminator\fP
 .RS 4
 Spawn a new Terminator process.
 .br
-Default value: \fB<Super>I\fP
+Default value: \fB<Super>I, ""\fP
 .RE
 .sp
 \fBlayout_launcher\fP
 .RS 4
 Open the layout launcher.
 .br
-Default value: \fB<Alt>L\fP
+Default value: \fB<Alt>L, ""\fP
 .RE
 .sp
 \fBclose_term\fP
 .RS 4
 Close the current terminal.
 .br
-Default value: \fB<Ctrl><Shift>W\fP
+Default value: \fB<Ctrl><Shift>W, ""\fP
 .RE
 .sp
 \fBclose_window\fP
 .RS 4
 Close the current window.
 .br
-Default value: \fB<Ctrl><Shift>Q\fP
+Default value: \fB<Ctrl><Shift>Q, ""\fP
 .RE
 .SS "Navigation"
 .sp
@@ -433,56 +433,56 @@ Default value: \fB<Ctrl><Shift>Q\fP
 .RS 4
 Focus the next terminal. This is an alias for \fBgo_next\fP.
 .br
-Default value: \fB<Ctrl>Tab\fP
+Default value: \fB<Ctrl>Tab, ""\fP
 .RE
 .sp
 \fBcycle_prev\fP
 .RS 4
 Focus the previous terminal. This is an alias for \fBgo_prev\fP.
 .br
-Default value: \fB<Ctrl><Shift>Tab\fP
+Default value: \fB<Ctrl><Shift>Tab, ""\fP
 .RE
 .sp
 \fBgo_next\fP
 .RS 4
 Focus the next terminal.
 .br
-Default value: \fB<Ctrl><Shift>N\fP
+Default value: \fB<Ctrl><Shift>N, ""\fP
 .RE
 .sp
 \fBgo_prev\fP
 .RS 4
 Focus the previous terminal.
 .br
-Default value: \fB<Ctrl><Shift>P\fP
+Default value: \fB<Ctrl><Shift>P, ""\fP
 .RE
 .sp
 \fBgo_up\fP
 .RS 4
 Focus the terminal above the current one.
 .br
-Default value: \fB<Alt>Up\fP
+Default value: \fB<Alt>Up, ""\fP
 .RE
 .sp
 \fBgo_down\fP
 .RS 4
 Focus the terminal below the current one.
 .br
-Default value: \fB<Alt>Down\fP
+Default value: \fB<Alt>Down, ""\fP
 .RE
 .sp
 \fBgo_left\fP
 .RS 4
 Focus the terminal to the left of the current one.
 .br
-Default value: \fB<Alt>Left\fP
+Default value: \fB<Alt>Left, ""\fP
 .RE
 .sp
 \fBgo_right\fP
 .RS 4
 Focus the terminal to the right of the current one.
 .br
-Default value: \fB<Alt>Right\fP
+Default value: \fB<Alt>Right, ""\fP
 .RE
 .sp
 \fBpage_up\fP
@@ -519,14 +519,14 @@ Scroll the terminal down one line.
 .RS 4
 Move to the next tab.
 .br
-Default value: \fB<Ctrl>Page_Down\fP
+Default value: \fB<Ctrl>Page_Down, ""\fP
 .RE
 .sp
 \fBprev_tab\fP
 .RS 4
 Move to the previous tab.
 .br
-Default value: \fB<Ctrl>Page_Up\fP
+Default value: \fB<Ctrl>Page_Up, ""\fP
 .RE
 .sp
 \fBswitch_to_tab_1\fP, \fBswitch_to_tab_2\fP, ... \fBswitch_to_tab_10\fP
@@ -541,42 +541,42 @@ depending on the keyboard layout.
 .RS 4
 Move the parent dragbar up.
 .br
-Default value: \fB<Ctrl><Shift>Up\fP
+Default value: \fB<Ctrl><Shift>Up, ""\fP
 .RE
 .sp
 \fBresize_down\fP
 .RS 4
 Move the parent dragbar down.
 .br
-Default value: \fB<Ctrl><Shift>Down\fP
+Default value: \fB<Ctrl><Shift>Down, ""\fP
 .RE
 .sp
 \fBresize_left\fP
 .RS 4
 Move the parent dragbar left.
 .br
-Default value: \fB<Ctrl><Shift>Left\fP
+Default value: \fB<Ctrl><Shift>Left, ""\fP
 .RE
 .sp
 \fBresize_right\fP
 .RS 4
 Move the parent dragbar right.
 .br
-Default value: \fB<Ctrl><Shift>Right\fP
+Default value: \fB<Ctrl><Shift>Right, ""\fP
 .RE
 .sp
 \fBrotate_cw\fP
 .RS 4
 Rotate terminals clockwise.
 .br
-Default value: \fB<Super>R\fP
+Default value: \fB<Super>R, ""\fP
 .RE
 .sp
 \fBrotate_ccw\fP
 .RS 4
 Rotate terminals counter+clockwise.
 .br
-Default value: \fB<Super><Shift>R\fP
+Default value: \fB<Super><Shift>R, ""\fP
 .RE
 .sp
 \fBmove_tab_right\fP
@@ -584,7 +584,7 @@ Default value: \fB<Super><Shift>R\fP
 Move the current tab to the right by swapping position with the next
 tab.
 .br
-Default value: \fB<Ctrl><Shift>Page_Down\fP
+Default value: \fB<Ctrl><Shift>Page_Down, ""\fP
 .RE
 .sp
 \fBmove_tab_left\fP
@@ -592,7 +592,7 @@ Default value: \fB<Ctrl><Shift>Page_Down\fP
 Move the current tab to the left by swapping position with the previous
 tab.
 .br
-Default value: \fB<Ctrl><Shift>Page_Up\fP
+Default value: \fB<Ctrl><Shift>Page_Up, ""\fP
 .RE
 .SS "Focus"
 .sp
@@ -600,14 +600,14 @@ Default value: \fB<Ctrl><Shift>Page_Up\fP
 .RS 4
 Toggle window to fullscreen.
 .br
-Default value: \fBF11\fP
+Default value: \fBF11, ""\fP
 .RE
 .sp
 \fBtoggle_zoom\fP
 .RS 4
 Toggle maximisation of the current terminal.
 .br
-Default value: \fB<Ctrl><Shift>X\fP
+Default value: \fB<Ctrl><Shift>X, ""\fP
 .RE
 .sp
 \fBscaled_zoom\fP
@@ -615,14 +615,14 @@ Default value: \fB<Ctrl><Shift>X\fP
 Toggle maximisation of the current terminal and scale the font when
 maximised.
 .br
-Default value: \fB<Ctrl><Shift>Z\fP
+Default value: \fB<Ctrl><Shift>Z, ""\fP
 .RE
 .sp
 \fBhide_window\fP
 .RS 4
 Hide/Show all Terminator windows.
 .br
-Default value: \fB<Ctrl><Shift><Alt>A\fP
+Default value: \fB<Ctrl><Shift><Alt>A, ""\fP
 .RE
 .SS "Grouping & Broadcasting"
 .sp
@@ -635,7 +635,7 @@ Create a new group.
 .RS 4
 Group all terminals together.
 .br
-Default value: \fB<Super>G\fP
+Default value: \fB<Super>G, ""\fP
 .RE
 .sp
 \fBungroup_all\fP
@@ -657,7 +657,7 @@ Group all terminals in the current window together.
 .RS 4
 Ungroup all terminals in the current window.
 .br
-Default value: \fB<Super><Shift>W\fP
+Default value: \fB<Super><Shift>W, ""\fP
 .RE
 .sp
 \fBgroup_win_toggle\fP
@@ -669,14 +669,14 @@ Toggle grouping of all terminals in the current window.
 .RS 4
 Group all terminals in the current tab together.
 .br
-Default value: \fB<Super>T\fP
+Default value: \fB<Super>T, ""\fP
 .RE
 .sp
 \fBungroup_tab\fP
 .RS 4
 Ungroup all terminals in the current tab.
 .br
-Default value: \fB<Super><Shift>T\fP
+Default value: \fB<Super><Shift>T, ""\fP
 .RE
 .sp
 \fBgroup_tab_toggle\fP
@@ -716,21 +716,21 @@ Open the Preferences window.
 .RS 4
 Open the Preferences window and show the Keybindings tab.
 .br
-Default value: \fB<Ctrl><Shift>K\fP
+Default value: \fB<Ctrl><Shift>K, ""\fP
 .RE
 .sp
 \fBcopy\fP
 .RS 4
 Copy the selected text to the Clipboard.
 .br
-Default value: \fB<Ctrl><Shift>C\fP
+Default value: \fB<Ctrl><Shift>C, ""\fP
 .RE
 .sp
 \fBpaste\fP
 .RS 4
 Paste the current contents of the Clipboard.
 .br
-Default value: \fB<Ctrl><Shift>V\fP
+Default value: \fB<Ctrl><Shift>V, ""\fP
 .RE
 .sp
 \fBpaste_selection\fP
@@ -742,49 +742,49 @@ Paste the current contents of the Primary Selection.
 .RS 4
 Toggle the scrollbar.
 .br
-Default value: \fB<Ctrl><Shift>S\fP
+Default value: \fB<Ctrl><Shift>S, ""\fP
 .RE
 .sp
 \fBsearch\fP
 .RS 4
 Search for text in the terminal scrollback history.
 .br
-Default value: \fB<Ctrl><Shift>F\fP
+Default value: \fB<Ctrl><Shift>F, ""\fP
 .RE
 .sp
 \fBreset\fP
 .RS 4
 Reset the terminal state.
 .br
-Default value: \fB<Ctrl><Shift>R\fP
+Default value: \fB<Ctrl><Shift>R, ""\fP
 .RE
 .sp
 \fBreset_clear\fP
 .RS 4
 Reset the terminal state and clear the terminal window.
 .br
-Default value: \fB<Ctrl><Shift>G\fP
+Default value: \fB<Ctrl><Shift>G, ""\fP
 .RE
 .sp
 \fBzoom_in\fP
 .RS 4
 Increase the font size by one unit.
 .br
-Default value: \fB<Ctrl>plus\fP
+Default value: \fB<Ctrl>plus, ""\fP
 .RE
 .sp
 \fBzoom_out\fP
 .RS 4
 Decrease the font size by one unit.
 .br
-Default value: \fB<Ctrl>minus\fP
+Default value: \fB<Ctrl>minus, ""\fP
 .RE
 .sp
 \fBzoom_normal\fP
 .RS 4
 Restore the original font size.
 .br
-Default value: \fB<Ctrl>0\fP
+Default value: \fB<Ctrl>0, ""\fP
 .RE
 .sp
 \fBzoom_in_all\fP
@@ -806,35 +806,35 @@ Restore the original font size for all terminals.
 .RS 4
 Rename the current window.
 .br
-Default value: \fB<Ctrl><Alt>W\fP
+Default value: \fB<Ctrl><Alt>W, ""\fP
 .RE
 .sp
 \fBedit_tab_title\fP
 .RS 4
 Rename the current tab.
 .br
-Default value: \fB<Ctrl><Alt>A\fP
+Default value: \fB<Ctrl><Alt>A, ""\fP
 .RE
 .sp
 \fBedit_terminal_title\fP
 .RS 4
 Rename the current terminal.
 .br
-Default value: \fB<Ctrl><Alt>X\fP
+Default value: \fB<Ctrl><Alt>X, ""\fP
 .RE
 .sp
 \fBinsert_number\fP
 .RS 4
 Insert the current terminal\(cqs number, i.e. 1 to 12.
 .br
-Default value: \fB<Super>1\fP
+Default value: \fB<Super>1, ""\fP
 .RE
 .sp
 \fBinsert_padded\fP
 .RS 4
 Insert the current terminal\(cqs number, but zero padded, i.e. 01 to 12.
 .br
-Default value: \fB<Super>0\fP
+Default value: \fB<Super>0, ""\fP
 .RE
 .sp
 \fBnext_profile\fP
