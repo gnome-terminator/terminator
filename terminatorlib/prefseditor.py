@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Preferences Editor for Terminator. 
+"""Preferences Editor for Terminator.
 
 Load a UIBuilder config file, display it,
 populate it with our current config, then optionally read that back out and
@@ -8,7 +8,8 @@ write it to a config file
 """
 
 import os
-from gi.repository import GObject, Gtk, Gdk
+import re
+from gi.repository import Gdk, Gtk
 
 from .util import dbg, err
 from . import config
@@ -20,18 +21,28 @@ from .version import APP_NAME
 
 from .plugin import KeyBindUtil
 
+
 def get_color_string(widcol):
-    return('#%02x%02x%02x' % (widcol.red>>8, widcol.green>>8, widcol.blue>>8))
+    if widcol:
+        red_bit = widcol.red >> 8
+        green_bit = widcol.green >> 8
+        blue_bit = widcol.blue >> 8
+        return f'#{red_bit:02x}{green_bit:02x}{blue_bit:02x}'
+    return ''
+
 
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
-   as 8bit hex values, sinces its default behaviour is to give 16bit values"""
+   as 8bit hex values, since its default behaviour is to give 16bit values"""
     return get_color_string(widget.get_color())
+
 
 def rgba2hex(widget):
     return get_color_string(widget.get_rgba().to_color())
 
+
 NUM_PALETTE_COLORS = 16
+
 
 # FIXME: We need to check that we have represented all of Config() below
 class PrefsEditor:
@@ -47,6 +58,8 @@ class PrefsEditor:
     layouteditor = None
     previous_layout_selection = None
     previous_profile_selection = None
+    previous_selection = None
+    previous_plugin_selection = None
     colorschemevalues = {'black_on_yellow': 0,
                          'black_on_white': 1,
                          'grey_on_black': 2,
@@ -103,92 +116,92 @@ class PrefsEditor:
                 'gruvbox_dark': '#282828:#cc241d:#98971a:#d79921:\
 #458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:\
 #83a598:#d3869b:#8ec07c:#ebdbb2'}
-    keybindingnames = { 'zoom_in'          : _('Increase font size'),
-                        'zoom_out'         : _('Decrease font size'),
-                        'zoom_normal'      : _('Restore original font size'),
-						'zoom_in_all'	   : _('Increase font size on all terminals'),
-						'zoom_out_all'	   : _('Decrease font size on all terminals'),
-						'zoom_normal_all'  : _('Restore original font size on all terminals'),
-                        'new_tab'          : _('Create a new tab'),
-                        'cycle_next'       : _('Focus the next terminal'),
-                        'cycle_prev'       : _('Focus the previous terminal'),
-                        'go_next'          : _('Focus the next terminal'),
-                        'go_prev'          : _('Focus the previous terminal'),
-                        'go_up'            : _('Focus the terminal above'),
-                        'go_down'          : _('Focus the terminal below'),
-                        'go_left'          : _('Focus the terminal left'),
-                        'go_right'         : _('Focus the terminal right'),
-                        'rotate_cw'        : _('Rotate terminals clockwise'),
-                        'rotate_ccw'       : _('Rotate terminals counter-clockwise'),
-                        'split_auto'       : _('Split automatically'),
-                        'split_horiz'      : _('Split horizontally'),
-                        'split_vert'       : _('Split vertically'),
-                        'close_term'       : _('Close terminal'),
-                        'copy'             : _('Copy selected text'),
-                        'paste'            : _('Paste clipboard'),
-                        'paste_selection'  : _('Paste primary selection'),
-                        'toggle_scrollbar' : _('Show/Hide the scrollbar'),
-                        'search'           : _('Search terminal scrollback'),
-                        'page_up'          : _('Scroll upwards one page'),
-                        'page_down'        : _('Scroll downwards one page'),
-                        'page_up_half'     : _('Scroll upwards half a page'),
-                        'page_down_half'   : _('Scroll downwards half a page'),
-                        'line_up'          : _('Scroll upwards one line'),
-                        'line_down'        : _('Scroll downwards one line'),
-                        'close_window'     : _('Close window'),
-                        'resize_up'        : _('Resize the terminal up'),
-                        'resize_down'      : _('Resize the terminal down'),
-                        'resize_left'      : _('Resize the terminal left'),
-                        'resize_right'     : _('Resize the terminal right'),
-                        'move_tab_right'   : _('Move the tab right'),
-                        'move_tab_left'    : _('Move the tab left'),
-                        'toggle_zoom'      : _('Maximize terminal'),
-                        'scaled_zoom'      : _('Zoom terminal'),
-                        'next_tab'         : _('Switch to the next tab'),
-                        'prev_tab'         : _('Switch to the previous tab'),
-                        'switch_to_tab_1'  : _('Switch to the first tab'),
-                        'switch_to_tab_2'  : _('Switch to the second tab'),
-                        'switch_to_tab_3'  : _('Switch to the third tab'),
-                        'switch_to_tab_4'  : _('Switch to the fourth tab'),
-                        'switch_to_tab_5'  : _('Switch to the fifth tab'),
-                        'switch_to_tab_6'  : _('Switch to the sixth tab'),
-                        'switch_to_tab_7'  : _('Switch to the seventh tab'),
-                        'switch_to_tab_8'  : _('Switch to the eighth tab'),
-                        'switch_to_tab_9'  : _('Switch to the ninth tab'),
-                        'switch_to_tab_10' : _('Switch to the tenth tab'),
-                        'full_screen'      : _('Toggle fullscreen'),
-                        'reset'            : _('Reset the terminal'),
-                        'reset_clear'      : _('Reset and clear the terminal'),
-                        'hide_window'      : _('Toggle window visibility'),
-                        'create_group'     : _('Create new group'),
-                        'group_all'        : _('Group all terminals'),
-                        'group_all_toggle' : _('Group/Ungroup all terminals'),
-                        'ungroup_all'      : _('Ungroup all terminals'),
-                        'group_win'        : _('Group terminals in window'),
-                        'group_win_toggle' : _('Group/Ungroup terminals in window'),
-                        'ungroup_win'      : _('Ungroup terminals in window'),
-                        'group_tab'        : _('Group terminals in tab'),
-                        'group_tab_toggle' : _('Group/Ungroup terminals in tab'),
-                        'ungroup_tab'      : _('Ungroup terminals in tab'),
-                        'new_window'       : _('Create a new window'),
-                        'new_terminator'   : _('Spawn a new Terminator process'),
-                        'broadcast_off'    : _('Don\'t broadcast key presses'),
-                        'broadcast_group'  : _('Broadcast key presses to group'),
-                        'broadcast_all'    : _('Broadcast key events to all'),
-                        'insert_number'    : _('Insert terminal number'),
-                        'insert_padded'    : _('Insert zero padded terminal number'),
-                        'edit_window_title': _('Edit window title'),
-                        'edit_terminal_title': _('Edit terminal title'),
-                        'edit_tab_title'   : _('Edit tab title'),
-                        'layout_launcher'  : _('Open layout launcher window'),
-                        'next_profile'     : _('Switch to next profile'),
-                        'previous_profile' : _('Switch to previous profile'), 
-                        'preferences'	   : _('Open the Preferences window'),
-                        'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
-                        'help'             : _('Open the manual')
-            }
+    keybindingnames = {'zoom_in': _('Increase font size'),
+                       'zoom_out': _('Decrease font size'),
+                       'zoom_normal': _('Restore original font size'),
+                       'zoom_in_all': _('Increase font size on all terminals'),
+                       'zoom_out_all': _('Decrease font size on all terminals'),
+                       'zoom_normal_all': _('Restore original font size on all terminals'),
+                       'new_tab': _('Create a new tab'),
+                       'cycle_next': _('Focus the next terminal'),
+                       'cycle_prev': _('Focus the previous terminal'),
+                       'go_next': _('Focus the next terminal'),
+                       'go_prev': _('Focus the previous terminal'),
+                       'go_up': _('Focus the terminal above'),
+                       'go_down': _('Focus the terminal below'),
+                       'go_left': _('Focus the terminal left'),
+                       'go_right': _('Focus the terminal right'),
+                       'rotate_cw': _('Rotate terminals clockwise'),
+                       'rotate_ccw': _('Rotate terminals counter-clockwise'),
+                       'split_auto': _('Split automatically'),
+                       'split_horiz': _('Split horizontally'),
+                       'split_vert': _('Split vertically'),
+                       'close_term': _('Close terminal'),
+                       'copy': _('Copy selected text'),
+                       'paste': _('Paste clipboard'),
+                       'paste_selection': _('Paste primary selection'),
+                       'toggle_scrollbar': _('Show/Hide the scrollbar'),
+                       'search': _('Search terminal scrollback'),
+                       'page_up': _('Scroll upwards one page'),
+                       'page_down': _('Scroll downwards one page'),
+                       'page_up_half': _('Scroll upwards half a page'),
+                       'page_down_half': _('Scroll downwards half a page'),
+                       'line_up': _('Scroll upwards one line'),
+                       'line_down': _('Scroll downwards one line'),
+                       'close_window': _('Close window'),
+                       'resize_up': _('Resize the terminal up'),
+                       'resize_down': _('Resize the terminal down'),
+                       'resize_left': _('Resize the terminal left'),
+                       'resize_right': _('Resize the terminal right'),
+                       'move_tab_right': _('Move the tab right'),
+                       'move_tab_left': _('Move the tab left'),
+                       'toggle_zoom': _('Maximize terminal'),
+                       'scaled_zoom': _('Zoom terminal'),
+                       'next_tab': _('Switch to the next tab'),
+                       'prev_tab': _('Switch to the previous tab'),
+                       'switch_to_tab_1': _('Switch to the first tab'),
+                       'switch_to_tab_2': _('Switch to the second tab'),
+                       'switch_to_tab_3': _('Switch to the third tab'),
+                       'switch_to_tab_4': _('Switch to the fourth tab'),
+                       'switch_to_tab_5': _('Switch to the fifth tab'),
+                       'switch_to_tab_6': _('Switch to the sixth tab'),
+                       'switch_to_tab_7': _('Switch to the seventh tab'),
+                       'switch_to_tab_8': _('Switch to the eighth tab'),
+                       'switch_to_tab_9': _('Switch to the ninth tab'),
+                       'switch_to_tab_10': _('Switch to the tenth tab'),
+                       'full_screen': _('Toggle fullscreen'),
+                       'reset': _('Reset the terminal'),
+                       'reset_clear': _('Reset and clear the terminal'),
+                       'hide_window': _('Toggle window visibility'),
+                       'create_group': _('Create new group'),
+                       'group_all': _('Group all terminals'),
+                       'group_all_toggle': _('Group/Ungroup all terminals'),
+                       'ungroup_all': _('Ungroup all terminals'),
+                       'group_win': _('Group terminals in window'),
+                       'group_win_toggle': _('Group/Ungroup terminals in window'),
+                       'ungroup_win': _('Ungroup terminals in window'),
+                       'group_tab': _('Group terminals in tab'),
+                       'group_tab_toggle': _('Group/Ungroup terminals in tab'),
+                       'ungroup_tab': _('Ungroup terminals in tab'),
+                       'new_window': _('Create a new window'),
+                       'new_terminator': _('Spawn a new Terminator process'),
+                       'broadcast_off': _('Don\'t broadcast key presses'),
+                       'broadcast_group': _('Broadcast key presses to group'),
+                       'broadcast_all': _('Broadcast key events to all'),
+                       'insert_number': _('Insert terminal number'),
+                       'insert_padded': _('Insert zero padded terminal number'),
+                       'edit_window_title': _('Edit window title'),
+                       'edit_terminal_title': _('Edit terminal title'),
+                       'edit_tab_title': _('Edit tab title'),
+                       'layout_launcher': _('Open layout launcher window'),
+                       'next_profile': _('Switch to next profile'),
+                       'previous_profile': _('Switch to previous profile'),
+                       'preferences': _('Open the Preferences window'),
+                       'preferences_keybindings': _('Open the Preferences-Keybindings window'),
+                       'help': _('Open the manual')
+                       }
 
-    def __init__ (self, term, cur_page=0):
+    def __init__(self, term, cur_page=0):
         self.config = config.Config()
         self.config.base.reload()
         self.term = term
@@ -198,15 +211,15 @@ class PrefsEditor:
         self.builder.set_translation_domain(APP_NAME)
         self.keybindings = Keybindings()
         self.active_message_dialog = None
+        self.keybind_filter_str = None
         try:
             # Figure out where our library is on-disk so we can open our
             (head, _tail) = os.path.split(config.__file__)
             librarypath = os.path.join(head, 'preferences.glade')
-            gladefile = open(librarypath, 'r')
+            gladefile = open(librarypath, 'r', encoding='utf-8')
             gladedata = gladefile.read()
         except Exception as ex:
-            print("Failed to find preferences.glade")
-            print(ex)
+            print(f"Failed to find preferences.glade:\n{ex}")
             return
 
         self.builder.add_from_string(gladedata)
@@ -227,13 +240,13 @@ class PrefsEditor:
         try:
             self.config.inhibit_save()
             self.set_values()
-        except Exception as e:
-            err('Unable to set values: %s' % e)
+        except Exception as exc:
+            err(f'Unable to set values: {exc}')
         self.config.uninhibit_save()
 
         guiget = self.builder.get_object
-        nb = guiget('notebook1')
-        nb.set_current_page(cur_page)
+        notebook = guiget('notebook1')
+        notebook.set_current_page(cur_page)
 
         self.config.base.save_config_with_suffix('_cur')
 
@@ -247,7 +260,7 @@ class PrefsEditor:
         terminator.reconfigure()
         self.window.destroy()
         self.calling_window.preventHide = False
-        del(self)
+        del self
 
     def on_restoreconfigbutton_clicked(self, _button):
         """restore config to load time"""
@@ -259,7 +272,7 @@ class PrefsEditor:
         Config()"""
         guiget = self.builder.get_object
 
-        ## Global tab
+        # GLOBAL TAB
         # Mouse focus
         focus = self.config['focus']
         active = 0
@@ -278,7 +291,7 @@ class PrefsEditor:
 
         # Cell Height
         cellheightsize = self.config['cell_height']
-        cellheightsize = round(float(cellheightsize),1)
+        cellheightsize = round(float(cellheightsize), 1)
         widget = guiget('cellheight')
         widget.set_value(cellheightsize)
         widget = guiget('cellheight_value_label')
@@ -286,7 +299,7 @@ class PrefsEditor:
 
         # Cell Width
         cellwidthsize = self.config['cell_width']
-        cellwidthsize = round(float(cellwidthsize),1)
+        cellwidthsize = round(float(cellwidthsize), 1)
         widget = guiget('cellwidth')
         widget.set_value(cellwidthsize)
         widget = guiget('cellwidth_value_label')
@@ -317,7 +330,7 @@ class PrefsEditor:
         elif option == 'always':
             active = 2
         else:
-            active = 1 
+            active = 1
         widget = guiget('askbeforeclose')
         widget.set_active(active)
         # Window borders
@@ -365,16 +378,16 @@ class PrefsEditor:
         # Detachable tabs
         widget = guiget('detachable_tabs')
         widget.set_active(self.config['detachable_tabs'])
-        #Hide from taskbar
+        # Hide from taskbar
         widget = guiget('hidefromtaskbcheck')
         widget.set_active(self.config['hide_from_taskbar'])
-        #Always on top
+        # Always on top
         widget = guiget('alwaysontopcheck')
         widget.set_active(self.config['always_on_top'])
-        #Hide on lose focus
+        # Hide on lose focus
         widget = guiget('hideonlosefocuscheck')
         widget.set_active(self.config['hide_on_lose_focus'])
-        #Show on all workspaces
+        # Show on all workspaces
         widget = guiget('stickycheck')
         widget.set_active(self.config['sticky'])
 
@@ -386,7 +399,7 @@ class PrefsEditor:
         widget = guiget('new_tab_after_current_checkbutton')
         widget.set_active(self.config['new_tab_after_current_tab'])
 
-        #Always split with profile
+        # Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
         # Putty paste style
@@ -408,7 +421,7 @@ class PrefsEditor:
         widget = guiget('disable_mouse_paste')
         widget.set_active(self.config['disable_mouse_paste'])
 
-        ## Profile tab
+        # PROFILE TAB
         # Populate the profile list
         widget = guiget('profilelist')
         liststore = widget.get_model()
@@ -426,7 +439,7 @@ class PrefsEditor:
         selection.connect('changed', self.on_profile_selection_changed)
         selection.select_iter(self.profileiters['default'])
 
-        ## Layouts tab
+        # LAYOUTS TAB
         widget = guiget('layoutlist')
         liststore = widget.get_model()
         layouts = self.config.list_layouts()
@@ -452,39 +465,43 @@ class PrefsEditor:
         selection = widget.get_selection()
         selection.connect('changed', self.on_layout_item_selection_changed)
 
-        ## Keybindings tab
-        widget   = guiget('keybindingtreeview')
+        # KEYBINDINGS TAB
+        widget = guiget('keybindingtreeview')
         kbsearch = guiget('keybindingsearchentry')
         self.keybind_filter_str = ""
 
-        #lets hide whatever we can in nested scope
+        # let's hide whatever we can in nested scope
         def filter_visible(model, treeiter, data):
-            act  = model[treeiter][0]
+            act = model[treeiter][0]
             keys = data[act] if act in data else ""
             desc = model[treeiter][1]
-            kval = model[treeiter][2]
-            mask = model[treeiter][3]
-            #so user can search for disabled keys also
-            if not (len(keys) and kval and mask):
+            kval0 = model[treeiter][2]
+            mask0 = model[treeiter][3]
+            kval1 = model[treeiter][4]
+            mask1 = model[treeiter][5]
+            # so user can search for disabled keys also
+            if isinstance(keys, str):
+                keys = [keys, '']
+            if not (any(keys) and any([kval0, mask0, kval1, mask1])):
                 act = "Disabled"
 
             self.keybind_filter_str = self.keybind_filter_str.lower()
-            searchtxt = (act + " " + keys + " " + desc).lower()
+            keys_str = re.sub(r'[\[,\]]', '', str(keys))
+            searchtxt = f'{act} {keys_str} {desc}'.lower()
             pos = searchtxt.find(self.keybind_filter_str)
-            if (pos >= 0):
-                dbg("filter find:%s in search text: %s" %
-                                (self.keybind_filter_str, searchtxt))
+            if pos >= 0:
+                dbg(f"filter find:{self.keybind_filter_str} in search text: {searchtxt}")
                 return True
 
             return False
 
         def on_search(widget, text):
-            MAX_SEARCH_LEN = 10
+            max_search_len = 10
             self.keybind_filter_str = widget.get_text()
-            ln = len(self.keybind_filter_str)
-            #its a small list & we are eager for quick search, but limit
-            if (ln >=2 and ln < MAX_SEARCH_LEN):
-                dbg("filter search str: %s" % self.keybind_filter_str)
+            length = len(self.keybind_filter_str)
+            # it's a small list & we are eager for quick search, but limit
+            if 2 <= length < max_search_len:
+                dbg(f"filter search str: {self.keybind_filter_str}")
                 self.treemodelfilter.refilter()
 
         def on_search_refilter(widget):
@@ -498,31 +515,44 @@ class PrefsEditor:
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
         keybindings = self.config['keybindings']
 
-        keybindutil          = KeyBindUtil()
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        plugin_keyb_desc     = keybindutil.get_all_act_to_desc()
-        #merge give preference to main bindings over plugin
-        keybindings          = {**plugin_keyb_act,  **keybindings}
+        keybindutil = KeyBindUtil()
+        plugin_keyb_act = keybindutil.get_all_act_to_keys()
+        plugin_keyb_desc = keybindutil.get_all_act_to_desc()
+        # merge give preference to main bindings over plugin
+        keybindings = {**plugin_keyb_act, **keybindings}
         self.keybindingnames = {**plugin_keyb_desc, **self.keybindingnames}
-        #dbg("appended actions %s names %s" % (keybindings, self.keybindingnames))
+        # dbg(f"appended actions {keybindings} names {self.keybindingnames}")
 
-        for keybinding in keybindings:
+        for keybinding, value in keybindings.items():
             keyval = 0
             mask = 0
-            value = keybindings[keybinding]
-            if value is not None and value != '':
-                try:
-                    (keyval, mask) = self.keybindings._parsebinding(value)
-                except KeymapError:
-                    pass
-            liststore.append([keybinding, self.keybindingnames[keybinding],
-                             keyval, mask])
+            if isinstance(value, str):
+                if value is not None and value != '':
+                    try:
+                        keyval, mask = self.keybindings.parsebinding(value)
+                    except KeymapError:
+                        pass
+                liststore.append([keybinding, self.keybindingnames[keybinding],
+                                 keyval, mask, 0, 0])
+                self.config['keybindings'][keybinding] = [value, '']
+            if isinstance(value, list):
+                bindings_list = [(0, 0), (0, 0)]
+                for index, val in enumerate(value):
+                    if val is not None and val != '':
+                        try:
+                            keyval, mask = self.keybindings.parsebinding(val)
+                            bindings_list[index] = (keyval, mask)
+                        except KeymapError:
+                            pass
+                liststore.append([keybinding, self.keybindingnames[keybinding],
+                                  bindings_list[0][0], bindings_list[0][1],
+                                  bindings_list[1][0], bindings_list[1][1]])
 
         self.treemodelfilter = liststore.filter_new()
         self.treemodelfilter.set_visible_func(filter_visible, keybindings)
         widget.set_model(self.treemodelfilter)
 
-        ## Plugins tab
+        # PLUGINS TAB
         # Populate the plugin list
         widget = guiget('pluginlist')
         liststore = widget.get_model()
@@ -531,12 +561,11 @@ class PrefsEditor:
         pluginlist = self.registry.get_available_plugins()
         self.plugins = {}
         for plugin in pluginlist:
-            if plugin[0] != "_": # Do not display hidden plugins
+            if plugin[0] != "_":  # Do not display hidden plugins
                 self.plugins[plugin] = self.registry.is_enabled(plugin)
 
-        for plugin in self.plugins:
-            self.pluginiters[plugin] = liststore.append([plugin,
-                                             self.plugins[plugin]])
+        for plugin, plugin_value in self.plugins.items():
+            self.pluginiters[plugin] = liststore.append([plugin, plugin_value])
         selection = widget.get_selection()
         selection.connect('changed', self.on_plugin_selection_changed)
         if len(self.pluginiters) > 0:
@@ -547,9 +576,9 @@ class PrefsEditor:
         self.config.set_profile(profile)
         guiget = self.builder.get_object
 
-        dbg('Setting profile %s' % profile)
+        dbg(f'Setting profile {profile}')
 
-        ## General tab
+        # GENERAL TAB
         # Use system font
         widget = guiget('system_font_checkbutton')
         widget.set_active(self.config['use_system_font'])
@@ -557,7 +586,7 @@ class PrefsEditor:
         # Font selector
         widget = guiget('font_selector')
 
-        if self.config['use_system_font'] == True:
+        if self.config['use_system_font'] is True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
                 widget.set_font_name(fontname)
@@ -624,7 +653,7 @@ class PrefsEditor:
             except:
                 widget.set_color(Gdk.color_parse('#ffffff'))
 
-        ## Command tab
+        # COMMAND TAB
         # Login shell
         widget = guiget('login_shell_checkbutton')
         widget.set_active(self.config['login_shell'])
@@ -645,7 +674,7 @@ class PrefsEditor:
             # Default is to close the terminal
             widget.set_active(0)
 
-        ## Colors tab
+        # COLORS TAB
         # Use system colors
         widget = guiget('use_theme_colors_checkbutton')
         widget.set_active(self.config['use_theme_colors'])
@@ -655,9 +684,9 @@ class PrefsEditor:
         # Colorscheme
         widget = guiget('color_scheme_combobox')
         scheme = None
-        for ascheme in self.colourschemes:
-            forecol = self.colourschemes[ascheme][0]
-            backcol = self.colourschemes[ascheme][1]
+        for ascheme, scheme_value in self.colourschemes.items():
+            forecol = scheme_value[0]
+            backcol = scheme_value[1]
             if self.config['foreground_color'].lower() == forecol and \
                self.config['background_color'].lower() == backcol:
                 scheme = ascheme
@@ -690,8 +719,8 @@ class PrefsEditor:
         # Palette scheme
         widget = guiget('palette_combobox')
         palette = None
-        for apalette in self.palettes:
-            if self.config['palette'].lower() == self.palettes[apalette]:
+        for apalette, palette_value in self.palettes.items():
+            if self.config['palette'].lower() == palette_value:
                 palette = apalette
         if palette not in self.palettevalues:
             if self.config['palette'] in [None, '']:
@@ -703,6 +732,7 @@ class PrefsEditor:
         for palette_id in range(0, NUM_PALETTE_COLORS):
             widget = self.get_palette_widget(palette_id)
             widget.set_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+
             def on_palette_click(event, data, widget=widget):
                 self.edit_palette_button(widget)
             widget.connect('button-press-event', on_palette_click)
@@ -714,11 +744,11 @@ class PrefsEditor:
         widget = guiget('inactive_color_offset')
         widget.set_value(float(self.config['inactive_color_offset']))
         widget = guiget('inactive_color_offset_value_label')
-        widget.set_text('%d%%' % (int(float(self.config['inactive_color_offset'])*100)))
+        widget.set_text(f"{int(float(self.config['inactive_color_offset'])*100)}%%")
         widget = guiget('inactive_bg_color_offset')
         widget.set_value(float(self.config['inactive_bg_color_offset']))
         widget = guiget('inactive_bg_color_offset_value_label')
-        widget.set_text('%d%%' % (int(float(self.config['inactive_bg_color_offset'])*100)))
+        widget.set_text(f"{int(float(self.config['inactive_bg_color_offset'])*100)}%%")
         # Open links with a single click (instead of a Ctrl-left click)
         widget = guiget('link_single_click')
         widget.set_active(self.config['link_single_click'])
@@ -730,7 +760,7 @@ class PrefsEditor:
         widget = guiget('custom_url_handler_entry')
         widget.set_text(self.config['custom_url_handler'])
 
-        ## Background tab
+        # BACKGROUND TAB
         # Radio values
         if self.config['background_type'] == 'solid':
             guiget('solid_radiobutton').set_active(True)
@@ -775,8 +805,8 @@ class PrefsEditor:
         # Background shading
         widget = guiget('background_darkness_scale')
         widget.set_value(float(self.config['background_darkness']))
-   
-        ## Scrolling tab
+
+        # SCROLLING TAB
         # Scrollbar position
         widget = guiget('scrollbar_position_combobox')
         value = self.config['scrollbar_position']
@@ -799,7 +829,7 @@ class PrefsEditor:
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
 
-        ## Compatibility tab
+        # COMPATIBILITY TAB
         # Backspace key
         widget = guiget('backspace_binding_combobox')
         value = self.config['backspace_binding']
@@ -823,11 +853,11 @@ class PrefsEditor:
         else:
             widget.set_active(0)
 
-        ## Titlebar tab
+        # TITLEBAR TAB
         # Titlebar colors
         for bit in ['title_transmit_fg_color', 'title_transmit_bg_color',
-            'title_receive_fg_color', 'title_receive_bg_color',
-            'title_inactive_fg_color', 'title_inactive_bg_color']:
+                    'title_receive_fg_color', 'title_receive_bg_color',
+                    'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
             widget.set_color(Gdk.color_parse(self.config[bit]))
         # Hide size text from the title bar
@@ -839,7 +869,7 @@ class PrefsEditor:
         self.on_title_system_font_checkbutton_toggled(widget)
         # Font selector
         widget = guiget('title_font_selector')
-        if self.config['title_use_system_font'] == True:
+        if self.config['title_use_system_font'] is True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
                 widget.set_font_name(fontname)
@@ -878,6 +908,7 @@ class PrefsEditor:
         self.config.save()
 
     def on_detachable_tabs_toggled(self, widget):
+        """Detachable tabs setting changed"""
         self.config['detachable_tabs'] = widget.get_active()
         self.config.save()
 
@@ -968,7 +999,7 @@ class PrefsEditor:
         self.config['smart_copy'] = widget.get_active()
         self.config.save()
 
-    def on_clear_select_on_copy_toggled(self,widget):
+    def on_clear_select_on_copy_toggled(self, widget):
         """Clear selection on smart copy"""
         self.config['clear_select_on_copy'] = widget.get_active()
         self.config.save()
@@ -1056,7 +1087,7 @@ class PrefsEditor:
         """Scrollback infiniteness changed"""
         spinbutton = self.builder.get_object('scrollback_lines_spinbutton')
         value = widget.get_active()
-        if value == True:
+        if value is True:
             spinbutton.set_sensitive(False)
         else:
             spinbutton.set_sensitive(True)
@@ -1075,11 +1106,13 @@ class PrefsEditor:
         self.config['scrollbar_position'] = value
         self.config.save()
 
-    def on_background_image_file_set(self,widget):
+    def on_background_image_file_set(self, widget):
+        """Background image setting changed"""
         self.config['background_image'] = widget.get_filename()
         self.config.save()
 
     def on_background_image_mode_changed(self, widget):
+        """Background image mode setting changed"""
         selected = widget.get_active()
         if selected == 1:
             value = 'scale_and_fit'
@@ -1093,6 +1126,7 @@ class PrefsEditor:
         self.config.save()
 
     def on_background_image_align_horiz_changed(self, widget):
+        """Background image horizontal alignment setting changed"""
         selected = widget.get_active()
         if selected == 1:
             value = 'center'
@@ -1104,6 +1138,7 @@ class PrefsEditor:
         self.config.save()
 
     def on_background_image_align_vert_changed(self, widget):
+        """Background image vertical alignment setting changed"""
         selected = widget.get_active()
         if selected == 1:
             value = 'middle'
@@ -1117,8 +1152,7 @@ class PrefsEditor:
     def on_darken_background_scale_value_changed(self, widget):
         """Background darkness setting changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
-        if value > 1.0:
-          value = 1.0
+        value = min(value, 1.0)
         self.config['background_darkness'] = value
         self.config.save()
 
@@ -1145,7 +1179,7 @@ class PrefsEditor:
                 palettebits.append(get_color_string(self.get_palette_color(palette_id)))
             palette = ':'.join(palettebits)
         else:
-            err('Unknown palette value: %s' % value)
+            err(f'Unknown palette value: {value}')
             return
 
         self.config['palette'] = palette
@@ -1163,7 +1197,7 @@ class PrefsEditor:
         cr.fill()
 
     def on_foreground_colorbutton_click(self, event, data):
-        dialog = Gtk.ColorChooserDialog("Choose Terminal Text Color")
+        dialog = Gtk.ColorChooserDialog(_("Choose Terminal Text Color"))
         fg = self.config['foreground_color']
         dialog.set_rgba(Gdk.RGBA.from_color(Gdk.color_parse(self.config['foreground_color'])))
         dialog.connect('notify::rgba', self.on_foreground_colorpicker_color_change)
@@ -1216,7 +1250,7 @@ class PrefsEditor:
     def get_palette_widget(self, palette_id):
         """Returns the palette widget for the given palette ID."""
         guiget = self.builder.get_object
-        return guiget('palette_colorpicker_%d' % (palette_id + 1))
+        return guiget(f'palette_colorpicker_{palette_id + 1}')
 
     def get_palette_id(self, widget):
         """Returns the palette ID for the given palette widget."""
@@ -1401,31 +1435,28 @@ class PrefsEditor:
     def on_inactive_color_offset_value_changed(self, widget):
         """Inactive color offset setting changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
-        if value > 1.0:
-          value = 1.0
+        value = min(value, 1.0)
         self.config['inactive_color_offset'] = value
         self.config.save()
         guiget = self.builder.get_object
         label_widget = guiget('inactive_color_offset_value_label')
-        label_widget.set_text('%d%%' % (int(value * 100)))
+        label_widget.set_text(f'{int(value * 100)}%%')
 
     def on_inactive_bg_color_offset_value_changed(self, widget):
         """Inactive background color offset setting changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
-        if value > 1.0:
-          value = 1.0
+        value = min(value, 1.0)
         self.config['inactive_bg_color_offset'] = value
         self.config.save()
         guiget = self.builder.get_object
         label_widget = guiget('inactive_bg_color_offset_value_label')
-        label_widget.set_text('%d%%' % (int(value * 100)))
+        label_widget.set_text(f'{int(value * 100)}%%')
 
     def on_handlesize_value_changed(self, widget):
         """Handle size changed"""
         value = widget.get_value()  # This one is rounded according to the UI.
         value = int(value)          # Cast to int.
-        if value > 20:
-            value = 20
+        value = min(value, 20)
         self.config['handle_size'] = value
         self.config.save()
         guiget = self.builder.get_object
@@ -1436,8 +1467,7 @@ class PrefsEditor:
         """Handles cell height changed"""
         value = widget.get_value()
         value = round(float(value), 1)
-        if value > 2.0:
-            value = 2.0
+        value = min(value, 2.0)
         self.config['cell_height'] = value
         self.config.save()
         guiget = self.builder.get_object
@@ -1448,8 +1478,7 @@ class PrefsEditor:
         """Handles cell width changed"""
         value = widget.get_value()
         value = round(float(value), 1)
-        if value > 2.0:
-            value = 2.0
+        value = min(value, 2.0)
         self.config['cell_width'] = value
         self.config.save()
         guiget = self.builder.get_object
@@ -1509,6 +1538,7 @@ class PrefsEditor:
             value = 'normal'
         self.config['window_state'] = value
         self.config.save()
+
     def on_askbeforeclose_changed(self, widget):
         """Ask Before Close changed"""
         selected = widget.get_active()
@@ -1516,13 +1546,14 @@ class PrefsEditor:
             value = 'Never'
         elif selected == 1:
             value = 'Multiple Terminals'
-        elif selected == 2: 
+        elif selected == 2:
             value = 'Always'
         else:
             value = 'Multiple Terminals'
-        configval = value.lower().replace(" ","_")
+        configval = value.lower().replace(" ", "_")
         self.config['ask_before_closing'] = configval
         self.config.save()
+
     # helper function, not a signal
     def addprofile(self, name, toclone):
         """Add a profile"""
@@ -1530,14 +1561,14 @@ class PrefsEditor:
 
         treeview = guiget('profilelist')
         model = treeview.get_model()
-        values = [ r[0] for r in model ]
+        values = [r[0] for r in model]
 
         newprofile = name
         if newprofile in values:
             i = 1
             while newprofile in values:
                 i = i + 1
-                newprofile = '%s %d' % (name, i)
+                newprofile = f'{name} {i}'
 
         if self.config.add_profile(newprofile, toclone):
             res = model.append([newprofile, True])
@@ -1591,14 +1622,15 @@ class PrefsEditor:
 
         treeview = guiget('layoutlist')
         model = treeview.get_model()
-        values = [ r[0] for r in model ]
+        values = [r[0] for r in model]
 
         name = _('New Layout')
         if name in values:
             i = 0
             while name in values:
                 i = i + 1
-                name = '%s %d' % (_('New Layout'), i)
+                new_layout_str = _('New Layout')
+                name = f'{new_layout_str} {i}'
 
         if self.config.add_layout(name, current_layout):
             res = model.append([name, True])
@@ -1628,7 +1660,9 @@ class PrefsEditor:
         dbg("updated layout from terminator:(%s)" % current_layout)
 
         if self.config.replace_layout(name, current_layout):
-            treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
+            treeview.set_cursor(model.get_path(rowiter),
+                                column=treeview.get_column(0),
+                                start_editing=False)
         self.config.save()
         self.layouteditor.set_layout(name)
 
@@ -1690,8 +1724,8 @@ class PrefsEditor:
         widget.set_sensitive(not value)
         self.config['use_system_font'] = value
         self.config.save()
-        
-        if self.config['use_system_font'] == True:
+
+        if self.config['use_system_font'] is True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
                 widget.set_font_name(fontname)
@@ -1709,7 +1743,7 @@ class PrefsEditor:
         self.config['title_use_system_font'] = value
         self.config.save()
 
-        if self.config['title_use_system_font'] == True:
+        if self.config['title_use_system_font'] is True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
                 widget.set_font_name(fontname)
@@ -1739,9 +1773,9 @@ class PrefsEditor:
         imagewidget = guiget('image_radiobutton')
         transwidget = guiget('transparent_radiobutton')
 
-        if imagewidget.get_active() == True:
+        if imagewidget.get_active() is True:
             backtype = 'image'
-        elif transwidget.get_active() == True:
+        elif transwidget.get_active() is True:
             backtype = 'transparent'
         else:
             backtype = 'solid'
@@ -1792,7 +1826,7 @@ class PrefsEditor:
         self.set_plugin(plugin)
         self.previous_plugin_selection = plugin
 
-        widget = self.builder.get_object('plugintogglebutton')
+        # widget = self.builder.get_object('plugintogglebutton')
 
     def on_plugin_toggled(self, cell, path):
         """A plugin has been enabled or disabled"""
@@ -1811,22 +1845,22 @@ class PrefsEditor:
         # Update the treeview
         model[path][1] = self.plugins[plugin]
 
-        enabled_plugins = [x for x in self.plugins if self.plugins[x] == True]
+        enabled_plugins = [x for x, val in self.plugins.items() if val is True]
         self.config['enabled_plugins'] = enabled_plugins
         self.config.save()
 
     def set_plugin(self, plugin):
         """Show the preferences for the selected plugin, if any"""
-        pluginpanelabel = self.builder.get_object('pluginpanelabel')
-        pluginconfig = self.config.plugin_get_config(plugin)
+        # pluginpanelabel = self.builder.get_object('pluginpanelabel')
+        # pluginconfig = self.config.plugin_get_config(plugin)
         # FIXME: Implement this, we need to auto-construct a UI for the plugin
 
     def on_profile_name_edited(self, cell, path, newtext):
         """Update a profile name"""
         oldname = cell.get_property('text')
-        if oldname == newtext or oldname == 'default':
+        if oldname in (newtext, 'default'):
             return
-        dbg('Changing %s to %s' % (oldname, newtext))
+        dbg(f'Changing {oldname} to {newtext}')
         self.config.rename_profile(oldname, newtext)
         self.config.save()
 
@@ -1861,9 +1895,9 @@ class PrefsEditor:
     def on_layout_name_edited(self, cell, path, newtext):
         """Update a layout name"""
         oldname = cell.get_property('text')
-        if oldname == newtext or oldname == 'default':
+        if oldname in (newtext, 'default'):
             return
-        dbg('Changing %s to %s' % (oldname, newtext))
+        dbg(f'Changing {oldname} to {newtext}')
         self.config.rename_layout(oldname, newtext)
         self.config.save()
 
@@ -1912,8 +1946,8 @@ class PrefsEditor:
         back = guiget('background_colorbutton')
 
         if active:
-            for widget in [scheme, fore, back]:
-                widget.set_sensitive(False)
+            for _widget in [scheme, fore, back]:
+                _widget.set_sensitive(False)
         else:
             scheme.set_sensitive(True)
             self.on_color_scheme_combobox_changed(scheme)
@@ -1926,15 +1960,26 @@ class PrefsEditor:
         self.config['bold_is_bright'] = widget.get_active()
         self.config.save()
 
-    def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code):
-        inpath = path #save for debugging
-        trpath = Gtk.TreePath.new_from_string(inpath)
-        path   = str(self.treemodelfilter.convert_path_to_child_path(trpath))
-        dbg("convert path with filter from: %s to: %s" %
-                                        (inpath, path))
+    def on_cellrenderer_accel_edited_keybind1(self, liststore, path, key, mods, _code):
+        """Handle an edited keybinding 1"""
+        self.on_cellrenderer_accel_edited(liststore, path, key, mods, _code,
+                                          2, 3, 0)
+
+    def on_cellrenderer_accel_edited_keybind2(self, liststore, path, key, mods, _code):
+        """Handle an edited keybinding 2"""
+        self.on_cellrenderer_accel_edited(liststore, path, key, mods, _code,
+                                          4, 5, 1)
+
+    def on_cellrenderer_accel_edited(self, liststore, path, key, mods, _code, key_index, mod_index, binding_index):
         """Handle an edited keybinding"""
+        inpath = path  # save for debugging
+        trpath = Gtk.TreePath.new_from_string(inpath)
+        path = str(self.treemodelfilter.convert_path_to_child_path(trpath))
+        dbg(f"convert path with filter from: {inpath} to: {path}")
+
         # Ignore `Gdk.KEY_Tab` so that `Shift+Tab` is displayed as `Shift+Tab`
-        # in `Preferences>Keybindings` and NOT `Left Tab` (see `Gdk.KEY_ISO_Left_Tab`).
+        # in `Preferences>Keybindings` and NOT `Left Tab`
+        # (see `Gdk.KEY_ISO_Left_Tab`).
         if mods & Gdk.ModifierType.SHIFT_MASK and key != Gdk.KEY_Tab:
             key_with_shift = Gdk.Keymap.translate_keyboard_state(
                 self.keybindings.keymap,
@@ -1944,7 +1989,7 @@ class PrefsEditor:
             )
             keyval_lower, keyval_upper = Gdk.keyval_convert_case(key)
 
-            # Remove the Shift modifier from `mods` if a new key binding doesn't
+            # Remove the Shift modifier from `mods` if a new keybinding doesn't
             # contain a letter and its key value (`key`) can't be modified by a
             # Shift key.
             if key_with_shift.level != 0 and keyval_lower == keyval_upper:
@@ -1955,24 +2000,22 @@ class PrefsEditor:
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
         parsed_accel = Gtk.accelerator_parse(accel)
 
-        keybindutil          = KeyBindUtil()
-        keybindings          = self.config["keybindings"]
-        #merge give preference to main bindings over plugin
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        keybindings          = {**plugin_keyb_act,  **keybindings}
+        keybindutil = KeyBindUtil()
+        keybindings = self.config["keybindings"]
+        # merge give preference to main bindings over plugin
+        plugin_keyb_act = keybindutil.get_all_act_to_keys()
+        keybindings = {**plugin_keyb_act, **keybindings}
 
         duplicate_bindings = []
-        for conf_binding, conf_accel in keybindings.items():
-            if conf_accel is None:
-                continue
+        for conf_binding, conf_accels in keybindings.items():
+            for conf_accel in conf_accels:
+                if conf_accel is None:
+                    continue
 
-            parsed_conf_accel = Gtk.accelerator_parse(conf_accel)
+                parsed_conf_accel = Gtk.accelerator_parse(conf_accel)
 
-            if (
-                parsed_accel == parsed_conf_accel
-                and current_binding != conf_binding
-            ):
-                duplicate_bindings.append((conf_binding, conf_accel))
+                if (parsed_accel == parsed_conf_accel and current_binding != conf_binding):
+                    duplicate_bindings.append((conf_binding, conf_accel))
 
         if duplicate_bindings:
             dialog = Gtk.MessageDialog(
@@ -1980,16 +2023,14 @@ class PrefsEditor:
                 flags=Gtk.DialogFlags.MODAL,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE,
-                text="Duplicate Key Bindings Are Not Allowed",
+                text=_("Duplicate keybindings are not allowed."),
             )
 
             accel_label = Gtk.accelerator_get_label(key, mods)
             # get the first found duplicate
             duplicate_keybinding_name = duplicate_bindings[0][0]
 
-            message = (
-                "Key binding `{0}` is already in use to trigger the `{1}` action."
-            ).format(accel_label, self.keybindingnames[duplicate_keybinding_name])
+            message = f"Key binding `{accel_label}` is already in use to trigger the `{self.keybindingnames[duplicate_keybinding_name]}` action."
             dialog.format_secondary_text(message)
 
             self.active_message_dialog = dialog
@@ -1999,42 +2040,65 @@ class PrefsEditor:
 
             return
 
-        celliter = liststore.get_iter_from_string(path)
-        liststore.set(celliter, 2, key, 3, mods)
-
         binding = liststore.get_value(liststore.get_iter(path), 0)
         accel = Gtk.accelerator_name(key, mods)
-        self.config['keybindings'][binding] = accel
+        alt_index = abs(binding_index - 1)
+        if self.config['keybindings'][binding][alt_index] != accel:
+            self.config['keybindings'][binding][binding_index] = accel
+        else:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                flags=Gtk.DialogFlags.MODAL,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.CLOSE,
+                text=_("Duplicate keybindings are not allowed."),
+            )
+
+            self.active_message_dialog = dialog
+            dialog.run()
+            dialog.destroy()
+            self.active_message_dialog = None
+
+            return
+
+        celliter = liststore.get_iter_from_string(path)
+        liststore.set(celliter, key_index, key, mod_index, mods)
 
         plugin_keyb_desc = keybindutil.get_act_to_desc(binding)
         if plugin_keyb_desc:
-            dbg("modifying plugin binding: %s, %s, %s" %
-                                    (plugin_keyb_desc, binding, accel))
+            dbg(f"modifying plugin binding: %{plugin_keyb_desc}, {binding}, {accel}")
             keybindutil.bindkey([plugin_keyb_desc, binding, accel])
         else:
-            dbg("skipping: %s" % binding)
-            pass
+            dbg(f"skipping: {binding}")
 
         self.config.save()
 
-    def on_cellrenderer_accel_cleared(self, liststore, path):
-        inpath = path #save for debugging
-        trpath = Gtk.TreePath.new_from_string(inpath)
-        path   = str(self.treemodelfilter.convert_path_to_child_path(trpath))
-        dbg("convert path with filter from: %s to: %s" %
-                                        (inpath, path))
+    def on_cellrenderer_accel_cleared_keybind1(self, liststore, path):
+        """Handle the clearing of keybinding 1 accelerator"""
+        self.on_cellrenderer_accel_cleared(liststore, path, 2, 3, 0)
 
+    def on_cellrenderer_accel_cleared_keybind2(self, liststore, path):
+        """Handle the clearing of keybinding 2 accelerator"""
+        self.on_cellrenderer_accel_cleared(liststore, path, 4, 5, 1)
+
+    def on_cellrenderer_accel_cleared(self, liststore, path, key_index, mod_index, binding_index):
         """Handle the clearing of a keybinding accelerator"""
+        inpath = path  # save for debugging
+        trpath = Gtk.TreePath.new_from_string(inpath)
+        path = str(self.treemodelfilter.convert_path_to_child_path(trpath))
+        dbg(f"convert path with filter from: {inpath} to: {path}")
+
         celliter = liststore.get_iter_from_string(path)
-        liststore.set(celliter, 2, 0, 3, 0)
+        liststore.set(celliter, key_index, 0, mod_index, 0)
 
         binding = liststore.get_value(liststore.get_iter(path), 0)
-        self.config['keybindings'][binding] = ""
+        self.config['keybindings'][binding][binding_index] = ''
         self.config.save()
 
-    def on_open_manual(self,  widget):
+    def on_open_manual(self, widget):
         """Open the fine manual"""
         self.term.key_help()
+
 
 class LayoutEditor:
     profile_ids_to_profile = None
@@ -2045,6 +2109,7 @@ class LayoutEditor:
     treeview = None
     treestore = None
     config = None
+    previous_layout_selection = None
 
     def __init__(self, builder):
         """Initialise ourself"""
@@ -2068,15 +2133,14 @@ class LayoutEditor:
         store.clear()
 
         children = list(layout.keys())
-        i = 0
-        while children != []:
+        while children:
             child = children.pop()
             child_type = layout[child]['type']
             parent = layout[child]['parent']
 
             if child_type != 'Window' and parent not in layout:
                 # We have an orphan!
-                err('%s is an orphan in this layout. Discarding' % child)
+                err(f'{child} is an orphan in this layout. Discarding')
                 continue
             try:
                 parentiter = listitems[parent]
@@ -2101,7 +2165,7 @@ class LayoutEditor:
     def update_profiles(self):
         """Update the list of profiles"""
         self.profile_ids_to_profile = {}
-        self.profile_profile_to_ids= {}
+        self.profile_profile_to_ids = {}
         chooser = self.builder.get_object('layout_profile_chooser')
 
         profiles = self.config.list_profiles()
@@ -2200,6 +2264,7 @@ class LayoutEditor:
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['directory'] = workdir
         self.config.save()
+
 
 if __name__ == '__main__':
     from . import util

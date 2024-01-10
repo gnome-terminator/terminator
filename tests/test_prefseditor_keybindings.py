@@ -57,7 +57,8 @@ def test_non_empty_default_keybinding_accels_are_distinct():
 
     all_default_accelerators = [
         Gtk.accelerator_parse(accel)
-        for accel in config.DEFAULTS["keybindings"].values()
+        for accels in config.DEFAULTS["keybindings"].values()
+        for accel in accels
         if accel != ""  # ignore empty key bindings
     ]
 
@@ -108,7 +109,8 @@ def test_message_dialog_is_shown_on_duplicate_accel_assignment(
 
     # Replace default accelerator with a test one
     prefs_editor.on_cellrenderer_accel_edited(
-        liststore=liststore, path=path, key=key, mods=mods, _code=code
+        liststore=liststore, path=path, key=key, mods=mods, _code=code,
+        key_index=2, mod_index=3, binding_index=0
     )
 
     assert message_dialog.has_appeared == expected
@@ -121,12 +123,12 @@ def test_message_dialog_is_shown_on_duplicate_accel_assignment(
     [
         # 1) 'edit_tab_title' Ctrl+Alt+A
         ("9", 97, CONTROL_ALT_MOD, 38),
-        # 2) 'edit_terminal_title' Ctrl+Alt+A
-        ("10", 97, CONTROL_ALT_MOD, 38),
+        # 2) 'move_tab_right' Ctrl+Alt+A
+        ("33", 97, CONTROL_ALT_MOD, 38),
         # 3) 'edit_window_title' F11
         ("11", 65480, Gdk.ModifierType(0), 95),
-        # 4) 'zoom_in' Shift+Ctrl+Z
-        ("70", 122, CONTROL_SHIFT_MOD, 52),
+        # 4) 'move_tab_left' Shift+Ctrl+Z
+        ("32", 122, CONTROL_SHIFT_MOD, 52),
     ],
 )
 def test_duplicate_accels_not_possible_to_set(accel_params):
@@ -157,23 +159,25 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
 
     all_default_accelerators = {
         Gtk.accelerator_parse(accel)
-        for accel in config.DEFAULTS["keybindings"].values()
+        for accels in config.DEFAULTS["keybindings"].values()
+        for accel in accels
         if accel != ""  # ignore empty key bindings
     }
     # Check that a test accelerator is indeed a duplicate
     assert (key, mods) in all_default_accelerators
 
     default_accelerator = Gtk.accelerator_parse(
-        config.DEFAULTS["keybindings"][binding]
+        config.DEFAULTS["keybindings"][binding][0]
     )
 
     # Replace default accelerator with a test one
     prefs_editor.on_cellrenderer_accel_edited(
-        liststore=liststore, path=path, key=key, mods=mods, _code=code
+        liststore=liststore, path=path, key=key, mods=mods, _code=code,
+        key_index=2, mod_index=3, binding_index=0
     )
 
     new_accelerator = Gtk.accelerator_parse(
-        prefs_editor.config["keybindings"][binding]
+        prefs_editor.config["keybindings"][binding][0]
     )
 
     # Key binding accelerator value shouldn't have changed
@@ -195,17 +199,20 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
             (Gdk.KEY_a, Gdk.ModifierType.CONTROL_MASK, 38),
             (Gdk.KEY_a, Gdk.ModifierType.CONTROL_MASK),
         ),
-        # 3) `Ctrl+Shift+a` shouldn't change
-        #((Gdk.KEY_a, CONTROL_SHIFT_MOD, 38), (Gdk.KEY_a, CONTROL_SHIFT_MOD),),
-        # 4) `Ctrl+Shift+Alt+F1` shouldn't change
+        # 3) `Ctrl+Shift+y` shouldn't change
         (
-            (Gdk.KEY_F1, CONTROL_ALT_SHIFT_MOD, 67),
-            (Gdk.KEY_F1, CONTROL_ALT_SHIFT_MOD),
+            (Gdk.KEY_y, CONTROL_SHIFT_MOD, 38),
+            (Gdk.KEY_y, CONTROL_SHIFT_MOD),
         ),
-        # 5) `Shift+Up` shouldn't change
+        # 4) `Ctrl+Shift+Alt+U` shouldn't change
         (
-            (Gdk.KEY_Up, Gdk.ModifierType.SHIFT_MASK, 111),
-            (Gdk.KEY_Up, Gdk.ModifierType.SHIFT_MASK),
+            (Gdk.KEY_u, CONTROL_ALT_SHIFT_MOD, 67),
+            (Gdk.KEY_u, CONTROL_ALT_SHIFT_MOD),
+        ),
+        # 5) `Ctrl+Alt+S` shouldn't change
+        (
+            (Gdk.KEY_s, CONTROL_ALT_MOD, 111),
+            (Gdk.KEY_s, CONTROL_ALT_MOD),
         ),
         # 6) `Ctrl+Shift+[` should become `Ctrl+{`
         (
@@ -231,6 +238,11 @@ def test_keybinding_edit_produce_expected_accels(
 
     term = terminal.Terminal()
     prefs_editor = prefseditor.PrefsEditor(term=term)
+    message_dialog = MessageDialogToken()
+    # Check for an active message dialog every second
+    GLib.timeout_add_seconds(
+        1, detect_close_message_dialog, prefs_editor, message_dialog
+    )
 
     widget = prefs_editor.builder.get_object("keybindingtreeview")
     treemodelfilter = widget.get_model()
@@ -245,6 +257,9 @@ def test_keybinding_edit_produce_expected_accels(
         key=key,
         mods=mods,
         _code=hardware_keycode,
+        key_index=2,
+        mod_index=3,
+        binding_index=0,
     )
 
     liststore_iter = liststore.get_iter(path)
@@ -284,23 +299,31 @@ def test_keybinding_successfully_reassigned_after_clearing(accel_params):
     liststore = treemodelfilter.get_model()
 
     path, key, mods, hardware_keycode = accel_params
-    # Assign a key binding
+    # Assign a key binding to keybinding 1
     prefs_editor.on_cellrenderer_accel_edited(
         liststore=liststore,
         path=path,
         key=key,
         mods=mods,
         _code=hardware_keycode,
+        key_index=2,
+        mod_index=3,
+        binding_index=0,
     )
-    # Clear the key binding
-    prefs_editor.on_cellrenderer_accel_cleared(liststore=liststore, path=path)
-    # Reassign the key binding
+    # Clear the key binding for keybinding 1
+    prefs_editor.on_cellrenderer_accel_cleared(liststore=liststore, path=path,
+                                               key_index=2, mod_index=3,
+                                               binding_index=0)
+    # Reassign the key binding for keybinding 1
     prefs_editor.on_cellrenderer_accel_edited(
         liststore=liststore,
         path=path,
         key=key,
         mods=mods,
         _code=hardware_keycode,
+        key_index=2,
+        mod_index=3,
+        binding_index=0,
     )
 
     reset_config_keybindings()
