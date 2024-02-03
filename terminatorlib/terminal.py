@@ -1585,7 +1585,7 @@ class Terminal(Gtk.VBox):
 
         # virtualenv set in layout config
         if self.virtual_env:
-            self.set_virtual_env(self.virtual_env)
+            self.set_venv(self.virtual_env)
 
         if type(command) is list:
             shell = util.path_lookup(command[0])
