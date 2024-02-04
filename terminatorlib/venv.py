@@ -21,7 +21,7 @@ def get_pid_venv(pid = None):
     # prefix = getattr(sys, "base_prefix", None) or getattr(sys, "real_prefix", None) or sys.prefix
     # if prefix != sys.prefix: # session is in a virtual environment
     #     return sys.prefix
-    
+
     try: 
         return psinfo['environ']['VIRTUAL_ENV']
     except KeyError:
