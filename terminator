@@ -21,8 +21,7 @@
 
 import sys
 import os
-import psutil
-import pwd
+
 try:
     ORIGCWD = os.getcwd()
 except OSError:
