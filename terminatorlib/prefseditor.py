@@ -1594,6 +1594,14 @@ class PrefsEditor:
         (model, rowiter) = selected.get_selected()
         name = model.get_value(rowiter, 0)
 
+        config_layout  = self.config.base.get_layout(name)
+        dbg("layout from terminator:(%s)" % current_layout)
+        dbg("layout from config:(%s)" % config_layout)
+
+        self.config.copy_layout_item(config_layout, current_layout, 'directory')
+        self.config.copy_layout_item(config_layout, current_layout, 'command')
+        dbg("updated layout from terminator:(%s)" % current_layout)
+
         if self.config.replace_layout(name, current_layout):
             treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
         self.config.save()
@@ -2163,7 +2171,7 @@ class LayoutEditor:
 
     def on_layout_profile_workingdir_activate(self, widget):
         """A new working directory has been entered for this item"""
-        workdir = widget.get_text()
+        workdir = os.path.expanduser(widget.get_text())
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['directory'] = workdir
         self.config.save()
