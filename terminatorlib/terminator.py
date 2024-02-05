@@ -17,7 +17,6 @@ from .config import Config
 from .keybindings import Keybindings
 from .util import dbg, err, enumerate_descendants
 from .factory import Factory
-from .version import APP_NAME, APP_VERSION
 from .translation import _
 
 try:

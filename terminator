@@ -21,8 +21,7 @@
 
 import sys
 import os
-import psutil
-import pwd
+
 try:
     ORIGCWD = os.getcwd()
 except OSError:
@@ -108,11 +107,12 @@ if __name__ == '__main__':
                 if OPTIONS.new_tab:
                     dbg('Requesting a new tab')
                     ipc.new_tab_cmdline(optionslist)
-
-                if OPTIONS.reload:
+                elif OPTIONS.toggle_visibility:
+                    dbg('requesting to toggle windows visibility')
+                    ipc.toggle_visibility_cmdline(optionslist)
+                elif OPTIONS.reload:
                     dbg('requesting to reload configuration for all windows')
                     ipc.reload_configuration()
-
                 elif OPTIONS.unhide:
                     print('requesting to unhide windows')
                     ipc.unhide_cmdline(optionslist)
