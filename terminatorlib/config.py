@@ -622,12 +622,7 @@ class ConfigBase(Borg):
             dbg('config already loaded')
             return
 
-        if self.command_line_options and self.command_line_options.config:
-            filename = self.command_line_options.config
-        else:
-            filename = os.path.join(get_config_dir(), 'config')
-            if not os.path.exists(filename):
-                filename = os.path.join(get_system_config_dir(), 'config')
+        filename = self.get_config_filename()
         dbg('looking for config file: %s' % filename)
         try:
             #
@@ -706,6 +701,68 @@ class ConfigBase(Borg):
 
         self.loaded = True
 
+    def get_config_filename(self):
+        filename = ''
+        if self.command_line_options and self.command_line_options.config:
+            filename = self.command_line_options.config
+        else:
+            filename = os.path.join(get_config_dir(), 'config')
+            if not os.path.exists(filename):
+                filename = os.path.join(get_system_config_dir(), 'config')
+
+        return filename
+
+    def save_config_with_suffix(self, suffix):
+        try:
+            filename = self.get_config_filename()
+
+            #save the current config, to revert any changes make in preferences
+            #save the current config to config_dir path which is at least writable
+            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            cur_loaded_file = cfg_filename + suffix
+
+            if os.path.exists(filename) and cur_loaded_file:
+                dbg('copy file:%s to' \
+                    ' file:%s' % (filename, cur_loaded_file))
+                shutil.copy2(filename, cur_loaded_file)
+            elif cur_loaded_file:
+                open(cur_loaded_file, 'a').close()
+            else:
+                err('ConfigBase:: Unable to get filename to save')
+        except Exception as ex:
+            err('ConfigBase::save_config_with_suffix' \
+                    ' Unable to save config: %s' % ex)
+
+    def restore_config_with_suffix(self, suffix):
+        try:
+            filename = self.get_config_filename()
+
+            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            cur_loaded_file = cfg_filename + suffix
+            if os.path.exists(cur_loaded_file):
+                if not os.access(filename, os.W_OK):
+                    dbg('path:%s not writable' \
+                        ' restoring to path:%s' % (filename,cfg_filename))
+                    filename = cfg_filename
+
+                dbg('restore from file:%s to file:%s'
+                        % (cur_loaded_file, filename))
+                shutil.copy2(cur_loaded_file, filename)
+        except Exception as ex:
+            err('ConfigBase::restore_config_with_suffix' \
+                    ' Unable to restore config: %s' % ex)
+
+    def remove_config_with_suffix(self, suffix):
+        try:
+            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            cur_loaded_file = cfg_filename + suffix
+            if os.path.exists(cur_loaded_file):
+                dbg('remove file:%s' % (cur_loaded_file))
+                os.remove(cur_loaded_file)
+        except Exception as ex:
+            err('ConfigBase::remove_config_with_suffix' \
+                    ' Unable to remove config: %s' % ex)
+
     def reload(self):
         """Force a reload of the base config"""
         self.loaded = False
@@ -771,7 +828,8 @@ class ConfigBase(Borg):
                 open(filename, 'a').close()
 
             backup_file = filename + '~'
-            shutil.copy2(filename, backup_file)
+            if os.path.exists(filename):
+                shutil.copy2(filename, backup_file)
 
             with open(filename, 'wb') as fh:
                 parser.write(fh)
