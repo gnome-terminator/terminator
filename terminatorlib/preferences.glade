@@ -653,6 +653,7 @@
                                     <property name="can-focus">False</property>
                                     <property name="model">AskBeforeCloseListStore</property>
                                     <property name="active">1</property>
+                                    <signal name="changed" handler="on_askbeforeclose_changed" swapped="no"/>
                                     <child>
                                       <object class="GtkCellRendererText"/>
                                       <attributes>
