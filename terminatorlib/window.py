@@ -280,22 +280,15 @@ class Window(Container, Gtk.Window):
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
         maker = Factory()
-        if maker.isinstance(self.get_child(), 'Terminal'):
-            if self.is_zoomed():
-                return(self.confirm_close(window, _('window')))
-            else:
-                dbg('Only one child, closing is fine')
-                return(False)
-        elif maker.isinstance(self.get_child(), 'Container'):
-            return(self.confirm_close(window, _('window')))
-        else:
-            dbg('unknown child: %s' % self.get_child())
 
-    def confirm_close(self, window, type):
-        """Display a confirmation dialog when the user is closing multiple
-        terminals in one window"""
-        
-        return(not (self.construct_confirm_close(window, type) == Gtk.ResponseType.ACCEPT))
+        child = self.get_child()
+        if (maker.isinstance(child, 'Terminal') or
+            maker.isinstance(child, 'Container')):
+            confirm_close = self.construct_confirm_close(window, child)
+            return (confirm_close != Gtk.ResponseType.ACCEPT)
+        else:
+            dbg('unknown child: %s' % child)
+            return False # close anyway
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""

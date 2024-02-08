@@ -105,7 +105,7 @@ DEFAULTS = {
             'enabled_plugins'       : ['LaunchpadBugURLHandler',
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
-            'suppress_multiple_term_dialog': False,
+            'ask_before_closing'    : 'multiple_terminals',
             'always_split_with_profile': False,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
