@@ -308,6 +308,18 @@ class PrefsEditor:
             active = 0
         widget = guiget('winstatecombo')
         widget.set_active(active)
+        # Ask Before Closing
+        option = self.config['ask_before_closing']
+        if option == 'never':
+            active = 0
+        elif option == 'multiple_terminals':
+            active = 1
+        elif option == 'always':
+            active = 2
+        else:
+            active = 1 
+        widget = guiget('askbeforeclose')
+        widget.set_active(active)
         # Window borders
         widget = guiget('winbordercheck')
         widget.set_active(not self.config['borderless'])
@@ -1497,7 +1509,20 @@ class PrefsEditor:
             value = 'normal'
         self.config['window_state'] = value
         self.config.save()
-
+    def on_askbeforeclose_changed(self, widget):
+        """Ask Before Close changed"""
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'Never'
+        elif selected == 1:
+            value = 'Multiple Terminals'
+        elif selected == 2: 
+            value = 'Always'
+        else:
+            value = 'Multiple Terminals'
+        configval = value.lower().replace(" ","_")
+        self.config['ask_before_closing'] = configval
+        self.config.save()
     # helper function, not a signal
     def addprofile(self, name, toclone):
         """Add a profile"""
