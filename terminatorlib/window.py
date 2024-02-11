@@ -768,7 +768,7 @@ class Window(Container, Gtk.Window):
         # change
         child.set_current_page(child.get_current_page())
 
-    def set_groups(self, new_group,  term_list):
+    def set_groups(self, new_group, term_list):
         """Set terminals in term_list to new_group"""
         for terminal in term_list:
             terminal.set_group(None, new_group)
@@ -802,7 +802,7 @@ class Window(Container, Gtk.Window):
 
     def group_win_toggle(self, widget):
         """Toggle grouping to all windows in the current window"""
-        if widget.group == 'Window':
+        if widget.group:
             self.ungroup_win(widget)
         else:
             self.group_win(widget)
