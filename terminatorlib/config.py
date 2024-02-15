@@ -499,6 +499,34 @@ class Config(object):
         """Set a layout"""
         return(self.base.set_layout(layout, tree))
 
+    def copy_layout_item(self, src_layout, dst_layout, item):
+        items = {}
+        for child in src_layout:
+            section   = src_layout[child]
+            sec_type  = section.get('type', None)
+            if sec_type != 'Terminal':
+                continue
+
+            cp_item = section.get(item, None)
+            uuid    = str(section.get('uuid', None))
+            if cp_item:
+                items[uuid] = cp_item
+
+        dbg("items to be copied:%s" % items)
+        for child in dst_layout:
+            section   = dst_layout[child]
+            sec_type  = section.get('type', None)
+            if sec_type != 'Terminal':
+                continue
+
+            uuid       = str(section.get('uuid', None))
+            update_item = items.get(uuid, None)
+            if uuid and update_item:
+               dbg("update layout item:(%s) with value:(%s)"
+                                            % (item, update_item))
+               section[item] = update_item
+
+
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     loaded = None

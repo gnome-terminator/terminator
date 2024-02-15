@@ -1507,7 +1507,7 @@ class Terminal(Gtk.VBox):
     def set_cwd(self, cwd=None):
         """Set our cwd"""
         if cwd is not None:
-            self.cwd = cwd
+            self.cwd = os.path.expanduser(cwd)
 
     def held_open(self, widget=None, respawn=False, debugserver=False):
         self.is_held_open = True
