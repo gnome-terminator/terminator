@@ -359,6 +359,7 @@ def new_tab_cmdline(session, options):
 def toggle_visibility_cmdline(session,options):
     session.toggle_visibility_cmdline(options)
 
+@with_proxy
 def reload_configuration(session):
     """Call the dbus method to reload configuration for all windows"""
     session.reload_configuration()
