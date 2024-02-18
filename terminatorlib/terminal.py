@@ -321,7 +321,7 @@ class Terminal(Gtk.VBox):
         """Update the regexps used to match URLs"""
         userchars = "-A-Za-z0-9"
         passchars = "-A-Za-z0-9,?;.:/!%$^*&~\"#'"
-        hostchars = "-A-Za-z0-9:\[\]"
+        hostchars = r"-A-Za-z0-9:\[\]"
         pathchars = "-A-Za-z0-9_$.+!*(),;:@&=?/~#%'"
         schemes   = "(news:|telnet:|nntp:|file:/|https?:|ftps?:|webcal:|ssh:)"
         user      = "[" + userchars + "]+(:[" + passchars + "]+)?"
@@ -345,18 +345,18 @@ class Terminal(Gtk.VBox):
             self._add_regex('voip', re)
 
             re = (lboundry +
-                    "(www|ftp)[" + hostchars + "]*\.[" + hostchars +
+                    "(www|ftp)[" + hostchars + r"]*\.[" + hostchars +
                     ".]+(:[0-9]+)?(" + urlpath + ")?" + rboundry + "/?")
             self._add_regex('addr_only', re)
 
             re = (lboundry +
                     "(mailto:)?[a-zA-Z0-9][a-zA-Z0-9.+-]*@[a-zA-Z0-9]" +
-                            "[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+" +
+                            r"[a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]+" +
                             "[.a-zA-Z0-9-]*" + rboundry)
             self._add_regex('email', re)
 
             re = (lboundry +
-                  """news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@""" +
+                  r"""news:[-A-Z\^_a-z{|}~!"#$%&'()*+,./0-9;:=?`]+@""" +
                             "[-A-Za-z0-9.]+(:[0-9]+)?" + rboundry)
             self._add_regex('nntp', re)
 
