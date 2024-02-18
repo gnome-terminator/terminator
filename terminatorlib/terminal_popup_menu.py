@@ -12,7 +12,6 @@ from .util import err, dbg, spawn_new_terminator
 from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
-from .layoutlauncher import LayoutLauncher
 
 class TerminalPopupMenu(object):
     """Class implementing the Terminal context menu"""

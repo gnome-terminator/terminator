@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
+  <object class="GtkListStore" id="AskBeforeCloseListStore">
+    <columns>
+      <!-- column-name askwhenclose -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Never</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Multiple Terminals</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Always</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="BackspaceKeyListStore">
     <columns>
       <!-- column-name Result -->
@@ -424,6 +441,7 @@
     <property name="title" translatable="yes">Terminator Preferences</property>
     <property name="default-width">640</property>
     <property name="default-height">400</property>
+    <signal name="destroy" handler="on_destroy_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="dialog_vbox1">
         <property name="visible">True</property>
@@ -472,7 +490,7 @@
                             <property name="spacing">36</property>
                             <property name="homogeneous">True</property>
                             <child>
-                              <!-- n-columns=2 n-rows=8 -->
+                              <!-- n-columns=2 n-rows=9 -->
                               <object class="GtkGrid" id="grid1">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -523,7 +541,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">1</property>
+                                    <property name="top-attach">2</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -540,7 +558,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">2</property>
+                                    <property name="top-attach">3</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -557,7 +575,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">3</property>
+                                    <property name="top-attach">4</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -574,7 +592,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">4</property>
+                                    <property name="top-attach">5</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -591,7 +609,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">5</property>
+                                    <property name="top-attach">6</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -608,7 +626,7 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">6</property>
+                                    <property name="top-attach">7</property>
                                     <property name="width">2</property>
                                   </packing>
                                 </child>
@@ -625,8 +643,38 @@
                                   </object>
                                   <packing>
                                     <property name="left-attach">0</property>
-                                    <property name="top-attach">7</property>
+                                    <property name="top-attach">8</property>
                                     <property name="width">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBox" id="askbeforeclose">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="model">AskBeforeCloseListStore</property>
+                                    <property name="active">1</property>
+                                    <signal name="changed" handler="on_askbeforeclose_changed" swapped="no"/>
+                                    <child>
+                                      <object class="GtkCellRendererText"/>
+                                      <attributes>
+                                        <attribute name="text">0</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">1</property>
+                                    <property name="top-attach">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Ask Before Closing:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">1</property>
                                   </packing>
                                 </child>
                               </object>
@@ -1241,7 +1289,7 @@
                               </packing>
                             </child>
                             <child>
-                              <!-- n-columns=2 n-rows=4 -->
+                              <!-- n-columns=2 n-rows=5 -->
                               <object class="GtkGrid" id="grid4">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -4411,6 +4459,21 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
               </packing>
             </child>
             <child>
+              <object class="GtkButton" id="restoreconfigbutton">
+                <property name="label">Discard Changes</property>
+                <property name="use-action-appearance">False</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_restoreconfigbutton_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="okbutton">
                 <property name="label">gtk-close</property>
                 <property name="use-action-appearance">False</property>
@@ -4423,7 +4486,7 @@ Much of the behavior of Terminator is based on GNOME Terminal, and we are adding
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>

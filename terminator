@@ -21,8 +21,7 @@
 
 import sys
 import os
-import psutil
-import pwd
+
 try:
     ORIGCWD = os.getcwd()
 except OSError:
@@ -111,11 +110,9 @@ if __name__ == '__main__':
                 elif OPTIONS.toggle_visibility:
                     dbg('requesting to toggle windows visibility')
                     ipc.toggle_visibility_cmdline(optionslist)
-
-                if OPTIONS.reload:
+                elif OPTIONS.reload:
                     dbg('requesting to reload configuration for all windows')
                     ipc.reload_configuration()
-
                 elif OPTIONS.unhide:
                     print('requesting to unhide windows')
                     ipc.unhide_cmdline(optionslist)

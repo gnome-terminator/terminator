@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: terminator_config
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2023-04-22
+.\" Generator: Asciidoctor 2.0.16
+.\"      Date: 2023-10-10
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
 .\"  Language: English
 .\"
-.TH "TERMINATOR_CONFIG" "5" "2023-04-22" "Terminator" "Manual for Terminator"
+.TH "TERMINATOR_CONFIG" "5" "2023-10-10" "Terminator" "Manual for Terminator"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -130,12 +130,11 @@ If set to True, the window will resize in step with font sizes.
 Default value: \fBFalse\fP
 .RE
 .sp
-\fBsuppress_multiple_term_dialog\fP = \fIboolean\fP
+\fBask_before_closing\fP = \fIstring\fP
 .RS 4
-If set to True, Terminator will ask for confirmation when closing
-multiple terminals.
-.br
-Default value: \fBFalse\fP
+Specify when to ask for confirmation before closing a window or a tab.
+Can be any of: \*(Aqalways\*(Aq, \*(Aqmultiple_terminals\*(Aq, \*(Aqnever\*(Aq.
+Default value: \fBmultiple_terminals\fP
 .RE
 .sp
 \fBborderless\fP = \fIboolean\fP

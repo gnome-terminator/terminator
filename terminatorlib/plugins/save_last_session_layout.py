@@ -1,4 +1,5 @@
 import os
+import signal
 import sys 
 
 # Fix imports when testing this file directly
@@ -44,9 +45,21 @@ class SaveLastSessionLayout(plugin.Plugin):
         r = config.add_layout("SaveLastSessionLayout", current_layout)
       config.save()
       return True
+
+    def signal_handler(self,signum, frame):
+
+        signame = signal.Signals(signum).name
+        dbg('signal handler called:signal %s (%s)' %
+                                        (signame, signum))
+        self.save_session_layout()
     
     def connect_signals(self):
         dbg("SaveLastSessionLayout connect_signals")
+
+        signal.signal(signal.SIGTERM, self.signal_handler)
+        signal.signal(signal.SIGCHLD, self.signal_handler)
+        signal.signal(signal.SIGHUP,  self.signal_handler)
+
         n = 0
         for term in Terminator().terminals:
             dbg("SaveLastSessionLayout connect_signals to term num:(%d)" % n)
