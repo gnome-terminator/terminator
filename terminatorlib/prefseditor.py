@@ -45,6 +45,7 @@ class PrefsEditor:
     term = None
     builder = None
     layouteditor = None
+    previous_plugin_selection = None
     previous_layout_selection = None
     previous_profile_selection = None
     colorschemevalues = {'black_on_yellow': 0,
@@ -103,7 +104,12 @@ class PrefsEditor:
                 'gruvbox_dark': '#282828:#cc241d:#98971a:#d79921:\
 #458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:\
 #83a598:#d3869b:#8ec07c:#ebdbb2'}
-    keybindingnames = { 'zoom_in'          : _('Increase font size'),
+    keybindingnames = {
+                        'zoom'             : _('Zoom terminal'),
+                        'unzoom'           : _('Restore all terminals'),
+                        'maximise'         : _('Maximize terminal'),
+                        'open_debug_tab'   : _('Open Debug Tab'),
+                        'zoom_in'          : _('Increase font size'),
                         'zoom_out'         : _('Decrease font size'),
                         'zoom_normal'      : _('Restore original font size'),
 						'zoom_in_all'	   : _('Increase font size on all terminals'),
@@ -496,20 +502,15 @@ class PrefsEditor:
 
         liststore = widget.get_model()
         liststore.set_sort_column_id(0, Gtk.SortType.ASCENDING)
-        keybindings = self.config['keybindings']
 
-        keybindutil          = KeyBindUtil()
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        plugin_keyb_desc     = keybindutil.get_all_act_to_desc()
-        #merge give preference to main bindings over plugin
-        keybindings          = {**plugin_keyb_act,  **keybindings}
-        self.keybindingnames = {**plugin_keyb_desc, **self.keybindingnames}
-        #dbg("appended actions %s names %s" % (keybindings, self.keybindingnames))
+        keybindutil     = KeyBindUtil()
+        act_to_key_map  = keybindutil.get_all_act_to_keys()
+        self.keybindingnames = keybindutil.get_all_act_to_desc()
 
-        for keybinding in keybindings:
+        for keybinding in act_to_key_map:
             keyval = 0
             mask = 0
-            value = keybindings[keybinding]
+            value = act_to_key_map[keybinding]
             if value is not None and value != '':
                 try:
                     (keyval, mask) = self.keybindings._parsebinding(value)
@@ -519,7 +520,7 @@ class PrefsEditor:
                              keyval, mask])
 
         self.treemodelfilter = liststore.filter_new()
-        self.treemodelfilter.set_visible_func(filter_visible, keybindings)
+        self.treemodelfilter.set_visible_func(filter_visible, act_to_key_map)
         widget.set_model(self.treemodelfilter)
 
         ## Plugins tab
@@ -1955,14 +1956,11 @@ class PrefsEditor:
         current_binding = liststore.get_value(liststore.get_iter(path), 0)
         parsed_accel = Gtk.accelerator_parse(accel)
 
-        keybindutil          = KeyBindUtil()
-        keybindings          = self.config["keybindings"]
-        #merge give preference to main bindings over plugin
-        plugin_keyb_act      = keybindutil.get_all_act_to_keys()
-        keybindings          = {**plugin_keyb_act,  **keybindings}
+        keybindutil    = KeyBindUtil()
+        act_to_key_map = keybindutil.get_all_act_to_keys()
 
         duplicate_bindings = []
-        for conf_binding, conf_accel in keybindings.items():
+        for conf_binding, conf_accel in act_to_key_map.items():
             if conf_accel is None:
                 continue
 
