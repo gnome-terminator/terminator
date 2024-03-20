@@ -30,6 +30,8 @@ from .config import Config
 from .util import dbg, err, get_config_dir
 from .terminator import Terminator
 
+from .version import APP_NAME
+
 class Plugin(object):
     """Definition of our base plugin class"""
     capabilities = None
@@ -117,6 +119,11 @@ class PluginRegistry(borg.Borg):
 failed: %s' % (plugin, ex))
 
         self.done = True
+
+    def get_plugin_instance(self, plugin):
+        instance = self.instances.get(plugin, None)
+        dbg('get plugin: %s instance: %s' % (plugin, instance))
+        return instance
 
     def get_plugins_by_capability(self, capability):
         """Return a list of plugins with a particular capability"""
@@ -221,8 +228,14 @@ class KeyBindUtil:
     map_act_to_keys = {}
     map_act_to_desc = {}
 
+    #merged keybindings and plugin key bindings
+    map_all_act_to_keys = {}
+    map_all_act_to_desc = {}
+
+    config = Config()
+
     def __init__(self, config=None):
-        self.config = config
+        self.load_merge_key_maps()
 
     #Example
     #  bind
@@ -234,6 +247,17 @@ class KeyBindUtil:
 
     #  if act == "url_find_next":
 
+    def load_merge_key_maps(self):
+
+        cfg_keybindings = KeyBindUtil.config['keybindings']
+
+        #TODO need to check if cyclic dep here, we only using keybindingnames
+        from terminatorlib.prefseditor import PrefsEditor
+        pref_keybindingnames = PrefsEditor.keybindingnames
+
+        #merge give preference to main bindings over plugin
+        KeyBindUtil.map_all_act_to_keys  = {**self.map_act_to_keys, **cfg_keybindings}
+        KeyBindUtil.map_all_act_to_desc  = {**self.map_act_to_desc, **pref_keybindingnames}
 
     #check map key_val_mask -> action
     def _check_keybind_change(self, key):
@@ -313,17 +337,32 @@ class KeyBindUtil:
         dbg("keyaction: (%s)" % str(ret))
         return self.map_key_to_act.get(ret, None)
 
+    #functions to get actstr to keys / key mappings or desc / desc mapppings
+    #for plugins or merged keybindings
+
     def get_act_to_keys(self, key):
+        return self.map_all_act_to_keys.get(key)
+
+    def get_plugin_act_to_keys(self, key):
         return self.map_act_to_keys.get(key)
 
-    def get_all_act_to_keys(self):
+    def get_all_plugin_act_to_keys(self):
         return self.map_act_to_keys
 
-    def get_all_act_to_desc(self):
-        return self.map_act_to_desc
+    def get_all_act_to_keys(self):
+        return self.map_all_act_to_keys
 
     def get_act_to_desc(self, act):
+        return self.map_all_act_to_desc.get(act)
+
+    def get_plugin_act_to_desc(self, act):
         return self.map_act_to_desc.get(act)
+
+    def get_all_plugin_act_to_desc(self):
+        return self.map_act_to_desc
+
+    def get_all_act_to_desc(self):
+        return self.map_all_act_to_desc
 
     #get action to key binding from config
     def get_act_to_keys_config(self, act):
@@ -332,3 +371,171 @@ class KeyBindUtil:
 
         keybindings = self.config["keybindings"]
         return keybindings.get(act)
+
+
+
+
+#-PluginEventRegistry utility: Vishweshwar Saran Singh Deo <vssdeo@gmail.com>
+#
+#
+#use-case: so if a plugin wants to get an action added to context-menu
+#it can be done as plugins register their keybindings, but their actions
+#are not understood by terminal on_keypress mapping since pluings are
+#external to core working.
+#
+#So for eg: PluginContextMenuAct we are detecting and handling it first before
+#passing to terminal on_keypress, but what about if an other Plugin Key Press
+#needs to be handled locally in its context. May be we can register
+#its function and pass the action to it
+
+#this class keeps the events to local function instead of sending to
+#terminal, since for things like plugins, the terminal key mapper won't
+#have the context. lets see what dependencies come up and all Plugin actions
+#can be added to Context Menu eg:
+#
+#  so for action PluginUrlActFindNext which is understood by MouseFreeURLHandler
+#  the plugin can register its action and if that action is added to
+#  menu, that action will be passed to the plugin
+#
+#  import terminatorlib.plugin as plugin
+#
+#  event_registry = plugin.PluginEventRegistry()
+#  ...
+#  MouseFreeURLHandler.event_registry.register(PluginUrlActFindNext,
+#                                              self.on_action,
+#                                              'custom-tag')
+#  ...
+#  def on_action(self, act):
+#      self.on_keypress(None, 'event', act)
+#
+
+class PluginEventRegistry:
+
+    Map_Act_Event_Handlers = {}
+
+    def __init__(self):
+        pass
+
+    def register(self, action, handler, tag_id):
+
+        dbg('register action:(%s) tag_id:(%s)' % (action, tag_id))
+
+        if action not in PluginEventRegistry.Map_Act_Event_Handlers:
+            dbg('adding new handler for: %s' % action)
+            PluginEventRegistry.Map_Act_Event_Handlers[action] = {tag_id: handler}
+        else:
+            dbg('appending handler for: %s' % action)
+            handlers = PluginEventRegistry.Map_Act_Event_Handlers[action]
+            handlers[tag_id] =  handler
+
+        """
+        dbg('register: (%s) total_events:(%s)' %
+                    (len(PluginEventRegistry.Map_Act_Event_Handlers),
+                    PluginEventRegistry.Map_Act_Event_Handlers))
+        """
+
+    def call_action_handlers(self, action):
+        if action not in PluginEventRegistry.Map_Act_Event_Handlers:
+            dbg('no handers found for action:%s' % action)
+            return False
+
+        act_items = PluginEventRegistry.Map_Act_Event_Handlers[action].copy()
+        for key, handler in act_items.items():
+            dbg('calling handers: %s for action:%s' % (handler,action))
+            handler(action)
+
+        return True
+
+
+    def unregister(self, action, handler, tag_id):
+
+        if action not in PluginEventRegistry.Map_Act_Event_Handlers:
+            dbg('action not found: %s' % action)
+            return False
+
+        lst = PluginEventRegistry.Map_Act_Event_Handlers[action]
+        if tag_id in lst:
+            dbg('removing tag_id:(%s) for act: (%s)' % (tag_id, action))
+            del lst[tag_id]
+            if not len(lst):
+                dbg('removing empty action:(%s) from registry' % action)
+                del PluginEventRegistry.Map_Act_Event_Handlers[action]
+            return True
+
+        return False
+
+
+#
+# -PluginGUI utility: Vishweshwar Saran Singh Deo <vssdeo@gmail.com>
+#
+# -To assist in injecting and restoring of Plugin UI interfaces
+# -Loading of Glade Files and Glade Data
+#
+# -Eg.
+#
+#    plugin_builder = self.plugin_gui.get_glade_builder(plugin)
+#    plugin_window  = plugin_builder.get_object('PluginContextMenu')
+#
+#   ...
+#   ...
+#
+#    #call back from prefseditor.py if func defined
+#
+#    def update_gui(self, widget, visible):
+#
+#           #add UI to Prefs->Plugins->ContextMenu
+#           prev_widget = self.plugin_gui.add_gui(widget, self.plugin_window)
+#           #use return value to add back when not visible, later we can
+#           #handle this automatically
+
+from . import config
+
+class PluginGUI:
+
+    def __init__(self):
+        self.save_prev_child = None
+
+    #adds new UI and saves previous UI
+    def add_gui(self, parent_widget, child_widget):
+
+        hpane_widget = parent_widget.get_child2()
+        if hpane_widget:
+            #if not self.save_prev_child:
+            self.save_prev_child = hpane_widget
+            hpane_widget.destroy()
+            #add plugin gui to prefs
+            parent_widget.add2(child_widget)
+            parent_widget.show_all()
+            return hpane_widget
+
+
+    def get_glade_data(self, plugin):
+        gladedata = ''
+        try:
+            # Figure out where our library is on-disk so we can open our
+            (head, _tail) = os.path.split(config.__file__)
+            if plugin:
+                filename = plugin + '.glade'
+                plugin_glade_file = os.path.join(head, 'plugins', filename)
+                gladefile = open(plugin_glade_file, 'r')
+                gladedata = gladefile.read()
+                gladefile.close()
+        except Exception as ex:
+            dbg("Failed to find: ex:%s" % (ex))
+
+        return gladedata
+
+
+    def get_glade_builder(self, plugin):
+
+        gladedata = self.get_glade_data(plugin)
+        if not gladedata:
+            return
+
+        plugin_builder = Gtk.Builder()
+        plugin_builder.set_translation_domain(APP_NAME)
+        plugin_builder.add_from_string(gladedata)
+
+        return plugin_builder
+
+
