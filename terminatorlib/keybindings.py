@@ -16,19 +16,23 @@
 
 """Terminator by Chris Jones <cmsj@tenshu.net>
 
-Validator and functions for dealing with Terminator's customisable 
+Validator and functions for dealing with Terminator's customisable
 keyboard shortcuts.
 
 """
 
 import re
-from gi.repository import Gtk, Gdk
+from gi.repository import Gdk
 from .util import err
+
 
 class KeymapError(Exception):
     """Custom exception for errors in keybinding configurations"""
 
+
 MODIFIER = re.compile('<([^<]+)>')
+
+
 class Keybindings:
     """Class to handle loading and lookup of Terminator keybindings"""
 
@@ -37,7 +41,7 @@ class Keybindings:
         'control':  Gdk.ModifierType.CONTROL_MASK,
         'primary':  Gdk.ModifierType.CONTROL_MASK,
         'shift':    Gdk.ModifierType.SHIFT_MASK,
-        'alt':      Gdk.ModifierType.MOD1_MASK,
+        'alt':      Gdk.ModifierType.MOD1_MASK,  # Gdk.ModifierType.ALT_MASK ?
         'super':    Gdk.ModifierType.SUPER_MASK,
         'hyper':    Gdk.ModifierType.HYPER_MASK,
         'mod2':	    Gdk.ModifierType.MOD2_MASK
@@ -62,19 +66,19 @@ class Keybindings:
         self._lookup = {}
         self._masks = 0
         for action, bindings in list(self.keys.items()):
-            if not isinstance(bindings, tuple):
-                bindings = (bindings,)
+            if not isinstance(bindings, list):
+                bindings = [bindings, '']
 
             for binding in bindings:
                 if not binding or binding == "None":
                     continue
 
                 try:
-                    keyval, mask = self._parsebinding(binding)
+                    keyval, mask = self.parsebinding(binding)
                     # Does much the same, but with poorer error handling.
-                    #keyval, mask = Gtk.accelerator_parse(binding)
-                except KeymapError as e:
-                  err ("keybindings.reload failed to parse binding '%s': %s" % (binding, e))
+                    # keyval, mask = Gtk.accelerator_parse(binding)
+                except KeymapError as exc:
+                    err(f"keybindings.reload failed to parse binding '{binding}': {exc}")
                 else:
                     if mask & Gdk.ModifierType.SHIFT_MASK:
                         if keyval == Gdk.KEY_Tab:
@@ -91,7 +95,7 @@ class Keybindings:
                     self._lookup[mask][keyval] = action
                     self._masks |= mask
 
-    def _parsebinding(self, binding):
+    def parsebinding(self, binding):
         """Parse an individual binding using gtk's binding function"""
         mask = 0
         modifiers = re.findall(MODIFIER, binding)
@@ -103,27 +107,25 @@ class Keybindings:
             raise KeymapError('No key found')
         keyval = Gdk.keyval_from_name(key)
         if keyval == 0:
-            raise KeymapError("Key '%s' is unrecognised" % key)
+            raise KeymapError(f"Key '{key}' is unrecognised")
         return (keyval, mask)
 
     def _lookup_modifier(self, modifier):
         """Map modifier names to gtk values"""
         try:
             return self.modifiers[modifier.lower()]
-        except KeyError:
-            raise KeymapError("Unhandled modifier '<%s>'" % modifier)
+        except KeyError as exc:
+            raise KeymapError(f"Unhandled modifier '<{modifier}>'") from exc
 
     def lookup(self, event):
         """Translate a keyboard event into a mapped key"""
         try:
-            _found, keyval, _egp, _lvl, consumed = self.keymap.translate_keyboard_state(
-                                              event.hardware_keycode, 
+            _, keyval, _, _, consumed = self.keymap.translate_keyboard_state(
+                                              event.hardware_keycode,
                                               Gdk.ModifierType(event.get_state() & ~Gdk.ModifierType.LOCK_MASK),
                                               event.group)
         except TypeError:
-            err ("keybindings.lookup failed to translate keyboard event: %s" % 
-                     dir(event))
+            err(f"keybindings.lookup failed to translate keyboard event: {dir(event)}")
             return None
         mask = (event.get_state() & ~consumed) & self._masks
         return self._lookup.get(mask, self.empty).get(keyval, None)
-

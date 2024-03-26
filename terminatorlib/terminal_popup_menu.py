@@ -1,6 +1,6 @@
 # Terminator by Chris Jones <cmsj@tenshu.net>
 # GPL v2 only
-"""terminal_popup_menu.py - classes necessary to provide a terminal context 
+"""terminal_popup_menu.py - classes necessary to provide a terminal context
 menu"""
 
 from gi.repository import Gtk, Gdk
@@ -13,12 +13,14 @@ from .config import Config
 from .prefseditor import PrefsEditor
 from . import plugin
 
-class TerminalPopupMenu(object):
+
+class TerminalPopupMenu:
     """Class implementing the Terminal context menu"""
     terminal = None
     terminator = None
     config = None
     accelgrp = None
+    popup_menu = None
 
     def __init__(self, terminal):
         """Class initialiser"""
@@ -34,53 +36,55 @@ class TerminalPopupMenu(object):
         maskstr = maskstr.lower()
         if maskstr.find('<Shift>'.lower()) >= 0:
             mask = mask | Gdk.ModifierType.SHIFT_MASK
-            dbg("adding mask <Shift> %s" % mask)
+            dbg(f"adding mask <Shift> {mask}")
 
         ctrl = (maskstr.find('<Control>'.lower()) >= 0 or
                 maskstr.find('<Primary>'.lower()) >= 0)
         if ctrl:
             mask = mask | Gdk.ModifierType.CONTROL_MASK
-            dbg("adding mask <Control> %s" % mask)
+            dbg(f"adding mask <Control> {mask}")
 
         if maskstr.find('<Alt>'.lower()) >= 0:
             mask = mask | Gdk.ModifierType.MOD1_MASK
-            dbg("adding mask <Alt> %s" % mask)
+            dbg(f"adding mask <Alt> {mask}")
 
         mask = Gdk.ModifierType(mask)
-        dbg("menu_item_mask :%d" % mask)
+        dbg(f"menu_item_mask :{mask}")
         return mask
 
     def menu_item(self, menutype, actstr, menustr):
-        act     = self.config.base.get_item('keybindings', actstr)
-        maskstr = act[actstr] if actstr in act else ""
-        mask    = self.get_menu_item_mask(maskstr)
+        act = self.config.base.get_item('keybindings', actstr)
+        maskstr = ''
+        for keymask in act.get(actstr, []):
+            if keymask:
+                maskstr = keymask
+                break
+        mask = self.get_menu_item_mask(maskstr)
 
         accelchar = ""
         pos = menustr.lower().find("_")
         if (pos >= 0 and pos+1 < len(menustr)):
             accelchar = menustr.lower()[pos+1]
 
-        #this may require tweak. what about shortcut function keys ?
+        # this may require tweak. what about shortcut function keys ?
         if maskstr:
             mpos = maskstr.rfind(">")
-            #can't have a char at 0 position as <> is len 2
+            # can't have a char at 0 position as <> is len 2
             if mpos >= 0 and mpos+1 < len(maskstr):
                 configaccelchar = maskstr[mpos+1:]
-                #ensure to take only 1 char else ignore
+                # ensure to take only 1 char else ignore
                 if len(configaccelchar) == 1:
-                    dbg("found accelchar in config:%s  override:%s"
-                                    %  (configaccelchar, accelchar))
+                    dbg(f"found accelchar in config:{configaccelchar}  override:{accelchar}")
                     accelchar = configaccelchar
 
-        dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
-                                    % (maskstr, menustr, accelchar))
+        dbg(f"action from config:{maskstr} for item:{menustr} with shortcut accelchar:({accelchar})")
         item = menutype.new_with_mnemonic(_(menustr))
         if mask:
             item.add_accelerator("activate",
-                                self.accelgrp,
-                                Gdk.keyval_from_name(accelchar),
-                                mask,
-                                Gtk.AccelFlags.VISIBLE)
+                                 self.accelgrp,
+                                 Gdk.keyval_from_name(accelchar),
+                                 mask,
+                                 Gtk.AccelFlags.VISIBLE)
         return item
 
     def show(self, widget, event=None):
@@ -90,24 +94,17 @@ class TerminalPopupMenu(object):
         menu = Gtk.Menu()
         self.popup_menu = menu
         url = None
-        button = None
-        time = None
 
         self.config.set_profile(terminal.get_profile())
 
         if event:
             url = terminal.vte.match_check_event(event)
-            button = event.button
-            time = event.time
-        else:
-            time = 0
-            button = 3
 
         if url and url[0]:
-            dbg("URL matches id: %d" % url[1])
+            dbg(f"URL matches id: {url[1]}")
             if not url[1] in list(terminal.matches.values()):
-                err("Unknown URL match id: %d" % url[1])
-                dbg("Available matches: %s" % terminal.matches)
+                err(f"Unknown URL match id: {url[1]}")
+                dbg(f"Available matches: {terminal.matches}")
 
             nameopen = None
             namecopy = None
@@ -119,19 +116,19 @@ class TerminalPopupMenu(object):
                 namecopy = _('_Copy VoIP address')
             elif url[1] in list(terminal.matches.values()):
                 # This is a plugin match
+                plugin_name = ''
                 for pluginname in terminal.matches:
                     if terminal.matches[pluginname] == url[1]:
+                        dbg(f"Found match ID ({url[1]}) in terminal.matches plugin {pluginname}")
+                        plugin_name = pluginname
                         break
 
-                dbg("Found match ID (%d) in terminal.matches plugin %s" %
-                        (url[1], pluginname))
                 registry = plugin.PluginRegistry()
                 registry.load_plugins()
                 plugins = registry.get_plugins_by_capability('url_handler')
                 for urlplugin in plugins:
-                    if urlplugin.handler_name == pluginname:
-                        dbg("Identified matching plugin: %s" %
-                                urlplugin.handler_name)
+                    if urlplugin.handler_name == plugin_name:
+                        dbg(f"Identified matching plugin: {urlplugin.handler_name}")
                         nameopen = _(urlplugin.nameopen)
                         namecopy = _(urlplugin.namecopy)
                         break
@@ -149,7 +146,7 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             item = Gtk.MenuItem.new_with_mnemonic(namecopy)
-            item.connect('activate', 
+            item.connect('activate',
                          lambda x: terminal.clipboard.set_text(terminal.prepare_url(url), len(terminal.prepare_url(url))))
             menu.append(item)
 
@@ -171,21 +168,13 @@ class TerminalPopupMenu(object):
                                                  'Set _Window Title')
         item.connect('activate', lambda x: terminal.key_edit_window_title())
         menu.append(item)
-        
+
         if not terminal.is_zoomed():
             item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
                                                      'Split _Auto')
-            """
-            image = Gtk.Image()
-            image.set_from_icon_name(APP_NAME + '_auto', Gtk.IconSize.MENU)
-            item.set_image(image)
-            if hasattr(item, 'set_always_show_image'):
-                item.set_always_show_image(True)
-            """
             item.connect('activate', lambda x: terminal.emit('split-auto',
-                self.terminal.get_cwd()))
+                         self.terminal.get_cwd()))
             menu.append(item)
-
 
             item = self.menu_item(Gtk.ImageMenuItem, 'split_horiz',
                                                      'Split H_orizontally')
@@ -195,7 +184,7 @@ class TerminalPopupMenu(object):
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
             item.connect('activate', lambda x: terminal.emit('split-horiz',
-                self.terminal.get_cwd()))
+                         self.terminal.get_cwd()))
             menu.append(item)
 
             item = self.menu_item(Gtk.ImageMenuItem, 'split_vert',
@@ -206,18 +195,18 @@ class TerminalPopupMenu(object):
             if hasattr(item, 'set_always_show_image'):
                 item.set_always_show_image(True)
             item.connect('activate', lambda x: terminal.emit('split-vert',
-                self.terminal.get_cwd()))
+                         self.terminal.get_cwd()))
             menu.append(item)
 
             item = self.menu_item(Gtk.MenuItem, 'new_tab', 'Open _Tab')
             item.connect('activate', lambda x: terminal.emit('tab-new', False,
-                terminal))
+                         terminal))
             menu.append(item)
 
             if self.terminator.debug_address is not None:
                 item = Gtk.MenuItem.new_with_mnemonic(_('Open _Debug Tab'))
                 item.connect('activate', lambda x:
-                        terminal.emit('tab-new', True, terminal))
+                             terminal.emit('tab-new', True, terminal))
                 menu.append(item)
 
             menu.append(Gtk.SeparatorMenuItem())
@@ -249,7 +238,7 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        if self.config['show_titlebar'] == False:
+        if self.config['show_titlebar'] is False:
             item = Gtk.MenuItem.new_with_mnemonic(_('Grouping'))
             submenu = self.terminal.populate_group_menu()
             submenu.show_all()
@@ -264,12 +253,12 @@ class TerminalPopupMenu(object):
             menu.append(Gtk.SeparatorMenuItem())
 
         item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', '_Read only')
-        item.set_active(not(terminal.vte.get_input_enabled()))
+        item.set_active(not terminal.vte.get_input_enabled())
         item.connect('toggled', lambda x: terminal.do_readonly_toggle())
         menu.append(item)
 
         item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
-                                                   'Show _scrollbar')
+                              'Show _scrollbar')
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
@@ -311,19 +300,19 @@ class TerminalPopupMenu(object):
             plugins = registry.get_plugins_by_capability('terminal_menu')
             for menuplugin in plugins:
                 menuplugin.callback(menuitems, menu, terminal)
-            
+
             if len(menuitems) > 0:
                 menu.append(Gtk.SeparatorMenuItem())
 
             for menuitem in menuitems:
                 menu.append(menuitem)
         except Exception as ex:
-            err('TerminalPopupMenu::show: %s' % ex)
+            err(f'TerminalPopupMenu::show: {ex}')
 
         menu.show_all()
         menu.popup_at_pointer(None)
 
-        return(True)
+        return True
 
     def add_layout_launcher(self, menu):
         """Add the layout list to the menu"""
@@ -333,6 +322,6 @@ class TerminalPopupMenu(object):
         item.set_submenu(submenu)
         layouts = self.config.list_layouts()
         for layout in layouts:
-                item = Gtk.MenuItem(layout)
-                item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', x.get_label()]))
-                submenu.append(item)
+            item = Gtk.MenuItem(layout)
+            item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', x.get_label()]))
+            submenu.append(item)

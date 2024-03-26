@@ -4,7 +4,6 @@
 
 import copy
 import time
-import uuid
 import gi
 from gi.repository import GObject
 from gi.repository import Gtk, Gdk
@@ -33,6 +32,7 @@ if display_manager() == 'X11':
         err('Unable to load Keybinder module. This means the \
 hide_window shortcut will be unavailable')
 
+
 # pylint: disable-msg=R0904
 class Window(Container, Gtk.Window):
     """Class implementing a top-level Terminator window"""
@@ -50,7 +50,7 @@ class Window(Container, Gtk.Window):
     set_pos_by_ratio = None
     last_active_term = None
     preventHide = None
-
+    cached_maker = None
     zoom_data = None
 
     term_zoomed = False
@@ -74,15 +74,16 @@ class Window(Container, Gtk.Window):
 
         self.get_style_context().add_class("terminator-terminal-window")
 
-#        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
-        icon_to_apply=''
+        # FIXME FOR GTK3, or do we need this actually?
+        # self.set_property('allow-shrink', True)
+        icon_to_apply = ''
 
         self.register_callbacks()
         self.apply_config()
 
         self.title = WindowTitle(self)
         self.title.update()
-        
+
         self.preventHide = False
 
         options = self.config.options_get()
@@ -92,14 +93,13 @@ class Window(Container, Gtk.Window):
 
             if options.role:
                 self.set_role(options.role)
-            
+
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
 
             if options.geometry:
                 if not self.parse_geometry(options.geometry):
-                    err('Window::__init__: Unable to parse geometry: %s' % 
-                            options.geometry)
+                    err(f'Window::__init__: Unable to parse geometry: {options.geometry}')
 
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
@@ -108,16 +108,15 @@ class Window(Container, Gtk.Window):
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
         if prop.name in ['term_zoomed', 'term-zoomed']:
-            return(self.term_zoomed)
-        else:
-            raise AttributeError('unknown property %s' % prop.name)
+            return self.term_zoomed
+        raise AttributeError(f'unknown property {prop.name}')
 
     def do_set_property(self, prop, value):
         """Handle gobject setting a property"""
         if prop.name in ['term_zoomed', 'term-zoomed']:
             self.term_zoomed = value
         else:
-            raise AttributeError('unknown property %s' % prop.name)
+            raise AttributeError(f'unknown property {prop.name}')
 
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
@@ -131,20 +130,21 @@ class Window(Container, Gtk.Window):
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
-        if self.config['keybindings']['hide_window'] not in ('', None):
-            if display_manager() == 'X11':
-                try:
-                    self.hidebound = Keybinder.bind(
-                        self.config['keybindings']['hide_window'],
-                        self.on_hide_window)
-                except (KeyError, NameError):
-                    pass
+        for binding in self.config['keybindings']['hide_window']:
+            if binding:
+                if display_manager() == 'X11':
+                    try:
+                        self.hidebound = Keybinder.bind(
+                            binding,
+                            self.on_hide_window)
+                    except (KeyError, NameError):
+                        pass
 
-                if not self.hidebound:
-                    err('Unable to bind hide_window key, another instance/window has it.')
-                    self.hidefunc = self.iconify
-                else:
-                    self.hidefunc = self.hide
+                    if not self.hidebound:
+                        err('Unable to bind hide_window key, another instance/window has it.')
+                        self.hidefunc = self.iconify
+                    else:
+                        self.hidefunc = self.hide
 
     def apply_config(self):
         """Apply various configuration options"""
@@ -189,7 +189,7 @@ class Window(Container, Gtk.Window):
                 self.set_icon_from_file(requested_icon)
                 return
             except (NameError, GObject.GError):
-                dbg('Unable to load %s icon as file' % (repr(requested_icon)))
+                dbg(f'Unable to load {repr(requested_icon)} icon as file')
 
             icon_name_list.insert(0, requested_icon)
 
@@ -197,39 +197,36 @@ class Window(Container, Gtk.Window):
             # Test if the icon is available first
             if icon_theme.lookup_icon(icon_name, 48, 0):
                 self.set_icon_name(icon_name)
-                return # Success! We're done.
-            else:
-                dbg('Unable to load %s icon' % (icon_name))
+                return  # Success! We're done.
+            dbg(f'Unable to load {icon_name} icon')
 
         icon = self.render_icon(Gtk.STOCK_DIALOG_INFO, Gtk.IconSize.BUTTON)
         self.set_icon(icon)
 
     def on_key_press(self, window, event):
         """Handle a keyboard event"""
-        maker = Factory()
-
         self.set_urgency_hint(False)
 
         mapping = self.terminator.keybindings.lookup(event)
 
         if mapping:
-            dbg('looked up %r' % mapping)
+            dbg(rf'looked up {mapping}')
             if mapping == 'full_screen':
                 self.set_fullscreen(not self.isfullscreen)
             elif mapping == 'close_window':
                 if not self.on_delete_event(window,
-                        Gdk.Event.new(Gdk.EventType.DELETE)):
+                                            Gdk.Event.new(Gdk.EventType.DELETE)):
                     self.on_destroy_event(window,
-                            Gdk.Event.new(Gdk.EventType.DESTROY))
+                                          Gdk.Event.new(Gdk.EventType.DESTROY))
             else:
-                return(False)
-            return(True)
+                return False
+            return True
 
     def on_button_press(self, window, event):
         """Handle a mouse button event. Mainly this is just a clean way to
         cancel any urgency hints that are set."""
         self.set_urgency_hint(False)
-        return(False)
+        return False
 
     def on_focus_out(self, window, event):
         """Focus has left the window"""
@@ -255,7 +252,7 @@ class Window(Container, Gtk.Window):
     def is_child_notebook(self):
         """Returns True if this Window's child is a Notebook"""
         maker = Factory()
-        return(maker.isinstance(self.get_child(), 'Notebook'))
+        return maker.isinstance(self.get_child(), 'Notebook')
 
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
@@ -272,7 +269,7 @@ class Window(Container, Gtk.Window):
         maker = Factory()
         if not self.is_child_notebook():
             dbg('Making a new Notebook')
-            notebook = maker.make('Notebook', window=self)
+            _ = maker.make('Notebook', window=self)
         self.show()
         self.present()
         return self.get_child().newtab(debugtab, cwd=cwd, profile=profile)
@@ -280,15 +277,13 @@ class Window(Container, Gtk.Window):
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
         maker = Factory()
-
         child = self.get_child()
         if (maker.isinstance(child, 'Terminal') or
-            maker.isinstance(child, 'Container')):
+           maker.isinstance(child, 'Container')):
             confirm_close = self.construct_confirm_close(window, child)
-            return (confirm_close != Gtk.ResponseType.ACCEPT)
-        else:
-            dbg('unknown child: %s' % child)
-            return False # close anyway
+            return confirm_close != Gtk.ResponseType.ACCEPT
+        dbg(f'unknown child: {child}')
+        return False  # close anyway
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
@@ -300,24 +295,25 @@ class Window(Container, Gtk.Window):
             # terminal.describe_layout() while terminal is closing.
             # Also while receiving event on Plugins Side, if connected to term
             # we can't use close-term as it starts to close terminal, so we
-            # send a pre-close-term before Example: Plugin SaveLastSessionLayout
+            # send a pre-close-term before
+            # Example: Plugin SaveLastSessionLayout
             terminal.emit('pre-close-term')
             terminal.close()
         self.cnxids.remove_all()
         self.terminator.deregister_window(self)
         self.isDestroyed = True
         self.destroy()
-        del(self)
+        del self
 
     def on_hide_window(self, data=None):
         """Handle a request to hide/show the window"""
 
         if not self.isDestroyed:
             if not self.get_property('visible'):
-                #Don't show if window has just been hidden because of
-                #lost focus
+                # Don't show if window has just been hidden because of
+                # lost focus
                 if (time.time() - self.losefocus_time < 0.1) and \
-                    self.config['hide_on_lose_focus']:
+                   self.config['hide_on_lose_focus']:
                     return
                 if self.position:
                     self.move(self.position[0], self.position[1])
@@ -335,43 +331,42 @@ class Window(Container, Gtk.Window):
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
         """Handle the state of the window changing"""
-        self.isfullscreen = bool(event.new_window_state & 
+        self.isfullscreen = bool(event.new_window_state &
                                  Gdk.WindowState.FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
-                                 Gdk.WindowState.MAXIMIZED)
-        dbg('fullscreen=%s, maximised=%s' \
-                % (self.isfullscreen, self.ismaximised))
+                                Gdk.WindowState.MAXIMIZED)
+        dbg(f'fullscreen={self.isfullscreen}, maximised={self.ismaximised}')
 
-        return(False)
+        return False
 
     def set_maximised(self, value):
         """Set the maximised state of the window from the supplied value"""
-        if value == True:
+        if value is True:
             self.maximize()
         else:
             self.unmaximize()
 
     def set_fullscreen(self, value):
         """Set the fullscreen state of the window from the supplied value"""
-        if value == True:
+        if value is True:
             self.fullscreen()
         else:
             self.unfullscreen()
 
     def set_borderless(self, value):
         """Set the state of the window border from the supplied value"""
-        self.set_decorated (not value)
+        self.set_decorated(not value)
 
     def set_hidden(self, value):
         """Set the visibility of the window from the supplied value"""
-        if value == True:
+        if value is True:
             self.ignore_startup_show = True
         else:
             self.ignore_startup_show = False
 
     def set_iconified(self, value):
         """Set the minimised state of the window from the supplied value"""
-        if value == True:
+        if value is True:
             self.iconify()
 
     def set_always_on_top(self, value):
@@ -380,12 +375,12 @@ class Window(Container, Gtk.Window):
 
     def set_sticky(self, value):
         """Set the sticky hint from the supplied value"""
-        if value == True:
+        if value is True:
             self.stick()
 
     def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
-        if self.is_composited() == False:
+        if self.is_composited() is False:
             value = False
 
         screen = self.get_screen()
@@ -394,20 +389,19 @@ class Window(Container, Gtk.Window):
             visual = screen.get_rgba_visual()
             if visual:
                 self.set_visual(visual)
-    
+
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
-        #Present is necessary to grab focus when window is hidden from taskbar.
-        #It is important to call present() before show(), otherwise the window
-        #won't be brought to front if an another application has the focus.
-        #Last note: present() will implicitly call Gtk.Window.show()
+        # Present is necessary to grab focus when window is hidden from taskbar.
+        # It is important to call present() before show(), otherwise the window
+        # won't be brought to front if an another application has the focus.
+        # Last note: present() will implicitly call Gtk.Window.show()
         self.present()
 
-        #Window must be shown, then hidden for the hotkeys to be registered
-        if (self.ignore_startup_show and startup == True):
+        # Window must be shown, then hidden for the hotkeys to be registered
+        if self.ignore_startup_show and startup is True:
             self.position = self.get_position()
             self.hide()
-
 
     def add(self, widget, metadata=None):
         """Add a widget to the window by way of Gtk.Window.add()"""
@@ -437,9 +431,8 @@ class Window(Container, Gtk.Window):
                        'rotate-cw': [self.rotate, True],
                        'rotate-ccw': [self.rotate, False]}
 
-            for signal in signals:
+            for signal, handler in signals.items():
                 args = []
-                handler = signals[signal]
                 if isinstance(handler, list):
                     args = handler[1:]
                     handler = handler[0]
@@ -451,13 +444,13 @@ class Window(Container, Gtk.Window):
         """Remove our child widget by way of Gtk.Window.remove()"""
         Gtk.Window.remove(self, widget)
         self.disconnect_child(widget)
-        return(True)
+        return True
 
     def get_children(self):
         """Return a single list of our child"""
         children = []
         children.append(self.get_child())
-        return(children)
+        return children
 
     def hoover(self):
         """Ensure we still have a reason to exist"""
@@ -484,7 +477,7 @@ class Window(Container, Gtk.Window):
             container = maker.make('VPaned')
         else:
             container = maker.make('HPaned')
-        
+
         self.set_pos_by_ratio = True
 
         if not sibling:
@@ -508,7 +501,7 @@ class Window(Container, Gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
-        
+
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
         sibling.grab_focus()
@@ -530,7 +523,7 @@ class Window(Container, Gtk.Window):
             err('failed to get "term_zoomed" property')
         return False
 
-    def zoom(self, widget, font_scale=True):
+    def zoom(self, widget, fontscale=True):
         """Zoom a terminal widget"""
         maker = Factory()
         children = self.get_children()
@@ -543,7 +536,7 @@ class Window(Container, Gtk.Window):
         self.zoom_data = widget.get_zoom_data()
         self.zoom_data['widget'] = widget
         self.zoom_data['old_child'] = children[0]
-        self.zoom_data['font_scale'] = font_scale
+        self.zoom_data['font_scale'] = fontscale
 
         old_parent = self.zoom_data['old_parent']
         if maker.isinstance(old_parent, 'Notebook'):
@@ -555,9 +548,9 @@ class Window(Container, Gtk.Window):
         self.add(widget)
         self.set_property('term_zoomed', True)
 
-        if font_scale:
-            widget.cnxids.new(widget, 'size-allocate', 
-                    widget.zoom_scale, self.zoom_data)
+        if fontscale:
+            widget.cnxids.new(widget, 'size-allocate',
+                              widget.zoom_scale, self.zoom_data)
 
         widget.grab_focus()
 
@@ -628,19 +621,19 @@ class Window(Container, Gtk.Window):
         self.set_pos_by_ratio = False
 
     def get_terminals(self):
-        return(util.enumerate_descendants(self)[1])
- 
+        return util.enumerate_descendants(self)[1]
+
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
         terminals = {}
-        if not hasattr(self, 'cached_maker'):
+        if not hasattr(self, 'cached_maker') or self.cached_maker is None:
             self.cached_maker = Factory()
         maker = self.cached_maker
         child = self.get_child()
 
         if not child:
-            return([])
+            return []
 
         # If our child is a Notebook, reset to work from its visible child
         if maker.isinstance(child, 'Notebook'):
@@ -652,22 +645,22 @@ class Window(Container, Gtk.Window):
         elif maker.isinstance(child, 'Terminal'):
             terminals[child] = child.get_allocation()
         else:
-            err('Unknown child type %s' % type(child))
+            err(f'Unknown child type {type(child)}')
 
-        return(terminals)
+        return terminals
 
     def get_focussed_terminal(self):
         """Find which terminal we want to have focus"""
         terminals = self.get_visible_terminals()
         for terminal in terminals:
             if terminal.vte.is_focus():
-                return(terminal)
-        return(None)
+                return terminal
+        return None
 
     def deferred_set_rough_geometry_hints(self):
         # no parameters are used in set_rough_geometry_hints, so we can
         # use the set_rough_geometry_hints
-        if self.pending_set_rough_geometry_hint == True:
+        if self.pending_set_rough_geometry_hint is True:
             return
         self.pending_set_rough_geometry_hint = True
         GObject.idle_add(self.do_deferred_set_rough_geometry_hints)
@@ -679,9 +672,9 @@ class Window(Container, Gtk.Window):
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
         many columns/rows we sort of have"""
-        if self.ismaximised == True:
+        if self.ismaximised is True:
             return
-        if not hasattr(self, 'cached_maker'):
+        if not hasattr(self, 'cached_maker') or self.cached_maker is None:
             self.cached_maker = Factory()
         maker = self.cached_maker
         if maker.isinstance(self.get_child(), 'Notebook'):
@@ -700,17 +693,17 @@ class Window(Container, Gtk.Window):
             if rect.y == 0:
                 cols, rows = terminal.get_size()
                 column_sum = column_sum + cols
+            _terminal = terminal
 
         if column_sum == 0 or row_sum == 0:
-            dbg('column_sum=%s,row_sum=%s. No terminals found in >=1 axis' %
-                (column_sum, row_sum))
+            dbg(f'{column_sum=},{row_sum=}. No terminals found in >=1 axis')
             return
 
         # FIXME: I don't think we should just use whatever font size info is on
         # the last terminal we inspected. Looking up the default profile font
         # size and calculating its character sizes would be rather expensive
         # though.
-        font_width, font_height = terminal.get_font_size()
+        font_width, font_height = _terminal.get_font_size()
         total_font_width = font_width * column_sum
         total_font_height = font_height * row_sum
 
@@ -718,9 +711,8 @@ class Window(Container, Gtk.Window):
         extra_width = win_width - total_font_width
         extra_height = win_height - total_font_height
 
-        dbg('setting geometry hints: (ewidth:%s)(eheight:%s),\
-(fwidth:%s)(fheight:%s)' % (extra_width, extra_height, 
-                            font_width, font_height))
+        dbg(f'setting geometry hints: ({extra_width=})({extra_height}),\
+({font_width=})({font_height=})')
         geometry = Gdk.Geometry()
         geometry.base_width = extra_width
         geometry.base_height = extra_height
@@ -796,7 +788,8 @@ class Window(Container, Gtk.Window):
         """Group all terminals in the current window"""
         # FIXME: Why isn't this being done by Terminator() ?
         dbg("Group Windows")
-        group = _('Window group %s' % (len(self.terminator.groups) + 1))
+        group_str = _('Window group')
+        group = f'{group_str} {len(self.terminator.groups) + 1}'
         self.terminator.create_group(group)
         self.set_groups(group, self.get_terminals())
 
@@ -843,7 +836,7 @@ class Window(Container, Gtk.Window):
         if not maker.isinstance(notebook, 'Notebook'):
             dbg('note in a notebook, refusing to ungroup tab')
             return
-        
+
         self.set_groups(None, self.get_visible_terminals())
 
     def move_tab(self, widget, direction):
@@ -855,10 +848,10 @@ class Window(Container, Gtk.Window):
         notebook = self.get_child()
 
         if not maker.isinstance(notebook, 'Notebook'):
-            dbg('not in a notebook, refusing to move tab %s' % direction)
+            dbg(f'not in a notebook, refusing to move tab {direction}')
             return
 
-        dbg('moving tab %s' % direction)
+        dbg(f'moving tab {direction}')
         numpages = notebook.get_n_pages()
         page = notebook.get_current_page()
         child = notebook.get_nth_page(page)
@@ -874,9 +867,9 @@ class Window(Container, Gtk.Window):
             else:
                 page = page + 1
         else:
-            err('unknown direction: %s' % direction)
+            err(f'unknown direction: {direction}')
             return
-        
+
         notebook.reorder_child(child, page)
 
     def navigate_terminal(self, terminal, direction):
@@ -890,7 +883,7 @@ class Window(Container, Gtk.Window):
         visibles = self.get_visible_terminals()
         current = terminals.index(terminal)
         length = len(terminals)
-        next = None
+        _next = None
 
         if length <= 1 or len(visibles) <= 1:
             return
@@ -903,11 +896,11 @@ class Window(Container, Gtk.Window):
             if direction == 'next':
                 tmpterms.reverse()
 
-            next = 0
+            _next = 0
             while len(tmpterms) > 0:
                 tmpitem = tmpterms.pop()
                 if tmpitem in visibles:
-                    next = terminals.index(tmpitem)
+                    _next = terminals.index(tmpitem)
                     break
         elif direction in ['left', 'right', 'up', 'down']:
             layout = self.get_visible_terminals()
@@ -937,7 +930,7 @@ class Window(Container, Gtk.Window):
             keys = list(offsets.values())
             keys.sort()
             winners = [k for k, v in offsets.items() if v == keys[0]]
-            next = terminals.index(winners[0])
+            _next = terminals.index(winners[0])
 
             if len(winners) > 1:
                 # Break an n-way tie using the cursor position
@@ -947,29 +940,29 @@ class Window(Container, Gtk.Window):
                 for term in winners:
                     rect = layout[term]
                     if util.get_nav_tiebreak(direction, cursor_x, cursor_y,
-                            rect):
-                        next = terminals.index(term)
-                        break;
+                                             rect):
+                        _next = terminals.index(term)
+                        break
         else:
-            err('Unknown navigation direction: %s' % direction)
+            err(f'Unknown navigation direction: {direction}')
 
-        if next is not None:
-            terminals[next].grab_focus()
+        if _next is not None:
+            terminals[_next].grab_focus()
 
     def create_layout(self, layout):
         """Apply any config items from our layout"""
         if 'children' not in layout:
-            err('layout describes no children: %s' % layout)
+            err(f'layout describes no children: {layout}')
             return
         children = layout['children']
         if len(children) != 1:
             # We're a Window, we can only have one child
-            err('incorrect number of children for Window: %s' % layout)
+            err(f'incorrect number of children for Window: {layout}')
             return
 
         child = children[list(children.keys())[0]]
         terminal = self.get_children()[0]
-        dbg('Making a child of type: %s' % child['type'])
+        dbg(f"Making a child of type: {child['type']}")
         if child['type'] == 'VPaned':
             self.split_axis(terminal, True)
         elif child['type'] == 'HPaned':
@@ -983,16 +976,17 @@ class Window(Container, Gtk.Window):
         elif child['type'] == 'Terminal':
             pass
         else:
-            err('unknown child type: %s' % child['type'])
+            err(f"unknown child type: {child['type']}")
             return
 
         self.get_children()[0].create_layout(child)
 
-        if 'last_active_term' in layout and layout['last_active_term'] not in ['', None]:
+        if layout.get('last_active_term'):
             self.last_active_term = make_uuid(layout['last_active_term'])
 
-        if 'last_active_window' in layout and layout['last_active_window'] == 'True':
+        if layout.get('last_active_window') == 'True':
             self.terminator.last_active_window = self.uuid
+
 
 class WindowTitle(object):
     """Class to handle the setting of the window title"""
@@ -1022,13 +1016,7 @@ class WindowTitle(object):
 
     def update(self):
         """Update the title automatically"""
-        title = None
-
-        # FIXME: What the hell is this for?!
-        if self.forced:
-            title = self.text
-        else:
-            title = "%s" % self.text
+        title = str(self.text)
 
         self.window.set_title(title)
 
