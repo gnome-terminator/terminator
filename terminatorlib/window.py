@@ -77,6 +77,7 @@ class Window(Container, Gtk.Window):
 #        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
         icon_to_apply=''
 
+
         self.apply_config()
 
         self.title = WindowTitle(self)
@@ -348,22 +349,15 @@ class Window(Container, Gtk.Window):
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
         maker = Factory()
-        if maker.isinstance(self.get_child(), 'Terminal'):
-            if self.is_zoomed():
-                return(self.confirm_close(window, _('window')))
-            else:
-                dbg('Only one child, closing is fine')
-                return(False)
-        elif maker.isinstance(self.get_child(), 'Container'):
-            return(self.confirm_close(window, _('window')))
+
+        child = self.get_child()
+        if (maker.isinstance(child, 'Terminal') or
+            maker.isinstance(child, 'Container')):
+            confirm_close = self.construct_confirm_close(window, child)
+            return (confirm_close != Gtk.ResponseType.ACCEPT)
         else:
-            dbg('unknown child: %s' % self.get_child())
-
-    def confirm_close(self, window, type):
-        """Display a confirmation dialog when the user is closing multiple
-        terminals in one window"""
-
-        return(not (self.construct_confirm_close(window, type) == Gtk.ResponseType.ACCEPT))
+            dbg('unknown child: %s' % child)
+            return False # close anyway
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
@@ -843,7 +837,7 @@ class Window(Container, Gtk.Window):
         # change
         child.set_current_page(child.get_current_page())
 
-    def set_groups(self, new_group,  term_list):
+    def set_groups(self, new_group, term_list):
         """Set terminals in term_list to new_group"""
         for terminal in term_list:
             terminal.set_group(None, new_group)
@@ -877,7 +871,7 @@ class Window(Container, Gtk.Window):
 
     def group_win_toggle(self, widget):
         """Toggle grouping to all windows in the current window"""
-        if widget.group == 'Window':
+        if widget.group:
             self.ungroup_win(widget)
         else:
             self.group_win(widget)

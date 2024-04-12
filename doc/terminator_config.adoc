@@ -2,7 +2,7 @@
 :doctype: manpage
 :manmanual: Manual for Terminator
 :mansource: Terminator
-:revdate: 2023-04-22
+:revdate: 2023-10-10
 :docdate: {revdate}
 
 == NAME
@@ -90,10 +90,10 @@ Default value: *False*
 If set to True, the window will resize in step with font sizes. +
 Default value: *False*
 
-*suppress_multiple_term_dialog* = _boolean_::
-If set to True, Terminator will ask for confirmation when closing
-multiple terminals. +
-Default value: *False*
+*ask_before_closing* = _string_::
+Specify when to ask for confirmation before closing a window or a tab.
+Can be any of: 'always', 'multiple_terminals', 'never'.
+Default value: *multiple_terminals*
 
 // --- Window appearance ---
 

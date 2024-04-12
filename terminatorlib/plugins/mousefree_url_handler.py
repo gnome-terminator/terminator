@@ -48,6 +48,8 @@ class MouseFreeURLHandler(plugin.Plugin):
     keyb         = KeyBindUtil(config)
     matches      = []
     matches_ptr  = -1
+    vte          = None
+    cur_term     = None
     #basic pattern
     searchtext  = "https?\:\/\/[^\s]+[\/\w]"
 
@@ -64,16 +66,9 @@ class MouseFreeURLHandler(plugin.Plugin):
                 [PluginUrlLaunch, PluginUrlActLaunch,      "<Alt>Return"])
 
     def connect_signals(self):
-        #this is not giving list off all connected terminals in window
-        dbg("direct terminals: %s" % Terminator().terminals)
-
-        #get list of all terminals indirectly
-        terms =  Terminator().terminals[0]
-        dbg("in-direct get terminals: %s" % terms.terminator.terminals)
-        
-        for term in terms.terminator.terminals:
+        for term in Terminator().terminals:
             dbg("signal connect term:%s" % term)
-            term.connect('tab-change', self.on_focus_in)
+            term.connect('focus-in', self.on_focus_in)
 
         self.windows = Terminator().get_windows()
         for window in self.windows:
@@ -81,9 +76,7 @@ class MouseFreeURLHandler(plugin.Plugin):
 
     def unload(self):
         dbg("unloading")
-        #disconnect all signals and events
-        terms =  Terminator().terminals[0]
-        for term in terms.terminator.terminals:
+        for term in Terminator().terminals:
             try:
                 term.disconnect_by_func(self.on_focus_in)
             except:
@@ -107,23 +100,30 @@ class MouseFreeURLHandler(plugin.Plugin):
     def extract(self):
         #can we do extract more efficiently
         col, row =  self.vte.get_cursor_position()
-        (txt, attr) = self.vte.get_text_range(0,0,row, col)
+        (txt, attr) = self.vte.get_text_range_format(
+                                Vte.Format.TEXT, 0, 0, row, col)
         self.matches = re.findall(self.searchtext, txt)
         self.matches_ptr = len(self.matches)-1
 
-    def get_term(self):
-        return  Terminator().last_focused_term
-
     def get_selected_url(self):
         if len(self.matches):
-            dbg("found selected URL (%s %s %s)" %
-                (self.matches_ptr, self.matches[self.matches_ptr], self))
+            dbg("found selected URL (%s %s)" %
+                (self.matches_ptr, self.matches[self.matches_ptr]))
             return self.matches[self.matches_ptr]
         dbg("selected URL (%s %s)" % (self.matches_ptr, "not found"))
         return None
 
-    def on_focus_in(self, widget, event):
-        dbg("focus-in clear url search buffer: %s" % self)
+    def get_focussed_terminal(self):
+        """iterate over all the terminals to find which, if any, has focus"""
+        for terminal in Terminator().terminals:
+            if terminal.get_vte().has_focus():
+                return(terminal)
+        return(None)
+
+    def on_focus_in(self, widget, event = None):
+        dbg("focus-in clear url search buffer widget: %s" % widget)
+        self.cur_term = self.get_focussed_terminal()
+        self.vte      = self.cur_term.get_vte()
         self.clear_search()
 
     def on_keypress(self, widget, event):
@@ -160,8 +160,8 @@ class MouseFreeURLHandler(plugin.Plugin):
                 self.get_selected_url() # dbg url print
                 self.vte.copy_clipboard()
                 return True
-
-            self.vte.search_find_previous()
+            else:
+                self.vte.search_find_previous()
 
             if self.matches_ptr > 0:
                 self.matches_ptr -= 1
@@ -174,26 +174,44 @@ class MouseFreeURLHandler(plugin.Plugin):
 
         if act == PluginUrlActEsc:
             self.clear_search()
+            return
 
         if act == PluginUrlActLaunch:
             url = self.get_selected_url()
             if url:
-                self.get_term().open_url(url, prepare=False)
+                self.cur_term.open_url(url, prepare=False)
 
+            return
+
+        #TODO: use case for KeyBindUtil
+        #So this is capturing <Return> key as if user presses return
+        #then the current selection would be cleared in case he types
+        #more commands or text in terminal has more urls now. So next
+        #time search should restart with complete text
+
+        #For KeyBindUtil if we register <Return> then keybinding will
+        #be shown in Preferences->Keybindings and if any other plugin
+        #wants to listen to same key code it will throw error since in
+        #UI binding has to be unique. May be we can have keybinds
+        #hidden from UI which plugins can use internally
+
+        if event.keyval == 65293: #<Return>
+            self.clear_search()
+            return
 
     def clear_search(self):
         self.matches = []
         self.flag_http_on = False
         self.matches_ptr  = -1
-        if self.get_term():
-            self.vte = self.get_term().get_vte()
+
+        if self.vte:
             self.vte.search_set_regex(None, 0)
             dbg("search URL off")
+            self.vte.unselect_all()
 
     def search(self):
         dbg("searching text")
         self.flag_http_on = True
-        self.vte = self.get_term().get_vte()
 
         self.vte.search_set_wrap_around(True)
         regex_flags_pcre2 = (regex.FLAGS_PCRE2 | regex.PCRE2_CASELESS)

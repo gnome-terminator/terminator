@@ -235,13 +235,24 @@ class PrefsEditor:
         nb = guiget('notebook1')
         nb.set_current_page(cur_page)
 
+        self.config.base.save_config_with_suffix('_cur')
+
+    def on_destroy_event(self, _widget):
+        self.config.base.remove_config_with_suffix('_cur')
+
     def on_closebutton_clicked(self, _button):
         """Close the window"""
+        self.config.base.remove_config_with_suffix('_cur')
         terminator = Terminator()
         terminator.reconfigure()
         self.window.destroy()
         self.calling_window.preventHide = False
         del(self)
+
+    def on_restoreconfigbutton_clicked(self, _button):
+        """restore config to load time"""
+        self.config.base.restore_config_with_suffix('_cur')
+        self.on_closebutton_clicked(_button)
 
     def set_values(self):
         """Update the preferences window with all the configuration from
@@ -296,6 +307,18 @@ class PrefsEditor:
         else:
             active = 0
         widget = guiget('winstatecombo')
+        widget.set_active(active)
+        # Ask Before Closing
+        option = self.config['ask_before_closing']
+        if option == 'never':
+            active = 0
+        elif option == 'multiple_terminals':
+            active = 1
+        elif option == 'always':
+            active = 2
+        else:
+            active = 1 
+        widget = guiget('askbeforeclose')
         widget.set_active(active)
         # Window borders
         widget = guiget('winbordercheck')
@@ -1486,7 +1509,20 @@ class PrefsEditor:
             value = 'normal'
         self.config['window_state'] = value
         self.config.save()
-
+    def on_askbeforeclose_changed(self, widget):
+        """Ask Before Close changed"""
+        selected = widget.get_active()
+        if selected == 0:
+            value = 'Never'
+        elif selected == 1:
+            value = 'Multiple Terminals'
+        elif selected == 2: 
+            value = 'Always'
+        else:
+            value = 'Multiple Terminals'
+        configval = value.lower().replace(" ","_")
+        self.config['ask_before_closing'] = configval
+        self.config.save()
     # helper function, not a signal
     def addprofile(self, name, toclone):
         """Add a profile"""
@@ -1582,6 +1618,14 @@ class PrefsEditor:
         selected = treeview.get_selection()
         (model, rowiter) = selected.get_selected()
         name = model.get_value(rowiter, 0)
+
+        config_layout  = self.config.base.get_layout(name)
+        dbg("layout from terminator:(%s)" % current_layout)
+        dbg("layout from config:(%s)" % config_layout)
+
+        self.config.copy_layout_item(config_layout, current_layout, 'directory')
+        self.config.copy_layout_item(config_layout, current_layout, 'command')
+        dbg("updated layout from terminator:(%s)" % current_layout)
 
         if self.config.replace_layout(name, current_layout):
             treeview.set_cursor(model.get_path(rowiter), column=treeview.get_column(0), start_editing=False)
@@ -2152,7 +2196,7 @@ class LayoutEditor:
 
     def on_layout_profile_workingdir_activate(self, widget):
         """A new working directory has been entered for this item"""
-        workdir = widget.get_text()
+        workdir = os.path.expanduser(widget.get_text())
         layout = self.config.layout_get_config(self.layout_name)
         layout[self.layout_item]['directory'] = workdir
         self.config.save()

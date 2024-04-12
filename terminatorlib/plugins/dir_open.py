@@ -1,7 +1,5 @@
 from gi.repository import Gtk
 
-from terminatorlib.config import Config
-from terminatorlib.terminal import Terminal
 from terminatorlib.translation import _
 import terminatorlib.plugin as plugin
 

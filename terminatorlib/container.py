@@ -152,33 +152,54 @@ class Container(object):
         """Unzoom a terminal"""
         raise NotImplementedError('unzoom')
 
-    def construct_confirm_close(self, window, reqtype):
+    def construct_confirm_close(self, window, child):
         """Create a confirmation dialog for closing things"""
-        
+        maker = Factory()
+
+        has_multiple_terms = False
+        if not maker.isinstance(child, 'Terminal'):
+            has_multiple_terms = True
+        elif maker.isinstance(self, 'Window'):
+            has_multiple_terms = self.is_zoomed()
+
         # skip this dialog if applicable
-        if self.config['suppress_multiple_term_dialog']:
+        if self.config['ask_before_closing'] == 'never':
             return Gtk.ResponseType.ACCEPT
-        
+        elif self.config['ask_before_closing'] == 'multiple_terminals':
+            if not has_multiple_terms:
+                return Gtk.ResponseType.ACCEPT
+
+        # text
+        confirm_button_text = (_('Close _Terminals') if has_multiple_terms
+                               else _('Close _Terminal'))
+        big_label_text = (_('Close multiple terminals?') if has_multiple_terms
+                          else _('Close terminal?'))
+
+        if not has_multiple_terms:
+            description_text = _('Do you really wish to close this terminal?')
+        elif maker.isinstance(self, 'Window'):
+            description_text = _('This window has several terminals open. Closing \
+the window will also close all terminals within it.')
+        elif maker.isinstance(self, 'Notebook'):
+            description_text = _('This tab has several terminals open. Closing \
+the tab will also close all terminals within it.')
+        else:
+            description_text = ''
+
+        # dialog GUI
         dialog = Gtk.Dialog(_('Close?'), window, Gtk.DialogFlags.MODAL)
         dialog.set_resizable(False)
     
         dialog.add_button(Gtk.STOCK_CANCEL, Gtk.ResponseType.REJECT)
         c_all = dialog.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.ACCEPT)
         c_all.get_children()[0].get_children()[0].get_children()[1].set_label(
-                _('Close _Terminals'))
+                confirm_button_text)
     
-        primary = Gtk.Label(label=_('<big><b>Close multiple terminals?</b></big>'))
+        primary = Gtk.Label(label=_('<big><b>' + big_label_text + '</b></big>'))
         primary.set_use_markup(True)
         primary.set_alignment(0, 0.5)
-        if reqtype == 'window':
-            label_text = _('This window has several terminals open. Closing \
-the window will also close all terminals within it.')
-        elif reqtype == 'tab':
-            label_text = _('This tab has several terminals open. Closing \
-the tab will also close all terminals within it.')
-        else:
-            label_text = ''
-        secondary = Gtk.Label(label=label_text)
+
+        secondary = Gtk.Label(label=description_text)
         secondary.set_line_wrap(True)
                     
         labels = Gtk.VBox()
@@ -203,7 +224,8 @@ the tab will also close all terminals within it.')
         
         # set configuration
         self.config.base.reload()
-        self.config['suppress_multiple_term_dialog'] = checkbox.get_active()
+        if checkbox.get_active():
+            self.config['ask_before_closing'] = 'never'
         self.config.save()
 
         dialog.destroy()

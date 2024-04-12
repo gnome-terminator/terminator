@@ -343,10 +343,6 @@ class Notebook(Container, Gtk.Notebook):
         self.set_current_page(tabpos)
         self.show_all()
         if maker.isinstance(term_widget, 'Terminal'):
-            #notify plugins of tab-change
-            dbg("emit tab-change for tabpos: %s " % tabpos)
-            term_widget.emit('tab-change', tabpos)
-            self.set_current_page(tabpos)
             widget.grab_focus()
 
     def wrapcloseterm(self, widget):
@@ -379,35 +375,33 @@ class Notebook(Container, Gtk.Notebook):
         maker = Factory()
         child = nb.get_nth_page(tabnum)
 
+        confirm_close = self.construct_confirm_close(self.window, child)
+        if confirm_close != Gtk.ResponseType.ACCEPT:
+            dbg('user cancelled request')
+            return
+
         if maker.isinstance(child, 'Terminal'):
             dbg('child is a single Terminal')
+
             del nb.last_active_term[child]
             child.close()
             # FIXME: We only do this del and return here to avoid removing the
             # page below, which child.close() implicitly does
             del(label)
-            return
         elif maker.isinstance(child, 'Container'):
             dbg('child is a Container')
-            result = self.construct_confirm_close(self.window, _('tab'))
 
-            if result == Gtk.ResponseType.ACCEPT:
-                containers = None
-                objects = None
-                containers, objects = enumerate_descendants(child)
+            containers = None
+            objects = None
+            containers, objects = enumerate_descendants(child)
 
-                while len(objects) > 0:
-                    descendant = objects.pop()
-                    descendant.close()
-                    while Gtk.events_pending():
-                        Gtk.main_iteration()
-                return
-            else:
-                dbg('user cancelled request')
-                return
+            while len(objects) > 0:
+                descendant = objects.pop()
+                descendant.close()
+                while Gtk.events_pending():
+                    Gtk.main_iteration()
         else:
             err('Notebook::closetab: child is unknown type %s' % child)
-            return
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
