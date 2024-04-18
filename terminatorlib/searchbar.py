@@ -164,9 +164,10 @@ class Searchbar(Gtk.HBox):
         key = Gdk.keyval_name(event.keyval)
         if key == 'Escape':
             self.end_search()
-        else:
-            self.prev.set_sensitive(False)
-            self.next.set_sensitive(False)
+        elif (event.state & Gdk.ModifierType.SHIFT_MASK)\
+                and (event.keyval == Gdk.KEY_Return or event.keyval == Gdk.KEY_KP_Enter):
+            self.prev_search(None)
+            return True
 
     def start_search(self):
         """Show ourselves"""
