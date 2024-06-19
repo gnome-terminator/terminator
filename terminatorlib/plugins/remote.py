@@ -171,7 +171,6 @@ class ContainerSession(RemoteSession):
 
     def GetHost(self, proc):
         """ try to find container name from cmdline """
-        # TODO: figure this out
         cmd = self._get_command(proc)
         if not cmd:
             return None
