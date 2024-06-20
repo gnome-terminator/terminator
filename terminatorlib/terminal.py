@@ -4,6 +4,7 @@
 
 
 import os
+import sys
 import signal
 import gi
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
@@ -19,6 +20,7 @@ from .util import dbg, err, spawn_new_terminator, make_uuid, manual_lookup
 from . import util
 from .config import Config
 from .cwd import get_pid_cwd
+from .venv import get_pid_venv
 from .factory import Factory
 from .terminator import Terminator
 from .titlebar import Titlebar
@@ -94,6 +96,7 @@ class Terminal(Gtk.VBox):
 
     group = None
     cwd = None
+    venv = None
     origcwd = None
     command = None
     clipboard = None
@@ -106,6 +109,7 @@ class Terminal(Gtk.VBox):
     layout_command = None
     relaunch_command = None
     directory = None
+    virtual_env = None
 
     is_held_open = False
 
@@ -140,6 +144,7 @@ class Terminal(Gtk.VBox):
         self.config = Config()
 
         self.cwd = get_pid_cwd()
+        self.venv = get_pid_venv() # TODO: vritual env still needs to be activated in the current terminal
         self.origcwd = self.terminator.origcwd
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
 
@@ -262,6 +267,21 @@ class Terminal(Gtk.VBox):
             # Fall back to old gtk2 method
             dbg('calling get_pid_cwd')
             return(get_pid_cwd(self.pid))
+        
+    def get_venv(self):
+        """Return our virtual environment"""
+
+        vte_venv = False #= self.vte.get_current_virtual_environment_uri()
+        if vte_venv:
+            # OSC7 pwd gives an answer
+            # return remote venv - if possible
+            return(GLib.filename_from_uri(vte_venv)[0])
+        else:
+            # Fall back to old gtk2 method
+            dbg('calling get_pid_venv')
+            return(get_pid_venv(self.pid))
+
+
 
     def close(self):
         """Close ourselves"""
@@ -1514,6 +1534,11 @@ class Terminal(Gtk.VBox):
         if cwd is not None:
             self.cwd = os.path.expanduser(cwd)
 
+    def set_venv(self, venv=None):
+        """Set our virtual environment"""
+        if venv is not None:
+            self.venv = venv
+
     def held_open(self, widget=None, respawn=False, debugserver=False):
         self.is_held_open = True
         self.titlebar.update()
@@ -1562,6 +1587,10 @@ class Terminal(Gtk.VBox):
                 options.working_directory != '':
             self.set_cwd(options.working_directory)
             options.working_directory = ''
+
+        # virtualenv set in layout config
+        if self.virtual_env:
+            self.set_venv(self.virtual_env)
 
         if type(command) is list:
             shell = util.path_lookup(command[0])
@@ -1821,10 +1850,14 @@ class Terminal(Gtk.VBox):
         layout['uuid'] = self.uuid
         if save_cwd:
             layout['directory'] = self.get_cwd()
+
+            if self.get_venv() is not None:
+                layout['venv'] = self.get_venv()
+
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
-        return count
+        return count   
 
     def create_layout(self, layout):
         """Apply our layout"""
@@ -1842,6 +1875,8 @@ class Terminal(Gtk.VBox):
             self.titlebar.set_custom_string(layout['title'])
         if 'directory' in layout and layout['directory'] != '':
             self.directory = layout['directory']
+        if 'venv' in layout and layout['venv'] != '':
+            self.virtual_env = layout['venv']
         if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
 
