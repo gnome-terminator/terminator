@@ -13,7 +13,7 @@ class LaunchpadBugURLHandler(plugin.URLHandler):
     Launchpad Bug URL"""
     capabilities = ['url_handler']
     handler_name = 'launchpad_bug'
-    match = '\\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\\b'
+    match = r'\b(lp|LP):?\s?#?[0-9]+(,\s*#?[0-9]+)*\b'
     nameopen = "Open Launchpad bug"
     namecopy = "Copy bug URL"
 
@@ -36,7 +36,7 @@ class LaunchpadCodeURLHandler(plugin.URLHandler):
     lpfilters['series'] = lpfilters['project']
     lpfilters['branch'] = '[a-zA-Z0-9]{1}[a-zA-Z0-9_+@.-]+'
 
-    match = '\\b((lp|LP):%(project)s(/%(series)s)?|(lp|LP):%(group)s/(%(project)s|\+junk)/%(branch)s)\\b' % lpfilters
+    match = r'\b((lp|LP):%(project)s(/%(series)s)?|(lp|LP):%(group)s/(%(project)s|\+junk)/%(branch)s)\b' % lpfilters
 
     def callback(self, url):
         """Look for the number in the supplied string and return it as a URL"""

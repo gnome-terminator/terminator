@@ -51,7 +51,7 @@ class MouseFreeURLHandler(plugin.Plugin):
     vte          = None
     cur_term     = None
     #basic pattern
-    searchtext  = "https?\:\/\/[^\s]+[\/\w]"
+    searchtext  = r"https?\:\/\/[^\s]+[\/\w]"
 
     def __init__(self):
         self.connect_signals()
