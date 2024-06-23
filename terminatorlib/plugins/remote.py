@@ -66,7 +66,10 @@ import threading
 
 from typing import Optional, List
 
+import gi
 from gi.repository import Gtk, GLib
+gi.require_version('Vte', '2.91')
+from gi.repository import Vte
 
 from terminatorlib.plugin import MenuItem
 from terminatorlib.config import Config
@@ -77,6 +80,28 @@ from terminatorlib.translation import _
 from terminatorlib.version import APP_NAME, APP_VERSION
 
 AVAILABLE = ['Remote']
+
+def vte_get_text(vte_term, start_row, start_col, end_row, end_col):
+    """ wrapper for get_text_range* based on Vte version """
+    version = "{}.{}".format(
+        Vte.get_major_version(), 
+        Vte.get_minor_version()
+    )
+    if version < "0.72":
+        return vte_term.get_text_range(
+            start_row=start_row,
+            start_col=start_col,
+            end_row=end_row,
+            end_col=end_col, 
+            is_selected=None, 
+        )[0]
+    return vte_term.get_text_range_format(
+        format=Vte.Format.TEXT,
+        start_row=start_row,
+        start_col=start_col,
+        end_row=end_row,
+        end_col=end_col
+    )[0]
 
 class RemoteSession(object):
     """
@@ -320,7 +345,7 @@ class RemoteProcWatch(object):
 
         self.quit = False
         self.loop = asyncio.new_event_loop()
-        self.thread = threading.Thread(target=self._external_thread)
+        self.thread = threading.Thread(target=self._external_thread, daemon=True)
 
     def _has_remote_session(self, pid):
         """ check if this PID has a direct child with remote session """
@@ -490,17 +515,19 @@ class Remote(MenuItem):
         """
         vte = terminal.get_vte()
         currCol, currRow = vte.get_cursor_position()
-        lines = vte.get_text_range(
+        lines = vte_get_text(
+            vte_term=vte,
             start_row=max(0, currRow - N),
             start_col=0,
             end_row=currRow,
             end_col=currCol
-        )[0]
-        matches = list(self.cwd_regex.finditer(lines))
-        if matches:
-            lastMatch = matches[-1]
-            dbg(f"Inferred remote cwd: {lastMatch.group()}")
-            return lastMatch.group()
+        )
+        if lines:
+            matches = list(self.cwd_regex.finditer(lines))
+            if matches:
+                lastMatch = matches[-1]
+                dbg(f"Inferred remote cwd: {lastMatch.group()}")
+                return lastMatch.group()
         dbg(f"cant find remote cwd in '{lines}'")
         return None
 
