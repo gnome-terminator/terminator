@@ -66,7 +66,7 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 >>> config.options_set({})
 >>> config.options_get()
 {}
->>> 
+>>>
 
 """
 
@@ -81,210 +81,210 @@ from .util import dbg, err, DEBUG, get_system_config_dir, get_config_dir, dict_d
 from gi.repository import Gio
 
 DEFAULTS = {
-        'global_config':   {
-            'dbus'                  : True,
-            'focus'                 : 'click',
-            'handle_size'           : -1,
-            'geometry_hinting'      : False,
-            'window_state'          : 'normal',
-            'borderless'            : False,
-            'extra_styling'         : True,
-            'tab_position'          : 'top',
-            'broadcast_default'     : 'group',
-            'close_button_on_tab'   : True,
-            'scroll_tabbar'         : False,
-            'homogeneous_tabbar'    : True,
-            'hide_from_taskbar'     : False,
-            'always_on_top'         : False,
-            'hide_on_lose_focus'    : False,
-            'sticky'                : False,
-            'use_custom_url_handler': False,
-            'custom_url_handler'    : '',
-            'inactive_color_offset': 0.8,
-            'inactive_bg_color_offset': 1.0,
-            'enabled_plugins'       : ['LaunchpadBugURLHandler',
-                                       'LaunchpadCodeURLHandler',
-                                       'APTURLHandler'],
-            'ask_before_closing'    : 'multiple_terminals',
-            'always_split_with_profile': False,
-            'putty_paste_style'     : False,
-            'putty_paste_style_source_clipboard': False,
-            'disable_mouse_paste'   : False,
-            'smart_copy'            : True,
-            'clear_select_on_copy'  : False,
-            'cell_width'            : 1.0,
-            'cell_height'           : 1.0,
-            'case_sensitive'        : True,
-            'invert_search'         : False,
-            'link_single_click'     : False,
-            'title_at_bottom'       : False,
-            'detachable_tabs'       : True,
-
-            'new_tab_after_current_tab': False,
-        },
-        'keybindings': {
-            'zoom_in'          : '<Control>plus',
-            'zoom_out'         : '<Control>minus',
-            'zoom_normal'      : '<Control>0',
-			'zoom_in_all'	   : '',
-			'zoom_out_all'	   : '',
-			'zoom_normal_all'  : '',
-            'new_tab'          : '<Shift><Control>t',
-            'cycle_next'       : '<Control>Tab',
-            'cycle_prev'       : '<Shift><Control>Tab',
-            'go_next'          : '<Shift><Control>n',
-            'go_prev'          : '<Shift><Control>p',
-            'go_up'            : '<Alt>Up',
-            'go_down'          : '<Alt>Down',
-            'go_left'          : '<Alt>Left',
-            'go_right'         : '<Alt>Right',
-            'rotate_cw'        : '<Super>r',
-            'rotate_ccw'       : '<Super><Shift>r',
-            'split_auto'      :  '<Shift><Control>a',
-            'split_horiz'      : '<Shift><Control>o',
-            'split_vert'       : '<Shift><Control>e',
-            'close_term'       : '<Shift><Control>w',
-            'copy'             : '<Shift><Control>c',
-            'paste'            : '<Shift><Control>v',
-            'paste_selection'  : '',
-            'toggle_scrollbar' : '<Shift><Control>s',
-            'search'           : '<Shift><Control>f',
-            'page_up'          : '',
-            'page_down'        : '',
-            'page_up_half'     : '',
-            'page_down_half'   : '',
-            'line_up'          : '',
-            'line_down'        : '',
-            'close_window'     : '<Shift><Control>q',
-            'resize_up'        : '<Shift><Control>Up',
-            'resize_down'      : '<Shift><Control>Down',
-            'resize_left'      : '<Shift><Control>Left',
-            'resize_right'     : '<Shift><Control>Right',
-            'move_tab_right'   : '<Shift><Control>Page_Down',
-            'move_tab_left'    : '<Shift><Control>Page_Up',
-            'toggle_zoom'      : '<Shift><Control>x',
-            'scaled_zoom'      : '<Shift><Control>z',
-            'next_tab'         : '<Control>Page_Down',
-            'prev_tab'         : '<Control>Page_Up',
-            'switch_to_tab_1'  : '',
-            'switch_to_tab_2'  : '',
-            'switch_to_tab_3'  : '',
-            'switch_to_tab_4'  : '',
-            'switch_to_tab_5'  : '',
-            'switch_to_tab_6'  : '',
-            'switch_to_tab_7'  : '',
-            'switch_to_tab_8'  : '',
-            'switch_to_tab_9'  : '',
-            'switch_to_tab_10' : '',
-            'full_screen'      : 'F11',
-            'reset'            : '<Shift><Control>r',
-            'reset_clear'      : '<Shift><Control>g',
-            'hide_window'      : '<Shift><Control><Alt>a',
-            'create_group'     : '',
-            'group_all'        : '<Super>g',
-            'group_all_toggle' : '',
-            'ungroup_all'      : '<Shift><Super>g',
-            'group_win'        : '',
-            'group_win_toggle' : '',
-            'ungroup_win'      : '<Shift><Super>w',
-            'group_tab'        : '<Super>t',
-            'group_tab_toggle' : '',
-            'ungroup_tab'      : '<Shift><Super>t',
-            'new_window'       : '<Shift><Control>i',
-            'new_terminator'   : '<Super>i',
-            'broadcast_off'    : '',
-            'broadcast_group'  : '',
-            'broadcast_all'    : '',
-            'insert_number'    : '<Super>1',
-            'insert_padded'    : '<Super>0',
-            'edit_window_title': '<Control><Alt>w',
-            'edit_tab_title'   : '<Control><Alt>a',
-            'edit_terminal_title': '<Control><Alt>x',
-            'layout_launcher'  : '<Alt>l',
-            'next_profile'     : '',
-            'previous_profile' : '', 
-            'preferences'      : '',
-            'preferences_keybindings' : '<Control><Shift>k',
-            'help'             : 'F1'
-        },
-        'profiles': {
-            'default':  {
-                'allow_bold'            : True,
-                'audible_bell'          : False,
-                'visible_bell'          : False,
-                'urgent_bell'           : False,
-                'icon_bell'             : True,
-                'background_color'      : '#000000',
-                'background_darkness'   : 0.5,
-                'background_type'       : 'solid',
-                'background_image'      : '',
-                'background_image_mode' : 'stretch_and_fill',
-                'background_image_align_horiz': 'center',
-                'background_image_align_vert' : 'middle',
-                'backspace_binding'     : 'ascii-del',
-                'delete_binding'        : 'escape-sequence',
-                'cursor_blink'          : True,
-                'cursor_shape'          : 'block',
-                'cursor_fg_color'       : '',
-                'cursor_bg_color'       : '',
-                'cursor_color_default'  : True,
-                'term'                  : 'xterm-256color',
-                'colorterm'             : 'truecolor',
-                'font'                  : 'Mono 10',
-                'foreground_color'      : '#aaaaaa',
-                'show_titlebar'         : True,
-                'scrollbar_position'    : "right",
-                'scroll_on_keystroke'   : True,
-                'scroll_on_output'      : False,
-                'scrollback_lines'      : 500,
-                'scrollback_infinite'   : False,
-                'disable_mousewheel_zoom': False,
-                'exit_action'           : 'close',
-                'palette'               : '#2e3436:#cc0000:#4e9a06:#c4a000:\
+    'global_config':   {
+        'dbus': True,
+        'focus': 'click',
+        'handle_size': -1,
+        'geometry_hinting': False,
+        'window_state': 'normal',
+        'borderless': False,
+        'extra_styling': True,
+        'tab_position': 'top',
+        'broadcast_default': 'group',
+        'close_button_on_tab': True,
+        'scroll_tabbar': False,
+        'homogeneous_tabbar': True,
+        'hide_from_taskbar': False,
+        'always_on_top': False,
+        'hide_on_lose_focus': False,
+        'sticky': False,
+        'use_custom_url_handler': False,
+        'custom_url_handler': '',
+        'inactive_color_offset': 0.8,
+        'inactive_bg_color_offset': 1.0,
+        'enabled_plugins': ['LaunchpadBugURLHandler',
+                            'LaunchpadCodeURLHandler',
+                            'APTURLHandler'],
+        'ask_before_closing': 'multiple_terminals',
+        'always_split_with_profile': False,
+        'putty_paste_style': False,
+        'putty_paste_style_source_clipboard': False,
+        'disable_mouse_paste': False,
+        'smart_copy': True,
+        'clear_select_on_copy': False,
+        'cell_width': 1.0,
+        'cell_height': 1.0,
+        'case_sensitive': True,
+        'invert_search': False,
+        'link_single_click': False,
+        'title_at_bottom': False,
+        'detachable_tabs': True,
+        'new_tab_after_current_tab': False,
+    },
+    'keybindings': {
+        'zoom_in': ['<Control>plus', ''],
+        'zoom_out': ['<Control>minus', ''],
+        'zoom_normal': ['<Control>0', ''],
+        'zoom_in_all': ['', ''],
+        'zoom_out_all': ['', ''],
+        'zoom_normal_all': ['', ''],
+        'new_tab': ['<Shift><Control>t', ''],
+        'cycle_next': ['<Control>Tab', ''],
+        'cycle_prev': ['<Shift><Control>Tab', ''],
+        'go_next': ['<Shift><Control>n', ''],
+        'go_prev': ['<Shift><Control>p', ''],
+        'go_up': ['<Alt>Up', ''],
+        'go_down': ['<Alt>Down', ''],
+        'go_left': ['<Alt>Left', ''],
+        'go_right': ['<Alt>Right', ''],
+        'rotate_cw': ['<Super>r', ''],
+        'rotate_ccw': ['<Super><Shift>r', ''],
+        'split_auto': ['<Shift><Control>a', ''],
+        'split_horiz': ['<Shift><Control>o', ''],
+        'split_vert': ['<Shift><Control>e', ''],
+        'close_term': ['<Shift><Control>w', ''],
+        'copy': ['<Shift><Control>c', ''],
+        'paste': ['<Shift><Control>v', ''],
+        'paste_selection': ['', ''],
+        'toggle_scrollbar': ['<Shift><Control>s', ''],
+        'search': ['<Shift><Control>f', ''],
+        'page_up': ['', ''],
+        'page_down': ['', ''],
+        'page_up_half': ['', ''],
+        'page_down_half': ['', ''],
+        'line_up': ['', ''],
+        'line_down': ['', ''],
+        'close_window': ['<Shift><Control>q', ''],
+        'resize_up': ['<Shift><Control>Up', ''],
+        'resize_down': ['<Shift><Control>Down', ''],
+        'resize_left': ['<Shift><Control>Left', ''],
+        'resize_right': ['<Shift><Control>Right', ''],
+        'move_tab_right': ['<Shift><Control>Page_Down', ''],
+        'move_tab_left': ['<Shift><Control>Page_Up', ''],
+        'toggle_zoom': ['<Shift><Control>x', ''],
+        'scaled_zoom': ['<Shift><Control>z', ''],
+        'next_tab': ['<Control>Page_Down', ''],
+        'prev_tab': ['<Control>Page_Up', ''],
+        'switch_to_tab_1': ['', ''],
+        'switch_to_tab_2': ['', ''],
+        'switch_to_tab_3': ['', ''],
+        'switch_to_tab_4': ['', ''],
+        'switch_to_tab_5': ['', ''],
+        'switch_to_tab_6': ['', ''],
+        'switch_to_tab_7': ['', ''],
+        'switch_to_tab_8': ['', ''],
+        'switch_to_tab_9': ['', ''],
+        'switch_to_tab_10': ['', ''],
+        'full_screen': ['F11', ''],
+        'reset': ['<Shift><Control>r', ''],
+        'reset_clear': ['<Shift><Control>g', ''],
+        'hide_window': ['<Shift><Control><Alt>a', ''],
+        'create_group': ['', ''],
+        'group_all': ['<Super>g', ''],
+        'group_all_toggle': ['', ''],
+        'ungroup_all': ['<Shift><Super>g', ''],
+        'group_win': ['', ''],
+        'group_win_toggle': ['', ''],
+        'ungroup_win': ['<Shift><Super>w', ''],
+        'group_tab': ['<Super>t', ''],
+        'group_tab_toggle': ['', ''],
+        'ungroup_tab': ['<Shift><Super>t', ''],
+        'new_window': ['<Shift><Control>i', ''],
+        'new_terminator': ['<Super>i', ''],
+        'broadcast_off': ['', ''],
+        'broadcast_group': ['', ''],
+        'broadcast_all': ['', ''],
+        'insert_number': ['<Super>1', ''],
+        'insert_padded': ['<Super>0', ''],
+        'edit_window_title': ['<Control><Alt>w', ''],
+        'edit_tab_title': ['<Control><Alt>a', ''],
+        'edit_terminal_title': ['<Control><Alt>x', ''],
+        'layout_launcher': ['<Alt>l', ''],
+        'next_profile': ['', ''],
+        'previous_profile': ['', ''],
+        'preferences': ['', ''],
+        'preferences_keybindings': ['<Control><Shift>k', ''],
+        'help': ['F1', '']
+    },
+    'profiles': {
+        'default':  {
+            'allow_bold': True,
+            'audible_bell': False,
+            'visible_bell': False,
+            'urgent_bell': False,
+            'icon_bell': True,
+            'background_color': '#000000',
+            'background_darkness': 0.5,
+            'background_type': 'solid',
+            'background_image': '',
+            'background_image_mode': 'stretch_and_fill',
+            'background_image_align_horiz': 'center',
+            'background_image_align_vert': 'middle',
+            'backspace_binding': 'ascii-del',
+            'delete_binding': 'escape-sequence',
+            'cursor_blink': True,
+            'cursor_shape': 'block',
+            'cursor_fg_color': '',
+            'cursor_bg_color': '',
+            'cursor_color_default': True,
+            'term': 'xterm-256color',
+            'colorterm': 'truecolor',
+            'font': 'Mono 10',
+            'foreground_color': '#aaaaaa',
+            'show_titlebar': True,
+            'scrollbar_position': "right",
+            'scroll_on_keystroke': True,
+            'scroll_on_output': False,
+            'scrollback_lines': 500,
+            'scrollback_infinite': False,
+            'disable_mousewheel_zoom': False,
+            'exit_action': 'close',
+            'palette': '#2e3436:#cc0000:#4e9a06:#c4a000:\
 #3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:\
 #729fcf:#ad7fa8:#34e2e2:#eeeeec',
-                'word_chars'            : '-,./?%&#:_',
-                'mouse_autohide'        : True,
-                'login_shell'           : False,
-                'use_custom_command'    : False,
-                'custom_command'        : '',
-                'use_system_font'       : True,
-                'use_theme_colors'      : False,
-                'bold_is_bright'        : False,
-                'cell_height'           : 1.0,
-                'cell_width'            : 1.0,
-                'force_no_bell'         : False,
-                'copy_on_selection'     : False,
-                'split_to_group'        : False,
-                'autoclean_groups'      : True,
-                'http_proxy'            : '',
-                # Titlebar
-                'title_hide_sizetext'     : False,
-                'title_transmit_fg_color' : '#ffffff',
-                'title_transmit_bg_color' : '#c80003',
-                'title_receive_fg_color'  : '#ffffff',
-                'title_receive_bg_color'  : '#0076c9',
-                'title_inactive_fg_color' : '#000000',
-                'title_inactive_bg_color' : '#c0bebf',
-                'title_use_system_font'   : True,
-                'title_font'              : 'Sans 9'
+            'word_chars': '-,./?%&#:_',
+            'mouse_autohide': True,
+            'login_shell': False,
+            'use_custom_command': False,
+            'custom_command': '',
+            'use_system_font': True,
+            'use_theme_colors': False,
+            'bold_is_bright': False,
+            'cell_height': 1.0,
+            'cell_width': 1.0,
+            'force_no_bell': False,
+            'copy_on_selection': False,
+            'split_to_group': False,
+            'autoclean_groups': True,
+            'http_proxy': '',
+            # Titlebar
+            'title_hide_sizetext': False,
+            'title_transmit_fg_color': '#ffffff',
+            'title_transmit_bg_color': '#c80003',
+            'title_receive_fg_color': '#ffffff',
+            'title_receive_bg_color': '#0076c9',
+            'title_inactive_fg_color': '#000000',
+            'title_inactive_bg_color': '#c0bebf',
+            'title_use_system_font': True,
+            'title_font': 'Sans 9'
+        },
+    },
+    'layouts': {
+        'default': {
+            'window0': {
+                'type': 'Window',
+                'parent': ''
             },
-        },
-        'layouts': {
-                'default': {
-                    'window0': {
-                        'type': 'Window',
-                        'parent': ''
-                        },
-                    'child1': {
-                        'type': 'Terminal',
-                        'parent': 'window0'
-                        }
-                    }
-                },
-        'plugins': {
-        },
+            'child1': {
+                'type': 'Terminal',
+                'parent': 'window0'
+            }
+        }
+    },
+    'plugins': {
+    },
 }
+
 
 class Config(object):
     """Class to provide a slightly richer config API above ConfigBase"""
@@ -293,8 +293,9 @@ class Config(object):
     system_mono_font = None
     system_prop_font = None
     system_focus = None
+    system_font = None
     inhibited = None
-    
+
     def __init__(self, profile='default'):
         self.base = ConfigBase()
         self.set_profile(profile)
@@ -303,45 +304,45 @@ class Config(object):
 
     def __getitem__(self, key, default=None):
         """Look up a configuration item"""
-        return(self.base.get_item(key, self.profile, default=default))
+        return self.base.get_item(key, self.profile, default=default)
 
     def __setitem__(self, key, value):
         """Set a particular configuration item"""
-        return(self.base.set_item(key, value, self.profile))
+        return self.base.set_item(key, value, self.profile)
 
     def get_profile(self):
         """Get our profile"""
-        return(self.profile)
+        return self.profile
 
     def get_profile_by_name(self, profile):
         """Get the profile with the specified name"""
-        return(self.base.profiles[profile])
+        return self.base.profiles[profile]
 
     def set_profile(self, profile, force=False):
         """Set our profile (which usually means change it)"""
         options = self.options_get()
         if not force and options and options.profile and profile == 'default':
-            dbg('overriding default profile to %s' % options.profile)
+            dbg(f'overriding default profile to {options.profile}')
             profile = options.profile
-        dbg('Changing profile to %s' % profile)
+        dbg(f'Changing profile to {profile}')
         self.profile = profile
         if profile not in self.base.profiles:
-            dbg('%s does not exist, creating' % profile)
+            dbg(f'{profile} does not exist, creating')
             self.base.profiles[profile] = copy(DEFAULTS['profiles']['default'])
 
     def add_profile(self, profile, toclone):
         """Add a new profile"""
-        return(self.base.add_profile(profile, toclone))
+        return self.base.add_profile(profile, toclone)
 
     def del_profile(self, profile):
         """Delete a profile"""
         if profile == self.profile:
             # FIXME: We should solve this problem by updating terminals when we
             # remove a profile
-            err('Config::del_profile: Deleting in-use profile %s.' % profile)
+            err(f'Config::del_profile: Deleting in-use profile {profile}.')
             self.set_profile('default')
         if profile in self.base.profiles:
-            del(self.base.profiles[profile])
+            del self.base.profiles[profile]
         options = self.options_get()
         if options and options.profile == profile:
             options.profile = None
@@ -351,89 +352,86 @@ class Config(object):
         """Rename a profile"""
         if profile in self.base.profiles:
             self.base.profiles[newname] = self.base.profiles[profile]
-            del(self.base.profiles[profile])
+            del self.base.profiles[profile]
             if profile == self.profile:
                 self.profile = newname
 
     def list_profiles(self):
         """List all configured profiles"""
-        return(list(self.base.profiles.keys()))
+        return list(self.base.profiles.keys())
 
     def add_layout(self, name, layout):
         """Add a new layout"""
-        return(self.base.add_layout(name, layout))
+        return self.base.add_layout(name, layout)
 
     def replace_layout(self, name, layout):
         """Replace an existing layout"""
-        return(self.base.replace_layout(name, layout)) 
+        return self.base.replace_layout(name, layout)
 
     def del_layout(self, layout):
         """Delete a layout"""
         if layout in self.base.layouts:
-            del(self.base.layouts[layout])
+            del self.base.layouts[layout]
 
     def rename_layout(self, layout, newname):
         """Rename a layout"""
         if layout in self.base.layouts:
             self.base.layouts[newname] = self.base.layouts[layout]
-            del(self.base.layouts[layout])
+            del self.base.layouts[layout]
 
     def list_layouts(self):
         """List all configured layouts"""
-        return(list(self.base.layouts.keys()))
+        return list(self.base.layouts.keys())
 
     def connect_gsetting_callbacks(self):
         """Get system settings and create callbacks for changes"""
         dbg("GSetting connects for system changes")
         # Have to preserve these to self, or callbacks don't happen
-        self.gsettings_interface=Gio.Settings.new('org.gnome.desktop.interface')
+        self.gsettings_interface = Gio.Settings.new('org.gnome.desktop.interface')
         self.gsettings_interface.connect("changed::font-name", self.on_gsettings_change_event)
         self.gsettings_interface.connect("changed::monospace-font-name", self.on_gsettings_change_event)
-        self.gsettings_wm=Gio.Settings.new('org.gnome.desktop.wm.preferences')
+        self.gsettings_wm = Gio.Settings.new('org.gnome.desktop.wm.preferences')
         self.gsettings_wm.connect("changed::focus-mode", self.on_gsettings_change_event)
 
     def get_system_prop_font(self):
         """Look up the system font"""
         if self.system_prop_font is not None:
-            return(self.system_prop_font)
-        elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
-            return
+            return self.system_prop_font
+        if 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
+            return ''
+        gsettings = Gio.Settings.new('org.gnome.desktop.interface')
+        value = gsettings.get_value('font-name')
+        if value:
+            self.system_prop_font = value.get_string()
         else:
-            gsettings=Gio.Settings.new('org.gnome.desktop.interface')
-            value = gsettings.get_value('font-name')
-            if value:
-                self.system_prop_font = value.get_string()
-            else:
-                self.system_prop_font = "Sans 10"
-            return(self.system_prop_font)
+            self.system_prop_font = "Sans 10"
+        return self.system_prop_font
 
     def get_system_mono_font(self):
         """Look up the system font"""
         if self.system_mono_font is not None:
-            return(self.system_mono_font)
-        elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
-            return
+            return self.system_mono_font
+        if 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
+            return ''
+        gsettings = Gio.Settings.new('org.gnome.desktop.interface')
+        value = gsettings.get_value('monospace-font-name')
+        if value:
+            self.system_mono_font = value.get_string()
         else:
-            gsettings=Gio.Settings.new('org.gnome.desktop.interface')
-            value = gsettings.get_value('monospace-font-name')
-            if value:
-                self.system_mono_font = value.get_string()
-            else:
-                self.system_mono_font = "Mono 10"
-            return(self.system_mono_font)
+            self.system_mono_font = "Mono 10"
+        return self.system_mono_font
 
     def get_system_focus(self):
         """Look up the system focus setting"""
         if self.system_focus is not None:
-            return(self.system_focus)
-        elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
-            return
-        else:
-            gsettings=Gio.Settings.new('org.gnome.desktop.wm.preferences')
-            value = gsettings.get_value('focus-mode')
-            if value:
-                self.system_focus = value.get_string()
-            return(self.system_focus)
+            return self.system_focus
+        if 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
+            return ''
+        gsettings = Gio.Settings.new('org.gnome.desktop.wm.preferences')
+        value = gsettings.get_value('focus-mode')
+        if value:
+            self.system_focus = value.get_string()
+        return self.system_focus
 
     def on_gsettings_change_event(self, settings, key):
         """Handle a gsetting change event"""
@@ -449,9 +447,8 @@ class Config(object):
     def save(self):
         """Cause ConfigBase to save our config to file"""
         if self.inhibited is True:
-            return(True)
-        else:
-            return(self.base.save())
+            return True
+        return self.base.save()
 
     def inhibit_save(self):
         """Prevent calls to save() being honoured"""
@@ -467,64 +464,64 @@ class Config(object):
 
     def options_get(self):
         """Get the command line options"""
-        return(self.base.command_line_options)
+        return self.base.command_line_options
 
     def plugin_get(self, pluginname, key, default=None):
         """Get a plugin config value, if doesn't exist
             return default if specified
         """
-        return(self.base.get_item(key, plugin=pluginname, default=default))
+        return self.base.get_item(key, plugin=pluginname, default=default)
 
     def plugin_set(self, pluginname, key, value):
         """Set a plugin config value"""
-        return(self.base.set_item(key, value, plugin=pluginname))
+        return self.base.set_item(key, value, plugin=pluginname)
 
     def plugin_get_config(self, plugin):
         """Return a whole config tree for a given plugin"""
-        return(self.base.get_plugin(plugin))
+        return self.base.get_plugin(plugin)
 
     def plugin_set_config(self, plugin, tree):
         """Set a whole config tree for a given plugin"""
-        return(self.base.set_plugin(plugin, tree))
+        return self.base.set_plugin(plugin, tree)
 
     def plugin_del_config(self, plugin):
         """Delete a whole config tree for a given plugin"""
-        return(self.base.del_plugin(plugin))
+        return self.base.del_plugin(plugin)
 
     def layout_get_config(self, layout):
         """Return a layout"""
-        return(self.base.get_layout(layout))
+        return self.base.get_layout(layout)
 
     def layout_set_config(self, layout, tree):
         """Set a layout"""
-        return(self.base.set_layout(layout, tree))
+        return self.base.set_layout(layout, tree)
 
     def copy_layout_item(self, src_layout, dst_layout, item):
+        """Copy a layout item"""
         items = {}
         for child in src_layout:
-            section   = src_layout[child]
-            sec_type  = section.get('type', None)
+            section = src_layout[child]
+            sec_type = section.get('type', None)
             if sec_type != 'Terminal':
                 continue
 
             cp_item = section.get(item, None)
-            uuid    = str(section.get('uuid', None))
+            uuid = str(section.get('uuid', None))
             if cp_item:
                 items[uuid] = cp_item
 
-        dbg("items to be copied:%s" % items)
+        dbg(f"items to be copied:{items}")
         for child in dst_layout:
-            section   = dst_layout[child]
-            sec_type  = section.get('type', None)
+            section = dst_layout[child]
+            sec_type = section.get('type', None)
             if sec_type != 'Terminal':
                 continue
 
-            uuid       = str(section.get('uuid', None))
+            uuid = str(section.get('uuid', None))
             update_item = items.get(uuid, None)
             if uuid and update_item:
-               dbg("update layout item:(%s) with value:(%s)"
-                                            % (item, update_item))
-               section[item] = update_item
+                dbg(f"update layout item:({item}) with value:({update_item})")
+                section[item] = update_item
 
 
 class ConfigBase(Borg):
@@ -591,9 +588,9 @@ class ConfigBase(Borg):
             if keytype in keymap:
                 keytype = keymap[keytype]
             elif keytype == 'list':
-                value = 'list(%s)' % ','.join(value)
+                value = f"list({','.join(value)})"
 
-            keytype = '%s(default=%s)' % (keytype, value)
+            keytype = f'{keytype}(default={value})'
 
             if key == 'custom_url_handler':
                 keytype = 'string(default="")'
@@ -602,11 +599,16 @@ class ConfigBase(Borg):
         configspecdata['global_config'] = section
 
         section = {}
-        for key in DEFAULTS['keybindings']:
-            value = DEFAULTS['keybindings'][key]
-            if value is None or value == '':
-                continue
-            section[key] = 'string(default=%s)' % value
+        for key, val in DEFAULTS['keybindings'].items():
+            if isinstance(val, str):
+                value = list(val, '')
+                if value is None or value == '':
+                    continue
+            elif isinstance(val, list):
+                if len(val) < 2:
+                    val.append('')
+                value = val
+            section[key] = f'list(default=list{tuple(value)})'
         configspecdata['keybindings'] = section
 
         section = {}
@@ -616,11 +618,11 @@ class ConfigBase(Borg):
             if keytype in keymap:
                 keytype = keymap[keytype]
             elif keytype == 'list':
-                value = 'list(%s)' % ','.join(value)
+                value = f"list({','.join(value)})"
             if keytype == 'string':
-                value = '"%s"' % value
+                value = f'"{value}"'
 
-            keytype = '%s(default=%s)' % (keytype, value)
+            keytype = f'{keytype}(default={value})'
 
             section[key] = keytype
         configspecdata['profiles'] = {}
@@ -640,9 +642,9 @@ class ConfigBase(Borg):
         configspecdata['plugins'] = {}
 
         configspec = ConfigObj(configspecdata)
-        if DEBUG == True:
+        if DEBUG:
             configspec.write(open('/tmp/terminator_configspec_debug.txt', 'wb'))
-        return(configspec)
+        return configspec
 
     def load(self):
         """Load configuration data from our various sources"""
@@ -651,7 +653,7 @@ class ConfigBase(Borg):
             return
 
         filename = self.get_config_filename()
-        dbg('looking for config file: %s' % filename)
+        dbg(f'looking for config file: {filename}')
         try:
             #
             # Make sure we attempt to update the ‘cell_height’ config
@@ -661,10 +663,10 @@ class ConfigBase(Borg):
                 update_config_to_cell_height(filename)
                 self.config_file_updated_to_cell_height = True
 
-            configfile = open(filename, 'r')
+            configfile = open(filename, 'r', encoding='utf-8')
         except Exception as ex:
             if not self.whined:
-                err('ConfigBase::load: Unable to open %s (%s)' % (filename, ex))
+                err(f'ConfigBase::load: Unable to open {filename} ({ex})')
                 self.whined = True
             return
         # If we have successfully loaded a config, allow future whining
@@ -676,25 +678,25 @@ class ConfigBase(Borg):
             validator = Validator()
             result = parser.validate(validator, preserve_errors=True)
         except Exception as ex:
-            err('Unable to load configuration: %s' % ex)
+            err(f'Unable to load configuration: {ex}')
             return
 
-        if result != True:
+        if result is not True:
             err('ConfigBase::load: config format is not valid')
             for (section_list, key, _other) in flatten_errors(parser, result):
                 if key is not None:
-                    err('[%s]: %s is invalid' % (','.join(section_list), key))
+                    err(f"[{','.join(section_list)}]: {key} is invalid")
                 else:
-                    err('[%s] missing' % ','.join(section_list))
+                    err(f"[{','.join(section_list)}] missing")
         else:
             dbg('config validated successfully')
 
         for section_name in self.sections:
-            dbg('Processing section: %s' % section_name)
+            dbg(f'Processing section: {section_name}')
             section = getattr(self, section_name)
             if section_name == 'profiles':
                 for profile in parser[section_name]:
-                    dbg('Processing profile: %s' % profile)
+                    dbg(f'Processing profile: {profile}')
                     if section_name not in section:
                         # FIXME: Should this be outside the loop?
                         section[profile] = copy(DEFAULTS['profiles']['default'])
@@ -703,20 +705,20 @@ class ConfigBase(Borg):
                 if section_name not in parser:
                     continue
                 for part in parser[section_name]:
-                    dbg('Processing %s: %s' % (section_name, part))
+                    dbg(f'Processing {section_name}: {part}')
                     section[part] = parser[section_name][part]
             elif section_name == 'layouts':
                 for layout in parser[section_name]:
-                    dbg('Processing %s: %s' % (section_name, layout))
+                    dbg(f'Processing {section_name}: {layout}')
                     if layout == 'default' and \
                        parser[section_name][layout] == {}:
-                           continue
+                        continue
                     section[layout] = parser[section_name][layout]
             elif section_name == 'keybindings':
                 if section_name not in parser:
                     continue
                 for part in parser[section_name]:
-                    dbg('Processing %s: %s' % (section_name, part))
+                    dbg(f'Processing {section_name}: {part}')
                     if parser[section_name][part] == 'None':
                         section[part] = None
                     else:
@@ -724,13 +726,12 @@ class ConfigBase(Borg):
             else:
                 try:
                     section.update(parser[section_name])
-                except KeyError as ex:
-                    dbg('skipping missing section %s' % section_name)
+                except KeyError:
+                    dbg(f'skipping missing section {section_name}')
 
         self.loaded = True
 
     def get_config_filename(self):
-        filename = ''
         if self.command_line_options and self.command_line_options.config:
             filename = self.command_line_options.config
         else:
@@ -744,52 +745,50 @@ class ConfigBase(Borg):
         try:
             filename = self.get_config_filename()
 
-            #save the current config, to revert any changes make in preferences
-            #save the current config to config_dir path which is at least writable
-            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            # save the current config to revert any changes make in preferences
+            # save the current config to config_dir path which is at least writable
+            cfg_filename = os.path.join(get_config_dir(), 'config')
             cur_loaded_file = cfg_filename + suffix
 
             if os.path.exists(filename) and cur_loaded_file:
-                dbg('copy file:%s to' \
-                    ' file:%s' % (filename, cur_loaded_file))
+                dbg(f'copy file:{filename} to file:{cur_loaded_file}')
                 shutil.copy2(filename, cur_loaded_file)
             elif cur_loaded_file:
-                open(cur_loaded_file, 'a').close()
+                open(cur_loaded_file, 'a', encoding='utf-8').close()
             else:
                 err('ConfigBase:: Unable to get filename to save')
         except Exception as ex:
-            err('ConfigBase::save_config_with_suffix' \
-                    ' Unable to save config: %s' % ex)
+            err('ConfigBase::save_config_with_suffix'
+                f' Unable to save config: {ex}')
 
     def restore_config_with_suffix(self, suffix):
         try:
             filename = self.get_config_filename()
 
-            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            cfg_filename = os.path.join(get_config_dir(), 'config')
             cur_loaded_file = cfg_filename + suffix
             if os.path.exists(cur_loaded_file):
                 if not os.access(filename, os.W_OK):
-                    dbg('path:%s not writable' \
-                        ' restoring to path:%s' % (filename,cfg_filename))
+                    dbg(f'path:{filename} not writable'
+                        f' restoring to path:{cfg_filename}')
                     filename = cfg_filename
 
-                dbg('restore from file:%s to file:%s'
-                        % (cur_loaded_file, filename))
+                dbg(f'restore from file:{cur_loaded_file} to file:{filename}')
                 shutil.copy2(cur_loaded_file, filename)
         except Exception as ex:
-            err('ConfigBase::restore_config_with_suffix' \
-                    ' Unable to restore config: %s' % ex)
+            err('ConfigBase::restore_config_with_suffix'
+                f' Unable to restore config: {ex}')
 
     def remove_config_with_suffix(self, suffix):
         try:
-            cfg_filename    = os.path.join(get_config_dir(), 'config')
+            cfg_filename = os.path.join(get_config_dir(), 'config')
             cur_loaded_file = cfg_filename + suffix
             if os.path.exists(cur_loaded_file):
-                dbg('remove file:%s' % (cur_loaded_file))
+                dbg(f'remove file:{cur_loaded_file}')
                 os.remove(cur_loaded_file)
         except Exception as ex:
-            err('ConfigBase::remove_config_with_suffix' \
-                    ' Unable to remove config: %s' % ex)
+            err('ConfigBase::remove_config_with_suffix'
+                f' Unable to remove config: {ex}')
 
     def reload(self):
         """Force a reload of the base config"""
@@ -803,16 +802,16 @@ class ConfigBase(Borg):
         parser.indent_type = '  '
 
         for section_name in ['global_config', 'keybindings']:
-            dbg('Processing section: %s' % section_name)
+            dbg(f'Processing section: {section_name}')
             section = getattr(self, section_name)
             if section_name == 'keybindings':
                 from terminatorlib.plugin import KeyBindUtil
                 # for plugin KeyBindUtil assist in plugin_util
-                keybindutil = KeyBindUtil();
-                keyb_keys   = keybindutil.get_all_act_to_keys()
+                keybindutil = KeyBindUtil()
+                keyb_keys = keybindutil.get_all_act_to_keys()
                 # we only need keys as a reference so to match them
                 # against new values
-                keyb_keys   = dict.fromkeys(keyb_keys, "")
+                keyb_keys = dict.fromkeys(keyb_keys, "")
 
                 default_merged_section = {**keyb_keys, **DEFAULTS[section_name]}
                 merged_section = {**keyb_keys, **section}
@@ -823,24 +822,24 @@ class ConfigBase(Borg):
         from .configjson import JSON_PROFILE_NAME, JSON_LAYOUT_NAME
 
         parser['profiles'] = {}
-        for profile in self.profiles:
+        for profile, profile_value in self.profiles.items():
             if profile == JSON_PROFILE_NAME:
                 continue
-            dbg('Processing profile: %s' % profile)
+            dbg(f'Processing profile: {profile}')
             parser['profiles'][profile] = dict_diff(
-                    DEFAULTS['profiles']['default'], self.profiles[profile])
+                    DEFAULTS['profiles']['default'], profile_value)
 
         parser['layouts'] = {}
-        for layout in self.layouts:
+        for layout, layout_value in self.layouts.items():
             if layout == JSON_LAYOUT_NAME:
                 continue
-            dbg('Processing layout: %s' % layout)
-            parser['layouts'][layout] = self.layouts[layout]
+            dbg(f'Processing layout: {layout}')
+            parser['layouts'][layout] = layout_value
 
         parser['plugins'] = {}
-        for plugin in self.plugins:
-            dbg('Processing plugin: %s' % plugin)
-            parser['plugins'][plugin] = self.plugins[plugin]
+        for plugin, plugin_value in self.plugins.items():
+            dbg(f'Processing plugin: {plugin}')
+            parser['plugins'][plugin] = plugin_value
 
         config_dir = get_config_dir()
         if not os.path.isdir(config_dir):
@@ -849,22 +848,22 @@ class ConfigBase(Borg):
         try:
             if self.command_line_options.config:
                 filename = self.command_line_options.config
-            else: 
-                filename = os.path.join(config_dir,'config')
+            else:
+                filename = os.path.join(config_dir, 'config')
 
             if not os.path.isfile(filename):
-                open(filename, 'a').close()
+                open(filename, 'a', encoding='utf-8').close()
 
             backup_file = filename + '~'
             if os.path.exists(filename):
                 shutil.copy2(filename, backup_file)
 
-            with open(filename, 'wb') as fh:
-                parser.write(fh)
+            with open(filename, 'wb') as file:
+                parser.write(file)
 
             os.remove(backup_file)
         except Exception as ex:
-            err('ConfigBase::save: Unable to save config: %s' % ex)
+            err(f'ConfigBase::save: Unable to save config: {ex}')
 
     def get_item(self, key, profile='default', plugin=None, default=None):
         """Look up a configuration item"""
@@ -873,28 +872,23 @@ class ConfigBase(Borg):
             profile = 'default'
 
         if key in self.global_config:
-            dbg('%s found in globals: %s' %
-                    (key, self.global_config[key]))
-            return(self.global_config[key])
-        elif key in self.profiles[profile]:
-            dbg('%s found in profile %s: %s' % (
-                    key, profile, self.profiles[profile][key]))
-            return(self.profiles[profile][key])
-        elif key == 'keybindings':
-            return(self.keybindings)
-        elif plugin and plugin in self.plugins and key in self.plugins[plugin]:
-            dbg('%s found in plugin %s: %s' % (
-                    key, plugin, self.plugins[plugin][key]))
-            return(self.plugins[plugin][key])
-        elif default:
+            dbg(f'{key} found in globals: {self.global_config[key]}')
+            return self.global_config[key]
+        if key in self.profiles[profile]:
+            dbg(f'{key} found in profile {profile}: {self.profiles[profile][key]}')
+            return self.profiles[profile][key]
+        if key == 'keybindings':
+            return self.keybindings
+        if plugin and plugin in self.plugins and key in self.plugins[plugin]:
+            dbg(f'{key} found in plugin {plugin}: {self.plugins[plugin][key]}')
+            return self.plugins[plugin][key]
+        if default:
             return default
-        else:
-            raise KeyError('ConfigBase::get_item: unknown key %s' % key)
+        raise KeyError(f'ConfigBase::get_item: unknown key {key}')
 
     def set_item(self, key, value, profile='default', plugin=None):
         """Set a configuration item"""
-        dbg('Setting %s=%s (profile=%s, plugin=%s)' %
-                (key, value, profile, plugin))
+        dbg(f'Setting {key}={value} ({profile=}, {plugin=})')
 
         if key in self.global_config:
             self.global_config[key] = value
@@ -907,14 +901,13 @@ class ConfigBase(Borg):
                 self.plugins[plugin] = {}
             self.plugins[plugin][key] = value
         else:
-            raise KeyError('ConfigBase::set_item: unknown key %s' % key)
+            raise KeyError(f'ConfigBase::set_item: unknown key {key}')
 
-        return(True)
+        return True
 
     def get_plugin(self, plugin):
         """Return a whole tree for a plugin"""
-        if plugin in self.plugins:
-            return(self.plugins[plugin])
+        return self.plugins.get(plugin)
 
     def set_plugin(self, plugin, tree):
         """Set a whole tree for a plugin"""
@@ -928,34 +921,34 @@ class ConfigBase(Borg):
     def add_profile(self, profile, toclone):
         """Add a new profile"""
         if profile in self.profiles:
-            return(False)
+            return False
         if toclone is not None:
             newprofile = copy(toclone)
         else:
             newprofile = copy(DEFAULTS['profiles']['default'])
         self.profiles[profile] = newprofile
-        return(True)
+        return True
 
     def add_layout(self, name, layout):
         """Add a new layout"""
         if name in self.layouts:
-            return(False)
+            return False
         self.layouts[name] = layout
-        return(True)
+        return True
 
     def replace_layout(self, name, layout):
         """Replaces a layout with the given name"""
-        if not name in self.layouts:
-            return(False)
+        if name not in self.layouts:
+            return False
         self.layouts[name] = layout
-        return(True)
+        return True
 
     def get_layout(self, layout):
         """Return a layout"""
         if layout in self.layouts:
-            return(self.layouts[layout])
-        else:
-            err('layout does not exist: %s' % layout)
+            return self.layouts[layout]
+        err(f'layout does not exist: {layout}')
+        return ''
 
     def set_layout(self, layout, tree):
         """Set a layout"""
