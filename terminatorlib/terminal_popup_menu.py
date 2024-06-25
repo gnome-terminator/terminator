@@ -74,7 +74,7 @@ class TerminalPopupMenu(object):
 
         dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
                                     % (maskstr, menustr, accelchar))
-        item = menutype.new_with_mnemonic(_(menustr))
+        item = menutype.new_with_mnemonic(menustr)
         if mask:
             item.add_accelerator("activate",
                                 self.accelgrp,
@@ -155,26 +155,26 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.ImageMenuItem, 'copy', '_Copy')
+        item = self.menu_item(Gtk.ImageMenuItem, 'copy', _('_Copy'))
         item.connect('activate', lambda x: terminal.vte.copy_clipboard())
         item.set_sensitive(terminal.vte.get_has_selection())
 
         menu.append(item)
 
-        item = self.menu_item(Gtk.ImageMenuItem, 'paste', '_Paste')
+        item = self.menu_item(Gtk.ImageMenuItem, 'paste', _('_Paste'))
         item.connect('activate', lambda x: terminal.paste_clipboard())
         menu.append(item)
 
         menu.append(Gtk.SeparatorMenuItem())
 
         item = self.menu_item(Gtk.ImageMenuItem, 'edit_window_title',
-                                                 'Set _Window Title')
+                                                 _('Set _Window Title'))
         item.connect('activate', lambda x: terminal.key_edit_window_title())
         menu.append(item)
         
         if not terminal.is_zoomed():
             item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
-                                                     'Split _Auto')
+                                                     _('Split _Auto'))
             """
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_auto', Gtk.IconSize.MENU)
@@ -188,7 +188,7 @@ class TerminalPopupMenu(object):
 
 
             item = self.menu_item(Gtk.ImageMenuItem, 'split_horiz',
-                                                     'Split H_orizontally')
+                                                     _('Split H_orizontally'))
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_horiz', Gtk.IconSize.MENU)
             item.set_image(image)
@@ -199,7 +199,7 @@ class TerminalPopupMenu(object):
             menu.append(item)
 
             item = self.menu_item(Gtk.ImageMenuItem, 'split_vert',
-                                                     'Split V_ertically')
+                                                     _('Split V_ertically'))
             image = Gtk.Image()
             image.set_from_icon_name(APP_NAME + '_vert', Gtk.IconSize.MENU)
             item.set_image(image)
@@ -209,7 +209,7 @@ class TerminalPopupMenu(object):
                 self.terminal.get_cwd()))
             menu.append(item)
 
-            item = self.menu_item(Gtk.MenuItem, 'new_tab', 'Open _Tab')
+            item = self.menu_item(Gtk.MenuItem, 'new_tab', _('Open _Tab'))
             item.connect('activate', lambda x: terminal.emit('tab-new', False,
                 terminal))
             menu.append(item)
@@ -222,7 +222,7 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.ImageMenuItem, 'close_term', '_Close')
+        item = self.menu_item(Gtk.ImageMenuItem, 'close_term', _('_Close'))
         item.connect('activate', lambda x: terminal.close())
         menu.append(item)
 
@@ -263,20 +263,20 @@ class TerminalPopupMenu(object):
             menu.append(item)
             menu.append(Gtk.SeparatorMenuItem())
 
-        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', '_Read only')
+        item = self.menu_item(Gtk.CheckMenuItem, 'toggle_readonly', _('_Read only'))
         item.set_active(not(terminal.vte.get_input_enabled()))
         item.connect('toggled', lambda x: terminal.do_readonly_toggle())
         menu.append(item)
 
         item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
-                                                   'Show _scrollbar')
+                                                   _('Show _scrollbar'))
         item.set_active(terminal.scrollbar.get_property('visible'))
         item.connect('toggled', lambda x: terminal.do_scrollbar_toggle())
         menu.append(item)
 
         if hasattr(Gtk, 'Builder'):  # VERIFY FOR GTK3: is this ever false?
             item = self.menu_item(Gtk.MenuItem, 'preferences',
-                                                '_Preferences')
+                                                _('_Preferences'))
             item.connect('activate', lambda x: PrefsEditor(self.terminal))
             menu.append(item)
 
@@ -327,7 +327,7 @@ class TerminalPopupMenu(object):
 
     def add_layout_launcher(self, menu):
         """Add the layout list to the menu"""
-        item = self.menu_item(Gtk.MenuItem, 'layout_launcher', '_Layouts...')
+        item = self.menu_item(Gtk.MenuItem, 'layout_launcher', _('_Layouts...'))
         menu.append(item)
         submenu = Gtk.Menu()
         item.set_submenu(submenu)
