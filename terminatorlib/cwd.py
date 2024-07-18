@@ -19,4 +19,15 @@ def get_pid_cwd(pid = None):
     # return func
     return psinfo['cwd']
 
+def get_pid_venv(pid = None):
+    """Determine the virtual environment of the current process"""
+    psinfo =  psutil.Process(pid).as_dict()
+    dbg('psinfo: %s' % (psinfo))
+    #dbg('psinfo: %s %s' % (psinfo['venv'],psinfo['pid']))
+    # prefix = getattr(sys, "base_prefix", None) or getattr(sys, "real_prefix", None) or sys.prefix
+    # if prefix != sys.prefix: # session is in a virtual environment
+    #     return sys.prefix
+    # return func
+    return "my-venv" #psinfo['venv']
+
 # vim: set expandtab ts=4 sw=4:
