@@ -750,7 +750,7 @@ class Terminal(Gtk.VBox):
             self.bgcolor.parse(self.config['background_color'])
 
         if self.config['background_type'] in ('transparent', 'image'):
-            self.bgcolor.alpha = self.config['background_darkness']
+            self.bgcolor.alpha = float(self.config['background_darkness'])
         else:
             self.bgcolor.alpha = 1
 
