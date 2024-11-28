@@ -254,10 +254,9 @@ class Terminal(Gtk.VBox):
 
     def get_cwd(self):
         """Return our cwd"""
-        vte_cwd = self.vte.get_current_directory_uri()
-        if vte_cwd:
-            # OSC7 pwd gives an answer
-            return(GLib.filename_from_uri(vte_cwd)[0])
+        cwd = os.path.expanduser('~')
+        if cwd:
+            return(cwd)
         else:
             # Fall back to old gtk2 method
             dbg('calling get_pid_cwd')
