@@ -1539,6 +1539,12 @@ class Terminal(Gtk.VBox):
             options.command = None
         elif options and options.execute:
             command = options.execute
+            dbg('cmd: %s' % command)
+            if len(options.extra) and options.extra[0] == '--':
+                options.execute.extend(options.extra[1:])
+                command = options.execute
+                dbg('cmd with extra args: %s' % command)
+
             self.relaunch_command = command
             options.execute = None
         elif self.relaunch_command:
