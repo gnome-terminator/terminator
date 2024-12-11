@@ -244,7 +244,7 @@ class PrefsEditor:
         """Close the window"""
         self.config.base.remove_config_with_suffix('_cur')
         terminator = Terminator()
-        terminator.reconfigure()
+        terminator.reconfigure(clear_last_active_term = False)
         self.window.destroy()
         self.calling_window.preventHide = False
         del(self)
