@@ -159,6 +159,7 @@ class PrefsEditor:
                         'full_screen'      : _('Toggle fullscreen'),
                         'reset'            : _('Reset the terminal'),
                         'reset_clear'      : _('Reset and clear the terminal'),
+                        'delete_word'      : _('Delete the word before the cursor'),
                         'hide_window'      : _('Toggle window visibility'),
                         'create_group'     : _('Create new group'),
                         'group_all'        : _('Group all terminals'),

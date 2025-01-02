@@ -2031,6 +2031,9 @@ class Terminal(Gtk.VBox):
     def key_reset_clear(self):
         self.vte.reset (True, True)
 
+    def key_delete_word(self):
+        self.feed([27, 127])
+
     def key_create_group(self):
         self.titlebar.create_group()
 

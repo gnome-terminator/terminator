@@ -513,6 +513,10 @@ Default value: *<Ctrl><Shift>R*
 Reset the terminal state and clear the terminal window. +
 Default value: *<Ctrl><Shift>G*
 
+*delete_word*::
+Delete the word before the cursor. +
+Default value: *<Ctrl>BackSpace*
+
 *zoom_in*::
 Increase the font size by one unit. +
 Default value: *<Ctrl>plus*

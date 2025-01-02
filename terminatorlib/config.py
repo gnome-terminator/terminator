@@ -179,6 +179,7 @@ DEFAULTS = {
             'full_screen'      : 'F11',
             'reset'            : '<Shift><Control>r',
             'reset_clear'      : '<Shift><Control>g',
+            'delete_word'      : '<Control>BackSpace',
             'hide_window'      : '<Shift><Control><Alt>a',
             'create_group'     : '',
             'group_all'        : '<Super>g',
