@@ -1625,6 +1625,7 @@ class PrefsEditor:
 
         self.config.copy_layout_item(config_layout, current_layout, 'directory')
         self.config.copy_layout_item(config_layout, current_layout, 'command')
+        self.config.copy_layout_item(config_layout, current_layout, 'profile')
         dbg("updated layout from terminator:(%s)" % current_layout)
 
         if self.config.replace_layout(name, current_layout):
