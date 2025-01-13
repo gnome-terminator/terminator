@@ -2116,6 +2116,12 @@ class LayoutEditor:
 
     def on_layout_selection_changed(self, selection):
         """A different layout was selected"""
+        #reset the layout item to first item when a diff
+        #layout is selected and highlight
+        if self.treestore.get_iter_first():
+            path = Gtk.TreePath.new_from_indices([0])
+            self.treeview.set_cursor(path, None, False)
+
         (listmodel, rowiter) = selection.get_selected()
         if not rowiter:
             # Something is wrong, just jump to the first item in the list
@@ -2137,6 +2143,7 @@ class LayoutEditor:
         command.set_sensitive(False)
         chooser.set_sensitive(False)
         workdir.set_sensitive(False)
+        self.treeview.grab_focus()
 
     def on_layout_item_selection_changed(self, selection):
         """A different item in the layout was selected"""
