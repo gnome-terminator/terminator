@@ -365,7 +365,7 @@ class Terminator(Borg):
             self.cur_gtk_theme_name = new_gtk_theme_name
             self.reconfigure()
 
-    def reconfigure(self):
+    def reconfigure(self, clear_last_active_term = True):
         """Update configuration for the whole application"""
 
         if self.style_providers != []:
@@ -505,7 +505,7 @@ class Terminator(Borg):
         for window in self.windows:
             child = window.get_child()
             if maker.isinstance(child, 'Notebook'):
-                child.configure()
+                child.configure(clear_last_active_term)
 
     def on_css_parsing_error(self, provider, section, error, user_data=None):
         """Report CSS parsing issues"""

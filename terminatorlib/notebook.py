@@ -53,7 +53,7 @@ class Notebook(Container, Gtk.Notebook):
 
         self.show_all()
 
-    def configure(self):
+    def configure(self, clear_last_active_term = True):
         """Apply widget-wide settings"""
         # FIXME: The old reordered handler updated Terminator.terminals with
         # the new order of terminals. We probably need to preserve this for
@@ -76,7 +76,14 @@ class Notebook(Container, Gtk.Notebook):
 #        style.xthickness = 0
 #        style.ythickness = 0
 #        self.modify_style(style)
-        self.last_active_term = {}
+
+        #when on_closebutton_clicked is called from prefseditor, it reconfigures
+        #the terminator. if they are cleared then
+        #self.last_active_term[self.get_nth_page(tabnum)] fails in container.py
+        #in describe_layout
+
+        if clear_last_active_term:
+            self.last_active_term = {}
 
     def create_window_detach(self, notebook, widget, x, y):
         """Create a window to contain a detached tab"""
