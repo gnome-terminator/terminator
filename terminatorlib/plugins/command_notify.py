@@ -22,12 +22,10 @@ from gi.repository import GObject, GLib, Notify, Vte
 VERSION = '0.1.0'
 
 ### Test for proper signal
-try:
-    Vte.Terminal().connect('notification-received',lambda *args: None,None)
+if GObject.signal_lookup('notification-received', Vte.Terminal):
     AVAILABLE = ['CommandNotify']
-except TypeError as e:
+else:
     AVAILABLE = []
-    pass
 
 class CommandNotify(plugin.Plugin):
     capabilities = ['command_watch']
