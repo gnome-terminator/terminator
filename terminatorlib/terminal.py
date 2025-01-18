@@ -256,12 +256,14 @@ class Terminal(Gtk.VBox):
         """Return our cwd"""
         vte_cwd = self.vte.get_current_directory_uri()
         if vte_cwd:
-            # OSC7 pwd gives an answer
-            return(GLib.filename_from_uri(vte_cwd)[0])
-        else:
-            # Fall back to old gtk2 method
-            dbg('calling get_pid_cwd')
-            return(get_pid_cwd(self.pid))
+            # OSC7 pwd almost always gives an answer
+            try:
+                return(GLib.filename_from_uri(vte_cwd)[0])
+            except:
+                pass
+        # Fall back to old gtk2 method
+        dbg('calling get_pid_cwd')
+        return(get_pid_cwd(self.pid))
 
     def close(self):
         """Close ourselves"""
