@@ -81,7 +81,7 @@ msgstr "Aktuális terminál-profil váltása"
 
 #: ../remotinator.py:53
 msgid "Switch profile of all currently running terminals"
-msgstr "Az jelenleg futó összes terminál profiljának a váltása"
+msgstr "Jelenleg futó összes terminál profiljának a váltása"
 
 #: ../remotinator.py:70
 #, python-format
