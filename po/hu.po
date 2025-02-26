@@ -901,7 +901,7 @@ msgstr "Látható villanás"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
-msgstr "Hangalapú hangjelzés"
+msgstr "Hallható sípolás"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
