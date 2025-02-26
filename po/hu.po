@@ -893,7 +893,7 @@ msgstr "<b>Terminál csengő</b>"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
-msgstr "Címsorbeli ikon"
+msgstr "Címsor ikonja"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
