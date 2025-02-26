@@ -494,7 +494,7 @@ msgstr "A *%s* név már foglalt."
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr "A jelenlegi könyvtár megnyitása"
+msgstr "Jelenlegi könyvtár megnyitása"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
