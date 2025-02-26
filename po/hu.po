@@ -560,7 +560,7 @@ msgstr "Parancs újbóli futtatása"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
-msgstr "A terminál nyitva hagyása"
+msgstr "Tartsa nyitva a terminált"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
