@@ -368,7 +368,7 @@ msgstr "Ha már fut a Terminátor, akkor csak új fület nyisson"
 #: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
 msgstr ""
-"Ha a terminátor már fut, akkor jelenítse meg csak az összes rejtett ablakot"
+"Ha a Terminátor már fut, akkor csak jelenjen meg az összes rejtett ablak"
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
