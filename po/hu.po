@@ -45,7 +45,7 @@ msgstr "Kérek egy listát az összes terminálról"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr "A jelenleg fókuszált terminál UUID azonosítójának a lekérése"
+msgstr "Jelenleg fókuszban lévő terminál UUID azonosítójának a lekérése"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
