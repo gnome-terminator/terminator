@@ -272,7 +272,7 @@ msgstr "Lap bezárása"
 
 #: ../terminatorlib/optionparse.py:43
 msgid "Display program version"
-msgstr "A program verziójának megjelenítése"
+msgstr "Program verziójának megjelenítése"
 
 #: ../terminatorlib/optionparse.py:45 ../terminatorlib/optionparse.py:47
 msgid "Maximize the window"
