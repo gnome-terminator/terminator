@@ -632,7 +632,7 @@ msgstr "Kattintás a fókuszhoz"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Follow mouse pointer"
-msgstr "Az egérmutató követése"
+msgstr "Egérmutató követése"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Tango"
