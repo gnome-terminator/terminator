@@ -376,7 +376,7 @@ msgstr "Az összes profil megjelenítése"
 
 #: ../terminatorlib/optionparse.py:102
 msgid "List all layouts"
-msgstr "Az összes elrendezés megjelenítése"
+msgstr "Összes elrendezés megjelenítése"
 
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
