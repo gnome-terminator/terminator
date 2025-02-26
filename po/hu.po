@@ -41,7 +41,7 @@ msgstr "Terminál kettéosztása függőlegesen"
 
 #: ../remotinator.py:43
 msgid "Get a list of all terminals"
-msgstr "Adj egy listát az összes terminálról"
+msgstr "Kérek egy listát az összes terminálról"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
