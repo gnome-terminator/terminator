@@ -490,7 +490,7 @@ msgstr "Nevet és parancsot kell megadnia"
 #: ../terminatorlib/plugins/custom_commands.py:458
 #, python-format
 msgid "Name *%s* already exist"
-msgstr "A *%s* név már foglalt."
+msgstr "A(z) *%s* név már foglalt."
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
