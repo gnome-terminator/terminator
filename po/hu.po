@@ -320,7 +320,7 @@ msgstr "Részben konfigurációs json fájl megadása"
 
 #: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
-msgstr "A munkakönyvtár beállítása"
+msgstr "Munkakönyvtár beállítása"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom icon for the window (by file or name)"
