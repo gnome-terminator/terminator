@@ -372,7 +372,7 @@ msgstr ""
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
-msgstr "Az összes profil megjelenítése"
+msgstr "Összes profil megjelenítése"
 
 #: ../terminatorlib/optionparse.py:102
 msgid "List all layouts"
