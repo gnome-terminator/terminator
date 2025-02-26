@@ -785,7 +785,7 @@ msgstr "<b>Megjelenés</b>"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Window borders"
-msgstr "Ablak keretek"
+msgstr "Ablakkeretek"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Unfocused terminal font brightness:"
