@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-# linuxrendszergazda linuxrendszergazda, 2024
+# linuxrendszergazda linuxrendszergazda, 2025
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-19 09:29-0400\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: linuxrendszergazda linuxrendszergazda, 2024\n"
+"Last-Translator: linuxrendszergazda linuxrendszergazda, 2025\n"
 "Language-Team: Hungarian (https://app.transifex.com/terminator/teams/109338/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "Adj egy listát az összes terminálról"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr "Az jelenleg fókuszált terminál uuid azonosítójának a lekérése"
+msgstr "A jelenleg fókuszált terminál UUID azonosítójának a lekérése"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
