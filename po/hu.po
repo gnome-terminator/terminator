@@ -49,7 +49,7 @@ msgstr "A jelenleg fókuszált terminál UUID azonosítójának a lekérése"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
-msgstr "A szülőablak uuid azonosító mutatása"
+msgstr "Szülőablak UUID azonosítójának a mutatása"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent window"
