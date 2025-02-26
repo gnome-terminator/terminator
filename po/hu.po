@@ -905,7 +905,7 @@ msgstr "Hallható sípolás"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
-msgstr "Ablak listája villog"
+msgstr "Ablaklista villogás"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "General"
