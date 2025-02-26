@@ -408,7 +408,7 @@ msgstr "_Beállítások"
 
 #: ../terminatorlib/plugins/custom_commands.py:134
 msgid "Custom Commands Configuration"
-msgstr "Egyéni parancsok konfigurációja"
+msgstr "Egyéni parancsok beállítása"
 
 #: ../terminatorlib/plugins/custom_commands.py:138
 #: ../terminatorlib/plugins/custom_commands.py:287
