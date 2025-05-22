@@ -1,5 +1,58 @@
 # Changelog
 
+## [Unreleased](https://github.com/gnome-terminator/terminator/tree/HEAD)
+
+[Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.1.4...HEAD)
+
+**Implemented enhancements:**
+
+- Question - key bindings for Search [\#48](https://github.com/gnome-terminator/terminator/issues/48)
+
+**Closed issues:**
+
+- new\_window doesn't preserve symlinks [\#1006](https://github.com/gnome-terminator/terminator/issues/1006)
+- ModuleNotFoundError: No module named 'terminatorlib' [\#1003](https://github.com/gnome-terminator/terminator/issues/1003)
+- Add fade option [\#996](https://github.com/gnome-terminator/terminator/issues/996)
+- Window does not respect system theme [\#995](https://github.com/gnome-terminator/terminator/issues/995)
+- terminator duplicate input on Ubuntu 22.04 [\#987](https://github.com/gnome-terminator/terminator/issues/987)
+- Add me to AUTHORS [\#985](https://github.com/gnome-terminator/terminator/issues/985)
+- Fix the check for VTE's notification-received patch [\#984](https://github.com/gnome-terminator/terminator/issues/984)
+- Add URL Handler [\#975](https://github.com/gnome-terminator/terminator/issues/975)
+- Save button throws KeyError when a multiple tab layout is saved using Save Button after closing the Preference window using close button [\#971](https://github.com/gnome-terminator/terminator/issues/971)
+- Ctrl+Shift+r doesn't work on English US layout [\#968](https://github.com/gnome-terminator/terminator/issues/968)
+- Unabled to split panes or open a new tab when bashed or sshed into docker container [\#966](https://github.com/gnome-terminator/terminator/issues/966)
+- Output lines disappear when resizing terminal window [\#964](https://github.com/gnome-terminator/terminator/issues/964)
+- terminator\[4834\]: segfault at 0 ip 0000791eff7276f4 sp 00007ffcb2bd7698 error 4 in libpango-1.0.so.0.5200.1 [\#961](https://github.com/gnome-terminator/terminator/issues/961)
+- Simbols not shown properly [\#955](https://github.com/gnome-terminator/terminator/issues/955)
+- Get rid of title bar [\#952](https://github.com/gnome-terminator/terminator/issues/952)
+- Allow keybinding assignments to override predefined accelerators [\#937](https://github.com/gnome-terminator/terminator/issues/937)
+- Title bar color selection per panel. [\#927](https://github.com/gnome-terminator/terminator/issues/927)
+- `SyntaxWarning` raised during `apt install` [\#920](https://github.com/gnome-terminator/terminator/issues/920)
+- When I bind it to a group and input it on one terminal, it will repeat multiple times on the other terminal [\#918](https://github.com/gnome-terminator/terminator/issues/918)
+- ppa:mattrose/terminator : `ubuntu noble Release' does not have a Release file.` [\#917](https://github.com/gnome-terminator/terminator/issues/917)
+- Slow or delay activity with terminator on nvidia hardware. [\#912](https://github.com/gnome-terminator/terminator/issues/912)
+- Select-by-word characters to select part of content [\#910](https://github.com/gnome-terminator/terminator/issues/910)
+- Zoom preset [\#909](https://github.com/gnome-terminator/terminator/issues/909)
+- provide a versioned release [\#907](https://github.com/gnome-terminator/terminator/issues/907)
+- more than a year since issue \#727 fix and no release yet [\#906](https://github.com/gnome-terminator/terminator/issues/906)
+- Start maximised no longer works in Gnome 44.1 [\#758](https://github.com/gnome-terminator/terminator/issues/758)
+- Update documentation for manual installation [\#73](https://github.com/gnome-terminator/terminator/issues/73)
+
+**Merged pull requests:**
+
+- Clean up VTE notification-received signal check [\#986](https://github.com/gnome-terminator/terminator/pull/986) ([cjwatson](https://github.com/cjwatson))
+- fix test failure [\#982](https://github.com/gnome-terminator/terminator/pull/982) ([mattrose](https://github.com/mattrose))
+- 3.8 is not supported by GH anymore [\#981](https://github.com/gnome-terminator/terminator/pull/981) ([mattrose](https://github.com/mattrose))
+- Searchbar improvements [\#978](https://github.com/gnome-terminator/terminator/pull/978) ([pol-rivero](https://github.com/pol-rivero))
+- Ensure that when the layout item is changed the layout sub item also gets reset to first item, else KeyError is thrown [\#974](https://github.com/gnome-terminator/terminator/pull/974) ([vssdeo](https://github.com/vssdeo))
+- -\[bug 949\]  \#949 its reported in the issue that the save button in la… [\#970](https://github.com/gnome-terminator/terminator/pull/970) ([vssdeo](https://github.com/vssdeo))
+- Fix TypeError in reconfigure\(\) of terminal.py \(line 753\) [\#958](https://github.com/gnome-terminator/terminator/pull/958) ([tinlizard](https://github.com/tinlizard))
+- Updates for file po/terminator.pot in hu [\#954](https://github.com/gnome-terminator/terminator/pull/954) ([transifex-integration[bot]](https://github.com/apps/transifex-integration))
+- fix translation in popup menu [\#926](https://github.com/gnome-terminator/terminator/pull/926) ([lexdene](https://github.com/lexdene))
+- Add plugin to clone ssh and container sessions when terminal is split [\#924](https://github.com/gnome-terminator/terminator/pull/924) ([asifamin13](https://github.com/asifamin13))
+- Fix invalid escape sequences [\#922](https://github.com/gnome-terminator/terminator/pull/922) ([meator](https://github.com/meator))
+- Add reverse search keyboard binding [\#903](https://github.com/gnome-terminator/terminator/pull/903) ([f3rn4nd0-c354r](https://github.com/f3rn4nd0-c354r))
+
 ## [v2.1.4](https://github.com/gnome-terminator/terminator/tree/v2.1.4) (2024-05-30)
 
 [Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.1.3...v2.1.4)
@@ -101,7 +154,7 @@
 - Ask before closing, even if there is only one terminal [\#834](https://github.com/gnome-terminator/terminator/pull/834) ([Vulcalien](https://github.com/Vulcalien))
 - Fix: Add CLI command to reload configuration [\#824](https://github.com/gnome-terminator/terminator/pull/824) ([j-d-r](https://github.com/j-d-r))
 -  \[bug 802\] - Ability to undo or restore changes to the preferences \#802 [\#822](https://github.com/gnome-terminator/terminator/pull/822) ([vssdeo](https://github.com/vssdeo))
-- chore: bump ations/checkout \(v2 -\> v4\) [\#821](https://github.com/gnome-terminator/terminator/pull/821) ([LeoDog896](https://github.com/LeoDog896))
+- chore: bump ations/checkout \(v2 -\> v4\) [\#821](https://github.com/gnome-terminator/terminator/pull/821) ([tristan-f-r](https://github.com/tristan-f-r))
 - Fix Insert Term Name Plugin error [\#819](https://github.com/gnome-terminator/terminator/pull/819) ([mattrose](https://github.com/mattrose))
 - 681 Plugin submission mouseless keyboard url open decoupled code [\#810](https://github.com/gnome-terminator/terminator/pull/810) ([vssdeo](https://github.com/vssdeo))
 - \[bug 808\] Plugins-dont-receive-keboard-signals-on-newly-opened-windows [\#809](https://github.com/gnome-terminator/terminator/pull/809) ([vssdeo](https://github.com/vssdeo))
@@ -342,7 +395,7 @@
 - Fix typo in `po/de.po` [\#476](https://github.com/gnome-terminator/terminator/pull/476) ([dennis-benzinger-hybris](https://github.com/dennis-benzinger-hybris))
 - add parameters to remotinator split commands [\#472](https://github.com/gnome-terminator/terminator/pull/472) ([mattrose](https://github.com/mattrose))
 - add switch\_profile\_all command to remotinator [\#471](https://github.com/gnome-terminator/terminator/pull/471) ([mattrose](https://github.com/mattrose))
-- Set CAN\_FOCUS to False for notebook widgets [\#470](https://github.com/gnome-terminator/terminator/pull/470) ([marktimarev](https://github.com/marktimarev))
+- Set CAN\_FOCUS to False for notebook widgets [\#470](https://github.com/gnome-terminator/terminator/pull/470) ([marktiro](https://github.com/marktiro))
 - tell titlebar to start focussed out if it does not have focus [\#462](https://github.com/gnome-terminator/terminator/pull/462) ([mattrose](https://github.com/mattrose))
 - Update translation [\#460](https://github.com/gnome-terminator/terminator/pull/460) ([pktiuk](https://github.com/pktiuk))
 - Add new plugin for opening current directory using right mouse button [\#459](https://github.com/gnome-terminator/terminator/pull/459) ([pktiuk](https://github.com/pktiuk))
@@ -483,7 +536,7 @@
 
 - prep for release 2.1.0 [\#355](https://github.com/gnome-terminator/terminator/pull/355) ([mattrose](https://github.com/mattrose))
 - Update RELEASE docs [\#353](https://github.com/gnome-terminator/terminator/pull/353) ([lazyfrosch](https://github.com/lazyfrosch))
-- German language updated [\#351](https://github.com/gnome-terminator/terminator/pull/351) ([Brambleberry4](https://github.com/Brambleberry4))
+- German language updated [\#351](https://github.com/gnome-terminator/terminator/pull/351) ([FelixMldr](https://github.com/FelixMldr))
 - Update terminator.appdata.xml.in [\#350](https://github.com/gnome-terminator/terminator/pull/350) ([jooola](https://github.com/jooola))
 - Fix \#345 The Alt+L layout chooser is too small [\#349](https://github.com/gnome-terminator/terminator/pull/349) ([evandrocoan](https://github.com/evandrocoan))
 - fix 319: refresh layout after save [\#344](https://github.com/gnome-terminator/terminator/pull/344) ([mattrose](https://github.com/mattrose))
@@ -594,7 +647,6 @@ With pull request #70, we removed the need for gettext binaries and switched to 
 - Fails to run for LDAP user [\#128](https://github.com/gnome-terminator/terminator/issues/128)
 - Crash in paned.py:311  [\#68](https://github.com/gnome-terminator/terminator/issues/68)
 - terminator runs in network namespace only with -u option \(dbus\) [\#65](https://github.com/gnome-terminator/terminator/issues/65)
-- dbus FileNotFoundError [\#58](https://github.com/gnome-terminator/terminator/issues/58)
 - Middle click does not paste selected text [\#24](https://github.com/gnome-terminator/terminator/issues/24)
 - Fix crash when GdkX11 module is not available when creating layout [\#113](https://github.com/gnome-terminator/terminator/pull/113) ([mattrose](https://github.com/mattrose))
 - Do not crash when dbus server is unavailable, just emit an error message [\#88](https://github.com/gnome-terminator/terminator/pull/88) ([mattrose](https://github.com/mattrose))

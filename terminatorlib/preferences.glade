@@ -4330,7 +4330,7 @@
                           <object class="GtkLabel" id="about_version_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Version: 2.1.4</property>
+                            <property name="label" translatable="yes">Version: 2.1.5</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>

@@ -5,20 +5,27 @@ This list is generated from the GIT log.
 * Aaron Faanes <dafrito@gmail.com>
 * Adrian A <a.adrian.tech@googlemail.com>
 * Alexey Sokolov <sokolov@google.com>
-* Andre Hilsendeger <Andre.Hilsendeger@gmail.com>
+* amaan khan <khanamaan827@gmail.com>
 * Andrea Corbellini <corbellini.andrea@gmail.com>
+* Andre Hilsendeger <Andre.Hilsendeger@gmail.com>
 * Andrew Felske <knopper67@archlinux.us>
 * Antonio Terceiro <asa@terceiro.xyz>
 * Antonio Terceiro <terceiro@debian.org>
 * Ariel Zelivansky <ariel.zelivans@gmail.com>
+* Asif Amin <122637911+asifamin13@users.noreply.github.com>
+* Asif Amin <asifamin@utexas.edu>
+* atomsforpeace <1306402+AtomsForPeace@users.noreply.github.com>
 * Braden M. Kelley <redbmk@gmail.com>
 * Brambleberry4 <ikarus21@gmx.de>
 * Brian Murray <brian@canonical.com>
 * Bruno Braga <bruno.braga@gmail.com>
 * Bryce Harrington <bryce@bryceharrington.org>
+* caprinux <123jinkai@gmail.com>
 * Chacal <chacal_exodius@hotmail.com>
 * Chris James <hashdevine@gmail.com>
 * Chris Jones <cmsj@tenshu.net>
+* coder <none@non.no>
+* Colin Watson <cjwatson@debian.org>
 * Cory Kontros <coryisatm@ubuntu.com>
 * Daniel Napora <napcok@gmail.com>
 * Daniel T Chen <crimsun@ubuntu.com>
@@ -27,16 +34,23 @@ This list is generated from the GIT log.
 * David Levanon <dvdlevanon@gmail.com>
 * David Sowder <github.com@david.sowder.com>
 * Dennis Benzinger | SAP Hybris <dennis.benzinger@sap.com>
+* dkmvs <67212386+dkmvs@users.noreply.github.com>
 * Dmitry Soldatov <grapescan@gmail.com>
 * Douglas Bacon <douglaswbacon@gmail.com>
 * Edoardo Batini <eodbat@gmail.com>
+* Egmont Koblinger <egmont@gmail.com>
+* Elephant Liu <lexdene@gmail.com>
 * Elliot Murphy <elliot@elliotmurphy.com>
 * Emilien Klein <emilien@klein.st>
 * Emilio Pozuelo Monfort <pochu@debian.org>
 * Emmanuel Bretelle <chantra@debuntu.org>
+* evandrocoan <evandrocoan@hotmail.com>
 * Felix Mölder <56774350+Brambleberry4@users.noreply.github.com>
 * Fernando Basso <fernandobasso.br@gmail.com>
+* Fernando César <f3rn4nd0.c354r+github@gmail.com>
+* Fernando César <f3rn4nd0-c354r@users.noreply.github.com>
 * Filip Kilibarda <filipcsc@gmail.com>
+* flaviosteimacher <39162591+flaviosteimacher@users.noreply.github.com>
 * Francis Smit (Grizzly) <grizzly@smit.id.au>
 * Gerben Welter <gerben@welter.nu>
 * Gleb Popov <arrowd@freebsd.org>
@@ -51,9 +65,10 @@ This list is generated from the GIT log.
 * Jean-Sebastien Trottier <strottie@cisco.com>
 * Joe Peled <joe.peled@vimeo.com>
 * Jonas L <jooola@users.noreply.github.com>
+* José Augusto <joseaugusto.881@outlook.com>
 * Jose Augusto <jose.augusto@chiligum.com.br>
 * Jose I. Monreal <jmonreal@gmail.com>
-* José Augusto <joseaugusto.881@outlook.com>
+* judgedreads <pearce@millerdedmon.com>
 * Juliano Fischer Naves <julianofischer@gmail.com>
 * Julien Dusser <julien.dusser@free.fr>
 * Julien Nicoulaud <julien.nicoulaud@gmail.com>
@@ -61,48 +76,66 @@ This list is generated from the GIT log.
 * Kacper Kowalski <kacper.s.kowalski@gmail.com>
 * Kees Cook <kees@outflux.net>
 * Kian-Meng Ang <kianmeng@cpan.org>
+* kocho1984 <eblebleo2@gmail.com>
 * Leandro Thimóteo <leandro.s.thimoteo@gmail.com>
 * Lucian Adrian Grijincu <lucian.grijincu@gmail.com>
 * Mackenzie Morgan <maco.m@ubuntu.com>
+* magical-heyrovsky <101060148+magical-heyrovsky@users.noreply.github.com>
+* mark doerr <mark.doerr@uni-greifswald.de>
 * Mark Timarev <marktimarev@gmail.com>
 * Markus Frosch <markus@lazyfrosch.de>
 * Markus Korn <thekorn@gmx.de>
-* Matt Rose <mattrose@folkwolf.net>
 * Matthew Rose <mattrose@folkwolf.net>
+* Matt Rose <mattrose@folkwolf.net>
 * Maxwell G <maxwell@gtmx.me>
+* meator <meator.dev@gmail.com>
 * Mihai Babiac <mihai.babiac@gmail.com>
+* milotype <43657314+milotype@users.noreply.github.com>
 * MuhammadJivani <masad@peekaboo.guru>
 * Nathan Handler <nhandler@ubuntu.com>
 * Nathaniel M. Beaver <nathanielmbeaver@gmail.com>
 * Nathaniel Morck Beaver <nathanielmbeaver@gmail.com>
+* nautics889 <cyberukr@gmail.com>
+* nautics889 <nautics@DESKTOP-09RDHU4>
 * Neal Fultz <nfultz@neal-1015pe>
+* nicbn <contact@nicbn.com>
 * Nicolas Valcárcel <nvalcarcel@ubuntu.com>
-* PF <pedro.flor@gmail.com>
+* nojhan <nojhan@nojhan.net>
+* ozzdemir <oguz.ozdemir@ieee.metu.edu.tr>
 * Pavel Khlebovich <pas.anddev@gmail.com>
 * Paweł Kotiuk <45544416+pktiuk@users.noreply.github.com>
 * Paweł Kotiuk <kotiuk@zohomail.eu>
 * Peter B. Jørgensen <peterbjorgensen@gmail.com>
 * Peter Bjørn Jørgensen <peterbjorgensen@gmail.com>
 * Peter Lind <peter.e.lind@gmail.com>
+* PF <pedro.flor@gmail.com>
 * Phi <phi@kernel-tools.com>
+* planet36 <planet36@users.noreply.github.com>
+* Pol Rivero <65060696+pol-rivero@users.noreply.github.com>
 * Przemek Wesolek <jest@luna>
-* R the Troublemaker <5971066+br0kenbuild@users.noreply.github.com>
 * Rafael Kitover <rkitover@gmail.com>
 * Rick Calixte <10281587+rcalixte@users.noreply.github.com>
 * Roberto Aguilar <roberto.c.aguilar@gmail.com>
+* robertoetcheverryr <yggdrasil.raiker@gmail.com>
+* R the Troublemaker <5971066+br0kenbuild@users.noreply.github.com>
 * Ruslan Kashinin <kashinin.application@gmail.com>
 * Ryan Fonnesbeck <fonz@fonzinc.com>
+* sabriunal <libreajans@gmail.com>
+* shiraeeshi <shiraeeshi@mail.ru>
 * Siegfried-Angel Gevatter Pujals <rainct@ubuntu.com>
 * Simeon Simeonov <sgs@pichove.org>
 * Stephen Boddy <stephen.j.boddy@gmail.com>
 * StephenPeringer <StephenPeringer@users.noreply.github.com>
+* thebigs <TheBigS@users.noreply.github.com>
 * Thibault Brocheton <7646137+Thibault-Brocheton@users.noreply.github.com>
 * Thomas Hurst <tom@hur.st>
 * Thomas Meire <blackskad@gmail.com>
+* tinlizard <will.ben.weeks@gmail.com>
 * Tobias Farrenkopf <tf@emptyset.de>
-* Tom Yan <tom.ty89@gmail.com>
 * Tomek Sabała <sabala.tomek@gmail.com>
+* Tom Yan <tom.ty89@gmail.com>
 * Tony Baker <frd91gt@gmail.com>
+* transifex-integration[bot] <43880903+transifex-integration[bot]@users.noreply.github.com>
 * Tristan F <LeoDog896@hotmail.com>
 * Tyler Hardin <th020394@gmail.com>
 * Vishweshwar Saran Singh Deo <vssdeo@gmail.com>
@@ -110,34 +143,11 @@ This list is generated from the GIT log.
 * Vulcalien <vulcalien+github@gmail.com>
 * Vulcalien <vulcalien@gmail.com>
 * Vulcalien <vulcalien@vulcalien.net>
-* Yousof <yousofebneddin@yahoo.com>
-* Yusuf Güngör <yusuf.gungor@hepsiburada.com>
-* amaan khan <khanamaan827@gmail.com>
-* atomsforpeace <1306402+AtomsForPeace@users.noreply.github.com>
-* caprinux <123jinkai@gmail.com>
-* coder <none@non.no>
-* dkmvs <67212386+dkmvs@users.noreply.github.com>
-* evandrocoan <evandrocoan@hotmail.com>
-* flaviosteimacher <39162591+flaviosteimacher@users.noreply.github.com>
-* judgedreads <pearce@millerdedmon.com>
-* kocho1984 <eblebleo2@gmail.com>
-* magical-heyrovsky <101060148+magical-heyrovsky@users.noreply.github.com>
-* mark doerr <mark.doerr@uni-greifswald.de>
-* milotype <43657314+milotype@users.noreply.github.com>
-* nautics889 <cyberukr@gmail.com>
-* nautics889 <nautics@DESKTOP-09RDHU4>
-* nicbn <contact@nicbn.com>
-* nojhan <nojhan@nojhan.net>
-* ozzdemir <oguz.ozdemir@ieee.metu.edu.tr>
-* planet36 <planet36@users.noreply.github.com>
-* robertoetcheverryr <yggdrasil.raiker@gmail.com>
-* sabriunal <libreajans@gmail.com>
-* shiraeeshi <shiraeeshi@mail.ru>
-* thebigs <TheBigS@users.noreply.github.com>
-* transifex-integration[bot] <43880903+transifex-integration[bot]@users.noreply.github.com>
 * waldner <waldner@katamail.com>
 * x000zh <z@oio7.com>
 * xuezhixin <xuezhixin@uniontech.com>
+* Yousof <yousofebneddin@yahoo.com>
+* Yusuf Güngör <yusuf.gungor@hepsiburada.com>
 * zpalmtree <22151537+zpalmtree@users.noreply.github.com>
 
 ## Other contributors
