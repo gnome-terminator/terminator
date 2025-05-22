@@ -29,7 +29,7 @@ This is what a Terminator config file should look like:
   focus = system
 
 [keybindings]
-  full_screen = <Ctrl><Shift>F11
+  full_screen = <Ctrl><Shift>F11, ""
 
 [profiles]
   [[default]]
@@ -262,73 +262,73 @@ section.
 
 *split_horiz*::
 Split the current terminal horizontally. +
-Default value: *<Ctrl><Shift>O*
+Default value: *<Ctrl><Shift>O, ""*
 
 *split_vert*::
 Split the current terminal vertically. +
-Default value: *<Ctrl><Shift>E*
+Default value: *<Ctrl><Shift>E, ""*
 
 *split_auto*::
 Split the current terminal automatically, along the longer side. +
-Default value: *<Ctrl><Shift>A*
+Default value: *<Ctrl><Shift>A, ""*
 
 *new_tab*::
 Open a new tab. +
-Default value: *<Ctrl><Shift>T*
+Default value: *<Ctrl><Shift>T, ""*
 
 *new_window*::
 Open a new window as part of the existing process. +
-Default value: *<Ctrl><Shift>I*
+Default value: *<Ctrl><Shift>I, ""*
 
 *new_terminator*::
 Spawn a new Terminator process. +
-Default value: *<Super>I*
+Default value: *<Super>I, ""*
 
 *layout_launcher*::
 Open the layout launcher. +
-Default value: *<Alt>L*
+Default value: *<Alt>L, ""*
 
 *close_term*::
 Close the current terminal. +
-Default value: *<Ctrl><Shift>W*
+Default value: *<Ctrl><Shift>W, ""*
 
 *close_window*::
 Close the current window. +
-Default value: *<Ctrl><Shift>Q*
+Default value: *<Ctrl><Shift>Q, ""*
 
 === Navigation
 
 *cycle_next*::
 Focus the next terminal. This is an alias for *go_next*. +
-Default value: *<Ctrl>Tab*
+Default value: *<Ctrl>Tab, ""*
 
 *cycle_prev*::
 Focus the previous terminal. This is an alias for *go_prev*. +
-Default value: *<Ctrl><Shift>Tab*
+Default value: *<Ctrl><Shift>Tab, ""*
 
 *go_next*::
 Focus the next terminal. +
-Default value: *<Ctrl><Shift>N*
+Default value: *<Ctrl><Shift>N, ""*
 
 *go_prev*::
 Focus the previous terminal. +
-Default value: *<Ctrl><Shift>P*
+Default value: *<Ctrl><Shift>P, ""*
 
 *go_up*::
 Focus the terminal above the current one. +
-Default value: *<Alt>Up*
+Default value: *<Alt>Up, ""*
 
 *go_down*::
 Focus the terminal below the current one. +
-Default value: *<Alt>Down*
+Default value: *<Alt>Down, ""*
 
 *go_left*::
 Focus the terminal to the left of the current one. +
-Default value: *<Alt>Left*
+Default value: *<Alt>Left, ""*
 
 *go_right*::
 Focus the terminal to the right of the current one. +
-Default value: *<Alt>Right*
+Default value: *<Alt>Right, ""*
 
 // --- Scroll ---
 
@@ -354,11 +354,11 @@ Scroll the terminal down one line.
 
 *next_tab*::
 Move to the next tab. +
-Default value: *<Ctrl>Page_Down*
+Default value: *<Ctrl>Page_Down, ""*
 
 *prev_tab*::
 Move to the previous tab. +
-Default value: *<Ctrl>Page_Up*
+Default value: *<Ctrl>Page_Up, ""*
 
 *switch_to_tab_1*, *switch_to_tab_2*, ... *switch_to_tab_10*::
 Move to the **N**th tab.
@@ -369,56 +369,56 @@ depending on the keyboard layout.
 
 *resize_up*::
 Move the parent dragbar up. +
-Default value: *<Ctrl><Shift>Up*
+Default value: *<Ctrl><Shift>Up, ""*
 
 *resize_down*::
 Move the parent dragbar down. +
-Default value: *<Ctrl><Shift>Down*
+Default value: *<Ctrl><Shift>Down, ""*
 
 *resize_left*::
 Move the parent dragbar left. +
-Default value: *<Ctrl><Shift>Left*
+Default value: *<Ctrl><Shift>Left, ""*
 
 *resize_right*::
 Move the parent dragbar right. +
-Default value: *<Ctrl><Shift>Right*
+Default value: *<Ctrl><Shift>Right, ""*
 
 *rotate_cw*::
 Rotate terminals clockwise. +
-Default value: *<Super>R*
+Default value: *<Super>R, ""*
 
 *rotate_ccw*::
 Rotate terminals counter+clockwise. +
-Default value: *<Super><Shift>R*
+Default value: *<Super><Shift>R, ""*
 
 *move_tab_right*::
 Move the current tab to the right by swapping position with the next
 tab. +
-Default value: *<Ctrl><Shift>Page_Down*
+Default value: *<Ctrl><Shift>Page_Down, ""*
 
 *move_tab_left*::
 Move the current tab to the left by swapping position with the previous
 tab. +
-Default value: *<Ctrl><Shift>Page_Up*
+Default value: *<Ctrl><Shift>Page_Up, ""*
 
 === Focus
 
 *full_screen*::
 Toggle window to fullscreen. +
-Default value: *F11*
+Default value: *F11, ""*
 
 *toggle_zoom*::
 Toggle maximisation of the current terminal. +
-Default value: *<Ctrl><Shift>X*
+Default value: *<Ctrl><Shift>X, ""*
 
 *scaled_zoom*::
 Toggle maximisation of the current terminal and scale the font when
 maximised. +
-Default value: *<Ctrl><Shift>Z*
+Default value: *<Ctrl><Shift>Z, ""*
 
 *hide_window*::
 Hide/Show all Terminator windows. +
-Default value: *<Ctrl><Shift><Alt>A*
+Default value: *<Ctrl><Shift><Alt>A, ""*
 
 === Grouping & Broadcasting
 
@@ -429,7 +429,7 @@ Create a new group.
 
 *group_all*::
 Group all terminals together. +
-Default value: *<Super>G*
+Default value: *<Super>G, ""*
 
 *ungroup_all*::
 Ungroup all terminals.
@@ -444,7 +444,7 @@ Group all terminals in the current window together.
 
 *ungroup_win*::
 Ungroup all terminals in the current window. +
-Default value: *<Super><Shift>W*
+Default value: *<Super><Shift>W, ""*
 
 *group_win_toggle*::
 Toggle grouping of all terminals in the current window.
@@ -453,11 +453,11 @@ Toggle grouping of all terminals in the current window.
 
 *group_tab*::
 Group all terminals in the current tab together. +
-Default value: *<Super>T*
+Default value: *<Super>T, ""*
 
 *ungroup_tab*::
 Ungroup all terminals in the current tab. +
-Default value: *<Super><Shift>T*
+Default value: *<Super><Shift>T, ""*
 
 *group_tab_toggle*::
 Toggle grouping of all terminals in the current tab.
@@ -484,46 +484,46 @@ Open the Preferences window.
 
 *preferences_keybindings*::
 Open the Preferences window and show the Keybindings tab. +
-Default value: *<Ctrl><Shift>K*
+Default value: *<Ctrl><Shift>K, ""*
 
 *copy*::
 Copy the selected text to the Clipboard. +
-Default value: *<Ctrl><Shift>C*
+Default value: *<Ctrl><Shift>C, ""*
 
 *paste*::
 Paste the current contents of the Clipboard. +
-Default value: *<Ctrl><Shift>V*
+Default value: *<Ctrl><Shift>V, ""*
 
 *paste_selection*::
 Paste the current contents of the Primary Selection.
 
 *toggle_scrollbar*::
 Toggle the scrollbar. +
-Default value: *<Ctrl><Shift>S*
+Default value: *<Ctrl><Shift>S, ""*
 
 *search*::
 Search for text in the terminal scrollback history. +
-Default value: *<Ctrl><Shift>F*
+Default value: *<Ctrl><Shift>F, ""*
 
 *reset*::
 Reset the terminal state. +
-Default value: *<Ctrl><Shift>R*
+Default value: *<Ctrl><Shift>R, ""*
 
 *reset_clear*::
 Reset the terminal state and clear the terminal window. +
-Default value: *<Ctrl><Shift>G*
+Default value: *<Ctrl><Shift>G, ""*
 
 *zoom_in*::
 Increase the font size by one unit. +
-Default value: *<Ctrl>plus*
+Default value: *<Ctrl>plus, ""*
 
 *zoom_out*::
 Decrease the font size by one unit. +
-Default value: *<Ctrl>minus*
+Default value: *<Ctrl>minus, ""*
 
 *zoom_normal*::
 Restore the original font size. +
-Default value: *<Ctrl>0*
+Default value: *<Ctrl>0, ""*
 
 *zoom_in_all*::
 Increase the font size by one unit for all terminals.
@@ -536,23 +536,23 @@ Restore the original font size for all terminals.
 
 *edit_window_title*::
 Rename the current window. +
-Default value: *<Ctrl><Alt>W*
+Default value: *<Ctrl><Alt>W, ""*
 
 *edit_tab_title*::
 Rename the current tab. +
-Default value: *<Ctrl><Alt>A*
+Default value: *<Ctrl><Alt>A, ""*
 
 *edit_terminal_title*::
 Rename the current terminal. +
-Default value: *<Ctrl><Alt>X*
+Default value: *<Ctrl><Alt>X, ""*
 
 *insert_number*::
 Insert the current terminal's number, i.e. 1 to 12. +
-Default value: *<Super>1*
+Default value: *<Super>1, ""*
 
 *insert_padded*::
 Insert the current terminal's number, but zero padded, i.e. 01 to 12. +
-Default value: *<Super>0*
+Default value: *<Super>0, ""*
 
 *next_profile*::
 Switch to the next profile.
