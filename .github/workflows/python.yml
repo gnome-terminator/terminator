@@ -34,18 +34,14 @@ jobs:
       run: >
         sudo apt-get install -y --no-install-recommends
         gobject-introspection gir1.2-glib-2.0 gir1.2-keybinder-3.0 gir1.2-gtk-3.0 gir1.2-vte-2.91 gir1.2-notify-0.7
+        python3-pytest python3-cairo python3-gi-cairo python3-psutil
         gettext intltool
         libdbus-glib-1-dev libgirepository1.0-dev libcairo-dev
         xvfb
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e '.[test]'
 
     - name: Compile all scripts
       run: python -m compileall -f terminatorlib/ tests/ remotinator terminator
 
     - name: Run tests
       run: |
-        xvfb-run -a pytest
+        xvfb-run -a pytest-3
