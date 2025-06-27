@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Gnome Terminator <terminator@lazyfrosch.de>, 2020
-# linuxrendszergazda linuxrendszergazda, 2024
+# linuxrendszergazda linuxrendszergazda, 2025
 # 
 #, fuzzy
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-19 09:29-0400\n"
 "PO-Revision-Date: 2020-04-22 08:11+0000\n"
-"Last-Translator: linuxrendszergazda linuxrendszergazda, 2024\n"
+"Last-Translator: linuxrendszergazda linuxrendszergazda, 2025\n"
 "Language-Team: Hungarian (https://app.transifex.com/terminator/teams/109338/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,15 +41,15 @@ msgstr "Terminál kettéosztása függőlegesen"
 
 #: ../remotinator.py:43
 msgid "Get a list of all terminals"
-msgstr "Adj egy listát az összes terminálról"
+msgstr "Kérek egy listát az összes terminálról"
 
 #: ../remotinator.py:44
 msgid "Get the uuid of the current focused terminal"
-msgstr "Az jelenleg fókuszált terminál uuid azonosítójának a lekérése"
+msgstr "Jelenleg fókuszban lévő terminál UUID azonosítójának a lekérése"
 
 #: ../remotinator.py:45
 msgid "Get the UUID of a parent window"
-msgstr "A szülőablak uuid azonosító mutatása"
+msgstr "Szülőablak UUID azonosítójának a mutatása"
 
 #: ../remotinator.py:46
 msgid "Get the title of a parent window"
@@ -81,7 +81,7 @@ msgstr "Aktuális terminál-profil váltása"
 
 #: ../remotinator.py:53
 msgid "Switch profile of all currently running terminals"
-msgstr "Az jelenleg futó összes terminál profiljának a váltása"
+msgstr "Jelenleg futó összes terminál profiljának a váltása"
 
 #: ../remotinator.py:70
 #, python-format
@@ -272,7 +272,7 @@ msgstr "Lap bezárása"
 
 #: ../terminatorlib/optionparse.py:43
 msgid "Display program version"
-msgstr "A program verziójának megjelenítése"
+msgstr "Program verziójának megjelenítése"
 
 #: ../terminatorlib/optionparse.py:45 ../terminatorlib/optionparse.py:47
 msgid "Maximize the window"
@@ -320,7 +320,7 @@ msgstr "Részben konfigurációs json fájl megadása"
 
 #: ../terminatorlib/optionparse.py:76
 msgid "Set the working directory"
-msgstr "A munkakönyvtár beállítása"
+msgstr "Munkakönyvtár beállítása"
 
 #: ../terminatorlib/optionparse.py:77
 msgid "Set a custom icon for the window (by file or name)"
@@ -368,15 +368,15 @@ msgstr "Ha már fut a Terminátor, akkor csak új fület nyisson"
 #: ../terminatorlib/optionparse.py:98
 msgid "If Terminator is already running, just unhide all hidden windows"
 msgstr ""
-"Ha a terminátor már fut, akkor jelenítse meg csak az összes rejtett ablakot"
+"Ha a Terminátor már fut, akkor csak jelenjen meg az összes rejtett ablak"
 
 #: ../terminatorlib/optionparse.py:100
 msgid "List all profiles"
-msgstr "Az összes profil megjelenítése"
+msgstr "Összes profil megjelenítése"
 
 #: ../terminatorlib/optionparse.py:102
 msgid "List all layouts"
-msgstr "Az összes elrendezés megjelenítése"
+msgstr "Összes elrendezés megjelenítése"
 
 #: ../terminatorlib/plugins/activitywatch.py:54
 msgid "Watch for _activity"
@@ -408,7 +408,7 @@ msgstr "_Beállítások"
 
 #: ../terminatorlib/plugins/custom_commands.py:134
 msgid "Custom Commands Configuration"
-msgstr "Egyéni parancsok konfigurációja"
+msgstr "Egyéni parancsok beállítása"
 
 #: ../terminatorlib/plugins/custom_commands.py:138
 #: ../terminatorlib/plugins/custom_commands.py:287
@@ -494,7 +494,7 @@ msgstr "A *%s* név már foglalt."
 
 #: ../terminatorlib/plugins/dir_open.py:26
 msgid "Open current directory"
-msgstr "A jelenlegi könyvtár megnyitása"
+msgstr "Jelenlegi könyvtár megnyitása"
 
 #: ../terminatorlib/plugins/logger.py:21
 #: ../terminatorlib/plugins/terminalshot.py:21
@@ -560,7 +560,7 @@ msgstr "Parancs újbóli futtatása"
 
 #: ../terminatorlib/preferences.glade.h:10
 msgid "Hold the terminal open"
-msgstr "A terminál nyitva hagyása"
+msgstr "Tartsa nyitva a terminált"
 
 #: ../terminatorlib/preferences.glade.h:11
 msgid "Black on light yellow"
@@ -632,7 +632,7 @@ msgstr "Kattintás a fókuszhoz"
 
 #: ../terminatorlib/preferences.glade.h:28
 msgid "Follow mouse pointer"
-msgstr "Az egérmutató követése"
+msgstr "Egérmutató követése"
 
 #: ../terminatorlib/preferences.glade.h:29
 msgid "Tango"
@@ -785,7 +785,7 @@ msgstr "<b>Megjelenés</b>"
 
 #: ../terminatorlib/preferences.glade.h:67
 msgid "Window borders"
-msgstr "Ablak keretek"
+msgstr "Ablakkeretek"
 
 #: ../terminatorlib/preferences.glade.h:68
 msgid "Unfocused terminal font brightness:"
@@ -893,7 +893,7 @@ msgstr "<b>Terminál csengő</b>"
 
 #: ../terminatorlib/preferences.glade.h:94
 msgid "Titlebar icon"
-msgstr "Címsorbeli ikon"
+msgstr "Címsor ikonja"
 
 #: ../terminatorlib/preferences.glade.h:95
 msgid "Visual flash"
@@ -901,11 +901,11 @@ msgstr "Látható villanás"
 
 #: ../terminatorlib/preferences.glade.h:96
 msgid "Audible beep"
-msgstr "Hangalapú hangjelzés"
+msgstr "Hallható sípolás"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid "Window list flash"
-msgstr "Ablak listája villog"
+msgstr "Ablaklista villogás"
 
 #: ../terminatorlib/preferences.glade.h:98
 msgid "General"
