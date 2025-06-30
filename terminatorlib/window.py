@@ -916,6 +916,15 @@ class Window(Container, Gtk.Window):
 
             # Get the coordinate of the appropriate edge for this direction
             edge, p1, p2 = util.get_edge(allocation, direction)
+            cols, rows = self.get_size()
+            if ((direction == 'down' and edge >= rows) or
+                (direction == 'right' and edge >= cols)):
+                edge =  0
+            elif (direction == 'up' and edge == 0):
+                edge = rows
+            elif (direction == 'left' and edge == 0):
+                edge = cols
+
             # Find all visible terminals which are, in their entirety, in the
             # direction we want to move, and are at least partially spanning
             # p1 to p2
