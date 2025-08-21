@@ -20,11 +20,14 @@ from terminatorlib.terminal import Terminal
 from terminatorlib.terminator import Terminator
 
 import gi
-gi.require_version('Handy', '1')
-from gi.repository import Handy
+try:
+    gi.require_version('Handy', '1')
+    from gi.repository import Handy
+    AVAILABLE = ['AutoTheme']
+except (ImportError, ValueError):
+    err('Auto Theme plugin unavailable as we cannot import libhandy')
 
 # Every plugin you want Terminator to load *must* be listed in 'AVAILABLE'
-AVAILABLE = ['AutoTheme']
 
 ## disable log
 # print = lambda *a:None
