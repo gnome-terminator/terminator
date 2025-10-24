@@ -72,7 +72,6 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 
 import os
 import shutil
-import platform
 from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
@@ -413,7 +412,7 @@ class Config(object):
         if self.system_mono_font is not None:
             return self.system_mono_font
 
-        if platform.system() == 'Darwin':
+        if os.uname().sysname == 'Darwin':
             self.system_mono_font = "Menlo 11"
             return self.system_mono_font
         elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
