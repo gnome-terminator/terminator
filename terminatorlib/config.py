@@ -72,6 +72,7 @@ KeyError: 'ConfigBase::get_item: unknown key algo'
 
 import os
 import shutil
+import platform
 from copy import copy
 from configobj import ConfigObj, flatten_errors
 from validate import Validator
@@ -410,9 +411,13 @@ class Config(object):
     def get_system_mono_font(self):
         """Look up the system font"""
         if self.system_mono_font is not None:
-            return(self.system_mono_font)
+            return self.system_mono_font
+
+        if platform.system() == 'Darwin':
+            self.system_mono_font = "Menlo 11"
+            return self.system_mono_font
         elif 'org.gnome.desktop.interface' not in Gio.Settings.list_schemas():
-            return
+            return None
         else:
             gsettings=Gio.Settings.new('org.gnome.desktop.interface')
             value = gsettings.get_value('monospace-font-name')
@@ -420,7 +425,7 @@ class Config(object):
                 self.system_mono_font = value.get_string()
             else:
                 self.system_mono_font = "Mono 10"
-            return(self.system_mono_font)
+            return self.system_mono_font
 
     def get_system_focus(self):
         """Look up the system focus setting"""
