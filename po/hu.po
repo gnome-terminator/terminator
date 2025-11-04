@@ -1147,7 +1147,7 @@ msgid ""
 "Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
 msgstr ""
 "Ennek a projektnek a célja, hogy egy hasznos eszközt hozzon létre amely a terminálok elrendezését szolgálja. Olyan programok ihlették, mint a gnome-multi-term, quadkonsole stb., mivel ezeknél a fő hangsúly szintén az egyes terminálablakok rácsos elrendezésén van. (A fülek a leggyakoribb alapértelmezett módszer, amelyet a Terminator is támogat).\n"
-"A Terminátor viselkedésének nagy része a GNOME Terminálon alapul, és az idő előrehaladtával ebből további funkciókat adunk hozzá, de szeretnénk a rendszergazdák és más felhasználók számára is hasznos funkciókkal bővíteni különböző irányokba. Ha bármilyen javaslata van, kérjük, küldje az el nekünk a el a kívánságlista hibák listájára! (A fejlesztéshez tartozó linket lásd balra)."
+"A Terminátor viselkedésének nagy része a GNOME Terminálon alapul, és az idő előrehaladtával ebből további funkciókat adunk hozzá, de szeretnénk a rendszergazdák és más felhasználók számára is különböző irányokban hasznos funkciókkal bővíteni. Ha bármilyen javaslata van, akkor kérjük Önt, hogy küldje azt el nekünk a hibabejelentő oldalon kívánság formájában! (A fejlesztéshez tartozó linket megtekintheti a bal oldalon)."
 
 #: ../terminatorlib/preferences.glade.h:162
 msgid "The Manual"
