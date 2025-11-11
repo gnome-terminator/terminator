@@ -48,5 +48,5 @@ You can also push translations changed outside of Transifex back to the service:
 
 [Gitter]: https://gitter.im/gnome-terminator/community
 [open an issue]: https://github.com/gnome-terminator/terminator/issues/new/choose
-[transifex.com/terminator]: https://www.transifex.com/terminator/terminator/dashboard/
+[transifex.com/terminator]: https://app.transifex.com/terminator/terminator/dashboard/
 [Getting Started as a Translator]: https://docs.transifex.com/getting-started-1/translators
