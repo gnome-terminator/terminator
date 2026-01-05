@@ -75,6 +75,7 @@ class TerminalPopupMenu(object):
         dbg("action from config:%s for item:%s with shortcut accelchar:(%s)"
                                     % (maskstr, menustr, accelchar))
         item = menutype.new_with_mnemonic(menustr)
+        item.set_name(actstr)
         if mask:
             item.add_accelerator("activate",
                                 self.accelgrp,

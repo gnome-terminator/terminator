@@ -592,8 +592,8 @@ class Remote(MenuItem):
         if self.config['auto_clone']:
             self.peers = self._get_all_terminals()
             for child in menu.get_children():
-                if 'Split' in child.get_label():
-                    dbg(f"handling split on menu item '{child.get_label()}'")
+                if 'split' in child.get_name():
+                    dbg(f"handling split on menu item '{child.get_name()}'")
                     child.connect_after(
                         'activate', self._split_axis, terminal
                     )
