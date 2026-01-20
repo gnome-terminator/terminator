@@ -890,7 +890,7 @@ class ConfigBase(Borg):
             dbg('%s found in plugin %s: %s' % (
                     key, plugin, self.plugins[plugin][key]))
             return(self.plugins[plugin][key])
-        elif default:
+        elif default is not None:
             return default
         else:
             raise KeyError('ConfigBase::get_item: unknown key %s' % key)
