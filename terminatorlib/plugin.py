@@ -118,6 +118,11 @@ failed: %s' % (plugin, ex))
 
         self.done = True
 
+    def get_plugin_instance(self, plugin):
+        instance = self.instances.get(plugin, None)
+        dbg('get plugin: %s instance: %s' % (plugin, instance))
+        return instance
+
     def get_plugins_by_capability(self, capability):
         """Return a list of plugins with a particular capability"""
         result = []
@@ -221,8 +226,14 @@ class KeyBindUtil:
     map_act_to_keys = {}
     map_act_to_desc = {}
 
+    #merged keybindings and plugin key bindings
+    map_all_act_to_keys = {}
+    map_all_act_to_desc = {}
+
+    config = Config()
+
     def __init__(self, config=None):
-        self.config = config
+        self.load_merge_key_maps()
 
     #Example
     #  bind
@@ -234,6 +245,17 @@ class KeyBindUtil:
 
     #  if act == "url_find_next":
 
+    def load_merge_key_maps(self):
+
+        cfg_keybindings = KeyBindUtil.config['keybindings']
+
+        #TODO need to check if cyclic dep here, we only using keybindingnames
+        from terminatorlib.prefseditor import PrefsEditor
+        pref_keybindingnames = PrefsEditor.keybindingnames
+
+        #merge give preference to main bindings over plugin
+        KeyBindUtil.map_all_act_to_keys  = {**self.map_act_to_keys, **cfg_keybindings}
+        KeyBindUtil.map_all_act_to_desc  = {**self.map_act_to_desc, **pref_keybindingnames}
 
     #check map key_val_mask -> action
     def _check_keybind_change(self, key):
@@ -313,17 +335,32 @@ class KeyBindUtil:
         dbg("keyaction: (%s)" % str(ret))
         return self.map_key_to_act.get(ret, None)
 
+    #functions to get actstr to keys / key mappings or desc / desc mapppings
+    #for plugins or merged keybindings
+
     def get_act_to_keys(self, key):
+        return self.map_all_act_to_keys.get(key)
+
+    def get_plugin_act_to_keys(self, key):
         return self.map_act_to_keys.get(key)
 
-    def get_all_act_to_keys(self):
+    def get_all_plugin_act_to_keys(self):
         return self.map_act_to_keys
 
-    def get_all_act_to_desc(self):
-        return self.map_act_to_desc
+    def get_all_act_to_keys(self):
+        return self.map_all_act_to_keys
 
     def get_act_to_desc(self, act):
+        return self.map_all_act_to_desc.get(act)
+
+    def get_plugin_act_to_desc(self, act):
         return self.map_act_to_desc.get(act)
+
+    def get_all_plugin_act_to_desc(self):
+        return self.map_act_to_desc
+
+    def get_all_act_to_desc(self):
+        return self.map_all_act_to_desc
 
     #get action to key binding from config
     def get_act_to_keys_config(self, act):
