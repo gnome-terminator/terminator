@@ -114,7 +114,7 @@ icon for the window (by file or name)'))
                 help=argparse.SUPPRESS)
 
     global options
-    options = parser.parse_args()
+    options, extra = parser.parse_known_args()
 
     if options.version:
         print('%s %s' % (version.APP_NAME, version.APP_VERSION))
@@ -175,4 +175,5 @@ icon for the window (by file or name)'))
     if util.DEBUG == True:
         dbg('command line options: %s' % options)
 
+    options.extra = extra
     return(options,optionslist)
