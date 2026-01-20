@@ -1565,9 +1565,13 @@ class Terminal(Gtk.VBox):
             self.set_cwd(options.working_directory)
             options.working_directory = ''
 
-        if type(command) is list:
+        if type(command) is list and len(command):
             shell = util.path_lookup(command[0])
-            args = command
+            #skip first item already taken as shell
+            #should we check if shell is acutally a valid shell ?
+            command = ' '.join(command[1:])
+            dbg('command is list with: shell:%s args:%s command:%s'
+                        % (shell, args, command))
         else:
             shell = util.shell_lookup()
 
@@ -1576,8 +1580,12 @@ class Terminal(Gtk.VBox):
             else:
                 args.insert(0, shell)
 
-            if command is not None:
-                args += ['-c', command]
+            #if command is not None:
+            #    args += ['-c', command]
+
+            #command str taken and fed in feed_child
+            dbg('command is NOT list with: shell:%s args:%s command:%s'
+                        % (shell, args, command))
 
         if shell is None:
             self.vte.feed(_('Unable to find a shell'))
@@ -1596,7 +1604,8 @@ class Terminal(Gtk.VBox):
         if self.terminator.dbus_path:
             envv.append('TERMINATOR_DBUS_PATH=%s' % self.terminator.dbus_path)
 
-        dbg('Forking shell: "%s" with args: %s' % (shell, args))
+        dbg('Forking shell: "%s" with args: %s command:%s' %
+                                (shell, args, command))
         args.insert(0, shell)
 
         if util.is_flatpak():
@@ -1629,6 +1638,8 @@ class Terminal(Gtk.VBox):
                     None
                     )
 
+        if command:
+            self.vte.feed_child((command+'\n').encode('utf-8'))
         self.command = shell
 
         self.titlebar.update()
