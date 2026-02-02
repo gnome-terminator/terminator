@@ -23,14 +23,16 @@ dependencies yourself:
 
 **Python 3.5+ recommended:** `python3` or `python37` (in FreeBSD)
 
-**Python GTK and VTE bindings:**
+**Python GTK and VTE bindings (GTK4):**
      
-     Fedora/CentOS: python3-gobject python3-configobj python3-psutil vte291 
-                    keybinder3 intltool gettext
-     Debian/Ubuntu: python3-gi python3-gi-cairo python3-psutil python3-configobj 
-                    gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11 
-     FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
+     Fedora/CentOS: python3-gobject python3-configobj python3-psutil gir1.2-gtk-4.0 \
+                    gir1.2-vte-2.91 libvte-2.91-0 keybinder3 intltool gettext
+     Debian/Ubuntu: python3-gi python3-gi-cairo python3-psutil python3-configobj \
+                    gir1.2-gtk-4.0 gir1.2-keybinder-3.0 gir1.2-vte-2.91 gettext intltool dbus-x11 
+     FreeBSD:       py37-psutil py37-configobj keybinder-gtk4 py37-gobject3 gettext \
                     intltool libnotify vte3
+
+Note: GTK4 and VTE packages vary between distributions; ensure `gir1.2-gtk-4.0` and `gir1.2-vte-2.91` (or your distro equivalent) are available.
 
 If you don't care about native language support or icons, Terminator
 should run just fine directly from this directory, just:
