@@ -73,7 +73,9 @@ class CustomCommandsMenu(plugin.MenuItem):
         name = s["name"]
         name_parse = s.get("name_parse", "True")
         command = s["command"]
-        enabled = s["enabled"] and s["enabled"] or False
+        enabled = s.get("enabled", False)
+        if isinstance(enabled, str):
+            enabled = enabled.lower() in ("true", "1", "yes")
         if "position" in s:
           self.cmd_list[int(s["position"])] = {'enabled' : enabled,
                                                'name' : name,
