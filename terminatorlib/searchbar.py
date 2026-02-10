@@ -195,20 +195,40 @@ class Searchbar(Gtk.HBox):
             return
 
         self.searchre = None
+        regex_error = False
+
         if regex.FLAGS_PCRE2:
             try:
                 self.searchre = Vte.Regex.new_for_search(searchtext, len(searchtext), self.regex_flags_pcre2)
                 dbg('search RE: %s' % self.searchre)
                 self.vte.search_set_regex(self.searchre, 0)
-            except GLib.Error:
+            except GLib.Error as error:
                 # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
+                # or when the regex pattern is invalid
+                dbg('PCRE2 regex error: %s' % error)
                 pass
 
         if not self.searchre:
             # fall back to old GLib regex
-            self.searchre = GLib.Regex(searchtext, self.regex_flags_glib, 0)
-            dbg('search RE: %s' % self.searchre)
-            self.vte.search_set_gregex(self.searchre, 0)
+            try:
+                self.searchre = GLib.Regex(searchtext, self.regex_flags_glib, 0)
+                dbg('search RE: %s' % self.searchre)
+                self.vte.search_set_gregex(self.searchre, 0)
+            except GLib.Error as error:
+                # Invalid regex pattern - handle gracefully
+                dbg('GLib regex error: %s' % error)
+                regex_error = True
+                # Set entry background to indicate error
+                self.entry.get_style_context().add_class("error")
+
+        if regex_error:
+            # Don't enable search buttons for invalid regex
+            self.next.set_sensitive(False)
+            self.prev.set_sensitive(False)
+            return
+
+        # Clear any error styling on successful regex compilation
+        self.entry.get_style_context().remove_class("error")
 
         self.next.set_sensitive(True)
         self.prev.set_sensitive(True)
