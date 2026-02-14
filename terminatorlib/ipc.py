@@ -16,8 +16,6 @@ from .util import dbg, err, enumerate_descendants
 from .terminal import Terminal
 from .container import Container
 from .configjson import ConfigJson
-from gi.repository import Gtk as gtk
-from gi.repository import GObject as gobject
 
 CONFIG = Config()
 if not CONFIG['dbus']:
