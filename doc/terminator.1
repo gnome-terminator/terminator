@@ -90,6 +90,30 @@ Specify the preferred size and position of Terminator\(cqs window;
 see \fBX\fP(7).
 .RE
 .sp
+\fB\-\-guake\-key\fP=\fIGUAKE_KEY\fP
+.RS 4
+A Guake like terminal mode where terminal can be toggled by a key.
+Usage Example:  terminator \-\-guake\-key="F8" \-\-guake\-side left \-\-guake\-width 700 \-\-guake\-height 800
+.RE
+.sp
+\fB\-\-guake\-side\fP=\fIGUAKE_SIDE\fP
+.RS 4
+Set the preferred screen edge position of a terminal in Guake like mode.
+Options: top, bottom, left, right
+Default: top
+.RE
+.sp
+\fB\-\-guake\-width\fP=\fIGUAKE_WIDTH\fP
+.RS 4
+Set the preferred width when using Guake like mode.
+Default: 800
+.RE
+.sp
+\fB\-\-guake\-height\fP=\fIGUAKE_HEIGHT\fP
+.RS 4
+Set the preferred height when using Guake like mode.
+Default: 600
+.sp
 \fB\-e\fP \fICOMMAND\fP, \fB\-\-command\fP=\fICOMMAND\fP
 .RS 4
 Run the specified command instead of the default shell or profile

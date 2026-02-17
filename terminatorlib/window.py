@@ -77,13 +77,17 @@ class Window(Container, Gtk.Window):
 #        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
         icon_to_apply=''
 
-        self.register_callbacks()
+
         self.apply_config()
 
         self.title = WindowTitle(self)
         self.title.update()
-        
-        self.preventHide = False
+
+        self.preventHide  = False
+
+        self.display      = Gdk.Display().get_default()
+        self.mouse        = self.display.get_default_seat().get_pointer()
+        self.guake_key    = None
 
         options = self.config.options_get()
         if options:
@@ -92,14 +96,43 @@ class Window(Container, Gtk.Window):
 
             if options.role:
                 self.set_role(options.role)
-            
+
             if options.forcedicon is not None:
                 icon_to_apply = options.forcedicon
 
             if options.geometry:
                 if not self.parse_geometry(options.geometry):
-                    err('Window::__init__: Unable to parse geometry: %s' % 
+                    err('Window::__init__: Unable to parse geometry: %s' %
                             options.geometry)
+
+            if options.guake_key:
+                self.guake_key = options.guake_key
+
+                if options.guake_side and options.guake_width and options.guake_height:
+                    proceed_undecorated = True
+
+                    if options.guake_side in ["top", "bottom", "left", "right"]:
+                        self.guake_side = options.guake_side
+                    else:
+                        proceed_undecorated = False
+                        err('Window::__init__: Unable to parse guake_side: %s' %
+                                options.guake_side)
+
+                    try:
+                        self.guake_width  = int(options.guake_width)
+                        self.guake_height = int(options.guake_height)
+                    except Exception as e:
+                        proceed_undecorated = False
+                        err('Window::__init__: Unable to parse guake_width: %s and/or guake_height: %s' %
+                                options.guake_width, options.guake_height)
+
+                    if proceed_undecorated:
+                        self.set_decorated(False)
+                        self.set_default_size(self.guake_width, self.guake_height)
+                    else:
+                        self.guake_key = None
+
+        self.register_callbacks()
 
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
@@ -119,6 +152,35 @@ class Window(Container, Gtk.Window):
         else:
             raise AttributeError('unknown property %s' % prop.name)
 
+    # NOTE: Gdk.VisibilityState.UNOBSCURED presumably isn't reliable due to transparency in moddern wms.
+    #       Seems to work okay for our needs but should be kept in mind for future changes....
+    def _bind_window_to_position(self, widget, eve):
+        if eve.state == Gdk.VisibilityState.UNOBSCURED:
+            screen, mouse_x, mouse_y = self.mouse.get_position()
+            monitor    = self.display.get_monitor_at_point(mouse_x, mouse_y)
+            window_w, window_h = self.guake_width, self.guake_height
+            geom_rect  = monitor.get_geometry()
+            x, y, w, h = geom_rect.x, geom_rect.y, geom_rect.width, geom_rect.height
+
+            if not self.is_maximized() and not self.isfullscreen:
+                if self.guake_side == "top":
+                    new_x = (w - (window_w + ((w - window_w)/2) )) + x
+                    new_y = y
+                if self.guake_side == "bottom":
+                    new_x = (w - (window_w + ((w - window_w)/2) )) + x
+                    new_y = (h - window_h) + y
+                if self.guake_side == "left":
+                    new_x = x
+                    new_y = (h - (window_h + ((h - window_h)/2) )) + y
+                if self.guake_side == "right":
+                    new_x = (w - window_w) + x
+                    new_y = (h - (window_h + ((h - window_h)/2) )) + y
+            else:
+                    new_x = x
+                    new_y = y
+
+            self.move(new_x, new_y)
+
     def register_callbacks(self):
         """Connect the GTK+ signals we care about"""
         self.connect('key-press-event', self.on_key_press)
@@ -129,22 +191,29 @@ class Window(Container, Gtk.Window):
         self.connect('focus-out-event', self.on_focus_out)
         self.connect('focus-in-event', self.on_focus_in)
 
+        if self.guake_key not in ('', None):
+            guake_unload_id = self.connect('visibility-notify-event', self._bind_window_to_position)
+
+        _hide_key  = self.config['keybindings']['hide_window']
+        toggle_key = self.guake_key if self.guake_key not in ('', None) else _hide_key if _hide_key not in ('', None) else None
+
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
-        if self.config['keybindings']['hide_window'] not in ('', None):
-            if display_manager() == 'X11':
-                try:
-                    self.hidebound = Keybinder.bind(
-                        self.config['keybindings']['hide_window'],
-                        self.on_hide_window)
-                except (KeyError, NameError):
-                    pass
+        if toggle_key and display_manager() == 'X11':
+            try:
+                self.hidebound = Keybinder.bind(toggle_key, self.on_hide_window)
+            except (KeyError, NameError):
+                ...
 
-                if not self.hidebound:
-                    err('Unable to bind hide_window key, another instance/window has it.')
-                    self.hidefunc = self.iconify
-                else:
-                    self.hidefunc = self.hide
+            if not self.hidebound:
+                err('Unable to bind hide_window key, another instance/window has it.')
+                self.hidefunc = self.iconify
+
+                if self.guake_key not in ('', None):
+                    GObject.signal_handler_disconnect(self, guake_unload_id)
+                    self.set_decorated(True)
+            else:
+                self.hidefunc = self.hide
 
     def apply_config(self):
         """Apply various configuration options"""
@@ -335,7 +404,7 @@ class Window(Container, Gtk.Window):
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
         """Handle the state of the window changing"""
-        self.isfullscreen = bool(event.new_window_state & 
+        self.isfullscreen = bool(event.new_window_state &
                                  Gdk.WindowState.FULLSCREEN)
         self.ismaximised = bool(event.new_window_state &
                                  Gdk.WindowState.MAXIMIZED)
@@ -394,7 +463,7 @@ class Window(Container, Gtk.Window):
             visual = screen.get_rgba_visual()
             if visual:
                 self.set_visual(visual)
-    
+
     def show(self, startup=False):
         """Undo the startup show request if started in hidden mode"""
         #Present is necessary to grab focus when window is hidden from taskbar.
@@ -484,7 +553,7 @@ class Window(Container, Gtk.Window):
             container = maker.make('VPaned')
         else:
             container = maker.make('HPaned')
-        
+
         self.set_pos_by_ratio = True
 
         if not sibling:
@@ -508,7 +577,7 @@ class Window(Container, Gtk.Window):
         for term in order:
             container.add(term)
         container.show_all()
-        
+
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
         sibling.grab_focus()
@@ -556,7 +625,7 @@ class Window(Container, Gtk.Window):
         self.set_property('term_zoomed', True)
 
         if font_scale:
-            widget.cnxids.new(widget, 'size-allocate', 
+            widget.cnxids.new(widget, 'size-allocate',
                     widget.zoom_scale, self.zoom_data)
 
         widget.grab_focus()
@@ -629,7 +698,7 @@ class Window(Container, Gtk.Window):
 
     def get_terminals(self):
         return(util.enumerate_descendants(self)[1])
- 
+
     def get_visible_terminals(self):
         """Walk down the widget tree to find all of the visible terminals.
         Mostly using Container::get_visible_terminals()"""
@@ -719,7 +788,7 @@ class Window(Container, Gtk.Window):
         extra_height = win_height - total_font_height
 
         dbg('setting geometry hints: (ewidth:%s)(eheight:%s),\
-(fwidth:%s)(fheight:%s)' % (extra_width, extra_height, 
+(fwidth:%s)(fheight:%s)' % (extra_width, extra_height,
                             font_width, font_height))
         geometry = Gdk.Geometry()
         geometry.base_width = extra_width
@@ -843,7 +912,7 @@ class Window(Container, Gtk.Window):
         if not maker.isinstance(notebook, 'Notebook'):
             dbg('note in a notebook, refusing to ungroup tab')
             return
-        
+
         self.set_groups(None, self.get_visible_terminals())
 
     def move_tab(self, widget, direction):
@@ -876,7 +945,7 @@ class Window(Container, Gtk.Window):
         else:
             err('unknown direction: %s' % direction)
             return
-        
+
         notebook.reorder_child(child, page)
 
     def navigate_terminal(self, terminal, direction):
