@@ -309,7 +309,11 @@ class DBusService(Borg, dbus.service.Object):
             return
 
         notebook = window.get_children()[0]
-        n_page = notebook.get_current_page()
+        pages = notebook.get_children()
+        n_page = next(
+            (n for n, page in enumerate(notebook.get_children()) if page.uuid.urn == uuid),
+            notebook.get_current_page()
+        )
         page = notebook.get_nth_page(n_page)
         label = notebook.get_tab_label(page)
         label.set_custom_label(tab_title, force=True)
