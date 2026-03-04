@@ -175,6 +175,7 @@ class PrefsEditor:
                         'broadcast_off'    : _('Don\'t broadcast key presses'),
                         'broadcast_group'  : _('Broadcast key presses to group'),
                         'broadcast_all'    : _('Broadcast key events to all'),
+                        'insert_name'    : _('Insert terminal name'),
                         'insert_number'    : _('Insert terminal number'),
                         'insert_padded'    : _('Insert zero padded terminal number'),
                         'edit_window_title': _('Edit window title'),
