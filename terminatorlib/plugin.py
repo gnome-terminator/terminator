@@ -175,8 +175,13 @@ class URLHandler(Plugin):
         for terminal in terminator.terminals:
             terminal.match_add(self.handler_name, self.match)
 
-    def callback(self, url):
-        """Callback to transform the enclosed URL"""
+    def callback(self, url, terminal=None):
+        """Callback to transform the enclosed URL
+
+        Args:
+            url: The matched URL string
+            terminal: Optional Terminal instance where the match occurred
+        """
         raise NotImplementedError
 
     def unload(self):
