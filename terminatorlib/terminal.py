@@ -1656,7 +1656,10 @@ class Terminal(Gtk.VBox):
 
                 for urlplugin in plugins:
                     if match == self.matches[urlplugin.handler_name]:
-                        newurl = urlplugin.callback(url, terminal=self)
+                        try:
+                            newurl = urlplugin.callback(url, terminal=self)
+                        except TypeError:
+                            newurl = urlplugin.callback(url)
                         if newurl: # If the plugin returns None, it's a false match.
                             dbg('URL prepared by %s plugin' \
                                     % urlplugin.handler_name)
