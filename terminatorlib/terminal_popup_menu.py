@@ -281,6 +281,40 @@ class TerminalPopupMenu(object):
             item.connect('activate', lambda x: PrefsEditor(self.terminal))
             menu.append(item)
 
+        # Theme presets: (label, background, foreground)
+        theme_items = [
+            ('Solarized Light', '#eee8d5', '#586e75'),
+            ('Solarized Dark', '#002b36', '#839496'),
+            ('Monokai', '#272822', '#f8f8f2'),
+            ('Dracula', '#282a36', '#f8f8f2'),
+            ('Gruvbox Light', '#fbf1c7', '#3c3836'),
+            ('Gruvbox Dark', '#282828', '#ebdbb2'),
+            ('Nord', '#2e3440', '#d8dee9'),
+            ('One Light', '#fafafa', '#383a42'),
+            ('One Dark', '#1d1f21', '#c5c8c6'),
+            ('Zenburn', '#3f3f3f', '#dcdccc'),
+            ('Nightfox', '#1a1b26', '#c0caf5'),
+            ('Taiwanese Blue', '#005695', '#ffffff'),
+            ('Solarized Blue', '#073642', '#93a1a1'),
+        ]
+
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Colors'))
+        submenu = Gtk.Menu()
+        item.set_submenu(submenu)
+        menu.append(item)
+
+        for theme_label, bg, fg in theme_items:
+            item = Gtk.MenuItem(theme_label)
+            item.connect('activate',
+                         lambda x, b=bg, f=fg: (terminal.set_bgcolor(b),
+                                                terminal.set_fgcolor(f)))
+            submenu.append(item)
+
+        submenu.append(Gtk.SeparatorMenuItem())
+        custom_item = Gtk.MenuItem.new_with_mnemonic(_('_Custom...'))
+        custom_item.connect('activate', lambda x: self.pick_custom_colors(terminal))
+        submenu.append(custom_item)
+
         profilelist = sorted(self.config.list_profiles(), key=str.lower)
 
         if len(profilelist) > 1:
@@ -325,6 +359,58 @@ class TerminalPopupMenu(object):
         menu.popup_at_pointer(None)
 
         return(True)
+
+    def pick_custom_colors(self, terminal):
+        """Open a dialog to choose background and foreground colors at once"""
+        dialog = Gtk.Dialog(title=_('Pick Terminal Colors'),
+                            transient_for=terminal.get_toplevel(),
+                            flags=Gtk.DialogFlags.MODAL)
+        dialog.add_button(_('Cancel'), Gtk.ResponseType.CANCEL)
+        dialog.add_button(_('Apply'), Gtk.ResponseType.OK)
+
+        content = dialog.get_content_area()
+        content.set_spacing(8)
+        content.set_border_width(12)
+
+        grid = Gtk.Grid()
+        grid.set_column_spacing(12)
+        grid.set_row_spacing(8)
+
+        bg_label = Gtk.Label(label=_('Background:'), xalign=0)
+        bg_btn = Gtk.ColorButton()
+        bg_btn.set_use_alpha(True)
+        if terminal.bgcolor is not None:
+            bg_btn.set_rgba(terminal.bgcolor.copy())
+
+        fg_label = Gtk.Label(label=_('Text:'), xalign=0)
+        fg_btn = Gtk.ColorButton()
+        if terminal.fgcolor_active is not None:
+            fg_initial = terminal.fgcolor_active.copy()
+            fg_initial.alpha = 1.0
+            fg_btn.set_rgba(fg_initial)
+
+        grid.attach(bg_label, 0, 0, 1, 1)
+        grid.attach(bg_btn, 1, 0, 1, 1)
+        grid.attach(fg_label, 0, 1, 1, 1)
+        grid.attach(fg_btn, 1, 1, 1, 1)
+        content.add(grid)
+        dialog.show_all()
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            bg_rgba = bg_btn.get_rgba()
+            fg_rgba = fg_btn.get_rgba()
+            bg_hex = "#{0:02x}{1:02x}{2:02x}".format(
+                int(bg_rgba.red * 255),
+                int(bg_rgba.green * 255),
+                int(bg_rgba.blue * 255))
+            fg_hex = "#{0:02x}{1:02x}{2:02x}".format(
+                int(fg_rgba.red * 255),
+                int(fg_rgba.green * 255),
+                int(fg_rgba.blue * 255))
+            terminal.set_bgcolor(bg_hex, alpha=bg_rgba.alpha)
+            terminal.set_fgcolor(fg_hex)
+        dialog.destroy()
 
     def add_layout_launcher(self, menu):
         """Add the layout list to the menu"""
