@@ -497,6 +497,10 @@ Default value: *<Ctrl><Shift>V*
 *paste_selection*::
 Paste the current contents of the Primary Selection.
 
+*send_newline*::
+Send a newline (LF, 0x0A) character to the terminal. Useful for shells configured to treat LF differently from CR (e.g. for multi-line input). +
+Default value: *<Shift>Return*
+
 *toggle_scrollbar*::
 Toggle the scrollbar. +
 Default value: *<Ctrl><Shift>S*

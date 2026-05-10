@@ -1900,6 +1900,9 @@ class Terminal(Gtk.VBox):
     def key_paste_selection(self):
         self.paste_clipboard(True)
 
+    def key_send_newline(self):
+        self.feed('\n')
+
     def key_toggle_scrollbar(self):
         self.do_scrollbar_toggle()
 
