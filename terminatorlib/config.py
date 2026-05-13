@@ -147,6 +147,7 @@ DEFAULTS = {
             'copy'             : '<Shift><Control>c',
             'paste'            : '<Shift><Control>v',
             'paste_selection'  : '',
+            'send_newline'     : '<Shift>Return',
             'toggle_scrollbar' : '<Shift><Control>s',
             'search'           : '<Shift><Control>f',
             'page_up'          : '',
