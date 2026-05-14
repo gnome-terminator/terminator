@@ -108,6 +108,9 @@ class Terminal(Gtk.VBox):
     directory = None
 
     is_held_open = False
+    tmux_pane_id = None
+    _tmux_controller = None
+    _tmux_closing = False
 
     fgcolor_active = None
     fgcolor_inactive = None
@@ -120,6 +123,30 @@ class Terminal(Gtk.VBox):
 
     cnxids = None
     targets_for_new_group = None
+
+    def emit(self, *args):
+        """Override emit to intercept split/tab signals in tmux mode."""
+        if self.tmux_pane_id is not None and len(args) >= 1:
+            sig = args[0]
+            if sig == 'split-horiz':
+                self.tmux_split(horizontal=True)
+                return
+            elif sig == 'split-vert':
+                self.tmux_split(horizontal=False)
+                return
+            elif sig == 'split-auto':
+                self.tmux_split(horizontal=True)
+                return
+            elif sig == 'tab-new':
+                self.tmux_new_window()
+                return
+        GObject.GObject.emit(self, *args)
+
+    def tmux_new_window(self):
+        """Request a new tmux window. The %window-add handler will create the tab."""
+        ctrl = self._tmux_controller
+        if ctrl:
+            ctrl.protocol.send_command('new-window')
 
     def __init__(self):
         """Class initialiser"""
@@ -270,7 +297,18 @@ class Terminal(Gtk.VBox):
         dbg('close: called')
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
-        if self.pid is not None:
+        if self.tmux_pane_id is not None:
+            ctrl = self._tmux_controller
+            if ctrl:
+                pane_id = self.tmux_pane_id
+                ctrl.unregister_terminal(self)
+                # If this close was initiated from Terminator (not from tmux),
+                # kill the tmux pane too
+                if not self._tmux_closing and ctrl.active:
+                    ctrl.protocol.send_command('kill-pane -t {}'.format(pane_id))
+            # Release saved PTY reference so the original fd can be closed
+            self._saved_pty = None
+        elif self.pid is not None:
             try:
                 dbg('close: killing %d' % self.pid)
                 os.kill(self.pid, signal.SIGHUP)
@@ -285,17 +323,62 @@ class Terminal(Gtk.VBox):
             del(self.vte)
 
     def create_terminalbox(self):
-        """Create a GtkHBox containing the terminal and a scrollbar"""
+        """Create a container with the terminal and an overlay scrollbar.
 
-        terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
-        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
+        Uses Gtk.Overlay so the scrollbar floats on top of the VTE's
+        right edge instead of taking its own horizontal space. This
+        means the VTE gets the full terminal width — no pixels lost
+        to the scrollbar, which keeps character column counts accurate
+        across split panes.
+        """
+        adj = self.vte.get_vadjustment()
+        self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL,
+                                           adjustment=adj)
         self.scrollbar.set_no_show_all(True)
+        self.scrollbar.set_opacity(0.0)
 
-        terminalbox.pack_start(self.vte, True, True, 0)
-        terminalbox.pack_start(self.scrollbar, False, True, 0)
-        terminalbox.show_all()
+        # Align scrollbar to right edge of the overlay
+        self.scrollbar.set_halign(Gtk.Align.END)
+        self.scrollbar.set_valign(Gtk.Align.FILL)
 
-        return(terminalbox)
+        # Show scrollbar only when scrolled back in history
+        def _on_adj_changed(*args):
+            at_bottom = adj.get_value() >= adj.get_upper() - adj.get_page_size() - 1
+            self.scrollbar.set_opacity(0.0 if at_bottom else 0.5)
+        adj.connect('value-changed', _on_adj_changed)
+        adj.connect('changed', _on_adj_changed)
+
+        self._terminalbox_overlay = Gtk.Overlay()
+        self._terminalbox_overlay.add(self.vte)
+        self._terminalbox_overlay.add_overlay(self.scrollbar)
+        self._terminalbox_overlay.show_all()
+
+        return self._terminalbox_overlay
+
+    def _make_titlebar_overlay(self):
+        """Move the titlebar into the terminal overlay.
+
+        Makes it float over the VTE content, fully transparent until
+        the mouse hovers over the titlebar area. Takes zero vertical
+        space in the layout.
+        """
+        if not self.titlebar:
+            return
+        if self.titlebar.get_parent() == self._terminalbox_overlay:
+            return
+        # Reparent: remove from VBox, add to the overlay
+        self.remove(self.titlebar)
+        self.titlebar.set_opacity(0.0)
+        self.titlebar.set_halign(Gtk.Align.FILL)
+        if self.config['title_at_bottom']:
+            self.titlebar.set_valign(Gtk.Align.END)
+        else:
+            self.titlebar.set_valign(Gtk.Align.START)
+        self._terminalbox_overlay.add_overlay(self.titlebar)
+        self.titlebar.connect('enter-notify-event',
+                              lambda w, e: w.set_opacity(0.85))
+        self.titlebar.connect('leave-notify-event',
+                              lambda w, e: w.set_opacity(0.0))
 
     def load_plugins(self, force = False):
         registry = plugin.PluginRegistry()
@@ -478,12 +561,153 @@ class Terminal(Gtk.VBox):
         self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
         self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
         self.cnxids.new(self.vte, 'size-allocate', self.deferred_on_vte_size_allocate)
+        self._first_allocate_id = self.vte.connect('size-allocate', self._on_first_allocate)
 
         self.vte.add_events(Gdk.EventMask.ENTER_NOTIFY_MASK)
         self.cnxids.new(self.vte, 'enter_notify_event',
             self.on_vte_notify_enter)
 
         self.cnxids.new(self.vte, 'realize', self.reconfigure)
+
+        # Watch for tmux control mode output
+        self._tmux_detect_id = self.vte.connect('contents-changed',
+            self.on_vte_contents_changed_tmux_detect)
+
+    def on_vte_contents_changed_tmux_detect(self, widget):
+        """Detect tmux -CC control mode output in terminal text."""
+        if self.tmux_pane_id is not None:
+            return
+        # Get last few rows of terminal text to look for control mode markers
+        col, row = self.vte.get_cursor_position()
+        if row < 1:
+            return
+        # After a PTY restore, only scan text below the watermark to
+        # avoid re-triggering on stale markers from the previous session
+        watermark = getattr(self, '_tmux_detect_watermark', 0)
+        if row <= watermark:
+            return
+        start_row = max(watermark, row - 10)
+        ncols = self.vte.get_column_count()
+        text = None
+        try:
+            text = self.vte.get_text_range_format(
+                Vte.Format.TEXT, start_row, 0, row, ncols)
+            if isinstance(text, tuple):
+                text = text[0]
+        except Exception:
+            pass
+        if not text or not text.strip():
+            return
+        if '%begin' in text and ('%session-changed' in text
+                                 or '%end' in text):
+            dbg('Detected tmux control mode output, taking over PTY')
+            # Disconnect this handler so we don't fire again
+            if self._tmux_detect_id:
+                self.vte.disconnect(self._tmux_detect_id)
+                self._tmux_detect_id = None
+            GLib.idle_add(self._takeover_tmux_pty)
+
+    def _takeover_tmux_pty(self):
+        """Take over the PTY from VTE for tmux control mode.
+
+        Swaps VTE to a dummy PTY (set_pty(None) segfaults), then uses
+        the original PTY fd to communicate with the tmux -C process.
+        """
+        import os
+        from terminatorlib.tmux.controller import TmuxController
+
+        ctrl = TmuxController()
+
+        pty = self.vte.get_pty()
+        if not pty:
+            dbg('_takeover_tmux_pty: no PTY available')
+            return False
+
+        # Dup the fd so we own it independently
+        orig_fd = pty.get_fd()
+        our_fd = os.dup(orig_fd)
+        dbg('_takeover_tmux_pty: duped fd %d -> %d' % (orig_fd, our_fd))
+
+        # Swap VTE to a dummy PTY so it stops reading the original fd.
+        # (set_pty(None) segfaults when a child is active)
+        dummy_pty = Vte.Pty.new_sync(Vte.PtyFlags.DEFAULT)
+        self._saved_pty = pty  # prevent GC from closing orig fd
+        self.vte.set_pty(dummy_pty)
+        self.vte.feed(b'\r\n\r\n  tmux control mode active\r\n'
+                      b'  Press Ctrl+C to detach\r\n')
+        dbg('_takeover_tmux_pty: swapped VTE to dummy PTY')
+
+        # Remember which terminal started the takeover so we can restore it
+        ctrl._origin_terminal = self
+
+        # Allow Ctrl+C to detach from this screen
+        self._tmux_origin_ctrl = ctrl
+        self._tmux_origin_keypress_id = self.vte.connect(
+            'key-press-event', self._on_tmux_origin_keypress)
+
+        # Auto-minimize the origin window if configured
+        if self.config['hide_tmux_origin']:
+            window = self.get_toplevel()
+            if window:
+                self._tmux_origin_window = window
+                window.iconify()
+
+        # Start the controller in a thread (it blocks waiting for layout)
+        import threading
+        def start_tmux():
+            ctrl.start_from_pty(our_fd)
+            tmux_layout = ctrl.get_initial_layout()
+            if tmux_layout:
+                GLib.idle_add(self._create_tmux_window, ctrl, tmux_layout)
+            else:
+                dbg('_takeover_tmux_pty: no layout from tmux')
+        t = threading.Thread(target=start_tmux, daemon=True)
+        t.start()
+        return False
+
+    def _on_tmux_origin_keypress(self, widget, event):
+        """Handle keypress on the tmux origin screen. Ctrl+C detaches."""
+        ctrl = getattr(self, '_tmux_origin_ctrl', None)
+        if not ctrl or not ctrl.active:
+            return False
+        if (event.get_state() & Gdk.ModifierType.CONTROL_MASK and
+                event.keyval in (Gdk.KEY_c, Gdk.KEY_C)):
+            dbg('tmux origin: Ctrl+C, sending detach')
+            # Just send detach — the normal %exit handler will close
+            # terminals, stop the controller, and restore this PTY.
+            # This keeps the bridge reader alive to consume the response.
+            ctrl.protocol.send_command('detach')
+            return True
+        return True  # swallow all other keys
+
+    def _cleanup_tmux_origin(self):
+        """Disconnect the origin screen key handler and restore window."""
+        handler_id = getattr(self, '_tmux_origin_keypress_id', None)
+        if handler_id:
+            self.vte.disconnect(handler_id)
+            self._tmux_origin_keypress_id = None
+        self._tmux_origin_ctrl = None
+        # Restore the origin window if it was auto-minimized
+        window = getattr(self, '_tmux_origin_window', None)
+        if window:
+            window.deiconify()
+            window.present()
+            self._tmux_origin_window = None
+
+    def _create_tmux_window(self, ctrl, tmux_layout):
+        """Create a new Terminator window with tmux layout."""
+        from terminatorlib.terminator import Terminator
+        term = Terminator()
+        dbg('_create_tmux_window: creating window with tmux layout')
+        try:
+            term.create_layout_from_flat(tmux_layout)
+            term.layout_done()
+            ctrl.handlers.capture_initial_content()
+        except Exception as e:
+            dbg('_create_tmux_window: error: %s' % e)
+            import traceback
+            traceback.print_exc()
+        return False
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -781,13 +1005,24 @@ class Terminal(Gtk.VBox):
         if bg_factor > 1.0:
             bg_factor = 1.0
         self.bgcolor_inactive = self.bgcolor.copy()
-        dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
-                                                      getattr(self.bgcolor_inactive, "green"),
-                                                      getattr(self.bgcolor_inactive, "blue")))
 
-        for bit in ['red', 'green', 'blue']:
-            setattr(self.bgcolor_inactive, bit,
-                    getattr(self.bgcolor_inactive, bit) * bg_factor)
+        # Determine if background is dark or light based on
+        # average brightness (perceptual luminance)
+        brightness = (self.bgcolor.red * 0.299 +
+                      self.bgcolor.green * 0.587 +
+                      self.bgcolor.blue * 0.114)
+        if brightness < 0.5:
+            # Dark background: blend toward white to lighten inactive
+            for bit in ['red', 'green', 'blue']:
+                val = getattr(self.bgcolor_inactive, bit)
+                setattr(self.bgcolor_inactive, bit,
+                        val + (1.0 - val) * (1.0 - bg_factor))
+        else:
+            # Light background: multiply to darken inactive (original behavior)
+            for bit in ['red', 'green', 'blue']:
+                setattr(self.bgcolor_inactive, bit,
+                        getattr(self.bgcolor_inactive, bit) * bg_factor)
+
         dbg(("bgcolor_inactive set to: RGB(%s,%s,%s)", getattr(self.bgcolor_inactive, "red"),
                                                       getattr(self.bgcolor_inactive, "green"),
                                                       getattr(self.bgcolor_inactive, "blue")))
@@ -874,13 +1109,26 @@ class Terminal(Gtk.VBox):
             self.scrollbar.hide()
         else:
             self.scrollbar.show()
+            # In non-overlay mode, keep scrollbar fully visible
+            if not (self.config['overlay_scrollbar']
+                    or self.tmux_pane_id is not None):
+                self.scrollbar.set_opacity(1.0)
             if self.config['scrollbar_position'] == 'left':
-                self.terminalbox.reorder_child(self.scrollbar, 0)
-            elif self.config['scrollbar_position'] == 'right':
-                self.terminalbox.reorder_child(self.vte, 0)
+                self.scrollbar.set_halign(Gtk.Align.START)
+            else:
+                self.scrollbar.set_halign(Gtk.Align.END)
 
         self.titlebar.update()
         self.vte.queue_draw()
+
+    def _on_first_allocate(self, widget, allocation):
+        """One-shot handler: apply overlay titlebar after widget is ready."""
+        if self._first_allocate_id:
+            self.vte.disconnect(self._first_allocate_id)
+            self._first_allocate_id = None
+        if ((self.config['overlay_titlebar'] or self.tmux_pane_id is not None)
+                and self.titlebar.get_parent() != self._terminalbox_overlay):
+            self._make_titlebar_overlay()
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
@@ -905,6 +1153,11 @@ class Terminal(Gtk.VBox):
 
     def get_window_title(self):
         """Return the window title"""
+        if self.tmux_pane_id is not None:
+            # In tmux mode, use the formatted pane title if available
+            return (getattr(self, '_tmux_title', None)
+                    or getattr(self, '_tmux_window_name', None)
+                    or self.tmux_pane_id)
         return self.vte.get_window_title() or str(self.command)
 
     def on_group_button_press(self, widget, event):
@@ -981,6 +1234,10 @@ class Terminal(Gtk.VBox):
             else:
                 getattr(self, "key_" + mapping)()
                 return True
+
+        if self.tmux_pane_id is not None and self._tmux_controller:
+            self._tmux_controller.send_keypress(self, event)
+            return True
 
         # FIXME: This is all clearly wrong. We should be doing this better
         #         maybe we can emit the key event and let Terminator() care?
@@ -1373,6 +1630,20 @@ class Terminal(Gtk.VBox):
 
     def on_vte_focus(self, _widget):
         """Update our UI when we get focus"""
+        if self.tmux_pane_id is not None:
+            ctrl = self._tmux_controller
+            if ctrl and ctrl.active:
+                # Tell tmux which pane is focused so it updates
+                # the active pane and window name accordingly
+                ctrl.protocol.send_command(
+                    'select-pane -t %s' % self.tmux_pane_id)
+                if ctrl.handlers:
+                    ctrl.handlers._refresh_pane_titles()
+                    ctrl.handlers._refresh_tab_labels()
+            title = getattr(self, '_tmux_title', None)
+            if title:
+                self.titlebar.set_terminal_title(None, title)
+            return
         self.emit('title-change', self.get_window_title())
 
     def on_vte_focus_in(self, _widget, _event):
@@ -1431,7 +1702,25 @@ class Terminal(Gtk.VBox):
     def on_vte_size_allocate(self, widget, allocation):
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
-        if self.config['geometry_hinting']:
+        # Keep snap grid current — VTE char metrics finalize after
+        # realization and the initial set_font() value may differ.
+        cw = self.vte.get_char_width()
+        ch = self.vte.get_char_height()
+        if cw > 0 and ch > 0:
+            from .paned import HPaned, VPaned
+            HPaned._char_snap = cw
+            VPaned._char_snap = ch
+        if self.tmux_pane_id is not None and self._tmux_controller:
+            # Tmux mode: set char-grid increment hints so the WM snaps
+            # to character boundaries during resize.  Skip during
+            # layout application — per-terminal hints set wrong BASE
+            # values with splits, causing the WM to snap-shrink.
+            window = self.get_toplevel()
+            if not self._tmux_controller.state.applying_layout:
+                window.set_tmux_geometry_hints(self)
+            self._tmux_controller.notify_resize(self,
+                self.vte.get_column_count(), self.vte.get_row_count())
+        elif self.config['geometry_hinting']:
             window = self.get_toplevel()
             window.deferred_set_rough_geometry_hints()
         else:
@@ -1521,6 +1810,10 @@ class Terminal(Gtk.VBox):
         self.titlebar.update()
 
     def spawn_child(self, widget=None, respawn=False, debugserver=False, init_command=None):
+        if self.tmux_pane_id is not None:
+            dbg('spawn_child: tmux mode, skipping local shell spawn')
+            return
+
         args = []
         shell = None
         command = init_command
@@ -1706,15 +1999,29 @@ class Terminal(Gtk.VBox):
     def paste_clipboard(self, primary=False, mouse=False):
         """Paste one of the two clipboards"""
         if not (mouse and self.config['disable_mouse_paste']):
-            for term in self.terminator.get_target_terms(self):
+            if self.tmux_pane_id is not None and self._tmux_controller:
                 if primary:
-                    term.vte.paste_primary()
+                    clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
                 else:
-                    term.vte.paste_clipboard()
+                    clip = self.clipboard
+                text = clip.wait_for_text()
+                if text:
+                    self._tmux_controller.send_paste(self, text)
+            else:
+                for term in self.terminator.get_target_terms(self):
+                    if primary:
+                        term.vte.paste_primary()
+                    else:
+                        term.vte.paste_clipboard()
             self.vte.grab_focus()
 
     def feed(self, text):
         """Feed the supplied text to VTE"""
+        if self.tmux_pane_id is not None and self._tmux_controller:
+            if isinstance(text, bytes):
+                text = text.decode('utf-8', errors='replace')
+            self._tmux_controller.send_paste(self, text)
+            return
         # Ensure text is bytes for feed_child
         if isinstance(text, str):
             text = text.encode()
@@ -1752,9 +2059,38 @@ class Terminal(Gtk.VBox):
         self.set_font(Pango.FontDescription(font))
         self.custom_font_size = None
 
+    _paned_css_applied = False
+
     def set_font(self, fontdesc):
         """Set the font we want in VTE"""
         self.vte.set_font(fontdesc)
+        # Keep snap values current — get_char_width()/get_char_height()
+        # can change after the VTE is realized (e.g. 9 → 10), and
+        # _snap_position must use the same grid as _apply_ratios.
+        char_w = self.vte.get_char_width()
+        char_h = self.vte.get_char_height()
+        if char_w > 0 and char_h > 0:
+            from .paned import HPaned, VPaned
+            HPaned._char_snap = char_w
+            VPaned._char_snap = char_h
+        # Set paned separator size to exactly 1 character cell — matching
+        # tmux's 1-char separators. Applied once via CSS on first font set.
+        if not Terminal._paned_css_applied:
+            if char_w > 0 and char_h > 0:
+                Terminal._paned_css_applied = True
+                css = (
+                    'paned {{'
+                    '  -GtkPaned-handle-size: {h};'
+                    '}}'
+                    'vte-terminal {{'
+                    '  padding: 0;'
+                    '}}'
+                ).format(h=char_w)
+                provider = Gtk.CssProvider()
+                provider.load_from_data(css.encode('utf-8'))
+                Gtk.StyleContext.add_provider_for_screen(
+                    self.get_screen(), provider,
+                    Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 10)
 
     def get_cursor_position(self):
         """Return the coordinates of our cursor"""
@@ -1849,6 +2185,18 @@ class Terminal(Gtk.VBox):
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
+        if 'tmux' in layout and layout['tmux']:
+            tmux = layout['tmux']
+            self.tmux_pane_id = tmux['pane_id']
+            if 'width' in tmux and 'height' in tmux:
+                self.vte.set_size(int(tmux['width']), int(tmux['height']))
+            # Move titlebar into the overlay so it takes zero vertical
+            # space. Transparent until mouse hover.
+            self._make_titlebar_overlay()
+            from terminatorlib.tmux.controller import _controllers
+            # Register with the most recently started controller
+            if _controllers:
+                _controllers[-1].register_terminal(self.tmux_pane_id, self)
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
@@ -1957,6 +2305,17 @@ class Terminal(Gtk.VBox):
 
     def key_split_vert(self):
         self.emit('split-vert', self.get_cwd())
+
+    def tmux_split(self, horizontal=True):
+        """Request a split via tmux. The %layout-change handler will create the widget."""
+        ctrl = self._tmux_controller
+        if not ctrl:
+            return
+        pane_id = self.tmux_pane_id
+        # tmux -h = side-by-side, Terminator "horiz" = top/bottom, so invert
+        orientation = '-v' if horizontal else '-h'
+        ctrl.protocol.send_command(
+            'split-window {} -t {}'.format(orientation, pane_id))
 
     def key_rotate_cw(self):
         self.emit('rotate-cw')
@@ -2074,6 +2433,9 @@ class Terminal(Gtk.VBox):
         self.terminator.new_window(self.get_cwd(), self.get_profile())
 
     def key_new_tab(self):
+        if self.tmux_pane_id is not None:
+            self.tmux_new_window()
+            return
         self.get_toplevel().tab_new(self)
 
     def key_new_terminator(self):

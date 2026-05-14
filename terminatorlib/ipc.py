@@ -75,6 +75,15 @@ class DBusService(Borg, dbus.service.Object):
     def new_window_cmdline(self, options=dbus.Dictionary()):
         """Create a new Window"""
         dbg('dbus method called: new_window with parameters %s'%(options))
+
+        # Handle tmux session requests
+        tmux_attach = options.get('tmux_attach', '')
+        tmux_new = options.get('tmux_new', '')
+        tmux_session = tmux_attach or tmux_new or None
+        if tmux_session is not None:
+            self._new_tmux_window(tmux_session, new_session=bool(tmux_new))
+            return
+
         if options['configjson']:
             dbg(options['configjson'])
             configjson = ConfigJson()
@@ -89,6 +98,32 @@ class DBusService(Borg, dbus.service.Object):
         self.terminator.config.options_set(oldopts)
         self.terminator.create_layout(oldopts.layout)
         self.terminator.layout_done()
+
+    def _new_tmux_window(self, session_name, new_session=False):
+        """Create a new window attached to a tmux session."""
+        from terminatorlib.tmux.controller import TmuxController
+        import threading
+
+        def start_tmux():
+            ctrl = TmuxController()
+            ctrl.start(session_name, new_session=new_session)
+            tmux_layout = ctrl.get_initial_layout()
+            if tmux_layout:
+                from gi.repository import GLib
+                GLib.idle_add(self._apply_tmux_layout, ctrl, tmux_layout)
+            else:
+                err('tmux layout not available via dbus')
+
+        t = threading.Thread(target=start_tmux, daemon=True)
+        t.start()
+
+    def _apply_tmux_layout(self, ctrl, tmux_layout):
+        """Apply tmux layout on GTK thread."""
+        self.terminator.create_layout_from_flat(tmux_layout)
+        self.terminator.layout_done()
+        if ctrl.active:
+            ctrl.handlers.capture_initial_content()
+        return False
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')
     def new_tab_cmdline(self, options=dbus.Dictionary()):

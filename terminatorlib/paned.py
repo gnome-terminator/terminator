@@ -257,13 +257,30 @@ class Paned(Container):
         children.append(self.get_child2())
         return(children)
 
+    def _is_any_handle_dragging(self):
+        """Check if any ancestor paned has a handle being dragged."""
+        w = self.get_parent()
+        while w is not None:
+            if getattr(w, '_tmux_handle_pressed', False):
+                return True
+            w = w.get_parent()
+        return False
+
     def get_child_metadata(self, widget):
         """Return metadata about a child"""
         metadata = {}
         metadata['had_focus'] = widget.has_focus()
+        return metadata
 
     def get_handlesize(self):
-        """Why oh why, gtk3?"""
+        """Return actual handle gap in pixels.
+
+        Prefers the measured gap from do_size_allocate (accurate)
+        over the deprecated style property (often wrong in GTK 3.20+).
+        """
+        gap = getattr(self, '_measured_gap', None)
+        if gap is not None:
+            return gap
         try:
             value = GObject.Value(int)
             self.style_get_property('handle-size',  value)
@@ -474,6 +491,16 @@ class Paned(Container):
             children[1].rotate_recursive(container, w2, h2, clockwise)
 
     def new_size(self, widget, allocation):
+        # Tmux-managed paneds: position is controlled by
+        # _apply_ratios and the do_size_allocate anchor.
+        # Don't bake in GTK's potentially rescaled position.
+        if getattr(self, '_tmux_managed', False):
+            if getattr(self, '_tmux_handle_pressed', False):
+                from terminatorlib.util import dbg
+                dbg('new_size: skip (tmux_managed, '
+                    'handle_pressed, pos=%d)' %
+                    self.get_position())
+            return
         if self.get_toplevel().set_pos_by_ratio:
             self.set_position_by_ratio()
         else:
@@ -511,6 +538,8 @@ class Paned(Container):
 
 class HPaned(Paned, Gtk.HPaned):
     """Merge Gtk.HPaned into our base Paned Container"""
+    _char_snap = 0  # set from terminal.py set_font
+
     def __init__(self):
         """Class initialiser"""
         Paned.__init__(self)
@@ -519,16 +548,87 @@ class HPaned(Paned, Gtk.HPaned):
         self.register_signals(HPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
+        self._snapping = False
+        self.connect('notify::position', self._snap_position)
+
+    _measured_gap = None  # actual pixel gap, measured after first layout
+
+    def _snap_position(self, widget, pspec):
+        """Snap handle so child2 starts at a character cell boundary."""
+        snap = HPaned._char_snap
+        if self._snapping or snap <= 0:
+            return
+        # Skip during tmux layout application — _apply_ratios
+        # already aligns to cell boundaries and the allocation
+        # cascade hasn't settled yet.
+        state = getattr(self, '_tmux_state', None)
+        if state and state.applying_layout:
+            return
+        pos = self.get_position()
+        gap = self._measured_gap if self._measured_gap else self.get_handlesize()
+        import math
+        n = math.ceil((pos + gap) / snap)
+        snapped = max(n * snap - gap, 0)
+        if snapped != pos:
+            self._snapping = True
+            self.set_pos(snapped)
+            self._snapping = False
+        if self._measured_gap is None:
+            from gi.repository import GLib
+            def _measure():
+                c1 = self.get_child1()
+                c2 = self.get_child2()
+                if c1 and c2:
+                    a1 = c1.get_allocation()
+                    a2 = c2.get_allocation()
+                    actual = a2.x - (a1.x + a1.width)
+                    if actual > 0:
+                        self._measured_gap = actual
+                        self._snap_position(self, None)
+                return False
+            GLib.idle_add(_measure)
+
+    def do_size_allocate(self, allocation):
+        target = getattr(self, '_tmux_synced_pos', None) \
+            if getattr(self, '_tmux_managed', False) else None
+        before = self.get_position()
+        Gtk.HPaned.do_size_allocate(self, allocation)
+        after = self.get_position()
+        if getattr(self, '_tmux_handle_pressed', False):
+            pass  # this handle is being dragged — let GTK handle
+        elif target is not None and after != target:
+            if self._is_any_handle_dragging():
+                pass  # ancestor drag — let GTK cascade proceed
+            else:
+                Gtk.HPaned.set_position(self, target)
+                self.set_property('position-set', True)
+        # Measure actual handle gap (once) for get_handlesize()
+        if self._measured_gap is None:
+            c1 = self.get_child1()
+            c2 = self.get_child2()
+            if c1 and c2:
+                a1 = c1.get_allocation()
+                a2 = c2.get_allocation()
+                actual = a2.x - (a1.x + a1.width)
+                if actual > 0:
+                    self._measured_gap = actual
 
     def get_length(self):
         return(self.get_allocated_width())
 
     def set_pos(self, pos):
+        if getattr(self, '_tmux_handle_pressed', False):
+            import traceback
+            from terminatorlib.util import dbg
+            dbg('HPaned.set_pos(%d) during drag:\n%s' % (
+                pos, ''.join(traceback.format_stack(limit=6))))
         Gtk.HPaned.set_position(self, pos)
         self.set_property('position-set',  True)
 
 class VPaned(Paned, Gtk.VPaned):
     """Merge Gtk.VPaned into our base Paned Container"""
+    _char_snap = 0  # set from terminal.py set_font
+
     def __init__(self):
         """Class initialiser"""
         Paned.__init__(self)
@@ -537,11 +637,81 @@ class VPaned(Paned, Gtk.VPaned):
         self.register_signals(VPaned)
         self.cnxids.new(self, 'button-press-event', self.on_button_press)
         self.cnxids.new(self, 'button-release-event', self.on_button_release)
+        self._snapping = False
+        self.connect('notify::position', self._snap_position)
+
+    _measured_gap = None  # actual pixel gap, measured after first layout
+
+    def _snap_position(self, widget, pspec):
+        """Snap handle so child2 starts at a character cell boundary."""
+        snap = VPaned._char_snap
+        if self._snapping or snap <= 0:
+            return
+        # Skip during tmux layout application — _apply_ratios
+        # already aligns to cell boundaries and the allocation
+        # cascade hasn't settled yet.
+        state = getattr(self, '_tmux_state', None)
+        if state and state.applying_layout:
+            return
+        pos = self.get_position()
+        gap = self._measured_gap if self._measured_gap else self.get_handlesize()
+        import math
+        n = math.ceil((pos + gap) / snap)
+        snapped = max(n * snap - gap, 0)
+        if snapped != pos:
+            self._snapping = True
+            self.set_pos(snapped)
+            self._snapping = False
+        # Measure actual gap after layout settles (once)
+        if self._measured_gap is None:
+            from gi.repository import GLib
+            def _measure():
+                c1 = self.get_child1()
+                c2 = self.get_child2()
+                if c1 and c2:
+                    a1 = c1.get_allocation()
+                    a2 = c2.get_allocation()
+                    actual = a2.y - (a1.y + a1.height)
+                    if actual > 0:
+                        self._measured_gap = actual
+                        self._snap_position(self, None)
+                return False
+            GLib.idle_add(_measure)
+
+    def do_size_allocate(self, allocation):
+        target = getattr(self, '_tmux_synced_pos', None) \
+            if getattr(self, '_tmux_managed', False) else None
+        before = self.get_position()
+        Gtk.VPaned.do_size_allocate(self, allocation)
+        after = self.get_position()
+        if getattr(self, '_tmux_handle_pressed', False):
+            pass  # this handle is being dragged — let GTK handle
+        elif target is not None and after != target:
+            if self._is_any_handle_dragging():
+                pass  # ancestor drag — let GTK cascade proceed
+            else:
+                Gtk.VPaned.set_position(self, target)
+                self.set_property('position-set', True)
+        # Measure actual handle gap (once) for get_handlesize()
+        if self._measured_gap is None:
+            c1 = self.get_child1()
+            c2 = self.get_child2()
+            if c1 and c2:
+                a1 = c1.get_allocation()
+                a2 = c2.get_allocation()
+                actual = a2.y - (a1.y + a1.height)
+                if actual > 0:
+                    self._measured_gap = actual
 
     def get_length(self):
         return(self.get_allocated_height())
 
     def set_pos(self, pos):
+        if getattr(self, '_tmux_handle_pressed', False):
+            import traceback
+            from terminatorlib.util import dbg
+            dbg('VPaned.set_pos(%d) during drag:\n%s' % (
+                pos, ''.join(traceback.format_stack(limit=6))))
         Gtk.VPaned.set_position(self, pos)
         self.set_property('position-set',  True)
 

@@ -128,13 +128,84 @@ if __name__ == '__main__':
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
 
-        try:
-            dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
-            TERMINATOR.create_layout(OPTIONS.layout)
-        except (KeyError,ValueError) as ex:
-            err('layout creation failed, creating a window ("%s")' % ex)
-            TERMINATOR.new_window()
+        tmux_attach = getattr(OPTIONS, 'tmux_attach', None)
+        tmux_new = getattr(OPTIONS, 'tmux_new', None)
+        tmux_session = tmux_attach if tmux_attach is not None else tmux_new
+        if tmux_session is not None:
+            from terminatorlib.tmux.controller import TmuxController
+            new_session = bool(tmux_new)
+            # Empty session name means "most recent" (like bare tmux attach)
+            if tmux_session == '' and not new_session:
+                import subprocess as _sp
+                try:
+                    result = _sp.run(['tmux', 'list-sessions', '-F', '#{session_name}'],
+                                     capture_output=True, text=True, timeout=2)
+                    if result.returncode == 0 and result.stdout.strip():
+                        tmux_session = result.stdout.strip().split('\n')[0]
+                        dbg('Auto-selected tmux session: %s' % tmux_session)
+                    else:
+                        err('No tmux sessions available')
+                        tmux_session = None
+                except Exception as ex:
+                    err('Failed to list tmux sessions: %s' % ex)
+                    tmux_session = None
+            if tmux_session is None:
+                TERMINATOR.new_window()
+            else:
+                tmux_ctrl = TmuxController()
+                tmux_ctrl.start(tmux_session, new_session=new_session)
+                tmux_layout = tmux_ctrl.get_initial_layout()
+                if tmux_layout:
+                    dbg('Using tmux layout: %s' % tmux_layout)
+                    # Extract original tmux size before create
+                    # may cap it to fit the screen.
+                    _orig_tmux_size = None
+                    for _k, _v in tmux_layout.items():
+                        if _v.get('type') == 'Window' and \
+                                'tmux_size' in _v:
+                            _s = _v['tmux_size']
+                            _orig_tmux_size = (
+                                int(_s[0]), int(_s[1]))
+                            break
+                    TERMINATOR.create_layout_from_flat(tmux_layout)
+                    # If tmux_size was capped to fit the screen,
+                    # tell tmux so it re-lays-out within our limits.
+                    if _orig_tmux_size and tmux_ctrl.active:
+                        for w in TERMINATOR.windows:
+                            capped = getattr(
+                                w, '_tmux_capped_size', None)
+                            if (capped and
+                                    capped != _orig_tmux_size):
+                                dbg('tmux size capped %dx%d -> '
+                                    '%dx%d, sending refresh-client'
+                                    % (_orig_tmux_size[0],
+                                       _orig_tmux_size[1],
+                                       capped[0], capped[1]))
+                                tmux_ctrl.protocol.send_command(
+                                    'refresh-client -C %d,%d'
+                                    % (capped[0], capped[1]))
+                                tmux_ctrl.state.last_client_size \
+                                    = capped
+                            break
+                else:
+                    err('tmux layout not available, falling back to default')
+                    TERMINATOR.new_window()
+        else:
+            try:
+                dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
+                TERMINATOR.create_layout(OPTIONS.layout)
+            except (KeyError,ValueError) as ex:
+                err('layout creation failed, creating a window ("%s")' % ex)
+                TERMINATOR.new_window()
+
         TERMINATOR.layout_done()
+
+        # After layout_done, terminals are registered - capture initial content
+        try:
+            if tmux_session and tmux_ctrl.active:
+                tmux_ctrl.handlers.capture_initial_content()
+        except NameError:
+            pass
 
     if OPTIONS.debug and OPTIONS.debug >= 2:
         import terminatorlib.debugserver as debugserver
