@@ -37,7 +37,7 @@ Start with a maximised window.
 Start with a fullscreen window.
 
 *-b*, *--borderless*::
-Instruct the window manager not to render borders/decoration on the
+Instruct the window manager not to render borders/decorations on the
 Terminator window (this works well with --maximise).
 
 *-H*, *--hidden*::
@@ -115,7 +115,8 @@ replace hide keyboad shortcut.
 
 == KEYBINDINGS
 The following default keybindings can be used to control Terminator.
-Most of these keybindings can be changed in the Preferences.
+Most of these keybindings can be changed in the Preferences. Up to
+two keybindings can be set per action.
 
 *F1*::
 Launches the full HTML manual.
