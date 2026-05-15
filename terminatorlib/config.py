@@ -123,6 +123,10 @@ DEFAULTS = {
             'new_tab_after_current_tab': False,
         },
         'keybindings': {
+            'zoom'             : '',
+            'unzoom'           : '',
+            'maximise'         : '',
+            'open_debug_tab'   : '',
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',
             'zoom_normal'      : '<Control>0',
