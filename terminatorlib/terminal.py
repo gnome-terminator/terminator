@@ -2091,6 +2091,9 @@ class Terminal(Gtk.VBox):
         self.set_groupsend(None, self.terminator.groupsend_type['all'])
         self.terminator.focus_changed(self)
 
+    def key_insert_name(self):
+        self.emit('insert-term-name')
+
     def key_insert_number(self):
         self.emit('enumerate', False)
 

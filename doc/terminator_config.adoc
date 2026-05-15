@@ -550,6 +550,10 @@ Default value: *<Ctrl><Alt>A*
 Rename the current terminal. +
 Default value: *<Ctrl><Alt>X*
 
+*insert_name*::
+Insert the current terminal's name, i.e. user@host:~/pwd +
+Default value: *<Super>2*
+
 *insert_number*::
 Insert the current terminal's number, i.e. 1 to 12. +
 Default value: *<Super>1*
