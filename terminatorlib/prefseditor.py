@@ -461,7 +461,7 @@ class PrefsEditor:
         #lets hide whatever we can in nested scope
         def filter_visible(model, treeiter, data):
             act  = model[treeiter][0]
-            keys = data[act] if act in data else ""
+            keys = data.get(act) or ""
             desc = model[treeiter][1]
             kval = model[treeiter][2]
             mask = model[treeiter][3]
