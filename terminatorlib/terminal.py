@@ -5,6 +5,7 @@
 
 import os
 import signal
+import time
 import gi
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
@@ -279,10 +280,54 @@ class Terminal(Gtk.VBox):
                 # not what we should be doing.
                 dbg('os.kill failed: %s' % ex)
                 pass
+            # Wait for the shell to finish exiting before we tear down the
+            # PTY. This is NOT a politeness hedge — removing it resurrects a
+            # real data-loss bug. The mechanism:
+            #
+            #   1. We've just sent SIGHUP to the shell.
+            #   2. If we destroy the VTE now, the PTY master closes and the
+            #      kernel delivers a SECOND SIGHUP via tty hangup to the
+            #      slave's foreground process group.
+            #   3. On bash 5.2 patch 14 and later (commit 6647917a, Dec 2022
+            #      — "process additional terminating signals when running
+            #      the EXIT trap after a terminating signal"), a second
+            #      SIGHUP arriving while termsig_handler is mid-flight
+            #      routes through the new kill_shell() path and terminates
+            #      bash immediately, before maybe_save_shell_history() can
+            #      finish writing $HISTFILE. Result: silent history
+            #      loss on every window close.
+            #
+            # Waiting until the shell has fully exited ensures the kernel's
+            # post-PTY-close SIGHUP has no recipient still trying to flush.
+            # The timeout caps the wait so a shell that ignores SIGHUP can't
+            # hang the window close; bash's own flush completes in well
+            # under 50 ms in practice.
+            self._wait_for_shell_exit()
 
         if self.vte:
             self.terminalbox.remove(self.vte)
             del(self.vte)
+
+    def _wait_for_shell_exit(self, timeout=0.5, poll_interval=0.02):
+        """Wait briefly for the spawned shell to exit before we tear
+        down the PTY. Required to avoid silent bash history loss
+        caused by bash 5.2 patch 14 reacting to the second SIGHUP that
+        the kernel delivers when we close the PTY master; see the
+        caller in Terminal.close() for the full mechanism.
+
+        WNOWAIT leaves the zombie in place so VTE's GLib child-watch
+        can still reap it and fire child-exited normally — we are only
+        observing the exit state here, not consuming it.
+        """
+        deadline = time.monotonic() + timeout
+        flags = os.WEXITED | os.WNOWAIT | os.WNOHANG
+        while time.monotonic() < deadline:
+            try:
+                if os.waitid(os.P_PID, self.pid, flags):
+                    return
+            except OSError:
+                return
+            time.sleep(poll_interval)
 
     def create_terminalbox(self):
         """Create a GtkHBox containing the terminal and a scrollbar"""
