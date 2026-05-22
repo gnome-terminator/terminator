@@ -948,6 +948,60 @@ class Terminal(Gtk.VBox):
                 cursor_bg_color.parse(self.config['cursor_bg_color'])
             self.vte.set_color_cursor(cursor_bg_color)
 
+    def set_bgcolor(self, colorstr, alpha=None):
+        """Set a custom background color. If alpha is None, use the
+        profile's background_darkness when transparent/image, else opaque."""
+        if not colorstr:
+            return
+        self.bgcolor = Gdk.RGBA()
+        self.bgcolor.parse(colorstr)
+
+        if alpha is not None:
+            self.bgcolor.alpha = float(alpha)
+        elif self.config['background_type'] in ('transparent', 'image'):
+            self.bgcolor.alpha = float(self.config['background_darkness'])
+        else:
+            self.bgcolor.alpha = 1.0
+
+        bg_factor = self.config['inactive_bg_color_offset']
+        if bg_factor > 1.0:
+            bg_factor = 1.0
+        self.bgcolor_inactive = self.bgcolor.copy()
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.bgcolor_inactive, bit,
+                    getattr(self.bgcolor_inactive, bit) * bg_factor)
+
+        if self.terminator.last_focused_term == self:
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+        else:
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
+                                self.palette_inactive)
+        self.vte.queue_draw()
+
+    def set_fgcolor(self, colorstr):
+        """Set a custom foreground (text) color"""
+        if not colorstr:
+            return
+        self.fgcolor_active = Gdk.RGBA()
+        self.fgcolor_active.parse(colorstr)
+
+        factor = self.config['inactive_color_offset']
+        if factor > 1.0:
+            factor = 1.0
+        self.fgcolor_inactive = self.fgcolor_active.copy()
+        for bit in ['red', 'green', 'blue']:
+            setattr(self.fgcolor_inactive, bit,
+                    getattr(self.fgcolor_inactive, bit) * factor)
+
+        if self.terminator.last_focused_term == self:
+            self.vte.set_colors(self.fgcolor_active, self.bgcolor,
+                                self.palette_active)
+        else:
+            self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
+                                self.palette_inactive)
+        self.vte.queue_draw()
+
     def get_window_title(self):
         """Return the window title"""
         return self.vte.get_window_title() or str(self.command)
