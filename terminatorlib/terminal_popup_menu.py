@@ -7,7 +7,7 @@ from gi.repository import Gtk, Gdk
 
 from .version import APP_NAME
 from .translation import _
-from .terminator import Terminator
+from .terminator import LAST_SESSION_LAYOUT, Terminator
 from .util import err, dbg, spawn_new_terminator
 from .config import Config
 from .prefseditor import PrefsEditor
@@ -337,6 +337,7 @@ class TerminalPopupMenu(object):
                 item.connect('activate', terminal.force_set_profile, profile)
                 submenu.append(item)
 
+        self.add_session_menu(menu, terminal)
         self.add_layout_launcher(menu)
 
         try:
@@ -420,6 +421,24 @@ class TerminalPopupMenu(object):
         item.set_submenu(submenu)
         layouts = self.config.list_layouts()
         for layout in layouts:
+                if layout == LAST_SESSION_LAYOUT:
+                    continue
                 item = Gtk.MenuItem(layout)
                 item.connect('activate', lambda x: spawn_new_terminator(self.terminator.origcwd, ['-u', '-l', x.get_label()]))
                 submenu.append(item)
+
+    def add_session_menu(self, menu, terminal):
+        """Add session save and restore actions to the menu."""
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Session'))
+        menu.append(item)
+        submenu = Gtk.Menu()
+        item.set_submenu(submenu)
+
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Save session'))
+        item.connect('activate', self.terminator.save_session_layout)
+        submenu.append(item)
+
+        item = Gtk.MenuItem.new_with_mnemonic(_('_Restore session'))
+        item.connect('activate', self.terminator.restore_session_layout,
+                     terminal.get_toplevel())
+        submenu.append(item)

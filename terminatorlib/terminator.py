@@ -19,6 +19,8 @@ from .util import dbg, err, enumerate_descendants
 from .factory import Factory
 from .translation import _
 
+LAST_SESSION_LAYOUT = '__last_session__'
+
 try:
     from gi.repository import GdkX11
 except ImportError:
@@ -116,6 +118,37 @@ class Terminator(Borg):
         if dbus_service:
             self.dbus_name = dbus_service.bus_name.get_name()
             self.dbus_path = dbus_service.bus_path
+
+    def save_session_layout(self, *args):
+        """Persist the current layout, including each terminal cwd."""
+        if self.doing_layout:
+            return
+
+        layout = self.describe_layout(save_cwd=True)
+        if not layout:
+            return
+
+        if not self.config.replace_layout(LAST_SESSION_LAYOUT, layout):
+            self.config.add_layout(LAST_SESSION_LAYOUT, layout)
+        self.config.save()
+
+    def restore_session_layout(self, _widget=None, window=None):
+        """Replace a window with the saved session layout."""
+        if LAST_SESSION_LAYOUT not in self.config.list_layouts():
+            err('no saved session layout found')
+            return
+
+        old_window = window if window in self.windows else None
+
+        try:
+            self.create_layout(LAST_SESSION_LAYOUT)
+            self.layout_done()
+        except (KeyError, ValueError) as ex:
+            err('session layout restore failed: %s' % ex)
+            return
+
+        if old_window:
+            old_window.destroy()
 
     def get_windows(self):
         """Return a list of windows"""
