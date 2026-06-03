@@ -56,7 +56,7 @@ def test_non_empty_default_keybinding_accels_are_distinct():
     from terminatorlib import config
 
     all_default_accelerators = [
-        Gtk.accelerator_parse(accel)
+        tuple(Gtk.accelerator_parse(accel))
         for accel in config.DEFAULTS["keybindings"].values()
         if accel != ""  # ignore empty key bindings
     ]
@@ -156,7 +156,7 @@ def test_duplicate_accels_not_possible_to_set(accel_params):
     binding = liststore.get_value(liststore.get_iter(path), 0)
 
     all_default_accelerators = {
-        Gtk.accelerator_parse(accel)
+        tuple(Gtk.accelerator_parse(accel))
         for accel in config.DEFAULTS["keybindings"].values()
         if accel != ""  # ignore empty key bindings
     }
