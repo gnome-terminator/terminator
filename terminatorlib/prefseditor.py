@@ -7,7 +7,7 @@ write it to a config file
 
 """
 
-import os
+import os,sys
 from gi.repository import GObject, Gtk, Gdk
 
 from .util import dbg, err
@@ -2017,6 +2017,10 @@ class PrefsEditor:
 
         binding = liststore.get_value(liststore.get_iter(path), 0)
         accel = Gtk.accelerator_name(key, mods)
+        if sys.platform == "darwin":
+        # Remove Primary tag if it's <Primary><Mod2>
+            if "<Primary><Mod2>" in accel:
+                accel = accel.replace("<Primary>", "")
         self.config['keybindings'][binding] = accel
 
         plugin_keyb_desc = keybindutil.get_act_to_desc(binding)
