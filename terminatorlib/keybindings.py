@@ -41,7 +41,8 @@ class Keybindings:
         'super':    Gdk.ModifierType.SUPER_MASK,
         'hyper':    Gdk.ModifierType.HYPER_MASK,
         'cmd':      Gdk.ModifierType.META_MASK,
-        'mod2':	    Gdk.ModifierType.MOD2_MASK
+        'mod2':	    Gdk.ModifierType.MOD2_MASK,
+        'mod4':     Gdk.ModifierType.MOD4_MASK,
     }
 
     empty = {}
