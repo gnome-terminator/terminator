@@ -21,7 +21,7 @@ keyboard shortcuts.
 
 """
 
-import re
+import re,sys
 from gi.repository import Gtk, Gdk
 from .util import err
 
@@ -40,9 +40,11 @@ class Keybindings:
         'alt':      Gdk.ModifierType.MOD1_MASK,
         'super':    Gdk.ModifierType.SUPER_MASK,
         'hyper':    Gdk.ModifierType.HYPER_MASK,
-        'cmd':      Gdk.ModifierType.META_MASK,
         'mod2':	    Gdk.ModifierType.MOD2_MASK
     }
+
+    if sys.platform == "darwin":
+        modifiers['mod2'] = Gdk.ModifierType.META_MASK
 
     empty = {}
     keys = None

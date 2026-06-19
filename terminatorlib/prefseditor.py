@@ -7,7 +7,7 @@ write it to a config file
 
 """
 
-import os,sys
+import os,sys,re
 from gi.repository import GObject, Gtk, Gdk
 
 from .util import dbg, err
@@ -2019,7 +2019,7 @@ class PrefsEditor:
         accel = Gtk.accelerator_name(key, mods)
         if sys.platform == "darwin":
         # Remove Primary tag if it's <Primary><Mod2>
-            if "<Primary><Mod2>" in accel:
+            if re.match("<Primary>.*<Mod2>",accel):
                 accel = accel.replace("<Primary>", "")
         self.config['keybindings'][binding] = accel
 
