@@ -327,6 +327,16 @@ class PrefsEditor:
         # Extra styling
         widget = guiget('extrastylingcheck')
         widget.set_active(self.config['extra_styling'])
+        # Window decoration style
+        option = self.config['window_decoration_style']
+        widget = guiget('window_decoration_style_combo')
+        if option == 'light':
+            active = 1
+        elif option == 'auto':
+            active = 2
+        else:
+            active = 0
+        widget.set_active(active)
         # Tab bar position
         option = self.config['tab_position']
         widget = guiget('tabposcombo')
@@ -900,6 +910,21 @@ class PrefsEditor:
         """Extra styling setting changed"""
         self.config['extra_styling'] = widget.get_active()
         self.config.save()
+
+    def on_window_decoration_style_combo_changed(self, widget):
+        """Window decoration style changed"""
+        selected = widget.get_active()
+        if selected == 1:
+            value = 'light'
+        elif selected == 2:
+            value = 'auto'
+        else:
+            value = 'dark'
+        self.config['window_decoration_style'] = value
+        self.config.save()
+        terminator = Terminator()
+        for window in terminator.windows:
+            window.apply_window_decoration_style(value)
 
     def on_hidefromtaskbcheck_toggled(self, widget):
         """Hide from taskbar setting changed"""
@@ -1914,6 +1939,8 @@ class PrefsEditor:
             self.config['foreground_color'] = forecol
             self.config['background_color'] = backcol
         self.config.save()
+        terminator = Terminator()
+        terminator.reconfigure()
 
     def on_use_theme_colors_checkbutton_toggled(self, widget):
         """Update colour pickers"""

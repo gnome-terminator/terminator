@@ -517,6 +517,11 @@ class Terminator(Borg):
         for window in self.windows:
             window.set_blur_behind(should_blur)
 
+        # Update window decoration style (handles 'auto' mode)
+        decoration_style = self.config['window_decoration_style']
+        for window in self.windows:
+            window.apply_window_decoration_style(decoration_style)
+
     def on_css_parsing_error(self, provider, section, error, user_data=None):
         """Report CSS parsing issues"""
         file_path = section.get_file().get_path()
