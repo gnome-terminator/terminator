@@ -40,7 +40,8 @@ class Keybindings:
         'alt':      Gdk.ModifierType.MOD1_MASK,
         'super':    Gdk.ModifierType.SUPER_MASK,
         'hyper':    Gdk.ModifierType.HYPER_MASK,
-        'mod2':	    Gdk.ModifierType.MOD2_MASK
+        'mod2':	    Gdk.ModifierType.MOD2_MASK,
+        'mod4':     Gdk.ModifierType.MOD4_MASK
     }
 
     if sys.platform == "darwin":
