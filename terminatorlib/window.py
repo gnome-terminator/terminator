@@ -174,6 +174,7 @@ class Window(Container, Gtk.Window):
         self.set_always_on_top(alwaysontop)
         self.set_real_transparency()
         self.set_sticky(sticky)
+        self.apply_window_decoration_style(self.config['window_decoration_style'])
         if self.hidebound:
             self.set_hidden(hidden)
             self.set_skip_taskbar_hint(skiptaskbar)
@@ -384,6 +385,95 @@ class Window(Container, Gtk.Window):
         if value == True:
             self.stick()
 
+    def apply_window_decoration_style(self, style):
+        """Set the window decoration to dark or light theme variant"""
+        if style == 'auto':
+            style = self._detect_decoration_style()
+        settings = Gtk.Settings.get_default()
+        settings.set_property("gtk-application-prefer-dark-theme",
+                              style == 'dark')
+        current_theme = settings.get_property("gtk-theme-name")
+        if style == 'dark':
+            if not current_theme.endswith('-dark'):
+                dark_theme = current_theme + '-dark'
+                if self._theme_exists(dark_theme):
+                    settings.set_property("gtk-theme-name", dark_theme)
+        else:
+            if current_theme.endswith('-dark'):
+                light_theme = current_theme[:-5]
+                if self._theme_exists(light_theme):
+                    settings.set_property("gtk-theme-name", light_theme)
+        self._set_theme_variant_x11(style)
+
+    def _detect_decoration_style(self):
+        """Detect dark or light based on terminal background color luminance"""
+        bg_color = self.config['background_color']
+        try:
+            bg_color = bg_color.lstrip('#')
+            r = int(bg_color[0:2], 16) / 255.0
+            g = int(bg_color[2:4], 16) / 255.0
+            b = int(bg_color[4:6], 16) / 255.0
+            luminance = 0.299 * r + 0.587 * g + 0.114 * b
+            return 'light' if luminance >= 0.5 else 'dark'
+        except (ValueError, IndexError):
+            return 'dark'
+
+    def _theme_exists(self, theme_name):
+        """Check if a GTK theme exists on the system"""
+        import os
+        search_dirs = [
+            os.path.join(os.path.expanduser('~'), '.local', 'share', 'themes'),
+            os.path.join(os.path.expanduser('~'), '.themes'),
+            '/usr/share/themes',
+            '/usr/local/share/themes',
+        ]
+        for d in search_dirs:
+            if os.path.isdir(os.path.join(d, theme_name)):
+                return True
+        return False
+
+    def _set_theme_variant_x11(self, variant):
+        """Set _GTK_THEME_VARIANT X11 property for WM-drawn titlebar"""
+        if display_manager() != 'X11':
+            return
+        if self.get_window() is None:
+            return
+
+        try:
+            import ctypes
+            import ctypes.util
+
+            libx11_path = ctypes.util.find_library('X11')
+            if not libx11_path:
+                return
+            libx11 = ctypes.cdll.LoadLibrary(libx11_path)
+
+            libx11.XInternAtom.argtypes = [ctypes.c_void_p, ctypes.c_char_p, ctypes.c_int]
+            libx11.XInternAtom.restype = ctypes.c_ulong
+
+            libx11.XChangeProperty.argtypes = [
+                ctypes.c_void_p, ctypes.c_ulong, ctypes.c_ulong,
+                ctypes.c_ulong, ctypes.c_int, ctypes.c_int,
+                ctypes.c_char_p, ctypes.c_int
+            ]
+            libx11.XChangeProperty.restype = ctypes.c_int
+
+            libx11.XFlush.argtypes = [ctypes.c_void_p]
+            libx11.XFlush.restype = ctypes.c_int
+
+            display = ctypes.c_void_p(hash(GdkX11.x11_get_default_xdisplay()))
+            xid = self.get_window().get_xid()
+
+            variant_atom = libx11.XInternAtom(display, b'_GTK_THEME_VARIANT', 0)
+            utf8_atom = libx11.XInternAtom(display, b'UTF8_STRING', 0)
+
+            variant_bytes = variant.encode('utf-8')
+            libx11.XChangeProperty(display, xid, variant_atom, utf8_atom,
+                                   8, 0, variant_bytes, len(variant_bytes))
+            libx11.XFlush(display)
+        except Exception as e:
+            dbg('_set_theme_variant_x11: failed: %s' % e)
+
     def set_real_transparency(self, value=True):
         """Enable RGBA if supported on the current screen"""
         if self.is_composited() == False:
@@ -397,7 +487,7 @@ class Window(Container, Gtk.Window):
                 self.set_visual(visual)
 
     def on_window_realize(self, widget):
-        """Apply blur hint once the window is realized"""
+        """Apply window hints once the window is realized"""
         profiles = self.config.base.profiles
         should_blur = False
         for profile in profiles.values():
@@ -406,6 +496,7 @@ class Window(Container, Gtk.Window):
                 should_blur = True
                 break
         self.set_blur_behind(should_blur)
+        self._set_theme_variant_x11(self.config['window_decoration_style'])
 
     def set_blur_behind(self, enable=True):
         """Set or remove the KDE blur-behind-window hint via X11 property"""

@@ -121,6 +121,7 @@ DEFAULTS = {
             'detachable_tabs'       : True,
 
             'new_tab_after_current_tab': False,
+            'window_decoration_style': 'auto',
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

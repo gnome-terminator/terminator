@@ -349,6 +349,23 @@
       </row>
     </data>
   </object>
+  <object class="GtkListStore" id="WindowDecorationStyleListStore">
+    <columns>
+      <!-- column-name variant -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Dark</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Light</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Auto</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkListStore" id="WindowStateListStore">
     <columns>
       <!-- column-name state -->
@@ -1011,7 +1028,7 @@
                             <property name="spacing">36</property>
                             <property name="homogeneous">True</property>
                             <child>
-                              <!-- n-columns=3 n-rows=7 -->
+                              <!-- n-columns=3 n-rows=8 -->
                               <object class="GtkGrid" id="grid3">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
@@ -1279,6 +1296,38 @@
                                   <packing>
                                     <property name="left-attach">2</property>
                                     <property name="top-attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="window_decoration_style_label">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Window decoration style:</property>
+                                    <property name="xalign">0</property>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">7</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBox" id="window_decoration_style_combo">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="model">WindowDecorationStyleListStore</property>
+                                    <property name="active">0</property>
+                                    <signal name="changed" handler="on_window_decoration_style_combo_changed" swapped="no"/>
+                                    <child>
+                                      <object class="GtkCellRendererText" id="cellrenderertext_window_decoration_style"/>
+                                      <attributes>
+                                        <attribute name="text">0</attribute>
+                                      </attributes>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">2</property>
+                                    <property name="top-attach">7</property>
                                   </packing>
                                 </child>
                               </object>
