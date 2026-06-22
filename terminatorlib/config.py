@@ -197,6 +197,7 @@ DEFAULTS = {
             'broadcast_off'    : '',
             'broadcast_group'  : '',
             'broadcast_all'    : '',
+            'insert_name'      : '<Super>2',
             'insert_number'    : '<Super>1',
             'insert_padded'    : '<Super>0',
             'edit_window_title': '<Control><Alt>w',
@@ -204,7 +205,7 @@ DEFAULTS = {
             'edit_terminal_title': '<Control><Alt>x',
             'layout_launcher'  : '<Alt>l',
             'next_profile'     : '',
-            'previous_profile' : '', 
+            'previous_profile' : '',
             'preferences'      : '',
             'preferences_keybindings' : '<Control><Shift>k',
             'help'             : 'F1'
