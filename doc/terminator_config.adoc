@@ -86,6 +86,12 @@ Default value: *False*
 If set to True, the window will be hidden from the taskbar. +
 Default value: *False*
 
+*hide_tmux_origin* = _boolean_::
+If set to True, the terminal window where *tmux -CC* was typed will be
+automatically minimized when tmux control mode activates. The window is
+restored when the tmux session is detached or exited. +
+Default value: *False*
+
 *geometry_hinting* = _boolean_::
 If set to True, the window will resize in step with font sizes. +
 Default value: *False*
@@ -788,8 +794,15 @@ Default value: *middle*
 
 *scrollbar_position* = _string_::
 Specify where the terminal scrollbar is put.
-Can be any of: 'left', 'right', 'hidden'. +
+Can be any of: 'left', 'right', 'disabled'. +
 Default value: *right*
+
+*overlay_scrollbar* = _boolean_::
+If set to True, the scrollbar overlays the terminal content and is
+transparent when scrolled to the bottom. It fades in when scrolled up
+in history. Works with the left/right position setting. Always enabled
+in tmux control mode regardless of this setting. +
+Default value: *False*
 
 *scroll_on_output* = _boolean_::
 If set to True, the terminall will scroll to the bottom when an
@@ -842,6 +855,12 @@ Default value: *escape-sequence*
 If set to True, the terminal will have a titlebar showing the current
 title of that terminal. +
 Default value: *True*
+
+*overlay_titlebar* = _boolean_::
+If set to True, the titlebar floats over the terminal content and is
+fully transparent until the mouse hovers over it. This saves vertical
+space. Always enabled in tmux control mode regardless of this setting. +
+Default value: *False*
 
 *title_hide_sizetext* = _boolean_::
 If set to True, the size of the terminal will not be written on its

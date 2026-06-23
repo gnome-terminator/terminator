@@ -281,6 +281,26 @@ class Window(Container, Gtk.Window):
 
     def on_delete_event(self, window, event, data=None):
         """Handle a window close request"""
+        # If this window has tmux terminals, detach instead of closing.
+        # Individual pane/tab closes still kill their tmux panes, but
+        # closing the whole window should preserve the tmux session.
+        terminals = self.get_terminals()
+        if terminals and any(getattr(t, 'tmux_pane_id', None) is not None
+                             for t in terminals):
+            dbg('tmux window close: detaching instead of closing')
+            # Mark all terminals so close() won't kill tmux panes,
+            # and collect all controllers to stop
+            controllers = set()
+            for t in terminals:
+                if t.tmux_pane_id is not None:
+                    t._tmux_closing = True
+                    ctrl = getattr(t, '_tmux_controller', None)
+                    if ctrl and ctrl.active:
+                        controllers.add(ctrl)
+            for ctrl in controllers:
+                ctrl.stop()
+            return False  # allow the window to close
+
         maker = Factory()
 
         child = self.get_child()
@@ -832,6 +852,53 @@ class Window(Container, Gtk.Window):
         self.pending_set_rough_geometry_hint = False
         self.set_rough_geometry_hints()
 
+    def resize(self, width, height):
+        """Override to trace every resize call."""
+        import traceback
+        caller = traceback.extract_stack(limit=3)[0]
+        wa = self.get_allocation()
+        ws = self.get_size()
+        dbg('size_trace RESIZE %dx%d from %s:%d '
+            'alloc=%dx%d ws=%dx%d' % (
+            width, height,
+            caller.filename.split('/')[-1], caller.lineno,
+            wa.width, wa.height, ws[0], ws[1]))
+        Gtk.Window.resize(self, width, height)
+
+    def set_geometry_hints(self, widget, geometry, flags):
+        """Override to trace every geometry hint change."""
+        import traceback
+        caller = traceback.extract_stack(limit=3)[0]
+        wa = self.get_allocation()
+        ws = self.get_size()
+        if geometry and (flags & Gdk.WindowHints.MAX_SIZE) and (flags & Gdk.WindowHints.BASE_SIZE):
+            dbg('size_trace HINT BASE=%dx%d INC=%dx%d MAX=%dx%d '
+                'from %s:%d alloc=%dx%d ws=%dx%d' % (
+                geometry.base_width, geometry.base_height,
+                geometry.width_inc, geometry.height_inc,
+                geometry.max_width, geometry.max_height,
+                caller.filename.split('/')[-1], caller.lineno,
+                wa.width, wa.height, ws[0], ws[1]))
+        elif geometry and (flags & Gdk.WindowHints.MAX_SIZE):
+            dbg('size_trace HINT MAX=%dx%d from %s:%d '
+                'alloc=%dx%d ws=%dx%d' % (
+                geometry.max_width, geometry.max_height,
+                caller.filename.split('/')[-1], caller.lineno,
+                wa.width, wa.height, ws[0], ws[1]))
+        elif geometry and (flags & Gdk.WindowHints.BASE_SIZE):
+            dbg('size_trace HINT BASE=%dx%d INC=%dx%d '
+                'from %s:%d alloc=%dx%d ws=%dx%d' % (
+                geometry.base_width, geometry.base_height,
+                geometry.width_inc, geometry.height_inc,
+                caller.filename.split('/')[-1], caller.lineno,
+                wa.width, wa.height, ws[0], ws[1]))
+        elif geometry is None:
+            dbg('size_trace HINT CLEAR from %s:%d '
+                'alloc=%dx%d ws=%dx%d' % (
+                caller.filename.split('/')[-1], caller.lineno,
+                wa.width, wa.height, ws[0], ws[1]))
+        Gtk.Window.set_geometry_hints(self, widget, geometry, flags)
+
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
         many columns/rows we sort of have"""
@@ -841,7 +908,14 @@ class Window(Container, Gtk.Window):
             self.cached_maker = Factory()
         maker = self.cached_maker
         if maker.isinstance(self.get_child(), 'Notebook'):
-            dbg("We don't currently support geometry hinting with tabs")
+            max_size = getattr(self, '_tmux_max_size', None)
+            if max_size:
+                geometry = Gdk.Geometry()
+                geometry.max_width = max_size[0]
+                geometry.max_height = max_size[1]
+                self.set_geometry_hints(None, geometry, Gdk.WindowHints.MAX_SIZE)
+            else:
+                dbg("We don't currently support geometry hinting with tabs")
             return
 
         terminals = self.get_visible_terminals()
@@ -884,8 +958,79 @@ class Window(Container, Gtk.Window):
         geometry.height_inc = font_height
         self.set_geometry_hints(None, geometry, Gdk.WindowHints.BASE_SIZE | Gdk.WindowHints.RESIZE_INC)
 
+    def set_tmux_geometry_hints(self, terminal):
+        """Set BASE_SIZE + RESIZE_INC hints for tmux char-grid snapping.
+
+        Uses the terminal's font metrics for increment and computes
+        the base from the difference between window and VTE content.
+        Also applies MAX_SIZE if a tmux constraint is active.
+        """
+        from gi.repository import Gdk
+        try:
+            char_w = terminal.vte.get_char_width()
+            char_h = terminal.vte.get_char_height()
+            if char_w <= 0 or char_h <= 0:
+                return
+
+            # Geometry hints constrain the ALLOCATION (includes CSD),
+            # not the content size.  Base = CSD + chrome so the
+            # character grid aligns in content space.
+            content = self.get_child()
+            if not content:
+                return
+            wa = self.get_allocation()
+            ws = self.get_size()
+            csd_w = wa.width - ws[0]
+            csd_h = wa.height - ws[1]
+            ca = content.get_allocation()
+            # Chrome = tab bar + borders, NOT other panes.
+            # Use the notebook page (not the terminal) so splits
+            # don't inflate the base size.
+            if hasattr(content, 'get_current_page'):
+                page_num = content.get_current_page()
+                if page_num >= 0:
+                    page = content.get_nth_page(page_num)
+                    pa = page.get_allocation()
+                    chrome_w = max(0, ca.width - pa.width)
+                    chrome_h = max(0, ca.height - pa.height)
+                else:
+                    chrome_w = chrome_h = 0
+            else:
+                # No notebook — content is the paned/terminal
+                # directly, so there's no chrome (no tab bar,
+                # no notebook borders).
+                chrome_w = chrome_h = 0
+            base_w = csd_w + chrome_w
+            base_h = csd_h + chrome_h
+
+            geometry = Gdk.Geometry()
+            geometry.base_width = max(0, base_w)
+            geometry.base_height = max(0, base_h)
+            geometry.width_inc = char_w
+            geometry.height_inc = char_h
+
+            flags = Gdk.WindowHints.BASE_SIZE | Gdk.WindowHints.RESIZE_INC
+
+            max_size = getattr(self, '_tmux_max_size', None)
+            if max_size:
+                geometry.max_width = max_size[0]
+                geometry.max_height = max_size[1]
+                flags |= Gdk.WindowHints.MAX_SIZE
+
+            self.set_geometry_hints(None, geometry, flags)
+        except Exception:
+            pass
+
     def disable_geometry_hints(self):
-        self.set_geometry_hints(None, None, 0)
+        max_size = getattr(self, '_tmux_max_size', None)
+        if max_size:
+            from gi.repository import Gdk
+            geometry = Gdk.Geometry()
+            geometry.max_width = max_size[0]
+            geometry.max_height = max_size[1]
+            self.set_geometry_hints(None, geometry, Gdk.WindowHints.MAX_SIZE)
+        else:
+            self.set_geometry_hints(None, None, 0)
 
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""

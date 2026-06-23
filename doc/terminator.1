@@ -1,7 +1,7 @@
 '\" t
 .\"     Title: terminator
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
+.\" Generator: Asciidoctor 2.0.23
 .\"      Date: 2023-04-01
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
@@ -68,7 +68,7 @@ Start with a fullscreen window.
 .sp
 \fB\-b\fP, \fB\-\-borderless\fP
 .RS 4
-Instruct the window manager not to render borders/decorations on the
+Instruct the window manager not to render borders/decoration on the
 Terminator window (this works well with \-\-maximise).
 .RE
 .sp
@@ -166,6 +166,20 @@ addition to \-\-debug\-classes, only the intersection of the two lists will
 be displayed.
 .RE
 .sp
+\fB\-\-tmux\-attach\fP[=\fISESSION\fP]
+.RS 4
+Attach to an existing tmux session in control mode. If SESSION is not
+specified, attaches to the most recently used session. Terminator will
+mirror the tmux session layout, with splits displayed as panes and
+tmux windows as tabs.
+.RE
+.sp
+\fB\-\-tmux\-new\fP=\fISESSION\fP
+.RS 4
+Create a new tmux session with the given name and attach to it in
+control mode.
+.RE
+.sp
 \fB\-\-new\-tab\fP
 .RS 4
 If this is specified and Terminator is already running, DBus will be
@@ -178,6 +192,54 @@ If this is specified and Terminator is already running, DBus will be
 used to toggle Terminator window visibility. Usable under Wayland to
 replace hide keyboad shortcut.
 .RE
+.SH "TMUX CONTROL MODE"
+.sp
+Terminator can act as a native GUI frontend for tmux sessions using
+tmux\(cqs control mode (\fB\-C\fP flag). There are two ways to use this:
+.SS "Command line attach"
+.sp
+Launch Terminator with \fB\-\-tmux\-attach\fP or \fB\-\-tmux\-new\fP to connect to a
+tmux session. The tmux layout (panes, splits, tabs) is mirrored in the
+Terminator window. Input, resize, and focus changes are synchronized
+with tmux.
+.SS "In\-terminal detection"
+.sp
+Type \fBtmux \-CC\fP or \fBtmux \-CC attach\fP inside any Terminator terminal.
+Terminator detects the control mode output, takes over the PTY, and
+opens a new window with the tmux layout. The original terminal shows a
+control mode screen with a \fBCtrl+C to detach\fP prompt.
+.SS "Detaching and exiting"
+.sp
+There are three ways to end a tmux control mode session:
+.sp
+\fBExit\fP
+.RS 4
+When the last shell in the tmux session exits, the tmux
+window closes and the original terminal is restored.
+.RE
+.sp
+\fBClose window\fP
+.RS 4
+Closing the tmux window (via the window manager or
+\fBCtrl+Shift+Q\fP) sends a detach command to tmux, preserving the
+session for later reattach.
+.RE
+.sp
+\fBCtrl+C\fP
+.RS 4
+From the control mode screen in the original terminal,
+pressing \fBCtrl+C\fP detaches from tmux and closes the tmux window.
+.RE
+.SS "Features"
+.sp
+Pane splits, tabs, and resize are synchronized bidirectionally with
+tmux. Terminal titles are updated from tmux pane information, and
+applications that set custom titles (via OSC escape sequences) are
+displayed. The window title shows the tmux user, host, and session
+name.
+.sp
+When in tmux mode, overlay titlebars and overlay scrollbars are
+automatically enabled regardless of profile settings.
 .SH "KEYBINDINGS"
 .sp
 The following default keybindings can be used to control Terminator.

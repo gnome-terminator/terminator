@@ -385,6 +385,9 @@ class PrefsEditor:
         #Hide on lose focus
         widget = guiget('hideonlosefocuscheck')
         widget.set_active(self.config['hide_on_lose_focus'])
+        #Auto-hide tmux control mode windows
+        widget = guiget('hidetmuxorigincheck')
+        widget.set_active(self.config['hide_tmux_origin'])
         #Show on all workspaces
         widget = guiget('stickycheck')
         widget.set_active(self.config['sticky'])
@@ -592,6 +595,9 @@ class PrefsEditor:
         # Show titlebar
         widget = guiget('show_titlebar')
         widget.set_active(self.config['show_titlebar'])
+        # Overlay titlebar
+        widget = guiget('overlay_titlebar')
+        widget.set_active(self.config['overlay_titlebar'])
         # Copy on selection
         widget = guiget('copy_on_selection')
         widget.set_active(self.config['copy_on_selection'])
@@ -801,6 +807,9 @@ class PrefsEditor:
             widget.set_active(2)
         else:
             widget.set_active(1)
+        # Overlay scrollbar
+        widget = guiget('overlay_scrollbar_check')
+        widget.set_active(self.config['overlay_scrollbar'])
         # Scrollback lines
         widget = guiget('scrollback_lines_spinbutton')
         widget.set_value(self.config['scrollback_lines'])
@@ -941,6 +950,11 @@ class PrefsEditor:
         self.config['hide_on_lose_focus'] = widget.get_active()
         self.config.save()
 
+    def on_hidetmuxorigincheck_toggled(self, widget):
+        """Auto-hide tmux control mode windows setting changed"""
+        self.config['hide_tmux_origin'] = widget.get_active()
+        self.config.save()
+
     def on_stickycheck_toggled(self, widget):
         """Sticky setting changed"""
         self.config['sticky'] = widget.get_active()
@@ -974,6 +988,11 @@ class PrefsEditor:
     def on_show_titlebar_toggled(self, widget):
         """Show titlebar setting changed"""
         self.config['show_titlebar'] = widget.get_active()
+        self.config.save()
+
+    def on_overlay_titlebar_toggled(self, widget):
+        """Overlay titlebar setting changed"""
+        self.config['overlay_titlebar'] = widget.get_active()
         self.config.save()
 
     def on_copy_on_selection_toggled(self, widget):
@@ -1103,6 +1122,11 @@ class PrefsEditor:
         else:
             value = 'left'
         self.config['scrollbar_position'] = value
+        self.config.save()
+
+    def on_overlay_scrollbar_check_toggled(self, widget):
+        """Overlay scrollbar setting changed"""
+        self.config['overlay_scrollbar'] = widget.get_active()
         self.config.save()
 
     def on_background_image_file_set(self,widget):

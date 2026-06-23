@@ -1,7 +1,7 @@
 '\" t
 .\"     Title: terminator_config
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.16
+.\" Generator: Asciidoctor 2.0.23
 .\"      Date: 2023-10-10
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
@@ -119,6 +119,15 @@ Default value: \fBFalse\fP
 \fBhide_from_taskbar\fP = \fIboolean\fP
 .RS 4
 If set to True, the window will be hidden from the taskbar.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
+\fBhide_tmux_origin\fP = \fIboolean\fP
+.RS 4
+If set to True, the terminal window where \fBtmux \-CC\fP was typed will be
+automatically minimized when tmux control mode activates. The window is
+restored when the tmux session is detached or exited.
 .br
 Default value: \fBFalse\fP
 .RE
@@ -1172,9 +1181,19 @@ Default value: \fBmiddle\fP
 \fBscrollbar_position\fP = \fIstring\fP
 .RS 4
 Specify where the terminal scrollbar is put.
-Can be any of: \*(Aqleft\*(Aq, \*(Aqright\*(Aq, \*(Aqhidden\*(Aq.
+Can be any of: \*(Aqleft\*(Aq, \*(Aqright\*(Aq, \*(Aqdisabled\*(Aq.
 .br
 Default value: \fBright\fP
+.RE
+.sp
+\fBoverlay_scrollbar\fP = \fIboolean\fP
+.RS 4
+If set to True, the scrollbar overlays the terminal content and is
+transparent when scrolled to the bottom. It fades in when scrolled up
+in history. Works with the left/right position setting. Always enabled
+in tmux control mode regardless of this setting.
+.br
+Default value: \fBFalse\fP
 .RE
 .sp
 \fBscroll_on_output\fP = \fIboolean\fP
@@ -1246,6 +1265,15 @@ If set to True, the terminal will have a titlebar showing the current
 title of that terminal.
 .br
 Default value: \fBTrue\fP
+.RE
+.sp
+\fBoverlay_titlebar\fP = \fIboolean\fP
+.RS 4
+If set to True, the titlebar floats over the terminal content and is
+fully transparent until the mouse hovers over it. This saves vertical
+space. Always enabled in tmux control mode regardless of this setting.
+.br
+Default value: \fBFalse\fP
 .RE
 .sp
 \fBtitle_hide_sizetext\fP = \fIboolean\fP
