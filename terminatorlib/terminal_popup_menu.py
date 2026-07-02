@@ -105,7 +105,7 @@ class TerminalPopupMenu(object):
                 for pattern, tag in terminal.matches.items():
                     try:
                         if re.search(pattern, url):
-                            detected_id = tag
+                            tag = tag
 
                             break
                     except Exception:
