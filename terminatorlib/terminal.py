@@ -2273,6 +2273,14 @@ class Terminal(Gtk.VBox):
         #have a mapping rather than hardcoded page
         PrefsEditor(self, cur_page = 3)
 
+    def key_set_all_window_opacity(self):
+        """Make every Terminator window use the configured opacity."""
+        self.terminator.set_all_window_opacity(True)
+
+    def key_restore_all_window_opacity(self):
+        """Restore every Terminator window to its normal opacity."""
+        self.terminator.set_all_window_opacity(False)
+
     def key_help(self):
         manual_index_page = manual_lookup()
         if manual_index_page:

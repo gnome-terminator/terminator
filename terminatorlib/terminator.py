@@ -67,6 +67,7 @@ class Terminator(Borg):
 
     cur_gtk_theme_name = None
     gtk_settings = None
+    window_opacity_active = None
 
     def __init__(self):
         """Class initialiser"""
@@ -96,7 +97,33 @@ class Terminator(Borg):
             self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
+        if self.window_opacity_active is None:
+            self.window_opacity_active = False
         self.connect_signals()
+
+    def set_all_window_opacity(self, active):
+        """Apply the configured whole-window opacity to every window."""
+        self.window_opacity_active = bool(active)
+        opacity = 1.0
+        if self.window_opacity_active:
+            try:
+                percent = int(self.config['window_opacity'])
+            except (TypeError, ValueError):
+                percent = 30
+            opacity = max(10, min(100, percent)) / 100.0
+
+        for window in self.windows:
+            window.set_opacity(opacity)
+
+    def get_window_opacity(self):
+        """Return the opacity that newly created windows should inherit."""
+        if not self.window_opacity_active:
+            return 1.0
+        try:
+            percent = int(self.config['window_opacity'])
+        except (TypeError, ValueError):
+            percent = 30
+        return max(10, min(100, percent)) / 100.0
 
     def connect_signals(self):
         """Connect all the gtk signals"""

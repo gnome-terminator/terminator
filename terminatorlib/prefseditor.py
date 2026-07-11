@@ -186,6 +186,8 @@ class PrefsEditor:
                         'previous_profile' : _('Switch to previous profile'), 
                         'preferences'	   : _('Open the Preferences window'),
                         'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
+                        'set_all_window_opacity' : _('Make all windows transparent'),
+                        'restore_all_window_opacity' : _('Restore all windows opacity'),
                         'help'             : _('Open the manual')
             }
 
@@ -388,6 +390,9 @@ class PrefsEditor:
         #Show on all workspaces
         widget = guiget('stickycheck')
         widget.set_active(self.config['sticky'])
+
+        widget = guiget('window_opacity_spinbutton')
+        widget.set_value(float(self.config['window_opacity']))
 
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
@@ -945,6 +950,14 @@ class PrefsEditor:
         """Sticky setting changed"""
         self.config['sticky'] = widget.get_active()
         self.config.save()
+
+    def on_window_opacity_spinbutton_value_changed(self, widget):
+        """Save the opacity used by the all-window transparency shortcut."""
+        self.config['window_opacity'] = int(widget.get_value())
+        self.config.save()
+        terminator = Terminator()
+        if terminator.window_opacity_active:
+            terminator.set_all_window_opacity(True)
 
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""

@@ -122,6 +122,7 @@ DEFAULTS = {
 
             'new_tab_after_current_tab': False,
             'window_decoration_style': 'auto',
+            'window_opacity'          : 30,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',
@@ -207,6 +208,8 @@ DEFAULTS = {
             'previous_profile' : '', 
             'preferences'      : '',
             'preferences_keybindings' : '<Control><Shift>k',
+            'set_all_window_opacity'  : '<Control><Shift><Alt>t',
+            'restore_all_window_opacity': '<Control><Shift><Alt>r',
             'help'             : 'F1'
         },
         'profiles': {

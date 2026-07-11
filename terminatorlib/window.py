@@ -173,6 +173,7 @@ class Window(Container, Gtk.Window):
         self.set_borderless(borderless)
         self.set_always_on_top(alwaysontop)
         self.set_real_transparency()
+        self.set_opacity(self.terminator.get_window_opacity())
         self.set_sticky(sticky)
         self.apply_window_decoration_style(self.config['window_decoration_style'])
         if self.hidebound:
