@@ -1,0 +1,39 @@
+Source: terminator
+Section: x11
+Priority: optional
+Maintainer: Personal Build <root@localhost>
+Build-Depends:
+ debhelper-compat (= 12),
+ dh-python,
+ gettext,
+ intltool,
+ python3-all,
+ python3-setuptools
+Standards-Version: 4.5.0
+Rules-Requires-Root: no
+Homepage: https://github.com/gnome-terminator/terminator
+
+Package: terminator
+Architecture: all
+Depends:
+ dbus-x11,
+ gir1.2-keybinder-3.0,
+ gir1.2-notify-0.7,
+ gir1.2-vte-2.91,
+ python3-cairo,
+ python3-configobj,
+ python3-dbus,
+ python3-gi,
+ python3-gi-cairo,
+ python3-psutil,
+ ${misc:Depends},
+ ${python3:Depends}
+Recommends: xdg-utils
+Provides: x-terminal-emulator
+Description: multiple GNOME terminals in one window
+ Terminator provides an efficient way to arrange multiple terminals in one
+ window. Terminals can be split horizontally or vertically and controlled
+ individually or in groups.
+ .
+ This personal build adds a shortcut for toggling the opacity of all Terminator
+ windows.

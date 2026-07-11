@@ -1,0 +1,7 @@
+terminator (2.1.5-1personal2~ubuntu20.04) focal; urgency=medium
+
+  * Personal build based on Terminator 2.1.5.
+  * Add a configurable shortcut to toggle the opacity of all Terminator
+    windows.
+
+ -- Personal Build <root@localhost>  Sat, 11 Jul 2026 14:40:00 +0800
