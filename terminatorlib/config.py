@@ -209,7 +209,6 @@ DEFAULTS = {
             'preferences'      : '',
             'preferences_keybindings' : '<Control><Shift>k',
             'set_all_window_opacity'  : '<Control><Shift><Alt>t',
-            'restore_all_window_opacity': '<Control><Shift><Alt>r',
             'help'             : 'F1'
         },
         'profiles': {

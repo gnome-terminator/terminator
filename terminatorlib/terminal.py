@@ -2274,11 +2274,12 @@ class Terminal(Gtk.VBox):
         PrefsEditor(self, cur_page = 3)
 
     def key_set_all_window_opacity(self):
-        """Make every Terminator window use the configured opacity."""
-        self.terminator.set_all_window_opacity(True)
+        """Toggle the configured opacity on every Terminator window."""
+        self.terminator.set_all_window_opacity(
+            not self.terminator.window_opacity_active)
 
     def key_restore_all_window_opacity(self):
-        """Restore every Terminator window to its normal opacity."""
+        """Restore opacity for compatibility with personal1 configurations."""
         self.terminator.set_all_window_opacity(False)
 
     def key_help(self):

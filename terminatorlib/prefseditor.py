@@ -186,7 +186,8 @@ class PrefsEditor:
                         'previous_profile' : _('Switch to previous profile'), 
                         'preferences'	   : _('Open the Preferences window'),
                         'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
-                        'set_all_window_opacity' : _('Make all windows transparent'),
+                        'set_all_window_opacity' : _('Toggle all windows opacity'),
+                        # Kept for configurations written by personal1.
                         'restore_all_window_opacity' : _('Restore all windows opacity'),
                         'help'             : _('Open the manual')
             }
