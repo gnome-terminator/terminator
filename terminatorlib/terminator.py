@@ -67,7 +67,10 @@ class Terminator(Borg):
 
     cur_gtk_theme_name = None
     gtk_settings = None
-    window_opacity_active = None
+    window_opacity_mode = None
+
+    WINDOW_OPACITY_KEYS = ('window_opacity', 'window_opacity_alt')
+    WINDOW_OPACITY_DEFAULTS = (30, 100)
 
     def __init__(self):
         """Class initialiser"""
@@ -97,33 +100,52 @@ class Terminator(Borg):
             self.style_providers = []
         if not self.doing_layout:
             self.doing_layout = False
-        if self.window_opacity_active is None:
-            self.window_opacity_active = False
+        if self.window_opacity_mode is None:
+            # Start in the second mode so existing installations still begin
+            # fully opaque and the first shortcut press selects the old 30%
+            # transparent mode.
+            self.window_opacity_mode = 1
         self.connect_signals()
 
-    def set_all_window_opacity(self, active):
-        """Apply the configured whole-window opacity to every window."""
-        self.window_opacity_active = bool(active)
-        opacity = 1.0
-        if self.window_opacity_active:
-            try:
-                percent = int(self.config['window_opacity'])
-            except (TypeError, ValueError):
-                percent = 30
-            opacity = max(10, min(100, percent)) / 100.0
+    def get_window_opacity_percent(self, mode=None):
+        """Return a bounded percentage for one of the opacity modes."""
+        if mode is None:
+            mode = self.window_opacity_mode
+        mode = 0 if mode == 0 else 1
+        try:
+            percent = int(self.config[self.WINDOW_OPACITY_KEYS[mode]])
+        except (TypeError, ValueError):
+            percent = self.WINDOW_OPACITY_DEFAULTS[mode]
+        return max(10, min(100, percent))
+
+    def set_all_window_opacity(self, mode):
+        """Select an opacity mode and apply it to every window."""
+        self.window_opacity_mode = 0 if mode == 0 else 1
+        opacity = self.get_window_opacity_percent() / 100.0
 
         for window in self.windows:
             window.set_opacity(opacity)
 
+    def toggle_all_window_opacity(self):
+        """Switch every window to the other configured opacity mode."""
+        self.set_all_window_opacity(1 - self.window_opacity_mode)
+
+    def adjust_window_opacity(self, delta):
+        """Adjust, save and apply the currently selected opacity mode."""
+        mode = self.window_opacity_mode
+        current = self.get_window_opacity_percent(mode)
+        percent = max(10, min(100, current + int(delta)))
+        key = self.WINDOW_OPACITY_KEYS[mode]
+        if percent == current:
+            return False
+        self.config[key] = percent
+        self.config.save()
+        self.set_all_window_opacity(mode)
+        return True
+
     def get_window_opacity(self):
         """Return the opacity that newly created windows should inherit."""
-        if not self.window_opacity_active:
-            return 1.0
-        try:
-            percent = int(self.config['window_opacity'])
-        except (TypeError, ValueError):
-            percent = 30
-        return max(10, min(100, percent)) / 100.0
+        return self.get_window_opacity_percent() / 100.0
 
     def connect_signals(self):
         """Connect all the gtk signals"""

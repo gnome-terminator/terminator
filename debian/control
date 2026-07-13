@@ -6,8 +6,13 @@ Build-Depends:
  debhelper-compat (= 12),
  dh-python,
  gettext,
+ gir1.2-gtk-3.0,
+ gir1.2-vte-2.91,
  intltool,
  python3-all,
+ python3-cairo,
+ python3-configobj,
+ python3-gi,
  python3-setuptools
 Standards-Version: 4.5.0
 Rules-Requires-Root: no
@@ -35,5 +40,5 @@ Description: multiple GNOME terminals in one window
  window. Terminals can be split horizontally or vertically and controlled
  individually or in groups.
  .
- This personal build adds a shortcut for toggling the opacity of all Terminator
- windows.
+ This personal build adds two opacity modes for all Terminator windows, with a
+ shortcut for switching modes and Alt+mousewheel adjustment.

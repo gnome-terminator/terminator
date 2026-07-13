@@ -1,3 +1,9 @@
+terminator (2.1.5-1personal3~ubuntu20.04) focal; urgency=medium
+
+  * Add two opacity modes and Alt+mousewheel opacity adjustment.
+
+ -- Personal Build <root@localhost>  Mon, 13 Jul 2026 15:43:08 +0000
+
 terminator (2.1.5-1personal2~ubuntu20.04) focal; urgency=medium
 
   * Personal build based on Terminator 2.1.5.

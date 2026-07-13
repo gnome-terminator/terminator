@@ -1160,6 +1160,19 @@ class Terminal(Gtk.VBox):
         SMOOTH_SCROLL_UP = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y <= 0.
         SMOOTH_SCROLL_DOWN = event.direction == Gdk.ScrollDirection.SMOOTH and event.delta_y > 0.
 
+        opacity_modifiers = event.state & (
+            Gdk.ModifierType.CONTROL_MASK |
+            Gdk.ModifierType.SHIFT_MASK |
+            Gdk.ModifierType.MOD1_MASK |
+            Gdk.ModifierType.MOD4_MASK)
+        if opacity_modifiers == Gdk.ModifierType.MOD1_MASK:
+            if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
+                self.terminator.adjust_window_opacity(5)
+                return True
+            elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
+                self.terminator.adjust_window_opacity(-5)
+                return True
+
         modifiers = event.state & (Gdk.ModifierType.CONTROL_MASK | Gdk.ModifierType.SHIFT_MASK)
         if modifiers == Gdk.ModifierType.CONTROL_MASK:
             # Zoom the terminal(s) in or out if not disabled in config
@@ -2274,13 +2287,12 @@ class Terminal(Gtk.VBox):
         PrefsEditor(self, cur_page = 3)
 
     def key_set_all_window_opacity(self):
-        """Toggle the configured opacity on every Terminator window."""
-        self.terminator.set_all_window_opacity(
-            not self.terminator.window_opacity_active)
+        """Toggle the configured opacity mode on every Terminator window."""
+        self.terminator.toggle_all_window_opacity()
 
     def key_restore_all_window_opacity(self):
         """Restore opacity for compatibility with personal1 configurations."""
-        self.terminator.set_all_window_opacity(False)
+        self.terminator.set_all_window_opacity(1)
 
     def key_help(self):
         manual_index_page = manual_lookup()

@@ -186,7 +186,7 @@ class PrefsEditor:
                         'previous_profile' : _('Switch to previous profile'), 
                         'preferences'	   : _('Open the Preferences window'),
                         'preferences_keybindings' : _('Open the Preferences-Keybindings window'),
-                        'set_all_window_opacity' : _('Toggle all windows opacity'),
+                        'set_all_window_opacity' : _('Switch all windows opacity mode'),
                         # Kept for configurations written by personal1.
                         'restore_all_window_opacity' : _('Restore all windows opacity'),
                         'help'             : _('Open the manual')
@@ -394,6 +394,8 @@ class PrefsEditor:
 
         widget = guiget('window_opacity_spinbutton')
         widget.set_value(float(self.config['window_opacity']))
+        widget = guiget('window_opacity_alt_spinbutton')
+        widget.set_value(float(self.config['window_opacity_alt']))
 
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
@@ -953,12 +955,20 @@ class PrefsEditor:
         self.config.save()
 
     def on_window_opacity_spinbutton_value_changed(self, widget):
-        """Save the opacity used by the all-window transparency shortcut."""
+        """Save the first all-window opacity mode."""
         self.config['window_opacity'] = int(widget.get_value())
         self.config.save()
         terminator = Terminator()
-        if terminator.window_opacity_active:
-            terminator.set_all_window_opacity(True)
+        if terminator.window_opacity_mode == 0:
+            terminator.set_all_window_opacity(0)
+
+    def on_window_opacity_alt_spinbutton_value_changed(self, widget):
+        """Save the second all-window opacity mode."""
+        self.config['window_opacity_alt'] = int(widget.get_value())
+        self.config.save()
+        terminator = Terminator()
+        if terminator.window_opacity_mode == 1:
+            terminator.set_all_window_opacity(1)
 
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""
