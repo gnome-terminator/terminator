@@ -1,0 +1,13 @@
+.git
+.pybuild
+build
+dist
+debian/.debhelper
+debian/terminator
+terminatorlib/__pycache__
+tests/__pycache__
+*.buildinfo
+*.changes
+*.deb
+*.pyc
+

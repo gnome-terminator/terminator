@@ -5,5 +5,6 @@
 
 override_dh_auto_clean:
 	dh_auto_clean
+	rm -rf terminator.egg-info
 	rm -f data/terminator.desktop data/terminator.metainfo.xml
 	rm -f po/.intltool-merge-cache
