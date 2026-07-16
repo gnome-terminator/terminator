@@ -89,6 +89,7 @@ class Terminal(Gtk.VBox):
     terminator = None
     vte = None
     terminalbox = None
+    terminalcontent = None
     scrollbar = None
     titlebar = None
     searchbar = None
@@ -148,6 +149,7 @@ class Terminal(Gtk.VBox):
 
         self.vte = Vte.Terminal()
         self.vte.set_allow_hyperlink(True)
+        self.vte.set_opacity(self.terminator.get_text_opacity_percent() / 100.0)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
            not hasattr(self.vte, "is_composited"):
@@ -208,11 +210,10 @@ class Terminal(Gtk.VBox):
         try: 
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
-            self.vte.set_clear_background(False)
-            self.vte.connect("draw", self.background_draw)
+            self.terminalcontent.queue_draw()
         except Exception as e:
             self.background_image = None
-            self.vte.set_clear_background(True)
+            self.terminalcontent.queue_draw()
             err('error loading background image: %s, %s' % (type(e).__name__,e))
 
     def get_vte(self):
@@ -305,7 +306,7 @@ class Terminal(Gtk.VBox):
             self._wait_for_shell_exit()
 
         if self.vte:
-            self.terminalbox.remove(self.vte)
+            self.terminalcontent.remove(self.vte)
             del(self.vte)
 
     def _wait_for_shell_exit(self, timeout=0.5, poll_interval=0.02):
@@ -330,13 +331,17 @@ class Terminal(Gtk.VBox):
             time.sleep(poll_interval)
 
     def create_terminalbox(self):
-        """Create a GtkHBox containing the terminal and a scrollbar"""
+        """Create separate background/content layers and a scrollbar."""
 
         terminalbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+        self.terminalcontent = Gtk.Box.new(Gtk.Orientation.VERTICAL, 0)
+        self.terminalcontent.connect('draw', self.background_draw)
+        self.vte.set_clear_background(False)
+        self.terminalcontent.pack_start(self.vte, True, True, 0)
         self.scrollbar = Gtk.Scrollbar.new(Gtk.Orientation.VERTICAL, adjustment=self.vte.get_vadjustment())
         self.scrollbar.set_no_show_all(True)
 
-        terminalbox.pack_start(self.vte, True, True, 0)
+        terminalbox.pack_start(self.terminalcontent, True, True, 0)
         terminalbox.pack_start(self.scrollbar, False, True, 0)
         terminalbox.show_all()
 
@@ -805,6 +810,7 @@ class Terminal(Gtk.VBox):
             self.set_background_image(self.config['background_image'])
         else:
             self.background_image = None
+            self.terminalcontent.queue_draw()
 
         factor = self.config['inactive_color_offset']
         if factor > 1.0:
@@ -922,7 +928,7 @@ class Terminal(Gtk.VBox):
             if self.config['scrollbar_position'] == 'left':
                 self.terminalbox.reorder_child(self.scrollbar, 0)
             elif self.config['scrollbar_position'] == 'right':
-                self.terminalbox.reorder_child(self.vte, 0)
+                self.terminalbox.reorder_child(self.terminalcontent, 0)
 
         self.titlebar.update()
         self.vte.queue_draw()
@@ -1165,7 +1171,15 @@ class Terminal(Gtk.VBox):
             Gdk.ModifierType.SHIFT_MASK |
             Gdk.ModifierType.MOD1_MASK |
             Gdk.ModifierType.MOD4_MASK)
-        if opacity_modifiers == Gdk.ModifierType.MOD1_MASK:
+        if opacity_modifiers == (Gdk.ModifierType.CONTROL_MASK |
+                                 Gdk.ModifierType.MOD1_MASK):
+            if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
+                self.terminator.adjust_text_opacity(5)
+                return True
+            elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
+                self.terminator.adjust_text_opacity(-5)
+                return True
+        elif opacity_modifiers == Gdk.ModifierType.MOD1_MASK:
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
                 self.terminator.adjust_window_opacity(5)
                 return True
@@ -1298,7 +1312,7 @@ class Terminal(Gtk.VBox):
         image_align_horiz = self.config['background_image_align_horiz']
         image_align_vert = self.config['background_image_align_vert']
 
-        rect = self.vte.get_allocation()
+        rect = widget.get_allocation()
         xratio = float(rect.width) / float(self.background_image.get_width())
         yratio = float(rect.height) / float(self.background_image.get_height())
         if image_mode == 'stretch_and_fill':

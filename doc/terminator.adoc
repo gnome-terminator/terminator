@@ -211,6 +211,13 @@ Then, *+**release Ctrl**+*. You can now drag the terminal to the point
 in the layout you would like it to be. The zone where the terminal would
 be inserted will be highlighted.
 
+*Alt+Mouse Wheel*::
+Adjust the currently selected all-window opacity mode in 5% steps.
+
+*Ctrl+Alt+Mouse Wheel*::
+Adjust terminal text opacity in all windows in 5% steps without changing the
+terminal background.
+
 === Focus
 The following items relate to helping to focus on a specific terminal.
 

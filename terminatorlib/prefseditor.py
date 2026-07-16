@@ -396,6 +396,8 @@ class PrefsEditor:
         widget.set_value(float(self.config['window_opacity']))
         widget = guiget('window_opacity_alt_spinbutton')
         widget.set_value(float(self.config['window_opacity_alt']))
+        widget = guiget('text_opacity_spinbutton')
+        widget.set_value(float(self.config['text_opacity']))
 
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
@@ -969,6 +971,12 @@ class PrefsEditor:
         terminator = Terminator()
         if terminator.window_opacity_mode == 1:
             terminator.set_all_window_opacity(1)
+
+    def on_text_opacity_spinbutton_value_changed(self, widget):
+        """Save and apply the opacity of all terminal content layers."""
+        self.config['text_opacity'] = int(widget.get_value())
+        self.config.save()
+        Terminator().apply_text_opacity()
 
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""

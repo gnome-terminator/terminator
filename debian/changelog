@@ -1,3 +1,9 @@
+terminator (2.1.5-1personal4~ubuntu20.04) focal; urgency=medium
+
+  * Add independent text opacity control with Ctrl+Alt+mousewheel.
+
+ -- Personal Build <root@localhost>  Thu, 16 Jul 2026 23:36:25 +0800
+
 terminator (2.1.5-1personal3~ubuntu20.04) focal; urgency=medium
 
   * Add two opacity modes and Alt+mousewheel opacity adjustment.

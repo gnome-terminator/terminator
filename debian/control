@@ -41,4 +41,5 @@ Description: multiple GNOME terminals in one window
  individually or in groups.
  .
  This personal build adds two opacity modes for all Terminator windows, with a
- shortcut for switching modes and Alt+mousewheel adjustment.
+ shortcut for switching modes, Alt+mousewheel adjustment, and independent
+ terminal text opacity control using Ctrl+Alt+mousewheel.

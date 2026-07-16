@@ -101,6 +101,20 @@ Default value: *multiple_terminals*
 If set to True, the window will be started without window borders. +
 Default value: *False*
 
+*window_opacity* = _integer_::
+Opacity percentage for the first all-window opacity mode. Alt+mouse wheel
+adjusts the currently selected mode. +
+Default value: *30*
+
+*window_opacity_alt* = _integer_::
+Opacity percentage for the second all-window opacity mode. +
+Default value: *100*
+
+*text_opacity* = _integer_::
+Opacity percentage for terminal content in all windows. Ctrl+Alt+mouse wheel
+adjusts this value without changing the configured terminal background. +
+Default value: *100*
+
 === Tab Behavior & Appearance
 
 *tab_position* = _string_::

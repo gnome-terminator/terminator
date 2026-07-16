@@ -124,6 +124,7 @@ DEFAULTS = {
             'window_decoration_style': 'auto',
             'window_opacity'          : 30,
             'window_opacity_alt'      : 100,
+            'text_opacity'            : 100,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

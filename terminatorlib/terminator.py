@@ -143,6 +143,32 @@ class Terminator(Borg):
         self.set_all_window_opacity(mode)
         return True
 
+    def get_text_opacity_percent(self):
+        """Return the bounded opacity percentage for terminal content."""
+        try:
+            percent = int(self.config['text_opacity'])
+        except (TypeError, ValueError):
+            percent = 100
+        return max(10, min(100, percent))
+
+    def apply_text_opacity(self):
+        """Apply the configured text opacity to every terminal content layer."""
+        opacity = self.get_text_opacity_percent() / 100.0
+        for terminal in self.terminals:
+            if terminal.vte:
+                terminal.vte.set_opacity(opacity)
+
+    def adjust_text_opacity(self, delta):
+        """Adjust, save and apply terminal content opacity globally."""
+        current = self.get_text_opacity_percent()
+        percent = max(10, min(100, current + int(delta)))
+        if percent == current:
+            return False
+        self.config['text_opacity'] = percent
+        self.config.save()
+        self.apply_text_opacity()
+        return True
+
     def get_window_opacity(self):
         """Return the opacity that newly created windows should inherit."""
         return self.get_window_opacity_percent() / 100.0
