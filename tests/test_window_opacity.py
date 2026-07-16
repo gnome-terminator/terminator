@@ -6,11 +6,12 @@ import gi
 gi.require_version("Gtk", "3.0")
 gi.require_version("Gdk", "3.0")
 gi.require_version("Vte", "2.91")
-from gi.repository import Gdk, Vte
+from gi.repository import Gdk, Vte, cairo
 
 from terminatorlib.config import DEFAULTS
 from terminatorlib.terminal import Terminal
 from terminatorlib.terminator import Terminator
+from terminatorlib.window import Window
 
 
 class FakeConfig(dict):
@@ -57,6 +58,7 @@ def test_default_opacity_modes_are_thirty_and_one_hundred_percent():
     assert global_config["window_opacity"] == 30
     assert global_config["window_opacity_alt"] == 100
     assert global_config["text_opacity"] == 100
+    assert global_config["window_vertical_mask"] == 0
 
 
 def test_toggle_cycles_between_both_opacity_modes_for_all_windows():
@@ -151,6 +153,93 @@ def test_control_alt_mousewheel_adjusts_text_not_window_opacity():
     assert Terminal.on_mousewheel(fake_terminal, None, event) is True
     assert window_adjustments == []
     assert text_adjustments == [5]
+
+
+def test_shift_alt_mousewheel_moves_current_window_vertical_mask():
+    adjustments = []
+    fake_window = SimpleNamespace(
+        adjust_vertical_mask=lambda delta: adjustments.append(delta)
+    )
+    fake_terminal = SimpleNamespace(get_toplevel=lambda: fake_window)
+    down = SimpleNamespace(
+        direction=Gdk.ScrollDirection.DOWN,
+        delta_y=0,
+        state=(Gdk.ModifierType.SHIFT_MASK |
+               Gdk.ModifierType.MOD1_MASK),
+    )
+    up = SimpleNamespace(
+        direction=Gdk.ScrollDirection.SMOOTH,
+        delta_y=-1,
+        state=(Gdk.ModifierType.SHIFT_MASK |
+               Gdk.ModifierType.MOD1_MASK),
+    )
+
+    assert Terminal.on_mousewheel(fake_terminal, None, down) is True
+    assert Terminal.on_mousewheel(fake_terminal, None, up) is True
+    assert adjustments == [5, -5]
+
+
+class FakeDrawContext:
+    def __init__(self):
+        self.operations = []
+
+    def save(self):
+        self.operations.append(('save',))
+
+    def set_operator(self, operator):
+        self.operations.append(('operator', operator))
+
+    def rectangle(self, x, y, width, height):
+        self.operations.append(('rectangle', x, y, width, height))
+
+    def fill(self):
+        self.operations.append(('fill',))
+
+    def restore(self):
+        self.operations.append(('restore',))
+
+
+def test_vertical_mask_clears_area_above_percent_boundary():
+    context = FakeDrawContext()
+    fake_window = SimpleNamespace(
+        vertical_mask_percent=25,
+        is_composited=lambda: True,
+        get_allocation=lambda: SimpleNamespace(width=800, height=600),
+    )
+
+    assert Window.on_vertical_mask_draw(fake_window, None, context) is False
+    assert ('operator', cairo.Operator.CLEAR) in context.operations
+    assert ('rectangle', 0, 0, 800, 150.0) in context.operations
+
+
+def test_adjust_vertical_mask_saves_queues_draw_and_clamps():
+    draws = []
+    fake_window = SimpleNamespace(
+        vertical_mask_percent=95,
+        config=FakeConfig(window_vertical_mask=0),
+        queue_draw=lambda: draws.append(True),
+    )
+
+    assert Window.adjust_vertical_mask(fake_window, 5) is True
+    assert fake_window.vertical_mask_percent == 100
+    assert fake_window.config['window_vertical_mask'] == 100
+    assert fake_window.config.save_count == 1
+    assert draws == [True]
+
+    assert Window.adjust_vertical_mask(fake_window, 5) is False
+    assert fake_window.config.save_count == 1
+    assert draws == [True]
+
+
+def test_vertical_mask_does_not_clear_without_compositor():
+    context = FakeDrawContext()
+    fake_window = SimpleNamespace(
+        vertical_mask_percent=50,
+        is_composited=lambda: False,
+    )
+
+    assert Window.on_vertical_mask_draw(fake_window, None, context) is False
+    assert context.operations == []
 
 
 def test_terminal_content_layer_keeps_vte_as_sizing_child():

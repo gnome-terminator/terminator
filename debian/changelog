@@ -1,3 +1,9 @@
+terminator (2.1.5-1personal5~ubuntu20.04) focal; urgency=medium
+
+  * Add Shift+Alt+mousewheel vertical window transparency masking.
+
+ -- Personal Build <root@localhost>  Fri, 17 Jul 2026 00:08:00 +0800
+
 terminator (2.1.5-1personal4~ubuntu20.04) focal; urgency=medium
 
   * Add independent text opacity control with Ctrl+Alt+mousewheel.

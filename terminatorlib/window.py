@@ -7,7 +7,7 @@ import time
 import uuid
 import gi
 from gi.repository import GObject
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, cairo
 
 from .util import dbg, err, make_uuid, display_manager
 
@@ -54,6 +54,7 @@ class Window(Container, Gtk.Window):
     zoom_data = None
 
     term_zoomed = False
+    vertical_mask_percent = 0
     __gproperties__ = {
             'term_zoomed': (GObject.TYPE_BOOLEAN,
                             'terminal zoomed',
@@ -68,11 +69,15 @@ class Window(Container, Gtk.Window):
         self.terminator.register_window(self)
 
         Container.__init__(self)
+        self.vertical_mask_percent = self.get_configured_vertical_mask_percent()
         GObject.GObject.__init__(self)
         GObject.type_register(Window)
         self.register_signals(Window)
 
         self.get_style_context().add_class("terminator-terminal-window")
+        # Preserve alpha written by the post-draw vertical mask. GtkWindow's
+        # default themed background otherwise overwrites application drawing.
+        self.set_app_paintable(True)
 
 #        self.set_property('allow-shrink', True)  # FIXME FOR GTK3, or do we need this actually?
         icon_to_apply=''
@@ -129,6 +134,7 @@ class Window(Container, Gtk.Window):
         self.connect('focus-out-event', self.on_focus_out)
         self.connect('focus-in-event', self.on_focus_in)
         self.connect('realize', self.on_window_realize)
+        self.connect_after('draw', self.on_vertical_mask_draw)
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
@@ -486,6 +492,39 @@ class Window(Container, Gtk.Window):
             visual = screen.get_rgba_visual()
             if visual:
                 self.set_visual(visual)
+
+    def get_configured_vertical_mask_percent(self):
+        """Return the bounded initial vertical transparency mask position."""
+        try:
+            percent = int(self.config['window_vertical_mask'])
+        except (TypeError, ValueError):
+            percent = 0
+        return max(0, min(100, percent))
+
+    def adjust_vertical_mask(self, delta):
+        """Move this window's transparent top boundary and save its position."""
+        current = self.vertical_mask_percent
+        percent = max(0, min(100, current + int(delta)))
+        if percent == current:
+            return False
+        self.vertical_mask_percent = percent
+        self.config['window_vertical_mask'] = percent
+        self.config.save()
+        self.queue_draw()
+        return True
+
+    def on_vertical_mask_draw(self, _widget, context):
+        """Clear the area above the configured boundary after child drawing."""
+        if self.vertical_mask_percent <= 0 or not self.is_composited():
+            return False
+        allocation = self.get_allocation()
+        boundary = allocation.height * self.vertical_mask_percent / 100.0
+        context.save()
+        context.set_operator(cairo.Operator.CLEAR)
+        context.rectangle(0, 0, allocation.width, boundary)
+        context.fill()
+        context.restore()
+        return False
 
     def on_window_realize(self, widget):
         """Apply window hints once the window is realized"""

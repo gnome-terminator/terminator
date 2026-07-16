@@ -125,6 +125,7 @@ DEFAULTS = {
             'window_opacity'          : 30,
             'window_opacity_alt'      : 100,
             'text_opacity'            : 100,
+            'window_vertical_mask'    : 0,
         },
         'keybindings': {
             'zoom_in'          : '<Control>plus',

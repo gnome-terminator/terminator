@@ -42,4 +42,5 @@ Description: multiple GNOME terminals in one window
  .
  This personal build adds two opacity modes for all Terminator windows, with a
  shortcut for switching modes, Alt+mousewheel adjustment, and independent
- terminal text opacity control using Ctrl+Alt+mousewheel.
+ terminal text opacity control using Ctrl+Alt+mousewheel. Shift+Alt+mousewheel
+ moves a vertical transparency boundary for the current window.

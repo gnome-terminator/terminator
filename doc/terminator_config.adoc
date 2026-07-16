@@ -115,6 +115,12 @@ Opacity percentage for terminal content in all windows. Ctrl+Alt+mouse wheel
 adjusts this value without changing the configured terminal background. +
 Default value: *100*
 
+*window_vertical_mask* = _integer_::
+Initial vertical transparency boundary as a percentage of window height.
+Content above the boundary is fully transparent; Shift+Alt+mouse wheel moves
+the boundary for the current window. +
+Default value: *0*
+
 === Tab Behavior & Appearance
 
 *tab_position* = _string_::
