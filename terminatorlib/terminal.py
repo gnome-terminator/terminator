@@ -1796,12 +1796,10 @@ class Terminal(Gtk.VBox):
             Gtk.show_uri(None, url, Gdk.CURRENT_TIME)
             return
         except:
-            dbg('Gtk.show_uri did not work, falling through to xdg-open')
+            dbg('Gtk.show_uri did not work, falling through to platform handler')
 
-        try:
-            subprocess.Popen(["xdg-open", url])
-        except:
-            dbg('xdg-open did not work, falling back to webbrowser.open')
+        if util.platform.open_url(url) is None:
+            dbg('platform handler did not work, falling back to webbrowser.open')
             import webbrowser
             webbrowser.open(url)
 

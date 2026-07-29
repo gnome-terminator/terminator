@@ -222,9 +222,12 @@ setup(name=APP_NAME,
       install_requires=[
           'pycairo',
           'configobj',
-          'dbus-python',
+          'dbus-python; platform_system == "Linux"',
           'pygobject',
           'psutil',
+          # Windows-only: ConPTY PTY backend and terminal emulation.
+          'pywin32; platform_system == "Windows"',
+          'pyte; platform_system == "Windows"',
       ],
       extras_require={'test': test_deps},
       package_data={'terminatorlib': ['preferences.glade', 'layoutlauncher.glade']},
