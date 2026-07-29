@@ -137,3 +137,35 @@ def test_clear_background_paints_bg():
     n_on = _draw(w)
     # With the background painted, more pixels are non-transparent.
     assert n_on >= n_off
+
+
+@requires_display
+def test_draw_cjk_wide_glyphs_no_error():
+    # East-Asian wide glyphs span two columns; the renderer must skip the
+    # continuation cell and let the wide glyph span both without crashing.
+    w = _make_widget(cols=24, rows=2)
+    w.feed('日本語 A B 中 C'.encode())
+    assert _draw(w) > 0
+
+
+@requires_display
+def test_cursor_on_wide_glyph_spans_two_columns():
+    w = _make_widget(cols=24, rows=2)
+    w.feed('中'.encode())
+    # Cursor sits right after '中' (column 2); drawing with each shape works.
+    for shape in ('block', 'underline', 'beam'):
+        w.set_cursor_shape(shape)
+        assert _draw(w) > 0
+
+
+def test_selection_text_skips_wide_continuation():
+    # Pure-Python: copying a wide glyph must not gain a trailing space from
+    # its pyte continuation column.
+    from terminatorlib.backends.conpty.screen import Screen
+    s = Screen(20, 1)
+    s.feed('中A'.encode())
+    grid = s.cells()
+    # Build the selection the way the backend does (row, col range).
+    # '中' spans columns 0-1.
+    text = ''.join(c.char for c in grid[0][0:2] if c.width != 0)
+    assert text == '中'

@@ -84,3 +84,45 @@ def test_cell_clone_independent():
     b = a.clone()
     b.bold = False
     assert a.bold is True
+
+
+def test_display_width_wide():
+    from terminatorlib.backends.conpty.screen import _display_width
+    assert _display_width('A') == 1
+    assert _display_width('中') == 2
+    assert _display_width('。') == 2
+    assert _display_width('') == 0
+
+
+def test_wide_glyph_marked_width_two():
+    s = Screen(20, 1)
+    s.feed('AB中CD'.encode())
+    row = s.cells()[0]
+    assert row[2].char == '中' and row[2].width == 2
+
+
+def test_wide_glyph_continuation_is_width_zero():
+    s = Screen(20, 1)
+    s.feed('AB中CD'.encode())
+    row = s.cells()[0]
+    # The column after a wide glyph is pyte's empty continuation cell.
+    assert row[3].width == 0
+
+
+def test_resize_keeps_buffer_correct():
+    # Regression guard: pyte's resize() takes (lines, columns), the opposite
+    # order of __init__. A swapped call used to scramble the grid (1-col wide).
+    s = Screen(10, 1)
+    s.feed('0123456789'.encode())
+    s.resize(5, 2)
+    assert s.columns == 5 and s.rows == 2
+    # After resize to 5x2 the first row still holds the start of the text.
+    first = ''.join(c.char for c in s.cells()[0][:5] if c.width != 0)
+    assert first.startswith('0')
+
+
+def test_cursor_after_wide_glyph_advances_two():
+    s = Screen(20, 1)
+    s.feed('AB中CD'.encode())
+    # A,B(2 cols) + 中(2 cols) + C,D(2 cols) -> cursor at column 6.
+    assert s.cursor == (0, 6)

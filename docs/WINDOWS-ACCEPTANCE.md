@@ -60,8 +60,6 @@ For each shell, verify:
 * SIXEL graphics: unsupported by pyte.
 * OSC-8 hyperlink hover metadata: not exposed (regex URL matching still works).
 * CJK IME composition (input method): not yet wired.
-* Double-width / CJK glyph alignment in the per-run renderer: approximated
-  (each cell counted as one column); full wcwidth handling is a hardening item.
 * `WINDOWID` env: not set on Windows (X11-only); shells that need it degrade.
 
 ## Backend contract

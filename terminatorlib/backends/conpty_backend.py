@@ -396,7 +396,10 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
             row = grid[r] if r < len(grid) else []
             start = c0 if r == r0 else 0
             end = c1 + 1 if r == r1 else len(row)
-            lines.append(''.join(cell.char for cell in row[start:end]))
+            # Skip width-0 continuation cells so a copied wide glyph does not
+            # gain a trailing space from its placeholder column.
+            lines.append(''.join(cell.char for cell in row[start:end]
+                                 if cell.width != 0))
         return '\n'.join(lines)
 
     def set_selection_from_event(self, event):
@@ -469,32 +472,40 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
             row = row[:self.columns]
             # Build the line text and a Pango attribute list encoding runs of
             # equal (fg, bg, bold, italic, underline, strike), with selection
-            # inverting fg<->bg. One layout per line keeps this fast.
-            line_text = ''.join(c.char for c in row)
+            # inverting fg<->bg. Wide (East-Asian) glyphs are emitted once and
+            # advance the column cursor by 2; their continuation cells (width 0)
+            # are skipped so Pango's natural advance keeps everything aligned.
+            text_chars = []
             attrs = Pango.AttrList.new()
-            x = 0
-            run = None  # (start, rfg, rbg, bold, italic, underline, strike)
-            for x, cell in enumerate(row):
+            run = None  # [start_text_index, rfg, rbg, bold, italic, underline, strike]
+            col = 0
+            for cell in row:
+                w = cell.width
+                if w == 0:
+                    # Continuation column of the preceding wide glyph; nothing
+                    # to draw (the wide glyph already spans this column).
+                    continue
                 rfg = self._resolve_colour(cell.fg, fg)
                 rbg = self._resolve_colour(cell.bg, bg)
-                if sel is not None and _in_selection(y, x, *sel):
+                if sel is not None and _span_in_selection(y, col, w, sel):
                     rfg, rbg = rbg, rfg
-                bold = cell.bold
-                italic = cell.italic
-                underline = cell.underline
-                strike = cell.strike
-                cur = (rfg, rbg, bold, italic, underline, strike)
+                ti = len(text_chars)
+                text_chars.append(cell.char)
+                cur = (rfg, rbg, cell.bold, cell.italic, cell.underline, cell.strike)
                 if run is None:
-                    run = [x, rfg, rbg, bold, italic, underline, strike]
+                    run = [ti, rfg, rbg, cell.bold, cell.italic,
+                           cell.underline, cell.strike]
                 elif cur != tuple(run[1:]):
-                    _emit_run(attrs, run)
-                    run = [x, rfg, rbg, bold, italic, underline, strike]
+                    _emit_run(attrs, run, end=ti)
+                    run = [ti, rfg, rbg, cell.bold, cell.italic,
+                           cell.underline, cell.strike]
+                col += w
             if run is not None:
-                _emit_run(attrs, run, end=len(row))
+                _emit_run(attrs, run, end=len(text_chars))
 
             layout = Pango.Layout(pctx)
             layout.set_font_description(self._font_desc)
-            layout.set_text(line_text, -1)
+            layout.set_text(''.join(text_chars), -1)
             layout.set_attributes(attrs)
             # Default foreground; per-run attrs override colours where needed.
             cr.set_source_rgb(fg[0] / 255.0, fg[1] / 255.0, fg[2] / 255.0)
@@ -512,12 +523,18 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
     def _draw_cursor(self, cr, cx, cy, cw, ch, fg, bg, grid):
         cfill = self._cursor_bg or fg   # block/underline/beam fill colour
         cglyph = self._cursor_fg or bg   # glyph colour drawn over a block
+        # Cursor spans the full display width of the cell under it, so a
+        # block cursor over a wide (East-Asian) glyph covers both columns.
+        cell = None
+        if cy < len(grid) and cx < len(grid[cy]):
+            cell = grid[cy][cx]
+        span_w = max(1, getattr(cell, 'width', 1) or 1) * cw
         x0, y0 = cx * cw, cy * ch
         shape = self._cursor_shape
         if shape == 'underline':
             bar_h = max(2, ch // 8)
             cr.set_source_rgb(*(_norm(cfill)))
-            cr.rectangle(x0, y0 + ch - bar_h, cw, bar_h)
+            cr.rectangle(x0, y0 + ch - bar_h, span_w, bar_h)
             cr.fill()
         elif shape in ('beam', 'ibeam', 'bar'):
             bar_w = max(2, cw // 4)
@@ -526,19 +543,18 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
             cr.fill()
         else:  # block
             cr.set_source_rgb(*(_norm(cfill)))
-            cr.rectangle(x0, y0, cw, ch)
+            cr.rectangle(x0, y0, span_w, ch)
             cr.fill()
             # Redraw the cell's glyph in the cursor-foreground colour so the
             # character stays visible under the block.
-            if cy < len(grid) and cx < len(grid[cy]):
-                ch_char = grid[cy][cx].char
-                if ch_char and ch_char != ' ':
-                    layout = Pango.Layout(self.get_pango_context())
-                    layout.set_font_description(self._font_desc)
-                    layout.set_text(ch_char, -1)
-                    cr.set_source_rgb(*(_norm(cglyph)))
-                    cr.move_to(x0, y0)
-                    PangoCairo.show_layout(cr, layout)
+            ch_char = getattr(cell, 'char', ' ') if cell else ' '
+            if ch_char and ch_char != ' ':
+                layout = Pango.Layout(self.get_pango_context())
+                layout.set_font_description(self._font_desc)
+                layout.set_text(ch_char, -1)
+                cr.set_source_rgb(*(_norm(cglyph)))
+                cr.move_to(x0, y0)
+                PangoCairo.show_layout(cr, layout)
 
     def _resolve_colour(self, spec, default):
         """Turn a Cell colour spec into an (r,g,b) byte triple.
@@ -658,5 +674,24 @@ def _in_selection(y, x, r0, c0, r1, c1):
     if y == r0 and x < c0:
         return False
     if y == r1 and x > c1:
+        return False
+    return True
+
+
+def _span_in_selection(y, col, width, sel):
+    """Whether a cell spanning [col, col+width-1] is (partly) selected.
+
+    A wide glyph occupying two columns should be inverted if either column is
+    in the selection, so this checks the whole span rather than one column.
+    """
+    r0, c0, r1, c1 = sel
+    if r0 > r1 or (r0 == r1 and c0 > c1):
+        r0, c0, r1, c1 = r1, c1, r0, c0
+    if y < r0 or y > r1:
+        return False
+    span_end = col + width - 1
+    if y == r0 and span_end < c0:
+        return False
+    if y == r1 and col > c1:
         return False
     return True

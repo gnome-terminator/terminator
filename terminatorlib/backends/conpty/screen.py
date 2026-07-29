@@ -22,6 +22,7 @@ without a Windows box.
 from __future__ import print_function
 
 import re
+import unicodedata
 
 try:
     import pyte
@@ -45,10 +46,10 @@ class Cell(object):
     """
 
     __slots__ = ('char', 'fg', 'bg', 'bold', 'italic', 'underline',
-                 'strike', 'reverse')
+                 'strike', 'reverse', 'width')
 
     def __init__(self, char=' ', fg=None, bg=None, bold=False, italic=False,
-                 underline=False, strike=False, reverse=False):
+                 underline=False, strike=False, reverse=False, width=1):
         self.char = char or ' '
         self.fg = fg
         self.bg = bg
@@ -57,10 +58,29 @@ class Cell(object):
         self.underline = underline
         self.strike = strike
         self.reverse = reverse
+        # Display width in terminal columns: 1 for a normal glyph, 2 for an
+        # East-Asian wide glyph, 0 for a continuation/placeholder cell (the
+        # second column of a wide char, which pyte leaves as an empty char).
+        self.width = width
 
     def clone(self):
         return Cell(self.char, self.fg, self.bg, self.bold, self.italic,
-                    self.underline, self.strike, self.reverse)
+                    self.underline, self.strike, self.reverse, self.width)
+
+
+def _display_width(ch):
+    """Terminal display width (columns) of a single character.
+
+    East-Asian wide/fullwidth glyphs occupy 2 columns; everything else 1.
+    Zero-width combinators are rare in raw terminal output and treated as 1
+    (they would be drawn onto the previous cell by a real terminal).
+    """
+    if not ch:
+        return 0
+    eaw = unicodedata.east_asian_width(ch)
+    if eaw in ('W', 'F', 'A'):
+        return 2
+    return 1
 
 
 def _colour(spec):
@@ -127,7 +147,9 @@ class Screen(object):
         self.rows = rows
         if self._screen is not None:
             try:
-                self._screen.resize(columns, rows)
+                # pyte's Screen() takes (columns, lines) at construction but
+                # resize() takes (lines, columns); use keywords to be safe.
+                self._screen.resize(lines=rows, columns=columns)
             except Exception:
                 pass
 
@@ -188,18 +210,26 @@ class Screen(object):
                 if src is None:
                     row.append(Cell())
                     continue
+                raw = getattr(src, 'data', '')
+                if raw == '':
+                    # pyte leaves an empty char for the second column of a
+                    # wide glyph; mark it as a continuation (width 0) so the
+                    # renderer can skip it and let the wide glyph span both.
+                    row.append(Cell(char=' ', width=0))
+                    continue
                 fg = _colour(getattr(src, 'fg', None))
                 bg = _colour(getattr(src, 'bg', None))
                 if getattr(src, 'reverse', False):
                     fg, bg = bg, fg
                 row.append(Cell(
-                    char=getattr(src, 'data', ' ') or ' ',
+                    char=raw,
                     fg=fg, bg=bg,
                     bold=bool(getattr(src, 'bold', False)),
                     italic=bool(getattr(src, 'italics', False)),
                     underline=bool(getattr(src, 'underscore', False)),
                     strike=bool(getattr(src, 'strikethrough', False)),
                     reverse=False,  # already applied to fg/bg above
+                    width=_display_width(raw),
                 ))
             grid.append(row)
         return grid
