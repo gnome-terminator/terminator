@@ -82,15 +82,43 @@ $MingwBin = "$MsysRoot\mingw64\bin"
 # ---- 4. GTK3 + bindings via pacman ----------------------------------------
 # A fresh winget MSYS2 has NEVER synced its package DB, so every package is
 # "target not found" until we run -Sy. MSYS2 also renamed python3-* -> python-*,
-# so we try both names and take whichever resolves.
+# so we try both names. The first run also initialises the pacman keyring,
+# which on some systems can take a while with no output -- so we (a) init the
+# keyring explicitly, (b) stream pacman output live, and (c) print a heartbeat
+# so it never looks hung.
+Write-Host "`nFirst MSYS2 use downloads package lists and may take several" -ForegroundColor Yellow
+Write-Host "minutes. Dots print while it works; do not close this window." -ForegroundColor Yellow
+
+function Invoke-BashStream([string]$cmd, [string]$label) {
+    # Run `bash -lc $cmd` sharing the console (so pacman output streams live)
+    # and print a dot every 3s until it exits -- visible progress even when
+    # pacman itself is quiet.
+    Write-Host "    $label " -NoNewline -ForegroundColor Gray
+    $p = Start-Process -FilePath $Bash -ArgumentList @('-lc', $cmd) `
+        -NoNewWindow -PassThru
+    $n = 0
+    while (-not $p.HasExited) {
+        Write-Host -NoNewline "."
+        $n++
+        if ($n % 20 -eq 0) { Write-Host -NoNewline " ($($n*3)s elapsed) " }
+        Start-Sleep -Seconds 3
+    }
+    Write-Host ""
+    return $p.ExitCode
+}
+
+Write-Step "Initialise pacman keyring (first-run only, can be slow)"
+[void](Invoke-BashStream "pacman-key --init" "keyring init")
+[void](Invoke-BashStream "pacman-key --populate msys2" "keyring populate")
+
 Write-Step "Sync MSYS2 package database (pacman -Sy)"
-& $Bash -lc "pacman -Sy --noconfirm --overwrite '*'"
-if ($LASTEXITCODE -ne 0) { Write-Warn2 "pacman -Sy had a non-zero exit; continuing anyway." }
+$rc = Invoke-BashStream "pacman -Sy --noconfirm --overwrite '*'" "sync DB"
+if ($rc -ne 0) { Write-Warn2 "pacman -Sync exited $rc; continuing anyway." }
 
 function Install-Pkg([string[]]$candidates) {
     foreach ($name in $candidates) {
-        & $Bash -lc "pacman -S --noconfirm --needed --overwrite '*' $name" 2>$null
-        if ($LASTEXITCODE -eq 0) { Write-Ok $name; return $true }
+        $rc = Invoke-BashStream "pacman -S --noconfirm --needed --overwrite '*' $name" "install $name"
+        if ($rc -eq 0) { Write-Ok $name; return $true }
     }
     Write-Warn2 ("not found (tried: " + ($candidates -join ', ') + ")")
     return $false
