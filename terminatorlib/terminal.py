@@ -8,9 +8,18 @@ import signal
 import time
 import gi
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
-gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
-from gi.repository import Vte
+from . import platform
 from .terminal_backend import make_terminal_widget
+# libvte only exists on Linux/BSD. On Windows the backend is ConPtyTerminal
+# (a Gtk.DrawingArea) and terminal.py must not require the Vte typelib. We
+# gate the import so that Vte is None on Windows; the few call sites that
+# reference Vte enums (cursor shape, erase bindings) are written to degrade
+# gracefully when Vte is None.
+if not platform.IS_WINDOWS:
+    gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
+    from gi.repository import Vte
+else:
+    Vte = None
 import subprocess
 try:
     from urllib.parse import unquote as urlunquote
@@ -350,21 +359,38 @@ class Terminal(Gtk.VBox):
     def _add_regex(self, name, re):
         dbg(f"adding regex: {re}")
         match = -1
-        if regex.FLAGS_PCRE2:
-            try:
-                reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or regex.FLAGS_PCRE2)
-                match = self.vte.match_add_regex(reg, 0)
-            except GLib.Error:
-                # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
-                pass
+        if platform.IS_WINDOWS:
+            # ConPtyTerminal.match_add_regex compiles a plain Python re pattern
+            # (the URL detection runs over the pyte screen buffer).
+            match = self.vte.match_add_regex(re, 0)
+        else:
+            if regex.FLAGS_PCRE2:
+                try:
+                    reg = Vte.Regex.new_for_match(re, len(re), self.regex_flags or regex.FLAGS_PCRE2)
+                    match = self.vte.match_add_regex(reg, 0)
+                except GLib.Error:
+                    # happens when PCRE2 support is not builtin (Ubuntu < 19.10)
+                    pass
 
-        # try the "old" glib regex
-        if match < 0:
-            reg = GLib.Regex.new(re, self.regex_flags or regex.FLAGS_GLIB, 0)
-            match = self.vte.match_add_gregex(reg, 0)
+            # try the "old" glib regex
+            if match < 0:
+                reg = GLib.Regex.new(re, self.regex_flags or regex.FLAGS_GLIB, 0)
+                match = self.vte.match_add_gregex(reg, 0)
 
         self.matches[name] = match
         self.vte.match_set_cursor_name(self.matches[name], 'pointer')
+
+    def _vte_button_press(self, event):
+        """Forward a button-press to the backend's native handler.
+
+        On Linux this delegates to Vte.Terminal.do_button_press_event (so VTE
+        can process mouse selection / application modes). On Windows the
+        ConPtyTerminal manages selection itself, so we return False to let
+        Terminator's own middle/right-click handlers run.
+        """
+        if Vte is None:
+            return False
+        return self._vte_button_press(event)
 
     def update_url_matches(self):
         """Update the regexps used to match URLs"""
@@ -886,13 +912,16 @@ class Terminal(Gtk.VBox):
         css_class_name = "terminator-profile-%s" % (munged_profile)
         terminal_box_style_context.add_class(css_class_name)
         self.set_cursor_color()
-        self.vte.set_cursor_shape(getattr(Vte.CursorShape,
-                                          self.config['cursor_shape'].upper()));
+        if Vte is not None:
+            self.vte.set_cursor_shape(getattr(Vte.CursorShape,
+                                              self.config['cursor_shape'].upper()));
 
-        if self.config['cursor_blink'] == True:
-            self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.ON)
-        else:
-            self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.OFF)
+            if self.config['cursor_blink'] == True:
+                self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.ON)
+            else:
+                self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.OFF)
+        # On Windows the ConPtyTerminal backend treats cursor shape/blink as
+        # no-ops for now (rendered as a block cursor); see M5.
 
         if self.config['force_no_bell'] == True:
             self.vte.set_audible_bell(False)
@@ -1137,19 +1166,19 @@ class Terminal(Gtk.VBox):
                     gtk_settings=Gtk.Settings().get_default()
                     primary_state = gtk_settings.get_property('gtk-enable-primary-paste')
                     gtk_settings.set_property('gtk-enable-primary-paste',  False)
-                    if not Vte.Terminal.do_button_press_event(self.vte, event):
+                    if not self._vte_button_press(event):
                         middle_click[0](*middle_click[1])
                     gtk_settings.set_property('gtk-enable-primary-paste', primary_state)
                 else:
                     middle_click[0](*middle_click[1])
                 return True
-            return Vte.Terminal.do_button_press_event(self.vte, event)
+            return self._vte_button_press(event)
         elif event.button == self.MOUSEBUTTON_RIGHT:
             # rightclick should display a context menu if Ctrl is not pressed,
             # plus either the app is not interested in mouse events or Shift is pressed
             if event.get_state() & Gdk.ModifierType.CONTROL_MASK == 0:
                 if event.get_state() & Gdk.ModifierType.SHIFT_MASK == 0:
-                    if not Vte.Terminal.do_button_press_event(self.vte, event):
+                    if not self._vte_button_press(event):
                         right_click[0](*right_click[1])
                 else:
                     right_click[0](*right_click[1])
