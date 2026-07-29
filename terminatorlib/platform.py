@@ -218,7 +218,8 @@ def open_url(url):
         try:
             os.startfile(url)  # pylint: disable=no-member
             return True
-        except (OSError, WindowsError):  # noqa: F821
+        except OSError:
+            # WindowsError is a subclass of OSError, so this covers both.
             return None
 
     try:
