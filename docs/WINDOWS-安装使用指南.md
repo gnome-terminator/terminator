@@ -24,6 +24,22 @@ build-windows-package.ps1 ← 安装成功后双击构建可分发的独立程�
 
 > 一键脚本内部细节(出问题时可对照):见 `install-windows.ps1` 注释。
 
+### 离线安装(把依赖打包进去,免联网、秒级)
+
+上面的一键安装**首次**需联网下载 MSYS2/GTK(慢)。若你已在一台机器上用 `install-windows.bat` 成功安装,可在该机器上跑一次 `make-offline-bundle.ps1` 把整套运行时(GTK DLL、mingw Python、PyGObject、psutil、pyte 等)+ Terminator 源码快照成一个可拷贝的 `bundle/` 目录:
+
+```powershell
+# 默认:直接拷贝 MSYS2 mingw64(体积大,~数百 MB,但保证完整)
+powershell -ExecutionPolicy Bypass -File make-offline-bundle.ps1
+
+# 推荐:用 PyInstaller 产出更小的独立包(若 PyInstaller 可用)
+powershell -ExecutionPolicy Bypass -File make-offline-bundle.ps1 -Mode pyinstaller
+```
+
+生成的 `bundle/` 里含 `install-offline.bat` 与 `run.bat`。**把整个 `bundle/` 拷到任意 Windows 机器**(或打成 zip 分发),双击 `install-offline.bat` 即把程序拷到 `%LOCALAPPDATA%\Terminator` 并建桌面/开始菜单快捷方式,**全程零网络、秒级完成**;之后双击桌面 Terminator 图标即用。
+
+> 注:PyInstaller 模式产物体积小、更干净;`copy` 模式体积大但更稳。两者皆离线可分发。
+
 ---
 
 ## 1. 系统要求
