@@ -10,6 +10,7 @@ from gi.repository import GObject
 from gi.repository import Gtk, Gdk
 
 from .util import dbg, err, make_uuid, display_manager
+from . import platform
 
 try:
     from gi.repository import GdkX11
@@ -403,7 +404,40 @@ class Window(Container, Gtk.Window):
                 light_theme = current_theme[:-5]
                 if self._theme_exists(light_theme):
                     settings.set_property("gtk-theme-name", light_theme)
-        self._set_theme_variant_x11(style)
+        self.set_decoration_style(style)
+
+    def set_decoration_style(self, style):
+        """Apply the Dark/Light/Auto window decoration per platform.
+
+        X11: the _GTK_THEME_VARIANT property (original behaviour).
+        Windows: the DWM immersive-dark-mode attribute (the Windows
+        equivalent, via platform.set_window_dark_mode). Wayland and other
+        backends have no equivalent and are no-ops here.
+        """
+        if display_manager() == 'X11':
+            self._set_theme_variant_x11(style)
+            return
+        if platform.IS_WINDOWS:
+            dark = style == 'dark'
+            if style == 'auto':
+                dark = self._detect_decoration_style() == 'dark'
+            try:
+                hwnd = self._get_win32_handle()
+                if hwnd:
+                    platform.set_window_dark_mode(hwnd, dark=dark)
+            except Exception as e:
+                dbg('set_decoration_style: Windows DWM failed: %s' % e)
+
+    def _get_win32_handle(self):
+        """Return the underlying HWND for this window, or None."""
+        try:
+            from gi.repository import GdkWin32
+            gdkwin = self.get_window()
+            if gdkwin is None:
+                return None
+            return GdkWin32.gdk_win32_window_get_handle(gdkwin)
+        except Exception:
+            return None
 
     def _detect_decoration_style(self):
         """Detect dark or light based on terminal background color luminance"""
@@ -496,7 +530,7 @@ class Window(Container, Gtk.Window):
                 should_blur = True
                 break
         self.set_blur_behind(should_blur)
-        self._set_theme_variant_x11(self.config['window_decoration_style'])
+        self.set_decoration_style(self.config['window_decoration_style'])
 
     def set_blur_behind(self, enable=True):
         """Set or remove the KDE blur-behind-window hint via X11 property"""

@@ -45,6 +45,7 @@ except ImportError:
     sys.exit(1)
 
 import terminatorlib.optionparse
+from terminatorlib import platform
 from terminatorlib.terminator import Terminator
 from terminatorlib.factory import Factory
 from terminatorlib.version import APP_NAME, APP_VERSION
@@ -76,53 +77,77 @@ if __name__ == '__main__':
         # launch gui, return selection
         LAYOUTLAUNCHER=LayoutLauncher()
     else:
-        # Attempt to import our dbus server. If one exists already we will just
-        # connect to that and ask for a new window. If not, we will create one and
-        # continue. Failure to import dbus, or the global config option "dbus"
-        # being False will cause us to continue without the dbus server and open a
-        # window.
-        try:
-            if OPTIONS.nodbus:
-                dbg('dbus disabled by command line')
-                raise ImportError
-            from terminatorlib import ipc
-            import dbus
-            try:
-                dbus_service = ipc.DBusService()
-
-                if(OPTIONS.reload):
-                    # Reload only is executed when exist at least one window,
-                    # if not there is nothing to reload
-                    sys.exit()
-
-            except ipc.DBusException:
-                dbg('Unable to become master process, operating via DBus')
-                # get rid of the None and True types so dbus can handle them (empty
-                # and 'True' strings are used instead), also arrays are joined 
-                # (the -x argument for example)
-                if OPTIONS.working_directory is None:
-                    OPTIONS.working_directory = ORIGCWD
-                    dbus_options['working_directory'] = ORIGCWD
-                optionslist = dbus.Dictionary(dbus_options, signature='ss')
-                if OPTIONS.new_tab:
-                    dbg('Requesting a new tab')
-                    ipc.new_tab_cmdline(optionslist)
-                elif OPTIONS.toggle_visibility:
-                    dbg('requesting to toggle windows visibility')
-                    ipc.toggle_visibility_cmdline(optionslist)
-                elif OPTIONS.reload:
-                    dbg('requesting to reload configuration for all windows')
-                    ipc.reload_configuration()
-                elif OPTIONS.unhide:
-                    print('requesting to unhide windows')
-                    ipc.unhide_cmdline(optionslist)
-                else:
-                    dbg('Requesting a new window')
-                    ipc.new_window_cmdline(optionslist)
+        # Single-instance / command forwarding. Linux uses a DBus session
+        # service (ipc.DBusService); Windows uses a named pipe
+        # (ipc_win32.PipeService). On either platform, if a master is already
+        # running we forward our request to it and exit; otherwise we become
+        # the master and open a window.
+        if platform.IS_WINDOWS:
+            from terminatorlib import ipc_win32
+            method = 'new_window'
+            if OPTIONS.new_tab:
+                method = 'new_tab'
+            elif OPTIONS.toggle_visibility:
+                method = 'toggle_visibility'
+            elif OPTIONS.reload:
+                method = 'reload_configuration'
+            elif OPTIONS.unhide:
+                method = 'unhide'
+            if OPTIONS.working_directory is None:
+                OPTIONS.working_directory = ORIGCWD
+                dbus_options['working_directory'] = ORIGCWD
+            if ipc_win32.send_command(method, dbus_options) is not None:
+                dbg('Forwarded %s to running master; exiting' % method)
                 sys.exit()
-        except ImportError:
-            dbg('dbus not imported')
-            pass
+            # No master is running -- become the master.
+            ipc_service = ipc_win32.PipeService(terminator=TERMINATOR)
+            ipc_service.start()
+            if OPTIONS.reload:
+                # reload only makes sense if a window already exists.
+                sys.exit()
+        else:
+            try:
+                if OPTIONS.nodbus:
+                    dbg('dbus disabled by command line')
+                    raise ImportError
+                from terminatorlib import ipc
+                import dbus
+                try:
+                    dbus_service = ipc.DBusService()
+
+                    if(OPTIONS.reload):
+                        # Reload only is executed when exist at least one window,
+                        # if not there is nothing to reload
+                        sys.exit()
+
+                except ipc.DBusException:
+                    dbg('Unable to become master process, operating via DBus')
+                    # get rid of the None and True types so dbus can handle them (empty
+                    # and 'True' strings are used instead), also arrays are joined
+                    # (the -x argument for example)
+                    if OPTIONS.working_directory is None:
+                        OPTIONS.working_directory = ORIGCWD
+                        dbus_options['working_directory'] = ORIGCWD
+                    optionslist = dbus.Dictionary(dbus_options, signature='ss')
+                    if OPTIONS.new_tab:
+                        dbg('Requesting a new tab')
+                        ipc.new_tab_cmdline(optionslist)
+                    elif OPTIONS.toggle_visibility:
+                        dbg('requesting to toggle windows visibility')
+                        ipc.toggle_visibility_cmdline(optionslist)
+                    elif OPTIONS.reload:
+                        dbg('requesting to reload configuration for all windows')
+                        ipc.reload_configuration()
+                    elif OPTIONS.unhide:
+                        print('requesting to unhide windows')
+                        ipc.unhide_cmdline(optionslist)
+                    else:
+                        dbg('Requesting a new window')
+                        ipc.new_window_cmdline(optionslist)
+                    sys.exit()
+            except ImportError:
+                dbg('dbus not imported')
+                pass
 
         MAKER = Factory()
         TERMINATOR.set_dbus_data(dbus_service)
