@@ -10,6 +10,7 @@ import gi
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
 gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
 from gi.repository import Vte
+from .terminal_backend import make_terminal_widget
 import subprocess
 try:
     from urllib.parse import unquote as urlunquote
@@ -146,7 +147,7 @@ class Terminal(Gtk.VBox):
 
         self.pending_on_vte_size_allocate = False
 
-        self.vte = Vte.Terminal()
+        self.vte = make_terminal_widget()
         self.vte.set_allow_hyperlink(True)
         self.vte._draw_data = None
         if not hasattr(self.vte, "set_opacity") or \
@@ -1699,35 +1700,13 @@ class Terminal(Gtk.VBox):
         dbg('Forking shell: "%s" with args: %s' % (shell, args))
         args.insert(0, shell)
 
-        if util.is_flatpak():
+        flatpak = util.is_flatpak()
+        if flatpak:
             dbg('Flatpak detected')
             args = util.get_flatpak_args(args, envv, self.cwd)
             dbg('Forking shell: "%s" with args: %s via flatpak-spawn' % (shell, args))
-        
-            self.pid = self.vte.spawn_async(
-                Vte.PtyFlags.NO_CTTY,
-                self.cwd,
-                args,
-                envv,
-                0,
-                None,
-                None,
-                -1,
-                None,
-                None,
-                None,
-            )
-        else:
-            result, self.pid = self.vte.spawn_sync(
-                    Vte.PtyFlags.DEFAULT,
-                    self.cwd,
-                    args,
-                    envv,
-                    GLib.SpawnFlags.FILE_AND_ARGV_ZERO,
-                    None,
-                    None,
-                    None
-                    )
+
+        self.pid = self.vte.spawn(args, envv, self.cwd, flatpak=flatpak)
 
         self.command = shell
 
