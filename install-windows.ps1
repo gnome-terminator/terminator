@@ -77,37 +77,71 @@ if (-not (Test-Path "$MsysRoot\usr\bin\bash.exe")) {
 }
 $Bash = "$MsysRoot\usr\bin\bash.exe"
 Write-Ok "MSYS2 bash: $Bash"
+$MingwBin = "$MsysRoot\mingw64\bin"
 
 # ---- 4. GTK3 + bindings via pacman ----------------------------------------
-Write-Step "Install GTK3 + PyGObject via MSYS2 pacman (this can take a few minutes)"
-$pkgArgs = "pacman -S --noconfirm --needed " + `
-    "mingw-w64-x86_64-gtk3 " + `
-    "mingw-w64-x86_64-python3 " + `
-    "mingw-w64-x86_64-python3-gobject " + `
-    "mingw-w64-x86_64-cairo " + `
-    "mingw-w64-x86_64-pango " + `
-    "mingw-w64-x86_64-python3-pip " + `
-    "mingw-w64-x86_64-python3-psutil"
-& $Bash -lc $pkgArgs
-if ($LASTEXITCODE -ne 0) { Die "pacman install failed (exit $LASTEXITCODE)." }
-Write-Ok "GTK3 + bindings installed"
+# A fresh winget MSYS2 has NEVER synced its package DB, so every package is
+# "target not found" until we run -Sy. MSYS2 also renamed python3-* -> python-*,
+# so we try both names and take whichever resolves.
+Write-Step "Sync MSYS2 package database (pacman -Sy)"
+& $Bash -lc "pacman -Sy --noconfirm --overwrite '*'"
+if ($LASTEXITCODE -ne 0) { Write-Warn2 "pacman -Sy had a non-zero exit; continuing anyway." }
 
-# ---- 5. Python deps (pyte, configobj, pytest) -----------------------------
-Write-Step "pip install Terminator Python deps"
-& $Bash -lc "python3 -m pip install --upgrade pip && python3 -m pip install --no-input pyte configobj pytest"
+function Install-Pkg([string[]]$candidates) {
+    foreach ($name in $candidates) {
+        & $Bash -lc "pacman -S --noconfirm --needed --overwrite '*' $name" 2>$null
+        if ($LASTEXITCODE -eq 0) { Write-Ok $name; return $true }
+    }
+    Write-Warn2 ("not found (tried: " + ($candidates -join ', ') + ")")
+    return $false
+}
+
+Write-Step "Install GTK3 + PyGObject via pacman (this can take a few minutes)"
+[void](Install-Pkg @('mingw-w64-x86_64-gtk3'))
+[void](Install-Pkg @('mingw-w64-x86_64-gobject-introspection','mingw-w64-x86_64-gobject-introspection-runtime'))
+$pyOk     = Install-Pkg @('mingw-w64-x86_64-python','mingw-w64-x86_64-python3')
+$gobjOk   = Install-Pkg @('mingw-w64-x86_64-python-gobject','mingw-w64-x86_64-python3-gobject')
+$cairoOk  = Install-Pkg @('mingw-w64-x86_64-python-cairo','mingw-w64-x86_64-python3-cairo')
+$psutilOk = Install-Pkg @('mingw-w64-x86_64-python-psutil','mingw-w64-x86_64-python3-psutil')
+[void](Install-Pkg @('mingw-w64-x86_64-python-pip','mingw-w64-x86_64-python3-pip'))
+
+# Detect which python executable the install produced (python3.exe or python.exe).
+$PyExe = $null
+if (Test-Path "$MingwBin\python3.exe")      { $PyExe = 'python3' }
+elseif (Test-Path "$MingwBin\python.exe")   { $PyExe = 'python' }
+else {
+    Die "No mingw python found in $MingwBin after pacman install (python package failed)."
+}
+Write-Ok "python executable: $PyExe"
+
+if (-not $gobjOk) {
+    Die "python-gobject (PyGObject / 'gi') could not be installed -- the GUI cannot start. " + `
+        "Open the MSYS2 'MinGW64' shell, run: pacman -Syu, then pacman -S mingw-w64-x86_64-python-gobject, then re-run this script."
+}
+
+# ---- 5. Python deps (pure-Python ones via pip) ----------------------------
+# NOTE: PyPI binary wheels (psutil, pycairo) do NOT work with MSYS2's mingw
+# python (ABI mismatch) -- those must come from pacman (step 4). Only
+# pure-Python packages are pip-installed here.
+Write-Step "pip install pure-Python Terminator deps (pyte, configobj)"
+& $Bash -lc "$PyExe -m pip install --no-input --upgrade pip pyte configobj"
 if ($LASTEXITCODE -ne 0) { Write-Warn2 "pip deps install had issues; continuing." }
-# pywin32 has no MSYS2 wheel -- single-instance IPC degrades; not fatal.
-Write-Warn2 "pywin32 unavailable under MSYS2 -> named-pipe single-instance disabled (app still runs)"
+if (-not $psutilOk) {
+    Write-Warn2 "python-psutil not installed from pacman; trying pip (may fail to build)."
+    & $Bash -lc "$PyExe -m pip install --no-input psutil" 2>$null
+}
+# pywin32 has no MSYS2 wheel -- named-pipe single-instance IPC degrades.
+Write-Warn2 "pywin32 unavailable under MSYS2 -> single-instance IPC disabled (app still runs)"
 
 # ---- 6. setup.py install (best-effort; run-windows.bat runs from source) --
 Write-Step "Install Terminator (setup.py --without-gettext)"
 # Convert the Windows repo path to an MSYS2 path (C:\a\b -> /c/a/b).
 $drive = $RepoRoot.Substring(0,1).ToLower()
 $MsysRepo = '/' + $drive + ($RepoRoot.Substring(2) -replace '\\','/')
-& $Bash -lc "cd '$MsysRepo' && python3 setup.py --without-gettext install"
+& $Bash -lc "cd '$MsysRepo' && $PyExe setup.py --without-gettext install"
 if ($LASTEXITCODE -ne 0) {
     Write-Warn2 "setup.py install failed (Python 3.12+ removed distutils). Trying pip install."
-    & $Bash -lc "cd '$MsysRepo' && python3 -m pip install . --no-build-isolation"
+    & $Bash -lc "cd '$MsysRepo' && $PyExe -m pip install . --no-build-isolation"
     if ($LASTEXITCODE -ne 0) {
         Write-Warn2 "pip install also failed; will run from source via run-windows.bat."
     }
@@ -117,13 +151,12 @@ Write-Ok "install step done (or running from source)"
 # ---- 7. Write run-windows.bat ---------------------------------------------
 Write-Step "Write run-windows.bat"
 $RunBat = Join-Path $RepoRoot 'run-windows.bat'
-$MingwBin = "$MsysRoot\mingw64\bin"
-$PyExe = "$MingwBin\python3.exe"
+$PyExePath = "$MingwBin\$PyExe.exe"
 $bat = @(
     "@echo off",
     "set PATH=$MingwBin;%PATH%",
     "cd /d `"$RepoRoot`"",
-    "`"$PyExe`" terminator",
+    "`"$PyExePath`" terminator",
     "pause"
 ) -join "`r`n"
 Set-Content -Path $RunBat -Value $bat -Encoding ASCII
