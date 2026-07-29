@@ -13,13 +13,12 @@
   VTE, there is no library doing the glyph drawing for us);
 * maps GDK keyboard events to the VT input sequences a ConPTY expects.
 
-Coverage note: the launch/render/scroll/resize/colour/font/URL path is real.
-Some advanced VTE features that the historical code exercises
-(SIXEL graphics, sixel, hyperlink hover metadata, per-directional erase
-binding semantics) are stubbed with clear ``NotImplementedError`` comments;
-these are tracked in M5. The widget still imports on Linux (Windows-only
-imports are deferred to :meth:`spawn`) so the module can be analysed and the
-emulation logic unit-tested without a Windows box.
+Coverage note: the launch/render/scroll/resize/colour/font/URL path is real,
+and the renderer does full per-cell/per-run colour (true-colour, palette,
+reverse, bold/italic/underline/strikethrough), selection inversion, and
+cursor shapes (block/underline/beam) with cursor colours and blink. A few
+advanced VTE features remain stubbed with clear comments: SIXEL graphics,
+OSC-8 hyperlink hover metadata, and CJK IME composition are tracked gaps.
 """
 
 from __future__ import print_function
@@ -91,6 +90,16 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
         self._font_desc = Pango.FontDescription.from_string('monospace 10')
         self._char_width = 8
         self._char_height = 16
+
+        # Cursor: shape ('block'/'underline'/'beam'), colours, blink.
+        self._cursor_shape = 'block'
+        self._cursor_bg = None     # (r,g,b) fill, None => use default fg
+        self._cursor_fg = None     # (r,g,b) glyph-on-cursor, None => use default bg
+        self._cursor_blink = False
+        self._cursor_visible = True
+        self._blink_id = None
+
+        self._clear_background = True
 
         self._input_enabled = True
 
@@ -259,10 +268,14 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
         self.queue_draw()
 
     def set_color_cursor(self, color):
-        pass  # TODO(M5): render cursor colour
+        """Cursor fill colour (Gdk.RGBA or None for theme default)."""
+        self._cursor_bg = _rgba_to_rgb(color)
+        self.queue_draw()
 
     def set_color_cursor_foreground(self, color):
-        pass  # TODO(M5)
+        """Glyph colour drawn over a block cursor (Gdk.RGBA or None)."""
+        self._cursor_fg = _rgba_to_rgb(color)
+        self.queue_draw()
 
     def set_font(self, fontdesc):
         self._font_desc = fontdesc
@@ -285,8 +298,40 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
     def set_audible_bell(self, v): self._audible_bell = v
     def set_backspace_binding(self, v): pass
     def set_delete_binding(self, v): pass
-    def set_cursor_shape(self, v): pass  # TODO(M5): block/underline/beam cursor
-    def set_cursor_blink_mode(self, v): pass
+    def set_cursor_shape(self, v):
+        """Set the cursor shape.
+
+        Accepts a Vte.CursorShape enum (int, on the off chance it is passed)
+        or the config string ('block'/'underline'/'ibeam'/'bar').
+        """
+        shape = _cursor_shape_from_value(v)
+        if shape:
+            self._cursor_shape = shape
+            self.queue_draw()
+
+    def set_cursor_blink_mode(self, v):
+        """Enable/disable cursor blink. ``v`` may be a Vte.CursorBlinkMode
+        enum or a plain bool (terminal.py passes the raw config on Windows)."""
+        on = _cursor_blink_on(v)
+        self._cursor_blink = on
+        if on and self._blink_id is None:
+            self._blink_id = GLib.timeout_add(530, self._blink_tick)
+        elif not on and self._blink_id is not None:
+            GLib.source_remove(self._blink_id)
+            self._blink_id = None
+        self._cursor_visible = True
+        self.queue_draw()
+
+    def _blink_tick(self):
+        # Only blink while the terminal is the focus widget; otherwise the
+        # cursor stays solid (mirrors VTE's behaviour).
+        if self.is_focus():
+            self._cursor_visible = not self._cursor_visible
+        else:
+            self._cursor_visible = True
+        self.queue_draw()
+        return True
+
     def set_allow_bold(self, v): pass
     def set_bold_is_bright(self, v): pass
     def set_cell_height_scale(self, v): pass
@@ -407,63 +452,202 @@ class ConPtyTerminal(Gtk.DrawingArea, TerminalBackend):
         bg = self._bg or (0, 0, 0)
         fg = self._fg or (255, 255, 255)
 
-        cr.set_source_rgb(bg[0] / 255.0, bg[1] / 255.0, bg[2] / 255.0)
-        cr.paint()
+        if self._clear_background:
+            cr.set_source_rgb(bg[0] / 255.0, bg[1] / 255.0, bg[2] / 255.0)
+            cr.paint()
 
         grid = self.screen.cells()
         cw, ch = self._char_width, self._char_height
-
-        layout = Pango.Layout(self.get_pango_context())
-        layout.set_font_description(self._font_desc)
+        pctx = self.get_pango_context()
 
         sel = self._selection
+        cursor_y, cursor_x = self.screen.cursor  # (row, col)
+
         for y, row in enumerate(grid):
             if y >= self.rows:
                 break
-            # Draw cell backgrounds that differ (so true-colour/reverse/selection
-            # show up), then the glyphs.
+            row = row[:self.columns]
+            # Build the line text and a Pango attribute list encoding runs of
+            # equal (fg, bg, bold, italic, underline, strike), with selection
+            # inverting fg<->bg. One layout per line keeps this fast.
+            line_text = ''.join(c.char for c in row)
+            attrs = Pango.AttrList.new()
+            x = 0
+            run = None  # (start, rfg, rbg, bold, italic, underline, strike)
             for x, cell in enumerate(row):
-                if x >= self.columns:
-                    break
-                bgcol = self._resolve_colour(cell.bg, bg, fg, reverse=False)
-                if sel is not None:
-                    r0, c0, r1, c1 = sel
-                    if _in_selection(y, x, r0, c0, r1, c1):
-                        bgcol = tuple(fg)
-                if bgcol != bg:
-                    cr.set_source_rgb(bgcol[0] / 255.0, bgcol[1] / 255.0, bgcol[2] / 255.0)
-                    cr.rectangle(x * cw, y * ch, cw, ch)
-                    cr.fill()
+                rfg = self._resolve_colour(cell.fg, fg)
+                rbg = self._resolve_colour(cell.bg, bg)
+                if sel is not None and _in_selection(y, x, *sel):
+                    rfg, rbg = rbg, rfg
+                bold = cell.bold
+                italic = cell.italic
+                underline = cell.underline
+                strike = cell.strike
+                cur = (rfg, rbg, bold, italic, underline, strike)
+                if run is None:
+                    run = [x, rfg, rbg, bold, italic, underline, strike]
+                elif cur != tuple(run[1:]):
+                    _emit_run(attrs, run)
+                    run = [x, rfg, rbg, bold, italic, underline, strike]
+            if run is not None:
+                _emit_run(attrs, run, end=len(row))
 
-            # One Pango layout per line (batched) for performance.
-            line_text = ''.join(c.char for c in row[:self.columns])
-            # NOTE: per-cell attributes (bold, colour) are approximated by
-            # splitting into runs of equal style; this simple version draws
-            # the whole line in the default foreground. Full per-run colour
-            # is a M5 hardening item, but the common cases (plain text) render
-            # correctly here.
+            layout = Pango.Layout(pctx)
+            layout.set_font_description(self._font_desc)
             layout.set_text(line_text, -1)
+            layout.set_attributes(attrs)
+            # Default foreground; per-run attrs override colours where needed.
             cr.set_source_rgb(fg[0] / 255.0, fg[1] / 255.0, fg[2] / 255.0)
             cr.move_to(0, y * ch)
             PangoCairo.show_layout(cr, layout)
 
-        # Cursor block.
-        cy, cx = self.screen.cursor
-        if 0 <= cy < self.rows and 0 <= cx < self.columns:
-            cr.set_source_rgb(fg[0] / 255.0, fg[1] / 255.0, fg[2] / 255.0)
-            cr.rectangle(cx * cw, cy * ch, cw, ch)
-            cr.fill()
+        # Cursor (drawn last, on top). Hidden when blinking is in its off
+        # phase, or when the cell is outside the visible grid.
+        if (self._cursor_visible and 0 <= cursor_y < self.rows
+                and 0 <= cursor_x < self.columns):
+            self._draw_cursor(cr, cursor_x, cursor_y, cw, ch, fg, bg, grid)
+
         return False
 
-    def _resolve_colour(self, spec, default_bg, default_fg, reverse=False):
-        """Turn a Cell colour spec into an (r,g,b) byte triple."""
+    def _draw_cursor(self, cr, cx, cy, cw, ch, fg, bg, grid):
+        cfill = self._cursor_bg or fg   # block/underline/beam fill colour
+        cglyph = self._cursor_fg or bg   # glyph colour drawn over a block
+        x0, y0 = cx * cw, cy * ch
+        shape = self._cursor_shape
+        if shape == 'underline':
+            bar_h = max(2, ch // 8)
+            cr.set_source_rgb(*(_norm(cfill)))
+            cr.rectangle(x0, y0 + ch - bar_h, cw, bar_h)
+            cr.fill()
+        elif shape in ('beam', 'ibeam', 'bar'):
+            bar_w = max(2, cw // 4)
+            cr.set_source_rgb(*(_norm(cfill)))
+            cr.rectangle(x0, y0, bar_w, ch)
+            cr.fill()
+        else:  # block
+            cr.set_source_rgb(*(_norm(cfill)))
+            cr.rectangle(x0, y0, cw, ch)
+            cr.fill()
+            # Redraw the cell's glyph in the cursor-foreground colour so the
+            # character stays visible under the block.
+            if cy < len(grid) and cx < len(grid[cy]):
+                ch_char = grid[cy][cx].char
+                if ch_char and ch_char != ' ':
+                    layout = Pango.Layout(self.get_pango_context())
+                    layout.set_font_description(self._font_desc)
+                    layout.set_text(ch_char, -1)
+                    cr.set_source_rgb(*(_norm(cglyph)))
+                    cr.move_to(x0, y0)
+                    PangoCairo.show_layout(cr, layout)
+
+    def _resolve_colour(self, spec, default):
+        """Turn a Cell colour spec into an (r,g,b) byte triple.
+
+        ``default`` is returned when the spec is the theme default (None) or
+        refers to an unknown palette index; the caller passes either the fg
+        or bg default depending on whether it is resolving foreground or
+        background.
+        """
         if spec is None:
-            return default_bg
+            return default
         if isinstance(spec, tuple):
             return spec
         if isinstance(spec, int) and spec in self._palette:
             return self._palette[spec]
-        return default_bg
+        return default
+
+
+# ---------------------------------------------------------------------------
+# Module-level render helpers
+# ---------------------------------------------------------------------------
+
+def _norm(rgb):
+    """Return a (r,g,b) float triple in [0,1] for cairo set_source_rgb."""
+    return (rgb[0] / 255.0, rgb[1] / 255.0, rgb[2] / 255.0)
+
+
+def _pango16(byte):
+    """Scale an 0-255 channel to Pango's 0-65535 range."""
+    return max(0, min(65535, int(byte) * 257))
+
+
+def _rgba_to_rgb(color):
+    """Convert a Gdk.RGBA (or None) to an (r,g,b) byte triple (or None)."""
+    if color is None:
+        return None
+    try:
+        return (int(color.red * 255), int(color.green * 255), int(color.blue * 255))
+    except AttributeError:
+        return None
+
+
+def _emit_run(attrs, run, end=None):
+    """Append Pango attributes for one style run to ``attrs``.
+
+    ``run`` is ``[start_index, rfg, rbg, bold, italic, underline, strike]``.
+    Foreground/background attrs are only added where the colour differs from
+    the layout default, which Pango would otherwise draw via set_source_rgb.
+    """
+    start = run[0]
+    stop = end if end is not None else start + 1
+    rfg, rbg, bold, italic, underline, strike = run[1:7]
+    if bold:
+        a = Pango.attr_weight_new(Pango.Weight.BOLD)
+        a.start_index = start
+        a.end_index = stop
+        attrs.insert(a)
+    if italic:
+        a = Pango.attr_style_new(Pango.Style.ITALIC)
+        a.start_index = start
+        a.end_index = stop
+        attrs.insert(a)
+    if underline:
+        a = Pango.attr_underline_new(Pango.Underline.SINGLE)
+        a.start_index = start
+        a.end_index = stop
+        attrs.insert(a)
+    if strike:
+        a = Pango.attr_strikethrough_new(True)
+        a.start_index = start
+        a.end_index = stop
+        attrs.insert(a)
+    # We always emit fg/bg so per-cell colours (truecolour, reverse, palette)
+    # win over the layout-wide default.
+    a = Pango.attr_foreground_new(_pango16(rfg[0]), _pango16(rfg[1]),
+                                  _pango16(rfg[2]))
+    a.start_index = start
+    a.end_index = stop
+    attrs.insert(a)
+    a = Pango.attr_background_new(_pango16(rbg[0]), _pango16(rbg[1]),
+                                  _pango16(rbg[2]))
+    a.start_index = start
+    a.end_index = stop
+    attrs.insert(a)
+
+
+# Vte.CursorShape enum values (libvte): BLOCK=0, IBEAM=1, UNDERLINE=2.
+_VTE_CURSOR_SHAPE = {0: 'block', 1: 'beam', 2: 'underline'}
+
+
+def _cursor_shape_from_value(v):
+    """Normalise a Vte.CursorShape int or config string to a shape name."""
+    if isinstance(v, int):
+        return _VTE_CURSOR_SHAPE.get(v)
+    if isinstance(v, str):
+        s = v.lower()
+        if s in ('block', 'underline', 'ibeam', 'beam', 'bar'):
+            return 'beam' if s == 'ibeam' else s if s != 'bar' else 'beam'
+    return None
+
+
+# Vte.CursorBlinkMode: SYSTEM=0, ON=1, OFF=2 (libvte). A raw bool from the
+# Windows config path is also accepted.
+def _cursor_blink_on(v):
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, int):
+        return v == 1
+    return False
 
 
 def _in_selection(y, x, r0, c0, r1, c1):

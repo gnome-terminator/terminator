@@ -37,6 +37,9 @@ For each shell, verify:
 | Resize | Drag window border | Grid reflows; ConPTY resized; no truncation |
 | Scrollback | `for($i=0;$i -lt 200;$i++){echo $i}` then scroll | History scrolls correctly |
 | Cursor | Type then backspace | Block cursor follows input |
+| Cursor shape | Set `cursor_shape` to underline/ibeam | Cursor renders as underline/beam |
+| Cursor colour | Set `cursor_bg_color`/`cursor_fg_color` | Cursor fill + glyph colours apply |
+| Cursor blink | `cursor_blink = True`, focus the terminal | Cursor blinks; solid when unfocused |
 | Split horizontal | `Ctrl+Shift+O` | New pane appears side-by-side, both spawn shells |
 | Split vertical | `Ctrl+Shift+E` | New pane stacked, both spawn shells |
 | Tab | `Ctrl+Shift+T` | New tab, spawns a shell |
@@ -56,10 +59,9 @@ For each shell, verify:
 
 * SIXEL graphics: unsupported by pyte.
 * OSC-8 hyperlink hover metadata: not exposed (regex URL matching still works).
-* Cursor shape variants (underline/beam): rendered as a block.
-* Full per-cell colour runs in the renderer: simplified; plain-text lines
-  render in default fg (per-run colour is an M5 hardening item).
-* IME composition (CJK input): not yet wired.
+* CJK IME composition (input method): not yet wired.
+* Double-width / CJK glyph alignment in the per-run renderer: approximated
+  (each cell counted as one column); full wcwidth handling is a hardening item.
 * `WINDOWID` env: not set on Windows (X11-only); shells that need it degrade.
 
 ## Backend contract

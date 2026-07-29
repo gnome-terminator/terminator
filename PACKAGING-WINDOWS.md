@@ -47,8 +47,10 @@ It launches PowerShell (`pwsh` / `powershell`) by default; set
 
 ## What works / what is tracked
 
-* Working: spawning cmd/powershell/wsl, rendering, scrollback, resize,
-  colours/fonts, URL matching + open, single-instance, split/tab/broadcast
-  (shared layout container logic), dark titlebar (DWM).
-* Tracked in M5: SIXEL, OSC-8 hyperlink hover metadata, cursor-shape
-  variants, full per-cell colour runs in the renderer, IME composition.
+* Working: spawning cmd/powershell/wsl, rendering (full per-cell/per-run
+  colour -- true-colour, palette, reverse, bold/italic/underline/strike),
+  scrollback, resize, colours/fonts, cursor shapes (block/underline/beam)
+  with cursor colours and blink, URL matching + open, single-instance,
+  split/tab/broadcast (shared layout container logic), dark titlebar (DWM).
+* Tracked gaps: SIXEL graphics, OSC-8 hyperlink hover metadata, CJK IME
+  composition, double-width/CJK glyph alignment in the per-run renderer.

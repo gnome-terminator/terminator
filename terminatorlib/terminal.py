@@ -920,8 +920,11 @@ class Terminal(Gtk.VBox):
                 self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.ON)
             else:
                 self.vte.set_cursor_blink_mode(Vte.CursorBlinkMode.OFF)
-        # On Windows the ConPtyTerminal backend treats cursor shape/blink as
-        # no-ops for now (rendered as a block cursor); see M5.
+        else:
+            # Windows ConPtyTerminal backend: pass the raw config values; the
+            # backend normalises them (_cursor_shape_from_value / blink tick).
+            self.vte.set_cursor_shape(self.config['cursor_shape'])
+            self.vte.set_cursor_blink_mode(self.config['cursor_blink'] == True)
 
         if self.config['force_no_bell'] == True:
             self.vte.set_audible_bell(False)
