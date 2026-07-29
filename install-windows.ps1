@@ -107,9 +107,18 @@ function Invoke-BashStream([string]$cmd, [string]$label) {
     return $p.ExitCode
 }
 
-Write-Step "Initialise pacman keyring (first-run only, can be slow)"
+Write-Step "Repair pacman keyring (MSYS2 key had rotated -> 'invalid signature')"
+# The shipped keyring is often stale, so every package fails signature check
+# with 'invalid signature from Christoph Reiter'. Fix: temporarily disable
+# SigLevel, install the latest msys2-keyring package, then re-populate trust.
+$nosigConf = '/etc/pacman-nosig.conf'
+[void](Invoke-BashStream "sed 's|^[[:space:]]*SigLevel.*|SigLevel = Never|' /etc/pacman.conf > $nosigConf" "make nosig config")
+[void](Invoke-BashStream "pacman --config $nosigConf -Sy --noconfirm" "nosig sync DB")
+[void](Invoke-BashStream "pacman --config $nosigConf -S --noconfirm --needed msys2-keyring" "install latest msys2-keyring")
+# Now rebuild trust from the freshly installed keyring.
 [void](Invoke-BashStream "pacman-key --init" "keyring init")
 [void](Invoke-BashStream "pacman-key --populate msys2" "keyring populate")
+Write-Warn2 "if signatures still fail below, re-run; otherwise the repair worked."
 
 Write-Step "Sync MSYS2 package database (pacman -Sy)"
 $rc = Invoke-BashStream "pacman -Sy --noconfirm --overwrite '*'" "sync DB"
