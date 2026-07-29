@@ -6,6 +6,26 @@
 
 ---
 
+## 0. 一键安装(推荐,最快上手)
+
+仓库根目录提供了一键脚本。**双击 `install-windows.bat`** 即可自动完成全部安装:检测并安装 Python、MSYS2、GTK3 与 Python 绑定、Terminator 依赖与本体,并创建桌面快捷方式。
+
+```
+install-windows.bat      ← 双击安装(自动跑完所有步骤)
+run-windows.bat          ← 安装后双击启动(或双击桌面"Terminator"图标)
+build-windows-package.ps1 ← 安装成功后双击构建可分发的独立程序包
+```
+
+要点:
+- 首次 `winget` 可能弹一次源协议确认;之后全部无人值守。
+- 一键脚本走 MSYS2 提供 GTK;`pywin32` 在 MSYS2 下无 wheel,**单实例命名管道 IPC 会降级(程序照常运行)**。
+- 装完后默认启动 PowerShell;切换 cmd/WSL 见第 8 节。
+- 想要可拷贝分发的独立 `terminator.exe`(内嵌 GTK DLL):先跑 `install-windows.bat`,再跑 `build-windows-package.ps1`,产物在 `dist\terminator\`。
+
+> 一键脚本内部细节(出问题时可对照):见 `install-windows.ps1` 注释。
+
+---
+
 ## 1. 系统要求
 
 | 项 | 要求 |
