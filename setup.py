@@ -218,10 +218,16 @@ setup(name=APP_NAME,
       packages=[
           'terminatorlib',
           'terminatorlib.plugins',
+          # configobj is vendored (BSD) under terminatorlib/_vendor so the app
+          # runs without a pip/pacman configobj (notably on Windows, where
+          # mingw python is PEP-668 externally-managed). Listed here so
+          # setup.py install / pip install . ships the vendored files.
+          'terminatorlib._vendor',
+          'terminatorlib._vendor.configobj',
+          'terminatorlib._vendor.validate',
       ],
       install_requires=[
           'pycairo',
-          'configobj',
           'dbus-python; platform_system == "Linux"',
           'pygobject',
           'psutil',

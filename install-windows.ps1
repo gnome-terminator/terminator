@@ -206,12 +206,31 @@ if (-not $gobjOk) {
 # NOTE: PyPI binary wheels (psutil, pycairo) do NOT work with MSYS2's mingw
 # python (ABI mismatch) -- those must come from pacman (step 4). Only
 # pure-Python packages are pip-installed here.
-Write-Step "pip install pure-Python Terminator deps (pyte, configobj)"
-& $Bash -lc "$PyExe -m pip install --no-input --upgrade pip pyte configobj"
-if ($LASTEXITCODE -ne 0) { Write-Warn2 "pip deps install had issues; continuing." }
+#
+# configobj is now VENDORED under terminatorlib/_vendor (BSD-licensed), so it
+# no longer needs pip. pyte (LGPLv3 -- incompatible with GPLv2-only, can't be
+# vendored) must still come from pip.
+#
+# MSYS2's mingw python ships the PEP-668 EXTERNALLY-MANAGED marker, so a plain
+# `pip install` is rejected with "externally-managed-environment". We pass
+# --break-system-packages (mingw python is meant to be used this way). We do NOT
+# `--upgrade pip` -- that fights pacman's pip and breaks the install.
+Write-Step "pip install pyte (configobj is vendored)"
+& $Bash -lc "$PyExe -m pip install --no-input --break-system-packages pyte"
+if ($LASTEXITCODE -ne 0) {
+    # Older pip may not know --break-system-packages; retry without it.
+    & $Bash -lc "$PyExe -m pip install --no-input pyte"
+}
+# pyte is required by the ConPTY backend -- if it's still missing, the app
+# will crash on launch, so verify loudly instead of continuing silently.
+$rcPip = & $Bash -lc "$PyExe -c 'import pyte; print(pyte.__version__)' 2>/dev/null"
+if ($LASTEXITCODE -ne 0 -or -not $rcPip) {
+    Die "pyte failed to install (pip). The ConPTY backend needs it. Run the MSYS2 MinGW64 shell: $PyExe -m pip install --break-system-packages pyte , then re-run."
+}
+Write-Ok "pyte $rcPip installed"
 if (-not $psutilOk) {
     Write-Warn2 "python-psutil not installed from pacman; trying pip (may fail to build)."
-    & $Bash -lc "$PyExe -m pip install --no-input psutil" 2>$null
+    & $Bash -lc "$PyExe -m pip install --no-input --break-system-packages psutil" 2>$null
 }
 # pywin32 has no MSYS2 wheel -- named-pipe single-instance IPC degrades.
 Write-Warn2 "pywin32 unavailable under MSYS2 -> single-instance IPC disabled (app still runs)"
@@ -224,7 +243,7 @@ $MsysRepo = '/' + $drive + ($RepoRoot.Substring(2) -replace '\\','/')
 & $Bash -lc "cd '$MsysRepo' && $PyExe setup.py --without-gettext install"
 if ($LASTEXITCODE -ne 0) {
     Write-Warn2 "setup.py install failed (Python 3.12+ removed distutils). Trying pip install."
-    & $Bash -lc "cd '$MsysRepo' && $PyExe -m pip install . --no-build-isolation"
+    & $Bash -lc "cd '$MsysRepo' && $PyExe -m pip install --no-input --break-system-packages --no-build-isolation ."
     if ($LASTEXITCODE -ne 0) {
         Write-Warn2 "pip install also failed; will run from source via run-windows.bat."
     }

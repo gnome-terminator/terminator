@@ -1,6 +1,7 @@
 include .gitignore
 include data/terminator.appdata.xml.in data/terminator.desktop.in
 include data/fonts/*.ttf data/fonts/LICENSE
+include terminatorlib/_vendor/configobj/*.py terminatorlib/_vendor/validate/*.py terminatorlib/_vendor/LICENSE-configobj
 include tests/*
 include INSTALL.md README.md
 exclude po/.intltool-merge-cache
