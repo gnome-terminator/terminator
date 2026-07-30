@@ -167,6 +167,27 @@ $cairoOk  = Install-Pkg @('mingw-w64-x86_64-python-cairo','mingw-w64-x86_64-pyth
 $psutilOk = Install-Pkg @('mingw-w64-x86_64-python-psutil','mingw-w64-x86_64-python3-psutil')
 [void](Install-Pkg @('mingw-w64-x86_64-python-pip','mingw-w64-x86_64-python3-pip'))
 
+# ---- 4b. Bundle DejaVu Sans Mono (Ubuntu-like monospace) -------------------
+# DejaVu isn't an MSYS2 package and isn't on a stock Windows box, so the
+# Ubuntu-looking monospace the config.py default asks for would otherwise be
+# silently substituted by fontconfig. We ship the TTFs in the repo and install
+# them into the per-user Windows font dir (fontconfig scans
+# WINDOWSUSERFONTDIR, no admin needed), then refresh the cache so Pango
+# resolves 'DejaVu Sans Mono' on first launch.
+Write-Step "Install bundled DejaVu Sans Mono font"
+$UserFonts = Join-Path $env:LOCALAPPDATA 'Microsoft\Windows\Fonts'
+[void](New-Item -ItemType Directory -Force -Path $UserFonts)
+foreach ($f in @('DejaVuSansMono.ttf','DejaVuSansMono-Bold.ttf')) {
+    $src = Join-Path $RepoRoot "data\fonts\$f"
+    if (Test-Path $src) {
+        Copy-Item $src (Join-Path $UserFonts $f) -Force
+        Write-Ok "copied $f"
+    } else {
+        Write-Warn2 "missing bundled font $src (will fall back to a generic mono)"
+    }
+}
+[void](Invoke-BashStream "/mingw64/bin/fc-cache -f" "refresh font cache")
+
 # Detect which python executable the install produced (python3.exe or python.exe).
 $PyExe = $null
 if (Test-Path "$MingwBin\python3.exe")      { $PyExe = 'python3' }

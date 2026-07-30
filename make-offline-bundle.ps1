@@ -103,6 +103,13 @@ set DEST=%LOCALAPPDATA%\Terminator
 echo Installing Terminator to %DEST% ...
 if not exist "%DEST%" mkdir "%DEST%"
 xcopy "%~dp0*" "%DEST%\" /E /I /Y /Q
+rem --- Install bundled DejaVu Sans Mono (Ubuntu-like monospace) into the
+rem --- per-user font dir; fontconfig scans WINDOWSUSERFONTDIR, no admin needed.
+set FONTDIR=%LOCALAPPDATA%\Microsoft\Windows\Fonts
+if not exist "%FONTDIR%" mkdir "%FONTDIR%"
+copy /Y "%DEST%\app\data\fonts\DejaVuSansMono.ttf" "%FONTDIR%\" >nul 2>nul
+copy /Y "%DEST%\app\data\fonts\DejaVuSansMono-Bold.ttf" "%FONTDIR%\" >nul 2>nul
+if exist "%DEST%\runtime\bin\fc-cache.exe" "%DEST%\runtime\bin\fc-cache.exe" -f >nul 2>nul
 powershell -NoProfile -Command ^
   "$$ws = New-Object -ComObject WScript.Shell; " ^
   "$$lnk = $$ws.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\Terminator.lnk'); " ^

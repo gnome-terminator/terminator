@@ -289,6 +289,22 @@ DEFAULTS = {
         },
 }
 
+# Platform-specific default profile overrides.
+#
+# On Linux, `use_system_font` looks up the GNOME monospace font (Ubuntu Mono /
+# DejaVu Sans Mono on Ubuntu) so Terminator blends in with the desktop. On
+# Windows there is no gsettings schema to query, so get_system_mono_font()
+# returns None and the profile falls back to Pango's generic "monospace"
+# alias -- which fontconfig resolves to an arbitrary family at size 10, making
+# the terminal look nothing like its Ubuntu sibling. The cell colours are
+# already identical everywhere (Tango palette, black bg), so the font is the
+# only thing that needs pinning. The DejaVu Sans Mono TTF is bundled under
+# data/fonts/ and installed into MSYS2's fontconfig dir by install-windows.ps1,
+# so "DejaVu Sans Mono" is guaranteed to resolve on Windows.
+if os.name == 'nt':
+    DEFAULTS['profiles']['default']['use_system_font'] = False
+    DEFAULTS['profiles']['default']['font'] = 'DejaVu Sans Mono 12'
+
 class Config(object):
     """Class to provide a slightly richer config API above ConfigBase"""
     base = None
