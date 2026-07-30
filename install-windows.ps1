@@ -90,12 +90,36 @@ Write-Host "`nFirst MSYS2 use downloads package lists and may take several" -For
 Write-Host "minutes. Dots print while it works; do not close this window." -ForegroundColor Yellow
 
 function Invoke-BashStream([string]$cmd, [string]$label) {
-    # Run `bash -lc $cmd` sharing the console (so pacman output streams live)
+    # Run `bash -l $script` sharing the console (so pacman output streams live)
     # and print a dot every 3s until it exits -- visible progress even when
     # pacman itself is quiet.
+    #
+    # WHY A TEMP FILE: `Start-Process -ArgumentList @('-lc', $cmd)` joins the
+    # array with SPACES into one unquoted string, so bash's -c grabs only the
+    # first token of $cmd as the command and drops the rest as positional
+    # params -> e.g. `pacman` runs with NO args -> "no operation specified".
+    # Writing $cmd to a script file sidesteps all quoting (single quotes,
+    # glob '*', sed expressions) entirely.
+    #
+    # WHY .NET Process (not Start-Process): the Windows temp dir may contain
+    # a space (C:\Users\Jane Doe\...); Start-Process would split the path arg
+    # on that space. System.Diagnostics.Process passes the Arguments string
+    # verbatim to CreateProcess, so the double-quoted path below stays one
+    # token.
+    $tmpWin = [IO.Path]::GetTempFileName() + '.sh'
+    Set-Content -Path $tmpWin -Value $cmd -Encoding ASCII
+    # C:\Users\...\tmpXX.sh -> /c/Users/.../tmpXX.sh  (MSYS2 path)
+    $tmpMsys = '/' + $tmpWin.Substring(0,1).ToLower() + ($tmpWin.Substring(2) -replace '\\','/')
     Write-Host "    $label " -NoNewline -ForegroundColor Gray
-    $p = Start-Process -FilePath $Bash -ArgumentList @('-lc', $cmd) `
-        -NoNewWindow -PassThru
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $Bash
+    $psi.Arguments = '-l "' + $tmpMsys + '"'   # double-quote the path for bash
+    $psi.UseShellExecute = $false
+    $psi.RedirectStandardOutput = $false
+    $psi.RedirectStandardError = $false
+    $p = New-Object System.Diagnostics.Process
+    $p.StartInfo = $psi
+    [void]$p.Start()
     $n = 0
     while (-not $p.HasExited) {
         Write-Host -NoNewline "."
@@ -104,6 +128,7 @@ function Invoke-BashStream([string]$cmd, [string]$label) {
         Start-Sleep -Seconds 3
     }
     Write-Host ""
+    Remove-Item $tmpWin -ErrorAction SilentlyContinue
     return $p.ExitCode
 }
 
