@@ -398,6 +398,8 @@ class PrefsEditor:
         widget.set_value(float(self.config['window_opacity_alt']))
         widget = guiget('text_opacity_spinbutton')
         widget.set_value(float(self.config['text_opacity']))
+        widget = guiget('window_vertical_mask_step_spinbutton')
+        widget.set_value(float(self.config['window_vertical_mask_step']))
 
         # title bar at bottom
         widget = guiget('title_at_bottom_checkbutton')
@@ -977,6 +979,11 @@ class PrefsEditor:
         self.config['text_opacity'] = int(widget.get_value())
         self.config.save()
         Terminator().apply_text_opacity()
+
+    def on_window_vertical_mask_step_spinbutton_value_changed(self, widget):
+        """Save the Shift+Alt+mousewheel vertical mask movement step."""
+        self.config['window_vertical_mask_step'] = int(widget.get_value())
+        self.config.save()
 
     def on_title_hide_sizetextcheck_toggled(self, widget):
         """Window geometry setting changed"""

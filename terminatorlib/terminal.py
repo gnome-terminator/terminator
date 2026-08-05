@@ -1174,11 +1174,16 @@ class Terminal(Gtk.VBox):
         if opacity_modifiers == (Gdk.ModifierType.SHIFT_MASK |
                                  Gdk.ModifierType.MOD1_MASK):
             window = self.get_toplevel()
+            try:
+                mask_step = int(self.config['window_vertical_mask_step'])
+            except (KeyError, TypeError, ValueError):
+                mask_step = 1
+            mask_step = max(1, min(100, mask_step))
             if event.direction == Gdk.ScrollDirection.UP or SMOOTH_SCROLL_UP:
-                window.adjust_vertical_mask(-5)
+                window.adjust_vertical_mask(-mask_step)
                 return True
             elif event.direction == Gdk.ScrollDirection.DOWN or SMOOTH_SCROLL_DOWN:
-                window.adjust_vertical_mask(5)
+                window.adjust_vertical_mask(mask_step)
                 return True
         elif opacity_modifiers == (Gdk.ModifierType.CONTROL_MASK |
                                    Gdk.ModifierType.MOD1_MASK):

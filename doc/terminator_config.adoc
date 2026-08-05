@@ -121,6 +121,11 @@ Content above the boundary is fully transparent; Shift+Alt+mouse wheel moves
 the boundary for the current window. +
 Default value: *0*
 
+*window_vertical_mask_step* = _integer_::
+Percentage-point step used when Shift+Alt+mouse wheel moves the current
+window's vertical transparency boundary. +
+Default value: *1*
+
 === Tab Behavior & Appearance
 
 *tab_position* = _string_::

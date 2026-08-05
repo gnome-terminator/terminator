@@ -1,3 +1,10 @@
+terminator (2.1.5-1personal6~ubuntu20.04) focal; urgency=medium
+
+  * Make the Shift+Alt+mousewheel vertical transparency mask step
+    configurable, defaulting to one percent.
+
+ -- Personal Build <root@localhost>  Tue, 21 Jul 2026 23:01:29 +0800
+
 terminator (2.1.5-1personal5~ubuntu20.04) focal; urgency=medium
 
   * Add Shift+Alt+mousewheel vertical window transparency masking.

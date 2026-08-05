@@ -59,6 +59,7 @@ def test_default_opacity_modes_are_thirty_and_one_hundred_percent():
     assert global_config["window_opacity_alt"] == 100
     assert global_config["text_opacity"] == 100
     assert global_config["window_vertical_mask"] == 0
+    assert global_config["window_vertical_mask_step"] == 1
 
 
 def test_toggle_cycles_between_both_opacity_modes_for_all_windows():
@@ -160,7 +161,10 @@ def test_shift_alt_mousewheel_moves_current_window_vertical_mask():
     fake_window = SimpleNamespace(
         adjust_vertical_mask=lambda delta: adjustments.append(delta)
     )
-    fake_terminal = SimpleNamespace(get_toplevel=lambda: fake_window)
+    fake_terminal = SimpleNamespace(
+        config={"window_vertical_mask_step": 1},
+        get_toplevel=lambda: fake_window,
+    )
     down = SimpleNamespace(
         direction=Gdk.ScrollDirection.DOWN,
         delta_y=0,
@@ -176,7 +180,26 @@ def test_shift_alt_mousewheel_moves_current_window_vertical_mask():
 
     assert Terminal.on_mousewheel(fake_terminal, None, down) is True
     assert Terminal.on_mousewheel(fake_terminal, None, up) is True
-    assert adjustments == [5, -5]
+    assert adjustments == [1, -1]
+
+
+def test_shift_alt_mousewheel_uses_configured_vertical_mask_step():
+    adjustments = []
+    fake_terminal = SimpleNamespace(
+        config={"window_vertical_mask_step": 7},
+        get_toplevel=lambda: SimpleNamespace(
+            adjust_vertical_mask=lambda delta: adjustments.append(delta)
+        ),
+    )
+    event = SimpleNamespace(
+        direction=Gdk.ScrollDirection.DOWN,
+        delta_y=0,
+        state=(Gdk.ModifierType.SHIFT_MASK |
+               Gdk.ModifierType.MOD1_MASK),
+    )
+
+    assert Terminal.on_mousewheel(fake_terminal, None, event) is True
+    assert adjustments == [7]
 
 
 class FakeDrawContext:
@@ -268,6 +291,8 @@ def test_opacity_controls_are_in_appearance_not_behavior_grid():
         "window_opacity_alt_spinbutton",
         "text_opacity_label",
         "text_opacity_spinbutton",
+        "window_vertical_mask_step_label",
+        "window_vertical_mask_step_spinbutton",
     }
 
     behavior_ids = {node.get("id") for node in behavior.iter("object")}
