@@ -3,8 +3,10 @@
 """terminal.py - classes necessary to provide Terminal widgets"""
 
 
+import fcntl
 import os
 import signal
+import termios
 import time
 import gi
 from gi.repository import GLib, GObject, Pango, Gtk, Gdk, GdkPixbuf, cairo
@@ -27,6 +29,7 @@ from .terminal_popup_menu import TerminalPopupMenu
 from .prefseditor import PrefsEditor
 from .searchbar import Searchbar
 from .translation import _
+from .osc52relay import Osc52Relay, open_pairs
 from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
@@ -98,6 +101,7 @@ class Terminal(Gtk.VBox):
     origcwd = None
     command = None
     clipboard = None
+    osc52_relay = None
     pid = None
 
     matches = None
@@ -269,6 +273,9 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        if self.osc52_relay is not None:
+            self.osc52_relay.close()
+            self.osc52_relay = None
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         if self.pid is not None:
@@ -1717,6 +1724,10 @@ class Terminal(Gtk.VBox):
                 None,
                 None,
             )
+        elif self.config['osc52_copy']:
+            # OSC 52 needs to see the child's output before VTE does, so
+            # spawn on a PTY pair we own and pump it into VTE ourselves.
+            self.pid = self.spawn_child_osc52(shell, args, envv)
         else:
             result, self.pid = self.vte.spawn_sync(
                     Vte.PtyFlags.DEFAULT,
@@ -1736,6 +1747,79 @@ class Terminal(Gtk.VBox):
         if self.pid == -1:
             self.vte.feed(_('Unable to start shell:') + shell)
             return -1
+
+    def spawn_child_osc52(self, shell, args, envv):
+        """Spawn the child behind a PTY relay so OSC 52 can be filtered.
+
+        VTE has no OSC 52 handler and no way to observe what it reads, so
+        when the user opts in we insert ourselves between the child and
+        VTE.  See :mod:`terminatorlib.osc52relay`.
+        """
+        try:
+            child_master, child_slave, vte_master, vte_slave = open_pairs()
+            # Vte.Pty takes ownership of vte_master, so give the relay its
+            # own descriptor to read the window size from.
+            relay_master = os.dup(vte_master)
+            self.vte.set_pty(Vte.Pty.new_foreign_sync(vte_master))
+            self.vte.set_size(self.vte.get_column_count(),
+                              self.vte.get_row_count())
+
+            pid = GLib.spawn_async(
+                args,
+                working_directory=self.cwd,
+                envp=envv,
+                child_setup=lambda: self._osc52_child_setup(child_slave),
+                flags=GLib.SpawnFlags.FILE_AND_ARGV_ZERO |
+                      GLib.SpawnFlags.DO_NOT_REAP_CHILD)[0]
+        except (GLib.Error, OSError) as ex:
+            err('unable to spawn child for OSC 52: %s' % ex)
+            for fd in (child_master, child_slave, vte_master, vte_slave,
+                       locals().get('relay_master', -1)):
+                if isinstance(fd, int) and fd >= 0:
+                    try:
+                        os.close(fd)
+                    except OSError:
+                        pass
+            return -1
+        finally:
+            # Only the relay needs the child's slave, and only until the
+            # child has been set up on it.
+            try:
+                os.close(child_slave)
+            except OSError:
+                pass
+
+        # A previous relay (from a respawned child) must not keep its fds.
+        if self.osc52_relay is not None:
+            self.osc52_relay.close()
+        self.osc52_relay = Osc52Relay(
+            lambda selections, text: self.osc52_write_clipboard(selections,
+                                                                text))
+        self.osc52_relay.enable(child_master, relay_master, vte_slave)
+
+        self.vte.watch_child(pid)
+        dbg('osc52: spawned %s as %d' % (shell, pid))
+        return pid
+
+    @staticmethod
+    def _osc52_child_setup(slave_fd):
+        """Run in the child before exec(): make *slave_fd* its controlling tty."""
+        os.setsid()
+        fcntl.ioctl(slave_fd, termios.TIOCSCTTY, 0)
+        os.dup2(slave_fd, 0)
+        os.dup2(slave_fd, 1)
+        os.dup2(slave_fd, 2)
+        if slave_fd > 2:
+            os.close(slave_fd)
+
+    def osc52_write_clipboard(self, selections, text):
+        """Put *text* on each selection named in *selections*."""
+        for name in selections:
+            atom = Gdk.SELECTION_CLIPBOARD if name == 'CLIPBOARD' \
+                else Gdk.SELECTION_PRIMARY
+            clipboard = Gtk.Clipboard.get(atom)
+            clipboard.set_text(text.decode('utf-8', 'replace'), -1)
+            dbg('osc52: set %s (%d bytes)' % (name, len(text)))
 
     def prepare_url(self, urlmatch):
         """Prepare a URL from a VTE match"""

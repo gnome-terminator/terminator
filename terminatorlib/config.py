@@ -111,6 +111,7 @@ DEFAULTS = {
             'putty_paste_style_source_clipboard': False,
             'disable_mouse_paste'   : False,
             'smart_copy'            : True,
+            'osc52_copy'            : False,
             'clear_select_on_copy'  : False,
             'cell_width'            : 1.0,
             'cell_height'           : 1.0,

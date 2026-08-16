@@ -412,6 +412,9 @@ class PrefsEditor:
         # Smart copy
         widget = guiget('smart_copy')
         widget.set_active(self.config['smart_copy'])
+        # OSC 52 clipboard copy
+        widget = guiget('osc52_copy')
+        widget.set_active(self.config['osc52_copy'])
         # Clear selection on copy
         widget = guiget('clear_select_on_copy')
         widget.set_active(self.config['clear_select_on_copy'])
@@ -996,6 +999,11 @@ class PrefsEditor:
     def on_smart_copy_toggled(self, widget):
         """Putty paste style setting changed"""
         self.config['smart_copy'] = widget.get_active()
+        self.config.save()
+
+    def on_osc52_copy_toggled(self, widget):
+        """OSC 52 clipboard copy setting changed"""
+        self.config['osc52_copy'] = widget.get_active()
         self.config.save()
 
     def on_clear_select_on_copy_toggled(self,widget):

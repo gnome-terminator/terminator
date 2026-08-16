@@ -237,6 +237,19 @@ not get sent.
 Default value: \fBTrue\fP
 .RE
 .sp
+\fBosc52_copy\fP = \fIboolean\fP
+.RS 4
+If set to True, programs running in the terminal are allowed to set the
+system clipboard (and, if they ask for it, the primary selection) using
+the xterm OSC 52 escape sequence. This makes \fBset\-clipboard on\fP in
+tmux, \fBclipboard\fP support in editors over ssh, and similar tools
+work, at the cost of letting a remote host overwrite your clipboard. Only
+writes are honoured: the query form of the sequence is ignored, so the
+clipboard is never sent back to the child.
+.br
+Default value: \fBFalse\fP
+.RE
+.sp
 \fBclear_select_on_copy\fP = \fIboolean\fP
 .RS 4
 If set to True, text selection will be cleared after copying using the
