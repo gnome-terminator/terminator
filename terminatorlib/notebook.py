@@ -16,6 +16,17 @@ from .editablelabel import EditableLabel
 from .translation import _
 from .util import err, dbg, enumerate_descendants, make_uuid
 
+def tabcolor_css_class(hexcolor):
+    """Return the CSS class name used to paint a tab with a '#rrggbb' color"""
+    return 'terminator-tabcolor-%s' % hexcolor.lstrip('#').lower()
+
+def readable_text_color(hexcolor):
+    """Return '#000000' or '#ffffff', whichever reads better on hexcolor"""
+    hexcolor = hexcolor.lstrip('#')
+    red, green, blue = (int(hexcolor[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+    luminance = 0.299 * red + 0.587 * green + 0.114 * blue
+    return '#000000' if luminance > 0.5 else '#ffffff'
+
 class Notebook(Container, Gtk.Notebook):
     """Class implementing a Gtk.Notebook container"""
     window = None
@@ -147,6 +158,11 @@ class Notebook(Container, Gtk.Notebook):
                 if labeltext and labeltext != "None":
                     label = self.get_tab_label(page)
                     label.set_custom_label(labeltext)
+            if 'tab_colors' in layout and num < len(layout['tab_colors']):
+                colorkey = layout['tab_colors'][num]
+                if colorkey:
+                    label = self.get_tab_label(page)
+                    label.set_custom_color(colorkey)
             page.create_layout(children[child_key])
 
             if  layout.get('last_active_term',  None):
@@ -581,6 +597,9 @@ class TabLabel(Gtk.HBox):
     label = None
     icon = None
     button = None
+    custom_color = None
+
+    _custom_color_css_classes = set()
 
     __gsignals__ = {
             'close-clicked': (GObject.SignalFlags.RUN_LAST, None,
@@ -598,12 +617,72 @@ class TabLabel(Gtk.HBox):
         self.connect("button-press-event", self.on_button_pressed)
 
         self.label = EditableLabel(title)
+        # EditableLabel is itself a Gtk.EventBox with its own window covering
+        # most of the tab's clickable area, so clicks landing on it don't
+        # reliably reach our own button-press-event handler above. Connect
+        # directly on it too, so right/middle click work anywhere on the tab.
+        self.label.connect("button-press-event", self.on_button_pressed)
         self.update_angle()
 
         self.pack_start(self.label, True, True, 0)
 
         self.update_button()
         self.show_all()
+
+    @classmethod
+    def ensure_color_css(cls, hexcolor):
+        """Register the CSS class that paints a tab with hexcolor, once per color"""
+        css_class = tabcolor_css_class(hexcolor)
+        if css_class in cls._custom_color_css_classes:
+            return
+        css = ".%s { background-color: %s; color: %s; }\n" % (
+            css_class, hexcolor, readable_text_color(hexcolor))
+        provider = Gtk.CssProvider()
+        provider.load_from_data(css.encode('utf-8'))
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(), provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        cls._custom_color_css_classes.add(css_class)
+
+    def get_custom_color(self):
+        """Return the currently set tab color as '#rrggbb', or None"""
+        return self.custom_color
+
+    def set_custom_color(self, hexcolor):
+        """Set (or clear, if hexcolor is None) the tab's background color"""
+        style_context = self.get_style_context()
+        if self.custom_color:
+            style_context.remove_class(tabcolor_css_class(self.custom_color))
+        self.custom_color = hexcolor
+        if hexcolor:
+            self.ensure_color_css(hexcolor)
+            style_context.add_class(tabcolor_css_class(hexcolor))
+
+    def pick_custom_color(self):
+        """Open a Gtk.ColorChooserDialog to pick this tab's color"""
+        dialog = Gtk.ColorChooserDialog(title=_('Pick Tab Color'),
+                                         transient_for=self.get_toplevel())
+        dialog.set_use_alpha(False)
+
+        response_default = 1
+        dialog.add_button(_('Default color'), response_default)
+
+        if self.custom_color:
+            rgba = Gdk.RGBA()
+            rgba.parse(self.custom_color)
+            dialog.set_rgba(rgba)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            rgba = dialog.get_rgba()
+            hexcolor = "#{0:02x}{1:02x}{2:02x}".format(
+                int(round(rgba.red * 255)),
+                int(round(rgba.green * 255)),
+                int(round(rgba.blue * 255)))
+            self.set_custom_color(hexcolor)
+        elif response == response_default:
+            self.set_custom_color(None)
+        dialog.destroy()
 
     def set_label(self, text):
         """Update the text of our label"""
@@ -682,5 +761,8 @@ class TabLabel(Gtk.HBox):
     def on_button_pressed(self, _widget, event):
         if event.button == 2:
             self.on_close(_widget)
+        elif event.button == 3:
+            self.pick_custom_color()
+            return True
 
 # vim: set expandtab ts=4 sw=4:
