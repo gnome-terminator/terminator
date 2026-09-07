@@ -124,6 +124,10 @@ DEFAULTS = {
             'window_decoration_style': 'auto',
         },
         'keybindings': {
+            'zoom'             : '',
+            'unzoom'           : '',
+            'maximise'         : '',
+            'open_debug_tab'   : '',
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',
             'zoom_normal'      : '<Control>0',
