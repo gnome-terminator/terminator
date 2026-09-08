@@ -807,6 +807,24 @@
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkCheckButton" id="osc52_copy">
+                                    <property name="label" translatable="yes">Allow OSC 52 clipboard copy</property>
+                                    <property name="use-action-appearance">False</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">False</property>
+                                    <property name="tooltip-text" translatable="yes">Let programs running in the terminal set the system clipboard with the OSC 52 escape sequence. Off by default, because it lets a remote host overwrite your clipboard.</property>
+                                    <property name="xalign">0.5</property>
+                                    <property name="draw-indicator">True</property>
+                                    <signal name="toggled" handler="on_osc52_copy_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="left-attach">0</property>
+                                    <property name="top-attach">4</property>
+                                    <property name="width">4</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkCheckButton" id="always_split_with_profile">
                                     <property name="label" translatable="yes">Re-use profiles for new terminals</property>
                                     <property name="use-action-appearance">False</property>

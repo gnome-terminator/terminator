@@ -170,6 +170,26 @@ If False, the shortcut does not pass through at all, and the SIGINT does
 not get sent. +
 Default value: *True*
 
+*osc52_copy* = _boolean_::
+If set to True, programs running in the terminal are allowed to set the
+system clipboard (and, if they ask for it, the primary selection) using
+the xterm OSC 52 escape sequence. This makes `set-clipboard on` in tmux,
+`clipboard` support in editors over ssh, and similar tools work, at the
+cost of letting a remote host overwrite your clipboard. Only writes are
+honoured: the query form of the sequence is ignored, so the clipboard is
+never sent back to the child. +
+Default value: *False*
+
+*osc52_copy* = _boolean_::
+If set to True, programs running in the terminal may set the system
+clipboard (and, when they ask for it, the primary selection) using the
+OSC 52 escape sequence, as emitted by e.g. `tmux` with `set-clipboard on`
+or `vim`'s `clipboard=unnamed` over ssh. Only copying is supported;
+OSC 52 queries are never answered, so the clipboard is never sent back
+to the program. It is disabled by default because it lets a remote host
+overwrite the local clipboard. +
+Default value: *False*
+
 *clear_select_on_copy* = _boolean_::
 If set to True, text selection will be cleared after copying using the
 *copy* keybinding. +
