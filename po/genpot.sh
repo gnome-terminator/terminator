@@ -4,7 +4,8 @@ ln -s terminator ../terminator.py
 ln -s remotinator ../remotinator.py
 
 # Make translation files
-intltool-update -g terminator -o terminator.pot -p
+xgettext --default-domain=terminator --files-from=POTFILES.in --from-code=UTF-8 \
+	--directory=..
 
 # Cleanup after stupid workaround
 rm ../terminator.py
