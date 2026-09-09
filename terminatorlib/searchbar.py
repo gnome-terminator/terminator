@@ -4,10 +4,17 @@
 
 import gi
 from gi.repository import Gtk, Gdk
-gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
-from gi.repository import Vte
 from gi.repository import GObject
 from gi.repository import GLib
+from . import platform
+# libvte is Linux/BSD only; on Windows the ConPTY backend does not use Vte
+# regex search, so the typelib must not be required. Vte is None on Windows;
+# do_search() then short-circuits (the ConPTY backend has no search API).
+if not platform.IS_WINDOWS:
+    gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
+    from gi.repository import Vte
+else:
+    Vte = None
 
 from .translation import _
 from .config import Config
@@ -192,6 +199,15 @@ class Searchbar(Gtk.HBox):
         searchtext = self.entry.get_text()
         dbg('searchtext: %s' % searchtext)
         if searchtext == '':
+            return
+
+        # The ConPTY backend (Windows) has no search API, so there is nothing
+        # to drive. Disable the buttons rather than crashing on the missing
+        # search_set_regex / search_set_gregex methods.
+        if Vte is None:
+            dbg('search unavailable on Windows (ConPTY backend)')
+            self.next.set_sensitive(False)
+            self.prev.set_sensitive(False)
             return
 
         self.searchre = None

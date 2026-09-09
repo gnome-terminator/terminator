@@ -1,0 +1,45 @@
+name: Windows
+
+# Validates the Windows-portable code paths on a native Windows runner:
+# platform.py Windows branches, the pyte emulation layer, and the stdlib
+# bits (borg, signalman). The GTK/VTE-dependent tests (prefseditor
+# keybindings, doctests that import terminal.py) are not run here because a
+# GTK3 + PyGObject toolchain on Windows CI is a separate hardening effort;
+# they continue to run on the Linux job.
+#
+# A full end-to-end ConPTY run (actually launching cmd.exe in a window) is a
+# manual acceptance step (M5 matrix) rather than a CI check, because it
+# requires a desktop session.
+
+on:
+  push:
+    branches: [ master, feature/windows-port ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        python: [ '3.10' ]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pyte pywin32 psutil configobj
+
+    - name: Compile all scripts
+      run: python -m compileall -f terminatorlib/ tests/ remotinator terminator
+
+    - name: Run platform-portable tests
+      run: pytest tests/test_borg.py tests/test_signalman.py tests/test_conpty_screen.py -q

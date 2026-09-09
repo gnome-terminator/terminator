@@ -5,9 +5,19 @@
 import copy
 import os
 import gi
-gi.require_version('Vte', '2.91')
-from gi.repository import Gtk, Gdk, Vte
+from gi.repository import Gtk, Gdk
 from gi.repository.GLib import GError
+from . import platform
+# libvte only exists on Linux/BSD. On Windows the backend is ConPtyTerminal
+# (a Gtk.DrawingArea) and this master module must not require the Vte typelib
+# at import time (it is unavailable -> "Namespace Vte not available" crash on
+# launch). We gate the import so Vte is None on Windows; the one call site
+# that references Vte (the theme-color probe) is skipped when Vte is None.
+if not platform.IS_WINDOWS:
+    gi.require_version('Vte', '2.91')  # vte-0.38 (gnome-3.14)
+    from gi.repository import Vte
+else:
+    Vte = None
 import itertools
 import random
 
@@ -410,7 +420,7 @@ class Terminator(Borg):
             """
         profiles = self.config.base.profiles
         for profile in list(profiles.keys()):
-            if profiles[profile]['use_theme_colors']:
+            if Vte is not None and profiles[profile]['use_theme_colors']:
                 # Create a dummy window/vte and realise it so it has correct
                 # values to read from
                 tmp_win = Gtk.Window()

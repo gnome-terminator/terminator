@@ -20,11 +20,21 @@ from __future__ import print_function
 import sys
 import cairo
 import os
-import pwd
 import inspect
 import uuid
 import subprocess
 import gi
+
+from . import platform
+from .platform import (
+    is_flatpak as _is_flatpak,
+    path_lookup as _path_lookup,
+    shell_lookup as _shell_lookup,
+    display_manager as _display_manager,
+    get_config_dir as _get_config_dir,
+    get_system_config_dir as _get_system_config_dir,
+    open_url as _open_url,
+)
 
 
 try:
@@ -44,7 +54,7 @@ DEBUGCLASSES = []
 DEBUGMETHODS = []
 
 def is_flatpak():
-    return os.path.exists("/.flatpak-info")
+    return _is_flatpak()
 
 def dbg(log = ""):
     """Print a message if debugging is enabled"""
@@ -118,59 +128,21 @@ def manual_lookup():
 
 def path_lookup(command):
     '''Find a command in our path'''
-    if os.path.isabs(command):
-        if os.path.isfile(command):
-            return(command)
-        else:
-            return(None)
-    elif command[:2] == './' and os.path.isfile(command):
-        dbg('path_lookup: Relative filename %s found in cwd' % command)
-        return(command)
-
-    try:
-        paths = os.environ['PATH'].split(':')
-        if len(paths[0]) == 0: 
-            raise(ValueError)
-    except (ValueError, NameError):
-        dbg('path_lookup: PATH not set in environment, using fallbacks')
-        paths = ['/usr/local/bin', '/usr/bin', '/bin']
-
-    dbg('path_lookup: Using %d paths: %s' % (len(paths), paths))
-
-    for path in paths:
-        target = os.path.join(path, command)
-        if os.path.isfile(target):
-            dbg('path_lookup: found %s' % target)
-            return(target)
-
-    dbg('path_lookup: Unable to locate %s' % command)
+    result = _path_lookup(command)
+    if result is None:
+        dbg('path_lookup: Unable to locate %s' % command)
+    else:
+        dbg('path_lookup: found %s' % result)
+    return result
 
 def shell_lookup():
     """Find an appropriate shell for the user"""
-    if is_flatpak():
-        getent = subprocess.check_output([
-            'flatpak-spawn', '--host', 'getent', 'passwd',
-            pwd.getpwuid(os.getuid())[0]
-        ]).decode(encoding='UTF-8').rstrip('\n')
-        shell = getent.split(':')[6]
-        return shell
-    try:
-        usershell = pwd.getpwuid(os.getuid())[6]
-    except KeyError:
-        usershell = None
-    shells = [usershell, 'bash', 'zsh', 'tcsh', 'ksh', 'csh', 'sh']
-
-    for shell in shells:
-        if shell is None:
-            continue
-        elif os.path.isfile(shell):
-            return(shell)
-        else:
-            rshell = path_lookup(shell)
-            if rshell is not None:
-                dbg('shell_lookup: Found %s at %s' % (shell, rshell))
-                return(rshell)
-    dbg('shell_lookup: Unable to locate a shell')
+    result = _shell_lookup()
+    if result is None:
+        dbg('shell_lookup: Unable to locate a shell')
+    else:
+        dbg('shell_lookup: %s' % result)
+    return result
 
 def widget_pixbuf(widget, maxsize=None):
     """Generate a pixbuf of a widget"""
@@ -201,24 +173,14 @@ def widget_pixbuf(widget, maxsize=None):
     return(scaledpixbuf)
 
 def get_system_config_dir():
-    system_config_dir = '/etc/xdg'
-    if 'XDG_CONFIG_DIRS' in os.environ.keys():
-        for sysconfdir in os.environ['XDG_CONFIG_DIRS'].split(":"):
-                if os.path.isdir(sysconfdir):
-                    system_config_dir = sysconfdir
-                    break
-    return(os.path.join(system_config_dir,'terminator'))
+    return _get_system_config_dir()
 
 def get_config_dir():
     """Expand all the messy nonsense for finding where ~/.config/terminator
     really is"""
-    try:
-        configdir = os.environ['XDG_CONFIG_HOME']
-    except KeyError:
-        configdir = os.path.join(os.path.expanduser('~'), '.config')
-
+    configdir = _get_config_dir()
     dbg('Found config dir: %s' % configdir)
-    return(os.path.join(configdir, 'terminator'))
+    return(configdir)
 
 def dict_diff(reference, working):
     """Examine the values in the supplied working set and return a new dict
@@ -367,10 +329,7 @@ def spawn_new_terminator(cwd, args):
 
 def display_manager():
     """Try to detect which display manager we run under"""
-    if os.environ.get('WAYLAND_DISPLAY'):
-        return 'WAYLAND'
-    # Fallback assumption of X11
-    return 'X11'
+    return _display_manager()
 
 def update_config_to_cell_height(filename):
     '''Replace ‘line_height’ with ‘cell_height’ in Terminator
