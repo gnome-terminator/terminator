@@ -197,7 +197,8 @@ class Terminator(Borg):
                 return window
         return None
 
-    def new_window(self, cwd=None, profile=None):
+    def new_window(self, cwd=None, profile=None,
+                   tmux_size=None):
         """Create a window with a Terminal in it"""
         maker = Factory()
         window = maker.make('Window')
@@ -207,10 +208,50 @@ class Terminator(Borg):
         if profile and self.config['always_split_with_profile']:
             terminal.force_set_profile(None, profile)
         window.add(terminal)
+        if tmux_size:
+            # Realize the widget hierarchy so VTE can report
+            # real font metrics before showing the window.
+            window.realize()
+            cw = terminal.vte.get_char_width()
+            ch = terminal.vte.get_char_height()
+            if cw > 0 and ch > 0:
+                cols, rows = tmux_size
+                # Cap against workarea — only clamp dimensions
+                # that exceed the screen, leave others untouched.
+                display = window.get_display()
+                if display:
+                    monitor = (display.get_primary_monitor()
+                               or display.get_monitor(0))
+                    if monitor:
+                        work = monitor.get_workarea()
+                        max_cols = work.width // cw
+                        max_rows = work.height // ch
+                        if cols > max_cols:
+                            dbg('pre-size: capping cols %d -> %d '
+                                '(workarea %dpx)' % (
+                                cols, max_cols, work.width))
+                            cols = max_cols
+                        if rows > max_rows:
+                            dbg('pre-size: capping rows %d -> %d '
+                                '(workarea %dpx)' % (
+                                rows, max_rows, work.height))
+                            rows = max_rows
+                        tmux_size = (cols, rows)
+                w, h = cols * cw, rows * ch
+                window.set_default_size(w, h)
+                dbg('pre-size: tmux=%dx%d char=%dx%d '
+                    'default=%dx%d' % (
+                    cols, rows, cw, ch, w, h))
         window.show(True)
+        if tmux_size:
+            # Process events so the WM maps the window at
+            # the requested size before splits are created.
+            while Gtk.events_pending():
+                Gtk.main_iteration_do(False)
         terminal.spawn_child()
         terminal.emit('tab-change', 0)
 
+        window._tmux_capped_size = tmux_size
         return(window, terminal)
 
     def create_layout(self, layoutname):
@@ -308,6 +349,110 @@ class Terminator(Borg):
 
         self.layoutname = layoutname
 
+    def create_layout_from_flat(self, flat_layout):
+        """Create layout from a flat dict with 'parent' references.
+
+        Used by tmux integration to build the window layout from tmux state.
+        Reuses the same flat-to-nested conversion as create_layout().
+        """
+        layout = copy.deepcopy(flat_layout)
+        objects = {}
+
+        self.doing_layout = True
+        self.last_active_window = None
+        self.prelayout_windows = self.windows[:]
+
+        # Wind the flat objects into a hierarchy (same logic as create_layout)
+        hierarchy = {}
+        count = 0
+        while len(layout) > 0 and count < 1000:
+            count = count + 1
+            if count == 1000:
+                err('hit maximum loop boundary. THIS IS VERY LIKELY A BUG')
+            for obj in list(layout.keys()):
+                if layout[obj]['type'].lower() == 'window':
+                    hierarchy[obj] = {}
+                    hierarchy[obj]['type'] = 'Window'
+                    hierarchy[obj]['children'] = {}
+                    for objkey in list(layout[obj].keys()):
+                        if layout[obj][objkey] != '' and objkey not in hierarchy[obj]:
+                            hierarchy[obj][objkey] = layout[obj][objkey]
+                    objects[obj] = hierarchy[obj]
+                    del(layout[obj])
+                else:
+                    if 'parent' not in layout[obj]:
+                        err('Invalid object: %s' % obj)
+                        del(layout[obj])
+                        continue
+                    if layout[obj]['parent'] in objects:
+                        childobj = {}
+                        childobj['type'] = layout[obj]['type']
+                        childobj['children'] = {}
+                        for objkey in list(layout[obj].keys()):
+                            if objkey not in childobj:
+                                childobj[objkey] = layout[obj][objkey]
+                        objects[layout[obj]['parent']]['children'][obj] = childobj
+                        objects[obj] = childobj
+                        del(layout[obj])
+
+        layout = hierarchy
+
+        for windef in layout:
+            if layout[windef]['type'] != 'Window':
+                err('invalid layout format. %s' % layout)
+                raise(ValueError)
+            # Pass tmux_size so new_window can realize the VTE,
+            # get real font metrics, and set_default_size before
+            # showing — paneds are born at the correct size.
+            tmux_size = None
+            if 'tmux_size' in layout[windef]:
+                size = layout[windef]['tmux_size']
+                tmux_size = (int(size[0]), int(size[1]))
+            window, terminal = self.new_window(
+                tmux_size=tmux_size)
+            # new_window may have capped tmux_size to fit the
+            # screen — use the capped value for post-layout resize
+            # and to inform tmux of the actual client size.
+            tmux_size = getattr(window, '_tmux_capped_size',
+                                tmux_size)
+            window.create_layout(layout[windef])
+            if tmux_size:
+                # Resize with real char metrics + chrome.
+                cw = terminal.vte.get_char_width()
+                ch = terminal.vte.get_char_height()
+                if cw > 0 and ch > 0:
+                    cols, rows = tmux_size
+                    target_w = cols * cw
+                    target_h = rows * ch
+                    chrome_w = 0
+                    chrome_h = 0
+                    content = window.get_child()
+                    if content and \
+                            hasattr(content, 'get_current_page'):
+                        page_num = content.get_current_page()
+                        if page_num >= 0:
+                            page = content.get_nth_page(
+                                page_num)
+                            _, cnt_w = \
+                                content.get_preferred_width()
+                            _, cnt_h = \
+                                content.get_preferred_height()
+                            _, pg_w = \
+                                page.get_preferred_width()
+                            _, pg_h = \
+                                page.get_preferred_height()
+                            chrome_w = max(0, cnt_w - pg_w)
+                            chrome_h = max(0, cnt_h - pg_h)
+                    dbg('pre-resize: tmux=%dx%d char=%dx%d '
+                        'target=%dx%d chrome=%dx%d' % (
+                        cols, rows, cw, ch,
+                        target_w, target_h,
+                        chrome_w, chrome_h))
+                    window.resize(target_w + chrome_w,
+                                  target_h + chrome_h)
+
+        self.layoutname = 'tmux'
+
     def layout_done(self):
         """Layout operations have finished, record that fact"""
         self.doing_layout = False
@@ -323,7 +468,7 @@ class Terminator(Borg):
             window_last_active_term_mapping[window] = copy.copy(source.last_active_term)
 
         for terminal in self.terminals:
-            if not terminal.pid:
+            if not terminal.pid and terminal.tmux_pane_id is None:
                 terminal.spawn_child()
 
         for window in self.windows:

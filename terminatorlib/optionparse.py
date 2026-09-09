@@ -107,6 +107,11 @@ icon for the window (by file or name)'))
             help=_('List all profiles'))
     parser.add_argument('--list-layouts', action='store_true', dest='list_layouts',
             help=_('List all layouts'))
+    parser.add_argument('--tmux-attach', dest='tmux_attach', metavar='SESSION',
+            nargs='?', const='',
+            help=_('Attach to a tmux session in control mode (default: most recent)'))
+    parser.add_argument('--tmux-new', dest='tmux_new', metavar='SESSION',
+            help=_('Create a new tmux session in control mode'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:

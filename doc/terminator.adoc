@@ -104,6 +104,16 @@ only be printed from the specified functions. If this is specified in
 addition to --debug-classes, only the intersection of the two lists will
 be displayed.
 
+**--tmux-attach**[=__SESSION__]::
+Attach to an existing tmux session in control mode. If SESSION is not
+specified, attaches to the most recently used session. Terminator will
+mirror the tmux session layout, with splits displayed as panes and
+tmux windows as tabs.
+
+**--tmux-new**=__SESSION__::
+Create a new tmux session with the given name and attach to it in
+control mode.
+
 *--new-tab*::
 If this is specified and Terminator is already running, DBus will be
 used to spawn a new tab in the first Terminator window.
@@ -112,6 +122,46 @@ used to spawn a new tab in the first Terminator window.
 If this is specified and Terminator is already running, DBus will be
 used to toggle Terminator window visibility. Usable under Wayland to
 replace hide keyboad shortcut.
+
+== TMUX CONTROL MODE
+
+Terminator can act as a native GUI frontend for tmux sessions using
+tmux's control mode (*-C* flag). There are two ways to use this:
+
+=== Command line attach
+Launch Terminator with *--tmux-attach* or *--tmux-new* to connect to a
+tmux session. The tmux layout (panes, splits, tabs) is mirrored in the
+Terminator window. Input, resize, and focus changes are synchronized
+with tmux.
+
+=== In-terminal detection
+Type *tmux -CC* or *tmux -CC attach* inside any Terminator terminal.
+Terminator detects the control mode output, takes over the PTY, and
+opens a new window with the tmux layout. The original terminal shows a
+control mode screen with a *Ctrl+C to detach* prompt.
+
+=== Detaching and exiting
+There are three ways to end a tmux control mode session:
+
+*Exit*:: When the last shell in the tmux session exits, the tmux
+window closes and the original terminal is restored.
+
+*Close window*:: Closing the tmux window (via the window manager or
+*Ctrl+Shift+Q*) sends a detach command to tmux, preserving the
+session for later reattach.
+
+*Ctrl+C*:: From the control mode screen in the original terminal,
+pressing *Ctrl+C* detaches from tmux and closes the tmux window.
+
+=== Features
+Pane splits, tabs, and resize are synchronized bidirectionally with
+tmux. Terminal titles are updated from tmux pane information, and
+applications that set custom titles (via OSC escape sequences) are
+displayed. The window title shows the tmux user, host, and session
+name.
+
+When in tmux mode, overlay titlebars and overlay scrollbars are
+automatically enabled regardless of profile settings.
 
 == KEYBINDINGS
 The following default keybindings can be used to control Terminator.
