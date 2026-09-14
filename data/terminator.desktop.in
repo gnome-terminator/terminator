@@ -5,13 +5,13 @@ TryExec=terminator
 Exec=terminator
 Icon=terminator
 Type=Application
-Categories=GNOME;GTK;Utility;TerminalEmulator;System;
+Categories=Utility;GNOME;GTK;TerminalEmulator;
 StartupNotify=true
 X-Ubuntu-Gettext-Domain=terminator
-X-Ayatana-Desktop-Shortcuts=NewWindow;
+Actions=new-window;
 Keywords=terminal;shell;prompt;command;commandline;
-[NewWindow Shortcut Group]
+[Desktop Action new-window]
 Name=Open a New Window
 Exec=terminator
-TargetEnvironment=Unity
+Icon=terminator
 
