@@ -9,6 +9,7 @@ from gi.repository import Gdk
 from gi.repository import Gio
 
 from .terminator import Terminator
+from .session import Session
 from .config import Config
 from .factory import Factory
 from .container import Container
@@ -397,6 +398,8 @@ class Notebook(Container, Gtk.Notebook):
         if confirm_close != Gtk.ResponseType.ACCEPT:
             dbg('user cancelled request')
             return
+
+        Session().closed(child, label.get_custom_label())
 
         if maker.isinstance(child, 'Terminal'):
             dbg('child is a single Terminal')

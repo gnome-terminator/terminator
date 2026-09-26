@@ -22,6 +22,7 @@ from .config import Config
 from .cwd import get_pid_cwd
 from .factory import Factory
 from .terminator import Terminator
+from .session import Session
 from .titlebar import Titlebar
 from .terminal_popup_menu import TerminalPopupMenu
 from .prefseditor import PrefsEditor
@@ -265,11 +266,16 @@ class Terminal(Gtk.VBox):
                 pass
         # Fall back to old gtk2 method
         dbg('calling get_pid_cwd')
-        return(get_pid_cwd(self.pid))
+        try:
+            return(get_pid_cwd(self.pid))
+        except Exception:
+            # The shell has already exited
+            return(self.cwd)
 
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        Session().closed(self)
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         if self.pid is not None:
@@ -719,8 +725,7 @@ class Terminal(Gtk.VBox):
         elif self.config['exit_action'] == 'hold':
             self.cnxids.new(self.vte, 'child-exited', self.held_open, True)
         elif self.config['exit_action'] in ('close', 'left'):
-            self.cnxids.new(self.vte, 'child-exited',
-                                            lambda x, y: self.emit('close-term'))
+            self.cnxids.new(self.vte, 'child-exited', self.on_child_exit_close)
 
         # Word char support was missing from vte 0.38, silently skip this setting
         if hasattr(self.vte, 'set_word_char_exceptions'):
@@ -1647,6 +1652,11 @@ class Terminal(Gtk.VBox):
         if cwd is not None:
             self.cwd = os.path.expanduser(cwd)
 
+    def on_child_exit_close(self, _widget, _status):
+        """The shell exited and we are configured to close"""
+        Session().closed(self)
+        self.emit('close-term')
+
     def held_open(self, widget=None, respawn=False, debugserver=False):
         self.is_held_open = True
         self.titlebar.update()
@@ -1748,6 +1758,10 @@ class Terminal(Gtk.VBox):
                 None,
                 None,
             )
+        elif Session().active:
+            # ponytail: flatpak keeps the plain path; no relay across
+            # flatpak-spawn yet
+            Session().spawn(self, args, envv)
         else:
             result, self.pid = self.vte.spawn_sync(
                     Vte.PtyFlags.DEFAULT,
@@ -2100,6 +2114,12 @@ class Terminal(Gtk.VBox):
 
     def key_close_term(self):
         self.close()
+
+    def key_reopen_closed(self):
+        Session().reopen(self)
+
+    def key_quit(self):
+        Session().quit(self.get_toplevel())
 
     def key_resize_up(self):
         self.emit('resize-term', 'up')

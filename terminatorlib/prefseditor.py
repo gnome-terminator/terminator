@@ -124,6 +124,8 @@ class PrefsEditor:
                         'split_horiz'      : _('Split horizontally'),
                         'split_vert'       : _('Split vertically'),
                         'close_term'       : _('Close terminal'),
+                        'reopen_closed'    : _('Reopen the last closed terminal, tab or window'),
+                        'quit'             : _('Quit Terminator (close all windows)'),
                         'copy'             : _('Copy selected text'),
                         'paste'            : _('Paste clipboard'),
                         'paste_selection'  : _('Paste primary selection'),
@@ -405,6 +407,9 @@ class PrefsEditor:
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
+        # Restore previous session
+        widget = guiget('restore_session')
+        widget.set_active(self.config['restore_session'])
         # Putty paste style
         widget = guiget('putty_paste_style')
         widget.set_active(self.config['putty_paste_style'])
@@ -972,6 +977,11 @@ class PrefsEditor:
     def on_always_split_with_profile_toggled(self, widget):
         """Always split with profile setting changed"""
         self.config['always_split_with_profile'] = widget.get_active()
+        self.config.save()
+
+    def on_restore_session_toggled(self, widget):
+        """Restore session setting changed"""
+        self.config['restore_session'] = widget.get_active()
         self.config.save()
 
     def on_allow_bold_checkbutton_toggled(self, widget):

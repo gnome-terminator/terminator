@@ -8,6 +8,7 @@ from gi.repository import Gtk, Gdk
 from .version import APP_NAME
 from .translation import _
 from .terminator import Terminator
+from .session import Session
 from .util import err, dbg, spawn_new_terminator
 from .config import Config
 from .prefseditor import PrefsEditor
@@ -271,6 +272,17 @@ class TerminalPopupMenu(object):
 
         item = self.menu_item(Gtk.ImageMenuItem, 'close_term', _('_Close'))
         item.connect('activate', self.close_terminal)
+        menu.append(item)
+
+        item = self.menu_item(Gtk.MenuItem, 'reopen_closed',
+                              _('Reopen C_losed'))
+        item.connect('activate', lambda x: Session().reopen(terminal))
+        item.set_sensitive(bool(Session().closed_units))
+        menu.append(item)
+
+        item = self.menu_item(Gtk.MenuItem, 'quit', _('_Quit Terminator'))
+        item.connect('activate',
+                     lambda x: Session().quit(terminal.get_toplevel()))
         menu.append(item)
 
         menu.append(Gtk.SeparatorMenuItem())
