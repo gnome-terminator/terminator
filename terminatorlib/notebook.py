@@ -209,6 +209,8 @@ class Notebook(Container, Gtk.Notebook):
             sibling.force_set_profile(None, widget.get_profile())
 
         self.insert_page(container, None, page_num)
+        # The split replaces the tab's page; keep the tab's last active term
+        self.last_active_term[container] = self.last_active_term.pop(widget, widget.uuid)
         self.set_tab_detachable(container, self.config['detachable_tabs'])
         self.child_set_property(container, 'tab-expand', True)
         self.child_set_property(container, 'tab-fill', True)
