@@ -23,6 +23,7 @@ import signal
 import termios
 import time
 import tty
+from pathlib import Path
 
 from gi.repository import GLib, Gtk, Vte
 from configobj import ConfigObj
@@ -38,7 +39,7 @@ from .util import dbg, err
 EPILOGUE = (b'\x1b[0m\x1b[?25h\x1b[?1000l\x1b[?1002l'
             b'\x1b[?1003l\x1b[?1006l\x1b[?2004l\r\n')
 ALT_ON, ALT_OFF = b'\x1b[?1049h', b'\x1b[?1049l'
-HUP = GLib.IO_HUP | GLib.IO_ERR
+LOG_CAP = 4 << 20  # bytes of output kept per terminal
 MAX_CLOSED = 10  # how many closed panes/tabs/windows can be reopened
 
 
@@ -76,9 +77,8 @@ class Log:
     it becomes <uuid>.log.old and a new one starts, so the pair never uses
     more than the cap."""
 
-    def __init__(self, key, cap_kb):
+    def __init__(self, key):
         self.path = os.path.join(session_dir(), key + '.log')
-        self.half = cap_kb * 1024 // 2
         self.fd = None
         self.open()
 
@@ -92,7 +92,7 @@ class Log:
             return
         self.fd.write(data)
         self.size += len(data)
-        if self.size > self.half:
+        if self.size > LOG_CAP // 2:
             self.fd.close()
             os.replace(self.path, self.path + '.old')
             self.open()
@@ -107,19 +107,12 @@ class Log:
             self.fd = None
 
     def read(self):
-        """Saved output, oldest first"""
-        data = b''
-        for path in (self.path + '.old', self.path):
-            try:
-                with open(path, 'rb') as logfile:
-                    data += logfile.read()
-            except FileNotFoundError:
-                pass
-        if os.path.exists(self.path + '.old'):
-            # A rotated log may start in the middle of a line or an escape
-            # sequence; start from the next full line instead.
-            data = data[data.find(b'\n') + 1:]
-        return data
+        """Saved output, oldest first. A rotated log may start in the middle
+        of a line or an escape sequence, so it starts at the next full line."""
+        old = self.path + '.old'
+        data = b''.join(Path(p).read_bytes() for p in (old, self.path)
+                        if os.path.exists(p))
+        return data[data.find(b'\n') + 1:] if os.path.exists(old) else data
 
 
 class Pipe:
@@ -130,11 +123,11 @@ class Pipe:
     def __init__(self, src, dst, filt, done):
         self.src, self.dst, self.filt, self.done = src, dst, filt, done
         self.buf = b''
-        self.watch = None
         self.wait_for(src, GLib.IO_IN)
 
     def wait_for(self, fd, cond):
-        self.watch = GLib.io_add_watch(fd, GLib.PRIORITY_DEFAULT, cond | HUP,
+        self.watch = GLib.io_add_watch(fd, GLib.PRIORITY_DEFAULT,
+                                       cond | GLib.IO_HUP | GLib.IO_ERR,
                                        self.pump)
 
     def pump(self, fd, _cond):
@@ -262,8 +255,6 @@ class Session(Borg):
             GLib.unix_signal_add(GLib.PRIORITY_HIGH, signum, self.on_signal)
 
         path = os.path.join(session_dir(), 'layout')
-        if not os.path.exists(path):
-            return None
         try:
             layout = ConfigObj(path, encoding='utf-8').dict()
         except Exception as ex:
@@ -279,7 +270,7 @@ class Session(Borg):
         key = str(terminal.uuid)
         log = self.logs.get(key)
         if log is None:
-            log = self.logs[key] = Log(key, terminal.config['session_log_kb'])
+            log = self.logs[key] = Log(key)
         if key in self.restore:
             self.restore.discard(key)
             # ponytail: replays at VTE's size before the window is allocated;

@@ -108,7 +108,6 @@ DEFAULTS = {
             'ask_before_closing'    : 'multiple_terminals',
             'always_split_with_profile': False,
             'restore_session'       : False,
-            'session_log_kb'        : 4096,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
             'disable_mouse_paste'   : False,

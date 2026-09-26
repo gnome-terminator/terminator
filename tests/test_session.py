@@ -23,7 +23,6 @@ class FakeTerminal:
         self.uuid = uuid.uuid4()
         self.cwd = '/'
         self.pid = None
-        self.config = {'session_log_kb': 1}
 
 
 @pytest.fixture(autouse=True)
@@ -34,7 +33,7 @@ def state_home(tmp_path, monkeypatch):
 
 def run(terminal, script, typed=b''):
     """Run a shell script behind a relay, type into it, wait for it to exit"""
-    log = session.Log(str(terminal.uuid), 64)
+    log = session.Log(str(terminal.uuid))
     session.Relay(terminal, ['/bin/sh', 'sh', '-c', script], None, log)
     if typed:
         GLib.timeout_add(300, lambda: terminal.vte.feed_child(typed))
@@ -56,8 +55,9 @@ def test_relay_records_output_and_passes_input():
     assert terminal.pid
 
 
-def test_log_rotation_is_capped_and_trimmed():
-    log = session.Log('abc', 1)
+def test_log_rotation_is_capped_and_trimmed(monkeypatch):
+    monkeypatch.setattr(session, 'LOG_CAP', 1024)
+    log = session.Log('abc')
     for i in range(100):
         log.write(b'line %03d\r\n' % i)
     log.close()
