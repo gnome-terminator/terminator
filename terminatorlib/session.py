@@ -303,7 +303,11 @@ class Session(Borg):
         terminator = Terminator()
         if terminator.doing_layout:
             return
-        layout = terminator.describe_layout(save_cwd=True)
+        try:
+            layout = terminator.describe_layout(save_cwd=True)
+        except Exception as ex:  # a layout bug must not stop saving or Quit
+            err('Session: unable to describe the layout: %s' % ex)
+            return
         text = b'\n'.join(ConfigObj(layout, encoding='utf-8').write())
         if text != self.saved:
             path = os.path.join(session_dir(), 'layout')
@@ -374,7 +378,11 @@ class Session(Borg):
         if self.frozen:
             return  # quitting, not closing
         layout = {}
-        widget.describe_layout(0, '', layout, 0, save_cwd=True)
+        try:
+            widget.describe_layout(0, '', layout, 0, save_cwd=True)
+        except Exception as ex:  # never block the close itself
+            err('Session: unable to remember %s: %s' % (widget, ex))
+            return
         uuids = terminal_uuids(layout)
         if not uuids:
             return
