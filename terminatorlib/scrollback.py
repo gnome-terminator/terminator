@@ -246,6 +246,7 @@ class ScrollbackCache(Borg):
     _config = None
     _rotate_index = None
     _seq = None
+    _io_lock = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -280,6 +281,10 @@ class ScrollbackCache(Borg):
             # uuid -> generation of the newest write/delete intent; the worker
             # drops queued writes that a later sync write/delete superseded.
             self._seq = {}
+        if self._io_lock is None:
+            # Serialises seq-check+write in the worker against sync writes
+            # and deletes on the main thread (closes check-then-write race).
+            self._io_lock = threading.Lock()
 
     # ---- config helpers ----
     def _cfg(self, key, default=None):
@@ -489,12 +494,13 @@ class ScrollbackCache(Borg):
         path = self.path_for(uuid_str)
         if not path:
             return
-        seq = self._bump(uuid_str)
         if sync:
             try:
                 if not self._dir:
                     self._ensure_dir()
-                sbt.atomic_write_txt(path, data, mode=0o600)
+                with self._io_lock:
+                    self._bump(uuid_str)
+                    sbt.atomic_write_txt(path, data, mode=0o600)
                 self._last_hash[uuid_str] = digest
                 self._fail_count = 0
             except OSError as ex:
@@ -506,6 +512,7 @@ class ScrollbackCache(Borg):
             # Coalesce: drop prior pending writes for same uuid by tagging;
             # worker keeps latest by processing sequentially; main may put
             # multiple — worker overwrites same path. Acceptable.
+            seq = self._bump(uuid_str)
             self._queue.put(('write', uuid_str, data, digest, seq))
             self._dirty.discard(uuid_str)
 
@@ -571,12 +578,13 @@ class ScrollbackCache(Borg):
             try:
                 if item[0] == 'write':
                     _, uuid_str, data, digest, seq = item
-                    if self._seq.get(uuid_str) != seq:
-                        continue  # superseded by newer sync write / delete
                     path = self.path_for(uuid_str)
                     if not path:
                         continue
-                    sbt.atomic_write_txt(path, data, mode=0o600)
+                    with self._io_lock:
+                        if self._seq.get(uuid_str) != seq:
+                            continue  # superseded by newer sync write / delete
+                        sbt.atomic_write_txt(path, data, mode=0o600)
                     # Update hash on main thread
                     GLib.idle_add(self._on_write_ok, uuid_str, digest, seq)
                 elif item[0] == 'delete':
@@ -689,7 +697,8 @@ class ScrollbackCache(Borg):
             return
         self._dirty.discard(uuid_str)
         self._last_hash.pop(uuid_str, None)
-        self._bump(uuid_str)
+        with self._io_lock:
+            self._bump(uuid_str)
         path = self.path_for(uuid_str)
         if not path:
             return

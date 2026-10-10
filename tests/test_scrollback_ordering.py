@@ -88,3 +88,39 @@ def test_restore_keeps_newest_tail(cache, monkeypatch):
     assert 'line00000' not in out
     first = out.replace('\r', '').split('\n')[0]
     assert first in lines           # starts on a whole line
+
+
+def test_worker_seq_check_and_write_are_atomic_vs_sync(cache, monkeypatch):
+    """Review fix: a sync write landing between the worker's seq check and its
+    file write must not be overwritten by the stale async payload."""
+    import threading
+    u = str(uuidlib.uuid4())
+    path = cache.path_for(u)
+    old = cache._bump(u)
+    real = sb.sbt.atomic_write_txt
+    entered = threading.Event()
+    release = threading.Event()
+
+    def slow_write(p, data, mode=0o600):
+        if data == b'OLD':
+            entered.set()
+            release.wait(2)
+        real(p, data, mode=mode)
+    monkeypatch.setattr(sb.sbt, 'atomic_write_txt', slow_write)
+    t = threading.Thread(target=_run_worker,
+                         args=(cache, [('write', u, b'OLD', 'h-old', old)]))
+    t.start()
+    assert entered.wait(2)
+    done = threading.Event()
+
+    def sync_writer():  # mimics _flush_uuid(sync=True)
+        with cache._io_lock:
+            cache._bump(u)
+            real(path, b'NEW', mode=0o600)
+        done.set()
+    s = threading.Thread(target=sync_writer)
+    s.start()
+    assert not done.wait(0.2)   # blocked behind the in-flight worker write
+    release.set()
+    t.join(2); s.join(2)
+    assert open(path, 'rb').read() == b'NEW'
