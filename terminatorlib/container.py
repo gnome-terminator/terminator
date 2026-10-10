@@ -329,7 +329,9 @@ the tab will also close all terminals within it.')
         # (focused-terminal) title would otherwise be re-applied with
         # force_title() on load and pin the window title forever.
         title = getattr(self, 'title', None)
+        # CLI -T titles are forced but not persisted (persist=False).
         if title is not None and getattr(title, 'forced', False) \
+                and getattr(title, 'persist', False) \
                 and getattr(title, 'text', None):
             layout['title'] = title.text
 

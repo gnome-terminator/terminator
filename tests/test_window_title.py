@@ -356,3 +356,32 @@ def test_layout_omits_dynamic_window_title():
         window.title.destroy()
         window.terminator.deregister_window(window)
         window.isDestroyed = True
+
+
+def test_layout_omits_cli_forced_title():
+    """-T/--title is forced for this run only; it must not be saved."""
+    window = _real_window()
+    try:
+        window.title.force_title('one-off', persist=False)
+        assert window.title.forced
+        assert 'title' not in _window_layout(window)
+        window.title.force_title('Mine')
+        assert _window_layout(window)['title'] == 'Mine'
+    finally:
+        window.title.destroy()
+        window.terminator.deregister_window(window)
+        window.isDestroyed = True
+
+
+def test_force_title_marks_session_dirty(monkeypatch):
+    import terminatorlib.session as session
+    calls = []
+    monkeypatch.setattr(session, 'try_mark_dirty',
+                        lambda reason='': calls.append(reason))
+    window, clock, wt = make()
+    wt.force_title('A')
+    wt.force_title('A')          # unchanged: no extra save
+    wt.force_title(None)
+    wt.force_title('cli', persist=False)
+    wt.force_title(None)         # was not persisted: nothing to save
+    assert calls == ['window-title', 'window-title']

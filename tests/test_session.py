@@ -140,7 +140,8 @@ def test_atomic_write_and_load(state_home, monkeypatch):
     data = json.load(open(path, encoding='utf-8'))
     assert data['version'] == SESSION_VERSION
     assert data['layout']['child0']['size'] == ['640', '480']
-    assert 'title' not in data['layout']['child0']
+    # describe_layout only emits user-set titles, so save keeps them
+    assert data['layout']['child0']['title'] == 'Nope'
 
     loaded = sm.load()
     assert loaded is not None
@@ -342,3 +343,4 @@ def test_writes_suspended_helper(state_home):
     assert sm.writes_suspended()
     assert sm.is_owner()
     assert not sm.is_writer()
+
