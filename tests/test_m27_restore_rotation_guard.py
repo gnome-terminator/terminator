@@ -168,3 +168,32 @@ def test_binary_marker_does_not_abort(sm):
         fh.write(b'\xff\xfe\x00garbage\n\xff\n')
     assert sm.check_crash_marker() is True
     assert os.path.exists(path + '.crashed')
+
+
+def test_restore_failed_follows_rotated_source(sm):
+    path = sm.session_path()
+    _write(path, 'src')
+    assert sm.load() is not None and sm._loaded_from == path
+    sm.begin_restore()
+    _save_during_restore(sm)          # session.json(src) -> .prev
+    assert _uid(path + '.prev') == 'src'
+    sm.restore_failed(RuntimeError('boom'))
+    assert _uid(path + '.bad') == 'src'
+    assert os.path.isfile(path + '.prev.bad')
+    assert not os.path.exists(path + '.prev')
+    assert _uid(path) == 'new'        # fresh save kept
+    assert not os.path.exists(sm.restoring_path())
+
+
+def test_restore_failed_source_overwritten_keeps_files(sm):
+    path = sm.session_path()
+    _write(path + '.prev2', 'src')
+    assert sm.load() is not None and sm._loaded_from == path + '.prev2'
+    sm.begin_restore()
+    _write(path + '.prev', 'p1')
+    _write(path, 's0')
+    _save_during_restore(sm)          # .prev -> .prev2 overwrites source
+    assert _marker_src(sm) == '-'
+    sm.restore_failed(RuntimeError('boom'))
+    assert _uid(path + '.prev2') == 'p1'
+    assert not os.path.exists(path + '.prev2.bad')

@@ -905,8 +905,18 @@ class SessionManager(Borg):
         err('SessionManager: restoring the last session failed: %s' % ex)
         path = self.session_path()
         src = getattr(self, '_loaded_from', None) or path
+        # m27: a save during restore may have rotated the source file; the
+        # crash marker tracks where it lives now ('-' = overwritten).
+        lines = self._read_marker()
+        if lines and len(lines) > 1 and lines[1].strip():
+            name = os.path.basename(lines[1].strip())
+            base = os.path.basename(path)
+            if name in (base, base + '.prev', base + '.prev2'):
+                src = os.path.join(os.path.dirname(path), name)
+            elif name == '-':
+                src = None
         try:
-            if os.path.isfile(src):
+            if src and os.path.isfile(src):
                 import shutil
                 shutil.copy2(src, path + '.bad')
                 if src != path:
