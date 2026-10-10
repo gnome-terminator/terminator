@@ -411,6 +411,17 @@ dim_alpha = 0.55 * t_eased
 
 tick **只**更新 Snapshot 绘制矩形与 Dim alpha；**禁止**改 VTE size。
 
+**m37 流畅度修订**（以代码为准）：
+- tick 由 overlay 的 frame clock（`add_tick_callback`）驱动，时间取帧时间；时间原点是**第一帧**（`sync_first_frame`），reparent/首次布局的耗时不再吃掉动画进度。
+- 快照用 `capture_widget_surface`（整个 Terminal 含标题栏，`create_similar_surface` + `cairo_set_source_window`，X11 上是服务端拷贝、HiDPI 按窗口 scale），每帧只做一次 bilinear 缩放合成；不再每帧把 pixbuf 转换上传。
+- 动画期间真实终端所在 PaneFrame 的 `draw` 被拦截（`frame_hidden`），不画 VTE、不用 opacity 组；放大末 60ms 解除拦截，让快照淡出覆盖在真实终端上完成交接。
+- 还原时重新取占位槽位的当前矩形（最大化期间窗口可能改过大小），从终端实际位置飞回。
+- 快速连按：`Animator.reverse` 从当前进度反向，时长按剩余距离缩短（最短 60ms）。
+- `gtk-enable-animations=False` / `reduce_motion=on`：直接切换，无动画。
+- 看门狗：0.6s 没有帧（窗口被最小化等）直接跳到终态。
+- 动画进行中会话保存延后（每 120ms 重试，最多 10 次）。
+- 计时探针：`TERMINATOR_ANIM_PROFILE=<file>`；测量脚本 `tests/e2e/profile_maximise.py`。
+
 定位备选：PaneFrame 用 **margin + align**；Snapshot 用**铺满 Overlay 的 DrawingArea** 在 `draw` 里按 rect 画——降低对 `get-child-position` PyGObject out 参数签名的依赖（真机验证前推荐）。
 
 ### 6.2 快照捕获（P0）
