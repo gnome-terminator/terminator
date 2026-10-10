@@ -136,6 +136,48 @@ def _rect_from_widget(widget, relative_to):
 # Widgets
 # ---------------------------------------------------------------------------
 
+FRAME_CHROME_PX = 8  # .pane-maximised border 2px + padding 2px, per side
+
+
+def vte_size_for_rect(terminal, rect, frame_chrome=None):
+    """VTE pixels available when terminal fills a PaneFrame/slot of rect
+    (UI review P2-14): minus titlebar/scrollbar (measured as Terminal minus
+    VTE allocation), minus an auto-hidden scrollbar the font logic also
+    ignores, minus the frame border/padding when the rect is the frame."""
+    w, h = int(rect[2]), int(rect[3])
+    try:
+        tw, th = terminal.get_allocated_width(), terminal.get_allocated_height()
+        vte = terminal.vte
+        vw, vh = vte.get_allocated_width(), vte.get_allocated_height()
+        if tw > 1 and th > 1 and vw > 1 and vh > 1:
+            w -= max(0, tw - vw)
+            h -= max(0, th - vh)
+        alt = getattr(terminal, 'altscreen', None)
+        if alt is not None and alt.auto_hidden and alt.hidden_width > 0:
+            w -= alt.hidden_width
+    except Exception:
+        pass
+    if frame_chrome:
+        w -= int(frame_chrome)
+        h -= int(frame_chrome)
+    return max(1, w), max(1, h)
+
+
+def terminal_in_current_tab(window, terminal):
+    """True unless the window's root is a Notebook whose current page does
+    not contain terminal."""
+    try:
+        root = window.get_child()
+    except Exception:
+        return True
+    if not isinstance(root, Gtk.Notebook):
+        return True
+    page = root.get_nth_page(root.get_current_page())
+    if page is None:
+        return False
+    return page is terminal or terminal.is_ancestor(page)
+
+
 class PanePlaceholder(Gtk.DrawingArea):
     """Slot stand-in while the real terminal floats in the overlay Frame."""
 
@@ -240,10 +282,19 @@ class PaneFrame(Gtk.Box):
         self.set_margin_top(max(0, int(y)))
         self.set_margin_end(right)
         self.set_margin_bottom(bottom)
-        try:
-            self.set_size_request(max(1, int(w)), max(1, int(h)))
-        except Exception:
-            pass
+        # No size request (UI review P1-1): a fixed request would keep the
+        # frame at its maximise-time size when the window shrinks, since
+        # Gtk.Overlay allocates max(main, child request). Margins + FILL
+        # alone give the right geometry at every window size.
+
+    def set_uniform_margin(self, margin):
+        """Arrived state: MARGIN on every side, independent of any
+        (possibly stale or not-yet-allocated) window size (P1-1/P1-2)."""
+        m = max(0, int(margin))
+        self.set_margin_start(m)
+        self.set_margin_top(m)
+        self.set_margin_end(m)
+        self.set_margin_bottom(m)
 
 
 class DimLayer(Gtk.EventBox):
@@ -472,7 +523,28 @@ class OverlayController(object):
         return self.data.get('placeholder') if self.data else None
 
     def main(self):
-        return self.data.get('main') if self.data else None
+        """Layout root under the temporary Overlay. The Overlay's own Bin
+        child is authoritative: the root can be replaced while maximised
+        (sibling exit collapses the root Paned → Window.replace), and a stale
+        captured reference would hide every terminal (P0-1)."""
+        if not self.data:
+            return None
+        overlay = self.data.get('overlay')
+        if overlay is not None:
+            try:
+                child = Gtk.Bin.get_child(overlay)
+            except Exception:
+                child = None
+            if child is not None:
+                self.data['main'] = child
+                return child
+            return None
+        return self.data.get('main')
+
+    def note_main_replaced(self, widget):
+        """Window.add/remove hook: keep data['main'] in sync."""
+        if self.data is not None:
+            self.data['main'] = widget
 
     # -- E (auto font) freeze contract ------------------------------------
 
@@ -499,7 +571,7 @@ class OverlayController(object):
                 dbg('resume_auto_font_scale: %s' % ex)
 
     @staticmethod
-    def _apply_tier_for_rect(terminal, rect):
+    def _apply_tier_for_rect(terminal, rect, frame_chrome=0):
         """Same-frame tier for the destination size (one SIGWINCH)."""
         if terminal is None or rect is None:
             return
@@ -508,7 +580,8 @@ class OverlayController(object):
         if not callable(compute) or not callable(apply):
             return
         try:
-            scale = compute(int(rect[2]), int(rect[3]))
+            w, h = vte_size_for_rect(terminal, rect, frame_chrome)
+            scale = compute(w, h)
             apply(scale, toast=False)
         except Exception as ex:
             dbg('apply_font_tier_scale: %s' % ex)
@@ -625,9 +698,14 @@ class OverlayController(object):
         window.set_property('term_zoomed', True)
 
         # 3) same-frame E tier at the frame's final size, then reparent
-        self._apply_tier_for_rect(terminal, dst_rect)
+        self._apply_tier_for_rect(terminal, dst_rect, FRAME_CHROME_PX)
         frame.set_terminal(terminal)
-        frame.apply_rect(dst_rect, main_alloc.width, main_alloc.height)
+        frame.set_uniform_margin(self.MARGIN)
+        # Keep the animation target in sync with the real overlay size
+        # (window resized / allocated later than the maximise).
+        data_ref = self.data
+        overlay.connect('size-allocate',
+                        lambda w, a: self._on_overlay_allocate(data_ref, a))
         window._connect_overlay_terminal_signals(terminal)
 
         overlay.show()
@@ -645,6 +723,75 @@ class OverlayController(object):
         else:
             dim.set_alpha(self.DIM_ALPHA)
             self._arrive_maximised()
+        return True
+
+    def _on_overlay_allocate(self, data, alloc):
+        if data is not self.data or data is None:
+            return
+        if alloc.width <= 1 or alloc.height <= 1:
+            return
+        m = float(self.MARGIN)
+        data['dst_rect'] = (m, m, max(1.0, alloc.width - 2.0 * m),
+                            max(1.0, alloc.height - 2.0 * m))
+
+    def teardown(self):
+        """Window is being destroyed: stop the animation tick and put the
+        terminal back without animating (UI review P2-1)."""
+        if self._animator is not None:
+            self._animator.cancel(silent=True)
+        if self.data is not None:
+            self.data['restore_pending'] = True
+            try:
+                self._finish_restore()
+            except Exception as ex:
+                dbg('overlay teardown: %s' % ex)
+                self.data = None
+        self._animator = None
+
+    def maximise_when_ready(self, terminal):
+        """Session restore (P1-2): maximise once the window has a real
+        allocation, and only if the terminal's tab is the current one
+        (a background-tab pane must not float over the visible tab)."""
+        window = self.window
+        state = {'hid': None, 'done': False}
+
+        def _finish():
+            state['done'] = True
+            if state['hid'] is not None:
+                try:
+                    window.disconnect(state['hid'])
+                except Exception:
+                    pass
+                state['hid'] = None
+
+        def _attempt():
+            if state['done']:
+                return False
+            if getattr(window, 'isDestroyed', False) or \
+                    terminal.get_toplevel() is not window:
+                _finish()
+                return False
+            alloc = window.get_allocation()
+            if not window.get_mapped() or alloc.width <= 1 or \
+                    alloc.height <= 1:
+                return False  # wait for size-allocate
+            _finish()
+            if not terminal_in_current_tab(window, terminal):
+                dbg('maximise_when_ready: %s not in current tab, skipped'
+                    % terminal)
+                return False
+            try:
+                self.maximise(terminal, animate=False)
+            except Exception as ex:
+                dbg('maximise_when_ready: %s' % ex)
+            return False
+
+        def _on_alloc(_w, _a):
+            if not state['done']:
+                GLib.idle_add(_attempt)
+
+        state['hid'] = window.connect('size-allocate', _on_alloc)
+        GLib.idle_add(_attempt)
         return True
 
     def restore(self, animate=True):
@@ -765,7 +912,7 @@ class OverlayController(object):
             snap.hide()
         data['frame'].set_opacity(1.0)
         data['dim'].set_alpha(self.DIM_ALPHA)
-        data['ready_at'] = time.time() + self.CLICK_GUARD_MS / 1000.0
+        data['ready_at'] = time.monotonic() + self.CLICK_GUARD_MS / 1000.0
         terminal = data['terminal']
         self._resume_font(terminal)
         if not data['emitted']:
@@ -808,6 +955,12 @@ class OverlayController(object):
         self._apply_tier_for_rect(terminal, slot)
 
         root_terminal = False
+        # The Overlay's Bin child is the real layout root; data['main'] may
+        # be stale if the root was replaced while maximised (P0-1).
+        try:
+            actual_main = Gtk.Bin.get_child(overlay)
+        except Exception:
+            actual_main = None
         if placeholder.get_parent() is overlay:
             # Siblings all exited: the placeholder became the layout root
             overlay.remove(placeholder)
@@ -816,7 +969,7 @@ class OverlayController(object):
         else:
             # Take the overlay out of the window first so logical_parent and
             # Window.add/remove see the plain tree again
-            main = data['main']
+            main = actual_main if actual_main is not None else data['main']
 
         try:
             if main is not None and main.get_parent() is overlay:
@@ -872,7 +1025,7 @@ class OverlayController(object):
         data['press_on_dim'] = False
         if not pressed or data.get('animating'):
             return True
-        if time.time() < data.get('ready_at', 0.0):
+        if time.monotonic() < data.get('ready_at', 0.0):
             return True
         self.restore(animate=True)
         return True

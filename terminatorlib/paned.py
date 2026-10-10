@@ -9,10 +9,32 @@ from gi.repository import GLib, GObject, Gtk, Gdk
 from .util import dbg, err, enumerate_descendants, logical_parent
 from .terminator import Terminator
 from .factory import Factory
-from .container import Container
+from .container import Container, window_terminal_signals
 
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
+
+def _restore_overlay_before_collapse(paned, closing):
+    """P0-1 guard: a sibling of the overlay-maximised pane is closing and
+    this Paned (an ancestor of the maximised pane's slot) is about to
+    collapse/re-parent. Snap-restore first so the structural change happens
+    on the plain tree, not under the temporary Gtk.Overlay."""
+    try:
+        window = paned.get_toplevel()
+        is_ov = getattr(window, 'is_overlay_maximised', None)
+        if not callable(is_ov) or not is_ov():
+            return False
+        if window.is_maximised_pane(closing):
+            return False
+        placeholder = window._overlay.placeholder()
+        if placeholder is None or not placeholder.is_ancestor(paned):
+            return False
+        window.overlay_restore(animate=False)
+        return True
+    except Exception as ex:
+        dbg('overlay restore before collapse: %s' % ex)
+        return False
+
 
 def _schedule_auto_font_on_widget(widget):
     """Ask terminals under widget to re-evaluate auto font scale (E)."""
@@ -123,39 +145,8 @@ class Paned(Container):
 
         if self.maker.isinstance(widget, 'Terminal'):
             top_window = self.get_toplevel()
-            signals = {'close-term': self.wrapcloseterm,
-                    'split-auto': self.split_auto,
-                    'split-horiz': self.split_horiz,
-                    'split-vert': self.split_vert,
-                    'title-change': self.propagate_title_change,
-                    'resize-term': self.resizeterm,
-                    'size-allocate': self.new_size,
-                    'zoom': top_window.zoom,
-                    'tab-change': top_window.tab_change,
-                    'group-all': top_window.group_all,
-                    'group-all-toggle': top_window.group_all_toggle,
-                    'ungroup-all': top_window.ungroup_all,
-                    'group-win': top_window.group_win,
-                    'group-win-toggle': top_window.group_win_toggle,
-                    'ungroup-win': top_window.ungroup_win,
-                    'group-tab': top_window.group_tab,
-                    'group-tab-toggle': top_window.group_tab_toggle,
-                    'ungroup-tab': top_window.ungroup_tab,
-                    'move-tab': top_window.move_tab,
-                    'detach-tab': top_window.detach_tab_to_new_window,
-                    'maximise': [top_window.zoom, False],
-                    'tab-new': [top_window.tab_new, widget],
-                    'navigate': top_window.navigate_terminal,
-                    'rotate-cw': [top_window.rotate, True],
-                    'rotate-ccw': [top_window.rotate, False]}
-
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(widget, signal, handler, *args)
+            self.connect_terminal_signals(
+                widget, self.terminal_signals(top_window, widget))
 
             if metadata and \
                'had_focus' in metadata and \
@@ -323,38 +314,8 @@ class Paned(Container):
         if maker.isinstance(new_widget, 'Terminal'):
             # Reuse the signal table from add()
             top_window = self.get_toplevel()
-            signals = {'close-term': self.wrapcloseterm,
-                    'split-auto': self.split_auto,
-                    'split-horiz': self.split_horiz,
-                    'split-vert': self.split_vert,
-                    'title-change': self.propagate_title_change,
-                    'resize-term': self.resizeterm,
-                    'size-allocate': self.new_size,
-                    'zoom': top_window.zoom,
-                    'tab-change': top_window.tab_change,
-                    'group-all': top_window.group_all,
-                    'group-all-toggle': top_window.group_all_toggle,
-                    'ungroup-all': top_window.ungroup_all,
-                    'group-win': top_window.group_win,
-                    'group-win-toggle': top_window.group_win_toggle,
-                    'ungroup-win': top_window.ungroup_win,
-                    'group-tab': top_window.group_tab,
-                    'group-tab-toggle': top_window.group_tab_toggle,
-                    'ungroup-tab': top_window.ungroup_tab,
-                    'move-tab': top_window.move_tab,
-                    'detach-tab': top_window.detach_tab_to_new_window,
-                    'maximise': [top_window.zoom, False],
-                    'tab-new': [top_window.tab_new, new_widget],
-                    'navigate': top_window.navigate_terminal,
-                    'rotate-cw': [top_window.rotate, True],
-                    'rotate-ccw': [top_window.rotate, False]}
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(new_widget, signal, handler, *args)
+            self.connect_terminal_signals(
+                new_widget, self.terminal_signals(top_window, new_widget))
         elif isinstance(new_widget, Gtk.Paned):
             try:
                 self.connect_child(new_widget, 'resize-term', self.resizeterm)
@@ -391,9 +352,22 @@ class Paned(Container):
         except:
             return 0
 
+    def terminal_signals(self, top_window, widget):
+        """Signal table for a Terminal child (add and swap_child)."""
+        signals = window_terminal_signals(top_window, widget)
+        signals.update({'close-term': self.wrapcloseterm,
+                        'split-auto': self.split_auto,
+                        'split-horiz': self.split_horiz,
+                        'split-vert': self.split_vert,
+                        'title-change': self.propagate_title_change,
+                        'resize-term': self.resizeterm,
+                        'size-allocate': self.new_size})
+        return signals
+
     def wrapcloseterm(self, widget):
         """A child terminal has closed, so this container must die"""
         dbg('Called on %s' % widget)
+        _restore_overlay_before_collapse(self, widget)
 
         if self.closeterm(widget):
             # At this point we only have one child, which is the surviving term
@@ -598,6 +572,16 @@ class Paned(Container):
             self.set_position_by_ratio()
         else:
             self.set_position(self.get_position())
+        # UI review P2-4: children re-allocate on every titlebar label
+        # change; only a real geometry change is worth a session describe.
+        try:
+            geom = (self.get_position(), self.get_allocated_width(),
+                    self.get_allocated_height())
+        except Exception:
+            geom = None
+        if geom is not None and geom == getattr(self, '_dirty_geom', None):
+            return
+        self._dirty_geom = geom
         try:
             from .session import try_mark_dirty
             try_mark_dirty('paned.new_size')

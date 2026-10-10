@@ -372,7 +372,6 @@ class Terminator(Borg):
             pass
         # Module D: restore overlay-maximised panes from session (no animation)
         try:
-            from gi.repository import GLib
             seen_windows = set()
             for terminal in self.terminals:
                 if not getattr(terminal, '_restore_maximised', False):
@@ -384,13 +383,9 @@ class Terminator(Borg):
                 if not hasattr(win, 'overlay_maximise'):
                     continue
                 seen_windows.add(win)
-                def _do_restore(term=terminal, window=win):
-                    try:
-                        window.overlay_maximise(term, animate=False)
-                    except Exception as ex:
-                        dbg('overlay restore after layout: %s' % ex)
-                    return False
-                GLib.idle_add(_do_restore)
+                # Deferred until the window is allocated and only for the
+                # current tab (UI review P1-2)
+                win._ensure_overlay().maximise_when_ready(terminal)
         except Exception as ex:
             dbg('layout_done overlay restore: %s' % ex)
 

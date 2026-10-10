@@ -1,5 +1,58 @@
 # Changelog
 
+## Unreleased: fork of 2.1.6 (TIIEHenry/terminator, branch integration/m1)
+
+The five new features below are **on by default**. Each one can be turned off in Preferences or in the config file (see `terminator_config(5)`).
+
+**New features**
+
+- **Session save and restore.** Windows, tabs, splits, working directories, the maximised pane and any manually set window title are saved automatically (debounced) while Terminator runs. A plain `terminator` launch restores them.
+  - New options `--restore`, `--no-restore` and `--clear-session`.
+  - New Preferences > Session page with "Save as layout", "Use previous session next time" and "Clear session and cache…".
+  - Config keys: `restore_last_session`, `session_save_delay_ms`, `session_file`.
+  - The session is stored in `$XDG_STATE_HOME/terminator/session.json`.
+- **Close confirmation for running processes.** Closing a terminal, tab or window asks for confirmation when programs other than shells are still running. Config key: `close_confirm_ignore`.
+- **Scrollback cache.** The last lines of each terminal, with colours, are cached in `~/.cache/terminator/scrollback/` and replayed after a session restore. The screens of fullscreen programs are never cached. Config keys: `scrollback_cache*`.
+- **Wave-style pane titlebars.**
+  - Dark titlebars with a gear menu, maximise/restore and close buttons. Right-click opens the terminal menu.
+  - A 1px accent border marks the focused pane.
+  - Config keys: `titlebar_buttons`, `titlebar_density`, `pane_accent_color`.
+  - Double-clicking a titlebar now maximises the pane. Renaming moved to the menu and to Ctrl+Alt+X.
+- **Overlay maximise.**
+  - A single pane is maximised as an animated overlay above the dimmed layout.
+  - New default shortcut **Ctrl+Shift+Return** for `maximise`, which upstream left unbound. Ctrl+Shift+X does the same.
+  - New shortcut **Shift+Escape** (`restore_maximised`) restores the pane. It only acts while a pane is maximised.
+  - Config keys: `pane_overlay_maximise`, `pane_animation_expand_ms`, `pane_animation_restore_ms`, `reduce_motion`.
+- **Automatic per-terminal font scaling.**
+  - Small panes step down through 100% / 90% / 80% based on a 60-column reading measure (width first, then a minimum of 10 rows).
+  - A titlebar badge shows the current scale and lets you lock the font size for a terminal.
+  - Config keys: `auto_font_scale*`, `reading_measure_*`.
+- **Hide the scrollbar in fullscreen programs.** While a program uses the alternate screen (vim, less, htop, tmux) the scrollbar is hidden. Config key: `scrollbar_hide_in_alt_screen`.
+- **The window title follows the focused pane.** Title changes from other panes no longer overwrite the window title. Config keys: `window_title_mode` (`focused`/`fixed`) and `window_title_fixed`.
+
+**Behaviour changes when upgrading**
+
+- **Default layout.** If you have a custom `[layouts][default]`, it is used only until the first session is saved. After that, a plain launch restores the last session. Use `--no-restore`, or set `restore_last_session = False`, to keep using the default layout.
+- **Shortcut clash.** `<Ctrl><Shift>Return` is now bound to `maximise`. If you or a plugin used that key for something else, rebind one of them in Preferences > Keybindings.
+- **Titlebar colours.** The default titlebar colours changed from red/grey to dark:
+  - Focused: `#e6edf3` on `#21262d`.
+  - Unfocused: `#8b949e` on `#161b22`.
+  - Profiles that never changed these keep following the defaults. To get the old look back, set `title_transmit_fg_color = "#ffffff"`, `title_transmit_bg_color = "#c80003"`, `title_inactive_fg_color = "#000000"` and `title_inactive_bg_color = "#c0bebf"`.
+- **Config saving.** The config file is now written atomically: a temporary file is written and then renamed over the original. Symlinks and file permissions are preserved.
+
+**Fixes**
+
+- Splitting or closing a terminal inside a tab no longer crashes. This bug was also present upstream.
+- The `maximise` shortcut no longer raises an error.
+- Fixed the window title showing "None" at startup.
+- Missing GNOME gsettings schemas no longer abort startup.
+
+**Translations and docs**
+
+- Simplified Chinese (zh_CN) translations for all new strings.
+- `terminator.pot` regenerated.
+- Man pages updated.
+
 ## [v2.1.6](https://github.com/gnome-terminator/terminator/tree/v2.1.6) (2026-09-05)
 
 [Full Changelog](https://github.com/gnome-terminator/terminator/compare/v2.1.5...v2.1.6)

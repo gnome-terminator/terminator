@@ -349,36 +349,17 @@ class Notebook(Container, Gtk.Notebook):
         elif profile and self.config['always_split_with_profile']:
             widget.force_set_profile(None, profile)
 
-        signals = {'close-term': self.wrapcloseterm,
-                   'split-auto': self.split_auto,
-                   'split-horiz': self.split_horiz,
-                   'split-vert': self.split_vert,
-                   'title-change': self.propagate_title_change,
-                   'tab-change': top_window.tab_change,
-                   'group-all': top_window.group_all,
-                   'group-all-toggle': top_window.group_all_toggle,
-                   'ungroup-all': top_window.ungroup_all,
-                   'group-win': top_window.group_win,
-                   'group-win-toggle': top_window.group_win_toggle,
-                   'ungroup-win': top_window.ungroup_win,
-                   'group-tab': top_window.group_tab,
-                   'group-tab-toggle': top_window.group_tab_toggle,
-                   'ungroup-tab': top_window.ungroup_tab,
-                   'move-tab': top_window.move_tab,
-                   'detach-tab': top_window.detach_tab_to_new_window,
-                   'tab-new': [top_window.tab_new, widget],
-                   'navigate': top_window.navigate_terminal,
-                   'zoom': top_window.zoom,
-                   'maximise': [top_window.zoom, False]}
+        # Shared table (UI review P2-3); a tab has no rotate/resize/unzoom
+        from .container import window_terminal_signals
+        signals = window_terminal_signals(top_window, widget, rotate=False)
+        signals.update({'close-term': self.wrapcloseterm,
+                        'split-auto': self.split_auto,
+                        'split-horiz': self.split_horiz,
+                        'split-vert': self.split_vert,
+                        'title-change': self.propagate_title_change})
 
         if maker.isinstance(widget, 'Terminal'):
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(widget, signal, handler, *args)
+            self.connect_terminal_signals(widget, signals)
 
         if metadata and 'tabnum' in metadata:
             tabpos = metadata['tabnum']
@@ -455,6 +436,14 @@ class Notebook(Container, Gtk.Notebook):
 
         maker = Factory()
         child = nb.get_nth_page(tabnum)
+        if getattr(child, 'is_pane_placeholder', False):
+            # UI review P2-12: a single-terminal tab whose terminal floats in
+            # the overlay frame; put it back so the Terminal branch applies.
+            try:
+                self.window.overlay_restore(animate=False)
+            except Exception as ex:
+                dbg('closetab overlay restore: %s' % ex)
+            child = nb.get_nth_page(tabnum)
 
         confirm_close = self.construct_confirm_close(self.window, child)
         if confirm_close != Gtk.ResponseType.ACCEPT:
