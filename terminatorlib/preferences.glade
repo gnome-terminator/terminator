@@ -317,7 +317,7 @@
   <object class="GtkAdjustment" id="ReadingMeasureMinColsAdjustment">
     <property name="lower">20</property>
     <property name="upper">200</property>
-    <property name="value">60</property>
+    <property name="value">45</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
   </object>

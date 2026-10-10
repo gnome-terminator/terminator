@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), ".."
 
 from terminatorlib.autofont import (
     cols_rows_from_base,
+    keeps_full_size,
     parse_tiers,
     select_font_tier,
     tier_label,
@@ -19,8 +20,8 @@ from terminatorlib.autofont import (
 )
 
 TIERS = [1.0, 0.9, 0.8]
-MIN_C = 60
-MIN_R = 10
+MIN_C = 45
+MIN_R = 8
 H = 0.08
 
 
@@ -58,34 +59,57 @@ def test_cols_rows_from_base():
     assert cols_rows_from_base(-1, 600, 10, 20) == (0, 0)
 
 
-# --- example table from session-restore-design.md §E.1 ---
-# window 160x50 base cells; MIN_C=60 MIN_R=10 h=0.08 → UP needs ≥65 cols / ≥11 rows
-# Width (reading measure) is primary; rows only matter for tiny panes.
+# --- example table (m26 defaults: MIN_C=45 MIN_R=8 h=0.08) ---
+# UP needs >= 49 cols / >= 9 rows. Width (reading measure) is primary; rows
+# only matter for tiny panes. (Any 2-pane split is additionally pinned to
+# 100% by keeps_full_size(), see below.)
 
 @pytest.mark.parametrize('cols0,rows0,cur,expected', [
     (160, 50, 0, 0),   # single pane → 100%
     (160, 24, 0, 0),   # vertical split → 100%
     (79, 50, 0, 0),    # horizontal split → 100%
-    (79, 24, 0, 0),    # 2x2 → 100%
-    (52, 50, 0, 2),    # 3-way horizontal → 80%
-    (52, 15, 0, 2),    # 3x3 grid, cols fail → 80%
+    (79, 24, 0, 0),    # 2x2 on a wide window → 100%
+    (52, 50, 0, 0),    # 3-way horizontal on 160 cols → 100%
+    (40, 15, 0, 2),    # 3x3 grid, cols fail → 80%
     (163, 17, 0, 0),   # 2 panes stacked on 1000x700 → stays 100%
-    (163, 20, 0, 0),   # 2 panes stacked on 1280x800 → stays 100%
-    (46, 20, 0, 2),    # 2x3 grid on 1280x800 → 80%
-    (163, 8, 0, 2),    # very short pane (<10 rows even at 0.8) → 80%
-    (163, 9, 0, 1),    # 9 rows → 90% gives 10 rows
-    (59, 50, 0, 1),    # 59 cols → 90%
-    (62, 50, 1, 1),    # 62 cols while at 90%: hysteresis blocks up → 90%
-    (65, 50, 1, 0),    # 65 cols → 100%
-    (79, 50, 2, 0),    # merge back from 80% → step up to 100%
+    (163, 8, 0, 0),    # 8 rows is still enough
+    (163, 7, 0, 2),    # very short pane (<8 rows even at 0.9) → 80%
+    (44, 50, 0, 1),    # 44 cols → 90% gives 48
+    (40, 50, 0, 2),    # 40 cols → 90% gives 44 < 45 → 80%
+    (47, 50, 1, 1),    # 47 cols while at 90%: hysteresis blocks up → 90%
+    (49, 50, 1, 0),    # 49 cols → 100%
+    (60, 50, 2, 0),    # merge back from 80% → step up to 100%
 ])
 def test_select_examples(cols0, rows0, cur, expected):
     assert _pick(cols0, rows0, cur) == expected
 
 
+def test_defaults_match_config():
+    from terminatorlib.config import DEFAULTS
+    g = DEFAULTS['global_config']
+    assert g['reading_measure_min_cols'] == MIN_C
+    assert g['auto_font_scale_min_rows'] == MIN_R
+
+
+@pytest.mark.parametrize('pane,page,keep', [
+    ((329, 438), (658, 438), True),    # default window, side by side
+    ((658, 216), (658, 438), True),    # default window, stacked
+    ((288, 390), (578, 390), True),    # Monospace 9 window, side by side
+    ((449, 654), (898, 654), True),    # Noto Sans Mono 14 window
+    ((329, 216), (658, 438), False),   # 2x2
+    ((219, 438), (658, 438), False),   # 3 side by side
+    ((658, 146), (658, 438), False),   # 3 stacked
+    ((658, 438), (658, 438), True),    # single pane
+    ((800, 500), (658, 438), True),    # rounding: clamped
+    ((100, 100), (0, 0), False),       # page unknown
+])
+def test_keeps_full_size(pane, page, keep):
+    assert keeps_full_size(pane[0], pane[1], page[0], page[1]) is keep
+
+
 def test_select_min_rows_zero():
     # 3x3 with MIN_R=0: floor still needed for cols, but rows ignored
-    assert _pick(52, 15, 0, min_rows=0) == 2
+    assert _pick(40, 5, 0, min_rows=0) == 2
 
 
 def test_select_ideal_cols():

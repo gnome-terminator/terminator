@@ -2342,9 +2342,20 @@ class Terminal(Gtk.VBox):
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return
-        new = select_font_tier(
-            cols0, rows0, self._font_tier, tiers,
-            min_cols, min_rows, hyst, ideal)
+        if avail is not None:
+            pane = avail
+        else:
+            try:
+                pane = (self.get_allocated_width(),
+                        self.get_allocated_height())
+            except Exception:
+                pane = (w, h)
+        if self._auto_font_keeps_full_size(*pane):
+            new = 0
+        else:
+            new = select_font_tier(
+                cols0, rows0, self._font_tier, tiers,
+                min_cols, min_rows, hyst, ideal)
         if new == self._font_tier and not force:
             self.refresh_badge()
             return
@@ -2352,6 +2363,35 @@ class Terminal(Gtk.VBox):
             self.schedule_auto_font_scale()
             return
         self.apply_tier(new, reason='update', toast=not force)
+
+    def _auto_font_page_size(self):
+        """(w, h) of the area this pane shares: the current tab page or the
+        window content (the direct child of the Notebook / Window above
+        us).  (0, 0) when unknown."""
+        node = self
+        parent = self.get_parent()
+        while parent is not None:
+            kind = type(parent).__name__
+            if kind in ('Notebook', 'Window') or isinstance(parent, Gtk.Window):
+                break
+            node = parent
+            parent = parent.get_parent()
+        if parent is None:
+            return (0, 0)   # not in a window yet
+        try:
+            return node.get_allocated_width(), node.get_allocated_height()
+        except Exception:
+            return (0, 0)
+
+    def _auto_font_keeps_full_size(self, pane_w, pane_h):
+        """m26 P1-3: panes taking >= ~45% of their page (any 2-pane split)
+        stay at 100% whatever the reading measure says."""
+        from .autofont import keeps_full_size
+        try:
+            page_w, page_h = self._auto_font_page_size()
+        except Exception:
+            return False
+        return keeps_full_size(pane_w, pane_h, page_w, page_h)
 
     def apply_tier(self, index, reason='', toast=True):
         """Apply a tier index to VTE and refresh the badge."""
@@ -2469,6 +2509,8 @@ class Terminal(Gtk.VBox):
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return tiers[self._font_tier] if self._font_tier < len(tiers) else 1.0
+        if self._auto_font_keeps_full_size(w, h):
+            return tiers[0]
         idx = select_font_tier(
             cols0, rows0, self._font_tier, tiers,
             min_cols, min_rows, hyst, ideal)
