@@ -300,11 +300,22 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        if getattr(self, '_cwd_probe_timer', None):
+            try:
+                GLib.source_remove(self._cwd_probe_timer)
+            except Exception:
+                pass
+            self._cwd_probe_timer = None
         # Last terminal exit: finalize session BEFORE scrollback close hook
         # so will_persist() is True and caches are kept (A4).
         try:
             from .session import SessionManager
-            if len(self.terminator.terminals) <= 1:
+            # Container.closeterm() deregisters us BEFORE calling close(),
+            # so "<= 1" wrongly fired when closing the second-to-last pane
+            # and permanently disabled autosave (final_saving). Only
+            # finalize when no OTHER terminal remains.
+            others = [t for t in self.terminator.terminals if t is not self]
+            if not others:
                 SessionManager().finalize()
         except Exception as ex:
             dbg('session finalize on last close: %s' % ex)
@@ -580,6 +591,10 @@ class Terminal(Gtk.VBox):
                     lambda *a: self._session_mark_dirty_cwd())
         except Exception as ex:
             dbg('cwd session signal: %s' % ex)
+        # Shells without OSC7 never emit cwd signals; probe /proc cwd
+        # shortly after output settles so `cd` still autosaves.
+        self.cnxids.new(self.vte, 'contents-changed',
+                        self._on_contents_changed_cwd_probe)
         if self.config['scrollback_cache']:
             self.cnxids.new(self.vte, 'contents-changed',
                             self._on_scrollback_contents_changed)
@@ -794,6 +809,10 @@ class Terminal(Gtk.VBox):
 
         # Scrollback cache: (re)bind contents-changed + reconfigure cache
         self.cnxids.remove_signal(self.vte, 'contents-changed')
+        # Shells without OSC7 never emit cwd signals; probe /proc cwd
+        # shortly after output settles so `cd` still autosaves.
+        self.cnxids.new(self.vte, 'contents-changed',
+                        self._on_contents_changed_cwd_probe)
         if self.config['scrollback_cache']:
             self.cnxids.new(self.vte, 'contents-changed',
                             self._on_scrollback_contents_changed)
@@ -2810,6 +2829,40 @@ class Terminal(Gtk.VBox):
 
     def _session_mark_dirty_cwd(self):
         self._session_mark_dirty('cwd')
+
+    CWD_PROBE_DELAY_MS = 800
+
+    def _on_contents_changed_cwd_probe(self, *_args):
+        """Throttled: at most one pending cwd probe per terminal."""
+        if getattr(self, '_cwd_probe_timer', None):
+            return
+        try:
+            self._cwd_probe_timer = GLib.timeout_add(
+                self.CWD_PROBE_DELAY_MS, self._cwd_probe_fire)
+        except Exception:
+            self._cwd_probe_timer = None
+
+    def _cwd_probe_fire(self):
+        self._cwd_probe_timer = None
+        self.cwd_probe_check()
+        return False
+
+    def cwd_probe_check(self):
+        """Mark session dirty if the shell's cwd changed since last probe."""
+        try:
+            if self.pid is None:
+                return False
+            cwd = get_pid_cwd(self.pid)
+        except Exception:
+            return False
+        if not cwd:
+            return False
+        last = getattr(self, '_last_session_cwd', None)
+        self._last_session_cwd = cwd
+        if last is not None and last != cwd:
+            self._session_mark_dirty('cwd-probe')
+            return True
+        return False
 
     def _on_child_exited_restart(self, _vte, _status):
         """child-exited → respawn shell (exit_action=restart)."""
