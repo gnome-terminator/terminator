@@ -882,6 +882,12 @@ Specify where the terminal scrollbar is put.
 Can be any of: 'left', 'right', 'hidden'. +
 Default value: *right*
 
+*scrollbar_hide_in_alt_screen* = _boolean_::
+If true, the scrollbar is hidden automatically while a fullscreen program
+(one using the alternate screen, such as vim, less, htop or tmux) is running,
+and restored when it exits. Only applies when the scrollbar is shown. +
+Default value: *True*
+
 *scroll_on_output* = _boolean_::
 If set to True, the terminall will scroll to the bottom when an
 application writes text to it. +

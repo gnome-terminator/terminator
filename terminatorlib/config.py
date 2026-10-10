@@ -273,6 +273,7 @@ DEFAULTS = {
                 'foreground_color'      : '#aaaaaa',
                 'show_titlebar'         : True,
                 'scrollbar_position'    : "right",
+                'scrollbar_hide_in_alt_screen': True,
                 'scroll_on_keystroke'   : True,
                 'scroll_on_output'      : False,
                 'scrollback_lines'      : 500,

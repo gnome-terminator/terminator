@@ -32,6 +32,7 @@ from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
 from .scrollback import ScrollbackCache
+from .altscreen import AltScreenScrollbar
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -173,6 +174,10 @@ class Terminal(Gtk.VBox):
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
+        # Auto-hide the scrollbar while a fullscreen TUI (alternate
+        # screen) runs; see altscreen.py for the detection heuristic.
+        self.altscreen = AltScreenScrollbar(self)
+        self.altscreen.attach()
         # E: Overlay around the hbox so toasts stay inside the Terminal
         # widget (D will rebuild Window overlays). close()/reconfigure keep
         # using self.terminalbox (the inner hbox).
@@ -1005,6 +1010,8 @@ class Terminal(Gtk.VBox):
                 self.terminalbox.reorder_child(self.scrollbar, 0)
             elif self.config['scrollbar_position'] == 'right':
                 self.terminalbox.reorder_child(self.vte, 0)
+        if getattr(self, 'altscreen', None) is not None:
+            self.altscreen.reconfigured()
 
         toplevel = self.get_toplevel()
         if isinstance(toplevel, Gtk.Window) and toplevel.has_toplevel_focus():
@@ -1344,6 +1351,8 @@ class Terminal(Gtk.VBox):
 
     def do_scrollbar_toggle(self):
         """Show or hide the terminal scrollbar"""
+        if getattr(self, 'altscreen', None) is not None:
+            self.altscreen.user_toggled()
         self.toggle_widget_visibility(self.scrollbar)
 
     def toggle_widget_visibility(self, widget):
@@ -2218,6 +2227,11 @@ class Terminal(Gtk.VBox):
                 h = self.vte.get_allocated_height()
             except Exception:
                 return
+            # A scrollbar auto-hidden for a fullscreen TUI must not change
+            # the font tier (it would flip back when the TUI exits).
+            alt = getattr(self, 'altscreen', None)
+            if alt is not None and alt.auto_hidden and alt.hidden_width > 0:
+                w = max(1, w - alt.hidden_width)
         cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
         if cols0 <= 0 or rows0 <= 0:
             return

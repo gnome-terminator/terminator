@@ -1187,6 +1187,15 @@ Can be any of: \*(Aqleft\*(Aq, \*(Aqright\*(Aq, \*(Aqhidden\*(Aq.
 Default value: \fBright\fP
 .RE
 .sp
+\fBscrollbar_hide_in_alt_screen\fP = \fIboolean\fP
+.RS 4
+If true, the scrollbar is hidden automatically while a fullscreen program
+(one using the alternate screen, such as vim, less, htop or tmux) is running,
+and restored when it exits. Only applies when the scrollbar is shown.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
 \fBscroll_on_output\fP = \fIboolean\fP
 .RS 4
 If set to True, the terminall will scroll to the bottom when an
