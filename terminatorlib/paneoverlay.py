@@ -98,6 +98,36 @@ def _translate_xy(widget, dest, x=0, y=0):
     return None
 
 
+def _scale_factor(widget, gdk_win=None):
+    """m33: integer HiDPI scale (>=1) of the widget / its GdkWindow."""
+    for obj in (gdk_win, widget):
+        try:
+            f = int(obj.get_scale_factor())
+            if f >= 1:
+                return f
+        except Exception:
+            pass
+    return 1
+
+
+def _capture_scaled(gdk_win, wx, wy, w, h, scale):
+    """m33: snapshot at device resolution (w*scale x h*scale) so the
+    maximize animation is not blurry on HiDPI. None on failure."""
+    try:
+        import cairo
+        dw, dh = int(w * scale), int(h * scale)
+        surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, dw, dh)
+        cr = cairo.Context(surf)
+        cr.scale(scale, scale)
+        Gdk.cairo_set_source_window(cr, gdk_win, -float(wx), -float(wy))
+        cr.paint()
+        surf.flush()
+        return Gdk.pixbuf_get_from_surface(surf, 0, 0, dw, dh)
+    except Exception as ex:
+        dbg('HiDPI capture failed, falling back: %s' % ex)
+        return None
+
+
 def capture_terminal_pixbuf(terminal):
     """Snapshot a terminal's VTE region. Never call terminal.draw(cr)."""
     try:
@@ -113,6 +143,12 @@ def capture_terminal_pixbuf(terminal):
         if xy is None:
             return None
         wx, wy = xy
+        scale = _scale_factor(widget, gdk_win)
+        if scale > 1:
+            pb = _capture_scaled(gdk_win, wx, wy, alloc.width,
+                                 alloc.height, scale)
+            if pb is not None:
+                return pb
         pb = Gdk.pixbuf_get_from_window(
             gdk_win, int(wx), int(wy), int(alloc.width), int(alloc.height))
         return pb
@@ -297,6 +333,25 @@ class PaneFrame(Gtk.Box):
         self.set_margin_bottom(m)
 
 
+NO_COMPOSITE_MAX_ALPHA = 0.45
+
+
+def _cairo_over():
+    try:
+        import cairo
+        return cairo.OPERATOR_OVER
+    except Exception:
+        return 2
+
+
+def _screen_composited(widget):
+    try:
+        screen = widget.get_screen()
+        return bool(screen.is_composited()) if screen is not None else False
+    except Exception:
+        return False
+
+
 class DimLayer(Gtk.EventBox):
     """Full-area dimmer; clicks restore (after guard)."""
 
@@ -318,9 +373,33 @@ class DimLayer(Gtk.EventBox):
         self._alpha = max(0.0, min(1.0, float(a)))
         self.queue_draw()
 
+    def effective_alpha(self):
+        """m33: degrade gracefully without a compositor. The dimmer paints
+        into the toplevel's own buffer (no input-only child window), which
+        blends without compositing; but if it ever got its own native
+        window on a non-composited screen, translucency can turn opaque /
+        black, so then cap it hard (or skip when painting can't blend)."""
+        a = self._alpha
+        if a <= 0.0:
+            return 0.0
+        if _screen_composited(self):
+            return a
+        try:
+            own_window = bool(self.get_has_window()) and \
+                bool(self.get_visible_window())
+        except Exception:
+            own_window = False
+        if own_window:
+            return 0.0
+        return min(a, NO_COMPOSITE_MAX_ALPHA)
+
     def _on_draw(self, widget, cr):
+        alpha = self.effective_alpha()
+        if alpha <= 0.0:
+            return False
         alloc = widget.get_allocation()
-        cr.set_source_rgba(0.0, 0.0, 0.0, self._alpha)
+        cr.set_operator(_cairo_over())
+        cr.set_source_rgba(0.0, 0.0, 0.0, alpha)
         cr.rectangle(0, 0, alloc.width, alloc.height)
         cr.fill()
         return False

@@ -368,6 +368,23 @@ def _export_via_write_contents(vte):
         return ''
 
 
+TICK_TIME_BUDGET_S = 0.25
+REENABLE_COOLDOWN_S = 300
+
+
+def _monotonic():
+    import time
+    return time.monotonic()
+
+
+def flush_budget(n_dirty, ticks=2):
+    """m33: how many dirty terminals to flush this tick (>=2, all within
+    `ticks` ticks)."""
+    if n_dirty <= 0:
+        return 0
+    return min(n_dirty, max(2, -(-n_dirty // max(1, ticks))))
+
+
 class ScrollbackCache(Borg):
     """Debounced scrollback text cache. Borg singleton."""
 
@@ -381,6 +398,7 @@ class ScrollbackCache(Borg):
     _queue = None
     _fail_count = None
     _disabled_by_error = None
+    _reenable_id = 0
     _config = None
     _seq = None
     _io_lock = None
@@ -832,8 +850,14 @@ class ScrollbackCache(Borg):
             self._visit = {}
         self._tick = (self._tick or 0) + 1
         dirty_list.sort(key=lambda u: self._visit.get(u, 0))
-        n = min(2, len(dirty_list))
-        for uuid_str in dirty_list[:n]:
+        # m33: scale with the dirty count so 40+ busy panes are all
+        # persisted within ~2 ticks, bounded by a per-tick time budget so a
+        # huge flush cannot stall the main loop (LRU order keeps it fair).
+        n = flush_budget(len(dirty_list))
+        started = _monotonic()
+        for i, uuid_str in enumerate(dirty_list[:n]):
+            if i >= 2 and _monotonic() - started > TICK_TIME_BUDGET_S:
+                break
             self._visit[uuid_str] = self._tick
             term = by_uuid.get(uuid_str)
             if term is None:
@@ -998,6 +1022,38 @@ class ScrollbackCache(Borg):
         self._seq[uuid_str] = seq
         return seq
 
+    def _schedule_reenable(self):
+        """m33: retry after a cooldown instead of staying off all run."""
+        if getattr(self, '_reenable_id', 0):
+            return
+        try:
+            self._reenable_id = GLib.timeout_add_seconds(
+                int(REENABLE_COOLDOWN_S), self._try_reenable)
+        except Exception as ex:
+            self._reenable_id = 0
+            dbg('scrollback re-enable timer failed: %s' % ex)
+
+    def _try_reenable(self):
+        self._reenable_id = 0
+        if not self._enabled or not self._disabled_by_error:
+            return False
+        if _sm_display_lost():
+            return False
+        self._disabled_by_error = False
+        self._fail_count = 0
+        # Re-dirty every live terminal so content missed meanwhile is saved
+        try:
+            from .terminator import Terminator
+            for term in Terminator().terminals:
+                u = _terminal_uuid_str(term)
+                if u:
+                    self._dirty.add(u)
+        except Exception as ex:
+            dbg('re-enable: Terminator unavailable: %s' % ex)
+        err('scrollback cache re-enabled after cooldown')
+        self._arm_timer()
+        return False
+
     def _on_write_failed(self, exc):
         self._fail_count = (self._fail_count or 0) + 1
         err('scrollback write failed (%s): %s' % (self._fail_count, exc))
@@ -1009,7 +1065,9 @@ class ScrollbackCache(Borg):
                 except Exception:
                     pass
                 self._timer_id = 0
-            err('scrollback cache disabled after repeated write failures')
+            err('scrollback cache disabled after repeated write failures; '
+                'retrying in %ds' % int(REENABLE_COOLDOWN_S))
+            self._schedule_reenable()
         return False
 
     # ---- restore / notice ----
