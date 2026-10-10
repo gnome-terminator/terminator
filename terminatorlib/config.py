@@ -113,6 +113,14 @@ DEFAULTS = {
             'titlebar_buttons'      : True,
             'titlebar_density'      : 'standard',
             'pane_accent_color'     : '#3fb950',
+            'auto_font_scale'       : True,
+            'auto_font_scale_show_badge': True,
+            'auto_font_scale_tiers' : ['1.0', '0.9', '0.8'],
+            'reading_measure_min_cols': 60,
+            'reading_measure_ideal_cols': 0,
+            'auto_font_scale_min_rows': 24,
+            'auto_font_scale_hysteresis': 0.08,
+            'auto_font_scale_delay_ms': 150,
             'always_split_with_profile': False,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
@@ -603,6 +611,7 @@ class ConfigBase(Borg):
                 'int': 'integer',
                 'str': 'string',
                 'bool': 'boolean',
+                'float': 'float',
                 }
 
         section = {}
