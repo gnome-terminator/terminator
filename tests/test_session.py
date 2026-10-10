@@ -70,13 +70,13 @@ def test_sanitize_missing_directory(tmp_path, monkeypatch):
             'command': 'vim',
             'uuid': 'abc',
         },
-        'child0': {'type': 'Window', 'title': 'should-go'},
+        'child0': {'type': 'Window', 'title': 'kept'},
     }
     missing_dirs = []
     out = sanitize_layout(layout, missing_dirs=missing_dirs)
     assert out['terminal0']['directory'] == os.path.expanduser('~')
     assert 'command' not in out['terminal0']
-    assert 'title' not in out['child0']
+    assert out['child0']['title'] == 'kept'  # m21: persisted forced title kept
     assert missing in missing_dirs or missing_dirs  # recorded
 
 

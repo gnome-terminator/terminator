@@ -68,10 +68,14 @@ class ActivityWatch(plugin.MenuItem):
                                              self.notify, terminal)
 
     def unwatch(self, _widget, terminal):
-        """Stop watching a terminal"""
-        vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
-        del(self.watches[terminal])
+        """Stop watching a terminal (no-op if it is not watched)"""
+        handler = self.watches.pop(terminal, None)
+        if handler is None:
+            return
+        try:
+            terminal.get_vte().disconnect(handler)
+        except Exception as ex:
+            dbg('activitywatch unwatch disconnect: %s' % ex)
 
     def notify(self, _vte, terminal):
         """Notify that a terminal did something"""
@@ -137,12 +141,16 @@ class InactivityWatch(plugin.MenuItem):
         dbg('timer %s added for %s' %(timeout_id, terminal))
 
     def unwatch(self, _vte, terminal):
-        """Unwatch a terminal"""
-        vte = terminal.get_vte()
-        vte.disconnect(self.watches[terminal])
-        del(self.watches[terminal])
-        GLib.source_remove(self.timers[terminal])
-        del(self.timers[terminal])
+        """Unwatch a terminal (no-op if it is not watched)"""
+        handler = self.watches.pop(terminal, None)
+        timeout_id = self.timers.pop(terminal, None)
+        if handler is not None:
+            try:
+                terminal.get_vte().disconnect(handler)
+            except Exception as ex:
+                dbg('inactivitywatch unwatch disconnect: %s' % ex)
+        if timeout_id:
+            GLib.source_remove(timeout_id)
 
     def reset_timer(self, _vte, terminal):
         """Reset the last-changed time for a terminal"""

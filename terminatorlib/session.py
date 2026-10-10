@@ -111,8 +111,9 @@ def sanitize_layout(layout, missing_dirs=None):
                     node['directory'] = home
                 else:
                     node['directory'] = expanded
-        if node.get('type') == 'Window':
-            node.pop('title', None)
+        # Window 'title' is kept: since m11, describe_layout only emits
+        # user-set (persisted) forced titles, so dropping it here lost
+        # "Set window title" on every restore (found by m21 round-trip).
     return layout
 
 
