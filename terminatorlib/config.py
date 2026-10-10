@@ -749,7 +749,9 @@ class ConfigBase(Borg):
 
         configspec = ConfigObj(configspecdata)
         if DEBUG == True:
-            configspec.write(open('/tmp/terminator_configspec_debug.txt', 'wb'))
+            # Upstream dumped this to a fixed /tmp path (symlink-followable,
+            # leaked fd); log it instead.
+            dbg('configspec: %s' % configspecdata)
         return(configspec)
 
     def load(self):

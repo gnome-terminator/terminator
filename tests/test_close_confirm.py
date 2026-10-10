@@ -40,12 +40,13 @@ def test_shell_only_not_confirm():
     assert found == []
 
 
-def test_pid_none_conservative():
+def test_pid_none_no_prompt():
+    # m21: no pid (exited child, flatpak-spawn) -> nothing to name, no prompt
     class Term(object):
         pid = None
     need, procs = cc.should_confirm_processes([Term()])
-    assert need is True
-    assert procs[0][0] is None
+    assert need is False
+    assert procs == []
 
 
 def test_ignore_list_filters_gitstatusd(monkeypatch):

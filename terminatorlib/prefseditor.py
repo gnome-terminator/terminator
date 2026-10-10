@@ -34,8 +34,10 @@ def rgba2hex(widget):
 NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
-def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb):
-    """m18: cache info label text; 0 means off for TTL and total cap."""
+def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb,
+                               color=True):
+    """m18: cache info label text; 0 means off for TTL and total cap.
+    color: scrollback_cache_color (colours are cached unless disabled)."""
     try:
         ttl_days = int(ttl_days)
     except (TypeError, ValueError):
@@ -48,10 +50,11 @@ def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb
         else _('age pruning off (ttl_days = 0)')
     cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
         else _('total size cap off (total_mb = 0)')
-    return (_('Cache: %s (%d file(s), %d KiB). Plain text only; %s; %s. '
+    kind = _('Text with colours') if color else _('Plain text only')
+    return (_('Cache: %s (%d file(s), %d KiB). %s; %s; %s. '
               '0 = off. Open terminals are never pruned at runtime; they are '
               'limited only by the per-file scrollback_cache_max_kb.') %
-            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap))
+            (cache_dir, files, (total_bytes + 1023) // 1024, kind, ttl, cap))
 
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
@@ -1797,9 +1800,8 @@ class PrefsEditor:
         if os.path.isfile(path + '.prev'):
             lines.append(_('A previous session is available'))
         if not sess.is_owner():
-            lines.append(_('This window was opened with explicit launch '
-                           'options or by a second instance, so it does not '
-                           'write the session.'))
+            lines.append(_('Another Terminator instance owns the session, '
+                           'so this one does not write it.'))
         elif not sess.is_writer():
             lines.append(_('Automatic saving is paused until Terminator '
                            'restarts.'))
@@ -1820,7 +1822,8 @@ class PrefsEditor:
             scrollback_cache_info_text(
                 cache_dir, files, total,
                 self.config['scrollback_cache_ttl_days'],
-                self.config['scrollback_cache_total_mb']))
+                self.config['scrollback_cache_total_mb'],
+                bool(self.config['scrollback_cache_color'])))
 
     def on_restore_last_session_checkbutton_toggled(self, widget):
         """Restore-last-session toggled"""
@@ -1849,6 +1852,13 @@ class PrefsEditor:
         import time
         guiget = self.builder.get_object
         current_layout = Terminator().describe_layout(save_cwd=True)
+        # A layout is a template: live terminal uuids would give terminals
+        # opened from it duplicate uuids (shared scrollback cache files).
+        for node in current_layout.values():
+            if isinstance(node, dict):
+                node.pop('uuid', None)
+                node.pop('maximised_pane', None)
+                node.pop('last_active_term', None)
         treeview = guiget('layoutlist')
         model = treeview.get_model()
         values = [r[0] for r in model]
