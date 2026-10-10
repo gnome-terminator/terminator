@@ -420,6 +420,7 @@ tick **只**更新 Snapshot 绘制矩形与 Dim alpha；**禁止**改 VTE size�
 - `gtk-enable-animations=False` / `reduce_motion=on`：直接切换，无动画。
 - 看门狗：0.6s 没有帧（窗口被最小化等）直接跳到终态。
 - 动画进行中会话保存延后（每 120ms 重试，最多 10 次）。
+- 透明背景（RGBA visual）：快照保留 alpha（m38），不透明阶段以 `OPERATOR_SOURCE` 替换下方像素（与 VTE 一致，不和暗化层叠加），占位槽位不铺不透明底色。
 - 计时探针：`TERMINATOR_ANIM_PROFILE=<file>`；测量脚本 `tests/e2e/profile_maximise.py`。
 
 定位备选：PaneFrame 用 **margin + align**；Snapshot 用**铺满 Overlay 的 DrawingArea** 在 `draw` 里按 rect 画——降低对 `get-child-position` PyGObject out 参数签名的依赖（真机验证前推荐）。
