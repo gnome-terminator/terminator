@@ -71,13 +71,13 @@ def test_reverse_shortens_to_distance_left():
     src['cb'](0.05)                        # progress 0.25
     assert abs(anim.progress - 0.25) < 1e-9
     anim.reverse(200)
-    assert anim.reversed and abs(anim._duration - 0.06) < 1e-9  # min 60ms
+    assert anim.reversed and abs(anim.duration - 0.06) < 1e-9  # min 60ms
     anim2, src2 = _manual_animator([], [])
     anim2.start(200, easing=lambda t: t)
     src2['cb'](0.0)
     src2['cb'](0.15)                       # 0.75 → reverse covers 0.75
     anim2.reverse(200)
-    assert abs(anim2._duration - 0.15) < 1e-9
+    assert abs(anim2.duration - 0.15) < 1e-9
     assert abs(anim2.progress - 0.75) < 1e-9   # no jump
 
 
