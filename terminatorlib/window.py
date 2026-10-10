@@ -142,6 +142,9 @@ class Window(Container, Gtk.Window):
         self.connect('configure-event', self.on_configure_event)
         self.connect('focus-out-event', self.on_focus_out)
         self.connect('focus-in-event', self.on_focus_in)
+        # Window-title ownership: follow the focus widget inside this window
+        # (fires on every grab_focus, even when the toplevel is inactive).
+        self.connect('set-focus', self.on_set_focus)
         self.connect('realize', self.on_window_realize)
         self._session_last_configure = None
         try:
@@ -269,6 +272,22 @@ class Window(Container, Gtk.Window):
                 self.position = self.get_position()
                 self.hidefunc()
 
+    def on_set_focus(self, _window, widget):
+        """The focus widget inside this window changed. If it belongs to a
+        terminal, that terminal now owns the window title. Focus on chrome
+        outside any terminal (overlay frame, notebook tabs) or None keeps the
+        previous owner."""
+        title = getattr(self, 'title', None)
+        if title is None:
+            return
+        terminal = terminal_for_widget(widget) if widget is not None else None
+        if terminal is not None:
+            title.focus_changed(terminal)
+        else:
+            # Focus widget unset (e.g. owner removed/detached to another
+            # window): hand ownership on if the owner has left us.
+            title.revalidate()
+
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
@@ -342,6 +361,10 @@ class Window(Container, Gtk.Window):
             terminal.emit('pre-close-term')
             terminal.close()
         self.cnxids.remove_all()
+        try:
+            self.title.destroy()
+        except Exception:
+            pass
         self.terminator.deregister_window(self)
         self.isDestroyed = True
         self.destroy()
@@ -1451,49 +1474,265 @@ class Window(Container, Gtk.Window):
             self.terminator.last_active_window = self.uuid
 
 class WindowTitle(object):
-    """Class to handle the setting of the window title"""
+    """Own the desktop (Gtk.Window) title of one Terminator window.
+
+    Ownership model (replaces the old ``vte.is_focus()`` guard):
+
+    * Exactly one terminal - the *owner* - may drive the window title. The
+      owner is the terminal that most recently received keyboard focus inside
+      this window (tracked from Gtk.Window ``set-focus``, so it also works when
+      focus later moves to a pane titlebar button, overlay chrome or the window
+      itself loses toplevel focus).
+    * Title changes from any other terminal are ignored for the window title
+      (their pane titlebars / tab labels still update; that is handled by the
+      Terminal/Notebook handlers, not here).
+    * If the owner leaves the window (closed, detached), ownership falls back
+      to the terminal that holds focus now.
+
+    Coalescing: the native ``set_title`` is applied from a single pending
+    GLib timeout (``DEBOUNCE_MS`` for OSC churn, ``FOCUS_DELAY_MS`` after a
+    focus change so transient grab_focus chains during tab switches/layout
+    ops collapse to the final pane). The latest text wins; an unchanged title
+    is never re-applied.
+
+    Config: ``window_title_mode`` = 'focused' (default) | 'fixed'; in 'fixed'
+    mode the title is ``window_title_fixed``. force_title() beats both.
+    """
+
+    DEBOUNCE_MS = 300
+    FOCUS_DELAY_MS = 50
 
     window = None
     text = None
     forced = None
 
-    def __init__(self, window):
+    def __init__(self, window, config=None, timeout_add=None,
+                 source_remove=None):
         """Class initialiser"""
         self.window = window
         self.forced = False
+        self.owner = None
+        self._config = config
+        self._source = None
+        self._source_is_focus = False
+        self._destroyed = False
+        if timeout_add is None or source_remove is None:
+            from gi.repository import GLib
+            timeout_add = timeout_add or GLib.timeout_add
+            source_remove = source_remove or GLib.source_remove
+        self._timeout_add = timeout_add
+        self._source_remove = source_remove
 
-    def set_title(self, widget, text):
-        """Set the title"""
-        if self.forced:
+    # -- config ---------------------------------------------------------
+    def _cfg(self, key, default):
+        config = self._config
+        if config is None:
+            config = getattr(self.window, 'config', None)
+        if config is None:
+            return default
+        try:
+            value = config[key]
+        except Exception:
+            return default
+        return default if value is None else value
+
+    def mode(self):
+        """'focused' (follow the owner terminal) or 'fixed'"""
+        mode = str(self._cfg('window_title_mode', 'focused')).strip().lower()
+        return mode if mode in ('focused', 'fixed') else 'focused'
+
+    def fixed_text(self):
+        return str(self._cfg('window_title_fixed', 'Terminator') or 'Terminator')
+
+    # -- ownership ------------------------------------------------------
+    def _owns(self, terminal):
+        """True if terminal currently lives in our window"""
+        if terminal is None:
+            return False
+        try:
+            return terminal.get_toplevel() is self.window
+        except Exception:
+            return False
+
+    def _focus_terminal(self):
+        """Terminal holding the Gtk focus widget of our window, if any"""
+        get_focus = getattr(self.window, 'get_focus', None)
+        if get_focus is None:
+            return None
+        try:
+            return terminal_for_widget(get_focus())
+        except Exception:
+            return None
+
+    def _ensure_owner(self, candidate=None):
+        """Drop a stale owner and pick a fallback. Returns the owner."""
+        if self.owner is not None and self._owns(self.owner):
+            return self.owner
+        self.owner = None
+        last = None
+        terminator = getattr(self.window, 'terminator', None)
+        if terminator is not None:
+            last = getattr(terminator, 'last_focused_term', None)
+        for term in (self._focus_terminal(), last, candidate):
+            if term is not None and self._owns(term):
+                self.owner = term
+                break
+        return self.owner
+
+    def focus_changed(self, terminal):
+        """A terminal in our window took focus: it becomes the owner and the
+        title is taken from it once (short delay to absorb transient focus
+        hops)."""
+        if self._destroyed or terminal is None or not self._owns(terminal):
             return
-
-        # Background terminals can keep emitting OSC title changes. Their
-        # pane and tab labels should update, but they must not overwrite the
-        # desktop window title owned by the focused terminal.
-        if widget is not None and not widget.get_vte().is_focus():
+        if terminal is self.owner:
             return
-
+        self.owner = terminal
+        if self.forced or self.mode() == 'fixed':
+            return
+        try:
+            text = terminal.get_window_title()
+        except Exception:
+            return
         self.text = text
-        self.update()
+        self._schedule(focus=True)
+
+    def terminal_removed(self, terminal):
+        """Forget terminal if it was the owner; fall back to the focused one"""
+        if terminal is not None and terminal is self.owner:
+            self.owner = None
+            new = self._ensure_owner()
+            if new is not None:
+                self.owner = None
+                self.focus_changed(new)
+
+    def revalidate(self):
+        """If the owner no longer lives in our window (closed, detached to
+        another window), take the title from the fallback owner."""
+        if self._destroyed or self.owner is None or self._owns(self.owner):
+            return
+        self.terminal_removed(self.owner)
+
+    # -- title updates --------------------------------------------------
+    def set_title(self, widget, text):
+        """Title change request. widget is the emitting Terminal, or None
+        for programmatic titles (force_title)."""
+        if self._destroyed:
+            return
+        if widget is None:
+            # Programmatic: apply now (a forced title still wins).
+            if self.forced:
+                return
+            self.text = text
+            self._cancel()
+            self.update()
+            return
+        if self.forced or self.mode() == 'fixed':
+            return
+        owner = self._ensure_owner(widget)
+        if widget is not owner:
+            return
+        self.text = text
+        self._schedule()
 
     def force_title(self, newtext):
         """Force a specific title"""
         if newtext:
-            self.set_title(None, newtext)
             self.forced = True
+            self.text = newtext
+            self._cancel()
+            self.update()
         else:
             self.forced = False
+            # Back to automatic: show the owner's (or fixed) title again.
+            owner = self._ensure_owner()
+            if self.mode() == 'focused' and owner is not None:
+                try:
+                    self.text = owner.get_window_title()
+                except Exception:
+                    pass
+            self._cancel()
+            self.update()
+
+    def desired_title(self):
+        """The title we want on the native window right now"""
+        if self.forced:
+            return self.text
+        if self.mode() == 'fixed':
+            return self.fixed_text()
+        if self.text is None:
+            return self.fixed_text()
+        return "%s" % self.text
 
     def update(self):
-        """Update the title automatically"""
-        title = None
-
-        # FIXME: What the hell is this for?!
-        if self.forced:
-            title = self.text
-        else:
-            title = "%s" % self.text
-
+        """Apply the title to the native window, skipping no-op changes"""
+        if self._destroyed:
+            return False
+        title = self.desired_title()
+        if title is None:
+            return False
+        get_title = getattr(self.window, 'get_title', None)
+        try:
+            current = get_title() if get_title is not None else None
+        except Exception:
+            current = None
+        if current == title:
+            return False
         self.window.set_title(title)
+        return True
+
+    # -- coalescing -----------------------------------------------------
+    def _schedule(self, focus=False):
+        """Single pending source; latest text wins when it fires.
+
+        OSC updates do not push an already pending flush further out (so a
+        pane that retitles constantly still updates ~every DEBOUNCE_MS).
+        A focus change re-arms with the short FOCUS_DELAY_MS."""
+        if self._source is not None:
+            if not focus:
+                return
+            self._cancel()
+        delay = self.FOCUS_DELAY_MS if focus else self.DEBOUNCE_MS
+        self._source_is_focus = focus
+        self._source = self._timeout_add(delay, self._flush)
+
+    def _flush(self):
+        self._source = None
+        self._source_is_focus = False
+        if not self._destroyed and not getattr(self.window, 'isDestroyed', False):
+            self.update()
+        return False
+
+    def _cancel(self):
+        if self._source is not None:
+            try:
+                self._source_remove(self._source)
+            except Exception:
+                pass
+            self._source = None
+            self._source_is_focus = False
+
+    def pending(self):
+        return self._source is not None
+
+    def destroy(self):
+        """Cancel any pending flush; further requests are ignored"""
+        self._cancel()
+        self._destroyed = True
+        self.owner = None
+
+
+def terminal_for_widget(widget):
+    """Return the Terminal containing widget (or widget itself), else None"""
+    # Duck-typed: Terminal is the only widget with both a .vte and
+    # get_window_title() (VTE itself has no .vte attribute).
+    while widget is not None:
+        if hasattr(widget, 'vte') and hasattr(widget, 'get_window_title'):
+            return widget
+        try:
+            widget = widget.get_parent()
+        except Exception:
+            return None
+    return None
 
 # vim: set expandtab ts=4 sw=4:

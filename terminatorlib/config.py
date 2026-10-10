@@ -137,6 +137,11 @@ DEFAULTS = {
             'invert_search'         : False,
             'link_single_click'     : False,
             'title_at_bottom'       : False,
+            # Desktop window title: 'focused' follows the last-focused
+            # terminal (OSC titles from other panes are ignored);
+            # 'fixed' always shows window_title_fixed.
+            'window_title_mode'     : 'focused',
+            'window_title_fixed'    : 'Terminator',
             'detachable_tabs'       : True,
 
             'new_tab_after_current_tab': False,

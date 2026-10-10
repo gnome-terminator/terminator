@@ -324,7 +324,15 @@ class Terminal(Gtk.VBox):
         except Exception as ex:
             dbg('scrollback close hook failed: %s' % ex)
         self.cnxids.remove_widget(self.vte)
+        window = self.get_toplevel()
         self.emit('close-term')
+        # Hand window-title ownership to the newly focused terminal.
+        title = getattr(window, 'title', None)
+        if title is not None and hasattr(title, 'terminal_removed'):
+            try:
+                title.terminal_removed(self)
+            except Exception as ex:
+                dbg('window title fallback on close failed: %s' % ex)
         if self.pid is not None:
             try:
                 dbg('close: killing %d' % self.pid)
