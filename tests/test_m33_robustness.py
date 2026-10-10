@@ -201,3 +201,24 @@ def test_dim_skipped_if_own_window_without_compositor(monkeypatch):
 def test_dimlayer_has_no_own_window_by_default():
     d = po.DimLayer()
     assert d.get_visible_window() is False
+
+
+# m33 review follow-ups
+def test_stop_cancels_pending_reenable(cache, monkeypatch):
+    removed = []
+    monkeypatch.setattr(sb.GLib, 'source_remove', lambda i: removed.append(i))
+    cache._reenable_id = 42
+    cache._cancel_reenable()
+    assert cache._reenable_id == 0 and removed == [42]
+
+
+def test_divider_release_marks_session_dirty(monkeypatch):
+    from terminatorlib import paned
+    marks = []
+    monkeypatch.setattr(sess, 'try_mark_dirty', lambda r='': marks.append(r))
+    monkeypatch.setattr(paned, '_schedule_auto_font_on_widget',
+                        lambda w: None, raising=False)
+    fake = types.SimpleNamespace(last_balance_time=0)
+    ev = types.SimpleNamespace(button=1)
+    assert paned.Paned.on_button_release(fake, None, ev) is False
+    assert marks == ['paned.drag']

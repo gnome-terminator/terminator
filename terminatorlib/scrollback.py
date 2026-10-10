@@ -560,6 +560,7 @@ class ScrollbackCache(Borg):
     def stop(self, join_timeout=1.0):
         """Stop timer and worker. Does not flush — finalize does that first."""
         self._enabled = False
+        self._cancel_reenable()
         if self._timer_id:
             try:
                 GLib.source_remove(self._timer_id)
@@ -1021,6 +1022,15 @@ class ScrollbackCache(Borg):
         seq = self._seq.get(uuid_str, 0) + 1
         self._seq[uuid_str] = seq
         return seq
+
+    def _cancel_reenable(self):
+        rid = getattr(self, '_reenable_id', 0)
+        self._reenable_id = 0
+        if rid:
+            try:
+                GLib.source_remove(rid)
+            except Exception:
+                pass
 
     def _schedule_reenable(self):
         """m33: retry after a cooldown instead of staying off all run."""
