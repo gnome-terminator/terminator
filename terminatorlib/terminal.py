@@ -2500,6 +2500,20 @@ class Terminal(Gtk.VBox):
         self._scale_popover = pop
         self._scale_popover_lock = lock
 
+    def on_auto_font_config_changed(self):
+        """Re-apply auto font after prefs changed (toggle/badge/measure)."""
+        try:
+            enabled = bool(self.config['auto_font_scale'])
+        except Exception:
+            enabled = False
+        if not enabled:
+            self.on_auto_font_globally_disabled()
+            return
+        # Clear an earlier invalid-config latch; params are re-validated.
+        self._auto_font_disabled = False
+        self.refresh_badge()
+        self.update_auto_font_scale(force=True)
+
     def on_auto_font_globally_disabled(self):
         """Reset this terminal after config auto_font_scale was turned off."""
         self._cancel_auto_font_timer()
@@ -2988,9 +3002,7 @@ class Terminal(Gtk.VBox):
         PrefsEditor(self)
 
     def key_preferences_keybindings(self):
-        #need to have this as a config may be preferences_default
-        #have a mapping rather than hardcoded page
-        PrefsEditor(self, cur_page = 4)  # Session page sits at 3
+        PrefsEditor(self, cur_page='keybindings')
 
     def key_help(self):
         manual_index_page = manual_lookup()

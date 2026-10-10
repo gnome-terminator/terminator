@@ -197,6 +197,32 @@ class PrefsEditor:
                         'help'             : _('Open the manual')
             }
 
+    # Notebook pages by stable name -> glade object id of the page child.
+    # Use names (e.g. cur_page='keybindings') instead of numeric indices so
+    # inserting pages (Session, ...) does not break callers.
+    PAGE_IDS = {
+        'global': 'vbox5',
+        'profiles': 'hpaned4',
+        'layouts': 'hpaned1',
+        'session': 'session_page_box',
+        'keybindings': 'vbox124',
+        'plugins': 'hpaned3',
+        'about': 'grid7',
+    }
+
+    def resolve_page(self, cur_page):
+        """Map a page name (or legacy int index) to a notebook page index."""
+        if isinstance(cur_page, int):
+            return cur_page
+        nb = self.builder.get_object('notebook1')
+        page_id = self.PAGE_IDS.get(str(cur_page), str(cur_page))
+        child = self.builder.get_object(page_id)
+        if child is None:
+            err('PrefsEditor: unknown page %r' % cur_page)
+            return 0
+        idx = nb.page_num(child)
+        return idx if idx >= 0 else 0
+
     def __init__ (self, term, cur_page=0):
         self.config = config.Config()
         self.config.base.reload()
@@ -242,7 +268,7 @@ class PrefsEditor:
 
         guiget = self.builder.get_object
         nb = guiget('notebook1')
-        nb.set_current_page(cur_page)
+        nb.set_current_page(self.resolve_page(cur_page))
 
         self.config.base.save_config_with_suffix('_cur')
 
@@ -422,6 +448,27 @@ class PrefsEditor:
         if not rgba.parse(str(self.config['pane_accent_color'] or '')):
             rgba.parse('#3fb950')
         widget.set_rgba(rgba)
+
+        # Overlay maximise (module D)
+        widget = guiget('pane_overlay_maximise_checkbutton')
+        widget.set_active(bool(self.config['pane_overlay_maximise']))
+        motion = self.config['reduce_motion']
+        if motion not in ('system', 'on', 'off'):
+            motion = 'system'
+        guiget('reduce_motion_combo').set_active_id(motion)
+        guiget('pane_anim_expand_spinbutton').set_value(
+            int(self.config['pane_animation_expand_ms']))
+        guiget('pane_anim_restore_spinbutton').set_value(
+            int(self.config['pane_animation_restore_ms']))
+
+        # Auto font scale (module E, E6)
+        widget = guiget('auto_font_scale_checkbutton')
+        widget.set_active(bool(self.config['auto_font_scale']))
+        widget = guiget('auto_font_scale_badge_checkbutton')
+        widget.set_active(bool(self.config['auto_font_scale_show_badge']))
+        guiget('reading_measure_spinbutton').set_value(
+            int(self.config['reading_measure_min_cols']))
+        self._sync_auto_font_sensitivity()
 
         ## Session tab (modules A + B)
         self.set_session_values()
@@ -1599,6 +1646,69 @@ class PrefsEditor:
         self.config['pane_accent_color'] = rgba2hex(widget)
         self.config.save()
         Terminator().reconfigure()
+
+    # ---- Overlay maximise (module D) -------------------------------------
+
+    def on_pane_overlay_maximise_checkbutton_toggled(self, widget):
+        """Overlay maximise on/off (off = classic reparent zoom)"""
+        self.config['pane_overlay_maximise'] = widget.get_active()
+        self.config.save()
+
+    def on_reduce_motion_combo_changed(self, widget):
+        """Reduce motion: system / on / off"""
+        value = widget.get_active_id()
+        if value not in ('system', 'on', 'off'):
+            value = 'system'
+        self.config['reduce_motion'] = value
+        self.config.save()
+
+    def on_pane_anim_expand_spinbutton_value_changed(self, widget):
+        """Maximise animation duration in ms"""
+        self.config['pane_animation_expand_ms'] = int(widget.get_value())
+        self.config.save()
+
+    def on_pane_anim_restore_spinbutton_value_changed(self, widget):
+        """Restore animation duration in ms"""
+        self.config['pane_animation_restore_ms'] = int(widget.get_value())
+        self.config.save()
+
+    # ---- Auto font scale (module E) --------------------------------------
+
+    def _sync_auto_font_sensitivity(self):
+        guiget = self.builder.get_object
+        on = bool(guiget('auto_font_scale_checkbutton').get_active())
+        for name in ('auto_font_scale_badge_checkbutton',
+                     'reading_measure_label', 'reading_measure_spinbutton'):
+            guiget(name).set_sensitive(on)
+
+    @staticmethod
+    def _notify_auto_font_terminals():
+        for term in list(Terminator().terminals):
+            hook = getattr(term, 'on_auto_font_config_changed', None)
+            if callable(hook):
+                try:
+                    hook()
+                except Exception as ex:
+                    dbg('auto font config change: %s' % ex)
+
+    def on_auto_font_scale_checkbutton_toggled(self, widget):
+        """Per-pane automatic font scaling on/off"""
+        self.config['auto_font_scale'] = widget.get_active()
+        self.config.save()
+        self._sync_auto_font_sensitivity()
+        self._notify_auto_font_terminals()
+
+    def on_auto_font_scale_badge_checkbutton_toggled(self, widget):
+        """Show/hide the font scale badge"""
+        self.config['auto_font_scale_show_badge'] = widget.get_active()
+        self.config.save()
+        self._notify_auto_font_terminals()
+
+    def on_reading_measure_spinbutton_value_changed(self, widget):
+        """Reading measure (minimum columns)"""
+        self.config['reading_measure_min_cols'] = int(widget.get_value())
+        self.config.save()
+        self._notify_auto_font_terminals()
 
     # ---- Session page (modules A + B) -------------------------------------
 
