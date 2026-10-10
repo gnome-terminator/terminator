@@ -118,7 +118,8 @@ def test_no_inline_unzoom_patterns_left():
         s = _src(name)
         assert not pat_legacy.search(s), name
         assert not pat_both.search(s), name
-    for name in ('session.py', 'terminator.py', 'notebook.py', 'terminal.py'):
+    for name in ('session.py', 'terminator.py', 'notebook.py', 'terminal.py',
+                 'paned.py'):
         assert 'overlay_restore(animate=False)' not in _src(name), name
     w = _src('window.py')
     # Window.destroy / closeterm use the helper
@@ -148,17 +149,62 @@ def test_session_legacy_helpers_route(sm, monkeypatch):
     assert sm._any_legacy_zoom() is False
 
 
-def test_note_window_closing_uses_helper(sm, monkeypatch):
-    seen = []
-    monkeypatch.setattr(zoomguard, 'leave_zoom',
-                        lambda w, **kw: seen.append(kw) or False)
+def test_note_window_closing_unzooms_legacy_only(sm, monkeypatch):
     monkeypatch.setattr(sm, 'is_writer', lambda: True)
+    sm.final_saving = False
+    seen = []
+    real = zoomguard.leave_zoom
+    monkeypatch.setattr(zoomguard, 'leave_zoom',
+                        lambda w, **kw: seen.append(kw) or real(w, **kw))
+    legacy, ov = FakeWin(zoomed=True), FakeWin(overlay=True)
+    for w in (legacy, ov):
+        try:
+            sm.note_window_closing(w)   # describe on a fake may fail later
+        except Exception:
+            pass
+    assert [k['legacy'] for k in seen] == [True, True]
+    assert [k['overlay'] for k in seen] == [False, False]
+    assert legacy.calls == [('unzoom',)]
+    assert ov.calls == []               # fragment keeps maximised_pane
+
+
+def test_container_closeterm_legacy_zoom_routes(monkeypatch):
+    from terminatorlib.container import Container
     w = FakeWin(zoomed=True)
-    try:
-        sm.note_window_closing(w)
-    except Exception:
-        pass
-    assert seen and seen[0]['legacy'] is True and seen[0]['overlay'] is False
+    w.get_property = lambda name: w.zoomed
+    closed = []
+
+    class T:
+        def close(self):
+            closed.append(1)
+    assert Container.closeterm(w, T()) is True
+    assert w.calls == [('unzoom',)] and closed == [1]
+
+
+def test_paned_collapse_guard_routes(monkeypatch):
+    from terminatorlib import paned
+    w = FakeWin(overlay=True)
+    w.is_maximised_pane = lambda t: False
+
+    class PH:
+        def is_ancestor(self, p):
+            return True
+
+    class OV:
+        def placeholder(self):
+            return PH()
+    w._overlay = OV()
+
+    class P:
+        def get_toplevel(self):
+            return w
+    assert paned._restore_overlay_before_collapse(P(), object()) is True
+    assert w.calls == [('overlay_restore', False)]
+    # not overlay-maximised: untouched
+    w2 = FakeWin(zoomed=True)
+    P.get_toplevel = lambda self: w2
+    assert paned._restore_overlay_before_collapse(P(), object()) is False
+    assert w2.calls == []
 
 
 # --- make_uuid ----------------------------------------------------------
