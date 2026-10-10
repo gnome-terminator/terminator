@@ -418,7 +418,12 @@ the tab will also close all terminals within it.')
         layout['parent'] = parent
         layout['order'] = child_order
 
-        if hasattr(self, 'get_position'):
+        # m34: a Window's position is meaningless on Wayland (clients
+        # cannot place toplevels; get_position() returns junk), so it is
+        # not saved there.  Size, maximised/fullscreen and layout are.
+        can_pos = getattr(self, 'can_set_position', None)
+        if hasattr(self, 'get_position') and \
+                (can_pos is None or can_pos()):
             position = self.get_position()
             if hasattr(position, '__iter__'):
                 position = ':'.join([str(x) for x in position])

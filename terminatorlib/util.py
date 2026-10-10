@@ -430,12 +430,106 @@ def spawn_new_terminator(cwd, args):
     dbg("Spawning: %s" % cmd)
     subprocess.Popen([cmd]+args)
 
-def display_manager():
-    """Try to detect which display manager we run under"""
-    if os.environ.get('WAYLAND_DISPLAY'):
+def _gdk_backend_name(display):
+    """'X11' / 'WAYLAND' / 'OTHER' from a GdkDisplay's GType name
+    (GdkX11Display / GdkWaylandDisplay; PyGObject wraps backend subclasses
+    under their own GType even without the backend typelib), or None when
+    it cannot be told."""
+    if display is None:
+        return None
+    name = ''
+    try:
+        name = display.__gtype__.name or ''
+    except Exception:
+        name = ''
+    if not name or name == 'GdkDisplay':
+        name = type(display).__name__
+    lname = name.lower()
+    if 'wayland' in lname:
+        return 'WAYLAND'
+    if 'x11' in lname:
+        return 'X11'
+    if lname in ('display', 'gdkdisplay', ''):
+        return None
+    return 'OTHER'  # broadway, ...
+
+
+def display_manager(display=None):
+    """Which GDK backend we run under: 'X11', 'WAYLAND' or 'OTHER'.
+
+    m34: decided by the GdkDisplay actually opened, not by the environment:
+    GDK_BACKEND=x11 inside a Wayland session (XWayland) has WAYLAND_DISPLAY
+    set but every X11 API works, while GDK_BACKEND=wayland may run without
+    WAYLAND_DISPLAY (libwayland defaults to wayland-0).  Falls back to the
+    environment only when no display is open yet (unit tests, early
+    import)."""
+    if display is None:
+        try:
+            from gi.repository import Gdk
+            display = Gdk.Display.get_default()
+        except Exception:
+            display = None
+    backend = _gdk_backend_name(display)
+    if backend is not None:
+        return backend
+    gdk_backend = (os.environ.get('GDK_BACKEND') or '').split(',')[0].strip()
+    if gdk_backend == 'x11':
+        return 'X11'
+    if gdk_backend == 'wayland' or os.environ.get('WAYLAND_DISPLAY'):
         return 'WAYLAND'
     # Fallback assumption of X11
     return 'X11'
+
+
+def is_x11(display=None):
+    """True when X11-only APIs (positions, xid, Keybinder, X properties,
+    server time) are usable."""
+    return display_manager(display) == 'X11'
+
+
+def window_scale_factor(widget):
+    """Integer GDK scale factor (GDK_SCALE / monitor scale) of a widget,
+    >= 1.  Safe on unrealized widgets and mocks."""
+    try:
+        f = int(widget.get_scale_factor())
+        return f if f >= 1 else 1
+    except Exception:
+        return 1
+
+
+# Reference font height in px (10pt at 96 dpi) the fixed-px UI thresholds
+# were tuned for.
+_REF_FONT_PX = 10.0 * 96.0 / 72.0
+
+
+def text_scale(widget):
+    """How much bigger the UI text is than the 10pt/96dpi reference the
+    pixel thresholds were tuned with (GDK_DPI_SCALE, Xft.dpi, a large
+    desktop font).  Never below 1.0 (thresholds only grow) and capped at
+    4.0.  GDK_SCALE does not count: logical px already include it."""
+    try:
+        from gi.repository import Pango
+        ctx = widget.get_pango_context()
+        desc = ctx.get_font_description()
+        size = float(desc.get_size()) / Pango.SCALE
+        if size <= 0:
+            return 1.0
+        if desc.get_size_is_absolute():
+            px = size
+        else:
+            res = -1.0
+            try:
+                screen = widget.get_screen()
+                if screen is not None:
+                    res = float(screen.get_resolution())
+            except Exception:
+                res = -1.0
+            if res <= 0:
+                res = 96.0
+            px = size * res / 72.0
+        return max(1.0, min(4.0, px / _REF_FONT_PX))
+    except Exception:
+        return 1.0
 
 def update_config_to_cell_height(filename):
     '''Replace ‘line_height’ with ‘cell_height’ in Terminator

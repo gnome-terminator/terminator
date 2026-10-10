@@ -10,7 +10,7 @@ from gi.repository import GObject
 from gi.repository import Gtk, Gdk
 
 from .zoomguard import leave_zoom
-from .util import dbg, err, make_uuid, display_manager
+from .util import dbg, err, make_uuid, display_manager, is_x11
 
 try:
     from gi.repository import GdkX11
@@ -24,6 +24,8 @@ from .version import APP_NAME
 from .container import Container
 from .factory import Factory
 from .terminator import Terminator
+# m34: decided by the opened GdkDisplay (XWayland counts as X11; a
+# native Wayland window cannot grab global keys at all).
 if display_manager() == 'X11':
     try:
         gi.require_version('Keybinder', '3.0')
@@ -51,6 +53,11 @@ class Window(Container, Gtk.Window):
     set_pos_by_ratio = None
     last_active_term = None
     preventHide = None
+    # m34: the window was iconified by on_hide_window/hide-on-lose-focus
+    # (no global hotkey -> hidefunc is iconify), so the next toggle must
+    # bring it back instead of iconifying again.  Needed on Wayland, where
+    # GDK never reports the ICONIFIED state.
+    _iconified_by_hide = False
 
     zoom_data = None
 
@@ -117,7 +124,11 @@ class Window(Container, Gtk.Window):
 
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
-        self.hidefunc = self.hide
+        # m34: register_callbacks() above already chose hidefunc (iconify
+        # when the global hotkey can't be bound / on Wayland); upstream
+        # overwrote that with hide() here, so the fallback never applied.
+        if self.hidefunc is None:
+            self.hidefunc = self.hide
 
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
@@ -157,7 +168,7 @@ class Window(Container, Gtk.Window):
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
         if self.config['keybindings']['hide_window'] not in ('', None):
-            if display_manager() == 'X11':
+            if self.can_set_position():
                 try:
                     self.hidebound = Keybinder.bind(
                         self.config['keybindings']['hide_window'],
@@ -170,6 +181,45 @@ class Window(Container, Gtk.Window):
                     self.hidefunc = self.iconify
                 else:
                     self.hidefunc = self.hide
+            else:
+                # m34: no global hotkey on Wayland.  hide() would leave the
+                # window unreachable except via DBus (remotinator), so
+                # hide-on-lose-focus / the toggle iconify instead, like
+                # the X11 path when the key is taken.
+                dbg('hide_window: no global hotkey on %s; iconify instead '
+                    'of hide' % display_manager(self.get_display()))
+                self.hidefunc = self.iconify
+
+    def can_set_position(self):
+        """m34: True when window positions can be read and set (X11 /
+        XWayland).  Wayland clients cannot place their toplevels and
+        get_position() returns meaningless numbers there."""
+        try:
+            return is_x11(self.get_display())
+        except Exception:
+            return is_x11()
+
+    def _remember_position(self):
+        """Save the position for a later re-show (X11 only)."""
+        if self.can_set_position():
+            self.position = self.get_position()
+        else:
+            self.position = None
+
+    def _server_time(self):
+        """X server timestamp for focus(), 0 elsewhere (m34: Wayland)."""
+        gdkwin = self.get_window()
+        if gdkwin is None or not self.can_set_position():
+            return 0
+        try:
+            return GdkX11.x11_get_server_time(gdkwin)
+        except (NameError, TypeError, AttributeError):
+            return 0
+
+    def _run_hidefunc(self):
+        if self.hidefunc == self.iconify:
+            self._iconified_by_hide = True
+        self.hidefunc()
 
     def apply_config(self):
         """Apply various configuration options"""
@@ -270,8 +320,8 @@ class Window(Container, Gtk.Window):
             self.preventHide = False
         else:
             if self.config['hide_on_lose_focus'] and self.get_property('visible'):
-                self.position = self.get_position()
-                self.hidefunc()
+                self._remember_position()
+                self._run_hidefunc()
 
     def on_set_focus(self, _window, widget):
         """The focus widget inside this window changed. If it belongs to a
@@ -292,6 +342,7 @@ class Window(Container, Gtk.Window):
     def on_focus_in(self, window, event):
         """Focus has entered the window"""
         self.set_urgency_hint(False)
+        self._iconified_by_hide = False
         if not self.terminator.doing_layout:
             self.terminator.last_active_window = self.uuid
         # FIXME: Cause the terminal titlebars to update here
@@ -400,18 +451,21 @@ class Window(Container, Gtk.Window):
                 if (time.time() - self.losefocus_time < 0.1) and \
                     self.config['hide_on_lose_focus']:
                     return
-                if self.position:
+                if self.position and self.can_set_position():
                     self.move(self.position[0], self.position[1])
                 self.show()
                 self.grab_focus()
-                try:
-                    t = GdkX11.x11_get_server_time(self.get_window())
-                except (TypeError, AttributeError):
-                    t = 0
-                self.get_window().focus(t)
+                gdkwin = self.get_window()
+                if gdkwin is not None:
+                    gdkwin.focus(self._server_time())
+            elif self._iconified_by_hide and not self.is_active():
+                # m34: toggled while iconified by us: bring it back
+                self._iconified_by_hide = False
+                self.deiconify()
+                self.present()
             else:
-                self.position = self.get_position()
-                self.hidefunc()
+                self._remember_position()
+                self._run_hidefunc()
 
     # pylint: disable-msg=W0613
     def on_window_state_changed(self, window, event):
@@ -665,7 +719,7 @@ class Window(Container, Gtk.Window):
 
         #Window must be shown, then hidden for the hotkeys to be registered
         if (self.ignore_startup_show and startup == True):
-            self.position = self.get_position()
+            self._remember_position()
             self.hide()
 
 

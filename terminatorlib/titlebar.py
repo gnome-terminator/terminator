@@ -8,7 +8,7 @@ from gi.repository import GLib
 from gi.repository import Pango
 
 from .version import APP_NAME
-from .util import dbg, err
+from .util import dbg, err, text_scale
 from .terminator import Terminator
 from .editablelabel import EditableLabel
 from .translation import _
@@ -97,6 +97,10 @@ class Titlebar(Gtk.EventBox):
     COLLAPSE_MAX_PX = 150
     TITLE_MIN_CHARS = 6
     _show_buttons = True
+    # m34: px thresholds above are for 10pt text at 96 dpi; scaled up
+    # with the text (GDK_DPI_SCALE / Xft.dpi / big UI font).  Cached,
+    # reset on style-updated / screen-changed.
+    _text_scale = None
 
     __gsignals__ = {
             'clicked': (GObject.SignalFlags.RUN_LAST, None, ()),
@@ -229,6 +233,8 @@ class Titlebar(Gtk.EventBox):
         self.connect('button-press-event', self.on_button_press)
         self.connect('hierarchy-changed', self._on_hierarchy_changed)
         self.connect('size-allocate', self._on_size_allocate)
+        self.connect('style-updated', self._reset_text_scale)
+        self.connect('screen-changed', self._reset_text_scale)
         self.connect('destroy', self._on_destroy)
 
         self.apply_chrome_config()
@@ -863,16 +869,31 @@ class Titlebar(Gtk.EventBox):
         viewport.set_size_request(
             int(round(max(4, char_w) * self.TITLE_MIN_CHARS)), -1)
 
+    def _reset_text_scale(self, *_args):
+        self._text_scale = None
+        self._apply_title_min_width()
+        # re-evaluate the collapse level for the new thresholds
+        try:
+            self._on_size_allocate(self, self.get_allocation())
+        except Exception:
+            pass
+
+    def _threshold_scale(self):
+        if self._text_scale is None:
+            self._text_scale = text_scale(self)
+        return self._text_scale
+
     def _collapse_level_for(self, width):
-        if width < self.COLLAPSE_MAX_PX:
+        k = self._threshold_scale()
+        if width < self.COLLAPSE_MAX_PX * k:
             return 5
-        if width < self.COLLAPSE_GEAR_PX:
+        if width < self.COLLAPSE_GEAR_PX * k:
             return 4
-        if width < self.COLLAPSE_BADGE_PX:
+        if width < self.COLLAPSE_BADGE_PX * k:
             return 3
-        if width < self.COLLAPSE_GROUP_PX:
+        if width < self.COLLAPSE_GROUP_PX * k:
             return 2
-        if width < self.COLLAPSE_SIZETEXT_PX:
+        if width < self.COLLAPSE_SIZETEXT_PX * k:
             return 1
         return 0
 

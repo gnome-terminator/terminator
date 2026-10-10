@@ -261,10 +261,36 @@ class Terminal(Gtk.VBox):
         self.reconfigure()
         self.vte.set_size(80, 24)
 
+    def _export_windowid(self):
+        """WINDOWID for the child (X11 only).
+
+        m34: upstream read ``.xid``, which GdkX11Window does not have
+        (the method is get_xid()), so WINDOWID was never set and a value
+        inherited from the launching terminal leaked into every shell.
+        Off X11 (Wayland) there is no XID: drop any inherited WINDOWID so
+        tools (xdotool, w3m-img, ...) don't act on someone else's window.
+        """
+        xid = None
+        try:
+            if util.is_x11(self.vte.get_display()):
+                gdkwin = self.vte.get_parent_window() or \
+                    self.vte.get_toplevel().get_window()
+                if gdkwin is not None and hasattr(gdkwin, 'get_xid'):
+                    xid = int(gdkwin.get_xid())
+        except Exception as ex:
+            dbg('WINDOWID: %s' % ex)
+            xid = None
+        if xid:
+            os.environ['WINDOWID'] = str(xid)
+        else:
+            os.environ.pop('WINDOWID', None)
+        return xid
+
     def set_background_image(self,image):
         try: 
             bg_pixbuf = GdkPixbuf.Pixbuf.new_from_file(image)
             self.background_image = Gdk.cairo_surface_create_from_pixbuf(bg_pixbuf, 1, None)
+            self._bg_image_scale = 1
             self.vte.set_clear_background(False)
             self.vte.connect("draw", self.background_draw)
         except Exception as e:
@@ -1563,8 +1589,30 @@ class Terminal(Gtk.VBox):
         widget.disconnect(connec)
         widget._draw_data = None
 
+    def _background_image_size(self, widget):
+        """Logical (w, h) of the background image for widget's scale.
+
+        m34 HiDPI: the image is shown at its native pixel resolution, i.e.
+        one image pixel per device pixel, so at GDK_SCALE=2 a 3840px
+        wallpaper covers 1920 logical px and 'center'/'tiling' modes stay
+        sharp instead of being upscaled 2x.  Done with the cairo device
+        scale, so the stretch modes keep working on logical sizes."""
+        img = self.background_image
+        scale = util.window_scale_factor(widget)
+        if getattr(self, '_bg_image_scale', 1) != scale:
+            try:
+                img.set_device_scale(scale, scale)
+                self._bg_image_scale = scale
+            except Exception as ex:
+                dbg('background image device scale: %s' % ex)
+        s = getattr(self, '_bg_image_scale', 1) or 1
+        return (img.get_width() / float(s), img.get_height() / float(s))
+
     def background_draw(self, widget, cr):
         if self.background_image is None:
+            return False
+        img_w, img_h = self._background_image_size(widget)
+        if img_w <= 0 or img_h <= 0:
             return False
 
         # save cairo context
@@ -1585,8 +1633,8 @@ class Terminal(Gtk.VBox):
                 rect = toplevel.get_allocation()
                 origin_x, origin_y = translated
 
-        xratio = float(rect.width) / float(self.background_image.get_width())
-        yratio = float(rect.height) / float(self.background_image.get_height())
+        xratio = float(rect.width) / float(img_w)
+        yratio = float(rect.height) / float(img_h)
         if image_mode == 'stretch_and_fill':
             # keep stretched ratios
             xratio = xratio
@@ -1605,15 +1653,15 @@ class Terminal(Gtk.VBox):
         yoffset = -origin_y / yratio
         if image_align_horiz == 'center':
             xoffset += (rect.width / xratio -
-                        self.background_image.get_width()) / 2
+                        img_w) / 2
         elif image_align_horiz == 'right':
-            xoffset += rect.width / xratio - self.background_image.get_width()
+            xoffset += rect.width / xratio - img_w
 
         if image_align_vert == 'middle':
             yoffset += (rect.height / yratio -
-                        self.background_image.get_height()) / 2
+                        img_h) / 2
         elif image_align_vert == 'bottom':
-            yoffset += rect.height / yratio - self.background_image.get_height()
+            yoffset += rect.height / yratio - img_h
 
         cr.set_source_surface(self.background_image, xoffset, yoffset)
         cr.get_source().set_filter(cairo.Filter.FAST)
@@ -2018,10 +2066,7 @@ class Terminal(Gtk.VBox):
             self.vte.feed(_('Unable to find a shell').encode('utf-8'))
             return -1
 
-        try:
-            os.putenv('WINDOWID', '%s' % self.vte.get_parent_window().xid)
-        except AttributeError:
-            pass
+        self._export_windowid()
 
         envv = ['TERM=%s' % self.config['term'],
                 'COLORTERM=%s' % self.config['colorterm'], 'PWD=%s' % self.cwd,
