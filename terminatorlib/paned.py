@@ -74,6 +74,11 @@ class Paned(Container):
         while Gtk.events_pending():
             Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.split_axis')
+        except Exception:
+            pass
 
 
     def add(self, widget, metadata=None):
@@ -249,6 +254,11 @@ class Paned(Container):
         Gtk.Paned.remove(self, widget)
         self.disconnect_child(widget)
         self.children.remove(widget)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.remove')
+        except Exception:
+            pass
         return(True)
 
     def get_children(self):
@@ -479,6 +489,11 @@ class Paned(Container):
             self.set_position_by_ratio()
         else:
             self.set_position(self.get_position())
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.new_size')
+        except Exception:
+            pass
     
     def position_by_ratio(self, total_size, handle_size, ratio):
         non_separator_size = max(total_size - handle_size, 0)

@@ -128,6 +128,54 @@ if __name__ == '__main__':
         TERMINATOR.set_dbus_data(dbus_service)
         TERMINATOR.reconfigure()
 
+        # Session restore / ownership (module A)
+        try:
+            from terminatorlib.session import SessionManager, SESSION_LAYOUT_NAME
+            from terminatorlib.config import Config
+            sess = SessionManager()
+            got_lock = sess.acquire_lock()
+            sess.set_owner_from_options(OPTIONS)
+            sess.install_signal_handlers()
+            if getattr(OPTIONS, 'clear_session', False):
+                sess.clear_session_files()
+            cfg = Config()
+            want_restore = (
+                (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
+                and got_lock
+                and getattr(OPTIONS, 'layout_from_default', False)
+                and not OPTIONS.command and not OPTIONS.execute
+                and not OPTIONS.working_directory and not OPTIONS.configjson
+                and not getattr(OPTIONS, 'no_restore', False)
+            )
+            if want_restore:
+                if sess.check_crash_marker():
+                    dbg('session restore skipped: crash marker present')
+                    sess._crash_skipped = True
+                else:
+                    data = sess.load()
+                    if data:
+                        sess.begin_restore()
+                        layout = sess.sanitize_layout(data['layout'])
+                        cfg.base.layouts[SESSION_LAYOUT_NAME] = layout
+                        sess._loaded_session_uuids = set()
+                        for node in layout.values():
+                            if isinstance(node, dict) and node.get('type') == 'Terminal':
+                                uid = node.get('uuid')
+                                if uid:
+                                    sess._loaded_session_uuids.add(str(uid))
+                        OPTIONS.layout = SESSION_LAYOUT_NAME
+                        sess.restored_this_run = True
+                        dbg('restoring last session (%d terminals)' %
+                            len(sess._loaded_session_uuids))
+            # B: start scrollback cache after lock/load, before create_layout
+            try:
+                from terminatorlib.scrollback import ScrollbackCache
+                ScrollbackCache().start()
+            except Exception as ex:
+                dbg('ScrollbackCache.start: %s' % ex)
+        except Exception as ex:
+            err('session setup failed: %s' % ex)
+
         try:
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
             TERMINATOR.create_layout(OPTIONS.layout)

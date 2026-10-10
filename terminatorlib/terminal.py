@@ -270,6 +270,20 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        # Last terminal exit: finalize session BEFORE scrollback close hook
+        # so will_persist() is True and caches are kept (A4).
+        try:
+            from .terminator import Terminator
+            from .session import SessionManager
+            if len(Terminator().terminals) <= 1:
+                SessionManager().finalize()
+        except Exception as ex:
+            dbg('session finalize on last close: %s' % ex)
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().on_terminal_close(self)
+        except Exception as ex:
+            dbg('scrollback close hook: %s' % ex)
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         if self.pid is not None:
@@ -520,6 +534,17 @@ class Terminal(Gtk.VBox):
 
         self.cnxids.new(self.vte, 'window-title-changed', lambda x:
             self.emit('title-change', self.get_window_title()))
+        # Session dirty on cwd change (OSC7); VTE 0.78+ may use termprop-changed
+        try:
+            from gi.repository import GObject
+            if GObject.signal_lookup('current-directory-uri-changed', type(self.vte)):
+                self.cnxids.new(self.vte, 'current-directory-uri-changed',
+                    lambda *a: self._session_mark_dirty_cwd())
+            elif GObject.signal_lookup('termprop-changed', type(self.vte)):
+                self.cnxids.new(self.vte, 'termprop-changed',
+                    lambda *a: self._session_mark_dirty_cwd())
+        except Exception as ex:
+            dbg('cwd session signal: %s' % ex)
         self.cnxids.new(self.vte, 'grab-focus', self.on_vte_focus)
         self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
         self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
@@ -2099,7 +2124,15 @@ class Terminal(Gtk.VBox):
         self.emit('rotate-ccw')
 
     def key_close_term(self):
-        self.close()
+        from .close_confirm import request_close_terminal
+        request_close_terminal(self)
+
+    def _session_mark_dirty_cwd(self):
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('cwd')
+        except Exception:
+            pass
 
     def key_resize_up(self):
         self.emit('resize-term', 'up')

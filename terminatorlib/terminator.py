@@ -171,6 +171,11 @@ class Terminator(Borg):
         dbg('de-registering %s:%s' %
                 (id(terminal), type(terminal)))
         self.terminals.remove(terminal)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('deregister_terminal')
+        except Exception:
+            pass
 
         if len(self.terminals) == 0:
             dbg('no terminals remain, destroying all windows')
@@ -357,6 +362,14 @@ class Terminator(Borg):
             window = self.find_window_by_uuid(self.last_active_window.urn)
             window.present_with_time(t)
         self.prelayout_windows = None
+        try:
+            from .session import SessionManager
+            sess = SessionManager()
+            sess.mark_dirty('layout_done')
+            if sess.restored_this_run:
+                sess.schedule_clear_restoring()
+        except Exception:
+            pass
 
     def on_gtk_theme_name_notify(self, settings, prop):
         """Reconfigure if the gtk theme name changes"""

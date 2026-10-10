@@ -60,6 +60,7 @@ class Notebook(Container, Gtk.Notebook):
         # the new order of terminals. We probably need to preserve this for
         # navigation to next/prev terminals.
         #self.connect('page-reordered', self.on_page_reordered)
+        self.connect('page-reordered', self.on_page_reordered_dirty)
         self.set_scrollable(self.config['scroll_tabbar'])
 
         if self.config['tab_position'] == 'hidden':
@@ -230,6 +231,11 @@ class Notebook(Container, Gtk.Notebook):
         self.get_toplevel().set_pos_by_ratio = False
 
         GObject.idle_add(terminal.ensure_visible_and_focussed)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.split_axis')
+        except Exception:
+            pass
 
     def add(self, widget, metadata=None):
         """Add a widget to the container"""
@@ -245,6 +251,11 @@ class Notebook(Container, Gtk.Notebook):
             return(False)
         self.detach_tab(page_num)
         self.disconnect_child(widget)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.remove')
+        except Exception:
+            pass
         return(True)
 
     def replace(self, oldwidget, newwidget):
@@ -362,6 +373,11 @@ class Notebook(Container, Gtk.Notebook):
         self.show_all()
         if maker.isinstance(term_widget, 'Terminal'):
             widget.grab_focus()
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.newtab')
+        except Exception:
+            pass
 
     def wrapcloseterm(self, widget):
         """A child terminal has closed"""
@@ -420,6 +436,12 @@ class Notebook(Container, Gtk.Notebook):
                     Gtk.main_iteration()
         else:
             err('Notebook::closetab: child is unknown type %s' % child)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.closetab')
+        except Exception:
+            pass
+
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
@@ -515,6 +537,13 @@ class Notebook(Container, Gtk.Notebook):
                 last_active_term[nth_page] = self.last_active_term[nth_page]
         self.last_active_term = last_active_term
 
+    def on_page_reordered_dirty(self, *args):
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('page-reordered')
+        except Exception:
+            pass
+
     def deferred_on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Prime a single idle tab switch signal, using the most recent set of params"""
         tabs_last_active_term = self.last_active_term.get(self.get_nth_page(page_num),  None)
@@ -534,6 +563,11 @@ class Notebook(Container, Gtk.Notebook):
 
     def on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Do the real work for a tab switch"""
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('switch-page')
+        except Exception:
+            pass
         tabs_last_active_term = data['tabs_last_active_term']
         if tabs_last_active_term:
             term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)

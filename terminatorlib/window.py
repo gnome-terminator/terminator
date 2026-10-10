@@ -126,9 +126,16 @@ class Window(Container, Gtk.Window):
         self.connect('delete_event', self.on_delete_event)
         self.connect('destroy', self.on_destroy_event)
         self.connect('window-state-event', self.on_window_state_changed)
+        self.connect('configure-event', self.on_configure_event)
         self.connect('focus-out-event', self.on_focus_out)
         self.connect('focus-in-event', self.on_focus_in)
         self.connect('realize', self.on_window_realize)
+        self._session_last_configure = None
+        try:
+            self.connect('pane-maximise-changed', self.on_pane_maximise_changed)
+        except TypeError:
+            # Signal registered by module D; ignore until then
+            pass
 
         # Attempt to grab a global hotkey for hiding the window.
         # If we fail, we'll never hide the window, iconifying instead.
@@ -283,18 +290,29 @@ class Window(Container, Gtk.Window):
         """Handle a window close request"""
         maker = Factory()
 
-        child = self.get_child()
-        if (maker.isinstance(child, 'Terminal') or
-            maker.isinstance(child, 'Container')):
-            confirm_close = self.construct_confirm_close(window, child)
-            return (confirm_close != Gtk.ResponseType.ACCEPT)
-        else:
-            dbg('unknown child: %s' % child)
-            return False # close anyway
+        # Pass the Window so D17 scope_terminals sees zoom/overlay trees
+        confirm_close = self.construct_confirm_close(window, self)
+        return (confirm_close != Gtk.ResponseType.ACCEPT)
 
     def on_destroy_event(self, widget, data=None):
         """Handle window destruction"""
+        if getattr(self, '_session_destroy_handled', False) or self.isDestroyed:
+            return True
+        self._session_destroy_handled = True
         dbg('destroying self')
+        try:
+            from .session import SessionManager
+            sess = SessionManager()
+            # Last window → finalize; otherwise D5 buffer
+            remaining = [w for w in self.terminator.windows if w is not self
+                         and not getattr(w, 'isDestroyed', False)
+                         and not getattr(w, '_session_destroy_handled', False)]
+            if len(remaining) == 0:
+                sess.finalize()
+            else:
+                sess.note_window_closing(self)
+        except Exception as ex:
+            dbg('session on_destroy_event: %s' % ex)
         for terminal in self.get_terminals():
             # Only for race condition, while closing a window with a single
             # terminal. Could be useful in other scenarios.
@@ -343,8 +361,33 @@ class Window(Container, Gtk.Window):
                                  Gdk.WindowState.MAXIMIZED)
         dbg('fullscreen=%s, maximised=%s' \
                 % (self.isfullscreen, self.ismaximised))
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('window-state')
+        except Exception:
+            pass
 
         return(False)
+
+    def on_configure_event(self, widget, event):
+        """Mark session dirty when window position/size actually changes."""
+        key = (int(event.x), int(event.y), int(event.width), int(event.height))
+        if self._session_last_configure == key:
+            return False
+        self._session_last_configure = key
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('configure-event')
+        except Exception:
+            pass
+        return False
+
+    def on_pane_maximise_changed(self, window, terminal, active):
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('pane-maximise-changed')
+        except Exception:
+            pass
 
     def set_maximised(self, value):
         """Set the maximised state of the window from the supplied value"""
@@ -608,6 +651,11 @@ class Window(Container, Gtk.Window):
         """Remove our child widget by way of Gtk.Window.remove()"""
         Gtk.Window.remove(self, widget)
         self.disconnect_child(widget)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('window.remove')
+        except Exception:
+            pass
         return(True)
 
     def get_children(self):
@@ -671,6 +719,12 @@ class Window(Container, Gtk.Window):
         sibling.grab_focus()
         self.set_pos_by_ratio = False
 
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('window.split_axis')
+        except Exception:
+            pass
+
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
         # if not zoomed, then ignore the signal: there is only one terminal
@@ -717,6 +771,11 @@ class Window(Container, Gtk.Window):
                     widget.zoom_scale, self.zoom_data)
 
         widget.grab_focus()
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('zoom')
+        except Exception:
+            pass
 
     def unzoom(self, widget=None):
         """Restore normal terminal layout"""
@@ -743,6 +802,11 @@ class Window(Container, Gtk.Window):
         widget.grab_focus()
         self.zoom_data = None
         self.set_property('term_zoomed', False)
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('unzoom')
+        except Exception:
+            pass
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
