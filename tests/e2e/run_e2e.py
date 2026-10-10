@@ -25,7 +25,9 @@ def main(argv=None):
     from tests.e2e.harness import XDisplay, App
     from tests.e2e.scenarios import SCENARIOS
     from tests.e2e.scenarios_guards import SCENARIOS as GUARD_SCENARIOS
-    SCENARIOS = list(SCENARIOS) + list(GUARD_SCENARIOS)
+    from tests.e2e.scenarios_m34 import SCENARIOS as M34_SCENARIOS
+    from tests.e2e.harness import E2ESkip
+    SCENARIOS = list(SCENARIOS) + list(GUARD_SCENARIOS) + list(M34_SCENARIOS)
     ap = argparse.ArgumentParser()
     ap.add_argument('-k', action='append', default=[])
     ap.add_argument('--keep', action='store_true')
@@ -51,6 +53,8 @@ def main(argv=None):
             signal.alarm(a.timeout)
             try:
                 fn(app)
+            except E2ESkip as ex:
+                status, detail = 'SKIP', str(ex)
             except Exception as ex:  # pylint: disable=broad-except
                 status = 'FAIL'
                 detail = '%s: %s' % (type(ex).__name__, ex)
@@ -65,7 +69,7 @@ def main(argv=None):
                 signal.alarm(0)
                 app.cleanup()
             dt = time.monotonic() - t0
-            if xfail:
+            if xfail and status != 'SKIP':
                 if status == 'FAIL':
                     status = 'XFAIL'
                     detail = '(known bug: %s) %s' % (xfail, detail)
@@ -87,7 +91,8 @@ def main(argv=None):
     if not results:
         print('!! no scenario matched %s' % a.k)
         return 1
-    return 0 if all(r[1] in ('PASS', 'XFAIL') for r in results) else 1
+    return 0 if all(r[1] in ('PASS', 'XFAIL', 'SKIP')
+                    for r in results) else 1
 
 
 if __name__ == '__main__':

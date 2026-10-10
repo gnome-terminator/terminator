@@ -20,8 +20,14 @@ import time
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SHOT_DIR = os.environ.get('E2E_SHOTS', '/workspace/smoke/e2e')
 # Same location tests/run_tests.sh and run_e2e.sh compile the stub schema to.
-SCHEMA_DIR = os.path.join(os.environ.get('TMPDIR') or '/tmp',
-                          'terminator-test-schemas-%d' % os.getuid())
+# m34: run_e2e.sh keys the directory by the stub's content (E2E_SCHEMA_DIR).
+# Under tests/run_tests.sh (m30 opt-in) its fresh stub dir is reused.
+_RUNNER_SCHEMAS = os.environ.get('GSETTINGS_SCHEMA_DIR', '')
+if 'terminator-test-schemas' not in _RUNNER_SCHEMAS:
+    _RUNNER_SCHEMAS = ''
+SCHEMA_DIR = (os.environ.get('E2E_SCHEMA_DIR') or _RUNNER_SCHEMAS or
+              os.path.join(os.environ.get('TMPDIR') or '/tmp',
+                           'terminator-test-schemas-%d' % os.getuid()))
 # Every process launched for a scenario inherits this env var (terminator ->
 # VTE -> shells -> anything the shells start, incl. double-forked loops that
 # escape the terminator process group and the pty hangup).  cleanup() sweeps
@@ -95,6 +101,10 @@ LIGHT_PROFILE = '''[global_config]
 
 class E2EFailure(AssertionError):
     pass
+
+
+class E2ESkip(Exception):
+    """Scenario cannot run here (missing optional tool); reported SKIP."""
 
 
 def check(cond, msg):

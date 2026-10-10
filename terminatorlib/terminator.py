@@ -308,10 +308,17 @@ class Terminator(Borg):
                 raise(ValueError)
             dbg('Creating a window')
             window, terminal = self.new_window()
-            if 'position' in layout[windef]:
-                parts = layout[windef]['position'].split(':')
+            # m34: positions only on X11; on Wayland the compositor
+            # places windows (a saved X11 position is kept in the file
+            # untouched until the next save).
+            if 'position' in layout[windef] and window.can_set_position():
+                parts = str(layout[windef]['position']).split(':')
                 if len(parts) == 2:
-                    window.move(int(parts[0]), int(parts[1]))
+                    try:
+                        window.move(int(parts[0]), int(parts[1]))
+                    except ValueError:
+                        dbg('ignoring bad window position %r' %
+                            layout[windef]['position'])
             if 'size' in layout[windef]:
                 parts = layout[windef]['size']
                 winx = int(parts[0])
@@ -377,11 +384,9 @@ class Terminator(Borg):
         for window in new_win_list:
             window.show()
             window.grab_focus()
-            try:
-                t = GdkX11.x11_get_server_time(window.get_window())
-            except (NameError,TypeError, AttributeError):
-                t = 0
-            window.get_window().focus(t)
+            t = window._server_time()  # m34: 0 off X11
+            if window.get_window() is not None:
+                window.get_window().focus(t)
 
         # Going by the docs, this should be all that's needed to ensure that the
         # last_active_window is focussed. 

@@ -228,10 +228,10 @@ def _tier(cols, px, cell1):
     return min(TIERS, key=lambda t: abs(t - est)), est
 
 
-def s5_autofont(app):
+def s5_autofont(app, size=(800, 600)):
     app.launch()
     win = app.main_windows()[0]
-    app.resize(win, 800, 600)
+    app.resize(win, *size)
     x, y, W, H = app.geometry(win)
     app.type('stty size > %s' % app.marker('one'))
     r1, c1 = map(int, app.read_marker('one').split())

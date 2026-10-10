@@ -96,7 +96,7 @@ class Notebook(Container, Gtk.Notebook):
         dbg('detaching tab into new window: %s' % child)
         maker = Factory()
         window = maker.make('Window')
-        if x is not None and y is not None:
+        if x is not None and y is not None and window.can_set_position():
             window.move(x, y)
         size = self.window.get_size()
         window.resize(size.width, size.height)

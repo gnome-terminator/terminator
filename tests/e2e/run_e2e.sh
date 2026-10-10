@@ -34,7 +34,11 @@ if [ -z "${E2E_FORCE:-}" ]; then
   done
 fi
 # stub GSettings schema like the unit runner (only when the real one is missing)
-SCHEMA_DIR="${TMPDIR:-/tmp}/terminator-test-schemas-$(id -u)"
+# m34: keyed by the stub's content so a checkout with a newer stub (e.g. the
+# keys GTK's Wayland backend needs) never reuses an older compiled copy.
+SCHEMA_SUM="$(cat tests/fixtures/schemas/*.gschema.xml 2>/dev/null | sha1sum | cut -c1-10)"
+SCHEMA_DIR="${TMPDIR:-/tmp}/terminator-test-schemas-$(id -u)-$SCHEMA_SUM"
+export E2E_SCHEMA_DIR="$SCHEMA_DIR"
 if [ ! -f "$SCHEMA_DIR/gschemas.compiled" ] && [ -d tests/fixtures/schemas ]; then
   mkdir -p "$SCHEMA_DIR"; cp tests/fixtures/schemas/*.gschema.xml "$SCHEMA_DIR"/
   glib-compile-schemas "$SCHEMA_DIR" || true

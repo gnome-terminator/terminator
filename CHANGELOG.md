@@ -46,6 +46,14 @@ The five new features below are **on by default**. Each one can be turned off in
 - The `maximise` shortcut no longer raises an error.
 - Fixed the window title showing "None" at startup.
 - Missing GNOME gsettings schemas no longer abort startup.
+- **Wayland.** The backend is detected from the display GTK actually opened, so XWayland (`GDK_BACKEND=x11`) still gets the X11 features.
+  - On native Wayland the window position is neither saved nor restored, because the compositor places windows. Size, maximised/fullscreen state, layout and the maximised pane are still restored.
+  - Without a global hotkey, hide-on-lose-focus and the hide toggle minimise the window instead of hiding it beyond reach. The toggle brings it back.
+  - Shells no longer inherit a stale `WINDOWID` on Wayland.
+  - Upstream bug: `WINDOWID` was never set on X11, and the "minimise instead" fallback for a taken hide hotkey was overwritten. Both are fixed.
+- **HiDPI.**
+  - Background images are drawn at native resolution under `GDK_SCALE=2`, so they are no longer upscaled and blurry.
+  - The narrow-titlebar collapse widths grow with the text size (`GDK_DPI_SCALE`, Xft.dpi, a large UI font).
 
 **Translations and docs**
 

@@ -37,13 +37,13 @@ Env: `VENV` (default .venv-test, else /workspace/.venv-m1a), `E2E_WM`
 lane: the script takes a `flock` so two e2e runs never overlap, and by
 default waits while any `run_tests.sh` is running.
 
-Results: `PASS`, `FAIL`, `XFAIL` (scenario marked as a known real-app bug in
+Results: `PASS`, `FAIL`, `SKIP` (optional tool missing, e.g. weston; does not fail the run), `XFAIL` (scenario marked as a known real-app bug in
 `scenarios.py` and it failed as expected) and `XPASS` (marked scenario
 passed: the bug looks fixed, remove the marker). Exit 0 iff everything is
-PASS or XFAIL.
+PASS, SKIP or XFAIL.
 
 Needs: Xvfb xdotool xprop xwininfo xdpyinfo ffmpeg flock, Pillow + psutil;
-xfwm4 and tmux optional. About 2 minutes for the full run.
+xfwm4, tmux and weston (Wayland smoke) optional. About 3 minutes for the full run.
 
 | scenario | what |
 |---|---|
@@ -57,6 +57,9 @@ xfwm4 and tmux optional. About 2 minutes for the full run.
 | 7-altscreen | scrollbar strip hidden in `tput smcup` and tmux, restored after; SIGTERM during a TUI → cache keeps shell history, no TUI frame |
 | 8-corrupt-session | `[1,2]` session.json → starts, moved to `.corrupt`, fresh valid session written |
 | 9-sigkill-recovery | split+tab+cd, wait for debounced save + 5s scrollback interval flush → SIGKILL (no final save) → relaunch restores layout/cwds; SIGKILL again inside the 10s restore window → 3rd launch still starts (session quarantined to `.crashed`, fresh 1-pane session) |
+| 14-hidpi-scale2 | GDK_SCALE=2: same device-px window gives ~half the scale-1 columns; session size in logical px; overlay maximise dims the 24-device-px margin and restores |
+| 15-hidpi-autofont | scenario 5 at GDK_SCALE=2 (1560x940 device px): tiers are decided in cells, so 1 pane / stacked 1.0, 2x2 grid 0.8 |
+| 16-wayland-smoke | needs `weston` (else SKIP): session seeded on X11 (split, cd, maximised pane, position) restored natively under `weston --backend=headless` + `GDK_BACKEND=wayland` (no DISPLAY) at output scale 1 and 2: shells/cwds/maximised pane back, the Wayland save drops the position but keeps size/maximised/layout, no stale WINDOWID in shells, clean SIGTERM |
 | 10-quit-relaunch | split+cd → Ctrl+Shift+Q → "Close multiple terminals?" → Close Terminals → relaunch restores split/cwds/scrollback |
 
 Harness notes: use `xwininfo` for geometry (xdotool getwindowgeometry is
