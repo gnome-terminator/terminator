@@ -454,6 +454,8 @@ class PrefsEditor:
         layouts = self.config.list_layouts()
         if '__internal_json_layout__' in layouts:
             layouts.remove('__internal_json_layout__')
+        if '__last_session__' in layouts:
+            layouts.remove('__last_session__')
         self.layoutiters = {}
         for layout in layouts:
             if layout == 'default':

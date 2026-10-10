@@ -106,6 +106,10 @@ DEFAULTS = {
                                        'LaunchpadCodeURLHandler',
                                        'APTURLHandler'],
             'ask_before_closing'    : 'multiple_terminals',
+            'restore_last_session'  : True,
+            'session_save_delay_ms' : 1500,
+            'session_file'          : '',
+            'close_confirm_ignore'  : ['gitstatusd', 'ssh-agent', 'gpg-agent', 'dbus-daemon'],
             'always_split_with_profile': False,
             'putty_paste_style'     : False,
             'putty_paste_style_source_clipboard': False,
@@ -389,7 +393,8 @@ class Config(object):
 
     def list_layouts(self):
         """List all configured layouts"""
-        return(list(self.base.layouts.keys()))
+        return([name for name in self.base.layouts.keys()
+                if name not in ('__last_session__', '__internal_json_layout__')])
 
     def connect_gsetting_callbacks(self):
         """Get system settings and create callbacks for changes"""
@@ -608,7 +613,7 @@ class ConfigBase(Borg):
 
             keytype = '%s(default=%s)' % (keytype, value)
 
-            if key == 'custom_url_handler':
+            if key in ('custom_url_handler', 'session_file'):
                 keytype = 'string(default="")'
 
             section[key] = keytype
@@ -846,6 +851,8 @@ class ConfigBase(Borg):
         parser['layouts'] = {}
         for layout in self.layouts:
             if layout == JSON_LAYOUT_NAME:
+                continue
+            if layout == '__last_session__':
                 continue
             dbg('Processing layout: %s' % layout)
             parser['layouts'][layout] = self.layouts[layout]

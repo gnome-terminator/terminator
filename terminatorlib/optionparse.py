@@ -107,6 +107,12 @@ icon for the window (by file or name)'))
             help=_('List all profiles'))
     parser.add_argument('--list-layouts', action='store_true', dest='list_layouts',
             help=_('List all layouts'))
+    parser.add_argument('--no-restore', action='store_true', dest='no_restore',
+            help=_('Do not restore the last session'))
+    parser.add_argument('--restore', action='store_true', dest='restore',
+            help=_('Force restore the last session'))
+    parser.add_argument('--clear-session', action='store_true', dest='clear_session',
+            help=_('Clear saved session and scrollback cache, then exit setup'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:
@@ -157,6 +163,9 @@ icon for the window (by file or name)'))
 
     if options.layout is None:
         options.layout = 'default'
+        options.layout_from_default = True
+    else:
+        options.layout_from_default = False
 
     configobj = config.Config()
     if options.profile and options.profile not in configobj.list_profiles():
