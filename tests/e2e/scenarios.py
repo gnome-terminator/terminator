@@ -358,6 +358,83 @@ def s8_corrupt_session(app):
     check(layout_nodes(s, 'Terminal'), 'new session.json has no terminals')
 
 
+# ---------------------------------------------------------------- 9
+def s9_sigkill_recovery(app):
+    """m30: hard crash (SIGKILL, no final save) -> relaunch restores the
+    last debounced session + last interval scrollback flush; a second
+    SIGKILL inside the restore window must not crash-loop the next start."""
+    app.write_config('[global_config]\n  scrollback_cache_interval_s = 5\n')
+    dirs = {t: app.mkdir('k9_' + t) for t in ('A', 'B', 'C')}
+    app.launch()
+    _cd(app, dirs['A'], 'KILOA')
+    app.key(KEYS['split_vert'], delay=1.0)
+    _cd(app, dirs['B'], 'KILOB')
+    app.key(KEYS['new_tab'], delay=1.0)
+    _cd(app, dirs['C'], 'KILOC')
+    app.wait_shells(3)
+    wait_for(_session_has_dirs(app, dirs.values()), 10,
+             what='debounced session.json with 3 cwds')
+    def _cached():
+        sb = '\n'.join(app.scrollback_text().values())
+        return all('SB_KILO%s_3' % t in sb for t in 'ABC')
+    wait_for(_cached, 15, what='interval scrollback flush (5s)')
+    app.kill()   # SIGKILL the whole process group: no final save
+    check(terminal_dirs(app.session()) == sorted(dirs.values()),
+          'session after SIGKILL: %s' % terminal_dirs(app.session()))
+
+    app.launch()
+    wait_for(lambda: len(app.shells()) == 3, 10, what='3 restored shells')
+    wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
+             what='restored cwds (got %s)' % app.shell_cwds())
+    types = [n['type'] for n in layout_nodes(app.session())]
+    check('Notebook' in types and any(t in types for t in ('HPaned', 'VPaned')),
+          'restored layout lost tab/split: %s' % types)
+    # crash again while the restore marker is still live (<10s)
+    app.kill()
+    app.launch()
+    check(app.alive(), 'third launch after crash-during-restore died')
+    wait_for(lambda: len(app.shells()) >= 1, 10, what='shell on 3rd launch')
+    app.signal(signal.SIGTERM)
+    app.wait_exit()
+    check(isinstance(app.session(), dict) and layout_nodes(app.session(), 'Terminal'),
+          'no valid session after 3rd launch')
+    app.notes.append('3rd launch restored %d terminal(s) from %s' % (
+        len(layout_nodes(app.session(), 'Terminal')),
+        sorted(f for f in os.listdir(app.state_dir) if 'session' in f)))
+
+
+# ---------------------------------------------------------------- 10
+def s10_quit_relaunch(app):
+    """m30: normal quit via Ctrl+Shift+Q (single window, idle shells) then
+    relaunch restores split + cwds + scrollback."""
+    a, b = app.mkdir('q_A'), app.mkdir('q_B')
+    app.launch()
+    _cd(app, a, 'QUITA')
+    app.key(KEYS['split_horiz'], delay=1.0)
+    _cd(app, b, 'QUITB')
+    app.wait_shells(2)
+    wait_for(_session_has_dirs(app, [a, b]), 10, what='session with 2 cwds')
+    app.key(KEYS['close_window'], delay=0.5)
+    # upstream "Close multiple terminals?" prompt -> click Close Terminals
+    dlg = wait_for(lambda: app.dialogs(), 6, what='close-window prompt')[0]
+    app.activate(dlg)
+    x, y, w, h = app.geometry(dlg)
+    app.click(x + w * 7 // 8, y + h - 18)   # 3/4 lands on Cancel here
+    app.wait_exit()
+    check(terminal_dirs(app.session()) == sorted([a, b]),
+          'after quit dirs=%s' % terminal_dirs(app.session()))
+    app.launch()
+    wait_for(lambda: app.shell_cwds() == sorted([a, b]), 10,
+             what='restored cwds (got %s)' % app.shell_cwds())
+    check({'HPaned', 'VPaned'} & {n['type'] for n in layout_nodes(app.session())},
+          'split lost after quit/relaunch')
+    app.signal(signal.SIGTERM)
+    app.wait_exit()
+    sb = '\n'.join(app.scrollback_text().values())
+    for t in ('QUITA', 'QUITB'):
+        check('SB_%s_3' % t in sb, 'scrollback %s lost after quit/relaunch' % t)
+
+
 SCENARIOS = [
     ('1-session-roundtrip', s1_session_roundtrip, {}),
     ('2-multiwindow', s2_multiwindow_close_order, {}),
@@ -370,4 +447,6 @@ SCENARIOS = [
     ('6-window-title', s6_window_title, {}),
     ('7-altscreen', s7_altscreen, {}),
     ('8-corrupt-session', s8_corrupt_session, {}),
+    ('9-sigkill-recovery', s9_sigkill_recovery, {}),
+    ('10-quit-relaunch', s10_quit_relaunch, {}),
 ]
