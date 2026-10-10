@@ -12,10 +12,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 18:37+0800\n"
+"POT-Creation-Date: 2026-10-10 18:58+0800\n"
 "PO-Revision-Date: 2026-10-10 18:40+0800\n"
 "Last-Translator: Mony Xie <monyxie@gmail.com>, 2023\n"
-"Language-Team: Chinese (China) (https://app.transifex.com/terminator/teams/109338/zh_CN/)\n"
+"Language-Team: Chinese (China) (https://app.transifex.com/terminator/teams/"
+"109338/zh_CN/)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -127,8 +128,8 @@ msgid "Tab name to set."
 msgstr "要设置的标签页名。"
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
-#: ../terminatorlib/plugins/activitywatch.py:84
-#: ../terminatorlib/plugins/activitywatch.py:163
+#: ../terminatorlib/plugins/activitywatch.py:88
+#: ../terminatorlib/plugins/activitywatch.py:171
 #: ../terminatorlib/preferences.glade.h:219
 msgid "Terminator"
 msgstr "Terminator 终端终结者"
@@ -144,13 +145,13 @@ msgstr "高级终端的未来"
 
 #: ../data/terminator.appdata.xml.in.h:4
 msgid ""
-"A power-user tool for arranging terminals. It is inspired by programs such as"
-" gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
+"A power-user tool for arranging terminals. It is inspired by programs such "
+"as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging "
 "terminals in grids (tabs is the most common default method, which Terminator "
 "also supports)."
 msgstr ""
-"一个用来管理终端的高级用户工具。灵感来自于 gnome-multi-term，quadkonsole "
-"等程序。它的主要功能是用网格来管理终端窗口（但同时也支持标签页）。"
+"一个用来管理终端的高级用户工具。灵感来自于 gnome-multi-term，quadkonsole 等程"
+"序。它的主要功能是用网格来管理终端窗口（但同时也支持标签页）。"
 
 #: ../data/terminator.appdata.xml.in.h:5
 msgid ""
@@ -159,8 +160,9 @@ msgid ""
 "out in different directions with useful features for sysadmins and other "
 "users."
 msgstr ""
-"Terminator 的大部分行为都基于 GNOME "
-"Terminal，在此基础上我们还会将更多功能集成进来。但我们同时也希望向更多不同的方面扩展，从而给系统管理员和其他用户带来更多有用的特性。"
+"Terminator 的大部分行为都基于 GNOME Terminal，在此基础上我们还会将更多功能集"
+"成进来。但我们同时也希望向更多不同的方面扩展，从而给系统管理员和其他用户带来"
+"更多有用的特性。"
 
 #: ../data/terminator.appdata.xml.in.h:6
 msgid "Some highlights:"
@@ -206,20 +208,20 @@ msgstr "终端让人抓狂"
 msgid "The preferences window where you can change the defaults"
 msgstr "偏好设定窗口（改变默认设置）"
 
-#: ../terminatorlib/close_confirm.py:279
+#: ../terminatorlib/close_confirm.py:316
 #, python-format
 msgid " … and %d more"
 msgstr " ……另有 %d 个"
 
-#: ../terminatorlib/close_confirm.py:283
+#: ../terminatorlib/close_confirm.py:320
 msgid "Close terminals with running processes?"
 msgstr "要关闭仍有进程在运行的终端吗？"
 
-#: ../terminatorlib/close_confirm.py:285
+#: ../terminatorlib/close_confirm.py:322
 msgid "Close terminal with running processes?"
 msgstr "要关闭仍有进程在运行的终端吗？"
 
-#: ../terminatorlib/close_confirm.py:286
+#: ../terminatorlib/close_confirm.py:323
 #, python-format
 msgid ""
 "The following process(es) are still running:\n"
@@ -232,59 +234,59 @@ msgstr ""
 "\n"
 "关闭后它们将被终止。"
 
-#: ../terminatorlib/close_confirm.py:296
+#: ../terminatorlib/close_confirm.py:333
 #: ../terminatorlib/plugins/custom_commands.py:270
 #: ../terminatorlib/plugins/custom_commands.py:424
 #: ../terminatorlib/plugins/logger.py:20
 #: ../terminatorlib/plugins/terminalshot.py:20
-#: ../terminatorlib/prefseditor.py:1872
+#: ../terminatorlib/prefseditor.py:1918
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: ../terminatorlib/close_confirm.py:297
+#: ../terminatorlib/close_confirm.py:334
 #: ../terminatorlib/terminal_popup_menu.py:274
 msgid "_Close"
 msgstr "关闭(_C)"
 
 #. text
-#: ../terminatorlib/container.py:196
+#: ../terminatorlib/container.py:233
 msgid "Close _Terminals"
 msgstr "关闭终端 (_T)"
 
-#: ../terminatorlib/container.py:197
+#: ../terminatorlib/container.py:234
 msgid "Close _Terminal"
 msgstr "关闭终端(_T)"
 
-#: ../terminatorlib/container.py:198
+#: ../terminatorlib/container.py:235
 msgid "Close multiple terminals?"
 msgstr "关闭多个终端？"
 
-#: ../terminatorlib/container.py:199
+#: ../terminatorlib/container.py:236
 msgid "Close terminal?"
 msgstr "关闭终端？"
 
-#: ../terminatorlib/container.py:202
+#: ../terminatorlib/container.py:239
 msgid "Do you really wish to close this terminal?"
 msgstr "确定要关闭这个终端吗？"
 
-#: ../terminatorlib/container.py:204
+#: ../terminatorlib/container.py:241
 msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr "此窗口已开启多个终端，关闭窗口将同时关闭已开启的终端。"
 
-#: ../terminatorlib/container.py:207
+#: ../terminatorlib/container.py:244
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
 msgstr "此标签页已开启多个终端，关闭标签页将同时关闭已开启的终端。"
 
 #. dialog GUI
-#: ../terminatorlib/container.py:213
+#: ../terminatorlib/container.py:250
 msgid "Close?"
 msgstr "确定关闭？"
 
-#: ../terminatorlib/container.py:241
+#: ../terminatorlib/container.py:278
 msgid "Do not show this message next time"
 msgstr "不再显示这条信息"
 
@@ -301,7 +303,7 @@ msgstr "布局"
 msgid "Launch"
 msgstr "启动"
 
-#: ../terminatorlib/notebook.py:768
+#: ../terminatorlib/notebook.py:764
 msgid "Close Tab"
 msgstr "关闭标签"
 
@@ -343,8 +345,8 @@ msgstr "指定要在终端中执行的命令"
 
 #: ../terminatorlib/optionparse.py:70 ../terminatorlib/optionparse.py:78
 msgid ""
-"Use the rest of the command line as a command to execute inside the terminal,"
-" and its arguments"
+"Use the rest of the command line as a command to execute inside the "
+"terminal, and its arguments"
 msgstr "将命令行剩下的部分当作命令(及其参数)在终端中执行"
 
 #: ../terminatorlib/optionparse.py:73
@@ -431,16 +433,16 @@ msgstr "启动前清除已保存的会话和滚动缓存"
 msgid "Watch for _activity"
 msgstr "观察活动的(_A)"
 
-#: ../terminatorlib/plugins/activitywatch.py:84
+#: ../terminatorlib/plugins/activitywatch.py:88
 #, python-format
 msgid "Activity in: %s"
 msgstr "%s 活动"
 
-#: ../terminatorlib/plugins/activitywatch.py:121
+#: ../terminatorlib/plugins/activitywatch.py:125
 msgid "Watch for _silence"
 msgstr "观察安静的(_S)"
 
-#: ../terminatorlib/plugins/activitywatch.py:163
+#: ../terminatorlib/plugins/activitywatch.py:171
 #, python-format
 msgid "Silence in: %s"
 msgstr "%s 安静"
@@ -460,7 +462,7 @@ msgstr "自定义命令"
 
 #: ../terminatorlib/plugins/custom_commands.py:271
 #: ../terminatorlib/plugins/custom_commands.py:425
-#: ../terminatorlib/prefseditor.py:1873
+#: ../terminatorlib/prefseditor.py:1919
 msgid "_OK"
 msgstr "确定(_O)"
 
@@ -600,7 +602,7 @@ msgid "Escape sequence"
 msgstr "转义序列"
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:8 ../terminatorlib/window.py:1219
+#: ../terminatorlib/preferences.glade.h:8 ../terminatorlib/window.py:1199
 msgid "All"
 msgstr "全部"
 
@@ -951,8 +953,8 @@ msgstr "在终端标题栏显示按钮"
 
 #: ../terminatorlib/preferences.glade.h:97
 msgid ""
-"Settings, maximise and close buttons on each pane title bar (right-click menu"
-" stays available)"
+"Settings, maximise and close buttons on each pane title bar (right-click "
+"menu stays available)"
 msgstr "在每个窗格的标题栏上显示设置、最大化和关闭按钮（右键菜单仍然可用）"
 
 #: ../terminatorlib/preferences.glade.h:98
@@ -1276,10 +1278,11 @@ msgstr "滚动"
 msgid ""
 "<small><i><b>Note:</b> These options may cause some applications to behave "
 "incorrectly.  They are only here to allow you to work around certain "
-"applications and operating systems that expect different terminal "
-"behavior.</i></small>"
+"applications and operating systems that expect different terminal behavior.</"
+"i></small>"
 msgstr ""
-"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
+"<small><i><b>注意：</b>这些选项可能造成一些应用程序产生不正确的行为。仅用于允"
+"许您在一些应用程序和操作系统中作调整以获得不同的终端行为。</i></small>"
 
 #: ../terminatorlib/preferences.glade.h:179
 msgid "_Backspace key generates:"
@@ -1360,12 +1363,12 @@ msgstr "启动时恢复上次会话（布局和工作目录）"
 
 #: ../terminatorlib/preferences.glade.h:200
 msgid ""
-"The session is saved automatically whenever the layout or a working directory"
-" changes. Launching with -l, -e, -x, --working-directory, -j or --no-restore "
-"does not restore it."
+"The session is saved automatically whenever the layout or a working "
+"directory changes. Launching with -l, -e, -x, --working-directory, -j or --"
+"no-restore does not restore it."
 msgstr ""
-"布局或工作目录发生变化时会自动保存会话。使用 -l、-e、-x、--working-directory、-j 或 --no-restore "
-"启动时不会恢复会话。"
+"布局或工作目录发生变化时会自动保存会话。使用 -l、-e、-x、--working-"
+"directory、-j 或 --no-restore 启动时不会恢复会话。"
 
 #: ../terminatorlib/preferences.glade.h:201
 msgid "Save as layout"
@@ -1385,7 +1388,9 @@ msgstr "下次使用上一个会话"
 msgid ""
 "Replace the saved session with the one from before the last exit. Automatic "
 "saving is paused until Terminator restarts."
-msgstr "用上次退出之前的会话替换已保存的会话。自动保存将暂停，直到 Terminator 重新启动。"
+msgstr ""
+"用上次退出之前的会话替换已保存的会话。自动保存将暂停，直到 Terminator 重新启"
+"动。"
 
 #: ../terminatorlib/preferences.glade.h:205
 msgid "Clear session and cache…"
@@ -1395,7 +1400,8 @@ msgstr "清除会话和缓存……"
 msgid ""
 "Delete the saved session and cached scrollback. Automatic saving is paused "
 "until Terminator restarts."
-msgstr "删除已保存的会话和缓存的滚动内容。自动保存将暂停，直到 Terminator 重新启动。"
+msgstr ""
+"删除已保存的会话和缓存的滚动内容。自动保存将暂停，直到 Terminator 重新启动。"
 
 #: ../terminatorlib/preferences.glade.h:207
 msgid ""
@@ -1403,8 +1409,8 @@ msgid ""
 "enabled. Built-in session restore replaces it; consider disabling it on the "
 "Plugins tab."
 msgstr ""
-"已启用旧版会话插件（SaveLastSessionLayout / "
-"SaveUserSessionLayout）。内置的会话恢复功能已取代它，建议在“插件”页中将其禁用。"
+"已启用旧版会话插件（SaveLastSessionLayout / SaveUserSessionLayout）。内置的会"
+"话恢复功能已取代它，建议在“插件”页中将其禁用。"
 
 #: ../terminatorlib/preferences.glade.h:208
 msgid "<b>Scrollback cache</b>"
@@ -1416,10 +1422,12 @@ msgstr "恢复最近的终端输出（只读缓存）"
 
 #: ../terminatorlib/preferences.glade.h:210
 msgid ""
-"Periodically saves the last lines of each terminal (with colours) and replays"
-" them above the new prompt after a session restore. It is only a cache: "
-"running programs are not restored."
-msgstr "定期保存每个终端的最后若干行（保留颜色），并在恢复会话后显示在新提示符上方。这只是缓存：正在运行的程序不会被恢复。"
+"Periodically saves the last lines of each terminal (with colours) and "
+"replays them above the new prompt after a session restore. It is only a "
+"cache: running programs are not restored."
+msgstr ""
+"定期保存每个终端的最后若干行（保留颜色），并在恢复会话后显示在新提示符上方。"
+"这只是缓存：正在运行的程序不会被恢复。"
 
 #: ../terminatorlib/preferences.glade.h:211
 msgid "Lines kept per terminal:"
@@ -1459,12 +1467,23 @@ msgstr "版本：2.1.6"
 
 #: ../terminatorlib/preferences.glade.h:222
 msgid ""
-"The goal of this project is to produce a useful tool for arranging terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, etc. in that the main focus is arranging terminals in grids (tabs is the most common default method, which Terminator also supports).\n"
+"The goal of this project is to produce a useful tool for arranging "
+"terminals. It is inspired by programs such as gnome-multi-term, quadkonsole, "
+"etc. in that the main focus is arranging terminals in grids (tabs is the "
+"most common default method, which Terminator also supports).\n"
 "\n"
-"Much of the behavior of Terminator is based on GNOME Terminal, and we are adding more features from that as time goes by, but we also want to extend out in different directions with useful features for sysadmins and other users. If you have any suggestions, please file wishlist bugs! (see left for the Development link)"
+"Much of the behavior of Terminator is based on GNOME Terminal, and we are "
+"adding more features from that as time goes by, but we also want to extend "
+"out in different directions with useful features for sysadmins and other "
+"users. If you have any suggestions, please file wishlist bugs! (see left for "
+"the Development link)"
 msgstr ""
-"一个用来管理终端的高级用户工具。它的灵感来自于gnome-multi-term，quadkonsole等程序。它致力于用格子来管理终端（最普遍的方法是用标签页，Terminator也支持）。\n"
-"Terminator的大部分行为基于GNOME Terminal，我们还在从中集成更多特性。但我们同时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有任何建议，请向wishlist中提交！（看左边的开发者链接）"
+"一个用来管理终端的高级用户工具。它的灵感来自于gnome-multi-term，quadkonsole等"
+"程序。它致力于用格子来管理终端（最普遍的方法是用标签页，Terminator也支"
+"持）。\n"
+"Terminator的大部分行为基于GNOME Terminal，我们还在从中集成更多特性。但我们同"
+"时也希望向扩展更多不同方面的实用特性从而服务于系统管理员和其他用户。如果你有"
+"任何建议，请向wishlist中提交！（看左边的开发者链接）"
 
 #: ../terminatorlib/preferences.glade.h:225
 msgid "The Manual"
@@ -1473,10 +1492,12 @@ msgstr "手册"
 #: ../terminatorlib/preferences.glade.h:226
 msgid ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">Development</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / Enhancements</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">Bugs / "
+"Enhancements</a>"
 msgstr ""
 "<a href=\"https://github.com/gnome-terminator/terminator\">开发</a>\n"
-"<a href=\"https://github.com/gnome-terminator/terminator/issues\">提交 Bug 或改进意见</a>"
+"<a href=\"https://github.com/gnome-terminator/terminator/issues\">提交 Bug 或"
+"改进意见</a>"
 
 #: ../terminatorlib/preferences.glade.h:228
 msgid "About"
@@ -1507,8 +1528,8 @@ msgid ""
 "pruned at runtime; they are limited only by the per-file "
 "scrollback_cache_max_kb."
 msgstr ""
-"缓存：%s（%d 个文件，%d KiB）；%s；%s。0 表示关闭。运行期间不会清理已打开终端的缓存，它们只受单文件上限 "
-"scrollback_cache_max_kb 限制。"
+"缓存：%s（%d 个文件，%d KiB）；%s；%s。0 表示关闭。运行期间不会清理已打开终端"
+"的缓存，它们只受单文件上限 scrollback_cache_max_kb 限制。"
 
 #: ../terminatorlib/prefseditor.py:127 ../terminatorlib/prefseditor.py:173
 msgid "Zoom terminal"
@@ -1598,8 +1619,8 @@ msgstr "水平分割"
 msgid "Split vertically"
 msgstr "垂直分割"
 
-#: ../terminatorlib/prefseditor.py:151 ../terminatorlib/titlebar.py:539
-#: ../terminatorlib/titlebar.py:540
+#: ../terminatorlib/prefseditor.py:151 ../terminatorlib/titlebar.py:584
+#: ../terminatorlib/titlebar.py:585
 msgid "Close terminal"
 msgstr "关闭终端"
 
@@ -1855,92 +1876,101 @@ msgstr "打开首选项的快捷键窗口"
 msgid "Open the manual"
 msgstr "打开手册"
 
-#: ../terminatorlib/prefseditor.py:1780
+#: ../terminatorlib/prefseditor.py:1820
 #, python-format
 msgid "Session file: %s"
 msgstr "会话文件：%s"
 
-#: ../terminatorlib/prefseditor.py:1792
+#: ../terminatorlib/prefseditor.py:1832
 #, python-format
 msgid "Last saved %s (unreadable)"
 msgstr "上次保存于 %s（无法读取）"
 
-#: ../terminatorlib/prefseditor.py:1794
+#: ../terminatorlib/prefseditor.py:1834
 #, python-format
 msgid "Last saved %s, %d terminal(s)"
 msgstr "上次保存于 %s，共 %d 个终端"
 
-#: ../terminatorlib/prefseditor.py:1796
+#: ../terminatorlib/prefseditor.py:1836
 msgid "No session saved yet"
 msgstr "尚未保存会话"
 
-#: ../terminatorlib/prefseditor.py:1798
+#: ../terminatorlib/prefseditor.py:1838
 msgid "A previous session is available"
 msgstr "有可用的上一个会话"
 
-#: ../terminatorlib/prefseditor.py:1800
+#: ../terminatorlib/prefseditor.py:1840
 msgid ""
-"This window was opened with explicit launch options or by a second instance, "
-"so it does not write the session."
-msgstr "此窗口是通过显式启动参数或由第二个实例打开的，因此不会写入会话。"
+"Another Terminator instance owns the session, so this one does not write it."
+msgstr "另一个 Terminator 实例持有会话，因此本实例不会写入会话。"
 
-#: ../terminatorlib/prefseditor.py:1804
+#: ../terminatorlib/prefseditor.py:1843
 msgid "Automatic saving is paused until Terminator restarts."
 msgstr "自动保存已暂停，直到 Terminator 重新启动。"
 
-#: ../terminatorlib/prefseditor.py:1855
+#: ../terminatorlib/prefseditor.py:1901
 #, python-format
 msgid "Session %s"
 msgstr "会话 %s"
 
-#: ../terminatorlib/prefseditor.py:1864
+#: ../terminatorlib/prefseditor.py:1910
 #, python-format
 msgid "Saved as layout \"%s\""
 msgstr "已保存为布局“%s”"
 
-#: ../terminatorlib/prefseditor.py:1884
+#: ../terminatorlib/prefseditor.py:1930
 msgid "There is no previous session."
 msgstr "没有上一个会话。"
 
-#: ../terminatorlib/prefseditor.py:1887
+#: ../terminatorlib/prefseditor.py:1933
 msgid "Use the previous session next time?"
 msgstr "下次使用上一个会话吗？"
 
-#: ../terminatorlib/prefseditor.py:1888
+#: ../terminatorlib/prefseditor.py:1934
 msgid ""
 "The current saved session will be replaced. Automatic saving stops until "
 "Terminator restarts so that the next launch opens the previous session."
-msgstr "当前已保存的会话将被替换。自动保存会停止，直到 Terminator 重新启动，以便下次启动时打开上一个会话。"
+msgstr ""
+"当前已保存的会话将被替换。自动保存会停止，直到 Terminator 重新启动，以便下次"
+"启动时打开上一个会话。"
 
-#: ../terminatorlib/prefseditor.py:1893
+#: ../terminatorlib/prefseditor.py:1939
 msgid "The previous session will be restored next time."
 msgstr "下次启动时将恢复上一个会话。"
 
-#: ../terminatorlib/prefseditor.py:1896
+#: ../terminatorlib/prefseditor.py:1942
 msgid "Could not restore the previous session."
 msgstr "无法恢复上一个会话。"
 
-#: ../terminatorlib/prefseditor.py:1903
+#: ../terminatorlib/prefseditor.py:1949
 msgid "Clear the saved session and scrollback cache?"
 msgstr "要清除已保存的会话和滚动缓存吗？"
 
-#: ../terminatorlib/prefseditor.py:1904
+#: ../terminatorlib/prefseditor.py:1950
 msgid ""
 "Terminator will start with the default layout next time. Automatic saving "
 "stops until Terminator restarts."
-msgstr "下次 Terminator 将以默认布局启动。自动保存会停止，直到 Terminator 重新启动。"
+msgstr ""
+"下次 Terminator 将以默认布局启动。自动保存会停止，直到 Terminator 重新启动。"
 
-#: ../terminatorlib/prefseditor.py:1910
+#: ../terminatorlib/prefseditor.py:1956
 msgid "Session and cache cleared."
 msgstr "会话和缓存已清除。"
 
-#: ../terminatorlib/prefseditor.py:1953
+#: ../terminatorlib/prefseditor.py:1999
 msgid "New Profile"
 msgstr "新配置"
 
-#: ../terminatorlib/prefseditor.py:1996 ../terminatorlib/prefseditor.py:2001
+#: ../terminatorlib/prefseditor.py:2042 ../terminatorlib/prefseditor.py:2047
 msgid "New Layout"
 msgstr "新布局"
+
+#: ../terminatorlib/scrollback_text.py:47
+#, python-brace-format
+msgid ""
+"──── Output above is from the previous session (saved snapshot; programs "
+"were not restored) · {time} ────"
+msgstr "──── 以上为上次会话的输出（已保存的快照，程序未恢复）· {time} ────"
 
 #. Label
 #: ../terminatorlib/searchbar.py:60
@@ -2052,7 +2082,7 @@ msgid "_Custom..."
 msgstr "自定义(_C)..."
 
 #: ../terminatorlib/terminal_popup_menu.py:441
-#: ../terminatorlib/terminal.py:2529
+#: ../terminatorlib/terminal.py:2579
 msgid "_Lock font size for this terminal"
 msgstr "锁定此终端的字号(_L)"
 
@@ -2076,243 +2106,248 @@ msgstr "文本："
 msgid "_Layouts..."
 msgstr "布局...(_L)"
 
-#: ../terminatorlib/terminal.py:662
+#: ../terminatorlib/terminal.py:697
 msgid "N_ew group..."
 msgstr "新分组……(e)"
 
-#: ../terminatorlib/terminal.py:668
+#: ../terminatorlib/terminal.py:703
 msgid "_None"
 msgstr "无(_N)"
 
-#: ../terminatorlib/terminal.py:688
+#: ../terminatorlib/terminal.py:723
 #, python-format
 msgid "Remove group %s"
 msgstr "移除组 %s"
 
-#: ../terminatorlib/terminal.py:693
+#: ../terminatorlib/terminal.py:728
 msgid "G_roup all in window"
 msgstr "将窗口中所有终端纳入分组(_R)"
 
-#: ../terminatorlib/terminal.py:698
+#: ../terminatorlib/terminal.py:733
 msgid "Ungro_up all in window"
 msgstr "将窗口中所有终端移出分组(_U)"
 
-#: ../terminatorlib/terminal.py:703
+#: ../terminatorlib/terminal.py:738
 msgid "G_roup all in tab"
 msgstr "将所有标签页中的终端合为一组(_R)"
 
-#: ../terminatorlib/terminal.py:708
+#: ../terminatorlib/terminal.py:743
 msgid "Ungro_up all in tab"
 msgstr "解散标签页中的分组(_U)"
 
-#: ../terminatorlib/terminal.py:713
+#: ../terminatorlib/terminal.py:748
 msgid "Remove all groups"
 msgstr "移除所有的组"
 
-#: ../terminatorlib/terminal.py:720
+#: ../terminatorlib/terminal.py:755
 #, python-format
 msgid "Close group %s"
 msgstr "关闭组 %s"
 
-#: ../terminatorlib/terminal.py:730
+#: ../terminatorlib/terminal.py:765
 msgid "Broadcast _all"
 msgstr "广播到所有(_A)"
 
-#: ../terminatorlib/terminal.py:731
+#: ../terminatorlib/terminal.py:766
 msgid "Broadcast _group"
 msgstr "广播到组(_G)"
 
-#: ../terminatorlib/terminal.py:732
+#: ../terminatorlib/terminal.py:767
 msgid "Broadcast _off"
 msgstr "不广播(_O)"
 
-#: ../terminatorlib/terminal.py:748
+#: ../terminatorlib/terminal.py:783
 msgid "_Split to this group"
 msgstr "在组内分割(_S)"
 
-#: ../terminatorlib/terminal.py:753
+#: ../terminatorlib/terminal.py:788
 msgid "Auto_clean groups"
 msgstr "自动清理分组(_C)"
 
-#: ../terminatorlib/terminal.py:760
+#: ../terminatorlib/terminal.py:795
 msgid "_Insert terminal number"
 msgstr "插入终端编号(_I)"
 
-#: ../terminatorlib/terminal.py:764
+#: ../terminatorlib/terminal.py:799
 msgid "Insert zero _padded terminal number"
 msgstr "插入补零的终端编号(_P)"
 
-#: ../terminatorlib/terminal.py:768
+#: ../terminatorlib/terminal.py:803
 msgid "Insert terminal _name"
 msgstr "插入终端名称(_N)"
 
-#: ../terminatorlib/terminal.py:1921
+#: ../terminatorlib/terminal.py:1967
 msgid "Unable to find a shell"
 msgstr "无法找到shell"
 
-#: ../terminatorlib/terminal.py:1975
+#: ../terminatorlib/terminal.py:2023
 msgid "Unable to start shell:"
 msgstr "无法启动shell："
 
-#: ../terminatorlib/terminal.py:2522
+#: ../terminatorlib/terminal.py:2572
 msgid "Auto font size follows reading measure."
 msgstr "自动字号根据阅读列宽调整。"
 
-#: ../terminatorlib/terminal.py:2538
+#: ../terminatorlib/terminal.py:2588
 msgid "_Disable auto font size"
 msgstr "禁用自动字号(_D)"
 
-#: ../terminatorlib/terminal.py:2557
+#: ../terminatorlib/terminal.py:2607
 msgid "_Preferences…"
 msgstr "首选项(_P)…"
 
-#: ../terminatorlib/terminal.py:3082
+#: ../terminatorlib/terminal.py:3148
 msgid "Rename Window"
 msgstr "重命名窗口"
 
-#: ../terminatorlib/terminal.py:3090
+#: ../terminatorlib/terminal.py:3156
 msgid "Enter a new title for the Terminator window..."
 msgstr "输入新的Terminator窗口标题"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Alpha"
 msgstr "Alpha"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Beta"
 msgstr "Beta"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Gamma"
 msgstr "Gamma"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Delta"
 msgstr "Delta"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Epsilon"
 msgstr "Epsilon"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Zeta"
 msgstr "Zeta"
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Eta"
 msgstr "Eta"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Theta"
 msgstr "Theta"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Iota"
 msgstr "Iota"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Kappa"
 msgstr "Kappa"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Lambda"
 msgstr "Lambda"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Mu"
 msgstr "Mu"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Nu"
 msgstr "Nu"
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Xi"
 msgstr "Xi"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Omicron"
 msgstr "Omicron"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Pi"
 msgstr "Pi"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Rho"
 msgstr "Rho"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Sigma"
 msgstr "Sigma"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Tau"
 msgstr "Tau"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Upsilon"
 msgstr "Upsilon"
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Phi"
 msgstr "Phi"
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Chi"
 msgstr "Chi"
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Psi"
 msgstr "Psi"
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Omega"
 msgstr "Omega"
 
-#: ../terminatorlib/titlebar.py:187 ../terminatorlib/titlebar.py:318
+#: ../terminatorlib/titlebar.py:210 ../terminatorlib/titlebar.py:342
 msgid "[INACTIVE: Right-Click for Relaunch option] "
 msgstr "[不活动：右击查看重启选项]"
 
-#: ../terminatorlib/titlebar.py:536
+#: ../terminatorlib/titlebar.py:581
 msgid "Terminal menu"
 msgstr "终端菜单"
 
-#: ../terminatorlib/titlebar.py:537
+#: ../terminatorlib/titlebar.py:582
 msgid "Terminal menu (right-click the titlebar too)"
 msgstr "终端菜单（也可以右键单击标题栏）"
 
-#: ../terminatorlib/titlebar.py:582
+#: ../terminatorlib/titlebar.py:627
 msgid "Restore pane"
 msgstr "还原窗格"
 
-#: ../terminatorlib/titlebar.py:586
+#: ../terminatorlib/titlebar.py:631
 msgid "Maximize pane"
 msgstr "最大化窗格"
 
-#: ../terminatorlib/titlebar.py:653
+#: ../terminatorlib/titlebar.py:698
 msgid "Font size locked"
 msgstr "字号已锁定"
 
-#: ../terminatorlib/titlebar.py:656
+#: ../terminatorlib/titlebar.py:701
 #, python-format
 msgid "Auto font size %d%% (click for details)"
 msgstr "自动字号 %d%%（点击查看详情）"
 
-#: ../terminatorlib/titlebar.py:660
+#: ../terminatorlib/titlebar.py:705
 #, python-format
 msgid "Auto font size %d%%"
 msgstr "自动字号 %d%%"
 
-#: ../terminatorlib/window.py:1238
+#: ../terminatorlib/window.py:1218
 #, python-format
 msgid "Window group %s"
 msgstr "窗口组 %s"
 
-#: ../terminatorlib/window.py:1264
+#: ../terminatorlib/window.py:1244
 #, python-format
 msgid "Tab %d"
 msgstr "标签 %d"
+
+#~ msgid ""
+#~ "This window was opened with explicit launch options or by a second "
+#~ "instance, so it does not write the session."
+#~ msgstr "此窗口是通过显式启动参数或由第二个实例打开的，因此不会写入会话。"
 
 #~ msgid "tab"
 #~ msgstr "标签页"

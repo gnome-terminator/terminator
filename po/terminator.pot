@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 18:37+0800\n"
+"POT-Creation-Date: 2026-10-10 18:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -117,8 +117,8 @@ msgid "Tab name to set."
 msgstr ""
 
 #: ../data/terminator.desktop.in.h:1 ../data/terminator.appdata.xml.in.h:1
-#: ../terminatorlib/plugins/activitywatch.py:84
-#: ../terminatorlib/plugins/activitywatch.py:163
+#: ../terminatorlib/plugins/activitywatch.py:88
+#: ../terminatorlib/plugins/activitywatch.py:171
 #: ../terminatorlib/preferences.glade.h:219
 msgid "Terminator"
 msgstr ""
@@ -192,20 +192,20 @@ msgstr ""
 msgid "The preferences window where you can change the defaults"
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:279
+#: ../terminatorlib/close_confirm.py:316
 #, python-format
 msgid " … and %d more"
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:283
+#: ../terminatorlib/close_confirm.py:320
 msgid "Close terminals with running processes?"
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:285
+#: ../terminatorlib/close_confirm.py:322
 msgid "Close terminal with running processes?"
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:286
+#: ../terminatorlib/close_confirm.py:323
 #, python-format
 msgid ""
 "The following process(es) are still running:\n"
@@ -214,59 +214,59 @@ msgid ""
 "Closing will terminate them."
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:296
+#: ../terminatorlib/close_confirm.py:333
 #: ../terminatorlib/plugins/custom_commands.py:270
 #: ../terminatorlib/plugins/custom_commands.py:424
 #: ../terminatorlib/plugins/logger.py:20
 #: ../terminatorlib/plugins/terminalshot.py:20
-#: ../terminatorlib/prefseditor.py:1872
+#: ../terminatorlib/prefseditor.py:1918
 msgid "_Cancel"
 msgstr ""
 
-#: ../terminatorlib/close_confirm.py:297
+#: ../terminatorlib/close_confirm.py:334
 #: ../terminatorlib/terminal_popup_menu.py:274
 msgid "_Close"
 msgstr ""
 
 #. text
-#: ../terminatorlib/container.py:196
+#: ../terminatorlib/container.py:233
 msgid "Close _Terminals"
 msgstr ""
 
-#: ../terminatorlib/container.py:197
+#: ../terminatorlib/container.py:234
 msgid "Close _Terminal"
 msgstr ""
 
-#: ../terminatorlib/container.py:198
+#: ../terminatorlib/container.py:235
 msgid "Close multiple terminals?"
 msgstr ""
 
-#: ../terminatorlib/container.py:199
+#: ../terminatorlib/container.py:236
 msgid "Close terminal?"
 msgstr ""
 
-#: ../terminatorlib/container.py:202
+#: ../terminatorlib/container.py:239
 msgid "Do you really wish to close this terminal?"
 msgstr ""
 
-#: ../terminatorlib/container.py:204
+#: ../terminatorlib/container.py:241
 msgid ""
 "This window has several terminals open. Closing the window will also close "
 "all terminals within it."
 msgstr ""
 
-#: ../terminatorlib/container.py:207
+#: ../terminatorlib/container.py:244
 msgid ""
 "This tab has several terminals open. Closing the tab will also close all "
 "terminals within it."
 msgstr ""
 
 #. dialog GUI
-#: ../terminatorlib/container.py:213
+#: ../terminatorlib/container.py:250
 msgid "Close?"
 msgstr ""
 
-#: ../terminatorlib/container.py:241
+#: ../terminatorlib/container.py:278
 msgid "Do not show this message next time"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "Launch"
 msgstr ""
 
-#: ../terminatorlib/notebook.py:768
+#: ../terminatorlib/notebook.py:764
 msgid "Close Tab"
 msgstr ""
 
@@ -413,16 +413,16 @@ msgstr ""
 msgid "Watch for _activity"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:84
+#: ../terminatorlib/plugins/activitywatch.py:88
 #, python-format
 msgid "Activity in: %s"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:121
+#: ../terminatorlib/plugins/activitywatch.py:125
 msgid "Watch for _silence"
 msgstr ""
 
-#: ../terminatorlib/plugins/activitywatch.py:163
+#: ../terminatorlib/plugins/activitywatch.py:171
 #, python-format
 msgid "Silence in: %s"
 msgstr ""
@@ -442,7 +442,7 @@ msgstr ""
 
 #: ../terminatorlib/plugins/custom_commands.py:271
 #: ../terminatorlib/plugins/custom_commands.py:425
-#: ../terminatorlib/prefseditor.py:1873
+#: ../terminatorlib/prefseditor.py:1919
 msgid "_OK"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgid "Escape sequence"
 msgstr ""
 
 #. FIXME: Why isn't this being done by Terminator() ?
-#: ../terminatorlib/preferences.glade.h:8 ../terminatorlib/window.py:1219
+#: ../terminatorlib/preferences.glade.h:8 ../terminatorlib/window.py:1199
 msgid "All"
 msgstr ""
 
@@ -1577,8 +1577,8 @@ msgstr ""
 msgid "Split vertically"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:151 ../terminatorlib/titlebar.py:539
-#: ../terminatorlib/titlebar.py:540
+#: ../terminatorlib/prefseditor.py:151 ../terminatorlib/titlebar.py:584
+#: ../terminatorlib/titlebar.py:585
 msgid "Close terminal"
 msgstr ""
 
@@ -1834,91 +1834,97 @@ msgstr ""
 msgid "Open the manual"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1780
+#: ../terminatorlib/prefseditor.py:1820
 #, python-format
 msgid "Session file: %s"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1792
+#: ../terminatorlib/prefseditor.py:1832
 #, python-format
 msgid "Last saved %s (unreadable)"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1794
+#: ../terminatorlib/prefseditor.py:1834
 #, python-format
 msgid "Last saved %s, %d terminal(s)"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1796
+#: ../terminatorlib/prefseditor.py:1836
 msgid "No session saved yet"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1798
+#: ../terminatorlib/prefseditor.py:1838
 msgid "A previous session is available"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1800
+#: ../terminatorlib/prefseditor.py:1840
 msgid ""
-"This window was opened with explicit launch options or by a second instance, "
-"so it does not write the session."
+"Another Terminator instance owns the session, so this one does not write it."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1804
+#: ../terminatorlib/prefseditor.py:1843
 msgid "Automatic saving is paused until Terminator restarts."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1855
+#: ../terminatorlib/prefseditor.py:1901
 #, python-format
 msgid "Session %s"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1864
+#: ../terminatorlib/prefseditor.py:1910
 #, python-format
 msgid "Saved as layout \"%s\""
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1884
+#: ../terminatorlib/prefseditor.py:1930
 msgid "There is no previous session."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1887
+#: ../terminatorlib/prefseditor.py:1933
 msgid "Use the previous session next time?"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1888
+#: ../terminatorlib/prefseditor.py:1934
 msgid ""
 "The current saved session will be replaced. Automatic saving stops until "
 "Terminator restarts so that the next launch opens the previous session."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1893
+#: ../terminatorlib/prefseditor.py:1939
 msgid "The previous session will be restored next time."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1896
+#: ../terminatorlib/prefseditor.py:1942
 msgid "Could not restore the previous session."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1903
+#: ../terminatorlib/prefseditor.py:1949
 msgid "Clear the saved session and scrollback cache?"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1904
+#: ../terminatorlib/prefseditor.py:1950
 msgid ""
 "Terminator will start with the default layout next time. Automatic saving "
 "stops until Terminator restarts."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1910
+#: ../terminatorlib/prefseditor.py:1956
 msgid "Session and cache cleared."
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1953
+#: ../terminatorlib/prefseditor.py:1999
 msgid "New Profile"
 msgstr ""
 
-#: ../terminatorlib/prefseditor.py:1996 ../terminatorlib/prefseditor.py:2001
+#: ../terminatorlib/prefseditor.py:2042 ../terminatorlib/prefseditor.py:2047
 msgid "New Layout"
+msgstr ""
+
+#: ../terminatorlib/scrollback_text.py:47
+#, python-brace-format
+msgid ""
+"──── Output above is from the previous session (saved snapshot; programs "
+"were not restored) · {time} ────"
 msgstr ""
 
 #. Label
@@ -2031,7 +2037,7 @@ msgid "_Custom..."
 msgstr ""
 
 #: ../terminatorlib/terminal_popup_menu.py:441
-#: ../terminatorlib/terminal.py:2529
+#: ../terminatorlib/terminal.py:2579
 msgid "_Lock font size for this terminal"
 msgstr ""
 
@@ -2055,240 +2061,240 @@ msgstr ""
 msgid "_Layouts..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:662
+#: ../terminatorlib/terminal.py:697
 msgid "N_ew group..."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:668
+#: ../terminatorlib/terminal.py:703
 msgid "_None"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:688
+#: ../terminatorlib/terminal.py:723
 #, python-format
 msgid "Remove group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:693
+#: ../terminatorlib/terminal.py:728
 msgid "G_roup all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:698
+#: ../terminatorlib/terminal.py:733
 msgid "Ungro_up all in window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:703
+#: ../terminatorlib/terminal.py:738
 msgid "G_roup all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:708
+#: ../terminatorlib/terminal.py:743
 msgid "Ungro_up all in tab"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:713
+#: ../terminatorlib/terminal.py:748
 msgid "Remove all groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:720
+#: ../terminatorlib/terminal.py:755
 #, python-format
 msgid "Close group %s"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:730
+#: ../terminatorlib/terminal.py:765
 msgid "Broadcast _all"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:731
+#: ../terminatorlib/terminal.py:766
 msgid "Broadcast _group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:732
+#: ../terminatorlib/terminal.py:767
 msgid "Broadcast _off"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:748
+#: ../terminatorlib/terminal.py:783
 msgid "_Split to this group"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:753
+#: ../terminatorlib/terminal.py:788
 msgid "Auto_clean groups"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:760
+#: ../terminatorlib/terminal.py:795
 msgid "_Insert terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:764
+#: ../terminatorlib/terminal.py:799
 msgid "Insert zero _padded terminal number"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:768
+#: ../terminatorlib/terminal.py:803
 msgid "Insert terminal _name"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1921
+#: ../terminatorlib/terminal.py:1967
 msgid "Unable to find a shell"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:1975
+#: ../terminatorlib/terminal.py:2023
 msgid "Unable to start shell:"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:2522
+#: ../terminatorlib/terminal.py:2572
 msgid "Auto font size follows reading measure."
 msgstr ""
 
-#: ../terminatorlib/terminal.py:2538
+#: ../terminatorlib/terminal.py:2588
 msgid "_Disable auto font size"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:2557
+#: ../terminatorlib/terminal.py:2607
 msgid "_Preferences…"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:3082
+#: ../terminatorlib/terminal.py:3148
 msgid "Rename Window"
 msgstr ""
 
-#: ../terminatorlib/terminal.py:3090
+#: ../terminatorlib/terminal.py:3156
 msgid "Enter a new title for the Terminator window..."
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Alpha"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Beta"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Gamma"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Delta"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Epsilon"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Zeta"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:760
+#: ../terminatorlib/terminator.py:768
 msgid "Eta"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Theta"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Iota"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Kappa"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Lambda"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Mu"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Nu"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:761
+#: ../terminatorlib/terminator.py:769
 msgid "Xi"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Omicron"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Pi"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Rho"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Sigma"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Tau"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Upsilon"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:762
+#: ../terminatorlib/terminator.py:770
 msgid "Phi"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Chi"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Psi"
 msgstr ""
 
-#: ../terminatorlib/terminator.py:763
+#: ../terminatorlib/terminator.py:771
 msgid "Omega"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:187 ../terminatorlib/titlebar.py:318
+#: ../terminatorlib/titlebar.py:210 ../terminatorlib/titlebar.py:342
 msgid "[INACTIVE: Right-Click for Relaunch option] "
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:536
+#: ../terminatorlib/titlebar.py:581
 msgid "Terminal menu"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:537
+#: ../terminatorlib/titlebar.py:582
 msgid "Terminal menu (right-click the titlebar too)"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:582
+#: ../terminatorlib/titlebar.py:627
 msgid "Restore pane"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:586
+#: ../terminatorlib/titlebar.py:631
 msgid "Maximize pane"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:653
+#: ../terminatorlib/titlebar.py:698
 msgid "Font size locked"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:656
+#: ../terminatorlib/titlebar.py:701
 #, python-format
 msgid "Auto font size %d%% (click for details)"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py:660
+#: ../terminatorlib/titlebar.py:705
 #, python-format
 msgid "Auto font size %d%%"
 msgstr ""
 
-#: ../terminatorlib/window.py:1238
+#: ../terminatorlib/window.py:1218
 #, python-format
 msgid "Window group %s"
 msgstr ""
 
-#: ../terminatorlib/window.py:1264
+#: ../terminatorlib/window.py:1244
 #, python-format
 msgid "Tab %d"
 msgstr ""
