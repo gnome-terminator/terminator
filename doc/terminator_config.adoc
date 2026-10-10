@@ -104,6 +104,15 @@ terminal; to rename a terminal use the menu entry or the
 *edit_terminal_title* keybinding. +
 Default value: *True*
 
+*titlebar_show_icon* = _boolean_::
+If set to True, each terminal titlebar shows the terminal icon and the
+grouping (broadcast state) icon on its left side, as upstream Terminator
+does. When False the icons are hidden: the group name and, on the
+sending terminal, a "Broadcast: all/group" text still show the grouping
+state and can be clicked for the grouping menu, the terminal context
+menu gains a *Grouping* submenu, and the group keybindings keep working. +
+Default value: *False*
+
 *titlebar_density* = _string_::
 Height of terminal titlebars and their buttons.
 Can be any of: 'standard', 'compact'. +

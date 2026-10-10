@@ -111,6 +111,7 @@ DEFAULTS = {
             'session_file'          : '',
             'close_confirm_ignore'  : ['gitstatusd', 'ssh-agent', 'gpg-agent', 'dbus-daemon'],
             'titlebar_buttons'      : True,
+            'titlebar_show_icon'    : False,
             'titlebar_density'      : 'standard',
             'pane_accent_color'     : '#3fb950',
             'pane_overlay_maximise' : True,
