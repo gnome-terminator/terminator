@@ -18,7 +18,6 @@ from terminatorlib.session import (
     layout_change_hash,
     sanitize_layout,
     stringify_leaves,
-    strip_window_titles,
 )
 
 
@@ -70,24 +69,16 @@ def test_sanitize_missing_directory(tmp_path, monkeypatch):
             'command': 'vim',
             'uuid': 'abc',
         },
-        'child0': {'type': 'Window', 'title': 'should-go'},
+        'child0': {'type': 'Window', 'title': 'user-set'},
     }
     missing_dirs = []
     out = sanitize_layout(layout, missing_dirs=missing_dirs)
     assert out['terminal0']['directory'] == os.path.expanduser('~')
     assert 'command' not in out['terminal0']
-    assert 'title' not in out['child0']
+    # session.json only holds user-set window titles: kept and marked
+    assert out['child0']['title'] == 'user-set'
+    assert out['child0']['title_forced'] == 'True'
     assert missing in missing_dirs or missing_dirs  # recorded
-
-
-def test_strip_window_titles():
-    layout = {
-        'child0': {'type': 'Window', 'title': 'X'},
-        'terminal1': {'type': 'Terminal', 'title': 'keep-custom'},
-    }
-    strip_window_titles(layout)
-    assert 'title' not in layout['child0']
-    assert layout['terminal1']['title'] == 'keep-custom'
 
 
 def test_count_and_collect_uuids():
@@ -200,7 +191,7 @@ def test_will_persist_matrix(state_home):
     sm.final_saving = False
     sm._closing_buffer = {
         'deadline': 0,
-        'by_child_name': {},
+        'windows': [],
         'uuids': {str(t.uuid)},
     }
     assert sm.will_persist(t) is True
@@ -271,7 +262,9 @@ def test_set_owner_from_options(state_home):
     o2.working_directory = None
     o2.configjson = None
     sm.set_owner_from_options(o2)
-    assert not sm.is_writer()
+    # m21 (P1-5): explicit options no longer block saving; the lock holder
+    # owns the session and only the explicit windows are excluded.
+    assert sm.is_writer()
 
 
 def test_restore_prev_session_suspends_writes(state_home):

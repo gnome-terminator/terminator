@@ -334,6 +334,9 @@ the tab will also close all terminals within it.')
                 and getattr(title, 'persist', False) \
                 and getattr(title, 'text', None):
             layout['title'] = title.text
+            # Marker: upstream layouts carry the *dynamic* title under
+            # 'title'; only marked titles are re-applied on load.
+            layout['title_forced'] = True
 
         if mytype == 'Notebook':
             labels = []
