@@ -60,8 +60,9 @@ def s12_crash_marker(app):
     app.launch()
     wait_for(lambda: len(app.shells()) == 1, 10, what='1 fresh shell')
     time.sleep(1.0)
-    check(os.path.realpath(app.shell_cwds()[0]) != os.path.realpath(a),
-          'session restored despite crash marker')
+    cwds = [os.path.realpath(c) for c in app.shell_cwds()]
+    check(cwds == [os.path.realpath(app.home)],
+          'session restored despite crash marker (cwds=%s)' % cwds)
     crashed = app.session_path + '.crashed'
     check(os.path.isfile(crashed) and open(crashed).read() == seeded,
           'session.json not preserved as .crashed')
@@ -89,8 +90,9 @@ def s13_lock_held(app):
         app.launch()
         wait_for(lambda: len(app.shells()) == 1, 10, what='1 shell')
         time.sleep(1.0)
-        check(os.path.realpath(app.shell_cwds()[0]) != os.path.realpath(a),
-              'non-owner instance restored the session')
+        cwds = [os.path.realpath(c) for c in app.shell_cwds()]
+        check(cwds == [os.path.realpath(app.home)],
+              'non-owner instance restored the session (cwds=%s)' % cwds)
         b = app.mkdir('lk_B')
         app.type('cd %s' % b)
         app.key(KEYS['split_horiz'], delay=1.0)
