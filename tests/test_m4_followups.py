@@ -227,3 +227,14 @@ def test_edit_done_without_change_does_not_mark_dirty(monkeypatch):
     t.titlebar.val = None
     Terminal.on_edit_done(t, None)
     assert calls == ['title', 'title']
+
+
+def test_maximise_default_shortcut_and_handlers():
+    from terminatorlib.config import DEFAULTS
+    from terminatorlib.terminal import Terminal
+    kb = DEFAULTS['keybindings']
+    assert kb['maximise'] == '<Shift><Control>Return'
+    vals = [v for k, v in kb.items() if v and k != 'maximise']
+    assert '<Shift><Control>Return' not in vals
+    for name in ('maximise', 'zoom', 'unzoom', 'toggle_zoom', 'restore_maximised'):
+        assert callable(getattr(Terminal, 'key_' + name))

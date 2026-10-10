@@ -155,7 +155,7 @@ DEFAULTS = {
         'keybindings': {
             'zoom'             : '',
             'unzoom'           : '',
-            'maximise'         : '',
+            'maximise'         : '<Shift><Control>Return',
             'open_debug_tab'   : '',
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',

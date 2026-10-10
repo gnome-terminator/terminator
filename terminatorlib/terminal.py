@@ -2846,6 +2846,18 @@ class Terminal(Gtk.VBox):
         else:
             self.maximise()
 
+    def key_maximise(self):
+        """Default maximise shortcut: toggle single-pane overlay maximise."""
+        self.key_toggle_zoom()
+
+    def key_zoom(self):
+        if not self.is_zoomed():
+            self.zoom()
+
+    def key_unzoom(self):
+        if self.is_zoomed():
+            self.unzoom()
+
     def key_restore_maximised(self):
         """Shift+Esc: restore overlay/legacy maximise only when zoomed."""
         if self.is_zoomed():
