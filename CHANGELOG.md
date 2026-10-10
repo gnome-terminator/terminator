@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased: fork of 2.1.6 (TIIEHenry/terminator, branch integration/m1)
+## 2.1.6+fork.1 (unreleased): fork of 2.1.6 (TIIEHenry/terminator, branch integration/m1)
 
 The five new features below are **on by default**. Each one can be turned off in Preferences or in the config file (see `terminator_config(5)`).
 

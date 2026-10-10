@@ -245,7 +245,7 @@ class SessionManager(Borg):         # 与 Terminator/Config 同样用 borg 单�
 {
   "version": 1,
   "saved_at": "2026-10-10T15:00:00+08:00",
-  "terminator_version": "2.1.6",
+  "terminator_version": "2.1.6+fork.1",
   "layout": {
     "child0":   {"type": "Window", "parent": "", "order": "0",
                  "position": "100:80", "size": ["1280", "800"],

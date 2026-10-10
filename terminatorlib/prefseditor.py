@@ -281,6 +281,13 @@ class PrefsEditor:
 
         self.builder.add_from_string(gladedata)
         self.window = self.builder.get_object('prefswin')
+        try:
+            # m26 (round2-ux P2-10): one source of truth for the version
+            from .version import APP_VERSION
+            self.builder.get_object('about_version_label').set_text(
+                _('Version: %s') % APP_VERSION)
+        except Exception as ex:
+            dbg('about version label: %s' % ex)
 
         icon_theme = Gtk.IconTheme.get_default()
         if icon_theme.lookup_icon('terminator-preferences', 48, 0):
