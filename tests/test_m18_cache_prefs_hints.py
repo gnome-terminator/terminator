@@ -46,8 +46,6 @@ class _Spy(object):
         self.real.acquire(); self.log.append('in'); return self
     def __exit__(self, *a):
         self.log.append('out'); self.real.release()
-    def locked(self):
-        return self.real.locked()
 
 
 def test_gc_check_reads_counter_under_lock(cache):
@@ -58,7 +56,7 @@ def test_gc_check_reads_counter_under_lock(cache):
     class C(object):
         """counter whose truthiness records whether the lock is held"""
         def __bool__(self):
-            log.append(('read', real.locked())); return True
+            log.append(('read', real._is_owned())); return True
     cache._bytes_since_gc = C()
     cache._io_lock = _Spy(real, log)
     try:
@@ -92,4 +90,25 @@ def test_bump_locked_no_deadlock(cache):
         with cache._io_lock:
             done.append(cache._bump('u'))
     t = threading.Thread(target=run); t.start(); t.join(2)
-    assert done == [1] and not cache._io_lock.locked()
+    assert done == [1]
+    assert cache._io_lock.acquire(blocking=False)
+    cache._io_lock.release()
+
+
+def test_io_lock_is_reentrant():
+    assert isinstance(sb.ScrollbackCache()._io_lock, type(threading.RLock()))
+
+
+def test_bump_waits_for_lock_held_by_other_thread(cache):
+    # the old lock.locked() check would skip locking here and race
+    got, started = [], threading.Event()
+    with cache._io_lock:
+        def other():
+            started.set(); got.append(cache._bump('v'))
+        t = threading.Thread(target=other); t.start()
+        assert started.wait(2)
+        t.join(0.2)
+        assert t.is_alive() and got == []
+        cache._seq['v'] = 41
+    t.join(2)
+    assert got == [42]

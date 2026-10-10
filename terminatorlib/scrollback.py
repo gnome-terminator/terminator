@@ -327,7 +327,9 @@ class ScrollbackCache(Borg):
         if self._io_lock is None:
             # Serialises seq-check+write in the worker against sync writes
             # and deletes on the main thread (closes check-then-write race).
-            self._io_lock = threading.Lock()
+            # m18: re-entrant so _bump can always take it, even when the
+            # caller already holds it (Lock.locked() can't tell the owner).
+            self._io_lock = threading.RLock()
 
     # ---- config helpers ----
     def _cfg(self, key, default=None):
@@ -847,14 +849,11 @@ class ScrollbackCache(Borg):
         return False
 
     def _bump(self, uuid_str):
-        """Bump the write-intent seq.  Caller MUST hold _io_lock (m18): the
-        worker compares _seq under the same lock, and the lock is not
-        re-entrant, so _bump cannot take it itself."""
-        lk = self._io_lock
-        if hasattr(lk, 'locked') and not lk.locked():
-            with lk:
-                return self._bump_locked(uuid_str)
-        return self._bump_locked(uuid_str)
+        """Bump the write-intent seq under _io_lock (an RLock, so callers
+        that already hold it -- seq bump + write must be atomic -- re-enter
+        safely, and a different thread holding it makes us wait)."""
+        with self._io_lock:
+            return self._bump_locked(uuid_str)
 
     def _bump_locked(self, uuid_str):
         seq = self._seq.get(uuid_str, 0) + 1
