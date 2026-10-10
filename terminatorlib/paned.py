@@ -190,6 +190,13 @@ class Paned(Container):
                         Gtk.main_iteration_do(False)
                     self.do_redistribute(*self.last_balance_args)
             _schedule_auto_font_on_widget(self)
+            # m33 review: a divider drag must mark the session dirty
+            # explicitly so the idle periodic skip can never delay it.
+            try:
+                from .session import try_mark_dirty
+                try_mark_dirty('paned.drag')
+            except Exception:
+                pass
         return False
 
     def set_autoresize(self, autoresize):

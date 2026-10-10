@@ -33,6 +33,8 @@ SESSION_VERSION = 1
 QUIT_ALL_WINDOW_GRACE_S = 10.0
 SAVE_BACKOFF_MAX_S = 300
 PERIODIC_MARK_DIRTY_S = 60
+# m33: idle periodic ticks skip describe; force a safety-net save every N
+PERIODIC_FORCE_EVERY = 10
 RESTORING_CLEAR_DELAY_S = 10
 # m31: marker line flagging a crash-fallback restore (second crash -> empty)
 FALLBACK_MARKER_FLAG = 'fallback'
@@ -346,6 +348,8 @@ class SessionManager(Borg):
     restored_this_run = None
     _closing_buffer = None
     _write_failures = None
+    _events_since_save = True
+    _idle_ticks = 0
     _disabled = None
     _loaded_session_uuids = None
     _finalize_done = None
@@ -555,6 +559,8 @@ class SessionManager(Borg):
 
     def mark_dirty(self, reason=''):
         """Schedule a debounced save. Existing timer is not reset."""
+        if reason != 'periodic':
+            self._events_since_save = True
         try:
             from .terminator import Terminator
             if Terminator().doing_layout:
@@ -613,6 +619,14 @@ class SessionManager(Borg):
         if not self.is_writer() or self.final_saving:
             self._periodic_timer = None
             return False
+        # m33: skip the O(panes) describe when nothing was marked dirty
+        # since the last successful save (idle CPU); still force one every
+        # PERIODIC_FORCE_EVERY ticks for changes that emit no event.
+        self._idle_ticks = (getattr(self, '_idle_ticks', 0) or 0) + 1
+        if (not getattr(self, '_events_since_save', True)
+                and self._idle_ticks < PERIODIC_FORCE_EVERY):
+            return True
+        self._idle_ticks = 0
         self.mark_dirty('periodic')
         return True
 
@@ -715,6 +729,7 @@ class SessionManager(Borg):
         change = layout_change_hash(layout)
         if not final and change == self._last_change_hash:
             dbg('SessionManager.save_now: unchanged, skip')
+            self._events_since_save = False
             return True
 
         payload = {
@@ -740,6 +755,7 @@ class SessionManager(Borg):
                 self._rotated_this_run = True
             self._last_change_hash = change
             self._write_failures = 0
+            self._events_since_save = False
             dbg('SessionManager.save_now: wrote %s (final=%s)' % (path, final))
             return True
         except OSError as ex:
