@@ -111,6 +111,21 @@ def _sm_display_lost():
     return bool(getattr(sm, '_display_lost', False))
 
 
+def _sm_safe_restore():
+    sm = _session_manager()
+    return bool(sm is not None and getattr(sm, 'safe_restore', False))
+
+
+def _sm_safe_keep(uuid_str):
+    """m31: in crash-fallback safe mode, never overwrite/delete the cache file
+    of a restored uuid (its history was not replayed); keep it for the next
+    normal restore. New terminals cache normally."""
+    sm = _session_manager()
+    if sm is None or not getattr(sm, 'safe_restore', False):
+        return False
+    return str(uuid_str) in (getattr(sm, '_loaded_session_uuids', None) or ())
+
+
 def _sm_restored_this_run():
     sm = _session_manager()
     if sm is None:
@@ -687,6 +702,10 @@ class ScrollbackCache(Borg):
                 dbg('flush_all term failed: %s' % ex)
 
     def _flush_uuid(self, terminal, uuid_str, sync=False):
+        if _sm_safe_keep(uuid_str):
+            dbg('skip flush %s: safe-mode restore keeps old cache' % uuid_str)
+            self._dirty.discard(uuid_str)
+            return
         if _sm_display_lost():
             # m29: covers interval, deferred snapshot, close and final
             # flushes. Keep the file and the dirty mark untouched.
@@ -772,6 +791,8 @@ class ScrollbackCache(Borg):
         self._cancel_pending(uuid_str)
         if _sm_display_lost():
             # m29: neither write nor delete during display teardown.
+            return
+        if _sm_safe_keep(uuid_str):
             return
         try:
             if _sm_will_persist(terminal):
@@ -997,6 +1018,9 @@ class ScrollbackCache(Borg):
         if not self._enabled:
             return False
         if not _sm_restored_this_run():
+            return False
+        if _sm_safe_restore():
+            # m31: crash-fallback safe mode restores layout only.
             return False
         uuid_str = _terminal_uuid_str(terminal)
         if not uuid_str:
