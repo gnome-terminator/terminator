@@ -249,7 +249,7 @@ class Notebook(Container, Gtk.Notebook):
             err('%s not found in Notebook. Actual parent is: %s' %
                     (widget, widget.get_parent()))
             return(False)
-        self.detach_tab(page_num)
+        self.remove_page(page_num)
         self.disconnect_child(widget)
         try:
             from .session import try_mark_dirty
