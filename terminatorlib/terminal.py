@@ -1949,9 +1949,14 @@ class Terminal(Gtk.VBox):
         from .autofont import base_cell_stale
         try:
             scale = float(self.vte.get_font_scale())
-            measured = (int(cw) or self.vte.get_char_width(),
-                        int(ch) or self.vte.get_char_height())
+            measured = (int(self.vte.get_char_width()),
+                        int(self.vte.get_char_height()))
         except Exception:
+            return
+        # Signal from an older font state (VTE may defer the font update):
+        # wait for the emission that matches the live metrics, so a stale
+        # emission can never bounce us into a probe/invalidate loop.
+        if cw and ch and (int(cw), int(ch)) != measured:
             return
         if not base_cell_stale(self._base_cell, measured, scale):
             return

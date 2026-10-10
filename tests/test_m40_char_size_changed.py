@@ -54,6 +54,9 @@ def _term(base, scale, hinting=False, autofont=True, toplevel=None):
 
 
 def _call(t, cw, ch):
+    if cw and ch:
+        t.vte.get_char_width.return_value = cw
+        t.vte.get_char_height.return_value = ch
     terminal_mod.Terminal._on_vte_char_size_changed(t, t.vte, cw, ch)
 
 
@@ -122,5 +125,33 @@ def test_real_terminal_connects_handler():
     try:
         ids = term.cnxids.cnxids.get(term.vte, {})
         assert 'char-size-changed' in ids
+    finally:
+        term.destroy()
+
+
+def test_signal_args_disagreeing_with_live_metrics_are_ignored():
+    t = _term((10, 20), 0.8)
+    t.vte.get_char_width.return_value = 8
+    t.vte.get_char_height.return_value = 16
+    terminal_mod.Terminal._on_vte_char_size_changed(t, t.vte, 10, 20)
+    assert t._base_cell == (10, 20)
+    t.schedule_auto_font_scale.assert_not_called()
+
+
+def test_real_vte_font_change_refreshes_base_cell():
+    from gi.repository import Pango
+    term = terminal_mod.Terminal()
+    try:
+        term.vte.set_font(Pango.FontDescription('Monospace 10'))
+        cw, ch = term.vte.get_char_width(), term.vte.get_char_height()
+        term._base_cell = (cw, ch)
+        term.schedule_auto_font_scale = mock.Mock()
+        term.vte.set_font(Pango.FontDescription('Monospace 20'))
+        cw2, ch2 = term.vte.get_char_width(), term.vte.get_char_height()
+        if (cw2, ch2) == (cw, ch):
+            import pytest
+            pytest.skip('VTE did not re-measure off-screen')
+        term._on_vte_char_size_changed(term.vte, cw2, ch2)
+        assert term._base_cell == (cw2, ch2)
     finally:
         term.destroy()
