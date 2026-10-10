@@ -95,6 +95,22 @@ def _sm_writes_suspended():
     return bool(getattr(sm, '_disabled', False))
 
 
+def _sm_display_lost():
+    """m29: True once SessionManager saw the display go away; the cache then
+    must not overwrite good history with a torn-down terminal's contents."""
+    sm = _session_manager()
+    if sm is None:
+        return False
+    fn = getattr(sm, '_check_display_lost', None)
+    if callable(fn):
+        try:
+            return bool(fn())
+        except Exception as ex:
+            dbg('_check_display_lost failed: %s' % ex)
+            return False
+    return bool(getattr(sm, '_display_lost', False))
+
+
 def _sm_restored_this_run():
     sm = _session_manager()
     if sm is None:
@@ -606,6 +622,8 @@ class ScrollbackCache(Borg):
         def _fire():
             if self._snap_pending is not None:
                 self._snap_pending.pop(uuid_str, None)
+            if _sm_display_lost():
+                return False
             try:
                 # Re-checks enabled/dirty/alt-screen/rate limit; only saves
                 # if the terminal is still on the normal screen.
@@ -669,6 +687,11 @@ class ScrollbackCache(Borg):
                 dbg('flush_all term failed: %s' % ex)
 
     def _flush_uuid(self, terminal, uuid_str, sync=False):
+        if _sm_display_lost():
+            # m29: covers interval, deferred snapshot, close and final
+            # flushes. Keep the file and the dirty mark untouched.
+            dbg('skip flush %s: display lost' % uuid_str)
+            return
         vte = getattr(terminal, 'vte', None)
         if vte is None:
             return
@@ -747,6 +770,9 @@ class ScrollbackCache(Borg):
         # A deferred pre-command retry must not fire on a closed terminal
         # (m15 review2): cancel it before the final flush.
         self._cancel_pending(uuid_str)
+        if _sm_display_lost():
+            # m29: neither write nor delete during display teardown.
+            return
         try:
             if _sm_will_persist(terminal):
                 self.flush(terminal, sync=True)
@@ -760,6 +786,8 @@ class ScrollbackCache(Borg):
             self._timer_id = 0
             return False
         if not self._dirty:
+            return True
+        if _sm_display_lost():
             return True
         try:
             from .terminator import Terminator
