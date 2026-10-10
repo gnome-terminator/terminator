@@ -225,6 +225,9 @@ class SessionManager(Borg):
     _buffer_timer = None
     _config = None
     _rotated_this_run = None
+    # m25: save requests dropped during layout / legacy zoom are replayed
+    _pending_after_layout = None
+    _pending_after_zoom = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -415,14 +418,20 @@ class SessionManager(Borg):
         try:
             from .terminator import Terminator
             if Terminator().doing_layout:
+                # m25: remember; layout_done() replays one save
+                self._pending_after_layout = True
                 return
         except Exception:
             pass
         if self.final_saving or not self.is_writer():
             return
         if self._any_legacy_zoom():
-            dbg('SessionManager.mark_dirty skipped (legacy zoom): %s' % reason)
+            # m25: legacy zoom detaches other panes; defer until unzoom
+            self._pending_after_zoom = True
+            dbg('SessionManager.mark_dirty deferred (legacy zoom): %s' % reason)
             return
+        self._pending_after_layout = False
+        self._pending_after_zoom = False
         if self._timer is not None:
             return
         delay = max(100, self._delay_ms())
@@ -517,6 +526,12 @@ class SessionManager(Borg):
         """Write session.json. Requires is_writer() even when final=True."""
         if not self.is_writer():
             dbg('SessionManager.save_now: not writer, skip (final=%s)' % final)
+            return False
+        if not final and self._any_legacy_zoom():
+            # m25: a timer scheduled before zoom must not write the
+            # detached (one-pane) tree; replay after unzoom instead.
+            self._pending_after_zoom = True
+            dbg('SessionManager.save_now: legacy zoom, deferred')
             return False
         try:
             layout = self._describe_current()
