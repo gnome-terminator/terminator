@@ -349,10 +349,20 @@ class ScrollbackCache(Borg):
         return max(5, int(self._cfg('scrollback_cache_interval_s', 20) or 20))
 
     def _total_mb(self):
-        return int(self._cfg('scrollback_cache_total_mb', 20) or 20)
+        return self._int_or_off('scrollback_cache_total_mb', 20)
 
     def _ttl_days(self):
-        return int(self._cfg('scrollback_cache_ttl_days', 7) or 7)
+        return self._int_or_off('scrollback_cache_ttl_days', 7)
+
+    def _int_or_off(self, key, default):
+        """m17: 0 (or negative) means disabled; only None/garbage -> default."""
+        v = self._cfg(key, default)
+        if v is None or v == '':
+            return default
+        try:
+            return max(0, int(v))
+        except (TypeError, ValueError):
+            return default
 
     # ---- paths ----
     def path_for(self, uuid_str):
@@ -631,7 +641,8 @@ class ScrollbackCache(Borg):
                 return
             # The worker converts/truncates and drops writes superseded by a
             # newer intent (seq) for the same uuid.
-            seq = self._bump(uuid_str)
+            with self._io_lock:
+                seq = self._bump(uuid_str)
             self._queue.put(('write', uuid_str, (src, is_html, lines, max_kb),
                              digest, seq))
             self._dirty.discard(uuid_str)
