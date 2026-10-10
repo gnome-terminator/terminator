@@ -939,25 +939,25 @@ msgstr ""
 msgid "Show buttons in terminal title bars"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade:1587
 msgid "Show icon at the left of terminal title bars"
 msgstr ""
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade:1593
 msgid ""
 "Terminal and grouping icons on each pane title bar. When hidden, grouping "
 "stays available from the right-click menu and the group shortcuts."
 msgstr ""
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:391
 msgid "Broadcast: all"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:394
 msgid "Broadcast: group"
 msgstr ""
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:397
 msgid "Click for the grouping menu"
 msgstr ""
 

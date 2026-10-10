@@ -959,25 +959,25 @@ msgstr "<b>标题栏</b>"
 msgid "Show buttons in terminal title bars"
 msgstr "在终端标题栏显示按钮"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade:1587
 msgid "Show icon at the left of terminal title bars"
 msgstr "在终端标题栏左侧显示图标"
 
-#: ../terminatorlib/preferences.glade.h:98
+#: ../terminatorlib/preferences.glade:1593
 msgid ""
 "Terminal and grouping icons on each pane title bar. When hidden, grouping "
 "stays available from the right-click menu and the group shortcuts."
 msgstr "每个窗格标题栏上的终端图标和分组图标。隐藏后，仍可通过右键菜单和分组快捷键使用分组功能。"
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:391
 msgid "Broadcast: all"
 msgstr "广播：全部"
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:394
 msgid "Broadcast: group"
 msgstr "广播：分组"
 
-#: ../terminatorlib/titlebar.py
+#: ../terminatorlib/titlebar.py:397
 msgid "Click for the grouping menu"
 msgstr "点击打开分组菜单"
 

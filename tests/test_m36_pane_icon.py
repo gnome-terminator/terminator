@@ -120,6 +120,14 @@ def test_group_broadcast_text_needs_a_group(monkeypatch):
     assert tb.broadcastlabel.get_visible() is True
 
 
+def test_broadcast_label_tooltip(monkeypatch):
+    tb = _tb(titlebar_show_icon=False)
+    _set_groupsend(monkeypatch, tb, 'all')
+    tb.update(tb.terminal)
+    assert tb.broadcastlabel.get_visible() is True
+    assert tb.broadcastlabel.get_tooltip_text() == 'Click for the grouping menu'
+
+
 def test_receiver_gets_no_broadcast_text(monkeypatch):
     tb = _tb(titlebar_show_icon=False)
     _set_groupsend(monkeypatch, tb, 'all')
@@ -259,7 +267,11 @@ def test_prefs_editor_roundtrip(tmp_path, monkeypatch):
     monkeypatch.setenv('XDG_CACHE_HOME', str(tmp_path / 'cache'))
     monkeypatch.setenv('XDG_CONFIG_HOME', str(tmp_path / 'config'))
     from terminatorlib import terminal, prefseditor
-    from terminatorlib.config import Config
+    from terminatorlib.config import Config, ConfigBase
+    # never write the real user config while toggling the checkbox
+    saves = []
+    monkeypatch.setattr(Config, 'save', lambda self: saves.append(1))
+    monkeypatch.setattr(ConfigBase, 'save', lambda self: saves.append(1))
     cfg = Config()
     old = cfg['titlebar_show_icon']
     try:
