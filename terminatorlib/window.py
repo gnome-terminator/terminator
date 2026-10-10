@@ -337,6 +337,14 @@ class Window(Container, Gtk.Window):
             return True
         self._session_destroy_handled = True
         dbg('destroying self')
+        # UI review P2-1: stop a running maximise/restore animation (16 ms
+        # tick) and drop the temporary Overlay before the tree goes away.
+        overlay = getattr(self, '_overlay', None)
+        if overlay is not None:
+            try:
+                overlay.teardown()
+            except Exception as ex:
+                dbg('overlay teardown on destroy: %s' % ex)
         try:
             from .session import SessionManager
             sess = SessionManager()
@@ -658,42 +666,15 @@ class Window(Container, Gtk.Window):
             overlay = self._overlay.data['overlay']
             try:
                 overlay.add(widget)
+                # P0-1: the new layout root lives under the Overlay now
+                self._overlay.note_main_replaced(widget)
             except Exception:
                 Gtk.Window.add(self, widget)
         else:
             Gtk.Window.add(self, widget)
         if maker.isinstance(widget, 'Terminal'):
-            signals = {'close-term': self.closeterm,
-                       'title-change': self.title.set_title,
-                       'split-auto': self.split_auto,
-                       'split-horiz': self.split_horiz,
-                       'split-vert': self.split_vert,
-                       'resize-term': self.resizeterm,
-                       'unzoom': self.unzoom,
-                       'tab-change': self.tab_change,
-                       'group-all': self.group_all,
-                       'group-all-toggle': self.group_all_toggle,
-                       'ungroup-all': self.ungroup_all,
-                       'group-win': self.group_win,
-                       'group-win-toggle': self.group_win_toggle,
-                       'ungroup-win': self.ungroup_win,
-                       'group-tab': self.group_tab,
-                       'group-tab-toggle': self.group_tab_toggle,
-                       'ungroup-tab': self.ungroup_tab,
-                       'move-tab': self.move_tab,
-                       'detach-tab': self.detach_tab_to_new_window,
-                       'tab-new': [self.tab_new, widget],
-                       'navigate': self.navigate_terminal,
-                       'rotate-cw': [self.rotate, True],
-                       'rotate-ccw': [self.rotate, False]}
-
-            for signal in signals:
-                args = []
-                handler = signals[signal]
-                if isinstance(handler, list):
-                    args = handler[1:]
-                    handler = handler[0]
-                self.connect_child(widget, signal, handler, *args)
+            self.connect_terminal_signals(
+                widget, self.terminal_signals(widget, overlay=False))
 
             widget.grab_focus()
 
@@ -705,6 +686,7 @@ class Window(Container, Gtk.Window):
             if widget is main:
                 try:
                     overlay.remove(widget)
+                    self._overlay.note_main_replaced(None)
                 except Exception:
                     Gtk.Window.remove(self, widget)
             else:
@@ -722,12 +704,11 @@ class Window(Container, Gtk.Window):
     def get_child(self):
         """Return the layout root. While overlay-maximised the real Gtk child
         is a temporary Overlay — callers must still see the paned/notebook."""
-        child = Gtk.Window.get_child(self)
         if getattr(self, '_overlay', None) is not None and self._overlay.is_active():
-            main = self._overlay.main()
-            if main is not None:
-                return main
-        return child
+            # Never expose the temporary Overlay itself (None while the root
+            # is being replaced, like a plain Gtk.Window between remove/add)
+            return self._overlay.main()
+        return Gtk.Window.get_child(self)
 
     def get_children(self):
         """Return a single list of our child (layout root, see get_child)"""
@@ -885,39 +866,38 @@ class Window(Container, Gtk.Window):
             return False
         return self._overlay.transfer(target, animate=animate)
 
+    def terminal_signals(self, widget, overlay=False):
+        """Signal table for a Terminal that is our direct (logical) child:
+        the sole root terminal (overlay=False, no zoom: nothing to zoom
+        over) or the overlay-maximised terminal in the PaneFrame
+        (overlay=True: 'maximise' toggles the overlay back, 'zoom' goes
+        through restore first instead of being dropped; UI review P2-3)."""
+        from .container import window_terminal_signals
+        signals = window_terminal_signals(self, widget, zoom=False)
+        signals.update({'close-term': self.closeterm,
+                        'title-change': self.title.set_title,
+                        'split-auto': self.split_auto,
+                        'split-horiz': self.split_horiz,
+                        'split-vert': self.split_vert,
+                        'resize-term': self.resizeterm,
+                        'unzoom': self.unzoom})
+        if overlay:
+            signals['maximise'] = [self.zoom, False]
+            signals['zoom'] = self._zoom_from_overlay
+        return signals
+
+    def _zoom_from_overlay(self, widget, font_scale=True):
+        """Scaled (legacy) zoom requested on the overlay-maximised pane:
+        leave the overlay first, then zoom from the plain tree."""
+        if self.is_overlay_maximised():
+            self.overlay_restore(animate=False)
+        return self.zoom(widget, font_scale)
+
     def _connect_overlay_terminal_signals(self, widget):
         """Wire the same Window-level signals add() uses, after the terminal
         is reparented into PaneFrame (which does not call Window.add)."""
-        signals = {'close-term': self.closeterm,
-                   'title-change': self.title.set_title,
-                   'split-auto': self.split_auto,
-                   'split-horiz': self.split_horiz,
-                   'split-vert': self.split_vert,
-                   'resize-term': self.resizeterm,
-                   'unzoom': self.unzoom,
-                   'tab-change': self.tab_change,
-                   'group-all': self.group_all,
-                   'group-all-toggle': self.group_all_toggle,
-                   'ungroup-all': self.ungroup_all,
-                   'group-win': self.group_win,
-                   'group-win-toggle': self.group_win_toggle,
-                   'ungroup-win': self.ungroup_win,
-                   'group-tab': self.group_tab,
-                   'group-tab-toggle': self.group_tab_toggle,
-                   'ungroup-tab': self.ungroup_tab,
-                   'move-tab': self.move_tab,
-                   'detach-tab': self.detach_tab_to_new_window,
-                   'tab-new': [self.tab_new, widget],
-                   'navigate': self.navigate_terminal,
-                   'rotate-cw': [self.rotate, True],
-                   'rotate-ccw': [self.rotate, False]}
-        for signal in signals:
-            args = []
-            handler = signals[signal]
-            if isinstance(handler, list):
-                args = handler[1:]
-                handler = handler[0]
-            self.connect_child(widget, signal, handler, *args)
+        self.connect_terminal_signals(
+            widget, self.terminal_signals(widget, overlay=True))
 
     def zoom(self, widget, font_scale=True):
         """Dispatch: overlay maximise (default) or legacy reparent zoom."""

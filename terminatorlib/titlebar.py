@@ -13,6 +13,29 @@ from .terminator import Terminator
 from .editablelabel import EditableLabel
 from .translation import _
 
+_BTN_FG_PROVIDERS = {}
+
+
+def _button_fg_provider(color):
+    """Cached CssProvider colouring titlebar buttons/badge with the
+    titlebar's own fg colour (UI review P2-9: a fixed light #c9d1d9 was
+    unreadable on light title_*_bg_color). Hover keeps the global rules."""
+    provider = _BTN_FG_PROVIDERS.get(color)
+    if provider is None:
+        rgba = Gdk.RGBA()
+        if not rgba.parse(str(color)):
+            return None
+        provider = Gtk.CssProvider()
+        try:
+            provider.load_from_data((
+                'button:not(:hover) { color: %s; }' % rgba.to_string()
+            ).encode())
+        except Exception as ex:
+            dbg('titlebar button css: %s' % ex)
+            return None
+        _BTN_FG_PROVIDERS[color] = provider
+    return provider
+
 # pylint: disable-msg=R0904
 # pylint: disable-msg=W0613
 class Titlebar(Gtk.EventBox):
@@ -247,6 +270,7 @@ class Titlebar(Gtk.EventBox):
 
             self.label.modify_fg(Gtk.StateType.NORMAL,
                     Gdk.color_parse(title_fg))
+            self._set_button_fg(title_fg)
             self.grouplabel.modify_fg(Gtk.StateType.NORMAL,
                     Gdk.color_parse(group_fg))
             self.modify_bg(Gtk.StateType.NORMAL, 
@@ -381,6 +405,27 @@ class Titlebar(Gtk.EventBox):
                 if theme.has_icon(name):
                     return name
         return names[0]
+
+    def _set_button_fg(self, color):
+        """Icon colour of ⚙/maximise/✕ and the badge follows title fg."""
+        if getattr(self, '_btn_fg', None) == color:
+            return
+        provider = _button_fg_provider(color)
+        if provider is None:
+            return
+        old = _BTN_FG_PROVIDERS.get(getattr(self, '_btn_fg', None))
+        for btn in (getattr(self, 'btn_close', None),
+                    getattr(self, 'btn_max', None),
+                    getattr(self, 'btn_gear', None),
+                    getattr(self, 'scale_badge', None)):
+            if btn is None:
+                continue
+            ctx = btn.get_style_context()
+            if old is not None:
+                ctx.remove_provider(old)
+            ctx.add_provider(provider,
+                             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1)
+        self._btn_fg = color
 
     def _make_button(self, icon_names, action, classes):
         """Create a flat titlebar button"""
