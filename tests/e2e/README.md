@@ -6,7 +6,10 @@ xdotool (default keybindings) and checks from the outside: `xprop` WM
 titles, ffmpeg x11grab screenshots (Pillow pixel checks), `session.json`,
 the scrollback cache and `/proc` (psutil: shells, cwds, child processes).
 
-Not part of `tests/run_tests.sh`: `tests/e2e/conftest.py` sets
+Opt-in from the unit channel (m30): `TERMINATOR_E2E=1 tests/run_tests.sh tests/test_m30_e2e_gui.py`
+(optional `TERMINATOR_E2E_K=9-,10-` filter); skipped by default and when deps are missing.
+
+Otherwise not part of `tests/run_tests.sh`: `tests/e2e/conftest.py` sets
 `collect_ignore_glob` so the unit lane (pytest `--doctest-modules` over the
 tree) neither collects nor imports anything here. Exception:
 `roundtrip_driver.py` is a helper that the unit test
@@ -53,6 +56,8 @@ xfwm4 and tmux optional. About 2 minutes for the full run.
 | 6-window-title | 3 panes emit OSC titles at 20Hz; WM title only ever shows the focused pane's |
 | 7-altscreen | scrollbar strip hidden in `tput smcup` and tmux, restored after; SIGTERM during a TUI → cache keeps shell history, no TUI frame |
 | 8-corrupt-session | `[1,2]` session.json → starts, moved to `.corrupt`, fresh valid session written |
+| 9-sigkill-recovery | split+tab+cd, wait for debounced save + 5s scrollback interval flush → SIGKILL (no final save) → relaunch restores layout/cwds; SIGKILL again inside the 10s restore window → 3rd launch still starts (session quarantined to `.crashed`, fresh 1-pane session) |
+| 10-quit-relaunch | split+cd → Ctrl+Shift+Q → "Close multiple terminals?" → Close Terminals → relaunch restores split/cwds/scrollback |
 
 Harness notes: use `xwininfo` for geometry (xdotool getwindowgeometry is
 off by the WM frame); markers printed by panes are split (`TUI''SCREEN`) so
