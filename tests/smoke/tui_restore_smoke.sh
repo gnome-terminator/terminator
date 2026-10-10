@@ -9,7 +9,7 @@ cd "$(dirname "$0")/../.."; REPO=$(pwd)
 start(){ dbus-run-session -- ${PY:-.venv-test/bin/python} ./terminator -u >${OUT:-/tmp}/log$1.txt 2>&1 & sleep 5; }
 start 1
 W=$(xdotool search --onlyvisible --class terminator | head -1); xdotool windowactivate $W; sleep 0.5
-xdotool type --delay 20 'echo SHELLHIST_42; cd /tmp'; xdotool key Return; sleep 1
+xdotool type --delay 20 'seq 1 80; echo SHELLHIST_42; cd /tmp'; xdotool key Return; sleep 1
 xdotool type --delay 20 "python3 $REPO/tests/smoke/fake_tui.py"; xdotool key Return; sleep 3
 DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/1-tui.png
 xdotool key ctrl+shift+q; sleep 2
