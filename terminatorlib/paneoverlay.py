@@ -264,10 +264,26 @@ def pixbuf_to_surface(pixbuf, widget=None, logical_w=0):
         return None
 
 
-def paint_snapshot(cr, snap, rect, alpha=1.0):
+def snap_has_alpha(snap):
+    """True for a snapshot captured with alpha (RGBA / transparent window)."""
+    try:
+        import cairo
+        return snap is not None and \
+            snap[0].get_content() == cairo.CONTENT_COLOR_ALPHA
+    except Exception:
+        return False
+
+
+def paint_snapshot(cr, snap, rect, alpha=1.0, replace=False):
     """Draw snap=(surface, w, h) stretched into rect=(x, y, w, h).
     Bilinear keeps it on the XRender fast path (GOOD may fall back to a
-    client-side box filter when shrinking)."""
+    client-side box filter when shrinking).
+
+    replace (transparent backgrounds): an opaque-phase snapshot REPLACES
+    what is under it (OPERATOR_SOURCE), exactly like the live VTE does with
+    its see-through background, so the dimmer below doesn't stack on top of
+    the terminal's own alpha (a dark pulse mid-flight). Only for
+    alpha >= 1; a fading snapshot is blended OVER the live terminal."""
     if snap is None or alpha <= 0.0:
         return False
     surf, sw, sh = snap
@@ -285,7 +301,15 @@ def paint_snapshot(cr, snap, rect, alpha=1.0):
         cr.get_source().set_filter(cairo.FILTER_BILINEAR)
     except Exception:
         pass
-    if alpha >= 1.0:
+    if replace and alpha >= 1.0:
+        # PAD: no transparent fringe from sampling past the surface edge
+        try:
+            cr.get_source().set_extend(cairo.EXTEND_PAD)
+        except Exception:
+            pass
+        cr.set_operator(cairo.OPERATOR_SOURCE)
+        cr.paint()
+    elif alpha >= 1.0:
         cr.paint()
     else:
         cr.paint_with_alpha(alpha)
@@ -445,9 +469,12 @@ class PanePlaceholder(Gtk.DrawingArea):
     def _on_draw(self, widget, cr):
         """Paint cached pixbuf or solid background. NEVER terminal.draw(cr)."""
         alloc = widget.get_allocation()
-        cr.set_source_rgb(0.08, 0.08, 0.08)
-        cr.rectangle(0, 0, alloc.width, alloc.height)
-        cr.fill()
+        if not _window_is_rgba(widget):
+            # No opaque fill in a see-through window: it would show as a
+            # dark block through the translucent snapshot / terminal.
+            cr.set_source_rgb(0.08, 0.08, 0.08)
+            cr.rectangle(0, 0, alloc.width, alloc.height)
+            cr.fill()
         if self._snap is None and self._pixbuf is not None and \
                 widget.get_window() is not None:
             # m37: convert once, not on every frame of the animation
@@ -646,7 +673,8 @@ class SnapshotArea(Gtk.DrawingArea):
         if self._snap is None and self._pixbuf is not None:
             self._snap = pixbuf_to_surface(self._pixbuf, widget)
         try:
-            paint_snapshot(cr, self._snap, self._rect, self._opacity)
+            paint_snapshot(cr, self._snap, self._rect, self._opacity,
+                           replace=snap_has_alpha(self._snap))
         except Exception as ex:
             dbg('SnapshotArea draw: %s' % ex)
         return False
