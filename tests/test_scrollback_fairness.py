@@ -211,3 +211,16 @@ def test_bucket_refills_one_per_second(cache, monkeypatch):
     cache._snap_pending.clear()
     cache._dirty.add(u)
     assert cache.snapshot_before_command(t, now=11.05) is True
+
+
+def test_close_with_persist_cancels_pending_snapshot(cache, monkeypatch):
+    t = FakeTerm(); u = str(t.uuid)
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: False)
+    monkeypatch.setattr(sb, '_sm_will_persist', lambda term: True)
+    _capture_timeouts(monkeypatch)
+    for n in (10.0, 10.1, 10.2, 10.3):
+        cache._dirty.add(u)
+        cache.snapshot_before_command(t, now=n)
+    assert u in cache._snap_pending
+    cache.on_terminal_close(t)
+    assert u not in cache._snap_pending

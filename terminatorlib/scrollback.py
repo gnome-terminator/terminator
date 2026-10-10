@@ -639,6 +639,9 @@ class ScrollbackCache(Borg):
         uuid_str = _terminal_uuid_str(terminal)
         if not uuid_str:
             return
+        # A deferred pre-command retry must not fire on a closed terminal
+        # (m15 review2): cancel it before the final flush.
+        self._cancel_pending(uuid_str)
         try:
             if _sm_will_persist(terminal):
                 self.flush(terminal, sync=True)
