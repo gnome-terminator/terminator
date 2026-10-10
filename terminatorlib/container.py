@@ -169,6 +169,14 @@ class Container(object):
 
     def closeterm(self, widget):
         """Handle the closure of a terminal"""
+        # m26 (a): record whether this pane's window is excluded from the
+        # session while it is still attached; after remove() its toplevel is
+        # the pane itself and the window can no longer be found.
+        try:
+            from .session import terminal_is_excluded
+            terminal_is_excluded(widget)
+        except Exception as ex:
+            dbg('closeterm record exclusion: %s' % ex)
         try:
             if self.get_property('term_zoomed'):
                 # We're zoomed, so unzoom and then start closing again

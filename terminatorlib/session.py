@@ -214,13 +214,51 @@ def remap_layout_uuids(layout, new_uuid=None):
     return mapping
 
 
+def _is_window(widget):
+    try:
+        from .window import Window
+        return isinstance(widget, Window)
+    except Exception:
+        return False
+
+
 def terminal_is_excluded(terminal):
-    """True when the terminal's window is left out of the session."""
+    """True when the terminal's window is left out of the session.
+
+    m26 (a): the answer is recorded on the terminal every time it is asked
+    while the terminal is still inside a Window.  The fallback close path
+    (Terminal.close -> finalize(closing=self)) runs after the pane has been
+    detached, when get_toplevel() returns the pane itself; the recorded value
+    is used then, so a -e pane can't slip through and write its cache.
+    """
     try:
         toplevel = terminal.get_toplevel()
     except Exception:
-        return False
-    return bool(getattr(toplevel, '_session_excluded', False))
+        toplevel = None
+    if toplevel is not None and _is_window(toplevel):
+        excluded = bool(getattr(toplevel, '_session_excluded', False))
+        try:
+            terminal._session_window_excluded = excluded
+        except Exception:
+            pass
+        return excluded
+    if toplevel is not None and getattr(toplevel, '_session_excluded', None) \
+            is not None:
+        return bool(toplevel._session_excluded)
+    return bool(getattr(terminal, '_session_window_excluded', False))
+
+
+def _record_window_exclusion(window, excluded):
+    try:
+        terms = window.get_terminals()
+    except Exception:
+        terms = []
+    for term in terms or []:
+        try:
+            term._session_window_excluded = excluded
+        except Exception:
+            pass
+    return terms or []
 
 
 def note_window_grown(window):
@@ -229,6 +267,9 @@ def note_window_grown(window):
     `terminator -e htop` then split: the window has become ordinary work, so
     it joins the session from now on (the command pane restores as a plain
     shell in its directory).  Ignored while a layout is being built.
+
+    m26 (b): the window's existing panes are marked dirty in the scrollback
+    cache so the output they produced while excluded gets cached too.
     """
     try:
         from .terminator import Terminator
@@ -239,6 +280,14 @@ def note_window_grown(window):
     if window is not None and getattr(window, '_session_excluded', False):
         dbg('session: excluded window grew, now included')
         window._session_excluded = False
+        terms = _record_window_exclusion(window, False)
+        try:
+            from .scrollback import ScrollbackCache
+            cache = ScrollbackCache()
+            for term in terms:
+                cache.mark_dirty(term)
+        except Exception as ex:
+            dbg('note_window_grown mark scrollback dirty: %s' % ex)
         try_mark_dirty('excluded window grew')
 
 
@@ -442,6 +491,7 @@ class SessionManager(Borg):
                 window._session_excluded = True
             except Exception:
                 pass
+            _record_window_exclusion(window, True)
 
     def is_writer(self):
         return bool(self._owns_session and self._lock_fd is not None and
