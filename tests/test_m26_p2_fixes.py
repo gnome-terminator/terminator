@@ -229,3 +229,39 @@ def test_focus_refresh_walks_tree_once(app, monkeypatch):
     assert calls['refresh'] > before
     assert w._titlebar_max_sig[0] == tuple(
         id(t) for t in w.get_visible_terminals())
+
+
+def test_titlebar_refresh_sig_tracks_maximised_pane():
+    """m26 review: switching which pane is maximised must not be skipped
+    as a 'plain focus move'."""
+    from terminatorlib.terminal import Terminal
+
+    calls = []
+
+    class TB:
+        def refresh_maximise_state(self, multiple=None):
+            calls.append(multiple)
+
+    a, b = object(), object()
+
+    class T:
+        titlebar = TB()
+
+    t1, t2 = T(), T()
+
+    class W:
+        zoom_data = {'widget': a}
+        def get_visible_terminals(self):
+            return [t1, t2]
+        def is_zoomed(self):
+            return True
+
+    w = W()
+    fake = type('F', (), {'get_toplevel': lambda self: w})()
+    Terminal.refresh_titlebars_maximise_state(fake)
+    n = len(calls)
+    Terminal.refresh_titlebars_maximise_state(fake)
+    assert len(calls) == n           # unchanged: skipped
+    w.zoom_data = {'widget': b}
+    Terminal.refresh_titlebars_maximise_state(fake)
+    assert len(calls) == 2 * n       # different pane maximised: refreshed

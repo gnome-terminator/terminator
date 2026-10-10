@@ -1463,7 +1463,8 @@ class Terminal(Gtk.VBox):
         try:
             sig = (tuple(id(t) for t in terminals), bool(window.is_zoomed()),
                    bool(getattr(window, 'is_overlay_maximised',
-                                lambda: False)()))
+                                lambda: False)()),
+                   id((getattr(window, 'zoom_data', None) or {}).get('widget')))
         except Exception:
             sig = None
         if sig is not None and \

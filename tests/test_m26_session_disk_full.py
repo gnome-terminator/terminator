@@ -129,3 +129,15 @@ def test_restore_failed_copies_the_file_actually_loaded(sm):
     sm.restore_failed(ValueError('x'))
     with open(path + '.bad', encoding='utf-8') as fh:
         assert json.load(fh)['layout']['terminal1']['uuid'] == 'prev'
+
+
+def test_failed_restore_from_prev_quarantines_prev(sm):
+    """m26 review: restoring from .prev failed -> .prev is not retried."""
+    path = sm.session_path()
+    _write(path + '.prev', _layout('aaaa'))
+    data = sm.load()
+    assert data is not None and sm._loaded_from == path + '.prev'
+    sm.restore_failed(RuntimeError('boom'))
+    assert not os.path.exists(path + '.prev')
+    assert os.path.exists(path + '.bad')
+    assert sm.load() is None

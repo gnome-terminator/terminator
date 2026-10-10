@@ -803,6 +803,10 @@ class SessionManager(Borg):
             if os.path.isfile(src):
                 import shutil
                 shutil.copy2(src, path + '.bad')
+                if src != path:
+                    # m26 review: a rotated fallback that failed to restore
+                    # must not be retried on every launch.
+                    os.replace(src, src + '.bad')
         except OSError as e:
             dbg('SessionManager.restore_failed copy: %s' % e)
         self.restored_this_run = False
