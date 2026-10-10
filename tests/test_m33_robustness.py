@@ -235,6 +235,29 @@ class _PB(object):
 
 def test_placeholder_scale_device_res_pixbuf():
     assert po.placeholder_pixbuf_scale(_PB(1600), 800, 2) == 0.5
+    assert po.placeholder_pixbuf_scale(_PB(2400), 800) == 1.0 / 3
+
+
+def test_placeholder_scale_independent_of_later_resize():
+    # pane/window grew after capture: still drawn at captured logical size
+    assert po.placeholder_pixbuf_scale(_PB(1600), 800) == 0.5
+    # snapshot narrower than placeholder (scale 1): unchanged
+    assert po.placeholder_pixbuf_scale(_PB(500), 500) == 1.0
+    assert po.placeholder_pixbuf_scale(_PB(500), 0) == 1.0
+
+
+def test_placeholder_records_capture_logical_width():
+    class _A(object):
+        width = 640
+
+    class _V(object):
+        def get_allocation(self):
+            return _A()
+
+    term = types.SimpleNamespace(vte=_V())
+    ph = po.PanePlaceholder(term, pixbuf=_PB(1280))
+    assert ph._pixbuf_logical_w == 640
+    assert po.PanePlaceholder(term)._pixbuf_logical_w == 0
 
 
 def test_placeholder_scale_logical_pixbuf_unchanged():
