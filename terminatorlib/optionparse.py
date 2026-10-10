@@ -112,8 +112,7 @@ icon for the window (by file or name)'))
     parser.add_argument('--restore', action='store_true', dest='restore',
             help=_('Force restore the last session'))
     parser.add_argument('--clear-session', action='store_true', dest='clear_session',
-            help=_('Delete the saved session and scrollback cache before starting '
-                   '(ignored while another Terminator instance owns the session)'))
+            help=_('Clear the saved session and scrollback cache before starting'))
 
     for item in ['--sm-client-id', '--sm-config-prefix', '--screen', '-n',
                  '--no-gconf' ]:

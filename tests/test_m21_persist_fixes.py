@@ -444,12 +444,10 @@ def test_separator_is_english_msgid_and_translated():
     assert label.startswith('T:')
 
 
-def test_cache_info_text_reflects_colour():
+def test_cache_info_text_does_not_claim_plain_text():
     from terminatorlib.prefseditor import scrollback_cache_info_text
-    assert 'Plain text only' in scrollback_cache_info_text('/c', 0, 0, 7, 20,
-                                                           color=False)
-    t = scrollback_cache_info_text('/c', 0, 0, 7, 20, color=True)
-    assert 'Plain text only' not in t and 'colours' in t
+    t = scrollback_cache_info_text('/c', 0, 0, 7, 20)
+    assert 'Plain text only' not in t
 
 
 # --- P2: config /tmp, help text -------------------------------------------

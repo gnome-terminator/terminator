@@ -1,7 +1,7 @@
 '\" t
 .\"     Title: terminator_config
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.16
+.\" Generator: Asciidoctor 2.0.23
 .\"      Date: 2023-10-10
 .\"    Manual: Manual for Terminator
 .\"    Source: Terminator
@@ -135,6 +135,234 @@ Default value: \fBFalse\fP
 Specify when to ask for confirmation before closing a window or a tab.
 Can be any of: \*(Aqalways\*(Aq, \*(Aqmultiple_terminals\*(Aq, \*(Aqnever\*(Aq.
 Default value: \fBmultiple_terminals\fP
+.RE
+.sp
+\fBtitlebar_buttons\fP = \fIboolean\fP
+.RS 4
+If set to True, each terminal titlebar shows a menu (gear), a
+maximise/restore pane button and a close button on its right side.
+Right\-clicking a titlebar opens the terminal menu. Regardless of this
+setting, double\-clicking a titlebar toggles maximisation of that
+terminal; to rename a terminal use the menu entry or the
+\fBedit_terminal_title\fP keybinding.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBtitlebar_density\fP = \fIstring\fP
+.RS 4
+Height of terminal titlebars and their buttons.
+Can be any of: \*(Aqstandard\*(Aq, \*(Aqcompact\*(Aq.
+.br
+Default value: \fBstandard\fP
+.RE
+.sp
+\fBpane_accent_color\fP = \fIcolor string\fP
+.RS 4
+Colour of the 1px border drawn around the focused terminal. Invalid
+values fall back to the default.
+.br
+Default value: \fB#3fb950\fP
+.RE
+.sp
+\fBrestore_last_session\fP = \fIboolean\fP
+.RS 4
+If set to True, a plain launch (no \-l, \-e, \-x, \-\-working\-directory, \-j)
+restores the windows, tabs, splits, working directories and the
+maximised pane that were open last time. Only the first Terminator
+process (the one holding the session lock) restores and saves the
+session; it is saved automatically, debounced, as the layout or the
+working directories change. See also \fB\-\-restore\fP, \fB\-\-no\-restore\fP and
+\fB\-\-clear\-session\fP in \fBterminator\fP(1). Set in Preferences > Session.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBsession_save_delay_ms\fP = \fIinteger\fP
+.RS 4
+Debounce delay before a layout change is written to the session file.
+.br
+Default value: \fB1500\fP
+.RE
+.sp
+\fBsession_file\fP = \fIstring\fP
+.RS 4
+Path of the session file. Empty means
+$XDG_STATE_HOME/terminator/session.json (normally
+~/.local/state/terminator/session.json). Earlier sessions are kept
+next to it as session.json.prev and session.json.prev2.
+.br
+Default value: \fB\*(Aq\*(Aq\fP
+.RE
+.sp
+\fBclose_confirm_ignore\fP = \fIlist of strings\fP
+.RS 4
+Process names that never trigger the "running processes" confirmation
+when a terminal, tab or window is closed (in addition to interactive
+shells). Only changeable via the config file.
+.br
+Default value: \fB[\*(Aqgitstatusd\*(Aq, \*(Aqssh\-agent\*(Aq, \*(Aqgpg\-agent\*(Aq, \*(Aqdbus\-daemon\*(Aq]\fP
+.RE
+.sp
+\fBwindow_title_mode\fP = \fIstring\fP
+.RS 4
+Source of the desktop window title. \*(Aqfocused\*(Aq follows the title of the
+last focused terminal; title changes (for example OSC escape sequences)
+from other terminals only update their own titlebars. \*(Aqfixed\*(Aq always
+shows \fBwindow_title_fixed\fP. A title set with \fB\-T\fP/\fB\-\-title\fP or
+\fBedit_window_title\fP overrides both. Only changeable via the config file.
+.br
+Can be any of: \*(Aqfocused\*(Aq, \*(Aqfixed\*(Aq.
+.br
+Default value: \fBfocused\fP
+.RE
+.sp
+\fBwindow_title_fixed\fP = \fIstring\fP
+.RS 4
+Window title used when \fBwindow_title_mode\fP is \*(Aqfixed\*(Aq.
+.br
+Default value: \fBTerminator\fP
+.RE
+.sp
+\fBpane_overlay_maximise\fP = \fIboolean\fP
+.RS 4
+If set to True, maximising a terminal (\fBmaximise\fP/\fBtoggle_zoom\fP
+keybinding, the titlebar maximise button or a double\-click on the
+titlebar) shows it as an animated overlay above the dimmed layout
+instead of temporarily removing the other terminals. If False, the
+legacy maximise is used.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBpane_animation_expand_ms\fP = \fIinteger\fP
+.RS 4
+Duration in milliseconds of the maximise animation.
+.br
+Default value: \fB200\fP
+.RE
+.sp
+\fBpane_animation_restore_ms\fP = \fIinteger\fP
+.RS 4
+Duration in milliseconds of the restore animation.
+.br
+Default value: \fB160\fP
+.RE
+.sp
+\fBreduce_motion\fP = \fIstring\fP
+.RS 4
+Whether to skip the zoom animation of the overlay maximise (only the
+dimming fades). \*(Aqsystem\*(Aq follows the GTK gtk\-enable\-animations setting.
+.br
+Can be any of: \*(Aqsystem\*(Aq, \*(Aqon\*(Aq, \*(Aqoff\*(Aq.
+.br
+Default value: \fBsystem\fP
+.RE
+.sp
+\fBscrollback_cache\fP = \fIboolean\fP
+.RS 4
+If set to True, the last lines of every terminal are cached under
+$XDG_CACHE_HOME/terminator/scrollback/ (normally
+~/.cache/terminator/scrollback/) and replayed above the prompt after a
+session restore. Running programs are not restored, and the screen of a
+fullscreen program (alternate screen, such as vim or htop) is never
+cached. It is only a cache; turning it off deletes it.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBscrollback_cache_color\fP = \fIboolean\fP
+.RS 4
+If set to True, text colours and attributes are kept in the scrollback
+cache and restored with it; otherwise only plain text is cached.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBscrollback_cache_lines\fP = \fIinteger\fP
+.RS 4
+Number of lines kept per terminal in the scrollback cache.
+.br
+Default value: \fB2000\fP
+.RE
+.sp
+\fBscrollback_cache_interval_s\fP, \fBscrollback_cache_max_kb\fP, \fBscrollback_cache_total_mb\fP, \fBscrollback_cache_ttl_days\fP
+.RS 4
+Write interval (seconds), per\-file limit (KiB), total limit (MiB) and
+expiry (days) of the scrollback cache. A total limit or expiry of 0
+disables that pruning. Defaults: \fB20\fP, \fB512\fP, \fB20\fP, \fB7\fP.
+.RE
+.sp
+\fBscrollback_cache_exclude_profiles\fP, \fBscrollback_cache_exclude_commands\fP = \fIlist of strings\fP
+.RS 4
+Reserved; currently not used.
+.br
+Default value: \fB[]\fP
+.RE
+.sp
+\fBauto_font_scale\fP = \fIboolean\fP
+.RS 4
+If set to True, each terminal independently steps its VTE font scale
+down when its available columns/rows at the base font fall below the
+reading\-measure thresholds. Tiers are discrete (never continuous) and
+never exceed 100%.
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBauto_font_scale_show_badge\fP = \fIboolean\fP
+.RS 4
+If set to True, a percent badge is shown on the titlebar when the
+automatic scale is below 100% (or when the font size is locked).
+.br
+Default value: \fBTrue\fP
+.RE
+.sp
+\fBauto_font_scale_tiers\fP = \fIlist of strings\fP
+.RS 4
+Descending scale factors starting at 1.0. The last entry is the floor.
+Only changeable via the config file.
+.br
+Default value: \fB[\*(Aq1.0\*(Aq, \*(Aq0.9\*(Aq, \*(Aq0.8\*(Aq]\fP
+.RE
+.sp
+\fBreading_measure_min_cols\fP = \fIinteger\fP
+.RS 4
+Minimum comfortable reading width in terminal cells (CJK glyphs count
+as 2). Terminals narrower than this at the current tier step down.
+.br
+Default value: \fB60\fP
+.RE
+.sp
+\fBreading_measure_ideal_cols\fP = \fIinteger\fP
+.RS 4
+Optional ideal column count used as an upscale target. 0 disables.
+.br
+Default value: \fB0\fP
+.RE
+.sp
+\fBauto_font_scale_min_rows\fP = \fIinteger\fP
+.RS 4
+Minimum comfortable row count. Width is checked first; a terminal only
+steps down for height when it has fewer rows than this at the current
+tier. 0 disables the height check.
+.br
+Default value: \fB10\fP
+.RE
+.sp
+\fBauto_font_scale_hysteresis\fP = \fIfloat\fP
+.RS 4
+Upscale\-only hysteresis ratio (for example 0.08 = 8%).
+.br
+Default value: \fB0.08\fP
+.RE
+.sp
+\fBauto_font_scale_delay_ms\fP = \fIinteger\fP
+.RS 4
+Debounce delay in milliseconds after size\-allocate before re\-evaluating
+the scale tier.
+.br
+Default value: \fB150\fP
 .RE
 .sp
 \fBborderless\fP = \fIboolean\fP
@@ -603,9 +831,25 @@ Toggle window to fullscreen.
 Default value: \fBF11\fP
 .RE
 .sp
+\fBmaximise\fP
+.RS 4
+Toggle maximisation of the current terminal (overlay maximise when
+\fBpane_overlay_maximise\fP is True). Upstream Terminator left this unbound.
+.br
+Default value: \fB<Ctrl><Shift>Return\fP
+.RE
+.sp
+\fBrestore_maximised\fP
+.RS 4
+Restore the maximised terminal. Only consumed while a terminal is
+maximised; otherwise the key goes to the terminal.
+.br
+Default value: \fB<Shift>Escape\fP
+.RE
+.sp
 \fBtoggle_zoom\fP
 .RS 4
-Toggle maximisation of the current terminal.
+Toggle maximisation of the current terminal (same as \fBmaximise\fP).
 .br
 Default value: \fB<Ctrl><Shift>X\fP
 .RE
@@ -1296,7 +1540,7 @@ Default value: \fBSans 9\fP
 Specify the foreground color to use for the terminal\(cqs titlebar in case
 the terminal is focused.
 .br
-Default value: \fB#ffffff\fP
+Default value: \fB#e6edf3\fP (upstream Terminator used \fB#ffffff\fP)
 .RE
 .sp
 \fBtitle_transmit_bg_color\fP = \fIcolor string\fP
@@ -1304,7 +1548,7 @@ Default value: \fB#ffffff\fP
 Specify the background color to use for the terminal\(cqs titlebar in case
 the terminal is focused.
 .br
-Default value: \fB#c80003\fP
+Default value: \fB#21262d\fP (upstream Terminator used \fB#c80003\fP)
 .RE
 .sp
 \fBtitle_inactive_fg_color\fP = \fIcolor string\fP
@@ -1312,7 +1556,7 @@ Default value: \fB#c80003\fP
 Specify the foreground color to use for the terminal\(cqs titlebar in case
 the terminal is unfocused.
 .br
-Default value: \fB#000000\fP
+Default value: \fB#8b949e\fP (upstream Terminator used \fB#000000\fP)
 .RE
 .sp
 \fBtitle_inactive_bg_color\fP = \fIcolor string\fP
@@ -1320,7 +1564,7 @@ Default value: \fB#000000\fP
 Specify the background color to use for the terminal\(cqs titlebar in case
 the terminal is unfocused.
 .br
-Default value: \fB#c0bebf\fP
+Default value: \fB#161b22\fP (upstream Terminator used \fB#c0bebf\fP)
 .RE
 .sp
 \fBtitle_receive_fg_color\fP = \fIcolor string\fP

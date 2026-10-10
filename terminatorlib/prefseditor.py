@@ -34,10 +34,8 @@ def rgba2hex(widget):
 NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
-def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb,
-                               color=True):
-    """m18: cache info label text; 0 means off for TTL and total cap.
-    color: scrollback_cache_color (colours are cached unless disabled)."""
+def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb):
+    """m18: cache info label text; 0 means off for TTL and total cap."""
     try:
         ttl_days = int(ttl_days)
     except (TypeError, ValueError):
@@ -50,11 +48,10 @@ def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb
         else _('age pruning off (ttl_days = 0)')
     cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
         else _('total size cap off (total_mb = 0)')
-    kind = _('Text with colours') if color else _('Plain text only')
-    return (_('Cache: %s (%d file(s), %d KiB). %s; %s; %s. '
+    return (_('Cache: %s (%d file(s), %d KiB); %s; %s. '
               '0 = off. Open terminals are never pruned at runtime; they are '
               'limited only by the per-file scrollback_cache_max_kb.') %
-            (cache_dir, files, (total_bytes + 1023) // 1024, kind, ttl, cap))
+            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap))
 
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
@@ -1822,8 +1819,7 @@ class PrefsEditor:
             scrollback_cache_info_text(
                 cache_dir, files, total,
                 self.config['scrollback_cache_ttl_days'],
-                self.config['scrollback_cache_total_mb'],
-                bool(self.config['scrollback_cache_color'])))
+                self.config['scrollback_cache_total_mb']))
 
     def on_restore_last_session_checkbutton_toggled(self, widget):
         """Restore-last-session toggled"""
