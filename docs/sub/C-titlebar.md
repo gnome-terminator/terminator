@@ -367,6 +367,7 @@ button.titlebar-badge { padding: 0 4px; min-height: 0; font-size: smaller; }
 | 键 | 类型 | 默认 | UI |
 |---|---|---|---|
 | `titlebar_buttons` | bool | `True` | 全局页复选框 |
+| `titlebar_show_icon` | bool | `False` | 窗格页复选框（m36）：标题栏左侧终端图标/分组图标；关闭时分组入口在右键菜单「分组」子菜单、组名点击与分组快捷键，发送端显示「广播：全部/分组」文字 |
 | `titlebar_density` | str | `'standard'` | 全局页：标准 / 紧凑；非法值回退 standard |
 | `pane_accent_color` | str | `'#3fb950'` | 全局页颜色按钮；C/D 共用 |
 

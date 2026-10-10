@@ -1583,6 +1583,23 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkCheckButton" id="titlebar_show_icon_checkbutton">
+                            <property name="label" translatable="yes">Show icon at the left of terminal title bars</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="xalign">0</property>
+                            <property name="draw-indicator">True</property>
+                            <property name="tooltip-text" translatable="yes">Terminal and grouping icons on each pane title bar. When hidden, grouping stays available from the right-click menu and the group shortcuts.</property>
+                            <signal name="toggled" handler="on_titlebar_show_icon_checkbutton_toggled" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="left-attach">0</property>
+                            <property name="top-attach">1</property>
+                            <property name="width">2</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkLabel" id="titlebar_density_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
@@ -1591,7 +1608,7 @@
                           </object>
                           <packing>
                             <property name="left-attach">0</property>
-                            <property name="top-attach">1</property>
+                            <property name="top-attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -1608,7 +1625,7 @@
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
-                            <property name="top-attach">1</property>
+                            <property name="top-attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -1620,7 +1637,7 @@
                           </object>
                           <packing>
                             <property name="left-attach">0</property>
-                            <property name="top-attach">2</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                         <child>
@@ -1635,7 +1652,7 @@
                           </object>
                           <packing>
                             <property name="left-attach">1</property>
-                            <property name="top-attach">2</property>
+                            <property name="top-attach">3</property>
                           </packing>
                         </child>
                       </object>

@@ -128,6 +128,23 @@ def _capture_scaled(gdk_win, wx, wy, w, h, scale):
         return None
 
 
+def placeholder_pixbuf_scale(pixbuf, logical_w, scale=None):
+    """m33 fix-review: user-space factor to draw a snapshot at the logical
+    size it was captured at. logical_w is the terminal's logical width at
+    capture time (not the placeholder's current allocation, which can
+    change on resize). Device-res pixbufs (w*scale) get logical_w/pw, so
+    any capture scale works and later window/pane resizes or monitor
+    scale changes don't break it. scale is accepted for compatibility."""
+    try:
+        pw = int(pixbuf.get_width())
+        lw = int(logical_w or 0)
+    except Exception:
+        return 1.0
+    if lw > 0 and pw > lw:
+        return float(lw) / float(pw)
+    return 1.0
+
+
 def capture_terminal_pixbuf(terminal):
     """Snapshot a terminal's VTE region. Never call terminal.draw(cr)."""
     try:
@@ -223,6 +240,15 @@ class PanePlaceholder(Gtk.DrawingArea):
         Gtk.DrawingArea.__init__(self)
         self._terminal = terminal
         self._pixbuf = pixbuf
+        # m33 fix-review: logical width of the snapshot, taken now (the
+        # terminal is still in its slot) so draw-time resizes don't matter.
+        self._pixbuf_logical_w = 0
+        if pixbuf is not None:
+            try:
+                w = getattr(terminal, 'vte', None) or terminal
+                self._pixbuf_logical_w = int(w.get_allocation().width)
+            except Exception:
+                self._pixbuf_logical_w = 0
         self.set_app_paintable(True)
         self.connect('draw', self._on_draw)
         self.set_hexpand(True)
@@ -274,8 +300,16 @@ class PanePlaceholder(Gtk.DrawingArea):
         cr.fill()
         if self._pixbuf is not None:
             try:
+                # m33 post-review: HiDPI snapshots are device-resolution
+                # (w*scale); draw them at logical size, not scale x larger.
+                k = placeholder_pixbuf_scale(self._pixbuf,
+                                             self._pixbuf_logical_w)
+                cr.save()
+                if k != 1.0:
+                    cr.scale(k, k)
                 Gdk.cairo_set_source_pixbuf(cr, self._pixbuf, 0, 0)
                 cr.paint_with_alpha(0.35)
+                cr.restore()
             except Exception:
                 pass
         return False

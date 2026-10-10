@@ -77,6 +77,13 @@ class Titlebar(Gtk.EventBox):
     _collapse_idle = None
     _pressed_btn = None
     _maximise_icon_state = None
+    # m36: the left-hand terminal/grouping icons are hidden by default
+    # (titlebar_show_icon).  Grouping stays reachable through the group
+    # name (clickable), the context menu "Grouping" submenu and the group
+    # shortcuts; broadcast state is shown as text on the sending pane.
+    _show_icon = False
+    _icon_name_current = None
+    broadcastlabel = None
 
     # Width thresholds (px) for progressively collapsing optional parts.
     # Order: size text -> group name -> scale badge -> gear -> maximise.
@@ -120,6 +127,11 @@ class Titlebar(Gtk.EventBox):
         grouphbox = Gtk.HBox()
         self.grouplabel = Gtk.Label(ellipsize='end')
         self.groupicon = Gtk.Image()
+        self.groupicon.set_no_show_all(True)
+        self.broadcastlabel = Gtk.Label()
+        self.broadcastlabel.set_no_show_all(True)
+        self.broadcastlabel.get_style_context().add_class(
+            'titlebar-broadcast')
         self.bellicon = Gtk.Image()
         self.bellicon.set_no_show_all(True)
 
@@ -140,6 +152,7 @@ class Titlebar(Gtk.EventBox):
                 Gtk.IconSize.MENU)
 
         grouphbox.pack_start(self.groupicon, False, True, 2)
+        grouphbox.pack_start(self.broadcastlabel, False, True, 2)
         grouphbox.pack_start(self.grouplabel, False, True, 2)
         grouphbox.pack_start(self.groupentry, False, True, 2)
 
@@ -160,7 +173,8 @@ class Titlebar(Gtk.EventBox):
             self.termicon.set_from_icon_name(_termicon, Gtk.IconSize.MENU)
         else:
             # nothing renderable: no image-missing placeholder
-            self.termicon.set_no_show_all(True)
+            self._termicon_ok = False
+        self.termicon.set_no_show_all(True)
 
         # Right-hand buttons (Wave style): [badge] gear  maximise  close
         self.btn_close = self._make_button(
@@ -200,7 +214,9 @@ class Titlebar(Gtk.EventBox):
         hbox = Gtk.HBox()
         hbox.pack_start(self.termicon, False, False, 4)
         hbox.pack_start(self.ebox, False, True, 0)
-        hbox.pack_start(Gtk.VSeparator(), False, True, 0)
+        self._group_sep = Gtk.VSeparator()
+        self._group_sep.set_no_show_all(True)
+        hbox.pack_start(self._group_sep, False, True, 0)
         hbox.pack_start(viewport, True, True, 0)
         # pack_end: first packed is right-most
         hbox.pack_end(self.btn_close, False, False, 0)
@@ -223,8 +239,11 @@ class Titlebar(Gtk.EventBox):
 
         self.apply_chrome_config()
 
+    _termicon_ok = True
+
     def connect_icon(self, func):
-        """Connect the supplied function to clicking on the group icon"""
+        """Connect the supplied function to clicking on the group icon
+        (the whole group box: icon, broadcast text and group name)"""
         self.ebox.connect('button-press-event', func)
 
     def update(self, other=None):
@@ -312,6 +331,7 @@ class Titlebar(Gtk.EventBox):
             self.ebox.modify_bg(Gtk.StateType.NORMAL,
                     Gdk.color_parse(group_bg))
             self.set_from_icon_name(icon, Gtk.IconSize.MENU)
+            self._update_broadcast_label(icon)
 
     def update_visibility(self):
         """Make the titlebar be visible or not"""
@@ -336,12 +356,52 @@ class Titlebar(Gtk.EventBox):
 
     def set_from_icon_name(self, name, size = Gtk.IconSize.MENU):
         """Set an icon for the group label"""
+        self._icon_name_current = name
         if not name:
             self.groupicon.hide()
             return
-        
+
         self.groupicon.set_from_icon_name(APP_NAME + name, size)
-        self.groupicon.show()
+        if self._show_icon:
+            self.groupicon.show()
+        else:
+            self.groupicon.hide()
+
+    def _apply_icon_visibility(self):
+        """m36: show/hide the terminal and grouping icons"""
+        try:
+            show = bool(self.config['titlebar_show_icon'])
+        except Exception:
+            show = False
+        self._show_icon = show
+        if show and self._termicon_ok:
+            self.termicon.show()
+        else:
+            self.termicon.hide()
+        if show and self._icon_name_current:
+            self.groupicon.show()
+        else:
+            self.groupicon.hide()
+        self._update_broadcast_label(self._icon_name_current)
+
+    def _update_broadcast_label(self, icon):
+        """Text replacement for the broadcast state icon on the sending
+        pane when icons are hidden (receivers already get the receive
+        colours)."""
+        label = self.broadcastlabel
+        if label is None:
+            return
+        text = ''
+        if not self._show_icon:
+            if icon == '_active_broadcast_all':
+                text = _('Broadcast: all')
+            elif icon == '_active_broadcast_group' and \
+                    getattr(self.terminal, 'group', None):
+                text = _('Broadcast: group')
+        label.set_text(text)
+        if text:
+            label.set_tooltip_text(_('Click for the grouping menu'))
+        self._apply_collapse()
 
     def update_terminal_size(self, width, height):
         """Update the displayed terminal size. The size is only shown for
@@ -597,6 +657,7 @@ class Titlebar(Gtk.EventBox):
                 context.remove_class(klass)
 
         self._show_buttons = show_buttons
+        self._apply_icon_visibility()
         for btn in (self.btn_gear, self.btn_max, self.btn_close):
             btn.set_no_show_all(not show_buttons)
             if show_buttons:
@@ -860,6 +921,20 @@ class Titlebar(Gtk.EventBox):
             self.grouplabel.show()
         elif level >= 2:
             self.grouplabel.hide()
+        blabel = self.broadcastlabel
+        if blabel is not None:
+            # Same narrow-width step as the group name
+            blabel.set_visible(bool(blabel.get_text()) and level < 2)
+        sep = getattr(self, '_group_sep', None)
+        if sep is not None:
+            # m36: no dangling separator when the group box is empty
+            sep.set_visible(bool(
+                self.groupicon.get_visible() or
+                (self.grouplabel.get_visible() and
+                 bool(self.grouplabel.get_text())) or
+                self.groupentry.get_visible() or
+                (blabel is not None and blabel.get_visible()) or
+                self.termicon.get_visible()))
         if self._badge_wanted and level < 3:
             self.scale_badge.show()
         else:
@@ -885,6 +960,7 @@ class Titlebar(Gtk.EventBox):
             self.groupentry.set_text(self.terminator.new_random_group())
         self.groupentry.show()
         self.grouplabel.hide()
+        self._apply_collapse()
         self.groupentry.grab_focus()
         self.update_visibility()
 
@@ -893,6 +969,7 @@ class Titlebar(Gtk.EventBox):
         self.groupentry.set_text('')
         self.groupentry.hide()
         self.grouplabel.show()
+        self._apply_collapse()
         self.get_parent().grab_focus()
 
     def groupentry_activate(self, widget):

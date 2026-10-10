@@ -302,7 +302,11 @@ class TerminalPopupMenu(object):
 
             menu.append(Gtk.SeparatorMenuItem())
 
-        if self.config['show_titlebar'] == False:
+        # m36: the grouping icon is hidden by default (titlebar_show_icon),
+        # so the menu carries the Grouping submenu whenever that icon is
+        # not there to click.
+        if self.config['show_titlebar'] == False or \
+                not self.config['titlebar_show_icon']:
             item = Gtk.MenuItem.new_with_mnemonic(_('Grouping'))
             submenu = self.terminal.populate_group_menu()
             submenu.show_all()
