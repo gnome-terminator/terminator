@@ -160,6 +160,21 @@ def export_vte_text(vte, start_row, start_col, end_row, end_col):
     return ''
 
 
+def in_alt_screen(terminal):
+    """True while a fullscreen TUI owns the alternate screen.
+
+    VTE exposes only the alternate screen's rows then (no history), so a
+    flush would overwrite the cached shell history with a snapshot of
+    vim/htop.  Reuses the M8 detector; unknown => False.
+    """
+    alt = getattr(terminal, 'altscreen', None)
+    det = getattr(alt, 'detector', None)
+    try:
+        return bool(det is not None and det.active is True)
+    except Exception:
+        return False
+
+
 def read_last_n_lines(vte, n_lines):
     """Read the last n_lines of VTE scrollback (absolute row numbers)."""
     n_lines = max(0, int(n_lines))
@@ -446,6 +461,12 @@ class ScrollbackCache(Borg):
         if infinite and not caps['range_format'] and not caps['range']:
             dbg('skip flush %s: infinite scrollback without range API' % uuid_str)
             self._dirty.discard(uuid_str)
+            return
+        if in_alt_screen(terminal):
+            # Keep the previous cache and stay dirty: we flush the real
+            # history once the TUI leaves the alternate screen.
+            dbg('defer flush %s: alternate screen active' % uuid_str)
+            self._dirty.add(uuid_str)
             return
         text = read_last_n_lines(vte, self._lines())
         text = sbt.truncate_lines_and_bytes(text, self._lines(), self._max_kb())
