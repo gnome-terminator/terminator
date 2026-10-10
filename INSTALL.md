@@ -42,10 +42,18 @@ And go from there.  Manpages are available in the 'doc' directory.
 Translations also work when running from this directory: on start-up the
 catalogue for your language (`LANGUAGE`/`LC_ALL`/`LC_MESSAGES`/`LANG`) is
 compiled from `po/<lang>.po` into `build/locale/<lang>/LC_MESSAGES/` (only
-when the `.po` is newer; needs `msgfmt` from the `gettext` package) and used
-instead of any older system copy in `/usr/share/locale`.  Without `msgfmt`
-the system catalogue is used as before.  Set `TERMINATOR_NO_SOURCE_LOCALE=1`
-to disable this.
+when the `.po` is newer) and used instead of any older system copy in
+`/usr/share/locale`.  `msgfmt` (package `gettext`) is used when installed,
+otherwise a built-in Python compiler.  `zh`, `zh_Hans` and `zh_SG` use the
+`zh_CN` catalogue; `zh_Hant` and `zh_MO` use `zh_TW`.  Set
+`TERMINATOR_NO_SOURCE_LOCALE=1` (or `true`/`yes`) to disable this.
+
+> **Note:** the preferences dialog and other GTK widgets are translated by
+> the C library, which ignores `LANGUAGE` when the locale is `C`/`POSIX`, e.g.
+> `LANG=C LANGUAGE=zh_CN`, or when `zh_CN.UTF-8` is not generated and
+> `setlocale` falls back to `C`.  The result is a mixed Chinese/English UI.
+> Make sure `locale -a` lists `zh_CN.utf8` (Debian/Ubuntu:
+> `sudo locale-gen zh_CN.UTF-8`) and set `LANG=zh_CN.UTF-8`.
 
 > **Note:** Currently most distributions use `python3` as binaries for Python 3,
 > make sure to update either the shebangs, call the scripts with `python3` or

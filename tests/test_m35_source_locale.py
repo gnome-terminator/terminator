@@ -69,13 +69,6 @@ def test_installed_tree_keeps_system_catalogue(tmp_path):
         str(tmp_path), environ={'LANG': 'zh_CN.UTF-8'}) is None
 
 
-def test_opt_out_env(tmp_path):
-    root = _copy_tree(tmp_path)
-    assert translation.source_locale_dir(
-        str(root), environ={'LANG': 'zh_CN.UTF-8',
-                            'TERMINATOR_NO_SOURCE_LOCALE': '1'}) is None
-
-
 @needs_msgfmt
 def test_compiles_only_when_po_newer(tmp_path):
     root = _copy_tree(tmp_path)
@@ -96,13 +89,171 @@ def test_compiles_only_when_po_newer(tmp_path):
     assert os.path.getmtime(mo) > old            # .po newer: rebuilt
 
 
-def test_msgfmt_missing_is_silent(tmp_path, monkeypatch):
+def test_msgfmt_missing_uses_python_compiler(tmp_path, monkeypatch, capsys):
     root = _copy_tree(tmp_path)
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    d = translation.source_locale_dir(
+        str(root), environ={'LANG': 'zh_CN.UTF-8'})
+    assert d == str(root / 'build' / 'locale')
+    assert not list((root / 'build').rglob('*.tmp.*'))
+    assert capsys.readouterr().err == ''
+
+
+def test_both_compilers_fail_warns_and_leaves_nothing(tmp_path, monkeypatch,
+                                                      capsys):
+    root = _copy_tree(tmp_path)
+    (root / 'po' / 'zh_CN.po').write_text('this is not a po file\n')
     monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
     assert translation.source_locale_dir(
         str(root), environ={'LANG': 'zh_CN.UTF-8'}) is None
-    assert not list((root / 'build').rglob('*.tmp.*')) \
-        if (root / 'build').exists() else True
+    err = capsys.readouterr().err
+    assert err.count('\n') == 1 and 'zh_CN.po' in err
+    assert not (root / 'build').exists()      # no empty dirs left behind
+
+
+def test_stale_tmp_files_are_removed(tmp_path):
+    root = _copy_tree(tmp_path)
+    mo_dir = root / 'build' / 'locale' / 'zh_CN' / 'LC_MESSAGES'
+    mo_dir.mkdir(parents=True)
+    old, fresh = mo_dir / 'terminator.mo.tmp.1', mo_dir / 'terminator.mo.tmp.2'
+    old.write_bytes(b'x')
+    fresh.write_bytes(b'x')
+    os.utime(old, (1, 1))
+    translation.source_locale_dir(str(root), environ={'LANG': 'zh_CN.UTF-8'})
+    assert not old.exists() and fresh.exists()   # a live run may own .2
+
+
+@pytest.mark.parametrize('value,off', [('1', True), ('true', True),
+                                       ('YES', True), ('0', False),
+                                       ('no', False), ('', False)])
+def test_opt_out_values(tmp_path, monkeypatch, value, off):
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    root = _copy_tree(tmp_path)
+    d = translation.source_locale_dir(
+        str(root), environ={'LANG': 'zh_CN.UTF-8',
+                            'TERMINATOR_NO_SOURCE_LOCALE': value})
+    assert (d is None) is off
+
+
+@pytest.mark.parametrize('lang,po', [('zh', 'zh_CN'), ('zh_Hans', 'zh_CN'),
+                                     ('zh_SG', 'zh_CN'), ('zh_Hant', 'zh_TW'),
+                                     ('zh_MO', 'zh_TW')])
+def test_aliases(tmp_path, monkeypatch, lang, po):
+    import gettext
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    root = _copy_tree(tmp_path)
+    shutil.copy(os.path.join(ROOT, 'po', 'zh_TW.po'), root / 'po')
+    d = translation.source_locale_dir(
+        str(root), environ={'LANGUAGE': lang, 'LANG': lang + '.UTF-8'})
+    assert d is not None
+    mo = os.path.join(d, lang, 'LC_MESSAGES', 'terminator.mo')
+    with open(mo, 'rb') as handle:
+        t = gettext.GNUTranslations(handle)
+    want = {'zh_CN': '复制(_C)', 'zh_TW': '複製(_C)'}[po]
+    assert t.gettext('_Copy') == want
+
+
+def test_source_run_without_msgfmt_translates(tmp_path):
+    """P1: stock desktops lack msgfmt (package 'gettext'); empty PATH."""
+    root = _copy_tree(tmp_path)
+    shutil.copytree(os.path.join(ROOT, 'terminatorlib'),
+                    root / 'terminatorlib', dirs_exist_ok=True,
+                    ignore=shutil.ignore_patterns('__pycache__'))
+    code = ('from terminatorlib.translation import _, LOCALE_DIR\n'
+            'print(LOCALE_DIR)\nprint(_("Panes"))\nprint(_("_Copy"))\n')
+    env = _env(LANG='zh_CN.UTF-8', LANGUAGE='zh_CN', PATH='')
+    out = subprocess.run([sys.executable, '-c', code], cwd=str(root),
+                         env=env, capture_output=True, text=True, timeout=60)
+    assert out.returncode == 0, out.stderr
+    lines = out.stdout.strip().splitlines()
+    assert lines == [str(root / 'build' / 'locale'), '窗格', '复制(_C)']
+
+
+SYNTHETIC_PO = r'''msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#, fuzzy
+msgid "Fuzzy"
+msgstr "模糊"
+
+msgctxt "menu"
+msgid "Open"
+msgstr "打开"
+
+msgid "Open"
+msgstr "开"
+
+#, c-format
+msgid "%d file"
+msgid_plural "%d files"
+msgstr[0] "%d 个\t文件"
+msgstr[1] "%d 个\"文件\"\\"
+
+msgid "Multi"
+"line\n"
+msgstr ""
+"多"
+"行\n"
+
+msgid "Untranslated"
+msgstr ""
+#, fuzzy
+msgctxt "x"
+msgid "FuzzyCtx"
+msgstr "y"
+msgctxt "z"
+msgid "AfterFuzzy"
+msgstr "ok"
+#~ msgid "Old"
+#~ msgstr "旧"
+'''
+
+
+def _catalog(path):
+    import gettext
+    with open(path, 'rb') as handle:
+        cat = dict(gettext.GNUTranslations(handle)._catalog)
+    cat.pop('', None)  # header: msgfmt drops POT-Creation-Date
+    return cat
+
+
+def test_python_compiler_semantics(tmp_path):
+    import gettext
+    po = tmp_path / 's.po'
+    po.write_text(SYNTHETIC_PO, encoding='utf-8')
+    mo = tmp_path / 's.mo'
+    translation.compile_po_python(str(po), str(mo))
+    with open(mo, 'rb') as handle:
+        t = gettext.GNUTranslations(handle)
+    assert t.gettext('Fuzzy') == 'Fuzzy'
+    assert t.pgettext('menu', 'Open') == '打开'
+    assert t.gettext('Open') == '开'
+    assert t.ngettext('%d file', '%d files', 1) == '%d 个\t文件'
+    assert t.ngettext('%d file', '%d files', 2) == '%d 个"文件"\\'
+    assert t.gettext('Multiline\n') == '多行\n'
+    assert t.gettext('Untranslated') == 'Untranslated'
+    assert t.pgettext('x', 'FuzzyCtx') == 'FuzzyCtx'
+    assert t.pgettext('z', 'AfterFuzzy') == 'ok'
+    assert 'Plural-Forms' in t._info.get('plural-forms', 'Plural-Forms') or \
+        t._info.get('plural-forms')
+    assert t.gettext('Old') == 'Old'
+
+
+@needs_msgfmt
+@pytest.mark.parametrize('name', ['synthetic', 'zh_CN', 'zh_TW', 'de', 'ru'])
+def test_python_compiler_matches_msgfmt(tmp_path, name):
+    if name == 'synthetic':
+        po = tmp_path / 's.po'
+        po.write_text(SYNTHETIC_PO, encoding='utf-8')
+        po = str(po)
+    else:
+        po = os.path.join(ROOT, 'po', '%s.po' % name)
+    ours, gnu = tmp_path / 'ours.mo', tmp_path / 'gnu.mo'
+    translation.compile_po_python(po, str(ours))
+    subprocess.run(['msgfmt', '-o', str(gnu), po], check=True)
+    assert _catalog(str(ours)) == _catalog(str(gnu))
 
 
 def test_no_catalogue_for_language_keeps_system(tmp_path):
