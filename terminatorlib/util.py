@@ -220,6 +220,24 @@ def get_config_dir():
     dbg('Found config dir: %s' % configdir)
     return(os.path.join(configdir, 'terminator'))
 
+def get_state_dir():
+    """Return XDG state dir for terminator (~/.local/state/terminator)."""
+    try:
+        statedir = os.environ['XDG_STATE_HOME']
+    except KeyError:
+        statedir = os.path.join(os.path.expanduser('~'), '.local', 'state')
+    dbg('Found state dir: %s' % statedir)
+    return os.path.join(statedir, 'terminator')
+
+def get_cache_dir():
+    """Return XDG cache dir for terminator (~/.cache/terminator)."""
+    try:
+        cachedir = os.environ['XDG_CACHE_HOME']
+    except KeyError:
+        cachedir = os.path.join(os.path.expanduser('~'), '.cache')
+    dbg('Found cache dir: %s' % cachedir)
+    return os.path.join(cachedir, 'terminator')
+
 def dict_diff(reference, working):
     """Examine the values in the supplied working set and return a new dict
     that only contains those values which are different from those in the
