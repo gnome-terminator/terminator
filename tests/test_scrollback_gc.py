@@ -19,7 +19,10 @@ def cache(tmp_path, monkeypatch):
     c._bytes_since_gc = 0
     monkeypatch.setattr(sb.GLib, 'idle_add', lambda fn, *a: fn(*a))
     monkeypatch.setattr(c, '_total_mb', lambda: 1)
-    return c
+    # ScrollbackCache is a Borg: restore shared state so later tests are clean
+    saved = (c._queue, c._started, c._last_gc, c._bytes_since_gc)
+    yield c
+    c._queue, c._started, c._last_gc, c._bytes_since_gc = saved
 
 
 def _mk(c, u, size, mtime):
@@ -99,7 +102,6 @@ def test_worker_write_counts_bytes_and_throttle(cache):
     cache._bytes_since_gc = 10
     assert cache._maybe_queue_gc(set(), now=1010) is False  # throttled
     assert cache._maybe_queue_gc(set(), now=1000 + cache.GC_MIN_INTERVAL_S) is True
-    cache._started = False
 
 
 def test_worker_write_increments_counter(cache):
