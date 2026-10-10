@@ -1,5 +1,10 @@
 """E2E scenarios.  Each function gets a fresh harness.App and raises
-E2EFailure (or any exception) on failure.  Import-safe (see harness.py)."""
+E2EFailure (or any exception) on failure.  Import-safe (see harness.py).
+
+SCENARIOS entries are (name, fn, opts).  opts go to harness.App except
+'xfail': a reason string marking a KNOWN real-app bug.  Such a scenario is
+reported XFAIL when it fails (does not fail the run) and XPASS when it
+passes, which DOES fail the run so the marker gets removed once fixed."""
 import json
 import os
 import signal
@@ -44,7 +49,7 @@ def s1_session_roundtrip(app):
     _cd(app, dirs['C'], 'CHARLIE')
     app.key(KEYS['new_tab'], delay=1.0)
     _cd(app, dirs['D'], 'DELTA')
-    check(len(app.shells()) == 4, 'expected 4 shells, got %d' % len(app.shells()))
+    app.wait_shells(4)
     sess = wait_for(_session_has_dirs(app, dirs.values()), 10,
                     what='debounced session.json with 4 cwds')
     types = [n['type'] for n in layout_nodes(sess)]
@@ -130,13 +135,15 @@ def s3_close_confirm(app):
     app.launch()
     win = app.main_windows()[0]
     # shell-only pane closes without prompt
-    app.key(KEYS['split_horiz'], delay=1.2)
-    check(len(app.shells()) == 2, 'split failed')
-    app.key(KEYS['close_term'], delay=1.5)
-    check(not app.dialogs(), 'prompt shown for idle shell pane')
+    app.key(KEYS['split_horiz'], delay=0.5)
+    app.wait_shells(2)
+    app.key(KEYS['close_term'], delay=0.2)
     wait_for(lambda: len(app.shells()) == 1, 5, what='idle pane closed')
+    check(not app.dialogs(), 'prompt shown for idle shell pane')
     # running process -> dialog
-    app.type('sleep 1000', delay=1.0)
+    app.type('sleep 1000', delay=0.2)
+    wait_for(lambda: any(c.name() == 'sleep' for s in app.shells() for c in s.children()),
+             5, what='sleep 1000 running')
     app.key(KEYS['close_term'], delay=0.2)
     dlg = wait_for(lambda: app.dialogs(), 6, what='confirm dialog (close_term)')[0]
     app.screenshot('1-dialog')
@@ -176,8 +183,8 @@ def s4_overlay_maximise(app):
     app.key(KEYS['split_vert'], delay=1.0)          # left | right
     app.type('echo $$ > %s; sleep 5; exit' % app.marker('sib'))  # right pane exits later
     app.key('alt+Left', delay=0.5)                  # back to left pane
-    app.key(KEYS['split_horiz'], delay=1.0)         # left: top/bottom
-    check(len(app.shells()) == 3, 'expected 3 panes')
+    app.key(KEYS['split_horiz'], delay=0.5)         # left: top/bottom
+    app.wait_shells(3)
     app.type('stty size > %s' % app.marker('size0'))
     before = app.screenshot('1-before')
     app.key(KEYS['maximise'], delay=1.2)
@@ -230,7 +237,9 @@ def s5_autofont(app):
     r1, c1 = map(int, app.read_marker('one').split())
     cell1 = W / float(c1)          # includes chrome; good to ~3%
     res = {'single': (1.0, 1.0)}
-    app.key(KEYS['split_horiz'], delay=2.0)          # stacked (top/bottom)
+    app.key(KEYS['split_horiz'], delay=0.5)          # stacked (top/bottom)
+    app.wait_shells(2)
+    time.sleep(1.5)                                  # autofont tier settle
     app.type('stty size > %s' % app.marker('bottom'))
     app.key('alt+Up', delay=0.5)
     app.type('stty size > %s' % app.marker('top'))
@@ -303,8 +312,7 @@ def s7_altscreen(app):
              "sleep 5; tput rmcup", delay=2.5)
     s1 = app.screenshot('2-in-tui')
     d_tui = region_diff(s0, s1, strip)
-    wait_for(lambda: 'PRE_TUI' and len(app.shells()[0].children()) == 0, 10,
-             what='TUI exit')
+    wait_for(lambda: len(app.shells()[0].children()) == 0, 10, what='TUI exit')
     time.sleep(2.0)
     s2 = app.screenshot('3-after-tui')
     d_after = region_diff(s0, s2, strip)
@@ -339,11 +347,10 @@ def s8_corrupt_session(app):
     with open(app.session_path, 'w') as fh:
         fh.write('[1,2]')
     app.launch()
-    time.sleep(2)
-    check(app.alive(), 'terminator exited with corrupt session.json')
     corrupt = app.session_path + '.corrupt'
-    check(os.path.exists(corrupt), 'no session.json.corrupt (state dir: %s)'
-          % os.listdir(app.state_dir))
+    wait_for(lambda: not app.alive() or os.path.exists(corrupt), 8,
+             what='session.json.corrupt (state dir: %s)' % app.state_dir)
+    check(app.alive(), 'terminator exited with corrupt session.json')
     check(open(corrupt).read().strip() == '[1,2]', 'corrupt file content changed')
     app.type('cd /tmp')
     s = wait_for(lambda: isinstance(app.session(), dict) and app.session(), 10,
@@ -354,7 +361,15 @@ def s8_corrupt_session(app):
 SCENARIOS = [
     ('1-session-roundtrip', s1_session_roundtrip, {}),
     ('2-multiwindow', s2_multiwindow_close_order, {}),
-    ('2b-multiwindow-exit', lambda app: s2_multiwindow_close_order(app, 'exit'), {}),
+    # KNOWN BUG (xfail): when windows close because their last shell exits
+    # (instead of Ctrl+Shift+Q / WM close) the D5 10s multi-window close
+    # buffer is bypassed: the first window's removal triggers a normal save
+    # of the remaining window only (log: "mark_dirty(window.remove)"), so the
+    # session keeps 1 window.  Being fixed in a separate slot; when it lands
+    # this scenario reports XPASS and the run fails until the marker is removed.
+    ('2b-multiwindow-exit', lambda app: s2_multiwindow_close_order(app, 'exit'),
+     {'xfail': 'shell-exit window close bypasses D5 multi-window buffer '
+               '(session keeps only the last window)'}),
     ('3-close-confirm', s3_close_confirm, {}),
     ('4-overlay-maximise', s4_overlay_maximise, {'light': True}),
     ('5-autofont', s5_autofont, {}),

@@ -19,6 +19,64 @@ import time
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SHOT_DIR = os.environ.get('E2E_SHOTS', '/workspace/smoke/e2e')
+# Same location tests/run_tests.sh and run_e2e.sh compile the stub schema to.
+SCHEMA_DIR = os.path.join(os.environ.get('TMPDIR') or '/tmp',
+                          'terminator-test-schemas-%d' % os.getuid())
+# Every process launched for a scenario inherits this env var (terminator ->
+# VTE -> shells -> anything the shells start, incl. double-forked loops that
+# escape the terminator process group and the pty hangup).  cleanup() sweeps
+# /proc for it so nothing outlives the scenario.
+MARK_ENV = 'TERMINATOR_E2E_ROOT'
+
+
+def _isolated_env(home, root):
+    """os.environ with HOME/XDG/DBus pointed away from the real user."""
+    env = dict(os.environ)
+    for k in list(env):
+        # DBUS_*: never reach the real user's session bus (dconf/xfconf/a11y);
+        # an autolaunched bus inherits MARK_ENV and is swept in cleanup.
+        if k.startswith(('XDG_', 'DBUS_', 'GSETTINGS_')):
+            del env[k]
+    env.update({
+        'HOME': home,
+        'XDG_CONFIG_HOME': os.path.join(home, '.config'),
+        'XDG_STATE_HOME': os.path.join(home, '.local', 'state'),
+        'XDG_CACHE_HOME': os.path.join(home, '.cache'),
+        'XDG_DATA_HOME': os.path.join(home, '.local', 'share'),
+        'XDG_RUNTIME_DIR': os.path.join(root, 'run'),
+        'NO_AT_BRIDGE': '1',
+        MARK_ENV: root,
+    })
+    os.makedirs(env['XDG_RUNTIME_DIR'], mode=0o700, exist_ok=True)
+    if os.path.isfile(os.path.join(SCHEMA_DIR, 'gschemas.compiled')):
+        env['GSETTINGS_SCHEMA_DIR'] = SCHEMA_DIR
+    # memory backend always: never write the real user's dconf database
+    env['GSETTINGS_BACKEND'] = 'memory'
+    return env
+
+
+def kill_marked(root, sig=signal.SIGKILL):
+    """Kill every process whose environment carries MARK_ENV=root.
+    Returns the number of processes signalled."""
+    import psutil
+    want = '%s=%s' % (MARK_ENV, root)
+    n = 0
+    me = os.getpid()
+    for p in psutil.process_iter(['pid']):
+        if p.info['pid'] == me:
+            continue
+        try:
+            with open('/proc/%d/environ' % p.info['pid'], 'rb') as fh:
+                envb = fh.read().split(b'\0')
+        except OSError:
+            continue
+        if want.encode() in envb:
+            try:
+                p.send_signal(sig)
+                n += 1
+            except psutil.Error:
+                pass
+    return n
 
 BASHRC = r'''
 PS1='$ '
@@ -79,34 +137,68 @@ class XDisplay(object):
         self.wm = wm if wm is not None else os.environ.get('E2E_WM', 'xfwm4')
         self.procs = []
         self.display = None
+        self.wm_root = None
 
     def start(self):
-        for n in range(140, 190):
-            if not os.path.exists('/tmp/.X%d-lock' % n):
-                break
-        else:
-            raise E2EFailure('no free X display')
-        self.display = ':%d' % n
-        self.procs.append(subprocess.Popen(
-            ['Xvfb', self.display, '-screen', '0',
-             '%dx%dx24' % (self.width, self.height), '-nolisten', 'tcp'],
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL))
+        """Start Xvfb (display number picked by Xvfb itself via -displayfd,
+        so we never attach to somebody else's server) and the WM.  On any
+        failure everything already started is stopped again."""
+        try:
+            self._start()
+        except BaseException:
+            self.stop()
+            raise
+        return self
+
+    def _start(self):
+        rfd, wfd = os.pipe()
+        try:
+            self.procs.append(subprocess.Popen(
+                ['Xvfb', '-displayfd', str(wfd), '-screen', '0',
+                 '%dx%dx24' % (self.width, self.height), '-nolisten', 'tcp'],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                pass_fds=(wfd,), start_new_session=True))
+            os.close(wfd)
+            wfd = None
+            num = b''
+            end = time.monotonic() + 15
+            import select
+            while not num.endswith(b'\n'):
+                left = end - time.monotonic()
+                if left <= 0 or self.procs[0].poll() is not None:
+                    raise E2EFailure('Xvfb did not start')
+                if select.select([rfd], [], [], left)[0]:
+                    chunk = os.read(rfd, 16)
+                    if not chunk:
+                        raise E2EFailure('Xvfb closed -displayfd without a number')
+                    num += chunk
+        finally:
+            os.close(rfd)
+            if wfd is not None:
+                os.close(wfd)
+        self.display = ':%d' % int(num)
         os.environ['DISPLAY'] = self.display
-        wait_for(lambda: subprocess.call(['xprop', '-root', '-display', self.display],
-                                         stdout=subprocess.DEVNULL,
-                                         stderr=subprocess.DEVNULL) == 0,
+        wait_for(lambda: self.procs[0].poll() is None and subprocess.call(
+            ['xprop', '-root', '-display', self.display],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0,
                  10, what='Xvfb')
         if self.wm and self.wm != 'none' and shutil.which(self.wm):
             args = [self.wm]
             if self.wm == 'xfwm4':
                 args += ['--compositor=off']
+            self.wm_root = tempfile.mkdtemp(prefix='e2e-wm-')
+            home = os.path.join(self.wm_root, 'home')
+            os.makedirs(home)
             self.procs.append(subprocess.Popen(
                 args, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                env=dict(os.environ, HOME=tempfile.mkdtemp(prefix='e2e-wm-'))))
-            time.sleep(1.5)
+                env=_isolated_env(home, self.wm_root), start_new_session=True))
+            # poll for the EWMH supporting-WM-check instead of a fixed sleep
+            wait_for(lambda: self.procs[-1].poll() is None and '_NET_SUPPORTING_WM_CHECK(WINDOW)'
+                     in run(['xprop', '-root', '_NET_SUPPORTING_WM_CHECK']),
+                     10, what='window manager %s' % self.wm)
+            time.sleep(0.3)
         else:
             self.wm = 'none'
-        return self
 
     def stop(self):
         for p in reversed(self.procs):
@@ -115,6 +207,15 @@ class XDisplay(object):
                 p.wait(5)
             except Exception:  # pylint: disable=broad-except
                 p.kill()
+                try:
+                    p.wait(5)
+                except Exception:  # pylint: disable=broad-except
+                    pass
+        self.procs = []
+        if self.wm_root:
+            kill_marked(self.wm_root)
+            shutil.rmtree(self.wm_root, ignore_errors=True)
+            self.wm_root = None
 
 
 # --------------------------------------------------------------------------
@@ -134,26 +235,13 @@ class App(object):
             os.makedirs(d)
         with open(os.path.join(self.home, '.bashrc'), 'w') as fh:
             fh.write(BASHRC)
-        self.env = dict(os.environ)
+        self.env = _isolated_env(self.home, self.root)
         self.env.update({
-            'HOME': self.home,
-            'XDG_CONFIG_HOME': os.path.join(self.home, '.config'),
-            'XDG_STATE_HOME': os.path.join(self.home, '.local', 'state'),
-            'XDG_CACHE_HOME': os.path.join(self.home, '.cache'),
-            'XDG_DATA_HOME': os.path.join(self.home, '.local', 'share'),
-            'XDG_RUNTIME_DIR': os.path.join(self.root, 'run'),
             'SHELL': '/bin/bash',
             'PYTHONPATH': REPO,
-            'NO_AT_BRIDGE': '1',
             'LANG': 'C.UTF-8',
             'LC_ALL': 'C.UTF-8',
         })
-        os.makedirs(self.env['XDG_RUNTIME_DIR'], mode=0o700)
-        self.env.pop('DBUS_SESSION_BUS_ADDRESS', None)
-        schema = '/tmp/terminator-test-schemas-%d' % os.getuid()
-        if os.path.isdir(schema) and 'GSETTINGS_SCHEMA_DIR' not in self.env:
-            self.env['GSETTINGS_SCHEMA_DIR'] = schema
-            self.env['GSETTINGS_BACKEND'] = 'memory'
         if light:
             self.write_config(LIGHT_PROFILE)
         self.proc = None
@@ -258,6 +346,11 @@ class App(object):
             return []
         return [k for k in kids if k.name() == 'bash' and k.status() != 'zombie']
 
+    def wait_shells(self, n, timeout=10):
+        """Poll until exactly n live shells (instead of fixed sleeps)."""
+        wait_for(lambda: len(self.shells()) == n, timeout,
+                 what='%d live shells' % n)
+
     def shell_cwds(self):
         out = []
         for s in self.shells():
@@ -276,6 +369,12 @@ class App(object):
 
     def cleanup(self):
         self.kill()
+        # shells live in their own sessions (VTE setsid), and background
+        # loops started from them survive the pty hangup: sweep by env mark.
+        for _ in range(3):
+            if not kill_marked(self.root):
+                break
+            time.sleep(0.2)
         if not self.keep:
             shutil.rmtree(self.root, ignore_errors=True)
 
