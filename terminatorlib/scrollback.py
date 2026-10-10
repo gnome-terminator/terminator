@@ -116,6 +116,14 @@ def _sm_will_persist(terminal):
     return False
 
 
+def _terminal_window_excluded(terminal):
+    try:
+        from .session import terminal_is_excluded
+        return terminal_is_excluded(terminal)
+    except Exception:
+        return False
+
+
 def _sm_session_uuids():
     sm = _session_manager()
     if sm is None:
@@ -644,6 +652,11 @@ class ScrollbackCache(Borg):
         except Exception as ex:
             dbg('flush_all: no Terminator: %s' % ex)
             return
+        # extra: terminals already deregistered but still closing (the last
+        # pane's close path during finalize, round-2 P1-2)
+        for term in kwargs.get('extra') or ():
+            if term is not None and term not in terminals:
+                terminals.append(term)
         for term in terminals:
             uuid_str = _terminal_uuid_str(term)
             if not uuid_str:
@@ -671,6 +684,11 @@ class ScrollbackCache(Borg):
             return
         if cache_exclusion(terminal, self._config):
             dbg('skip flush %s: excluded by config' % uuid_str)
+            self._dirty.discard(uuid_str)
+            return
+        if _terminal_window_excluded(terminal):
+            # Round-2 P2-4: -e / -x / -l NAME windows are not in the session,
+            # so their output is never restored; don't write it at all.
             self._dirty.discard(uuid_str)
             return
         if in_alt_screen(terminal):

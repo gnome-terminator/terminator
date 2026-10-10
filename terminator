@@ -228,9 +228,11 @@ if __name__ == '__main__':
         pass
     finally:
         # Exit paths that bypass the last-window/last-terminal hooks
-        # (Ctrl+C, display connection loss, a stray main_quit) must still
-        # do the final save and the synchronous scrollback flush.
-        # finalize() is idempotent.
+        # (Ctrl+C, a stray main_quit) must still do the final save and the
+        # synchronous scrollback flush.  finalize() is idempotent.
+        # Not covered: losing the display connection makes GDK call C exit(),
+        # which skips this block; only the debounced/periodic saves protect
+        # that case.
         try:
             from terminatorlib.session import SessionManager
             SessionManager().finalize()

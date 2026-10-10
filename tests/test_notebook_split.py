@@ -90,7 +90,7 @@ def test_closing_second_to_last_terminal_does_not_finalize(monkeypatch):
     from terminatorlib.terminal import Terminal
     calls = []
     monkeypatch.setattr(sess_mod.SessionManager, 'finalize',
-                        lambda self: calls.append(1))
+                        lambda self, closing=None: calls.append(1))
 
     class FakeT:
         pass

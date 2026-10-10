@@ -104,8 +104,17 @@ class Container(object):
         child is .remove()d and .add()ed"""
         return None
 
+    @staticmethod
+    def _note_user_split(widget):
+        try:
+            from .session import note_window_grown
+            note_window_grown(widget.get_toplevel())
+        except Exception as ex:
+            dbg('note_window_grown: %s' % ex)
+
     def split_auto(self, widget, cwd=None):
         """Split this container automatically"""
+        self._note_user_split(widget)
         width  = widget.get_allocation().width
         height = widget.get_allocation().height
         dbg("split as per current dimenstions:(%s %s)" % (width, height))
@@ -116,10 +125,12 @@ class Container(object):
 
     def split_horiz(self, widget, cwd=None):
         """Split this container horizontally"""
+        self._note_user_split(widget)
         return(self.split_axis(widget, True, cwd))
 
     def split_vert(self, widget, cwd=None):
         """Split this container vertically"""
+        self._note_user_split(widget)
         return(self.split_axis(widget, False, cwd))
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, siblinglast=None):
@@ -167,6 +178,19 @@ class Container(object):
                 return(True)
         except TypeError:
             pass
+
+        if self.terminator.terminals == [widget]:
+            # Round-2 P1-2: the last terminal of the run is closing (exit,
+            # Ctrl+Shift+W, titlebar X).  Finalize while it is still in the
+            # tree and registered: the final save then describes what was
+            # open (this pane, fresh cwd) and its latest output is flushed
+            # synchronously before the cache stops.  Deregistering first
+            # destroys the window, and finalize would see 0 terminals.
+            try:
+                from .session import SessionManager
+                SessionManager().finalize()
+            except Exception as ex:
+                dbg('session finalize before last close: %s' % ex)
 
         if not self.remove(widget):
             dbg('self.remove() failed for %s' % widget)

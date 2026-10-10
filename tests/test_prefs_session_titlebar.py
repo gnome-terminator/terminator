@@ -76,6 +76,8 @@ def test_prefs_editor_reflects_defaults_and_writes(xdg):
 def test_session_info_and_suspend(xdg, monkeypatch):
     from terminatorlib import terminal, prefseditor
     from terminatorlib.session import SessionManager
+    # Only the session owner may clear / use previous (m25 round-2 P2-3)
+    monkeypatch.setattr(SessionManager, 'is_owner', lambda self: True)
     sess = SessionManager()
     path = sess.session_path()
     os.makedirs(os.path.dirname(path), exist_ok=True)

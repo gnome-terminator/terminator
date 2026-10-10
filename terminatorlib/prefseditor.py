@@ -1807,6 +1807,29 @@ class PrefsEditor:
         cache_on = guiget('scrollback_cache_checkbutton').get_active()
         guiget('scrollback_cache_lines_label').set_sensitive(cache_on)
         guiget('scrollback_cache_lines_spinbutton').set_sensitive(cache_on)
+        # Round-2 P2-3: only the instance that owns the session may clear or
+        # replace it (the info label explains why when it is not ours).
+        owner = self._session_owner()
+        for name in ('session_restore_prev_button', 'session_clear_button'):
+            button = guiget(name)
+            if button is not None:
+                button.set_sensitive(owner)
+
+    @staticmethod
+    def _session_owner():
+        try:
+            from .session import SessionManager
+            return SessionManager().is_owner()
+        except Exception as ex:
+            dbg('session owner check: %s' % ex)
+            return False
+
+    def _refuse_if_not_owner(self):
+        if self._session_owner():
+            return False
+        self.update_session_info(_('Another Terminator instance owns the '
+                                   'session, so this one does not write it.'))
+        return True
 
     def update_session_info(self, notice=None):
         """Refresh the read-only session / cache info labels"""
@@ -1887,14 +1910,11 @@ class PrefsEditor:
         """Save the live session (with working directories) as a layout"""
         import time
         guiget = self.builder.get_object
-        current_layout = Terminator().describe_layout(save_cwd=True)
+        from .session import strip_live_ids
         # A layout is a template: live terminal uuids would give terminals
         # opened from it duplicate uuids (shared scrollback cache files).
-        for node in current_layout.values():
-            if isinstance(node, dict):
-                node.pop('uuid', None)
-                node.pop('maximised_pane', None)
-                node.pop('last_active_term', None)
+        current_layout = strip_live_ids(
+            Terminator().describe_layout(save_cwd=True))
         treeview = guiget('layoutlist')
         model = treeview.get_model()
         values = [r[0] for r in model]
@@ -1925,6 +1945,8 @@ class PrefsEditor:
     def on_session_restore_prev_button_clicked(self, _button):
         """Copy session.json.prev over session.json for the next launch"""
         from .session import SessionManager
+        if self._refuse_if_not_owner():
+            return
         sess = SessionManager()
         if not os.path.isfile(sess.session_path() + '.prev'):
             self.update_session_info(_('There is no previous session.'))
@@ -1945,6 +1967,8 @@ class PrefsEditor:
     def on_session_clear_button_clicked(self, _button):
         """Delete saved session files and scrollback cache"""
         from .session import SessionManager
+        if self._refuse_if_not_owner():
+            return
         if not self._confirm(
                 _('Clear the saved session and scrollback cache?'),
                 _('Terminator will start with the default layout next time. '
@@ -2031,8 +2055,10 @@ class PrefsEditor:
 
     def on_layoutaddbutton_clicked(self, _button):
         """Add a new layout to the list"""
+        from .session import strip_live_ids
         terminator = Terminator()
-        current_layout = terminator.describe_layout()
+        # Round-2 P1-3: no live uuids in a layout (see save-as-layout)
+        current_layout = strip_live_ids(terminator.describe_layout())
         guiget = self.builder.get_object
 
         treeview = guiget('layoutlist')
@@ -2056,8 +2082,10 @@ class PrefsEditor:
 
     def on_layoutrefreshbutton_clicked(self, _button):
         """Refresh the terminals status and update"""
+        from .session import strip_live_ids
         terminator = Terminator()
-        current_layout = terminator.describe_layout()
+        # Round-2 P1-3: no live uuids in a layout (see save-as-layout)
+        current_layout = strip_live_ids(terminator.describe_layout())
 
         guiget = self.builder.get_object
         treeview = guiget('layoutlist')

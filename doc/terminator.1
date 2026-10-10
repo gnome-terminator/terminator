@@ -514,7 +514,11 @@ By default (\fBrestore_last_session\fP = True) Terminator saves its windows,
 tabs, splits, working directories and maximised terminal automatically
 while it runs, and a plain \fBterminator\fP launch restores them. Only the
 first Terminator process owns the session; launches with \fB\-l\fP, \fB\-e\fP,
-\fB\-x\fP, \fB\-\-working\-directory\fP or \fB\-j\fP neither restore nor save it. The
+\fB\-x\fP, \fB\-\-working\-directory\fP or \fB\-j\fP do not restore it. Windows opened
+with \fB\-l\fP, \fB\-e\fP, \fB\-x\fP or \fB\-j\fP are left out of the saved session, and
+their scrollback is not cached, until you split them or open a tab in
+them. When the last terminal is closed or exits, the session keeps that
+terminal, so the next launch reopens it. The
 last lines of each terminal are cached and shown again after a restore
 (\fBscrollback_cache\fP). Closing a terminal, tab or window that still has
 programs running asks for confirmation.
