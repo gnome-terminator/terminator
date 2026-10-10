@@ -741,10 +741,66 @@ class SessionManager(Borg):
         try:
             if os.path.exists(prev):
                 os.replace(prev, prev2)
+                self._retarget_marker(path, {'.prev': '.prev2',
+                                             '.prev2': None})
             if os.path.exists(path):
                 os.replace(path, prev)
+                self._retarget_marker(path, {'': '.prev'})
         except OSError as ex:
             dbg('SessionManager rotate: %s' % ex)
+
+    def _read_marker(self):
+        """Return the crash marker's lines, or None if there is none."""
+        try:
+            with open(self.restoring_path(), 'r', encoding='utf-8') as fh:
+                return fh.read().splitlines()
+        except FileNotFoundError:
+            return None
+        except (OSError, UnicodeDecodeError) as ex:
+            dbg('SessionManager marker read: %s' % ex)
+            return None
+
+    def _retarget_marker(self, path, moves):
+        """m27: keep the restore marker's source name pointing at the file
+        that actually holds the session being restored.
+
+        A save during restore (marker present) rotates session.json -> .prev
+        -> .prev2; without this a crash would quarantine the wrong file and
+        leave the real source to be restored again (crash loop). moves maps
+        a suffix of path ('' = session.json itself) to its new suffix, or
+        None if that file was overwritten.
+        """
+        lines = self._read_marker()
+        if not lines:
+            return
+        base = os.path.basename(path)
+        cur = lines[1].strip() if len(lines) > 1 else ''
+        if not cur:
+            # Legacy/no-source marker: the source was session.json itself.
+            cur = base
+        if not cur.startswith(base):
+            return
+        suffix = cur[len(base):]
+        if suffix not in moves:
+            return
+        target = moves[suffix]
+        new_lines = [lines[0] if lines else _now_iso()]
+        # '-' = source overwritten; must not read as a legacy (no-source)
+        # marker on the next rotation.
+        new_lines.append(base + target if target is not None else '-')
+        marker = self.restoring_path()
+        tmp = marker + '.tmp'
+        try:
+            with open(tmp, 'w', encoding='utf-8') as fh:
+                fh.write('\n'.join(new_lines) + '\n')
+            os.chmod(tmp, 0o600)
+            os.replace(tmp, marker)
+        except OSError as ex:
+            dbg('SessionManager marker retarget: %s' % ex)
+            try:
+                os.unlink(tmp)
+            except OSError:
+                pass
 
     def _atomic_write_json(self, path, payload, before_replace=None):
         """Write payload to a tmp file, fsync, then os.replace onto path.
@@ -922,7 +978,9 @@ class SessionManager(Borg):
                 base = os.path.basename(session)
                 if name in (base + '.prev', base + '.prev2'):
                     src = os.path.join(os.path.dirname(session), name)
-        except OSError as ex:
+        except (OSError, ValueError) as ex:
+            # ValueError: undecodable marker (UnicodeDecodeError) must not
+            # abort startup (m27).
             dbg('SessionManager crash marker read: %s' % ex)
         try:
             if os.path.isfile(session):
