@@ -73,8 +73,13 @@ def test_snapshot_on_enter_only_when_dirty_and_rate_limited(cache, monkeypatch):
     cache._dirty.add(u)
     assert cache.snapshot_before_command(t, now=10.0) is True
     assert cache.flushed == [u]
+    _capture_timeouts(monkeypatch)
+    for n in (10.1, 10.2):                                       # burst
+        cache._dirty.add(u)
+        assert cache.snapshot_before_command(t, now=n) is True
     cache._dirty.add(u)
-    assert cache.snapshot_before_command(t, now=10.5) is False   # <1s
+    assert cache.snapshot_before_command(t, now=10.5) is False   # empty
+    cache._snap_pending.clear()
     assert cache.snapshot_before_command(t, now=11.2) is True
 
 
@@ -136,11 +141,14 @@ def test_rate_limited_snapshot_is_deferred_not_dropped(cache, monkeypatch):
     monkeypatch.setattr(sb, 'in_alt_screen', lambda term: alt[0])
     timers = _capture_timeouts(monkeypatch)
     cache._dirty.add(u)
-    assert cache.snapshot_before_command(t, now=10.0) is True
+    for n in (10.0, 10.1, 10.2):           # drain the burst of 3
+        cache._dirty.add(u)
+        assert cache.snapshot_before_command(t, now=n) is True
     cache._dirty.add(u)
     assert cache.snapshot_before_command(t, now=10.3) is False
     assert cache.snapshot_before_command(t, now=10.4) is False
     assert len(timers) == 1 and 690 <= timers[0][0] <= 750   # one, ~0.7s
+    # tokens 0.2 after 10.2, 0.3 at 10.3 -> wait ~0.7s
     cache.flushed.clear()
     monkeypatch.setattr(sb.time, 'monotonic', lambda: 11.5)
     assert timers[0][1]() is False
@@ -152,8 +160,9 @@ def test_deferred_snapshot_skipped_if_tui_started(cache, monkeypatch):
     alt = [False]
     monkeypatch.setattr(sb, 'in_alt_screen', lambda term: alt[0])
     timers = _capture_timeouts(monkeypatch)
-    cache._dirty.add(u)
-    cache.snapshot_before_command(t, now=10.0)
+    for n in (10.0, 10.1, 10.2):
+        cache._dirty.add(u)
+        cache.snapshot_before_command(t, now=n)
     cache._dirty.add(u)
     cache.snapshot_before_command(t, now=10.5)
     cache.flushed.clear()
@@ -167,10 +176,38 @@ def test_delete_uuid_cancels_pending_snapshot(cache, monkeypatch):
     t = FakeTerm(); u = str(t.uuid)
     monkeypatch.setattr(sb, 'in_alt_screen', lambda term: False)
     _capture_timeouts(monkeypatch)
-    cache._dirty.add(u)
-    cache.snapshot_before_command(t, now=10.0)
+    for n in (10.0, 10.1, 10.2):
+        cache._dirty.add(u)
+        cache.snapshot_before_command(t, now=n)
     cache._dirty.add(u)
     cache.snapshot_before_command(t, now=10.5)
     assert u in cache._snap_pending
     cache.delete_uuid(u)
     assert u not in cache._snap_pending
+
+
+def test_two_quick_enters_both_snapshot_now(cache, monkeypatch):
+    """`echo x` then `vim` within 1s: 2nd Enter must save immediately,
+    a deferred retry would find the TUI already on the alt screen."""
+    t = FakeTerm(); u = str(t.uuid)
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: False)
+    timers = _capture_timeouts(monkeypatch)
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=10.0) is True
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=10.2) is True
+    assert timers == []
+
+
+def test_bucket_refills_one_per_second(cache, monkeypatch):
+    t = FakeTerm(); u = str(t.uuid)
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda term: False)
+    _capture_timeouts(monkeypatch)
+    for n in (10.0, 10.0, 10.0):
+        cache._dirty.add(u)
+        assert cache.snapshot_before_command(t, now=n) is True
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=10.5) is False
+    cache._snap_pending.clear()
+    cache._dirty.add(u)
+    assert cache.snapshot_before_command(t, now=11.05) is True

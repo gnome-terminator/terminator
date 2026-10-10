@@ -17,7 +17,7 @@ DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/1-tui.png
 grep -q "altscreen: False -> True" ${OUT:-/tmp}/log1.txt || { echo "FAIL: scrollbar not hidden in TUI"; FAIL=1; }
 xdotool key ctrl+shift+q; sleep 2
 DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/2-quit.png
-# Find the running-process confirm dialog by title instead of fixed coords,
+# Find the running-process confirm dialog (new visible terminator-class window) instead of fixed coords,
 # then press its _Close button via mnemonic (default/focus stays Cancel).
 D=; for i in 1 2 3 4 5; do D=$(xdotool search --onlyvisible --class terminator 2>/dev/null | grep -vx "$W" | tail -1); [ -n "$D" ] && break; sleep 1; done
 [ -n "$D" ] || { echo "FAIL: confirm dialog not found"; FAIL=1; }

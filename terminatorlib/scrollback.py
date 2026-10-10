@@ -285,6 +285,8 @@ class ScrollbackCache(Borg):
     _io_lock = None
     _snap_at = None
     _snap_pending = None
+    _snap_tokens = None
+    _SNAP_BURST = 3.0
     _visit = None
     _tick = None
 
@@ -485,13 +487,24 @@ class ScrollbackCache(Borg):
         if self._snap_at is None:
             self._snap_at = {}
         now = time.monotonic() if now is None else now
-        wait = 1.0 - (now - self._snap_at.get(uuid_str, -1e9))
+        # Token bucket (burst 3, refill 1/s): two quick Enters such as
+        # `echo x` then `vim` must both snapshot synchronously, because by
+        # the time a deferred retry fires the TUI is already on the alt
+        # screen and the normal-screen output is unreadable (m15 review).
+        if self._snap_tokens is None:
+            self._snap_tokens = {}
+        last = self._snap_at.get(uuid_str)
+        tokens = self._SNAP_BURST if last is None else min(
+            self._SNAP_BURST,
+            self._snap_tokens.get(uuid_str, 0.0) + max(0.0, now - last))
+        wait = 1.0 - tokens
         if wait > 0:
             # Rate-limited: don't drop it (the 2nd of two quick Enters may
             # launch the TUI) -- defer to the end of the window (m15).
             self._defer_snapshot(terminal, uuid_str, wait)
             return False
         self._snap_at[uuid_str] = now
+        self._snap_tokens[uuid_str] = tokens - 1.0
         self._flush_uuid(terminal, uuid_str, sync=False)
         return True
 
@@ -820,7 +833,7 @@ class ScrollbackCache(Borg):
         self._dirty.discard(uuid_str)
         self._last_hash.pop(uuid_str, None)
         self._cancel_pending(uuid_str)
-        for d in (self._visit, self._snap_at):
+        for d in (self._visit, self._snap_at, self._snap_tokens):
             if d is not None:
                 d.pop(uuid_str, None)
         with self._io_lock:
@@ -856,7 +869,7 @@ class ScrollbackCache(Borg):
         self._dirty.clear()
         self._last_hash.clear()
         self._cancel_pending()
-        for d in (self._visit, self._snap_at):
+        for d in (self._visit, self._snap_at, self._snap_tokens):
             if d is not None:
                 d.clear()
         # Drain queue if present
