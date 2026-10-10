@@ -55,8 +55,9 @@ PY
 }
 if ! have_schema; then
     SCHEMA_SRC="$ROOT/tests/fixtures/schemas"
-    SCHEMA_DIR="${TMPDIR:-/tmp}/terminator-test-schemas-$(id -u)"
-    mkdir -p "$SCHEMA_DIR"
+    # m26 review: per-run dir; a shared one was rewritten (cp + compile)
+    # under any concurrently running suite.
+    SCHEMA_DIR="$(mktemp -d "${TMPDIR:-/tmp}/terminator-test-schemas.XXXXXX")"
     cp "$SCHEMA_SRC"/*.gschema.xml "$SCHEMA_DIR"/
     if ! command -v glib-compile-schemas >/dev/null; then
         echo "!! glib-compile-schemas missing (apt-get install libglib2.0-bin)" >&2
@@ -69,25 +70,38 @@ if ! have_schema; then
 fi
 
 # --- 3. display ----------------------------------------------------------
+# m26 review: always run on a private Xvfb.  Inheriting the desktop's
+# DISPLAY (e.g. :2 with a WM, dock and other windows) or racing another
+# suite for /tmp/.X99-lock made focus/geometry tests flaky.  Set
+# TERMINATOR_TEST_DISPLAY=:N to deliberately reuse a display.
 XVFB_PID=""
-cleanup() { [ -n "$XVFB_PID" ] && kill "$XVFB_PID" 2>/dev/null || true; }
+cleanup() {
+    [ -n "$XVFB_PID" ] && kill "$XVFB_PID" 2>/dev/null || true
+    [ -n "${SCHEMA_DIR:-}" ] && case "$SCHEMA_DIR" in *terminator-test-schemas.*) rm -rf "$SCHEMA_DIR";; esac
+    true
+}
 trap cleanup EXIT
-if [ -z "${DISPLAY:-}" ]; then
+if [ -n "${TERMINATOR_TEST_DISPLAY:-}" ]; then
+    export DISPLAY="$TERMINATOR_TEST_DISPLAY"
+else
     if ! command -v Xvfb >/dev/null; then
-        echo "!! no DISPLAY and Xvfb not installed (apt-get install xvfb)" >&2
+        echo "!! Xvfb not installed (apt-get install xvfb)" >&2
         exit 2
     fi
-    for n in 99 98 97 96; do
-        if [ ! -e "/tmp/.X${n}-lock" ]; then
-            Xvfb ":$n" -screen 0 1280x800x24 >/dev/null 2>&1 &
-            XVFB_PID=$!
-            export DISPLAY=":$n"
-            sleep 1
-            break
-        fi
+    DFD_FILE="$(mktemp "${TMPDIR:-/tmp}/terminator-test-xvfb.XXXXXX")"
+    # -displayfd: the server picks a free display number atomically
+    Xvfb -displayfd 3 -screen 0 1280x800x24 3>"$DFD_FILE" >/dev/null 2>&1 &
+    XVFB_PID=$!
+    for _ in $(seq 1 100); do
+        [ -s "$DFD_FILE" ] && break
+        kill -0 "$XVFB_PID" 2>/dev/null || break
+        sleep 0.1
     done
-    [ -z "${DISPLAY:-}" ] && { echo "!! could not start Xvfb" >&2; exit 2; }
-    echo ">> started Xvfb on $DISPLAY"
+    n="$(tr -dc 0-9 < "$DFD_FILE")"
+    rm -f "$DFD_FILE"
+    [ -z "$n" ] && { echo "!! could not start Xvfb" >&2; exit 2; }
+    export DISPLAY=":$n"
+    echo ">> started private Xvfb on $DISPLAY"
 fi
 
 # --- 4. isolate user state and run -------------------------------------

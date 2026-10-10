@@ -255,3 +255,55 @@ def test_prefseditor_color_font_helpers_no_warning():
             set_button_color(btn, '')
         set_button_font(fbtn, 'Monospace 13')
         assert fbtn.get_font() == 'Monospace 13'
+
+
+# --- m26 independent review --------------------------------------------
+
+def test_container_closeterm_stale_zoom_does_not_recurse(monkeypatch):
+    """term_zoomed stuck True but nothing to leave: must not re-close."""
+    from terminatorlib import container
+    from terminatorlib.container import Container
+    w = FakeWin(zoomed=True)
+    w.is_zoomed = lambda: False          # helper sees nothing to undo
+    w.get_property = lambda name: True   # stale property
+    logged = []
+    monkeypatch.setattr(container, 'err', lambda m='': logged.append(m))
+
+    class Stop(Exception):
+        pass
+
+    class T:
+        def close(self):
+            raise AssertionError('recursive close')
+
+    class Term:
+        @property
+        def terminals(self):
+            raise Stop()
+    w.terminator = Term()
+    with pytest.raises(Stop):            # reached the normal close path
+        Container.closeterm(w, T())
+    assert logged and w.calls == []
+
+
+def test_loud_mode_propagates_predicate_errors():
+    w = FakeWin(zoomed=True)
+
+    def bad():
+        raise RuntimeError('ov')
+    w.is_overlay_maximised = bad
+    with pytest.raises(RuntimeError):
+        leave_zoom(w, quiet=False)
+    assert w.calls == []                 # not misread as legacy zoom
+    assert leave_zoom(w) is True         # quiet: old fallback kept
+    assert w.calls == [('unzoom',)]
+
+
+def test_set_button_color_accepts_named_colours():
+    gi = pytest.importorskip('gi')
+    gi.require_version('Gtk', '3.0')
+    from gi.repository import Gtk
+    from terminatorlib.prefseditor import set_button_color, color2hex
+    btn = Gtk.ColorButton()
+    set_button_color(btn, 'red')         # Gdk.color_parse accepted names
+    assert color2hex(btn) == '#ff0000'
