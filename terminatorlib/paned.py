@@ -4,7 +4,7 @@
 variants"""
 
 import time
-from gi.repository import GObject, Gtk, Gdk
+from gi.repository import GLib, GObject, Gtk, Gdk
 
 from .util import dbg, err, enumerate_descendants, logical_parent
 from .terminator import Terminator
@@ -230,7 +230,7 @@ class Paned(Container):
 
         highest_ancestor._do_redistribute(recurse_up, recurse_down)
 
-        GObject.idle_add(highest_ancestor.set_autoresize, True)
+        GLib.idle_add(highest_ancestor.set_autoresize, True)
     
     def _do_redistribute(self, recurse_up=False, recurse_down=False):
         maker = Factory()

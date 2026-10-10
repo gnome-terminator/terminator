@@ -2380,7 +2380,7 @@ class PrefsEditor:
         if duplicate_bindings:
             dialog = Gtk.MessageDialog(
                 transient_for=self.window,
-                flags=Gtk.DialogFlags.MODAL,
+                modal=True,
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE,
                 text="Duplicate Key Bindings Are Not Allowed",

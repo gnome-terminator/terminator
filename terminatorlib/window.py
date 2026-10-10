@@ -69,7 +69,7 @@ class Window(Container, Gtk.Window):
                             'terminal zoomed',
                             'whether the terminal is zoomed',
                             False,
-                            GObject.PARAM_READWRITE)
+                            GObject.ParamFlags.READWRITE)
     }
 
     def __init__(self):
@@ -1106,7 +1106,7 @@ class Window(Container, Gtk.Window):
         if self.pending_set_rough_geometry_hint == True:
             return
         self.pending_set_rough_geometry_hint = True
-        GObject.idle_add(self.do_deferred_set_rough_geometry_hints)
+        GLib.idle_add(self.do_deferred_set_rough_geometry_hints)
 
     def do_deferred_set_rough_geometry_hints(self):
         self.pending_set_rough_geometry_hint = False
