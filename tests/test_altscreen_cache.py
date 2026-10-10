@@ -28,8 +28,8 @@ def cache(tmp_path, monkeypatch):
     monkeypatch.setattr(c, 'path_for',
                         lambda u: os.path.join(c._dir, u + '.txt'))
     screen = {'text': 'history line\n$ vim'}
-    monkeypatch.setattr(sb, 'read_last_n_lines',
-                        lambda vte, n: screen['text'])
+    monkeypatch.setattr(sb, 'read_last_n_lines_raw',
+                        lambda vte, n, **kw: (screen['text'], False))
     yield c, screen
     _reset_borg('ScrollbackCache')
 

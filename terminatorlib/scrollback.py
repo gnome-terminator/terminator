@@ -2,7 +2,8 @@
 # GPL v2 only
 """scrollback.py - terminal scrollback text cache (module B).
 
-Main thread reads VTE; a worker thread writes cache files under
+Main thread exports from VTE; a worker thread converts (HTML -> SGR),
+truncates and writes cache files under
 ~/.cache/terminator/scrollback/<uuid>.txt.
 
 SessionManager APIs are duck-typed via getattr so this module works
@@ -137,27 +138,40 @@ def _terminal_uuid_str(terminal):
         return None
 
 
-def export_vte_text(vte, start_row, start_col, end_row, end_col):
-    """Export a text range from VTE using the best available API."""
+def export_vte_text(vte, start_row, start_col, end_row, end_col,
+                    color=False, raw=False):
+    """Export a text range from VTE using the best available API.
+
+    color=True exports Format.HTML and converts it to text + SGR (m14);
+    falls back to plain text when HTML export is unavailable or fails.
+    raw=True returns (source, is_html) without converting, so the costly
+    HTML -> SGR conversion can run on the writer thread.
+    """
     caps = _vte_caps()
+    if color and caps['range_format']:
+        try:
+            result = vte.get_text_range_format(
+                Vte.Format.HTML, start_row, start_col, end_row, end_col)
+            html = result[0] if isinstance(result, (tuple, list)) else result
+            if html:
+                return (html, True) if raw else sbt.html_to_sgr(html)
+        except Exception as ex:
+            dbg('export_vte_text html failed: %s' % ex)
+    text = ''
     try:
         if caps['range_format']:
             result = vte.get_text_range_format(
                 Vte.Format.TEXT, start_row, start_col, end_row, end_col)
-            if result is None:
-                return ''
             text = result[0] if isinstance(result, (tuple, list)) else result
-            return text or ''
-        if caps['range']:
+        elif caps['range']:
             result = vte.get_text_range(
                 start_row, start_col, end_row, end_col, None)
-            if result is None:
-                return ''
             text = result[0] if isinstance(result, (tuple, list)) else result
-            return text or ''
     except Exception as ex:
         dbg('export_vte_text range failed: %s' % ex)
-    return ''
+        text = ''
+    text = text or ''
+    return (text, False) if raw else text
 
 
 def in_alt_screen(terminal):
@@ -181,30 +195,53 @@ def in_alt_screen(terminal):
         return False
 
 
-def read_last_n_lines(vte, n_lines):
-    """Read the last n_lines of VTE scrollback (absolute row numbers)."""
+def read_last_n_lines_raw(vte, n_lines, color=False):
+    """Main-thread part of a flush: return (source, is_html) for the last
+    n_lines rows. Only the VTE export runs here; conversion and truncation
+    happen in render_cache_text (writer thread for async flushes)."""
     n_lines = max(0, int(n_lines))
     if n_lines == 0:
-        return ''
+        return '', False
     try:
         col, end_row = vte.get_cursor_position()
     except Exception as ex:
         dbg('get_cursor_position failed: %s' % ex)
-        return ''
+        return '', False
     try:
         lower = int(vte.get_vadjustment().get_lower())
     except Exception:
         lower = 0
     start_row = max(lower, end_row - max(0, n_lines - 1))
-    text = export_vte_text(vte, start_row, 0, end_row, col)
-    if not text:
+    src, is_html = export_vte_text(vte, start_row, 0, end_row, col,
+                                   color=color, raw=True)
+    if not src:
         # Fallback: write_contents_sync only when range APIs missing and
         # scrollback is finite (caller must gate infinite).
         caps = _vte_caps()
         if not caps['range_format'] and not caps['range'] and caps['write_sync']:
-            text = _export_via_write_contents(vte)
-        if not text:
-            return ''
+            src = _export_via_write_contents(vte)
+        is_html = False
+    return src or '', is_html
+
+
+def render_cache_text(src, is_html, n_lines, max_kb):
+    """Convert (if HTML) and truncate to the line/byte budget. Thread-safe
+    (pure function); returns the str written to the cache file."""
+    text = sbt.html_to_sgr(src) if is_html else (src or '')
+    if is_html:
+        return sbt.truncate_sgr_lines(text, n_lines, max_kb)
+    return sbt.truncate_lines_and_bytes(text, n_lines, max_kb)
+
+
+def read_last_n_lines(vte, n_lines, color=False):
+    """Read the last n_lines of VTE scrollback as text (+SGR if color)."""
+    n_lines = max(0, int(n_lines))
+    if n_lines == 0:
+        return ''
+    src, is_html = read_last_n_lines_raw(vte, n_lines, color=color)
+    text = sbt.html_to_sgr(src) if is_html else src
+    if not text:
+        return ''
     lines = text.split('\n')
     if len(lines) > n_lines:
         lines = lines[-n_lines:]
@@ -298,6 +335,9 @@ class ScrollbackCache(Borg):
 
     def _max_kb(self):
         return int(self._cfg('scrollback_cache_max_kb', 512) or 512)
+
+    def _color(self):
+        return bool(self._cfg('scrollback_cache_color', True))
 
     def _interval_s(self):
         return max(5, int(self._cfg('scrollback_cache_interval_s', 20) or 20))
@@ -506,10 +546,14 @@ class ScrollbackCache(Borg):
             dbg('defer flush %s: alternate screen active' % uuid_str)
             self._dirty.add(uuid_str)
             return
-        text = read_last_n_lines(vte, self._lines())
-        text = sbt.truncate_lines_and_bytes(text, self._lines(), self._max_kb())
-        data = text.encode('utf-8')
-        digest = hashlib.sha256(data).hexdigest()
+        color = self._color()
+        lines, max_kb = self._lines(), self._max_kb()
+        src, is_html = read_last_n_lines_raw(vte, lines, color=color)
+        # Hash the *source* (cheap) so unchanged terminals are skipped on the
+        # main thread without paying for HTML -> SGR conversion.
+        h = hashlib.sha256(('%d:%d:%d:' % (is_html, lines, max_kb)).encode())
+        h.update((src or '').encode('utf-8', 'replace'))
+        digest = h.hexdigest()
         if self._last_hash.get(uuid_str) == digest:
             self._dirty.discard(uuid_str)
             return
@@ -518,6 +562,8 @@ class ScrollbackCache(Borg):
             return
         if sync:
             try:
+                data = render_cache_text(src, is_html, lines, max_kb).encode(
+                    'utf-8')
                 if not self._dir:
                     self._ensure_dir()
                 with self._io_lock:
@@ -531,11 +577,11 @@ class ScrollbackCache(Borg):
         else:
             if self._queue is None:
                 return
-            # Coalesce: drop prior pending writes for same uuid by tagging;
-            # worker keeps latest by processing sequentially; main may put
-            # multiple — worker overwrites same path. Acceptable.
+            # The worker converts/truncates and drops writes superseded by a
+            # newer intent (seq) for the same uuid.
             seq = self._bump(uuid_str)
-            self._queue.put(('write', uuid_str, data, digest, seq))
+            self._queue.put(('write', uuid_str, (src, is_html, lines, max_kb),
+                             digest, seq))
             self._dirty.discard(uuid_str)
 
     def on_terminal_close(self, terminal):
@@ -606,10 +652,16 @@ class ScrollbackCache(Borg):
                 break
             try:
                 if item[0] == 'write':
-                    _, uuid_str, data, digest, seq = item
+                    _, uuid_str, payload, digest, seq = item
                     path = self.path_for(uuid_str)
-                    if not path:
+                    if not path or self._seq.get(uuid_str) != seq:
                         continue
+                    if isinstance(payload, tuple):
+                        # HTML -> SGR conversion + truncation off the main
+                        # thread (~50ms for 2000 coloured lines).
+                        data = render_cache_text(*payload).encode('utf-8')
+                    else:
+                        data = payload
                     with self._io_lock:
                         if self._seq.get(uuid_str) != seq:
                             continue  # superseded by newer sync write / delete
@@ -687,7 +739,12 @@ class ScrollbackCache(Borg):
         except OSError as ex:
             dbg('restore read failed: %s' % ex)
             return False
-        body = sbt.normalize_newlines_for_feed(sbt.sanitize_for_feed(raw))
+        # Keep SGR colours (m14) but strip every other control sequence;
+        # reset afterwards so a truncated style never bleeds into the shell.
+        body = sbt.normalize_newlines_for_feed(
+            sbt.sanitize_for_feed(raw, keep_sgr=self._color()))
+        if self._color():
+            body += '\x1b[0m'
         sep = sbt.format_separator_feed(mtime, translate=_)
         vte = getattr(terminal, 'vte', None)
         if vte is None:
