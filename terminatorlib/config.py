@@ -591,6 +591,36 @@ class Config(object):
                section[item] = update_item
 
 
+
+def atomic_write_config(filename, parser):
+    """Write parser to filename atomically (temp file + fsync + os.replace).
+
+    Resolves symlinks first so a dotfiles-managed symlink keeps pointing at
+    its target, and preserves the existing file's permission bits.  A crash
+    mid-write leaves the old config intact instead of a truncated file.
+    """
+    import tempfile
+    target = os.path.realpath(filename)
+    directory = os.path.dirname(target) or '.'
+    mode = None
+    if os.path.exists(target):
+        mode = os.stat(target).st_mode & 0o7777
+    fd, tmp = tempfile.mkstemp(prefix='.config.', suffix='.tmp', dir=directory)
+    try:
+        with os.fdopen(fd, 'wb') as fh:
+            parser.write(fh)
+            fh.flush()
+            os.fsync(fh.fileno())
+        if mode is not None:
+            os.chmod(tmp, mode)
+        os.replace(tmp, target)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
 class ConfigBase(Borg):
     """Class to provide access to our user configuration"""
     loaded = None
@@ -919,17 +949,7 @@ class ConfigBase(Borg):
             else: 
                 filename = os.path.join(config_dir,'config')
 
-            if not os.path.isfile(filename):
-                open(filename, 'a').close()
-
-            backup_file = filename + '~'
-            if os.path.exists(filename):
-                shutil.copy2(filename, backup_file)
-
-            with open(filename, 'wb') as fh:
-                parser.write(fh)
-
-            os.remove(backup_file)
+            atomic_write_config(filename, parser)
         except Exception as ex:
             err('ConfigBase::save: Unable to save config: %s' % ex)
 
