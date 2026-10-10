@@ -37,7 +37,8 @@ def test_glade_loads_with_new_widgets():
     labels = [nb.get_tab_label_text(nb.get_nth_page(i))
               for i in range(nb.get_n_pages())]
     assert labels.index('Session') == labels.index('Layouts') + 1
-    assert labels.index('Keybindings') == 4
+    assert labels.index('Keybindings') == 5
+    assert labels.index('Panes') == labels.index('Global') + 1
 
 
 def test_prefs_editor_reflects_defaults_and_writes(xdg):
@@ -56,7 +57,7 @@ def test_prefs_editor_reflects_defaults_and_writes(xdg):
     assert get('titlebar_density_combo').get_active_id() == 'standard'
     rgba = get('pane_accent_colorbutton').get_rgba()
     assert prefseditor.get_color_string(rgba.to_color()) == '#3fb950'
-    assert get('notebook1').get_nth_page(4) is get('vbox124')
+    assert get('notebook1').get_nth_page(5) is get('vbox124')
 
     # Round-trip writes
     get('titlebar_density_combo').set_active_id('compact')

@@ -34,8 +34,12 @@ def rgba2hex(widget):
 NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
-def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb):
-    """m18: cache info label text; 0 means off for TTL and total cap."""
+def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb,
+                               max_kb=512):
+    """m18: cache info label text; 0 means off for TTL and total cap.
+
+    m26 (round2-ux P2-9): no raw config key names in the UI text.
+    """
     try:
         ttl_days = int(ttl_days)
     except (TypeError, ValueError):
@@ -44,14 +48,21 @@ def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb
         total_mb = int(total_mb)
     except (TypeError, ValueError):
         total_mb = 0
+    try:
+        max_kb = int(max_kb)
+    except (TypeError, ValueError):
+        max_kb = 0
     ttl = (_('older than %d days is pruned') % ttl_days) if ttl_days > 0 \
-        else _('age pruning off (ttl_days = 0)')
+        else _('age pruning off')
     cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
-        else _('total size cap off (total_mb = 0)')
+        else _('total size cap off')
+    per_file = (_('the per-file size limit (%d KiB)') % max_kb) if max_kb > 0 \
+        else _('the cache line limit')
     return (_('Cache: %s (%d file(s), %d KiB); %s; %s. '
               '0 = off. Open terminals are never pruned at runtime; they are '
-              'limited only by the per-file scrollback_cache_max_kb.') %
-            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap))
+              'limited only by %s.') %
+            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap,
+             per_file))
 
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
@@ -221,6 +232,7 @@ class PrefsEditor:
     # inserting pages (Session, ...) does not break callers.
     PAGE_IDS = {
         'global': 'vbox5',
+        'panes': 'panes_page_box',
         'profiles': 'hpaned4',
         'layouts': 'hpaned1',
         'session': 'session_page_box',
@@ -239,7 +251,11 @@ class PrefsEditor:
         if child is None:
             err('PrefsEditor: unknown page %r' % cur_page)
             return 0
+        # m26: pages may be wrapped in a GtkScrolledWindow/Viewport
         idx = nb.page_num(child)
+        while idx < 0 and child is not None:
+            child = child.get_parent()
+            idx = nb.page_num(child) if child is not None else -1
         return idx if idx >= 0 else 0
 
     def __init__ (self, term, cur_page=0):
@@ -278,6 +294,7 @@ class PrefsEditor:
         self.builder.connect_signals(self)
         self.layouteditor.prepare()
         self.window.show_all()
+        self._fit_to_screen()
         try:
             self.config.inhibit_save()
             self.set_values()
@@ -290,6 +307,38 @@ class PrefsEditor:
         nb.set_current_page(self.resolve_page(cur_page))
 
         self.config.base.save_config_with_suffix('_cur')
+
+    def _fit_to_screen(self):
+        """m26 (round2-ux P1-2): open at the natural size (every option of
+        the tallest tab visible, like upstream) but never taller/wider than
+        the monitor work area; the pages scroll below their natural size,
+        so the dialog stays usable on 1366x768 / 150 % screens."""
+        try:
+            # width: minimum (as upstream); height: natural
+            nat_w = self.window.get_preferred_width()[0]
+            nat_h = self.window.get_preferred_height()[1]
+            limit_w, limit_h = nat_w, nat_h
+            display = Gdk.Display.get_default()
+            gdkwin = None
+            try:
+                gdkwin = self.calling_window.get_window()
+            except Exception:
+                pass
+            monitor = None
+            if display is not None:
+                if gdkwin is not None:
+                    monitor = display.get_monitor_at_window(gdkwin)
+                if monitor is None:
+                    monitor = display.get_primary_monitor() or \
+                        display.get_monitor(0)
+            if monitor is not None:
+                area = monitor.get_workarea()
+                # leave room for the window decorations
+                limit_w, limit_h = area.width - 32, area.height - 64
+            self.window.resize(max(1, min(nat_w, limit_w)),
+                               max(1, min(nat_h, limit_h)))
+        except Exception as ex:
+            dbg('PrefsEditor fit to screen: %s' % ex)
 
     def on_destroy_event(self, _widget):
         self.flush_debounced_save()
@@ -1882,7 +1931,8 @@ class PrefsEditor:
             scrollback_cache_info_text(
                 cache_dir, files, total,
                 self.config['scrollback_cache_ttl_days'],
-                self.config['scrollback_cache_total_mb']))
+                self.config['scrollback_cache_total_mb'],
+                self.config['scrollback_cache_max_kb']))
 
     def on_restore_last_session_checkbutton_toggled(self, widget):
         """Restore-last-session toggled"""
