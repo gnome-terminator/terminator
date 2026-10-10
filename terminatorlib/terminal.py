@@ -183,6 +183,10 @@ class Terminal(Gtk.VBox):
         self.searchbar = Searchbar()
         self.searchbar.connect('end-search', self.on_search_done)
 
+        # Focus border (C5): transparent 1px border reserves the space so
+        # focus changes never re-allocate the VTE.
+        self.set_focus_chrome(False)
+
         self.show()
         if self.config['title_at_bottom']:
             self.pack_start(self.terminalbox, True, True, 0)
@@ -1235,12 +1239,45 @@ class Terminal(Gtk.VBox):
                 return True
         return False
 
-    def popup_menu(self, widget, event=None):
-        """Display the context menu"""
+    def popup_menu(self, widget, event=None, anchor=None,
+                   skip_link_check=False):
+        """Display the context menu. Every entry point (VTE right-click,
+        titlebar right-click, titlebar gear) goes through here so that
+        preventHide is always set.
+        anchor: widget to attach the menu to (gear button).
+        skip_link_check: the event is not on the VTE (titlebar), so do not
+        run URL / hyperlink detection on its coordinates."""
         window = self.get_toplevel()
         window.preventHide = True
         menu = TerminalPopupMenu(self)
-        menu.show(widget, event)
+        menu.show(widget, event, anchor=anchor,
+                  skip_link_check=skip_link_check)
+
+    def set_focus_chrome(self, focused):
+        """Toggle the focused-pane accent border CSS classes"""
+        context = self.get_style_context()
+        if focused:
+            context.remove_class('terminator-term-unfocused')
+            context.add_class('terminator-term-focused')
+        else:
+            context.remove_class('terminator-term-focused')
+            context.add_class('terminator-term-unfocused')
+
+    def refresh_titlebars_maximise_state(self):
+        """Refresh maximise button state of all visible titlebars in our
+        window (after split / close / tab switch, focus moves)."""
+        window = self.get_toplevel()
+        if not hasattr(window, 'get_visible_terminals'):
+            return
+        try:
+            terminals = list(window.get_visible_terminals())
+        except Exception:
+            return
+        for term in terminals:
+            titlebar = getattr(term, 'titlebar', None)
+            if titlebar is not None and hasattr(titlebar,
+                                                'refresh_maximise_state'):
+                titlebar.refresh_maximise_state()
 
     def do_readonly_toggle(self):
         self.vte.props.input_enabled = not self.vte.props.input_enabled
@@ -1545,6 +1582,8 @@ class Terminal(Gtk.VBox):
                 self.get_toplevel().last_active_term = None
             else:
                 self.get_toplevel().last_active_term = self.uuid
+        self.set_focus_chrome(True)
+        self.refresh_titlebars_maximise_state()
         self.emit('focus-in')
 
     def on_vte_focus_out(self, _widget, _event):
@@ -1552,11 +1591,13 @@ class Terminal(Gtk.VBox):
         self.vte.set_colors(self.fgcolor_inactive, self.bgcolor_inactive,
                             self.palette_inactive)
         self.set_cursor_color()
+        self.set_focus_chrome(False)
         self.emit('focus-out')
 
     def on_window_focus_out(self):
         """Update our UI when the window loses focus"""
         self.titlebar.update('window-focus-out')
+        self.set_focus_chrome(False)
 
     def scrollbar_jump(self, position):
         """Move the scrollbar to a particular row"""

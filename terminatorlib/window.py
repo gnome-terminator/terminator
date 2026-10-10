@@ -54,6 +54,16 @@ class Window(Container, Gtk.Window):
     zoom_data = None
 
     term_zoomed = False
+
+    # Contract owned by module D (overlay maximise). Until D lands this is a
+    # same-signature shim emitted from the legacy zoom/unzoom paths.
+    #   pane-maximise-changed(terminal, maximised: bool)
+    __gsignals__ = {
+            'pane-maximise-changed': (GObject.SignalFlags.RUN_LAST, None,
+                                      (GObject.TYPE_PYOBJECT,
+                                       GObject.TYPE_BOOLEAN)),
+    }
+
     __gproperties__ = {
             'term_zoomed': (GObject.TYPE_BOOLEAN,
                             'terminal zoomed',
@@ -741,6 +751,25 @@ class Window(Container, Gtk.Window):
             err('failed to get "term_zoomed" property')
         return False
 
+    def has_multiple_terms(self):
+        """True if the currently visible tab holds more than one terminal.
+        Used for 'Maximize pane' sensitivity only (not close-confirm scope,
+        see close_confirm.scope_terminals)."""
+        try:
+            return len(self.get_visible_terminals()) > 1
+        except Exception as ex:
+            dbg('has_multiple_terms failed: %s' % ex)
+            return False
+
+    def is_maximised_pane(self, term):
+        """True if term is the single maximised pane.
+        M2 shim: legacy maximise (zoom without font scaling). Module D
+        replaces the implementation keeping this signature."""
+        if not self.is_zoomed() or not self.zoom_data:
+            return False
+        return (self.zoom_data.get('widget') is term and
+                not self.zoom_data.get('font_scale'))
+
     def zoom(self, widget, font_scale=True):
         """Zoom a terminal widget"""
         maker = Factory()
@@ -776,6 +805,8 @@ class Window(Container, Gtk.Window):
             try_mark_dirty('zoom')
         except Exception:
             pass
+        # scaled zoom is not "maximise pane" but still refreshes titlebars
+        self.emit('pane-maximise-changed', widget, not font_scale)
 
     def unzoom(self, widget=None):
         """Restore normal terminal layout"""
@@ -807,6 +838,7 @@ class Window(Container, Gtk.Window):
             try_mark_dirty('unzoom')
         except Exception:
             pass
+        self.emit('pane-maximise-changed', widget, False)
 
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
