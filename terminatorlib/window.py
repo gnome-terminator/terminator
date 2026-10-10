@@ -101,7 +101,7 @@ class Window(Container, Gtk.Window):
         options = self.config.options_get()
         if options:
             if options.forcedtitle:
-                self.title.force_title(options.forcedtitle)
+                self.title.force_title(options.forcedtitle, persist=False)
 
             if options.role:
                 self.set_role(options.role)
@@ -1505,12 +1505,14 @@ class WindowTitle(object):
     window = None
     text = None
     forced = None
+    persist = False
 
     def __init__(self, window, config=None, timeout_add=None,
                  source_remove=None):
         """Class initialiser"""
         self.window = window
         self.forced = False
+        self.persist = False
         self.owner = None
         self._config = config
         self._source = None
@@ -1635,15 +1637,22 @@ class WindowTitle(object):
         self.text = text
         self._schedule()
 
-    def force_title(self, newtext):
-        """Force a specific title"""
+    def force_title(self, newtext, persist=True):
+        """Force a specific title.
+
+        persist: save it in layouts/session (user "Set window title" or a
+        restored layout).  The -T/--title CLI option passes False so a
+        one-off launch title does not stick to the next plain launch."""
+        was = (self.forced, self.persist, self.text)
         if newtext:
             self.forced = True
+            self.persist = bool(persist)
             self.text = newtext
             self._cancel()
             self.update()
         else:
             self.forced = False
+            self.persist = False
             # Back to automatic: show the owner's (or fixed) title again.
             owner = self._ensure_owner()
             if self.mode() == 'focused' and owner is not None:
@@ -1653,6 +1662,13 @@ class WindowTitle(object):
                     pass
             self._cancel()
             self.update()
+        if (self.forced, self.persist, self.text) != was \
+                and (self.persist or was[1]):
+            try:
+                from .session import try_mark_dirty
+                try_mark_dirty('window-title')
+            except Exception:
+                pass
 
     def desired_title(self):
         """The title we want on the native window right now"""

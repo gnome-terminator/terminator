@@ -442,7 +442,9 @@ class SessionManager(Borg):
             return False
 
         layout = stringify_leaves(layout)
-        strip_window_titles(layout)
+        # Window titles: Container.describe_layout only emits user-set
+        # (persisted) forced titles now, so no strip_window_titles() here
+        # (it dropped "Set window title" on restore).
         if final and self._closing_buffer:
             # Merge buffered window fragments by child name
             for name, node in self._closing_buffer.get('by_child_name', {}).items():
