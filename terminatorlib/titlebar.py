@@ -750,7 +750,7 @@ class Titlebar(Gtk.EventBox):
     def icon_bell(self):
         """A bell signal requires we display our bell icon"""
         self.bellicon.show()
-        GObject.timeout_add(1000, self.icon_bell_hide)
+        GLib.timeout_add(1000, self.icon_bell_hide)
 
     def icon_bell_hide(self):
         """Handle a timeout which means we now hide the bell icon"""

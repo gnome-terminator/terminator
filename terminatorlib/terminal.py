@@ -2702,7 +2702,7 @@ class Terminal(Gtk.VBox):
             widget._draw_data = None
 
             # Add timeout to clean up display
-            GObject.timeout_add(100, self.on_bell_cleanup, widget, alloc)
+            GLib.timeout_add(100, self.on_bell_cleanup, widget, alloc)
 
     def on_bell_cleanup(self, widget, alloc):
         """Queue a redraw to clear the visual flash overlay"""

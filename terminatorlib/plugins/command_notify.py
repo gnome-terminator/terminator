@@ -56,7 +56,7 @@ class CommandNotify(plugin.Plugin):
         def add_watch(self):
             self.update_watched()
             return False
-        GObject.idle_add(add_watch, self)
+        GLib.idle_add(add_watch, self)
         return True
 
     def notification_received(self, vte, summary, body, _terminator_term):

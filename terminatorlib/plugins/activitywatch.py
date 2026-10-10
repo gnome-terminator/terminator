@@ -6,6 +6,7 @@ import time
 import gi
 from gi.repository import Gtk
 from gi.repository import GObject
+from gi.repository import GLib
 
 from terminatorlib.config import Config
 import terminatorlib.plugin as plugin
@@ -131,7 +132,7 @@ class InactivityWatch(plugin.MenuItem):
         vte = terminal.get_vte()
         self.watches[terminal] = vte.connect('contents-changed',
                                              self.reset_timer, terminal)
-        timeout_id = GObject.timeout_add(watch_interval, self.check_times, terminal)
+        timeout_id = GLib.timeout_add(watch_interval, self.check_times, terminal)
         self.timers[terminal] = timeout_id
         dbg('timer %s added for %s' %(timeout_id, terminal))
 
@@ -140,7 +141,7 @@ class InactivityWatch(plugin.MenuItem):
         vte = terminal.get_vte()
         vte.disconnect(self.watches[terminal])
         del(self.watches[terminal])
-        GObject.source_remove(self.timers[terminal])
+        GLib.source_remove(self.timers[terminal])
         del(self.timers[terminal])
 
     def reset_timer(self, _vte, terminal):
