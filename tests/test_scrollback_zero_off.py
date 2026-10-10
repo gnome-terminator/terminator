@@ -71,7 +71,7 @@ def test_async_flush_bump_under_io_lock(cache, monkeypatch):
     held = []
     real = cache._bump
     monkeypatch.setattr(cache, '_bump',
-                        lambda u: (held.append(cache._io_lock.locked()), real(u))[1])
+                        lambda u: (held.append(cache._io_lock._is_owned()), real(u))[1])
     saved_q = cache._queue
     cache._queue = queue.Queue()
 

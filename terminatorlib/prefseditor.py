@@ -34,6 +34,25 @@ def rgba2hex(widget):
 NUM_PALETTE_COLORS = 16
 
 # FIXME: We need to check that we have represented all of Config() below
+def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb):
+    """m18: cache info label text; 0 means off for TTL and total cap."""
+    try:
+        ttl_days = int(ttl_days)
+    except (TypeError, ValueError):
+        ttl_days = 0
+    try:
+        total_mb = int(total_mb)
+    except (TypeError, ValueError):
+        total_mb = 0
+    ttl = (_('older than %d days is pruned') % ttl_days) if ttl_days > 0 \
+        else _('age pruning off (ttl_days = 0)')
+    cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
+        else _('total size cap off (total_mb = 0)')
+    return (_('Cache: %s (%d file(s), %d KiB). Plain text only; %s; %s. '
+              '0 = off. Open terminals are never pruned at runtime; they are '
+              'limited only by the per-file scrollback_cache_max_kb.') %
+            (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap))
+
 class PrefsEditor:
     """Class implementing the various parts of the preferences editor"""
     config = None
@@ -1798,11 +1817,10 @@ class PrefsEditor:
                     files += 1
                     total += os.path.getsize(fpath)
         guiget('scrollback_cache_info_label').set_text(
-            _('Cache: %s (%d file(s), %d KiB). Plain text only; older than '
-              '%s days or above %s MiB is pruned automatically.') %
-            (cache_dir, files, (total + 1023) // 1024,
-             self.config['scrollback_cache_ttl_days'],
-             self.config['scrollback_cache_total_mb']))
+            scrollback_cache_info_text(
+                cache_dir, files, total,
+                self.config['scrollback_cache_ttl_days'],
+                self.config['scrollback_cache_total_mb']))
 
     def on_restore_last_session_checkbutton_toggled(self, widget):
         """Restore-last-session toggled"""
