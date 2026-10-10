@@ -37,6 +37,42 @@ def cols_rows_from_base(avail_w, avail_h, base_cw, base_ch):
     return int(floor(avail_w / base_cw)), int(floor(avail_h / base_ch))
 
 
+def base_cell_stale(base, measured, scale, tol_px=1, tol_frac=0.06):
+    """m40: True when the cached base cell (cw, ch at font_scale 1.0) no
+    longer matches what VTE measures now at ``scale``.
+
+    VTE re-measures its cell when the font, Xft DPI or text scaling
+    factor changes; our own set_font_scale() also changes the cell, so at
+    scale != 1.0 a small rounding tolerance is allowed and only a real
+    font metric change counts.  At scale 1.0 the comparison is exact.
+
+    >>> base_cell_stale((10, 20), (10, 20), 1.0)
+    False
+    >>> base_cell_stale((10, 20), (12, 25), 1.0)
+    True
+    >>> base_cell_stale((10, 20), (8, 16), 0.8)
+    False
+    >>> base_cell_stale((10, 20), (10, 20), 0.8)
+    True
+    """
+    if base is None or measured is None:
+        return False
+    try:
+        bw, bh = float(base[0]), float(base[1])
+        mw, mh = float(measured[0]), float(measured[1])
+        scale = float(scale)
+    except (TypeError, ValueError, IndexError):
+        return False
+    if bw <= 0 or bh <= 0 or mw <= 0 or mh <= 0 or scale <= 0:
+        return False
+    if abs(scale - 1.0) < 1e-6:
+        return (mw, mh) != (bw, bh)
+    for exp, got in ((bw * scale, mw), (bh * scale, mh)):
+        if abs(got - exp) > max(tol_px, exp * tol_frac):
+            return True
+    return False
+
+
 def select_font_tier(cols0, rows0, cur_index, tiers,
                      min_cols, min_rows, hysteresis, ideal_cols=0):
     """Pick a tier index. One direction only; returns the new index.
