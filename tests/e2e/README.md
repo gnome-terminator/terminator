@@ -55,9 +55,9 @@ xfwm4 and tmux optional. About 2 minutes for the full run.
 | 5-autofont | tier estimated from `stty size` vs window px: 1 pane 1.0, stacked 1.0, 2x2 grid 0.8 |
 | 6-window-title | 3 panes emit OSC titles at 20Hz; WM title only ever shows the focused pane's |
 | 7-altscreen | scrollbar strip hidden in `tput smcup` and tmux, restored after; SIGTERM during a TUI → cache keeps shell history, no TUI frame |
+| 8-corrupt-session | `[1,2]` session.json → starts, moved to `.corrupt`, fresh valid session written |
 | 9-sigkill-recovery | split+tab+cd, wait for debounced save + 5s scrollback interval flush → SIGKILL (no final save) → relaunch restores layout/cwds; SIGKILL again inside the 10s restore window → 3rd launch still starts (session quarantined to `.crashed`, fresh 1-pane session) |
 | 10-quit-relaunch | split+cd → Ctrl+Shift+Q → "Close multiple terminals?" → Close Terminals → relaunch restores split/cwds/scrollback |
-| 8-corrupt-session | `[1,2]` session.json → starts, moved to `.corrupt`, fresh valid session written |
 
 Harness notes: use `xwininfo` for geometry (xdotool getwindowgeometry is
 off by the WM frame); markers printed by panes are split (`TUI''SCREEN`) so

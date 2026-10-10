@@ -382,6 +382,7 @@ def s9_sigkill_recovery(app):
     check(terminal_dirs(app.session()) == sorted(dirs.values()),
           'session after SIGKILL: %s' % terminal_dirs(app.session()))
 
+    t_relaunch = time.monotonic()
     app.launch()
     wait_for(lambda: len(app.shells()) == 3, 10, what='3 restored shells')
     wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
@@ -390,6 +391,9 @@ def s9_sigkill_recovery(app):
     check('Notebook' in types and any(t in types for t in ('HPaned', 'VPaned')),
           'restored layout lost tab/split: %s' % types)
     # crash again while the restore marker is still live (<10s)
+    in_window = time.monotonic() - t_relaunch
+    app.notes.append('2nd SIGKILL %.1fs after relaunch (%s 10s restore window)'
+                     % (in_window, 'inside' if in_window < 10 else 'OUTSIDE'))
     app.kill()
     app.launch()
     check(app.alive(), 'third launch after crash-during-restore died')
