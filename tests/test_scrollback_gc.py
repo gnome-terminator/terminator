@@ -63,13 +63,15 @@ def test_orphans_pruned_before_live_even_if_newer(cache):
     assert cache._last_hash[live] == 'h'
 
 
-def test_live_pruned_last_and_redirtied(cache):
-    a, b = str(uuidlib.uuid4()), str(uuidlib.uuid4())
+def test_live_never_pruned_at_runtime(cache):
+    a, b, o = (str(uuidlib.uuid4()) for _ in range(3))
     _mk(cache, a, MB, 100)
     _mk(cache, b, MB // 2, 200)
+    _mk(cache, o, 10, 300)
     cache._last_hash[a] = 'h'
-    assert cache.enforce_total_cap({a, b}) == [a]
-    assert a not in cache._last_hash and a in cache._dirty
+    assert cache.enforce_total_cap({a, b}) == [o]
+    assert os.path.exists(cache.path_for(a)) and cache._last_hash[a] == 'h'
+    assert a not in cache._dirty
 
 
 def test_ignores_non_cache_files(cache, tmp_path):
@@ -113,3 +115,24 @@ def test_worker_write_increments_counter(cache):
         cache._queue.put(it)
     cache._worker_loop()
     assert cache._bytes_since_gc == 5
+
+
+def test_counter_reset_and_increment_use_io_lock(cache):
+    import threading
+    cache._started = True
+    cache._queue = queue.Queue()
+    cache._bytes_since_gc = 5
+    real = cache._io_lock
+    seen = []
+
+    class L(object):
+        def __enter__(self):
+            seen.append(1); return real.__enter__()
+        def __exit__(self, *a):
+            return real.__exit__(*a)
+    cache._io_lock = L()
+    try:
+        assert cache._maybe_queue_gc(set(), now=5000) is True
+    finally:
+        cache._io_lock = real
+    assert seen and cache._bytes_since_gc == 0

@@ -711,7 +711,8 @@ class ScrollbackCache(Borg):
         if not self._bytes_since_gc:
             return False
         self._last_gc = now
-        self._bytes_since_gc = 0
+        with self._io_lock:  # worker increments concurrently
+            self._bytes_since_gc = 0
         try:
             self._queue.put(('gc', frozenset(live or ())))
         except Exception:
@@ -721,8 +722,8 @@ class ScrollbackCache(Borg):
     def enforce_total_cap(self, protect=()):
         """Prune cache files until total <= scrollback_cache_total_mb.
 
-        Order: non-live (orphan/closed) files oldest-first, then live files
-        oldest-first.  Runs on the worker, so writes queued earlier have already
+        Only non-live (orphan/closed) files are removed, oldest-first; live
+        files are never removed at runtime (see loop).  Runs on the worker, so writes queued earlier have already
         landed (FIFO); seq is deliberately NOT bumped (that would drop a newer
         write queued after this gc item).  A removed live file has its hash
         cleared and is re-marked dirty so the next tick rewrites it.  Returns the list of removed uuids.
@@ -754,6 +755,13 @@ class ScrollbackCache(Borg):
         files.sort()  # non-live first, then oldest
         for is_live, _mtime, u, size in files:
             if total <= total_cap:
+                break
+            if is_live:
+                # m16 review: never delete an open terminal's cache at runtime.
+                # It would just be rewritten next tick (delete/rewrite churn
+                # every GC interval) and a crash in between loses it.  Live
+                # files are bounded per-file by scrollback_cache_max_kb; the
+                # startup cleanup enforces the cap on them.
                 break
             with self._io_lock:
                 try:
@@ -803,7 +811,8 @@ class ScrollbackCache(Borg):
                         sbt.atomic_write_txt(path, data, mode=0o600)
                     # Update hash on main thread
                     GLib.idle_add(self._on_write_ok, uuid_str, digest, seq)
-                    self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
+                    with self._io_lock:
+                        self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
                 elif item[0] == 'gc':
                     _, protect = item
                     self.enforce_total_cap(protect)
