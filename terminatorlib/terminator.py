@@ -140,6 +140,9 @@ class Terminator(Borg):
             dbg('no windows remain, quitting')
             Gtk.main_quit()
 
+        from .session import try_mark_dirty
+        try_mark_dirty('deregister_window')
+
     def register_launcher_window(self, window):
         """Register a new launcher window widget"""
         if window not in self.launcher_windows:

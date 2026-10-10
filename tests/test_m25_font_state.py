@@ -73,3 +73,32 @@ def test_create_layout_backward_compat_and_invalid(env, layout):
     assert not t.get_auto_font_locked()
     assert t.vte.get_font().get_size() == before
     _close_all([w])
+
+
+def test_reconfigure_keeps_custom_font_size(env):
+    tmp, sm = env
+    w = _make_window([str(tmp)])
+    t, = w.get_terminals()
+    t.zoom_in()
+    want = t.custom_font_size
+    t.reconfigure()
+    _pump()
+    assert t.custom_font_size == want
+    assert t.vte.get_font().get_size() == want
+    _close_all([w])
+
+
+def test_zoom_orig_drops_font_size_from_layout(env):
+    tmp, sm = env
+    w = _make_window([str(tmp)])
+    t, = w.get_terminals()
+    t.zoom_in()
+    out = {}
+    t.describe_layout(0, 'w', out, 0)
+    assert 'font_size' in out['terminal0']
+    t.zoom_orig()
+    assert t.custom_font_size is None
+    out = {}
+    t.describe_layout(0, 'w', out, 0)
+    assert 'font_size' not in out['terminal0']
+    _close_all([w])
