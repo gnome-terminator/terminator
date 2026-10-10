@@ -889,6 +889,9 @@ class PrefsEditor:
         # Scroll on keystroke
         widget = guiget('scroll_on_keystroke_checkbutton')
         widget.set_active(self.config['scroll_on_keystroke'])
+        # Hide scrollbar while a fullscreen (alternate screen) app runs
+        widget = guiget('scrollbar_hide_in_alt_screen_checkbutton')
+        widget.set_active(self.config['scrollbar_hide_in_alt_screen'])
 
         ## Compatibility tab
         # Backspace key
@@ -1117,6 +1120,11 @@ class PrefsEditor:
     def on_scroll_on_keystroke_checkbutton_toggled(self, widget):
         """Scroll on keystrong setting changed"""
         self.config['scroll_on_keystroke'] = widget.get_active()
+        self.config.save()
+
+    def on_scrollbar_hide_in_alt_screen_checkbutton_toggled(self, widget):
+        """Auto-hide scrollbar in alternate screen setting changed"""
+        self.config['scrollbar_hide_in_alt_screen'] = widget.get_active()
         self.config.save()
 
     def on_scroll_on_output_checkbutton_toggled(self, widget):

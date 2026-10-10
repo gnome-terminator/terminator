@@ -1,0 +1,502 @@
+"""M8: auto-hide scrollbar while a fullscreen TUI uses the alternate screen."""
+
+import os
+import time
+
+import pytest
+
+from terminatorlib import altscreen
+from terminatorlib.altscreen import (AltScreenDetector, AltScreenScrollbar,
+                                     adjustment_collapsed, foreground_busy,
+                                     should_auto_hide)
+
+
+# --- pure helpers --------------------------------------------------------
+
+def test_adjustment_collapsed():
+    assert adjustment_collapsed(0, 24, 24)
+    assert not adjustment_collapsed(0, 51, 24)
+    assert not adjustment_collapsed(0, 0, 0)  # unrealised widget
+
+
+def test_should_auto_hide_respects_config():
+    assert should_auto_hide(True, True, 'right')
+    assert should_auto_hide(True, True, 'left')
+    assert not should_auto_hide(True, True, 'hidden')
+    assert not should_auto_hide(True, True, 'disabled')
+    assert not should_auto_hide(True, False, 'right')
+    assert not should_auto_hide(False, True, 'right')
+
+
+class Clock(object):
+    def __init__(self):
+        self.t = 100.0
+
+    def __call__(self):
+        return self.t
+
+
+def test_detector_alt_screen_after_history():
+    d = AltScreenDetector()
+    assert d.update(collapsed=False, busy=None) is False   # history
+    assert d.update(True, True, raw=True) is True          # vim
+    assert d.update(True, True, raw=True) is True          # stays
+    assert d.update(False, None) is False                  # :q
+
+
+def test_detector_fresh_terminal_never_flaps():
+    d = AltScreenDetector()
+    # fresh terminal, `ping` running (canonical), nothing scrolled yet
+    assert d.update(True, True, raw=False) is False
+    # even a raw-mode program with no content above is left alone
+    assert d.update(True, True, raw=True) is False
+
+
+def test_detector_batch_output_then_smcup_uses_cursor_evidence():
+    # `seq 100; vim` processed in one batch: adjustment never showed history
+    d = AltScreenDetector()
+    assert d.update(True, True, raw=True, cursor_beyond=True) is True
+
+
+def test_detector_canonical_program_not_hidden():
+    d = AltScreenDetector()
+    d.update(False, None)
+    # `clear` (ESC[3J) while still in foreground, canonical mode
+    assert d.update(True, True, raw=False, cursor_beyond=True) is False
+
+
+def test_detector_clear_then_command_does_not_hide():
+    d = AltScreenDetector()
+    d.update(False, None)
+    # `clear` finished, shell back in foreground
+    assert d.update(True, False) is False
+    assert d.had_history is False
+    # `ping` starts afterwards on the cleared screen
+    assert d.update(True, True, raw=False, cursor_beyond=True) is False
+
+
+def test_detector_unknown_foreground_never_hides():
+    # flatpak (no pid) / no /proc: an idle readline prompt is raw too, so
+    # an unknown foreground must not hide the scrollbar after `clear`.
+    d = AltScreenDetector()
+    d.update(False, None)
+    assert d.update(True, None, raw=True, cursor_beyond=True) is False
+    assert d.had_history is True
+
+
+def test_detector_unknown_termios_with_known_tui_hides():
+    d = AltScreenDetector()
+    d.update(False, None)
+    assert d.update(True, True, raw=None) is True
+
+
+def test_foreground_busy_unknown_shell_name_or_pgrp(monkeypatch):
+    monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 100)
+    assert foreground_busy(5, 100, is_shell=lambda pid: None) is None
+    monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 0)
+    assert foreground_busy(5, 100, is_shell=lambda pid: True) is None
+    assert altscreen.is_shell_pid(2 ** 22 + 12345) is None
+
+
+def test_detector_shell_in_foreground_means_no_tui():
+    d = AltScreenDetector()
+    d.update(False, None)
+    d.update(True, True, raw=True)
+    # TUI died without leaving alt screen; shell prompt is back
+    assert d.update(True, False) is False
+
+
+def test_detector_grace_then_latch():
+    clock = Clock()
+    d = AltScreenDetector(clock=clock)
+    d.update(False, None)
+    # TUI switched screen but not yet raw
+    assert d.update(True, True, raw=False) is False
+    clock.t += 0.3
+    assert d.update(True, True, raw=True) is True      # within grace
+    d2 = AltScreenDetector(clock=clock)
+    assert d2.update(True, True, raw=True) is False    # fresh: no evidence
+    clock.t += 5
+    # alt ring scrolled much later: no mid-session hide/reflow
+    assert d2.update(True, True, raw=True, cursor_beyond=True) is False
+    # episode ends, next TUI decides afresh
+    assert d2.update(False, None) is False
+    assert d2.update(True, True, raw=True) is True
+
+
+def test_tty_raw_on_real_pty():
+    import pty
+    import termios
+    import tty
+    master, slave = pty.openpty()
+    try:
+        attrs = termios.tcgetattr(slave)
+        attrs[3] |= termios.ICANON
+        termios.tcsetattr(slave, termios.TCSANOW, attrs)
+        assert altscreen.tty_raw(master) is False
+        tty.setraw(slave)
+        assert altscreen.tty_raw(master) is True
+    finally:
+        os.close(master)
+        os.close(slave)
+    assert altscreen.tty_raw(None) is None
+    assert altscreen.tty_raw(-1) is None
+
+
+def test_foreground_busy(monkeypatch):
+    monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 100)
+    assert foreground_busy(5, 100, is_shell=lambda pid: True) is False
+    assert foreground_busy(5, 100, is_shell=lambda pid: False) is True
+    assert foreground_busy(5, 42, is_shell=lambda pid: True) is True
+    assert foreground_busy(None, 100) is None
+    assert foreground_busy(5, -1) is None
+
+    def boom(fd):
+        raise OSError('nope')
+    monkeypatch.setattr(os, 'tcgetpgrp', boom)
+    assert foreground_busy(5, 100) is None
+
+
+def test_is_shell_pid_for_own_process_is_false():
+    # pytest runs under python, not a shell
+    assert altscreen.is_shell_pid(os.getpid()) is False
+    assert altscreen.process_name(os.getpid())
+
+
+# --- controller with fakes -----------------------------------------------
+
+class FakeAdj(object):
+    def __init__(self, lower=0, upper=51, page=24):
+        self.lower, self.upper, self.page = lower, upper, page
+
+    def get_lower(self):
+        return self.lower
+
+    def get_upper(self):
+        return self.upper
+
+    def get_page_size(self):
+        return self.page
+
+
+class FakeScrollbar(object):
+    def __init__(self, visible=True):
+        self.visible = visible
+        self.calls = []
+
+    def get_visible(self):
+        return self.visible
+
+    def get_allocated_width(self):
+        return 14
+
+    def show(self):
+        self.visible = True
+        self.calls.append('show')
+
+    def hide(self):
+        self.visible = False
+        self.calls.append('hide')
+
+
+class FakeVte(object):
+    def __init__(self, adj):
+        self.adj = adj
+        self.row = 30
+
+    def get_vadjustment(self):
+        return self.adj
+
+    def get_pty(self):
+        return None
+
+    def get_cursor_position(self):
+        return (0, self.row)
+
+
+class FakeTerminal(object):
+    def __init__(self, position='right', enabled=True, visible=True):
+        self.adj = FakeAdj()
+        self.vte = FakeVte(self.adj)
+        self.scrollbar = FakeScrollbar(visible)
+        self.pid = 1234
+        self.config = {'scrollbar_position': position,
+                       'scrollbar_hide_in_alt_screen': enabled}
+
+
+def _ctl(monkeypatch, busy=True, **kw):
+    term = FakeTerminal(**kw)
+    ctl = AltScreenScrollbar(term)
+    ctl._adj = term.adj
+    state = {'busy': busy, 'raw': True}
+    monkeypatch.setattr(altscreen, 'foreground_busy',
+                        lambda fd, pid: state['busy'])
+    monkeypatch.setattr(altscreen, 'tty_raw', lambda fd: state['raw'])
+    return term, ctl, state
+
+
+def test_controller_hides_and_restores(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.evaluate()                       # history
+    assert term.scrollbar.visible and not ctl.auto_hidden
+    term.adj.upper = 24                  # enter alt screen
+    ctl.evaluate()
+    assert not term.scrollbar.visible and ctl.auto_hidden
+    assert ctl.hidden_width == 14
+    ctl.evaluate()                       # no repeated hide
+    assert term.scrollbar.calls == ['hide']
+    term.adj.upper = 51                  # leave alt screen
+    ctl.evaluate()
+    assert term.scrollbar.visible and not ctl.auto_hidden
+    assert term.scrollbar.calls == ['hide', 'show']
+
+
+@pytest.mark.parametrize('position', ['hidden', 'disabled'])
+def test_controller_never_shows_configured_hidden(monkeypatch, position):
+    term, ctl, _ = _ctl(monkeypatch, position=position, visible=False)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert term.scrollbar.calls == []
+
+
+def test_controller_option_off(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch, enabled=False)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert term.scrollbar.calls == []
+
+
+def test_controller_user_hidden_scrollbar_left_alone(monkeypatch):
+    # user pressed Ctrl+Shift+S before starting vim
+    term, ctl, _ = _ctl(monkeypatch, visible=False)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    term.adj.upper = 51
+    ctl.evaluate()
+    assert term.scrollbar.calls == []
+
+
+def test_controller_user_toggle_inside_tui_is_respected(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert not term.scrollbar.visible
+    ctl.user_toggled()                   # Terminal.do_scrollbar_toggle
+    term.scrollbar.show()
+    ctl.evaluate()
+    assert term.scrollbar.visible        # not re-hidden while in vim
+    term.adj.upper = 51
+    ctl.evaluate()                       # vim exits: override cleared
+    term.adj.upper = 24
+    ctl.evaluate()                       # next TUI hides again
+    assert not term.scrollbar.visible
+
+
+def test_controller_reconfigure_reapplies(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    term.scrollbar.show()                # Terminal.reconfigure() shows it
+    ctl.reconfigured()
+    assert not term.scrollbar.visible and ctl.auto_hidden
+    term.config['scrollbar_hide_in_alt_screen'] = False
+    term.scrollbar.show()
+    ctl.reconfigured()
+    assert term.scrollbar.visible and not ctl.auto_hidden
+
+
+def test_controller_child_exit_restores(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    ctl._on_child_exited()
+    assert term.scrollbar.visible and not ctl.detector.active
+
+
+def test_controller_canonical_command_untouched(monkeypatch):
+    term, ctl, state = _ctl(monkeypatch)
+    state['raw'] = False
+    ctl.evaluate()
+    term.adj.upper = 24
+    ctl.evaluate()
+    assert term.scrollbar.calls == []
+
+
+def test_on_contents_only_schedules_when_collapsed(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule', lambda: scheduled.append(1))
+    ctl._on_contents()
+    assert scheduled == []
+    term.adj.upper = 24
+    ctl._on_contents()
+    assert scheduled == [1]
+
+
+def test_on_change_fast_path_skips_timer(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    scheduled = []
+    monkeypatch.setattr(ctl, 'schedule', lambda: scheduled.append(1))
+    ctl._on_change(term.adj)
+    assert scheduled == [] and ctl.detector.had_history
+    term.adj.upper = 24
+    ctl._on_change(term.adj)
+    assert scheduled == [1]
+
+
+def test_terminal_wires_controller():
+    import inspect
+    from terminatorlib import terminal
+    src = inspect.getsource(terminal.Terminal)
+    assert 'AltScreenScrollbar(self)' in src
+    assert 'self.altscreen.user_toggled()' in src
+    assert 'self.altscreen.reconfigured()' in src
+
+
+def test_config_default_on():
+    from terminatorlib.config import DEFAULTS
+    assert DEFAULTS['profiles']['default']['scrollbar_hide_in_alt_screen'] \
+        is True
+
+
+def test_prefs_glade_has_checkbox():
+    path = os.path.join(os.path.dirname(altscreen.__file__),
+                        'preferences.glade')
+    with open(path) as fh:
+        text = fh.read()
+    assert 'scrollbar_hide_in_alt_screen_checkbutton' in text
+    from terminatorlib import prefseditor
+    assert hasattr(prefseditor.PrefsEditor,
+                   'on_scrollbar_hide_in_alt_screen_checkbutton_toggled')
+
+
+# --- real VTE --------------------------------------------------------------
+
+def _run_real_vte(script, duration_ms=3600):
+    import gi
+    gi.require_version('Gtk', '3.0')
+    gi.require_version('Vte', '2.91')
+    from gi.repository import Gtk, Vte, GLib
+
+    class RealTerm(object):
+        def __init__(self):
+            self.config = {'scrollbar_position': 'right',
+                           'scrollbar_hide_in_alt_screen': True}
+            self.vte = Vte.Terminal()
+            self.vte.set_size(80, 24)
+            self.vte.set_scrollback_lines(1000)
+            self.scrollbar = Gtk.Scrollbar.new(
+                Gtk.Orientation.VERTICAL, self.vte.get_vadjustment())
+            self.scrollbar.set_no_show_all(True)
+            box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 0)
+            box.pack_start(self.vte, True, True, 0)
+            box.pack_start(self.scrollbar, False, True, 0)
+            self.scrollbar.show()
+            self.win = Gtk.Window()
+            self.win.add(box)
+            self.win.show_all()
+            self.pid = None
+
+    term = RealTerm()
+    ctl = AltScreenScrollbar(term)
+    ctl.attach()
+    ok, term.pid = term.vte.spawn_sync(
+        Vte.PtyFlags.DEFAULT, None, ['/bin/bash', '--norc', '-c', script],
+        None, GLib.SpawnFlags.DEFAULT, None, None, None)
+    samples = []
+    t0 = time.monotonic()
+
+    def sample():
+        samples.append((round(time.monotonic() - t0, 2),
+                        term.scrollbar.get_visible()))
+        return True
+
+    GLib.timeout_add(100, sample)
+    loop = GLib.MainLoop()
+    GLib.timeout_add(duration_ms, loop.quit)
+    loop.run()
+    ctl.detach()
+    term.win.destroy()
+    return samples
+
+
+# `set -m`: job control like an interactive shell (own fg pgrp per job).
+# The TUI stand-in switches the pty to raw mode like a real TUI.
+_TUI = ('sh -c \'stty raw -echo; printf "\\033[?1049h"; sleep 1.2; '
+        'printf "\\033[?1049l"; stty sane; sleep 0.2\'')
+
+needs_display = pytest.mark.skipif(not os.environ.get('DISPLAY'),
+                                   reason='needs X display')
+
+
+def _changes(vis):
+    return sum(1 for a, b in zip(vis, vis[1:]) if a != b)
+
+
+@needs_display
+def test_real_vte_alt_screen_roundtrip():
+    samples = _run_real_vte('set -m; seq 60; sleep 0.8; %s; sleep 1.2' % _TUI)
+    vis = [v for _, v in samples]
+    assert False in vis, samples              # hidden while in alt screen
+    assert vis[0] is True and vis[-1] is True, samples
+    assert _changes(vis) == 2, samples        # one cycle, no flapping
+
+
+@needs_display
+def test_real_vte_output_and_smcup_in_one_batch():
+    samples = _run_real_vte('set -m; sleep 0.5; seq 100; %s; sleep 1.2' % _TUI)
+    vis = [v for _, v in samples]
+    assert False in vis, samples
+    assert vis[-1] is True and _changes(vis) == 2, samples
+
+
+@needs_display
+def test_real_vte_clear_and_canonical_command_never_hide():
+    # history, then `clear` (ESC[3J) followed by a line-oriented command
+    samples = _run_real_vte(
+        'set -m; seq 60; sleep 0.5; sh -c \'printf "\\033[H\\033[2J\\033[3J"\'; '
+        'sh -c \'sleep 1.5; echo done\'; sleep 0.5', duration_ms=3000)
+    vis = [v for _, v in samples]
+    assert all(vis), samples
+
+
+def test_detach_stops_timers_and_handlers(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    added = []
+    removed = []
+    monkeypatch.setattr(altscreen.GLib, 'timeout_add',
+                        lambda ms, cb: added.append(cb) or 77)
+    monkeypatch.setattr(altscreen.GLib, 'source_remove',
+                        lambda sid: removed.append(sid))
+
+    class Obj(object):
+        def __init__(self):
+            self.gone = []
+
+        def disconnect(self, hid):
+            self.gone.append(hid)
+    obj = Obj()
+    ctl._handlers = [(obj, 1), (obj, 2)]
+    ctl.schedule()
+    ctl.detach()
+    assert removed == [77] and obj.gone == [1, 2]
+    assert ctl._handlers == [] and ctl._adj is None
+    ctl.schedule()                       # no new timer after detach
+    assert len(added) == 1
+    assert added[0]() is False           # stale callback is a no-op
+
+
+def test_terminal_close_detaches_altscreen():
+    import inspect
+    from terminatorlib.terminal import Terminal
+    src = inspect.getsource(Terminal.close)
+    assert 'altscreen' in src and 'detach()' in src
+    assert src.index('detach()') < src.index('del(self.vte)')
