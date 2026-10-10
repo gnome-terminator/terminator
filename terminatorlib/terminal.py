@@ -2777,6 +2777,11 @@ class Terminal(Gtk.VBox):
             cwd = self.get_cwd()
             if cwd:
                 layout['directory'] = cwd
+        # m25: per-terminal font state, only when user changed it
+        if self.custom_font_size:
+            layout['font_size'] = str(int(self.custom_font_size))
+        if self._auto_font_locked:
+            layout['auto_font_locked'] = 'True'
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
@@ -2803,6 +2808,44 @@ class Terminal(Gtk.VBox):
             self.uuid = make_uuid(layout['uuid'])
         if layout.get('maximised_pane') == 'True':
             self._restore_maximised = True
+        self._restore_font_state(layout)
+
+    # Pango units; 1pt..512pt keeps corrupt sessions from wrecking the UI
+    _FONT_SIZE_MIN = Pango.SCALE
+    _FONT_SIZE_MAX = 512 * Pango.SCALE
+
+    def _restore_font_state(self, layout):
+        """m25: apply saved font_size / auto_font_locked (both optional;
+        older sessions lack them). Runs before the first auto-font pass."""
+        raw = layout.get('font_size')
+        if raw not in (None, ''):
+            try:
+                size = int(str(raw).strip())
+            except (TypeError, ValueError):
+                size = None
+            if size is not None and \
+                    self._FONT_SIZE_MIN <= size <= self._FONT_SIZE_MAX:
+                try:
+                    desc = self.vte.get_font()
+                    if desc is not None:
+                        desc = desc.copy()
+                        desc.set_size(size)
+                        self.set_font(desc)
+                    self.custom_font_size = size
+                    self._base_cell = None
+                except Exception as ex:
+                    dbg('font_size restore failed: %s' % ex)
+            else:
+                dbg('ignoring invalid saved font_size %r' % (raw,))
+        locked = layout.get('auto_font_locked')
+        if str(locked).strip().lower() == 'true':
+            # Set the flag directly: set_auto_font_locked() would trigger
+            # apply_tier; at restore time tier is still 0 anyway.
+            self._auto_font_locked = True
+            try:
+                self.refresh_badge()
+            except Exception:
+                pass
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
