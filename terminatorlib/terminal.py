@@ -34,6 +34,26 @@ from . import regex
 from .scrollback import ScrollbackCache
 from .altscreen import AltScreenScrollbar
 
+_AUTOFONT_TOAST_CSS = None
+
+
+def _autofont_toast_css():
+    """One shared CssProvider for every auto-font toast (UI review P2-8)."""
+    global _AUTOFONT_TOAST_CSS
+    if _AUTOFONT_TOAST_CSS is None:
+        provider = Gtk.CssProvider()
+        provider.load_from_data(b"""
+        .terminator-autofont-toast {
+            background-color: rgba(0, 0, 0, 0.72);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        """)
+        _AUTOFONT_TOAST_CSS = provider
+    return _AUTOFONT_TOAST_CSS
+
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
     """Class implementing the VTE widget and its wrappings"""
@@ -307,12 +327,17 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
-        if getattr(self, '_cwd_probe_timer', None):
-            try:
-                GLib.source_remove(self._cwd_probe_timer)
-            except Exception:
-                pass
-            self._cwd_probe_timer = None
+        # UI review P2-2: no GLib source may fire on a closed terminal
+        for attr in ('_cwd_probe_timer', '_auto_font_timer',
+                     '_autofont_toast_timer', '_base_cell_probe_idle'):
+            sid = getattr(self, attr, None)
+            if sid:
+                try:
+                    GLib.source_remove(sid)
+                except Exception:
+                    pass
+            if attr in self.__dict__:
+                setattr(self, attr, None)
         # Last terminal exit: finalize session BEFORE scrollback close hook
         # so will_persist() is True and caches are kept (A4).
         try:
@@ -1623,6 +1648,17 @@ class Terminal(Gtk.VBox):
 
         dsthbox = widget
 
+        # UI review P2-11: a maximised pane (source or target) floats in the
+        # overlay frame, not in its slot; snap back before re-parenting.
+        for _term in (dsthbox, srchbox):
+            _top = _term.get_toplevel()
+            if getattr(_top, 'is_maximised_pane', None) and \
+                    _top.is_maximised_pane(_term):
+                try:
+                    _top.overlay_restore(animate=False)
+                except Exception as ex:
+                    dbg('overlay restore before DnD: %s' % ex)
+
         from .util import logical_parent as _lp
         dstpaned = _lp(dsthbox)
         srcpaned = _lp(srchbox)
@@ -2328,9 +2364,22 @@ class Terminal(Gtk.VBox):
         except Exception:
             pass
         if (toast and show_badge and scale < 0.999 and
-                reason not in ('init', 'd-sync', 'locked')):
+                reason not in ('init', 'd-sync', 'locked') and
+                self._autofont_toast_wanted()):
             from .autofont import tier_label
             self.show_center_toast(tier_label(scale))
+
+    def _autofont_toast_wanted(self):
+        """UI review P2-7: a window resize crossing a threshold changes the
+        tier in every pane at once; only the focused pane (or, while the
+        window is unfocused, the last focused one) toasts. The badges
+        already show the others' state."""
+        try:
+            if self.vte.has_focus():
+                return True
+            return getattr(self.terminator, 'last_focused_term', None) is self
+        except Exception:
+            return True
 
     def refresh_badge(self):
         """Push current scale/lock state to the titlebar badge."""
@@ -2470,20 +2519,9 @@ class Terminal(Gtk.VBox):
             label.set_margin_bottom(24)
         except Exception:
             pass
-        css = b"""
-        .terminator-autofont-toast {
-            background-color: rgba(0, 0, 0, 0.72);
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        """
         try:
-            provider = Gtk.CssProvider()
-            provider.load_from_data(css)
             label.get_style_context().add_provider(
-                provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+                _autofont_toast_css(), Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
             label.get_style_context().add_class('terminator-autofont-toast')
         except Exception as ex:
             dbg('autofont toast css: %s' % ex)
