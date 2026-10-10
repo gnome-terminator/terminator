@@ -378,6 +378,45 @@ class Terminator(Borg):
             self.cur_gtk_theme_name = new_gtk_theme_name
             self.reconfigure()
 
+    def pane_accent_color(self):
+        """Return a validated pane accent colour string"""
+        default = '#3fb950'
+        try:
+            value = self.config['pane_accent_color']
+        except Exception:
+            return default
+        rgba = Gdk.RGBA()
+        if not value or not rgba.parse(str(value)):
+            err('Invalid pane_accent_color %r, using %s' % (value, default))
+            return default
+        return str(value)
+
+    def pane_chrome_css(self):
+        """CSS for the Wave-style titlebar and the focused-pane border"""
+        accent = self.pane_accent_color()
+        return """
+            .terminator-terminal-window .terminator-term-focused {
+                border: 1px solid %(accent)s; }
+            .terminator-terminal-window .terminator-term-unfocused {
+                border: 1px solid transparent; }
+            .terminator-terminal-window .pane-maximised .terminator-term-focused {
+                border-color: transparent; }
+
+            button.titlebar-btn {
+                padding: 0px 2px; min-height: 0px; min-width: 0px; }
+            button.titlebar-btn-close { margin-left: 6px; }
+            button.titlebar-btn-close:hover { color: #f85149; }
+            button.titlebar-badge {
+                padding: 0px 4px; min-height: 0px; font-size: smaller; }
+
+            .titlebar-density-standard { min-height: 24px; }
+            .titlebar-density-compact { min-height: 20px; }
+            .titlebar-density-standard button.titlebar-btn {
+                min-width: 24px; min-height: 24px; }
+            .titlebar-density-compact button.titlebar-btn {
+                min-width: 20px; min-height: 20px; }
+            """ % {'accent': accent}
+
     def reconfigure(self):
         """Update configuration for the whole application"""
 
@@ -415,6 +454,10 @@ class Terminator(Borg):
                 border-radius: 0px;
                 background-color: transparent; }
             """
+
+        # Pane chrome (titlebar buttons, focus border). Shared with the
+        # overlay maximise module (D), which appends to this same string.
+        css += self.pane_chrome_css()
 
         # Add per profile snippets for setting the background of the HBox
         template = """
@@ -509,6 +552,9 @@ class Terminator(Borg):
         # Cause all the terminals to reconfigure
         for terminal in self.terminals:
             terminal.reconfigure()
+            titlebar = getattr(terminal, 'titlebar', None)
+            if titlebar is not None and hasattr(titlebar, 'apply_chrome_config'):
+                titlebar.apply_chrome_config()
 
         # Reparse our keybindings
         self.keybindings.configure(self.config['keybindings'])
