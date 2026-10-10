@@ -6,7 +6,7 @@ import copy
 import time
 import uuid
 import gi
-from gi.repository import GObject
+from gi.repository import GLib, GObject
 from gi.repository import Gtk, Gdk
 
 from .zoomguard import leave_zoom
@@ -1144,6 +1144,7 @@ class Window(Container, Gtk.Window):
     def do_deferred_set_rough_geometry_hints(self):
         self.pending_set_rough_geometry_hint = False
         self.set_rough_geometry_hints()
+        return False  # one-shot idle source
 
     def set_rough_geometry_hints(self):
         """Walk all the terminals along the top and left edges to fake up how
