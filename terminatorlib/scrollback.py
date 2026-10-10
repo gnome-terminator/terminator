@@ -245,6 +245,7 @@ class ScrollbackCache(Borg):
     _disabled_by_error = None
     _config = None
     _rotate_index = None
+    _seq = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -275,6 +276,10 @@ class ScrollbackCache(Borg):
             self._config = Config()
         if self._rotate_index is None:
             self._rotate_index = 0
+        if self._seq is None:
+            # uuid -> generation of the newest write/delete intent; the worker
+            # drops queued writes that a later sync write/delete superseded.
+            self._seq = {}
 
     # ---- config helpers ----
     def _cfg(self, key, default=None):
@@ -484,6 +489,7 @@ class ScrollbackCache(Borg):
         path = self.path_for(uuid_str)
         if not path:
             return
+        seq = self._bump(uuid_str)
         if sync:
             try:
                 if not self._dir:
@@ -500,7 +506,7 @@ class ScrollbackCache(Borg):
             # Coalesce: drop prior pending writes for same uuid by tagging;
             # worker keeps latest by processing sequentially; main may put
             # multiple — worker overwrites same path. Acceptable.
-            self._queue.put(('write', uuid_str, data, digest))
+            self._queue.put(('write', uuid_str, data, digest, seq))
             self._dirty.discard(uuid_str)
 
     def on_terminal_close(self, terminal):
@@ -564,13 +570,15 @@ class ScrollbackCache(Borg):
                 break
             try:
                 if item[0] == 'write':
-                    _, uuid_str, data, digest = item
+                    _, uuid_str, data, digest, seq = item
+                    if self._seq.get(uuid_str) != seq:
+                        continue  # superseded by newer sync write / delete
                     path = self.path_for(uuid_str)
                     if not path:
                         continue
                     sbt.atomic_write_txt(path, data, mode=0o600)
                     # Update hash on main thread
-                    GLib.idle_add(self._on_write_ok, uuid_str, digest)
+                    GLib.idle_add(self._on_write_ok, uuid_str, digest, seq)
                 elif item[0] == 'delete':
                     _, uuid_str = item
                     path = self.path_for(uuid_str)
@@ -584,10 +592,17 @@ class ScrollbackCache(Borg):
             except Exception as ex:
                 dbg('scrollback worker error: %s' % ex)
 
-    def _on_write_ok(self, uuid_str, digest):
+    def _on_write_ok(self, uuid_str, digest, seq=None):
+        if seq is not None and self._seq.get(uuid_str) != seq:
+            return False
         self._last_hash[uuid_str] = digest
         self._fail_count = 0
         return False
+
+    def _bump(self, uuid_str):
+        seq = self._seq.get(uuid_str, 0) + 1
+        self._seq[uuid_str] = seq
+        return seq
 
     def _on_write_failed(self, exc):
         self._fail_count = (self._fail_count or 0) + 1
@@ -619,7 +634,18 @@ class ScrollbackCache(Borg):
         try:
             max_bytes = self._max_kb() * 1024
             with open(path, 'rb') as fh:
-                raw = fh.read(max_bytes + 4).decode('utf-8', 'replace')
+                size = os.fstat(fh.fileno()).st_size
+                if size > max_bytes:
+                    # Keep the newest output (tail), not the oldest, and
+                    # start on a line boundary.
+                    fh.seek(size - max_bytes)
+                    rawb = fh.read()
+                    nl = rawb.find(b'\n')
+                    if 0 <= nl < len(rawb) - 1:
+                        rawb = rawb[nl + 1:]
+                else:
+                    rawb = fh.read()
+                raw = rawb.decode('utf-8', 'replace')
             mtime = os.path.getmtime(path)
         except OSError as ex:
             dbg('restore read failed: %s' % ex)
@@ -663,6 +689,7 @@ class ScrollbackCache(Borg):
             return
         self._dirty.discard(uuid_str)
         self._last_hash.pop(uuid_str, None)
+        self._bump(uuid_str)
         path = self.path_for(uuid_str)
         if not path:
             return
