@@ -1749,7 +1749,7 @@ class Terminal(Gtk.VBox):
         if self.pending_on_vte_size_allocate:
             return
         self.pending_on_vte_size_allocate = True
-        GObject.idle_add(self.do_deferred_on_vte_size_allocate, widget, allocation)
+        GLib.idle_add(self.do_deferred_on_vte_size_allocate, widget, allocation)
 
     def do_deferred_on_vte_size_allocate(self, widget, allocation):
         self.pending_on_vte_size_allocate = False

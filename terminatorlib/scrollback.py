@@ -20,6 +20,8 @@ import shutil
 import threading
 import time
 
+import gi
+gi.require_version('Vte', '2.91')  # noqa: E402
 from gi.repository import GLib, Vte
 
 from .borg import Borg
@@ -633,6 +635,8 @@ class ScrollbackCache(Borg):
                 with self._io_lock:
                     self._bump(uuid_str)
                     sbt.atomic_write_txt(path, data, mode=0o600)
+                    # m19: sync (on-close) writes count toward runtime GC too
+                    self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
                 self._last_hash[uuid_str] = digest
                 self._fail_count = 0
             except OSError as ex:

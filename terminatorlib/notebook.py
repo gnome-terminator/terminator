@@ -7,6 +7,7 @@ from gi.repository import GObject
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Gio
+from gi.repository import GLib
 
 from .terminator import Terminator
 from .config import Config
@@ -83,7 +84,7 @@ class Notebook(Container, Gtk.Notebook):
     def create_window_detach(self, notebook, widget, x, y):
         """Defer detaching a dropped tab until the drag has ended"""
         dbg('deferring detach of dropped tab: %s' % widget)
-        GObject.idle_add(self.detach_tab_to_new_window, widget, x, y)
+        GLib.idle_add(self.detach_tab_to_new_window, widget, x, y)
 
     def detach_tab_to_new_window(self, widget, x=None, y=None):
         """Detach the tab containing widget into a newly created window"""
@@ -110,7 +111,7 @@ class Notebook(Container, Gtk.Notebook):
 
     def on_tab_drag_failed(self, notebook, context, result):
         """Re-allocate after a failed tab drag so the label repaints"""
-        GObject.idle_add(self.queue_resize)
+        GLib.idle_add(self.queue_resize)
         return False
 
     def create_layout(self, layout):
@@ -173,7 +174,7 @@ class Notebook(Container, Gtk.Notebook):
 
         if 'active_page' in layout:
             # Need to do it later, or layout changes result
-            GObject.idle_add(self.set_current_page, int(layout['active_page']))
+            GLib.idle_add(self.set_current_page, int(layout['active_page']))
         else:
             self.set_current_page(0)
 
@@ -230,7 +231,7 @@ class Notebook(Container, Gtk.Notebook):
             Gtk.main_iteration_do(False)
         self.get_toplevel().set_pos_by_ratio = False
 
-        GObject.idle_add(terminal.ensure_visible_and_focussed)
+        GLib.idle_add(terminal.ensure_visible_and_focussed)
         try:
             from .session import try_mark_dirty
             try_mark_dirty('notebook.split_axis')
@@ -605,7 +606,7 @@ class Notebook(Container, Gtk.Notebook):
         self.pending_on_tab_switch_args = (notebook, page,  page_num,  data)
         if self.pending_on_tab_switch == True:
             return
-        GObject.idle_add(self.do_deferred_on_tab_switch)
+        GLib.idle_add(self.do_deferred_on_tab_switch)
         self.pending_on_tab_switch = True
 
     def do_deferred_on_tab_switch(self):
@@ -626,7 +627,7 @@ class Notebook(Container, Gtk.Notebook):
             term = self.terminator.find_terminal_by_uuid(tabs_last_active_term.urn)
             # if we can't find a last active term we must be starting up
             if term is not None:
-                GObject.idle_add(term.ensure_visible_and_focussed)
+                GLib.idle_add(term.ensure_visible_and_focussed)
         return True
 
     def on_scroll_event(self, notebook, event):
