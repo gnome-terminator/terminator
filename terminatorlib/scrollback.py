@@ -289,6 +289,9 @@ class ScrollbackCache(Borg):
     _SNAP_BURST = 3.0
     _visit = None
     _tick = None
+    _bytes_since_gc = None
+    _last_gc = None
+    GC_MIN_INTERVAL_S = 60.0
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -690,7 +693,87 @@ class ScrollbackCache(Borg):
                 self._flush_uuid(term, uuid_str, sync=False)
             except Exception as ex:
                 dbg('interval flush failed: %s' % ex)
+        self._maybe_queue_gc(set(by_uuid))
         return True
+
+    def _maybe_queue_gc(self, live, now=None):
+        """m16: queue a runtime total-size prune on the worker (throttled).
+
+        Runs when enough bytes were written since the last prune to possibly
+        exceed the cap, at most every GC_MIN_INTERVAL_S.  `live` uuids (open
+        terminals) are pruned only after every non-live file is gone.
+        """
+        if self._queue is None or not self._started:
+            return False
+        now = time.monotonic() if now is None else now
+        if self._last_gc is not None and now - self._last_gc < self.GC_MIN_INTERVAL_S:
+            return False
+        if not self._bytes_since_gc:
+            return False
+        self._last_gc = now
+        self._bytes_since_gc = 0
+        try:
+            self._queue.put(('gc', frozenset(live or ())))
+        except Exception:
+            return False
+        return True
+
+    def enforce_total_cap(self, protect=()):
+        """Prune cache files until total <= scrollback_cache_total_mb.
+
+        Order: non-live (orphan/closed) files oldest-first, then live files
+        oldest-first.  Runs on the worker, so writes queued earlier have already
+        landed (FIFO); seq is deliberately NOT bumped (that would drop a newer
+        write queued after this gc item).  A removed live file has its hash
+        cleared and is re-marked dirty so the next tick rewrites it.  Returns the list of removed uuids.
+        """
+        total_cap = max(0, self._total_mb()) * 1024 * 1024
+        removed = []
+        if total_cap <= 0 or not self._dir or not os.path.isdir(self._dir):
+            return removed
+        protect = set(protect or ())
+        files = []
+        try:
+            names = os.listdir(self._dir)
+        except OSError:
+            return removed
+        for name in names:
+            if not name.endswith('.txt'):
+                continue
+            u = name[:-4]
+            if not sbt.is_valid_uuid_filename(u):
+                continue
+            try:
+                st = os.stat(os.path.join(self._dir, name))
+            except OSError:
+                continue
+            files.append((u in protect, st.st_mtime, u, st.st_size))
+        total = sum(f[3] for f in files)
+        if total <= total_cap:
+            return removed
+        files.sort()  # non-live first, then oldest
+        for is_live, _mtime, u, size in files:
+            if total <= total_cap:
+                break
+            with self._io_lock:
+                try:
+                    os.unlink(os.path.join(self._dir, u + '.txt'))
+                except FileNotFoundError:
+                    pass
+                except OSError as ex:
+                    dbg('gc unlink failed: %s' % ex)
+                    continue
+            total -= size
+            removed.append(u)
+            GLib.idle_add(self._on_gc_removed, u, is_live)
+        dbg('scrollback gc removed %d file(s)' % len(removed))
+        return removed
+
+    def _on_gc_removed(self, uuid_str, was_live=False):
+        self._last_hash.pop(uuid_str, None)
+        if was_live:
+            self._dirty.add(uuid_str)  # rewrite (newest content) next tick
+        return False
 
     # ---- worker ----
     def _worker_loop(self):
@@ -720,6 +803,10 @@ class ScrollbackCache(Borg):
                         sbt.atomic_write_txt(path, data, mode=0o600)
                     # Update hash on main thread
                     GLib.idle_add(self._on_write_ok, uuid_str, digest, seq)
+                    self._bytes_since_gc = (self._bytes_since_gc or 0) + len(data)
+                elif item[0] == 'gc':
+                    _, protect = item
+                    self.enforce_total_cap(protect)
                 elif item[0] == 'delete':
                     _, uuid_str = item
                     path = self.path_for(uuid_str)
