@@ -140,6 +140,66 @@ def _terminal_uuid_str(terminal):
         return None
 
 
+def _cfg_list(config, key):
+    try:
+        value = config[key] if config is not None else None
+    except Exception:
+        value = None
+    if not value:
+        return []
+    if isinstance(value, str):
+        value = [value]
+    return [str(v).strip() for v in value if str(v).strip()]
+
+
+def _foreground_basename(terminal):
+    """Basename of the PTY foreground process group leader, or None."""
+    try:
+        pty = terminal.vte.get_pty()
+        fd = pty.get_fd() if pty is not None else None
+        if fd is None or fd < 0:
+            return None
+        pgrp = os.tcgetpgrp(fd)
+        if pgrp <= 0:
+            return None
+        from .close_confirm import _proc_basename
+        return _proc_basename(pgrp)
+    except Exception:
+        return None
+
+
+def cache_exclusion(terminal, config):
+    """Why this terminal must not be cached right now, or None.
+
+    scrollback_cache_exclude_profiles: terminals using one of these
+    profiles are never written.
+    scrollback_cache_exclude_commands: process basenames; while one is the
+    terminal's own child (e.g. ``-x ssh``) or the PTY foreground process,
+    the flush is skipped and the previous cache is kept.
+    """
+    profiles = _cfg_list(config, 'scrollback_cache_exclude_profiles')
+    if profiles:
+        try:
+            profile = terminal.get_profile()
+        except Exception:
+            profile = None
+        if profile in profiles:
+            return 'profile'
+    commands = set(os.path.basename(c)
+                   for c in _cfg_list(config, 'scrollback_cache_exclude_commands'))
+    if commands:
+        from .close_confirm import _proc_basename
+        pid = getattr(terminal, 'pid', None)
+        names = []
+        if isinstance(pid, int) and pid > 0:
+            names.append(_proc_basename(pid))
+        names.append(_foreground_basename(terminal))
+        for name in names:
+            if name and name in commands:
+                return 'command'
+    return None
+
+
 def export_vte_text(vte, start_row, start_col, end_row, end_col,
                     color=False, raw=False):
     """Export a text range from VTE using the best available API.
@@ -385,6 +445,9 @@ class ScrollbackCache(Borg):
         except OSError as ex:
             err('scrollback mkdir failed: %s' % ex)
             return False
+        from .session import tighten_dir
+        tighten_dir(path)
+        tighten_dir(os.path.dirname(path))
         try:
             st = os.stat(path)
             if st.st_uid != os.geteuid():
@@ -604,6 +667,10 @@ class ScrollbackCache(Borg):
             infinite = False
         if infinite and not caps['range_format'] and not caps['range']:
             dbg('skip flush %s: infinite scrollback without range API' % uuid_str)
+            self._dirty.discard(uuid_str)
+            return
+        if cache_exclusion(terminal, self._config):
+            dbg('skip flush %s: excluded by config' % uuid_str)
             self._dirty.discard(uuid_str)
             return
         if in_alt_screen(terminal):
@@ -1039,11 +1106,14 @@ class ScrollbackCache(Borg):
             except OSError:
                 continue
             files.append((full, uuid_part, st.st_mtime, st.st_size))
-        # TTL
+        # TTL -- never for caches the session being restored refers to
+        # (a week away must not restore the layout without its scrollback).
+        live = _sm_session_uuids()
+        protected = set(str(u) for u in live) if live is not None else set()
         if ttl > 0:
             kept = []
             for full, uuid_part, mtime, size in files:
-                if now - mtime > ttl:
+                if now - mtime > ttl and uuid_part not in protected:
                     try:
                         os.unlink(full)
                     except OSError:
@@ -1052,7 +1122,6 @@ class ScrollbackCache(Borg):
                     kept.append((full, uuid_part, mtime, size))
             files = kept
         # Orphans (only when session_uuids is a set)
-        live = _sm_session_uuids()
         if live is not None:
             live_set = set(str(u) for u in live)
             kept = []

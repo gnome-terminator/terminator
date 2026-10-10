@@ -122,6 +122,8 @@ class Terminal(Gtk.VBox):
     command = None
     clipboard = None
     pid = None
+    spawn_time = None
+    child_exited = False
 
     matches = None
     regex_flags = None
@@ -319,8 +321,16 @@ class Terminal(Gtk.VBox):
             except:
                 pass
         # Fall back to old gtk2 method
+        if self.pid is None:
+            # Child exited (m21 clears the pid) or never spawned:
+            # psutil.Process(None) would report *Terminator's* own cwd.
+            return getattr(self, '_last_session_cwd', None)
         dbg('calling get_pid_cwd')
-        return(get_pid_cwd(self.pid))
+        try:
+            return(get_pid_cwd(self.pid))
+        except Exception as ex:
+            dbg('get_pid_cwd(%s) failed: %s' % (self.pid, ex))
+            return getattr(self, '_last_session_cwd', None)
 
     def close(self):
         """Close ourselves"""
@@ -859,7 +869,7 @@ class Terminal(Gtk.VBox):
                             self._on_child_exited_hold)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
-                                            lambda x, y: self.emit('close-term'))
+                            self._on_child_exited_close)
 
         # Scrollback cache: (re)bind contents-changed + reconfigure cache
         self.cnxids.remove_signal(self.vte, 'contents-changed')
@@ -2004,6 +2014,8 @@ class Terminal(Gtk.VBox):
                     )
 
         self.command = shell
+        self.spawn_time = time.time()
+        self.child_exited = False
 
         self.titlebar.update()
 
@@ -2762,7 +2774,9 @@ class Terminal(Gtk.VBox):
             layout['title'] = title
         layout['uuid'] = self.uuid
         if save_cwd:
-            layout['directory'] = self.get_cwd()
+            cwd = self.get_cwd()
+            if cwd:
+                layout['directory'] = cwd
         name = 'terminal%d' % count
         count = count + 1
         global_layout[name] = layout
@@ -2952,13 +2966,27 @@ class Terminal(Gtk.VBox):
             return True
         return False
 
+    def _note_child_exited(self):
+        """Forget the dead child's pid: close confirmation must not report
+        it as '<unknown>' (or an unrelated process if the pid is reused),
+        and close() must not SIGHUP a recycled pid."""
+        self.pid = None
+        self.child_exited = True
+
     def _on_child_exited_restart(self, _vte, _status):
         """child-exited → respawn shell (exit_action=restart)."""
+        self._note_child_exited()
         self.spawn_child(respawn=True)
 
     def _on_child_exited_hold(self, _vte, _status):
         """child-exited → keep VTE open (exit_action=hold)."""
+        self._note_child_exited()
         self.held_open(respawn=True)
+
+    def _on_child_exited_close(self, _vte, _status):
+        """child-exited → close the terminal (exit_action=close/left)."""
+        self._note_child_exited()
+        self.emit('close-term')
 
     def key_resize_up(self):
         self.emit('resize-term', 'up')

@@ -228,6 +228,15 @@ class Terminator(Borg):
         self.prelayout_windows = self.windows[:]
 
         layout = copy.deepcopy(self.config.layout_get_config(layoutname))
+        if layout:
+            # Drop malformed entries (non-dict / no string type) instead of
+            # crashing on layout[obj]['type'].lower() below.
+            for obj in list(layout.keys()):
+                node = layout[obj]
+                if not isinstance(node, dict) or \
+                        not isinstance(node.get('type'), str):
+                    err('ignoring malformed layout entry %r' % (obj,))
+                    del layout[obj]
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
@@ -295,7 +304,11 @@ class Terminator(Borg):
                 winy = int(parts[1])
                 if winx > 1 and winy > 1:
                     window.resize(winx, winy)
-            if 'title' in layout[windef]:
+            # Only user-set titles (title_forced marker) are re-applied.
+            # Legacy upstream layouts stored the dynamic focused-terminal
+            # title here; forcing it would pin the window title forever.
+            if layout[windef].get('title') and \
+                    str(layout[windef].get('title_forced', '')) == 'True':
                 window.title.force_title(layout[windef]['title'])
             if 'maximised' in layout[windef]:
                 if layout[windef]['maximised'] == 'True':

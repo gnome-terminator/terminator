@@ -129,15 +129,23 @@ if __name__ == '__main__':
         TERMINATOR.reconfigure()
 
         # Session restore / ownership (module A)
+        sess = None
+        restoring = False
         try:
-            from terminatorlib.session import SessionManager, SESSION_LAYOUT_NAME
+            from terminatorlib.session import (SessionManager,
+                                               SESSION_LAYOUT_NAME,
+                                               is_explicit_launch)
             from terminatorlib.config import Config
             sess = SessionManager()
             got_lock = sess.acquire_lock()
             sess.set_owner_from_options(OPTIONS)
             sess.install_signal_handlers()
             if getattr(OPTIONS, 'clear_session', False):
-                sess.clear_session_files()
+                if got_lock:
+                    sess.clear_session_files()
+                else:
+                    err('--clear-session ignored: another Terminator instance '
+                        'owns the session')
             cfg = Config()
             want_restore = (
                 (cfg['restore_last_session'] or getattr(OPTIONS, 'restore', False))
@@ -165,23 +173,44 @@ if __name__ == '__main__':
                                     sess._loaded_session_uuids.add(str(uid))
                         OPTIONS.layout = SESSION_LAYOUT_NAME
                         sess.restored_this_run = True
+                        restoring = True
                         dbg('restoring last session (%d terminals)' %
                             len(sess._loaded_session_uuids))
-            # B: start scrollback cache after lock/load, before create_layout
-            try:
-                from terminatorlib.scrollback import ScrollbackCache
-                ScrollbackCache().start()
-            except Exception as ex:
-                dbg('ScrollbackCache.start: %s' % ex)
         except Exception as ex:
             err('session setup failed: %s' % ex)
 
+        # B: start scrollback cache after lock/load, before create_layout.
+        # Own try: a session setup failure must not disable the cache.
+        try:
+            from terminatorlib.scrollback import ScrollbackCache
+            ScrollbackCache().start()
+        except Exception as ex:
+            err('ScrollbackCache.start: %s' % ex)
+
+        windows_before = list(TERMINATOR.windows)
         try:
             dbg('Creating a terminal with layout: %s' % OPTIONS.layout)
             TERMINATOR.create_layout(OPTIONS.layout)
         except (KeyError,ValueError) as ex:
             err('layout creation failed, creating a window ("%s")' % ex)
+            if restoring and sess is not None:
+                sess.restore_failed(ex)
             TERMINATOR.new_window()
+        except Exception as ex:
+            # A malformed restored session must never stop startup
+            err('layout creation crashed, creating a window ("%s")' % ex)
+            if restoring and sess is not None:
+                sess.restore_failed(ex)
+            if not [w for w in TERMINATOR.windows if w not in windows_before]:
+                TERMINATOR.new_window()
+        try:
+            if sess is not None and is_explicit_launch(OPTIONS):
+                # -e/-x/-l NAME windows are not part of the session, but
+                # the process still saves later plain windows (P1-5).
+                sess.exclude_windows(
+                    [w for w in TERMINATOR.windows if w not in windows_before])
+        except Exception as ex:
+            dbg('session exclude windows: %s' % ex)
         TERMINATOR.layout_done()
 
     if OPTIONS.debug and OPTIONS.debug >= 2:
@@ -197,4 +226,14 @@ if __name__ == '__main__':
         Gtk.main()
     except KeyboardInterrupt:
         pass
+    finally:
+        # Exit paths that bypass the last-window/last-terminal hooks
+        # (Ctrl+C, display connection loss, a stray main_quit) must still
+        # do the final save and the synchronous scrollback flush.
+        # finalize() is idempotent.
+        try:
+            from terminatorlib.session import SessionManager
+            SessionManager().finalize()
+        except Exception as ex:
+            err('session finalize at exit: %s' % ex)
 

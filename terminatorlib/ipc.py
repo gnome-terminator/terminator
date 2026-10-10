@@ -85,7 +85,16 @@ class DBusService(Borg, dbus.service.Object):
         oldopts = self.terminator.config.options_get()
         oldopts.__dict__ = options
         self.terminator.config.options_set(oldopts)
+        windows_before = list(self.terminator.windows)
         self.terminator.create_layout(oldopts.layout)
+        try:
+            from .session import SessionManager, is_explicit_launch
+            if is_explicit_launch(oldopts):
+                SessionManager().exclude_windows(
+                    [w for w in self.terminator.windows
+                     if w not in windows_before])
+        except Exception as ex:
+            dbg('session exclude (dbus new_window): %s' % ex)
         self.terminator.layout_done()
 
     @dbus.service.method(BUS_NAME, in_signature='a{ss}')

@@ -35,8 +35,17 @@ _ESC_RE = re.compile(
 )
 _C1_RE = re.compile(r'[\x80-\x9f]')
 
-SEPARATOR_TEMPLATE = (
-    '──── 以上为上次会话的输出（仅文字快照，进程未恢复）· {time} ────'
+def N_(message):
+    """Mark a string for translation without translating it here."""
+    return message
+
+
+# English msgid (translated at use via format_separator(translate=_)).
+# The cache may keep colours (scrollback_cache_color), so it is not a
+# "text only" snapshot; running programs are never restored.
+SEPARATOR_TEMPLATE = N_(
+    '──── Output above is from the previous session '
+    '(saved snapshot; programs were not restored) · {time} ────'
 )
 
 
@@ -357,9 +366,10 @@ def format_separator_feed(mtime, translate=None):
 
 
 def atomic_write_txt(path, data, mode=0o600):
-    """Write data via mkstemp + replace. No fsync (session module owns fsync).
+    """Write data via mkstemp + full write + fsync + replace.
 
-    data may be str (encoded UTF-8) or bytes.
+    Short writes (ENOSPC, EINTR) are looped/raised so a truncated temp file
+    can never replace a good cache.  data may be str (UTF-8) or bytes.
     """
     if isinstance(data, str):
         data = data.encode('utf-8')
@@ -372,8 +382,14 @@ def atomic_write_txt(path, data, mode=0o600):
             os.fchmod(fd, mode)
         except OSError:
             pass
-        os.write(fd, data)
-        # intentionally no fsync — B cache is best-effort
+        view = memoryview(data)
+        written = 0
+        while written < len(view):
+            n = os.write(fd, view[written:])
+            if n <= 0:
+                raise OSError('short write to %s' % tmp)
+            written += n
+        os.fsync(fd)
     except Exception:
         if fd is not None:
             try:

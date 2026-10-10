@@ -10,7 +10,14 @@ from .util import dbg, err, enumerate_descendants
 
 SHELL_BASENAMES = {
     'bash', 'sh', 'zsh', 'fish', 'dash', 'ksh', 'csh', 'tcsh', 'login',
+    # Less common interactive shells (an idle prompt is not "running")
+    'nu', 'xonsh', 'elvish', 'pwsh', 'ion', 'oil', 'osh', 'ysh', 'yash',
+    'mksh', 'lksh', 'oksh', 'rc', 'es', 'murex', 'busybox', 'ash',
 }
+
+# Seconds of slack when comparing a process start time with the spawn time
+# (detects a pid that was reused after our shell exited).
+PID_REUSE_SLACK_S = 5.0
 
 DEFAULT_CLOSE_CONFIRM_IGNORE = [
     'gitstatusd', 'ssh-agent', 'gpg-agent', 'dbus-daemon',
@@ -24,6 +31,14 @@ def _basename_of(cmdline_or_name):
     if name.startswith('-'):
         name = name[1:]
     return name
+
+
+def _never_ask():
+    try:
+        from .config import Config
+        return Config()['ask_before_closing'] == 'never'
+    except Exception:
+        return False
 
 
 def _ignore_set():
@@ -111,7 +126,11 @@ def process_basename_for_pid(pid):
 def relevant_processes_for_terminal(terminal, ignore=None):
     """Return list of (pid, basename) that should trigger confirmation.
 
-    Conservative: if pid is None or /proc unavailable → returns
+    No pid (child exited, spawn failed, or flatpak-spawn where VTE gives us
+    no pid) or a process that is gone → [] (nothing we can name; prompting
+    on every close would be noise).  A pid that was reused by an unrelated
+    process after our child exited is ignored too.  Only an unexpected
+    error while inspecting a live process is conservative:
     [(None, '<unknown>')].
     """
     if ignore is None:
@@ -120,8 +139,11 @@ def relevant_processes_for_terminal(terminal, ignore=None):
     skip = shells | set(ignore)
 
     pid = getattr(terminal, 'pid', None)
-    if pid is None:
-        return [(None, '<unknown>')]
+    if getattr(terminal, 'child_exited', False):
+        return []
+    if pid is None or not isinstance(pid, int) or pid <= 0:
+        return []
+    spawn_time = getattr(terminal, 'spawn_time', None)
 
     found = []
     try:
@@ -135,8 +157,17 @@ def relevant_processes_for_terminal(terminal, ignore=None):
         if use_psutil:
             try:
                 root = psutil.Process(pid)
+            except psutil.NoSuchProcess:
+                return []
             except psutil.Error:
                 return [(None, '<unknown>')]
+            if spawn_time:
+                try:
+                    if root.create_time() > spawn_time + PID_REUSE_SLACK_S:
+                        dbg('close_confirm: pid %d was reused' % pid)
+                        return []
+                except psutil.Error:
+                    pass
             # Root process itself
             try:
                 bname = _basename_of(root.name())
@@ -159,7 +190,8 @@ def relevant_processes_for_terminal(terminal, ignore=None):
         # /proc fallback
         bname = _proc_basename(pid)
         if bname is None:
-            return [(None, '<unknown>')]
+            # Gone (or /proc unavailable): nothing to name
+            return []
         if bname not in skip:
             found.append((pid, bname))
         for child_pid in _descendants(pid):
@@ -173,7 +205,12 @@ def relevant_processes_for_terminal(terminal, ignore=None):
 
 
 def should_confirm_processes(terminals):
-    """Return (need_confirm: bool, procs: list[(pid, name)])."""
+    """Return (need_confirm: bool, procs: list[(pid, name)]).
+
+    ask_before_closing = never disables this dialog too.
+    """
+    if _never_ask():
+        return False, []
     procs = []
     for term in terminals:
         procs.extend(relevant_processes_for_terminal(term))

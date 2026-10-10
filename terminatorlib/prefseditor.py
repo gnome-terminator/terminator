@@ -1837,9 +1837,8 @@ class PrefsEditor:
         if os.path.isfile(path + '.prev'):
             lines.append(_('A previous session is available'))
         if not sess.is_owner():
-            lines.append(_('This window was opened with explicit launch '
-                           'options or by a second instance, so it does not '
-                           'write the session.'))
+            lines.append(_('Another Terminator instance owns the session, '
+                           'so this one does not write it.'))
         elif not sess.is_writer():
             lines.append(_('Automatic saving is paused until Terminator '
                            'restarts.'))
@@ -1889,6 +1888,13 @@ class PrefsEditor:
         import time
         guiget = self.builder.get_object
         current_layout = Terminator().describe_layout(save_cwd=True)
+        # A layout is a template: live terminal uuids would give terminals
+        # opened from it duplicate uuids (shared scrollback cache files).
+        for node in current_layout.values():
+            if isinstance(node, dict):
+                node.pop('uuid', None)
+                node.pop('maximised_pane', None)
+                node.pop('last_active_term', None)
         treeview = guiget('layoutlist')
         model = treeview.get_model()
         values = [r[0] for r in model]
