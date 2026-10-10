@@ -179,18 +179,7 @@ class Container(object):
         except TypeError:
             pass
 
-        if self.terminator.terminals == [widget]:
-            # Round-2 P1-2: the last terminal of the run is closing (exit,
-            # Ctrl+Shift+W, titlebar X).  Finalize while it is still in the
-            # tree and registered: the final save then describes what was
-            # open (this pane, fresh cwd) and its latest output is flushed
-            # synchronously before the cache stops.  Deregistering first
-            # destroys the window, and finalize would see 0 terminals.
-            try:
-                from .session import SessionManager
-                SessionManager().finalize()
-            except Exception as ex:
-                dbg('session finalize before last close: %s' % ex)
+        self._session_before_last_close(widget)
 
         if not self.remove(widget):
             dbg('self.remove() failed for %s' % widget)
@@ -200,6 +189,49 @@ class Container(object):
         widget.close()
         self.terminator.group_hoover()
         return(True)
+
+    def _session_before_last_close(self, widget):
+        """Capture the session while `widget` is still in the tree.
+
+        Round-2 P1-2: the last terminal of the run is closing (exit,
+        Ctrl+Shift+W, titlebar X).  Finalize while it is still in the tree
+        and registered: the final save then describes what was open (this
+        pane, fresh cwd) and its latest output is flushed synchronously
+        before the cache stops.  Deregistering first destroys the window,
+        and finalize would see 0 terminals.
+
+        m26 (e2e 2b): the same holds for the last terminal of a window when
+        other windows remain (its shell exited): the window is destroyed
+        only after the terminal was removed, so Window.on_destroy_event's
+        D5 note_window_closing saw 0 terminals and the window was lost.
+        Buffer its fragment now, like Ctrl+Shift+Q does before teardown.
+        """
+        try:
+            from .session import SessionManager
+            if self.terminator.terminals == [widget]:
+                SessionManager().finalize()
+                return
+            window = widget.get_toplevel()
+            if window is None or window not in self.terminator.windows:
+                return
+            if getattr(window, '_session_destroy_handled', False) or \
+                    getattr(window, 'isDestroyed', False):
+                return  # on_destroy_event already described the window
+            if [t for t in window.get_terminals() if t is not widget]:
+                return  # not the last terminal of its window
+            remaining = [w for w in self.terminator.windows
+                         if w is not window
+                         and not getattr(w, 'isDestroyed', False)
+                         and not getattr(w, '_session_destroy_handled', False)]
+            sess = SessionManager()
+            if not remaining:
+                # Last window, but stray registered terminals elsewhere:
+                # same as the last terminal of the run.
+                sess.finalize()
+            else:
+                sess.note_window_closing(window)
+        except Exception as ex:
+            dbg('session capture before last close: %s' % ex)
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""

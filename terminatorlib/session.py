@@ -303,6 +303,7 @@ class SessionManager(Borg):
     _buffer_timer = None
     _config = None
     _rotated_this_run = None
+    _loaded_from = None
     # m25: save requests dropped during layout / legacy zoom are replayed.
     # NOTE: these _pending_* flags are diagnostic only (dbg/tests); the
     # replay itself is driven by mark_dirty() from the layout-end / unzoom
@@ -658,13 +659,19 @@ class SessionManager(Borg):
         }
         path = self.session_path()
         try:
+            before_replace = None
             if not self._rotated_this_run:
                 # Keep the previous run's session as .prev before the first
                 # write of this run (a failed/partial restore or
                 # --no-restore must not silently replace it).
-                self._rotate_session(path)
+                # m26 P1-1: rotate only once the new file is fully written
+                # (tmp + fsync), so a failed first write (ENOSPC/EIO/quota)
+                # leaves session.json untouched.
+                before_replace = self._rotate_session
+            self._atomic_write_json(path, payload,
+                                    before_replace=before_replace)
+            if before_replace is not None:
                 self._rotated_this_run = True
-            self._atomic_write_json(path, payload)
             self._last_change_hash = change
             self._write_failures = 0
             dbg('SessionManager.save_now: wrote %s (final=%s)' % (path, final))
@@ -695,7 +702,13 @@ class SessionManager(Borg):
         except OSError as ex:
             dbg('SessionManager rotate: %s' % ex)
 
-    def _atomic_write_json(self, path, payload):
+    def _atomic_write_json(self, path, payload, before_replace=None):
+        """Write payload to a tmp file, fsync, then os.replace onto path.
+
+        before_replace(path), if given, runs after the tmp file is fully on
+        disk and before it replaces path (m26 P1-1: rotation of the old
+        session must not happen before the new one is known to be written).
+        """
         directory = os.path.dirname(path) or '.'
         os.makedirs(directory, mode=0o700, exist_ok=True)
         fd, tmp = tempfile.mkstemp(dir=directory, suffix='.tmp',
@@ -706,6 +719,8 @@ class SessionManager(Borg):
                 json.dump(payload, fh, ensure_ascii=False, indent=2)
                 fh.flush()
                 os.fsync(fh.fileno())
+            if before_replace is not None:
+                before_replace(path)
             os.replace(tmp, path)
             try:
                 dirfd = os.open(directory, os.O_RDONLY)
@@ -725,8 +740,29 @@ class SessionManager(Borg):
     # --- load / crash marker --------------------------------------------
 
     def load(self):
-        """Load session.json. On parse/version errors → None and rename .bad."""
+        """Load session.json, falling back to .prev / .prev2.
+
+        An unreadable/invalid session.json is quarantined (.bad/.corrupt) and,
+        like a missing one, the newest valid rotated copy is used instead
+        (m26 P1-1: a failed first write of a run, e.g. disk full, must not
+        make the next launch restore nothing). Returns None if none is valid.
+        """
         path = self.session_path()
+        self._loaded_from = None
+        for candidate in (path, path + '.prev', path + '.prev2'):
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                if candidate != path:
+                    err('SessionManager.load: session.json missing/invalid, '
+                        'using %s' % os.path.basename(candidate))
+                else:
+                    dbg('SessionManager.load: using %s' % candidate)
+                return data
+        return None
+
+    def _load_file(self, path):
+        """Parse one session file; invalid files are quarantined → None."""
         if not os.path.isfile(path):
             return None
         try:
@@ -768,10 +804,11 @@ class SessionManager(Borg):
         try to feed caches for uuids that never got a terminal."""
         err('SessionManager: restoring the last session failed: %s' % ex)
         path = self.session_path()
+        src = getattr(self, '_loaded_from', None) or path
         try:
-            if os.path.isfile(path):
+            if os.path.isfile(src):
                 import shutil
-                shutil.copy2(path, path + '.bad')
+                shutil.copy2(src, path + '.bad')
         except OSError as e:
             dbg('SessionManager.restore_failed copy: %s' % e)
         self.restored_this_run = False
