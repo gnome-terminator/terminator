@@ -328,11 +328,6 @@ Insert terminal number, i.e. 1 to 12.
 *Super+0*::
 Insert padded terminal number, i.e. 01 to 12.
 
-== AUTHORS
-Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.
-
-This manual page was written by Chris Jones <\cmsj@tenshu.net> and others.
-
 == SESSIONS
 By default (*restore_last_session* = True) Terminator saves its windows,
 tabs, splits, working directories and maximised terminal automatically
@@ -345,10 +340,15 @@ programs running asks for confirmation.
 
 == FILES
 _$XDG_STATE_HOME/terminator/session.json_ (normally _~/.local/state/terminator/session.json_)::
-The saved session, with backups _session.json.prev_.
+The saved session, with backups _session.json.prev_ and _session.json.prev2_.
 
 _$XDG_CACHE_HOME/terminator/scrollback/_ (normally _~/.cache/terminator/scrollback/_)::
 Scrollback cache, one file per terminal.
+
+== AUTHORS
+Terminator was written by Chris Jones <\cmsj@tenshu.net> and others.
+
+This manual page was written by Chris Jones <\cmsj@tenshu.net> and others.
 
 == SEE ALSO
 *terminator_config*(5)

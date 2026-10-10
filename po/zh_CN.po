@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 18:34+0800\n"
+"POT-Creation-Date: 2026-10-10 18:37+0800\n"
 "PO-Revision-Date: 2026-10-10 18:40+0800\n"
 "Last-Translator: Mony Xie <monyxie@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/terminator/teams/109338/zh_CN/)\n"
@@ -209,7 +209,7 @@ msgstr "偏好设定窗口（改变默认设置）"
 #: ../terminatorlib/close_confirm.py:279
 #, python-format
 msgid " … and %d more"
-msgstr " …… 以及另外 %d 个"
+msgstr " ……另有 %d 个"
 
 #: ../terminatorlib/close_confirm.py:283
 msgid "Close terminals with running processes?"
@@ -283,10 +283,6 @@ msgstr "此标签页已开启多个终端，关闭标签页将同时关闭已开
 #: ../terminatorlib/container.py:213
 msgid "Close?"
 msgstr "确定关闭？"
-
-#: ../terminatorlib/container.py:221
-msgid "<big><b>"
-msgstr "<big><b>"
 
 #: ../terminatorlib/container.py:241
 msgid "Do not show this message next time"
@@ -428,7 +424,7 @@ msgid "Force restore the last session"
 msgstr "强制恢复上次会话"
 
 #: ../terminatorlib/optionparse.py:115
-msgid "Clear saved session and scrollback cache, then exit setup"
+msgid "Clear the saved session and scrollback cache before starting"
 msgstr "启动前清除已保存的会话和滚动缓存"
 
 #: ../terminatorlib/plugins/activitywatch.py:55
@@ -1365,10 +1361,11 @@ msgstr "启动时恢复上次会话（布局和工作目录）"
 #: ../terminatorlib/preferences.glade.h:200
 msgid ""
 "The session is saved automatically whenever the layout or a working directory"
-" changes. Launching with -l, -e, -x, --working-directory or --no-restore does"
-" not restore it."
+" changes. Launching with -l, -e, -x, --working-directory, -j or --no-restore "
+"does not restore it."
 msgstr ""
-"布局或工作目录发生变化时会自动保存会话。使用 -l、-e、-x、--working-directory 或 --no-restore 启动时不会恢复会话。"
+"布局或工作目录发生变化时会自动保存会话。使用 -l、-e、-x、--working-directory、-j 或 --no-restore "
+"启动时不会恢复会话。"
 
 #: ../terminatorlib/preferences.glade.h:201
 msgid "Save as layout"
@@ -1392,7 +1389,7 @@ msgstr "用上次退出之前的会话替换已保存的会话。自动保存将
 
 #: ../terminatorlib/preferences.glade.h:205
 msgid "Clear session and cache…"
-msgstr "清除会话和缓存…"
+msgstr "清除会话和缓存……"
 
 #: ../terminatorlib/preferences.glade.h:206
 msgid ""
@@ -1419,10 +1416,10 @@ msgstr "恢复最近的终端输出（只读缓存）"
 
 #: ../terminatorlib/preferences.glade.h:210
 msgid ""
-"Periodically saves the last lines of each terminal as plain text and replays "
-"them above the new prompt after a session restore. It is only a cache: "
-"colours and the running programs are not restored."
-msgstr "定期将每个终端的最后若干行保存为纯文本，并在恢复会话后显示在新提示符上方。这只是缓存：颜色和正在运行的程序不会被恢复。"
+"Periodically saves the last lines of each terminal (with colours) and replays"
+" them above the new prompt after a session restore. It is only a cache: "
+"running programs are not restored."
+msgstr "定期保存每个终端的最后若干行（保留颜色），并在恢复会话后显示在新提示符上方。这只是缓存：正在运行的程序不会被恢复。"
 
 #: ../terminatorlib/preferences.glade.h:211
 msgid "Lines kept per terminal:"
@@ -1506,11 +1503,11 @@ msgstr "不限制总大小（total_mb = 0）"
 #: ../terminatorlib/prefseditor.py:51
 #, python-format
 msgid ""
-"Cache: %s (%d file(s), %d KiB). Plain text only; %s; %s. 0 = off. Open "
-"terminals are never pruned at runtime; they are limited only by the per-file "
+"Cache: %s (%d file(s), %d KiB); %s; %s. 0 = off. Open terminals are never "
+"pruned at runtime; they are limited only by the per-file "
 "scrollback_cache_max_kb."
 msgstr ""
-"缓存：%s（%d 个文件，%d KiB）。仅纯文本；%s；%s。0 表示关闭。运行期间不会清理已打开终端的缓存，它们只受单文件上限 "
+"缓存：%s（%d 个文件，%d KiB）；%s；%s。0 表示关闭。运行期间不会清理已打开终端的缓存，它们只受单文件上限 "
 "scrollback_cache_max_kb 限制。"
 
 #: ../terminatorlib/prefseditor.py:127 ../terminatorlib/prefseditor.py:173

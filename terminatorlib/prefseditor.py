@@ -48,7 +48,7 @@ def scrollback_cache_info_text(cache_dir, files, total_bytes, ttl_days, total_mb
         else _('age pruning off (ttl_days = 0)')
     cap = (_('total above %d MiB is pruned') % total_mb) if total_mb > 0 \
         else _('total size cap off (total_mb = 0)')
-    return (_('Cache: %s (%d file(s), %d KiB). Plain text only; %s; %s. '
+    return (_('Cache: %s (%d file(s), %d KiB); %s; %s. '
               '0 = off. Open terminals are never pruned at runtime; they are '
               'limited only by the per-file scrollback_cache_max_kb.') %
             (cache_dir, files, (total_bytes + 1023) // 1024, ttl, cap))

@@ -132,7 +132,7 @@ Default value: *1500*
 Path of the session file. Empty means
 $XDG_STATE_HOME/terminator/session.json (normally
 ~/.local/state/terminator/session.json). Earlier sessions are kept
-next to it as session.json.prev. +
+next to it as session.json.prev and session.json.prev2. +
 Default value: *''*
 
 *close_confirm_ignore* = _list of strings_::

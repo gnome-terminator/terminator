@@ -24,7 +24,7 @@ This fork adds the features below on top of Terminator 2.1.6. All of them are **
 | Wave-style pane titlebars with menu, maximise and close buttons | Preferences > Global, `titlebar_buttons = False` |
 | Overlay maximise of a single pane (Ctrl+Shift+Return, restore with Shift+Esc, or double-click the titlebar) | Preferences > Global, `pane_overlay_maximise = False` |
 | Stepped per-terminal font scaling (100/90/80%) by reading measure | Preferences > Global, `auto_font_scale = False`, or the titlebar badge |
-| Hide the scrollbar in fullscreen programs (vim, less, htop, tmux) | Preferences > Profile > Scrolling, `scrollbar_hide_in_alt_screen = False` |
+| Hide the scrollbar in fullscreen programs (vim, less, htop, tmux) | Preferences > Profiles > Scrolling, `scrollbar_hide_in_alt_screen = False` |
 
 ## New home on GitHub
 

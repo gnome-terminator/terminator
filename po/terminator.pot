@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 18:34+0800\n"
+"POT-Creation-Date: 2026-10-10 18:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,10 +266,6 @@ msgstr ""
 msgid "Close?"
 msgstr ""
 
-#: ../terminatorlib/container.py:221
-msgid "<big><b>"
-msgstr ""
-
 #: ../terminatorlib/container.py:241
 msgid "Do not show this message next time"
 msgstr ""
@@ -410,7 +406,7 @@ msgid "Force restore the last session"
 msgstr ""
 
 #: ../terminatorlib/optionparse.py:115
-msgid "Clear saved session and scrollback cache, then exit setup"
+msgid "Clear the saved session and scrollback cache before starting"
 msgstr ""
 
 #: ../terminatorlib/plugins/activitywatch.py:55
@@ -1346,8 +1342,8 @@ msgstr ""
 #: ../terminatorlib/preferences.glade.h:200
 msgid ""
 "The session is saved automatically whenever the layout or a working "
-"directory changes. Launching with -l, -e, -x, --working-directory or --no-"
-"restore does not restore it."
+"directory changes. Launching with -l, -e, -x, --working-directory, -j or --"
+"no-restore does not restore it."
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:201
@@ -1397,9 +1393,9 @@ msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:210
 msgid ""
-"Periodically saves the last lines of each terminal as plain text and replays "
-"them above the new prompt after a session restore. It is only a cache: "
-"colours and the running programs are not restored."
+"Periodically saves the last lines of each terminal (with colours) and "
+"replays them above the new prompt after a session restore. It is only a "
+"cache: running programs are not restored."
 msgstr ""
 
 #: ../terminatorlib/preferences.glade.h:211
@@ -1488,8 +1484,8 @@ msgstr ""
 #: ../terminatorlib/prefseditor.py:51
 #, python-format
 msgid ""
-"Cache: %s (%d file(s), %d KiB). Plain text only; %s; %s. 0 = off. Open "
-"terminals are never pruned at runtime; they are limited only by the per-file "
+"Cache: %s (%d file(s), %d KiB); %s; %s. 0 = off. Open terminals are never "
+"pruned at runtime; they are limited only by the per-file "
 "scrollback_cache_max_kb."
 msgstr ""
 
