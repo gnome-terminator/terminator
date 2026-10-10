@@ -38,6 +38,7 @@ The five new features below are **on by default**. Each one can be turned off in
   - Focused: `#e6edf3` on `#21262d`.
   - Unfocused: `#8b949e` on `#161b22`.
   - Profiles that never changed these keep following the defaults. To get the old look back, set `title_transmit_fg_color = "#ffffff"`, `title_transmit_bg_color = "#c80003"`, `title_inactive_fg_color = "#000000"` and `title_inactive_bg_color = "#c0bebf"`.
+- **Pane titlebar icons and Grouping menu.** The terminal icon and the grouping/broadcast icon at the left of each pane titlebar are now hidden by default (`titlebar_show_icon = False`). Because that icon was the usual way into grouping, the terminal right-click menu now shows a **Grouping** submenu by default. The group name and a "Broadcast: all/group" text stay clickable, and the group keybindings are unchanged. Set `titlebar_show_icon = True` (Preferences > Panes) to get the icons back; the right-click Grouping submenu then disappears again, as upstream.
 - **Config saving.** The config file is now written atomically: a temporary file is written and then renamed over the original. Symlinks and file permissions are preserved.
 
 **Fixes**
