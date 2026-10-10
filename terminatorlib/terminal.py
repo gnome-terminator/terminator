@@ -31,6 +31,7 @@ from .signalman import Signalman
 from . import plugin
 from terminatorlib.layoutlauncher import LayoutLauncher
 from . import regex
+from .scrollback import ScrollbackCache
 
 # pylint: disable-msg=R0904
 class Terminal(Gtk.VBox):
@@ -108,6 +109,7 @@ class Terminal(Gtk.VBox):
     layout_command = None
     relaunch_command = None
     directory = None
+    _scrollback_restored = False
 
     is_held_open = False
 
@@ -270,6 +272,10 @@ class Terminal(Gtk.VBox):
     def close(self):
         """Close ourselves"""
         dbg('close: called')
+        try:
+            ScrollbackCache().on_terminal_close(self)
+        except Exception as ex:
+            dbg('scrollback close hook failed: %s' % ex)
         self.cnxids.remove_widget(self.vte)
         self.emit('close-term')
         if self.pid is not None:
@@ -454,6 +460,13 @@ class Terminal(Gtk.VBox):
         if self.config['copy_on_selection'] and self.vte.get_has_selection():
             self.vte.copy_clipboard()
 
+
+    def _on_scrollback_contents_changed(self, _vte):
+        try:
+            ScrollbackCache().mark_dirty(self)
+        except Exception as ex:
+            dbg('scrollback mark_dirty failed: %s' % ex)
+
     def connect_signals(self):
         """Connect all the gtk signals and drag-n-drop mechanics"""
 
@@ -520,6 +533,9 @@ class Terminal(Gtk.VBox):
 
         self.cnxids.new(self.vte, 'window-title-changed', lambda x:
             self.emit('title-change', self.get_window_title()))
+        if self.config['scrollback_cache']:
+            self.cnxids.new(self.vte, 'contents-changed',
+                            self._on_scrollback_contents_changed)
         self.cnxids.new(self.vte, 'grab-focus', self.on_vte_focus)
         self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
         self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
@@ -721,6 +737,16 @@ class Terminal(Gtk.VBox):
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
+
+        # Scrollback cache: (re)bind contents-changed + reconfigure cache
+        self.cnxids.remove_signal(self.vte, 'contents-changed')
+        if self.config['scrollback_cache']:
+            self.cnxids.new(self.vte, 'contents-changed',
+                            self._on_scrollback_contents_changed)
+        try:
+            ScrollbackCache().reconfigure()
+        except Exception as ex:
+            dbg('scrollback reconfigure failed: %s' % ex)
 
         # Word char support was missing from vte 0.38, silently skip this setting
         if hasattr(self.vte, 'set_word_char_exceptions'):
@@ -1660,6 +1686,15 @@ class Terminal(Gtk.VBox):
             dbg('still laying out, refusing to spawn a child')
             return
 
+        # Scrollback restore once per terminal (do not trust respawn — it is
+        # often the child-exited status code, not a boolean; see B §3.2).
+        if not self._scrollback_restored:
+            self._scrollback_restored = True
+            try:
+                ScrollbackCache().restore_into(self)
+            except Exception as ex:
+                dbg('scrollback restore failed: %s' % ex)
+
         if respawn is False:
             self.vte.grab_focus()
 
@@ -2175,6 +2210,11 @@ class Terminal(Gtk.VBox):
 
     def key_reset_clear(self):
         self.vte.reset (True, True)
+        try:
+            if self.uuid is not None:
+                ScrollbackCache().delete_uuid(str(self.uuid))
+        except Exception as ex:
+            dbg('scrollback reset_clear failed: %s' % ex)
 
     def key_create_group(self):
         self.titlebar.create_group()

@@ -122,6 +122,16 @@ DEFAULTS = {
 
             'new_tab_after_current_tab': False,
             'window_decoration_style': 'auto',
+
+            # Scrollback text cache (module B) — defaults ON
+            'scrollback_cache'            : True,
+            'scrollback_cache_lines'      : 2000,
+            'scrollback_cache_interval_s' : 20,
+            'scrollback_cache_max_kb'     : 512,
+            'scrollback_cache_total_mb'   : 20,
+            'scrollback_cache_ttl_days'   : 7,
+            'scrollback_cache_exclude_profiles': [],
+            'scrollback_cache_exclude_commands': [],
         },
         'keybindings': {
             'zoom'             : '',

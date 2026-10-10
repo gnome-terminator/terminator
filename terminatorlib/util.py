@@ -423,3 +423,13 @@ def get_flatpak_args(args, envv, cwd):
     dbg('returned flatpak args:  %s' % flatpak_args)
 
     return flatpak_args
+
+def get_cache_dir():
+    """Expand XDG cache home for terminator (~/.cache/terminator by default)."""
+    try:
+        cachedir = os.environ['XDG_CACHE_HOME']
+    except KeyError:
+        cachedir = os.path.join(os.path.expanduser('~'), '.cache')
+
+    dbg('Found cache dir: %s' % cachedir)
+    return(os.path.join(cachedir, 'terminator'))
