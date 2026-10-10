@@ -568,6 +568,8 @@ class PrefsEditor:
         # Wave-style pane title bars (module C)
         widget = guiget('titlebar_buttons_checkbutton')
         widget.set_active(bool(self.config['titlebar_buttons']))
+        widget = guiget('titlebar_show_icon_checkbutton')
+        widget.set_active(bool(self.config['titlebar_show_icon']))
         density = self.config['titlebar_density']
         if density not in ('standard', 'compact'):
             density = 'standard'
@@ -1767,6 +1769,12 @@ class PrefsEditor:
     def on_titlebar_buttons_checkbutton_toggled(self, widget):
         """Show/hide the gear/maximise/close buttons in pane title bars"""
         self.config['titlebar_buttons'] = widget.get_active()
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_titlebar_show_icon_checkbutton_toggled(self, widget):
+        """Show/hide the terminal/grouping icon in pane title bars"""
+        self.config['titlebar_show_icon'] = widget.get_active()
         self.config.save()
         Terminator().reconfigure()
 
