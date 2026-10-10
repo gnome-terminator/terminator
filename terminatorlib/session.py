@@ -359,6 +359,10 @@ class SessionManager(Borg):
     # call sites, not by reading these flags.
     _pending_after_layout = None
     _pending_after_zoom = None
+    # m28: set once the GDK display is closed / lost. From then on the
+    # widget tree is being torn down abnormally and must never be saved.
+    _display_lost = None
+    _display_handler = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -395,6 +399,8 @@ class SessionManager(Borg):
             self._missing_dirs_notice = None
         if self._signals_installed is None:
             self._signals_installed = False
+        if self._display_lost is None:
+            self._display_lost = False
         if self._buffer_timer is None:
             self._buffer_timer = None
         if self._config is None:
@@ -551,6 +557,8 @@ class SessionManager(Borg):
             pass
         if self.final_saving or not self.is_writer():
             return
+        if self._check_display_lost():
+            return
         if self._any_legacy_zoom():
             # m25: legacy zoom detaches other panes; defer until unzoom
             self._pending_after_zoom = True
@@ -652,6 +660,12 @@ class SessionManager(Borg):
         """Write session.json. Requires is_writer() even when final=True."""
         if not self.is_writer():
             dbg('SessionManager.save_now: not writer, skip (final=%s)' % final)
+            return False
+        if self._check_display_lost():
+            # m28: X connection gone / display closed: windows are being
+            # destroyed without a user close; keep the last good file.
+            err('SessionManager.save_now: display lost, keeping previous '
+                'session file (final=%s)' % final)
             return False
         if not final and self._any_legacy_zoom():
             # m25: a timer scheduled before zoom must not write the
@@ -1047,6 +1061,8 @@ class SessionManager(Borg):
             return
         if getattr(window, '_session_excluded', False):
             return
+        if self._check_display_lost():
+            return
         # Round-2 P2-1: a legacy (scaled) zoom hides the other panes; unzoom
         # like finalize() does so the fragment holds the whole window.
         from .zoomguard import leave_zoom
@@ -1188,7 +1204,9 @@ class SessionManager(Borg):
             try:
                 from .scrollback import ScrollbackCache
                 cache = ScrollbackCache()
-                if self.is_writer():
+                if self.is_writer() and not self._check_display_lost():
+                    # m28: after display loss the VTEs may already be
+                    # unrealized/half destroyed; keep the last flushed caches.
                     cache.flush_all(sync=True, final=True,
                                     extra=[closing] if closing else None)
                 cache.stop(join_timeout=1.0)
@@ -1210,6 +1228,72 @@ class SessionManager(Borg):
                 except Exception:
                     pass
                 self._timer = None
+
+    # --- m28: display loss guard ---------------------------------------
+
+    @staticmethod
+    def _display_is_closed(display):
+        try:
+            return bool(display.is_closed())
+        except Exception:
+            return False
+
+    def _check_display_lost(self):
+        """True if the display is (or was) lost. Sticky once set.
+
+        Only an explicitly closed default display counts; a missing default
+        display (unit tests, headless helpers) is not treated as lost so the
+        normal save path keeps working without GDK.
+        """
+        if self._display_lost:
+            return True
+        try:
+            from gi.repository import Gdk
+            display = Gdk.Display.get_default()
+        except Exception:
+            return False
+        if display is not None and self._display_is_closed(display):
+            self.note_display_lost('display is_closed')
+            return True
+        return False
+
+    def note_display_lost(self, reason=''):
+        """Freeze session writes: the display went away under us."""
+        if self._display_lost:
+            return
+        self._display_lost = True
+        err('SessionManager: display lost (%s); session autosave frozen' %
+            reason)
+        # Drop the pending debounce timer and the D5 buffer: anything
+        # captured from here on reflects the teardown, not the user's layout.
+        if self._timer is not None:
+            try:
+                from gi.repository import GLib
+                GLib.source_remove(self._timer)
+            except Exception:
+                pass
+            self._timer = None
+        self._closing_buffer = None
+
+    def _on_display_closed(self, display, is_error=False):
+        self.note_display_lost('closed signal, is_error=%s' % is_error)
+
+    def watch_display(self, display=None):
+        """Connect to GdkDisplay::closed (idempotent)."""
+        if self._display_handler is not None:
+            return True
+        try:
+            if display is None:
+                from gi.repository import Gdk
+                display = Gdk.Display.get_default()
+            if display is None:
+                return False
+            self._display_handler = (display, display.connect(
+                'closed', self._on_display_closed))
+            return True
+        except Exception as ex:
+            dbg('SessionManager.watch_display: %s' % ex)
+            return False
 
     def _unzoom_legacy_all(self):
         from .terminator import Terminator
@@ -1247,6 +1331,7 @@ class SessionManager(Borg):
                         dbg('unix_signal_add fallback: %s' % ex)
         except Exception as ex:
             err('SessionManager.install_signal_handlers: %s' % ex)
+        self.watch_display()
         self._ensure_periodic()
 
     def _on_unix_signal(self, sig):
