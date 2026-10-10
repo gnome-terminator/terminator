@@ -95,6 +95,21 @@ Specify when to ask for confirmation before closing a window or a tab.
 Can be any of: 'always', 'multiple_terminals', 'never'.
 Default value: *multiple_terminals*
 
+*titlebar_buttons* = _boolean_::
+If set to True, each terminal titlebar shows a menu (gear), a
+maximise/restore pane button and a close button on its right side. +
+Default value: *True*
+
+*titlebar_density* = _string_::
+Height of terminal titlebars and their buttons.
+Can be any of: 'standard', 'compact'. +
+Default value: *standard*
+
+*pane_accent_color* = _color string_::
+Colour of the 1px border drawn around the focused terminal. Invalid
+values fall back to the default. +
+Default value: *#3fb950*
+
 // --- Window appearance ---
 
 *borderless* = _boolean_::

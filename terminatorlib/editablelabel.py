@@ -36,11 +36,17 @@ class EditableLabel(Gtk.EventBox):
 
     __gsignals__ = {
             'edit-done': (GObject.SignalFlags.RUN_LAST, None, ()),
+            'double-clicked': (GObject.SignalFlags.RUN_LAST, None, ()),
     }
 
-    def __init__(self, text = ""):
-        """ Class initialiser"""
+    _double_click_edit = True
+
+    def __init__(self, text = "", double_click_edit=True):
+        """ Class initialiser
+        double_click_edit: when False a left double-click emits
+        'double-clicked' instead of starting an edit (D15)."""
         GObject.GObject.__init__(self) 
+        self._double_click_edit = double_click_edit
 
         self._entry_handler_id = []
         self._label = Gtk.Label(label=text, ellipsize='end')
@@ -94,6 +100,10 @@ class EditableLabel(Gtk.EventBox):
         if event.button != 1:
             return False
         if event.type == Gdk.EventType._2BUTTON_PRESS:
+            if not self._double_click_edit:
+                if not self.editing():
+                    self.emit('double-clicked')
+                return(True)
             self.edit()
             return(True)
         return(False)

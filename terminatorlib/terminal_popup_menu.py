@@ -90,8 +90,11 @@ class TerminalPopupMenu(object):
         from .close_confirm import request_close_terminal
         request_close_terminal(self.terminal)
 
-    def show(self, widget, event=None):
-        """Display the context menu"""
+    def show(self, widget, event=None, anchor=None, skip_link_check=False):
+        """Display the context menu.
+        anchor: if given, attach the menu below this widget (titlebar gear).
+        skip_link_check: event coordinates are not on the VTE (titlebar),
+        so skip hyperlink / URL match detection."""
         terminal = self.terminal
 
         menu = Gtk.Menu()
@@ -102,7 +105,10 @@ class TerminalPopupMenu(object):
 
         self.config.set_profile(terminal.get_profile())
 
-        if event:
+        if event and skip_link_check:
+            button = event.button
+            time = event.time
+        elif event:
             url = terminal.vte.hyperlink_check_event(event)
 
             if url:
@@ -201,6 +207,13 @@ class TerminalPopupMenu(object):
         item.connect('activate', lambda x: terminal.key_edit_window_title())
         menu.append(item)
 
+        # D15: double-click on the titlebar now toggles maximise, so title
+        # editing lives here (and on the edit_terminal_title keybinding).
+        item = self.menu_item(Gtk.MenuItem, 'edit_terminal_title',
+                                            _('Edit _Title'))
+        item.connect('activate', lambda x: terminal.key_edit_terminal_title())
+        menu.append(item)
+
         if not terminal.is_zoomed():
             item = self.menu_item(Gtk.ImageMenuItem, 'split_auto',
                                                      _('Split _Auto'))
@@ -265,21 +278,25 @@ class TerminalPopupMenu(object):
         menu.append(Gtk.SeparatorMenuItem())
 
         if not terminal.is_zoomed():
-            sensitive = not terminal.get_toplevel() == terminal.get_parent()
+            # Only the terminals of the current tab count: a single terminal
+            # in a tab used to be (wrongly) sensitive.
+            window = terminal.get_toplevel()
+            sensitive = bool(hasattr(window, 'has_multiple_terms') and
+                             window.has_multiple_terms())
 
             item = Gtk.MenuItem.new_with_mnemonic(_('_Zoom terminal'))
             item.connect('activate', terminal.zoom)
             item.set_sensitive(sensitive)
             menu.append(item)
 
-            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize terminal'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('Ma_ximize pane'))
             item.connect('activate', terminal.maximise)
             item.set_sensitive(sensitive)
             menu.append(item)
 
             menu.append(Gtk.SeparatorMenuItem())
         else:
-            item = Gtk.MenuItem.new_with_mnemonic(_('_Restore all terminals'))
+            item = Gtk.MenuItem.new_with_mnemonic(_('_Restore pane'))
             item.connect('activate', terminal.unzoom)
             menu.append(item)
 
@@ -303,6 +320,8 @@ class TerminalPopupMenu(object):
         item.set_active(not(terminal.vte.get_input_enabled()))
         item.connect('toggled', lambda x: terminal.do_readonly_toggle())
         menu.append(item)
+
+        self.add_font_lock_item(menu)
 
         item = self.menu_item(Gtk.CheckMenuItem, 'toggle_scrollbar',
                                                    _('Show _scrollbar'))
@@ -391,9 +410,40 @@ class TerminalPopupMenu(object):
             err('TerminalPopupMenu::show: %s' % ex)
 
         menu.show_all()
-        menu.popup_at_pointer(None)
+        popped = False
+        if anchor is not None:
+            try:
+                menu.popup_at_widget(anchor, Gdk.Gravity.SOUTH_EAST,
+                                     Gdk.Gravity.NORTH_EAST, event)
+                popped = True
+            except Exception as ex:
+                err('TerminalPopupMenu::show: popup_at_widget failed: %s' % ex)
+        if not popped:
+            menu.popup_at_pointer(None)
 
         return(True)
+
+    def add_font_lock_item(self, menu):
+        """'Lock font size for this terminal' (hook for auto font scale, E).
+        Hidden until the terminal provides set/get_auto_font_locked and
+        auto_font_scale is enabled."""
+        terminal = self.terminal
+        if not (hasattr(terminal, 'set_auto_font_locked') and
+                hasattr(terminal, 'get_auto_font_locked')):
+            return None
+        try:
+            enabled = self.config['auto_font_scale']
+        except Exception:
+            enabled = False
+        if not enabled:
+            return None
+        item = Gtk.CheckMenuItem.new_with_mnemonic(
+            _('_Lock font size for this terminal'))
+        item.set_active(bool(terminal.get_auto_font_locked()))
+        item.connect('toggled',
+                     lambda x: terminal.set_auto_font_locked(x.get_active()))
+        menu.append(item)
+        return item
 
     def pick_custom_colors(self, terminal):
         """Open a dialog to choose background and foreground colors at once"""
