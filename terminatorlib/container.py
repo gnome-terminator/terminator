@@ -11,6 +11,34 @@ from .util import dbg, err
 from .translation import _
 from .signalman import Signalman
 
+def window_terminal_signals(top_window, widget, rotate=True, zoom=True):
+    """Window-level Terminal signal handlers shared by every container
+    (Window, Window overlay frame, Paned, Notebook). Single source of truth
+    so the copies cannot drift (UI review P2-3); callers add their own
+    container-specific entries (close-term, split-*, title-change, ...)."""
+    signals = {'tab-change': top_window.tab_change,
+               'group-all': top_window.group_all,
+               'group-all-toggle': top_window.group_all_toggle,
+               'ungroup-all': top_window.ungroup_all,
+               'group-win': top_window.group_win,
+               'group-win-toggle': top_window.group_win_toggle,
+               'ungroup-win': top_window.ungroup_win,
+               'group-tab': top_window.group_tab,
+               'group-tab-toggle': top_window.group_tab_toggle,
+               'ungroup-tab': top_window.ungroup_tab,
+               'move-tab': top_window.move_tab,
+               'detach-tab': top_window.detach_tab_to_new_window,
+               'tab-new': [top_window.tab_new, widget],
+               'navigate': top_window.navigate_terminal}
+    if rotate:
+        signals['rotate-cw'] = [top_window.rotate, True]
+        signals['rotate-ccw'] = [top_window.rotate, False]
+    if zoom:
+        signals['zoom'] = top_window.zoom
+        signals['maximise'] = [top_window.zoom, False]
+    return signals
+
+
 # pylint: disable-msg=R0921
 class Container(object):
     """Base class for Terminator Containers"""
@@ -53,6 +81,15 @@ class Container(object):
         """Register the requested signal and record its connection ID"""
         self.cnxids.new(widget, signal, handler, *args)
         return
+
+    def connect_terminal_signals(self, widget, signals):
+        """Connect a {signal: handler | [handler, *args]} table to widget."""
+        for signal, handler in signals.items():
+            args = []
+            if isinstance(handler, list):
+                args = handler[1:]
+                handler = handler[0]
+            self.connect_child(widget, signal, handler, *args)
 
     def disconnect_child(self, widget):
         """De-register the signals for a child"""

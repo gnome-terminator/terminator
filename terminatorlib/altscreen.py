@@ -69,6 +69,11 @@ from gi.repository import GLib
 from .util import dbg
 
 DEBOUNCE_MS = 150
+# Once the decision is latched (TUI detected, or the grace window for this
+# collapsed episode has passed) a full-screen redraw cannot change it until
+# the foreground process changes; poll that slowly instead of every 150 ms
+# of TUI output (UI review P2-6).
+LATCHED_POLL_MS = 1000
 
 _KNOWN_SHELLS = {
     'sh', 'bash', 'dash', 'zsh', 'fish', 'ksh', 'mksh', 'pdksh', 'oksh',
@@ -293,13 +298,29 @@ class AltScreenScrollbar(object):
                 pass
         self.schedule()
 
+    def _latched(self):
+        """True when another evaluate during this collapsed episode can only
+        notice the TUI exiting (busy -> False), not a new decision."""
+        det = self.detector
+        if det.active or self.auto_hidden:
+            return True
+        start = det.episode_start
+        if start is None:
+            return False
+        try:
+            return (det._clock() - start) > det.GRACE_S
+        except Exception:
+            return False
+
     def _on_contents(self, *_args):
         # Entering the alternate screen from a screen that is already
         # collapsed (fresh terminal, or output + smcup processed in one
         # batch) changes nothing in the adjustment, so watch the contents
         # too -- but only while collapsed, where a state change is possible.
-        if self.detector.active or self.auto_hidden:
-            self.schedule()
+        if self._latched():
+            # TUI redraws: only watch for the exit, at a slow rate. The
+            # adjustment 'changed' path still reacts immediately.
+            self.schedule(LATCHED_POLL_MS)
             return
         adj = self._adj
         try:
@@ -319,10 +340,11 @@ class AltScreenScrollbar(object):
     def _on_destroy(self, *_args):
         self.detach()
 
-    def schedule(self):
+    def schedule(self, delay_ms=None):
         if self._timer is not None or self.detached:
             return
-        self._timer = GLib.timeout_add(DEBOUNCE_MS, self._fire)
+        self._timer = GLib.timeout_add(
+            DEBOUNCE_MS if delay_ms is None else int(delay_ms), self._fire)
 
     def _cancel(self):
         if self._timer is not None:

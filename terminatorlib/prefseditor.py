@@ -8,7 +8,7 @@ write it to a config file
 """
 
 import os,sys,re
-from gi.repository import GObject, Gtk, Gdk
+from gi.repository import GObject, GLib, Gtk, Gdk
 
 from .util import dbg, err
 from . import config
@@ -292,7 +292,48 @@ class PrefsEditor:
         self.config.base.save_config_with_suffix('_cur')
 
     def on_destroy_event(self, _widget):
+        self.flush_debounced_save()
         self.config.base.remove_config_with_suffix('_cur')
+
+    # UI review P2-10: spin buttons fire value-changed per step (dozens/s
+    # while an arrow is held). The value goes into Config at once; the
+    # atomic write (+fsync) and expensive side effects are coalesced.
+    SPIN_SAVE_DELAY_MS = 300
+
+    def debounced_save(self, after=None):
+        """Save (and run after()) once the spin has been still for
+        SPIN_SAVE_DELAY_MS."""
+        pending = self.__dict__.setdefault('_spin_after', [])
+        if after is not None and after not in pending:
+            pending.append(after)
+        self._spin_dirty = True
+        sid = self.__dict__.get('_spin_save_id')
+        if sid:
+            GLib.source_remove(sid)
+        self._spin_save_id = GLib.timeout_add(self.SPIN_SAVE_DELAY_MS,
+                                              self._spin_save_fire)
+
+    def _spin_save_fire(self):
+        self._spin_save_id = None
+        self.flush_debounced_save()
+        return False
+
+    def flush_debounced_save(self):
+        """Write a pending debounced save now (timer fired / dialog closing)."""
+        sid = self.__dict__.get('_spin_save_id')
+        if sid:
+            GLib.source_remove(sid)
+        self._spin_save_id = None
+        if not self.__dict__.get('_spin_dirty'):
+            return
+        self._spin_dirty = False
+        pending, self._spin_after = self.__dict__.get('_spin_after') or [], []
+        self.config.save()
+        for cb in pending:
+            try:
+                cb()
+            except Exception as ex:
+                dbg('debounced prefs hook: %s' % ex)
 
     def on_applybutton_clicked(self, _button):
         """Apply configuration changes without closing the window"""
@@ -1692,12 +1733,12 @@ class PrefsEditor:
     def on_pane_anim_expand_spinbutton_value_changed(self, widget):
         """Maximise animation duration in ms"""
         self.config['pane_animation_expand_ms'] = int(widget.get_value())
-        self.config.save()
+        self.debounced_save()
 
     def on_pane_anim_restore_spinbutton_value_changed(self, widget):
         """Restore animation duration in ms"""
         self.config['pane_animation_restore_ms'] = int(widget.get_value())
-        self.config.save()
+        self.debounced_save()
 
     # ---- Auto font scale (module E) --------------------------------------
 
@@ -1734,8 +1775,7 @@ class PrefsEditor:
     def on_reading_measure_spinbutton_value_changed(self, widget):
         """Reading measure (minimum columns)"""
         self.config['reading_measure_min_cols'] = int(widget.get_value())
-        self.config.save()
-        self._notify_auto_font_terminals()
+        self.debounced_save(self._notify_auto_font_terminals)
 
     # ---- Session page (modules A + B) -------------------------------------
 
@@ -1842,7 +1882,7 @@ class PrefsEditor:
     def on_scrollback_cache_lines_spinbutton_value_changed(self, widget):
         """Number of cached lines per terminal changed"""
         self.config['scrollback_cache_lines'] = int(widget.get_value())
-        self.config.save()
+        self.debounced_save()
 
     def on_session_save_as_layout_button_clicked(self, _button):
         """Save the live session (with working directories) as a layout"""
