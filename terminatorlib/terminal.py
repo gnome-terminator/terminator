@@ -696,6 +696,11 @@ class Terminal(Gtk.VBox):
         self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
         self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
         self.cnxids.new(self.vte, 'size-allocate', self.deferred_on_vte_size_allocate)
+        # m40: Xft DPI / text-scaling / font changes re-measure the cell
+        # without necessarily changing the allocation.
+        if GObject.signal_lookup('char-size-changed', type(self.vte)):
+            self.cnxids.new(self.vte, 'char-size-changed',
+                            self._on_vte_char_size_changed)
 
         self.vte.add_events(Gdk.EventMask.ENTER_NOTIFY_MASK)
         self.cnxids.new(self.vte, 'enter_notify_event',
@@ -1919,6 +1924,44 @@ class Terminal(Gtk.VBox):
                 hint()
         finally:
             self._auto_font_on_size_allocate()
+
+    def _on_vte_char_size_changed(self, _vte=None, cw=0, ch=0):
+        """m40: VTE re-measured its character cell (font zoom, Xft DPI or
+        GNOME text-scaling change, our own font_scale tier).  Refresh the
+        size readout and geometry hints, and drop a base cell that no
+        longer matches so auto font size stops using stale metrics."""
+        try:
+            self.titlebar.update_terminal_size(self.vte.get_column_count(),
+                                               self.vte.get_row_count())
+        except Exception:
+            pass
+        try:
+            if self.config['geometry_hinting'] and \
+                    not self._auto_font_enabled():
+                hint = getattr(self.get_toplevel(),
+                               'deferred_set_rough_geometry_hints', None)
+                if hint is not None:
+                    hint()
+        except Exception as ex:
+            dbg('char-size-changed hint refresh failed: %s' % ex)
+        if self._base_cell is None:
+            return
+        from .autofont import base_cell_stale
+        try:
+            scale = float(self.vte.get_font_scale())
+            measured = (int(cw) or self.vte.get_char_width(),
+                        int(ch) or self.vte.get_char_height())
+        except Exception:
+            return
+        if not base_cell_stale(self._base_cell, measured, scale):
+            return
+        dbg('base cell %s stale (now %s at scale %.3f)' %
+            (self._base_cell, measured, scale))
+        if abs(scale - 1.0) < 1e-6:
+            self._base_cell = measured
+        else:
+            self._base_cell = None
+        self.schedule_auto_font_scale()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
