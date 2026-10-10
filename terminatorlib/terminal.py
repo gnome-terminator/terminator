@@ -1899,17 +1899,26 @@ class Terminal(Gtk.VBox):
     def do_deferred_on_vte_size_allocate(self, widget, allocation):
         self.pending_on_vte_size_allocate = False
         self.on_vte_size_allocate(widget, allocation)
+        return False  # one-shot idle source
 
     def on_vte_size_allocate(self, widget, allocation):
         self.titlebar.update_terminal_size(self.vte.get_column_count(),
                 self.vte.get_row_count())
-        if self.config['geometry_hinting']:
+        # m39: auto font size must run even if geometry hinting fails, and
+        # the toplevel may not be a Terminator Window (e.g. mid-reparent).
+        try:
             window = self.get_toplevel()
-            window.deferred_set_rough_geometry_hints()
-        else:
-            window = self.get_toplevel()
-            window.disable_geometry_hints()
-        self._auto_font_on_size_allocate()
+            # Character-cell resize increments are meaningless (and can
+            # fight the WM) while auto font size keeps changing the cell.
+            if self.config['geometry_hinting'] and \
+                    not self._auto_font_enabled():
+                hint = getattr(window, 'deferred_set_rough_geometry_hints', None)
+            else:
+                hint = getattr(window, 'disable_geometry_hints', None)
+            if hint is not None:
+                hint()
+        finally:
+            self._auto_font_on_size_allocate()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
