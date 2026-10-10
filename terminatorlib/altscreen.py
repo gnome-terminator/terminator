@@ -47,7 +47,13 @@ Consequences:
   collapse the adjustment and are never affected
 * ``procps`` top draws on the normal screen, so it is (correctly) ignored
 * known false positive: a raw-mode, non-alt-screen program (ssh, a REPL)
-  right after ``clear`` hides the scrollbar until its output scrolls
+  right after ``clear`` hides the scrollbar until its output scrolls.
+  Accepted: the adjustment is collapsed, so there is nothing to scroll and
+  the hidden scrollbar loses nothing.  Filtering by process name (e.g.
+  ignoring ``ssh``) would break the main remote case (vim/tmux over ssh).
+* foreground unknown (flatpak's spawn_async gives no pid, /proc missing,
+  tcgetpgrp fails) -> untouched; an idle readline prompt is raw too, so
+  guessing would hide the scrollbar at the prompt
 
 Evaluation is debounced (``DEBOUNCE_MS``) so short-lived commands such as
 ``clear`` have exited before we look at the foreground group, and so a
@@ -99,9 +105,10 @@ def process_name(pid):
 
 
 def is_shell_pid(pid):
+    """True/False, or None when /proc/<pid>/comm cannot be read."""
     name = process_name(pid)
     if name is None:
-        return False
+        return None
     return name.lstrip('-') in shell_names()
 
 
@@ -125,9 +132,15 @@ def foreground_busy(pty_fd, child_pid, is_shell=is_shell_pid):
         fg = os.tcgetpgrp(pty_fd)
     except OSError:
         return None
+    if fg <= 0:
+        # 0: foreground group outside our pid namespace / no session
+        return None
     if fg != child_pid:
         return True
-    return not is_shell(child_pid)
+    shell = is_shell(child_pid)
+    if shell is None:
+        return None
+    return not shell
 
 
 
@@ -176,7 +189,7 @@ class AltScreenDetector(object):
         """Feed one observation and return the new ``active`` value.
 
         collapsed      adjustment has nothing to scroll
-        busy           True/False/None(unknown => treated as busy)
+        busy           True/False/None (unknown => never hide)
         raw            PTY is in non-canonical mode (True/False/None)
         cursor_beyond  cursor row >= page size, i.e. the current screen's
                        ring has scrolled (evidence of content even when the
@@ -189,6 +202,13 @@ class AltScreenDetector(object):
             self.episode_start = None
         elif busy is False:
             self.had_history = False
+            self.active = False
+            self.episode_start = None
+        elif busy is None:
+            # Foreground unknown (no child pid, e.g. flatpak spawn_async,
+            # or tcgetpgrp/proc failed).  An idle readline prompt is also
+            # in raw mode, so we cannot tell a TUI from the prompt: never
+            # hide on guesswork.  Keep had_history untouched.
             self.active = False
             self.episode_start = None
         else:
@@ -219,6 +239,7 @@ class AltScreenScrollbar(object):
         self._timer = None
         self._handlers = []
         self._adj = None
+        self.detached = False
 
     # -- wiring ---------------------------------------------------------
     def attach(self):
@@ -233,6 +254,10 @@ class AltScreenScrollbar(object):
         self._handlers.append((vte, vte.connect('destroy', self._on_destroy)))
 
     def detach(self):
+        """Disconnect everything.  Must run before the VTE is dropped:
+        the handler closures and (obj, id) pairs form a reference cycle
+        through GObject that Python's GC cannot break, which would keep
+        the whole VTE (and its scrollback) alive after the pane closes."""
         self._cancel()
         for obj, hid in self._handlers:
             try:
@@ -240,6 +265,8 @@ class AltScreenScrollbar(object):
             except Exception:
                 pass
         self._handlers = []
+        self._adj = None
+        self.detached = True
 
     # -- config ---------------------------------------------------------
     def _config(self, key, default):
@@ -293,7 +320,7 @@ class AltScreenScrollbar(object):
         self.detach()
 
     def schedule(self):
-        if self._timer is not None:
+        if self._timer is not None or self.detached:
             return
         self._timer = GLib.timeout_add(DEBOUNCE_MS, self._fire)
 
@@ -307,6 +334,8 @@ class AltScreenScrollbar(object):
 
     def _fire(self):
         self._timer = None
+        if self.detached:
+            return False
         try:
             self.evaluate()
         except Exception as ex:

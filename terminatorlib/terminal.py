@@ -318,6 +318,9 @@ class Terminal(Gtk.VBox):
         except Exception as ex:
             dbg('scrollback close hook failed: %s' % ex)
         self.cnxids.remove_widget(self.vte)
+        alt = getattr(self, 'altscreen', None)
+        if alt is not None:
+            alt.detach()
         self.emit('close-term')
         if self.pid is not None:
             try:

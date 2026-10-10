@@ -879,7 +879,7 @@ Default value: *middle*
 
 *scrollbar_position* = _string_::
 Specify where the terminal scrollbar is put.
-Can be any of: 'left', 'right', 'hidden'. +
+Can be any of: 'left', 'right', 'hidden', 'disabled' ('disabled' is a legacy alias of 'hidden'). +
 Default value: *right*
 
 *scrollbar_hide_in_alt_screen* = _boolean_::
@@ -889,7 +889,7 @@ and restored when it exits. Only applies when the scrollbar is shown. +
 Default value: *True*
 
 *scroll_on_output* = _boolean_::
-If set to True, the terminall will scroll to the bottom when an
+If set to True, the terminal will scroll to the bottom when an
 application writes text to it. +
 Default value: *False*
 

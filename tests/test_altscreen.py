@@ -75,10 +75,27 @@ def test_detector_clear_then_command_does_not_hide():
     assert d.update(True, True, raw=False, cursor_beyond=True) is False
 
 
-def test_detector_unknown_foreground_and_termios_assume_tui():
+def test_detector_unknown_foreground_never_hides():
+    # flatpak (no pid) / no /proc: an idle readline prompt is raw too, so
+    # an unknown foreground must not hide the scrollbar after `clear`.
     d = AltScreenDetector()
     d.update(False, None)
-    assert d.update(True, None, raw=None) is True
+    assert d.update(True, None, raw=True, cursor_beyond=True) is False
+    assert d.had_history is True
+
+
+def test_detector_unknown_termios_with_known_tui_hides():
+    d = AltScreenDetector()
+    d.update(False, None)
+    assert d.update(True, True, raw=None) is True
+
+
+def test_foreground_busy_unknown_shell_name_or_pgrp(monkeypatch):
+    monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 100)
+    assert foreground_busy(5, 100, is_shell=lambda pid: None) is None
+    monkeypatch.setattr(os, 'tcgetpgrp', lambda fd: 0)
+    assert foreground_busy(5, 100, is_shell=lambda pid: True) is None
+    assert altscreen.is_shell_pid(2 ** 22 + 12345) is None
 
 
 def test_detector_shell_in_foreground_means_no_tui():
@@ -449,3 +466,37 @@ def test_real_vte_clear_and_canonical_command_never_hide():
         'sh -c \'sleep 1.5; echo done\'; sleep 0.5', duration_ms=3000)
     vis = [v for _, v in samples]
     assert all(vis), samples
+
+
+def test_detach_stops_timers_and_handlers(monkeypatch):
+    term, ctl, _ = _ctl(monkeypatch)
+    added = []
+    removed = []
+    monkeypatch.setattr(altscreen.GLib, 'timeout_add',
+                        lambda ms, cb: added.append(cb) or 77)
+    monkeypatch.setattr(altscreen.GLib, 'source_remove',
+                        lambda sid: removed.append(sid))
+
+    class Obj(object):
+        def __init__(self):
+            self.gone = []
+
+        def disconnect(self, hid):
+            self.gone.append(hid)
+    obj = Obj()
+    ctl._handlers = [(obj, 1), (obj, 2)]
+    ctl.schedule()
+    ctl.detach()
+    assert removed == [77] and obj.gone == [1, 2]
+    assert ctl._handlers == [] and ctl._adj is None
+    ctl.schedule()                       # no new timer after detach
+    assert len(added) == 1
+    assert added[0]() is False           # stale callback is a no-op
+
+
+def test_terminal_close_detaches_altscreen():
+    import inspect
+    from terminatorlib.terminal import Terminal
+    src = inspect.getsource(Terminal.close)
+    assert 'altscreen' in src and 'detach()' in src
+    assert src.index('detach()') < src.index('del(self.vte)')
