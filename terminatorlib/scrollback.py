@@ -736,8 +736,7 @@ class ScrollbackCache(Borg):
         Only non-live (orphan/closed) files are removed, oldest-first; live
         files are never removed at runtime (see loop).  Runs on the worker, so writes queued earlier have already
         landed (FIFO); seq is deliberately NOT bumped (that would drop a newer
-        write queued after this gc item).  A removed live file has its hash
-        cleared and is re-marked dirty so the next tick rewrites it.  Returns the list of removed uuids.
+        write queued after this gc item).  Returns the list of removed uuids.
         """
         total_cap = max(0, self._total_mb()) * 1024 * 1024
         removed = []
@@ -784,14 +783,12 @@ class ScrollbackCache(Borg):
                     continue
             total -= size
             removed.append(u)
-            GLib.idle_add(self._on_gc_removed, u, is_live)
+            GLib.idle_add(self._on_gc_removed, u)
         dbg('scrollback gc removed %d file(s)' % len(removed))
         return removed
 
-    def _on_gc_removed(self, uuid_str, was_live=False):
+    def _on_gc_removed(self, uuid_str):
         self._last_hash.pop(uuid_str, None)
-        if was_live:
-            self._dirty.add(uuid_str)  # rewrite (newest content) next tick
         return False
 
     # ---- worker ----
