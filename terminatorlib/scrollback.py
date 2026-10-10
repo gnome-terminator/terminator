@@ -111,6 +111,11 @@ def _sm_display_lost():
     return bool(getattr(sm, '_display_lost', False))
 
 
+def _sm_safe_restore():
+    sm = _session_manager()
+    return bool(sm is not None and getattr(sm, 'safe_restore', False))
+
+
 def _sm_restored_this_run():
     sm = _session_manager()
     if sm is None:
@@ -997,6 +1002,9 @@ class ScrollbackCache(Borg):
         if not self._enabled:
             return False
         if not _sm_restored_this_run():
+            return False
+        if _sm_safe_restore():
+            # m31: crash-fallback safe mode restores layout only.
             return False
         uuid_str = _terminal_uuid_str(terminal)
         if not uuid_str:

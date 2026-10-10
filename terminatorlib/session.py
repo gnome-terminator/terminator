@@ -5,6 +5,7 @@
 from __future__ import print_function
 
 import errno
+import glob
 import fcntl
 import hashlib
 import json
@@ -33,6 +34,8 @@ QUIT_ALL_WINDOW_GRACE_S = 10.0
 SAVE_BACKOFF_MAX_S = 300
 PERIODIC_MARK_DIRTY_S = 60
 RESTORING_CLEAR_DELAY_S = 10
+# m31: marker line flagging a crash-fallback restore (second crash -> empty)
+FALLBACK_MARKER_FLAG = 'fallback'
 
 
 def _now_iso():
@@ -347,6 +350,11 @@ class SessionManager(Borg):
     _loaded_session_uuids = None
     _finalize_done = None
     _crash_skipped = None
+    # m31 crash fallback state
+    crash_fallback_ok = False
+    safe_restore = False
+    _fallback_restore = False
+    _crashed_sources = ()
     _missing_dirs_notice = None
     _signals_installed = None
     _buffer_timer = None
@@ -802,6 +810,8 @@ class SessionManager(Borg):
         # '-' = source overwritten; must not read as a legacy (no-source)
         # marker on the next rotation.
         new_lines.append(base + target if target is not None else '-')
+        # m31: keep extra marker lines (e.g. the fallback flag).
+        new_lines.extend(lines[2:])
         marker = self.restoring_path()
         tmp = marker + '.tmp'
         try:
@@ -863,6 +873,8 @@ class SessionManager(Borg):
         """
         path = self.session_path()
         self._loaded_from = None
+        self._fallback_restore = False
+        self.safe_restore = False
         for candidate in (path, path + '.prev', path + '.prev2'):
             data = self._load_file(candidate)
             if data is not None:
@@ -959,8 +971,12 @@ class SessionManager(Borg):
                 # a hard crash quarantines it (a rotated .prev would
                 # otherwise be retried, crash-looping every other launch).
                 src = getattr(self, '_loaded_from', None)
-                if src:
-                    fh.write(os.path.basename(src))
+                if src or self._fallback_restore:
+                    fh.write(os.path.basename(src or ''))
+                    fh.write('\n')
+                if self._fallback_restore:
+                    # m31: a crash during a fallback restore must go empty.
+                    fh.write(FALLBACK_MARKER_FLAG)
                     fh.write('\n')
             os.chmod(path, 0o600)
         except OSError as ex:
@@ -988,12 +1004,21 @@ class SessionManager(Borg):
         return False
 
     def check_crash_marker(self):
-        """True if restoring marker still present (previous restore crashed)."""
+        """True if restoring marker still present (previous restore crashed).
+
+        The crashed source is quarantined as *.crashed. m31: unless the
+        crashed restore was itself a fallback restore, crash_fallback_ok is
+        set so the caller may use load_crash_fallback() instead of starting
+        empty; a second crash (fallback flag in the marker) never falls back.
+        """
         path = self.restoring_path()
+        self.crash_fallback_ok = False
+        self._crashed_sources = []
         if not os.path.exists(path):
             return False
         session = self.session_path()
         src = None
+        was_fallback = False
         try:
             with open(path, 'r', encoding='utf-8') as fh:
                 lines = fh.read().splitlines()
@@ -1002,26 +1027,81 @@ class SessionManager(Borg):
                 base = os.path.basename(session)
                 if name in (base + '.prev', base + '.prev2'):
                     src = os.path.join(os.path.dirname(session), name)
+            was_fallback = FALLBACK_MARKER_FLAG in [l.strip() for l in lines[2:]]
         except (OSError, ValueError) as ex:
             # ValueError: undecodable marker (UnicodeDecodeError) must not
             # abort startup (m27).
             dbg('SessionManager crash marker read: %s' % ex)
-        try:
-            if os.path.isfile(session):
-                os.replace(session, session + '.crashed')
-            if src and os.path.isfile(src):
-                os.replace(src, src + '.crashed')
-        except OSError as ex:
-            dbg('SessionManager crash rename: %s' % ex)
+        for victim in (session, src):
+            if victim and os.path.isfile(victim):
+                dest = self._quarantine_crashed(victim)
+                if dest:
+                    self._crashed_sources.append(dest)
         self.clear_restoring_now()
         self._crash_skipped = True
+        self.crash_fallback_ok = not was_fallback
+        if was_fallback:
+            err('SessionManager: fallback restore crashed too; '
+                'starting with an empty window')
         return True
+
+    def _quarantine_crashed(self, victim):
+        """Rename victim to *.crashed without clobbering an older one."""
+        dest = victim + '.crashed'
+        n = 1
+        while os.path.exists(dest):
+            dest = '%s.crashed.%d' % (victim, n)
+            n += 1
+        try:
+            os.replace(victim, dest)
+            return dest
+        except OSError as ex:
+            dbg('SessionManager crash rename: %s' % ex)
+            return None
+
+    def load_crash_fallback(self):
+        """m31: after a crash marker, restore the newest good candidate.
+
+        Order: .prev, .prev2 (full restore), then the quarantined *.crashed
+        file in safe mode (layout/cwd only: no scrollback replay; commands
+        are already stripped by sanitize_layout). The restore is flagged as
+        a fallback so a second crash goes empty. None if nothing usable.
+        """
+        path = self.session_path()
+        self._loaded_from = None
+        self._fallback_restore = False
+        self.safe_restore = False
+        if not getattr(self, 'crash_fallback_ok', False):
+            return None
+        for candidate in (path + '.prev', path + '.prev2'):
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                self._fallback_restore = True
+                err('SessionManager: previous restore crashed, falling back '
+                    'to %s' % os.path.basename(candidate))
+                return data
+        crashed = [path + '.crashed'] + [
+            c for c in getattr(self, '_crashed_sources', [])
+            if c != path + '.crashed']
+        for candidate in crashed:
+            data = self._load_file(candidate)
+            if data is not None:
+                self._loaded_from = candidate
+                self._fallback_restore = True
+                self.safe_restore = True
+                err('SessionManager: previous restore crashed, restoring '
+                    'layout only (no scrollback) from %s' %
+                    os.path.basename(candidate))
+                return data
+        return None
 
     def clear_session_files(self):
         path = self.session_path()
-        for candidate in (path, path + '.prev', path + '.prev2',
+        for candidate in [path, path + '.prev', path + '.prev2',
                           path + '.bad', path + '.corrupt', path + '.crashed',
-                          self.restoring_path()):
+                          self.restoring_path()] + sorted(
+                              glob.glob(glob.escape(path) + '*.crashed*')):
             try:
                 if os.path.exists(candidate):
                     os.unlink(candidate)

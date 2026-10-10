@@ -157,25 +157,29 @@ if __name__ == '__main__':
             )
             if want_restore:
                 if sess.check_crash_marker():
-                    dbg('session restore skipped: crash marker present')
                     sess._crash_skipped = True
+                    # m31: fall back to .prev/.prev2, else the quarantined
+                    # file in safe mode; a second crash goes empty.
+                    data = sess.load_crash_fallback()
+                    if not data:
+                        dbg('session restore skipped: crash marker present')
                 else:
                     data = sess.load()
-                    if data:
-                        sess.begin_restore()
-                        layout = sess.sanitize_layout(data['layout'])
-                        cfg.base.layouts[SESSION_LAYOUT_NAME] = layout
-                        sess._loaded_session_uuids = set()
-                        for node in layout.values():
-                            if isinstance(node, dict) and node.get('type') == 'Terminal':
-                                uid = node.get('uuid')
-                                if uid:
-                                    sess._loaded_session_uuids.add(str(uid))
-                        OPTIONS.layout = SESSION_LAYOUT_NAME
-                        sess.restored_this_run = True
-                        restoring = True
-                        dbg('restoring last session (%d terminals)' %
-                            len(sess._loaded_session_uuids))
+                if data:
+                    sess.begin_restore()
+                    layout = sess.sanitize_layout(data['layout'])
+                    cfg.base.layouts[SESSION_LAYOUT_NAME] = layout
+                    sess._loaded_session_uuids = set()
+                    for node in layout.values():
+                        if isinstance(node, dict) and node.get('type') == 'Terminal':
+                            uid = node.get('uuid')
+                            if uid:
+                                sess._loaded_session_uuids.add(str(uid))
+                    OPTIONS.layout = SESSION_LAYOUT_NAME
+                    sess.restored_this_run = True
+                    restoring = True
+                    dbg('restoring last session (%d terminals)' %
+                        len(sess._loaded_session_uuids))
         except Exception as ex:
             err('session setup failed: %s' % ex)
 
