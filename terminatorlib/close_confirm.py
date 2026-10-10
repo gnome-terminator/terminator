@@ -344,3 +344,24 @@ def request_close_terminal(terminal):
 
     terminal.close()
     return True
+
+
+def confirm_close_terminals(terminals, parent_window=None):
+    """Bulk-close gate (e.g. 'Close group'): one aggregated process dialog.
+
+    Returns True when closing may proceed.
+    """
+    from gi.repository import Gtk
+    terminals = [t for t in terminals if t is not None]
+    if not terminals:
+        return True
+    need, procs = should_confirm_processes(terminals)
+    if not need:
+        return True
+    if parent_window is None:
+        try:
+            parent_window = terminals[0].get_toplevel()
+        except Exception:
+            parent_window = None
+    return show_process_close_dialog(parent_window, terminals, procs) == \
+        Gtk.ResponseType.ACCEPT
