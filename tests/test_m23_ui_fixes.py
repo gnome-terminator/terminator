@@ -264,7 +264,8 @@ def test_p2_destroy_during_animation_cancels_tick(win, monkeypatch):
     win.split_axis(a, True)
     _pump(0.3)
     t1 = [t for t in win.get_terminals() if t is not a][0]
-    monkeypatch.setattr(paneoverlay, 'should_reduce_motion', lambda c=None: True)
+    # m37: reduce-motion now switches instantly; force the animated path
+    monkeypatch.setattr(paneoverlay, 'should_reduce_motion', lambda c=None: False)
     assert win.overlay_maximise(t1, animate=True)
     anim = win._overlay._animator
     assert anim is not None and anim.running

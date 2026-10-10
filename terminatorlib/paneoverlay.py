@@ -5,6 +5,13 @@
 Temporary Gtk.Overlay while maximised: float one pane over the window with
 margins, dim siblings, optional expand/restore animation. Not full-window
 zoom and not the legacy reparent zoom.
+
+m37 (smooth animation): frames come from the widget frame clock
+(add_tick_callback) with the clock starting at the first painted frame, so
+the reparent/relayout before it never eats animation time. Per frame only a
+server-side snapshot surface is scaled and the dimmer repainted; the real
+terminal (already at its final size, one PTY resize) is not drawn until the
+hand-over, so no VTE reflow, font change or opacity group happens mid-flight.
 """
 
 from __future__ import print_function
@@ -145,6 +152,86 @@ def placeholder_pixbuf_scale(pixbuf, logical_w, scale=None):
     return 1.0
 
 
+def capture_widget_surface(widget):
+    """m37: snapshot widget's on-screen area into a surface similar to its
+    GdkWindow (server-side copy on X11, HiDPI-aware via the window's device
+    scale). Returns (surface, logical_w, logical_h) or None. Painting this
+    each frame is a cheap server-side composite, unlike a client pixbuf that
+    is converted and uploaded again on every frame."""
+    try:
+        import cairo
+        gdk_win = widget.get_window()
+        if gdk_win is None:
+            return None
+        alloc = widget.get_allocation()
+        w, h = int(alloc.width), int(alloc.height)
+        if w <= 1 or h <= 1:
+            return None
+        owner = _widget_for_gdk_window(widget, gdk_win) or widget
+        xy = _translate_xy(widget, owner, 0, 0)
+        if xy is None:
+            return None
+        surf = gdk_win.create_similar_surface(cairo.CONTENT_COLOR, w, h)
+        if surf is None:
+            return None
+        cr = cairo.Context(surf)
+        Gdk.cairo_set_source_window(cr, gdk_win, -float(xy[0]),
+                                    -float(xy[1]))
+        cr.paint()
+        surf.flush()
+        return (surf, w, h)
+    except Exception as ex:
+        dbg('capture_widget_surface failed: %s' % ex)
+        return None
+
+
+def pixbuf_to_surface(pixbuf, widget=None, logical_w=0):
+    """Convert a (possibly device-resolution) pixbuf ONCE into a cairo
+    surface; returns (surface, logical_w, logical_h) or None."""
+    if pixbuf is None:
+        return None
+    try:
+        pw, ph = int(pixbuf.get_width()), int(pixbuf.get_height())
+        k = placeholder_pixbuf_scale(pixbuf, logical_w)
+        lw, lh = max(1, int(round(pw * k))), max(1, int(round(ph * k)))
+        scale = max(1, int(round(1.0 / k))) if k < 1.0 else 1
+        gdk_win = widget.get_window() if widget is not None else None
+        surf = Gdk.cairo_surface_create_from_pixbuf(pixbuf, scale, gdk_win)
+        return (surf, lw, lh)
+    except Exception as ex:
+        dbg('pixbuf_to_surface failed: %s' % ex)
+        return None
+
+
+def paint_snapshot(cr, snap, rect, alpha=1.0):
+    """Draw snap=(surface, w, h) stretched into rect=(x, y, w, h).
+    Bilinear keeps it on the XRender fast path (GOOD may fall back to a
+    client-side box filter when shrinking)."""
+    if snap is None or alpha <= 0.0:
+        return False
+    surf, sw, sh = snap
+    x, y, w, h = rect
+    if w <= 1 or h <= 1 or sw <= 0 or sh <= 0:
+        return False
+    import cairo
+    cr.save()
+    cr.rectangle(x, y, w, h)
+    cr.clip()
+    cr.translate(x, y)
+    cr.scale(w / float(sw), h / float(sh))
+    cr.set_source_surface(surf, 0, 0)
+    try:
+        cr.get_source().set_filter(cairo.FILTER_BILINEAR)
+    except Exception:
+        pass
+    if alpha >= 1.0:
+        cr.paint()
+    else:
+        cr.paint_with_alpha(alpha)
+    cr.restore()
+    return True
+
+
 def capture_terminal_pixbuf(terminal):
     """Snapshot a terminal's VTE region. Never call terminal.draw(cr)."""
     try:
@@ -236,10 +323,12 @@ class PanePlaceholder(Gtk.DrawingArea):
 
     is_pane_placeholder = True
 
-    def __init__(self, terminal, pixbuf=None):
+    def __init__(self, terminal, pixbuf=None, snap=None):
         Gtk.DrawingArea.__init__(self)
         self._terminal = terminal
         self._pixbuf = pixbuf
+        # m37: (surface, w, h) painted without a per-frame pixbuf upload
+        self._snap = snap
         # m33 fix-review: logical width of the snapshot, taken now (the
         # terminal is still in its slot) so draw-time resizes don't matter.
         self._pixbuf_logical_w = 0
@@ -298,7 +387,18 @@ class PanePlaceholder(Gtk.DrawingArea):
         cr.set_source_rgb(0.08, 0.08, 0.08)
         cr.rectangle(0, 0, alloc.width, alloc.height)
         cr.fill()
-        if self._pixbuf is not None:
+        if self._snap is None and self._pixbuf is not None and \
+                widget.get_window() is not None:
+            # m37: convert once, not on every frame of the animation
+            self._snap = pixbuf_to_surface(self._pixbuf, widget,
+                                           self._pixbuf_logical_w)
+        if self._snap is not None:
+            try:
+                _surf, sw, sh = self._snap
+                paint_snapshot(cr, self._snap, (0, 0, sw, sh), 0.35)
+            except Exception:
+                pass
+        elif self._pixbuf is not None:
             try:
                 # m33 post-review: HiDPI snapshots are device-resolution
                 # (w*scale); draw them at logical size, not scale x larger.
@@ -440,7 +540,9 @@ class DimLayer(Gtk.EventBox):
 
 
 class SnapshotArea(Gtk.DrawingArea):
-    """Full-window DrawingArea that letterboxes a pixbuf into a progress rect."""
+    """Full-window DrawingArea that stretches a snapshot into a progress
+    rect. m37: paints a cached surface (server-side on X11), never converts
+    a pixbuf per frame."""
 
     def __init__(self):
         Gtk.DrawingArea.__init__(self)
@@ -450,13 +552,24 @@ class SnapshotArea(Gtk.DrawingArea):
         self.set_halign(Gtk.Align.FILL)
         self.set_valign(Gtk.Align.FILL)
         self._pixbuf = None
+        self._snap = None
         self._rect = (0.0, 0.0, 1.0, 1.0)
         self._opacity = 1.0
         self.connect('draw', self._on_draw)
 
     def set_pixbuf(self, pb):
         self._pixbuf = pb
+        self._snap = None
         self.queue_draw()
+
+    def set_snap(self, snap):
+        """snap = (surface, logical_w, logical_h) from capture_widget_surface."""
+        self._snap = snap
+        self._pixbuf = None
+        self.queue_draw()
+
+    def has_content(self):
+        return self._snap is not None or self._pixbuf is not None
 
     def set_progress_rect(self, rect):
         self._rect = rect
@@ -467,25 +580,35 @@ class SnapshotArea(Gtk.DrawingArea):
         self.queue_draw()
 
     def _on_draw(self, widget, cr):
-        if self._pixbuf is None or self._opacity <= 0.0:
+        if self._opacity <= 0.0:
             return False
-        x, y, w, h = self._rect
-        if w <= 1 or h <= 1:
-            return False
+        if self._snap is None and self._pixbuf is not None:
+            self._snap = pixbuf_to_surface(self._pixbuf, widget)
         try:
-            pw = self._pixbuf.get_width()
-            ph = self._pixbuf.get_height()
-            if pw <= 0 or ph <= 0:
-                return False
-            cr.save()
-            cr.translate(x, y)
-            cr.scale(w / float(pw), h / float(ph))
-            Gdk.cairo_set_source_pixbuf(cr, self._pixbuf, 0, 0)
-            cr.paint_with_alpha(self._opacity)
-            cr.restore()
+            paint_snapshot(cr, self._snap, self._rect, self._opacity)
         except Exception as ex:
             dbg('SnapshotArea draw: %s' % ex)
         return False
+
+
+def frame_clock_scheduler(widget):
+    """m37: (schedule, unschedule) pair driving Animator from widget's frame
+    clock (one tick per painted frame, timestamp = frame time), or None when
+    the widget has no frame clock yet (not realized)."""
+    try:
+        if widget is None or widget.get_frame_clock() is None:
+            return None
+    except Exception:
+        return None
+
+    def schedule(cb):
+        return widget.add_tick_callback(
+            lambda _w, clock: cb(clock.get_frame_time() / 1e6))
+
+    def unschedule(tick_id):
+        widget.remove_tick_callback(tick_id)
+
+    return schedule, unschedule
 
 
 class Animator(object):
@@ -494,15 +617,20 @@ class Animator(object):
     start(reverse=False) runs from_progress → 1; reverse=True runs → 0.
     reverse() flips direction mid-flight without a jump. Clock and scheduler
     are injectable for unit tests.
+
+    m37: the scheduled callback may be handed the frame time (frame clock
+    ticks); with sync_first_frame the time origin is the first tick, so
+    expensive setup before the first painted frame does not skip progress.
     """
 
     def __init__(self, on_tick, on_done, clock=None, schedule=None,
-                 unschedule=None):
+                 unschedule=None, sync_first_frame=False):
         self._on_tick = on_tick
         self._on_done = on_done
         self._clock = clock or (lambda: time.monotonic())
         self._schedule = schedule or (lambda cb: GLib.timeout_add(16, cb))
         self._unschedule = unschedule or GLib.source_remove
+        self._sync_first = bool(sync_first_frame)
         self._source = None
         self._start = 0.0
         self._duration = 0.2
@@ -511,6 +639,7 @@ class Animator(object):
         self._progress = 0.0
         self._easing = ease_out_cubic
         self._running = False
+        self.ticks = 0
 
     @property
     def running(self):
@@ -535,17 +664,22 @@ class Animator(object):
             from_progress = 1.0 if reverse else 0.0
         self._from = max(0.0, min(1.0, float(from_progress)))
         self._progress = self._from
-        self._start = self._clock()
+        self._start = None if self._sync_first else self._clock()
         self._running = True
         self._source = self._schedule(self._tick)
 
     def reverse(self, duration_ms=None, easing=None):
-        """Flip direction from the current progress (no jump)."""
+        """Flip direction from the current progress (no jump). The new leg
+        is shortened to the distance left, so a quick re-toggle doesn't
+        crawl over a full duration."""
         if not self._running:
             return
         dur = duration_ms if duration_ms is not None else \
             int(self._duration * 1000)
-        self.start(dur, reverse=not self._reverse, easing=easing,
+        to_reversed = not self._reverse
+        left = self._progress if to_reversed else 1.0 - self._progress
+        dur = max(60, int(round(dur * max(0.0, min(1.0, left)))))
+        self.start(dur, reverse=to_reversed, easing=easing,
                    from_progress=self._progress)
 
     def _stop_source(self):
@@ -580,10 +714,15 @@ class Animator(object):
             return self._from * (1.0 - eased)
         return self._from + (1.0 - self._from) * eased
 
-    def _tick(self):
+    def _tick(self, now=None):
         if not self._running:
             return False
-        raw = (self._clock() - self._start) / self._duration
+        if now is None:
+            now = self._clock()
+        if self._start is None:
+            self._start = now
+        self.ticks += 1
+        raw = (now - self._start) / self._duration
         raw = max(0.0, min(1.0, raw))
         self._progress = self._value(raw)
         try:
@@ -618,16 +757,26 @@ class OverlayController(object):
     CLICK_GUARD_MS = 300
     REDUCED_MS = 100
 
+    WATCHDOG_STALL_S = 0.6  # no frame for this long → jump to the end
+
     def __init__(self, window):
         self.window = window
         self.data = None
         self._animator = None
         self._frozen = None  # terminal currently frozen for E
+        self._probe = None   # m37 animprofile probe (opt-in)
+        self._watchdog = None
 
     # -- queries ----------------------------------------------------------
 
     def is_active(self):
         return self.data is not None
+
+    def is_animating(self):
+        """m37: an expand/restore animation is in flight (session saves
+        and other heavy work wait until it is over)."""
+        anim = self._animator
+        return self.data is not None and anim is not None and anim.running
 
     def is_maximised_pane(self, terminal):
         return self.data is not None and self.data.get('terminal') is terminal
@@ -732,11 +881,24 @@ class OverlayController(object):
             return False
 
         config = window.config
-        reduce_motion = should_reduce_motion(config)
-        # Capture BEFORE reparent; failure → no zoom animation
-        pixbuf = capture_terminal_pixbuf(terminal) if animate else None
-        zoom_anim = bool(animate) and pixbuf is not None and not reduce_motion
-        fade_only = bool(animate) and not zoom_anim and reduce_motion
+        # m37: gtk-enable-animations=False / reduce_motion=on → instant
+        if animate and should_reduce_motion(config):
+            animate = False
+        if animate:
+            from . import animprofile
+            self._probe = animprofile.begin('expand', window)
+        # Capture BEFORE reparent (whole Terminal incl. titlebar, so the
+        # first frame matches what is on screen); failure → dim fade only
+        snap = capture_widget_surface(terminal) if animate else None
+        pixbuf = None
+        if animate and snap is None:
+            pixbuf = capture_terminal_pixbuf(terminal)
+            if pixbuf is not None:
+                vte = getattr(terminal, 'vte', None) or terminal
+                snap = pixbuf_to_surface(pixbuf, vte,
+                                         vte.get_allocated_width())
+        zoom_anim = bool(animate) and snap is not None
+        fade_only = bool(animate) and not zoom_anim
 
         parent = terminal.get_parent()
         main = Gtk.Window.get_child(window)
@@ -752,7 +914,7 @@ class OverlayController(object):
 
         self._pause_font(terminal)
 
-        placeholder = PanePlaceholder(terminal, pixbuf=pixbuf)
+        placeholder = PanePlaceholder(terminal, pixbuf=pixbuf, snap=snap)
         overlay = Gtk.Overlay()
         overlay.get_style_context().add_class('pane-overlay')
 
@@ -772,6 +934,8 @@ class OverlayController(object):
         terminal._overlay_placeholder = placeholder
 
         frame = PaneFrame()
+        # m37: the real terminal is not painted while the snapshot flies
+        frame.connect('draw', self._on_frame_draw)
         dim = DimLayer()
         dim.add_events(Gdk.EventMask.BUTTON_PRESS_MASK |
                        Gdk.EventMask.BUTTON_RELEASE_MASK)
@@ -783,7 +947,7 @@ class OverlayController(object):
         snapshot = None
         if zoom_anim:
             snapshot = SnapshotArea()
-            snapshot.set_pixbuf(pixbuf)
+            snapshot.set_snap(snap)
             snapshot.set_progress_rect(src_rect)
             overlay.add_overlay(snapshot)
             try:
@@ -800,8 +964,10 @@ class OverlayController(object):
             'dim': dim,
             'snapshot': snapshot,
             'pixbuf': pixbuf,
+            'snap': snap,
             'src_rect': src_rect,
             'dst_rect': dst_rect,
+            'frame_hidden': zoom_anim,
             'animating': False,
             'restore_pending': False,
             'emitted': False,
@@ -830,7 +996,6 @@ class OverlayController(object):
         terminal.grab_focus()
 
         if zoom_anim or fade_only:
-            frame.set_opacity(0.0 if zoom_anim else 1.0)
             dim.set_alpha(0.0)
             self._run_animation(expand=True, reduced=fade_only)
         else:
@@ -860,6 +1025,10 @@ class OverlayController(object):
                 dbg('overlay teardown: %s' % ex)
                 self.data = None
         self._animator = None
+        self._cancel_watchdog()
+        if self._probe is not None:
+            self._probe.close()
+            self._probe = None
 
     def maximise_when_ready(self, terminal):
         """Session restore (P1-2): maximise once the window has a real
@@ -926,30 +1095,46 @@ class OverlayController(object):
                          ease_in_out_cubic)
             return True
 
+        if animate and should_reduce_motion(self.window.config):
+            animate = False  # m37: instant when animations are disabled
         if not animate:
             self._finish_restore()
             return True
 
+        from . import animprofile
+        self._probe = animprofile.begin('restore', self.window)
         terminal = data['terminal']
         self._pause_font(terminal)
-        reduce_motion = should_reduce_motion(self.window.config)
-        pixbuf = None if reduce_motion else capture_terminal_pixbuf(terminal)
+        overlay = data['overlay']
+        # m37: land on the slot as it is NOW (the window may have been
+        # resized while maximised), fly from where the terminal really is.
+        try:
+            ph = data['placeholder']
+            if ph.get_mapped() and ph.get_allocated_width() > 1:
+                data['src_rect'] = _rect_from_widget(ph, overlay)
+        except Exception as ex:
+            dbg('restore slot rect: %s' % ex)
+        snap = capture_widget_surface(terminal)
         data['restore_pending'] = True
-        if pixbuf is not None:
-            snap = data.get('snapshot')
-            if snap is None:
-                snap = SnapshotArea()
-                data['overlay'].add_overlay(snap)
+        if snap is not None:
+            try:
+                data['fly_dst'] = _rect_from_widget(terminal, overlay)
+            except Exception:
+                data['fly_dst'] = None
+            snapshot = data.get('snapshot')
+            if snapshot is None:
+                snapshot = SnapshotArea()
+                overlay.add_overlay(snapshot)
                 try:
-                    data['overlay'].set_overlay_pass_through(snap, True)
+                    overlay.set_overlay_pass_through(snapshot, True)
                 except Exception:
                     pass
-                data['snapshot'] = snap
-            snap.set_pixbuf(pixbuf)
-            snap.set_progress_rect(data['dst_rect'])
-            snap.set_opacity(1.0)
-            snap.show()
-            data['frame'].set_opacity(0.0)
+                data['snapshot'] = snapshot
+            snapshot.set_snap(snap)
+            snapshot.set_progress_rect(self._fly_dst(data))
+            snapshot.set_opacity(1.0)
+            snapshot.show()
+            self._set_frame_hidden(True)
             self._run_animation(expand=False, reduced=False)
         else:
             self._run_animation(expand=False, reduced=True)
@@ -967,6 +1152,37 @@ class OverlayController(object):
 
     # -- animation --------------------------------------------------------
 
+    # -- animation (m37) --------------------------------------------------
+
+    def _on_frame_draw(self, _widget, _cr):
+        """Block painting the real terminal (and its titlebar) while the
+        snapshot stands in for it: returning True skips the Box's own draw
+        and therefore every child. No opacity group, no VTE repaint."""
+        data = self.data
+        return bool(data is not None and data.get('frame_hidden'))
+
+    def _set_frame_hidden(self, hidden):
+        data = self.data
+        if data is None or bool(data.get('frame_hidden')) == bool(hidden):
+            return
+        data['frame_hidden'] = bool(hidden)
+        try:
+            data['frame'].queue_draw()
+        except Exception:
+            pass
+
+    def _fly_dst(self, data):
+        """Rect the snapshot flies to/from on the maximised side: the
+        terminal inside the frame chrome (not the chrome itself), so the
+        hand-over to the live terminal doesn't jump by the border."""
+        rect = data.get('fly_dst')
+        if rect is not None:
+            return rect
+        x, y, w, h = data['dst_rect']
+        inset = FRAME_CHROME_PX / 2.0
+        return (x + inset, y + inset, max(1.0, w - 2 * inset),
+                max(1.0, h - 2 * inset))
+
     def _run_animation(self, expand, reduced):
         data = self.data
         data['animating'] = True
@@ -976,8 +1192,8 @@ class OverlayController(object):
             ms = self._config_ms('pane_animation_expand_ms', 200)
         else:
             ms = self._config_ms('pane_animation_restore_ms', 160)
-        src, dst = data['src_rect'], data['dst_rect']
         dim_alpha = self.DIM_ALPHA
+        fade_ms = 60.0
 
         def on_tick(progress, raw):
             # Never touch VTE size / font here: only snapshot rect + dim
@@ -985,35 +1201,88 @@ class OverlayController(object):
             snap = data.get('snapshot')
             if snap is None:
                 return
-            snap.set_progress_rect(interpolate_rect(src, dst, progress))
             anim = self._animator
             expanding = anim is not None and not anim.reversed
-            fade_span = min(1.0, 80.0 / max(1.0, float(ms)))
+            snap.set_progress_rect(interpolate_rect(
+                data['src_rect'], self._fly_dst(data), progress))
+            # Hand-over at the end of an expand: the live terminal (already
+            # laid out at this size) is drawn under the snapshot, which
+            # fades out over it. Cross-fading by fading the snapshot avoids
+            # an offscreen opacity group of the whole VTE.
+            dur_ms = max(1.0, (anim._duration * 1000.0) if anim else ms)
+            fade_span = min(1.0, fade_ms / dur_ms)
             if expanding and (1.0 - raw) <= fade_span:
-                o = (1.0 - raw) / fade_span if fade_span else 0.0
-                snap.set_opacity(o)
-                data['frame'].set_opacity(1.0 - o)
+                self._set_frame_hidden(False)
+                snap.set_opacity((1.0 - raw) / fade_span if fade_span else 0)
             else:
+                self._set_frame_hidden(True)
                 snap.set_opacity(1.0)
-                data['frame'].set_opacity(0.0)
 
-        self._animator = Animator(on_tick, self._on_anim_done)
+        sched = frame_clock_scheduler(data['overlay'])
+        if sched is not None:
+            self._animator = Animator(on_tick, self._on_anim_done,
+                                      schedule=sched[0], unschedule=sched[1],
+                                      sync_first_frame=True)
+        else:
+            self._animator = Animator(on_tick, self._on_anim_done,
+                                      sync_first_frame=True)
+        if self._probe is not None:
+            self._probe.mark('anim_start')
         if expand:
             self._animator.start(ms, reverse=False, easing=ease_out_cubic,
                                  from_progress=0.0)
         else:
             self._animator.start(ms, reverse=True, easing=ease_in_out_cubic,
                                  from_progress=1.0)
+        self._arm_watchdog()
+
+    def _arm_watchdog(self):
+        """A frame clock that stops ticking (window unmapped/iconified mid
+        animation) must not leave the overlay stuck half-way: if no frame
+        arrives for WATCHDOG_STALL_S, jump to the end state."""
+        if self._watchdog is not None:
+            return
+        state = {'anim': None, 'ticks': -1, 'since': time.monotonic()}
+
+        def check():
+            anim = self._animator
+            if self.data is None or anim is None or not anim.running:
+                self._watchdog = None
+                return False
+            now = time.monotonic()
+            if anim is not state['anim'] or anim.ticks != state['ticks']:
+                state.update(anim=anim, ticks=anim.ticks, since=now)
+                return True
+            if now - state['since'] >= self.WATCHDOG_STALL_S:
+                dbg('overlay animation stalled (no frames); finishing')
+                self._watchdog = None
+                anim.cancel(jump_to_end=True)
+                return False
+            return True
+
+        self._watchdog = GLib.timeout_add(150, check)
+
+    def _cancel_watchdog(self):
+        if self._watchdog is not None:
+            try:
+                GLib.source_remove(self._watchdog)
+            except Exception:
+                pass
+            self._watchdog = None
 
     def _on_anim_done(self, cancelled=False):
         data = self.data
         if data is None:
             return
         data['animating'] = False
+        self._cancel_watchdog()
+        probe, self._probe = self._probe, None
         if data.get('restore_pending'):
             self._finish_restore()
-            return
-        self._arrive_maximised()
+        else:
+            self._arrive_maximised()
+        if probe is not None:
+            probe.done()
 
     def _arrive_maximised(self):
         data = self.data
@@ -1023,6 +1292,8 @@ class OverlayController(object):
         if snap is not None:
             snap.set_opacity(0.0)
             snap.hide()
+        data['fly_dst'] = None
+        self._set_frame_hidden(False)
         data['frame'].set_opacity(1.0)
         data['dim'].set_alpha(self.DIM_ALPHA)
         data['ready_at'] = time.monotonic() + self.CLICK_GUARD_MS / 1000.0
@@ -1046,6 +1317,11 @@ class OverlayController(object):
         if self._animator is not None:
             self._animator.cancel(silent=True)
         self._animator = None
+        self._cancel_watchdog()
+        if self._probe is not None:
+            self._probe.close()
+            self._probe = None
+        data['frame_hidden'] = False
         self._pause_font(terminal)
         # Round-2 P2-9: on a dying window (destroy teardown / finalize) only
         # put the tree back for describe/close; no focus grab, tier

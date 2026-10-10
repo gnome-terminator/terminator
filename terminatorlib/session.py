@@ -33,6 +33,9 @@ SESSION_VERSION = 1
 QUIT_ALL_WINDOW_GRACE_S = 10.0
 SAVE_BACKOFF_MAX_S = 300
 PERIODIC_MARK_DIRTY_S = 60
+# m37: retry a debounced save this often while a maximise animation runs
+ANIM_DEFER_MS = 120
+ANIM_DEFER_MAX = 10
 # m33: idle periodic ticks skip describe; force a safety-net save every N
 PERIODIC_FORCE_EVERY = 10
 RESTORING_CLEAR_DELAY_S = 10
@@ -597,8 +600,33 @@ class SessionManager(Borg):
             # Fall back to immediate flush without GLib
             self._flush()
 
+    def _overlay_animating(self):
+        """m37: a pane maximise/restore animation is running somewhere."""
+        try:
+            from .terminator import Terminator
+            for window in Terminator().windows:
+                ov = getattr(window, '_overlay', None)
+                if ov is not None and ov.is_animating():
+                    return True
+        except Exception as ex:
+            dbg('SessionManager._overlay_animating: %s' % ex)
+        return False
+
     def _flush(self):
         self._timer = None
+        # m37: don't describe/write the session in the middle of a maximise
+        # animation (a dropped frame); retry right after it. The animation
+        # watchdog bounds this, the counter is a second safety net.
+        deferrals = getattr(self, '_anim_deferrals', 0) or 0
+        if deferrals < ANIM_DEFER_MAX and self._overlay_animating():
+            self._anim_deferrals = deferrals + 1
+            try:
+                from gi.repository import GLib
+                self._timer = GLib.timeout_add(ANIM_DEFER_MS, self._flush)
+                return False
+            except Exception as ex:
+                dbg('SessionManager._flush defer: %s' % ex)
+        self._anim_deferrals = 0
         try:
             self.save_now(final=False)
         except Exception as ex:
