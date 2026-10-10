@@ -76,6 +76,22 @@ def _sm_is_owner():
     return False
 
 
+def _sm_writes_suspended():
+    """True when SessionManager.suspend_writes has been called this run."""
+    sm = _session_manager()
+    if sm is None:
+        return False
+    fn = getattr(sm, 'writes_suspended', None)
+    if callable(fn):
+        try:
+            return bool(fn())
+        except Exception as ex:
+            dbg('writes_suspended failed: %s' % ex)
+            return False
+    # Fallback for older SessionManager without the helper
+    return bool(getattr(sm, '_disabled', False))
+
+
 def _sm_restored_this_run():
     sm = _session_manager()
     if sm is None:
@@ -291,7 +307,12 @@ class ScrollbackCache(Borg):
 
     # ---- lifecycle ----
     def start(self):
-        """Enable cache when config on, owner instance, and dir ownership ok."""
+        """Enable cache when config on, owner instance, and dir ownership ok.
+
+        Also refuses to start when SessionManager writes are suspended
+        (prefs Clear / Use previous), so reconfigure() cannot revive
+        writing after suspend_writes() stopped the cache.
+        """
         self.prepare_attributes()
         want = bool(self._cfg('scrollback_cache', True))
         if not want:
@@ -301,6 +322,10 @@ class ScrollbackCache(Borg):
         if not _sm_is_owner():
             self._enabled = False
             dbg('scrollback_cache disabled: not session owner')
+            return
+        if _sm_writes_suspended():
+            self._enabled = False
+            dbg('scrollback_cache disabled: session writes suspended')
             return
         if not self._ensure_dir():
             self._enabled = False

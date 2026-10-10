@@ -181,7 +181,7 @@ class PanePlaceholder(Gtk.DrawingArea):
             # describe_layout writes under 'terminalN'; find by uuid
             for _name, layout in global_layout.items():
                 if layout.get('type') == 'Terminal' and \
-                        layout.get('uuid') == term.uuid:
+                        str(layout.get('uuid')) == str(term.uuid):
                     layout['maximised_pane'] = 'True'
                     break
         except Exception as ex:

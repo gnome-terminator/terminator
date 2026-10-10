@@ -1863,7 +1863,6 @@ class PrefsEditor:
                   'saving stops until Terminator restarts so that the next '
                   'launch opens the previous session.')):
             return
-        sess.suspend_writes('restore previous session')
         if sess.restore_prev_session():
             self.update_session_info(_('The previous session will be '
                                        'restored next time.'))

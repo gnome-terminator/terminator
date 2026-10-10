@@ -277,6 +277,10 @@ class SessionManager(Borg):
         """Same ownership as writer, ignoring temporary _disabled."""
         return bool(self._owns_session and self._lock_fd is not None)
 
+    def writes_suspended(self):
+        """True after suspend_writes (prefs clear / use-previous)."""
+        return bool(self._disabled)
+
     def suspend_writes(self, reason=''):
         """Stop writing session.json (and scrollback) for the rest of this run.
 
@@ -627,11 +631,16 @@ class SessionManager(Borg):
         self._loaded_session_uuids = None
 
     def restore_prev_session(self):
-        """Copy session.json.prev over session.json for next launch."""
+        """Copy session.json.prev over session.json for next launch.
+
+        Always suspends writes first so any caller (prefs UI or otherwise)
+        cannot have this instance overwrite the restored file on exit.
+        """
         path = self.session_path()
         prev = path + '.prev'
         if not os.path.isfile(prev):
             return False
+        self.suspend_writes('restore previous session')
         try:
             self._atomic_write_json(path, json.load(open(prev, 'r',
                                                          encoding='utf-8')))

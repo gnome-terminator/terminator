@@ -177,7 +177,13 @@ class Container(object):
         elif not maker.isinstance(child, 'Terminal'):
             has_multiple_terms = True
         elif maker.isinstance(self, 'Window'):
-            has_multiple_terms = self.is_zoomed()
+            # Overlay maximise also sets term_zoomed; count real terminals
+            # instead of treating any zoom as "multiple".
+            try:
+                from .close_confirm import window_has_multiple_terminals as _hmt
+                has_multiple_terms = _hmt(self)
+            except Exception:
+                has_multiple_terms = self.is_zoomed()
 
         # skip this dialog if applicable
         if self.config['ask_before_closing'] == 'never':

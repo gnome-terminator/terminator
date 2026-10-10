@@ -327,10 +327,13 @@ def construct_confirm_close_with_processes(container, window, child):
 def request_close_terminal(terminal):
     """Confirm (D17 / ask_before_closing) then close. Returns True if closed."""
     from gi.repository import Gtk
+    from .util import logical_parent
 
-    container = terminal.get_parent()
+    # logical_parent skips Overlay / PaneFrame so an overlay-maximised
+    # terminal resolves to its Paned/Notebook slot (not the Window).
+    container = logical_parent(terminal)
     while container and not hasattr(container, 'construct_confirm_close'):
-        container = container.get_parent()
+        container = logical_parent(container)
 
     if container:
         confirm = container.construct_confirm_close(

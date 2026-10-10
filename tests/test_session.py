@@ -271,3 +271,74 @@ def test_set_owner_from_options(state_home):
     o2.configjson = None
     sm.set_owner_from_options(o2)
     assert not sm.is_writer()
+
+
+def test_restore_prev_session_suspends_writes(state_home):
+    """restore_prev_session must suspend writes for any caller."""
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Opt(object):
+        pass
+
+    o = Opt()
+    o.layout_from_default = True
+    o.layout = 'default'
+    o.command = None
+    o.execute = None
+    o.working_directory = None
+    o.configjson = None
+    sm.set_owner_from_options(o)
+    assert sm.is_writer()
+    assert not sm.writes_suspended()
+
+    path = sm.session_path()
+    os.makedirs(os.path.dirname(path), mode=0o700, exist_ok=True)
+    current = {'version': SESSION_VERSION, 'layout': {'a': {'type': 'Window'}},
+               'saved_at': 'now'}
+    prev = {'version': SESSION_VERSION, 'layout': {'b': {'type': 'Window'}},
+            'saved_at': 'earlier'}
+    with open(path, 'w', encoding='utf-8') as fh:
+        json.dump(current, fh)
+    with open(path + '.prev', 'w', encoding='utf-8') as fh:
+        json.dump(prev, fh)
+
+    assert sm.restore_prev_session() is True
+    assert sm.writes_suspended()
+    assert not sm.is_writer()
+    with open(path, encoding='utf-8') as fh:
+        data = json.load(fh)
+    assert 'b' in data['layout']
+
+
+def test_restore_prev_session_missing_prev(state_home):
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+    assert sm.restore_prev_session() is False
+    assert not sm.writes_suspended()
+
+
+def test_writes_suspended_helper(state_home):
+    _reset_session_borg()
+    sm = SessionManager()
+    sm.acquire_lock()
+
+    class Opt(object):
+        pass
+
+    o = Opt()
+    o.layout_from_default = True
+    o.layout = 'default'
+    o.command = None
+    o.execute = None
+    o.working_directory = None
+    o.configjson = None
+    sm.set_owner_from_options(o)
+    assert sm.is_owner() and sm.is_writer()
+    assert not sm.writes_suspended()
+    sm.suspend_writes('test')
+    assert sm.writes_suspended()
+    assert sm.is_owner()
+    assert not sm.is_writer()

@@ -257,6 +257,7 @@ class Terminal(Gtk.VBox):
         if profile != self.config.get_profile():
             self.config.set_profile(profile, force)
             self.reconfigure()
+            self._session_mark_dirty('profile')
 
     def get_profile(self):
         """Return our profile name"""
@@ -734,6 +735,7 @@ class Terminal(Gtk.VBox):
         self.group = name
         self.titlebar.set_group_label(name)
         self.terminator.group_hoover()
+        self._session_mark_dirty('group')
 
     def create_group(self, _item):
         """Trigger the creation of a group via the titlebar (because popup 
@@ -777,9 +779,14 @@ class Terminal(Gtk.VBox):
         self.cnxids.remove_signal(self.vte, 'child-exited')
 
         if self.config['exit_action'] == 'restart':
-            self.cnxids.new(self.vte, 'child-exited', self.spawn_child, True)
+            # Do NOT pass True as connect user-data: VTE emits (vte, status),
+            # so user-data True became debugserver=True and status became
+            # respawn. Use dedicated handlers instead.
+            self.cnxids.new(self.vte, 'child-exited',
+                            self._on_child_exited_restart)
         elif self.config['exit_action'] == 'hold':
-            self.cnxids.new(self.vte, 'child-exited', self.held_open, True)
+            self.cnxids.new(self.vte, 'child-exited',
+                            self._on_child_exited_hold)
         elif self.config['exit_action'] in ('close', 'left'):
             self.cnxids.new(self.vte, 'child-exited',
                                             lambda x, y: self.emit('close-term'))
@@ -1665,6 +1672,8 @@ class Terminal(Gtk.VBox):
     def on_edit_done(self, _widget):
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
+        # Custom title is persisted in the session layout
+        self._session_mark_dirty('title')
 
     def deferred_on_vte_size_allocate(self, widget, allocation):
         # widget & allocation are not used in on_vte_size_allocate, so we
@@ -2630,7 +2639,7 @@ class Terminal(Gtk.VBox):
         if self.group:
             layout['group'] = self.group
         profile = self.get_profile()
-        if layout != "default":
+        if profile != "default":
             # There's no point explicitly noting default profiles
             layout['profile'] = profile
         title = self.titlebar.get_custom_string()
@@ -2783,12 +2792,23 @@ class Terminal(Gtk.VBox):
         from .close_confirm import request_close_terminal
         request_close_terminal(self)
 
-    def _session_mark_dirty_cwd(self):
+    def _session_mark_dirty(self, reason='cwd'):
         try:
             from .session import try_mark_dirty
-            try_mark_dirty('cwd')
+            try_mark_dirty(reason)
         except Exception:
             pass
+
+    def _session_mark_dirty_cwd(self):
+        self._session_mark_dirty('cwd')
+
+    def _on_child_exited_restart(self, _vte, _status):
+        """child-exited → respawn shell (exit_action=restart)."""
+        self.spawn_child(respawn=True)
+
+    def _on_child_exited_hold(self, _vte, _status):
+        """child-exited → keep VTE open (exit_action=hold)."""
+        self.held_open(respawn=True)
 
     def key_resize_up(self):
         self.emit('resize-term', 'up')
