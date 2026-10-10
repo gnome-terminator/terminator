@@ -152,6 +152,57 @@ def placeholder_pixbuf_scale(pixbuf, logical_w, scale=None):
     return 1.0
 
 
+def _window_is_rgba(widget):
+    """m38: True when widget's toplevel uses the screen's RGBA visual
+    (transparent profile backgrounds), so snapshots must keep alpha."""
+    try:
+        top = widget.get_toplevel()
+        visual = top.get_visual() if top is not None else None
+        if visual is None:
+            return False
+        rgba = top.get_screen().get_rgba_visual()
+        return rgba is not None and visual == rgba
+    except Exception:
+        return False
+
+
+def _is_wayland(widget):
+    try:
+        disp = widget.get_display()
+        return 'wayland' in type(disp).__name__.lower()
+    except Exception:
+        return False
+
+
+def surface_looks_blank(surf, w, h, samples=16, threshold=8):
+    """m38: downsample surf to samples x samples and report whether every
+    pixel is (near) black or fully transparent, i.e. a stale/empty capture.
+    Best effort: a genuinely all-black pane also counts as blank, which only
+    costs the zoom animation (fade fallback), never correctness."""
+    try:
+        import cairo
+        n = max(1, int(samples))
+        img = cairo.ImageSurface(cairo.FORMAT_ARGB32, n, n)
+        cr = cairo.Context(img)
+        cr.scale(float(n) / max(1, w), float(n) / max(1, h))
+        cr.set_source_surface(surf, 0, 0)
+        cr.get_source().set_filter(cairo.FILTER_FAST)
+        cr.paint()
+        img.flush()
+        data = bytes(img.get_data())
+        stride = img.get_stride()
+        for y in range(n):
+            row = data[y * stride:y * stride + 4 * n]
+            for x in range(0, 4 * n, 4):
+                px = row[x:x + 4]       # B G R A (native little endian)
+                if px[3] > threshold and max(px[0], px[1], px[2]) > threshold:
+                    return False
+        return True
+    except Exception as ex:
+        dbg('surface_looks_blank: %s' % ex)
+        return False
+
+
 def capture_widget_surface(widget):
     """m37: snapshot widget's on-screen area into a surface similar to its
     GdkWindow (server-side copy on X11, HiDPI-aware via the window's device
@@ -171,14 +222,24 @@ def capture_widget_surface(widget):
         xy = _translate_xy(widget, owner, 0, 0)
         if xy is None:
             return None
-        surf = gdk_win.create_similar_surface(cairo.CONTENT_COLOR, w, h)
+        content = (cairo.CONTENT_COLOR_ALPHA if _window_is_rgba(widget)
+                   else cairo.CONTENT_COLOR)
+        surf = gdk_win.create_similar_surface(content, w, h)
         if surf is None:
             return None
         cr = cairo.Context(surf)
+        if content == cairo.CONTENT_COLOR_ALPHA:
+            cr.set_operator(cairo.OPERATOR_SOURCE)
         Gdk.cairo_set_source_window(cr, gdk_win, -float(xy[0]),
                                     -float(xy[1]))
         cr.paint()
         surf.flush()
+        # m38: outside a draw cycle Wayland may hand back a stale/empty
+        # backing store; a blank capture would flash black, so report
+        # failure and let the caller take the fallback/fade path.
+        if _is_wayland(widget) and surface_looks_blank(surf, w, h):
+            dbg('capture_widget_surface: blank snapshot on Wayland')
+            return None
         return (surf, w, h)
     except Exception as ex:
         dbg('capture_widget_surface failed: %s' % ex)
@@ -652,6 +713,11 @@ class Animator(object):
     @property
     def reversed(self):
         return self._reverse
+
+    @property
+    def duration(self):
+        """Current leg duration in seconds (m38: public accessor)."""
+        return self._duration
 
     def start(self, duration_ms, reverse=False, easing=None,
               from_progress=None):
@@ -1209,7 +1275,7 @@ class OverlayController(object):
             # laid out at this size) is drawn under the snapshot, which
             # fades out over it. Cross-fading by fading the snapshot avoids
             # an offscreen opacity group of the whole VTE.
-            dur_ms = max(1.0, (anim._duration * 1000.0) if anim else ms)
+            dur_ms = max(1.0, (anim.duration * 1000.0) if anim else ms)
             fade_span = min(1.0, fade_ms / dur_ms)
             if expanding and (1.0 - raw) <= fade_span:
                 self._set_frame_hidden(False)
