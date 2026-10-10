@@ -106,6 +106,44 @@ def truncate_lines_and_bytes(text, max_lines, max_kb):
 
 
 _SGR_RE = re.compile(r'\x1b\[[0-9;]*m\Z')
+_SGR_ANY_RE = re.compile(r'\x1b\[[0-9;]*m')
+
+
+def truncate_sgr_lines(text, max_lines, max_kb):
+    r"""Truncate coloured cache text (output of html_to_sgr) safely.
+
+    SGR bytes count against max_kb (it is a disk budget), so colour costs
+    some history; we keep the newest *whole* lines that fit. Lines from
+    html_to_sgr are self-contained, so dropping whole lines never splits an
+    escape or leaks a style. A single newest line larger than the budget is
+    stripped of SGR and byte-truncated as plain text.
+
+    >>> truncate_sgr_lines('\x1b[31ma\x1b[0m\n\x1b[32mb\x1b[0m', 1, 1)
+    '\x1b[32mb\x1b[0m'
+    >>> out = truncate_sgr_lines('\x1b[31m' + 'x' * 3000 + '\x1b[0m', 5, 1)
+    >>> '\x1b' in out, len(out) <= 1024
+    (False, True)
+    """
+    if not text:
+        return ''
+    max_lines = max(0, int(max_lines))
+    max_bytes = max(0, int(max_kb) * 1024)
+    if max_lines == 0 or max_bytes == 0:
+        return ''
+    lines = text.split('\n')[-max_lines:]
+    kept = []
+    used = 0
+    for line in reversed(lines):
+        size = len(line.encode('utf-8')) + (1 if kept else 0)
+        if used + size > max_bytes:
+            break
+        kept.append(line)
+        used += size
+    if not kept:
+        plain = _SGR_ANY_RE.sub('', lines[-1]).encode('utf-8')
+        return truncate_utf8_bytes(plain, max_bytes).decode('utf-8', 'replace')
+    kept.reverse()
+    return '\n'.join(kept)
 
 
 def sanitize_for_feed(text, keep_sgr=False):

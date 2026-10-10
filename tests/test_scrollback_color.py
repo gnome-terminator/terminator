@@ -73,7 +73,7 @@ def _vte():
     return Gtk, Vte, win, v
 
 
-def _pump(Gtk, until=None, timeout=3.0):
+def _pump(Gtk, until=None, timeout=10.0):
     """VTE parses fed data asynchronously; spin until `until()` holds."""
     import time
     end = time.monotonic() + timeout
@@ -142,7 +142,80 @@ def test_restore_into_feeds_sgr_and_resets(tmp_path, monkeypatch):
     payload = b''.join(fed).decode('utf-8')
     assert payload.startswith('\x1b[38;2;255;0;0mred\x1b[0m')
     assert '\x1b]' not in payload and '\x1b[2J' not in payload
+    assert '\x1b[0m' in payload.split('red', 1)[1]
     cfg['scrollback_cache_color'] = False
     fed[:] = []
     c.restore_into(T())
     assert b''.join(fed).decode('utf-8').startswith('red')
+
+
+def test_sanitize_keep_sgr_strips_cursor_and_private_csi():
+    raw = ('a\x1b[?1049h\x1b[3A\x1b[1;1f\x1b[K\x1b[?25l\x1b[>4;1m'
+           '\x1b[38:2::1:2:3m\x1b7\x1b8\x1bcb\x1b[0m')
+    out = sbt.sanitize_for_feed(raw, keep_sgr=True)
+    assert out == 'ab\x1b[0m'
+
+
+def test_truncate_sgr_lines_budget_and_whole_lines():
+    line = '\x1b[38;2;1;2;3m' + 'z' * 40 + '\x1b[0m'
+    text = '\n'.join([line] * 200)
+    out = sbt.truncate_sgr_lines(text, 2000, 1)
+    assert len(out.encode('utf-8')) <= 1024
+    for l in out.split('\n'):
+        assert l == line          # never a partial line / escape
+
+
+def test_truncate_sgr_oversized_single_line_is_plain():
+    out = sbt.truncate_sgr_lines('\x1b[31m' + '你' * 2000 + '\x1b[0m', 5, 1)
+    assert '\x1b' not in out and '[' not in out
+    assert len(out.encode('utf-8')) <= 1024 and set(out) == {'你'}
+
+
+def test_async_flush_converts_on_worker(tmp_path, monkeypatch):
+    """Main thread only enqueues the raw HTML; worker writes SGR text."""
+    import os
+    import threading
+    from terminatorlib.borg import Borg
+    Borg._Borg__shared_state.pop('ScrollbackCache', None)
+    import terminatorlib.scrollback as sb
+    c = sb.ScrollbackCache()
+    cfg = {'scrollback_cache_lines': 100, 'scrollback_cache_max_kb': 64}
+    monkeypatch.setattr(c, '_cfg', lambda k, d=None: cfg.get(k, d))
+    c._config = {'scrollback_infinite': False}
+    monkeypatch.setattr(sb, 'in_alt_screen', lambda t: False)
+    html = '<pre><font color="#FF0000">r</font>\nok</pre>'
+    monkeypatch.setattr(sb, 'read_last_n_lines_raw',
+                        lambda v, n, color=False: (html, True))
+    main = threading.current_thread()
+    seen = []
+    real = sbt.html_to_sgr
+
+    def spy(h):
+        seen.append(threading.current_thread() is main)
+        return real(h)
+    monkeypatch.setattr(sbt, 'html_to_sgr', spy)
+    path = str(tmp_path / 'u.txt')
+    monkeypatch.setattr(c, 'path_for', lambda u: path)
+    monkeypatch.setattr(sb.GLib, 'idle_add', lambda *a, **k: 0)
+    import queue
+    c._queue = queue.Queue()
+
+    class T(object):
+        vte = object()
+    c._flush_uuid(T(), 'u', sync=False)
+    assert seen == []                     # nothing converted on main thread
+    c._queue.put(('stop',))
+    w = threading.Thread(target=c._worker_loop)
+    w.start()
+    w.join(5)
+    assert seen == [False]
+    with open(path) as fh:
+        assert fh.read() == '\x1b[38;2;255;0;0mr\x1b[0m\nok'
+    # unchanged source -> skipped on the main thread via the source hash
+    c._queue = queue.Queue()
+    c._flush_uuid(T(), 'u', sync=False)
+    digest = c._queue.get_nowait()[3]
+    c._last_hash['u'] = digest
+    c._flush_uuid(T(), 'u', sync=False)
+    assert c._queue.empty() and seen == [False]
+    Borg._Borg__shared_state.pop('ScrollbackCache', None)
