@@ -196,9 +196,8 @@ def _terminals_under(widget):
     if widget is None:
         return terms
     # Placeholder delegation
-    if type(widget).__name__ == 'PanePlaceholder' or (
-            hasattr(widget, 'terminal') and
-            getattr(widget, 'is_placeholder', False)):
+    if getattr(widget, 'is_pane_placeholder', False) or \
+            type(widget).__name__ == 'PanePlaceholder':
         t = getattr(widget, 'terminal', None)
         if t is not None:
             return [t]
@@ -219,7 +218,7 @@ def _terminals_under(widget):
         for child in widget.get_children():
             if child is None:
                 continue
-            if hasattr(child, 'terminal') and type(child).__name__ == 'PanePlaceholder':
+            if getattr(child, 'is_pane_placeholder', False):
                 t = child.terminal
                 if t is not None and t not in terms:
                     terms.append(t)

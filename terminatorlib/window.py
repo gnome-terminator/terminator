@@ -114,6 +114,7 @@ class Window(Container, Gtk.Window):
         self.apply_icon(icon_to_apply)
         self.pending_set_rough_geometry_hint = False
         self.hidefunc = self.hide
+        self._overlay = None  # module D OverlayController (lazy)
 
     def do_get_property(self, prop):
         """Handle gobject getting a property"""
@@ -279,7 +280,10 @@ class Window(Container, Gtk.Window):
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
         if self.is_zoomed():
-            self.unzoom()
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
 
         cwd = None
         profile = None
@@ -621,7 +625,16 @@ class Window(Container, Gtk.Window):
     def add(self, widget, metadata=None):
         """Add a widget to the window by way of Gtk.Window.add()"""
         maker = Factory()
-        Gtk.Window.add(self, widget)
+        if self._overlay is not None and self._overlay.is_active():
+            # Layout mutations while maximised: operate on the layout root
+            # under the temporary Overlay (should be rare; callers restore).
+            overlay = self._overlay.data['overlay']
+            try:
+                overlay.add(widget)
+            except Exception:
+                Gtk.Window.add(self, widget)
+        else:
+            Gtk.Window.add(self, widget)
         if maker.isinstance(widget, 'Terminal'):
             signals = {'close-term': self.closeterm,
                        'title-change': self.title.set_title,
@@ -659,7 +672,18 @@ class Window(Container, Gtk.Window):
 
     def remove(self, widget):
         """Remove our child widget by way of Gtk.Window.remove()"""
-        Gtk.Window.remove(self, widget)
+        if self._overlay is not None and self._overlay.is_active():
+            overlay = self._overlay.data['overlay']
+            main = self._overlay.main()
+            if widget is main:
+                try:
+                    overlay.remove(widget)
+                except Exception:
+                    Gtk.Window.remove(self, widget)
+            else:
+                Gtk.Window.remove(self, widget)
+        else:
+            Gtk.Window.remove(self, widget)
         self.disconnect_child(widget)
         try:
             from .session import try_mark_dirty
@@ -668,11 +692,20 @@ class Window(Container, Gtk.Window):
             pass
         return(True)
 
+    def get_child(self):
+        """Return the layout root. While overlay-maximised the real Gtk child
+        is a temporary Overlay — callers must still see the paned/notebook."""
+        child = Gtk.Window.get_child(self)
+        if self._overlay is not None and self._overlay.is_active():
+            main = self._overlay.main()
+            if main is not None:
+                return main
+        return child
+
     def get_children(self):
-        """Return a single list of our child"""
-        children = []
-        children.append(self.get_child())
-        return(children)
+        """Return a single list of our child (layout root, see get_child)"""
+        child = self.get_child()
+        return [child] if child is not None else []
 
     def hoover(self):
         """Ensure we still have a reason to exist"""
@@ -681,14 +714,39 @@ class Window(Container, Gtk.Window):
 
     def closeterm(self, widget):
         """Handle a terminal closing"""
+        # Overlay close path: snap-restore, then forward to the slot parent.
+        # After restore the terminal is back in a Paned/Notebook — Window.remove
+        # would fail because the terminal is no longer our direct child.
+        was_overlay_term = (self.is_overlay_maximised() and
+                            self.is_maximised_pane(widget))
+        if self.is_overlay_maximised():
+            try:
+                self.overlay_restore(animate=False)
+            except Exception as ex:
+                dbg('overlay restore on closeterm: %s' % ex)
+        if was_overlay_term:
+            from .util import logical_parent
+            parent = logical_parent(widget)
+            if parent is not None and parent is not self:
+                if hasattr(parent, 'wrapcloseterm'):
+                    parent.wrapcloseterm(widget)
+                elif hasattr(parent, 'closeterm'):
+                    parent.closeterm(widget)
+                self.hoover()
+                return
         Container.closeterm(self, widget)
         self.hoover()
 
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the window"""
         if self.is_zoomed():
-            self.unzoom()
-            widget.get_parent().split_axis(widget, vertical, cwd, sibling, widgetfirst)
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
+            from .util import logical_parent
+            parent = logical_parent(widget)
+            parent.split_axis(widget, vertical, cwd, sibling, widgetfirst)
             return
 
         order = None
@@ -739,8 +797,12 @@ class Window(Container, Gtk.Window):
         """Handle a keyboard event requesting a terminal resize"""
         # if not zoomed, then ignore the signal: there is only one terminal
         if self.is_zoomed():
-            self.unzoom()
-            widget.get_parent().resizeterm(widget, keyname)
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
+            from .util import logical_parent
+            logical_parent(widget).resizeterm(widget, keyname)
 
     def is_zoomed(self):
         """Return True if the window has a zoomed terminal, False otherwise"""
@@ -761,32 +823,107 @@ class Window(Container, Gtk.Window):
             dbg('has_multiple_terms failed: %s' % ex)
             return False
 
+    def _ensure_overlay(self):
+        if self._overlay is None:
+            from .paneoverlay import OverlayController
+            self._overlay = OverlayController(self)
+        return self._overlay
+
+    def is_overlay_maximised(self):
+        """True while the temporary Overlay maximise chrome is present."""
+        overlay = getattr(self, '_overlay', None)
+        return overlay is not None and overlay.is_active()
+
     def is_maximised_pane(self, term):
-        """True if term is the single maximised pane.
-        M2 shim: legacy maximise (zoom without font scaling). Module D
-        replaces the implementation keeping this signature."""
+        """True iff this terminal is the one currently overlay-maximised
+        (or legacy maximise without font scaling)."""
+        is_ov = getattr(self, 'is_overlay_maximised', None)
+        if callable(is_ov) and is_ov():
+            return self._overlay.is_maximised_pane(term)
         if not self.is_zoomed() or not self.zoom_data:
             return False
         return (self.zoom_data.get('widget') is term and
                 not self.zoom_data.get('font_scale'))
 
+    def overlay_maximise(self, terminal, animate=True):
+        return self._ensure_overlay().maximise(terminal, animate=animate)
+
+    def overlay_restore(self, animate=True):
+        if not self.is_overlay_maximised():
+            return False
+        return self._overlay.restore(animate=animate)
+
+    def overlay_transfer(self, target, animate=True):
+        if not self.is_overlay_maximised():
+            return False
+        return self._overlay.transfer(target, animate=animate)
+
+    def _connect_overlay_terminal_signals(self, widget):
+        """Wire the same Window-level signals add() uses, after the terminal
+        is reparented into PaneFrame (which does not call Window.add)."""
+        signals = {'close-term': self.closeterm,
+                   'title-change': self.title.set_title,
+                   'split-auto': self.split_auto,
+                   'split-horiz': self.split_horiz,
+                   'split-vert': self.split_vert,
+                   'resize-term': self.resizeterm,
+                   'unzoom': self.unzoom,
+                   'tab-change': self.tab_change,
+                   'group-all': self.group_all,
+                   'group-all-toggle': self.group_all_toggle,
+                   'ungroup-all': self.ungroup_all,
+                   'group-win': self.group_win,
+                   'group-win-toggle': self.group_win_toggle,
+                   'ungroup-win': self.ungroup_win,
+                   'group-tab': self.group_tab,
+                   'group-tab-toggle': self.group_tab_toggle,
+                   'ungroup-tab': self.ungroup_tab,
+                   'move-tab': self.move_tab,
+                   'detach-tab': self.detach_tab_to_new_window,
+                   'tab-new': [self.tab_new, widget],
+                   'navigate': self.navigate_terminal,
+                   'rotate-cw': [self.rotate, True],
+                   'rotate-ccw': [self.rotate, False]}
+        for signal in signals:
+            args = []
+            handler = signals[signal]
+            if isinstance(handler, list):
+                args = handler[1:]
+                handler = handler[0]
+            self.connect_child(widget, signal, handler, *args)
+
     def zoom(self, widget, font_scale=True):
-        """Zoom a terminal widget"""
+        """Dispatch: overlay maximise (default) or legacy reparent zoom."""
+        try:
+            overlay_on = bool(self.config['pane_overlay_maximise'])
+        except Exception:
+            overlay_on = True
+        if (not font_scale) and overlay_on:
+            return self.overlay_maximise(widget, animate=True)
+        return self._legacy_zoom(widget, font_scale)
+
+    def unzoom(self, widget=None):
+        """Restore: overlay path or legacy reparent."""
+        if self.is_overlay_maximised():
+            # Public default animates; close/finalize pass animate=False
+            return self.overlay_restore(animate=True)
+        return self._legacy_unzoom(widget)
+
+    def _legacy_zoom(self, widget, font_scale=True):
+        """Old reparent zoom / scaled_zoom. E hooks scaled_zoom here only."""
         maker = Factory()
         children = self.get_children()
 
         if widget in children:
-            # This widget is a direct child of ours and we're a Window
-            # so zooming is a no-op
             return
 
-        # E: pause+reset auto font BEFORE get_zoom_data so old_char_*
-        # reflect the base cell, not an already-scaled size.
-        if font_scale and hasattr(widget, 'pause_auto_font_scale'):
-            try:
-                widget.pause_auto_font_scale('scaled_zoom')
-            except Exception:
-                pass
+        if font_scale:
+            pause = getattr(widget, 'pause_auto_font_scale', None)
+            if callable(pause):
+                try:
+                    pause('scaled_zoom')
+                except Exception as ex:
+                    dbg('legacy zoom pause font: %s' % ex)
 
         self.zoom_data = widget.get_zoom_data()
         self.zoom_data['widget'] = widget
@@ -804,7 +941,7 @@ class Window(Container, Gtk.Window):
         self.set_property('term_zoomed', True)
 
         if font_scale:
-            widget.cnxids.new(widget, 'size-allocate', 
+            widget.cnxids.new(widget, 'size-allocate',
                     widget.zoom_scale, self.zoom_data)
 
         widget.grab_focus()
@@ -813,26 +950,25 @@ class Window(Container, Gtk.Window):
             try_mark_dirty('zoom')
         except Exception:
             pass
-        # scaled zoom is not "maximise pane" but still refreshes titlebars
         self.emit('pane-maximise-changed', widget, not font_scale)
 
-    def unzoom(self, widget=None):
-        """Restore normal terminal layout"""
+    def _legacy_unzoom(self, widget=None):
+        """Restore from legacy reparent zoom."""
         maker = Factory()
 
-        if not self.is_zoomed():
-            # We're not zoomed anyway
-            dbg('not zoomed, no-op')
+        if not self.is_zoomed() or self.zoom_data is None:
+            dbg('not legacy-zoomed, no-op')
             return
 
         widget = self.zoom_data['widget']
         if self.zoom_data['font_scale']:
             widget.vte.set_font(self.zoom_data['old_font'])
-            if hasattr(widget, 'resume_auto_font_scale'):
+            resume = getattr(widget, 'resume_auto_font_scale', None)
+            if callable(resume):
                 try:
-                    widget.resume_auto_font_scale()
-                except Exception:
-                    pass
+                    resume()
+                except Exception as ex:
+                    dbg('legacy unzoom resume font: %s' % ex)
 
         self.remove(widget)
         self.add(self.zoom_data['old_child'])
@@ -844,6 +980,7 @@ class Window(Container, Gtk.Window):
         else:
             self.zoom_data['old_parent'].add(widget)
         widget.grab_focus()
+        was_maximise = not self.zoom_data.get('font_scale')
         self.zoom_data = None
         self.set_property('term_zoomed', False)
         try:
@@ -856,7 +993,10 @@ class Window(Container, Gtk.Window):
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
         if self.is_zoomed():
-            self.unzoom()
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
             while Gtk.events_pending():
                 Gtk.main_iteration_do(False)
 
@@ -879,7 +1019,8 @@ class Window(Container, Gtk.Window):
             metadata = None
 
         if maker.isinstance(child, 'Paned'):
-            parent = child.get_parent()
+            from .util import logical_parent
+            parent = logical_parent(child)
             # Need to get the allocation before we remove the child,
             # otherwise _sometimes_ we get incorrect values.
             alloc = child.get_allocation()
@@ -913,12 +1054,15 @@ class Window(Container, Gtk.Window):
             pagenum = child.get_current_page()
             child = child.get_nth_page(pagenum)
 
-        if maker.isinstance(child, 'Container'):
+        if getattr(child, 'is_pane_placeholder', False):
+            if child.terminal is not None:
+                terminals[child.terminal] = child.slot_allocation()
+        elif maker.isinstance(child, 'Container'):
             terminals.update(child.get_visible_terminals())
         elif maker.isinstance(child, 'Terminal'):
             terminals[child] = child.get_allocation()
         else:
-            err('Unknown child type %s' % type(child))
+            dbg('Unknown child type %s, skipping' % type(child))
 
         return(terminals)
 
@@ -1000,7 +1144,10 @@ class Window(Container, Gtk.Window):
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""
         if self.is_zoomed():
-            self.unzoom()
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
 
         if num is None:
             err('must specify a tab to change to')
@@ -1115,7 +1262,10 @@ class Window(Container, Gtk.Window):
     def move_tab(self, widget, direction):
         """Handle a keyboard shortcut for moving tab positions"""
         if self.is_zoomed():
-            self.unzoom()
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
 
         maker = Factory()
         notebook = self.get_child()
@@ -1148,7 +1298,10 @@ class Window(Container, Gtk.Window):
     def detach_tab_to_new_window(self, widget):
         """Detach the tab containing widget into a new window"""
         if self.is_zoomed():
-            self.unzoom()
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
 
         maker = Factory()
         notebook = self.get_child()
@@ -1161,8 +1314,15 @@ class Window(Container, Gtk.Window):
 
     def navigate_terminal(self, terminal, direction):
         """Navigate around terminals"""
-        if self.is_zoomed():
-            self.unzoom()
+        overlay_nav = (self.is_overlay_maximised() and
+                       direction in ('left', 'right', 'up', 'down'))
+        if self.is_zoomed() and not overlay_nav:
+            # Overlay: directional keys transfer (D16); other directions /
+            # legacy zoom still unzoom first.
+            if self.is_overlay_maximised():
+                self.overlay_restore(animate=False)
+            else:
+                self.unzoom()
             while Gtk.events_pending():
                 Gtk.main_iteration_do(False)
 
@@ -1243,7 +1403,11 @@ class Window(Container, Gtk.Window):
             err('Unknown navigation direction: %s' % direction)
 
         if next is not None:
-            terminals[next].grab_focus()
+            target = terminals[next]
+            if overlay_nav and target is not terminal:
+                self.overlay_transfer(target, animate=True)
+            else:
+                target.grab_focus()
 
     def create_layout(self, layout):
         """Apply any config items from our layout"""

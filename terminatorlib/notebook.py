@@ -14,7 +14,7 @@ from .factory import Factory
 from .container import Container
 from .editablelabel import EditableLabel
 from .translation import _
-from .util import err, dbg, enumerate_descendants, make_uuid
+from .util import err, dbg, enumerate_descendants, make_uuid, logical_parent
 
 class Notebook(Container, Gtk.Notebook):
     """Class implementing a Gtk.Notebook container"""
@@ -265,6 +265,52 @@ class Notebook(Container, Gtk.Notebook):
         self.add(newwidget)
         self.reorder_child(newwidget, page_num)
 
+    def swap_child(self, old_widget, new_widget):
+        """Replace page contents in-place; keep tab label and page number.
+
+        Placeholder pages are not wired with Terminal signals (module D).
+        """
+        page_num = self.page_num(old_widget)
+        if page_num == -1:
+            raise ValueError('swap_child: %s not in Notebook' % old_widget)
+        label = self.get_tab_label(old_widget)
+        lat = None
+        if hasattr(self, 'last_active_term'):
+            lat = self.last_active_term.pop(old_widget, None)
+
+        self.disconnect_child(old_widget)
+        # Keep the label widget; detach page without destroying the label
+        self.detach_tab(old_widget)
+
+        maker = Factory()
+        if maker.isinstance(new_widget, 'Terminal'):
+            # Re-insert via newtab so signals + TabLabel stay consistent
+            metadata = {'tabnum': page_num}
+            if label is not None and hasattr(label, 'get_custom_label'):
+                custom = label.get_custom_label()
+                if custom:
+                    metadata['label'] = custom
+            self.newtab(widget=new_widget, metadata=metadata)
+            if lat is not None:
+                self.last_active_term[new_widget] = lat
+        else:
+            self.insert_page(new_widget, label, page_num)
+            self.child_set_property(new_widget, 'tab-expand', True)
+            self.child_set_property(new_widget, 'tab-fill', True)
+            self.set_tab_reorderable(new_widget, True)
+            if hasattr(self, 'last_active_term'):
+                term = getattr(new_widget, 'terminal', None)
+                self.last_active_term[new_widget] = (
+                    lat if lat is not None else getattr(term, 'uuid', None))
+            self.set_current_page(page_num)
+            new_widget.show_all()
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('notebook.swap_child')
+        except Exception:
+            pass
+        return True
+
     def get_child_metadata(self, widget):
         """Fetch the relevant metadata for a widget which we'd need
         to recreate it when it's re-added"""
@@ -494,7 +540,7 @@ class Notebook(Container, Gtk.Notebook):
             dbg('Last page, removing self')
             child = self.get_nth_page(0)
             self.remove_page(0)
-            parent = self.get_parent()
+            parent = logical_parent(self)
             parent.remove(self)
             self.cnxids.remove_all()
             parent.add(child)
@@ -546,6 +592,13 @@ class Notebook(Container, Gtk.Notebook):
 
     def deferred_on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Prime a single idle tab switch signal, using the most recent set of params"""
+        # Module D: leaving a tab while overlay-maximised must snap-restore
+        try:
+            win = self.get_toplevel()
+            if getattr(win, 'is_overlay_maximised', lambda: False)():
+                win.overlay_restore(animate=False)
+        except Exception as ex:
+            dbg('overlay restore on tab switch: %s' % ex)
         tabs_last_active_term = self.last_active_term.get(self.get_nth_page(page_num),  None)
         data = {'tabs_last_active_term':tabs_last_active_term}
 

@@ -1161,6 +1161,12 @@ class Terminal(Gtk.VBox):
                     return True
                 elif not self.config['smart_copy']:
                     return True
+            elif mapping == "restore_maximised":
+                # Only consume when a pane is maximised / zoomed (D21)
+                if self.is_zoomed():
+                    self.key_restore_maximised()
+                    return True
+                return False
             else:
                 getattr(self, "key_" + mapping)()
                 return True
@@ -1547,8 +1553,9 @@ class Terminal(Gtk.VBox):
 
         dsthbox = widget
 
-        dstpaned = dsthbox.get_parent()
-        srcpaned = srchbox.get_parent()
+        from .util import logical_parent as _lp
+        dstpaned = _lp(dsthbox)
+        srcpaned = _lp(srchbox)
 
         pos = self.get_location(widget, x, y)
 
@@ -1696,13 +1703,14 @@ class Terminal(Gtk.VBox):
 
     def get_zoom_data(self):
         """Return a dict of information for Window"""
+        from .util import logical_parent
         data = {'old_font': self.vte.get_font().copy(),
                 'old_char_height': self.vte.get_char_height(),
                 'old_char_width': self.vte.get_char_width(),
                 'old_allocation': self.vte.get_allocation(),
                 'old_columns': self.vte.get_column_count(),
                 'old_rows': self.vte.get_row_count(),
-                'old_parent': self.get_parent()}
+                'old_parent': logical_parent(self) or self.get_parent()}
 
         return data
 
@@ -2640,6 +2648,8 @@ class Terminal(Gtk.VBox):
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
             self.uuid = make_uuid(layout['uuid'])
+        if layout.get('maximised_pane') == 'True':
+            self._restore_maximised = True
 
     def scroll_by_page(self, pages):
         """Scroll up or down in pages"""
@@ -2792,6 +2802,11 @@ class Terminal(Gtk.VBox):
             self.unzoom()
         else:
             self.maximise()
+
+    def key_restore_maximised(self):
+        """Shift+Esc: restore overlay/legacy maximise only when zoomed."""
+        if self.is_zoomed():
+            self.unzoom()
 
     def key_scaled_zoom(self):
         if self.is_zoomed():

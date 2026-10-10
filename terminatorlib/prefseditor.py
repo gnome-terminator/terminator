@@ -152,6 +152,7 @@ class PrefsEditor:
                         'detach_tab'       : _('Detach the tab into a new window'),
                         'toggle_zoom'      : _('Maximize terminal'),
                         'scaled_zoom'      : _('Zoom terminal'),
+                        'restore_maximised': _('Restore maximised pane'),
                         'next_tab'         : _('Switch to the next tab'),
                         'prev_tab'         : _('Switch to the previous tab'),
                         'switch_to_tab_1'  : _('Switch to the first tab'),
