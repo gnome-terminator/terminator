@@ -141,3 +141,26 @@ def test_failed_restore_from_prev_quarantines_prev(sm):
     assert not os.path.exists(path + '.prev')
     assert os.path.exists(path + '.bad')
     assert sm.load() is None
+
+
+def test_crash_while_restoring_prev_quarantines_prev(sm):
+    """m26 post-review: a hard crash restoring .prev must not leave .prev
+    to be retried (crash loop on every other launch)."""
+    path = sm.session_path()
+    _write(path + '.prev', _layout('aaaa'))
+    assert sm.load() is not None and sm._loaded_from == path + '.prev'
+    sm.begin_restore()
+    # process dies here; next launch:
+    assert sm.check_crash_marker() is True
+    assert not os.path.exists(path + '.prev')
+    assert os.path.exists(path + '.prev.crashed')
+    assert sm.load() is None
+
+
+def test_crash_marker_without_source_line_still_works(sm):
+    path = sm.session_path()
+    _write(path, _layout('aaaa'))
+    with open(sm.restoring_path(), 'w') as fh:
+        fh.write('2026-01-01T00:00:00\n')
+    assert sm.check_crash_marker() is True
+    assert os.path.exists(path + '.crashed') and not os.path.exists(path)

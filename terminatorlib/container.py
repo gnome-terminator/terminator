@@ -247,7 +247,9 @@ class Container(object):
             else:
                 sess.note_window_closing(window)
         except Exception as ex:
-            dbg('session capture before last close: %s' % ex)
+            import traceback
+            err('session capture before last close: %s\n%s'
+                % (ex, traceback.format_exc()))
 
     def resizeterm(self, widget, keyname):
         """Handle a keyboard event requesting a terminal resize"""
