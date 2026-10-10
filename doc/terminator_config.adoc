@@ -110,6 +110,36 @@ Colour of the 1px border drawn around the focused terminal. Invalid
 values fall back to the default. +
 Default value: *#3fb950*
 
+*restore_last_session* = _boolean_::
+If set to True, a plain launch (no -l, -e, -x, --working-directory)
+restores the windows, splits and working directories that were open
+last time. The session is saved automatically as the layout changes.
+Set in Preferences > Session. +
+Default value: *True*
+
+*session_save_delay_ms* = _integer_::
+Debounce delay before a layout change is written to the session file. +
+Default value: *1500*
+
+*session_file* = _string_::
+Path of the session file. Empty means
+$XDG_STATE_HOME/terminator/session.json. +
+Default value: *''*
+
+*scrollback_cache* = _boolean_::
+If set to True, the last lines of every terminal are cached as plain
+text under $XDG_CACHE_HOME/terminator/scrollback/ and replayed after a
+session restore. It is only a cache; turning it off deletes it. +
+Default value: *True*
+
+*scrollback_cache_lines* = _integer_::
+Number of lines kept per terminal in the scrollback cache. +
+Default value: *2000*
+
+*scrollback_cache_interval_s*, *scrollback_cache_max_kb*, *scrollback_cache_total_mb*, *scrollback_cache_ttl_days*::
+Write interval (seconds), per-file limit (KiB), total limit (MiB) and
+expiry (days) of the scrollback cache. Defaults: *20*, *512*, *20*, *7*.
+
 // --- Window appearance ---
 
 *borderless* = _boolean_::

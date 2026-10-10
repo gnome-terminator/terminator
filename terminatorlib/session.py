@@ -277,6 +277,27 @@ class SessionManager(Borg):
         """Same ownership as writer, ignoring temporary _disabled."""
         return bool(self._owns_session and self._lock_fd is not None)
 
+    def suspend_writes(self, reason=''):
+        """Stop writing session.json (and scrollback) for the rest of this run.
+
+        Used by the preferences "clear" / "use previous session" actions so
+        that the running instance does not overwrite the result at exit.
+        """
+        dbg('SessionManager.suspend_writes: %s' % reason)
+        self._disabled = True
+        if self._timer is not None:
+            try:
+                from gi.repository import GLib
+                GLib.source_remove(self._timer)
+            except Exception:
+                pass
+            self._timer = None
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().stop(join_timeout=1.0)
+        except Exception as ex:
+            dbg('SessionManager.suspend_writes scrollback: %s' % ex)
+
     # --- dirty / flush --------------------------------------------------
 
     def _any_legacy_zoom(self):
