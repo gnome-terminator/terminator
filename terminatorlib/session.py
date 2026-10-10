@@ -1081,9 +1081,9 @@ class SessionManager(Borg):
                 err('SessionManager: previous restore crashed, falling back '
                     'to %s' % os.path.basename(candidate))
                 return data
-        crashed = [path + '.crashed'] + [
-            c for c in getattr(self, '_crashed_sources', [])
-            if c != path + '.crashed']
+        # newest quarantine first (a stale older *.crashed may exist and
+        # push this run's copy to *.crashed.N).
+        crashed = list(getattr(self, '_crashed_sources', None) or [])
         for candidate in crashed:
             data = self._load_file(candidate)
             if data is not None:

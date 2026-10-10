@@ -187,3 +187,32 @@ def test_clear_session_files_removes_numbered_crashed(sm):
     sm.clear_session_files()
     assert not os.path.exists(path + '.crashed.1')
     assert not os.path.exists(path + '.prev.crashed')
+
+
+def test_safe_mode_prefers_this_runs_quarantine_over_stale(sm):
+    # a stale .crashed from an older crash pushes this run's copy to .crashed.1
+    path = sm.session_path()
+    _write(path + '.crashed', 'stale')
+    _write(path, 'fresh')
+    _crash_after_normal_restore(sm)
+    assert sm.check_crash_marker()
+    data = sm.load_crash_fallback()
+    assert sm.safe_restore and _uid(data) == 'fresh'
+    assert sm._loaded_from == path + '.crashed.1'
+
+
+def test_safe_mode_keeps_restored_uuid_cache_files(sm, monkeypatch):
+    import types
+    from terminatorlib import scrollback as sb
+    monkeypatch.setattr(sb, '_session_manager', lambda: sm)
+    sm.safe_restore = True
+    sm._loaded_session_uuids = {'old'}
+    assert sb._sm_safe_keep('old') is True
+    assert sb._sm_safe_keep('new') is False
+    c = types.SimpleNamespace(_dirty={'old'})
+    called = []
+    sb.ScrollbackCache._flush_uuid(c, types.SimpleNamespace(
+        vte=property(lambda s: called.append(1))), 'old')
+    assert 'old' not in c._dirty and not called
+    sm.safe_restore = False
+    assert sb._sm_safe_keep('old') is False
