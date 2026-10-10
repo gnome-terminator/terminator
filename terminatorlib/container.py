@@ -156,8 +156,25 @@ class Container(object):
         """Create a confirmation dialog for closing things"""
         maker = Factory()
 
+        # D17: process-running confirmation takes priority
+        try:
+            from .close_confirm import construct_confirm_close_with_processes
+            proc_result = construct_confirm_close_with_processes(
+                self, window, child)
+            if proc_result is not None:
+                return proc_result
+        except Exception as ex:
+            from .util import dbg
+            dbg('construct_confirm_close processes: %s' % ex)
+
         has_multiple_terms = False
-        if not maker.isinstance(child, 'Terminal'):
+        if maker.isinstance(child, 'Window'):
+            try:
+                from .close_confirm import has_multiple_terms as _hmt
+                has_multiple_terms = _hmt(child)
+            except Exception:
+                has_multiple_terms = True
+        elif not maker.isinstance(child, 'Terminal'):
             has_multiple_terms = True
         elif maker.isinstance(self, 'Window'):
             has_multiple_terms = self.is_zoomed()

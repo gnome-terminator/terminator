@@ -3,6 +3,7 @@
 """terminal_popup_menu.py - classes necessary to provide a terminal context
 menu"""
 
+import re
 from gi.repository import Gtk, Gdk
 
 from .version import APP_NAME
@@ -86,20 +87,8 @@ class TerminalPopupMenu(object):
 
     def close_terminal(self, _menuitem=None):
         """Close the terminal after applying the normal close confirmation."""
-        terminal = self.terminal
-        container = terminal.get_parent()
-
-        while container and not hasattr(container, 'construct_confirm_close'):
-            container = container.get_parent()
-
-        if container:
-            confirm_close = container.construct_confirm_close(
-                terminal.get_toplevel(), terminal)
-            if confirm_close != Gtk.ResponseType.ACCEPT:
-                dbg('user cancelled request')
-                return
-
-        terminal.close()
+        from .close_confirm import request_close_terminal
+        request_close_terminal(self.terminal)
 
     def show(self, widget, event=None):
         """Display the context menu"""
