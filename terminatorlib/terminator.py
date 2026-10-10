@@ -629,10 +629,18 @@ class Terminator(Borg):
             self.groups.append(name)
 
     def closegroupedterms(self, group):
-        """Close all terminals in a group"""
-        for terminal in self.terminals[:]:
-            if terminal.group == group:
-                terminal.close()
+        """Close all terminals in a group (process-aware confirm first)"""
+        members = [t for t in self.terminals[:] if t.group == group]
+        try:
+            from .close_confirm import confirm_close_terminals
+            if not confirm_close_terminals(members):
+                dbg('closegroupedterms: user cancelled')
+                return False
+        except Exception as ex:
+            dbg('closegroupedterms confirm failed: %s' % ex)
+        for terminal in members:
+            terminal.close()
+        return True
 
     def group_hoover(self):
         """Clean out unused groups"""
