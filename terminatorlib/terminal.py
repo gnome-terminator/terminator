@@ -192,6 +192,7 @@ class Terminal(Gtk.VBox):
         self._base_cell_probe_idle = None
         self._auto_font_disabled = False
         self._pane_maximise_handler = None
+        self._session_custom_title = None
         self._pane_maximise_window = None
 
         self.titlebar = Titlebar(self)
@@ -1672,8 +1673,15 @@ class Terminal(Gtk.VBox):
     def on_edit_done(self, _widget):
         """A child widget is done editing a label, return focus to VTE"""
         self.vte.grab_focus()
-        # Custom title is persisted in the session layout
-        self._session_mark_dirty('title')
+        # Custom title is persisted in the session layout; only a real
+        # change (set, edited, or cleared) should schedule a save.
+        try:
+            current = self.titlebar.get_custom_string()
+        except Exception:
+            current = None
+        if current != getattr(self, '_session_custom_title', None):
+            self._session_custom_title = current
+            self._session_mark_dirty('title')
 
     def deferred_on_vte_size_allocate(self, widget, allocation):
         # widget & allocation are not used in on_vte_size_allocate, so we
@@ -2667,6 +2675,7 @@ class Terminal(Gtk.VBox):
             self.really_create_group(self.titlebar, layout['group'])
         if 'title' in layout and layout['title'] != '':
             self.titlebar.set_custom_string(layout['title'])
+            self._session_custom_title = layout['title']
         if 'directory' in layout and layout['directory'] != '':
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
@@ -2836,6 +2845,18 @@ class Terminal(Gtk.VBox):
             self.unzoom()
         else:
             self.maximise()
+
+    def key_maximise(self):
+        """Default maximise shortcut: toggle single-pane overlay maximise."""
+        self.key_toggle_zoom()
+
+    def key_zoom(self):
+        if not self.is_zoomed():
+            self.zoom()
+
+    def key_unzoom(self):
+        if self.is_zoomed():
+            self.unzoom()
 
     def key_restore_maximised(self):
         """Shift+Esc: restore overlay/legacy maximise only when zoomed."""

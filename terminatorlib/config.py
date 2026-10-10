@@ -122,7 +122,7 @@ DEFAULTS = {
             'auto_font_scale_tiers' : ['1.0', '0.9', '0.8'],
             'reading_measure_min_cols': 60,
             'reading_measure_ideal_cols': 0,
-            'auto_font_scale_min_rows': 24,
+            'auto_font_scale_min_rows': 10,
             'auto_font_scale_hysteresis': 0.08,
             'auto_font_scale_delay_ms': 150,
             'always_split_with_profile': False,
@@ -155,7 +155,7 @@ DEFAULTS = {
         'keybindings': {
             'zoom'             : '',
             'unzoom'           : '',
-            'maximise'         : '',
+            'maximise'         : '<Shift><Control>Return',
             'open_debug_tab'   : '',
             'zoom_in'          : '<Control>plus',
             'zoom_out'         : '<Control>minus',
@@ -299,12 +299,15 @@ DEFAULTS = {
                 'http_proxy'            : '',
                 # Titlebar
                 'title_hide_sizetext'     : False,
-                'title_transmit_fg_color' : '#ffffff',
-                'title_transmit_bg_color' : '#c80003',
+                # Wave-style: dark, subtle bars. Focus cue is the
+                # pane_accent_color border plus a brighter title; the
+                # receive (group/broadcast) colour stays distinct.
+                'title_transmit_fg_color' : '#e6edf3',
+                'title_transmit_bg_color' : '#21262d',
                 'title_receive_fg_color'  : '#ffffff',
                 'title_receive_bg_color'  : '#0076c9',
-                'title_inactive_fg_color' : '#000000',
-                'title_inactive_bg_color' : '#c0bebf',
+                'title_inactive_fg_color' : '#8b949e',
+                'title_inactive_bg_color' : '#161b22',
                 'title_use_system_font'   : True,
                 'title_font'              : 'Sans 9'
             },

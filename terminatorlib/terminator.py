@@ -432,11 +432,14 @@ class Terminator(Borg):
                 box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
 
             button.titlebar-btn {
-                padding: 0px 2px; min-height: 0px; min-width: 0px; }
+                padding: 0px 2px; min-height: 0px; min-width: 0px;
+                color: #c9d1d9; }
+            button.titlebar-btn:hover { color: #ffffff; }
             button.titlebar-btn-close { margin-left: 6px; }
             button.titlebar-btn-close:hover { color: #f85149; }
             button.titlebar-badge {
-                padding: 0px 4px; min-height: 0px; font-size: smaller; }
+                padding: 0px 4px; min-height: 0px; font-size: smaller;
+                color: #c9d1d9; }
 
             .titlebar-density-standard { min-height: 24px; }
             .titlebar-density-compact { min-height: 20px; }

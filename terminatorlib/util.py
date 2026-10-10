@@ -476,3 +476,29 @@ def get_flatpak_args(args, envv, cwd):
     dbg('returned flatpak args:  %s' % flatpak_args)
 
     return flatpak_args
+
+
+_SOURCE_ICON_PATH_ADDED = False
+
+def add_source_icon_path(icon_theme=None):
+    """When running from a source checkout, let the icon theme find
+    data/icons (app icon and titlebar receive/broadcast icons).
+    Idempotent; no-op for installed copies."""
+    global _SOURCE_ICON_PATH_ADDED
+    if _SOURCE_ICON_PATH_ADDED:
+        return False
+    path = os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), 'data', 'icons')
+    if not os.path.isdir(path):
+        return False
+    try:
+        theme = icon_theme or Gtk.IconTheme.get_default()
+        if theme is None:
+            return False
+        if path not in theme.get_search_path():
+            theme.append_search_path(path)
+        _SOURCE_ICON_PATH_ADDED = True
+        return True
+    except Exception as ex:
+        dbg('add_source_icon_path: %s' % ex)
+        return False
