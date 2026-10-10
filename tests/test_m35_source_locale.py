@@ -76,8 +76,8 @@ def test_compiles_only_when_po_newer(tmp_path):
     d = translation.source_locale_dir(str(root), environ=env)
     mo = os.path.join(d, 'zh_CN', 'LC_MESSAGES', 'terminator.mo')
     assert d == str(root / 'build' / 'locale') and os.path.isfile(mo)
-    # Only the requested language is compiled.
-    assert os.listdir(d) == ['zh_CN']
+    # Only the requested languages are compiled (bare zh from zh_CN.po).
+    assert sorted(os.listdir(d)) == ['zh', 'zh_CN']
     old = os.path.getmtime(mo) - 100
     os.utime(mo, (old, old))
     po = str(root / 'po' / 'zh_CN.po')
@@ -341,3 +341,192 @@ def test_every_core_string_has_zh_cn_translation(tmp_path):
         # (Counting '#:' also catches wrapped 'msgid ""' multi-line ids.)
         refs = [l for l in out.splitlines() if l.startswith('#:')]
         assert not refs, '%s zh_CN entries:\n%s' % (flag, out)
+
+
+# ---- Traditional Chinese (re-review P2) -------------------------------------
+
+def _zh_catalogue(d, lang):
+    import gettext
+    with open(os.path.join(d, lang, 'LC_MESSAGES', 'terminator.mo'),
+              'rb') as handle:
+        return gettext.GNUTranslations(handle)
+
+
+@pytest.mark.parametrize('env', [{'LANG': 'zh_TW.UTF-8'},
+                                 {'LANG': 'zh_HK.UTF-8'},
+                                 {'LANGUAGE': 'zh_Hant:zh_CN'}])
+def test_traditional_never_falls_back_to_simplified(tmp_path, monkeypatch,
+                                                    env):
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    root = _copy_tree(tmp_path)
+    for name in ('zh_TW', 'zh_HK'):
+        shutil.copy(os.path.join(ROOT, 'po', '%s.po' % name), root / 'po')
+    d = translation.source_locale_dir(str(root), environ=env)
+    assert d is not None
+    # bare zh (gettext's own fallback for zh_XX) is Traditional
+    assert _zh_catalogue(d, 'zh').gettext('_Copy') == '複製(_C)'
+
+
+def test_zh_hk_completed_from_zh_tw(tmp_path, monkeypatch):
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    root = _copy_tree(tmp_path)
+    for name in ('zh_TW', 'zh_HK'):
+        shutil.copy(os.path.join(ROOT, 'po', '%s.po' % name), root / 'po')
+    d = translation.source_locale_dir(str(root),
+                                      environ={'LANG': 'zh_HK.UTF-8'})
+    hk = _zh_catalogue(d, 'zh_HK')
+    assert hk.gettext('_Copy') == '複製(_C)'          # from zh_TW.po
+    assert len(hk._catalog) > 300                     # zh_HK.po alone: ~9
+
+
+def test_zh_dir_rebuilt_when_source_changes(tmp_path, monkeypatch):
+    """A zh/ built for a zh_CN run must not leak Simplified into zh_TW."""
+    monkeypatch.setenv('PATH', str(tmp_path / 'nothing-here'))
+    root = _copy_tree(tmp_path)
+    shutil.copy(os.path.join(ROOT, 'po', 'zh_TW.po'), root / 'po')
+    d = translation.source_locale_dir(str(root),
+                                      environ={'LANG': 'zh_CN.UTF-8'})
+    assert _zh_catalogue(d, 'zh').gettext('_Copy') == '复制(_C)'
+    translation.source_locale_dir(str(root), environ={'LANG': 'zh_TW.UTF-8'})
+    assert _zh_catalogue(d, 'zh').gettext('_Copy') == '複製(_C)'
+
+
+# ---- installed tree under another prefix (re-review P1) ---------------------
+
+def _fake_install(tmp_path, prefix_name='prefix', with_mo=True,
+                  copy_pkg=False):
+    prefix = tmp_path / prefix_name
+    site = prefix / 'lib' / 'python3.13' / 'dist-packages'
+    pkg = site / 'terminatorlib'
+    if copy_pkg:
+        shutil.copytree(os.path.join(ROOT, 'terminatorlib'), pkg,
+                        ignore=shutil.ignore_patterns('__pycache__'))
+    else:
+        pkg.mkdir(parents=True)
+        (pkg / '__init__.py').write_text('')
+    if with_mo:
+        _install_mo(prefix)
+    return prefix, site, pkg
+
+
+def _install_mo(prefix):
+    mo_dir = prefix / 'share' / 'locale' / 'zh_CN' / 'LC_MESSAGES'
+    mo_dir.mkdir(parents=True)
+    translation.compile_po_python(os.path.join(ROOT, 'po', 'zh_CN.po'),
+                                  str(mo_dir / 'terminator.mo'))
+    return str(prefix / 'share' / 'locale')
+
+
+ZH = {'LANG': 'zh_CN.UTF-8'}
+
+
+def test_installed_catalogue_beside_package(tmp_path):
+    prefix, _site, pkg = _fake_install(tmp_path)
+    assert translation.installed_locale_dir(
+        ZH, package_dir=str(pkg), argv0='', prefixes=()) == \
+        str(prefix / 'share' / 'locale')
+
+
+def test_installed_catalogue_beside_script(tmp_path):
+    _prefix, _site, pkg = _fake_install(tmp_path, with_mo=False)
+    other = tmp_path / 'other'
+    (other / 'bin').mkdir(parents=True)
+    (other / 'bin' / 'terminator').write_text('')
+    want = _install_mo(other)
+    assert translation.installed_locale_dir(
+        ZH, package_dir=str(pkg), argv0=str(other / 'bin' / 'terminator'),
+        prefixes=()) == want
+
+
+def test_installed_falls_back_to_sys_prefix(tmp_path, monkeypatch):
+    _prefix, _site, pkg = _fake_install(tmp_path, with_mo=False)
+    sysprefix = tmp_path / 'sysprefix'
+    want = _install_mo(sysprefix)
+    monkeypatch.setattr(sys, 'prefix', str(sysprefix))
+    found = translation.installed_locale_dir(ZH, package_dir=str(pkg),
+                                             argv0='')
+    assert found == want
+
+
+def test_installed_nothing_found_keeps_default(tmp_path):
+    _prefix, _site, pkg = _fake_install(tmp_path, with_mo=False)
+    assert translation.installed_locale_dir(
+        ZH, package_dir=str(pkg), argv0='',
+        prefixes=(str(tmp_path / 'nope'),)) is None
+    assert translation.installed_locale_dir(
+        {'LANG': 'C.UTF-8'}, package_dir=str(pkg), argv0='',
+        prefixes=()) is None
+
+
+def test_installed_opt_out(tmp_path):
+    _prefix, _site, pkg = _fake_install(tmp_path)
+    assert translation.installed_locale_dir(
+        dict(ZH, TERMINATOR_NO_SOURCE_LOCALE='yes'), package_dir=str(pkg),
+        argv0='', prefixes=()) is None
+
+
+def test_package_prefix():
+    f = translation._package_prefix
+    assert f('/usr/local/lib/python3.13/dist-packages/terminatorlib') == \
+        '/usr/local'
+    assert f('/home/u/.local/lib/python3.13/site-packages/'
+             'terminator-2.1.egg/terminatorlib') == '/home/u/.local'
+    assert f('/usr/lib64/python3.12/site-packages/terminatorlib') == '/usr'
+
+
+def test_installed_tree_subprocess_python_and_gtkbuilder(tmp_path):
+    """The user's setup: package + .mo under /usr/local-like prefix, python
+    from another prefix.  Python _() and GtkBuilder (libintl) both see 窗格."""
+    prefix, site, _pkg = _fake_install(tmp_path, copy_pkg=True)
+    src = None
+    for cand in ('/usr/lib/locale/C.utf8', '/usr/lib/locale/C.UTF-8'):
+        if os.path.isdir(cand):
+            src = cand
+            break
+    locpath = tmp_path / 'loc'
+    if src:
+        shutil.copytree(src, locpath / 'zh_CN.UTF-8')
+    code = r"""
+import os, gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+from terminatorlib import translation
+from terminatorlib.translation import _, LOCALE_DIR
+print(LOCALE_DIR)
+print(_('Panes'))
+b = Gtk.Builder()
+b.set_translation_domain('terminator')
+b.add_from_file(os.path.join(os.path.dirname(translation.__file__),
+                             'preferences.glade'))
+print('窗格' in [o.get_label() for o in b.get_objects()
+                 if isinstance(o, Gtk.Label)])
+"""
+    env = _env(PYTHONPATH=str(site), LANG='zh_CN.UTF-8')
+    if src:
+        env.update(LOCPATH=str(locpath), LC_ALL='zh_CN.UTF-8')
+    out = subprocess.run([sys.executable, '-c', code], cwd=str(tmp_path),
+                         env=env, capture_output=True, text=True, timeout=60)
+    assert out.returncode == 0, out.stderr
+    lines = out.stdout.strip().splitlines()
+    assert lines[0] == str(prefix / 'share' / 'locale')
+    assert lines[1] == '窗格'
+    if src:
+        assert lines[2] == 'True'
+    assert not (site / 'build').exists()
+
+
+def test_pocompile_loads_without_gtk(tmp_path):
+    """setup.py loads pocompile.py by path; it must need stdlib only."""
+    code = r"""
+import sys, importlib.util
+sys.modules['gi'] = None   # any GTK import would now fail
+spec = importlib.util.spec_from_file_location('pc', sys.argv[1])
+m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+m.compile_po_python(sys.argv[2], sys.argv[3])
+"""
+    mo = tmp_path / 'x.mo'
+    subprocess.run([sys.executable, '-c', code,
+                    os.path.join(ROOT, 'terminatorlib', 'pocompile.py'),
+                    os.path.join(ROOT, 'po', 'zh_CN.po'), str(mo)],
+                   check=True, timeout=60)
+    assert mo.stat().st_size > 10000

@@ -37,6 +37,17 @@ class TerminatorDist(Distribution):
     Distribution.__init__(self, *args)
 
 
+def _python_msgfmt(po, mo):
+  """terminatorlib/pocompile.py, loaded by path (no GTK import needed)"""
+  import importlib.util
+  path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                      'terminatorlib', 'pocompile.py')
+  spec = importlib.util.spec_from_file_location('_terminator_pocompile', path)
+  module = importlib.util.module_from_spec(spec)
+  spec.loader.exec_module(module)
+  module.compile_po_python(po, mo)
+
+
 class BuildData(build):
   def run (self):
     build.run (self)
@@ -59,9 +70,15 @@ class BuildData(build):
             if rc != 0:
               raise Warning("msgfmt returned %d" % rc)
           except Exception as e:
-            error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
-            error("Error: %s" % str(e))
-            sys.exit(1)
+            # m35: msgfmt (package gettext) is often missing on desktops;
+            # use the bundled pure-Python compiler instead.
+            info('msgfmt unavailable (%s); using the Python compiler' % e)
+            try:
+              _python_msgfmt(po, mo)
+            except Exception as e2:
+              error("Building gettext files failed. Ensure you have gettext installed. Alternatively, try setup.py --without-gettext [build|install]")
+              error("Error: %s; Python compiler: %s" % (str(e), str(e2)))
+              sys.exit(1)
 
       TOP_BUILDDIR='.'
       INTLTOOL_MERGE='intltool-merge'

@@ -44,9 +44,20 @@ catalogue for your language (`LANGUAGE`/`LC_ALL`/`LC_MESSAGES`/`LANG`) is
 compiled from `po/<lang>.po` into `build/locale/<lang>/LC_MESSAGES/` (only
 when the `.po` is newer) and used instead of any older system copy in
 `/usr/share/locale`.  `msgfmt` (package `gettext`) is used when installed,
-otherwise a built-in Python compiler.  `zh`, `zh_Hans` and `zh_SG` use the
-`zh_CN` catalogue; `zh_Hant` and `zh_MO` use `zh_TW`.  Set
-`TERMINATOR_NO_SOURCE_LOCALE=1` (or `true`/`yes`) to disable this.
+otherwise a built-in Python compiler (`setup.py build` uses the same
+fallback).  `zh_Hans` and `zh_SG` use the `zh_CN` catalogue; `zh_Hant` and
+`zh_MO` use `zh_TW`; `zh_HK` is completed from `zh_TW`; a bare `zh` follows
+the first Chinese locale asked for (Traditional for zh_TW/zh_HK/zh_MO/
+zh_Hant, otherwise Simplified).
+
+An installed Terminator finds its catalogues even when it was installed
+under a different prefix than Python's (e.g. `setup.py install` into
+`/usr/local` with `/usr/bin/python3`): it looks in `<prefix>/share/locale`
+for the package's prefix, the script's prefix (parent of `bin/`),
+`sys.prefix`, `sys.base_prefix`, `/usr/local` and `/usr`, in that order.
+
+Set `TERMINATOR_NO_SOURCE_LOCALE=1` (or `true`/`yes`) to disable both
+lookups and use the default gettext search path.
 
 > **Note:** the preferences dialog and other GTK widgets are translated by
 > the C library, which ignores `LANGUAGE` when the locale is `C`/`POSIX`, e.g.

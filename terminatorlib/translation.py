@@ -17,27 +17,48 @@
 """Terminator by Chris Jones <cmsj@tenshu.net>"""
 
 import os
+import sys
 
 from .version import APP_NAME
 from .util import dbg
+from .pocompile import compile_po_python  # noqa: F401  (re-exported)
 
 _ = None
 
-# Source-tree locale support (m35).
+# Locale lookup (m35).
 #
-# When terminator runs straight from a git checkout (``python3 ./terminator``)
-# the system catalogue in /usr/share/locale is either missing or comes from an
-# older distro package that lacks this fork's strings.  In that case we bind
-# the text domain to <repo>/build/locale (build/locale/<lang>/LC_MESSAGES/
-# terminator.mo, the layout gettext/libintl look up; setup.py's build/mo is
-# flat and therefore not usable as a localedir).  Catalogues for the
-# user's languages are (re)compiled there with msgfmt when the .po is newer;
-# any failure is silent and we fall back to the system catalogue.
+# Source checkout (``python3 ./terminator``): the system catalogue is missing
+# or from an older distro package without this fork's strings, so we compile
+# po/<lang>.po for the user's languages into <repo>/build/locale/<lang>/
+# LC_MESSAGES/terminator.mo (the localedir layout; setup.py's build/mo is
+# flat) when the .po is newer, with msgfmt or the pure-Python fallback, and
+# bind the domain there.
 #
-# Set TERMINATOR_NO_SOURCE_LOCALE=1 to disable all of this.
+# Installed tree: ``setup.py install --prefix /usr/local`` puts catalogues
+# in /usr/local/share/locale, but Python gettext and libintl only look in
+# sys.base_prefix/share/locale (/usr/share/locale).  We look for
+# <prefix>/share/locale/<lang>/LC_MESSAGES/terminator.mo next to the
+# package, next to the script, then sys.prefix, sys.base_prefix,
+# /usr/local, /usr, and bind the first hit.
+#
+# Both bindings cover Python gettext and libintl (GtkBuilder).
+# TERMINATOR_NO_SOURCE_LOCALE=1|true|yes disables all of this.
 
 SOURCE_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PACKAGE_DIR = os.path.dirname(os.path.abspath(__file__))
 LOCALE_DIR = None  # directory bound for APP_NAME, None = system default
+
+# Locales without a po/<lang>.po of their own.  The .mo is written under the
+# requested name, because that is the directory gettext/libintl look in.
+LANG_ALIASES = {
+    'zh_Hans': 'zh_CN', 'zh_SG': 'zh_CN',
+    'zh_Hant': 'zh_TW', 'zh_MO': 'zh_TW',
+}
+# Sparse catalogues completed from a fuller one of the same script.
+BASE_CATALOGUE = {'zh_HK': 'zh_TW'}
+TRADITIONAL_ZH = ('zh_TW', 'zh_HK', 'zh_MO', 'zh_Hant')
+
+_TMP_MAX_AGE = 60  # seconds; older terminator.mo.tmp.* files are litter
 
 
 def _is_source_tree(root):
@@ -47,164 +68,59 @@ def _is_source_tree(root):
             os.path.isdir(os.path.join(root, 'terminatorlib')))
 
 
-def _wanted_languages(environ=None):
-    """Language codes gettext would try, from LANGUAGE/LC_ALL/LC_MESSAGES/LANG.
-
-    'zh_CN.UTF-8' yields ['zh_CN', 'zh'].  'C'/'POSIX' are dropped."""
-    environ = os.environ if environ is None else environ
+def _codes(environ):
+    """Locale codes from LANGUAGE/LC_ALL/LC_MESSAGES/LANG (first set wins,
+    like Python gettext), encoding/modifier stripped, C/POSIX dropped."""
     raw = []
     for var in ('LANGUAGE', 'LC_ALL', 'LC_MESSAGES', 'LANG'):
         val = environ.get(var)
         if val:
             raw = val.split(':')
             break
-    langs = []
+    codes = []
     for item in raw:
         code = item.split('@')[0].split('.')[0].strip()
-        if not code or code in ('C', 'POSIX'):
-            continue
+        if code and code not in ('C', 'POSIX') and code not in codes:
+            codes.append(code)
+    return codes
+
+
+def _wanted_languages(environ=None):
+    """Language codes gettext would try: 'zh_CN.UTF-8' -> ['zh_CN', 'zh']."""
+    environ = os.environ if environ is None else environ
+    langs = []
+    for code in _codes(environ):
         for cand in (code, code.split('_')[0]):
             if cand and cand not in langs:
                 langs.append(cand)
     return langs
 
 
-# Locales with no po/<lang>.po of their own that should use another catalogue.
-# The .mo is still written under the requested name (e.g. build/locale/
-# zh_Hans/...) because that is the directory gettext/libintl will look in.
-LANG_ALIASES = {
-    'zh': 'zh_CN', 'zh_Hans': 'zh_CN', 'zh_SG': 'zh_CN',
-    'zh_Hant': 'zh_TW', 'zh_MO': 'zh_TW',
-}
-
-_TMP_MAX_AGE = 60  # seconds; older terminator.mo.tmp.* files are litter
+def _traditional(environ):
+    """True when the first Chinese locale asked for is Traditional"""
+    for code in _codes(environ):
+        if code == 'zh' or code.startswith('zh_'):
+            return code in TRADITIONAL_ZH
+    return False
 
 
-def _po_for(root, lang):
-    """po/<lang>.po, or the aliased catalogue, or None"""
-    for name in (lang, LANG_ALIASES.get(lang)):
-        if name:
-            po = os.path.join(root, 'po', '%s.po' % name)
-            if os.path.isfile(po):
-                return po
-    return None
+def _sources_for(root, lang, traditional=False):
+    """.po files to compile for lang, base first, or [] if none."""
+    def po(name):
+        path = os.path.join(root, 'po', '%s.po' % name)
+        return path if os.path.isfile(path) else None
 
-
-def _parse_po(data):
-    """Parse .po bytes into {msgid_bytes: msgstr_bytes} like GNU msgfmt:
-    fuzzy entries (except the header) and untranslated entries are dropped,
-    msgctxt is joined with EOT, plural ids/strings with NUL."""
-    import ast
-    import re
-    m = re.search(rb'charset=([A-Za-z0-9_.:-]+)', data)
-    encoding = m.group(1).decode('ascii') if m else 'utf-8'
-    try:
-        text = data.decode(encoding)
-    except (LookupError, UnicodeDecodeError):
-        encoding = 'utf-8'
-        text = data.decode('utf-8')
-
-    messages = {}
-    entry = {}
-    state = {'fuzzy': False, 'section': None, 'idx': None}
-
-    def flush():
-        if 'msgid' in entry:
-            msgid = entry['msgid']
-            fuzzy = state['fuzzy'] and msgid != ''
-            if 'msgid_plural' in entry:
-                strs = [entry.get('msgstr', {}).get(i, '')
-                        for i in sorted(entry.get('msgstr', {}))]
-                key = msgid + '\0' + entry['msgid_plural']
-                val = '\0'.join(strs)
-                translated = any(strs)
-            else:
-                key = msgid
-                val = entry.get('msgstr', {}).get(None, '')
-                translated = bool(val) or msgid == ''
-            if 'msgctxt' in entry:
-                key = entry['msgctxt'] + '\x04' + key
-            if translated and not fuzzy:
-                messages[key.encode(encoding)] = val.encode(encoding)
-        entry.clear()
-        state.update(fuzzy=False, section=None, idx=None)
-
-    for raw in text.splitlines():
-        line = raw.strip()
-        if line.startswith('#'):
-            if line.startswith('#~'):
-                continue  # obsolete
-            if state['section'] == 'msgstr':
-                flush()
-            if line.startswith('#,') and 'fuzzy' in line:
-                state['fuzzy'] = True
-            continue
-        if not line:
-            continue
-        keyword = None
-        for kw in ('msgctxt', 'msgid_plural', 'msgid', 'msgstr'):
-            if line.startswith(kw) and line[len(kw):len(kw) + 1] in ' [':
-                keyword = kw
-                break
-        if keyword:
-            rest = line[len(keyword):].strip()
-            idx = None
-            if keyword == 'msgstr' and rest.startswith('['):
-                idx = int(rest[1:rest.index(']')])
-                rest = rest[rest.index(']') + 1:].strip()
-            if keyword in ('msgctxt', 'msgid') and \
-                    state['section'] == 'msgstr':
-                flush()  # new entry with no comment lines in between
-            state['section'], state['idx'] = keyword, idx
-            value = ast.literal_eval(rest)
-            if keyword == 'msgstr':
-                entry.setdefault('msgstr', {})[idx] = value
-            else:
-                entry[keyword] = value
-        elif line.startswith('"') and state['section']:
-            value = ast.literal_eval(line)
-            if state['section'] == 'msgstr':
-                entry['msgstr'][state['idx']] += value
-            else:
-                entry[state['section']] += value
-        else:
-            raise ValueError('unparsable .po line: %r' % raw)
-    if state['section'] == 'msgstr':
-        flush()
-    return messages
-
-
-def _mo_bytes(messages):
-    """GNU .mo (little endian, no hash table) for {id_bytes: str_bytes}"""
-    import struct
-    keys = sorted(messages)
-    ids = strs = b''
-    offsets = []
-    for k in keys:
-        offsets.append((len(ids), len(k), len(strs), len(messages[k])))
-        ids += k + b'\0'
-        strs += messages[k] + b'\0'
-    n = len(keys)
-    keystart = 7 * 4 + 16 * n
-    valuestart = keystart + len(ids)
-    koffsets, voffsets = [], []
-    for o1, l1, o2, l2 in offsets:
-        koffsets += [l1, o1 + keystart]
-        voffsets += [l2, o2 + valuestart]
-    out = struct.pack('<Iiiiiii', 0x950412de, 0, n, 7 * 4, 7 * 4 + n * 8,
-                      0, 0)
-    out += struct.pack('<%di' % len(koffsets), *koffsets)
-    out += struct.pack('<%di' % len(voffsets), *voffsets)
-    return out + ids + strs
-
-
-def compile_po_python(po, out):
-    """Pure-Python fallback for `msgfmt -o out po`"""
-    with open(po, 'rb') as handle:
-        data = handle.read()
-    with open(out, 'wb') as handle:
-        handle.write(_mo_bytes(_parse_po(data)))
-    return True
+    own = po(lang)
+    if own:
+        base = po(BASE_CATALOGUE[lang]) if lang in BASE_CATALOGUE else None
+        return [base, own] if base else [own]
+    if lang == 'zh':
+        target = 'zh_TW' if traditional else 'zh_CN'
+    else:
+        target = LANG_ALIASES.get(lang)
+    if target:
+        return _sources_for(root, target, traditional)
+    return []
 
 
 def _msgfmt(po, out):
@@ -247,9 +163,25 @@ def _remove_empty_dirs(path, stop):
         path = os.path.dirname(path)
 
 
-def _compile_one(po, mo_dir, mo, mo_root):
-    """Compile po into mo via msgfmt, else the Python fallback.  Never
-    raises; returns True when mo was (re)written."""
+def _stamp(sources):
+    return '\n'.join(os.path.basename(p) for p in sources) + '\n'
+
+
+def _is_current(mo, sources):
+    """mo exists, is newer than every source, and was built from them"""
+    try:
+        mtime = os.path.getmtime(mo)
+        if any(os.path.getmtime(p) > mtime for p in sources):
+            return False
+        with open(mo + '.src', 'r') as handle:
+            return handle.read() == _stamp(sources)
+    except OSError:
+        return False
+
+
+def _compile_one(sources, mo_dir, mo, mo_root):
+    """Compile sources (base first) into mo via msgfmt (single file) or the
+    Python compiler.  Never raises; returns True when mo was (re)written."""
     tmp = '%s.tmp.%d' % (mo, os.getpid())
     try:
         os.makedirs(mo_dir, exist_ok=True)
@@ -257,57 +189,67 @@ def _compile_one(po, mo_dir, mo, mo_root):
         dbg('source locale: cannot create %s: %s' % (mo_dir, ex))
         return False
     _clean_stale_tmp(mo_dir)
+    po, base = sources[-1], (sources[0] if len(sources) > 1 else None)
+    compilers = [] if base else [lambda: _msgfmt(po, tmp)]
+    compilers.append(lambda: compile_po_python(po, tmp, base=base))
     ok = False
-    for compiler in (_msgfmt, compile_po_python):
+    for compiler in compilers:
         try:
-            if compiler(po, tmp) and os.path.isfile(tmp) and \
+            if compiler() and os.path.isfile(tmp) and \
                     os.path.getsize(tmp) > 0:
                 os.replace(tmp, mo)
                 ok = True
                 break
         except Exception as ex:  # msgfmt missing/failed, parse error...
-            dbg('source locale: %s failed for %s: %s' %
-                (getattr(compiler, '__name__', compiler), po, ex))
+            dbg('source locale: compiling %s failed: %s' % (po, ex))
         try:
             if os.path.exists(tmp):
                 os.unlink(tmp)
         except OSError:
             pass
-    if not ok:
-        import sys
+    if ok:
+        try:
+            with open(mo + '.src', 'w') as handle:
+                handle.write(_stamp(sources))
+        except OSError:
+            pass
+    else:
         sys.stderr.write('terminator: could not compile %s for the source '
                          'checkout; using system translations\n' % po)
         _remove_empty_dirs(mo_dir, os.path.dirname(mo_root))
     return ok
 
 
-def _compile_catalogues(root, mo_root, langs):
-    """Compile po/<lang>.po (or its alias) ->
-    mo_root/<lang>/LC_MESSAGES/APP_NAME.mo when the .po is newer.  Never
-    raises; returns the number of catalogues written."""
+def _compile_catalogues(root, mo_root, langs, traditional=False):
+    """Compile the catalogue for each wanted language that has one (own .po,
+    alias or base) into mo_root/<lang>/LC_MESSAGES/APP_NAME.mo when stale.
+    Never raises; returns the number of catalogues written."""
     written = 0
-    seen = set()
+    failed = set()
     for lang in langs:
-        po = _po_for(root, lang)
-        if po is None or po in seen:
-            continue  # e.g. zh after zh_CN: gettext never gets that far
-        seen.add(po)
+        sources = _sources_for(root, lang, traditional)
+        if not sources or tuple(sources) in failed:
+            continue  # nothing to build, or already failed (warn once)
         mo_dir = os.path.join(mo_root, lang, 'LC_MESSAGES')
         mo = os.path.join(mo_dir, '%s.mo' % APP_NAME)
-        try:
-            if os.path.isfile(mo) and \
-                    os.path.getmtime(mo) >= os.path.getmtime(po):
-                continue
-        except OSError:
+        if _is_current(mo, sources):
             continue
-        if _compile_one(po, mo_dir, mo, mo_root):
+        if _compile_one(sources, mo_dir, mo, mo_root):
             written += 1
+        else:
+            failed.add(tuple(sources))
     return written
 
 
 def _opted_out(environ):
     value = environ.get('TERMINATOR_NO_SOURCE_LOCALE', '')
     return value.strip().lower() in ('1', 'true', 'yes')
+
+
+def _has_catalogue(localedir, langs):
+    return any(os.path.isfile(os.path.join(localedir, lang, 'LC_MESSAGES',
+                                           '%s.mo' % APP_NAME))
+               for lang in langs)
 
 
 def source_locale_dir(root=SOURCE_ROOT, environ=None, compile_mo=True):
@@ -323,12 +265,70 @@ def source_locale_dir(root=SOURCE_ROOT, environ=None, compile_mo=True):
         return None
     mo_root = os.path.join(root, 'build', 'locale')
     if compile_mo:
-        _compile_catalogues(root, mo_root, langs)
-    for lang in langs:
-        if os.path.isfile(os.path.join(mo_root, lang, 'LC_MESSAGES',
-                                       '%s.mo' % APP_NAME)):
-            return mo_root
+        _compile_catalogues(root, mo_root, langs, _traditional(environ))
+    return mo_root if _has_catalogue(mo_root, langs) else None
+
+
+def _package_prefix(package_dir):
+    """Install prefix for a package at <prefix>/lib*/pythonX.Y/
+    (site|dist)-packages[/x.egg]/terminatorlib: the parent of the nearest
+    lib* ancestor.  None when there is no such ancestor."""
+    path = os.path.abspath(package_dir)
+    while True:
+        parent = os.path.dirname(path)
+        if parent == path:
+            return None
+        if os.path.basename(path).startswith('lib'):
+            return parent
+        path = parent
+
+
+def _script_prefix(argv0):
+    """<prefix> for a script at <prefix>/bin/terminator, else None"""
+    if not argv0 or argv0.startswith('-'):
+        return None
+    bindir = os.path.dirname(os.path.realpath(argv0))
+    if os.path.basename(bindir) == 'bin':
+        return os.path.dirname(bindir)
     return None
+
+
+def installed_locale_dir(environ=None, package_dir=PACKAGE_DIR, argv0=None,
+                         prefixes=None):
+    """<prefix>/share/locale holding terminator.mo for one of the user's
+    languages, searched next to the package, next to the script, then in
+    sys.prefix, sys.base_prefix, /usr/local, /usr.  None if not found."""
+    environ = os.environ if environ is None else environ
+    if _opted_out(environ):
+        return None
+    langs = _wanted_languages(environ)
+    if not langs:
+        return None
+    if argv0 is None:
+        argv0 = sys.argv[0] if sys.argv else ''
+    if prefixes is None:
+        prefixes = (sys.prefix, getattr(sys, 'base_prefix', sys.prefix),
+                    '/usr/local', '/usr')
+    candidates = [_package_prefix(package_dir), _script_prefix(argv0)]
+    candidates.extend(prefixes)
+    seen = set()
+    for prefix in candidates:
+        if not prefix:
+            continue
+        localedir = os.path.join(os.path.abspath(prefix), 'share', 'locale')
+        if localedir in seen:
+            continue
+        seen.add(localedir)
+        if _has_catalogue(localedir, langs):
+            return localedir
+    return None
+
+
+def find_locale_dir(environ=None):
+    """build/locale for a source tree, else an installed share/locale"""
+    if _is_source_tree(SOURCE_ROOT):
+        return source_locale_dir(environ=environ)
+    return installed_locale_dir(environ=environ)
 
 
 def _bind(localedir):
@@ -340,20 +340,20 @@ def _bind(localedir):
         import locale
         locale.bindtextdomain(APP_NAME, localedir)
     except Exception as ex:  # no libintl binding on this platform
-        dbg('source locale: locale.bindtextdomain failed: %s' % ex)
+        dbg('locale: locale.bindtextdomain failed: %s' % ex)
 
 
 # pylint: disable-msg=W0702
 try:
     import gettext
     try:
-        LOCALE_DIR = source_locale_dir()
+        LOCALE_DIR = find_locale_dir()
         if LOCALE_DIR:
             _bind(LOCALE_DIR)
-            dbg('source locale: using %s' % LOCALE_DIR)
+            dbg('locale: using %s' % LOCALE_DIR)
     except Exception as ex:
         LOCALE_DIR = None
-        dbg('source locale: disabled: %s' % ex)
+        dbg('locale: lookup disabled: %s' % ex)
     gettext.textdomain(APP_NAME)
     _ = gettext.gettext
 except:
