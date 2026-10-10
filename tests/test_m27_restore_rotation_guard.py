@@ -67,7 +67,8 @@ def test_restore_prev_then_save_then_crash_quarantines_real_source(sm):
     assert sm.check_crash_marker() is True
     assert not os.path.exists(path + '.prev2')
     assert _uid(path + '.prev2.crashed') == 'src'
-    assert sm.load() is None  # no crash loop on the bad session
+    # the crashing session is gone; the older non-crashing one remains
+    assert sm.load()['layout']['terminal1']['uuid'] == 'cur'
 
 
 def test_restore_session_json_then_save_then_crash(sm):
