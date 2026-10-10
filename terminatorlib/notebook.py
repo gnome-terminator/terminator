@@ -439,10 +439,9 @@ class Notebook(Container, Gtk.Notebook):
         if getattr(child, 'is_pane_placeholder', False):
             # UI review P2-12: a single-terminal tab whose terminal floats in
             # the overlay frame; put it back so the Terminal branch applies.
-            try:
-                self.window.overlay_restore(animate=False)
-            except Exception as ex:
-                dbg('closetab overlay restore: %s' % ex)
+            from .zoomguard import leave_zoom
+            leave_zoom(self.window, legacy=False, overlay=True,
+                       reason='closetab')
             child = nb.get_nth_page(tabnum)
 
         confirm_close = self.construct_confirm_close(self.window, child)
@@ -583,12 +582,9 @@ class Notebook(Container, Gtk.Notebook):
     def deferred_on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Prime a single idle tab switch signal, using the most recent set of params"""
         # Module D: leaving a tab while overlay-maximised must snap-restore
-        try:
-            win = self.get_toplevel()
-            if getattr(win, 'is_overlay_maximised', lambda: False)():
-                win.overlay_restore(animate=False)
-        except Exception as ex:
-            dbg('overlay restore on tab switch: %s' % ex)
+        from .zoomguard import leave_zoom
+        leave_zoom(self.get_toplevel(), legacy=False, overlay=True,
+                   reason='tab-switch')
         tabs_last_active_term = self.last_active_term.get(self.get_nth_page(page_num),  None)
         data = {'tabs_last_active_term':tabs_last_active_term}
 

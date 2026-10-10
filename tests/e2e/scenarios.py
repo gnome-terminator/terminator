@@ -1,0 +1,379 @@
+"""E2E scenarios.  Each function gets a fresh harness.App and raises
+E2EFailure (or any exception) on failure.  Import-safe (see harness.py).
+
+SCENARIOS entries are (name, fn, opts).  opts go to harness.App except
+'xfail': a reason string marking a KNOWN real-app bug.  Such a scenario is
+reported XFAIL when it fails (does not fail the run) and XPASS when it
+passes, which DOES fail the run so the marker gets removed once fixed."""
+import json
+import os
+import signal
+import time
+
+from tests.e2e.harness import (App, E2EFailure, check, wait_for, region_mean,
+                               region_diff, layout_nodes, terminal_dirs)
+
+KEYS = {
+    'split_horiz': 'ctrl+shift+o', 'split_vert': 'ctrl+shift+e',
+    'new_tab': 'ctrl+shift+t', 'new_window': 'ctrl+shift+i',
+    'close_term': 'ctrl+shift+w', 'close_window': 'ctrl+shift+q',
+    'maximise': 'ctrl+shift+Return', 'restore_maximised': 'shift+Escape',
+}
+TIERS = (1.0, 0.9, 0.8)
+
+
+def _cd(app, d, tag=None):
+    """cd into d in the focused pane and print a scrollback marker."""
+    cmd = 'cd %s' % d
+    if tag:
+        cmd += '; for i in 1 2 3; do echo SB_%s_$i; done' % tag
+    app.type(cmd)
+
+
+def _session_has_dirs(app, dirs):
+    def pred():
+        s = app.session()
+        got = terminal_dirs(s)
+        return all(d in got for d in dirs) and s
+    return pred
+
+
+# ---------------------------------------------------------------- 1
+def s1_session_roundtrip(app):
+    dirs = {t: app.mkdir('dir_' + t) for t in ('A', 'B', 'C', 'D')}
+    app.launch()
+    _cd(app, dirs['A'], 'ALPHA')
+    app.key(KEYS['split_horiz'], delay=1.0)
+    _cd(app, dirs['B'], 'BRAVO')
+    app.key(KEYS['split_vert'], delay=1.0)
+    _cd(app, dirs['C'], 'CHARLIE')
+    app.key(KEYS['new_tab'], delay=1.0)
+    _cd(app, dirs['D'], 'DELTA')
+    app.wait_shells(4)
+    sess = wait_for(_session_has_dirs(app, dirs.values()), 10,
+                    what='debounced session.json with 4 cwds')
+    types = [n['type'] for n in layout_nodes(sess)]
+    check(types.count('Terminal') == 4, 'session terminals: %s' % types)
+    check('Notebook' in types, 'no Notebook in session: %s' % types)
+    check(any(t in types for t in ('HPaned', 'VPaned')), 'no Paned: %s' % types)
+    app.screenshot('1-before-sigterm')
+
+    # SIGTERM -> final save; scrollback written
+    app.signal(signal.SIGTERM)
+    app.wait_exit()
+    sess = app.session()
+    check(terminal_dirs(sess) == sorted(dirs.values()),
+          'after SIGTERM dirs=%s' % terminal_dirs(sess))
+    sb = '\n'.join(app.scrollback_text().values())
+    for tag in ('ALPHA', 'BRAVO', 'CHARLIE', 'DELTA'):
+        check('SB_%s_3' % tag in sb, 'scrollback cache lacks SB_%s after SIGTERM' % tag)
+
+    # relaunch -> layout + cwds restored
+    app.launch()
+    wait_for(lambda: len(app.shells()) == 4, 10, what='4 restored shells')
+    wait_for(lambda: app.shell_cwds() == sorted(dirs.values()), 10,
+             what='restored cwds (got %s)' % app.shell_cwds())
+    app.screenshot('2-restored')
+    # Do a fresh cd in the focused pane and SIGINT quickly (< debounce):
+    # SIGINT must also run the final save.
+    e = app.mkdir('dir_E')
+    app.type('cd %s' % e, delay=0.4)
+    app.signal(signal.SIGINT)
+    app.wait_exit()
+    sess = app.session()
+    check(e in terminal_dirs(sess),
+          'SIGINT did not run the final save (dirs=%s)' % terminal_dirs(sess))
+    check(len(layout_nodes(sess, 'Terminal')) == 4, 'SIGINT session lost terminals')
+    # restored scrollback must have been fed into the VTEs: the cache written
+    # by the second run still contains the first run's markers.
+    sb = '\n'.join(app.scrollback_text().values())
+    for tag in ('ALPHA', 'BRAVO', 'CHARLIE', 'DELTA'):
+        check('SB_%s_3' % tag in sb,
+              'restored scrollback for %s not present after 2nd run' % tag)
+
+
+# ---------------------------------------------------------------- 2
+def s2_multiwindow_close_order(app, how='close_window'):
+    a, b = app.mkdir('win_A'), app.mkdir('win_B')
+    app.launch()
+    w1 = app.main_windows()[0]
+    _cd(app, a, 'WINA')
+    app.key(KEYS['new_window'], delay=1.5)
+    wins = wait_for(lambda: len(app.main_windows()) == 2 and app.main_windows(), 10,
+                    what='second window')
+    w2 = [w for w in wins if w != w1][0]
+    app.activate(w2)
+    _cd(app, b, 'WINB')
+    wait_for(_session_has_dirs(app, [a, b]), 10, what='session with both windows')
+    app.screenshot('1-two-windows')
+    # close FIRST window, then LAST window, within 10s (D5 buffer)
+    def close(w):
+        app.activate(w)
+        if how == 'exit':
+            app.type('exit')            # last shell of the window exits
+        else:
+            app.key(KEYS['close_window'])   # Ctrl+Shift+Q (same path as WM close)
+    close(w1)
+    wait_for(lambda: len(app.main_windows()) == 1, 8, what='first window closed')
+    time.sleep(1.0)
+    close(app.main_windows()[0])
+    app.wait_exit(15)
+    sess = app.session()
+    wins = layout_nodes(sess, 'Window')
+    check(len(wins) == 2, 'session has %d windows after close-first-then-last: %s'
+          % (len(wins), json.dumps(sess.get('layout'))[:400]))
+    check(terminal_dirs(sess) == sorted([a, b]), 'dirs=%s' % terminal_dirs(sess))
+    app.launch(wait_windows=2)
+    check(len(app.main_windows()) == 2, 'restored %d windows' % len(app.main_windows()))
+    wait_for(lambda: app.shell_cwds() == sorted([a, b]), 10,
+             what='restored cwds (got %s)' % app.shell_cwds())
+    app.screenshot('2-restored')
+
+
+# ---------------------------------------------------------------- 3
+def s3_close_confirm(app):
+    app.launch()
+    win = app.main_windows()[0]
+    # shell-only pane closes without prompt
+    app.key(KEYS['split_horiz'], delay=0.5)
+    app.wait_shells(2)
+    app.key(KEYS['close_term'], delay=0.2)
+    wait_for(lambda: len(app.shells()) == 1, 5, what='idle pane closed')
+    check(not app.dialogs(), 'prompt shown for idle shell pane')
+    # running process -> dialog
+    app.type('sleep 1000', delay=0.2)
+    wait_for(lambda: any(c.name() == 'sleep' for s in app.shells() for c in s.children()),
+             5, what='sleep 1000 running')
+    app.key(KEYS['close_term'], delay=0.2)
+    dlg = wait_for(lambda: app.dialogs(), 6, what='confirm dialog (close_term)')[0]
+    app.screenshot('1-dialog')
+    app.activate(dlg)
+    app.key('Escape', delay=1.0)        # cancel
+    wait_for(lambda: not app.dialogs(), 5, what='dialog dismissed by Escape')
+    check(app.alive() and len(app.shells()) == 1, 'cancel did not keep the pane')
+    sleeps = [c for s in app.shells() for c in s.children() if c.name() == 'sleep']
+    check(sleeps, 'sleep killed by cancel')
+    # close_window with running process -> dialog -> accept
+    app.activate(win)
+    app.key(KEYS['close_window'], delay=0.2)
+    dlg = wait_for(lambda: app.dialogs(), 6, what='confirm dialog (close_window)')[0]
+    app.activate(dlg)
+    # Click "Close" (right half of the action area).  Mnemonic Alt+C is not
+    # delivered by xdotool to GtkMessageDialog buttons here.
+    x, y, w, h = app.geometry(dlg)
+    app.click(x + w * 3 // 4, y + h - 18)
+    app.wait_exit(10)
+    time.sleep(0.5)
+    check(not any(p.is_running() and p.status() != 'zombie' for p in sleeps),
+          'accepted close left the running sleep alive')
+    app.screenshot('2-closed')
+
+
+# ---------------------------------------------------------------- 4
+def _edge_band(app, win):
+    x, y, w, h = app.geometry(win)
+    # left margin band (inside the 12px overlay margin), middle height
+    return (x + 3, y + h // 3, x + 9, y + 2 * h // 3)
+
+
+def s4_overlay_maximise(app):
+    app.launch()
+    win = app.main_windows()[0]
+    app.resize(win, 1000, 700)
+    app.key(KEYS['split_vert'], delay=1.0)          # left | right
+    app.type('echo $$ > %s; sleep 5; exit' % app.marker('sib'))  # right pane exits later
+    app.key('alt+Left', delay=0.5)                  # back to left pane
+    app.key(KEYS['split_horiz'], delay=0.5)         # left: top/bottom
+    app.wait_shells(3)
+    app.type('stty size > %s' % app.marker('size0'))
+    before = app.screenshot('1-before')
+    app.key(KEYS['maximise'], delay=1.2)
+    dimmed = app.screenshot('2-maximised')
+    band = _edge_band(app, win)
+    m0, m1 = region_mean(before, band), region_mean(dimmed, band)
+    check(m1 < m0 * 0.8, 'no dim around maximised pane (edge lum %.1f -> %.1f)' % (m0, m1))
+    app.type('stty size > %s' % app.marker('size1'))
+    r1, c1 = map(int, app.read_marker('size1').split())
+    # shrink window: the maximised terminal must follow (not be cropped)
+    app.resize(win, 700, 500)
+    time.sleep(1.0)
+    app.type('stty size > %s' % app.marker('size2'))
+    r2, c2 = map(int, app.read_marker('size2').split())
+    check(c2 < c1 and r2 < r1, 'maximised pane did not shrink (%dx%d -> %dx%d)'
+          % (r1, c1, r2, c2))
+    app.screenshot('3-shrunk')
+    # sibling (right pane) exits while maximised -> no lost terminals
+    app.read_marker('sib')
+    wait_for(lambda: len(app.shells()) == 2, 10, what='sibling shell exit')
+    time.sleep(2.5)
+    check(app.alive(), 'terminator died after sibling exit')
+    sess = wait_for(lambda: len(layout_nodes(app.session(), 'Terminal')) == 2
+                    and app.session(), 8, what='session with 2 terminals')
+    app.screenshot('4-after-sibling-exit')
+    app.key(KEYS['restore_maximised'], delay=1.2)
+    restored = app.screenshot('5-restored')
+    band = _edge_band(app, win)
+    m2 = region_mean(restored, band)
+    check(m2 > region_mean(dimmed, band) * 1.1 or m2 > 200,
+          'still dimmed after Shift+Esc (lum %.1f)' % m2)
+    # closing a pane afterwards must not crash
+    app.key(KEYS['close_term'], delay=1.5)
+    check(app.alive() and len(app.shells()) == 1,
+          'close after restore: alive=%s shells=%d' % (app.alive(), len(app.shells())))
+
+
+# ---------------------------------------------------------------- 5
+def _tier(cols, px, cell1):
+    est = (px / float(cols)) / cell1
+    return min(TIERS, key=lambda t: abs(t - est)), est
+
+
+def s5_autofont(app):
+    app.launch()
+    win = app.main_windows()[0]
+    app.resize(win, 800, 600)
+    x, y, W, H = app.geometry(win)
+    app.type('stty size > %s' % app.marker('one'))
+    r1, c1 = map(int, app.read_marker('one').split())
+    cell1 = W / float(c1)          # includes chrome; good to ~3%
+    res = {'single': (1.0, 1.0)}
+    app.key(KEYS['split_horiz'], delay=0.5)          # stacked (top/bottom)
+    app.wait_shells(2)
+    time.sleep(1.5)                                  # autofont tier settle
+    app.type('stty size > %s' % app.marker('bottom'))
+    app.key('alt+Up', delay=0.5)
+    app.type('stty size > %s' % app.marker('top'))
+    for m in ('top', 'bottom'):
+        r, c = map(int, app.read_marker(m).split())
+        res['stacked-' + m] = _tier(c, W, cell1)
+    app.key(KEYS['split_vert'], delay=0.8)           # top-right
+    app.key('alt+Down', delay=0.5)
+    app.key(KEYS['split_vert'], delay=2.5)           # bottom-right
+    app.type('stty size > %s' % app.marker('g_br'))
+    app.key('alt+Left', delay=0.4)
+    app.type('stty size > %s' % app.marker('g_bl'))
+    app.key('alt+Up', delay=0.4)
+    app.type('stty size > %s' % app.marker('g_tl'))
+    app.key('alt+Right', delay=0.4)
+    app.type('stty size > %s' % app.marker('g_tr'))
+    for m in ('g_tl', 'g_tr', 'g_bl', 'g_br'):
+        r, c = map(int, app.read_marker(m).split())
+        res['grid-' + m] = _tier(c, W / 2.0, cell1)
+    app.screenshot('grid')
+    app.notes.append('tiers: ' + ', '.join('%s=%.1f(est %.2f)' % (k, v[0], v[1])
+                                          for k, v in sorted(res.items())))
+    for k, (t, est) in res.items():
+        want = 0.8 if k.startswith('grid') else 1.0
+        check(t == want, 'autofont %s: tier %.1f (est %.2f), want %.1f' % (k, t, est, want))
+
+
+# ---------------------------------------------------------------- 6
+def s6_window_title(app):
+    app.launch()
+    win = app.main_windows()[0]
+    loop = ("( while :; do printf '\\033]0;TITLE_%s_%%s\\007' $RANDOM; "
+            "sleep 0.05; done & ) ; clear")
+    app.type(loop % 'A', delay=0.5)
+    app.key(KEYS['split_vert'], delay=1.0)
+    app.type(loop % 'B', delay=0.5)
+    app.key(KEYS['split_horiz'], delay=1.0)
+    app.type(loop % 'C', delay=0.5)
+
+    def sample(expect, n=30):
+        time.sleep(1.0)
+        got = [app.title(win) or '' for _ in range(n) if time.sleep(0.1) is None]
+        bad = [t for t in got if not t.startswith('TITLE_%s_' % expect)]
+        distinct = len(set(got))
+        return bad, distinct
+
+    for pane, keys in (('C', []), ('B', ['alt+Up']), ('A', ['alt+Left'])):
+        app.key(*keys)
+        bad, distinct = sample(pane)
+        check(not bad, 'focus=%s but WM title was %s' % (pane, sorted(set(bad))[:5]))
+        check(distinct > 3, 'title not following focused pane %s updates' % pane)
+    app.screenshot('titles')
+
+
+# ---------------------------------------------------------------- 7
+def _sb_strip(app, win):
+    x, y, w, h = app.geometry(win)
+    return (x + w - 14, y + h // 3, x + w - 3, y + 2 * h // 3)
+
+
+def s7_altscreen(app):
+    import shutil
+    app.launch()
+    win = app.main_windows()[0]
+    app.resize(win, 800, 500)
+    app.type('seq 1 300; echo PRE_TUI_MARK', delay=1.5)
+    s0 = app.screenshot('1-normal')
+    strip = _sb_strip(app, win)
+    app.type("tput smcup; for i in $(seq 1 15); do echo TUI''SCREEN_$i; done; "
+             "sleep 5; tput rmcup", delay=2.5)
+    s1 = app.screenshot('2-in-tui')
+    d_tui = region_diff(s0, s1, strip)
+    wait_for(lambda: len(app.shells()[0].children()) == 0, 10, what='TUI exit')
+    time.sleep(2.0)
+    s2 = app.screenshot('3-after-tui')
+    d_after = region_diff(s0, s2, strip)
+    app.notes.append('scrollbar strip diff: tui=%.1f after=%.1f' % (d_tui, d_after))
+    check(d_tui > 15, 'scrollbar not hidden in alt screen (strip diff %.1f)' % d_tui)
+    check(d_after < 5, 'scrollbar not restored after rmcup (strip diff %.1f)' % d_after)
+    if shutil.which('tmux'):
+        app.type("tmux -L e2e%d -f /dev/null new \"echo TMUX''SCREEN; sleep 4\""
+                 % os.getpid(), delay=2.5)
+        s3 = app.screenshot('4-in-tmux')
+        d_tmux = region_diff(s0, s3, strip)
+        wait_for(lambda: len(app.shells()[0].children()) == 0, 10, what='tmux exit')
+        time.sleep(2.0)
+        s4 = app.screenshot('5-after-tmux')
+        d_tmux_after = region_diff(s0, s4, strip)
+        app.notes.append('tmux strip diff: in=%.1f after=%.1f' % (d_tmux, d_tmux_after))
+        check(d_tmux > 15, 'scrollbar not hidden in tmux (%.1f)' % d_tmux)
+        check(d_tmux_after < 5, 'scrollbar not restored after tmux (%.1f)' % d_tmux_after)
+    # quit while a TUI is on screen: cache keeps shell history, not TUI frame
+    app.type("tput smcup; echo TUI''SCREEN_LIVE; sleep 60", delay=2.0)
+    app.signal(signal.SIGTERM)
+    app.wait_exit()
+    sb = '\n'.join(app.scrollback_text().values())
+    check('PRE_TUI_MARK' in sb, 'scrollback cache lost shell history')
+    check('TUISCREEN_' not in sb and 'TMUXSCREEN' not in sb,
+          'scrollback cache contains the alt-screen (TUI) frame')
+
+
+# ---------------------------------------------------------------- 8
+def s8_corrupt_session(app):
+    os.makedirs(app.state_dir, exist_ok=True)
+    with open(app.session_path, 'w') as fh:
+        fh.write('[1,2]')
+    app.launch()
+    corrupt = app.session_path + '.corrupt'
+    wait_for(lambda: not app.alive() or os.path.exists(corrupt), 8,
+             what='session.json.corrupt (state dir: %s)' % app.state_dir)
+    check(app.alive(), 'terminator exited with corrupt session.json')
+    check(open(corrupt).read().strip() == '[1,2]', 'corrupt file content changed')
+    app.type('cd /tmp')
+    s = wait_for(lambda: isinstance(app.session(), dict) and app.session(), 10,
+                 what='fresh valid session.json')
+    check(layout_nodes(s, 'Terminal'), 'new session.json has no terminals')
+
+
+SCENARIOS = [
+    ('1-session-roundtrip', s1_session_roundtrip, {}),
+    ('2-multiwindow', s2_multiwindow_close_order, {}),
+    # KNOWN BUG (xfail): when windows close because their last shell exits
+    # (instead of Ctrl+Shift+Q / WM close) the D5 10s multi-window close
+    # buffer is bypassed: the first window's removal triggers a normal save
+    # of the remaining window only (log: "mark_dirty(window.remove)"), so the
+    # session keeps 1 window.  Being fixed in a separate slot; when it lands
+    # this scenario reports XPASS and the run fails until the marker is removed.
+    ('2b-multiwindow-exit', lambda app: s2_multiwindow_close_order(app, 'exit'),
+     {'xfail': 'shell-exit window close bypasses D5 multi-window buffer '
+               '(session keeps only the last window)'}),
+    ('3-close-confirm', s3_close_confirm, {}),
+    ('4-overlay-maximise', s4_overlay_maximise, {'light': True}),
+    ('5-autofont', s5_autofont, {}),
+    ('6-window-title', s6_window_title, {}),
+    ('7-altscreen', s7_altscreen, {}),
+    ('8-corrupt-session', s8_corrupt_session, {}),
+]

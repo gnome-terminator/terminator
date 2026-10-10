@@ -173,7 +173,10 @@ class Container(object):
             if self.get_property('term_zoomed'):
                 # We're zoomed, so unzoom and then start closing again
                 dbg('terminal zoomed, unzooming')
-                self.unzoom(widget)
+                from .zoomguard import leave_zoom
+                # Window.closeterm already left an overlay maximise; this is
+                # the legacy-zoom case (m26: same helper as every close path).
+                leave_zoom(self, reason='container-closeterm', quiet=False)
                 widget.close()
                 return(True)
         except TypeError:

@@ -1714,10 +1714,8 @@ class Terminal(Gtk.VBox):
             _top = _term.get_toplevel()
             if getattr(_top, 'is_maximised_pane', None) and \
                     _top.is_maximised_pane(_term):
-                try:
-                    _top.overlay_restore(animate=False)
-                except Exception as ex:
-                    dbg('overlay restore before DnD: %s' % ex)
+                from .zoomguard import leave_zoom
+                leave_zoom(_top, legacy=False, overlay=True, reason='dnd')
 
         from .util import logical_parent as _lp
         dstpaned = _lp(dsthbox)

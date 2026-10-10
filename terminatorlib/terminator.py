@@ -663,12 +663,9 @@ class Terminator(Borg):
         # Hidden panes of a legacy zoom are detached from the window; put
         # them back so close-term reaches a parent that is in a window.
         hidden = [t for t in members if t.get_toplevel() not in self.windows]
-        for window in list(self.windows if hidden else ()):
-            try:
-                if window.is_zoomed() and not window.is_overlay_maximised():
-                    window.unzoom()
-            except Exception as ex:
-                dbg('closegroupedterms unzoom: %s' % ex)
+        if hidden:
+            from .zoomguard import leave_legacy_zoom_all
+            leave_legacy_zoom_all(self.windows, reason='closegroupedterms')
         if members and not [t for t in self.terminals if t not in members]:
             # Round-2 P2-7: the group covers every terminal, i.e. this quits.
             # Save the whole layout once, up front (like closing the last

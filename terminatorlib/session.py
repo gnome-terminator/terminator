@@ -482,15 +482,9 @@ class SessionManager(Borg):
     def _any_legacy_zoom(self):
         try:
             from .terminator import Terminator
-            for window in Terminator().windows:
-                if not hasattr(window, 'is_zoomed'):
-                    continue
-                if not window.is_zoomed():
-                    continue
-                # Overlay maximise should NOT skip; only legacy/scaled zoom
-                if getattr(window, 'is_overlay_maximised', lambda: False)():
-                    continue
-                return True
+            from .zoomguard import any_legacy_zoom
+            # Overlay maximise should NOT skip; only legacy/scaled zoom
+            return any_legacy_zoom(Terminator().windows)
         except Exception as ex:
             dbg('SessionManager._any_legacy_zoom: %s' % ex)
         return False
@@ -923,13 +917,9 @@ class SessionManager(Borg):
             return
         # Round-2 P2-1: a legacy (scaled) zoom hides the other panes; unzoom
         # like finalize() does so the fragment holds the whole window.
-        try:
-            if (window.is_zoomed() and
-                    not getattr(window, 'is_overlay_maximised',
-                                lambda: False)()):
-                window.unzoom()
-        except Exception as ex:
-            dbg('SessionManager.note_window_closing unzoom: %s' % ex)
+        from .zoomguard import leave_zoom
+        leave_zoom(window, legacy=True, overlay=False,
+                   reason='note_window_closing')
         try:
             self._refresh_ratios(window)
         except Exception:
@@ -1074,9 +1064,8 @@ class SessionManager(Borg):
                 dbg('scrollback finalize: %s' % ex)
             try:
                 from .terminator import Terminator
-                for w in list(Terminator().windows):
-                    if getattr(w, 'is_overlay_maximised', lambda: False)():
-                        w.overlay_restore(animate=False)
+                from .zoomguard import leave_overlay_all
+                leave_overlay_all(Terminator().windows, reason='finalize')
             except Exception as ex:
                 dbg('overlay restore on finalize: %s' % ex)
         finally:
@@ -1092,17 +1081,8 @@ class SessionManager(Borg):
 
     def _unzoom_legacy_all(self):
         from .terminator import Terminator
-        for window in list(Terminator().windows):
-            if not hasattr(window, 'is_zoomed'):
-                continue
-            if not window.is_zoomed():
-                continue
-            if getattr(window, 'is_overlay_maximised', lambda: False)():
-                continue
-            try:
-                window.unzoom()
-            except Exception as ex:
-                dbg('legacy unzoom: %s' % ex)
+        from .zoomguard import leave_legacy_zoom_all
+        leave_legacy_zoom_all(Terminator().windows, reason='finalize')
 
     def install_signal_handlers(self):
         if self._signals_installed:

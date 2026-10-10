@@ -29,8 +29,9 @@ def _restore_overlay_before_collapse(paned, closing):
         placeholder = window._overlay.placeholder()
         if placeholder is None or not placeholder.is_ancestor(paned):
             return False
-        window.overlay_restore(animate=False)
-        return True
+        from .zoomguard import leave_zoom
+        return leave_zoom(window, legacy=False, overlay=True,
+                          reason='paned-collapse', quiet=False)
     except Exception as ex:
         dbg('overlay restore before collapse: %s' % ex)
         return False
