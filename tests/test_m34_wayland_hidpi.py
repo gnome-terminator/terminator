@@ -139,6 +139,11 @@ def _run_create_layout(monkeypatch, layout):
         ismaximised=False, isfullscreen=False)
     fake.display = None
     t = Terminator()
+    # create_layout() leaves doing_layout=True until layout_done(); keep
+    # the Borg state from leaking into later tests.
+    for attr in ('doing_layout', 'last_active_window', 'prelayout_windows',
+                 'layoutname'):
+        monkeypatch.setattr(t, attr, getattr(t, attr, None), raising=False)
     monkeypatch.setattr(t, 'new_window', lambda *a, **k: (fake, None))
     monkeypatch.setattr(Config(), 'layout_get_config',
                         lambda name: layout, raising=False)
