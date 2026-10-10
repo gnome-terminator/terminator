@@ -341,10 +341,18 @@ class AltScreenScrollbar(object):
         self.detach()
 
     def schedule(self, delay_ms=None):
-        if self._timer is not None or self.detached:
+        if self.detached:
             return
-        self._timer = GLib.timeout_add(
-            DEBOUNCE_MS if delay_ms is None else int(delay_ms), self._fire)
+        delay = DEBOUNCE_MS if delay_ms is None else int(delay_ms)
+        if self._timer is not None:
+            # A pending slow (latched) poll must not swallow a faster
+            # request: the adjustment 'changed' on TUI exit wants the
+            # normal debounce, not up to LATCHED_POLL_MS.
+            if delay >= getattr(self, '_timer_delay', DEBOUNCE_MS):
+                return
+            self._cancel()
+        self._timer_delay = delay
+        self._timer = GLib.timeout_add(delay, self._fire)
 
     def _cancel(self):
         if self._timer is not None:

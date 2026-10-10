@@ -379,6 +379,29 @@ def test_p2_altscreen_latched_polls_slowly(monkeypatch):
     assert added[-1] == altscreen.DEBOUNCE_MS
 
 
+def test_p2_altscreen_fast_request_preempts_latched_poll(monkeypatch):
+    """Review fix: TUI exit ('changed' -> schedule()) must not wait for a
+    pending 1 s latched poll."""
+    from terminatorlib import altscreen
+    added, removed = [], []
+    monkeypatch.setattr(altscreen.GLib, 'timeout_add',
+                        lambda ms, cb: added.append(ms) or len(added))
+    monkeypatch.setattr(altscreen.GLib, 'source_remove',
+                        lambda sid: removed.append(sid))
+    ctl = altscreen.AltScreenScrollbar.__new__(altscreen.AltScreenScrollbar)
+    ctl._timer = None
+    ctl.detached = False
+    ctl.schedule(altscreen.LATCHED_POLL_MS)
+    ctl.schedule(altscreen.LATCHED_POLL_MS)      # coalesced
+    assert added == [altscreen.LATCHED_POLL_MS]
+    ctl.schedule()                               # fast path preempts
+    assert removed == [1]
+    assert added == [altscreen.LATCHED_POLL_MS, altscreen.DEBOUNCE_MS]
+    ctl.schedule(altscreen.LATCHED_POLL_MS)      # slower: keep fast timer
+    ctl.schedule()                               # equal: coalesced
+    assert added == [altscreen.LATCHED_POLL_MS, altscreen.DEBOUNCE_MS]
+
+
 def test_p2_autofont_toast_only_focused(monkeypatch):
     from terminatorlib.terminal import Terminal
     shown = []

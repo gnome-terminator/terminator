@@ -755,19 +755,7 @@ class OverlayController(object):
         window = self.window
         state = {'hid': None, 'done': False}
 
-        def _attempt():
-            if state['done']:
-                return False
-            if getattr(window, 'isDestroyed', False):
-                state['done'] = True
-                return False
-            if terminal.get_toplevel() is not window:
-                state['done'] = True
-                return False
-            alloc = window.get_allocation()
-            if not window.get_mapped() or alloc.width <= 1 or \
-                    alloc.height <= 1:
-                return False  # wait for size-allocate
+        def _finish():
             state['done'] = True
             if state['hid'] is not None:
                 try:
@@ -775,6 +763,19 @@ class OverlayController(object):
                 except Exception:
                     pass
                 state['hid'] = None
+
+        def _attempt():
+            if state['done']:
+                return False
+            if getattr(window, 'isDestroyed', False) or \
+                    terminal.get_toplevel() is not window:
+                _finish()
+                return False
+            alloc = window.get_allocation()
+            if not window.get_mapped() or alloc.width <= 1 or \
+                    alloc.height <= 1:
+                return False  # wait for size-allocate
+            _finish()
             if not terminal_in_current_tab(window, terminal):
                 dbg('maximise_when_ready: %s not in current tab, skipped'
                     % terminal)
