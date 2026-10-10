@@ -389,10 +389,22 @@ def enumerate_descendants(parent):
     return(containers, terminals)
 
 def make_uuid(str_uuid=None):
-    """Generate a UUID for an object"""
-    if str_uuid:
-        return uuid.UUID(str_uuid)
-    return uuid.uuid4()
+    """Generate a UUID for an object.
+
+    str_uuid=None -> fresh uuid4 (normal case).
+    A non-empty string is parsed (ValueError propagates for garbage, as
+    before).  An empty / whitespace-only string is a damaged layout value
+    (m26): it used to fall through silently to a random uuid; now the same
+    fresh uuid is returned but a warning is logged so it is visible."""
+    if str_uuid is None:
+        return uuid.uuid4()
+    if isinstance(str_uuid, uuid.UUID):
+        return str_uuid
+    if not str(str_uuid).strip():
+        err('make_uuid: empty uuid string %r, generating a new one'
+            % (str_uuid,))
+        return uuid.uuid4()
+    return uuid.UUID(str(str_uuid).strip())
 
 def inject_uuid(target):
     """Inject a UUID into an existing object"""

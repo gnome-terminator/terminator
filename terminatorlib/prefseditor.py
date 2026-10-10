@@ -26,10 +26,24 @@ def get_color_string(widcol):
 def color2hex(widget):
     """Pull the colour values out of a Gtk ColorPicker widget and return them
    as 8bit hex values, sinces its default behaviour is to give 16bit values"""
-    return get_color_string(widget.get_color())
+    return rgba2hex(widget)
 
 def rgba2hex(widget):
     return get_color_string(widget.get_rgba().to_color())
+
+def set_button_color(widget, spec):
+    """Set a Gtk.ColorChooser (ColorButton) from a colour string without the
+    deprecated Gtk.ColorButton.set_color (m26). Raises ValueError for an
+    unparsable spec so callers keep their fallback chain."""
+    rgba = Gdk.RGBA()
+    if not spec or not rgba.parse(spec):
+        raise ValueError('bad colour %r' % (spec,))
+    rgba.alpha = 1.0
+    widget.set_rgba(rgba)
+
+def set_button_font(widget, fontname):
+    """Gtk.FontChooser.set_font instead of deprecated FontButton.set_font_name."""
+    widget.set_font(fontname)
 
 NUM_PALETTE_COLORS = 16
 
@@ -704,9 +718,9 @@ class PrefsEditor:
         if self.config['use_system_font'] == True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['font'])
+            set_button_font(widget, self.config['font'])
         # Allow bold text
         widget = guiget('allow_bold_checkbutton')
         widget.set_active(self.config['allow_bold'])
@@ -752,21 +766,21 @@ class PrefsEditor:
         # Cursor foreground
         widget = guiget('cursor_fg_color')
         try:
-            widget.set_color(Gdk.color_parse(self.config['cursor_fg_color']))
+            set_button_color(widget, self.config['cursor_fg_color'])
         except:
             try:
-                widget.set_color(Gdk.color_parse(self.config['background_color']))
+                set_button_color(widget, self.config['background_color'])
             except:
-                widget.set_color(Gdk.color_parse('#000000'))
+                set_button_color(widget, '#000000')
         # Cursor background
         widget = guiget('cursor_bg_color')
         try:
-            widget.set_color(Gdk.color_parse(self.config['cursor_bg_color']))
+            set_button_color(widget, self.config['cursor_bg_color'])
         except:
             try:
-                widget.set_color(Gdk.color_parse(self.config['foreground_color']))
+                set_button_color(widget, self.config['foreground_color'])
             except:
-                widget.set_color(Gdk.color_parse('#ffffff'))
+                set_button_color(widget, '#ffffff')
 
         ## Command tab
         # Login shell
@@ -983,7 +997,7 @@ class PrefsEditor:
             'title_receive_fg_color', 'title_receive_bg_color',
             'title_inactive_fg_color', 'title_inactive_bg_color']:
             widget = guiget(bit)
-            widget.set_color(Gdk.color_parse(self.config[bit]))
+            set_button_color(widget, self.config[bit])
         # Hide size text from the title bar
         widget = guiget('title_hide_sizetextcheck')
         widget.set_active(self.config['title_hide_sizetext'])
@@ -996,9 +1010,9 @@ class PrefsEditor:
         if self.config['title_use_system_font'] == True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['title_font'])
+            set_button_font(widget, self.config['title_font'])
 
     def set_layout(self, layout_name):
         """Set a layout"""
@@ -1543,12 +1557,12 @@ class PrefsEditor:
 
     def on_font_selector_font_set(self, widget):
         """Font changed"""
-        self.config['font'] = widget.get_font_name()
+        self.config['font'] = widget.get_font()
         self.config.save()
 
     def on_title_font_selector_font_set(self, widget):
         """Titlebar Font changed"""
-        self.config['title_font'] = widget.get_font_name()
+        self.config['title_font'] = widget.get_font()
         self.config.save()
 
     def on_title_receive_bg_color_color_set(self, widget):
@@ -2169,9 +2183,9 @@ class PrefsEditor:
         if self.config['use_system_font'] == True:
             fontname = self.config.get_system_mono_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['font'])
+            set_button_font(widget, self.config['font'])
 
     def on_title_system_font_checkbutton_toggled(self, checkbox):
         """Toggling the title_use_system_font checkbox needs to alter the
@@ -2187,9 +2201,9 @@ class PrefsEditor:
         if self.config['title_use_system_font'] == True:
             fontname = self.config.get_system_prop_font()
             if fontname is not None:
-                widget.set_font_name(fontname)
+                set_button_font(widget, fontname)
         else:
-            widget.set_font_name(self.config['title_font'])
+            set_button_font(widget, self.config['title_font'])
 
     def on_reset_compatibility_clicked(self, widget):
         """Reset the confusing and annoying backspace/delete options to the

@@ -9,6 +9,7 @@ import gi
 from gi.repository import GObject
 from gi.repository import Gtk, Gdk
 
+from .zoomguard import leave_zoom
 from .util import dbg, err, make_uuid, display_manager
 
 try:
@@ -308,10 +309,7 @@ class Window(Container, Gtk.Window):
         except Exception as ex:
             dbg('note_window_grown: %s' % ex)
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
 
         cwd = None
         profile = None
@@ -346,11 +344,7 @@ class Window(Container, Gtk.Window):
         # get_terminals(); unzoom first so the session describe is complete
         # and every terminal is closed below (otherwise hidden ones stay
         # registered with live shells and the process never quits).
-        try:
-            if self.is_zoomed() and not self.is_overlay_maximised():
-                self.unzoom()
-        except Exception as ex:
-            dbg('legacy unzoom on destroy: %s' % ex)
+        leave_zoom(self, legacy=True, overlay=False, reason='destroy')
         # Round-2 P1-1: describe the session BEFORE the overlay teardown puts
         # the maximised terminal back in its slot, so the final save / D5
         # fragment keeps maximised_pane.  finalize() restores overlays itself
@@ -745,11 +739,7 @@ class Window(Container, Gtk.Window):
         # would fail because the terminal is no longer our direct child.
         was_overlay_term = (self.is_overlay_maximised() and
                             self.is_maximised_pane(widget))
-        if self.is_overlay_maximised():
-            try:
-                self.overlay_restore(animate=False)
-            except Exception as ex:
-                dbg('overlay restore on closeterm: %s' % ex)
+        leave_zoom(self, legacy=False, overlay=True, reason='closeterm')
         if was_overlay_term:
             from .util import logical_parent
             parent = logical_parent(widget)
@@ -766,10 +756,7 @@ class Window(Container, Gtk.Window):
     def split_axis(self, widget, vertical=True, cwd=None, sibling=None, widgetfirst=True):
         """Split the window"""
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
             from .util import logical_parent
             parent = logical_parent(widget)
             parent.split_axis(widget, vertical, cwd, sibling, widgetfirst)
@@ -823,10 +810,7 @@ class Window(Container, Gtk.Window):
         """Handle a keyboard event requesting a terminal resize"""
         # if not zoomed, then ignore the signal: there is only one terminal
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
             from .util import logical_parent
             logical_parent(widget).resizeterm(widget, keyname)
 
@@ -907,8 +891,8 @@ class Window(Container, Gtk.Window):
     def _zoom_from_overlay(self, widget, font_scale=True):
         """Scaled (legacy) zoom requested on the overlay-maximised pane:
         leave the overlay first, then zoom from the plain tree."""
-        if self.is_overlay_maximised():
-            self.overlay_restore(animate=False)
+        leave_zoom(self, legacy=False, overlay=True, reason='zoom-from-overlay',
+                   quiet=False)
         return self.zoom(widget, font_scale)
 
     def _connect_overlay_terminal_signals(self, widget):
@@ -1017,10 +1001,7 @@ class Window(Container, Gtk.Window):
     def rotate(self, widget, clockwise):
         """Rotate children in this window"""
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
             while Gtk.events_pending():
                 Gtk.main_iteration_do(False)
 
@@ -1168,10 +1149,7 @@ class Window(Container, Gtk.Window):
     def tab_change(self, widget, num=None):
         """Change to a specific tab"""
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
 
         if num is None:
             err('must specify a tab to change to')
@@ -1286,10 +1264,7 @@ class Window(Container, Gtk.Window):
     def move_tab(self, widget, direction):
         """Handle a keyboard shortcut for moving tab positions"""
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
 
         maker = Factory()
         notebook = self.get_child()
@@ -1322,10 +1297,7 @@ class Window(Container, Gtk.Window):
     def detach_tab_to_new_window(self, widget):
         """Detach the tab containing widget into a new window"""
         if self.is_zoomed():
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='window', quiet=False)
 
         maker = Factory()
         notebook = self.get_child()
@@ -1343,10 +1315,7 @@ class Window(Container, Gtk.Window):
         if self.is_zoomed() and not overlay_nav:
             # Overlay: directional keys transfer (D16); other directions /
             # legacy zoom still unzoom first.
-            if self.is_overlay_maximised():
-                self.overlay_restore(animate=False)
-            else:
-                self.unzoom()
+            leave_zoom(self, reason='navigate', quiet=False)
             while Gtk.events_pending():
                 Gtk.main_iteration_do(False)
 
