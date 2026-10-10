@@ -605,6 +605,10 @@ def atomic_write_config(filename, parser):
     mode = None
     if os.path.exists(target):
         mode = os.stat(target).st_mode & 0o7777
+    else:
+        # mkstemp creates 0600; match what open() would give a new file
+        umask = os.umask(0); os.umask(umask)
+        mode = 0o666 & ~umask
     fd, tmp = tempfile.mkstemp(prefix='.config.', suffix='.tmp', dir=directory)
     try:
         with os.fdopen(fd, 'wb') as fh:
@@ -614,6 +618,14 @@ def atomic_write_config(filename, parser):
         if mode is not None:
             os.chmod(tmp, mode)
         os.replace(tmp, target)
+        try:
+            dfd = os.open(directory, os.O_RDONLY)
+            try:
+                os.fsync(dfd)
+            finally:
+                os.close(dfd)
+        except OSError:
+            pass
     except BaseException:
         try:
             os.unlink(tmp)

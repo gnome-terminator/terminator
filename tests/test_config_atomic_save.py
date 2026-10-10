@@ -1,4 +1,5 @@
 import os, stat
+import pytest
 from configobj import ConfigObj
 from terminatorlib.config import atomic_write_config
 
@@ -28,9 +29,16 @@ def test_failure_keeps_old(tmp_path):
     class Bad:
         def write(self, fh):
             fh.write(b'[glob'); raise RuntimeError('boom')
-    try:
+    with pytest.raises(RuntimeError):
         atomic_write_config(str(f), Bad())
-    except RuntimeError:
-        pass
     assert ConfigObj(str(f))['global_config']['k'] == 'old'
     assert [x.name for x in tmp_path.iterdir()] == ['config']
+
+def test_new_file_respects_umask(tmp_path):
+    old = os.umask(0o022)
+    try:
+        f = tmp_path / 'config'
+        atomic_write_config(str(f), _parser('1'))
+        assert stat.S_IMODE(os.stat(f).st_mode) == 0o644
+    finally:
+        os.umask(old)
