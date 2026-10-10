@@ -1908,7 +1908,10 @@ class Terminal(Gtk.VBox):
         # the toplevel may not be a Terminator Window (e.g. mid-reparent).
         try:
             window = self.get_toplevel()
-            if self.config['geometry_hinting']:
+            # Character-cell resize increments are meaningless (and can
+            # fight the WM) while auto font size keeps changing the cell.
+            if self.config['geometry_hinting'] and \
+                    not self._auto_font_enabled():
                 hint = getattr(window, 'deferred_set_rough_geometry_hints', None)
             else:
                 hint = getattr(window, 'disable_geometry_hints', None)

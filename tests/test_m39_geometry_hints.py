@@ -39,7 +39,7 @@ def test_deferred_hints_schedules_once_and_runs():
     assert w.pending_set_rough_geometry_hint is False
 
 
-def _fake_terminal(hinting, toplevel):
+def _fake_terminal(hinting, toplevel, autofont=False):
     t = types.SimpleNamespace()
     t.config = {'geometry_hinting': hinting}
     t.titlebar = mock.Mock()
@@ -48,6 +48,7 @@ def _fake_terminal(hinting, toplevel):
     t.vte.get_row_count.return_value = 24
     t.get_toplevel = lambda: toplevel
     t._auto_font_on_size_allocate = mock.Mock()
+    t._auto_font_enabled = lambda: autofont
     return t
 
 
@@ -93,3 +94,13 @@ def test_deferred_size_allocate_is_one_shot():
     assert terminal_mod.Terminal.do_deferred_on_vte_size_allocate(
         t, None, None) is False
     assert t.pending_on_vte_size_allocate is False
+
+
+def test_size_allocate_hinting_disabled_while_autofont_active():
+    win = mock.Mock(spec=['deferred_set_rough_geometry_hints',
+                          'disable_geometry_hints'])
+    t = _fake_terminal(True, win, autofont=True)
+    terminal_mod.Terminal.on_vte_size_allocate(t, None, None)
+    win.deferred_set_rough_geometry_hints.assert_not_called()
+    win.disable_geometry_hints.assert_called_once_with()
+    t._auto_font_on_size_allocate.assert_called_once_with()
