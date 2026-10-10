@@ -875,6 +875,13 @@ class SessionManager(Borg):
             with open(path, 'w', encoding='utf-8') as fh:
                 fh.write(_now_iso())
                 fh.write('\n')
+                # m26 post-review: remember which file is being restored so
+                # a hard crash quarantines it (a rotated .prev would
+                # otherwise be retried, crash-looping every other launch).
+                src = getattr(self, '_loaded_from', None)
+                if src:
+                    fh.write(os.path.basename(src))
+                    fh.write('\n')
             os.chmod(path, 0o600)
         except OSError as ex:
             err('SessionManager.begin_restore: %s' % ex)
@@ -906,9 +913,22 @@ class SessionManager(Borg):
         if not os.path.exists(path):
             return False
         session = self.session_path()
+        src = None
+        try:
+            with open(path, 'r', encoding='utf-8') as fh:
+                lines = fh.read().splitlines()
+            if len(lines) > 1:
+                name = os.path.basename(lines[1].strip())
+                base = os.path.basename(session)
+                if name in (base + '.prev', base + '.prev2'):
+                    src = os.path.join(os.path.dirname(session), name)
+        except OSError as ex:
+            dbg('SessionManager crash marker read: %s' % ex)
         try:
             if os.path.isfile(session):
                 os.replace(session, session + '.crashed')
+            if src and os.path.isfile(src):
+                os.replace(src, src + '.crashed')
         except OSError as ex:
             dbg('SessionManager crash rename: %s' % ex)
         self.clear_restoring_now()
