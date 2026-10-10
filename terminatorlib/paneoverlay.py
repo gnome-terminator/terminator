@@ -128,6 +128,18 @@ def _capture_scaled(gdk_win, wx, wy, w, h, scale):
         return None
 
 
+def placeholder_pixbuf_scale(pixbuf, alloc_w, scale):
+    """m33 post-review: user-space factor to draw a snapshot at logical
+    size. Device-res pixbufs (wider than the logical alloc) get 1/scale."""
+    try:
+        pw = int(pixbuf.get_width())
+    except Exception:
+        return 1.0
+    if scale > 1 and alloc_w > 0 and pw > alloc_w:
+        return 1.0 / float(scale)
+    return 1.0
+
+
 def capture_terminal_pixbuf(terminal):
     """Snapshot a terminal's VTE region. Never call terminal.draw(cr)."""
     try:
@@ -274,8 +286,16 @@ class PanePlaceholder(Gtk.DrawingArea):
         cr.fill()
         if self._pixbuf is not None:
             try:
+                # m33 post-review: HiDPI snapshots are device-resolution
+                # (w*scale); draw them at logical size, not scale x larger.
+                k = placeholder_pixbuf_scale(self._pixbuf, alloc.width,
+                                             _scale_factor(widget))
+                cr.save()
+                if k != 1.0:
+                    cr.scale(k, k)
                 Gdk.cairo_set_source_pixbuf(cr, self._pixbuf, 0, 0)
                 cr.paint_with_alpha(0.35)
+                cr.restore()
             except Exception:
                 pass
         return False
