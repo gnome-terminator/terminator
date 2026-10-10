@@ -225,7 +225,10 @@ class SessionManager(Borg):
     _buffer_timer = None
     _config = None
     _rotated_this_run = None
-    # m25: save requests dropped during layout / legacy zoom are replayed
+    # m25: save requests dropped during layout / legacy zoom are replayed.
+    # NOTE: these _pending_* flags are diagnostic only (dbg/tests); the
+    # replay itself is driven by mark_dirty() from the layout-end / unzoom
+    # call sites, not by reading these flags.
     _pending_after_layout = None
     _pending_after_zoom = None
 
@@ -532,6 +535,12 @@ class SessionManager(Borg):
             # detached (one-pane) tree; replay after unzoom instead.
             self._pending_after_zoom = True
             dbg('SessionManager.save_now: legacy zoom, deferred')
+            return False
+        if final and self._any_legacy_zoom():
+            # m25: finalize() unzooms first; if that failed the tree is
+            # still detached (one pane). Keep the last good file instead.
+            err('SessionManager.save_now: still zoomed at final save, '
+                'keeping previous session file')
             return False
         try:
             layout = self._describe_current()
