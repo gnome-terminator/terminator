@@ -63,3 +63,11 @@ Harness notes: use `xwininfo` for geometry (xdotool getwindowgeometry is
 off by the WM frame); markers printed by panes are split (`TUI''SCREEN`) so
 the typed command line in scrollback cannot match them; GtkMessageDialog
 mnemonics are not delivered by xdotool, so the dialog's Close is clicked.
+
+Guard-rail scenarios live in `scenarios_guards.py` (appended to the run by `run_e2e.py`):
+
+| scenario | what |
+|---|---|
+| 11-missing-cwd | saved cwd deleted between runs → that pane restores in `~`, others keep their dirs, split kept, deleted dir not re-saved |
+| 12-crash-marker | stale `restoring` marker → restore skipped, `session.json` kept as `.crashed`, marker cleared, fresh session saved and restored next launch |
+| 13-lock-held | another process holds `session.lock` → no restore, `session.json` byte-identical after edits + SIGTERM; owner restores once lock released |

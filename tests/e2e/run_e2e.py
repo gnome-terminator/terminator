@@ -24,6 +24,8 @@ def _terminate(signum, frame):
 def main(argv=None):
     from tests.e2e.harness import XDisplay, App
     from tests.e2e.scenarios import SCENARIOS
+    from tests.e2e.scenarios_guards import SCENARIOS as GUARD_SCENARIOS
+    SCENARIOS = list(SCENARIOS) + list(GUARD_SCENARIOS)
     ap = argparse.ArgumentParser()
     ap.add_argument('-k', action='append', default=[])
     ap.add_argument('--keep', action='store_true')
