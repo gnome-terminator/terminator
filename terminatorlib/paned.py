@@ -13,6 +13,31 @@ from .container import Container
 
 # pylint: disable-msg=R0921
 # pylint: disable-msg=E1101
+
+def _schedule_auto_font_on_widget(widget):
+    """Ask terminals under widget to re-evaluate auto font scale (E)."""
+    if widget is None:
+        return
+    if hasattr(widget, 'schedule_auto_font_scale'):
+        try:
+            widget.schedule_auto_font_scale()
+            return
+        except Exception:
+            pass
+    if hasattr(widget, 'get_visible_terminals'):
+        try:
+            terms = widget.get_visible_terminals()
+        except Exception:
+            return
+        for term in terms:
+            if hasattr(term, 'schedule_auto_font_scale'):
+                try:
+                    term.schedule_auto_font_scale()
+                except Exception:
+                    pass
+
+
+
 class Paned(Container):
     """Base class for Paned Containers"""
 
@@ -79,6 +104,7 @@ class Paned(Container):
             try_mark_dirty('paned.split_axis')
         except Exception:
             pass
+        _schedule_auto_font_on_widget(self)
 
 
     def add(self, widget, metadata=None):
@@ -171,6 +197,7 @@ class Paned(Container):
                     while Gtk.events_pending():
                         Gtk.main_iteration_do(False)
                     self.do_redistribute(*self.last_balance_args)
+            _schedule_auto_font_on_widget(self)
         return False
 
     def set_autoresize(self, autoresize):
@@ -259,6 +286,7 @@ class Paned(Container):
             try_mark_dirty('paned.remove')
         except Exception:
             pass
+        _schedule_auto_font_on_widget(self)
         return(True)
 
     def swap_child(self, old_widget, new_widget):

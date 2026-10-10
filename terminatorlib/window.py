@@ -917,13 +917,13 @@ class Window(Container, Gtk.Window):
         if widget in children:
             return
 
-        if font_scale:
-            pause = getattr(widget, 'pause_auto_font_scale', None)
-            if callable(pause):
-                try:
-                    pause('scaled_zoom')
-                except Exception as ex:
-                    dbg('legacy zoom pause font: %s' % ex)
+        # E: pause+reset auto font BEFORE get_zoom_data so old_char_*
+        # reflect the base cell, not an already-scaled size.
+        if font_scale and hasattr(widget, 'pause_auto_font_scale'):
+            try:
+                widget.pause_auto_font_scale('scaled_zoom')
+            except Exception as ex:
+                dbg('legacy zoom pause font: %s' % ex)
 
         self.zoom_data = widget.get_zoom_data()
         self.zoom_data['widget'] = widget
@@ -963,10 +963,9 @@ class Window(Container, Gtk.Window):
         widget = self.zoom_data['widget']
         if self.zoom_data['font_scale']:
             widget.vte.set_font(self.zoom_data['old_font'])
-            resume = getattr(widget, 'resume_auto_font_scale', None)
-            if callable(resume):
+            if hasattr(widget, 'resume_auto_font_scale'):
                 try:
-                    resume()
+                    widget.resume_auto_font_scale()
                 except Exception as ex:
                     dbg('legacy unzoom resume font: %s' % ex)
 

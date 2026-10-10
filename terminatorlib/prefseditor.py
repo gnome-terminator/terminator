@@ -409,6 +409,23 @@ class PrefsEditor:
         widget = guiget('new_tab_after_current_checkbutton')
         widget.set_active(self.config['new_tab_after_current_tab'])
 
+        # Wave-style pane title bars (module C)
+        widget = guiget('titlebar_buttons_checkbutton')
+        widget.set_active(bool(self.config['titlebar_buttons']))
+        density = self.config['titlebar_density']
+        if density not in ('standard', 'compact'):
+            density = 'standard'
+        widget = guiget('titlebar_density_combo')
+        widget.set_active_id(density)
+        widget = guiget('pane_accent_colorbutton')
+        rgba = Gdk.RGBA()
+        if not rgba.parse(str(self.config['pane_accent_color'] or '')):
+            rgba.parse('#3fb950')
+        widget.set_rgba(rgba)
+
+        ## Session tab (modules A + B)
+        self.set_session_values()
+
         #Always split with profile
         widget = guiget('always_split_with_profile')
         widget.set_active(self.config['always_split_with_profile'])
@@ -1560,6 +1577,203 @@ class PrefsEditor:
             value = 'normal'
         self.config['window_state'] = value
         self.config.save()
+    # ---- Pane title bars (module C) --------------------------------------
+
+    def on_titlebar_buttons_checkbutton_toggled(self, widget):
+        """Show/hide the gear/maximise/close buttons in pane title bars"""
+        self.config['titlebar_buttons'] = widget.get_active()
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_titlebar_density_combo_changed(self, widget):
+        """Title bar density changed"""
+        value = widget.get_active_id()
+        if value not in ('standard', 'compact'):
+            value = 'standard'
+        self.config['titlebar_density'] = value
+        self.config.save()
+        Terminator().reconfigure()
+
+    def on_pane_accent_colorbutton_color_set(self, widget):
+        """Focused pane accent colour changed"""
+        self.config['pane_accent_color'] = rgba2hex(widget)
+        self.config.save()
+        Terminator().reconfigure()
+
+    # ---- Session page (modules A + B) -------------------------------------
+
+    def set_session_values(self):
+        """Populate the Session page from Config() and on-disk state"""
+        guiget = self.builder.get_object
+        guiget('restore_last_session_checkbutton').set_active(
+            bool(self.config['restore_last_session']))
+        guiget('scrollback_cache_checkbutton').set_active(
+            bool(self.config['scrollback_cache']))
+        try:
+            lines = int(self.config['scrollback_cache_lines'])
+        except (TypeError, ValueError):
+            lines = 2000
+        guiget('scrollback_cache_lines_spinbutton').set_value(lines)
+        self.update_session_sensitivity()
+        self.update_session_info()
+
+        legacy = guiget('session_legacy_plugin_label')
+        enabled = self.config['enabled_plugins'] or []
+        if any(name in enabled for name in ('SaveLastSessionLayout',
+                                            'SaveUserSessionLayout')):
+            legacy.show()
+        else:
+            legacy.hide()
+
+    def update_session_sensitivity(self):
+        guiget = self.builder.get_object
+        cache_on = guiget('scrollback_cache_checkbutton').get_active()
+        guiget('scrollback_cache_lines_label').set_sensitive(cache_on)
+        guiget('scrollback_cache_lines_spinbutton').set_sensitive(cache_on)
+
+    def update_session_info(self, notice=None):
+        """Refresh the read-only session / cache info labels"""
+        import json
+        import time
+        from .session import SessionManager, count_terminals_in_layout
+        from .util import get_cache_dir
+        guiget = self.builder.get_object
+        sess = SessionManager()
+        path = sess.session_path()
+        lines = [_('Session file: %s') % path]
+        if os.path.isfile(path):
+            saved = time.strftime('%Y-%m-%d %H:%M:%S',
+                                  time.localtime(os.path.getmtime(path)))
+            count = None
+            try:
+                with open(path, 'r', encoding='utf-8') as fh:
+                    data = json.load(fh)
+                count = count_terminals_in_layout(data.get('layout') or {})
+            except Exception as ex:
+                dbg('session info: %s' % ex)
+            if count is None:
+                lines.append(_('Last saved %s (unreadable)') % saved)
+            else:
+                lines.append(_('Last saved %s, %d terminal(s)') % (saved, count))
+        else:
+            lines.append(_('No session saved yet'))
+        if os.path.isfile(path + '.prev'):
+            lines.append(_('A previous session is available'))
+        if not sess.is_owner():
+            lines.append(_('This window was opened with explicit launch '
+                           'options or by a second instance, so it does not '
+                           'write the session.'))
+        elif not sess.is_writer():
+            lines.append(_('Automatic saving is paused until Terminator '
+                           'restarts.'))
+        if notice:
+            lines.append(notice)
+        guiget('session_info_label').set_text('\n'.join(lines))
+
+        cache_dir = os.path.join(get_cache_dir(), 'scrollback')
+        total = 0
+        files = 0
+        if os.path.isdir(cache_dir):
+            for name in os.listdir(cache_dir):
+                fpath = os.path.join(cache_dir, name)
+                if name.endswith('.txt') and os.path.isfile(fpath):
+                    files += 1
+                    total += os.path.getsize(fpath)
+        guiget('scrollback_cache_info_label').set_text(
+            _('Cache: %s (%d file(s), %d KiB). Plain text only; older than '
+              '%s days or above %s MiB is pruned automatically.') %
+            (cache_dir, files, (total + 1023) // 1024,
+             self.config['scrollback_cache_ttl_days'],
+             self.config['scrollback_cache_total_mb']))
+
+    def on_restore_last_session_checkbutton_toggled(self, widget):
+        """Restore-last-session toggled"""
+        self.config['restore_last_session'] = widget.get_active()
+        self.config.save()
+
+    def on_scrollback_cache_checkbutton_toggled(self, widget):
+        """Scrollback cache toggled: takes effect immediately"""
+        self.config['scrollback_cache'] = widget.get_active()
+        self.config.save()
+        self.update_session_sensitivity()
+        try:
+            from .scrollback import ScrollbackCache
+            ScrollbackCache().reconfigure()
+        except Exception as ex:
+            err('Unable to reconfigure scrollback cache: %s' % ex)
+        self.update_session_info()
+
+    def on_scrollback_cache_lines_spinbutton_value_changed(self, widget):
+        """Number of cached lines per terminal changed"""
+        self.config['scrollback_cache_lines'] = int(widget.get_value())
+        self.config.save()
+
+    def on_session_save_as_layout_button_clicked(self, _button):
+        """Save the live session (with working directories) as a layout"""
+        import time
+        guiget = self.builder.get_object
+        current_layout = Terminator().describe_layout(save_cwd=True)
+        treeview = guiget('layoutlist')
+        model = treeview.get_model()
+        values = [r[0] for r in model]
+        base = _('Session %s') % time.strftime('%Y-%m-%d %H%M')
+        name = base
+        i = 0
+        while name in values:
+            i += 1
+            name = '%s %d' % (base, i)
+        if self.config.add_layout(name, current_layout):
+            model.append([name, True])
+            self.config.save()
+            self.update_session_info(_('Saved as layout "%s"') % name)
+
+    def _confirm(self, primary, secondary):
+        dialog = Gtk.MessageDialog(transient_for=self.window, modal=True,
+                                   message_type=Gtk.MessageType.QUESTION,
+                                   buttons=Gtk.ButtonsType.NONE,
+                                   text=primary)
+        dialog.format_secondary_text(secondary)
+        dialog.add_button(_('_Cancel'), Gtk.ResponseType.CANCEL)
+        dialog.add_button(_('_OK'), Gtk.ResponseType.OK)
+        dialog.set_default_response(Gtk.ResponseType.CANCEL)
+        res = dialog.run()
+        dialog.destroy()
+        return res == Gtk.ResponseType.OK
+
+    def on_session_restore_prev_button_clicked(self, _button):
+        """Copy session.json.prev over session.json for the next launch"""
+        from .session import SessionManager
+        sess = SessionManager()
+        if not os.path.isfile(sess.session_path() + '.prev'):
+            self.update_session_info(_('There is no previous session.'))
+            return
+        if not self._confirm(
+                _('Use the previous session next time?'),
+                _('The current saved session will be replaced. Automatic '
+                  'saving stops until Terminator restarts so that the next '
+                  'launch opens the previous session.')):
+            return
+        sess.suspend_writes('restore previous session')
+        if sess.restore_prev_session():
+            self.update_session_info(_('The previous session will be '
+                                       'restored next time.'))
+        else:
+            self.update_session_info(_('Could not restore the previous '
+                                       'session.'))
+
+    def on_session_clear_button_clicked(self, _button):
+        """Delete saved session files and scrollback cache"""
+        from .session import SessionManager
+        if not self._confirm(
+                _('Clear the saved session and scrollback cache?'),
+                _('Terminator will start with the default layout next time. '
+                  'Automatic saving stops until Terminator restarts.')):
+            return
+        sess = SessionManager()
+        sess.suspend_writes('clear session')
+        sess.clear_session_files()
+        self.update_session_info(_('Session and cache cleared.'))
+
     def on_askbeforeclose_changed(self, widget):
         """Ask Before Close changed"""
         selected = widget.get_active()

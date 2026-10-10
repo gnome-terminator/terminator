@@ -1,0 +1,9 @@
+<schemalist>
+  <schema id="org.gnome.desktop.interface" path="/org/gnome/desktop/interface/">
+    <key name="font-name" type="s"><default>'Sans 10'</default></key>
+    <key name="monospace-font-name" type="s"><default>'Monospace 10'</default></key>
+  </schema>
+  <schema id="org.gnome.desktop.wm.preferences" path="/org/gnome/desktop/wm/preferences/">
+    <key name="focus-mode" type="s"><default>'click'</default></key>
+  </schema>
+</schemalist>

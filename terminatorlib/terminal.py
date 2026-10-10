@@ -173,6 +173,26 @@ class Terminal(Gtk.VBox):
         self.update_url_matches()
 
         self.terminalbox = self.create_terminalbox()
+        # E: Overlay around the hbox so toasts stay inside the Terminal
+        # widget (D will rebuild Window overlays). close()/reconfigure keep
+        # using self.terminalbox (the inner hbox).
+        self._term_overlay = Gtk.Overlay()
+        self._term_overlay.add(self.terminalbox)
+        self._term_overlay.show()
+        self._autofont_toast = None
+        self._autofont_toast_timer = None
+        self._scale_popover = None
+        self._font_tier = 0
+        self._auto_font_locked = False
+        self._auto_font_mode = 'run'  # 'run' | 'freeze' | 'scaled_zoom'
+        self._auto_font_timer = None
+        self._auto_font_last_change_ms = 0
+        self._auto_font_ever_allocated = False
+        self._base_cell = None
+        self._base_cell_probe_idle = None
+        self._auto_font_disabled = False
+        self._pane_maximise_handler = None
+        self._pane_maximise_window = None
 
         self.titlebar = Titlebar(self)
         self.titlebar.connect_icon(self.on_group_button_press)
@@ -181,6 +201,7 @@ class Terminal(Gtk.VBox):
         self.titlebar.connect('create-group', self.really_create_group)
         self.titlebar.update('window-focus-out')
         self.titlebar.show_all()
+        self._ensure_scale_popover()
 
         self.searchbar = Searchbar()
         self.searchbar.connect('end-search', self.on_search_done)
@@ -190,12 +211,13 @@ class Terminal(Gtk.VBox):
         self.set_focus_chrome(False)
 
         self.show()
+        term_area = getattr(self, '_term_overlay', None) or self.terminalbox
         if self.config['title_at_bottom']:
-            self.pack_start(self.terminalbox, True, True, 0)
+            self.pack_start(term_area, True, True, 0)
             self.pack_start(self.titlebar, False, True, 0)
         else:
             self.pack_start(self.titlebar, False, True, 0)
-            self.pack_start(self.terminalbox, True, True, 0)
+            self.pack_start(term_area, True, True, 0)
 
         self.pack_end(self.searchbar, True, True, 0)
 
@@ -569,6 +591,7 @@ class Terminal(Gtk.VBox):
             self.on_vte_notify_enter)
 
         self.cnxids.new(self.vte, 'realize', self.reconfigure)
+        self.connect('hierarchy-changed', self._on_autofont_hierarchy_changed)
 
     def create_popup_group_menu(self, widget, event = None):
         """Pop up a menu for the group widget"""
@@ -827,6 +850,7 @@ class Terminal(Gtk.VBox):
                 else:
                     font = self.config['font']
                 self.set_font(Pango.FontDescription(font))
+                self._base_cell = None
             except:
                 pass
         self.vte.set_allow_bold(self.config['allow_bold'])
@@ -984,6 +1008,8 @@ class Terminal(Gtk.VBox):
             self.titlebar.update('window-focus-out')
 
         self.vte.queue_draw()
+        self._ensure_scale_popover()
+        self.schedule_auto_font_scale()
 
     def set_cursor_color(self):
         """Set the cursor color appropriately"""
@@ -1661,6 +1687,7 @@ class Terminal(Gtk.VBox):
         else:
             window = self.get_toplevel()
             window.disable_geometry_hints()
+        self._auto_font_on_size_allocate()
 
     def on_vte_notify_enter(self, term, event):
         """Handle the mouse entering this terminal"""
@@ -1978,6 +2005,8 @@ class Terminal(Gtk.VBox):
         pangodesc.set_size(fontsize)
         self.set_font(pangodesc)
         self.custom_font_size = fontsize
+        self._base_cell = None
+        self.schedule_auto_font_scale()
 
     def zoom_orig(self):
         """Restore original font size"""
@@ -1988,10 +2017,543 @@ class Terminal(Gtk.VBox):
         dbg("restoring font to: %s" % font)
         self.set_font(Pango.FontDescription(font))
         self.custom_font_size = None
+        # D19: Ctrl+0 resets base font only; keep auto tier / do not lock
+        self._base_cell = None
+        self.schedule_auto_font_scale()
 
     def set_font(self, fontdesc):
         """Set the font we want in VTE"""
         self.vte.set_font(fontdesc)
+
+    # ---- Auto font scale (M2b / E) ---------------------------------------
+
+    def _auto_font_enabled(self):
+        """True when config says on, VTE supports it, and tiers validate."""
+        if self._auto_font_disabled:
+            return False
+        try:
+            if not self.config['auto_font_scale']:
+                return False
+        except Exception:
+            return False
+        if not hasattr(self.vte, 'set_font_scale') or \
+           not hasattr(self.vte, 'get_font_scale'):
+            return False
+        return True
+
+    def _auto_font_load_params(self):
+        """Return (tiers, min_cols, min_rows, hyst, ideal) or None if bad."""
+        from .autofont import parse_tiers, validate_auto_font_config
+        try:
+            raw_tiers = self.config['auto_font_scale_tiers']
+            min_cols = int(self.config['reading_measure_min_cols'])
+            min_rows = int(self.config['auto_font_scale_min_rows'])
+            hyst = float(self.config['auto_font_scale_hysteresis'])
+            ideal = int(self.config['reading_measure_ideal_cols'] or 0)
+        except Exception as ex:
+            dbg('auto_font config read failed: %s' % ex)
+            self._auto_font_disabled = True
+            return None
+        ok, reason = validate_auto_font_config(
+            raw_tiers, min_cols, min_rows, hyst, ideal)
+        if not ok:
+            dbg('auto_font config invalid (%s); disabling' % reason)
+            self._auto_font_disabled = True
+            return None
+        try:
+            tiers = parse_tiers(raw_tiers)
+        except ValueError as ex:
+            dbg('auto_font tiers invalid: %s' % ex)
+            self._auto_font_disabled = True
+            return None
+        return tiers, min_cols, min_rows, hyst, ideal
+
+    def _auto_font_on_size_allocate(self):
+        if not self._auto_font_enabled():
+            return
+        try:
+            w = self.vte.get_allocated_width()
+            h = self.vte.get_allocated_height()
+        except Exception:
+            return
+        if w <= 0 or h <= 0:
+            return
+        self._auto_font_ever_allocated = True
+        if self._auto_font_mode in ('freeze', 'scaled_zoom'):
+            return
+        self.schedule_auto_font_scale()
+
+    def schedule_auto_font_scale(self):
+        """Debounced recompute. Existing timer is kept (at-most delay)."""
+        if not self._auto_font_enabled():
+            return
+        if self._auto_font_mode != 'run':
+            return
+        if self._auto_font_timer is not None:
+            return
+        try:
+            delay = int(self.config['auto_font_scale_delay_ms'])
+        except Exception:
+            delay = 150
+        if delay < 0:
+            delay = 0
+        self._auto_font_timer = GLib.timeout_add(
+            delay, self._auto_font_flush_timer)
+
+    def _auto_font_flush_timer(self):
+        self._auto_font_timer = None
+        self.update_auto_font_scale()
+        return False
+
+    def _cancel_auto_font_timer(self):
+        if self._auto_font_timer is not None:
+            try:
+                GLib.source_remove(self._auto_font_timer)
+            except Exception:
+                pass
+            self._auto_font_timer = None
+
+    def _monotonic_ms(self):
+        return int(time.monotonic() * 1000)
+
+    def ensure_base_cell(self):
+        """Cache (cw, ch) measured at font_scale==1.0."""
+        if self._base_cell is not None:
+            return True
+        if not hasattr(self.vte, 'get_font_scale'):
+            return False
+        try:
+            scale = float(self.vte.get_font_scale())
+        except Exception:
+            return False
+        if abs(scale - 1.0) < 1e-6:
+            try:
+                cw = self.vte.get_char_width()
+                ch = self.vte.get_char_height()
+            except Exception:
+                return False
+            if cw > 0 and ch > 0:
+                self._base_cell = (cw, ch)
+                return True
+            return False
+        # Rare: need a one-shot probe at scale 1.0
+        if self._base_cell_probe_idle is None:
+            self._base_cell_probe_idle = GLib.idle_add(
+                self._probe_base_cell_once)
+        return False
+
+    def _probe_base_cell_once(self):
+        self._base_cell_probe_idle = None
+        if not hasattr(self.vte, 'get_font_scale'):
+            return False
+        try:
+            old = float(self.vte.get_font_scale())
+        except Exception:
+            return False
+        try:
+            self.vte.set_font_scale(1.0)
+            cw = self.vte.get_char_width()
+            ch = self.vte.get_char_height()
+            if cw > 0 and ch > 0:
+                self._base_cell = (cw, ch)
+        except Exception as ex:
+            dbg('probe_base_cell failed: %s' % ex)
+        finally:
+            try:
+                # Prefer applying the current tier rather than the old raw scale
+                params = self._auto_font_load_params()
+                if params and 0 <= self._font_tier < len(params[0]):
+                    self.vte.set_font_scale(params[0][self._font_tier])
+                else:
+                    self.vte.set_font_scale(old)
+            except Exception:
+                pass
+        if self._base_cell is not None and self._auto_font_mode == 'run':
+            self.update_auto_font_scale(force=True)
+        return False
+
+    def update_auto_font_scale(self, force=False, avail=None):
+        """Recompute and maybe apply a tier. avail=(w,h) for D sync path."""
+        from .autofont import cols_rows_from_base, select_font_tier
+        if not self._auto_font_enabled():
+            return
+        if self._auto_font_mode != 'run' and not force:
+            return
+        if self._auto_font_locked:
+            if self._font_tier != 0 or force:
+                self.apply_tier(0, reason='locked', toast=False)
+            else:
+                self.refresh_badge()
+            return
+        if not self._auto_font_ever_allocated and avail is None:
+            return
+        params = self._auto_font_load_params()
+        if not params:
+            return
+        tiers, min_cols, min_rows, hyst, ideal = params
+        if not self.ensure_base_cell():
+            return
+        if avail is not None:
+            w, h = avail
+        else:
+            try:
+                w = self.vte.get_allocated_width()
+                h = self.vte.get_allocated_height()
+            except Exception:
+                return
+        cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
+        if cols0 <= 0 or rows0 <= 0:
+            return
+        new = select_font_tier(
+            cols0, rows0, self._font_tier, tiers,
+            min_cols, min_rows, hyst, ideal)
+        if new == self._font_tier and not force:
+            self.refresh_badge()
+            return
+        if not force and (self._monotonic_ms() - self._auto_font_last_change_ms) < 500:
+            self.schedule_auto_font_scale()
+            return
+        self.apply_tier(new, reason='update', toast=not force)
+
+    def apply_tier(self, index, reason='', toast=True):
+        """Apply a tier index to VTE and refresh the badge."""
+        params = self._auto_font_load_params()
+        if not params:
+            return
+        tiers = params[0]
+        index = max(0, min(int(index), len(tiers) - 1))
+        scale = tiers[index]
+        self._font_tier = index
+        if hasattr(self.vte, 'set_font_scale'):
+            try:
+                self.vte.set_font_scale(scale)
+            except Exception as ex:
+                dbg('set_font_scale failed: %s' % ex)
+                return
+        self._auto_font_last_change_ms = self._monotonic_ms()
+        self.refresh_badge()
+        show_badge = True
+        try:
+            show_badge = bool(self.config['auto_font_scale_show_badge'])
+        except Exception:
+            pass
+        if (toast and show_badge and scale < 0.999 and
+                reason not in ('init', 'd-sync', 'locked')):
+            from .autofont import tier_label
+            self.show_center_toast(tier_label(scale))
+
+    def refresh_badge(self):
+        """Push current scale/lock state to the titlebar badge."""
+        if not hasattr(self, 'titlebar') or self.titlebar is None:
+            return
+        if not hasattr(self.titlebar, 'set_scale_badge'):
+            return
+        show_badge = True
+        try:
+            show_badge = bool(self.config['auto_font_scale_show_badge'])
+        except Exception:
+            pass
+        if not show_badge or not self._auto_font_enabled():
+            self.titlebar.set_scale_badge(None, False)
+            return
+        locked = bool(self._auto_font_locked)
+        scale = 1.0
+        params = self._auto_font_load_params()
+        if params and 0 <= self._font_tier < len(params[0]):
+            scale = params[0][self._font_tier]
+        if locked:
+            scale = 1.0
+        # C API: None or (~1 and not locked) → hide; locked shows lock icon
+        badge_scale = None if (scale >= 0.999 and not locked) else scale
+        self.titlebar.set_scale_badge(badge_scale, locked)
+
+    def get_auto_font_locked(self):
+        return bool(self._auto_font_locked)
+
+    def set_auto_font_locked(self, locked):
+        locked = bool(locked)
+        if locked == self._auto_font_locked:
+            self.refresh_badge()
+            return
+        self._auto_font_locked = locked
+        if locked:
+            self.apply_tier(0, reason='locked', toast=False)
+        else:
+            self.update_auto_font_scale(force=True)
+        self.refresh_badge()
+
+    def pause_auto_font_scale(self, mode='freeze'):
+        """Pause auto scaling. mode: 'freeze' | 'scaled_zoom'."""
+        if mode not in ('freeze', 'scaled_zoom'):
+            mode = 'freeze'
+        self._cancel_auto_font_timer()
+        self._auto_font_mode = mode
+        if mode == 'scaled_zoom' and hasattr(self.vte, 'set_font_scale'):
+            try:
+                self.vte.set_font_scale(1.0)
+            except Exception as ex:
+                dbg('pause scaled_zoom reset failed: %s' % ex)
+            self._font_tier = 0
+            self.refresh_badge()
+
+    def resume_auto_font_scale(self):
+        """Leave pause mode and force a recompute."""
+        self._auto_font_mode = 'run'
+        self.update_auto_font_scale(force=True)
+
+    def compute_tier_for_size(self, w, h):
+        """Return the scale D should apply for destination pixels (no VTE write)."""
+        from .autofont import cols_rows_from_base, select_font_tier
+        if not self._auto_font_enabled():
+            return 1.0
+        if self._auto_font_locked:
+            return 1.0
+        params = self._auto_font_load_params()
+        if not params:
+            return 1.0
+        tiers, min_cols, min_rows, hyst, ideal = params
+        if not self.ensure_base_cell():
+            # Fall back: if we have no cell yet, keep current / 1.0
+            return tiers[self._font_tier] if self._font_tier < len(tiers) else 1.0
+        cols0, rows0 = cols_rows_from_base(w, h, *self._base_cell)
+        if cols0 <= 0 or rows0 <= 0:
+            return tiers[self._font_tier] if self._font_tier < len(tiers) else 1.0
+        idx = select_font_tier(
+            cols0, rows0, self._font_tier, tiers,
+            min_cols, min_rows, hyst, ideal)
+        return tiers[idx]
+
+    def apply_font_tier_scale(self, scale, toast=False):
+        """D sync path: set VTE scale + tier index in one frame (no debounce)."""
+        params = self._auto_font_load_params()
+        if not params:
+            return
+        tiers = params[0]
+        try:
+            scale = float(scale)
+        except (TypeError, ValueError):
+            return
+        # Snap to nearest configured tier
+        best = 0
+        best_diff = abs(tiers[0] - scale)
+        for i, t in enumerate(tiers):
+            d = abs(t - scale)
+            if d < best_diff:
+                best = i
+                best_diff = d
+        self.apply_tier(best, reason='d-sync', toast=bool(toast))
+
+    def get_auto_font_scale(self):
+        params = self._auto_font_load_params()
+        if not params:
+            return 1.0
+        tiers = params[0]
+        if self._auto_font_locked:
+            return 1.0
+        if 0 <= self._font_tier < len(tiers):
+            return tiers[self._font_tier]
+        return 1.0
+
+    def show_center_toast(self, text):
+        """Brief centered toast inside the Terminal overlay (not Window)."""
+        overlay = getattr(self, '_term_overlay', None)
+        if overlay is None:
+            return
+        if self._autofont_toast_timer is not None:
+            try:
+                GLib.source_remove(self._autofont_toast_timer)
+            except Exception:
+                pass
+            self._autofont_toast_timer = None
+        if self._autofont_toast is not None:
+            try:
+                overlay.remove(self._autofont_toast)
+            except Exception:
+                pass
+            self._autofont_toast = None
+        label = Gtk.Label(label=str(text))
+        label.set_halign(Gtk.Align.CENTER)
+        label.set_valign(Gtk.Align.CENTER)
+        label.set_sensitive(False)
+        label.set_can_focus(False)
+        try:
+            label.set_margin_bottom(24)
+        except Exception:
+            pass
+        css = b"""
+        .terminator-autofont-toast {
+            background-color: rgba(0, 0, 0, 0.72);
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        """
+        try:
+            provider = Gtk.CssProvider()
+            provider.load_from_data(css)
+            label.get_style_context().add_provider(
+                provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+            label.get_style_context().add_class('terminator-autofont-toast')
+        except Exception as ex:
+            dbg('autofont toast css: %s' % ex)
+        label.show()
+        overlay.add_overlay(label)
+        try:
+            overlay.set_overlay_pass_through(label, True)
+        except Exception:
+            pass
+        self._autofont_toast = label
+
+        def _hide():
+            self._autofont_toast_timer = None
+            if self._autofont_toast is label:
+                try:
+                    overlay.remove(label)
+                except Exception:
+                    pass
+                self._autofont_toast = None
+            return False
+
+        self._autofont_toast_timer = GLib.timeout_add(800, _hide)
+
+    def _ensure_scale_popover(self):
+        """Build the badge popover once (C owns the button, E owns content)."""
+        if self._scale_popover is not None:
+            return
+        if not hasattr(self, 'titlebar') or self.titlebar is None:
+            return
+        if not hasattr(self.titlebar, 'scale_badge'):
+            return
+        btn = self.titlebar.scale_badge
+        try:
+            pop = Gtk.Popover.new(btn)
+        except Exception as ex:
+            dbg('scale popover create failed: %s' % ex)
+            return
+        box = Gtk.Box.new(Gtk.Orientation.VERTICAL, 6)
+        box.set_border_width(10)
+        blurb = Gtk.Label(label=_('Auto font size follows reading measure.'))
+        blurb.set_line_wrap(True)
+        blurb.set_max_width_chars(32)
+        blurb.set_halign(Gtk.Align.START)
+        box.pack_start(blurb, False, False, 0)
+
+        lock = Gtk.CheckButton.new_with_mnemonic(
+            _('_Lock font size for this terminal'))
+        lock.set_active(bool(self._auto_font_locked))
+
+        def _on_lock_toggled(button):
+            self.set_auto_font_locked(button.get_active())
+
+        lock_handler = lock.connect('toggled', _on_lock_toggled)
+        box.pack_start(lock, False, False, 0)
+
+        disable = Gtk.Button.new_with_mnemonic(_('_Disable auto font size'))
+
+        def _on_disable(_button):
+            try:
+                self.config['auto_font_scale'] = False
+                self.config.save()
+            except Exception as ex:
+                dbg('disable auto_font_scale save: %s' % ex)
+            for term in list(self.terminator.terminals):
+                if hasattr(term, 'on_auto_font_globally_disabled'):
+                    term.on_auto_font_globally_disabled()
+            try:
+                pop.popdown()
+            except Exception:
+                pass
+
+        disable.connect('clicked', _on_disable)
+        box.pack_start(disable, False, False, 0)
+
+        prefs = Gtk.Button.new_with_mnemonic(_('_Preferences…'))
+
+        def _on_prefs(_button):
+            try:
+                PrefsEditor(self)
+            except Exception as ex:
+                dbg('PrefsEditor from scale popover: %s' % ex)
+            try:
+                pop.popdown()
+            except Exception:
+                pass
+
+        prefs.connect('clicked', _on_prefs)
+        box.pack_start(prefs, False, False, 0)
+
+        box.show_all()
+        pop.add(box)
+
+        def _on_badge_clicked(*_a):
+            # Refresh lock toggle without re-entrancy
+            lock.handler_block(lock_handler)
+            try:
+                lock.set_active(bool(self._auto_font_locked))
+            finally:
+                lock.handler_unblock(lock_handler)
+            pop.popup()
+            return True
+
+        btn.connect('clicked', _on_badge_clicked)
+        self._scale_popover = pop
+        self._scale_popover_lock = lock
+
+    def on_auto_font_globally_disabled(self):
+        """Reset this terminal after config auto_font_scale was turned off."""
+        self._cancel_auto_font_timer()
+        self._auto_font_locked = False
+        self._font_tier = 0
+        if hasattr(self.vte, 'set_font_scale'):
+            try:
+                self.vte.set_font_scale(1.0)
+            except Exception:
+                pass
+        self.refresh_badge()
+
+    def _on_autofont_hierarchy_changed(self, *_args):
+        self._connect_pane_maximise_signal()
+
+    def _connect_pane_maximise_signal(self):
+        """Listen for Window.pane-maximise-changed (refresh badge; D drives pause)."""
+        win = self.get_toplevel()
+        if win is self._pane_maximise_window:
+            return
+        if self._pane_maximise_handler is not None and \
+           self._pane_maximise_window is not None:
+            try:
+                self._pane_maximise_window.disconnect(self._pane_maximise_handler)
+            except Exception:
+                pass
+            self._pane_maximise_handler = None
+            self._pane_maximise_window = None
+        if not isinstance(win, Gtk.Window):
+            return
+        if not hasattr(win, 'connect'):
+            return
+        # Signal may be missing on older Window; guard with lookup
+        try:
+            from gi.repository import GObject as _GObject
+            if not _GObject.signal_lookup('pane-maximise-changed', type(win)):
+                return
+        except Exception:
+            return
+        try:
+            handler = win.connect('pane-maximise-changed',
+                                  self._on_pane_maximise_changed)
+        except Exception as ex:
+            dbg('pane-maximise-changed connect: %s' % ex)
+            return
+        self._pane_maximise_handler = handler
+        self._pane_maximise_window = win
+
+    def _on_pane_maximise_changed(self, window, terminal, maximised):
+        if terminal is not self:
+            return
+        # D owns pause/apply; E only refreshes chrome here.
+        self.refresh_badge()
+
 
     def get_cursor_position(self):
         """Return the coordinates of our cursor"""
@@ -2428,7 +2990,7 @@ class Terminal(Gtk.VBox):
     def key_preferences_keybindings(self):
         #need to have this as a config may be preferences_default
         #have a mapping rather than hardcoded page
-        PrefsEditor(self, cur_page = 3)
+        PrefsEditor(self, cur_page = 4)  # Session page sits at 3
 
     def key_help(self):
         manual_index_page = manual_lookup()

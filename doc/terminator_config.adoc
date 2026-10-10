@@ -110,6 +110,75 @@ Colour of the 1px border drawn around the focused terminal. Invalid
 values fall back to the default. +
 Default value: *#3fb950*
 
+*restore_last_session* = _boolean_::
+If set to True, a plain launch (no -l, -e, -x, --working-directory)
+restores the windows, splits and working directories that were open
+last time. The session is saved automatically as the layout changes.
+Set in Preferences > Session. +
+Default value: *True*
+
+*session_save_delay_ms* = _integer_::
+Debounce delay before a layout change is written to the session file. +
+Default value: *1500*
+
+*session_file* = _string_::
+Path of the session file. Empty means
+$XDG_STATE_HOME/terminator/session.json. +
+Default value: *''*
+
+*scrollback_cache* = _boolean_::
+If set to True, the last lines of every terminal are cached as plain
+text under $XDG_CACHE_HOME/terminator/scrollback/ and replayed after a
+session restore. It is only a cache; turning it off deletes it. +
+Default value: *True*
+
+*scrollback_cache_lines* = _integer_::
+Number of lines kept per terminal in the scrollback cache. +
+Default value: *2000*
+
+*scrollback_cache_interval_s*, *scrollback_cache_max_kb*, *scrollback_cache_total_mb*, *scrollback_cache_ttl_days*::
+Write interval (seconds), per-file limit (KiB), total limit (MiB) and
+expiry (days) of the scrollback cache. Defaults: *20*, *512*, *20*, *7*.
+
+*auto_font_scale* = _boolean_::
+If set to True, each terminal independently steps its VTE font scale
+down when its available columns/rows at the base font fall below the
+reading-measure thresholds. Tiers are discrete (never continuous) and
+never exceed 100%. +
+Default value: *True*
+
+*auto_font_scale_show_badge* = _boolean_::
+If set to True, a percent badge is shown on the titlebar when the
+automatic scale is below 100% (or when the font size is locked). +
+Default value: *True*
+
+*auto_font_scale_tiers* = _list of strings_::
+Descending scale factors starting at 1.0. The last entry is the floor.
+Only changeable via the config file. +
+Default value: *['1.0', '0.9', '0.8']*
+
+*reading_measure_min_cols* = _integer_::
+Minimum comfortable reading width in terminal cells (CJK glyphs count
+as 2). Terminals narrower than this at the current tier step down. +
+Default value: *60*
+
+*reading_measure_ideal_cols* = _integer_::
+Optional ideal column count used as an upscale target. 0 disables. +
+Default value: *0*
+
+*auto_font_scale_min_rows* = _integer_::
+Minimum comfortable row count. 0 disables the height check. +
+Default value: *24*
+
+*auto_font_scale_hysteresis* = _float_::
+Upscale-only hysteresis ratio (for example 0.08 = 8%). +
+Default value: *0.08*
+
+*auto_font_scale_delay_ms* = _integer_::
+Debounce delay in milliseconds after size-allocate before re-evaluating
+the scale tier. +
+Default value: *150*
+
 // --- Window appearance ---
 
 *borderless* = _boolean_::

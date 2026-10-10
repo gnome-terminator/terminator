@@ -24,3 +24,6 @@ terminatorlib/meliae
 .intltool*
 data/terminator.appdata.xml
 data/terminator.desktop
+
+## Test env (tests/run_tests.sh)
+/.venv-test
