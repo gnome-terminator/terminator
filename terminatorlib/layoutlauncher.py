@@ -10,6 +10,7 @@ from gi.repository import GObject
 from .util import dbg, err, spawn_new_terminator
 from . import config
 from .translation import _
+from .version import APP_NAME
 from .terminator import Terminator
 from .plugin import PluginRegistry
 
@@ -32,6 +33,7 @@ class LayoutLauncher:
         self.config = config.Config()
         self.config.base.reload()
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain(APP_NAME)
         try:
             # Figure out where our library is on-disk so we can open our UI
             (head, _tail) = os.path.split(config.__file__)
