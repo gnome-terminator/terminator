@@ -524,6 +524,19 @@ class Terminal(Gtk.VBox):
             self.vte.copy_clipboard()
 
 
+    def _on_vte_contents_changed(self, vte, *args):
+        self._on_contents_changed_cwd_probe(vte, *args)
+        if self.config['scrollback_cache']:
+            self._on_scrollback_contents_changed(vte)
+
+    def _snapshot_before_input(self):
+        """Save normal-screen history before input that may run a command
+        (Enter, paste, programmatic feed) -- see m13."""
+        try:
+            ScrollbackCache().snapshot_before_command(self)
+        except Exception as ex:
+            dbg('scrollback pre-command snapshot failed: %s' % ex)
+
     def _on_scrollback_contents_changed(self, _vte):
         try:
             ScrollbackCache().mark_dirty(self)
@@ -609,11 +622,11 @@ class Terminal(Gtk.VBox):
             dbg('cwd session signal: %s' % ex)
         # Shells without OSC7 never emit cwd signals; probe /proc cwd
         # shortly after output settles so `cd` still autosaves.
+        # One handler only: signalman keys by (widget, signal), so a second
+        # connect() would orphan the first id (never disconnected on
+        # reconfigure -> handlers pile up) and log "already has a handler".
         self.cnxids.new(self.vte, 'contents-changed',
-                        self._on_contents_changed_cwd_probe)
-        if self.config['scrollback_cache']:
-            self.cnxids.new(self.vte, 'contents-changed',
-                            self._on_scrollback_contents_changed)
+                        self._on_vte_contents_changed)
         self.cnxids.new(self.vte, 'grab-focus', self.on_vte_focus)
         self.cnxids.new(self.vte, 'focus-in-event', self.on_vte_focus_in)
         self.cnxids.new(self.vte, 'focus-out-event', self.on_vte_focus_out)
@@ -827,11 +840,11 @@ class Terminal(Gtk.VBox):
         self.cnxids.remove_signal(self.vte, 'contents-changed')
         # Shells without OSC7 never emit cwd signals; probe /proc cwd
         # shortly after output settles so `cd` still autosaves.
+        # One handler only: signalman keys by (widget, signal), so a second
+        # connect() would orphan the first id (never disconnected on
+        # reconfigure -> handlers pile up) and log "already has a handler".
         self.cnxids.new(self.vte, 'contents-changed',
-                        self._on_contents_changed_cwd_probe)
-        if self.config['scrollback_cache']:
-            self.cnxids.new(self.vte, 'contents-changed',
-                            self._on_scrollback_contents_changed)
+                        self._on_vte_contents_changed)
         try:
             ScrollbackCache().reconfigure()
         except Exception as ex:
@@ -1192,10 +1205,9 @@ class Terminal(Gtk.VBox):
             # Snapshot shell history before the command runs: if it is a
             # fullscreen TUI (vim/htop) VTE hides the normal screen until it
             # exits, so quitting meanwhile would otherwise lose it (m13).
-            try:
-                ScrollbackCache().snapshot_before_command(self)
-            except Exception as ex:
-                dbg('scrollback pre-command snapshot failed: %s' % ex)
+            # Broadcast Enter reaches the other terminals through this same
+            # handler (group_emit/all_emit re-emit key-press-event).
+            self._snapshot_before_input()
 
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
@@ -2036,6 +2048,8 @@ class Terminal(Gtk.VBox):
         """Paste one of the two clipboards"""
         if not (mouse and self.config['disable_mouse_paste']):
             for term in self.terminator.get_target_terms(self):
+                # Pasted text may contain a newline that runs a command.
+                term._snapshot_before_input()
                 if primary:
                     term.vte.paste_primary()
                 else:
@@ -2047,6 +2061,8 @@ class Terminal(Gtk.VBox):
         # Ensure text is bytes for feed_child
         if isinstance(text, str):
             text = text.encode()
+        if b'\r' in text or b'\n' in text:
+            self._snapshot_before_input()
         self.vte.feed_child(text)
 
     def zoom_in(self):
