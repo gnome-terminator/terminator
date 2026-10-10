@@ -780,6 +780,14 @@ class Window(Container, Gtk.Window):
             # so zooming is a no-op
             return
 
+        # E: pause+reset auto font BEFORE get_zoom_data so old_char_*
+        # reflect the base cell, not an already-scaled size.
+        if font_scale and hasattr(widget, 'pause_auto_font_scale'):
+            try:
+                widget.pause_auto_font_scale('scaled_zoom')
+            except Exception:
+                pass
+
         self.zoom_data = widget.get_zoom_data()
         self.zoom_data['widget'] = widget
         self.zoom_data['old_child'] = children[0]
@@ -820,6 +828,11 @@ class Window(Container, Gtk.Window):
         widget = self.zoom_data['widget']
         if self.zoom_data['font_scale']:
             widget.vte.set_font(self.zoom_data['old_font'])
+            if hasattr(widget, 'resume_auto_font_scale'):
+                try:
+                    widget.resume_auto_font_scale()
+                except Exception:
+                    pass
 
         self.remove(widget)
         self.add(self.zoom_data['old_child'])
