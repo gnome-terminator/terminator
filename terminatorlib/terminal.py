@@ -2413,7 +2413,7 @@ class Terminal(Gtk.VBox):
     def key_preferences_keybindings(self):
         #need to have this as a config may be preferences_default
         #have a mapping rather than hardcoded page
-        PrefsEditor(self, cur_page = 3)
+        PrefsEditor(self, cur_page = 4)  # Session page sits at 3
 
     def key_help(self):
         manual_index_page = manual_lookup()
