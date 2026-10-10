@@ -277,10 +277,16 @@ def test_container_closeterm_stale_zoom_does_not_recurse(monkeypatch):
             raise AssertionError('recursive close')
 
     class Term:
-        @property
-        def terminals(self):
-            raise Stop()
+        terminals = []
     w.terminator = Term()
+
+    def _remove(_widget):
+        raise Stop()
+    # m26: the session capture before remove() swallows its own errors,
+    # so stop at remove() to prove the normal close path is reached.
+    w.remove = _remove
+    w._session_before_last_close = \
+        lambda widget: Container._session_before_last_close(w, widget)
     with pytest.raises(Stop):            # reached the normal close path
         Container.closeterm(w, T())
     assert logged and w.calls == []
