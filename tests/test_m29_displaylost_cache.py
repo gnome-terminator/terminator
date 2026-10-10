@@ -58,7 +58,8 @@ def test_interval_flush_skipped_when_display_lost(cache, lost, monkeypatch):
                         lambda: types.SimpleNamespace(terminals=[t]))
     cache._dirty.add(str(t.uuid))
     lost['lost'] = True
-    assert cache._on_interval() is True
+    # m32: display loss is sticky, so the timer stops itself
+    assert cache._on_interval() is False
     assert cache.writes == [] and cache.reads == []
     assert str(t.uuid) in cache._dirty
     lost['lost'] = False
