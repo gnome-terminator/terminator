@@ -346,8 +346,12 @@ class Terminal(Gtk.VBox):
                     pass
             if attr in self.__dict__:
                 setattr(self, attr, None)
-        # Last terminal exit: finalize session BEFORE scrollback close hook
-        # so will_persist() is True and caches are kept (A4).
+        # Last terminal: Container.closeterm normally finalized already,
+        # while this terminal was still registered (round-2 P1-2).  This is
+        # the fallback for close() paths that did not go through closeterm:
+        # we are deregistered by now, so pass ourselves to finalize to have
+        # our output flushed before the cache stops.  The close hook below
+        # is then a no-op (cache stopped) and keeps the file (A4).
         try:
             from .session import SessionManager
             # Container.closeterm() deregisters us BEFORE calling close(),
@@ -356,7 +360,7 @@ class Terminal(Gtk.VBox):
             # finalize when no OTHER terminal remains.
             others = [t for t in self.terminator.terminals if t is not self]
             if not others:
-                SessionManager().finalize()
+                SessionManager().finalize(closing=self)
         except Exception as ex:
             dbg('session finalize on last close: %s' % ex)
         try:
@@ -2805,7 +2809,15 @@ class Terminal(Gtk.VBox):
         if 'directory' in layout and layout['directory'] != '':
             self.directory = layout['directory']
         if 'uuid' in layout and layout['uuid'] != '':
-            self.uuid = make_uuid(layout['uuid'])
+            wanted = make_uuid(layout['uuid'])
+            # Round-2 P1-3: never take the uuid of another live terminal
+            # (shared scrollback cache file, wrong DBus/focus lookups).
+            if any(t is not self and getattr(t, 'uuid', None) == wanted
+                   for t in self.terminator.terminals):
+                dbg('layout uuid %s already in use, keeping fresh %s' %
+                    (wanted, self.uuid))
+            else:
+                self.uuid = wanted
         if layout.get('maximised_pane') == 'True':
             self._restore_maximised = True
         self._restore_font_state(layout)
