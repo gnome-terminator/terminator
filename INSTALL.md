@@ -32,12 +32,20 @@ dependencies yourself:
      FreeBSD:       py37-psutil py37-configobj keybinder-gtk3 py37-gobject3 gettext 
                     intltool libnotify vte3
 
-If you don't care about native language support or icons, Terminator
-should run just fine directly from this directory, just:
+If you don't care about icons, Terminator should run just fine directly
+from this directory, just:
 
     python3 terminator --help
 
 And go from there.  Manpages are available in the 'doc' directory.
+
+Translations also work when running from this directory: on start-up the
+catalogue for your language (`LANGUAGE`/`LC_ALL`/`LC_MESSAGES`/`LANG`) is
+compiled from `po/<lang>.po` into `build/locale/<lang>/LC_MESSAGES/` (only
+when the `.po` is newer; needs `msgfmt` from the `gettext` package) and used
+instead of any older system copy in `/usr/share/locale`.  Without `msgfmt`
+the system catalogue is used as before.  Set `TERMINATOR_NO_SOURCE_LOCALE=1`
+to disable this.
 
 > **Note:** Currently most distributions use `python3` as binaries for Python 3,
 > make sure to update either the shebangs, call the scripts with `python3` or
