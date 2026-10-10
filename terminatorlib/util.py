@@ -318,6 +318,30 @@ def get_nav_tiebreak(direction, cursor_x, cursor_y, rect):
     else:
         raise ValueError('Unknown direction: %s' % direction)
 
+def is_pane_placeholder(widget):
+    """True for module D's slot stand-in (duck-typed, not Factory-registered)"""
+    return bool(getattr(widget, 'is_pane_placeholder', False))
+
+def logical_parent(widget):
+    """Parent as the layout sees it, skipping module D's transient chrome.
+
+    - Gtk.Overlay / PaneFrame (is_pane_frame) are skipped, so callers see
+      Window / Paned / Notebook.
+    - For the overlay-maximised terminal itself, the answer is the container
+      holding its PanePlaceholder (its logical slot).
+    """
+    if widget is None:
+        return None
+    placeholder = getattr(widget, '_overlay_placeholder', None)
+    if placeholder is not None and placeholder.get_parent() is not None:
+        widget = placeholder
+    parent = widget.get_parent()
+    while parent is not None and (
+            isinstance(parent, Gtk.Overlay) or
+            getattr(parent, 'is_pane_frame', False)):
+        parent = parent.get_parent()
+    return parent
+
 def enumerate_descendants(parent):
     """Walk all our children and build up a list of containers and
     terminals"""
@@ -334,8 +358,17 @@ def enumerate_descendants(parent):
         err('no parent widget specified')
         return
 
+    def _placeholder_term(widget):
+        # Module D: the slot delegates to its floating terminal (sole source;
+        # Window.get_terminals must not add the overlay terminal again)
+        term = widget.terminal
+        if term is not None and term not in terminals:
+            terminals.append(term)
+
     for descendant in parent.get_children():
-        if maker.isinstance(descendant, 'Container'):
+        if is_pane_placeholder(descendant):
+            _placeholder_term(descendant)
+        elif maker.isinstance(descendant, 'Container'):
             containerstmp.append(descendant)
         elif maker.isinstance(descendant, 'Terminal'):
             terminals.append(descendant)
@@ -343,7 +376,9 @@ def enumerate_descendants(parent):
         while len(containerstmp) > 0:
             child = containerstmp.pop(0)
             for descendant in child.get_children():
-                if maker.isinstance(descendant, 'Container'):
+                if is_pane_placeholder(descendant):
+                    _placeholder_term(descendant)
+                elif maker.isinstance(descendant, 'Container'):
                     containerstmp.append(descendant)
                 elif maker.isinstance(descendant, 'Terminal'):
                     terminals.append(descendant)

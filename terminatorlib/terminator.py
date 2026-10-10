@@ -370,6 +370,29 @@ class Terminator(Borg):
                 sess.schedule_clear_restoring()
         except Exception:
             pass
+        # Module D: restore overlay-maximised panes from session (no animation)
+        try:
+            from gi.repository import GLib
+            seen_windows = set()
+            for terminal in self.terminals:
+                if not getattr(terminal, '_restore_maximised', False):
+                    continue
+                terminal._restore_maximised = False
+                win = terminal.get_toplevel()
+                if win in seen_windows:
+                    continue
+                if not hasattr(win, 'overlay_maximise'):
+                    continue
+                seen_windows.add(win)
+                def _do_restore(term=terminal, window=win):
+                    try:
+                        window.overlay_maximise(term, animate=False)
+                    except Exception as ex:
+                        dbg('overlay restore after layout: %s' % ex)
+                    return False
+                GLib.idle_add(_do_restore)
+        except Exception as ex:
+            dbg('layout_done overlay restore: %s' % ex)
 
     def on_gtk_theme_name_notify(self, settings, prop):
         """Reconfigure if the gtk theme name changes"""
@@ -401,6 +424,12 @@ class Terminator(Borg):
                 border: 1px solid transparent; }
             .terminator-terminal-window .pane-maximised .terminator-term-focused {
                 border-color: transparent; }
+
+            .terminator-terminal-window .pane-maximised {
+                border: 2px solid %(accent)s;
+                border-radius: 8px;
+                padding: 2px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
 
             button.titlebar-btn {
                 padding: 0px 2px; min-height: 0px; min-width: 0px; }

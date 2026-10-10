@@ -251,8 +251,9 @@ the tab will also close all terminals within it.')
 
     def propagate_title_change(self, widget, title):
         """Pass a title change up the widget stack"""
+        from .util import logical_parent
         maker = Factory()
-        parent = self.get_parent()
+        parent = logical_parent(self)
         title = widget.get_window_title()
 
         if maker.isinstance(self, 'Notebook'):
@@ -274,12 +275,16 @@ the tab will also close all terminals within it.')
         for child in self.get_offspring():
             if not child:
                 continue
-            if maker.isinstance(child, 'Terminal'):
+            if getattr(child, 'is_pane_placeholder', False):
+                # Module D: report the floating terminal at its slot geometry
+                if child.terminal is not None:
+                    terminals[child.terminal] = child.slot_allocation()
+            elif maker.isinstance(child, 'Terminal'):
                 terminals[child] = child.get_allocation()
             elif maker.isinstance(child, 'Container'):
                 terminals.update(child.get_visible_terminals())
             else:
-                err('Unknown child type %s' % type(child))
+                dbg('Unknown child type %s, skipping' % type(child))
 
         return(terminals)
 

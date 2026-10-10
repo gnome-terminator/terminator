@@ -6,7 +6,7 @@ variants"""
 import time
 from gi.repository import GObject, Gtk, Gdk
 
-from .util import dbg, err,  enumerate_descendants
+from .util import dbg, err, enumerate_descendants, logical_parent
 from .terminator import Terminator
 from .factory import Factory
 from .container import Container
@@ -189,14 +189,14 @@ class Paned(Container):
         maker = Factory()
         #1 Find highest ancestor of the same type => ha
         highest_ancestor = self
-        while type(highest_ancestor.get_parent()) == type(highest_ancestor):
-            highest_ancestor = highest_ancestor.get_parent()
+        while type(logical_parent(highest_ancestor)) == type(highest_ancestor):
+            highest_ancestor = logical_parent(highest_ancestor)
 
         highest_ancestor.set_autoresize(False)
         
         # (1b) If Super modifier, redistribute higher sections too
         if recurse_up:
-            grandfather=highest_ancestor.get_parent()
+            grandfather=logical_parent(highest_ancestor)
             if maker.isinstance(grandfather, 'VPaned') or \
                maker.isinstance(grandfather, 'HPaned') :
                 grandfather.do_redistribute(recurse_up, recurse_down)
@@ -261,6 +261,87 @@ class Paned(Container):
             pass
         return(True)
 
+    def swap_child(self, old_widget, new_widget):
+        """Replace old with new in the same pack slot; keep self.children order.
+
+        Terminal → reconnect signals via add path pieces; Placeholder → pack
+        only (no connect_child). Used by module D overlay maximise.
+        """
+        if old_widget not in self.children:
+            raise ValueError('swap_child: %s is not a child of %s' %
+                             (old_widget, self))
+        maker = self.maker
+        slot1 = (self.get_child1() is old_widget)
+        # Preserve resize/shrink props if available
+        resize = shrink = None
+        try:
+            resize = self.child_get_property(old_widget, 'resize')
+            shrink = self.child_get_property(old_widget, 'shrink')
+        except Exception:
+            pass
+
+        Gtk.Paned.remove(self, old_widget)
+        self.disconnect_child(old_widget)
+        idx = self.children.index(old_widget)
+        self.children[idx] = new_widget
+
+        if slot1:
+            self.pack1(new_widget, False if resize is None else bool(resize),
+                       True if shrink is None else bool(shrink))
+        else:
+            self.pack2(new_widget, False if resize is None else bool(resize),
+                       True if shrink is None else bool(shrink))
+
+        if maker.isinstance(new_widget, 'Terminal'):
+            # Reuse the signal table from add()
+            top_window = self.get_toplevel()
+            signals = {'close-term': self.wrapcloseterm,
+                    'split-auto': self.split_auto,
+                    'split-horiz': self.split_horiz,
+                    'split-vert': self.split_vert,
+                    'title-change': self.propagate_title_change,
+                    'resize-term': self.resizeterm,
+                    'size-allocate': self.new_size,
+                    'zoom': top_window.zoom,
+                    'tab-change': top_window.tab_change,
+                    'group-all': top_window.group_all,
+                    'group-all-toggle': top_window.group_all_toggle,
+                    'ungroup-all': top_window.ungroup_all,
+                    'group-win': top_window.group_win,
+                    'group-win-toggle': top_window.group_win_toggle,
+                    'ungroup-win': top_window.ungroup_win,
+                    'group-tab': top_window.group_tab,
+                    'group-tab-toggle': top_window.group_tab_toggle,
+                    'ungroup-tab': top_window.ungroup_tab,
+                    'move-tab': top_window.move_tab,
+                    'detach-tab': top_window.detach_tab_to_new_window,
+                    'maximise': [top_window.zoom, False],
+                    'tab-new': [top_window.tab_new, new_widget],
+                    'navigate': top_window.navigate_terminal,
+                    'rotate-cw': [top_window.rotate, True],
+                    'rotate-ccw': [top_window.rotate, False]}
+            for signal in signals:
+                args = []
+                handler = signals[signal]
+                if isinstance(handler, list):
+                    args = handler[1:]
+                    handler = handler[0]
+                self.connect_child(new_widget, signal, handler, *args)
+        elif isinstance(new_widget, Gtk.Paned):
+            try:
+                self.connect_child(new_widget, 'resize-term', self.resizeterm)
+                self.connect_child(new_widget, 'size-allocate', self.new_size)
+            except TypeError:
+                pass
+        # Placeholder / other: pack only
+        new_widget.show_all()
+        try:
+            from .session import try_mark_dirty
+            try_mark_dirty('paned.swap_child')
+        except Exception:
+            pass
+        return True
+
     def get_children(self):
         """Return an ordered list of our children"""
         children = []
@@ -312,7 +393,7 @@ class Paned(Container):
             self.remove(sibling)
 
             metadata = None
-            parent = self.get_parent()
+            parent = logical_parent(self)
             metadata = parent.get_child_metadata(self)
             dbg('metadata obtained for %s: %s' % (self, metadata))
             parent.remove(self)
@@ -334,7 +415,7 @@ class Paned(Container):
         """Check that we still have a reason to exist"""
         if len(self.children) == 1:
             dbg('We only have one child, die')
-            parent = self.get_parent()
+            parent = logical_parent(self)
             child = self.children[0]
             self.remove(child)
             parent.replace(self, child)
