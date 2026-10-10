@@ -1188,6 +1188,15 @@ class Terminal(Gtk.VBox):
             dbg('Called on %s with no event' % widget)
             return False
 
+        if event.keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
+            # Snapshot shell history before the command runs: if it is a
+            # fullscreen TUI (vim/htop) VTE hides the normal screen until it
+            # exits, so quitting meanwhile would otherwise lose it (m13).
+            try:
+                ScrollbackCache().snapshot_before_command(self)
+            except Exception as ex:
+                dbg('scrollback pre-command snapshot failed: %s' % ex)
+
         # FIXME: Does keybindings really want to live in Terminator()?
         mapping = self.terminator.keybindings.lookup(event)
 

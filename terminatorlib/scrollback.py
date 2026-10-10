@@ -247,6 +247,9 @@ class ScrollbackCache(Borg):
     _rotate_index = None
     _seq = None
     _io_lock = None
+    _snap_at = None
+    _visit = None
+    _tick = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -428,6 +431,28 @@ class ScrollbackCache(Borg):
             return
         self._dirty.add(uuid_str)
 
+    def snapshot_before_command(self, terminal, now=None):
+        """Async-flush a dirty terminal on Enter (rate-limited 1/s/uuid).
+
+        Captures the normal-screen history right before a command that may
+        switch to the alternate screen; no-op in alt screen or when clean.
+        """
+        if not self._enabled or self._disabled_by_error:
+            return False
+        uuid_str = _terminal_uuid_str(terminal)
+        if not uuid_str or uuid_str not in self._dirty:
+            return False
+        if in_alt_screen(terminal):
+            return False
+        if self._snap_at is None:
+            self._snap_at = {}
+        now = time.monotonic() if now is None else now
+        if now - self._snap_at.get(uuid_str, -1e9) < 1.0:
+            return False
+        self._snap_at[uuid_str] = now
+        self._flush_uuid(terminal, uuid_str, sync=False)
+        return True
+
     def flush(self, terminal, sync=False, **kwargs):
         """Read VTE and write (sync=True on main thread, else queue)."""
         if kwargs.get('synchronous'):
@@ -549,20 +574,27 @@ class ScrollbackCache(Borg):
         dirty_list = list(self._dirty)
         if not dirty_list:
             return True
-        # Rotate 1–2 terminals per tick
+        # Flush the 1-2 dirty terminals that waited longest (least recently
+        # visited).  A set's iteration order plus a rotating index could
+        # repeatedly pick a continuously-dirty terminal and skip others when
+        # the set changed size; LRU order guarantees each dirty terminal is
+        # visited within ceil(len(dirty)/2) ticks.
+        if self._visit is None:
+            self._visit = {}
+        self._tick = (self._tick or 0) + 1
+        dirty_list.sort(key=lambda u: self._visit.get(u, 0))
         n = min(2, len(dirty_list))
-        start = self._rotate_index % len(dirty_list)
-        for i in range(n):
-            uuid_str = dirty_list[(start + i) % len(dirty_list)]
+        for uuid_str in dirty_list[:n]:
+            self._visit[uuid_str] = self._tick
             term = by_uuid.get(uuid_str)
             if term is None:
                 self._dirty.discard(uuid_str)
+                self._visit.pop(uuid_str, None)
                 continue
             try:
                 self._flush_uuid(term, uuid_str, sync=False)
             except Exception as ex:
                 dbg('interval flush failed: %s' % ex)
-        self._rotate_index = (start + n) % max(1, len(dirty_list))
         return True
 
     # ---- worker ----
@@ -697,6 +729,9 @@ class ScrollbackCache(Borg):
             return
         self._dirty.discard(uuid_str)
         self._last_hash.pop(uuid_str, None)
+        for d in (self._visit, self._snap_at):
+            if d is not None:
+                d.pop(uuid_str, None)
         with self._io_lock:
             self._bump(uuid_str)
         path = self.path_for(uuid_str)
