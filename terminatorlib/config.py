@@ -149,6 +149,7 @@ DEFAULTS = {
 
             # Scrollback text cache (module B) — defaults ON
             'scrollback_cache'            : True,
+            'scrollback_cache_color'      : True,
             'scrollback_cache_lines'      : 2000,
             'scrollback_cache_interval_s' : 20,
             'scrollback_cache_max_kb'     : 512,

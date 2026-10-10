@@ -137,9 +137,23 @@ def _terminal_uuid_str(terminal):
         return None
 
 
-def export_vte_text(vte, start_row, start_col, end_row, end_col):
-    """Export a text range from VTE using the best available API."""
+def export_vte_text(vte, start_row, start_col, end_row, end_col,
+                    color=False):
+    """Export a text range from VTE using the best available API.
+
+    color=True exports Format.HTML and converts it to text + SGR (m14);
+    falls back to plain text when HTML export is unavailable or fails.
+    """
     caps = _vte_caps()
+    if color and caps['range_format']:
+        try:
+            result = vte.get_text_range_format(
+                Vte.Format.HTML, start_row, start_col, end_row, end_col)
+            html = result[0] if isinstance(result, (tuple, list)) else result
+            if html:
+                return sbt.html_to_sgr(html)
+        except Exception as ex:
+            dbg('export_vte_text html failed: %s' % ex)
     try:
         if caps['range_format']:
             result = vte.get_text_range_format(
@@ -181,7 +195,7 @@ def in_alt_screen(terminal):
         return False
 
 
-def read_last_n_lines(vte, n_lines):
+def read_last_n_lines(vte, n_lines, color=False):
     """Read the last n_lines of VTE scrollback (absolute row numbers)."""
     n_lines = max(0, int(n_lines))
     if n_lines == 0:
@@ -196,7 +210,7 @@ def read_last_n_lines(vte, n_lines):
     except Exception:
         lower = 0
     start_row = max(lower, end_row - max(0, n_lines - 1))
-    text = export_vte_text(vte, start_row, 0, end_row, col)
+    text = export_vte_text(vte, start_row, 0, end_row, col, color=color)
     if not text:
         # Fallback: write_contents_sync only when range APIs missing and
         # scrollback is finite (caller must gate infinite).
@@ -301,6 +315,9 @@ class ScrollbackCache(Borg):
 
     def _max_kb(self):
         return int(self._cfg('scrollback_cache_max_kb', 512) or 512)
+
+    def _color(self):
+        return bool(self._cfg('scrollback_cache_color', True))
 
     def _interval_s(self):
         return max(5, int(self._cfg('scrollback_cache_interval_s', 20) or 20))
@@ -509,7 +526,7 @@ class ScrollbackCache(Borg):
             dbg('defer flush %s: alternate screen active' % uuid_str)
             self._dirty.add(uuid_str)
             return
-        text = read_last_n_lines(vte, self._lines())
+        text = read_last_n_lines(vte, self._lines(), color=self._color())
         text = sbt.truncate_lines_and_bytes(text, self._lines(), self._max_kb())
         data = text.encode('utf-8')
         digest = hashlib.sha256(data).hexdigest()
@@ -690,7 +707,12 @@ class ScrollbackCache(Borg):
         except OSError as ex:
             dbg('restore read failed: %s' % ex)
             return False
-        body = sbt.normalize_newlines_for_feed(sbt.sanitize_for_feed(raw))
+        # Keep SGR colours (m14) but strip every other control sequence;
+        # reset afterwards so a truncated style never bleeds into the shell.
+        body = sbt.normalize_newlines_for_feed(
+            sbt.sanitize_for_feed(raw, keep_sgr=self._color()))
+        if self._color():
+            body += '\x1b[0m'
         sep = sbt.format_separator_feed(mtime, translate=_)
         vte = getattr(terminal, 'vte', None)
         if vte is None:
