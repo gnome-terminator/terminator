@@ -14,7 +14,9 @@ xdotool type --delay 20 'seq 1 80; echo SHELLHIST_42; cd /tmp'; xdotool key Retu
 xdotool type --delay 20 "python3 $REPO/tests/smoke/fake_tui.py"; xdotool key Return; sleep 3
 DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/1-tui.png
 # M8: the fullscreen TUI must have hidden the scrollbar (altscreen debug log).
-grep -q "altscreen: False -> True" ${OUT:-/tmp}/log1.txt || { echo "FAIL: scrollbar not hidden in TUI"; FAIL=1; }
+grep -q "altscreen: False -> True" ${OUT:-/tmp}/log1.txt || { echo "FAIL: altscreen not detected in TUI"; FAIL=1; }
+# Direct widget-state assertion: logged from Gtk.Scrollbar.get_visible() right after hide().
+grep "altscreen: scrollbar visible=" ${OUT:-/tmp}/log1.txt | tail -1 | grep -q "visible=False" || { echo "FAIL: scrollbar still visible in TUI"; FAIL=1; }
 xdotool key ctrl+shift+q; sleep 2
 DISPLAY=:77 ${SHOT:-/workspace/smoke/shot.sh} ${OUT:-/tmp}/2-quit.png
 # Find the running-process confirm dialog (new visible terminator-class window) instead of fixed coords,

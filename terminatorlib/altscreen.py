@@ -394,11 +394,13 @@ class AltScreenScrollbar(object):
                 self.hidden_width = 0
             self.auto_hidden = True
             sb.hide()
+            dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
         elif not hide and self.auto_hidden:
             self.auto_hidden = False
             self.hidden_width = 0
             if position not in ('disabled', 'hidden'):
                 sb.show()
+            dbg('altscreen: scrollbar visible=%s' % sb.get_visible())
 
     def user_toggled(self):
         """The user toggled the scrollbar by hand.
