@@ -600,9 +600,16 @@ class Notebook(Container, Gtk.Notebook):
 
     def do_deferred_on_tab_switch(self):
         """Perform the latest tab switch signal, and resetting the pending flag"""
-        self.on_tab_switch(*self.pending_on_tab_switch_args)
-        self.pending_on_tab_switch = False
-        self.pending_on_tab_switch_args = None
+        # try/finally: an exception in on_tab_switch must not leave the
+        # pending flag stuck at True, which would swallow every later switch.
+        try:
+            args = self.pending_on_tab_switch_args
+            if args is not None:
+                self.on_tab_switch(*args)
+        finally:
+            self.pending_on_tab_switch = False
+            self.pending_on_tab_switch_args = None
+        return False
 
     def on_tab_switch(self, notebook, page,  page_num,  data=None):
         """Do the real work for a tab switch"""
