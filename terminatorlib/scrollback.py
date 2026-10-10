@@ -719,11 +719,13 @@ class ScrollbackCache(Borg):
         now = time.monotonic() if now is None else now
         if self._last_gc is not None and now - self._last_gc < self.GC_MIN_INTERVAL_S:
             return False
-        if not self._bytes_since_gc:
-            return False
-        self._last_gc = now
-        with self._io_lock:  # worker increments concurrently
+        # m18: read+reset atomically; the worker increments concurrently.
+        with self._io_lock:
+            pending = self._bytes_since_gc
+            if not pending:
+                return False
             self._bytes_since_gc = 0
+        self._last_gc = now
         try:
             self._queue.put(('gc', frozenset(live or ())))
         except Exception:
@@ -845,6 +847,16 @@ class ScrollbackCache(Borg):
         return False
 
     def _bump(self, uuid_str):
+        """Bump the write-intent seq.  Caller MUST hold _io_lock (m18): the
+        worker compares _seq under the same lock, and the lock is not
+        re-entrant, so _bump cannot take it itself."""
+        lk = self._io_lock
+        if hasattr(lk, 'locked') and not lk.locked():
+            with lk:
+                return self._bump_locked(uuid_str)
+        return self._bump_locked(uuid_str)
+
+    def _bump_locked(self, uuid_str):
         seq = self._seq.get(uuid_str, 0) + 1
         self._seq[uuid_str] = seq
         return seq
