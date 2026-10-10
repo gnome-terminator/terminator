@@ -111,6 +111,14 @@ def _sm_display_lost():
     return bool(getattr(sm, '_display_lost', False))
 
 
+def _sm_display_lost_flag():
+    """m32: thread-safe variant for the worker: reads the sticky flag only
+    (no GDK calls off the main thread)."""
+    sm = _session_manager()
+    return bool(getattr(sm, '_display_lost', False)) if sm is not None \
+        else False
+
+
 def _sm_restored_this_run():
     sm = _session_manager()
     if sm is None:
@@ -785,9 +793,13 @@ class ScrollbackCache(Borg):
         if not self._enabled or self._disabled_by_error:
             self._timer_id = 0
             return False
-        if not self._dirty:
-            return True
         if _sm_display_lost():
+            # m32: the display never comes back for this process; stop the
+            # timer and any deferred snapshot instead of ticking forever.
+            self._cancel_pending()
+            self._timer_id = 0
+            return False
+        if not self._dirty:
             return True
         try:
             from .terminator import Terminator
@@ -922,6 +934,9 @@ class ScrollbackCache(Borg):
                 break
             if not item or item[0] == 'stop':
                 break
+            if item[0] in ('write', 'delete') and _sm_display_lost_flag():
+                # m32: drop writes/deletes queued before the display loss.
+                continue
             try:
                 if item[0] == 'write':
                     _, uuid_str, payload, digest, seq = item
@@ -1064,6 +1079,11 @@ class ScrollbackCache(Borg):
     # ---- cleanup ----
     def delete_uuid(self, uuid_str):
         if not uuid_str:
+            return
+        if _sm_display_lost():
+            # m32: teardown after display loss must not delete good history
+            # (e.g. D5 buffer expiry while windows are being destroyed).
+            dbg('skip delete %s: display lost' % uuid_str)
             return
         self._dirty.discard(uuid_str)
         self._last_hash.pop(uuid_str, None)
