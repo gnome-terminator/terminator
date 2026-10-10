@@ -20,17 +20,19 @@ All helpers duck-type the window so tests can use fakes.
 from .util import dbg
 
 
-def is_overlay_maximised(window):
+def is_overlay_maximised(window, quiet=True):
     """True while window shows the overlay-maximise chrome."""
     try:
         is_ov = getattr(window, 'is_overlay_maximised', None)
         return bool(callable(is_ov) and is_ov())
     except Exception as ex:
+        if not quiet:
+            raise
         dbg('zoomguard.is_overlay_maximised: %s' % ex)
         return False
 
 
-def is_legacy_zoomed(window):
+def is_legacy_zoomed(window, quiet=True):
     """True for a legacy (reparent/scaled) zoom, i.e. zoomed but not via
     the overlay."""
     try:
@@ -38,9 +40,11 @@ def is_legacy_zoomed(window):
         if not callable(is_z) or not is_z():
             return False
     except Exception as ex:
+        if not quiet:
+            raise
         dbg('zoomguard.is_legacy_zoomed: %s' % ex)
         return False
-    return not is_overlay_maximised(window)
+    return not is_overlay_maximised(window, quiet=quiet)
 
 
 def leave_zoom(window, legacy=True, overlay=True, animate=False,
@@ -56,10 +60,13 @@ def leave_zoom(window, legacy=True, overlay=True, animate=False,
     if window is None:
         return False
     try:
-        if overlay and is_overlay_maximised(window):
+        # m26 review: predicate errors follow ``quiet`` too, so a broken
+        # overlay state on an interactive path is not misread as "legacy
+        # zoom" (which would call unzoom() -> animated restore instead).
+        if overlay and is_overlay_maximised(window, quiet=quiet):
             window.overlay_restore(animate=animate)
             return True
-        if legacy and is_legacy_zoomed(window):
+        if legacy and is_legacy_zoomed(window, quiet=quiet):
             window.unzoom()
             return True
     except Exception as ex:

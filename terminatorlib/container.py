@@ -184,9 +184,14 @@ class Container(object):
                 from .zoomguard import leave_zoom
                 # Window.closeterm already left an overlay maximise; this is
                 # the legacy-zoom case (m26: same helper as every close path).
-                leave_zoom(self, reason='container-closeterm', quiet=False)
-                widget.close()
-                return(True)
+                if leave_zoom(self, reason='container-closeterm',
+                              quiet=False):
+                    widget.close()
+                    return(True)
+                # m26 review: nothing could be undone (stale term_zoomed);
+                # re-closing would recurse forever, so fall through to the
+                # normal close path instead.
+                err('closeterm: term_zoomed set but no zoom to leave')
         except TypeError:
             pass
 
