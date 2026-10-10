@@ -934,6 +934,11 @@ class OverlayController(object):
             self._animator.cancel(silent=True)
         self._animator = None
         self._pause_font(terminal)
+        # Round-2 P2-9: on a dying window (destroy teardown / finalize) only
+        # put the tree back for describe/close; no focus grab, tier
+        # recompute or font resume on terminals that are about to close.
+        dying = bool(getattr(window, 'isDestroyed', False) or
+                     getattr(window, '_session_destroy_handled', False))
 
         # Window-side handlers off before the terminal returns to its slot
         try:
@@ -952,7 +957,8 @@ class OverlayController(object):
                 if alloc.width > 1 and alloc.height > 1 else data['src_rect']
         except Exception:
             slot = data['src_rect']
-        self._apply_tier_for_rect(terminal, slot)
+        if not dying:
+            self._apply_tier_for_rect(terminal, slot)
 
         root_terminal = False
         # The Overlay's Bin child is the real layout root; data['main'] may
@@ -995,11 +1001,15 @@ class OverlayController(object):
                     'not re-parented' % terminal)
         terminal.show_all()
         placeholder.destroy()
-        try:
-            terminal.grab_focus()
-        except Exception:
-            pass
-        self._resume_font(terminal)
+        if dying:
+            # Leave the terminal frozen; it is closed right after this.
+            self._frozen = None
+        else:
+            try:
+                terminal.grab_focus()
+            except Exception:
+                pass
+            self._resume_font(terminal)
         if data.get('emitted'):
             self._emit_changed(terminal, False)
 

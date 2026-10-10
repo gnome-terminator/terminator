@@ -302,6 +302,11 @@ class Window(Container, Gtk.Window):
 
     def tab_new(self, widget=None, debugtab=False, _param1=None, _param2=None):
         """Make a new tab"""
+        try:
+            from .session import note_window_grown
+            note_window_grown(self)
+        except Exception as ex:
+            dbg('note_window_grown: %s' % ex)
         if self.is_zoomed():
             if self.is_overlay_maximised():
                 self.overlay_restore(animate=False)
@@ -337,14 +342,19 @@ class Window(Container, Gtk.Window):
             return True
         self._session_destroy_handled = True
         dbg('destroying self')
-        # UI review P2-1: stop a running maximise/restore animation (16 ms
-        # tick) and drop the temporary Overlay before the tree goes away.
-        overlay = getattr(self, '_overlay', None)
-        if overlay is not None:
-            try:
-                overlay.teardown()
-            except Exception as ex:
-                dbg('overlay teardown on destroy: %s' % ex)
+        # Round-2 P2-2: a legacy (scaled) zoom hides the other terminals from
+        # get_terminals(); unzoom first so the session describe is complete
+        # and every terminal is closed below (otherwise hidden ones stay
+        # registered with live shells and the process never quits).
+        try:
+            if self.is_zoomed() and not self.is_overlay_maximised():
+                self.unzoom()
+        except Exception as ex:
+            dbg('legacy unzoom on destroy: %s' % ex)
+        # Round-2 P1-1: describe the session BEFORE the overlay teardown puts
+        # the maximised terminal back in its slot, so the final save / D5
+        # fragment keeps maximised_pane.  finalize() restores overlays itself
+        # after saving.
         try:
             from .session import SessionManager
             sess = SessionManager()
@@ -358,6 +368,14 @@ class Window(Container, Gtk.Window):
                 sess.note_window_closing(self)
         except Exception as ex:
             dbg('session on_destroy_event: %s' % ex)
+        # UI review P2-1: stop a running maximise/restore animation (16 ms
+        # tick) and drop the temporary Overlay before the tree goes away.
+        overlay = getattr(self, '_overlay', None)
+        if overlay is not None:
+            try:
+                overlay.teardown()
+            except Exception as ex:
+                dbg('overlay teardown on destroy: %s' % ex)
         for terminal in self.get_terminals():
             # Only for race condition, while closing a window with a single
             # terminal. Could be useful in other scenarios.

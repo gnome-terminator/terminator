@@ -140,6 +140,9 @@ class Terminator(Borg):
             dbg('no windows remain, quitting')
             Gtk.main_quit()
 
+        from .session import try_mark_dirty
+        try_mark_dirty('deregister_window')
+
     def register_launcher_window(self, window):
         """Register a new launcher window widget"""
         if window not in self.launcher_windows:
@@ -237,6 +240,17 @@ class Terminator(Borg):
                         not isinstance(node.get('type'), str):
                     err('ignoring malformed layout entry %r' % (obj,))
                     del layout[obj]
+        if layout:
+            try:
+                from .session import SESSION_LAYOUT_NAME, remap_layout_uuids
+                if layoutname != SESSION_LAYOUT_NAME:
+                    # Round-2 P1-3: a user layout is a template.  Uuids
+                    # stored in it (upstream "Add/Save layout") may belong
+                    # to running terminals or to cached scrollback; give
+                    # every terminal a fresh one (focus refs follow).
+                    remap_layout_uuids(layout)
+            except Exception as ex:
+                dbg('layout uuid remap failed: %s' % ex)
         if not layout:
             # User specified a non-existent layout. default to one Terminal
             err('layout %s not defined' % layout)
@@ -646,8 +660,30 @@ class Terminator(Borg):
                 return False
         except Exception as ex:
             dbg('closegroupedterms confirm failed: %s' % ex)
+        # Hidden panes of a legacy zoom are detached from the window; put
+        # them back so close-term reaches a parent that is in a window.
+        hidden = [t for t in members if t.get_toplevel() not in self.windows]
+        for window in list(self.windows if hidden else ()):
+            try:
+                if window.is_zoomed() and not window.is_overlay_maximised():
+                    window.unzoom()
+            except Exception as ex:
+                dbg('closegroupedterms unzoom: %s' % ex)
+        if members and not [t for t in self.terminals if t not in members]:
+            # Round-2 P2-7: the group covers every terminal, i.e. this quits.
+            # Save the whole layout once, up front (like closing the last
+            # window), instead of finalizing mid-loop with one pane left.
+            try:
+                from .session import SessionManager
+                SessionManager().finalize()
+            except Exception as ex:
+                dbg('closegroupedterms finalize: %s' % ex)
         for terminal in members:
-            terminal.close()
+            # Same path as exit / Ctrl+Shift+W: the parent removes and
+            # deregisters the terminal and then calls close() exactly once
+            # (calling close() directly re-entered through close-term).
+            if terminal in self.terminals:
+                terminal.emit('close-term')
         return True
 
     def group_hoover(self):

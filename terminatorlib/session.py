@@ -164,6 +164,84 @@ def is_explicit_launch(options):
     return bool(explicit_layout or has_command or has_configjson)
 
 
+LIVE_ID_KEYS = ('uuid', 'last_active_term', 'maximised_pane')
+
+
+def strip_live_ids(layout):
+    """Turn a described live layout into a reusable template (in place).
+
+    Live terminal uuids in a saved layout would give terminals opened from
+    it later the uuids of running ones, which share one scrollback cache
+    file (round-2 P1-3).
+    """
+    for node in (layout or {}).values():
+        if isinstance(node, dict):
+            for key in LIVE_ID_KEYS:
+                node.pop(key, None)
+    return layout
+
+
+def remap_layout_uuids(layout, new_uuid=None):
+    """Give every terminal of a (non-session) layout a fresh uuid (in place).
+
+    last_active_term references (a string on Window, a list on Notebook) are
+    rewritten with the same mapping so focus restore keeps working; ones that
+    point at no terminal of the layout are dropped.
+    """
+    import uuid as uuidmod
+    if new_uuid is None:
+        new_uuid = lambda: str(uuidmod.uuid4())
+    mapping = {}
+    for node in (layout or {}).values():
+        if not isinstance(node, dict):
+            continue
+        old = node.get('uuid')
+        if node.get('type') == 'Terminal' and old not in (None, ''):
+            fresh = mapping.get(str(old))
+            if fresh is None:
+                fresh = mapping[str(old)] = new_uuid()
+            node['uuid'] = fresh
+    for node in (layout or {}).values():
+        if not isinstance(node, dict) or 'last_active_term' not in node:
+            continue
+        lat = node['last_active_term']
+        if isinstance(lat, (list, tuple)):
+            node['last_active_term'] = [mapping.get(str(v), '') for v in lat]
+        elif lat not in (None, '') and str(lat) in mapping:
+            node['last_active_term'] = mapping[str(lat)]
+        else:
+            node.pop('last_active_term', None)
+    return mapping
+
+
+def terminal_is_excluded(terminal):
+    """True when the terminal's window is left out of the session."""
+    try:
+        toplevel = terminal.get_toplevel()
+    except Exception:
+        return False
+    return bool(getattr(toplevel, '_session_excluded', False))
+
+
+def note_window_grown(window):
+    """The user split / added a tab in an excluded window (round-2 P2-5).
+
+    `terminator -e htop` then split: the window has become ordinary work, so
+    it joins the session from now on (the command pane restores as a plain
+    shell in its directory).  Ignored while a layout is being built.
+    """
+    try:
+        from .terminator import Terminator
+        if Terminator().doing_layout:
+            return
+    except Exception:
+        pass
+    if window is not None and getattr(window, '_session_excluded', False):
+        dbg('session: excluded window grew, now included')
+        window._session_excluded = False
+        try_mark_dirty('excluded window grew')
+
+
 def merge_window_fragments(layout, fragments):
     """D5: append buffered (already closed) windows to a live layout.
 
@@ -225,6 +303,12 @@ class SessionManager(Borg):
     _buffer_timer = None
     _config = None
     _rotated_this_run = None
+    # m25: save requests dropped during layout / legacy zoom are replayed.
+    # NOTE: these _pending_* flags are diagnostic only (dbg/tests); the
+    # replay itself is driven by mark_dirty() from the layout-end / unzoom
+    # call sites, not by reading these flags.
+    _pending_after_layout = None
+    _pending_after_zoom = None
 
     def __init__(self):
         Borg.__init__(self, self.__class__.__name__)
@@ -415,14 +499,20 @@ class SessionManager(Borg):
         try:
             from .terminator import Terminator
             if Terminator().doing_layout:
+                # m25: remember; layout_done() replays one save
+                self._pending_after_layout = True
                 return
         except Exception:
             pass
         if self.final_saving or not self.is_writer():
             return
         if self._any_legacy_zoom():
-            dbg('SessionManager.mark_dirty skipped (legacy zoom): %s' % reason)
+            # m25: legacy zoom detaches other panes; defer until unzoom
+            self._pending_after_zoom = True
+            dbg('SessionManager.mark_dirty deferred (legacy zoom): %s' % reason)
             return
+        self._pending_after_layout = False
+        self._pending_after_zoom = False
         if self._timer is not None:
             return
         delay = max(100, self._delay_ms())
@@ -517,6 +607,18 @@ class SessionManager(Borg):
         """Write session.json. Requires is_writer() even when final=True."""
         if not self.is_writer():
             dbg('SessionManager.save_now: not writer, skip (final=%s)' % final)
+            return False
+        if not final and self._any_legacy_zoom():
+            # m25: a timer scheduled before zoom must not write the
+            # detached (one-pane) tree; replay after unzoom instead.
+            self._pending_after_zoom = True
+            dbg('SessionManager.save_now: legacy zoom, deferred')
+            return False
+        if final and self._any_legacy_zoom():
+            # m25: finalize() unzooms first; if that failed the tree is
+            # still detached (one pane). Keep the last good file instead.
+            err('SessionManager.save_now: still zoomed at final save, '
+                'keeping previous session file')
             return False
         try:
             layout = self._describe_current()
@@ -782,6 +884,15 @@ class SessionManager(Borg):
             return
         if getattr(window, '_session_excluded', False):
             return
+        # Round-2 P2-1: a legacy (scaled) zoom hides the other panes; unzoom
+        # like finalize() does so the fragment holds the whole window.
+        try:
+            if (window.is_zoomed() and
+                    not getattr(window, 'is_overlay_maximised',
+                                lambda: False)()):
+                window.unzoom()
+        except Exception as ex:
+            dbg('SessionManager.note_window_closing unzoom: %s' % ex)
         try:
             self._refresh_ratios(window)
         except Exception:
@@ -868,6 +979,10 @@ class SessionManager(Borg):
         if uuid_obj is None:
             return False
         uid = str(uuid_obj)
+        # Round-2 P2-4: terminals of excluded (-e / -x / -l NAME) windows are
+        # never restored, so their caches must not be kept either.
+        if terminal_is_excluded(terminal):
+            return False
         if self.final_saving and self.is_writer():
             return True
         if (self._closing_buffer and
@@ -888,7 +1003,13 @@ class SessionManager(Borg):
 
     # --- finalize / signals ---------------------------------------------
 
-    def finalize(self):
+    def finalize(self, closing=None):
+        """Final save + scrollback flush, once per run.
+
+        closing: a terminal that is being closed and has already been
+        deregistered (Terminal.close fallback); it is flushed together with
+        the registered ones so its latest output is not lost (round-2 P1-2).
+        """
         if self._finalize_done:
             return
         self._finalize_done = True
@@ -909,7 +1030,8 @@ class SessionManager(Borg):
                 from .scrollback import ScrollbackCache
                 cache = ScrollbackCache()
                 if self.is_writer():
-                    cache.flush_all(sync=True, final=True)
+                    cache.flush_all(sync=True, final=True,
+                                    extra=[closing] if closing else None)
                 cache.stop(join_timeout=1.0)
             except Exception as ex:
                 dbg('scrollback finalize: %s' % ex)

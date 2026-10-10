@@ -10,6 +10,11 @@ class T:
     def close(self):
         self.closed = True
 
+    def emit(self, signal):
+        # closegroupedterms closes via the normal close-term path (m25)
+        if signal == 'close-term':
+            self.close()
+
     def get_toplevel(self):
         return None
 
