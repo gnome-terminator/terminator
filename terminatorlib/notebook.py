@@ -628,7 +628,11 @@ class Notebook(Container, Gtk.Notebook):
             # if we can't find a last active term we must be starting up
             if term is not None:
                 GLib.idle_add(term.ensure_visible_and_focussed)
-        return True
+        # Return False (GLib.SOURCE_REMOVE) so that, should this ever be
+        # scheduled directly via GLib.idle_add/timeout_add, it runs once
+        # instead of repeating forever.  As a switch-page handler (or via
+        # do_deferred_on_tab_switch) the return value is ignored.
+        return False
 
     def on_scroll_event(self, notebook, event):
         '''Handle scroll events for scrolling through tabs'''
