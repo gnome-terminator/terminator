@@ -244,7 +244,6 @@ class ScrollbackCache(Borg):
     _fail_count = None
     _disabled_by_error = None
     _config = None
-    _rotate_index = None
     _seq = None
     _io_lock = None
     _snap_at = None
@@ -278,8 +277,6 @@ class ScrollbackCache(Borg):
             self._disabled_by_error = False
         if self._config is None:
             self._config = Config()
-        if self._rotate_index is None:
-            self._rotate_index = 0
         if self._seq is None:
             # uuid -> generation of the newest write/delete intent; the worker
             # drops queued writes that a later sync write/delete superseded.
@@ -764,6 +761,9 @@ class ScrollbackCache(Borg):
         """Remove the scrollback directory. Safe before start()."""
         self._dirty.clear()
         self._last_hash.clear()
+        for d in (self._visit, self._snap_at):
+            if d is not None:
+                d.clear()
         # Drain queue if present
         if self._queue is not None:
             try:

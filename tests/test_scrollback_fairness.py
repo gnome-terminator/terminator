@@ -109,3 +109,14 @@ def test_randomised_wait_bound(cache, monkeypatch):
                 if u not in cache._dirty:
                     cache._dirty.add(u)
                     dirty_since.setdefault(u, tick)
+
+
+def test_clear_all_resets_lru_and_snapshot_state(tmp_path, monkeypatch):
+    from terminatorlib import scrollback as sb
+    monkeypatch.setattr(sb, 'get_cache_dir', lambda: str(tmp_path))
+    c = sb.ScrollbackCache()
+    c._visit = {'a': 3}
+    c._snap_at = {'a': 1.0}
+    c.clear_all()
+    assert c._visit == {} and c._snap_at == {}
+    assert not hasattr(sb.ScrollbackCache, '_rotate_index')
