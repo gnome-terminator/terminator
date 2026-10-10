@@ -147,3 +147,83 @@ def test_restore_into_encodes_bytes_for_vte_feed(state_home, monkeypatch):
     assert fed and isinstance(fed[0], (bytes, bytearray))
     assert b'hello scrollback' in fed[0]
     cache.stop(join_timeout=0.2)
+
+
+def test_toggle_zoom_has_default_binding():
+    from terminatorlib.config import DEFAULTS
+    kb = DEFAULTS['keybindings']
+    assert kb['toggle_zoom'] == '<Shift><Control>x'
+    assert kb['restore_maximised'] == '<Shift>Escape'
+    others = [v for k, v in kb.items() if k != 'toggle_zoom' and v]
+    assert kb['toggle_zoom'] not in others
+
+
+def test_wave_titlebar_defaults_not_legacy_red():
+    from terminatorlib.config import DEFAULTS
+    prof = DEFAULTS['profiles']['default']
+    assert prof['title_transmit_bg_color'].lower() != '#c80003'
+    assert prof['title_inactive_bg_color'].lower() != '#c0bebf'
+    # Group/broadcast receive colour stays distinct from both bars
+    assert prof['title_receive_bg_color'] not in (
+        prof['title_transmit_bg_color'], prof['title_inactive_bg_color'])
+
+
+def test_auto_font_min_rows_default_is_low():
+    from terminatorlib.config import DEFAULTS
+    assert int(DEFAULTS['global_config']['auto_font_scale_min_rows']) <= 12
+
+
+def test_add_source_icon_path_idempotent():
+    import terminatorlib.util as util
+    util._SOURCE_ICON_PATH_ADDED = False
+
+    class Theme(object):
+        def __init__(self):
+            self.paths = []
+
+        def get_search_path(self):
+            return list(self.paths)
+
+        def append_search_path(self, p):
+            self.paths.append(p)
+
+    th = Theme()
+    assert util.add_source_icon_path(th) is True
+    assert util.add_source_icon_path(th) is False
+    assert len(th.paths) == 1 and th.paths[0].endswith(os.path.join('data', 'icons'))
+    util._SOURCE_ICON_PATH_ADDED = False
+
+
+def test_edit_done_without_change_does_not_mark_dirty(monkeypatch):
+    from terminatorlib.terminal import Terminal
+    calls = []
+
+    class TB(object):
+        val = None
+
+        def get_custom_string(self):
+            return self.val
+
+    class V(object):
+        def grab_focus(self):
+            pass
+
+    class T(object):
+        _session_custom_title = None
+        titlebar = TB()
+        vte = V()
+
+        def _session_mark_dirty(self, reason):
+            calls.append(reason)
+
+    t = T()
+    Terminal.on_edit_done(t, None)
+    assert calls == []
+    t.titlebar.val = 'build'
+    Terminal.on_edit_done(t, None)
+    assert calls == ['title']
+    Terminal.on_edit_done(t, None)
+    assert calls == ['title']
+    t.titlebar.val = None
+    Terminal.on_edit_done(t, None)
+    assert calls == ['title', 'title']

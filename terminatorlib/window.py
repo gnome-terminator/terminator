@@ -204,6 +204,8 @@ class Window(Container, Gtk.Window):
     def apply_icon(self, requested_icon):
         """Set the window icon"""
         icon_theme = Gtk.IconTheme.get_default()
+        from .util import add_source_icon_path
+        add_source_icon_path(icon_theme)
         icon_name_list = [APP_NAME]   # disable self.wmclass_name, n/a in GTK3
 
         if requested_icon:

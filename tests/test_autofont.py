@@ -20,7 +20,7 @@ from terminatorlib.autofont import (
 
 TIERS = [1.0, 0.9, 0.8]
 MIN_C = 60
-MIN_R = 24
+MIN_R = 10
 H = 0.08
 
 
@@ -59,7 +59,8 @@ def test_cols_rows_from_base():
 
 
 # --- example table from session-restore-design.md §E.1 ---
-# window 160x50 base cells; MIN_C=60 MIN_R=24 h=0.08 → UP needs ≥65 cols / ≥26 rows
+# window 160x50 base cells; MIN_C=60 MIN_R=10 h=0.08 → UP needs ≥65 cols / ≥11 rows
+# Width (reading measure) is primary; rows only matter for tiny panes.
 
 @pytest.mark.parametrize('cols0,rows0,cur,expected', [
     (160, 50, 0, 0),   # single pane → 100%
@@ -67,7 +68,12 @@ def test_cols_rows_from_base():
     (79, 50, 0, 0),    # horizontal split → 100%
     (79, 24, 0, 0),    # 2x2 → 100%
     (52, 50, 0, 2),    # 3-way horizontal → 80%
-    (52, 15, 0, 2),    # 3x3 grid, rows fail even at floor → stay 80%
+    (52, 15, 0, 2),    # 3x3 grid, cols fail → 80%
+    (163, 17, 0, 0),   # 2 panes stacked on 1000x700 → stays 100%
+    (163, 20, 0, 0),   # 2 panes stacked on 1280x800 → stays 100%
+    (46, 20, 0, 2),    # 2x3 grid on 1280x800 → 80%
+    (163, 8, 0, 2),    # very short pane (<10 rows even at 0.8) → 80%
+    (163, 9, 0, 1),    # 9 rows → 90% gives 10 rows
     (59, 50, 0, 1),    # 59 cols → 90%
     (62, 50, 1, 1),    # 62 cols while at 90%: hysteresis blocks up → 90%
     (65, 50, 1, 0),    # 65 cols → 100%
