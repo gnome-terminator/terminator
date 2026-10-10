@@ -97,7 +97,11 @@ Default value: *multiple_terminals*
 
 *titlebar_buttons* = _boolean_::
 If set to True, each terminal titlebar shows a menu (gear), a
-maximise/restore pane button and a close button on its right side. +
+maximise/restore pane button and a close button on its right side.
+Right-clicking a titlebar opens the terminal menu. Regardless of this
+setting, double-clicking a titlebar toggles maximisation of that
+terminal; to rename a terminal use the menu entry or the
+*edit_terminal_title* keybinding. +
 Default value: *True*
 
 *titlebar_density* = _string_::
@@ -111,10 +115,13 @@ values fall back to the default. +
 Default value: *#3fb950*
 
 *restore_last_session* = _boolean_::
-If set to True, a plain launch (no -l, -e, -x, --working-directory)
-restores the windows, splits and working directories that were open
-last time. The session is saved automatically as the layout changes.
-Set in Preferences > Session. +
+If set to True, a plain launch (no -l, -e, -x, --working-directory, -j)
+restores the windows, tabs, splits, working directories and the
+maximised pane that were open last time. Only the first Terminator
+process (the one holding the session lock) restores and saves the
+session; it is saved automatically, debounced, as the layout or the
+working directories change. See also *--restore*, *--no-restore* and
+*--clear-session* in *terminator*(1). Set in Preferences > Session. +
 Default value: *True*
 
 *session_save_delay_ms* = _integer_::
@@ -123,13 +130,64 @@ Default value: *1500*
 
 *session_file* = _string_::
 Path of the session file. Empty means
-$XDG_STATE_HOME/terminator/session.json. +
+$XDG_STATE_HOME/terminator/session.json (normally
+~/.local/state/terminator/session.json). Earlier sessions are kept
+next to it as session.json.prev. +
 Default value: *''*
 
+*close_confirm_ignore* = _list of strings_::
+Process names that never trigger the "running processes" confirmation
+when a terminal, tab or window is closed (in addition to interactive
+shells). Only changeable via the config file. +
+Default value: *['gitstatusd', 'ssh-agent', 'gpg-agent', 'dbus-daemon']*
+
+*window_title_mode* = _string_::
+Source of the desktop window title. 'focused' follows the title of the
+last focused terminal; title changes (for example OSC escape sequences)
+from other terminals only update their own titlebars. 'fixed' always
+shows *window_title_fixed*. A title set with *-T*/*--title* or
+*edit_window_title* overrides both. Only changeable via the config file. +
+Can be any of: 'focused', 'fixed'. +
+Default value: *focused*
+
+*window_title_fixed* = _string_::
+Window title used when *window_title_mode* is 'fixed'. +
+Default value: *Terminator*
+
+*pane_overlay_maximise* = _boolean_::
+If set to True, maximising a terminal (*maximise*/*toggle_zoom*
+keybinding, the titlebar maximise button or a double-click on the
+titlebar) shows it as an animated overlay above the dimmed layout
+instead of temporarily removing the other terminals. If False, the
+legacy maximise is used. +
+Default value: *True*
+
+*pane_animation_expand_ms* = _integer_::
+Duration in milliseconds of the maximise animation. +
+Default value: *200*
+
+*pane_animation_restore_ms* = _integer_::
+Duration in milliseconds of the restore animation. +
+Default value: *160*
+
+*reduce_motion* = _string_::
+Whether to skip the zoom animation of the overlay maximise (only the
+dimming fades). 'system' follows the GTK gtk-enable-animations setting. +
+Can be any of: 'system', 'on', 'off'. +
+Default value: *system*
+
 *scrollback_cache* = _boolean_::
-If set to True, the last lines of every terminal are cached as plain
-text under $XDG_CACHE_HOME/terminator/scrollback/ and replayed after a
-session restore. It is only a cache; turning it off deletes it. +
+If set to True, the last lines of every terminal are cached under
+$XDG_CACHE_HOME/terminator/scrollback/ (normally
+~/.cache/terminator/scrollback/) and replayed above the prompt after a
+session restore. Running programs are not restored, and the screen of a
+fullscreen program (alternate screen, such as vim or htop) is never
+cached. It is only a cache; turning it off deletes it. +
+Default value: *True*
+
+*scrollback_cache_color* = _boolean_::
+If set to True, text colours and attributes are kept in the scrollback
+cache and restored with it; otherwise only plain text is cached. +
 Default value: *True*
 
 *scrollback_cache_lines* = _integer_::
@@ -138,7 +196,12 @@ Default value: *2000*
 
 *scrollback_cache_interval_s*, *scrollback_cache_max_kb*, *scrollback_cache_total_mb*, *scrollback_cache_ttl_days*::
 Write interval (seconds), per-file limit (KiB), total limit (MiB) and
-expiry (days) of the scrollback cache. Defaults: *20*, *512*, *20*, *7*.
+expiry (days) of the scrollback cache. A total limit or expiry of 0
+disables that pruning. Defaults: *20*, *512*, *20*, *7*.
+
+*scrollback_cache_exclude_profiles*, *scrollback_cache_exclude_commands* = _list of strings_::
+Reserved; currently not used. +
+Default value: *[]*
 
 *auto_font_scale* = _boolean_::
 If set to True, each terminal independently steps its VTE font scale
@@ -167,8 +230,10 @@ Optional ideal column count used as an upscale target. 0 disables. +
 Default value: *0*
 
 *auto_font_scale_min_rows* = _integer_::
-Minimum comfortable row count. 0 disables the height check. +
-Default value: *24*
+Minimum comfortable row count. Width is checked first; a terminal only
+steps down for height when it has fewer rows than this at the current
+tier. 0 disables the height check. +
+Default value: *10*
 
 *auto_font_scale_hysteresis* = _float_::
 Upscale-only hysteresis ratio (for example 0.08 = 8%). +
@@ -491,8 +556,18 @@ Default value: *<Ctrl><Shift>Page_Up*
 Toggle window to fullscreen. +
 Default value: *F11*
 
+*maximise*::
+Toggle maximisation of the current terminal (overlay maximise when
+*pane_overlay_maximise* is True). Upstream Terminator left this unbound. +
+Default value: *<Ctrl><Shift>Return*
+
+*restore_maximised*::
+Restore the maximised terminal. Only consumed while a terminal is
+maximised; otherwise the key goes to the terminal. +
+Default value: *<Shift>Escape*
+
 *toggle_zoom*::
-Toggle maximisation of the current terminal. +
+Toggle maximisation of the current terminal (same as *maximise*). +
 Default value: *<Ctrl><Shift>X*
 
 *scaled_zoom*::
@@ -960,22 +1035,22 @@ Default value: *Sans 9*
 *title_transmit_fg_color* = _color string_::
 Specify the foreground color to use for the terminal's titlebar in case
 the terminal is focused. +
-Default value: *#ffffff*
+Default value: *#e6edf3* (upstream Terminator used *#ffffff*)
 
 *title_transmit_bg_color* = _color string_::
 Specify the background color to use for the terminal's titlebar in case
 the terminal is focused. +
-Default value: *#c80003*
+Default value: *#21262d* (upstream Terminator used *#c80003*)
 
 *title_inactive_fg_color* = _color string_::
 Specify the foreground color to use for the terminal's titlebar in case
 the terminal is unfocused. +
-Default value: *#000000*
+Default value: *#8b949e* (upstream Terminator used *#000000*)
 
 *title_inactive_bg_color* = _color string_::
 Specify the background color to use for the terminal's titlebar in case
 the terminal is unfocused. +
-Default value: *#c0bebf*
+Default value: *#161b22* (upstream Terminator used *#c0bebf*)
 
 *title_receive_fg_color* = _color string_::
 Specify the foreground color to use for the terminal's titlebar in case
